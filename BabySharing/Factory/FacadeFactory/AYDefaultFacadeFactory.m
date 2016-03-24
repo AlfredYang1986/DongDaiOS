@@ -26,19 +26,19 @@
         NSString* desFacade = [self.para objectForKey:@"facade"];
         id<AYFacadeBase> result = nil;
         
-        NSDictionary* cmds = [_para objectForKey:@"commands"];
-        for (id<AYCommand> cmd in cmds.allValues) {
-            [cmd postPerform];
-        }
-        
         Class c = NSClassFromString([[kAYFactoryManagerControllerPrefix stringByAppendingString:desFacade] stringByAppendingString:kAYFactoryManagerFacadesuffix]);
         if (c == nil) {
             @throw [NSException exceptionWithName:@"error" reason:@"perform  init command error" userInfo:nil];
         } else {
             result = [[c alloc]init];
-            result.commands = cmds;
             facade = result;
         }
+        
+        NSDictionary* cmds = [_para objectForKey:@"commands"];
+        for (id<AYCommand> cmd in cmds.allValues) {
+            [cmd postPerform];
+        }
+        result.commands = cmds;
     }
     
     return facade;

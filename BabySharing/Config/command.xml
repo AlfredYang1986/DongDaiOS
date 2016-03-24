@@ -9,4 +9,6 @@
     <command type="message" name="message" factory="AYMessageCommandFactory" />
     
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
 </commands>

@@ -1,5 +1,13 @@
 <facades>
-    <facade name="Login" factory="AYDefaultFacadeFactory" >
+    <facade name="PhoneLogin" factory="AYDefaultFacadeFactory" >
+    </facade>
+    <facade name="SNSQQ" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithQQ" />
+    </facade>
+    <facade name="SNSWechat" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="LoginSNSWithWechat" />
+    </facade>
+    <facade name="SNSWeibo" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="LoginSNSWithWeibo" />
     </facade>
 </facades>

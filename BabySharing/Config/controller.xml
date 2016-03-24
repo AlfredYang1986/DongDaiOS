@@ -2,6 +2,9 @@
     <controller name="Navigation" factory="AYDefaultControllerFactoy" />
     <controller name="Landing" factory="AYDefaultControllerFactoy" >
         <command type="message" name="message" />
-        <facade type="Login" name="Login" />
+        <facade type="SNSQQ" name="SNSQQ" />
+        <facade type="SNSWechat" name="SNSWechat" />
+        <facade type="SNSWeibo" name="SNSWeibo" />
+        <facade type="PhoneLogin" name="PhoneLogin" />
     </controller>
 </controllers>

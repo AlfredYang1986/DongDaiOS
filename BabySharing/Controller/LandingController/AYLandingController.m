@@ -7,6 +7,7 @@
 //
 
 #import "AYLandingController.h"
+#import "AYLogicFacade.h"
 
 @implementation AYLandingController
 
@@ -27,10 +28,12 @@
 
 - (void)btnSelected {
     NSLog(@"btn selected");
-    id<AYCommand> cmd = [self.facades objectForKey:@"LoginSNSWithQQ"];
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+//    id<AYCommand> cmd = [facade.commands objectForKey:@"LoginSNSWithQQ"];
+    id<AYCommand> cmd = [facade.commands objectForKey:@"LoginSNSWithWechat"];
     NSString* result = nil;
     [cmd performWithResult:&result];
-    UIAlertView* view = [[UIAlertView alloc]initWithTitle:@"解耦合重构" message:result delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [view show];
+//    UIAlertView* view = [[UIAlertView alloc]initWithTitle:@"解耦合重构" message:result delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+//    [view show];
 }
 @end
