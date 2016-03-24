@@ -1,0 +1,12 @@
+<commands>
+    <register>
+        <register_command type="init" factory="AYAppInitCommandFactory" />
+        <register_command type="push" factory="" />
+    </register>
+    
+    <command type="init" name="init" controller="Landing" factory="AYAppInitCommandFactory" />
+    <command type="apn" name="apn" factory="AYAPNNotificationCommandFactory" />
+    <command type="message" name="message" factory="AYMessageCommandFactory" />
+    
+    <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
+</commands>

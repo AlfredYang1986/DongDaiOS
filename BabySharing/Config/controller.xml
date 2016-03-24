@@ -1,0 +1,7 @@
+<controllers>
+    <controller name="Navigation" factory="AYDefaultControllerFactoy" />
+    <controller name="Landing" factory="AYDefaultControllerFactoy" >
+        <command type="message" name="message" />
+        <facade type="Login" name="Login" />
+    </controller>
+</controllers>

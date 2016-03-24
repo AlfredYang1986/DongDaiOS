@@ -1,0 +1,5 @@
+<facades>
+    <facade name="Login" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="LoginSNSWithQQ" />
+    </facade>
+</facades>
