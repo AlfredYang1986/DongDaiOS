@@ -16,14 +16,15 @@
 @synthesize para = _para;
 
 + (id)factoryInstance {
-    static AYDefaultViewFactory* instance = nil;
-    if (instance == nil) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            instance = [[self alloc]init];
-        });
-    }
-    return instance;
+//    static AYDefaultViewFactory* instance = nil;
+//    if (instance == nil) {
+//        static dispatch_once_t onceToken;
+//        dispatch_once(&onceToken, ^{
+//            instance = [[self alloc]init];
+//        });
+//    }
+//    return instance;
+    return [[self alloc]init];
 }
 
 - (id)createInstance {

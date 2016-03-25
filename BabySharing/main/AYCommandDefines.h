@@ -33,5 +33,5 @@ static NSString* const kAYFactoryManagerCommandModule = @"Module";        // 处
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandModule, NAME)
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
 
-#define PNGRESOURCE(NAME)       [[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"]
+#define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
 #endif /* AYCommandDefines_h */

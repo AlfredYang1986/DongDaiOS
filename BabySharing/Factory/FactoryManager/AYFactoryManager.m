@@ -239,18 +239,8 @@ static AYFactoryManager* instance = nil;
                 IMP im = method_getImplementation(m);
                 fac = im(c, @selector(factoryInstance));
                 
-                NSArray* cmds = [node nodesForXPath:@"command" error:nil];
-                NSLog(@"controller commands : %@", cmds);
-                
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                
-//                NSMutableDictionary* cmd_dic = [[NSMutableDictionary alloc]init];
-//                for (GDataXMLElement* iter in cmds) {
-//                    id<AYCommand> cmd = COMMAND([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
-//                    [cmd_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
-//                }
-//                
-//                [dic setValue:[cmd_dic copy] forKey:@"commands"];
+
                 [dic setValue:name forKey:@"view"];
                 fac.para = [dic copy];
                 

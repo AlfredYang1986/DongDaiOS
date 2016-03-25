@@ -84,9 +84,13 @@
 		709CDE281CA4010A0042BEE9 /* AYSNSWechatFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 709CDE271CA4010A0042BEE9 /* AYSNSWechatFacade.m */; };
 		709CDE2B1CA4011F0042BEE9 /* AYSNSWeiboFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 709CDE2A1CA4011F0042BEE9 /* AYSNSWeiboFacade.m */; };
 		709CDE2F1CA40D410042BEE9 /* AYPhoneLoginFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 709CDE2E1CA40D410042BEE9 /* AYPhoneLoginFacade.m */; };
-		70F34D5A1CA50A0200CEF7C1 /* AYLandingTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D591CA50A0200CEF7C1 /* AYLandingTitleView.m */; };
 		70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */; };
 		70F34D601CA51E8000CEF7C1 /* DongDaBoundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F34D5F1CA51E8000CEF7C1 /* DongDaBoundle.bundle */; };
+		70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */; };
+		70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D6A1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m */; };
+		70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D701CA5312500CEF7C1 /* AYLandingInputView.m */; };
+		70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D731CA5312500CEF7C1 /* AYLandingTitleView.m */; };
+		70F34D791CA5315300CEF7C1 /* AYLandingSNSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D781CA5315300CEF7C1 /* AYLandingSNSView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,12 +249,20 @@
 		709CDE2A1CA4011F0042BEE9 /* AYSNSWeiboFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSNSWeiboFacade.m; sourceTree = "<group>"; };
 		709CDE2D1CA40D410042BEE9 /* AYPhoneLoginFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPhoneLoginFacade.h; sourceTree = "<group>"; };
 		709CDE2E1CA40D410042BEE9 /* AYPhoneLoginFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPhoneLoginFacade.m; sourceTree = "<group>"; };
-		70F34D581CA50A0200CEF7C1 /* AYLandingTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingTitleView.h; sourceTree = "<group>"; };
-		70F34D591CA50A0200CEF7C1 /* AYLandingTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingTitleView.m; sourceTree = "<group>"; };
 		70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYViewLayoutDefines.h; sourceTree = "<group>"; };
 		70F34D5C1CA5189300CEF7C1 /* AYResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYResourceManager.h; sourceTree = "<group>"; };
 		70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYResourceManager.m; sourceTree = "<group>"; };
 		70F34D5F1CA51E8000CEF7C1 /* DongDaBoundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DongDaBoundle.bundle; path = BabySharing/DongDaBoundle.bundle; sourceTree = SOURCE_ROOT; };
+		70F34D661CA5274B00CEF7C1 /* OBShapedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBShapedButton.h; sourceTree = "<group>"; };
+		70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBShapedButton.m; sourceTree = "<group>"; };
+		70F34D691CA5274B00CEF7C1 /* UIImage+ColorAtPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorAtPixel.h"; sourceTree = "<group>"; };
+		70F34D6A1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
+		70F34D6F1CA5312500CEF7C1 /* AYLandingInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingInputView.h; sourceTree = "<group>"; };
+		70F34D701CA5312500CEF7C1 /* AYLandingInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingInputView.m; sourceTree = "<group>"; };
+		70F34D721CA5312500CEF7C1 /* AYLandingTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingTitleView.h; sourceTree = "<group>"; };
+		70F34D731CA5312500CEF7C1 /* AYLandingTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingTitleView.m; sourceTree = "<group>"; };
+		70F34D771CA5315300CEF7C1 /* AYLandingSNSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingSNSView.h; sourceTree = "<group>"; };
+		70F34D781CA5315300CEF7C1 /* AYLandingSNSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingSNSView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -504,8 +516,7 @@
 		702E7AC71CA171D30097867E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				70F34D561CA5092600CEF7C1 /* LandingInput */,
-				70F34D571CA5092600CEF7C1 /* LandingTitle */,
+				70F34D6D1CA5312500CEF7C1 /* Landing */,
 				709CDE301CA40DFF0042BEE9 /* ViewBase */,
 			);
 			path = View;
@@ -549,6 +560,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				70F34D641CA5274B00CEF7C1 /* ShapedButton */,
 				708235D21CA272A300658531 /* gotyeapi */,
 				70490DA61CA2339D0093D5DA /* libQQSDK */,
 				70490DA91CA2339D0093D5DA /* libWeChatSDK */,
@@ -858,20 +870,68 @@
 			path = ViewBase;
 			sourceTree = "<group>";
 		};
-		70F34D561CA5092600CEF7C1 /* LandingInput */ = {
+		70F34D641CA5274B00CEF7C1 /* ShapedButton */ = {
 			isa = PBXGroup;
 			children = (
+				70F34D651CA5274B00CEF7C1 /* OBShapedButton */,
+				70F34D681CA5274B00CEF7C1 /* UIImage+ColorAtPixel */,
+			);
+			path = ShapedButton;
+			sourceTree = "<group>";
+		};
+		70F34D651CA5274B00CEF7C1 /* OBShapedButton */ = {
+			isa = PBXGroup;
+			children = (
+				70F34D661CA5274B00CEF7C1 /* OBShapedButton.h */,
+				70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */,
+			);
+			path = OBShapedButton;
+			sourceTree = "<group>";
+		};
+		70F34D681CA5274B00CEF7C1 /* UIImage+ColorAtPixel */ = {
+			isa = PBXGroup;
+			children = (
+				70F34D691CA5274B00CEF7C1 /* UIImage+ColorAtPixel.h */,
+				70F34D6A1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m */,
+			);
+			path = "UIImage+ColorAtPixel";
+			sourceTree = "<group>";
+		};
+		70F34D6D1CA5312500CEF7C1 /* Landing */ = {
+			isa = PBXGroup;
+			children = (
+				70F34D761CA5314200CEF7C1 /* LandingSNS */,
+				70F34D6E1CA5312500CEF7C1 /* LandingInput */,
+				70F34D711CA5312500CEF7C1 /* LandingTitle */,
+			);
+			path = Landing;
+			sourceTree = "<group>";
+		};
+		70F34D6E1CA5312500CEF7C1 /* LandingInput */ = {
+			isa = PBXGroup;
+			children = (
+				70F34D6F1CA5312500CEF7C1 /* AYLandingInputView.h */,
+				70F34D701CA5312500CEF7C1 /* AYLandingInputView.m */,
 			);
 			path = LandingInput;
 			sourceTree = "<group>";
 		};
-		70F34D571CA5092600CEF7C1 /* LandingTitle */ = {
+		70F34D711CA5312500CEF7C1 /* LandingTitle */ = {
 			isa = PBXGroup;
 			children = (
-				70F34D581CA50A0200CEF7C1 /* AYLandingTitleView.h */,
-				70F34D591CA50A0200CEF7C1 /* AYLandingTitleView.m */,
+				70F34D721CA5312500CEF7C1 /* AYLandingTitleView.h */,
+				70F34D731CA5312500CEF7C1 /* AYLandingTitleView.m */,
 			);
 			path = LandingTitle;
+			sourceTree = "<group>";
+		};
+		70F34D761CA5314200CEF7C1 /* LandingSNS */ = {
+			isa = PBXGroup;
+			children = (
+				70F34D771CA5315300CEF7C1 /* AYLandingSNSView.h */,
+				70F34D781CA5315300CEF7C1 /* AYLandingSNSView.m */,
+			);
+			path = LandingSNS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1024,7 +1084,6 @@
 			files = (
 				709CDE281CA4010A0042BEE9 /* AYSNSWechatFacade.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
-				70F34D5A1CA50A0200CEF7C1 /* AYLandingTitleView.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
 				709CDE251CA400AA0042BEE9 /* AYSNSQQFacade.m in Sources */,
@@ -1037,16 +1096,21 @@
 				708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235FB1CA2993200658531 /* AYLogicFacade.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
+				70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */,
+				70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */,
 				708235CE1CA268BD00658531 /* AYMessageCommandFactory.m in Sources */,
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
 				708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */,
+				70F34D791CA5315300CEF7C1 /* AYLandingSNSView.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
 				7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */,
 				709CDE2F1CA40D410042BEE9 /* AYPhoneLoginFacade.m in Sources */,
 				70594C2C1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
+				70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
+				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				709CDE1F1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m in Sources */,
 				702E7AAE1CA1622C0097867E /* AYFactoryManager.m in Sources */,

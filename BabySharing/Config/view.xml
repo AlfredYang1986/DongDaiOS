@@ -1,4 +1,5 @@
 <views>
-<!--    <view tyep="LoginInput" name="LoginInput" factory="AYDefaultViewFactory" />-->
+    <view tyep="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" />
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />
+    <view type="LandingSNS" name="LandingSNS" factory="AYDefaultViewFactory" />
 </views>
