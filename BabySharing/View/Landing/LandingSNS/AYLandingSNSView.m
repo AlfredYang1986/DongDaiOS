@@ -8,6 +8,7 @@
 
 #import "AYLandingSNSView.h"
 #import "AYCommandDefines.h"
+#import "AYControllerBase.h"
 
 #define BASICMARGIN     8
 
@@ -32,6 +33,7 @@
 }
 
 @synthesize para = _para;
+@synthesize controller = _controller;
 
 - (void)postPerform {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -114,5 +116,17 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
+}
+
+- (void)qqBtnSelected:(UIButton*)sender {
+    [_controller performForView:self andFacade:@"SNSQQ" andMessage:@"LoginSNSWithQQ" andArgs:nil];
+}
+
+- (void)weiboBtnSelected:(UIButton*)sender {
+    [_controller performForView:self andFacade:@"SNSWechat" andMessage:@"LoginSNSWithWechat" andArgs:nil];
+}
+
+- (void)wechatBtnSelected:(UIButton*)sender {
+    [_controller performForView:self andFacade:@"SNSWeibo" andMessage:@"LoginSNSWithWeibo" andArgs:nil];
 }
 @end

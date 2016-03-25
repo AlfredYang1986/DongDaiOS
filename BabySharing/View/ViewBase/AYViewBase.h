@@ -11,7 +11,12 @@
 
 #import "AYCommand.h"
 
+@protocol AYControllerBase;
+
 @protocol AYViewBase <NSObject, AYCommand>
+
+@property (nonatomic, strong) NSDictionary* commands;
+@property (nonatomic, weak) id<AYControllerBase> controller;
 
 @property (nonatomic, readonly, getter=getViewType) NSString* view_type;
 @property (nonatomic, readonly, getter=getViewName) NSString* view_name;

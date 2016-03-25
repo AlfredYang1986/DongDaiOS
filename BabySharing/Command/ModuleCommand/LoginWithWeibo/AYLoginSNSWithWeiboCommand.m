@@ -7,11 +7,14 @@
 //
 
 #import "AYLoginSNSWithWeiboCommand.h"
+#import "AYCommandDefines.h"
 
 #import "WeiboSDK.h"
 // weibo sdk
 #import "WBHttpRequest+WeiboUser.h"
 #import "WBHttpRequest+WeiboShare.h"
+
+static NSString* const kAYWeiboRegisterID = @"1584832986";
 
 @interface AYLoginSNSWithWeiboCommand ()
 
@@ -24,7 +27,7 @@
 - (void)postPerform {
     // Weibo sdk init
     [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:@"1584832986"];
+    [WeiboSDK registerApp:kAYWeiboRegisterID];
 }
 
 - (void)performWithResult:(NSObject**)obj {

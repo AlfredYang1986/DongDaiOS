@@ -35,4 +35,8 @@
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     *obj = self;
 }
+
+- (void)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args {
+
+}
 @end

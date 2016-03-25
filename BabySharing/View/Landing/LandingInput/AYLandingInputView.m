@@ -10,6 +10,7 @@
 #import "AYCommandDefines.h"
 #import "OBShapedButton.h"
 #import "AYResourceManager.h"
+#import "AYControllerBase.h"
 
 #define BASICMARGIN                         8
 
@@ -42,6 +43,7 @@
 }
 
 @synthesize para = _para;
+@synthesize controller = _controller;
 
 - (void)postPerform {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -99,7 +101,7 @@
     [area_code_btn addSubview:area_code_label];
     
     CALayer* t_layer = [CALayer layer];
-    t_layer.contents = (id)PNGRESOURCE(@"landing_input_triangle");
+    t_layer.contents = (id)PNGRESOURCE(@"landing_input_triangle").CGImage;
     t_layer.frame = CGRectMake(0, 0, 9, 8);
     t_layer.position = CGPointMake(area_code_btn.frame.size.width - 18, area_code_btn.frame.size.height / 2);
     [area_code_btn.layer addSublayer:t_layer];
@@ -237,5 +239,60 @@
     next_btn.enabled = NO;
     
     [self addSubview:next_btn];
+}
+
+#pragma mark -- handle
+- (void)handleTimer:(NSTimer*)sender {
+    if (-- seconds > 0) {
+        //        [confirm_btn setTitle:[NSString stringWithFormat:@"(%ld)秒重试", (long)seconds] forState:UIControlStateDisabled];
+        [confirm_btn setTitle:[NSString stringWithFormat:@"%lds", (long)seconds] forState:UIControlStateDisabled];
+    } else {
+        seconds = 60;
+        [timer setFireDate:[NSDate distantFuture]];
+        confirm_btn.enabled = YES;
+    }
+    
+}
+
+- (void)areaCodeBtnSelected:(UIButton*)sender {
+    [_controller performForView:self andFacade:nil andMessage:@"LandingAreaCode" andArgs:nil];
+}
+
+#define CODE_DIG_COUNT          4
+- (void)phoneTextFieldChanged:(UITextField*)tf {
+    //    if (!([phone_area.text isEqualToString:@""] || [confirm_area.text isEqualToString:@""])) {
+    if (![phone_area.text isEqualToString:@""] && confirm_area.text.length >= CODE_DIG_COUNT) {
+        next_btn.enabled = YES;
+    } else {
+        next_btn.enabled = NO;
+    }
+    
+    if (![phone_area.text isEqualToString:@""]) {
+        clear_btn.hidden = NO;
+    } else {
+        clear_btn.hidden = YES;
+    }
+}
+
+- (void)confirmCodeTextFieldChanged:(UITextField*)tf {
+    //    if (!([phone_area.text isEqualToString:@""] || [confirm_area.text isEqualToString:@""])) {
+    if (![phone_area.text isEqualToString:@""] && confirm_area.text.length >= CODE_DIG_COUNT) {
+        next_btn.enabled = YES;
+    } else {
+        next_btn.enabled = NO;
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == confirm_area && confirm_area.text.length >= CODE_DIG_COUNT && ![string isEqualToString:@""]) return NO;
+    else return YES;
+}
+
+- (void)confirmBtnSelected:(UIButton*)sender {
+    // TODO: ...
+}
+
+- (void)nextBtnSelected:(UIButton*)sender {
+    // TODO: ...
 }
 @end

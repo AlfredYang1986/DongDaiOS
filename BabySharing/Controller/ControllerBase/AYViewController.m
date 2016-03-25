@@ -9,6 +9,8 @@
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYViewLayoutDefines.h"
+#import "AYViewBase.h"
+#import "AYFacadeBase.h"
 #import <objc/runtime.h>
 
 @implementation AYViewController
@@ -37,6 +39,7 @@
         id (*func)(id, SEL, ...) = imp;
         UIView* view = [self.views objectForKey:view_name];
         func(self, selector, view);
+        ((id<AYViewBase>)view).controller = self;
         [self.view addSubview:view];
     }
 }
@@ -52,4 +55,21 @@
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     *obj = self;
 }
+
+- (void)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args {
+    if (facade_name == nil) {
+        id<AYCommand> cmd = [self.commands objectForKey:command_name];
+        CHECKCMD(cmd);
+        cmd.para = args;
+        [cmd performWithResult:nil];
+    } else {
+        id<AYFacadeBase> facade = [self.facades objectForKey:facade_name];
+        CHECKFACADE(facade);
+        id<AYCommand> cmd = [facade.commands objectForKey:command_name];
+        CHECKCMD(cmd);
+        cmd.para = args;
+        [cmd performWithResult:nil];
+    }
+}
+
 @end

@@ -6,4 +6,6 @@
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LandingAreaCode" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LandingReqConfirmCode" factory="AYDefaultModuleFactory" />
 </commands>

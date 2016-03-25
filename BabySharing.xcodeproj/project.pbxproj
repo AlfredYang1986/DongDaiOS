@@ -61,6 +61,9 @@
 		70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE71CA23B0E0093D5DA /* AVFoundation.framework */; };
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
 		70594C2C1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70594C2B1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m */; };
+		707767311CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707767301CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.m */; };
+		707767411CA55EDC00BC0806 /* AYViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707767401CA55EDC00BC0806 /* AYViewCommand.m */; };
+		707767441CA5629C00BC0806 /* AYViewCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 707767431CA5629C00BC0806 /* AYViewCommandFactory.m */; };
 		708235B71CA241F800658531 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235B61CA241F800658531 /* libiconv.tbd */; };
 		708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235B81CA2420A00658531 /* libsqlite3.tbd */; };
 		708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235BA1CA2421B00658531 /* libstdc++.tbd */; };
@@ -91,6 +94,7 @@
 		70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D701CA5312500CEF7C1 /* AYLandingInputView.m */; };
 		70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D731CA5312500CEF7C1 /* AYLandingTitleView.m */; };
 		70F34D791CA5315300CEF7C1 /* AYLandingSNSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D781CA5315300CEF7C1 /* AYLandingSNSView.m */; };
+		70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D7C1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +202,12 @@
 		70490DE91CA23B180093D5DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		70594C2A1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginSNSWithWechatCommand.h; sourceTree = "<group>"; };
 		70594C2B1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginSNSWithWechatCommand.m; sourceTree = "<group>"; };
+		7077672F1CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingReqConfirmCodeCommand.h; sourceTree = "<group>"; };
+		707767301CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingReqConfirmCodeCommand.m; sourceTree = "<group>"; };
+		7077673F1CA55EDC00BC0806 /* AYViewCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYViewCommand.h; sourceTree = "<group>"; };
+		707767401CA55EDC00BC0806 /* AYViewCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYViewCommand.m; sourceTree = "<group>"; };
+		707767421CA5629C00BC0806 /* AYViewCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYViewCommandFactory.h; sourceTree = "<group>"; };
+		707767431CA5629C00BC0806 /* AYViewCommandFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYViewCommandFactory.m; sourceTree = "<group>"; };
 		708235B61CA241F800658531 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		708235B81CA2420A00658531 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		708235BA1CA2421B00658531 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -263,6 +273,8 @@
 		70F34D731CA5312500CEF7C1 /* AYLandingTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingTitleView.m; sourceTree = "<group>"; };
 		70F34D771CA5315300CEF7C1 /* AYLandingSNSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingSNSView.h; sourceTree = "<group>"; };
 		70F34D781CA5315300CEF7C1 /* AYLandingSNSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingSNSView.m; sourceTree = "<group>"; };
+		70F34D7B1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingAreaCodeCommand.h; sourceTree = "<group>"; };
+		70F34D7C1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingAreaCodeCommand.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -325,6 +337,8 @@
 			children = (
 				7001310D1CA446CA006003C8 /* AYDefaultViewFactory.h */,
 				7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */,
+				707767421CA5629C00BC0806 /* AYViewCommandFactory.h */,
+				707767431CA5629C00BC0806 /* AYViewCommandFactory.m */,
 			);
 			path = ViewFactory;
 			sourceTree = "<group>";
@@ -399,6 +413,7 @@
 		702E7A781CA14FFC0097867E /* Command */ = {
 			isa = PBXGroup;
 			children = (
+				7077673A1CA55EAE00BC0806 /* ViewCommand */,
 				7082360E1CA2D15000658531 /* ModuleCommand */,
 				708235CA1CA2684100658531 /* MessageCommand */,
 				70490D9D1CA222470093D5DA /* APNNotificationCommand */,
@@ -652,6 +667,40 @@
 			path = LoginWithWechat;
 			sourceTree = "<group>";
 		};
+		7077672D1CA552FE00BC0806 /* LandingConfirmPhoneCode */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LandingConfirmPhoneCode;
+			sourceTree = "<group>";
+		};
+		7077672E1CA552FE00BC0806 /* LandingReqConfirmCode */ = {
+			isa = PBXGroup;
+			children = (
+				7077672F1CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.h */,
+				707767301CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.m */,
+			);
+			path = LandingReqConfirmCode;
+			sourceTree = "<group>";
+		};
+		7077673A1CA55EAE00BC0806 /* ViewCommand */ = {
+			isa = PBXGroup;
+			children = (
+				7077673E1CA55EDC00BC0806 /* ViewCommand */,
+			);
+			path = ViewCommand;
+			sourceTree = "<group>";
+		};
+		7077673E1CA55EDC00BC0806 /* ViewCommand */ = {
+			isa = PBXGroup;
+			children = (
+				7077673F1CA55EDC00BC0806 /* AYViewCommand.h */,
+				707767401CA55EDC00BC0806 /* AYViewCommand.m */,
+			);
+			name = ViewCommand;
+			path = ViewCommandBase;
+			sourceTree = "<group>";
+		};
 		708235C11CA248B600658531 /* ControllerBase */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,6 +850,9 @@
 		7082360E1CA2D15000658531 /* ModuleCommand */ = {
 			isa = PBXGroup;
 			children = (
+				7077672D1CA552FE00BC0806 /* LandingConfirmPhoneCode */,
+				7077672E1CA552FE00BC0806 /* LandingReqConfirmCode */,
+				70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */,
 				709CDE1C1CA3FC4E0042BEE9 /* LoginWithWeibo */,
 				70594C291CA3F21E000C34F6 /* LoginWithWechat */,
 				7082360F1CA2D16900658531 /* LoginWithQQ */,
@@ -932,6 +984,15 @@
 				70F34D781CA5315300CEF7C1 /* AYLandingSNSView.m */,
 			);
 			path = LandingSNS;
+			sourceTree = "<group>";
+		};
+		70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */ = {
+			isa = PBXGroup;
+			children = (
+				70F34D7B1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.h */,
+				70F34D7C1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m */,
+			);
+			path = LandingAreaCode;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1084,7 +1145,9 @@
 			files = (
 				709CDE281CA4010A0042BEE9 /* AYSNSWechatFacade.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
+				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
+				707767411CA55EDC00BC0806 /* AYViewCommand.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
 				709CDE251CA400AA0042BEE9 /* AYSNSQQFacade.m in Sources */,
 				702E7A831CA150A00097867E /* main.m in Sources */,
@@ -1095,6 +1158,7 @@
 				708235EF1CA2881600658531 /* AYLandingController.m in Sources */,
 				708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235FB1CA2993200658531 /* AYLogicFacade.m in Sources */,
+				707767311CA5532200BC0806 /* AYLandingReqConfirmCodeCommand.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
 				70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */,
 				70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */,
@@ -1108,6 +1172,7 @@
 				70594C2C1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
+				707767441CA5629C00BC0806 /* AYViewCommandFactory.m in Sources */,
 				70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,

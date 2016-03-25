@@ -15,7 +15,12 @@
 #define INPUT_VIEW_TOP_MARGIN       ([UIScreen mainScreen].bounds.size.height / 6.0)
 #define INPUT_VIEW_START_POINT      (title.frame.origin.y + title.frame.size.height + INPUT_VIEW_TOP_MARGIN)
 
-@implementation AYLandingController
+@implementation AYLandingController {
+    CGRect keyBoardFrame;
+    CGFloat modify;
+    CGFloat diff;
+    BOOL isUpAnimation;
+}
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
@@ -24,21 +29,27 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
    
+    isUpAnimation = NO;
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    [self.view addGestureRecognizer:tap];
+    
     NSLog(@"command are : %@", self.commands);
     NSLog(@"facade are : %@", self.facades);
     NSLog(@"view are : %@", self.views);
 }
 
-//- (void)btnSelected {
-//    NSLog(@"btn selected");
-//    id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
-////    id<AYCommand> cmd = [facade.commands objectForKey:@"LoginSNSWithQQ"];
-//    id<AYCommand> cmd = [facade.commands objectForKey:@"LoginSNSWithWechat"];
-//    NSString* result = nil;
-//    [cmd performWithResult:&result];
-////    UIAlertView* view = [[UIAlertView alloc]initWithTitle:@"解耦合重构" message:result delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-////    [view show];
-//}
+- (void)viewDidAppear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
 
 #pragma mark -- views layouts
 - (id)LandingTitleLayout:(UIView*)view {
@@ -65,5 +76,52 @@
     CGFloat sns_height = view.bounds.size.height;
     view.frame = CGRectMake(0, height - sns_height, width, sns_height);
     return nil;
+}
+
+#pragma mark -- move views
+- (void)keyBoardWillShow:(NSNotification *)notification {
+    if (isUpAnimation) {
+        return;
+    }
+    
+    UIView* inputView = [self.views objectForKey:@"LandingInput"];
+    UIView* title = [self.views objectForKey:@"LandingTitle"];
+    
+    isUpAnimation = !isUpAnimation;
+    NSDictionary *userInfo = [notification userInfo];
+    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    keyBoardFrame = value.CGRectValue;
+    CGFloat maxY = CGRectGetMaxY(inputView.frame);
+    diff = self.view.frame.size.height - maxY - keyBoardFrame.size.height;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        inputView.center = CGPointMake(inputView.center.x, inputView.center.y + diff);
+        title.alpha = 0.f;
+//        title.center = CGPointMake(title.center.x, title.center.y + diff);
+//        slg.center = CGPointMake(slg.center.x, slg.center.y + diff);
+    }];
+}
+
+- (void)keyBoardWillHide:(NSNotification *)notification {
+    if (!isUpAnimation) {
+        return;
+    }
+    UIView* inputView = [self.views objectForKey:@"LandingInput"];
+    UIView* title = [self.views objectForKey:@"LandingTitle"];
+
+    isUpAnimation = !isUpAnimation;
+    NSDictionary *userInfo = [notification userInfo];
+    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    keyBoardFrame = value.CGRectValue;
+    [UIView animateWithDuration:0.3 animations:^{
+        inputView.center = CGPointMake(inputView.center.x, inputView.center.y - diff);
+        title.alpha = 1.f;
+//        title.center = CGPointMake(title.center.x, title.center.y - diff);
+//        slg.center = CGPointMake(slg.center.x, slg.center.y - diff);
+    }];
+}
+
+- (void)handleTap:(UITapGestureRecognizer*)gueture {
+    [self.view becomeFirstResponder];
 }
 @end

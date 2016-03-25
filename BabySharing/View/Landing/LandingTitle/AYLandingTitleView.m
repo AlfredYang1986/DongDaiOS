@@ -16,6 +16,7 @@
 @implementation AYLandingTitleView
 
 @synthesize para = _para;
+@synthesize controller = _controller;
 
 - (void)postPerform {
     self.image = PNGRESOURCE(@"login_logo");

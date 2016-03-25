@@ -2,6 +2,8 @@
     <controller type="DefaultController" name="Navigation" factory="AYDefaultControllerFactoy" />
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <command type="message" name="message" />
+        <command type="Module" name="LandingAreaCode" />
+        <command type="Module" name="LandingReqConfirmCode" />
         <facade type="SNSQQ" name="SNSQQ" />
         <facade type="SNSWechat" name="SNSWechat" />
         <facade type="SNSWeibo" name="SNSWeibo" />

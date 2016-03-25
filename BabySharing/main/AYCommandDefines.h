@@ -24,6 +24,7 @@ static NSString* const kAYFactoryManagerCommandPush = @"Push";
 static NSString* const kAYFactoryManagerCommandAPN = @"APN";
 static NSString* const kAYFactoryManagerCommandMessage = @"Message";
 static NSString* const kAYFactoryManagerCommandModule = @"Module";        // 处理单一功能的Command
+static NSString* const kAYFactoryManagerCommandView = @"View";        // 用户controller控制View
 
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
@@ -34,4 +35,15 @@ static NSString* const kAYFactoryManagerCommandModule = @"Module";        // 处
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
+
+#ifdef DEBUG
+#define CHECKCMD(CMD)           if (CMD == nil) \
+                                    [[[UIAlertView alloc]initWithTitle:@"error" message:@"cmd not register" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+#define CHECKFACADE(CMD)        if (CMD == nil) \
+                                    [[[UIAlertView alloc]initWithTitle:@"error" message:@"facade not register" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+#else
+#define CHECKCMD(CMD)
+#define CHECKFACADE(CMD)
+#endif
+
 #endif /* AYCommandDefines_h */
