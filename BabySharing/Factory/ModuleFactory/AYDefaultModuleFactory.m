@@ -11,16 +11,27 @@
 #import "AYCommandDefines.h"
 
 @implementation AYDefaultModuleFactory {
-    id<AYCommand> cmd; // = [[NSMutableDictionary alloc]init];
+//    id<AYCommand> cmd; // = [[NSMutableDictionary alloc]init];
 }
 
 @synthesize para = _para;
 
++ (id)factoryInstance {
+    static AYDefaultModuleFactory* instance = nil;
+    if (instance == nil) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            instance = [[self alloc]init];
+        });
+    }
+    return instance;
+}
+
 - (id)createInstance {
     NSLog(@"para is : %@", _para);
     
-    if (cmd == nil) {
-        
+//    if (cmd == nil) {
+    
         NSString* desCmd = [self.para objectForKey:@"name"];
         id<AYCommand> result = nil;
         
@@ -37,9 +48,10 @@
         } else {
             result = [[c alloc]init];
 //            result.commands = cmds;
-            cmd = result;
+//            cmd = result;
         }
-    }
-    return cmd;
+//    }
+//    return cmd;
+    return result;
 }
 @end

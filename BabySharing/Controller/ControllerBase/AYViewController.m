@@ -8,6 +8,7 @@
 
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
+#import "AYViewLayoutDefines.h"
 #import <objc/runtime.h>
 
 @implementation AYViewController
@@ -27,7 +28,17 @@
 }
 
 - (void)viewDidLoad {
-    self.view.backgroundColor = [UIColor redColor];
+//    self.view.backgroundColor = [UIColor redColor];
+    
+    for (NSString* view_name in self.views.allKeys) {
+        NSLog(@"view name is : %@", view_name);
+        SEL selector = NSSelectorFromString([[view_name stringByAppendingString:kAYViewLayoutSuffix] stringByAppendingString:@":"]);
+        IMP imp = [self methodForSelector:selector];
+        id (*func)(id, SEL, ...) = imp;
+        UIView* view = [self.views objectForKey:view_name];
+        func(self, selector, view);
+        [self.view addSubview:view];
+    }
 }
 
 - (NSString*)getCommandType {

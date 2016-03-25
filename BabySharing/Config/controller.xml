@@ -1,10 +1,12 @@
 <controllers>
-    <controller name="Navigation" factory="AYDefaultControllerFactoy" />
-    <controller name="Landing" factory="AYDefaultControllerFactoy" >
+    <controller type="DefaultController" name="Navigation" factory="AYDefaultControllerFactoy" />
+    <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <command type="message" name="message" />
         <facade type="SNSQQ" name="SNSQQ" />
         <facade type="SNSWechat" name="SNSWechat" />
         <facade type="SNSWeibo" name="SNSWeibo" />
         <facade type="PhoneLogin" name="PhoneLogin" />
+        <view type="LandingTitle" name="LandingTitle" />
+<!--        <view tyep="LoginInput" name="LoginInput" />-->
     </controller>
 </controllers>

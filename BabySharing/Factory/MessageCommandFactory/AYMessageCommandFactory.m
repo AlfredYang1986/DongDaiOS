@@ -13,6 +13,11 @@
 
 @synthesize para = _para;
 
++ (id)factoryInstance {
+    AYMessageCommandFactory* instance = [[self alloc]init];
+    return instance;
+}
+
 - (id)createInstance  {
     return [AYMessageCommand sharedInstance];
 }

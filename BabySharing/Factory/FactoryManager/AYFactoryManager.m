@@ -12,10 +12,12 @@
 #import "AYCommandDefines.h"
 
 #import "CommonCrypto/CommonDigest.h"
+#import <objc/runtime.h>
 
 static NSString* controller_file_name = @"controller";
 static NSString* command_file_name = @"command";
 static NSString* facade_file_name = @"facade";
+static NSString* view_file_name = @"view";
 
 static NSString* config_file_extention = @"xml";
 
@@ -28,6 +30,7 @@ static AYFactoryManager* instance = nil;
     GDataXMLDocument* doc_controller;
     GDataXMLDocument* doc_command;
     GDataXMLDocument* doc_facade;
+    GDataXMLDocument* doc_view;
 }
 
 + (AYFactoryManager*)sharedInstance {
@@ -57,6 +60,7 @@ static AYFactoryManager* instance = nil;
             [self loadControllersConfigs];
             [self loadCommandsConfigs];
             [self loadFacadeConfigs];
+            [self loadViewConfigs];
         }
         return self;
     }
@@ -89,10 +93,14 @@ static AYFactoryManager* instance = nil;
         doc_facade = [self loadConfigWithName:facade_file_name andExtention:config_file_extention];
 }
 
+- (void)loadViewConfigs {
+    if (doc_view == nil)
+        doc_view = [self loadConfigWithName:view_file_name andExtention:config_file_extention];
+}
+
 - (id)enumObjectWithCatigory:(NSString*)cat type:(NSString*)type name:(NSString*)name {
     id result = nil;
     NSString* key = [AYFactoryManager md5:[[cat stringByAppendingString:type] stringByAppendingString:name]];
-//    NSString* key = [AYFactoryManager md5:[cat stringByAppendingString:name]];
     id<AYFactory> fac = [factories objectForKey:key];
     if (fac == nil) {
 //        if ([cat isEqualToString:@"Command"]) {
@@ -112,7 +120,9 @@ static AYFactoryManager* instance = nil;
                 if (c == nil) {
                     @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
                 }
-                fac = [[c alloc] init];
+                Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
+                IMP im = method_getImplementation(m);
+                fac = im(c, @selector(factoryInstance));
                 
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
                 [dic setValue:name forKey:@"name"];
@@ -138,7 +148,9 @@ static AYFactoryManager* instance = nil;
                 if (c == nil) {
                     @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
                 }
-                fac = [[c alloc] init];
+                Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
+                IMP im = method_getImplementation(m);
+                fac = im(c, @selector(factoryInstance));
                
                 NSArray* cmds = [node nodesForXPath:@"command" error:nil];
                 NSLog(@"controller commands : %@", cmds);
@@ -156,13 +168,22 @@ static AYFactoryManager* instance = nil;
                 
                 NSMutableDictionary* facades_dic = [[NSMutableDictionary alloc]init];
                 for (GDataXMLElement* iter in facades) {
-                    id<AYCommand> cmd = FACADE([iter attributeForName:@"name"].stringValue);
+                    id<AYCommand> cmd = FACADE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
                     [facades_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
                 }
                 
-               
+                NSArray* views = [node nodesForXPath:@"view" error:nil];
+                NSLog(@"controller views: %@", views);
+
+                NSMutableDictionary* views_dic = [[NSMutableDictionary alloc]init];
+                for (GDataXMLElement* iter in views) {
+                    id<AYCommand> cmd = VIEW([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+                    [views_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                }
+                
                 [dic setValue:[cmd_dic copy] forKey:@"commands"];
                 [dic setValue:[facades_dic copy] forKey:@"facades"];
+                [dic setValue:[views_dic copy] forKey:@"views"];
                 [dic setValue:name forKey:@"controller"];
                 fac.para = [dic copy];
                 
@@ -181,7 +202,9 @@ static AYFactoryManager* instance = nil;
                 if (c == nil) {
                     @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
                 }
-                fac = [[c alloc] init];
+                Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
+                IMP im = method_getImplementation(m);
+                fac = im(c, @selector(factoryInstance));
                 
                 NSArray* cmds = [node nodesForXPath:@"command" error:nil];
                 NSLog(@"controller commands : %@", cmds);
@@ -199,7 +222,41 @@ static AYFactoryManager* instance = nil;
                 fac.para = [dic copy];
                 
             } else @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
+        
+        } else if ([cat isEqualToString:kAYFactoryManagerCatigoryView]) {
+            
+            NSArray* arr = [doc_view nodesForXPath:[[@"//view[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
+            NSLog(@"view arr is : %@", arr);
+            if (arr.count == 1) {
+                
+                GDataXMLElement* node = arr.lastObject;
+                NSString* factoryName = [[node attributeForName:@"factory"] stringValue];
+                Class c = NSClassFromString(factoryName);
+                if (c == nil) {
+                    @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
+                }
+                Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
+                IMP im = method_getImplementation(m);
+                fac = im(c, @selector(factoryInstance));
+                
+                NSArray* cmds = [node nodesForXPath:@"command" error:nil];
+                NSLog(@"controller commands : %@", cmds);
+                
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                
+//                NSMutableDictionary* cmd_dic = [[NSMutableDictionary alloc]init];
+//                for (GDataXMLElement* iter in cmds) {
+//                    id<AYCommand> cmd = COMMAND([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+//                    [cmd_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+//                }
+//                
+//                [dic setValue:[cmd_dic copy] forKey:@"commands"];
+                [dic setValue:name forKey:@"view"];
+                fac.para = [dic copy];
+                
+            } else @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
         }
+        
        
         [factories setValue:fac forKey:key];
     }

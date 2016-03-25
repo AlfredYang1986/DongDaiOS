@@ -15,6 +15,18 @@
 
 @synthesize para = _para;
 
++ (id)factoryInstance {
+//    static AYDefaultControllerFactoy* instance = nil;
+//    if (instance == nil) {
+//        static dispatch_once_t onceToken;
+//        dispatch_once(&onceToken, ^{
+//            instance = [[self alloc]init];
+//        });
+//    }
+//    return instance;
+    return [[self alloc]init];
+}
+
 - (id)createInstance {
     NSLog(@"para is : %@", _para);
     NSDictionary* cmds = [_para objectForKey:@"commands"];
@@ -23,6 +35,7 @@
     }
 
     NSDictionary* facades = [_para objectForKey:@"facades"];
+    NSDictionary* views = [_para objectForKey:@"views"];
    
     id<AYControllerBase> controller = nil;
     NSString* desController = [self.para objectForKey:@"controller"];
@@ -37,6 +50,9 @@
 
         if (facades)
             controller.facades = facades;
+        
+        if (views)
+            controller.views = views;
         
     }
     

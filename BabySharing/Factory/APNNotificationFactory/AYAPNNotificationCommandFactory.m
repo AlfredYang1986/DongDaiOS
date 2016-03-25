@@ -13,6 +13,10 @@
 
 @synthesize para = _para;
 
++ (id)factoryInstance {
+    return [[self alloc]init];
+}
+
 - (id)createInstance {
     AYAPNNotificationCommand* cmd = [AYAPNNotificationCommand sharedInstance];
     return cmd;

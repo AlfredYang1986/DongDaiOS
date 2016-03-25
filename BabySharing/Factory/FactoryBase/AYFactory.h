@@ -17,6 +17,7 @@ typedef void(^performFinishBlock)(NSDictionary*);
 
 @property (nonatomic, strong) NSDictionary* para;
 
++ (id)factoryInstance;
 - (id)createInstance;
 //- (id)createInstanceWithProperty:(NSDictionary*)para;
 @end

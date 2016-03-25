@@ -13,10 +13,13 @@
 
 @implementation AYDefaultFacadeFactory {
     id<AYFacadeBase> facade; // = [[NSMutableDictionary alloc]init];
-    
 }
 
 @synthesize para = _para;
+
++ (id)factoryInstance {
+    return [[self alloc]init];
+}
 
 - (id)createInstance {
     NSLog(@"para is : %@", _para);

@@ -14,6 +14,10 @@
 
 @synthesize para = _para;
 
++ (id)factoryInstance {
+    return [[self alloc]init];
+}
+
 - (id)createInstance {
     AYAppInitCommand* command = [[AYAppInitCommand alloc]init];
     command.para = self.para;

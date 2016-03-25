@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYCommand.h"
 
-
-
 @interface AYFactoryManager : NSObject
 
 + (AYFactoryManager*)sharedInstance;

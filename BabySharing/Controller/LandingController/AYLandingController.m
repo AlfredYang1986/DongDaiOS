@@ -8,6 +8,9 @@
 
 #import "AYLandingController.h"
 #import "AYLogicFacade.h"
+#import <objc/runtime.h>
+
+#define LOGO_TOP_MARGIN 97
 
 @implementation AYLandingController
 
@@ -16,14 +19,11 @@
     [super viewDidLoad];
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.view.backgroundColor = [UIColor whiteColor];
    
     NSLog(@"command are : %@", self.commands);
     NSLog(@"facade are : %@", self.facades);
-    
-    UIButton* btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
-    btn.backgroundColor = [UIColor greenColor];
-    [btn addTarget:self action:@selector(btnSelected) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
+    NSLog(@"view are : %@", self.views);
 }
 
 - (void)btnSelected {
@@ -35,5 +35,17 @@
     [cmd performWithResult:&result];
 //    UIAlertView* view = [[UIAlertView alloc]initWithTitle:@"解耦合重构" message:result delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
 //    [view show];
+}
+
+#pragma mark -- views layouts
+- (id)LandingTitleLayout:(UIView*)view {
+    NSLog(@"Landing Title view layout");
+   
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
+    view.center = CGPointMake(width / 2, LOGO_TOP_MARGIN + view.bounds.size.height / 2);
+    
+    return nil;
 }
 @end

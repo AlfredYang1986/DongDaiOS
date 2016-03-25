@@ -23,7 +23,7 @@
     [self postPerform];
     NSString* desController = [self.para objectForKey:@"controller"];
     if (desController != nil) {
-        id<AYCommand> cmd = CONTROLLER(desController);
+        id<AYCommand> cmd = CONTROLLER(@"DefaultController", desController);
         NSLog(@"cmd is : %@", cmd);
         
         *obj = cmd;

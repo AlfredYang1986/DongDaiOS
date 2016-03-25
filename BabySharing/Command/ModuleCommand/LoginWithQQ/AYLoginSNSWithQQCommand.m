@@ -30,7 +30,7 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
 
 - (void)postPerform {
     
-    id<AYFacadeBase> qq_facade = FACADE(@"SNSQQ");
+    id<AYFacadeBase> qq_facade = FACADE(@"DefaultFacade", @"SNSQQ");
     
     qq_oauth = [[TencentOAuth alloc] initWithAppId:kQQTencentID andDelegate:(id<TencentSessionDelegate>)qq_facade];
     qq_oauth.redirectURI = nil;

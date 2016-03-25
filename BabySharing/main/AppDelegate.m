@@ -46,7 +46,7 @@
     /**
      * Navigation Controller
      */
-    AYNavigationController * rootContorller = CONTROLLER(@"Navigation");
+    AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
     
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
