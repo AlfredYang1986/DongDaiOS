@@ -29,7 +29,13 @@
     [NSThread sleepForTimeInterval:3.f];
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-   
+  
+    /**
+     * create dongda model
+     */
+    id<AYCommand> model = MODEL;
+    [model postPerform];
+    
     /**
      * create controller factory
      */

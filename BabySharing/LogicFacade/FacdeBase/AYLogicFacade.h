@@ -12,3 +12,5 @@
 @interface AYLogicFacade : NSObject <AYFacadeBase>
 
 @end
+
+#define AYModelFacade   AYLogicFacade

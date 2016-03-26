@@ -1,15 +1,15 @@
 //
-//  AYLandingReqConfirmCode.m
+//  AYQueryTmpUserCommand.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 3/25/16.
+//  Created by Alfred Yang on 3/26/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYLandingReqConfirmCodeCommand.h"
+#import "AYQueryTmpUserCommand.h"
 #import "AYCommandDefines.h"
 
-@implementation AYLandingReqConfirmCodeCommand
+@implementation AYQueryTmpUserCommand
 
 @synthesize para = _para;
 
@@ -18,7 +18,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    NSLog(@"request confirm code from sever: %@", *obj);
+    NSLog(@"query tmp user in local db: %@", *obj);
 }
 
 - (NSString*)getCommandType {

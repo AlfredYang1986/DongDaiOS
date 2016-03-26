@@ -13,6 +13,7 @@
 
 @protocol AYFacadeBase <NSObject, AYCommand>
 
+@property (nonatomic, strong) NSMutableArray* observer;
 @property (nonatomic, strong) NSDictionary* commands;
 
 @property (nonatomic, readonly, getter=getFacadeType) NSString* facade_type;

@@ -31,6 +31,11 @@ typedef enum : NSUInteger {
     CGFloat modify;
     CGFloat diff;
     BOOL isUpAnimation;
+    
+    dispatch_semaphore_t wait_for_qq_api;
+    dispatch_semaphore_t wait_for_weibo_api;
+    dispatch_semaphore_t wait_for_wechat_api;
+    dispatch_semaphore_t wait_for_login_model;
 }
 
 @synthesize landing_status = _landing_status;
@@ -50,6 +55,19 @@ typedef enum : NSUInteger {
     NSLog(@"command are : %@", self.commands);
     NSLog(@"facade are : %@", self.facades);
     NSLog(@"view are : %@", self.views);
+    
+    dispatch_queue_t q = dispatch_queue_create("wait fow app ready", nil);
+    dispatch_async(q, ^{
+        dispatch_semaphore_wait(wait_for_qq_api, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(wait_for_weibo_api, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(wait_for_wechat_api, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(wait_for_login_model, DISPATCH_TIME_FOREVER);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"app is ready");
+            self.landing_status = LandingStatusReady;
+        });
+    });
 }
 
 - (void)postPerform {

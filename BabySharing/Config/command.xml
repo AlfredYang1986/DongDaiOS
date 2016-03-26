@@ -8,4 +8,7 @@
     <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LandingAreaCode" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LandingReqConfirmCode" factory="AYDefaultModuleFactory" />
+
+    <command type="Module" name="QueryTmpUser" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ChangeTmpUser" factory="AYDefaultModuleFactory" />
 </commands>

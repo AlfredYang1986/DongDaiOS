@@ -17,23 +17,16 @@
 
 @implementation AYLoginFacade
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SNSLogedIn:) name:kDongDaNotificationkeySNSLoginSuccess object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogedIn:) name:kDongDaNotificationkeyLoginSuccess object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appIsReady:) name:kDongDaNotificationkeyAppReady object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryDataIsReady:) name:kDongDaNotificationkeyQueryDataReady object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageAndNotificationDataIsReady:) name:kDongDaNotificationkeyMessageIsReady object:nil];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogedOut:) name:kDongDaNotificationkeyUserSignOut object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogedOutSuccessLocal:) name:kDongDaNotificationkeyUserSignOutSuccess object:nil];
+- (void)postPerform {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SNSLogedIn:) name:kDongDaNotificationkeySNSLoginSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogedIn:) name:kDongDaNotificationkeyLoginSuccess object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appIsReady:) name:kDongDaNotificationkeyAppReady object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(queryDataIsReady:) name:kDongDaNotificationkeyQueryDataReady object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageAndNotificationDataIsReady:) name:kDongDaNotificationkeyMessageIsReady object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogedOut:) name:kDongDaNotificationkeyUserSignOut object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogedOutSuccessLocal:) name:kDongDaNotificationkeyUserSignOutSuccess object:nil];
 
-        [GotyeOCAPI addListener:self];
-    }
-    return self;
+//    [GotyeOCAPI addListener:self];
 }
 
 - (void)SNSLogedIn:(id)sender {

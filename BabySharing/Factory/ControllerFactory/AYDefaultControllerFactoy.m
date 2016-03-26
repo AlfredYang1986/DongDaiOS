@@ -10,6 +10,7 @@
 #import "AYCommandDefines.h"
 #import "AYCommand.h"
 #import "AYControllerBase.h"
+#import "AYNotifyDefines.h"
 
 @implementation AYDefaultControllerFactoy
 
@@ -54,6 +55,19 @@
         if (views)
             controller.views = views;
         
+    }
+    
+    NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
+    [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];
+    [reg setValue:kAYNotifyFunctionKeyRegister forKey:kAYNotifyActionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:controller forKey:kAYNotifyControllerKey];
+    
+    [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
+//    [args setValue:controller.controller_name forKey:kAYNotifyControllerKey];
+    for (id<AYCommand> facade in facades) {
+        [facade performWithResult:&reg];
     }
     
     return controller;

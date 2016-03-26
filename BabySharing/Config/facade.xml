@@ -10,4 +10,9 @@
     <facade type="DefaultFacade" name="SNSWeibo" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWeibo" />
     </facade>
+    
+    <facade type="DefaultFacade" name="LoginModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="QueryTmpUser" />
+        <command type="Module" name="ChangeTmpUser" />
+    </facade>
 </facades>

@@ -18,6 +18,7 @@ static NSString* const kAYFactoryManagerCatigoryCommand = @"Command";
 static NSString* const kAYFactoryManagerCatigoryController = @"Controller";
 static NSString* const kAYFactoryManagerCatigoryFacade = @"Facade";
 static NSString* const kAYFactoryManagerCatigoryView = @"View";
+static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandInit = @"Init";
 static NSString* const kAYFactoryManagerCommandPush = @"Push";
@@ -25,6 +26,7 @@ static NSString* const kAYFactoryManagerCommandAPN = @"APN";
 static NSString* const kAYFactoryManagerCommandMessage = @"Message";
 static NSString* const kAYFactoryManagerCommandModule = @"Module";        // 处理单一功能的Command
 static NSString* const kAYFactoryManagerCommandView = @"View";        // 用户controller控制View
+static NSString* const kAYFactoryManagerCommandNotify = @"Notify";        // 用户model对controller的notify
 
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
@@ -33,6 +35,7 @@ static NSString* const kAYFactoryManagerCommandView = @"View";        // 用户c
 #define DEFAULTFACADE(NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:@"DefaultFacade" name:NAME]
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandModule, NAME)
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
+#define MODEL                   [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryModel type:kAYFactoryManagerCatigoryModel name:kAYFactoryManagerCatigoryModel]
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
 #define GIFRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumGIFResourceURLWithName:NAME])
