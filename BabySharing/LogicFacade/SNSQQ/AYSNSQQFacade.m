@@ -7,17 +7,36 @@
 //
 
 #import "AYSNSQQFacade.h"
+#import "AYNotifyDefines.h"
 // qq sdk
 #import "TencentOAuth.h"
+
+static NSString* const kQQTencentID = @"1104831230";
+static NSString* const kQQTencentPermissionUserInfo = @"get_user_info";
+static NSString* const kQQTencentPermissionSimpleUserInfo = @"get_simple_userinfo";
+static NSString* const kQQTencentPermissionAdd = @"add_t";
 
 @interface AYSNSQQFacade () <TencentSessionDelegate>
 
 @end
 
 @implementation AYSNSQQFacade {
-    TencentOAuth* qq_oauth; //TODO: 空值，在para中的qq_instance中
-    NSArray* permissions;
 }
+
+- (void)postPerform {
+    _qq_oauth = [[TencentOAuth alloc] initWithAppId:kQQTencentID andDelegate:self];
+    _qq_oauth.redirectURI = nil;
+    _permissions =  @[kQQTencentPermissionUserInfo, kQQTencentPermissionSimpleUserInfo, kQQTencentPermissionUserInfo];
+   
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyQQAPIReady forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [self performWithResult:&notify];
+}
+
 #pragma mark - qq login and call back
 - (void)loginSuccessWithQQAsUser:(NSString *)qq_openID accessToken:(NSString*)accessToken infoDic:(NSDictionary *)infoDic {
     // 保存 accessToken 和 qq_openID 到本地 coreData 和服务器
@@ -77,12 +96,12 @@
  * 登录成功后的回调
  */
 - (void)tencentDidLogin {
-    NSLog(@"login succss with token : %@", qq_oauth.accessToken);
-    if (qq_oauth.accessToken && 0 != [qq_oauth.accessToken length]) {
+    NSLog(@"login succss with token : %@", _qq_oauth.accessToken);
+    if (_qq_oauth.accessToken && 0 != [_qq_oauth.accessToken length]) {
         //  记录登录用户的OpenID、Token以及过期时间
-        NSLog(@"openId === %@", [qq_oauth getUserOpenID]);
-        NSLog(@"login succss with token : %@", qq_oauth.accessToken);
-        NSLog(@"获取用户信息 === %c", [qq_oauth getUserInfo]);
+        NSLog(@"openId === %@", [_qq_oauth getUserOpenID]);
+        NSLog(@"login succss with token : %@", _qq_oauth.accessToken);
+        NSLog(@"获取用户信息 === %c", [_qq_oauth getUserInfo]);
     } else {
         NSLog(@"login error");
     }
@@ -112,7 +131,7 @@
  */
 - (void)getUserInfoResponse:(APIResponse *)response {
     if (response.retCode == URLREQUEST_SUCCEED) {
-        [self loginSuccessWithQQAsUser:qq_oauth.openId accessToken:qq_oauth.accessToken infoDic:response.jsonResponse];
+        [self loginSuccessWithQQAsUser:_qq_oauth.openId accessToken:_qq_oauth.accessToken infoDic:response.jsonResponse];
     } else {
         [[[UIAlertView alloc] initWithTitle:@"通知" message:@"获取QQ详细信息失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     }

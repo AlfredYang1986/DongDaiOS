@@ -17,6 +17,14 @@
 @synthesize commands = _commands;
 @synthesize observer = _observer;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        _observer = [[NSMutableArray alloc]init];
+    }
+    return self;
+}
+
 - (NSString*)getFacadeType {
     return kAYFactoryManagerCatigoryFacade;
 }
@@ -30,7 +38,9 @@
 }
 
 - (void)postPerform {
-    
+    for (id<AYCommand> cmd in self.commands.allValues) {
+        [cmd postPerform];
+    }
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -49,9 +59,10 @@
         *obj = result;
     } else {
         NSString* notify_name = [dic objectForKey:kAYNotifyFunctionKey];
-        NSString* notify_target = [dic objectForKey:kAYNotifyTargetKey];
+//        NSString* notify_target = [dic objectForKey:kAYNotifyTargetKey];
+        NSDictionary* notify_arg = [dic objectForKey:kAYNotifyArgsKey];
         
-        [self sendNotification:notify_name andName:notify_target];
+        [self sendNotification:notify_name withArgs:notify_arg];
     }
 }
 
@@ -69,14 +80,14 @@
     }
 }
 
-- (void)sendNotification:(NSString*)message_name andName:(NSString*)target {
+- (void)sendNotification:(NSString*)message_name withArgs:(NSDictionary*)args {
     for (NSObject * controller  in _observer) {
         SEL sel = NSSelectorFromString(message_name);
         Method m = class_getInstanceMethod([controller class], sel);
         if (m) {
             IMP imp = method_getImplementation(m);
             id (*func)(id, SEL, ...) = imp;
-            func(controller, sel);
+            func(controller, sel, args);
         }
     }
 }

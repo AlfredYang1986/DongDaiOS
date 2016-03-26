@@ -10,8 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
 
-static NSString* const kWechatID = @"wx66d179d99c9ba7d6";
-static NSString* const kWechatDescription = @"wechat";
+
 static NSString* const kWechatUserInfo = @"snsapi_userinfo,snsapi_base";
 static NSString* const kWechatAuthState = @"0744";
 
@@ -24,7 +23,6 @@ static NSString* const kWechatAuthState = @"0744";
 @synthesize para = _para;
 
 - (void)postPerform {
-    [WXApi registerApp:kWechatID withDescription:kWechatDescription];
 }
 
 - (void)performWithResult:(NSObject**)obj {

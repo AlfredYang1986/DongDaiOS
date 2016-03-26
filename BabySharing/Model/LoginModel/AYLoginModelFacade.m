@@ -9,6 +9,7 @@
 #import "AYLoginModelFacade.h"
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "AYNotifyDefines.h"
 
 static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
 
@@ -29,8 +30,9 @@ static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
     NSString* docs=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_LOGIN]];
     _doc = (UIManagedDocument*)[[UIManagedDocument alloc] initWithFileURL:url];
-    
-    if (![[NSFileManager defaultManager]fileExistsAtPath:[url path] isDirectory:NO]) {
+   
+    BOOL isDir = NO;
+    if (![[NSFileManager defaultManager]fileExistsAtPath:[url path] isDirectory:&isDir]) {
         [_doc saveToURL:url forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success){
             [self enumDataFromLocalDB:_doc];
         }];
@@ -48,10 +50,13 @@ static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
     dispatch_async(aq, ^(void){
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [document.managedObjectContext performBlock: ^(void){
-//                authorised_users = [LoginToken enumAllLoginUsersWithContext:_doc.managedObjectContext];
-//                _current_user = [self getCurrentUser];
+                NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                [notify setValue:kAYNotifyLoginModelReady forKey:kAYNotifyFunctionKey];
                 
-                // TODO: send notifycation
+                NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                [self performWithResult:&notify];
             }];
         });
     });

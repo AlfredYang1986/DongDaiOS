@@ -14,7 +14,6 @@
 #import "WBHttpRequest+WeiboUser.h"
 #import "WBHttpRequest+WeiboShare.h"
 
-static NSString* const kAYWeiboRegisterID = @"1584832986";
 
 @interface AYLoginSNSWithWeiboCommand ()
 
@@ -25,9 +24,7 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
 @synthesize para = _para;
 
 - (void)postPerform {
-    // Weibo sdk init
-    [WeiboSDK enableDebugMode:YES];
-    [WeiboSDK registerApp:kAYWeiboRegisterID];
+
 }
 
 - (void)performWithResult:(NSObject**)obj {

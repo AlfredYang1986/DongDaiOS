@@ -9,6 +9,10 @@
 #import "AYSNSWechatFacade.h"
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
+#import "AYNotifyDefines.h"
+
+static NSString* const kWechatID = @"wx66d179d99c9ba7d6";
+static NSString* const kWechatDescription = @"wechat";
 
 @interface AYSNSWechatFacade () <WXApiDelegate>
 
@@ -17,6 +21,18 @@
 @implementation AYSNSWechatFacade {
     NSString *wechatopenid;
     NSString *wechattoken;
+}
+
+- (void)postPerform {
+    [WXApi registerApp:kWechatID withDescription:kWechatDescription];
+    
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyWechatAPIReady forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [self performWithResult:&notify];
 }
 
 /*! @brief 收到一个来自微信的请求，第三方应用程序处理完后调用sendResp向微信发送结果

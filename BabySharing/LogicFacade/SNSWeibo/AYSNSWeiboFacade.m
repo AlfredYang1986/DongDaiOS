@@ -7,10 +7,13 @@
 //
 
 #import "AYSNSWeiboFacade.h"
+#import "AYNotifyDefines.h"
 #import "WeiboSDK.h"
 // weibo sdk
 #import "WBHttpRequest+WeiboUser.h"
 #import "WBHttpRequest+WeiboShare.h"
+
+static NSString* const kAYWeiboRegisterID = @"1584832986";
 
 @interface AYSNSWeiboFacade () <WeiboSDKDelegate>
 
@@ -19,6 +22,20 @@
 @implementation AYSNSWeiboFacade {
     NSString* wbCurrentUserID;
     NSString* wbtoken;
+}
+
+- (void)postPerform {
+    // Weibo sdk init
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kAYWeiboRegisterID];
+    
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyWeiboAPIReady forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [self performWithResult:&notify];
 }
 
 #pragma mark -- weibo delegate

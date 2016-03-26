@@ -38,9 +38,6 @@
         }
         
         NSDictionary* cmds = [_para objectForKey:@"commands"];
-        for (id<AYCommand> cmd in cmds.allValues) {
-            [cmd postPerform];
-        }
         result.commands = cmds;
     }
     

@@ -42,8 +42,7 @@
         ((id<AYViewBase>)view).controller = self;
         [self.view addSubview:view];
     }
-    
-    [self postPerform];
+//    [self postPerform];
 }
 
 - (NSString*)getCommandType {
@@ -51,7 +50,13 @@
 }
 
 - (void)postPerform {
-    
+    for (id<AYCommand> cmd in self.commands.allValues) {
+        [cmd postPerform];
+    }
+
+    for (id<AYCommand> cmd in self.facades.allValues) {
+        [cmd postPerform];
+    }
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {

@@ -23,4 +23,10 @@ static NSString* const kAYNotifyTargetKey = @"target";
 
 static NSString* const kAYNotifyControllerKey = @"controller";
 
+
+static NSString* const kAYNotifyQQAPIReady = @"SNSQQRegister:";
+static NSString* const kAYNotifyWechatAPIReady = @"SNSWechatRegister:";
+static NSString* const kAYNotifyWeiboAPIReady = @"SNSWeiboRegister:";
+static NSString* const kAYNotifyLoginModelReady = @"LoginModelRegister:";
+
 #endif /* AYNotifyDefines_h */

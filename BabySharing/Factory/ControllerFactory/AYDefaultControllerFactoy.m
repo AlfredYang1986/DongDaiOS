@@ -31,9 +31,7 @@
 - (id)createInstance {
     NSLog(@"para is : %@", _para);
     NSDictionary* cmds = [_para objectForKey:@"commands"];
-    for (id<AYCommand> cmd in cmds.allValues) {
-        [cmd postPerform];
-    }
+
 
     NSDictionary* facades = [_para objectForKey:@"facades"];
     NSDictionary* views = [_para objectForKey:@"views"];
@@ -57,19 +55,20 @@
         
     }
     
-    NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
-    [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];
-    [reg setValue:kAYNotifyFunctionKeyRegister forKey:kAYNotifyActionKey];
-    
-    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-    [args setValue:controller forKey:kAYNotifyControllerKey];
-    
-    [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
-//    [args setValue:controller.controller_name forKey:kAYNotifyControllerKey];
-    for (id<AYCommand> facade in facades) {
+    for (id<AYCommand> facade in facades.allValues) {
+        NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
+        [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];
+        [reg setValue:kAYNotifyFunctionKeyRegister forKey:kAYNotifyFunctionKey];
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:controller forKey:kAYNotifyControllerKey];
+        
+        [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
+        
         [facade performWithResult:&reg];
     }
     
+    [controller postPerform];
     return controller;
 }
 @end

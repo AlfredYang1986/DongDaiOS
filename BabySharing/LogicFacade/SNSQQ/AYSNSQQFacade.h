@@ -8,6 +8,10 @@
 
 #import "AYLogicFacade.h"
 
+@class TencentOAuth;
+
 @interface AYSNSQQFacade : AYLogicFacade
 
+@property (nonatomic, strong) TencentOAuth* qq_oauth;
+@property (nonatomic, strong) NSArray* permissions;
 @end

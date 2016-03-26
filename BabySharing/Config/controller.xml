@@ -7,6 +7,7 @@
         <facade type="SNSWechat" name="SNSWechat" notification="true"/>
         <facade type="SNSWeibo" name="SNSWeibo" notification="true"/>
         <facade type="PhoneLogin" name="PhoneLogin" notification="true"/>
+        <facade type="LoginModel" name="LoginModel" notification="true"/>
         <view type="LandingTitle" name="LandingTitle" />
         <view type="LandingInput" name="LandingInput" />
         <view type="LandingSNS" name="LandingSNS" />

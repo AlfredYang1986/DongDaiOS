@@ -45,12 +45,4 @@
 /**
  * 巨大的表驱动
  */
-- (void)receiveMessage:(NSString*)message_name andArgs:(NSDictionary*)args withResult:(id*)obj {
-    if ([message_name isEqualToString:kAYNotifyFunctionKeyRegister]) {
-        [super.observer setObject:[args objectForKey:@"controller"] forKey:[args objectForKey:@"name"]];
-    
-    } else if ([message_name isEqualToString:kAYNotifyFunctionKeyUnregister]) {
-        [super.observer removeObjectForKey:[args objectForKey:@"name"]];
-    }
-}
 @end

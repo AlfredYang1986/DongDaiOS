@@ -40,6 +40,31 @@ typedef enum : NSUInteger {
 
 @synthesize landing_status = _landing_status;
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+        wait_for_qq_api = dispatch_semaphore_create(0);
+        wait_for_weibo_api = dispatch_semaphore_create(0);
+        wait_for_wechat_api = dispatch_semaphore_create(0);
+        wait_for_login_model = dispatch_semaphore_create(0);
+        
+        dispatch_queue_t q = dispatch_queue_create("wait fow app ready", nil);
+        dispatch_async(q, ^{
+            dispatch_semaphore_wait(wait_for_qq_api, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_wait(wait_for_weibo_api, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_wait(wait_for_wechat_api, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_wait(wait_for_login_model, DISPATCH_TIME_FOREVER);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"app is ready");
+                self.landing_status = LandingStatusReady;
+            });
+        });
+    }
+    return self;
+}
+
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,22 +80,10 @@ typedef enum : NSUInteger {
     NSLog(@"command are : %@", self.commands);
     NSLog(@"facade are : %@", self.facades);
     NSLog(@"view are : %@", self.views);
-    
-    dispatch_queue_t q = dispatch_queue_create("wait fow app ready", nil);
-    dispatch_async(q, ^{
-        dispatch_semaphore_wait(wait_for_qq_api, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(wait_for_weibo_api, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(wait_for_wechat_api, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(wait_for_login_model, DISPATCH_TIME_FOREVER);
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"app is ready");
-            self.landing_status = LandingStatusReady;
-        });
-    });
 }
 
 - (void)postPerform {
+    [super postPerform];
     self.landing_status = LandingStatusPrepare;
 }
 
@@ -202,5 +215,26 @@ typedef enum : NSUInteger {
             @throw [[NSException alloc]initWithName:@"Error" reason:@"登陆状态设置错误" userInfo:nil];
             break;
     }
+}
+
+#pragma mark -- notifycation
+- (id)SNSQQRegister:(id)args {
+    dispatch_semaphore_signal(wait_for_qq_api);
+    return nil;
+}
+
+- (id)SNSWechatRegister:(id)args {
+    dispatch_semaphore_signal(wait_for_wechat_api);
+    return nil;
+}
+
+- (id)SNSWeiboRegister:(id)args {
+    dispatch_semaphore_signal(wait_for_weibo_api);
+    return nil;
+}
+
+- (id)LoginModelRegister:(id)args {
+    dispatch_semaphore_signal(wait_for_login_model);
+    return nil;
 }
 @end
