@@ -241,7 +241,17 @@ static AYFactoryManager* instance = nil;
                 
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 
+                NSMutableArray * cmd_dic = [[NSMutableArray alloc]init];
+                NSArray* cmds = [node nodesForXPath:@"command" error:nil];
+                NSLog(@"controller commands : %@", cmds);
+
+                for (GDataXMLElement* iter in cmds) {
+                    NSString* cmd = [iter attributeForName:@"message"].stringValue;
+                    [cmd_dic addObject:cmd];
+                }
+                
                 [dic setValue:name forKey:@"view"];
+                [dic setValue:[cmd_dic copy] forKey:@"commands"];
                 fac.para = [dic copy];
                 
             } else @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];

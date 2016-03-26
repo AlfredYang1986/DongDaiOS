@@ -42,6 +42,8 @@
         ((id<AYViewBase>)view).controller = self;
         [self.view addSubview:view];
     }
+    
+    [self postPerform];
 }
 
 - (NSString*)getCommandType {

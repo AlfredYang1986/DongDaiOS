@@ -10,6 +10,7 @@
 //#import "AYCommand.h"
 #import "AYCommandDefines.h"
 #import "AYViewBase.h"
+#import "AYViewCommand.h"
 
 @implementation AYDefaultViewFactory
 
@@ -40,7 +41,17 @@
         result = [[c alloc]init];
         [result postPerform];
     }
-
+   
+    NSDictionary* cmds = [_para objectForKey:@"commands"];
+    NSMutableDictionary* commands = [[NSMutableDictionary alloc]initWithCapacity:cmds.count];
+    for (NSString* cmd in cmds) {
+        AYViewCommand* c = [[AYViewCommand alloc]init];
+        c.view = result;
+        c.method_name = cmd;
+        [commands setObject:c forKey:cmd];
+    }
+    
+    result.commands = [commands copy];
     return result;
 }
 @end

@@ -11,5 +11,6 @@
         <view type="LandingTitle" name="LandingTitle" />
         <view type="LandingInput" name="LandingInput" />
         <view type="LandingSNS" name="LandingSNS" />
+        <view type="Loading" name="Loading" />
     </controller>
 </controllers>

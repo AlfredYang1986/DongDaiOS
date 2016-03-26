@@ -9,11 +9,22 @@
 #import "AYLandingController.h"
 #import "AYLogicFacade.h"
 #import <objc/runtime.h>
+#import "AYViewBase.h"
+
+typedef enum : NSUInteger {
+    LandingStatusPrepare,
+    LandingStatusReady,
+    LandingStatusLoading,
+} LandingStatus;
 
 #define LOGO_TOP_MARGIN 97
 
 #define INPUT_VIEW_TOP_MARGIN       ([UIScreen mainScreen].bounds.size.height / 6.0)
 #define INPUT_VIEW_START_POINT      (title.frame.origin.y + title.frame.size.height + INPUT_VIEW_TOP_MARGIN)
+
+@interface AYLandingController ()
+@property (nonatomic, setter=setCurrentStatus:) LandingStatus landing_status;
+@end
 
 @implementation AYLandingController {
     CGRect keyBoardFrame;
@@ -21,6 +32,8 @@
     CGFloat diff;
     BOOL isUpAnimation;
 }
+
+@synthesize landing_status = _landing_status;
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
@@ -39,15 +52,19 @@
     NSLog(@"view are : %@", self.views);
 }
 
+- (void)postPerform {
+    self.landing_status = LandingStatusPrepare;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    //    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    // [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
@@ -69,12 +86,23 @@
 }
 
 - (id)LandingSNSLayout:(UIView*)view {
+    NSLog(@"Landing SNS View view layout");
 //    view.delegate = self;
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     
     CGFloat sns_height = view.bounds.size.height;
     view.frame = CGRectMake(0, height - sns_height, width, sns_height);
+    return nil;
+}
+
+- (id)LoadingLayout:(UIView*)view {
+    NSLog(@"Landing Loading View view layout");
+
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
+    view.frame = CGRectMake(0, 0, width, height);
     return nil;
 }
 
@@ -121,7 +149,40 @@
     }];
 }
 
+#pragma mark -- actions
 - (void)handleTap:(UITapGestureRecognizer*)gueture {
-    [self.view becomeFirstResponder];
+    id<AYViewBase> view = [self.views objectForKey:@"LandingInput"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
+    [cmd performWithResult:nil];
+}
+
+#pragma mark -- status
+- (void)setCurrentStatus:(LandingStatus)new_status {
+    _landing_status = new_status;
+    
+    UIView* inputView = [self.views objectForKey:@"LandingInput"];
+    UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
+    UIView* loading_view = [self.views objectForKey:@"Loading"];
+    
+    switch (_landing_status) {
+        case LandingStatusReady: {
+            inputView.hidden = NO;
+            sns_view.hidden = NO;
+            loading_view.hidden = YES;
+            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
+            }
+            break;
+        case LandingStatusPrepare:
+        case LandingStatusLoading: {
+            inputView.hidden = YES;
+            sns_view.hidden = YES;
+            loading_view.hidden = NO;
+            [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
+            }
+            break;
+        default:
+            @throw [[NSException alloc]initWithName:@"Error" reason:@"登陆状态设置错误" userInfo:nil];
+            break;
+    }
 }
 @end

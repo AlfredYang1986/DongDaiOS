@@ -65,4 +65,8 @@ static AYResourceManager* instance = nil;
     }
     return result;
 }
+
+- (NSURL*)enumGIFResourceURLWithName:(NSString*)gif_name {
+    return [NSURL fileURLWithPath:[resourceBundle pathForResource:gif_name ofType:@"gif"]];
+}
 @end

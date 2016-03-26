@@ -15,4 +15,5 @@
 + (AYResourceManager*)sharedInstance;
 
 - (UIImage*)enumResourceImageWithName:(NSString*)image_name andExtension:(NSString*)extension;
+- (NSURL*)enumGIFResourceURLWithName:(NSString*)gif_name;
 @end

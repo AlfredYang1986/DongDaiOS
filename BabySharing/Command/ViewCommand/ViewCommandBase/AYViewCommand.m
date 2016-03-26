@@ -26,10 +26,13 @@
         NSLog(@"view : %@ and target : %@", _view, _method_name);
      
         SEL sel = NSSelectorFromString(_method_name);
-        Method m = class_getClassMethod([((UIView*)_view) class], sel);
+        Method m = class_getInstanceMethod([((UIView*)_view) class], sel);
         IMP imp = method_getImplementation(m);
         id (*func)(id, SEL, ...) = imp;
-        *obj = func(_view, sel);
+        id result = func(_view, sel);
+        if (obj != nil) {
+            *obj = result;
+        }
     }
 }
 

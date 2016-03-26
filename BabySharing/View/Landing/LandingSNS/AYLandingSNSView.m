@@ -34,6 +34,7 @@
 
 @synthesize para = _para;
 @synthesize controller = _controller;
+@synthesize commands = _commands;
 
 - (void)postPerform {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;

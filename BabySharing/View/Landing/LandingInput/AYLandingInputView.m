@@ -44,6 +44,7 @@
 
 @synthesize para = _para;
 @synthesize controller = _controller;
+@synthesize commands = _commands;
 
 - (void)postPerform {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -294,5 +295,12 @@
 
 - (void)nextBtnSelected:(UIButton*)sender {
     // TODO: ...
+}
+
+#pragma mark -- view commands
+- (id)hideKeyboard {
+    [phone_area resignFirstResponder];
+    [confirm_area resignFirstResponder];
+    return nil;
 }
 @end

@@ -1,5 +1,11 @@
 <views>
-    <view tyep="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" />
+    <view tyep="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" >
+        <command message="hideKeyboard" />
+    </view>
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />
     <view type="LandingSNS" name="LandingSNS" factory="AYDefaultViewFactory" />
+    <view type="Loading" name="Loading" factory="AYDefaultViewFactory" >
+        <command message="startGif" />
+        <command message="stopGif" />
+    </view>
 </views>

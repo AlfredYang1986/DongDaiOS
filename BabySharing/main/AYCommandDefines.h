@@ -35,6 +35,7 @@ static NSString* const kAYFactoryManagerCommandView = @"View";        // 用户c
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
+#define GIFRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumGIFResourceURLWithName:NAME])
 
 #ifdef DEBUG
 #define CHECKCMD(CMD)           if (CMD == nil) \
