@@ -23,7 +23,7 @@
 @property (nonatomic, readonly, getter=getControllerType) NSString* controller_type;
 @property (nonatomic, readonly, getter=getControllerName) NSString* controller_name;
 
-- (void)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args;
+- (id)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args;
 @end
 
 #endif /* AYControllerBase_h */

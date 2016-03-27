@@ -242,11 +242,43 @@ typedef enum : NSUInteger {
 
 #pragma mark -- remote notification
 - (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
-    NSLog(@"remote notifications");
+    /**
+     * update local database
+     */
+    NSLog(@"remote req confirm code notify");
     AYModel* m = MODEL;
     AYFacade* f = [m.facades objectForKey:@"LoginModel"];
     id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
     [cmd performWithResult:&result];
+    /**
+     * refresh timer
+     */   
+    id<AYViewBase> view = [self.views objectForKey:@"LandingInput"];
+    id<AYCommand> cmd_view = [view.commands objectForKey:@"startConfirmCodeTimer"];
+    [cmd_view performWithResult:nil];
+   
+    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"用户验证码已发送" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+    return nil;
+}
+
+- (id)LandingAuthConfirmRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
+    NSLog(@"remote auth confirm notify");
+    if (success) {
+        [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+//        return LoginModelResultSuccess;
+    } else {
+        NSString* msg = [result objectForKey:@"message"];
+        if ([msg isEqualToString:@"already login"]) {
+            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+//            return LoginModelResultOthersLogin;
+        } else if ([msg isEqualToString:@"new user"]) {
+//            return LoginModelResultSuccess;
+        } else {
+//            [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+//            return LoginModelResultError;
+        }
+        
+    }
     return nil;
 }
 @end

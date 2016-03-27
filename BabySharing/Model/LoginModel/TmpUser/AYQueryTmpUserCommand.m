@@ -30,7 +30,8 @@
     NSString* phoneNo = [dic objectForKey:@"phoneNo"];
     
     AYModelFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel");
-    *obj = [RegTmpToken enumRegTokenINContext:f.doc.managedObjectContext WithPhoneNo:phoneNo];
+    RegTmpToken* tmp = [RegTmpToken enumRegTokenINContext:f.doc.managedObjectContext WithPhoneNo:phoneNo];
+    *obj = tmp.reg_token;
 }
 
 - (NSString*)getCommandType {

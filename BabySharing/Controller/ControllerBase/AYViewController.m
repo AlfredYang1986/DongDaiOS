@@ -81,7 +81,7 @@
     *obj = self;
 }
 
-- (void)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args {
+- (id)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args {
     id<AYCommand> cmd = nil;
     if (facade_name == nil) {
         cmd = [self.commands objectForKey:command_name];
@@ -111,5 +111,6 @@
     } else {
         [cmd performWithResult:&args];
     }
+    return (id)args;
 }
 @end

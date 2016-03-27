@@ -12,6 +12,7 @@
 #import "AYResourceManager.h"
 #import "AYControllerBase.h"
 #import "AYFacadeBase.h"
+#import "Tools.h"
 
 #define BASICMARGIN                         8
 
@@ -299,13 +300,37 @@
 - (void)nextBtnSelected:(UIButton*)sender {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:phone_area.text forKey:@"phoneNo"];
-    [_controller performForView:self andFacade:@"LoginModel" andMessage:@"QueryTmpUser" andArgs:[dic copy]];
+    NSString* reg_token = [_controller performForView:self andFacade:@"LoginModel" andMessage:@"QueryTmpUser" andArgs:[dic copy]];
+    NSLog(@"query reg token is %@", reg_token);
+    
+    NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
+    [dic_auth setValue:phone_area.text forKey:@"phoneNo"];
+    [dic_auth setValue:reg_token forKey:@"reg_token"];
+    [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
+    [dic_auth setValue:confirm_area.text forKey:@"code"];
+ 
+    [_controller performForView:self andFacade:@"LandingRemote" andMessage:@"LandingAuthConfirm" andArgs:[dic_auth copy]];
 }
 
 #pragma mark -- view commands
 - (id)hideKeyboard {
     [phone_area resignFirstResponder];
     [confirm_area resignFirstResponder];
+    return nil;
+}
+
+- (id)startConfirmCodeTimer {
+    seconds = 60;
+    confirm_btn.enabled = NO;
+    [timer setFireDate:[NSDate distantPast]];
+    return nil;
+}
+
+- (id)stopConfirmCodeTimer {
+    seconds = 0;
+    confirm_btn.enabled = YES;
+    [timer setFireDate:[NSDate distantFuture]];
+    [confirm_btn setTitle:@"获取\n动态密码" forState:UIControlStateNormal];
     return nil;
 }
 @end
