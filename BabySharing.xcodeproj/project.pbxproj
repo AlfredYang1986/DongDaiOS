@@ -19,6 +19,7 @@
 		701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A511CA7B9C200B5D4C1 /* AYSNSWechatFacade.m */; };
 		701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A541CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m */; };
 		701D8A5E1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A5D1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m */; };
+		701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A621CA7D16F00B5D4C1 /* RemoteInstance.m */; };
 		702E7A521CA14A490097867E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 702E7A511CA14A490097867E /* Assets.xcassets */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
@@ -166,6 +167,8 @@
 		701D8A5C1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingRemoteFacade.h; sourceTree = "<group>"; };
 		701D8A5D1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingRemoteFacade.m; sourceTree = "<group>"; };
 		701D8A5F1CA7CC0A00B5D4C1 /* AYRemoteCallDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallDefines.h; sourceTree = "<group>"; };
+		701D8A611CA7D16F00B5D4C1 /* RemoteInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteInstance.h; sourceTree = "<group>"; };
+		701D8A621CA7D16F00B5D4C1 /* RemoteInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteInstance.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A511CA14A490097867E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		702E7A561CA14A490097867E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -521,6 +524,15 @@
 			path = RemoteFacade;
 			sourceTree = "<group>";
 		};
+		701D8A601CA7D16F00B5D4C1 /* RemoteInstance */ = {
+			isa = PBXGroup;
+			children = (
+				701D8A611CA7D16F00B5D4C1 /* RemoteInstance.h */,
+				701D8A621CA7D16F00B5D4C1 /* RemoteInstance.m */,
+			);
+			path = RemoteInstance;
+			sourceTree = "<group>";
+		};
 		702E7A391CA14A480097867E = {
 			isa = PBXGroup;
 			children = (
@@ -762,6 +774,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				701D8A601CA7D16F00B5D4C1 /* RemoteInstance */,
 				70EAD8061CA65B0C007965D2 /* UIGifVIew */,
 				70F34D641CA5274B00CEF7C1 /* ShapedButton */,
 				708235D21CA272A300658531 /* gotyeapi */,
@@ -1342,6 +1355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */,
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				701D8A3B1CA7AC1E00B5D4C1 /* AYLandingReqConfirmCodeCommand.m in Sources */,
 				701D8A3E1CA7AC3900B5D4C1 /* AYRemoteCallCommand.m in Sources */,

@@ -97,10 +97,14 @@
         dispatch_queue_t q = dispatch_queue_create("remote call", nil);
         dispatch_async(q, ^{
             [((AYRemoteCallCommand*)cmd) performWithResult:args andFinishBlack:^(BOOL success, NSDictionary * result) {
-                SEL selector = NSSelectorFromString([[command_name stringByAppendingString:kAYRemoteCallResultKey] stringByAppendingString:kAYRemoteCallResultArgsKey]);
-                IMP imp = [self methodForSelector:selector];
-                id (*func)(id, SEL, ...) = imp;
-                func(self, selector, success, result);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    SEL selector = NSSelectorFromString([[command_name stringByAppendingString:kAYRemoteCallResultKey] stringByAppendingString:kAYRemoteCallResultArgsKey]);
+                    IMP imp = [self methodForSelector:selector];
+                    if (imp) {
+                        id (*func)(id, SEL, ...) = imp;
+                        func(self, selector, success, result);
+                    }
+                });
             }];
         });
     
