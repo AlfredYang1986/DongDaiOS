@@ -33,8 +33,6 @@ static NSString* const kWechatAuthState = @"0744";
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCommandModule;
+    return kAYFactoryManagerCommandTypeModule;
 }
-
-
 @end

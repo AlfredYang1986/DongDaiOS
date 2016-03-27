@@ -14,6 +14,5 @@
 + (AYFactoryManager*)sharedInstance;
 
 - (id)enumObjectWithCatigory:(NSString*)cat type:(NSString*)type name:(NSString*)name;
-- (id<AYCommand>)enumCommandWithType:(NSString*)command_type andName:(NSString*)command_name;
-
+- (NSString*)queryServerHostRoute;
 @end

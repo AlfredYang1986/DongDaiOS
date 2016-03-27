@@ -15,4 +15,8 @@
         <command type="Module" name="QueryTmpUser" />
         <command type="Module" name="ChangeTmpUser" />
     </facade>
+    
+    <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="LandingReqConfirmCode" />
+    </facade>
 </facades>

@@ -10,15 +10,4 @@
 #define AYViewLayoutDefines_h
 
 static NSString* const kAYViewLayoutSuffix = @"Layout";
-
-//#import "AYViewBase.h"
-
-//typedef void(^AYViewLayoutFunc)(void);
-//
-//struct AYViewLayoutNode {
-//    const char* name;
-//    id<AYViewBase> obj;
-//    AYViewLayoutFunc func;
-//};
-
 #endif /* AYViewLayoutDefines_h */

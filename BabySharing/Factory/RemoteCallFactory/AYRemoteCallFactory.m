@@ -1,30 +1,24 @@
 //
-//  AYDefaultModuleFactory.m
+//  AYRemoteCallFactory.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 3/23/16.
+//  Created by Alfred Yang on 3/27/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYDefaultModuleFactory.h"
+#import "AYRemoteCallFactory.h"
 #import "AYCommand.h"
 #import "AYCommandDefines.h"
+#import "AYRemoteCallCommand.h"
+#import "AYFactoryManager.h"
 
-@implementation AYDefaultModuleFactory {
-    id<AYCommand> cmd; // = [[NSMutableDictionary alloc]init];
+@implementation AYRemoteCallFactory {
+    id<AYCommand> cmd;
 }
 
 @synthesize para = _para;
 
 + (id)factoryInstance {
-//    static AYDefaultModuleFactory* instance = nil;
-//    if (instance == nil) {
-//        static dispatch_once_t onceToken;
-//        dispatch_once(&onceToken, ^{
-//            instance = [[self alloc]init];
-//        });
-//    }
-//    return instance;
     return [[self alloc]init];
 }
 
@@ -32,15 +26,11 @@
     NSLog(@"para is : %@", _para);
     
     if (cmd == nil) {
-    
+
         NSString* desCmd = [self.para objectForKey:@"name"];
-        id<AYCommand> result = nil;
+        NSString* path = [self.para objectForKey:@"route"];
         
-//        NSDictionary* cmds = [_para objectForKey:@"commands"];
-//        for (id<AYCommand> subcmd in cmds.allValues) {
-//            [subcmd postPerform];
-//        }
-        
+        AYRemoteCallCommand* result = nil;
         NSLog(@"%@ is creating", desCmd);
         
         Class c = NSClassFromString([[kAYFactoryManagerControllerPrefix stringByAppendingString:desCmd] stringByAppendingString:kAYFactoryManagerCatigoryCommand]);
@@ -48,11 +38,10 @@
             @throw [NSException exceptionWithName:@"error" reason:@"perform  init command error" userInfo:nil];
         } else {
             result = [[c alloc]init];
-//            result.commands = cmds;
+            result.route = [HOST stringByAppendingString:path];
             cmd = result;
         }
     }
     return cmd;
-//    return result;
 }
 @end

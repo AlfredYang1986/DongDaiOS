@@ -11,6 +11,7 @@
 #import "OBShapedButton.h"
 #import "AYResourceManager.h"
 #import "AYControllerBase.h"
+#import "AYFacadeBase.h"
 
 #define BASICMARGIN                         8
 
@@ -290,7 +291,9 @@
 }
 
 - (void)confirmBtnSelected:(UIButton*)sender {
-    // TODO: ...
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:phone_area.text forKey:@"phoneNo"];
+    [_controller performForView:self andFacade:@"LandingRemote" andMessage:@"LandingReqConfirmCode" andArgs:[dic copy]];
 }
 
 - (void)nextBtnSelected:(UIButton*)sender {

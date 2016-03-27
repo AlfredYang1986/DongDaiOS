@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYCommand.h"
+#import "AYRemoteCallCommand.h"
 
-@interface AYLandingReqConfirmCodeCommand : NSObject <AYCommand>
+@interface AYLandingReqConfirmCodeCommand : AYRemoteCallCommand
 
 @end

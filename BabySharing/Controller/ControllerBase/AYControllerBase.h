@@ -11,6 +11,7 @@
 
 #import "AYCommand.h"
 #import <UIKit/UIKit.h>
+#import "AYCommandDefines.h"
 
 @protocol AYViewBase;
 @protocol AYControllerBase <NSObject, AYCommand>

@@ -11,17 +11,18 @@
 
 @implementation AYLandingReqConfirmCodeCommand
 
-@synthesize para = _para;
-
 - (void)postPerform {
-    
+    NSLog(@"host path is : %@", self.route);
 }
 
-- (void)performWithResult:(NSObject**)obj {
-    NSLog(@"request confirm code from sever: %@", *obj);
+- (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
+    NSLog(@"request confirm code from sever: %@", args);
+    [NSThread sleepForTimeInterval:2.f];
+    //TODO: notifycation;
+    block(YES, nil);
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCommandModule;
+    return kAYFactoryManagerCommandTypeModule;
 }
 @end

@@ -55,7 +55,7 @@ static AYAPNNotificationCommand* instance = nil;
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCommandAPN;
+    return kAYFactoryManagerCommandTypeAPN;
 }
 
 - (void)postPerform {

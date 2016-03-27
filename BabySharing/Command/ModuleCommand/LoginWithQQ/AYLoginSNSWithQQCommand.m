@@ -9,7 +9,7 @@
 #import "AYLoginSNSWithQQCommand.h"
 // qq sdk
 #import "TencentOAuth.h"
-#import "AYLogicFacade.h"
+#import "AYFacade.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYSNSQQFacade.h"
@@ -37,6 +37,6 @@
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCommandModule;
+    return kAYFactoryManagerCommandTypeModule;
 }
 @end

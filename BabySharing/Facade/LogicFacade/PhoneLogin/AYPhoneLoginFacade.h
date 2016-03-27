@@ -6,8 +6,8 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYLogicFacade.h"
+#import "AYFacade.h"
 
-@interface AYPhoneLoginFacade : AYLogicFacade
+@interface AYPhoneLoginFacade : AYFacade
 
 @end

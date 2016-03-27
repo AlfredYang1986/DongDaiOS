@@ -19,11 +19,11 @@ static NSString* command_file_name = @"command";
 static NSString* facade_file_name = @"facade";
 static NSString* view_file_name = @"view";
 static NSString* model_file_name = @"model";
+static NSString* remote_file_name = @"remote";
 
 static NSString* config_file_extention = @"xml";
 
 static AYFactoryManager* instance = nil;
-
 
 @implementation AYFactoryManager {
     NSMutableDictionary* factories;
@@ -33,8 +33,11 @@ static AYFactoryManager* instance = nil;
     GDataXMLDocument* doc_facade;
     GDataXMLDocument* doc_view;
     GDataXMLDocument* doc_model;
+    
+    NSString* host_route;
 }
 
+#pragma mark -- init
 + (AYFactoryManager*)sharedInstance {
     @synchronized (self) {
         if (instance == nil) {
@@ -64,6 +67,7 @@ static AYFactoryManager* instance = nil;
             [self loadFacadeConfigs];
             [self loadViewConfigs];
             [self loadModelConfigs];
+            [self loadHostConfigs];
         }
         return self;
     }
@@ -73,9 +77,7 @@ static AYFactoryManager* instance = nil;
     return self;
 }
 
-/**
- * load configs files
- */
+#pragma mark -- load configs
 - (GDataXMLDocument*)loadConfigWithName:(NSString*)fileName andExtention:(NSString*)extention {
     NSString *path = [[NSBundle mainBundle]pathForResource:fileName ofType:extention];
     return [[GDataXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:path] encoding:NSUTF8StringEncoding  error:NULL];
@@ -106,6 +108,19 @@ static AYFactoryManager* instance = nil;
         doc_model = [self loadConfigWithName:model_file_name andExtention:config_file_extention];
 }
 
+- (void)loadHostConfigs {
+    GDataXMLDocument* doc_remote = [self loadConfigWithName:remote_file_name andExtention:config_file_extention];
+#ifdef SANDBOX
+    NSArray* arr = [doc_remote nodesForXPath:@"//sandbox" error:nil];
+#else
+    NSArray* arr = [doc_remote nodesForXPath:@"//remote" error:nil];
+#endif
+    if (arr.count == 1) {
+        host_route = [[arr.lastObject attributeForName:@"host"] stringValue];
+    } else @throw [[NSException alloc]initWithName:@"Error" reason:@"remote config file error" userInfo:nil];
+}
+
+#pragma mark -- query Commands
 - (id)enumObjectWithCatigory:(NSString*)cat type:(NSString*)type name:(NSString*)name {
     id result = nil;
     NSString* key = [AYFactoryManager md5:[[cat stringByAppendingString:type] stringByAppendingString:name]];
@@ -113,7 +128,9 @@ static AYFactoryManager* instance = nil;
     if (fac == nil) {
         if ([cat isEqualToString:kAYFactoryManagerCatigoryCommand]) {
             NSArray* arr = nil;
-            if ([type isEqualToString:kAYFactoryManagerCommandModule]) {
+            if ([type isEqualToString:kAYFactoryManagerCommandTypeModule]) {
+                arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
+            } else if ([type isEqualToString:kAYFactoryManagerCommandTypeRemote]) {
                 arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
             } else {
                 arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:[name lowercaseString]] stringByAppendingString:@"']"] error:NULL];
@@ -137,6 +154,10 @@ static AYFactoryManager* instance = nil;
                 NSString* desController = [[arr.lastObject attributeForName:@"controller"] stringValue];
                 if (desController != nil) {
                     [dic setObject:desController forKey:@"controller"];
+                }
+                
+                if ([type isEqualToString:kAYFactoryManagerCommandTypeRemote]) {
+                    [dic setValue:[arr.lastObject attributeForName:@"route"].stringValue forKey:@"route"];
                 }
 
                 fac.para = [dic copy];
@@ -311,10 +332,8 @@ static AYFactoryManager* instance = nil;
     return result;
 }
 
-- (id<AYCommand>)enumCommandWithType:(NSString*)command_type andName:(NSString*)command_name {
-    NSDictionary* t = [factories objectForKey:@"Command"];
-    NSDictionary* ct = [t objectForKey:command_type];
-    return [ct objectForKey:command_name];
+- (NSString*)queryServerHostRoute {
+    return host_route;
 }
 
 + (NSString*)md5:(NSString *)inPutText {

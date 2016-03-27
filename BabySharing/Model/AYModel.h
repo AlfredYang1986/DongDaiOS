@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYLogicFacade.h"
+#import "AYFacade.h"
 
 @interface AYModel : AYModelFacade
 

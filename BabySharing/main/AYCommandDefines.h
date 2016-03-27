@@ -9,6 +9,11 @@
 #ifndef AYCommandDefines_h
 #define AYCommandDefines_h
 
+typedef void(^asynCommandFinishBlock)(BOOL, NSDictionary*);
+
+static NSString* const kAYFactoryManagerMessageNameKey = @"factory manager message name";
+static NSString* const kAYFactoryManagerMessageNameHostValue = @"server host";
+
 static NSString* const kAYFactoryManagerControllerPrefix = @"AY";
 static NSString* const kAYFactoryManagerControllersuffix = @"Controller";
 static NSString* const kAYFactoryManagerFacadesuffix = @"Facade";
@@ -20,25 +25,32 @@ static NSString* const kAYFactoryManagerCatigoryFacade = @"Facade";
 static NSString* const kAYFactoryManagerCatigoryView = @"View";
 static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
-static NSString* const kAYFactoryManagerCommandInit = @"Init";
-static NSString* const kAYFactoryManagerCommandPush = @"Push";
-static NSString* const kAYFactoryManagerCommandAPN = @"APN";
-static NSString* const kAYFactoryManagerCommandMessage = @"Message";
-static NSString* const kAYFactoryManagerCommandModule = @"Module";        // 处理单一功能的Command
-static NSString* const kAYFactoryManagerCommandView = @"View";        // 用户controller控制View
-static NSString* const kAYFactoryManagerCommandNotify = @"Notify";        // 用户model对controller的notify
+static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
+static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
+static NSString* const kAYFactoryManagerCommandTypeAPN = @"APN";
+static NSString* const kAYFactoryManagerCommandTypeMessage = @"Message";
+static NSString* const kAYFactoryManagerCommandTypeDefaultController = @"DefaultController";
+static NSString* const kAYFactoryManagerCommandTypeDefaultFacade = @"DefaultFacade";
+static NSString* const kAYFactoryManagerCommandTypeModule = @"Module";          // 处理单一功能的Command
+static NSString* const kAYFactoryManagerCommandTypeRemote = @"Remote";          // 处理一个服务器访问
+static NSString* const kAYFactoryManagerCommandTypeView = @"View";              // 用户controller控制View
+static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          // 用户model对controller的notify
 
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
+#define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
+#define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
-#define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:@"DefaultController" name:NAME]
+#define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]
 #define FACADE(TYPE, NAME)      [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:TYPE name:NAME]
-#define DEFAULTFACADE(NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:@"DefaultFacade" name:NAME]
-#define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandModule, NAME)
+#define DEFAULTFACADE(NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:kAYFactoryManagerCommandTypeDefaultFacade name:NAME]
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
 #define MODEL                   [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryModel type:kAYFactoryManagerCatigoryModel name:kAYFactoryManagerCatigoryModel]
 
+#define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
+
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
 #define GIFRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumGIFResourceURLWithName:NAME])
+
 
 #ifdef DEBUG
 #define CHECKCMD(CMD)           if (CMD == nil) \

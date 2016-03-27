@@ -12,6 +12,9 @@
 #import "AYViewBase.h"
 #import "AYFacadeBase.h"
 #import <objc/runtime.h>
+#import "AYRemoteCallCommand.h"
+#import "AYNotifyDefines.h"
+#import "AYRemoteCallDefines.h"
 
 @implementation AYViewController
 @synthesize para = _para;
@@ -45,6 +48,21 @@
 //    [self postPerform];
 }
 
+- (void)dealloc {
+    for (id<AYCommand> facade in self.facades.allValues) {
+        NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
+        [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];
+        [reg setValue:kAYNotifyFunctionKeyUnregister forKey:kAYNotifyFunctionKey];
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:self forKey:kAYNotifyControllerKey];
+        
+        [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
+        
+        [facade performWithResult:&reg];
+    }
+}
+
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryController;
 }
@@ -64,19 +82,30 @@
 }
 
 - (void)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args {
+    id<AYCommand> cmd = nil;
     if (facade_name == nil) {
-        id<AYCommand> cmd = [self.commands objectForKey:command_name];
+        cmd = [self.commands objectForKey:command_name];
         CHECKCMD(cmd);
-        cmd.para = args;
-        [cmd performWithResult:nil];
     } else {
         id<AYFacadeBase> facade = [self.facades objectForKey:facade_name];
         CHECKFACADE(facade);
-        id<AYCommand> cmd = [facade.commands objectForKey:command_name];
+        cmd = [facade.commands objectForKey:command_name];
         CHECKCMD(cmd);
-        cmd.para = args;
-        [cmd performWithResult:nil];
+    }
+    
+    if ([cmd isKindOfClass:[AYRemoteCallCommand class]]) {
+        dispatch_queue_t q = dispatch_queue_create("remote call", nil);
+        dispatch_async(q, ^{
+            [((AYRemoteCallCommand*)cmd) performWithResult:args andFinishBlack:^(BOOL success, NSDictionary * result) {
+                SEL selector = NSSelectorFromString([[command_name stringByAppendingString:kAYRemoteCallResultKey] stringByAppendingString:kAYRemoteCallResultArgsKey]);
+                IMP imp = [self methodForSelector:selector];
+                id (*func)(id, SEL, ...) = imp;
+                func(self, selector, success, result);
+            }];
+        });
+    
+    } else {
+        [cmd performWithResult:&args];
     }
 }
-
 @end

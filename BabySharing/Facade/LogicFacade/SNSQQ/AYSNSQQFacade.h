@@ -6,11 +6,11 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYLogicFacade.h"
+#import "AYFacade.h"
 
 @class TencentOAuth;
 
-@interface AYSNSQQFacade : AYLogicFacade
+@interface AYSNSQQFacade : AYFacade
 
 @property (nonatomic, strong) TencentOAuth* qq_oauth;
 @property (nonatomic, strong) NSArray* permissions;

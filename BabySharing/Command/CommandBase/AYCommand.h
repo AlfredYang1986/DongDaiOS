@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^performFinishBlock)(NSDictionary*);
+//typedef void(^performFinishBlock)(BOOL, NSDictionary*);
 
 @protocol AYCommand <NSObject>
 

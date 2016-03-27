@@ -53,7 +53,7 @@ static AYMessageCommand* instance = nil;
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCommandMessage;
+    return kAYFactoryManagerCommandTypeMessage;
 }
 
 - (void)postPerform {

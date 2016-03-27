@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AYFacadeBase.h"
 
-@interface AYLogicFacade : NSObject <AYFacadeBase>
+@interface AYFacade : NSObject <AYFacadeBase>
 
 @end
 
-#define AYModelFacade   AYLogicFacade
+#define AYModelFacade   AYFacade

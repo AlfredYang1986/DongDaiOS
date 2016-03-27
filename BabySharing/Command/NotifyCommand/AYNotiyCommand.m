@@ -42,6 +42,6 @@
 }
 
 - (NSString*)getCommandType {
-    return kAYFactoryManagerCommandNotify;
+    return kAYFactoryManagerCommandTypeNotify;
 }
 @end

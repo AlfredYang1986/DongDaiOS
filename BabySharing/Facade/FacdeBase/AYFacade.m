@@ -6,12 +6,12 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYLogicFacade.h"
+#import "AYFacade.h"
 #import "AYCommandDefines.h"
 #import <objc/runtime.h>
 #import "AYNotifyDefines.h"
 
-@implementation AYLogicFacade
+@implementation AYFacade
 
 @synthesize para = _para;
 @synthesize commands = _commands;

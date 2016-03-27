@@ -39,14 +39,14 @@
     /**
      * create controller factory
      */
-    id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandInit, kAYFactoryManagerCommandInit);
+    id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
     AYViewController* controller = nil;
     [cmd performWithResult:&controller];
     
     /**
      * apn notification factory
      */
-    id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandAPN, kAYFactoryManagerCommandAPN);
+    id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandTypeAPN, kAYFactoryManagerCommandTypeAPN);
     [apn performWithResult:nil];
     
     /**
@@ -106,7 +106,7 @@
     apn_token = [apn_token substringToIndex:apn_token.length-1];
     apn_token = [apn_token substringFromIndex:1];
     NSLog(@"My token is: %@", apn_token);
-    id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandAPN, kAYFactoryManagerCommandAPN);
+    id<AYCommand> apn = COMMAND(kAYFactoryManagerCommandTypeAPN, kAYFactoryManagerCommandTypeAPN);
     [apn pushCommandPara:apn_token withName:@"apn_token"];
 }
 

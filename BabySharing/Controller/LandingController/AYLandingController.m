@@ -7,7 +7,7 @@
 //
 
 #import "AYLandingController.h"
-#import "AYLogicFacade.h"
+#import "AYFacade.h"
 #import <objc/runtime.h>
 #import "AYViewBase.h"
 
@@ -235,6 +235,12 @@ typedef enum : NSUInteger {
 
 - (id)LoginModelRegister:(id)args {
     dispatch_semaphore_signal(wait_for_login_model);
+    return nil;
+}
+
+#pragma mark -- remote notification
+- (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
+    NSLog(@"remote notifications");
     return nil;
 }
 @end
