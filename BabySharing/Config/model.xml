@@ -1,7 +1,7 @@
 
 <Models>
     <model name="model" factory="AYModelFactory" >
-        <facade type="LoginModel" name="LoginModel" />
+        <facade type="DefaultFacade" name="LoginModel" />
         
         <notify message="AppReady" controller="Landing" />
     </model>

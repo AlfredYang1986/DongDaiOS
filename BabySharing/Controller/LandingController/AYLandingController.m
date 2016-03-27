@@ -10,6 +10,8 @@
 #import "AYFacade.h"
 #import <objc/runtime.h>
 #import "AYViewBase.h"
+#import "AYModel.h"
+#import "AYFactoryManager.h"
 
 typedef enum : NSUInteger {
     LandingStatusPrepare,
@@ -241,6 +243,10 @@ typedef enum : NSUInteger {
 #pragma mark -- remote notification
 - (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
     NSLog(@"remote notifications");
+    AYModel* m = MODEL;
+    AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
+    [cmd performWithResult:&result];
     return nil;
 }
 @end

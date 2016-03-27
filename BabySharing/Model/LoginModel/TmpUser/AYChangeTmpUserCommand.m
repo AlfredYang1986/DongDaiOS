@@ -8,6 +8,12 @@
 
 #import "AYChangeTmpUserCommand.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+
+#import "RegTmpToken.h"
+#import "RegTmpToken+ContextOpt.h"
+
+#import "AYModelFacade.h"
 
 @implementation AYChangeTmpUserCommand
 @synthesize para = _para;
@@ -18,6 +24,15 @@
 
 - (void)performWithResult:(NSObject**)obj {
     NSLog(@"change tmp user in local db: %@", *obj);
+
+    NSDictionary* dic = (NSDictionary*)*obj;
+    NSString* phoneNo = [dic objectForKey:@"phoneNo"];
+    NSString* reg_token = [dic objectForKey:@"reg_token"];
+ 
+    AYModelFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [RegTmpToken createRegTokenInContext:f.doc.managedObjectContext WithToken: reg_token andPhoneNumber: phoneNo];
+    });
 }
 
 - (NSString*)getCommandType {

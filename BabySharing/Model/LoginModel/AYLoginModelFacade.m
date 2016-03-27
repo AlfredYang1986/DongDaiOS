@@ -13,10 +13,6 @@
 
 static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
 
-@interface AYLoginModelFacade ()
-@property (strong, nonatomic) UIManagedDocument* doc;
-@end
-
 @implementation AYLoginModelFacade
 
 @synthesize doc = _doc;

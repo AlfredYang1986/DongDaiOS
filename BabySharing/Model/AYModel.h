@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AYFacade.h"
 
-@interface AYModel : AYModelFacade
+@interface AYModel : AYFacade
 
 @property (nonatomic, strong) NSDictionary* facades;
 @end

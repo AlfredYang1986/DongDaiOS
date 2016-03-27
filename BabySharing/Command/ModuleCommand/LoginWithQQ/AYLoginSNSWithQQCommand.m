@@ -30,7 +30,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    AYSNSQQFacade* qq_facade = FACADE(@"DefaultFacade", @"SNSQQ");
+    AYSNSQQFacade* qq_facade = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"SNSQQ");
     TencentOAuth* qq_oauth = qq_facade.qq_oauth;
     NSArray* permissions = qq_facade.permissions;
     [qq_oauth authorize:permissions inSafari:YES];

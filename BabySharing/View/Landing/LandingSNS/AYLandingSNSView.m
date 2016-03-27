@@ -124,10 +124,10 @@
 }
 
 - (void)weiboBtnSelected:(UIButton*)sender {
-    [_controller performForView:self andFacade:@"SNSWechat" andMessage:@"LoginSNSWithWechat" andArgs:nil];
+    [_controller performForView:self andFacade:@"SNSWeibo" andMessage:@"LoginSNSWithWeibo" andArgs:nil];
 }
 
 - (void)wechatBtnSelected:(UIButton*)sender {
-    [_controller performForView:self andFacade:@"SNSWeibo" andMessage:@"LoginSNSWithWeibo" andArgs:nil];
+    [_controller performForView:self andFacade:@"SNSWechat" andMessage:@"LoginSNSWithWechat" andArgs:nil];
 }
 @end

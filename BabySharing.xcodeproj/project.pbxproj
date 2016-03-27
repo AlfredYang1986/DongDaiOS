@@ -20,6 +20,27 @@
 		701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A541CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m */; };
 		701D8A5E1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A5D1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m */; };
 		701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A621CA7D16F00B5D4C1 /* RemoteInstance.m */; };
+		701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A671CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m */; };
+		701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A691CA7E06700B5D4C1 /* CurrentToken.m */; };
+		701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A6B1CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m */; };
+		701D8A911CA7E06700B5D4C1 /* DetailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A6D1CA7E06700B5D4C1 /* DetailInfo.m */; };
+		701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */; };
+		701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A711CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m */; };
+		701D8A941CA7E06700B5D4C1 /* LoginToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A731CA7E06700B5D4C1 /* LoginToken.m */; };
+		701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A751CA7E06700B5D4C1 /* Providers+CoreDataProperties.m */; };
+		701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A771CA7E06700B5D4C1 /* Providers.m */; };
+		701D8A971CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A791CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m */; };
+		701D8A981CA7E06700B5D4C1 /* RegCurrentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A7B1CA7E06700B5D4C1 /* RegCurrentToken.m */; };
+		701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A7D1CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m */; };
+		701D8A9A1CA7E06700B5D4C1 /* RegTmpToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A7F1CA7E06700B5D4C1 /* RegTmpToken.m */; };
+		701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A811CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m */; };
+		701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A831CA7E06700B5D4C1 /* UserKids.m */; };
+		701D8A9D1CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A851CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m */; };
+		701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A871CA7E06700B5D4C1 /* LoginToken+ContextOpt.m */; };
+		701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A891CA7E06700B5D4C1 /* Providers+ContextOpt.m */; };
+		701D8AA01CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A8B1CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.m */; };
+		701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A8D1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m */; };
+		701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */; };
 		702E7A521CA14A490097867E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 702E7A511CA14A490097867E /* Assets.xcassets */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
@@ -97,21 +118,6 @@
 		70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8261CA673A7007965D2 /* AYViewCommand.m */; };
 		70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD82A1CA673E7007965D2 /* AYNotiyCommand.m */; };
 		70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8331CA68169007965D2 /* AYLoginModelFacade.m */; };
-		70EAD83A1CA683C2007965D2 /* LoginLocalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8381CA683C2007965D2 /* LoginLocalModel.xcdatamodeld */; };
-		70EAD8571CA683FD007965D2 /* DetailInfo+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD83C1CA683FD007965D2 /* DetailInfo+CoreDataProperties.m */; };
-		70EAD8581CA683FD007965D2 /* DetailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD83E1CA683FD007965D2 /* DetailInfo.m */; };
-		70EAD8591CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8401CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.m */; };
-		70EAD85A1CA683FD007965D2 /* RegCurrentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8421CA683FD007965D2 /* RegCurrentToken.m */; };
-		70EAD85B1CA683FD007965D2 /* Providers+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8441CA683FD007965D2 /* Providers+CoreDataProperties.m */; };
-		70EAD85C1CA683FD007965D2 /* Providers.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8461CA683FD007965D2 /* Providers.m */; };
-		70EAD85D1CA683FD007965D2 /* LoginToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8481CA683FD007965D2 /* LoginToken+CoreDataProperties.m */; };
-		70EAD85E1CA683FD007965D2 /* LoginToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD84A1CA683FD007965D2 /* LoginToken.m */; };
-		70EAD85F1CA683FD007965D2 /* CurrentToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD84C1CA683FD007965D2 /* CurrentToken+CoreDataProperties.m */; };
-		70EAD8601CA683FD007965D2 /* CurrentToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD84E1CA683FD007965D2 /* CurrentToken.m */; };
-		70EAD8611CA683FD007965D2 /* RegTmpToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8501CA683FD007965D2 /* RegTmpToken+CoreDataProperties.m */; };
-		70EAD8621CA683FD007965D2 /* RegTmpToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8521CA683FD007965D2 /* RegTmpToken.m */; };
-		70EAD8631CA683FD007965D2 /* UserKids+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8541CA683FD007965D2 /* UserKids+CoreDataProperties.m */; };
-		70EAD8641CA683FD007965D2 /* UserKids.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8561CA683FD007965D2 /* UserKids.m */; };
 		70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8661CA68437007965D2 /* AYQueryTmpUserCommand.m */; };
 		70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8691CA684F9007965D2 /* AYChangeTmpUserCommand.m */; };
 		70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */; };
@@ -169,6 +175,47 @@
 		701D8A5F1CA7CC0A00B5D4C1 /* AYRemoteCallDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallDefines.h; sourceTree = "<group>"; };
 		701D8A611CA7D16F00B5D4C1 /* RemoteInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteInstance.h; sourceTree = "<group>"; };
 		701D8A621CA7D16F00B5D4C1 /* RemoteInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteInstance.m; sourceTree = "<group>"; };
+		701D8A661CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CurrentToken+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A671CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CurrentToken+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A681CA7E06700B5D4C1 /* CurrentToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentToken.h; sourceTree = "<group>"; };
+		701D8A691CA7E06700B5D4C1 /* CurrentToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentToken.m; sourceTree = "<group>"; };
+		701D8A6A1CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DetailInfo+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A6B1CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DetailInfo+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A6C1CA7E06700B5D4C1 /* DetailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailInfo.h; sourceTree = "<group>"; };
+		701D8A6D1CA7E06700B5D4C1 /* DetailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailInfo.m; sourceTree = "<group>"; };
+		701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LoginLocalModel.xcdatamodel; sourceTree = "<group>"; };
+		701D8A701CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A711CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A721CA7E06700B5D4C1 /* LoginToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginToken.h; sourceTree = "<group>"; };
+		701D8A731CA7E06700B5D4C1 /* LoginToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginToken.m; sourceTree = "<group>"; };
+		701D8A741CA7E06700B5D4C1 /* Providers+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Providers+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A751CA7E06700B5D4C1 /* Providers+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Providers+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A761CA7E06700B5D4C1 /* Providers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Providers.h; sourceTree = "<group>"; };
+		701D8A771CA7E06700B5D4C1 /* Providers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Providers.m; sourceTree = "<group>"; };
+		701D8A781CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RegCurrentToken+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A791CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RegCurrentToken+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A7A1CA7E06700B5D4C1 /* RegCurrentToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegCurrentToken.h; sourceTree = "<group>"; };
+		701D8A7B1CA7E06700B5D4C1 /* RegCurrentToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegCurrentToken.m; sourceTree = "<group>"; };
+		701D8A7C1CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RegTmpToken+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A7D1CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RegTmpToken+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A7E1CA7E06700B5D4C1 /* RegTmpToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegTmpToken.h; sourceTree = "<group>"; };
+		701D8A7F1CA7E06700B5D4C1 /* RegTmpToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegTmpToken.m; sourceTree = "<group>"; };
+		701D8A801CA7E06700B5D4C1 /* UserKids+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UserKids+CoreDataProperties.h"; sourceTree = "<group>"; };
+		701D8A811CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UserKids+CoreDataProperties.m"; sourceTree = "<group>"; };
+		701D8A821CA7E06700B5D4C1 /* UserKids.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserKids.h; sourceTree = "<group>"; };
+		701D8A831CA7E06700B5D4C1 /* UserKids.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserKids.m; sourceTree = "<group>"; };
+		701D8A841CA7E06700B5D4C1 /* CurrentToken+ContextOpt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CurrentToken+ContextOpt.h"; sourceTree = "<group>"; };
+		701D8A851CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CurrentToken+ContextOpt.m"; sourceTree = "<group>"; };
+		701D8A861CA7E06700B5D4C1 /* LoginToken+ContextOpt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+ContextOpt.h"; sourceTree = "<group>"; };
+		701D8A871CA7E06700B5D4C1 /* LoginToken+ContextOpt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+ContextOpt.m"; sourceTree = "<group>"; };
+		701D8A881CA7E06700B5D4C1 /* Providers+ContextOpt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Providers+ContextOpt.h"; sourceTree = "<group>"; };
+		701D8A891CA7E06700B5D4C1 /* Providers+ContextOpt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Providers+ContextOpt.m"; sourceTree = "<group>"; };
+		701D8A8A1CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RegCurrentToken+ContextOpt.h"; sourceTree = "<group>"; };
+		701D8A8B1CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RegCurrentToken+ContextOpt.m"; sourceTree = "<group>"; };
+		701D8A8C1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RegTmpToken+ContextOpt.h"; sourceTree = "<group>"; };
+		701D8A8D1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RegTmpToken+ContextOpt.m"; sourceTree = "<group>"; };
+		701D8AA21CA7E2D200B5D4C1 /* AYModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYModelFacade.h; sourceTree = "<group>"; };
+		701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYModelFacade.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A511CA14A490097867E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		702E7A561CA14A490097867E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -304,35 +351,6 @@
 		70EAD82A1CA673E7007965D2 /* AYNotiyCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNotiyCommand.m; sourceTree = "<group>"; };
 		70EAD8321CA68169007965D2 /* AYLoginModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginModelFacade.h; sourceTree = "<group>"; };
 		70EAD8331CA68169007965D2 /* AYLoginModelFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginModelFacade.m; sourceTree = "<group>"; };
-		70EAD8391CA683C2007965D2 /* LoginLocalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LoginLocalModel.xcdatamodel; sourceTree = "<group>"; };
-		70EAD83B1CA683FD007965D2 /* DetailInfo+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DetailInfo+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD83C1CA683FD007965D2 /* DetailInfo+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DetailInfo+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD83D1CA683FD007965D2 /* DetailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailInfo.h; sourceTree = "<group>"; };
-		70EAD83E1CA683FD007965D2 /* DetailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailInfo.m; sourceTree = "<group>"; };
-		70EAD83F1CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RegCurrentToken+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD8401CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RegCurrentToken+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD8411CA683FD007965D2 /* RegCurrentToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegCurrentToken.h; sourceTree = "<group>"; };
-		70EAD8421CA683FD007965D2 /* RegCurrentToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegCurrentToken.m; sourceTree = "<group>"; };
-		70EAD8431CA683FD007965D2 /* Providers+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Providers+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD8441CA683FD007965D2 /* Providers+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Providers+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD8451CA683FD007965D2 /* Providers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Providers.h; sourceTree = "<group>"; };
-		70EAD8461CA683FD007965D2 /* Providers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Providers.m; sourceTree = "<group>"; };
-		70EAD8471CA683FD007965D2 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD8481CA683FD007965D2 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD8491CA683FD007965D2 /* LoginToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginToken.h; sourceTree = "<group>"; };
-		70EAD84A1CA683FD007965D2 /* LoginToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginToken.m; sourceTree = "<group>"; };
-		70EAD84B1CA683FD007965D2 /* CurrentToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CurrentToken+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD84C1CA683FD007965D2 /* CurrentToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CurrentToken+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD84D1CA683FD007965D2 /* CurrentToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentToken.h; sourceTree = "<group>"; };
-		70EAD84E1CA683FD007965D2 /* CurrentToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentToken.m; sourceTree = "<group>"; };
-		70EAD84F1CA683FD007965D2 /* RegTmpToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RegTmpToken+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD8501CA683FD007965D2 /* RegTmpToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RegTmpToken+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD8511CA683FD007965D2 /* RegTmpToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegTmpToken.h; sourceTree = "<group>"; };
-		70EAD8521CA683FD007965D2 /* RegTmpToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegTmpToken.m; sourceTree = "<group>"; };
-		70EAD8531CA683FD007965D2 /* UserKids+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UserKids+CoreDataProperties.h"; sourceTree = "<group>"; };
-		70EAD8541CA683FD007965D2 /* UserKids+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UserKids+CoreDataProperties.m"; sourceTree = "<group>"; };
-		70EAD8551CA683FD007965D2 /* UserKids.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserKids.h; sourceTree = "<group>"; };
-		70EAD8561CA683FD007965D2 /* UserKids.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserKids.m; sourceTree = "<group>"; };
 		70EAD8651CA68437007965D2 /* AYQueryTmpUserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryTmpUserCommand.h; sourceTree = "<group>"; };
 		70EAD8661CA68437007965D2 /* AYQueryTmpUserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryTmpUserCommand.m; sourceTree = "<group>"; };
 		70EAD8681CA684F9007965D2 /* AYChangeTmpUserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChangeTmpUserCommand.h; sourceTree = "<group>"; };
@@ -531,6 +549,60 @@
 				701D8A621CA7D16F00B5D4C1 /* RemoteInstance.m */,
 			);
 			path = RemoteInstance;
+			sourceTree = "<group>";
+		};
+		701D8A641CA7E06700B5D4C1 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				701D8A651CA7E06700B5D4C1 /* CoreDataAuto */,
+				701D8A841CA7E06700B5D4C1 /* CurrentToken+ContextOpt.h */,
+				701D8A851CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m */,
+				701D8A861CA7E06700B5D4C1 /* LoginToken+ContextOpt.h */,
+				701D8A871CA7E06700B5D4C1 /* LoginToken+ContextOpt.m */,
+				701D8A881CA7E06700B5D4C1 /* Providers+ContextOpt.h */,
+				701D8A891CA7E06700B5D4C1 /* Providers+ContextOpt.m */,
+				701D8A8A1CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.h */,
+				701D8A8B1CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.m */,
+				701D8A8C1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.h */,
+				701D8A8D1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		701D8A651CA7E06700B5D4C1 /* CoreDataAuto */ = {
+			isa = PBXGroup;
+			children = (
+				701D8A661CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.h */,
+				701D8A671CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m */,
+				701D8A681CA7E06700B5D4C1 /* CurrentToken.h */,
+				701D8A691CA7E06700B5D4C1 /* CurrentToken.m */,
+				701D8A6A1CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.h */,
+				701D8A6B1CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m */,
+				701D8A6C1CA7E06700B5D4C1 /* DetailInfo.h */,
+				701D8A6D1CA7E06700B5D4C1 /* DetailInfo.m */,
+				701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */,
+				701D8A701CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.h */,
+				701D8A711CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m */,
+				701D8A721CA7E06700B5D4C1 /* LoginToken.h */,
+				701D8A731CA7E06700B5D4C1 /* LoginToken.m */,
+				701D8A741CA7E06700B5D4C1 /* Providers+CoreDataProperties.h */,
+				701D8A751CA7E06700B5D4C1 /* Providers+CoreDataProperties.m */,
+				701D8A761CA7E06700B5D4C1 /* Providers.h */,
+				701D8A771CA7E06700B5D4C1 /* Providers.m */,
+				701D8A781CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.h */,
+				701D8A791CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m */,
+				701D8A7A1CA7E06700B5D4C1 /* RegCurrentToken.h */,
+				701D8A7B1CA7E06700B5D4C1 /* RegCurrentToken.m */,
+				701D8A7C1CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.h */,
+				701D8A7D1CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m */,
+				701D8A7E1CA7E06700B5D4C1 /* RegTmpToken.h */,
+				701D8A7F1CA7E06700B5D4C1 /* RegTmpToken.m */,
+				701D8A801CA7E06700B5D4C1 /* UserKids+CoreDataProperties.h */,
+				701D8A811CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m */,
+				701D8A821CA7E06700B5D4C1 /* UserKids.h */,
+				701D8A831CA7E06700B5D4C1 /* UserKids.m */,
+			);
+			path = CoreDataAuto;
 			sourceTree = "<group>";
 		};
 		702E7A391CA14A480097867E = {
@@ -1044,6 +1116,8 @@
 				70EAD8311CA6814D007965D2 /* LoginModel */,
 				70EAD80E1CA6680C007965D2 /* AYModel.h */,
 				70EAD80F1CA6680C007965D2 /* AYModel.m */,
+				701D8AA21CA7E2D200B5D4C1 /* AYModelFacade.h */,
+				701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1069,49 +1143,13 @@
 		70EAD8311CA6814D007965D2 /* LoginModel */ = {
 			isa = PBXGroup;
 			children = (
-				70EAD8351CA68360007965D2 /* CoraData */,
+				701D8A641CA7E06700B5D4C1 /* CoreData */,
 				70EAD8361CA68360007965D2 /* CurrentUser */,
 				70EAD8371CA68360007965D2 /* TmpUser */,
 				70EAD8321CA68169007965D2 /* AYLoginModelFacade.h */,
 				70EAD8331CA68169007965D2 /* AYLoginModelFacade.m */,
 			);
 			path = LoginModel;
-			sourceTree = "<group>";
-		};
-		70EAD8351CA68360007965D2 /* CoraData */ = {
-			isa = PBXGroup;
-			children = (
-				70EAD83B1CA683FD007965D2 /* DetailInfo+CoreDataProperties.h */,
-				70EAD83C1CA683FD007965D2 /* DetailInfo+CoreDataProperties.m */,
-				70EAD83D1CA683FD007965D2 /* DetailInfo.h */,
-				70EAD83E1CA683FD007965D2 /* DetailInfo.m */,
-				70EAD83F1CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.h */,
-				70EAD8401CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.m */,
-				70EAD8411CA683FD007965D2 /* RegCurrentToken.h */,
-				70EAD8421CA683FD007965D2 /* RegCurrentToken.m */,
-				70EAD8431CA683FD007965D2 /* Providers+CoreDataProperties.h */,
-				70EAD8441CA683FD007965D2 /* Providers+CoreDataProperties.m */,
-				70EAD8451CA683FD007965D2 /* Providers.h */,
-				70EAD8461CA683FD007965D2 /* Providers.m */,
-				70EAD8471CA683FD007965D2 /* LoginToken+CoreDataProperties.h */,
-				70EAD8481CA683FD007965D2 /* LoginToken+CoreDataProperties.m */,
-				70EAD8491CA683FD007965D2 /* LoginToken.h */,
-				70EAD84A1CA683FD007965D2 /* LoginToken.m */,
-				70EAD84B1CA683FD007965D2 /* CurrentToken+CoreDataProperties.h */,
-				70EAD84C1CA683FD007965D2 /* CurrentToken+CoreDataProperties.m */,
-				70EAD84D1CA683FD007965D2 /* CurrentToken.h */,
-				70EAD84E1CA683FD007965D2 /* CurrentToken.m */,
-				70EAD84F1CA683FD007965D2 /* RegTmpToken+CoreDataProperties.h */,
-				70EAD8501CA683FD007965D2 /* RegTmpToken+CoreDataProperties.m */,
-				70EAD8511CA683FD007965D2 /* RegTmpToken.h */,
-				70EAD8521CA683FD007965D2 /* RegTmpToken.m */,
-				70EAD8531CA683FD007965D2 /* UserKids+CoreDataProperties.h */,
-				70EAD8541CA683FD007965D2 /* UserKids+CoreDataProperties.m */,
-				70EAD8551CA683FD007965D2 /* UserKids.h */,
-				70EAD8561CA683FD007965D2 /* UserKids.m */,
-				70EAD8381CA683C2007965D2 /* LoginLocalModel.xcdatamodeld */,
-			);
-			path = CoraData;
 			sourceTree = "<group>";
 		};
 		70EAD8361CA68360007965D2 /* CurrentUser */ = {
@@ -1359,63 +1397,69 @@
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				701D8A3B1CA7AC1E00B5D4C1 /* AYLandingReqConfirmCodeCommand.m in Sources */,
 				701D8A3E1CA7AC3900B5D4C1 /* AYRemoteCallCommand.m in Sources */,
-				70EAD8631CA683FD007965D2 /* UserKids+CoreDataProperties.m in Sources */,
+				701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
+				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
 				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
-				70EAD83A1CA683C2007965D2 /* LoginLocalModel.xcdatamodeld in Sources */,
+				701D8A9A1CA7E06700B5D4C1 /* RegTmpToken.m in Sources */,
 				70EAD8101CA6680C007965D2 /* AYModel.m in Sources */,
-				70EAD85E1CA683FD007965D2 /* LoginToken.m in Sources */,
-				70EAD85F1CA683FD007965D2 /* CurrentToken+CoreDataProperties.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
 				702E7A831CA150A00097867E /* main.m in Sources */,
+				701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */,
+				701D8A971CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m in Sources */,
+				701D8A981CA7E06700B5D4C1 /* RegCurrentToken.m in Sources */,
 				70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */,
 				708235D11CA2691700658531 /* AYMessageCommand.m in Sources */,
 				708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */,
+				701D8A911CA7E06700B5D4C1 /* DetailInfo.m in Sources */,
 				708235EF1CA2881600658531 /* AYLandingController.m in Sources */,
-				70EAD8601CA683FD007965D2 /* CurrentToken.m in Sources */,
+				701D8A941CA7E06700B5D4C1 /* LoginToken.m in Sources */,
+				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
 				70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */,
 				708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */,
-				70EAD8591CA683FD007965D2 /* RegCurrentToken+CoreDataProperties.m in Sources */,
-				70EAD85C1CA683FD007965D2 /* Providers.m in Sources */,
-				70EAD8621CA683FD007965D2 /* RegTmpToken.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
 				70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */,
+				701D8A9D1CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m in Sources */,
 				70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */,
+				701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */,
 				708235CE1CA268BD00658531 /* AYMessageCommandFactory.m in Sources */,
 				70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */,
-				70EAD85A1CA683FD007965D2 /* RegCurrentToken.m in Sources */,
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
-				70EAD85B1CA683FD007965D2 /* Providers+CoreDataProperties.m in Sources */,
 				708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */,
-				70EAD8611CA683FD007965D2 /* RegTmpToken+CoreDataProperties.m in Sources */,
 				70F34D791CA5315300CEF7C1 /* AYLandingSNSView.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
+				701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */,
+				701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */,
 				7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */,
 				70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */,
 				70594C2C1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m in Sources */,
+				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
 				701D8A581CA7B9C200B5D4C1 /* AYPhoneLoginFacade.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
 				70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */,
+				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */,
+				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
+				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,
+				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				701D8A5E1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m in Sources */,
-				70EAD8581CA683FD007965D2 /* DetailInfo.m in Sources */,
-				70EAD85D1CA683FD007965D2 /* LoginToken+CoreDataProperties.m in Sources */,
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
+				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,
 				70EAD8141CA669F1007965D2 /* AYModelFactory.m in Sources */,
+				701D8AA01CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.m in Sources */,
 				701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */,
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				709CDE1F1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
-				70EAD8571CA683FD007965D2 /* DetailInfo+CoreDataProperties.m in Sources */,
+				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
 				702E7AAE1CA1622C0097867E /* AYFactoryManager.m in Sources */,
-				70EAD8641CA683FD007965D2 /* UserKids.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1693,12 +1737,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		70EAD8381CA683C2007965D2 /* LoginLocalModel.xcdatamodeld */ = {
+		701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				70EAD8391CA683C2007965D2 /* LoginLocalModel.xcdatamodel */,
+				701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */,
 			);
-			currentVersion = 70EAD8391CA683C2007965D2 /* LoginLocalModel.xcdatamodel */;
+			currentVersion = 701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */;
 			path = LoginLocalModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

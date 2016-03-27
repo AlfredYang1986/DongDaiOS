@@ -4,13 +4,13 @@
         <command type="Module" name="LandingAreaCode" />
 <!--        <command type="Remote" name="LandingReqConfirmCode" />-->
 
-        <facade type="RemoteFacade" name="LandingRemote" notification="true" />
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         
-        <facade type="SNSQQ" name="SNSQQ" notification="true" />
-        <facade type="SNSWechat" name="SNSWechat" notification="true"/>
-        <facade type="SNSWeibo" name="SNSWeibo" notification="true"/>
-        <facade type="PhoneLogin" name="PhoneLogin" notification="true"/>
-        <facade type="LoginModel" name="LoginModel" notification="true"/>
+        <facade type="DefaultFacade" name="SNSQQ" notification="true" />
+        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
+        <facade type="DefaultFacade" name="PhoneLogin" notification="true"/>
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
         <view type="LandingTitle" name="LandingTitle" />
         <view type="LandingInput" name="LandingInput" />

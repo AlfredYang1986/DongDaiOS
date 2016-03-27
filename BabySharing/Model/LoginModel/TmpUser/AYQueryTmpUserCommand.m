@@ -8,6 +8,12 @@
 
 #import "AYQueryTmpUserCommand.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+
+#import "RegTmpToken.h"
+#import "RegTmpToken+ContextOpt.h"
+
+#import "AYModelFacade.h"
 
 @implementation AYQueryTmpUserCommand
 
@@ -19,6 +25,12 @@
 
 - (void)performWithResult:(NSObject**)obj {
     NSLog(@"query tmp user in local db: %@", *obj);
+    
+    NSDictionary* dic = (NSDictionary*)*obj;
+    NSString* phoneNo = [dic objectForKey:@"phoneNo"];
+    
+    AYModelFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel");
+    *obj = [RegTmpToken enumRegTokenINContext:f.doc.managedObjectContext WithPhoneNo:phoneNo];
 }
 
 - (NSString*)getCommandType {

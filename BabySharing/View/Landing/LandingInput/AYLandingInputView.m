@@ -297,7 +297,9 @@
 }
 
 - (void)nextBtnSelected:(UIButton*)sender {
-    // TODO: ...
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:phone_area.text forKey:@"phoneNo"];
+    [_controller performForView:self andFacade:@"LoginModel" andMessage:@"QueryTmpUser" andArgs:[dic copy]];
 }
 
 #pragma mark -- view commands
