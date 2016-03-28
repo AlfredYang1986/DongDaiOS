@@ -13,4 +13,7 @@
     <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
         <command message="changeScreenPhoto" />
     </view>
+    <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" >
+        <command message="changeScreenPhoto" />
+    </view>
 </views>

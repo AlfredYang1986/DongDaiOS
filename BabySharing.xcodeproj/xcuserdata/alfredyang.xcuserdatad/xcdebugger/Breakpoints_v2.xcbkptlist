@@ -680,11 +680,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabySharing/Controller/UserInfoInput/AYUserInfoInputController.m"
-            timestampString = "480840368.810648"
+            timestampString = "480873797.653328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -760,11 +760,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabySharing/Controller/UserInfoInput/AYUserInfoInputController.m"
-            timestampString = "480842688.803132"
+            timestampString = "480873797.653328"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>

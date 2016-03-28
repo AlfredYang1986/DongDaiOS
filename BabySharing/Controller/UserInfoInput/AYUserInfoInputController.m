@@ -8,13 +8,38 @@
 
 #import "AYUserInfoInputController.h"
 
+#define NEXT_BTN_MARGIN_BOTTOM  80
+
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+
+#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 6
+#define SCREEN_PHOTO_WIDTH                      100
+#define SCREEN_PHOTO_HEIGHT                     100
+
+#define SCREEN_PHOTO_2_GENDER_BTN_MARGIN        30
+
+#define GENDER_BTN_WIDTH                        38
+#define GENDER_BTN_HEIGHT                       GENDER_BTN_WIDTH
+
+#define FATHER_ICON_WIDTH                       11.5
+#define FATHER_ICON_HEIGHT                      FATHER_ICON_WIDTH
+
+#define GENDER_BTN_BETWEEN_MARGIN               SCREEN_WIDTH / 4
+
+#define INPUT_VIEW_2_SCREEN_PHOTO_MARGIN        (SCREEN_HEIGHT / 15 - 5)
+
+#define TICK_BTN_WIDTH                          17
+#define TICK_BTN_HEIGHT                         TICK_BTN_WIDTH
+
+#define TICK_BTN_2_PRIVACY_MARGIN               10
+
 @implementation AYUserInfoInputController {
     CGRect keyBoardFrame;
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
-    NSLog(@"UserInfoInputController viewDidLoad %@", self);
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
@@ -58,6 +83,12 @@
 
 #pragma mark -- views layouts
 - (id)UserScreenPhoteSelectLayout:(UIView*)view {
+    return nil;
+}
+
+- (id)UserInfoInputLayout:(UIView*)view {
+//    [view setUpWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    view.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_PHOTO_TOP_MARGIN + SCREEN_PHOTO_HEIGHT + INPUT_VIEW_2_SCREEN_PHOTO_MARGIN + view.frame.size.height / 2);
     return nil;
 }
 

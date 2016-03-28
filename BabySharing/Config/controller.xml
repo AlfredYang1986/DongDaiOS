@@ -29,6 +29,7 @@
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
        
         <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />
+        <view type="UserInfoInput" name="UserInfoInput" />
        
         <model notification="true" />
     </controller>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		700082BC1CA9888700CB3E7B /* AYUserInfoInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700082BB1CA9888700CB3E7B /* AYUserInfoInputView.m */; };
 		7001310B1CA44057006003C8 /* view.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7001310A1CA44057006003C8 /* view.xml */; };
 		7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */; };
 		701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */ = {isa = PBXBuildFile; fileRef = 701D8A311CA7999A00B5D4C1 /* remote.xml */; };
@@ -160,6 +161,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		700082BA1CA9888700CB3E7B /* AYUserInfoInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserInfoInputView.h; sourceTree = "<group>"; };
+		700082BB1CA9888700CB3E7B /* AYUserInfoInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserInfoInputView.m; sourceTree = "<group>"; };
 		7001310A1CA44057006003C8 /* view.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = view.xml; sourceTree = "<group>"; };
 		7001310D1CA446CA006003C8 /* AYDefaultViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDefaultViewFactory.h; sourceTree = "<group>"; };
 		7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultViewFactory.m; sourceTree = "<group>"; };
@@ -467,6 +470,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		700082B91CA9886E00CB3E7B /* UserInfoInput */ = {
+			isa = PBXGroup;
+			children = (
+				700082BA1CA9888700CB3E7B /* AYUserInfoInputView.h */,
+				700082BB1CA9888700CB3E7B /* AYUserInfoInputView.m */,
+			);
+			path = UserInfoInput;
+			sourceTree = "<group>";
+		};
 		7001310C1CA446A0006003C8 /* ViewFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -988,6 +1000,7 @@
 		705C45131CA8F20D00921799 /* UserInfoInput */ = {
 			isa = PBXGroup;
 			children = (
+				700082B91CA9886E00CB3E7B /* UserInfoInput */,
 				705C45141CA8F20D00921799 /* UserScreenPhoteSelect */,
 			);
 			path = UserInfoInput;
@@ -1545,6 +1558,7 @@
 				70EAD8101CA6680C007965D2 /* AYModel.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
+				700082BC1CA9888700CB3E7B /* AYUserInfoInputView.m in Sources */,
 				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
 				702E7A831CA150A00097867E /* main.m in Sources */,
 				701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */,
