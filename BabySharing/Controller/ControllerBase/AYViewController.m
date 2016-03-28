@@ -33,7 +33,9 @@
 }
 
 - (void)viewDidLoad {
-//    self.view.backgroundColor = [UIColor redColor];
+    NSLog(@"command are : %@", self.commands);
+    NSLog(@"facade are : %@", self.facades);
+    NSLog(@"view are : %@", self.views);
     
     for (NSString* view_name in self.views.allKeys) {
         NSLog(@"view name is : %@", view_name);
@@ -45,7 +47,6 @@
         ((id<AYViewBase>)view).controller = self;
         [self.view addSubview:view];
     }
-//    [self postPerform];
 }
 
 - (void)dealloc {

@@ -13,3 +13,5 @@
 @interface AYViewController : UIViewController <AYControllerBase>
 
 @end
+
+#import "AYControllerAcitionDefines.h"

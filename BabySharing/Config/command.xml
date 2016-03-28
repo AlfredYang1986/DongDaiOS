@@ -1,7 +1,9 @@
 <commands>
-    <command type="init" name="init" controller="Landing" factory="AYAppInitCommandFactory" />
-    <command type="apn" name="apn" factory="AYAPNNotificationCommandFactory" />
-    <command type="message" name="message" factory="AYMessageCommandFactory" />
+    <command type="Init" name="Init" controller="Landing" factory="AYAppInitCommandFactory" />
+    <command type="APN" name="APN" factory="AYAPNNotificationCommandFactory" />
+    <command type="Message" name="Message" factory="AYMessageCommandFactory" />
+    <command type="AlertView" name="AlertView" factory="AYMessageCommandFactory" />
+    <command type="Push" name="Push" factory="AYControllerExchangFactory" />
     
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
@@ -11,6 +13,10 @@
     <command type="Module" name="QueryTmpUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeTmpUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeRegUser" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryRegUser" factory="AYDefaultModuleFactory" />
+
+    <command type="Module" name="SetNevigationBarLeftBtn" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SetNevigationBarTitle" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

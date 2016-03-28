@@ -10,4 +10,7 @@
         <command message="startGif" />
         <command message="stopGif" />
     </view>
+    <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
+        <command message="changeScreenPhoto" />
+    </view>
 </views>

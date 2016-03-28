@@ -1,21 +1,24 @@
 //
-//  AYQueryTmpUserCommand.m
+//  AYQueryRegUserCommand.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 3/26/16.
+//  Created by Alfred Yang on 3/28/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYQueryTmpUserCommand.h"
-#import "AYCommandDefines.h"
+#import "AYQueryRegUserCommand.h"
 #import "AYFactoryManager.h"
+#import "AYModelFacade.h"
+#import "AYCommandDefines.h"
 
 #import "RegTmpToken.h"
 #import "RegTmpToken+ContextOpt.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "RegCurrentToken.h"
+#import "RegCurrentToken+ContextOpt.h"
 
-#import "AYModelFacade.h"
-
-@implementation AYQueryTmpUserCommand
+@implementation AYQueryRegUserCommand
 
 @synthesize para = _para;
 
@@ -26,12 +29,8 @@
 - (void)performWithResult:(NSObject**)obj {
     NSLog(@"query tmp user in local db: %@", *obj);
     
-    NSDictionary* dic = (NSDictionary*)*obj;
-    NSString* phoneNo = [dic objectForKey:@"phoneNo"];
-    
     AYModelFacade* f = LOGINMODEL;
-    RegTmpToken* tmp = [RegTmpToken enumRegTokenINContext:f.doc.managedObjectContext WithPhoneNo:phoneNo];
-    *obj = tmp.reg_token;
+    *obj = [RegCurrentToken enumCurrentRegLoginUserInContext:f.doc.managedObjectContext];
 }
 
 - (NSString*)getCommandType {

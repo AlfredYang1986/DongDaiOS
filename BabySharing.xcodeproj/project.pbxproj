@@ -92,6 +92,13 @@
 		70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE71CA23B0E0093D5DA /* AVFoundation.framework */; };
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
 		70594C2C1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70594C2B1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m */; };
+		705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C450D1CA8E4ED00921799 /* AYQueryRegUserCommand.m */; };
+		705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C45111CA8EF7E00921799 /* AYUserInfoInputController.m */; };
+		705C45171CA8F21B00921799 /* AYUserScreenPhoteSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C45161CA8F21B00921799 /* AYUserScreenPhoteSelectView.m */; };
+		705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C451B1CA8FD9F00921799 /* AYControllerExchangFactory.m */; };
+		705C45201CA8FEBE00921799 /* AYPushCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C451F1CA8FEBE00921799 /* AYPushCommand.m */; };
+		705C45281CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C45271CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.m */; };
+		705C452B1CA9121800921799 /* AYSetNevigationBarTitleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705C452A1CA9121800921799 /* AYSetNevigationBarTitleCommand.m */; };
 		707B4D2C1CA8175F00F6256E /* AYLandingReqConfirmCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D2B1CA8175F00F6256E /* AYLandingReqConfirmCodeCommand.m */; };
 		707B4D341CA817B300F6256E /* AYLandingAuthConfirmCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D331CA817B300F6256E /* AYLandingAuthConfirmCommand.m */; };
 		707B4D3D1CA819D900F6256E /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D381CA819D900F6256E /* Tools.m */; };
@@ -302,6 +309,21 @@
 		70490DE91CA23B180093D5DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		70594C2A1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginSNSWithWechatCommand.h; sourceTree = "<group>"; };
 		70594C2B1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginSNSWithWechatCommand.m; sourceTree = "<group>"; };
+		705C450C1CA8E4ED00921799 /* AYQueryRegUserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryRegUserCommand.h; sourceTree = "<group>"; };
+		705C450D1CA8E4ED00921799 /* AYQueryRegUserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryRegUserCommand.m; sourceTree = "<group>"; };
+		705C45101CA8EF7E00921799 /* AYUserInfoInputController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserInfoInputController.h; sourceTree = "<group>"; };
+		705C45111CA8EF7E00921799 /* AYUserInfoInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserInfoInputController.m; sourceTree = "<group>"; };
+		705C45151CA8F21B00921799 /* AYUserScreenPhoteSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserScreenPhoteSelectView.h; sourceTree = "<group>"; };
+		705C45161CA8F21B00921799 /* AYUserScreenPhoteSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserScreenPhoteSelectView.m; sourceTree = "<group>"; };
+		705C45181CA8F60B00921799 /* AYControllerAcitionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYControllerAcitionDefines.h; sourceTree = "<group>"; };
+		705C451A1CA8FD9F00921799 /* AYControllerExchangFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYControllerExchangFactory.h; sourceTree = "<group>"; };
+		705C451B1CA8FD9F00921799 /* AYControllerExchangFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYControllerExchangFactory.m; sourceTree = "<group>"; };
+		705C451E1CA8FEBE00921799 /* AYPushCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushCommand.h; sourceTree = "<group>"; };
+		705C451F1CA8FEBE00921799 /* AYPushCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushCommand.m; sourceTree = "<group>"; };
+		705C45261CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNevigationBarLeftBtnCommand.h; sourceTree = "<group>"; };
+		705C45271CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNevigationBarLeftBtnCommand.m; sourceTree = "<group>"; };
+		705C45291CA9121800921799 /* AYSetNevigationBarTitleCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNevigationBarTitleCommand.h; sourceTree = "<group>"; };
+		705C452A1CA9121800921799 /* AYSetNevigationBarTitleCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNevigationBarTitleCommand.m; sourceTree = "<group>"; };
 		707B4D2A1CA8175F00F6256E /* AYLandingReqConfirmCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingReqConfirmCodeCommand.h; sourceTree = "<group>"; };
 		707B4D2B1CA8175F00F6256E /* AYLandingReqConfirmCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingReqConfirmCodeCommand.m; sourceTree = "<group>"; };
 		707B4D321CA817B300F6256E /* AYLandingAuthConfirmCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingAuthConfirmCommand.h; sourceTree = "<group>"; };
@@ -683,6 +705,7 @@
 		702E7A781CA14FFC0097867E /* Command */ = {
 			isa = PBXGroup;
 			children = (
+				705C451D1CA8FEB100921799 /* ControllerExchangeCommand */,
 				701D8A371CA7ABC100B5D4C1 /* RemoteCallCommand */,
 				70EAD8281CA673B0007965D2 /* NotifyCommand */,
 				7077673A1CA55EAE00BC0806 /* ViewCommand */,
@@ -705,6 +728,7 @@
 				702E7AD11CA185C70097867E /* AYCommandDefines.h */,
 				70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */,
 				701D8A5F1CA7CC0A00B5D4C1 /* AYRemoteCallDefines.h */,
+				705C45181CA8F60B00921799 /* AYControllerAcitionDefines.h */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -728,6 +752,7 @@
 		702E7A9C1CA15A690097867E /* Factory */ = {
 			isa = PBXGroup;
 			children = (
+				705C45191CA8FD8900921799 /* ControllerExchangFactory */,
 				701D8A331CA7A95000B5D4C1 /* RemoteCallFactory */,
 				70EAD8111CA669DC007965D2 /* ModelFactory */,
 				7001310C1CA446A0006003C8 /* ViewFactory */,
@@ -799,6 +824,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				705C450F1CA8EF6A00921799 /* UserInfoInput */,
 				708235EB1CA2881600658531 /* LandingController */,
 				708235EE1CA2881600658531 /* NavigationController */,
 				708235C11CA248B600658531 /* ControllerBase */,
@@ -809,6 +835,7 @@
 		702E7AC71CA171D30097867E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				705C45131CA8F20D00921799 /* UserInfoInput */,
 				70EAD8021CA64B63007965D2 /* Loading */,
 				70F34D6D1CA5312500CEF7C1 /* Landing */,
 				709CDE301CA40DFF0042BEE9 /* ViewBase */,
@@ -949,6 +976,61 @@
 			path = LoginWithWechat;
 			sourceTree = "<group>";
 		};
+		705C450F1CA8EF6A00921799 /* UserInfoInput */ = {
+			isa = PBXGroup;
+			children = (
+				705C45101CA8EF7E00921799 /* AYUserInfoInputController.h */,
+				705C45111CA8EF7E00921799 /* AYUserInfoInputController.m */,
+			);
+			path = UserInfoInput;
+			sourceTree = "<group>";
+		};
+		705C45131CA8F20D00921799 /* UserInfoInput */ = {
+			isa = PBXGroup;
+			children = (
+				705C45141CA8F20D00921799 /* UserScreenPhoteSelect */,
+			);
+			path = UserInfoInput;
+			sourceTree = "<group>";
+		};
+		705C45141CA8F20D00921799 /* UserScreenPhoteSelect */ = {
+			isa = PBXGroup;
+			children = (
+				705C45151CA8F21B00921799 /* AYUserScreenPhoteSelectView.h */,
+				705C45161CA8F21B00921799 /* AYUserScreenPhoteSelectView.m */,
+			);
+			path = UserScreenPhoteSelect;
+			sourceTree = "<group>";
+		};
+		705C45191CA8FD8900921799 /* ControllerExchangFactory */ = {
+			isa = PBXGroup;
+			children = (
+				705C451A1CA8FD9F00921799 /* AYControllerExchangFactory.h */,
+				705C451B1CA8FD9F00921799 /* AYControllerExchangFactory.m */,
+			);
+			path = ControllerExchangFactory;
+			sourceTree = "<group>";
+		};
+		705C451D1CA8FEB100921799 /* ControllerExchangeCommand */ = {
+			isa = PBXGroup;
+			children = (
+				705C451E1CA8FEBE00921799 /* AYPushCommand.h */,
+				705C451F1CA8FEBE00921799 /* AYPushCommand.m */,
+			);
+			path = ControllerExchangeCommand;
+			sourceTree = "<group>";
+		};
+		705C45251CA90F5900921799 /* CustomNevigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				705C45261CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.h */,
+				705C45271CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.m */,
+				705C45291CA9121800921799 /* AYSetNevigationBarTitleCommand.h */,
+				705C452A1CA9121800921799 /* AYSetNevigationBarTitleCommand.m */,
+			);
+			path = CustomNevigationBar;
+			sourceTree = "<group>";
+		};
 		7077673A1CA55EAE00BC0806 /* ViewCommand */ = {
 			isa = PBXGroup;
 			children = (
@@ -995,6 +1077,8 @@
 			children = (
 				707B4D411CA81E7600F6256E /* AYChangeRegUserCommand.h */,
 				707B4D421CA81E7600F6256E /* AYChangeRegUserCommand.m */,
+				705C450C1CA8E4ED00921799 /* AYQueryRegUserCommand.h */,
+				705C450D1CA8E4ED00921799 /* AYQueryRegUserCommand.m */,
 			);
 			path = RegUser;
 			sourceTree = "<group>";
@@ -1108,6 +1192,7 @@
 		7082360E1CA2D15000658531 /* ModuleCommand */ = {
 			isa = PBXGroup;
 			children = (
+				705C45251CA90F5900921799 /* CustomNevigationBar */,
 				70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */,
 				709CDE1C1CA3FC4E0042BEE9 /* LoginWithWeibo */,
 				70594C291CA3F21E000C34F6 /* LoginWithWechat */,
@@ -1445,12 +1530,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */,
+				705C45201CA8FEBE00921799 /* AYPushCommand.m in Sources */,
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				701D8A3E1CA7AC3900B5D4C1 /* AYRemoteCallCommand.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
+				705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
 				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
 				701D8A9A1CA7E06700B5D4C1 /* RegTmpToken.m in Sources */,
@@ -1458,6 +1545,7 @@
 				70EAD8101CA6680C007965D2 /* AYModel.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
+				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
 				702E7A831CA150A00097867E /* main.m in Sources */,
 				701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */,
 				701D8A971CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m in Sources */,
@@ -1470,6 +1558,7 @@
 				708235EF1CA2881600658531 /* AYLandingController.m in Sources */,
 				701D8A941CA7E06700B5D4C1 /* LoginToken.m in Sources */,
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
+				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */,
 				708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
@@ -1478,6 +1567,7 @@
 				701D8A9D1CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m in Sources */,
 				70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */,
 				701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */,
+				705C45281CA90F5900921799 /* AYSetNevigationBarLeftBtnCommand.m in Sources */,
 				708235CE1CA268BD00658531 /* AYMessageCommandFactory.m in Sources */,
 				70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */,
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
@@ -1496,6 +1586,7 @@
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
 				70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */,
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
+				705C45171CA8F21B00921799 /* AYUserScreenPhoteSelectView.m in Sources */,
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
@@ -1510,6 +1601,7 @@
 				70EAD8141CA669F1007965D2 /* AYModelFactory.m in Sources */,
 				701D8AA01CA7E06700B5D4C1 /* RegCurrentToken+ContextOpt.m in Sources */,
 				701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */,
+				705C452B1CA9121800921799 /* AYSetNevigationBarTitleCommand.m in Sources */,
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				709CDE1F1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,

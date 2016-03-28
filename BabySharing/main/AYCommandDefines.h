@@ -27,6 +27,7 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
+static NSString* const kAYFactoryManagerCommandTypeAlertView = @"AlertView";
 static NSString* const kAYFactoryManagerCommandTypeAPN = @"APN";
 static NSString* const kAYFactoryManagerCommandTypeMessage = @"Message";
 static NSString* const kAYFactoryManagerCommandTypeDefaultController = @"DefaultController";
@@ -39,12 +40,18 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
+#define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
+
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]
+
 #define FACADE(TYPE, NAME)      [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:TYPE name:NAME]
 #define DEFAULTFACADE(NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:kAYFactoryManagerCommandTypeDefaultFacade name:NAME]
+
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
+
 #define MODEL                   [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryModel type:kAYFactoryManagerCatigoryModel name:kAYFactoryManagerCatigoryModel]
+#define LOGINMODEL              FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel")
 
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 
@@ -61,5 +68,6 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define CHECKCMD(CMD)
 #define CHECKFACADE(CMD)
 #endif
+
 
 #endif /* AYCommandDefines_h */

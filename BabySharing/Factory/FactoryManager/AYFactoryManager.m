@@ -128,13 +128,7 @@ static AYFactoryManager* instance = nil;
     if (fac == nil) {
         if ([cat isEqualToString:kAYFactoryManagerCatigoryCommand]) {
             NSArray* arr = nil;
-            if ([type isEqualToString:kAYFactoryManagerCommandTypeModule]) {
-                arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
-            } else if ([type isEqualToString:kAYFactoryManagerCommandTypeRemote]) {
-                arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
-            } else {
-                arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:[name lowercaseString]] stringByAppendingString:@"']"] error:NULL];
-            }
+            arr = [doc_command nodesForXPath:[[@"//command[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
             
             NSLog(@"arr is : %@", arr);
             if (arr.count == 1) {

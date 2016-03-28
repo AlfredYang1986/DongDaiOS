@@ -1,15 +1,13 @@
 <controllers>
     <controller type="DefaultController" name="Navigation" factory="AYDefaultControllerFactoy" />
+    
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="LandingAreaCode" />
-<!--        <command type="Remote" name="LandingReqConfirmCode" />-->
 
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
-        
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
-        <facade type="DefaultFacade" name="PhoneLogin" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
         <view type="LandingTitle" name="LandingTitle" />
@@ -17,6 +15,21 @@
         <view type="LandingSNS" name="LandingSNS" />
         <view type="Loading" name="Loading" />
         
+        <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="SetNevigationBarLeftBtn" />
+        <command type="Module" name="SetNevigationBarTitle" />
+        
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        <facade type="DefaultFacade" name="SNSQQ" notification="true" />
+        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+       
+        <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />
+       
         <model notification="true" />
     </controller>
 </controllers>

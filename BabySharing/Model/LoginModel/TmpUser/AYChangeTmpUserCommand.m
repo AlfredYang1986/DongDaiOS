@@ -29,7 +29,8 @@
     NSString* phoneNo = [dic objectForKey:@"phoneNo"];
     NSString* reg_token = [dic objectForKey:@"reg_token"];
  
-    AYModelFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel");
+    AYModelFacade* f = LOGINMODEL;
+#pragma mark -- 写操作必须在主线程，界面读取也在主线程，理论上不会出现race condition，如果有bug再行修改
     dispatch_async(dispatch_get_main_queue(), ^{
         [RegTmpToken createRegTokenInContext:f.doc.managedObjectContext WithToken: reg_token andPhoneNumber: phoneNo];
     });

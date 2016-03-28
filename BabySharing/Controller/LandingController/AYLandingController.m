@@ -19,6 +19,14 @@ typedef enum : NSUInteger {
     LandingStatusLoading,
 } LandingStatus;
 
+typedef NS_ENUM(NSInteger, RegisterResult) {
+    RegisterResultSuccess,
+    RegisterResultError,
+    RegisterResultOthersLogin,
+};
+
+static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult";
+
 #define LOGO_TOP_MARGIN 97
 
 #define INPUT_VIEW_TOP_MARGIN       ([UIScreen mainScreen].bounds.size.height / 6.0)
@@ -78,10 +86,6 @@ typedef enum : NSUInteger {
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [self.view addGestureRecognizer:tap];
-    
-    NSLog(@"command are : %@", self.commands);
-    NSLog(@"facade are : %@", self.facades);
-    NSLog(@"view are : %@", self.views);
 }
 
 - (void)postPerform {
@@ -266,19 +270,70 @@ typedef enum : NSUInteger {
     if (success) {
         [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
 //        return LoginModelResultSuccess;
+       
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
+        [dic setValue:result forKey:kAYControllerChangeArgsKey];
+        [self performWithResult:&dic];
+        
     } else {
         NSString* msg = [result objectForKey:@"message"];
         if ([msg isEqualToString:@"already login"]) {
             [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
-//            return LoginModelResultOthersLogin;
+ 
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic setValue:[NSNumber numberWithInt:RegisterResultOthersLogin] forKey:kAYLandingControllerRegisterResultKey];
+            [dic setValue:result forKey:kAYControllerChangeArgsKey];
+            [self performWithResult:&dic];
+
         } else if ([msg isEqualToString:@"new user"]) {
-//            return LoginModelResultSuccess;
+            
+            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+ 
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
+            [dic setValue:result forKey:kAYControllerChangeArgsKey];
+            [self performWithResult:&dic];
+            
         } else {
-//            [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
 //            return LoginModelResultError;
         }
         
     }
     return nil;
+}
+
+#pragma mark -- perform to other controller
+- (void)performWithResult:(NSObject *__autoreleasing *)obj {
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
+        switch (r) {
+            case RegisterResultSuccess: {
+                AYViewController* des = DEFAULTCONTROLLER(@"UserInfoInput");
+                
+                NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+                [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+                [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+                [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+                
+                id<AYCommand> cmd = PUSH;
+                [cmd performWithResult:&dic_push];
+            }
+                break;
+            case RegisterResultOthersLogin:
+                break;
+            case RegisterResultError:
+                break;
+            default:
+                break;
+        }
+    }
 }
 @end

@@ -32,7 +32,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
 //    NSString* phoneNo = [dic objectForKey:@"phoneNo"];
     
-    AYModelFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel");
+    AYModelFacade* f = LOGINMODEL;
     
 //    [RegTmpToken removeTokenInContext:f.doc.managedObjectContext WithToken:reg_token];
     LoginToken *user = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:[dic objectForKey:@"user_id"] andAttrs:dic];
