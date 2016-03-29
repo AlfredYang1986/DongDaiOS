@@ -11,6 +11,7 @@
 #import "AYResourceManager.h"
 #import "Tools.h"
 #import "OBShapedButton.h"
+#import "AYViewController.h"
 
 #define IMG_WIDTH       30
 #define IMG_HEIGHT      30
@@ -50,6 +51,7 @@
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
+@synthesize notifies = _notiyies;
 
 - (void)postPerform {
     [self setUp];
@@ -201,7 +203,7 @@
     [next_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     next_btn.clipsToBounds = YES;
     [next_btn setBackgroundImage:PNGRESOURCE(@"login_btn_bg") forState:UIControlStateNormal];
-//    [next_btn addTarget:_delegate action:@selector(didClickNextBtn) forControlEvents:UIControlEventTouchUpInside];
+    [next_btn addTarget:self action:@selector(didClickNextBtn) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:next_btn];
 }
@@ -211,7 +213,7 @@
     
     [self createLabelInRect:rect andTitle:@"昵称" andTopMargin:BASICMARGIN];
 //    name_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN andPlaceholder:@"请输入你的昵称" andPreString:[_delegate getPreScreenName] andRightImage:nil andCallback:@selector(textFieldChanged:) andCancelBtn:YES];
-    name_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN andPlaceholder:@"请输入你的昵称" andPreString:@"place holder" andRightImage:nil andCallback:@selector(textFieldChanged:) andCancelBtn:YES];
+    name_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN andPlaceholder:@"请输入你的昵称" andPreString:@"" andRightImage:nil andCallback:@selector(textFieldChanged:) andCancelBtn:YES];
     name_text_field.font = [UIFont systemFontOfSize:14];
     name_text_field.delegate = self;
     
@@ -219,7 +221,7 @@
 //    [self createColorfulLabelInRect:rect andTopMargin:BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN];
     [self createLabelInRect:rect andTitle:@"角色" andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN)];
 //    tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:[_delegate getPreRoleTag] andRightImage:[UIImage imageNamed:[resourceBundle_dongda pathForResource:@"dongda_next" ofType:@"png"]] andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
-    tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:@"place holder" andRightImage:PNGRESOURCE(@"dongda_next") andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
+    tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:@"" andRightImage:PNGRESOURCE(@"dongda_next") andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
     tag_text_field.frame = CGRectMake(tag_text_field.frame.origin.x, tag_text_field.frame.origin.y, tag_text_field.frame.size.width, tag_text_field.frame.size.height);
 
     UIImageView *goTo = [[UIImageView alloc] initWithFrame:CGRectMake(rect.size.width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN - 40, 1, 45.5, 45.5)];
@@ -282,5 +284,36 @@
             field.text = [Tools subStringWithByte:lenght str:field.text];
         }
     }
+}
+
+- (void)didClickNextBtn {
+    NSLog(@"self commands are : %@", self.commands);
+    NSLog(@"self notifies are : %@", self.notifies);
+   
+    id<AYCommand> cmd = [self.notifies objectForKey:@"updateUserProfile:"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:name_text_field.text forKey:@"screen_name"];
+    [dic setValue:tag_text_field.text forKey:@"role_tag"];
+    
+    [cmd performWithResult:&dic];
+}
+
+#pragma mark -- query input streen
+- (id)queryObjectWithIdentifier:(NSString *)identifier {
+    return nil;
+}
+
+#pragma mark -- view commands
+- (id)changeScreenName:(id)obj {
+    NSString* screen_name = (NSString*)obj;
+    name_text_field.text = screen_name;
+    return nil;
+}
+
+- (id)changeRoleTag:(id)obj {
+    NSString* role_tag = (NSString*)obj;
+    tag_text_field.text = role_tag;
+    return nil;
 }
 @end

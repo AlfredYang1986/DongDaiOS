@@ -35,6 +35,7 @@ static NSString* const kAYFactoryManagerCommandTypeDefaultFacade = @"DefaultFaca
 static NSString* const kAYFactoryManagerCommandTypeModule = @"Module";          // 处理单一功能的Command
 static NSString* const kAYFactoryManagerCommandTypeRemote = @"Remote";          // 处理一个服务器访问
 static NSString* const kAYFactoryManagerCommandTypeView = @"View";              // 用户controller控制View
+static NSString* const kAYFactoryManagerCommandTypeViewNotify = @"View Notify"; // 用户View callback Controller
 static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          // 用户model对controller的notify
 
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]

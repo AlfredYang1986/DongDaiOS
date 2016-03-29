@@ -25,10 +25,10 @@
         <command type="Module" name="GernarateImgUUID" />
         <command type="Module" name="SaveImgLocal" />
         
-        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
-        <facade type="DefaultFacade" name="SNSQQ" notification="true" />
-        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
-        <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+<!--        <facade type="DefaultFacade" name="SNSQQ" notification="true" />-->
+<!--        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>-->
+<!--        <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>-->
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
        
         <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />

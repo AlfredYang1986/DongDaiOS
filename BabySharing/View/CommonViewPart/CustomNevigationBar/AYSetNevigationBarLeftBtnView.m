@@ -23,7 +23,7 @@
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
-
+@synthesize notifies = _notiyies;
 
 - (void)postPerform {
     self.frame = CGRectMake(0, 0, 25, 25);

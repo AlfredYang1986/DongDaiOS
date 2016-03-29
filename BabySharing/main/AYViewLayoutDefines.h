@@ -10,4 +10,5 @@
 #define AYViewLayoutDefines_h
 
 static NSString* const kAYViewLayoutSuffix = @"Layout";
+static NSString* const kAYViewNotifySuffix = @"Notify";
 #endif /* AYViewLayoutDefines_h */

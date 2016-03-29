@@ -32,8 +32,4 @@
         block(NO, reError);
     }
 }
-
-- (NSString*)getCommandType {
-    return kAYFactoryManagerCommandTypeModule;
-}
 @end

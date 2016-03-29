@@ -11,6 +11,7 @@
 #import "AYCommandDefines.h"
 #import "AYViewBase.h"
 #import "AYViewCommand.h"
+#import "AYViewNotifyCommand.h"
 
 @implementation AYDefaultViewFactory
 
@@ -51,8 +52,18 @@
         c.need_args = [cmd containsString:@":"];
         [commands setObject:c forKey:cmd];
     }
-    
+   
+    NSDictionary* notifies = [_para objectForKey:@"notifies"];
+    NSMutableDictionary* ntf = [[NSMutableDictionary alloc]initWithCapacity:notifies.count];
+    for (NSString* notify in notifies) {
+        AYViewNotifyCommand* n = [[AYViewNotifyCommand alloc]init];
+        n.view = result;
+        n.method_name = notify;
+//        n.need_args = [cmd containsString:@":"];
+        [ntf setObject:n forKey:notify];
+    }   
     result.commands = [commands copy];
+    result.notifies = [ntf copy];
     return result;
 }
 @end

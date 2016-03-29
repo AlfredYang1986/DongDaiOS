@@ -261,17 +261,31 @@ static AYFactoryManager* instance = nil;
                 
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 
-                NSMutableArray * cmd_dic = [[NSMutableArray alloc]init];
-                NSArray* cmds = [node nodesForXPath:@"command" error:nil];
-                NSLog(@"controller commands : %@", cmds);
+                {
+                    NSMutableArray * cmd_dic = [[NSMutableArray alloc]init];
+                    NSArray* cmds = [node nodesForXPath:@"command[@type='message']" error:nil];
+                    NSLog(@"controller commands : %@", cmds);
 
-                for (GDataXMLElement* iter in cmds) {
-                    NSString* cmd = [iter attributeForName:@"message"].stringValue;
-                    [cmd_dic addObject:cmd];
+                    for (GDataXMLElement* iter in cmds) {
+                        NSString* cmd = [iter attributeForName:@"message"].stringValue;
+                        [cmd_dic addObject:cmd];
+                    }
+                    [dic setValue:[cmd_dic copy] forKey:@"commands"];
+                }
+               
+                {
+                    NSMutableArray * notify_dic = [[NSMutableArray alloc]init];
+                    NSArray* notifies = [node nodesForXPath:@"command[@type='notify']" error:nil];
+                    NSLog(@"controller notifiers : %@", notifies);
+
+                    for (GDataXMLElement* iter in notifies) {
+                        NSString* n = [iter attributeForName:@"message"].stringValue;
+                        [notify_dic addObject:n];
+                    }
+                    [dic setValue:[notify_dic copy] forKey:@"notifies"];
                 }
                 
                 [dic setValue:name forKey:@"view"];
-                [dic setValue:[cmd_dic copy] forKey:@"commands"];
                 fac.para = [dic copy];
                 
             } else @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];

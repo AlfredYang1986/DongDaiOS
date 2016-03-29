@@ -1,19 +1,23 @@
 <views>
     <view tyep="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" >
-        <command message="hideKeyboard" />
-        <command message="startConfirmCodeTimer" />
-        <command message="stopConfirmCodeTimer" />
+        <command type="message" message="hideKeyboard" />
+        <command type="message" message="startConfirmCodeTimer" />
+        <command type="message" message="stopConfirmCodeTimer" />
     </view>
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />
     <view type="LandingSNS" name="LandingSNS" factory="AYDefaultViewFactory" />
     <view type="Loading" name="Loading" factory="AYDefaultViewFactory" >
-        <command message="startGif" />
-        <command message="stopGif" />
+        <command type="message" message="startGif" />
+        <command type="message" message="stopGif" />
     </view>
     <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
-        <command message="changeScreenPhoto:" />
+        <command type="message" message="changeScreenPhoto:" />
     </view>
-    <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" />
+    <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeScreenName:" />
+        <command type="message" message="changeRoleTag:" />
+        <command type="notify" message="updateUserProfile:" />
+    </view>
     
     <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" factory="AYDefaultViewFactory" />
     <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" factory="AYDefaultViewFactory" />

@@ -17,6 +17,7 @@
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
+@synthesize notifies = _notiyies;
 
 - (void)postPerform {
     self.text = @"创建个人信息";

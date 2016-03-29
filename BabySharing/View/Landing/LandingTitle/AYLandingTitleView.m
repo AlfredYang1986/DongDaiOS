@@ -18,6 +18,7 @@
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
+@synthesize notifies = _notiyies;
 
 - (void)postPerform {
     self.image = PNGRESOURCE(@"login_logo");

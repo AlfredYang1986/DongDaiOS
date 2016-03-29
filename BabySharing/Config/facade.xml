@@ -23,4 +23,8 @@
         <command type="Remote" name="LandingReqConfirmCode" />
         <command type="Remote" name="LandingAuthConfirm" />
     </facade>
+
+    <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="UpdateUserDetail" />
+    </facade>
 </facades>

@@ -40,28 +40,23 @@
 @end
 
 @implementation AYUserInfoInputController {
+    BOOL isChangeImg;
     CGRect keyBoardFrame;
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    
+//    id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
+//    id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenName:"];
+//    NSString* screen_name = @"test";
+//    [cmd performWithResult:&screen_name];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    
-//    id<AYCommand> nav_btn_cmd = [self.commands objectForKey:@"SetNevigationBarLeftBtn"];
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [nav_btn_cmd performWithResult:&dic];
-//    
-//    id<AYCommand> nav_title_cmd = [self.commands objectForKey:@"SetNevigationBarTitle"];
-//    NSMutableDictionary* dic_title = [[NSMutableDictionary alloc]init];
-//    [dic_title setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [nav_title_cmd performWithResult:&dic_title];
 
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
@@ -158,6 +153,8 @@
 
 #pragma mark -- UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+
+    isChangeImg = YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
 
     // get image name
@@ -172,14 +169,15 @@
     [dic setValue:img_name forKey:@"img_name"];
     [dic setValue:image forKey:@"image"];
     [save_cmd performWithResult:&dic];
-   
+    
     id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhoteSelect"];
     id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
     [cmd performWithResult:&image];
-//    isChangeImg = YES;
-//    NSString* img_name = [TmpFileStorageModel generateFileName];
-//    [TmpFileStorageModel saveToTmpDirWithImage:image withName:img_name];
-//    [_login_attr setValue:img_name forKey:@"screen_photo"];
-//    [loginImgBtn setBackgroundImage:image forState:UIControlStateNormal];
+}
+
+#pragma mark -- view notification
+- (id)updateUserProfile:(id)obj {
+    NSLog(@"next button is clicked, with args %@", obj);
+    return nil;
 }
 @end
