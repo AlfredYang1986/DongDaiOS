@@ -48,6 +48,7 @@
         AYViewCommand* c = [[AYViewCommand alloc]init];
         c.view = result;
         c.method_name = cmd;
+        c.need_args = [cmd containsString:@":"];
         [commands setObject:c forKey:cmd];
     }
     

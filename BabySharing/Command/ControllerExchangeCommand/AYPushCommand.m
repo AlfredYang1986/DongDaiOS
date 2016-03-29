@@ -8,7 +8,7 @@
 
 #import "AYPushCommand.h"
 #import "AYCommandDefines.h"
-#import "AYControllerAcitionDefines.h"
+#import "AYControllerActionDefines.h"
 #import "AYViewController.h"
 
 @implementation AYPushCommand

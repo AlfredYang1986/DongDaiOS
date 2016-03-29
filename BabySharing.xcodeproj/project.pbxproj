@@ -124,6 +124,16 @@
 		7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7082360B1CA2D09E00658531 /* AYDefaultModuleFactory.m */; };
 		708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708236111CA2D18D00658531 /* AYLoginSNSWithQQCommand.m */; };
 		709CDE1F1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709CDE1E1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m */; };
+		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
+		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
+		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
+		70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820911CAA5802001EEAF2 /* SGGridMenu.m */; };
+		70B820981CAA5802001EEAF2 /* SGSheetMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820931CAA5802001EEAF2 /* SGSheetMenu.m */; };
+		70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8209B1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m */; };
+		70B8209F1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8209E1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m */; };
+		70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A21CAA6F9A001EEAF2 /* TmpFileStorageModel.m */; };
+		70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A61CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m */; };
+		70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */; };
 		70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8041CA64B7B007965D2 /* AYLoadingView.m */; };
 		70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8081CA65B0C007965D2 /* UIGifView.m */; };
 		70EAD80C1CA662EF007965D2 /* model.xml in Resources */ = {isa = PBXBuildFile; fileRef = 70EAD80B1CA662EF007965D2 /* model.xml */; };
@@ -325,7 +335,7 @@
 		705C45111CA8EF7E00921799 /* AYUserInfoInputController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserInfoInputController.m; sourceTree = "<group>"; };
 		705C45151CA8F21B00921799 /* AYUserScreenPhoteSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserScreenPhoteSelectView.h; sourceTree = "<group>"; };
 		705C45161CA8F21B00921799 /* AYUserScreenPhoteSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserScreenPhoteSelectView.m; sourceTree = "<group>"; };
-		705C45181CA8F60B00921799 /* AYControllerAcitionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYControllerAcitionDefines.h; sourceTree = "<group>"; };
+		705C45181CA8F60B00921799 /* AYControllerActionDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYControllerActionDefines.h; sourceTree = "<group>"; };
 		705C451A1CA8FD9F00921799 /* AYControllerExchangFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYControllerExchangFactory.h; sourceTree = "<group>"; };
 		705C451B1CA8FD9F00921799 /* AYControllerExchangFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYControllerExchangFactory.m; sourceTree = "<group>"; };
 		705C451E1CA8FEBE00921799 /* AYPushCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushCommand.h; sourceTree = "<group>"; };
@@ -380,6 +390,26 @@
 		708236111CA2D18D00658531 /* AYLoginSNSWithQQCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginSNSWithQQCommand.m; sourceTree = "<group>"; };
 		709CDE1D1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginSNSWithWeiboCommand.h; sourceTree = "<group>"; };
 		709CDE1E1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginSNSWithWeiboCommand.m; sourceTree = "<group>"; };
+		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
+		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
+		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
+		70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGAlertMenu.m; sourceTree = "<group>"; };
+		70B8208E1CAA5802001EEAF2 /* SGBaseMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGBaseMenu.h; sourceTree = "<group>"; };
+		70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGBaseMenu.m; sourceTree = "<group>"; };
+		70B820901CAA5802001EEAF2 /* SGGridMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGGridMenu.h; sourceTree = "<group>"; };
+		70B820911CAA5802001EEAF2 /* SGGridMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGGridMenu.m; sourceTree = "<group>"; };
+		70B820921CAA5802001EEAF2 /* SGSheetMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSheetMenu.h; sourceTree = "<group>"; };
+		70B820931CAA5802001EEAF2 /* SGSheetMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSheetMenu.m; sourceTree = "<group>"; };
+		70B8209A1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOpenUIImagePickerCameraCommand.h; sourceTree = "<group>"; };
+		70B8209B1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOpenUIImagePickerCameraCommand.m; sourceTree = "<group>"; };
+		70B8209D1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOpenUIImagePickerPicRollCommand.h; sourceTree = "<group>"; };
+		70B8209E1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOpenUIImagePickerPicRollCommand.m; sourceTree = "<group>"; };
+		70B820A11CAA6F9A001EEAF2 /* TmpFileStorageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TmpFileStorageModel.h; sourceTree = "<group>"; };
+		70B820A21CAA6F9A001EEAF2 /* TmpFileStorageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TmpFileStorageModel.m; sourceTree = "<group>"; };
+		70B820A51CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGernarateImgUUIDCommand.h; sourceTree = "<group>"; };
+		70B820A61CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGernarateImgUUIDCommand.m; sourceTree = "<group>"; };
+		70B820A81CAA75C1001EEAF2 /* AYSaveImgLocalCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSaveImgLocalCommand.h; sourceTree = "<group>"; };
+		70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSaveImgLocalCommand.m; sourceTree = "<group>"; };
 		70EAD8031CA64B7B007965D2 /* AYLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoadingView.h; sourceTree = "<group>"; };
 		70EAD8041CA64B7B007965D2 /* AYLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoadingView.m; sourceTree = "<group>"; };
 		70EAD8071CA65B0C007965D2 /* UIGifView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGifView.h; sourceTree = "<group>"; };
@@ -762,7 +792,7 @@
 				702E7AD11CA185C70097867E /* AYCommandDefines.h */,
 				70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */,
 				701D8A5F1CA7CC0A00B5D4C1 /* AYRemoteCallDefines.h */,
-				705C45181CA8F60B00921799 /* AYControllerAcitionDefines.h */,
+				705C45181CA8F60B00921799 /* AYControllerActionDefines.h */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -916,6 +946,8 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				70B820A01CAA6F9A001EEAF2 /* TmpFileStorageModel */,
+				70B820891CAA5802001EEAF2 /* SGActionView */,
 				707B4D351CA819D900F6256E /* Tools */,
 				701D8A601CA7D16F00B5D4C1 /* RemoteInstance */,
 				70EAD8061CA65B0C007965D2 /* UIGifVIew */,
@@ -1219,6 +1251,8 @@
 		7082360E1CA2D15000658531 /* ModuleCommand */ = {
 			isa = PBXGroup;
 			children = (
+				70B820A41CAA71A7001EEAF2 /* ImageStorage */,
+				70B820991CAA5B14001EEAF2 /* ImagePicker */,
 				70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */,
 				709CDE1C1CA3FC4E0042BEE9 /* LoginWithWeibo */,
 				70594C291CA3F21E000C34F6 /* LoginWithWechat */,
@@ -1251,6 +1285,54 @@
 				700131131CA458DF006003C8 /* AYViewBase.h */,
 			);
 			path = ViewBase;
+			sourceTree = "<group>";
+		};
+		70B820891CAA5802001EEAF2 /* SGActionView */ = {
+			isa = PBXGroup;
+			children = (
+				70B8208A1CAA5802001EEAF2 /* SGActionView.h */,
+				70B8208B1CAA5802001EEAF2 /* SGActionView.m */,
+				70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */,
+				70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */,
+				70B8208E1CAA5802001EEAF2 /* SGBaseMenu.h */,
+				70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */,
+				70B820901CAA5802001EEAF2 /* SGGridMenu.h */,
+				70B820911CAA5802001EEAF2 /* SGGridMenu.m */,
+				70B820921CAA5802001EEAF2 /* SGSheetMenu.h */,
+				70B820931CAA5802001EEAF2 /* SGSheetMenu.m */,
+			);
+			path = SGActionView;
+			sourceTree = "<group>";
+		};
+		70B820991CAA5B14001EEAF2 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				70B8209A1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.h */,
+				70B8209B1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m */,
+				70B8209D1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.h */,
+				70B8209E1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		70B820A01CAA6F9A001EEAF2 /* TmpFileStorageModel */ = {
+			isa = PBXGroup;
+			children = (
+				70B820A11CAA6F9A001EEAF2 /* TmpFileStorageModel.h */,
+				70B820A21CAA6F9A001EEAF2 /* TmpFileStorageModel.m */,
+			);
+			path = TmpFileStorageModel;
+			sourceTree = "<group>";
+		};
+		70B820A41CAA71A7001EEAF2 /* ImageStorage */ = {
+			isa = PBXGroup;
+			children = (
+				70B820A51CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.h */,
+				70B820A61CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m */,
+				70B820A81CAA75C1001EEAF2 /* AYSaveImgLocalCommand.h */,
+				70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */,
+			);
+			path = ImageStorage;
 			sourceTree = "<group>";
 		};
 		70EAD8021CA64B63007965D2 /* Loading */ = {
@@ -1565,12 +1647,15 @@
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
+				70B820981CAA5802001EEAF2 /* SGSheetMenu.m in Sources */,
+				70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */,
 				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
 				701D8A9A1CA7E06700B5D4C1 /* RegTmpToken.m in Sources */,
 				707B4D3F1CA819D900F6256E /* UINavigationController+Retro.m in Sources */,
 				70EAD8101CA6680C007965D2 /* AYModel.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
+				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
 				700082BC1CA9888700CB3E7B /* AYUserInfoInputView.m in Sources */,
 				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
 				702459E81CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m in Sources */,
@@ -1590,6 +1675,8 @@
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */,
 				708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */,
+				70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */,
+				70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
 				70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */,
 				707B4D2C1CA8175F00F6256E /* AYLandingReqConfirmCodeCommand.m in Sources */,
@@ -1600,13 +1687,16 @@
 				70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */,
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
 				708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */,
+				70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */,
 				70F34D791CA5315300CEF7C1 /* AYLandingSNSView.m in Sources */,
+				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
 				701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */,
 				701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */,
 				7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */,
 				702459E91CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m in Sources */,
 				70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */,
+				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				70594C2C1CA3F3A5000C34F6 /* AYLoginSNSWithWechatCommand.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
 				701D8A581CA7B9C200B5D4C1 /* AYPhoneLoginFacade.m in Sources */,
@@ -1619,10 +1709,12 @@
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
+				70B8209F1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				701D8A5E1CA7B9F400B5D4C1 /* AYLandingRemoteFacade.m in Sources */,
+				70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */,
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "AYUserInfoInputController.h"
+#import "AYViewBase.h"
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
 
@@ -33,6 +34,10 @@
 #define TICK_BTN_HEIGHT                         TICK_BTN_WIDTH
 
 #define TICK_BTN_2_PRIVACY_MARGIN               10
+
+@interface AYUserInfoInputController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
+@end
 
 @implementation AYUserInfoInputController {
     CGRect keyBoardFrame;
@@ -149,5 +154,32 @@
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     NSLog(@"tap esle where");
+}
+
+#pragma mark -- UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    [picker dismissViewControllerAnimated:YES completion:nil];
+
+    // get image name
+    id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
+    NSString* img_name = nil;
+    [uuid_cmd performWithResult:&img_name];
+    NSLog(@"new image name is %@", img_name);
+    
+    // sava image to local
+    id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:img_name forKey:@"img_name"];
+    [dic setValue:image forKey:@"image"];
+    [save_cmd performWithResult:&dic];
+   
+    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhoteSelect"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
+    [cmd performWithResult:&image];
+//    isChangeImg = YES;
+//    NSString* img_name = [TmpFileStorageModel generateFileName];
+//    [TmpFileStorageModel saveToTmpDirWithImage:image withName:img_name];
+//    [_login_attr setValue:img_name forKey:@"screen_photo"];
+//    [loginImgBtn setBackgroundImage:image forState:UIControlStateNormal];
 }
 @end

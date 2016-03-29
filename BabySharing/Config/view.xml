@@ -11,11 +11,10 @@
         <command message="stopGif" />
     </view>
     <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
-        <command message="changeScreenPhoto" />
+        <command message="changeScreenPhoto:" />
     </view>
-    <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" >
-        <command message="changeScreenPhoto" />
-    </view>
+    <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" />
+    
     <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" factory="AYDefaultViewFactory" />
     <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" factory="AYDefaultViewFactory" />
 </views>

@@ -16,6 +16,7 @@
 @synthesize para = _para;
 @synthesize view = _view;
 @synthesize method_name = _method_name;
+@synthesize need_args = _need_args;
 
 - (void)postPerform {
     
@@ -29,7 +30,12 @@
         Method m = class_getInstanceMethod([((UIView*)_view) class], sel);
         IMP imp = method_getImplementation(m);
         id (*func)(id, SEL, ...) = imp;
-        id result = func(_view, sel);
+        id result = nil;
+        if (_need_args) {
+            result = func(_view, sel, *obj);
+        } else {
+            result = func(_view, sel);
+        }
         if (obj != nil) {
             *obj = result;
         }

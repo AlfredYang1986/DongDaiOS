@@ -20,6 +20,10 @@
     
     <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >
         <command type="Pop" name="Pop" />
+        <command type="Module" name="OpenUIImagePickerCamera" />
+        <command type="Module" name="OpenUIImagePickerPicRoll" />
+        <command type="Module" name="GernarateImgUUID" />
+        <command type="Module" name="SaveImgLocal" />
         
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />

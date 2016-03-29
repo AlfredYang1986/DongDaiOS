@@ -16,6 +16,11 @@
     <command type="Module" name="ChangeRegUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryRegUser" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="GernarateImgUUID" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SaveImgLocal" factory="AYDefaultModuleFactory" />
+
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
 </commands>

@@ -10,7 +10,7 @@
 #import "AYCommandDefines.h"
 #import <UIKit/UIKit.h>
 #import "AYResourceManager.h"
-#import "AYControllerAcitionDefines.h"
+#import "AYControllerActionDefines.h"
 #import "AYControllerBase.h"
 
 @implementation AYSetNevigationBarTitleView

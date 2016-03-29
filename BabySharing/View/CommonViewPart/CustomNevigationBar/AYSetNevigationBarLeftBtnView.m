@@ -9,10 +9,9 @@
 #import "AYSetNevigationBarLeftBtnView.h"
 #import "AYCommandDefines.h"
 #import <UIKit/UIKit.h>
-#import "AYControllerAcitionDefines.h"
+#import "AYControllerActionDefines.h"
 #import "AYResourceManager.h"
 #import "AYControllerBase.h"
-#import "AYControllerAcitionDefines.h"
 
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define FAKE_BAR_HEIGHT         44

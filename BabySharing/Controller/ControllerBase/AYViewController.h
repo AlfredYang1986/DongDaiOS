@@ -14,4 +14,4 @@
 
 @end
 
-#import "AYControllerAcitionDefines.h"
+#import "AYControllerActionDefines.h"

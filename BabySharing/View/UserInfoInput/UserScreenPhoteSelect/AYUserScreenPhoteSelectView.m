@@ -9,6 +9,8 @@
 #import "AYUserScreenPhoteSelectView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
+#import "SGActionView.h"
+#import "AYViewController.h"
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
 
@@ -57,11 +59,31 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeScreenPhoto {
+- (id)changeScreenPhoto:(id)obj {
+    UIImage* img = (UIImage*)obj;
+    [self setBackgroundImage:img forState:UIControlStateNormal];
     return nil;
 }
 
 - (void)didSelectImgBtn {
-    // TODO : click user image
+    [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
+        switch (index) {
+            case 0: {
+                
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerCamera" andArgs:[dic copy]];
+                }
+                break;
+            case 1: {
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
+                }
+                break;
+            default:
+                break;
+        }
+    }];
 }
 @end
