@@ -19,8 +19,7 @@
     </controller>
     
     <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="SetNevigationBarLeftBtn" />
-        <command type="Module" name="SetNevigationBarTitle" />
+        <command type="Pop" name="Pop" />
         
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
@@ -30,6 +29,8 @@
        
         <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />
         <view type="UserInfoInput" name="UserInfoInput" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
        
         <model notification="true" />
     </controller>

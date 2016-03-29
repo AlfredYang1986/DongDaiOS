@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYCommand.h"
+#import "AYViewBase.h"
+#import <UIKit/UIKit.h>
 
-@interface AYSetNevigationBarTitleCommand : NSObject <AYCommand>
+@interface AYSetNevigationBarTitleView : UILabel <AYViewBase>
 
 @end

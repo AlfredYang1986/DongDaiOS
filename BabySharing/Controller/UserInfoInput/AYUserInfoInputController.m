@@ -48,15 +48,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     
-    id<AYCommand> nav_btn_cmd = [self.commands objectForKey:@"SetNevigationBarLeftBtn"];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [nav_btn_cmd performWithResult:&dic];
-    
-    id<AYCommand> nav_title_cmd = [self.commands objectForKey:@"SetNevigationBarTitle"];
-    NSMutableDictionary* dic_title = [[NSMutableDictionary alloc]init];
-    [dic_title setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [nav_title_cmd performWithResult:&dic_title];
+//    id<AYCommand> nav_btn_cmd = [self.commands objectForKey:@"SetNevigationBarLeftBtn"];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [nav_btn_cmd performWithResult:&dic];
+//    
+//    id<AYCommand> nav_title_cmd = [self.commands objectForKey:@"SetNevigationBarTitle"];
+//    NSMutableDictionary* dic_title = [[NSMutableDictionary alloc]init];
+//    [dic_title setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [nav_title_cmd performWithResult:&dic_title];
 
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
@@ -89,6 +89,16 @@
 - (id)UserInfoInputLayout:(UIView*)view {
 //    [view setUpWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     view.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_PHOTO_TOP_MARGIN + SCREEN_PHOTO_HEIGHT + INPUT_VIEW_2_SCREEN_PHOTO_MARGIN + view.frame.size.height / 2);
+    return nil;
+}
+
+- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+    return nil;
+}
+
+- (id)SetNevigationBarTitleLayout:(UIView*)view {
+    self.navigationItem.titleView = view;
     return nil;
 }
 

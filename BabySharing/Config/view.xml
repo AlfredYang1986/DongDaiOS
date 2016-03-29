@@ -16,4 +16,6 @@
     <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" >
         <command message="changeScreenPhoto" />
     </view>
+    <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" factory="AYDefaultViewFactory" />
+    <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" factory="AYDefaultViewFactory" />
 </views>
