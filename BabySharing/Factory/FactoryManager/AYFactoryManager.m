@@ -202,9 +202,13 @@ static AYFactoryManager* instance = nil;
                     [views_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
                 }
                 
+                NSArray* model = [node nodesForXPath:@"model" error:nil];
+                NSNumber* b = [NSNumber numberWithInteger:model.count];
+                
                 [dic setValue:[cmd_dic copy] forKey:@"commands"];
                 [dic setValue:[facades_dic copy] forKey:@"facades"];
                 [dic setValue:[views_dic copy] forKey:@"views"];
+                [dic setValue:b forKey:@"model"];
                 [dic setValue:name forKey:@"controller"];
                 fac.para = [dic copy];
                 

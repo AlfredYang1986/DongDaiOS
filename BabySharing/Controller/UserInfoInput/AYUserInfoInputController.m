@@ -8,6 +8,12 @@
 
 #import "AYUserInfoInputController.h"
 #import "AYViewBase.h"
+#import "Tools.h"
+#import "AYFacade.h"
+#import "AYRemoteCallCommand.h"
+#import "AYCommandDefines.h"
+#import "AYModel.h"
+#import "AYFactoryManager.h"
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
 
@@ -36,12 +42,26 @@
 #define TICK_BTN_2_PRIVACY_MARGIN               10
 
 @interface AYUserInfoInputController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-
+@property (nonatomic, strong) NSMutableDictionary* login_attr;
 @end
 
 @implementation AYUserInfoInputController {
     BOOL isChangeImg;
     CGRect keyBoardFrame;
+}
+
+@synthesize login_attr = _login_attr;
+
+#pragma mark -- commands
+- (void)performWithResult:(NSObject *__autoreleasing *)obj {
+    NSDictionary* dic = (NSDictionary*)*obj;
+   
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        NSLog(@"init args are : %@", _login_attr);
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+
+    }
 }
 
 #pragma mark -- life cycle
@@ -162,6 +182,7 @@
     NSString* img_name = nil;
     [uuid_cmd performWithResult:&img_name];
     NSLog(@"new image name is %@", img_name);
+    [_login_attr setValue:img_name forKey:@"screen_photo"];
     
     // sava image to local
     id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
@@ -178,6 +199,82 @@
 #pragma mark -- view notification
 - (id)updateUserProfile:(id)obj {
     NSLog(@"next button is clicked, with args %@", obj);
+   
+    NSDictionary* dic_args = (NSDictionary*)obj;
+    NSString* screen_name = [dic_args objectForKey:@"screen_name"];
+    NSString* role_tag = [dic_args objectForKey:@"role_tag"];
+    NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
+    
+    if (!screen_photo || [screen_photo isEqualToString:@""]) {
+        [[[UIAlertView alloc] initWithTitle:@"通知" message:@"您没有选择用户头像" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return nil;
+    }
+   
+    role_tag = @"Alfred Test";
+    
+    if ([Tools bityWithStr:screen_name] < 4 || [Tools bityWithStr:role_tag] < 4) {
+        [[[UIAlertView alloc] initWithTitle:@"通知" message:@"您的名称或者角色过短" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return nil;
+    }
+    
+    NSString* auth_token = [_login_attr objectForKey:@"auth_token"];
+    NSString* user_id = [_login_attr objectForKey:@"user_id"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:screen_name forKey:@"screen_name"];
+    [dic setValue:role_tag forKey:@"role_tag"];
+    
+    [dic setValue:auth_token forKey:@"auth_token"];
+    [dic setValue:user_id forKey:@"user_id"];
+    
+    [dic setValue:0 forKey:@"gender"];
+    
+    [dic setValue:[Tools getDeviceUUID] forKey:@"uuid"];
+    [dic setValue:[NSNumber numberWithInt:1] forKey:@"refresh_token"];
+    
+    if ([[_login_attr allKeys] containsObject:@"phoneNo"]) {
+        [dic setValue:[_login_attr objectForKey:@"phoneNo"] forKey:@"phoneNo"];
+        [dic setValue:[NSNumber numberWithInt:1] forKey:@"create"];
+    }
+    
+    if (isChangeImg) {
+        [dic setValue:screen_photo forKey:@"screen_photo"];
+        
+//        dispatch_queue_t post_queue = dispatch_queue_create("post queue", nil);
+//        dispatch_async(post_queue, ^(void){
+//            UIImage* img = [TmpFileStorageModel enumImageWithName:screen_photo withDownLoadFinishBolck:nil];
+//            [RemoteInstance uploadPicture:img withName:screen_photo toUrl:[NSURL URLWithString:[POST_HOST_DOMAIN stringByAppendingString:POST_UPLOAD]] callBack:^(BOOL successs, NSString *message) {
+//                if (successs) {
+//                    NSLog(@"post image success");
+//                } else {
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+//                    [alert show];
+//                }
+//            }];
+//        });
+    }
+    
+    id<AYFacadeBase> profileRemote = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+    [cmd performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"Update user detail remote result: %@", result);
+        if (success) {
+            AYModel* m = MODEL;
+            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+            [cmd performWithResult:&result];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+    
+    return nil;
+}
+
+- (id)CurrentLoginUserChanged:(id)args {
+    NSLog(@"Notify args: %@", args);
+    NSLog(@"TODO: 进入咚哒");
     return nil;
 }
 @end

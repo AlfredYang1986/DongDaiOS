@@ -15,6 +15,8 @@
 #import "AYRemoteCallCommand.h"
 #import "AYNotifyDefines.h"
 #import "AYRemoteCallDefines.h"
+#import "AYModel.h"
+#import "AYFactoryManager.h"
 
 @implementation AYViewController
 @synthesize para = _para;
@@ -62,6 +64,16 @@
         
         [facade performWithResult:&reg];
     }
+    
+    AYModel* m = MODEL;
+    NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
+    [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];
+    [reg setValue:kAYNotifyFunctionKeyUnregister forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:self forKey:kAYNotifyControllerKey];
+    [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [m performWithResult:&reg];
 }
 
 - (NSString*)getCommandType {

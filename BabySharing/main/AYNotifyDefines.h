@@ -29,4 +29,6 @@ static NSString* const kAYNotifyWechatAPIReady = @"SNSWechatRegister:";
 static NSString* const kAYNotifyWeiboAPIReady = @"SNSWeiboRegister:";
 static NSString* const kAYNotifyLoginModelReady = @"LoginModelRegister:";
 
+static NSString* const kAYCurrentLoginUserChanged = @"CurrentLoginUserChanged:";
+
 #endif /* AYNotifyDefines_h */

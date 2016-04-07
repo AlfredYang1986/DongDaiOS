@@ -15,6 +15,8 @@
     <command type="Module" name="ChangeTmpUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeRegUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryRegUser" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryCurrentLoginUser" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ChangeCurrentLoginUser" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />

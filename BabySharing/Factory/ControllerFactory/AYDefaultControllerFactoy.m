@@ -11,6 +11,8 @@
 #import "AYCommand.h"
 #import "AYControllerBase.h"
 #import "AYNotifyDefines.h"
+#import "AYModel.h"
+#import "AYFactoryManager.h"
 
 @implementation AYDefaultControllerFactoy
 
@@ -66,6 +68,21 @@
         [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
         
         [facade performWithResult:&reg];
+    }
+   
+    BOOL bm = ((NSNumber*)[_para objectForKey:@"model"]).boolValue;
+    if (bm) {
+        AYModel* m = MODEL;
+        NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
+        [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];
+        [reg setValue:kAYNotifyFunctionKeyRegister forKey:kAYNotifyFunctionKey];
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:controller forKey:kAYNotifyControllerKey];
+        
+        [reg setValue:[args copy] forKey:kAYNotifyArgsKey];
+        
+        [m performWithResult:&reg];
     }
     
     [controller postPerform];

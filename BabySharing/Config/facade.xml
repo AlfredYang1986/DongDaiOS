@@ -17,6 +17,9 @@
 
         <command type="Module" name="ChangeRegUser" />
         <command type="Module" name="QueryRegUser" />
+
+        <command type="Module" name="QueryCurrentLoginUser" />
+        <command type="Module" name="ChangeCurrentLoginUser" />
     </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
