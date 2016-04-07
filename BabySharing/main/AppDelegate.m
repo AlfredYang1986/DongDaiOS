@@ -123,15 +123,20 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
     id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
+    id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
     
     return [TencentOAuth HandleOpenURL:url] ||
         [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
-        [WXApi handleOpenURL:url delegate:nil];
+        [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)wechat_delegate];
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+
+    id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
+    id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
+   
     return [TencentOAuth HandleOpenURL:url] ||
-            [WeiboSDK handleOpenURL:url delegate:nil] ||
-            [WXApi handleOpenURL:url delegate:nil];
+        [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
+        [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)wechat_delegate];
 }
 @end

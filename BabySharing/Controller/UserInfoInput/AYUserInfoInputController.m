@@ -14,6 +14,7 @@
 #import "AYCommandDefines.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
+#import "AYRemoteCallCommand.h"
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
 
@@ -76,21 +77,21 @@
     
     NSLog(@"login attrs : %@", _login_attr);
    
-   
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     if (screen_photo && ![screen_photo isEqualToString:@""]) {
 
         id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhoteSelect"];
         id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
         
-        id dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:screen_photo forKey:@"photo"];
-        
-        id<AYCommand> cmd_query_image = [self.commands objectForKey:@"LocalImageWithName"];
-        [cmd_query_image performWithResult:&dic];
-        
-        UIImage* image = (UIImage*)dic;
-        [cmd performWithResult:&image];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:screen_photo forKey:@"image"];
+       
+        id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
+        AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
+        [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* image = (UIImage*)result;
+            [cmd performWithResult:&image];
+        }];
     }
     
     NSString* screen_name = [_login_attr objectForKey:@"screen_name"];

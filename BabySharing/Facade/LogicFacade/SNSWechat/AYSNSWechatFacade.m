@@ -9,7 +9,14 @@
 #import "AYSNSWechatFacade.h"
 #import <UIKit/UIKit.h>
 #import "WXApi.h"
+#import "AYFactoryManager.h"
 #import "AYNotifyDefines.h"
+#import "AYRemoteCallCommand.h"
+#import "Tools.h"
+#import "WeiboSDK.h"
+#import "AYModel.h"
+#import "RemoteInstance.h"
+#import "TmpFileStorageModel.h"
 
 static NSString* const kWechatID = @"wx66d179d99c9ba7d6";
 static NSString* const kWechatDescription = @"wechat";
@@ -108,7 +115,7 @@ static NSString* const kWechatDescription = @"wechat";
                  unionid = oyAaTjsxxxxxxQ42O3xxxxxxs;
                  }
                  */
-//                [self loginSuccessWithWeChatAsUser:wechatopenid accessToken:wechattoken infoDic:dic];
+                [self loginSuccessWithWeChatAsUser:wechatopenid accessToken:wechattoken infoDic:dic];
                 
             }
         });
@@ -116,55 +123,91 @@ static NSString* const kWechatDescription = @"wechat";
     });
 }
 
-- (void)loginSuccessWithWeChatAsUser:(NSString *)qq_openID accessToken:(NSString*)accessToken infoDic:(NSDictionary *)infoDic {
+- (void)loginSuccessWithWeChatAsUser:(NSString *)whchat_openID accessToken:(NSString*)accessToken infoDic:(NSDictionary *)infoDic {
     // 保存 accessToken 和 qq_openID 到本地 coreData 和服务器
-    //    _current_user = [self sendAuthProvidersName:@"wechat" andProvideUserId:qq_openID andProvideToken:accessToken andProvideScreenName:[infoDic valueForKey:@"nickname"]];
-//    _reg_user = [self sendAuthProvidersName:@"wechat" andProvideUserId:qq_openID andProvideToken:accessToken andProvideScreenName:[infoDic valueForKey:@"nickname"]];
-//    NSLog(@"login user id is: %@", _reg_user.who.user_id);
-//    NSLog(@"login auth token is: %@", _reg_user.who.auth_token);
-//    NSLog(@"login screen photo is: %@", _reg_user.who.screen_image);
-//    
-//    // 获取头像
-//    if (_reg_user.who.screen_image == nil || [_reg_user.who.screen_image isEqualToString:@""]) {
-//        NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"headimgurl"]]];
-//        UIImage* img = [UIImage imageWithData:data];
-//        
-//        NSString* img_name = [TmpFileStorageModel generateFileName];
-//        [TmpFileStorageModel saveToTmpDirWithImage:img withName:img_name];
-//        _reg_user.who.screen_image = img_name;
-//        
-//        dispatch_queue_t aq = dispatch_queue_create("qq profile img queue", nil);
-//        dispatch_async(aq, ^{
-//            if (img) {
-//                dispatch_queue_t post_queue = dispatch_queue_create("post queue", nil);
-//                dispatch_async(post_queue, ^(void){
-//                    [RemoteInstance uploadPicture:img withName:img_name toUrl:[NSURL URLWithString:[POST_HOST_DOMAIN stringByAppendingString:POST_UPLOAD]] callBack:^(BOOL successs, NSString *message) {
-//                        if (successs) {
-//                            NSLog(@"post image success");
-//                        } else {
-//                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-//                            [alert show];
-//                        }
-//                    }];
-//                });
-//                
-//                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//                [dic setValue:_reg_user.who.auth_token forKey:@"auth_token"];
-//                [dic setValue:_reg_user.who.user_id forKey:@"user_id"];
-//                [dic setValue:img_name forKey:@"screen_photo"];
-//                [self updateUserProfile:[dic copy]];
-//            }
-//        });
-//    }
-//    
-//    /**
-//     *  4. push notification to the controller
-//     *      and controller to refresh the view
-//     */
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [_doc.managedObjectContext save:nil];
-//        NSLog(@"end get user info from weibo");
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kDongDaNotificationkeySNSLoginSuccess object:nil];
-//    });
+    
+    /**
+     *  2. sent user screen name to server and create auth_token
+     */
+    NSString* screen_name = [infoDic valueForKey:@"nickname"];
+    NSLog(@"user name is %@", screen_name);
+    
+    /**
+     *  3. save auth_toke and weibo user profile in local DB
+     */
+    id<AYFacadeBase> landing_facade = DEFAULTFACADE(@"LandingRemote");
+    AYRemoteCallCommand* cmd_sns = [landing_facade.commands objectForKey:@"AuthWithSNS"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:@"" forKey:@"auth_token"];
+    [dic setValue:@"" forKey:@"user_id"];
+    [dic setValue:@"wechat" forKey:@"provide_name"];
+    [dic setValue:screen_name forKey:@"provide_screen_name"];
+    [dic setValue:@"" forKey:@"provide_screen_photo"];
+    [dic setValue:whchat_openID forKey:@"provide_uid"];
+    [dic setValue:accessToken forKey:@"provide_token"];
+    [dic setValue:[Tools getDeviceUUID] forKey:@"uuid"];
+   
+    [cmd_sns performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"new user info %@", result);
+   
+        NSMutableDictionary* reVal = [result mutableCopy];
+        
+        AYModel* m = MODEL;
+        id<AYFacadeBase> f = [m.facades objectForKey:@"LoginModel"];
+        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+
+        id dic = [result copy];
+        [cmd performWithResult:&dic];
+        NSLog(@"change tmp reg user %@", dic);
+        
+        NSString* screen_photo = [result objectForKey:@"screen_photo"];
+        if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
+            NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"headimgurl"]]];
+            UIImage* img = [UIImage imageWithData:data];
+
+            screen_photo = [TmpFileStorageModel generateFileName];
+            [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
+
+            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+            [photo_dic setValue:screen_photo forKey:@"image"];
+
+            id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
+            [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                NSLog(@"upload result are %d", success);
+            }];
+
+            NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
+            [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
+            [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
+            [dic_up setValue:screen_photo forKey:@"screen_photo"];
+            [reVal setValue:screen_photo forKey:@"screen_photo"];
+
+            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+            [cmd_profile performWithResult:[dic_up copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                NSLog(@"Update user detail remote result: %@", result);
+                if (success) {
+                    NSDictionary* args = [result copy];
+                    [cmd performWithResult:&args];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                    [alert show];
+                }
+            }];
+        }
+        
+        /**
+         *  4. push notification to the controller
+         *      and controller to refresh the view
+         */
+        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+        [notify setValue:kAYNotifySNSLoginSuccess forKey:kAYNotifyFunctionKey];
+        
+        [notify setValue:[reVal copy] forKey:kAYNotifyArgsKey];
+        [self performWithResult:&notify];
+    }];
 }
 @end

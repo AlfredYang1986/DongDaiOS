@@ -98,6 +98,8 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
            
             [cmd_sns performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 NSLog(@"new user info %@", result);
+
+                NSMutableDictionary* reVal = [result mutableCopy];
                 
                 AYModel* m = MODEL;
                 id<AYFacadeBase> f = [m.facades objectForKey:@"LoginModel"];
@@ -128,15 +130,13 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                     [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
                     [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
                     [dic_up setValue:screen_photo forKey:@"screen_photo"];
+                    [reVal setValue:screen_photo forKey:@"screen_photo"];
                     
                     id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
                     AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
                     [cmd_profile performWithResult:[dic_up copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                         NSLog(@"Update user detail remote result: %@", result);
                         if (success) {
-//                            AYModel* m = MODEL;
-//                            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-//                            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
                             NSDictionary* args = [result copy];
                             [cmd performWithResult:&args];
                         } else {
@@ -153,7 +153,7 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                 [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
                 [notify setValue:kAYNotifySNSLoginSuccess forKey:kAYNotifyFunctionKey];
                 
-                [notify setValue:[result copy] forKey:kAYNotifyArgsKey];
+                [notify setValue:[reVal copy] forKey:kAYNotifyArgsKey];
                 [self performWithResult:&notify];
             }];
         }
