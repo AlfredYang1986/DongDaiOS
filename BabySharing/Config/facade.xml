@@ -30,4 +30,8 @@
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UpdateUserDetail" />
     </facade>
+    
+    <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="UploadUserImage" />
+    </facade>
 </facades>

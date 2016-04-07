@@ -1,5 +1,5 @@
 //
-//  AYUploaduserImageCommand.h
+//  AYFileRemoteFacade.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/7/16.
@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AYFacade.h"
 
-@interface AYUploaduserImageCommand : NSObject
+@interface AYFileRemoteFacade : AYFacade
 
 @end

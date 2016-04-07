@@ -239,19 +239,15 @@
     
     if (isChangeImg) {
         [dic setValue:screen_photo forKey:@"screen_photo"];
+       
+        NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+        [photo_dic setValue:screen_photo forKey:@"image"];
         
-//        dispatch_queue_t post_queue = dispatch_queue_create("post queue", nil);
-//        dispatch_async(post_queue, ^(void){
-//            UIImage* img = [TmpFileStorageModel enumImageWithName:screen_photo withDownLoadFinishBolck:nil];
-//            [RemoteInstance uploadPicture:img withName:screen_photo toUrl:[NSURL URLWithString:[POST_HOST_DOMAIN stringByAppendingString:POST_UPLOAD]] callBack:^(BOOL successs, NSString *message) {
-//                if (successs) {
-//                    NSLog(@"post image success");
-//                } else {
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-//                    [alert show];
-//                }
-//            }];
-//        });
+        id<AYFacadeBase> up_facade = [self.facades objectForKey:@"FileRemote"];
+        AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
+        [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSLog(@"upload result are %d", success);
+        }];
     }
     
     id<AYFacadeBase> profileRemote = [self.facades objectForKey:@"ProfileRemote"];
