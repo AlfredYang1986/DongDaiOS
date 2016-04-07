@@ -73,6 +73,41 @@
 //    id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenName:"];
 //    NSString* screen_name = @"test";
 //    [cmd performWithResult:&screen_name];
+    
+    NSLog(@"login attrs : %@", _login_attr);
+   
+   
+    NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
+    if (screen_photo && ![screen_photo isEqualToString:@""]) {
+
+        id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhoteSelect"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
+        
+        id dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:screen_photo forKey:@"photo"];
+        
+        id<AYCommand> cmd_query_image = [self.commands objectForKey:@"LocalImageWithName"];
+        [cmd_query_image performWithResult:&dic];
+        
+        UIImage* image = (UIImage*)dic;
+        [cmd performWithResult:&image];
+    }
+    
+    NSString* screen_name = [_login_attr objectForKey:@"screen_name"];
+    if (screen_name && ![screen_name isEqualToString:@""]) {
+        id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenName:"];
+        NSString* arg = [screen_name copy];
+        [cmd performWithResult:&arg];
+    }
+    
+    NSString* role_tag = [_login_attr objectForKey:@"role_tag"];
+    if (screen_name && ![screen_name isEqualToString:@""]) {
+        id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"changeRoleTag:"];
+        NSString* arg = [role_tag copy];
+        [cmd performWithResult:&arg];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

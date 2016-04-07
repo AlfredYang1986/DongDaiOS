@@ -23,9 +23,12 @@
     <command type="Module" name="GernarateImgUUID" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SaveImgLocal" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="LocalImageWithName" factory="AYDefaultModuleFactory" />
+
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AuthWithSNS" route="login/authWithThird" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     

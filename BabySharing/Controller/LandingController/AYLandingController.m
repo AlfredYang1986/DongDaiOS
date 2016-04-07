@@ -244,6 +244,18 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
+- (id)SNSLoginSuccess:(id)args {
+    NSLog(@"SNS Login success with %@", args);
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
+    [dic setValue:args forKey:kAYControllerChangeArgsKey];
+    [self performWithResult:&dic];
+    
+    return nil;
+}
+
 #pragma mark -- remote notification
 - (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
     /**

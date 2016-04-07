@@ -7,9 +7,17 @@
 //
 
 #import "AYSNSWeiboFacade.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 #import "AYNotifyDefines.h"
+#import "AYRemoteCallCommand.h"
+#import "Tools.h"
 #import "WeiboSDK.h"
+#import "AYModel.h"
+#import "RemoteInstance.h"
+#import "TmpFileStorageModel.h"
 // weibo sdk
+#import "WeiboUser.h"
 #import "WBHttpRequest+WeiboUser.h"
 #import "WBHttpRequest+WeiboShare.h"
 
@@ -50,81 +58,106 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
     /**
      *  1. get user email in weibo profle
      */
-//    [WBHttpRequest requestForUserProfile:weibo_user_id withAccessToken:weibo_token andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
-//
-//        NSLog(@"begin get user info from weibo");
-//        NSString *title = nil;
-//        UIAlertView *alert = nil;
-//        
-//        if (error) {
-//            title = NSLocalizedString(@"请求异常", nil);
-//            alert = [[UIAlertView alloc] initWithTitle:title
-//                                               message:[NSString stringWithFormat:@"%@",error]
-//                                              delegate:nil
-//                                     cancelButtonTitle:NSLocalizedString(@"确定", nil)
-//                                     otherButtonTitles:nil];
-//            [alert show];
-//        } else {
-//            /**
-//             *  2. sent user screen name to server and create auth_token
-//             */
-//            WeiboUser* user = (WeiboUser*)result;
-//            NSString* screen_name = user.screenName;
-//            NSLog(@"user name is %@", screen_name);
-//            
-//            /**
-//             *  3. save auth_toke and weibo user profile in local DB
-//             */
-//            //            _current_user = [self sendAuthProvidersName:@"weibo" andProvideUserId:weibo_user_id andProvideToken:weibo_token andProvideScreenName:screen_name];
-//            _reg_user = [self sendAuthProvidersName:@"weibo" andProvideUserId:weibo_user_id andProvideToken:weibo_token andProvideScreenName:screen_name];
-//            NSLog(@"new user token %@", _reg_user.who.auth_token);
-//            NSLog(@"new user id %@", _reg_user.who.user_id);
-//            NSLog(@"new user photo %@", _reg_user.who.screen_image);
-//            
-//            if (_reg_user.who.screen_image == nil || [_reg_user.who.screen_image isEqualToString:@""]) {
-//                
-//                NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:user.profileImageUrl]];
-//                UIImage* img = [UIImage imageWithData:data];
-//                
-//                NSString* img_name = [TmpFileStorageModel generateFileName];
-//                [TmpFileStorageModel saveToTmpDirWithImage:img withName:img_name];
-//                _reg_user.who.screen_image = img_name;
-//                
-//                dispatch_queue_t aq = dispatch_queue_create("weibo profile img queue", nil);
-//                dispatch_async(aq, ^{
-//                    if (img) {
-//                        dispatch_queue_t post_queue = dispatch_queue_create("post queue", nil);
-//                        dispatch_async(post_queue, ^(void){
-//                            [RemoteInstance uploadPicture:img withName:img_name toUrl:[NSURL URLWithString:[POST_HOST_DOMAIN stringByAppendingString:POST_UPLOAD]] callBack:^(BOOL successs, NSString *message) {
-//                                if (successs) {
-//                                    NSLog(@"post image success");
-//                                } else {
-//                                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-//                                    [alert show];
-//                                }
-//                            }];
-//                        });
-//                        
-//                        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//                        [dic setValue:_reg_user.who.auth_token forKey:@"auth_token"];
-//                        [dic setValue:_reg_user.who.user_id forKey:@"user_id"];
-//                        [dic setValue:img_name forKey:@"screen_photo"];
-//                        [self updateUserProfile:[dic copy]];
-//                    }
-//                });
-//            }
-//            
-//            /**
-//             *  4. push notification to the controller
-//             *      and controller to refresh the view
-//             */
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [_doc.managedObjectContext save:nil];
-//                NSLog(@"end get user info from weibo");
-//                [[NSNotificationCenter defaultCenter] postNotificationName:kDongDaNotificationkeySNSLoginSuccess object:nil];
-//            });
-//        }
-//    }];
+    [WBHttpRequest requestForUserProfile:weibo_user_id withAccessToken:weibo_token andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
+
+        NSLog(@"begin get user info from weibo");
+        NSString *title = nil;
+        UIAlertView *alert = nil;
+        
+        if (error) {
+            title = NSLocalizedString(@"请求异常", nil);
+            alert = [[UIAlertView alloc] initWithTitle:title
+                                               message:[NSString stringWithFormat:@"%@",error]
+                                              delegate:nil
+                                     cancelButtonTitle:NSLocalizedString(@"确定", nil)
+                                     otherButtonTitles:nil];
+            [alert show];
+        } else {
+            /**
+             *  2. sent user screen name to server and create auth_token
+             */
+            WeiboUser* user = (WeiboUser*)result;
+            NSString* screen_name = user.screenName;
+            NSLog(@"user name is %@", screen_name);
+            
+            /**
+             *  3. save auth_toke and weibo user profile in local DB
+             */
+            id<AYFacadeBase> landing_facade = DEFAULTFACADE(@"LandingRemote");
+            AYRemoteCallCommand* cmd_sns = [landing_facade.commands objectForKey:@"AuthWithSNS"];
+           
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+            [dic setValue:@"" forKey:@"auth_token"];
+            [dic setValue:@"" forKey:@"user_id"];
+            [dic setValue:@"weibo" forKey:@"provide_name"];
+            [dic setValue:screen_name forKey:@"provide_screen_name"];
+            [dic setValue:@"" forKey:@"provide_screen_photo"];
+            [dic setValue:weibo_user_id forKey:@"provide_uid"];
+            [dic setValue:weibo_token forKey:@"provide_token"];
+            [dic setValue:[Tools getDeviceUUID] forKey:@"uuid"];
+           
+            [cmd_sns performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                NSLog(@"new user info %@", result);
+                
+                AYModel* m = MODEL;
+                id<AYFacadeBase> f = [m.facades objectForKey:@"LoginModel"];
+                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+              
+                id dic = [result copy];
+                [cmd performWithResult:&dic];
+                NSLog(@"change tmp reg user %@", dic);
+                
+                NSString* screen_photo = [result objectForKey:@"screen_photo"];
+                if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
+                    NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:user.profileImageUrl]];
+                    UIImage* img = [UIImage imageWithData:data];
+                   
+                    screen_photo = [TmpFileStorageModel generateFileName];
+                    [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
+                    
+                    NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+                    [photo_dic setValue:screen_photo forKey:@"image"];
+                    
+                    id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
+                    AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
+                    [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                        NSLog(@"upload result are %d", success);
+                    }];
+                   
+                    NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
+                    [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
+                    [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
+                    [dic_up setValue:screen_photo forKey:@"screen_photo"];
+                    
+                    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+                    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+                    [cmd_profile performWithResult:[dic_up copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                        NSLog(@"Update user detail remote result: %@", result);
+                        if (success) {
+//                            AYModel* m = MODEL;
+//                            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+//                            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                            NSDictionary* args = [result copy];
+                            [cmd performWithResult:&args];
+                        } else {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                            [alert show];
+                        }
+                    }];
+                }
+                /**
+                 *  4. push notification to the controller
+                 *      and controller to refresh the view
+                 */
+                NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                [notify setValue:kAYNotifySNSLoginSuccess forKey:kAYNotifyFunctionKey];
+                
+                [notify setValue:[result copy] forKey:kAYNotifyArgsKey];
+                [self performWithResult:&notify];
+            }];
+        }
+    }];
 }
 
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response
@@ -158,7 +191,7 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
          * otherwise show error message
          */
         if (response.statusCode == 0) { // success
-//            [self loginSuccessWithWeiboAsUser:[(WBAuthorizeResponse *)response userID] withToken:[(WBAuthorizeResponse *)response accessToken]];
+            [self loginSuccessWithWeiboAsUser:[(WBAuthorizeResponse *)response userID] withToken:[(WBAuthorizeResponse *)response accessToken]];
         } else {
             NSString *title = @"weibo auth error";
             

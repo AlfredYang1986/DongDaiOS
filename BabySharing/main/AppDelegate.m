@@ -121,8 +121,11 @@
 
 #pragma mark -- open sns url
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
+    
     return [TencentOAuth HandleOpenURL:url] ||
-        [WeiboSDK handleOpenURL:url delegate:nil] ||
+        [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
         [WXApi handleOpenURL:url delegate:nil];
 }
 

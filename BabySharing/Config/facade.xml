@@ -26,6 +26,7 @@
         <command type="Remote" name="LandingReqConfirmCode" />
         <command type="Remote" name="LandingAuthConfirm" />
         <command type="Remote" name="CreateTmpUserWithPhone" />
+        <command type="Remote" name="AuthWithSNS" />
     </facade>
 
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
