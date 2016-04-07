@@ -327,7 +327,18 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 [cmd performWithResult:&dic_push];
             }
                 break;
-            case RegisterResultOthersLogin:
+            case RegisterResultOthersLogin: {
+                AYViewController* des = DEFAULTCONTROLLER(@"OthersLogin");
+                
+                NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+                [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+                [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+                [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+                
+                id<AYCommand> cmd = PUSH;
+                [cmd performWithResult:&dic_push];
+            }
                 break;
             case RegisterResultError:
                 break;

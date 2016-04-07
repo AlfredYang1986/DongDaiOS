@@ -27,6 +27,7 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
+static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
 static NSString* const kAYFactoryManagerCommandTypeAlertView = @"AlertView";
 static NSString* const kAYFactoryManagerCommandTypeAPN = @"APN";
 static NSString* const kAYFactoryManagerCommandTypeMessage = @"Message";
@@ -42,6 +43,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
+#define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]
@@ -61,10 +63,12 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 
 
 #ifdef DEBUG
-#define CHECKCMD(CMD)           if (CMD == nil) \
-                                    [[[UIAlertView alloc]initWithTitle:@"error" message:@"cmd not register" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-#define CHECKFACADE(CMD)        if (CMD == nil) \
-                                    [[[UIAlertView alloc]initWithTitle:@"error" message:@"facade not register" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+#define CHECKCMD(CMD)           if (CMD == nil) {\
+                                    NSLog(@"cmd name is %@", command_name); \
+                                    [[[UIAlertView alloc]initWithTitle:@"error" message:@"cmd not register" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];}
+#define CHECKFACADE(CMD)        if (CMD == nil) {\
+                                    NSLog(@"cmd name is %@", facade_name); \
+                                    [[[UIAlertView alloc]initWithTitle:@"error" message:@"facade not register" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];}
 #else
 #define CHECKCMD(CMD)
 #define CHECKFACADE(CMD)

@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabySharing/Controller/UserInfoInput/AYUserInfoInputController.m"
-            timestampString = "481701745.68124"
+            timestampString = "481711009.550536"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
-            landmarkName = "-updateUserProfile:"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "-performWithResult:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BabySharing/Controller/UserInfoInput/AYUserInfoInputController.m"
-            timestampString = "481701745.68124"
+            filePath = "BabySharing/Controller/ControllerBase/AYViewController.m"
+            timestampString = "481711224.101452"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "248"
-            endingLineNumber = "248"
-            landmarkName = "-updateUserProfile:"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "-performForView:andFacade:andMessage:andArgs:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BabySharing/Controller/UserInfoInput/AYUserInfoInputController.m"
-            timestampString = "481701745.68124"
+            filePath = "BabySharing/Controller/ControllerBase/AYViewController.m"
+            timestampString = "481711225.261465"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
-            landmarkName = "-updateUserProfile:"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "-performForView:andFacade:andMessage:andArgs:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BabySharing/Controller/UserInfoInput/AYUserInfoInputController.m"
-            timestampString = "481701745.68124"
+            filePath = "BabySharing/Controller/ControllerBase/AYViewController.m"
+            timestampString = "481711494.126667"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "249"
-            endingLineNumber = "249"
-            landmarkName = "-updateUserProfile:"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-performForView:andFacade:andMessage:andArgs:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,45 +73,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BabySharing/lib/TmpFileStorageModel/TmpFileStorageModel.m"
-            timestampString = "481701427.673526"
+            filePath = "BabySharing/Controller/ControllerBase/AYViewController.m"
+            timestampString = "481711610.122723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
-            landmarkName = "+enumImageWithName:withDownLoadFinishBolck:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BabySharing/Command/RemoteCallCommand/UploadUserImage/AYUploadUserImageCommand.m"
-            timestampString = "481701530.691831"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
-            landmarkName = "-performWithResult:andFinishBlack:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BabySharing/lib/TmpFileStorageModel/TmpFileStorageModel.m"
-            timestampString = "481701572.101396"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
-            landmarkName = "+enumImageWithName:withDownLoadFinishBolck:"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "-performForView:andFacade:andMessage:andArgs:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

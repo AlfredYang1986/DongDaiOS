@@ -66,6 +66,17 @@
     return nil;
 }
 
+- (id)canPhotoBtnClicked:(id)obj {
+    BOOL b = ((NSNumber*)obj).boolValue;
+    if (!b) {
+        self.enabled = NO;
+        [self removeTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return nil;
+}
+
 - (void)didSelectImgBtn {
     [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
         switch (index) {

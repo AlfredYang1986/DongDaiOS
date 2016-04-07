@@ -19,7 +19,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    NSLog(@"push command perfrom");
+    NSLog(@"pop command perfrom");
     
     NSDictionary* dic = (NSDictionary*)*obj;
     

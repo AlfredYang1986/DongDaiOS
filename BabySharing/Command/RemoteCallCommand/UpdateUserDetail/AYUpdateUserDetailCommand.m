@@ -7,7 +7,6 @@
 //
 
 #import "AYUpdateUserDetailCommand.h"
-//#import "RemoteInstance.h"
 
 @implementation AYUpdateUserDetailCommand
 - (void)postPerform {

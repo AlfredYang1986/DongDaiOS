@@ -7,8 +7,6 @@
 //
 
 #import "AYLandingAuthConfirmCommand.h"
-#import "AYCommandDefines.h"
-//#import "RemoteInstance.h"
 
 @implementation AYLandingAuthConfirmCommand
 

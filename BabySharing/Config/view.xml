@@ -12,6 +12,7 @@
     </view>
     <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
         <command type="message" message="changeScreenPhoto:" />
+        <command type="message" message="canPhotoBtnClicked:" />
     </view>
     <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" >
         <command type="message" message="changeScreenName:" />
