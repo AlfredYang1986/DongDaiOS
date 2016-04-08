@@ -51,6 +51,9 @@
 }
 
 - (id)registerCellWithClass:(id)obj {
+    NSString* class_name = (NSString*)obj;
+    Class c = NSClassFromString(class_name);
+    [self registerClass:c forCellReuseIdentifier:class_name];
     return nil;
 }
 
@@ -61,6 +64,9 @@
 }
 
 - (id)registerHeaderAndFooterWithClass:(id)obj {
+    NSString* class_name = (NSString*)obj;
+    Class c = NSClassFromString(class_name);
+    [self registerClass:c forHeaderFooterViewReuseIdentifier:class_name];
     return nil;
 }
 

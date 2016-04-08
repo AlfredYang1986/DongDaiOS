@@ -19,8 +19,11 @@
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
 		7017F33D1CB7512E002C416E /* AYRoleTagSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F33C1CB7512E002C416E /* AYRoleTagSearchController.m */; };
 		7017F3441CB795C2002C416E /* AYFoundSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3431CB795C2002C416E /* AYFoundSearchHeaderView.m */; };
-		7017F3471CB79699002C416E /* AYNibViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3461CB79699002C416E /* AYNibViewFactory.m */; };
+		7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3461CB79699002C416E /* AYReuseViewFactory.m */; };
 		7017F3491CB79913002C416E /* AYFoundSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7017F3481CB79913002C416E /* AYFoundSearchHeaderView.xib */; };
+		7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */; };
+		7017F3591CB7BC0E002C416E /* AYFoundHotTagsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3581CB7BC0E002C416E /* AYFoundHotTagsCellView.m */; };
+		7017F35D1CB7BE14002C416E /* FoundHotTagBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F35C1CB7BE14002C416E /* FoundHotTagBtn.m */; };
 		701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */ = {isa = PBXBuildFile; fileRef = 701D8A311CA7999A00B5D4C1 /* remote.xml */; };
 		701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */; };
 		701D8A3E1CA7AC3900B5D4C1 /* AYRemoteCallCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A3D1CA7AC3900B5D4C1 /* AYRemoteCallCommand.m */; };
@@ -164,7 +167,6 @@
 		70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8661CA68437007965D2 /* AYQueryTmpUserCommand.m */; };
 		70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8691CA684F9007965D2 /* AYChangeTmpUserCommand.m */; };
 		70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */; };
-		70F34D601CA51E8000CEF7C1 /* DongDaBoundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F34D5F1CA51E8000CEF7C1 /* DongDaBoundle.bundle */; };
 		70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */; };
 		70F34D6C1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D6A1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m */; };
 		70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D701CA5312500CEF7C1 /* AYLandingInputView.m */; };
@@ -215,9 +217,15 @@
 		7017F33C1CB7512E002C416E /* AYRoleTagSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagSearchController.m; sourceTree = "<group>"; };
 		7017F3421CB795C2002C416E /* AYFoundSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchHeaderView.h; sourceTree = "<group>"; };
 		7017F3431CB795C2002C416E /* AYFoundSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundSearchHeaderView.m; sourceTree = "<group>"; };
-		7017F3451CB79699002C416E /* AYNibViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNibViewFactory.h; sourceTree = "<group>"; };
-		7017F3461CB79699002C416E /* AYNibViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNibViewFactory.m; sourceTree = "<group>"; };
+		7017F3451CB79699002C416E /* AYReuseViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReuseViewFactory.h; sourceTree = "<group>"; };
+		7017F3461CB79699002C416E /* AYReuseViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReuseViewFactory.m; sourceTree = "<group>"; };
 		7017F3481CB79913002C416E /* AYFoundSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYFoundSearchHeaderView.xib; sourceTree = "<group>"; };
+		7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DongDaBoundle.bundle; sourceTree = "<group>"; };
+		7017F3521CB7BA74002C416E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7017F3571CB7BC0E002C416E /* AYFoundHotTagsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundHotTagsCellView.h; sourceTree = "<group>"; };
+		7017F3581CB7BC0E002C416E /* AYFoundHotTagsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundHotTagsCellView.m; sourceTree = "<group>"; };
+		7017F35B1CB7BE14002C416E /* FoundHotTagBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoundHotTagBtn.h; sourceTree = "<group>"; };
+		7017F35C1CB7BE14002C416E /* FoundHotTagBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoundHotTagBtn.m; sourceTree = "<group>"; };
 		701D8A311CA7999A00B5D4C1 /* remote.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = remote.xml; sourceTree = "<group>"; };
 		701D8A341CA7A96200B5D4C1 /* AYRemoteCallFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallFactory.h; sourceTree = "<group>"; };
 		701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteCallFactory.m; sourceTree = "<group>"; };
@@ -287,7 +295,6 @@
 		702459E61CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNevigationBarTitleView.h; sourceTree = "<group>"; };
 		702459E71CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNevigationBarTitleView.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		702E7A561CA14A490097867E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		702E7A5B1CA14A490097867E /* BabySharingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabySharingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5F1CA14A490097867E /* BabySharingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BabySharingTests.m; sourceTree = "<group>"; };
 		702E7A611CA14A490097867E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -489,7 +496,6 @@
 		70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYViewLayoutDefines.h; sourceTree = "<group>"; };
 		70F34D5C1CA5189300CEF7C1 /* AYResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYResourceManager.h; sourceTree = "<group>"; };
 		70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYResourceManager.m; sourceTree = "<group>"; };
-		70F34D5F1CA51E8000CEF7C1 /* DongDaBoundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DongDaBoundle.bundle; path = BabySharing/DongDaBoundle.bundle; sourceTree = SOURCE_ROOT; };
 		70F34D661CA5274B00CEF7C1 /* OBShapedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBShapedButton.h; sourceTree = "<group>"; };
 		70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBShapedButton.m; sourceTree = "<group>"; };
 		70F34D691CA5274B00CEF7C1 /* UIImage+ColorAtPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorAtPixel.h"; sourceTree = "<group>"; };
@@ -573,8 +579,8 @@
 			children = (
 				7001310D1CA446CA006003C8 /* AYDefaultViewFactory.h */,
 				7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */,
-				7017F3451CB79699002C416E /* AYNibViewFactory.h */,
-				7017F3461CB79699002C416E /* AYNibViewFactory.m */,
+				7017F3451CB79699002C416E /* AYReuseViewFactory.h */,
+				7017F3461CB79699002C416E /* AYReuseViewFactory.m */,
 			);
 			path = ViewFactory;
 			sourceTree = "<group>";
@@ -658,8 +664,19 @@
 				7017F3481CB79913002C416E /* AYFoundSearchHeaderView.xib */,
 				7017F3421CB795C2002C416E /* AYFoundSearchHeaderView.h */,
 				7017F3431CB795C2002C416E /* AYFoundSearchHeaderView.m */,
+				7017F3571CB7BC0E002C416E /* AYFoundHotTagsCellView.h */,
+				7017F3581CB7BC0E002C416E /* AYFoundHotTagsCellView.m */,
 			);
 			path = SearchViews;
+			sourceTree = "<group>";
+		};
+		7017F35A1CB7BE14002C416E /* FoundHotTagBtn */ = {
+			isa = PBXGroup;
+			children = (
+				7017F35B1CB7BE14002C416E /* FoundHotTagBtn.h */,
+				7017F35C1CB7BE14002C416E /* FoundHotTagBtn.m */,
+			);
+			path = FoundHotTagBtn;
 			sourceTree = "<group>";
 		};
 		701D8A331CA7A95000B5D4C1 /* RemoteCallFactory */ = {
@@ -889,7 +906,6 @@
 		702E7A451CA14A490097867E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				702E7A561CA14A490097867E /* Info.plist */,
 				702E7AAF1CA166E90097867E /* Config */,
 				702E7A851CA151770097867E /* Resource */,
 			);
@@ -949,7 +965,8 @@
 		702E7A851CA151770097867E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				70F34D5F1CA51E8000CEF7C1 /* DongDaBoundle.bundle */,
+				7017F3521CB7BA74002C416E /* Info.plist */,
+				7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */,
 				702E7A981CA1572E0097867E /* default.png */,
 				702E7A861CA151770097867E /* icon-120.png */,
 				702E7A871CA151770097867E /* icon-152.png */,
@@ -1100,6 +1117,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7017F35A1CB7BE14002C416E /* FoundHotTagBtn */,
 				70B820A01CAA6F9A001EEAF2 /* TmpFileStorageModel */,
 				70B820891CAA5802001EEAF2 /* SGActionView */,
 				707B4D351CA819D900F6256E /* Tools */,
@@ -1795,12 +1813,12 @@
 				702E7A921CA151770097867E /* icon.png in Resources */,
 				702E7A8F1CA151770097867E /* icon-167.png in Resources */,
 				702E7A911CA151770097867E /* icon-bk.png in Resources */,
-				70F34D601CA51E8000CEF7C1 /* DongDaBoundle.bundle in Resources */,
 				702E7AB91CA169E30097867E /* command.xml in Resources */,
 				702E7AB31CA1698A0097867E /* facade.xml in Resources */,
 				702E7A901CA151770097867E /* icon-76.png in Resources */,
 				70EAD80C1CA662EF007965D2 /* model.xml in Resources */,
 				7017F3491CB79913002C416E /* AYFoundSearchHeaderView.xib in Resources */,
+				7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */,
 				702E7A931CA151770097867E /* icon@2x.png in Resources */,
 				702E7A991CA1572E0097867E /* default.png in Resources */,
 			);
@@ -1873,6 +1891,7 @@
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */,
 				708236121CA2D18D00658531 /* AYLoginSNSWithQQCommand.m in Sources */,
+				7017F3591CB7BC0E002C416E /* AYFoundHotTagsCellView.m in Sources */,
 				70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */,
 				70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
@@ -1884,6 +1903,7 @@
 				7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */,
 				70F34D741CA5312500CEF7C1 /* AYLandingInputView.m in Sources */,
 				701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */,
+				7017F35D1CB7BE14002C416E /* FoundHotTagBtn.m in Sources */,
 				708235CE1CA268BD00658531 /* AYMessageCommandFactory.m in Sources */,
 				70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */,
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
@@ -1894,7 +1914,7 @@
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
 				701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */,
 				701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */,
-				7017F3471CB79699002C416E /* AYNibViewFactory.m in Sources */,
+				7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */,
 				7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */,
 				702459E91CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m in Sources */,
 				7017F33A1CB74F73002C416E /* AYTableView.m in Sources */,
@@ -2071,7 +2091,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,
 				);
-				INFOPLIST_FILE = BabySharing/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/BabySharing/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -2104,7 +2124,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,
 				);
-				INFOPLIST_FILE = BabySharing/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/BabySharing/Resource/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (

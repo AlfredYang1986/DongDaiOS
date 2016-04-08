@@ -42,7 +42,13 @@
         <command type="message" message="changeNevigationBarTitle:" />
     </view>
     
-    <view type="FoundSearchHeader" name="FoundSearchHeader" factory="AYNibViewFactory" >
+    <view type="FoundSearchHeader" name="FoundSearchHeader" factory="AYReuseViewFactory" >
         <command type="message" message="changeHeaderTitle:" />
+        <command type="message" message="queryHeaderHeight" />
+    </view>
+    
+    <view type="FoundHotTagsCell" name="FoundHotTagsCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setHotTagsText:" />
+        <command type="message" message="queryCellHeight" />
     </view>
 </views>

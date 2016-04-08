@@ -111,4 +111,8 @@
     _headLabell.text = title;
     return nil;
 }
+
+- (id)queryHeaderHeight {
+    return [NSNumber numberWithFloat:44.f];
+}
 @end

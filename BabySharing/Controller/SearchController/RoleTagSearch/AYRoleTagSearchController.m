@@ -10,8 +10,15 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
+#import "Tools.h"
 
-static NSString* const RoleTagSearchHeader = @"AYFoundSearchHeaderView";
+static NSString* const RoleTagSearchHeader = @"FoundSearchHeader";
+static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
+
+@interface AYRoleTagSearchController () <UITableViewDelegate, UITableViewDataSource>
+
+@end
+
 
 @interface AYRoleTagSearchController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -56,8 +63,12 @@ static NSString* const RoleTagSearchHeader = @"AYFoundSearchHeaderView";
     [cmd_delegate performWithResult:&obj];
 
     id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
-    NSString* nib_header_name = RoleTagSearchHeader;
+    NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_header performWithResult:&nib_header_name];
+    
+    id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_hot_cell performWithResult:&class_name];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,17 +78,19 @@ static NSString* const RoleTagSearchHeader = @"AYFoundSearchHeaderView";
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+    
+    id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+        cell = VIEW(RoleTagHotCell, RoleTagHotCell);
     }
     
-    cell.textLabel.text = @"test";
-    return cell;
+    cell.controller = self;
+    
+    return (UITableViewCell*)cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -86,7 +99,7 @@ static NSString* const RoleTagSearchHeader = @"AYFoundSearchHeaderView";
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:RoleTagSearchHeader];
+    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix]];
     if (header == nil) {
         header = VIEW(RoleTagSearchHeader, RoleTagSearchHeader);
     }
@@ -96,7 +109,9 @@ static NSString* const RoleTagSearchHeader = @"AYFoundSearchHeaderView";
     id<AYCommand> cmd = [header.commands objectForKey:@"changeHeaderTitle:"];
     NSString* str = @"选择或者添加一个你的角色";
     [cmd performWithResult:&str];
-    
+   
+    UITableViewHeaderFooterView* v = (UITableViewHeaderFooterView*)header;
+    v.backgroundView = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[UIColor whiteColor] size:v.bounds.size]];
     return (UIView*)header;
 }
 
@@ -105,6 +120,10 @@ static NSString* const RoleTagSearchHeader = @"AYFoundSearchHeaderView";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44;
+    id<AYViewBase> header = VIEW(RoleTagSearchHeader, RoleTagSearchHeader);
+    id<AYCommand> cmd = [header.commands objectForKey:@"queryHeaderHeight"];
+    NSNumber* result = nil;
+    [cmd performWithResult:&result];
+    return result.floatValue;
 }
 @end

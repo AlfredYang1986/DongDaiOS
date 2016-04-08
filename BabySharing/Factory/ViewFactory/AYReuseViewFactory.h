@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYFactory.h"
 
-@interface AYNibViewFactory : NSObject <AYFactory>
+@interface AYReuseViewFactory : NSObject <AYFactory>
 
 @end

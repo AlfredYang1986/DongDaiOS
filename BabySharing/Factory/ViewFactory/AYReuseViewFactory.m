@@ -6,7 +6,7 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYNibViewFactory.h"
+#import "AYReuseViewFactory.h"
 //#import "AYCommand.h"
 #import "AYCommandDefines.h"
 #import "AYViewBase.h"
@@ -14,13 +14,13 @@
 #import "AYViewNotifyCommand.h"
 #import <UIKit/UIKit.h>
 
-@implementation AYNibViewFactory {
+@implementation AYReuseViewFactory {
     id<AYViewBase> baseView;
 }
 @synthesize para = _para;
 
 + (id)factoryInstance {
-    static AYNibViewFactory* instance = nil;
+    static AYReuseViewFactory* instance = nil;
     if (instance == nil) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
