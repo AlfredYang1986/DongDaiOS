@@ -90,6 +90,10 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
     
     cell.controller = self;
     
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
+    NSArray* arr = @[@"test1", @"test2"];
+    [cmd performWithResult:&arr];
+    
     return (UITableViewCell*)cell;
 }
 
@@ -116,7 +120,11 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    id<AYViewBase> header = VIEW(RoleTagHotCell, RoleTagHotCell);
+    id<AYCommand> cmd = [header.commands objectForKey:@"queryCellHeight"];
+    NSNumber* result = nil;
+    [cmd performWithResult:&result];
+    return result.floatValue;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

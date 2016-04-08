@@ -46,7 +46,7 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    
+
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -66,37 +66,33 @@
 }
 
 #pragma mark -- life cycle
-- (id)init {
-    self = [super init];
-    if (self) {
-        NSLog(@"init");
-    }
-    return self;
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        NSLog(@"init Coder");
-    }
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        NSLog(@"init frame");
-    }
-    return self;
-    
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         NSLog(@"init reuse identifier");
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
     }
     return self;
+}
+
+- (void)setUpReuseCell {
+    //    id<AYViewBase> header = VIEW([self getViewName], [self getViewName]);
+    id<AYViewBase> header = VIEW(@"FoundHotTagsCell", @"FoundHotTagsCell");
+    self.commands = [[header commands] copy];
+    self.notifies = [[header notifies] copy];
+    
+    for (AYViewCommand* cmd in self.commands.allValues) {
+        cmd.view = self;
+    }
+    
+    for (AYViewNotifyCommand* nty in self.notifies.allValues) {
+        nty.view = self;
+    }
+    
+    NSLog(@"reuser view with commands : %@", self.commands);
+    NSLog(@"reuser view with notifications: %@", self.notifies);
 }
 
 + (CGFloat)preferredHeight {
