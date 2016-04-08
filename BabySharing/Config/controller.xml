@@ -19,7 +19,6 @@
     </controller>
     
     <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >
-        <command type="Pop" name="Pop" />
         <command type="Module" name="OpenUIImagePickerCamera" />
         <command type="Module" name="OpenUIImagePickerPicRoll" />
         <command type="Module" name="GernarateImgUUID" />
@@ -39,8 +38,6 @@
     </controller>
     
     <controller type="DefaultController" name="OthersLogin" factory="AYDefaultControllerFactoy" >
-        <command type="Pop" name="Pop" />
-        
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
@@ -48,5 +45,13 @@
         <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />
         
         <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="RoleTagSearch" factory="AYDefaultControllerFactoy" >
+        <view type="SearchBar" name="SearchBar" />
+        <view type="Table" name="Table" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+
     </controller>
 </controllers>

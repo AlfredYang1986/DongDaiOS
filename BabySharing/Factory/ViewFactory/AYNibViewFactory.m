@@ -1,39 +1,49 @@
 //
-//  AYDefaultViewFactory.m
+//  AYNibViewFactory.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 3/25/16.
+//  Created by Alfred Yang on 4/8/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYDefaultViewFactory.h"
+#import "AYNibViewFactory.h"
 //#import "AYCommand.h"
 #import "AYCommandDefines.h"
 #import "AYViewBase.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
+#import <UIKit/UIKit.h>
 
-@implementation AYDefaultViewFactory
-
+@implementation AYNibViewFactory {
+    id<AYViewBase> baseView;
+}
 @synthesize para = _para;
 
 + (id)factoryInstance {
-//    static AYDefaultViewFactory* instance = nil;
-//    if (instance == nil) {
-//        static dispatch_once_t onceToken;
-//        dispatch_once(&onceToken, ^{
-//            instance = [[self alloc]init];
-//        });
-//    }
-//    return instance;
-    return [[self alloc]init];
+    static AYNibViewFactory* instance = nil;
+    if (instance == nil) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            instance = [[self alloc]init];
+        });
+    }
+    return instance;
+//    return [[self alloc]init];
 }
 
 - (id)createInstance {
     NSLog(@"para is : %@", _para);
     
+    if (baseView != nil) {
+        return baseView;
+    }
+    
     NSString* desFacade = [self.para objectForKey:@"view"];
     id<AYViewBase> result = nil;
+
+//    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:[[kAYFactoryManagerControllerPrefix stringByAppendingString:desFacade] stringByAppendingString:kAYFactoryManagerViewsuffix] owner:self options:nil];
+//    result = [nib objectAtIndex:0];
+//    [result postPerform];
 
     Class c = NSClassFromString([[kAYFactoryManagerControllerPrefix stringByAppendingString:desFacade] stringByAppendingString:kAYFactoryManagerViewsuffix]);
     if (c == nil) {
@@ -42,7 +52,7 @@
         result = [[c alloc]init];
         [result postPerform];
     }
-   
+    
     NSDictionary* cmds = [_para objectForKey:@"commands"];
     NSMutableDictionary* commands = [[NSMutableDictionary alloc]initWithCapacity:cmds.count];
     for (NSString* cmd in cmds) {
@@ -52,7 +62,7 @@
         c.need_args = [cmd containsString:@":"];
         [commands setObject:c forKey:cmd];
     }
-   
+    
     NSDictionary* notifies = [_para objectForKey:@"notifies"];
     NSMutableDictionary* ntf = [[NSMutableDictionary alloc]initWithCapacity:notifies.count];
     for (NSString* notify in notifies) {
@@ -61,9 +71,11 @@
         n.method_name = notify;
         n.need_args = [notify containsString:@":"];
         [ntf setObject:n forKey:notify];
-    }   
+    }
     result.commands = [commands copy];
     result.notifies = [ntf copy];
+    
+    baseView = result;
     return result;
 }
 @end

@@ -17,6 +17,7 @@
 @synthesize para = _para;
 @synthesize view = _view;
 @synthesize method_name = _method_name;
+@synthesize need_args = _need_args;
 
 - (void)postPerform {
     
@@ -31,7 +32,13 @@
         Method m = class_getInstanceMethod([controller class], sel);
         IMP imp = method_getImplementation(m);
         id (*func)(id, SEL, ...) = imp;
-        id result = func(controller, sel, *obj);
+        
+        id result = nil;
+        if (_need_args) {
+            result = func(controller, sel, *obj);
+        } else {
+            result = func(controller, sel);
+        }
         if (obj != nil) {
             *obj = result;
         }

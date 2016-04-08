@@ -12,6 +12,7 @@
 #import "AYViewBase.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
+#import "Tools.h"
 
 typedef enum : NSUInteger {
     LandingStatusPrepare,
@@ -78,6 +79,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    UINavigationBar *bar= [UINavigationBar appearance];
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    [bar setShadowImage:[Tools imageWithColor:[UIColor colorWithWhite:0.5922 alpha:0.25] size:CGSizeMake(width, 1)]];
+    [bar setBackgroundImage:[Tools imageWithColor:[UIColor whiteColor] size:CGSizeMake(width, 64)] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    bar.barStyle = UIStatusBarStyleDefault;
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
@@ -91,6 +98,11 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (void)postPerform {
     [super postPerform];
     self.landing_status = LandingStatusPrepare;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

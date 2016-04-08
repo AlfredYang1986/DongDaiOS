@@ -53,10 +53,13 @@
 
 - (void)didPopViewController {
     NSLog(@"pop command");
-   
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [_controller performForView:self andFacade:nil andMessage:@"Pop" andArgs:dic];
+  
+    id<AYCommand> cmd = [self.notifies objectForKey:@"popToPreviousWithoutSave"];
+    [cmd performWithResult:nil];
+    
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+//    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//    [_controller performForView:self andFacade:nil andMessage:@"Pop" andArgs:dic];
 }
 @end

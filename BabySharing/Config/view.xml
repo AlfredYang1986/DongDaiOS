@@ -18,8 +18,31 @@
         <command type="message" message="changeScreenName:" />
         <command type="message" message="changeRoleTag:" />
         <command type="notify" message="updateUserProfile:" />
+        <command type="notify" message="beginEditTextFiled" />
+    </view>
+
+    <view type="SearchBar" name="SearchBar" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeSearchBarPlaceHolder:" />
+    </view>
+
+    <view type="Table" name="Table" factory="AYDefaultViewFactory" >
+        <command type="message" message="registerDatasource:" />
+        <command type="message" message="registerDelegate:" />
+        <command type="message" message="registerCellWithClass:" />
+        <command type="message" message="registerCellWithNib:" />
+        <command type="message" message="registerHeaderAndFooterWithClass:" />
+        <command type="message" message="registerHeaderAndFooterWithNib:" />
     </view>
     
-    <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" factory="AYDefaultViewFactory" />
-    <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" factory="AYDefaultViewFactory" />
+    <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="popToPreviousWithoutSave" />
+    </view>
+    
+    <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeNevigationBarTitle:" />
+    </view>
+    
+    <view type="FoundSearchHeader" name="FoundSearchHeader" factory="AYNibViewFactory" >
+        <command type="message" message="changeHeaderTitle:" />
+    </view>
 </views>

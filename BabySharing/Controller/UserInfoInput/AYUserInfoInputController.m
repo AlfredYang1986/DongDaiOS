@@ -61,11 +61,21 @@
         _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         NSLog(@"init args are : %@", _login_attr);
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-
+        AYViewController* des = DEFAULTCONTROLLER(@"RoleTagSearch");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//        [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
     }
 }
 
 #pragma mark -- life cycle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
@@ -130,7 +140,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
@@ -307,6 +316,25 @@
 - (id)CurrentLoginUserChanged:(id)args {
     NSLog(@"Notify args: %@", args);
     NSLog(@"TODO: 进入咚哒");
+    return nil;
+}
+
+- (id)popToPreviousWithoutSave {
+    NSLog(@"pop view controller");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
+    return nil;
+}
+
+- (id)beginEditTextFiled {
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [self performWithResult:&dic];
     return nil;
 }
 @end

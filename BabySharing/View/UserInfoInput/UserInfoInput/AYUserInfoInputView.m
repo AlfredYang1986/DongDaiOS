@@ -286,6 +286,16 @@
     }
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    
+    if (textField == tag_text_field) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"beginEditTextFiled"];
+        [cmd performWithResult:nil];
+    }
+    
+    return textField != tag_text_field;
+}
+
 - (void)didClickNextBtn {
     NSLog(@"self commands are : %@", self.commands);
     NSLog(@"self notifies are : %@", self.notifies);

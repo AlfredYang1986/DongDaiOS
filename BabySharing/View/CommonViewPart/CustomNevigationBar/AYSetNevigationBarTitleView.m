@@ -40,4 +40,13 @@
 - (NSString*)getCommandType {
     return kAYFactoryManagerCommandTypeModule;
 }
+
+#pragma mark -- view commands
+- (id)changeNevigationBarTitle:(id)obj {
+    NSString* title = (NSString*)obj;
+    self.text = title;
+    self.font = [UIFont systemFontOfSize:18.f];
+    [self sizeToFit];
+    return nil;
+}
 @end
