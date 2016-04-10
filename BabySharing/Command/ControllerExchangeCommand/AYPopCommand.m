@@ -34,15 +34,16 @@
         @throw [[NSException alloc]initWithName:@"error" reason:@"pop command source controler 必须是一个navigation controller" userInfo:nil];
     }
     
-//    id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-//    if (tmp != nil) {
-//        NSMutableDictionary* dic_init =[[NSMutableDictionary alloc]init];
-//        [dic_init setValue:kAYControllerActionInitValue forKey:kAYControllerActionKey];
-//        [dic_init setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-//        [des performWithResult:&dic_init];
-//    }
-    
     [source.navigationController popViewControllerAnimated:YES];
+    
+    AYViewController* des = source.navigationController.viewControllers.lastObject;
+    id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+    if (tmp != nil) {
+        NSMutableDictionary* dic_back =[[NSMutableDictionary alloc]init];
+        [dic_back setValue:kAYControllerActionPopBackValue forKey:kAYControllerActionKey];
+        [dic_back setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+        [des performWithResult:&dic_back];
+    }
 }
 
 - (NSString*)getCommandType {

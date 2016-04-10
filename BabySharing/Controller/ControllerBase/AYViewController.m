@@ -51,6 +51,10 @@
         ((id<AYViewBase>)view).controller = self;
         [self.view addSubview:view];
     }
+    
+    for (id<AYDelegateBase> delegate in self.delegates.allValues) {
+        delegate.controller = self;
+    }
 }
 
 - (void)dealloc {

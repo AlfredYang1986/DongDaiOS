@@ -57,5 +57,7 @@
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         
         <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" />
+        <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" />
+        <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
     </controller>
 </controllers>

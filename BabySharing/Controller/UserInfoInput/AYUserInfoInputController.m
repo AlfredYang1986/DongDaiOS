@@ -71,6 +71,14 @@
         
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        NSString* role_tag = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (role_tag && ![role_tag isEqualToString:@""]) {
+            id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
+            id<AYCommand> cmd = [view.commands objectForKey:@"changeRoleTag:"];
+            NSString* arg = [role_tag copy];
+            [cmd performWithResult:&arg];
+        }
     }
 }
 
@@ -113,7 +121,7 @@
     }
     
     NSString* role_tag = [_login_attr objectForKey:@"role_tag"];
-    if (screen_name && ![screen_name isEqualToString:@""]) {
+    if (role_tag && ![role_tag isEqualToString:@""]) {
         id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
         id<AYCommand> cmd = [view.commands objectForKey:@"changeRoleTag:"];
         NSString* arg = [role_tag copy];
@@ -255,8 +263,7 @@
         return nil;
     }
    
-    role_tag = @"Alfred Test";
-    
+//    role_tag = @"Alfred Test";
     if ([Tools bityWithStr:screen_name] < 4 || [Tools bityWithStr:role_tag] < 4) {
         [[[UIAlertView alloc] initWithTitle:@"通知" message:@"您的名称或者角色过短" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         return nil;

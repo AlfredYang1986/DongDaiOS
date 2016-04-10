@@ -1,5 +1,15 @@
 <delegates>
     <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="notify" message="RoleTagSeleted:" />
+    </delegate>
+    <delegate type="SearchBarDelegate" name="RoleTagSearchBar" factory="AYDefaultDelegateFactory" >
+        <command type="notify" message="searchTextChanged:" />
+    </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="message" message="changeSearchText:" />
+        <command type="notify" message="RoleTagSeleted:" />
+        <command type="notify" message="RoleTagAdded:" />
     </delegate>
 </delegates>

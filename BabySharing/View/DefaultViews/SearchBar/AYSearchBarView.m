@@ -162,4 +162,9 @@
     [self setPlaceholder:place_holder];
     return nil;
 }
+
+- (id)registerDelegate:(id)obj {
+    self.delegate = (id<UISearchBarDelegate>)obj;
+    return nil;
+}
 @end

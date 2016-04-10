@@ -43,6 +43,12 @@
     [view becomeFirstResponder];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    [view resignFirstResponder];
+}
+
 #pragma mark -- layout
 - (id)SearchBarLayout:(UIView*)view {
     

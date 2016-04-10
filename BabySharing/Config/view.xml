@@ -23,6 +23,7 @@
 
     <view type="SearchBar" name="SearchBar" factory="AYDefaultViewFactory" >
         <command type="message" message="changeSearchBarPlaceHolder:" />
+        <command type="message" message="registerDelegate:" />
     </view>
 
     <view type="Table" name="Table" factory="AYDefaultViewFactory" >

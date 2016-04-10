@@ -10,10 +10,8 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-#import "Tools.h"
-#import "AYFacade.h"
-#import "AYRemoteCallCommand.h"
 #import "AYRoleTagSearchControllerDefines.h"
+#import "Tools.h"
 
 @implementation AYRoleTagRecommendDelegate {
     NSArray* recommands_role_tags;

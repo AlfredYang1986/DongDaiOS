@@ -12,6 +12,7 @@
 static NSString* const kAYControllerActionKey = @"action name";
 
 static NSString* const kAYControllerActionInitValue = @"controller init";
+static NSString* const kAYControllerActionPopBackValue = @"controller pop back";
 static NSString* const kAYControllerActionPushValue = @"controller push";
 static NSString* const kAYControllerActionPopValue = @"controller pop";
 static NSString* const kAYControllerActionModelValue = @"controller show model";
