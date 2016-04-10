@@ -1,5 +1,5 @@
 //
-//  AYTestTabBarController.h
+//  AYProfileInitCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/10/16.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
+#import "AYCommand.h"
 
-@interface AYTestTabBarController : UIViewController
+@interface AYProfileInitCommand : NSObject <AYCommand>
 
 @end

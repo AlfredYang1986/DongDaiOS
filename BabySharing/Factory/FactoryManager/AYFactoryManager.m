@@ -182,58 +182,103 @@ static AYFactoryManager* instance = nil;
                 IMP im = method_getImplementation(m);
                 fac = im(c, @selector(factoryInstance));
                
-                NSArray* cmds = [node nodesForXPath:@"command" error:nil];
-                NSLog(@"controller commands : %@", cmds);
-               
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                if ([factoryName isEqualToString:@"AYPreCreateControllerFactoy"]) {
 
-                NSMutableArray * cmd_dic = [[NSMutableArray alloc]init];
-                for (GDataXMLElement* iter in cmds) {
-                    AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
-                    [cmd_dic addObject:node];
-                }
-                
-                NSArray* facades = [node nodesForXPath:@"facade" error:nil];
-                NSLog(@"controller facade: %@", cmds);
-                
-                NSMutableDictionary* facades_dic = [[NSMutableDictionary alloc]init];
-                for (GDataXMLElement* iter in facades) {
-                    id<AYCommand> cmd = FACADE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
-                    [facades_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
-                }
-                
-                NSArray* views = [node nodesForXPath:@"view" error:nil];
-                NSLog(@"controller views: %@", views);
+                    NSArray* cmds = [node nodesForXPath:@"command" error:nil];
+                    NSLog(@"controller commands : %@", cmds);
 
-                NSMutableArray * views_dic = [[NSMutableArray alloc]init];
-                for (GDataXMLElement* iter in views) {
-                    AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
-                    [views_dic addObject:node];
+                    NSMutableDictionary * cmd_dic = [[NSMutableDictionary alloc]init];
+                    for (GDataXMLElement* iter in cmds) {
+                        id<AYCommand> cmd = COMMAND([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+                        [cmd_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    }
+                    
+                    NSArray* facades = [node nodesForXPath:@"facade" error:nil];
+                    NSLog(@"controller facade: %@", cmds);
+                    
+                    NSMutableDictionary* facades_dic = [[NSMutableDictionary alloc]init];
+                    for (GDataXMLElement* iter in facades) {
+                        id<AYCommand> cmd = FACADE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+                        [facades_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    }
+                    
+                    NSArray* views = [node nodesForXPath:@"view" error:nil];
+                    NSLog(@"controller views: %@", views);
+                    
+                    NSMutableDictionary * views_dic = [[NSMutableDictionary alloc]init];
+                    for (GDataXMLElement* iter in views) {
+                        id<AYCommand> cmd = VIEW([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+                        [views_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    }
+                    
+                    NSArray* delegates = [node nodesForXPath:@"delegate" error:nil];
+                    NSLog(@"controller delegates: %@", delegates);
+                    
+                    NSMutableDictionary* delegates_dic = [[NSMutableDictionary alloc]init];
+                    for (GDataXMLElement* iter in delegates) {
+                        id<AYCommand> cmd = DELEGATE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+                        [delegates_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    }
+                    
+                    NSArray* model = [node nodesForXPath:@"model" error:nil];
+                    NSNumber* b = [NSNumber numberWithInteger:model.count];
+                    
+                    [dic setValue:[cmd_dic copy] forKey:@"commands"];
+                    [dic setValue:[facades_dic copy] forKey:@"facades"];
+                    [dic setValue:[views_dic copy] forKey:@"views"];
+                    [dic setValue:[delegates_dic copy] forKey:@"delegates"];
+                    [dic setValue:b forKey:@"model"];
+                    [dic setValue:name forKey:@"controller"];
+                    
+                } else {
+                    NSArray* cmds = [node nodesForXPath:@"command" error:nil];
+                    NSLog(@"controller commands : %@", cmds);
+
+                    NSMutableArray * cmd_dic = [[NSMutableArray alloc]init];
+                    for (GDataXMLElement* iter in cmds) {
+                        AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
+                        [cmd_dic addObject:node];
+                    }
+                    
+                    NSArray* facades = [node nodesForXPath:@"facade" error:nil];
+                    NSLog(@"controller facade: %@", cmds);
+                    
+                    NSMutableDictionary* facades_dic = [[NSMutableDictionary alloc]init];
+                    for (GDataXMLElement* iter in facades) {
+                        id<AYCommand> cmd = FACADE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+                        [facades_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    }
+                    
+                    NSArray* views = [node nodesForXPath:@"view" error:nil];
+                    NSLog(@"controller views: %@", views);
+                    
+                    NSMutableArray * views_dic = [[NSMutableArray alloc]init];
+                    for (GDataXMLElement* iter in views) {
+                        AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
+                        [views_dic addObject:node];
+                    }
+                    
+                    NSArray* delegates = [node nodesForXPath:@"delegate" error:nil];
+                    NSLog(@"controller delegates: %@", delegates);
+                    
+                    NSMutableArray * delegates_dic = [[NSMutableArray alloc]init];
+                    for (GDataXMLElement* iter in delegates) {
+                        AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
+                        [delegates_dic addObject:node];
+                    }
+                    
+                    NSArray* model = [node nodesForXPath:@"model" error:nil];
+                    NSNumber* b = [NSNumber numberWithInteger:model.count];
+                    
+                    [dic setValue:[cmd_dic copy] forKey:@"commands"];
+                    [dic setValue:[facades_dic copy] forKey:@"facades"];
+                    [dic setValue:[views_dic copy] forKey:@"views"];
+                    [dic setValue:[delegates_dic copy] forKey:@"delegates"];
+                    [dic setValue:b forKey:@"model"];
+                    [dic setValue:name forKey:@"controller"];
                 }
-                
-                NSArray* delegates = [node nodesForXPath:@"delegate" error:nil];
-                NSLog(@"controller delegates: %@", delegates);
-                
-//                NSMutableDictionary* delegates_dic = [[NSMutableDictionary alloc]init];
-//                for (GDataXMLElement* iter in delegates) {
-//                    id<AYCommand> cmd = DELEGATE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
-//                    [delegates_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
-//                }
-                NSMutableArray * delegates_dic = [[NSMutableArray alloc]init];
-                for (GDataXMLElement* iter in delegates) {
-                    AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
-                    [delegates_dic addObject:node];
-                }
-                
-                NSArray* model = [node nodesForXPath:@"model" error:nil];
-                NSNumber* b = [NSNumber numberWithInteger:model.count];
-                
-                [dic setValue:[cmd_dic copy] forKey:@"commands"];
-                [dic setValue:[facades_dic copy] forKey:@"facades"];
-                [dic setValue:[views_dic copy] forKey:@"views"];
-                [dic setValue:[delegates_dic copy] forKey:@"delegates"];
-                [dic setValue:b forKey:@"model"];
-                [dic setValue:name forKey:@"controller"];
+
                 fac.para = [dic copy];
                 
             } else @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];

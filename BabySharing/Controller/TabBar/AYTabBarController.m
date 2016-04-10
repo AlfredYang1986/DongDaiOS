@@ -8,11 +8,24 @@
 
 #import "AYTabBarController.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "DongDaTabBar.h"
+#import "AYViewController.h"
 
 // test
-#import "AYTestTabBarController.h"
+#import "AYPlaceHolderTabBarController.h"
 
-@implementation AYTabBarController
+@interface AYTabBarController () <UITabBarDelegate, UITabBarControllerDelegate>
+
+@end
+
+@implementation AYTabBarController {
+
+    DongDaTabBar* dongda_tabbar;
+    UIImage* img_home_with_no_message;
+    UIImage* img_home_with_unread_message;
+}
 
 @synthesize para = _para;
 
@@ -35,7 +48,49 @@
 }
 
 - (void)postPerform {
+    id<AYCommand> cmd_home_init = [self.commands objectForKey:@"HomeInit"];
+    AYViewController* home = nil;
+    [cmd_home_init performWithResult:&home];
+    home.tabBarItem.title = @"Home";
     
+    id<AYCommand> cmd_found_init = [self.commands objectForKey:@"FoundInit"];
+    AYViewController* found = nil;
+    [cmd_found_init performWithResult:&found];
+    found.tabBarItem.title = @"Found";
+   
+    id<AYCommand> cmd_post_init = [self.commands objectForKey:@"PlaceHolderInit"];
+    AYViewController* post = nil;
+    [cmd_post_init performWithResult:&post];
+    post.tabBarItem.title = @"Post";
+
+    id<AYCommand> cmd_friends_init = [self.commands objectForKey:@"FriendsInit"];
+    AYViewController* friends = nil;
+    [cmd_friends_init performWithResult:&friends];
+    friends.tabBarItem.title = @"Friends";
+
+    id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileInit"];
+    AYViewController* profile = nil;
+    [cmd_profile_init performWithResult:&profile];
+    profile.tabBarItem.title = @"Profile";
+    
+    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
+    
+    self.delegate = self;
+    
+    img_home_with_no_message = PNGRESOURCE(@"tab_home");
+    img_home_with_unread_message = PNGRESOURCE(@"tab_home_unread");
+    
+    dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
+    [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:PNGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
+    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_found") andSelectedImg:PNGRESOURCE(@"tab_found_selected") andTitle:@"发现"];
+    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
+    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_friends") andSelectedImg:PNGRESOURCE(@"tab_friends_selected") andTitle:@"好友"];
+    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_profile") andSelectedImg:PNGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
+        [[UITabBar appearance] setShadowImage:[UIImage new]];
+        [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];
+    }
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -49,13 +104,42 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
 
-    UIViewController *c1=[[AYTestTabBarController alloc]init];
-    c1.view.backgroundColor=[UIColor greenColor];
-    c1.tabBarItem.title=@"消息";
-    c1.tabBarItem.image=[UIImage imageNamed:@"tab_recent_nor"];
-    c1.tabBarItem.badgeValue=@"123";
-   
-    self.viewControllers = [NSArray arrayWithObjects:c1, nil];
+#pragma mark -- tabbar delegate
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    NSLog(@"select tab %@", item.title);
+    
+    if ([item.title isEqualToString:@"Post"]) {
+//        [self showCameraControllerOnController:self];
+        NSLog(@"post selected");
+    } else {
+//        int count = [GotyeOCAPI getTotalUnreadMessageCount];
+//        if (count > 0) {
+//            [dongda_tabbar changeItemImage:img_home_with_unread_message andIndex:0];
+//        } else {
+//            [dongda_tabbar changeItemImage:img_home_with_no_message andIndex:0];
+//        }
+    }
+}
+
+#pragma marks - tabbar controller delegate
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+    if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
+        return NO;
+    }
+    
+//    if (backView.hidden == NO) {
+//        return NO;
+//    }
+    
+    return YES;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers {
+    for (UIViewController * iter in viewControllers) {
+        NSLog(@"%@", iter.title);
+    }
 }
 @end

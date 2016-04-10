@@ -31,6 +31,12 @@
     
     <command type="Module" name="LoginXMPP" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="FriendsInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ProfileInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="PlaceHolderInit" factory="AYDefaultModuleFactory" />
+
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />

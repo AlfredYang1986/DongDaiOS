@@ -62,7 +62,12 @@
         <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
     </controller>
     
+<!--    <controller type="DefaultController" name="TabBar" factory="AYPreCreateControllerFactoy" >-->
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
-        
+        <command type="Module" name="HomeInit" />
+        <command type="Module" name="FoundInit" />
+        <command type="Module" name="FriendsInit" />
+        <command type="Module" name="ProfileInit" />
+        <command type="Module" name="PlaceHolderInit" />
     </controller>
 </controllers>
