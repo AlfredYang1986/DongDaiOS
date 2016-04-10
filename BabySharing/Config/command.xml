@@ -27,7 +27,7 @@
 
     <command type="Module" name="LocalImageWithName" factory="AYDefaultModuleFactory" />
     
-    <command type="Module" name="RoleTagRecommend" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LoginXMPP" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

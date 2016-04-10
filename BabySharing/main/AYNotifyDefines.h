@@ -33,4 +33,6 @@ static NSString* const kAYNotifySNSLoginSuccess = @"SNSLoginSuccess:";
 
 static NSString* const kAYCurrentLoginUserChanged = @"CurrentLoginUserChanged:";
 
+static NSString* const kAYNotifyLoginXMPPSuccess = @"LoginXMPPSuccess:";
+
 #endif /* AYNotifyDefines_h */

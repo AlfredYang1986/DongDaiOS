@@ -278,6 +278,34 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
+- (id)LoginXMPPSuccess:(id)args {
+    NSLog(@"Login XMPP success");
+    
+    AYFacade* f = LOGINMODEL;
+    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+    id obj = nil;
+    [cmd performWithResult:&obj];
+    
+    if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
+        NSLog(@"finally login over success");
+       
+        AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+    
+        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+        [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+        id<AYCommand> cmd_show_module = SHOWMODULE;
+        [cmd_show_module performWithResult:&dic_show_module];
+    } else {
+        NSLog(@"something wrong with login process");
+        @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
+    }
+    
+    return nil;
+}
+
 - (id)LoginSuccess {
     NSLog(@"Login Success");
     NSLog(@"to do login with XMPP server");
@@ -289,15 +317,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     NSLog(@"current login user is %@", obj);
    
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
 
-    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-
-    id<AYCommand> cmd_show_module = SHOWMODULE;
-    [cmd_show_module performWithResult:&dic_show_module];
+    
+    AYFacade* xmpp = [self.facades objectForKey:@"XMPP"];
+    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginXMPP"];
+    NSDictionary* dic = (NSDictionary*)obj;
+    NSString* current_user_id = [dic objectForKey:@"user_id"];
+    [cmd_login_xmpp performWithResult:&current_user_id];
     
     return nil;
 }

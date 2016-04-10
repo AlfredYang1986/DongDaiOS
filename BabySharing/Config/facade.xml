@@ -43,5 +43,6 @@
     </facade>
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="LoginXMPP" />
     </facade>
 </facades>
