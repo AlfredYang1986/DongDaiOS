@@ -6,6 +6,8 @@
     <command type="Push" name="Push" factory="AYControllerExchangFactory" />
     <command type="Pop" name="Pop" factory="AYControllerExchangFactory" />
     <command type="ShowModule" name="ShowModule" factory="AYControllerExchangFactory" />
+    <command type="ShowModuleUp" name="ShowModuleUp" factory="AYControllerExchangFactory" />
+    <command type="PopToRoot" name="PopToRoot" factory="AYControllerExchangFactory" />
     
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />

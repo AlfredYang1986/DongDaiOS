@@ -67,9 +67,19 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             dispatch_semaphore_wait(wait_for_wechat_api, DISPATCH_TIME_FOREVER);
             dispatch_semaphore_wait(wait_for_login_model, DISPATCH_TIME_FOREVER);
             
+            AYFacade* f = LOGINMODEL;
+            id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+            id obj = nil;
+            [cmd performWithResult:&obj];
+            NSLog(@"current login user is %@", obj);
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"app is ready");
-                self.landing_status = LandingStatusReady;
+                if (obj != nil) {
+                    [self LoginSuccess];
+                } else {
+                    self.landing_status = LandingStatusReady;
+                }
             });
         });
     }
@@ -268,6 +278,30 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
+- (id)LoginSuccess {
+    NSLog(@"Login Success");
+    NSLog(@"to do login with XMPP server");
+    
+    AYFacade* f = LOGINMODEL;
+    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+    id obj = nil;
+    [cmd performWithResult:&obj];
+    
+    NSLog(@"current login user is %@", obj);
+   
+    AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+
+    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+
+    id<AYCommand> cmd_show_module = SHOWMODULE;
+    [cmd_show_module performWithResult:&dic_show_module];
+    
+    return nil;
+}
+
 #pragma mark -- remote notification
 - (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
     /**
@@ -368,6 +402,16 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 break;
             default:
                 break;
+        }
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
+        
+        SEL sel = NSSelectorFromString(method_name);
+        Method m = class_getInstanceMethod([self class], sel);
+        if (m) {
+            IMP imp = method_getImplementation(m);
+            id (*func)(id, SEL, ...) = imp;
+            func(self, sel);
         }
     }
 }

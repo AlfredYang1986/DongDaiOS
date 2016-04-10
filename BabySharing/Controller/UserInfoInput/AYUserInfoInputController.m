@@ -322,17 +322,27 @@
 
 - (id)CurrentLoginUserChanged:(id)args {
     NSLog(@"Notify args: %@", args);
-    NSLog(@"TODO: 进入咚哒");
+//    NSLog(@"TODO: 进入咚哒");
    
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+//    AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+//    
+//    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+//    [dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    
+//    id<AYCommand> cmd = SHOWMODULE;
+//    [cmd performWithResult:&dic_show_module];
     
-    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+  
+    NSString* message_name = @"LoginSuccess";
+    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
     
-    id<AYCommand> cmd = SHOWMODULE;
-    [cmd performWithResult:&dic_show_module];
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic_pop];
     
     return nil;
 }

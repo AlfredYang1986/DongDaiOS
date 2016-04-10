@@ -1,17 +1,17 @@
 //
-//  AYShowModuleCommand.m
+//  AYShowModuleUpCommand.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/10/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYShowModuleCommand.h"
+#import "AYShowModuleUpCommand.h"
 #import "AYCommandDefines.h"
 #import "AYControllerActionDefines.h"
 #import "AYViewController.h"
 
-@implementation AYShowModuleCommand
+@implementation AYShowModuleUpCommand
 @synthesize para = _para;
 
 - (void)postPerform {
@@ -19,12 +19,12 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    NSLog(@"show module command perfrom");
+    NSLog(@"show module up command perfrom");
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
-    if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionShowModuleValue]) {
-        @throw [[NSException alloc]initWithName:@"error" reason:@"show module command 只能出来push 操作" userInfo:nil];
+    if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionShowModuleUpValue]) {
+        @throw [[NSException alloc]initWithName:@"error" reason:@"show module up command 只能出来push 操作" userInfo:nil];
     }
     
     AYViewController* src = [dic objectForKey:kAYControllerActionSourceControllerKey];
@@ -38,11 +38,11 @@
         [dst performWithResult:&dic_init];
     }
     
-    [UIView transitionFromView:src.view toView:dst.view duration:0.8f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
-        [src presentViewController:dst animated:NO completion:^{
+//    [UIView transitionFromView:src.view toView:dst.view duration:0.8f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
+        [src presentViewController:dst animated:YES completion:^{
             NSLog(@"show content segue");
         }];
-    }];
+//    }];
 }
 
 - (NSString*)getCommandType {

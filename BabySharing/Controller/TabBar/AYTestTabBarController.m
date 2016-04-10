@@ -7,6 +7,10 @@
 //
 
 #import "AYTestTabBarController.h"
+#import "AYCommand.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYFacade.h"
 
 @implementation AYTestTabBarController
 
@@ -18,5 +22,12 @@
     [l sizeToFit];
     l.center = CGPointMake(CGRectGetMidX(self.view.frame), CGRectGetMidY(self.view.frame));
     [self.view addSubview:l];
+    
+    AYFacade* f = LOGINMODEL;
+    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+    id obj = nil;
+    [cmd performWithResult:&obj];
+    
+    NSLog(@"current login user is %@", obj);
 }
 @end

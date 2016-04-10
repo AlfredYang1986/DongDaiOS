@@ -30,6 +30,7 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
 static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
+static NSString* const kAYFactoryManagerCommandTypePopToRoot = @"PopToRoot";
 static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
 static NSString* const kAYFactoryManagerCommandTypeShowModuleUp = @"ShowModuleUp";
 static NSString* const kAYFactoryManagerCommandTypeAlertView = @"AlertView";
@@ -48,6 +49,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
+#define POPTOROOT               COMMAND(kAYFactoryManagerCommandTypePopToRoot, kAYFactoryManagerCommandTypePopToRoot)
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
 
