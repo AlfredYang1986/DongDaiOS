@@ -35,7 +35,6 @@ static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
 static NSString* const kAYFactoryManagerCommandTypeShowModuleUp = @"ShowModuleUp";
 static NSString* const kAYFactoryManagerCommandTypeAlertView = @"AlertView";
 static NSString* const kAYFactoryManagerCommandTypeAPN = @"APN";
-static NSString* const kAYFactoryManagerCommandTypeMessage = @"Message";
 static NSString* const kAYFactoryManagerCommandTypeDefaultController = @"DefaultController";
 static NSString* const kAYFactoryManagerCommandTypeDefaultFacade = @"DefaultFacade";
 static NSString* const kAYFactoryManagerCommandTypeModule = @"Module";          // 处理单一功能的Command

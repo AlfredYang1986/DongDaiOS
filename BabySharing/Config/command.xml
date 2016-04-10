@@ -1,7 +1,6 @@
 <commands>
     <command type="Init" name="Init" controller="Landing" factory="AYAppInitCommandFactory" />
     <command type="APN" name="APN" factory="AYAPNNotificationCommandFactory" />
-    <command type="Message" name="Message" factory="AYMessageCommandFactory" />
     <command type="AlertView" name="AlertView" factory="AYMessageCommandFactory" />
     <command type="Push" name="Push" factory="AYControllerExchangFactory" />
     <command type="Pop" name="Pop" factory="AYControllerExchangFactory" />

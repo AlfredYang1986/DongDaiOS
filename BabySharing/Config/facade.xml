@@ -41,4 +41,7 @@
     <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryRecommandRoleTags" />
     </facade>
+
+    <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >
+    </facade>
 </facades>
