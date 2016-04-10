@@ -237,8 +237,10 @@
 
 #pragma mark -- notification
 - (id)CurrentLoginUserChanged:(id)args {
-    UINavigationController* active = (UINavigationController*)[Tools activityViewController];
-    if (active.viewControllers.lastObject == self) {
+//    UINavigationController* active = (UINavigationController*)[Tools activityViewController];
+    UIViewController* active = [Tools activityViewController];
+//    if (active.viewControllers.lastObject == self) {
+    if (active == self) {
         NSLog(@"Notify args: %@", args);
         NSLog(@"TODO: 进入咚哒");
     }

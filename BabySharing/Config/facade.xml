@@ -37,4 +37,8 @@
         <command type="Remote" name="UploadUserImage" />
         <command type="Remote" name="DownloadUserFiles" />
     </facade>
+
+    <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryRecommandRoleTags" />
+    </facade>
 </facades>

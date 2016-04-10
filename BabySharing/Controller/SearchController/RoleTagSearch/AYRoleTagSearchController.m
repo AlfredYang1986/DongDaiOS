@@ -11,6 +11,8 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "Tools.h"
+#import "AYFacade.h"
+#import "AYRemoteCallCommand.h"
 
 static NSString* const RoleTagSearchHeader = @"FoundSearchHeader";
 static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
@@ -19,12 +21,9 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
 
 @end
 
-
-@interface AYRoleTagSearchController () <UITableViewDelegate, UITableViewDataSource>
-
-@end
-
-@implementation AYRoleTagSearchController
+@implementation AYRoleTagSearchController {
+    NSArray* recommands_role_tags;
+}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
@@ -69,6 +68,21 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
     id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
+   
+    id<AYFacadeBase> facade_search_remote = [self.facades objectForKey:@"SearchRemote"];
+    AYRemoteCallCommand* cmd_query_role_tag = [facade_search_remote.commands objectForKey:@"QueryRecommandRoleTags"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];
+    [dic setValue:[NSNumber numberWithInteger:10] forKey:@"take"];
+    
+    [cmd_query_role_tag performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"recommand role tags are: %@", result);
+        recommands_role_tags = (NSArray*)result;
+       
+        id<AYCommand> cmd_reload = [view_table.commands objectForKey:@"refresh"];
+        [cmd_reload performWithResult:nil];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -91,7 +105,7 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
     cell.controller = self;
     
     id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
-    NSArray* arr = @[@"test1", @"test2"];
+    NSArray* arr = [recommands_role_tags copy];
     [cmd performWithResult:&arr];
     
     return (UITableViewCell*)cell;

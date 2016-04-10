@@ -48,10 +48,12 @@
     </controller>
     
     <controller type="DefaultController" name="RoleTagSearch" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="SearchRemote" notification="true" />
+
         <view type="SearchBar" name="SearchBar" />
         <view type="Table" name="Table" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-
     </controller>
 </controllers>

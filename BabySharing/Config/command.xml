@@ -34,4 +34,6 @@
     
     <command type="Remote" name="UploadUserImage" route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadUserFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
+
+    <command type="Remote" name="QueryRecommandRoleTags" route="roletags/queryAllRoleTags" factory="AYRemoteCallFactory" />
 </commands>

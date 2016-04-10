@@ -75,4 +75,9 @@
     [self registerNib:[UINib nibWithNibName:nib_name bundle:[NSBundle mainBundle]] forHeaderFooterViewReuseIdentifier:nib_name];
     return nil;
 }
+
+- (id)refresh {
+    [self reloadData];
+    return nil;
+}
 @end

@@ -108,7 +108,6 @@
     line.hidden = _isHiddenSepline;
 }
 
-//- (void)setHotTagsText:(NSArray *)arr {
 - (id)setHotTagsText:(id)obj{
     NSArray* arr = (NSArray*)obj;
     

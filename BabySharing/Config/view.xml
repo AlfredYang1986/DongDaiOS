@@ -26,6 +26,7 @@
     </view>
 
     <view type="Table" name="Table" factory="AYDefaultViewFactory" >
+        <command type="message" message="refresh" />
         <command type="message" message="registerDatasource:" />
         <command type="message" message="registerDelegate:" />
         <command type="message" message="registerCellWithClass:" />

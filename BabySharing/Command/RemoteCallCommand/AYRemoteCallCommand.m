@@ -7,8 +7,12 @@
 //
 
 #import "AYRemoteCallCommand.h"
-//#import "AYCommandDefines.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 #import "RemoteInstance.h"
+#import "Tools.h"
+#import "AYViewBase.h"
+#import <UIKit/UIKit.h>
 
 @implementation AYRemoteCallCommand
 
@@ -29,19 +33,45 @@
 
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     NSLog(@"request confirm code from sever: %@", args);
-    NSError * error = nil;
-    NSData* jsonData =[NSJSONSerialization dataWithJSONObject:args options:NSJSONWritingPrettyPrinted error:&error];
 
-    NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:self.route]];
-    NSLog(@"request result from sever: %@", result);
+    /**
+     * 1. create a view and block user interactions
+     */
+    id<AYViewBase> loading = VIEW(@"Loading", @"Loading");
+    ((UIView*)loading).backgroundColor = [UIColor redColor];
+    ((UIView*)loading).userInteractionEnabled = NO;
+        
+    UIViewController* cur = [Tools activityViewController];
+    [cur.view addSubview:((UIView*)loading)];
+       
+    id<AYCommand> cmd = [loading.commands objectForKey:@"startGif"];
+    [cmd performWithResult:nil];
+   
+    /**
+     * 2. call remote
+     */
+    dispatch_queue_t rq = dispatch_queue_create("remote call", nil);
+    dispatch_async(rq, ^{
+        NSError * error = nil;
+        NSData* jsonData =[NSJSONSerialization dataWithJSONObject:args options:NSJSONWritingPrettyPrinted error:&error];
 
-    if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-        NSDictionary* reVal = [result objectForKey:@"result"];
-        block(YES, reVal);
-    } else {
-        NSDictionary* reError = [result objectForKey:@"error"];
-        block(NO, reError);
-    }
+        NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:self.route]];
+        NSLog(@"request result from sever: %@", result);
+
+        if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
+            NSDictionary* reVal = [result objectForKey:@"result"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [((UIView*)loading) removeFromSuperview];
+                block(YES, reVal);
+            });
+        } else {
+            NSDictionary* reError = [result objectForKey:@"error"];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [((UIView*)loading) removeFromSuperview];
+                block(NO, reError);
+            });
+        }
+    });
 }
 
 - (NSString*)getCommandType {
