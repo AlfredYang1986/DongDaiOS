@@ -243,6 +243,16 @@
     if (active == self) {
         NSLog(@"Notify args: %@", args);
         NSLog(@"TODO: 进入咚哒");
+        
+        AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+        
+        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+        [dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        id<AYCommand> cmd = SHOWMODULE;
+        [cmd performWithResult:&dic_show_module];
     }
     
     return nil;

@@ -30,6 +30,8 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
 static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
+static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
+static NSString* const kAYFactoryManagerCommandTypeShowModuleUp = @"ShowModuleUp";
 static NSString* const kAYFactoryManagerCommandTypeAlertView = @"AlertView";
 static NSString* const kAYFactoryManagerCommandTypeAPN = @"APN";
 static NSString* const kAYFactoryManagerCommandTypeMessage = @"Message";
@@ -46,6 +48,8 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
+#define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
+#define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]

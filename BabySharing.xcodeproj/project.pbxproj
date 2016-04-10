@@ -26,6 +26,9 @@
 		700BE5A11CBA2BE800A09B3A /* AYRoleTagSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5A01CBA2BE800A09B3A /* AYRoleTagSearchBarDelegate.m */; };
 		700BE5A41CBA33BA00A09B3A /* AYRoleTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5A31CBA33BA00A09B3A /* AYRoleTagAddDelegate.m */; };
 		700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5A61CBA496800A09B3A /* AYFactoryParaNode.m */; };
+		700BE5AB1CBA4F3600A09B3A /* AYTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5AA1CBA4F3600A09B3A /* AYTabBarController.m */; };
+		700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5AD1CBA583800A09B3A /* AYShowModuleCommand.m */; };
+		700BE5B11CBA5F2C00A09B3A /* AYTestTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5B01CBA5F2C00A09B3A /* AYTestTabBarController.m */; };
 		7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F32D1CB74D08002C416E /* AYSearchController.m */; };
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
@@ -239,6 +242,12 @@
 		700BE5A31CBA33BA00A09B3A /* AYRoleTagAddDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagAddDelegate.m; sourceTree = "<group>"; };
 		700BE5A51CBA496800A09B3A /* AYFactoryParaNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFactoryParaNode.h; sourceTree = "<group>"; };
 		700BE5A61CBA496800A09B3A /* AYFactoryParaNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFactoryParaNode.m; sourceTree = "<group>"; };
+		700BE5A91CBA4F3600A09B3A /* AYTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTabBarController.h; sourceTree = "<group>"; };
+		700BE5AA1CBA4F3600A09B3A /* AYTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTabBarController.m; sourceTree = "<group>"; };
+		700BE5AC1CBA583800A09B3A /* AYShowModuleCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYShowModuleCommand.h; sourceTree = "<group>"; };
+		700BE5AD1CBA583800A09B3A /* AYShowModuleCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShowModuleCommand.m; sourceTree = "<group>"; };
+		700BE5AF1CBA5F2C00A09B3A /* AYTestTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTestTabBarController.h; sourceTree = "<group>"; };
+		700BE5B01CBA5F2C00A09B3A /* AYTestTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTestTabBarController.m; sourceTree = "<group>"; };
 		7017F32C1CB74D08002C416E /* AYSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchController.h; sourceTree = "<group>"; };
 		7017F32D1CB74D08002C416E /* AYSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchController.m; sourceTree = "<group>"; };
 		7017F3341CB74F63002C416E /* AYSearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarView.h; sourceTree = "<group>"; };
@@ -734,6 +743,17 @@
 			path = DelegateFactory;
 			sourceTree = "<group>";
 		};
+		700BE5A81CBA4F2900A09B3A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				700BE5A91CBA4F3600A09B3A /* AYTabBarController.h */,
+				700BE5AA1CBA4F3600A09B3A /* AYTabBarController.m */,
+				700BE5AF1CBA5F2C00A09B3A /* AYTestTabBarController.h */,
+				700BE5B01CBA5F2C00A09B3A /* AYTestTabBarController.m */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		7017F32A1CB74CDF002C416E /* SearchController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1187,6 +1207,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				700BE5A81CBA4F2900A09B3A /* TabBar */,
 				7017F32A1CB74CDF002C416E /* SearchController */,
 				7060BDC01CB632D3001E4111 /* OthersLoginController */,
 				705C450F1CA8EF6A00921799 /* UserInfoInput */,
@@ -1390,6 +1411,8 @@
 				705C451F1CA8FEBE00921799 /* AYPushCommand.m */,
 				702459DF1CAA282400CC51D0 /* AYPopCommand.h */,
 				702459E01CAA282400CC51D0 /* AYPopCommand.m */,
+				700BE5AC1CBA583800A09B3A /* AYShowModuleCommand.h */,
+				700BE5AD1CBA583800A09B3A /* AYShowModuleCommand.m */,
 			);
 			path = ControllerExchangeCommand;
 			sourceTree = "<group>";
@@ -1976,6 +1999,7 @@
 				702459E81CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m in Sources */,
 				702E7A831CA150A00097867E /* main.m in Sources */,
 				702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */,
+				700BE5B11CBA5F2C00A09B3A /* AYTestTabBarController.m in Sources */,
 				701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */,
 				701D8A971CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m in Sources */,
 				701D8A981CA7E06700B5D4C1 /* RegCurrentToken.m in Sources */,
@@ -2030,6 +2054,7 @@
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
+				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				70F34D751CA5312500CEF7C1 /* AYLandingTitleView.m in Sources */,
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
 				700BE58B1CBA0AEF00A09B3A /* AYAuthWithSNSCommand.m in Sources */,
@@ -2057,6 +2082,7 @@
 				709CDE1F1CA3FC680042BEE9 /* AYLoginSNSWithWeiboCommand.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
+				700BE5AB1CBA4F3600A09B3A /* AYTabBarController.m in Sources */,
 				702E7AAE1CA1622C0097867E /* AYFactoryManager.m in Sources */,
 				707B4D431CA81E7600F6256E /* AYChangeRegUserCommand.m in Sources */,
 				7060BDC31CB63387001E4111 /* AYOthersLoginController.m in Sources */,

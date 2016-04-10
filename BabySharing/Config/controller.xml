@@ -60,4 +60,8 @@
         <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" />
         <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
     </controller>
+    
+    <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
+        
+    </controller>
 </controllers>
