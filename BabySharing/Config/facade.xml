@@ -20,6 +20,10 @@
 
         <command type="Module" name="QueryCurrentLoginUser" />
         <command type="Module" name="ChangeCurrentLoginUser" />
+
+        <command type="Module" name="QuerySNSProviders" />
+        <command type="Module" name="ChangeSNSProviders" />
+        
     </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >

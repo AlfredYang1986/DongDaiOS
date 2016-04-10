@@ -64,7 +64,7 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
     NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"" forKey:@"auth_token"];
     [dic setValue:@"" forKey:@"user_id"];
-    [dic setValue:@"wechat" forKey:@"provide_name"];
+    [dic setValue:@"qq" forKey:@"provide_name"];
     [dic setValue:screen_name forKey:@"provide_screen_name"];
     [dic setValue:@"" forKey:@"provide_screen_photo"];
     [dic setValue:qq_openID forKey:@"provide_uid"];
@@ -83,6 +83,15 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
         id dic = [result copy];
         [cmd performWithResult:&dic];
         NSLog(@"change tmp reg user %@", dic);
+       
+        NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
+        [dic_result setValue:@"qq" forKey:@"provide_name"];
+        [dic_result setValue:qq_openID forKey:@"provide_user_id"];
+        [dic_result setValue:accessToken forKey:@"provide_token"];
+        [dic_result setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
+         
+        id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
+        [cmd_provider performWithResult:&dic_result];
         
         NSString* screen_photo = [result objectForKey:@"screen_photo"];
         if (screen_photo == nil || [screen_photo isEqualToString:@""]) {

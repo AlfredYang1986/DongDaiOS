@@ -161,6 +161,15 @@ static NSString* const kWechatDescription = @"wechat";
         [cmd performWithResult:&dic];
         NSLog(@"change tmp reg user %@", dic);
         
+        NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
+        [dic_result setValue:@"wechat" forKey:@"provide_name"];
+        [dic_result setValue:whchat_openID forKey:@"provide_user_id"];
+        [dic_result setValue:accessToken forKey:@"provide_token"];
+        [dic_result setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
+        
+        id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
+        [cmd_provider performWithResult:&dic_result];
+        
         NSString* screen_photo = [result objectForKey:@"screen_photo"];
         if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
             NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"headimgurl"]]];
