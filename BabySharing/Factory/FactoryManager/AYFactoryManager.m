@@ -10,6 +10,7 @@
 #import "GDataXMLNode.h"
 #import "AYFactory.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryParaNode.h"
 
 #import "CommonCrypto/CommonDigest.h"
 #import <objc/runtime.h>
@@ -186,10 +187,10 @@ static AYFactoryManager* instance = nil;
                
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 
-                NSMutableDictionary* cmd_dic = [[NSMutableDictionary alloc]init];
+                NSMutableArray * cmd_dic = [[NSMutableArray alloc]init];
                 for (GDataXMLElement* iter in cmds) {
-                    id<AYCommand> cmd = COMMAND([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
-                    [cmd_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
+                    [cmd_dic addObject:node];
                 }
                 
                 NSArray* facades = [node nodesForXPath:@"facade" error:nil];
@@ -204,19 +205,24 @@ static AYFactoryManager* instance = nil;
                 NSArray* views = [node nodesForXPath:@"view" error:nil];
                 NSLog(@"controller views: %@", views);
 
-                NSMutableDictionary* views_dic = [[NSMutableDictionary alloc]init];
+                NSMutableArray * views_dic = [[NSMutableArray alloc]init];
                 for (GDataXMLElement* iter in views) {
-                    id<AYCommand> cmd = VIEW([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
-                    [views_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
+                    [views_dic addObject:node];
                 }
                 
                 NSArray* delegates = [node nodesForXPath:@"delegate" error:nil];
                 NSLog(@"controller delegates: %@", delegates);
                 
-                NSMutableDictionary* delegates_dic = [[NSMutableDictionary alloc]init];
+//                NSMutableDictionary* delegates_dic = [[NSMutableDictionary alloc]init];
+//                for (GDataXMLElement* iter in delegates) {
+//                    id<AYCommand> cmd = DELEGATE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
+//                    [delegates_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+//                }
+                NSMutableArray * delegates_dic = [[NSMutableArray alloc]init];
                 for (GDataXMLElement* iter in delegates) {
-                    id<AYCommand> cmd = DELEGATE([iter attributeForName:@"type"].stringValue, [iter attributeForName:@"name"].stringValue);
-                    [delegates_dic setValue:cmd forKey:[iter attributeForName:@"name"].stringValue];
+                    AYFactoryParaNode* node = [[AYFactoryParaNode alloc]initWithType:[iter attributeForName:@"type"].stringValue andName:[iter attributeForName:@"name"].stringValue];
+                    [delegates_dic addObject:node];
                 }
                 
                 NSArray* model = [node nodesForXPath:@"model" error:nil];

@@ -25,6 +25,7 @@
 		700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE59D1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m */; };
 		700BE5A11CBA2BE800A09B3A /* AYRoleTagSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5A01CBA2BE800A09B3A /* AYRoleTagSearchBarDelegate.m */; };
 		700BE5A41CBA33BA00A09B3A /* AYRoleTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5A31CBA33BA00A09B3A /* AYRoleTagAddDelegate.m */; };
+		700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5A61CBA496800A09B3A /* AYFactoryParaNode.m */; };
 		7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F32D1CB74D08002C416E /* AYSearchController.m */; };
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
@@ -236,6 +237,8 @@
 		700BE5A01CBA2BE800A09B3A /* AYRoleTagSearchBarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagSearchBarDelegate.m; sourceTree = "<group>"; };
 		700BE5A21CBA33BA00A09B3A /* AYRoleTagAddDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRoleTagAddDelegate.h; sourceTree = "<group>"; };
 		700BE5A31CBA33BA00A09B3A /* AYRoleTagAddDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagAddDelegate.m; sourceTree = "<group>"; };
+		700BE5A51CBA496800A09B3A /* AYFactoryParaNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFactoryParaNode.h; sourceTree = "<group>"; };
+		700BE5A61CBA496800A09B3A /* AYFactoryParaNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFactoryParaNode.m; sourceTree = "<group>"; };
 		7017F32C1CB74D08002C416E /* AYSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchController.h; sourceTree = "<group>"; };
 		7017F32D1CB74D08002C416E /* AYSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchController.m; sourceTree = "<group>"; };
 		7017F3341CB74F63002C416E /* AYSearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarView.h; sourceTree = "<group>"; };
@@ -1142,6 +1145,8 @@
 				702E7AAD1CA1622C0097867E /* AYFactoryManager.m */,
 				70F34D5C1CA5189300CEF7C1 /* AYResourceManager.h */,
 				70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */,
+				700BE5A51CBA496800A09B3A /* AYFactoryParaNode.h */,
+				700BE5A61CBA496800A09B3A /* AYFactoryParaNode.m */,
 			);
 			path = FactoryManager;
 			sourceTree = "<group>";
@@ -2021,6 +2026,7 @@
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
 				701D8A581CA7B9C200B5D4C1 /* AYPhoneLoginFacade.m in Sources */,
 				7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */,
+				700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,

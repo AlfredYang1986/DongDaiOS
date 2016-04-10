@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BabySharing/Factory/FactoryManager/AYFactoryManager.m"
-            timestampString = "481968721.926575"
+            timestampString = "481971721.764684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "414"
+            endingLineNumber = "414"
             landmarkName = "-enumObjectWithCatigory:type:name:"
             landmarkType = "5">
          </BreakpointContent>
@@ -22,32 +22,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BabySharing/Factory/FactoryManager/AYFactoryManager.m"
-            timestampString = "481968732.270561"
+            filePath = "BabySharing/Factory/ControllerFactory/AYDefaultControllerFactoy.m"
+            timestampString = "481971721.764684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "408"
-            endingLineNumber = "408"
-            landmarkName = "-enumObjectWithCatigory:type:name:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "BabySharing/Factory/FactoryManager/AYFactoryManager.m"
-            timestampString = "481968842.562948"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "-enumObjectWithCatigory:type:name:"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "-createInstance"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
