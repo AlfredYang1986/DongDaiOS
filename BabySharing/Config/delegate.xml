@@ -1,0 +1,5 @@
+<delegates>
+    <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+</delegates>

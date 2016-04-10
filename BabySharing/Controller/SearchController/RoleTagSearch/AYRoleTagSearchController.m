@@ -9,20 +9,11 @@
 #import "AYRoleTagSearchController.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
-#import "AYFactoryManager.h"
-#import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
-
-static NSString* const RoleTagSearchHeader = @"FoundSearchHeader";
-static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
-
-@interface AYRoleTagSearchController () <UITableViewDelegate, UITableViewDataSource>
-
-@end
+#import "AYRoleTagSearchControllerDefines.h"
 
 @implementation AYRoleTagSearchController {
-    NSArray* recommands_role_tags;
 }
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -55,10 +46,12 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-   
-    id obj = (id)self;
+  
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"RoleTagRecommend"];
+    
+    id obj = (id)cmd_recommend;
     [cmd_datasource performWithResult:&obj];
-    obj = (id)self;
+    obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
 
     id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
@@ -78,8 +71,10 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
     
     [cmd_query_role_tag performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"recommand role tags are: %@", result);
-        recommands_role_tags = (NSArray*)result;
-       
+        
+        id<AYCommand> cmd_reset_data = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
+        [cmd_reset_data performWithResult:&result];
+        
         id<AYCommand> cmd_reload = [view_table.commands objectForKey:@"refresh"];
         [cmd_reload performWithResult:nil];
     }];
@@ -88,64 +83,5 @@ static NSString* const RoleTagHotCell = @"FoundHotTagsCell";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
-#pragma mark -- table
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
-
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = VIEW(RoleTagHotCell, RoleTagHotCell);
-    }
-    
-    cell.controller = self;
-    
-    id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
-    NSArray* arr = [recommands_role_tags copy];
-    [cmd performWithResult:&arr];
-    
-    return (UITableViewCell*)cell;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix]];
-    if (header == nil) {
-        header = VIEW(RoleTagSearchHeader, RoleTagSearchHeader);
-    }
-   
-    header.controller = self;
-   
-    id<AYCommand> cmd = [header.commands objectForKey:@"changeHeaderTitle:"];
-    NSString* str = @"选择或者添加一个你的角色";
-    [cmd performWithResult:&str];
-   
-    UITableViewHeaderFooterView* v = (UITableViewHeaderFooterView*)header;
-    v.backgroundView = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[UIColor whiteColor] size:v.bounds.size]];
-    return (UIView*)header;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYViewBase> header = VIEW(RoleTagHotCell, RoleTagHotCell);
-    id<AYCommand> cmd = [header.commands objectForKey:@"queryCellHeight"];
-    NSNumber* result = nil;
-    [cmd performWithResult:&result];
-    return result.floatValue;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    id<AYViewBase> header = VIEW(RoleTagSearchHeader, RoleTagSearchHeader);
-    id<AYCommand> cmd = [header.commands objectForKey:@"queryHeaderHeight"];
-    NSNumber* result = nil;
-    [cmd performWithResult:&result];
-    return result.floatValue;
 }
 @end

@@ -15,6 +15,7 @@
 @synthesize commands = _commands;
 @synthesize facades = _facades;
 @synthesize views = _views;
+@synthesize delegates = _delegates;
 
 - (NSString*)getControllerName {
     return [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"Navigation"] stringByAppendingString:kAYFactoryManagerControllersuffix];

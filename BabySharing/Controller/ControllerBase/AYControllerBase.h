@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSDictionary* commands;
 @property (nonatomic, strong) NSDictionary* facades;
+@property (nonatomic, strong) NSDictionary* delegates;
 @property (nonatomic, strong) NSDictionary* views;
 
 @property (nonatomic, readonly, getter=getControllerType) NSString* controller_type;

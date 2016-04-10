@@ -37,6 +37,7 @@
 
     NSDictionary* facades = [_para objectForKey:@"facades"];
     NSDictionary* views = [_para objectForKey:@"views"];
+    NSDictionary* delegates = [_para objectForKey:@"delegates"];
    
     id<AYControllerBase> controller = nil;
     NSString* desController = [self.para objectForKey:@"controller"];
@@ -54,7 +55,10 @@
         
         if (views)
             controller.views = views;
-        
+       
+        if (delegates) {
+            controller.delegates = delegates;
+        }
     }
     
     for (id<AYCommand> facade in facades.allValues) {

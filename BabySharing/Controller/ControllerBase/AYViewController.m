@@ -23,6 +23,7 @@
 
 @synthesize commands = _commands;
 @synthesize views = _views;
+@synthesize delegates = _delegates;
 @synthesize facades = _facades;
 
 - (NSString*)getControllerName {
@@ -38,6 +39,7 @@
     NSLog(@"command are : %@", self.commands);
     NSLog(@"facade are : %@", self.facades);
     NSLog(@"view are : %@", self.views);
+    NSLog(@"delegates are : %@", self.delegates);
     
     for (NSString* view_name in self.views.allKeys) {
         NSLog(@"view name is : %@", view_name);

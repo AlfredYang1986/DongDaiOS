@@ -1,5 +1,5 @@
 <views>
-    <view tyep="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" >
+    <view type="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" >
         <command type="message" message="hideKeyboard" />
         <command type="message" message="startConfirmCodeTimer" />
         <command type="message" message="stopConfirmCodeTimer" />

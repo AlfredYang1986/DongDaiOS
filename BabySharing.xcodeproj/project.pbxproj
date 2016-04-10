@@ -20,6 +20,9 @@
 		700BE5901CBA0AEF00A09B3A /* AYUploadUserImageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5831CBA0AEF00A09B3A /* AYUploadUserImageCommand.m */; };
 		700BE5911CBA0AEF00A09B3A /* AYUpdateUserDetailCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5871CBA0AEF00A09B3A /* AYUpdateUserDetailCommand.m */; };
 		700BE5941CBA0B0000A09B3A /* AYQueryRecommandRoleTagsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5931CBA0B0000A09B3A /* AYQueryRecommandRoleTagsCommand.m */; };
+		700BE5971CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5961CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m */; };
+		700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */ = {isa = PBXBuildFile; fileRef = 700BE5991CBA1B4E00A09B3A /* delegate.xml */; };
+		700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE59D1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m */; };
 		7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F32D1CB74D08002C416E /* AYSearchController.m */; };
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
@@ -221,6 +224,12 @@
 		700BE5871CBA0AEF00A09B3A /* AYUpdateUserDetailCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateUserDetailCommand.m; sourceTree = "<group>"; };
 		700BE5921CBA0B0000A09B3A /* AYQueryRecommandRoleTagsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryRecommandRoleTagsCommand.h; sourceTree = "<group>"; };
 		700BE5931CBA0B0000A09B3A /* AYQueryRecommandRoleTagsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryRecommandRoleTagsCommand.m; sourceTree = "<group>"; };
+		700BE5951CBA179F00A09B3A /* AYRoleTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRoleTagRecommendDelegate.h; sourceTree = "<group>"; };
+		700BE5961CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagRecommendDelegate.m; sourceTree = "<group>"; };
+		700BE5981CBA192F00A09B3A /* AYRoleTagSearchControllerDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYRoleTagSearchControllerDefines.h; sourceTree = "<group>"; };
+		700BE5991CBA1B4E00A09B3A /* delegate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = delegate.xml; sourceTree = "<group>"; };
+		700BE59C1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDefaultDelegateFactory.h; sourceTree = "<group>"; };
+		700BE59D1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultDelegateFactory.m; sourceTree = "<group>"; };
 		7017F32C1CB74D08002C416E /* AYSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchController.h; sourceTree = "<group>"; };
 		7017F32D1CB74D08002C416E /* AYSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchController.m; sourceTree = "<group>"; };
 		7017F3341CB74F63002C416E /* AYSearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarView.h; sourceTree = "<group>"; };
@@ -707,6 +716,15 @@
 			path = QueryRecommandRoleTags;
 			sourceTree = "<group>";
 		};
+		700BE59B1CBA1C2000A09B3A /* DelegateFactory */ = {
+			isa = PBXGroup;
+			children = (
+				700BE59C1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.h */,
+				700BE59D1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m */,
+			);
+			path = DelegateFactory;
+			sourceTree = "<group>";
+		};
 		7017F32A1CB74CDF002C416E /* SearchController */ = {
 			isa = PBXGroup;
 			children = (
@@ -722,6 +740,9 @@
 			children = (
 				7017F33B1CB7512E002C416E /* AYRoleTagSearchController.h */,
 				7017F33C1CB7512E002C416E /* AYRoleTagSearchController.m */,
+				700BE5951CBA179F00A09B3A /* AYRoleTagRecommendDelegate.h */,
+				700BE5961CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m */,
+				700BE5981CBA192F00A09B3A /* AYRoleTagSearchControllerDefines.h */,
 			);
 			path = RoleTagSearch;
 			sourceTree = "<group>";
@@ -1077,6 +1098,7 @@
 		702E7A9C1CA15A690097867E /* Factory */ = {
 			isa = PBXGroup;
 			children = (
+				700BE59B1CBA1C2000A09B3A /* DelegateFactory */,
 				705C45191CA8FD8900921799 /* ControllerExchangFactory */,
 				701D8A331CA7A95000B5D4C1 /* RemoteCallFactory */,
 				70EAD8111CA669DC007965D2 /* ModelFactory */,
@@ -1125,6 +1147,7 @@
 				7001310A1CA44057006003C8 /* view.xml */,
 				70EAD80B1CA662EF007965D2 /* model.xml */,
 				701D8A311CA7999A00B5D4C1 /* remote.xml */,
+				700BE5991CBA1B4E00A09B3A /* delegate.xml */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1862,6 +1885,7 @@
 				702E7AB71CA169C00097867E /* color.xml in Resources */,
 				70490DC01CA2339D0093D5DA /* read_me.txt in Resources */,
 				701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */,
+				700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */,
 				70490DC21CA2339D0093D5DA /* WeiboSDK.bundle in Resources */,
 				702E7A8D1CA151770097867E /* icon-120.png in Resources */,
 				7060BDBF1CB63219001E4111 /* InfoPlist.strings in Resources */,
@@ -1914,6 +1938,7 @@
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
+				700BE5971CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m in Sources */,
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
@@ -1994,6 +2019,7 @@
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				700BE5901CBA0AEF00A09B3A /* AYUploadUserImageCommand.m in Sources */,
 				701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */,
+				700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
 				70B8209F1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,

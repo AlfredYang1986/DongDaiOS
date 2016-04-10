@@ -18,11 +18,13 @@ static NSString* const kAYFactoryManagerControllerPrefix = @"AY";
 static NSString* const kAYFactoryManagerControllersuffix = @"Controller";
 static NSString* const kAYFactoryManagerFacadesuffix = @"Facade";
 static NSString* const kAYFactoryManagerViewsuffix = @"View";
+static NSString* const kAYFactoryManagerDelegatesuffix = @"Delegate";
 
 static NSString* const kAYFactoryManagerCatigoryCommand = @"Command";
 static NSString* const kAYFactoryManagerCatigoryController = @"Controller";
 static NSString* const kAYFactoryManagerCatigoryFacade = @"Facade";
 static NSString* const kAYFactoryManagerCatigoryView = @"View";
+static NSString* const kAYFactoryManagerCatigoryDelegate = @"Delegate";
 static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
@@ -52,6 +54,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define DEFAULTFACADE(NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryFacade type:kAYFactoryManagerCommandTypeDefaultFacade name:NAME]
 
 #define VIEW(TYPE, NAME)        [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryView type:TYPE name:NAME]
+#define DELEGATE(TYPE, NAME)    [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryDelegate type:TYPE name:NAME]
 
 #define MODEL                   [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryModel type:kAYFactoryManagerCatigoryModel name:kAYFactoryManagerCatigoryModel]
 #define LOGINMODEL              FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel")

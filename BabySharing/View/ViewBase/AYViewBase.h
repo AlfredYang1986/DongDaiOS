@@ -27,3 +27,5 @@
 @end
 
 #endif /* AYViewBase_h */
+
+#define AYDelegateBase AYViewBase

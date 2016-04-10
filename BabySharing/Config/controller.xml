@@ -55,5 +55,7 @@
         <view type="Table" name="Table" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" />
     </controller>
 </controllers>

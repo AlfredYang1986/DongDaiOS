@@ -16,3 +16,5 @@
 @property (nonatomic, strong) NSString* method_name;
 @property (nonatomic) BOOL need_args;
 @end
+
+#define  AYDelegateNotifyCommand AYViewNotifyCommand
