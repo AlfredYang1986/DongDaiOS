@@ -169,6 +169,14 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
     } else {
         NSLog(@"login failed");
     }
+    
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyEndLogin forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [self performWithResult:&notify];
 }
 
 /**

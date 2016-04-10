@@ -75,11 +75,11 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"app is ready");
-                if (obj != nil) {
-                    [self LoginSuccess];
-                } else {
+//                if (obj != nil) {
+//                    [self LoginSuccess];
+//                } else {
                     self.landing_status = LandingStatusReady;
-                }
+//                }
             });
         });
     }
@@ -266,6 +266,16 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
+- (id)SNSStartLogin:(id)args {
+    self.landing_status = LandingStatusLoading;
+    return nil;
+}
+
+- (id)SNSEndLogin:(id)args {
+    self.landing_status = LandingStatusReady;
+    return nil;
+}
+
 - (id)SNSLoginSuccess:(id)args {
     NSLog(@"SNS Login success with %@", args);
     
@@ -274,7 +284,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
     [dic setValue:args forKey:kAYControllerChangeArgsKey];
     [self performWithResult:&dic];
-    
+
+    self.landing_status = LandingStatusReady;
     return nil;
 }
 

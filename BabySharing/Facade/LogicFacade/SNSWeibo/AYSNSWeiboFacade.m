@@ -61,17 +61,26 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
     [WBHttpRequest requestForUserProfile:weibo_user_id withAccessToken:weibo_token andOtherProperties:nil queue:nil withCompletionHandler:^(WBHttpRequest *httpRequest, id result, NSError *error) {
 
         NSLog(@"begin get user info from weibo");
-        NSString *title = nil;
-        UIAlertView *alert = nil;
+        
+//        NSString *title = nil;
+//        UIAlertView *alert = nil;
+//            title = NSLocalizedString(@"请求异常", nil);
+//            alert = [[UIAlertView alloc] initWithTitle:title
+//                                               message:[NSString stringWithFormat:@"%@",error]
+//                                              delegate:nil
+//                                     cancelButtonTitle:NSLocalizedString(@"确定", nil)
+//                                     otherButtonTitles:nil];
+//            [alert show];
         
         if (error) {
-            title = NSLocalizedString(@"请求异常", nil);
-            alert = [[UIAlertView alloc] initWithTitle:title
-                                               message:[NSString stringWithFormat:@"%@",error]
-                                              delegate:nil
-                                     cancelButtonTitle:NSLocalizedString(@"确定", nil)
-                                     otherButtonTitles:nil];
-            [alert show];
+            NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+            [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+            [notify setValue:kAYNotifyEndLogin forKey:kAYNotifyFunctionKey];
+            
+            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+            [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+            [self performWithResult:&notify];
+            
         } else {
             /**
              *  2. sent user screen name to server and create auth_token

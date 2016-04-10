@@ -7,13 +7,16 @@
 //
 
 #import "AYLoginSNSWithWeiboCommand.h"
+#import "AYNotifyDefines.h"
+#import "AYFacade.h"
+#import "AYCommand.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 
 #import "WeiboSDK.h"
 // weibo sdk
 #import "WBHttpRequest+WeiboUser.h"
 #import "WBHttpRequest+WeiboShare.h"
-
 
 @interface AYLoginSNSWithWeiboCommand ()
 
@@ -36,6 +39,15 @@
                          @"Other_Info_2": @[@"obj1", @"obj2"],
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
+    
+    AYFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"SNSWeibo");
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyStartLogin forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [f performWithResult:&notify];
 }
 
 - (NSString*)getCommandType {

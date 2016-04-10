@@ -30,9 +30,10 @@ static NSString* const kAYNotifyWeiboAPIReady = @"SNSWeiboRegister:";
 static NSString* const kAYNotifyLoginModelReady = @"LoginModelRegister:";
 
 static NSString* const kAYNotifySNSLoginSuccess = @"SNSLoginSuccess:";
-
 static NSString* const kAYCurrentLoginUserChanged = @"CurrentLoginUserChanged:";
-
 static NSString* const kAYNotifyLoginXMPPSuccess = @"LoginXMPPSuccess:";
+
+static NSString* const kAYNotifyStartLogin = @"SNSStartLogin:";
+static NSString* const kAYNotifyEndLogin = @"SNSEndLogin:";
 
 #endif /* AYNotifyDefines_h */

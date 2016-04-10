@@ -13,7 +13,7 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYSNSQQFacade.h"
-
+#import "AYNotifyDefines.h"
 
 @interface AYLoginSNSWithQQCommand () 
 
@@ -34,6 +34,14 @@
     TencentOAuth* qq_oauth = qq_facade.qq_oauth;
     NSArray* permissions = qq_facade.permissions;
     [qq_oauth authorize:permissions inSafari:YES];
+
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyStartLogin forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [qq_facade performWithResult:&notify];
 }
 
 - (NSString*)getCommandType {
