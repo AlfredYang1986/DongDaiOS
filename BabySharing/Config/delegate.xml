@@ -16,4 +16,6 @@
     </delegate>
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" factory="AYDefaultDelegateFactory" >
     </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="AppSetting" factory="AYDefaultDelegateFactory" >
+    </delegate>
 </delegates>

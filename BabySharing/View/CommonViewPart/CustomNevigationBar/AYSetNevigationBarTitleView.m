@@ -22,6 +22,7 @@
 - (void)postPerform {
     self.text = @"创建个人信息";
     self.font = [UIFont systemFontOfSize:18.f];
+    self.textAlignment = NSTextAlignmentCenter;
     [self sizeToFit];
 }
 

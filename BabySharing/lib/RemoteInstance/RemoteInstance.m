@@ -29,6 +29,7 @@
             UIAlertView* alert = [[UIAlertView alloc]initWithTitle:@"错误" message:@"访问超时，请检查网络" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
             [alert show];
         });
+        return nil;
     }
     
     NSError * error = nil;

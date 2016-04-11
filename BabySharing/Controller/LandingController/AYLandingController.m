@@ -337,6 +337,14 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
+- (id)LogoutCurrentUser {
+    NSLog(@"current user logout");
+//    [_lm signOutCurrentUser];
+//    [GotyeOCAPI logout];
+    [[Tools activityViewController] dismissViewControllerAnimated:YES completion:nil];
+    return nil;
+}
+
 #pragma mark -- remote notification
 - (id)LandingReqConfirmCodeRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
     /**

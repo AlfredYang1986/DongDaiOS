@@ -92,6 +92,8 @@
 		702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E01CAA282400CC51D0 /* AYPopCommand.m */; };
 		702459E81CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E51CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m */; };
 		702459E91CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E71CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m */; };
+		7027FD161CBC0246002756BC /* AYSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD151CBC0246002756BC /* AYSettingController.m */; };
+		7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
 		702E7A821CA150A00097867E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A7B1CA1502C0097867E /* AppDelegate.m */; };
@@ -397,6 +399,10 @@
 		702459E51CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNevigationBarLeftBtnView.m; sourceTree = "<group>"; };
 		702459E61CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNevigationBarTitleView.h; sourceTree = "<group>"; };
 		702459E71CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNevigationBarTitleView.m; sourceTree = "<group>"; };
+		7027FD141CBC0246002756BC /* AYSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSettingController.h; sourceTree = "<group>"; };
+		7027FD151CBC0246002756BC /* AYSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSettingController.m; sourceTree = "<group>"; };
+		7027FD181CBC0817002756BC /* AYAppSettingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppSettingDelegate.h; sourceTree = "<group>"; };
+		7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppSettingDelegate.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5B1CA14A490097867E /* BabySharingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabySharingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5F1CA14A490097867E /* BabySharingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BabySharingTests.m; sourceTree = "<group>"; };
@@ -1222,6 +1228,25 @@
 			path = CustomNevigationBar;
 			sourceTree = "<group>";
 		};
+		7027FD131CBC0238002756BC /* SettingController */ = {
+			isa = PBXGroup;
+			children = (
+				7027FD171CBC0801002756BC /* SettingDelegate */,
+				7027FD141CBC0246002756BC /* AYSettingController.h */,
+				7027FD151CBC0246002756BC /* AYSettingController.m */,
+			);
+			path = SettingController;
+			sourceTree = "<group>";
+		};
+		7027FD171CBC0801002756BC /* SettingDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7027FD181CBC0817002756BC /* AYAppSettingDelegate.h */,
+				7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */,
+			);
+			path = SettingDelegate;
+			sourceTree = "<group>";
+		};
 		702E7A391CA14A480097867E = {
 			isa = PBXGroup;
 			children = (
@@ -1412,6 +1437,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7027FD131CBC0238002756BC /* SettingController */,
 				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
 				700BE5A81CBA4F2900A09B3A /* TabBar */,
 				7017F32A1CB74CDF002C416E /* SearchController */,
@@ -2187,6 +2213,7 @@
 				700BE5971CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m in Sources */,
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */,
+				7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */,
 				7039CBC81CBB68E500BE60C7 /* AYFoundHotTagsCellView.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
 				700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */,
@@ -2291,6 +2318,7 @@
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,
 				700BE5EC1CBA6E5800A09B3A /* AYRemoteCallCommand.m in Sources */,
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
+				7027FD161CBC0246002756BC /* AYSettingController.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,

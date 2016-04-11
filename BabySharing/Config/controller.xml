@@ -62,7 +62,6 @@
         <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
     </controller>
     
-<!--    <controller type="DefaultController" name="TabBar" factory="AYPreCreateControllerFactoy" >-->
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="HomeInit" />
         <command type="Module" name="FoundInit" />
@@ -85,5 +84,18 @@
 
         <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />
         <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" />
+    </controller>
+    
+    <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        
+        <view type="Table" name="Table" />
+        
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="AppSetting" />
     </controller>
 </controllers>

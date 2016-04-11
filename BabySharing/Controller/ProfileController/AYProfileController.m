@@ -35,6 +35,23 @@
     BOOL isPushed;
 }
 
+#pragma mark --  commands
+- (void)performWithResult:(NSObject *__autoreleasing *)obj {
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+    
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+        NSDictionary* dic_push = [dic copy];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+    
+    }
+}
+
 #pragma mark -- life cycle 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -132,6 +149,14 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if (isPushed) {
+        [self.navigationController setNavigationBarHidden:NO];
+    } else {
+        [self.navigationController setNavigationBarHidden:YES];
+    }
+}
+
 #pragma mark -- layout
 - (id)ProfileHeaderLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -148,7 +173,6 @@
 - (id)TableLayout:(UIView*)view {
 #define PUSHED_MODIFY           (isPushed ? 49 : 0)
     view.frame = CGRectMake(QUERY_VIEW_MARGIN_LEFT, QUERY_VIEW_MARGIN_UP + HEADER_VIEW_HEIGHT + SEG_CTR_HEIGHT - 2, [UIScreen mainScreen].bounds.size.width - QUERY_VIEW_MARGIN_LEFT - QUERY_VIEW_MARGIN_RIGHT, [UIScreen mainScreen].bounds.size.height - QUERY_VIEW_MARGIN_UP - QUERY_VIEW_MARGIN_BOTTOM - HEADER_VIEW_HEIGHT - 100 + PUSHED_MODIFY);
-    view.backgroundColor = [UIColor greenColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     
     return nil;
@@ -197,6 +221,14 @@
 
 - (id)rightBtnSelected {
     NSLog(@"setting view controller");
+   
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [self performWithResult:&dic];
     return nil;
 }
 
