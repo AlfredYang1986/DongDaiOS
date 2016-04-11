@@ -110,6 +110,9 @@ xcuserdata
 # UNKNOWN: recommended by others, but I can't discover what these files are  
 #  
 # ...none. Everything is now explained. 
-lib/gotyeapi/libs/*
-lib/libGPUImage/libGPUImage.a
-lib/libGPUImage/*.a
+BabySharing/lib/gotyeapi/libs/*
+BabySharing/lib/libGPUImage/libGPUImage.a
+BabySharing/lib/libGPUImage/*.a
+BabySharing/lib/libWeChatSDK/*.a
+BabySharing/lib/libWeiboSDK/*.a
+BabySharing/lib/libQQSDK
