@@ -110,7 +110,6 @@ xcuserdata
 # UNKNOWN: recommended by others, but I can't discover what these files are  
 #  
 # ...none. Everything is now explained. 
-lib
 gotyeapi/libs/*
 libGPUImage/libGPUImage.a
 libGPUImage/*.a
