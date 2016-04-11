@@ -12,6 +12,7 @@
 #import "AYViewBase.h"
 #import "AYFacadeBase.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import "AYRemoteCallCommand.h"
 #import "AYNotifyDefines.h"
 #import "AYRemoteCallDefines.h"
@@ -44,8 +45,7 @@
     for (NSString* view_name in self.views.allKeys) {
         NSLog(@"view name is : %@", view_name);
         SEL selector = NSSelectorFromString([[view_name stringByAppendingString:kAYViewLayoutSuffix] stringByAppendingString:@":"]);
-        IMP imp = [self methodForSelector:selector];
-        id (*func)(id, SEL, ...) = imp;
+        id (*func)(id, SEL, id) = (id(*)(id, SEL, id))[self methodForSelector:selector];
         UIView* view = [self.views objectForKey:view_name];
         func(self, selector, view);
         ((id<AYViewBase>)view).controller = self;
@@ -120,7 +120,7 @@
                     SEL selector = NSSelectorFromString([[command_name stringByAppendingString:kAYRemoteCallResultKey] stringByAppendingString:kAYRemoteCallResultArgsKey]);
                     IMP imp = [self methodForSelector:selector];
                     if (imp) {
-                        id (*func)(id, SEL, ...) = imp;
+                        id (*func)(id, SEL, BOOL, NSDictionary*)= (id (*)(id, SEL, BOOL, NSDictionary*))imp;
                         func(self, selector, success, result);
                     }
                 });

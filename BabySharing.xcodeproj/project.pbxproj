@@ -113,6 +113,9 @@
 		702E7AB91CA169E30097867E /* command.xml in Resources */ = {isa = PBXBuildFile; fileRef = 702E7AB81CA169E30097867E /* command.xml */; };
 		702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ABF1CA16C830097867E /* AYAppInitCommandFactory.m */; };
 		702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ACF1CA184A70097867E /* AYAppInitCommand.m */; };
+		7039CBC81CBB68E500BE60C7 /* AYFoundHotTagsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */; };
+		7039CBC91CBB68E500BE60C7 /* AYFoundSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBC61CBB68E500BE60C7 /* AYFoundSearchHeaderView.m */; };
+		7039CBCA1CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7039CBC71CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -416,6 +419,11 @@
 		702E7ACE1CA184A70097867E /* AYAppInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppInitCommand.h; sourceTree = "<group>"; };
 		702E7ACF1CA184A70097867E /* AYAppInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppInitCommand.m; sourceTree = "<group>"; };
 		702E7AD11CA185C70097867E /* AYCommandDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYCommandDefines.h; sourceTree = "<group>"; };
+		7039CBC31CBB68E500BE60C7 /* AYFoundHotTagsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundHotTagsCellView.h; sourceTree = "<group>"; };
+		7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundHotTagsCellView.m; sourceTree = "<group>"; };
+		7039CBC51CBB68E500BE60C7 /* AYFoundSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchHeaderView.h; sourceTree = "<group>"; };
+		7039CBC61CBB68E500BE60C7 /* AYFoundSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundSearchHeaderView.m; sourceTree = "<group>"; };
+		7039CBC71CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYFoundSearchHeaderView.xib; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -954,6 +962,7 @@
 			children = (
 				7017F32C1CB74D08002C416E /* AYSearchController.h */,
 				7017F32D1CB74D08002C416E /* AYSearchController.m */,
+				7039CBC21CBB68E500BE60C7 /* SearchViews */,
 				7017F32B1CB74CF1002C416E /* RoleTagSearch */,
 			);
 			path = SearchController;
@@ -1399,6 +1408,18 @@
 				702E7ACF1CA184A70097867E /* AYAppInitCommand.m */,
 			);
 			path = AppInitCommand;
+			sourceTree = "<group>";
+		};
+		7039CBC21CBB68E500BE60C7 /* SearchViews */ = {
+			isa = PBXGroup;
+			children = (
+				7039CBC31CBB68E500BE60C7 /* AYFoundHotTagsCellView.h */,
+				7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */,
+				7039CBC51CBB68E500BE60C7 /* AYFoundSearchHeaderView.h */,
+				7039CBC61CBB68E500BE60C7 /* AYFoundSearchHeaderView.m */,
+				7039CBC71CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib */,
+			);
+			path = SearchViews;
 			sourceTree = "<group>";
 		};
 		70490D9D1CA222470093D5DA /* APNNotificationCommand */ = {
@@ -1979,6 +2000,7 @@
 				70490DBE1CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				702E7A8E1CA151770097867E /* icon-152.png in Resources */,
 				702E7AB71CA169C00097867E /* color.xml in Resources */,
+				7039CBCA1CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib in Resources */,
 				70490DC01CA2339D0093D5DA /* read_me.txt in Resources */,
 				701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */,
 				700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */,
@@ -2038,6 +2060,7 @@
 				700BE5971CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m in Sources */,
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */,
+				7039CBC81CBB68E500BE60C7 /* AYFoundHotTagsCellView.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
 				700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */,
 				700BE5EA1CBA6E5800A09B3A /* AYLandingAuthConfirmCommand.m in Sources */,
@@ -2097,6 +2120,7 @@
 				70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */,
 				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
+				7039CBC91CBB68E500BE60C7 /* AYFoundSearchHeaderView.m in Sources */,
 				701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */,
 				700BE62F1CBA918E00A09B3A /* AYFoundInitCommand.m in Sources */,
 				701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */,

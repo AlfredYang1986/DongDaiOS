@@ -75,7 +75,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"app is ready");
-                if (obj != nil) {
+                if (obj != nil && ((NSDictionary*)obj).count != 0) {
                     [self LoginSuccess];
                 } else {
                     self.landing_status = LandingStatusReady;

@@ -27,8 +27,7 @@
         SEL sel = NSSelectorFromString(_method_name);
         Method m = class_getInstanceMethod([((UIViewController*)_controller) class], sel);
         if (m) {
-            IMP imp = method_getImplementation(m);
-            id (*func)(id, SEL, ...) = imp;
+            id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
             id result = func(_controller, sel, *obj);
             if (obj != nil) {
                 *obj = result;

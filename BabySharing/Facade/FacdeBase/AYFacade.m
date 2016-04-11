@@ -85,8 +85,7 @@
         SEL sel = NSSelectorFromString(message_name);
         Method m = class_getInstanceMethod([controller class], sel);
         if (m) {
-            IMP imp = method_getImplementation(m);
-            id (*func)(id, SEL, ...) = imp;
+            id (*func)(id, SEL, id) = (id(*)(id, SEL, id))method_getImplementation(m);
             func(controller, sel, args);
         }
     }
