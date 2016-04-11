@@ -35,6 +35,7 @@
 
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UpdateUserDetail" />
+        <command type="Remote" name="QueryUserProfile" />
     </facade>
     
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >

@@ -40,6 +40,7 @@
         CurrentToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"CurrentToken" inManagedObjectContext:context];
         tmp.last_login_data = [NSDate date];
         tmp.who = lgt;
+        lgt.logined = tmp;
         tmp.status = [NSNumber numberWithInt:1]; // 1 => online
         [context save:nil];
         return tmp;

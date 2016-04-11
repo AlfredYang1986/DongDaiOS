@@ -161,8 +161,9 @@ static NSString* const kWechatDescription = @"wechat";
    
         NSMutableDictionary* reVal = [result mutableCopy];
         
-        AYModel* m = MODEL;
-        id<AYFacadeBase> f = [m.facades objectForKey:@"LoginModel"];
+//        AYModel* m = MODEL;
+//        id<AYFacadeBase> f = [m.facades objectForKey:@"LoginModel"];
+        id<AYFacadeBase> f = LOGINMODEL;
         id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
 
         id dic = [result copy];

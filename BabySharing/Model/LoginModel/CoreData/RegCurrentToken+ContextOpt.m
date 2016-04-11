@@ -36,8 +36,10 @@
         RegCurrentToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"RegCurrentToken" inManagedObjectContext:context];
         tmp.last_login_data = [NSDate date];
         tmp.who = lgt;
+        lgt.reglogined = tmp;
         tmp.status = [NSNumber numberWithInt:1]; // 1 => online
         [context save:nil];
+        
         return tmp;
     }
 }

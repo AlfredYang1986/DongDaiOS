@@ -9,6 +9,14 @@
 #ifndef AYRemoteCallDefines_h
 #define AYRemoteCallDefines_h
 
+typedef NS_ENUM(NSInteger, UserPostOwnerConnections) {
+    UserPostOwnerConnectionsNone,
+    UserPostOwnerConnectionsSamePerson,
+    UserPostOwnerConnectionsFollowing,
+    UserPostOwnerConnectionsFollowed,
+    UserPostOwnerConnectionsFriends
+};
+
 static NSString* const kAYRemoteCallResultKey = @"RemoteResult:";
 static NSString* const kAYRemoteCallResultArgsKey = @"RemoteArgs:";
 #endif /* AYRemoteCallDefines_h */

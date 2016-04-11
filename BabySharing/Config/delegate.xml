@@ -12,4 +12,8 @@
         <command type="notify" message="RoleTagSeleted:" />
         <command type="notify" message="RoleTagAdded:" />
     </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" factory="AYDefaultDelegateFactory" >
+    </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" factory="AYDefaultDelegateFactory" >
+    </delegate>
 </delegates>

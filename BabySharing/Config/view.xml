@@ -53,4 +53,33 @@
         <command type="message" message="setHotTagsText:" />
         <command type="message" message="queryCellHeight" />
     </view>
+
+    <view type="ProfileHeader" name="ProfileHeader" factory="AYDefaultViewFactory" >
+        <command type="message" message="setUserInfo:" />
+    </view>
+
+    <view type="BackgroundImage" name="BackgroundImage" factory="AYDefaultViewFactory" >
+        <command type="message" message="setBackgroundImage:" />
+    </view>
+    
+    <view type="FakeNavBar" name="FakeNavBar" factory="AYDefaultViewFactory" >
+        <command type="message" message="setTitleText:" />
+        <command type="message" message="setBackGroundColor:" />
+        <command type="message" message="setLeftBtnImg:" />
+        <command type="message" message="setRightBtnImg:" />
+        <command type="message" message="setLeftBtnVisibility:" />
+        <command type="message" message="setRightBtnVisibility:" />
+        <command type="notify" message="leftBtnSelected" />
+        <command type="notify" message="rightBtnSelected" />
+    </view>
+
+    <view type="DongDaSeg" name="DongDaSeg" factory="AYDefaultViewFactory" >
+        <command type="message" message="setSegInfo:" />
+        <command type="message" message="addItem:" />
+        <command type="message" message="removeItem:" />
+        <command type="message" message="queryPerferedHeight" />
+        <command type="message" message="queryPerferedHeightWithImage" />
+        <command type="message" message="queryCurrentSelectedIndex" />
+        <command type="notify" message="segValueChanged:" />
+    </view>
 </views>

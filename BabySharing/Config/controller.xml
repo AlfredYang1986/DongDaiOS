@@ -70,4 +70,20 @@
         <command type="Module" name="ProfileInit" />
         <command type="Module" name="PlaceHolderInit" />
     </controller>
+    
+    <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ProfileRemote" />
+
+        <view type="Table" name="Table" />
+        <view type="ProfileHeader" name="ProfileHeader" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="BackgroundImage" name="BackgroundImage" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />
+        <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" />
+    </controller>
 </controllers>

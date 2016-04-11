@@ -43,7 +43,8 @@
             [LoginToken unbindTokenInContext:f.doc.managedObjectContext WithPhoneNum:phoneNo];
         }
         
-        LoginToken* token = [LoginToken enumLoginUserInContext:f.doc.managedObjectContext withUserID:newID];
+//        LoginToken* token = [LoginToken enumLoginUserInContext:f.doc.managedObjectContext withUserID:newID];
+        LoginToken* token = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:newID andAttrs:dic];
         
         [CurrentToken changeCurrentLoginUser:token inContext:f.doc.managedObjectContext];
         [f.doc.managedObjectContext save:nil];

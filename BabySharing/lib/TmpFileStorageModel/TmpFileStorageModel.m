@@ -95,7 +95,8 @@
     NSString* file = [[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:extent];
     file = [file stringByAppendingPathExtension:@"png"];
     
-    [UIImagePNGRepresentation(img) writeToFile:file atomically:YES];
+//    [UIImagePNGRepresentation(img) writeToFile:file atomically:YES];
+    [UIImageJPEGRepresentation(img, 1.f) writeToFile:file atomically:YES];
     return extent;
 }
 
@@ -103,7 +104,8 @@
     NSString* file = [[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name];
     file = [file stringByAppendingPathExtension:@"png"];
     
-    [UIImagePNGRepresentation(img) writeToFile:file atomically:YES];
+//    [UIImagePNGRepresentation(img) writeToFile:file atomically:YES];
+    [UIImageJPEGRepresentation(img, 1.f) writeToFile:file atomically:YES];
 }
 
 + (void)saveAsToAlbumWithImageName:(NSString*)name {
