@@ -98,4 +98,14 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="AppSetting" />
     </controller>
+    
+    <controller type="DefaultController" name="AboutDD" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        
+        <view type="Table" name="Table" />
+        
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+    </controller>
 </controllers>

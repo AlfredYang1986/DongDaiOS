@@ -115,6 +115,8 @@
 		702E7AB91CA169E30097867E /* command.xml in Resources */ = {isa = PBXBuildFile; fileRef = 702E7AB81CA169E30097867E /* command.xml */; };
 		702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ABF1CA16C830097867E /* AYAppInitCommandFactory.m */; };
 		702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ACF1CA184A70097867E /* AYAppInitCommand.m */; };
+		70334F6A1CBCD24400EF8C66 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70334F691CBCD24400EF8C66 /* AYAboutDDController.m */; };
+		70334F741CBD12A100EF8C66 /* AYAboutDongdaCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70334F731CBD12A100EF8C66 /* AYAboutDongdaCellView.m */; };
 		7039CBC81CBB68E500BE60C7 /* AYFoundHotTagsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */; };
 		7039CBC91CBB68E500BE60C7 /* AYFoundSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBC61CBB68E500BE60C7 /* AYFoundSearchHeaderView.m */; };
 		7039CBCA1CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7039CBC71CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib */; };
@@ -440,6 +442,10 @@
 		702E7ACE1CA184A70097867E /* AYAppInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppInitCommand.h; sourceTree = "<group>"; };
 		702E7ACF1CA184A70097867E /* AYAppInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppInitCommand.m; sourceTree = "<group>"; };
 		702E7AD11CA185C70097867E /* AYCommandDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYCommandDefines.h; sourceTree = "<group>"; };
+		70334F681CBCD24400EF8C66 /* AYAboutDDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AYAboutDDController.h; path = ../AYAboutDDController.h; sourceTree = "<group>"; };
+		70334F691CBCD24400EF8C66 /* AYAboutDDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AYAboutDDController.m; path = ../AYAboutDDController.m; sourceTree = "<group>"; };
+		70334F721CBD12A100EF8C66 /* AYAboutDongdaCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDongdaCellView.h; sourceTree = "<group>"; };
+		70334F731CBD12A100EF8C66 /* AYAboutDongdaCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDongdaCellView.m; sourceTree = "<group>"; };
 		7039CBC31CBB68E500BE60C7 /* AYFoundHotTagsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundHotTagsCellView.h; sourceTree = "<group>"; };
 		7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundHotTagsCellView.m; sourceTree = "<group>"; };
 		7039CBC51CBB68E500BE60C7 /* AYFoundSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchHeaderView.h; sourceTree = "<group>"; };
@@ -1242,6 +1248,7 @@
 		7027FD131CBC0238002756BC /* SettingController */ = {
 			isa = PBXGroup;
 			children = (
+				70334F6F1CBCDE8D00EF8C66 /* AboutDongda */,
 				7027FD171CBC0801002756BC /* SettingDelegate */,
 				7027FD141CBC0246002756BC /* AYSettingController.h */,
 				7027FD151CBC0246002756BC /* AYSettingController.m */,
@@ -1487,6 +1494,25 @@
 				702E7ACF1CA184A70097867E /* AYAppInitCommand.m */,
 			);
 			path = AppInitCommand;
+			sourceTree = "<group>";
+		};
+		70334F6F1CBCDE8D00EF8C66 /* AboutDongda */ = {
+			isa = PBXGroup;
+			children = (
+				70334F711CBD122E00EF8C66 /* AboutDongdaView */,
+				70334F681CBCD24400EF8C66 /* AYAboutDDController.h */,
+				70334F691CBCD24400EF8C66 /* AYAboutDDController.m */,
+			);
+			path = AboutDongda;
+			sourceTree = "<group>";
+		};
+		70334F711CBD122E00EF8C66 /* AboutDongdaView */ = {
+			isa = PBXGroup;
+			children = (
+				70334F721CBD12A100EF8C66 /* AYAboutDongdaCellView.h */,
+				70334F731CBD12A100EF8C66 /* AYAboutDongdaCellView.m */,
+			);
+			path = AboutDongdaView;
 			sourceTree = "<group>";
 		};
 		7039CBC21CBB68E500BE60C7 /* SearchViews */ = {
@@ -2150,7 +2176,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = 45E5AAUFA8;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -2240,6 +2266,7 @@
 				7060BDB41CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m in Sources */,
 				7017F33D1CB7512E002C416E /* AYRoleTagSearchController.m in Sources */,
 				700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */,
+				70334F6A1CBCD24400EF8C66 /* AYAboutDDController.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
@@ -2320,6 +2347,7 @@
 				702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */,
 				708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */,
 				70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */,
+				70334F741CBD12A100EF8C66 /* AYAboutDongdaCellView.m in Sources */,
 				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
 				7039CBC91CBB68E500BE60C7 /* AYFoundSearchHeaderView.m in Sources */,
