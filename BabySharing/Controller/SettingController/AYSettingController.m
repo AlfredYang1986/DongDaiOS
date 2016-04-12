@@ -27,6 +27,22 @@
 @synthesize delegates = _delegates;
 
 #pragma mark -- commands
+- (void)performWithResult:(NSObject**)obj {
+    
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+        NSDictionary* dic_push = [dic copy];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+    }
+}
 
 #pragma mark -- life cycle
 - (void)viewWillAppear:(BOOL)animated {

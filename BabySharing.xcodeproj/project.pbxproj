@@ -184,6 +184,8 @@
 		708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708235F11CA28A2E00658531 /* AYNavigationController.m */; };
 		708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 708236021CA2A9A100658531 /* AYDefaultFacadeFactory.m */; };
 		7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7082360B1CA2D09E00658531 /* AYDefaultModuleFactory.m */; };
+		708E7D941CBD5567005D96B5 /* AYAboutDongdaCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E7D911CBD5567005D96B5 /* AYAboutDongdaCellView.m */; };
+		708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E7D931CBD5567005D96B5 /* AYAboutDDController.m */; };
 		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
 		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
 		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
@@ -589,6 +591,10 @@
 		708236021CA2A9A100658531 /* AYDefaultFacadeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultFacadeFactory.m; sourceTree = "<group>"; };
 		7082360A1CA2D09E00658531 /* AYDefaultModuleFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDefaultModuleFactory.h; sourceTree = "<group>"; };
 		7082360B1CA2D09E00658531 /* AYDefaultModuleFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultModuleFactory.m; sourceTree = "<group>"; };
+		708E7D901CBD5567005D96B5 /* AYAboutDongdaCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDongdaCellView.h; sourceTree = "<group>"; };
+		708E7D911CBD5567005D96B5 /* AYAboutDongdaCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDongdaCellView.m; sourceTree = "<group>"; };
+		708E7D921CBD5567005D96B5 /* AYAboutDDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDDController.h; sourceTree = "<group>"; };
+		708E7D931CBD5567005D96B5 /* AYAboutDDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDDController.m; sourceTree = "<group>"; };
 		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
 		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
 		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
@@ -1513,6 +1519,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				708E7D8D1CBD5567005D96B5 /* AboutController */,
 				7027FD131CBC0238002756BC /* SettingController */,
 				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
 				700BE5A81CBA4F2900A09B3A /* TabBar */,
@@ -1940,6 +1947,33 @@
 				70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */,
 			);
 			path = ModuleCommand;
+			sourceTree = "<group>";
+		};
+		708E7D8D1CBD5567005D96B5 /* AboutController */ = {
+			isa = PBXGroup;
+			children = (
+				708E7D8E1CBD5567005D96B5 /* AboutDongda */,
+				708E7D921CBD5567005D96B5 /* AYAboutDDController.h */,
+				708E7D931CBD5567005D96B5 /* AYAboutDDController.m */,
+			);
+			path = AboutController;
+			sourceTree = "<group>";
+		};
+		708E7D8E1CBD5567005D96B5 /* AboutDongda */ = {
+			isa = PBXGroup;
+			children = (
+				708E7D8F1CBD5567005D96B5 /* AboutDongdaView */,
+			);
+			path = AboutDongda;
+			sourceTree = "<group>";
+		};
+		708E7D8F1CBD5567005D96B5 /* AboutDongdaView */ = {
+			isa = PBXGroup;
+			children = (
+				708E7D901CBD5567005D96B5 /* AYAboutDongdaCellView.h */,
+				708E7D911CBD5567005D96B5 /* AYAboutDongdaCellView.m */,
+			);
+			path = AboutDongdaView;
 			sourceTree = "<group>";
 		};
 		709CDE301CA40DFF0042BEE9 /* ViewBase */ = {
@@ -2472,6 +2506,7 @@
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
 				7039CBD61CBB7B2600BE60C7 /* AYProfilePushDelegate.m in Sources */,
 				7039CBE91CBB896B00BE60C7 /* AYBackgroundImageView.m in Sources */,
+				708E7D941CBD5567005D96B5 /* AYAboutDongdaCellView.m in Sources */,
 				7039CBD21CBB7AE200BE60C7 /* AYProfileHeaderView.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */,
@@ -2507,6 +2542,7 @@
 				7017F33A1CB74F73002C416E /* AYTableView.m in Sources */,
 				70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */,
 				70CDF63D1CBD033900311841 /* QueryLocalModel.xcdatamodeld in Sources */,
+				708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */,
 				70CDF6371CBD033900311841 /* QueryContent+ContextOpt.m in Sources */,
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
