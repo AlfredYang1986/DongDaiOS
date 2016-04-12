@@ -15,6 +15,8 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYDongDaSegDefines.h"
+#import "AYAlbumDefines.h"
+#import "AYRemoteCallDefines.h"
 
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
@@ -31,8 +33,17 @@
 
 #define SEG_CTR_HEIGHT              49
 
+@interface AYProfileController ()
+@property (nonatomic, setter=setCurrentStatus:) RemoteControllerStatus status;
+@end
+
 @implementation AYProfileController {
     BOOL isPushed;
+    NSString* owner_id;
+
+    dispatch_semaphore_t semaphore_publish;
+    dispatch_semaphore_t semaphore_push;
+    dispatch_semaphore_t semaphore_user_info;
 }
 
 #pragma mark --  commands
@@ -40,6 +51,9 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        
+        owner_id = [dic objectForKey:kAYControllerChangeArgsKey];
+        isPushed = YES;
     
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -55,6 +69,13 @@
 #pragma mark -- life cycle 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    UIView* loading_view = [self.views objectForKey:@"Loading"];
+    [self.view bringSubviewToFront:loading_view];
+    
+    semaphore_user_info = dispatch_semaphore_create(0);
+    semaphore_publish = dispatch_semaphore_create(0);
+    semaphore_push = dispatch_semaphore_create(0);
     
     {
         id<AYViewBase> bkg = [self.views objectForKey:@"BackgroundImage"];
@@ -121,32 +142,118 @@
 //        id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
 //        NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
 //        [cmd_header performWithResult:&nib_header_name];
-//        
-//        id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
-//        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//        [cmd_hot_cell performWithResult:&class_name];
+        
+        id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_hot_cell performWithResult:&class_name];
     }
    
+    [self refreshProfileData];
+}
+
+- (void)startWaitForAllCallback {
+    self.status = RemoteControllerStatusLoading;
+    dispatch_queue_t wait = dispatch_queue_create("wait for query", nil);
+    dispatch_async(wait, ^{
+        dispatch_semaphore_wait(semaphore_user_info, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore_push, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore_publish, DISPATCH_TIME_FOREVER);
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.status = RemoteControllerStatusReady;
+          
+//            NSUInteger publich_count, push_count = 0;
+            NSUInteger publich_count = 0;
+            {
+                id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
+                id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryData"];
+                NSArray* result = nil;
+                [cmd performWithResult:&result];
+                publich_count = result.count;
+                NSLog(@"result are %@", result);
+                
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"ProfilePublish"];
+                id<AYCommand> cmd_set_data = [del.commands objectForKey:@"changeQueryData:"];
+                [cmd_set_data performWithResult:&result];
+            }
+            
+            id<AYViewBase> view_seg = [self.views objectForKey:@"DongDaSeg"];
+            id<AYCommand> cmd_refresh_item = [view_seg.commands objectForKey:@"resetItemInfo:"];
+            
+            {
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:[NSString stringWithFormat:@"%lu", (unsigned long)publich_count] forKey:kAYSegViewTitleKey];
+                [dic setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewIndexTypeKey];
+                [cmd_refresh_item performWithResult:&dic];
+            }
+            
+            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
+            [cmd_refresh performWithResult:nil];
+        });
+    });
+}
+
+- (void)refreshProfileData {
     id<AYFacadeBase> f_login_model = LOGINMODEL;
     id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"];
     id obj = nil;
     [cmd performWithResult:&obj];
-    
     NSLog(@"current login user is %@", obj);
+    owner_id = [obj objectForKey:@"user_id"];
+   
+    [self startWaitForAllCallback];
     
-    NSMutableDictionary* dic_user_info = [obj mutableCopy];
-    [dic_user_info setValue:[dic_user_info objectForKey:@"user_id"] forKey:@"owner_user_id"];
-    
-    id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd_user_info = [f_profile.commands objectForKey:@"QueryUserProfile"];
-    [cmd_user_info performWithResult:[dic_user_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"User info are %@", result);
+    {
+        NSMutableDictionary* dic_user_info = [obj mutableCopy];
+        [dic_user_info setValue:[dic_user_info objectForKey:@"user_id"] forKey:@"owner_user_id"];
         
-        id<AYViewBase> header = [self.views objectForKey:@"ProfileHeader"];
-        id<AYCommand> cmd = [header.commands objectForKey:@"setUserInfo:"];
-        NSDictionary* reVal = [result copy];
-        [cmd performWithResult:&reVal];
-    }];
+        id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
+        AYRemoteCallCommand* cmd_user_info = [f_profile.commands objectForKey:@"QueryUserProfile"];
+        [cmd_user_info performWithResult:[dic_user_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSLog(@"User info are %@", result);
+            
+            id<AYViewBase> header = [self.views objectForKey:@"ProfileHeader"];
+            id<AYCommand> cmd = [header.commands objectForKey:@"setUserInfo:"];
+            NSDictionary* reVal = [result copy];
+            [cmd performWithResult:&reVal];
+        }];
+    }
+    
+    {
+        id<AYFacadeBase> f_query_content = [self.facades objectForKey:@"ContentQueryRemote"];
+        AYRemoteCallCommand* cmd_query_content = [f_query_content.commands objectForKey:@"QueryHomeContent"];
+        
+        NSMutableDictionary* dic_conditions = [[NSMutableDictionary alloc]init];
+        [dic_conditions setObject:owner_id forKey:@"owner_id"];
+        
+        NSMutableDictionary* dic = [obj mutableCopy];
+        [dic setValue:[dic_conditions copy] forKey:@"conditions"];
+        [dic setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];
+        
+        [cmd_query_content performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSLog(@"user post result %@", result);
+           
+            NSDictionary* args = [result copy];
+            
+            id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
+            id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"RefrashOwnerQueryData"];
+            [cmd performWithResult:&args];
+        }];
+    }
+    
+    {
+        id<AYFacadeBase> f_query_content = [self.facades objectForKey:@"ContentQueryRemote"];
+        AYRemoteCallCommand* cmd_query_push = [f_query_content.commands objectForKey:@"QueryPushContent"];
+        
+        NSMutableDictionary* dic = [obj mutableCopy];
+        [dic setObject:owner_id forKey:@"owner_id"];
+        [dic setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];
+        
+        [cmd_query_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSLog(@"user push result %@", result);
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -203,6 +310,14 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, STATUS_BAR_HEIGHT, [UIScreen mainScreen].bounds.size.width, FAKE_BAR_HEIGHT);
+    return nil;
+}
+
+- (id)LoadingLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
+    view.frame = CGRectMake(0, 0, width, height);
     return nil;
 }
 
@@ -270,5 +385,47 @@
     [refresh performWithResult:nil];
     
     return nil;
+}
+
+- (id)startRemoteCall:(id)obj {
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    NSString* cmd_name = (NSString*)obj;
+    
+    if ([cmd_name containsString:@"QueryUserProfile"]) {
+        dispatch_semaphore_signal(semaphore_user_info);
+    } else if ([cmd_name containsString:@"QueryHomeContent"]) {
+        dispatch_semaphore_signal(semaphore_publish);
+    } else if ([cmd_name containsString:@"QueryPushContent"]) {
+        dispatch_semaphore_signal(semaphore_push);
+    }
+    
+    return nil;
+}
+
+#pragma mark -- status
+- (void)setCurrentStatus:(RemoteControllerStatus)new_status {
+    _status = new_status;
+    
+    UIView* loading_view = [self.views objectForKey:@"Loading"];
+    
+    switch (_status) {
+        case RemoteControllerStatusReady: {
+            loading_view.hidden = YES;
+            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
+        }
+            break;
+        case RemoteControllerStatusPrepare:
+        case RemoteControllerStatusLoading: {
+            loading_view.hidden = NO;
+            [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
+        }
+            break;
+        default:
+            @throw [[NSException alloc]initWithName:@"Error" reason:@"状态设置错误" userInfo:nil];
+            break;
+    }
 }
 @end

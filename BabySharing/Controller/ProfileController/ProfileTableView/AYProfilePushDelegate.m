@@ -11,7 +11,9 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 
-@implementation AYProfilePushDelegate
+@implementation AYProfilePushDelegate {
+    NSArray* queryData;
+}
 #pragma mark -- command
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -36,6 +38,12 @@
 
 - (NSString*)getViewName {
     return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+#pragma mark -- message
+- (id)changeQueryData:(id)obj {
+    queryData = obj;
+    return nil;
 }
 
 #pragma mark -- table

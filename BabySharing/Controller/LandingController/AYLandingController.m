@@ -14,12 +14,8 @@
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
 #import "Tools.h"
+#import "AYRemoteCallDefines.h"
 
-typedef enum : NSUInteger {
-    LandingStatusPrepare,
-    LandingStatusReady,
-    LandingStatusLoading,
-} LandingStatus;
 
 typedef NS_ENUM(NSInteger, RegisterResult) {
     RegisterResultSuccess,
@@ -35,7 +31,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #define INPUT_VIEW_START_POINT      (title.frame.origin.y + title.frame.size.height + INPUT_VIEW_TOP_MARGIN)
 
 @interface AYLandingController ()
-@property (nonatomic, setter=setCurrentStatus:) LandingStatus landing_status;
+@property (nonatomic, setter=setCurrentStatus:) RemoteControllerStatus landing_status;
 @end
 
 @implementation AYLandingController {
@@ -79,7 +75,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 if (obj != nil && ((NSDictionary*)obj).count != 0) {
                     [self LoginSuccess];
                 } else {
-                    self.landing_status = LandingStatusReady;
+                    self.landing_status = RemoteControllerStatusReady;
                 }
             });
         });
@@ -108,7 +104,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (void)postPerform {
     [super postPerform];
-    self.landing_status = LandingStatusPrepare;
+    self.landing_status = RemoteControllerStatusPrepare;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -217,7 +213,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 #pragma mark -- status
-- (void)setCurrentStatus:(LandingStatus)new_status {
+- (void)setCurrentStatus:(RemoteControllerStatus)new_status {
     _landing_status = new_status;
     
     UIView* inputView = [self.views objectForKey:@"LandingInput"];
@@ -225,15 +221,15 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     UIView* loading_view = [self.views objectForKey:@"Loading"];
     
     switch (_landing_status) {
-        case LandingStatusReady: {
+        case RemoteControllerStatusReady: {
             inputView.hidden = NO;
             sns_view.hidden = NO;
             loading_view.hidden = YES;
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
             }
             break;
-        case LandingStatusPrepare:
-        case LandingStatusLoading: {
+        case RemoteControllerStatusPrepare:
+        case RemoteControllerStatusLoading: {
             inputView.hidden = YES;
             sns_view.hidden = YES;
             loading_view.hidden = NO;
@@ -268,12 +264,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)SNSStartLogin:(id)args {
-    self.landing_status = LandingStatusLoading;
+    self.landing_status = RemoteControllerStatusLoading;
     return nil;
 }
 
 - (id)SNSEndLogin:(id)args {
-    self.landing_status = LandingStatusReady;
+    self.landing_status = RemoteControllerStatusReady;
     return nil;
 }
 
@@ -286,7 +282,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [dic setValue:args forKey:kAYControllerChangeArgsKey];
     [self performWithResult:&dic];
 
-    self.landing_status = LandingStatusReady;
+    self.landing_status = RemoteControllerStatusReady;
     return nil;
 }
 
@@ -370,7 +366,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         }
         
         [[Tools activityViewController] dismissViewControllerAnimated:YES completion:nil];
-        self.landing_status = LandingStatusReady;
+        self.landing_status = RemoteControllerStatusReady;
     }];
     
     return nil;
@@ -488,5 +484,15 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             func(self, sel);
         }
     }
+}
+
+- (id)startRemoteCall:(id)obj {
+    self.landing_status = RemoteControllerStatusLoading;
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    self.landing_status = RemoteControllerStatusReady;
+    return nil;
 }
 @end

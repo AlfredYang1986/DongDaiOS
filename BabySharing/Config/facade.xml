@@ -26,6 +26,12 @@
 
         <command type="Module" name="SignOutLocal" />
     </facade>
+
+    <facade type="DefaultFacade" name="OwnerQueryModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashOwnerQueryData" />
+        <command type="Module" name="AppendOwnerQueryData" />
+        <command type="Module" name="EnumOwnerQueryData" />
+    </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="LandingReqConfirmCode" />
@@ -47,6 +53,11 @@
 
     <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryRecommandRoleTags" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryHomeContent" />
+        <command type="Remote" name="QueryPushContent" />
     </facade>
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >

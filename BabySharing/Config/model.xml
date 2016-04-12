@@ -2,6 +2,7 @@
 <Models>
     <model name="model" factory="AYModelFactory" >
         <facade type="DefaultFacade" name="LoginModel" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
         
         <notify message="AppReady" controller="Landing" />
     </model>

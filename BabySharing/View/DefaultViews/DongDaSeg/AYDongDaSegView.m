@@ -410,5 +410,11 @@
     return [NSNumber numberWithInteger:self.selectedIndex];
 }
 
-//<command type="notify" message="segValueChanged:" />
+- (id)resetItemInfo:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    NSString* title = [dic objectForKey:kAYSegViewTitleKey];
+    int index = ((NSNumber*)[dic objectForKey:kAYSegViewIndexTypeKey]).intValue;
+    [self refreshItemTitle:title atIndex:index];
+    return nil;
+}
 @end

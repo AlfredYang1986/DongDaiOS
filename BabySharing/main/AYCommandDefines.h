@@ -63,6 +63,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 
 #define MODEL                   [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryModel type:kAYFactoryManagerCatigoryModel name:kAYFactoryManagerCatigoryModel]
 #define LOGINMODEL              FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"LoginModel")
+#define OWNERQUERYMODEL         FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"OwnerQueryModel")
 
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 
