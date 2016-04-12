@@ -43,5 +43,6 @@ static NSString* const kAYSegViewCornerRadiusKey = @"dongda seg corner radius";
 static NSString* const kAYSegViewCurrentSelectKey = @"dongda seg current selected";
 
 static NSString* const kAYSegViewItemTypeKey = @"dongda seg item type";
+static NSString* const kAYSegViewIndexTypeKey = @"dongda seg item index";
 
 #endif /* SearchSegDelegate_h */

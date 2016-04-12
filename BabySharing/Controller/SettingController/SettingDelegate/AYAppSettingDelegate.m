@@ -12,14 +12,6 @@
 #import "AYFactoryManager.h"
 #import "TmpFileStorageModel.h"
 
-#import "AYCommandDefines.h"
-#import "AYFacadeBase.h"
-#import "AYFactoryManager.h"
-#import "AYResourceManager.h"
-#import "AYFacadeBase.h"
-#import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-
 @interface SettingCell : UITableViewCell
 
 @property (nonatomic, strong) UILabel *label;
@@ -56,7 +48,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-
+    
 }
 
 - (NSString*)getCommandType {
@@ -92,21 +84,22 @@
     cell.label.text = [title objectAtIndex:indexPath.row];
     [cell.label sizeToFit];
     cell.label.frame = CGRectMake(10, (44 - CGRectGetHeight(cell.label.frame)) / 2, cell.label.frame.size.width, cell.label.frame.size.height);
+    
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-//    if ([cell.label.text isEqualToString:@"退出登录"]) {
-//        
-//        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"退出登录"];
-//        [str addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,str.length)];
-//        cell.textLabel.attributedText = str;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    
-//    } else if ([cell.label.text isEqualToString:@"关于咚哒"]) {
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//   
-//    } else
-        if ([cell.label.text isEqualToString:[title objectAtIndex:2]]) {
+    if ([cell.label.text isEqualToString:@"退出登录"]) {
+        
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"退出登录"];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,str.length)];
+        cell.textLabel.attributedText = str;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    } else if ([cell.label.text isEqualToString:@""]) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+   
+    } else if ([cell.label.text isEqualToString:@"清除缓存"]) {
         cell.label.text = [cell.label.text stringByAppendingString:[NSString stringWithFormat:@"(%.2fM)", [TmpFileStorageModel tmpFileStorageSize]]];
         [cell.label sizeToFit];
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -115,33 +108,11 @@
     return cell;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.row == 0){
-        NSLog(@"go discuss");
-    }else if(indexPath.row == 1){
-        
-        NSLog(@"aboutdongda view controller");
-        
-        id<AYCommand> aboutDD = DEFAULTCONTROLLER(@"AboutDD");
-        
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:aboutDD forKey:kAYControllerActionDestinationControllerKey];
-        [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        [_controller performWithResult:&dic];
-        
-        
-    }else{
-        [TmpFileStorageModel deleteBMTmpImageDir];
-        [TmpFileStorageModel deleteBMTmpMovieDir];
-        NSIndexPath *currentIndex = indexPath;
-        [tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
-    }
 }
 @end

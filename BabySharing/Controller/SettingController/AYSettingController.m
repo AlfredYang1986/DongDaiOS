@@ -27,22 +27,6 @@
 @synthesize delegates = _delegates;
 
 #pragma mark -- commands
-- (void)performWithResult:(NSObject**)obj {
-    
-    NSDictionary* dic = (NSDictionary*)*obj;
-    
-    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        
-        NSDictionary* dic_push = [dic copy];
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
-        
-    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
-    }
-}
 
 #pragma mark -- life cycle
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,11 +57,11 @@
         [cmd_delegate performWithResult:&obj];
     }
     
-//    CALayer* line = [CALayer layer];
-//    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.10].CGColor;
-//    line.borderWidth = 1.f;
-//    line.frame = CGRectMake(0, 73, [UIScreen mainScreen].bounds.size.width, 1);
-//    [self.view.layer addSublayer:line];
+    CALayer* line = [CALayer layer];
+    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.10].CGColor;
+    line.borderWidth = 1.f;
+    line.frame = CGRectMake(0, 73, [UIScreen mainScreen].bounds.size.width, 1);
+    [self.view.layer addSublayer:line];
     
     OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 64 - 49 - 44, SCREEN_WIDTH - 2 * 17.5, 44)];
     [logout_btn setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];

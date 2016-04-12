@@ -10,9 +10,7 @@
 #import "AYCommand.h"
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
-#import "AYViewController.h"
 
 @interface AYAppSettingDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
-
 
 @end
