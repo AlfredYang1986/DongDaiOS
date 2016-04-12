@@ -11,6 +11,14 @@
 #import <objc/runtime.h>
 #import "AYNotifyDefines.h"
 
+@interface AYWeakPointNode : NSObject
+@property (nonatomic, weak) id<AYCommand> target;
+@end
+
+@implementation AYWeakPointNode
+@synthesize target = _target;
+@end
+
 @implementation AYFacade
 
 @synthesize para = _para;
@@ -71,23 +79,40 @@
  */
 - (void)receiveMessage:(NSString*)message_name andArgs:(NSDictionary*)args withResult:(id*)obj {
     if ([message_name isEqualToString:kAYNotifyFunctionKeyRegister]) {
-        [_observer addObject:[args objectForKey:kAYNotifyControllerKey]];
+//        [_observer addObject:[args objectForKey:kAYNotifyControllerKey]];
+        AYWeakPointNode* node = [[AYWeakPointNode alloc]init];
+        node.target = [args objectForKey:kAYNotifyControllerKey];
+        [_observer addObject:node];
         NSLog(@"observers are : %@", _observer);
         
     } else if ([message_name isEqualToString:kAYNotifyFunctionKeyUnregister]) {
-        [_observer removeObject:[args objectForKey:kAYNotifyControllerKey]];
+//        [_observer removeObject:[args objectForKey:kAYNotifyControllerKey]];
         NSLog(@"observers are : %@", _observer);
     }
+
+    [self cleanObserverNode];
 }
 
 - (void)sendNotification:(NSString*)message_name withArgs:(NSDictionary*)args {
-    for (NSObject * controller  in _observer) {
-        SEL sel = NSSelectorFromString(message_name);
-        Method m = class_getInstanceMethod([controller class], sel);
-        if (m) {
-            id (*func)(id, SEL, id) = (id(*)(id, SEL, id))method_getImplementation(m);
-            func(controller, sel, args);
+//    for (NSObject * controller  in _observer) {
+    for (AYWeakPointNode * node in _observer) {
+        id<AYCommand> controller = node.target;
+        if (controller) {
+            SEL sel = NSSelectorFromString(message_name);
+            Method m = class_getInstanceMethod([controller class], sel);
+            if (m) {
+                id (*func)(id, SEL, id) = (id(*)(id, SEL, id))method_getImplementation(m);
+                func(controller, sel, args);
+            }
         }
     }
+    
+    [self cleanObserverNode];
+}
+
+- (void)cleanObserverNode {
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"target!=nil"];
+    _observer = [[_observer filteredArrayUsingPredicate:p] mutableCopy];
+    NSLog(@"observers are : %@", _observer);
 }
 @end

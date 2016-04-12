@@ -21,6 +21,7 @@
     <command type="Module" name="ChangeCurrentLoginUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QuerySNSProviders" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeSNSProviders" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SignOutLocal" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
@@ -30,6 +31,7 @@
     <command type="Module" name="LocalImageWithName" factory="AYDefaultModuleFactory" />
     
     <command type="Module" name="LoginXMPP" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LogoutXMPP" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />
@@ -41,6 +43,7 @@
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AuthWithSNS" route="login/authWithThird" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AuthSignOut" route="login/signout" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />

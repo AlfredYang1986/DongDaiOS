@@ -23,6 +23,8 @@
 
         <command type="Module" name="QuerySNSProviders" />
         <command type="Module" name="ChangeSNSProviders" />
+
+        <command type="Module" name="SignOutLocal" />
     </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
@@ -30,6 +32,7 @@
         <command type="Remote" name="LandingAuthConfirm" />
         <command type="Remote" name="CreateTmpUserWithPhone" />
         <command type="Remote" name="AuthWithSNS" />
+        <command type="Remote" name="AuthSignOut" />
     </facade>
 
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
@@ -48,5 +51,6 @@
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginXMPP" />
+        <command type="Module" name="LogoutXMPP" />
     </facade>
 </facades>

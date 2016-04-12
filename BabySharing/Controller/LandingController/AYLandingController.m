@@ -12,6 +12,7 @@
 #import "AYViewBase.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
+#import "AYRemoteCallCommand.h"
 #import "Tools.h"
 
 typedef enum : NSUInteger {
@@ -340,8 +341,38 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (id)LogoutCurrentUser {
     NSLog(@"current user logout");
 //    [_lm signOutCurrentUser];
-//    [GotyeOCAPI logout];
-    [[Tools activityViewController] dismissViewControllerAnimated:YES completion:nil];
+   
+    NSDictionary* current_login_user = nil;
+   
+    {
+        AYFacade* f = LOGINMODEL;
+        id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+        [cmd performWithResult:&current_login_user];
+    }
+    NSLog(@"current login user %@", current_login_user);
+    
+    id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
+    AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
+    [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"login out %@", result);
+        NSLog(@"current login user %@", current_login_user);
+        
+        {
+            AYFacade* f = [self.facades objectForKey:@"XMPP"];
+            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutXMPP"];
+            [cmd_xmpp_logout performWithResult:nil];
+        }
+        
+        {
+            AYFacade* f = LOGINMODEL;
+            id<AYCommand> cmd_sign_out_local = [f.commands objectForKey:@"SignOutLocal"];
+            [cmd_sign_out_local performWithResult:nil];
+        }
+        
+        [[Tools activityViewController] dismissViewControllerAnimated:YES completion:nil];
+        self.landing_status = LandingStatusReady;
+    }];
+    
     return nil;
 }
 
