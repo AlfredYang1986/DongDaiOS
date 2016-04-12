@@ -116,5 +116,5 @@ BabySharing/lib/libGPUImage/*.a
 BabySharing/lib/libWeChatSDK/*.a
 BabySharing/lib/libWeiboSDK/*.a
 BabySharing/lib/libQQSDK
-BabySharing.xcodeproj/project.xcworkspace/xcuserdata/alfredyang.xcuserdatad/UserInterfaceState.xcuserstate
-BabySharing.xcodeproj/xcuserdata/alfredyang.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+BabySharing.xcodeproj/project.xcworkspace
+BabySharing.xcodeproj/xcuserdata
