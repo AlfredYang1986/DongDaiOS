@@ -17,6 +17,12 @@ typedef NS_ENUM(NSInteger, UserPostOwnerConnections) {
     UserPostOwnerConnectionsFriends
 };
 
+typedef enum : NSUInteger {
+    RemoteControllerStatusPrepare,
+    RemoteControllerStatusReady,
+    RemoteControllerStatusLoading,
+} RemoteControllerStatus;
+
 static NSString* const kAYRemoteCallResultKey = @"RemoteResult:";
 static NSString* const kAYRemoteCallResultArgsKey = @"RemoteArgs:";
 #endif /* AYRemoteCallDefines_h */

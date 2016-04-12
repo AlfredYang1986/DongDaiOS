@@ -27,6 +27,8 @@
 @synthesize delegates = _delegates;
 @synthesize facades = _facades;
 
+@synthesize loading = _loading;
+
 - (NSString*)getControllerName {
 //    return [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"Landing"] stringByAppendingString:kAYFactoryManagerControllersuffix];
     return NSStringFromClass([self class]);
@@ -131,5 +133,22 @@
         [cmd performWithResult:&args];
     }
     return (id)args;
+}
+
+- (id)startRemoteCall:(id)obj {
+    _loading = VIEW(@"Loading", @"Loading");
+    ((UIView*)_loading).backgroundColor = [UIColor redColor];
+    ((UIView*)_loading).userInteractionEnabled = NO;
+    
+    [self.view addSubview:((UIView*)_loading)];
+    
+    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
+    [cmd performWithResult:nil];
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    [((UIView*)_loading) removeFromSuperview];
+    return nil;
 }
 @end

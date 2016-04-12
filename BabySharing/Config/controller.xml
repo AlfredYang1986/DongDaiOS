@@ -72,12 +72,14 @@
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ProfileRemote" />
+        <facade type="DefaultFacade" name="ContentQueryRemote" />
 
         <view type="Table" name="Table" />
         <view type="ProfileHeader" name="ProfileHeader" />
         <view type="DongDaSeg" name="DongDaSeg" />
         <view type="BackgroundImage" name="BackgroundImage" />
         <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="Loading" name="Loading" />
 
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />

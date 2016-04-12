@@ -82,4 +82,13 @@
         <command type="message" message="queryCurrentSelectedIndex" />
         <command type="notify" message="segValueChanged:" />
     </view>
+    
+    <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setSegInfo:" />
+        <command type="message" message="setUpItems:" />
+        <command type="message" message="selectAtIndex:" />
+        <command type="message" message="queryPerferedHeight" />
+        <command type="message" message="queryCurrentSelectedIndex" />
+        <command type="notify" message="selectedValueChanged:" />
+    </view>
 </views>

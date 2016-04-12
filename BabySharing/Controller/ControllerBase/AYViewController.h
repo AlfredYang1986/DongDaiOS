@@ -10,8 +10,9 @@
 #import <UIKit/UIKit.h>
 #import "AYControllerBase.h"
 
+@protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
-
+@property (nonatomic, weak) id<AYViewBase> loading;
 @end
 
 #import "AYControllerActionDefines.h"

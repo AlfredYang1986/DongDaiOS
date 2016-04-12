@@ -13,6 +13,10 @@
 #import "Tools.h"
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
+#import <objc/runtime.h>
+
+static NSString* const kAYRemoteCallStartFuncName = @"startRemoteCall:";
+static NSString* const kAYRemoteCallEndFuncName = @"endRemoteCall:";
 
 @implementation AYRemoteCallCommand
 
@@ -37,15 +41,15 @@
     /**
      * 1. create a view and block user interactions
      */
-    id<AYViewBase> loading = VIEW(@"Loading", @"Loading");
-    ((UIView*)loading).backgroundColor = [UIColor redColor];
-    ((UIView*)loading).userInteractionEnabled = NO;
-        
+    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
+    
     UIViewController* cur = [Tools activityViewController];
-    [cur.view addSubview:((UIView*)loading)];
-       
-    id<AYCommand> cmd = [loading.commands objectForKey:@"startGif"];
-    [cmd performWithResult:nil];
+    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
+    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+    if (m) {
+        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+        func(cur, sel, name);
+    }
    
     /**
      * 2. call remote
@@ -58,19 +62,22 @@
         NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:self.route]];
         NSLog(@"request result from sever: %@", result);
 
-        if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-            NSDictionary* reVal = [result objectForKey:@"result"];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [((UIView*)loading) removeFromSuperview];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
+            Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+            if (m) {
+                id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+                func(cur, sel, name);
+            }
+            
+            if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
+                NSDictionary* reVal = [result objectForKey:@"result"];
                 block(YES, reVal);
-            });
-        } else {
-            NSDictionary* reError = [result objectForKey:@"error"];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [((UIView*)loading) removeFromSuperview];
+            } else {
+                NSDictionary* reError = [result objectForKey:@"error"];
                 block(NO, reError);
-            });
-        }
+            }
+        });
     });
 }
 

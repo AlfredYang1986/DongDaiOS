@@ -48,6 +48,11 @@
     <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryRecommandRoleTags" />
     </facade>
+    
+    <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryHomeContent" />
+        <command type="Remote" name="QueryPushContent" />
+    </facade>
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginXMPP" />

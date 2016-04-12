@@ -198,6 +198,11 @@
 		70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */; };
 		70CDF6041CBCA1B100311841 /* AYLogoutXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6031CBCA1B100311841 /* AYLogoutXMPPCommand.m */; };
 		70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */; };
+		70CDF60E1CBCBD8C00311841 /* AlbumGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF60B1CBCBD8C00311841 /* AlbumGridCell.m */; };
+		70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF60D1CBCBD8C00311841 /* AYAlbumTableCellView.m */; };
+		70CDF6171CBCC36800311841 /* AYQueryHomeContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6161CBCC36800311841 /* AYQueryHomeContentCommand.m */; };
+		70CDF61A1CBCC3AF00311841 /* AYContentQueryRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6191CBCC3AF00311841 /* AYContentQueryRemoteFacade.m */; };
+		70CDF61D1CBCC7D200311841 /* AYQueryPushContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF61C1CBCC7D200311841 /* AYQueryPushContentCommand.m */; };
 		70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8041CA64B7B007965D2 /* AYLoadingView.m */; };
 		70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8081CA65B0C007965D2 /* UIGifView.m */; };
 		70EAD80C1CA662EF007965D2 /* model.xml in Resources */ = {isa = PBXBuildFile; fileRef = 70EAD80B1CA662EF007965D2 /* model.xml */; };
@@ -597,6 +602,17 @@
 		70CDF6031CBCA1B100311841 /* AYLogoutXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLogoutXMPPCommand.m; sourceTree = "<group>"; };
 		70CDF6061CBCA4E500311841 /* AYSignOutLocalCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSignOutLocalCommand.h; sourceTree = "<group>"; };
 		70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSignOutLocalCommand.m; sourceTree = "<group>"; };
+		70CDF60A1CBCBD8C00311841 /* AlbumGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumGridCell.h; sourceTree = "<group>"; };
+		70CDF60B1CBCBD8C00311841 /* AlbumGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumGridCell.m; sourceTree = "<group>"; };
+		70CDF60C1CBCBD8C00311841 /* AYAlbumTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlbumTableCellView.h; sourceTree = "<group>"; };
+		70CDF60D1CBCBD8C00311841 /* AYAlbumTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlbumTableCellView.m; sourceTree = "<group>"; };
+		70CDF6131CBCBE0100311841 /* AYAlbumDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYAlbumDefines.h; sourceTree = "<group>"; };
+		70CDF6151CBCC36800311841 /* AYQueryHomeContentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryHomeContentCommand.h; sourceTree = "<group>"; };
+		70CDF6161CBCC36800311841 /* AYQueryHomeContentCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryHomeContentCommand.m; sourceTree = "<group>"; };
+		70CDF6181CBCC3AF00311841 /* AYContentQueryRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContentQueryRemoteFacade.h; sourceTree = "<group>"; };
+		70CDF6191CBCC3AF00311841 /* AYContentQueryRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContentQueryRemoteFacade.m; sourceTree = "<group>"; };
+		70CDF61B1CBCC7D200311841 /* AYQueryPushContentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryPushContentCommand.h; sourceTree = "<group>"; };
+		70CDF61C1CBCC7D200311841 /* AYQueryPushContentCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryPushContentCommand.m; sourceTree = "<group>"; };
 		70EAD8031CA64B7B007965D2 /* AYLoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoadingView.h; sourceTree = "<group>"; };
 		70EAD8041CA64B7B007965D2 /* AYLoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoadingView.m; sourceTree = "<group>"; };
 		70EAD8071CA65B0C007965D2 /* UIGifView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGifView.h; sourceTree = "<group>"; };
@@ -757,6 +773,7 @@
 			children = (
 				700BE5D61CBA6E5800A09B3A /* AYRemoteCallCommand.h */,
 				700BE5D71CBA6E5800A09B3A /* AYRemoteCallCommand.m */,
+				70CDF6141CBCC35400311841 /* Query */,
 				700BE5C91CBA6E5800A09B3A /* Auth */,
 				700BE5D81CBA6E5800A09B3A /* Files */,
 				700BE5DF1CBA6E5800A09B3A /* Profiles */,
@@ -894,6 +911,8 @@
 				700BE5F71CBA6E7D00A09B3A /* AYProfileRemoteFacade.m */,
 				700BE5F81CBA6E7D00A09B3A /* AYSearchRemoteFacade.h */,
 				700BE5F91CBA6E7D00A09B3A /* AYSearchRemoteFacade.m */,
+				70CDF6181CBCC3AF00311841 /* AYContentQueryRemoteFacade.h */,
+				70CDF6191CBCC3AF00311841 /* AYContentQueryRemoteFacade.m */,
 			);
 			path = Facades;
 			sourceTree = "<group>";
@@ -1042,6 +1061,7 @@
 		7017F32F1CB74F31002C416E /* DefaultViews */ = {
 			isa = PBXGroup;
 			children = (
+				70CDF6091CBCBD8C00311841 /* Album */,
 				7039CBE61CBB895B00BE60C7 /* BackgroundImage */,
 				7039CBE21CBB86C000BE60C7 /* FakeNavBar */,
 				7039CBDA1CBB84D200BE60C7 /* DongDaSeg */,
@@ -1962,6 +1982,29 @@
 			path = SignOutLocal;
 			sourceTree = "<group>";
 		};
+		70CDF6091CBCBD8C00311841 /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				70CDF60A1CBCBD8C00311841 /* AlbumGridCell.h */,
+				70CDF60B1CBCBD8C00311841 /* AlbumGridCell.m */,
+				70CDF60C1CBCBD8C00311841 /* AYAlbumTableCellView.h */,
+				70CDF60D1CBCBD8C00311841 /* AYAlbumTableCellView.m */,
+				70CDF6131CBCBE0100311841 /* AYAlbumDefines.h */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		70CDF6141CBCC35400311841 /* Query */ = {
+			isa = PBXGroup;
+			children = (
+				70CDF6151CBCC36800311841 /* AYQueryHomeContentCommand.h */,
+				70CDF6161CBCC36800311841 /* AYQueryHomeContentCommand.m */,
+				70CDF61B1CBCC7D200311841 /* AYQueryPushContentCommand.h */,
+				70CDF61C1CBCC7D200311841 /* AYQueryPushContentCommand.m */,
+			);
+			path = Query;
+			sourceTree = "<group>";
+		};
 		70EAD8021CA64B63007965D2 /* Loading */ = {
 			isa = PBXGroup;
 			children = (
@@ -2292,6 +2335,7 @@
 				70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */,
 				700BE6351CBA932B00A09B3A /* AYFriendsInitCommand.m in Sources */,
 				708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */,
+				70CDF6171CBCC36800311841 /* AYQueryHomeContentCommand.m in Sources */,
 				700BE5ED1CBA6E5800A09B3A /* AYDownloadUserFilesCommand.m in Sources */,
 				701D8A911CA7E06700B5D4C1 /* DetailInfo.m in Sources */,
 				708235EF1CA2881600658531 /* AYLandingController.m in Sources */,
@@ -2340,12 +2384,14 @@
 				700BE6291CBA878900A09B3A /* AYHomeInitCommand.m in Sources */,
 				700BE6381CBA936F00A09B3A /* AYProfileInitCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
+				70CDF61D1CBCC7D200311841 /* AYQueryPushContentCommand.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				700BE5FB1CBA6E7D00A09B3A /* AYLandingRemoteFacade.m in Sources */,
+				70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */,
 				701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */,
 				700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
@@ -2370,6 +2416,7 @@
 				7039CBCE1CBB77EA00BE60C7 /* AYProfileController.m in Sources */,
 				700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */,
 				700BE6081CBA75D400A09B3A /* AYQuerySNSProvidersCommand.m in Sources */,
+				70CDF60E1CBCBD8C00311841 /* AlbumGridCell.m in Sources */,
 				70EAD8141CA669F1007965D2 /* AYModelFactory.m in Sources */,
 				700BE6111CBA7BF800A09B3A /* AYUserScreenPhoteSelectView.m in Sources */,
 				700BE5E91CBA6E5800A09B3A /* AYCreateTmpUserWithPhoneCommand.m in Sources */,
@@ -2379,6 +2426,7 @@
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
+				70CDF61A1CBCC3AF00311841 /* AYContentQueryRemoteFacade.m in Sources */,
 				700BE5AB1CBA4F3600A09B3A /* AYTabBarController.m in Sources */,
 				702E7AAE1CA1622C0097867E /* AYFactoryManager.m in Sources */,
 				707B4D431CA81E7600F6256E /* AYChangeRegUserCommand.m in Sources */,
@@ -2535,6 +2583,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -2568,6 +2617,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
