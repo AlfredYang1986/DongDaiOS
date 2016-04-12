@@ -11,6 +11,9 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
+#import "AYViewCommand.h"
+#import "AYFactoryManager.h"
+#import "AYViewNotifyCommand.h"
 
 #define BORDER_MODIFY       1
 
@@ -67,7 +70,7 @@
         tmp.row = row;
         tmp.col = index;
         
-//        NSInteger iter = [_delegate indexByRow:row andCol:index];
+//        NSInteger iter = 3 * row + index; // [_delegate indexByRow:row andCol:index];
 //        if ([_delegate isSelectedAtIndex:iter]) {
             tmp.viewSelected = YES;
 //        }
@@ -248,14 +251,13 @@
 //    }
 //}
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    NSLog(@"dequeue table cell");
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self != nil) {
-        _grid_border_color = [UIColor whiteColor];
-    }
-    return self;
-}
+//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+//    NSLog(@"dequeue table cell");
+//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+//    if (self != nil) {
+//    }
+//    return self;
+//}
 
 //- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 //    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -326,16 +328,47 @@
 //        }
 //    }
 //}
-//
-//- (void)selectedAtIndex:(NSInteger)index {
+
+- (void)selectedAtIndex:(NSInteger)index {
 //    [_delegate didSelectOneImageAtIndex:index];
-//    ((AlbumGridCell*)[image_view objectAtIndex:index]).viewSelected = YES;
-//}
+    ((AlbumGridCell*)[image_view objectAtIndex:index]).viewSelected = YES;
+}
 
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
+
+#pragma mark -- life cycle
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        NSLog(@"init reuse identifier");
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
+        _grid_border_color = [UIColor whiteColor];
+    }
+    return self;
+}
+
+- (void)setUpReuseCell {
+    //    id<AYViewBase> header = VIEW([self getViewName], [self getViewName]);
+    id<AYViewBase> header = VIEW(@"AlbumTableCell", @"AlbumTableCell");
+    self.commands = [[header commands] copy];
+    self.notifies = [[header notifies] copy];
+    
+    for (AYViewCommand* cmd in self.commands.allValues) {
+        cmd.view = self;
+    }
+    
+    for (AYViewNotifyCommand* nty in self.notifies.allValues) {
+        nty.view = self;
+    }
+    
+    NSLog(@"reuser view with commands : %@", self.commands);
+    NSLog(@"reuser view with notifications: %@", self.notifies);
+}
 
 #pragma mark -- commands
 - (void)postPerform {
@@ -359,5 +392,65 @@
 }
 
 #pragma mark -- messages
+- (id)setCellInfo:(id)obj {
+    NSDictionary* dic = (NSDictionary*)obj;
+    
+    for (NSString* key in dic.allKeys) {
+        if ([key isEqualToString:kAYAlbumTableCellMarginLeftKey]) {
+            self.margin_left = ((NSNumber*)[dic objectForKey:key]).floatValue;
+        } else if ([key isEqualToString:kAYAlbumTableCellMarginRightKey]) {
+            self.margin_right = ((NSNumber*)[dic objectForKey:key]).floatValue;
+        } else if ([key isEqualToString:kAYAlbumTableCellMarginBetweenKey]) {
+            self.marign_between = ((NSNumber*)[dic objectForKey:key]).floatValue;
+        } else if ([key isEqualToString:kAYAlbumTableCellGridBorderColorKey]) {
+            self.grid_border_color = (UIColor*)[dic objectForKey:key];
+        } else if ([key isEqualToString:kAYAlbumTableCellCanSelectedKey]) {
+            self.cannot_selected = ((NSNumber*)[dic objectForKey:key]).boolValue;
+        } else if ([key isEqualToString:kAYAlbumTableCellCornerRadiusKey]) {
+            self.cell_cor_radius = ((NSNumber*)[dic objectForKey:key]).floatValue;
+        } else if ([key isEqualToString:kAYAlbumTableCellLineViewCountKey]) {
+            views_count = ((NSNumber*)[dic objectForKey:key]).intValue;
+        }
+    }
+    
+    return nil;
+}
 
+- (id)setUpItems:(id)obj {
+    
+    NSDictionary* dic = (NSDictionary*)obj;
+
+    NSArray* content_arr =  [dic objectForKey:kAYAlbumTableCellItemKey];
+    int row = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellRowKey]).intValue;
+    AlbumControllerType act = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellControllerTypeKey]).intValue;
+    
+    AlbumTableCellType t = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellTypeKey]).intValue;
+    switch (t) {
+        case AlbumTableCellTypeImage: {
+                [self setUpContentViewWithImageNames:content_arr atLine:row andType:act];
+            }
+            break;
+        case AlbumTableCellTypeUrl: {
+                [self setUpContentViewWithImageURLs2:content_arr atLine:row andType:act];
+            }
+            break;
+        default:
+            break;
+    }
+    
+    return  nil;
+}
+
+- (id)selectAtIndex:(id)obj {
+    [self selectedAtIndex:((NSNumber*)obj).intValue];
+    return nil;
+}
+
+- (id)queryPerferedHeight {
+    return [NSNumber numberWithFloat:[AYAlbumTableCellView prefferCellHeightWithMarginLeft:self.margin_left Right:self.margin_right Margin:self.marign_between]];
+}
+
+- (id)queryCurrentGridViewByIndex:(id)obj {
+    return [self queryGridCellByIndex:((NSNumber*)obj).intValue];
+}
 @end

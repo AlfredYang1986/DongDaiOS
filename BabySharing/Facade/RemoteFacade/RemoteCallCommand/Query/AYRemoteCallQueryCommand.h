@@ -1,5 +1,5 @@
 //
-//  AYQueryHomeContentCommand.h
+//  AYRemoteCallQueryCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/12/16.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYRemoteCallQueryCommand.h"
+#import "AYRemoteCallCommand.h"
 
-@interface AYQueryHomeContentCommand : AYRemoteCallQueryCommand
+@interface AYRemoteCallQueryCommand : AYRemoteCallCommand
 
 @end

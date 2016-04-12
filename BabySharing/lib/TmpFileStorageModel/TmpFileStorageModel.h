@@ -9,12 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 //#import "PostDefine.h"
-
-typedef enum : NSUInteger {
-    PostPreViewPhote,
-    PostPreViewMovie,
-    PostPreViewText,
-} PostPreViewType;
+#import "AYQueryModelDefines.h"
 
 typedef void(^imageDidDownloadBlock)(BOOL success, UIImage* img);
 typedef void(^fileDidDownloadBlock)(BOOL success, NSURL* img);

@@ -25,4 +25,7 @@ typedef enum : NSUInteger {
 
 static NSString* const kAYRemoteCallResultKey = @"RemoteResult:";
 static NSString* const kAYRemoteCallResultArgsKey = @"RemoteArgs:";
+
+static NSString* const kAYRemoteCallStartFuncName = @"startRemoteCall:";
+static NSString* const kAYRemoteCallEndFuncName = @"endRemoteCall:";
 #endif /* AYRemoteCallDefines_h */

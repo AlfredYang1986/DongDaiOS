@@ -23,6 +23,10 @@
     <command type="Module" name="ChangeSNSProviders" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SignOutLocal" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="RefrashOwnerQueryData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="AppendOwnerQueryData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EnumOwnerQueryData" factory="AYDefaultModuleFactory" />
+
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
     <command type="Module" name="GernarateImgUUID" factory="AYDefaultModuleFactory" />

@@ -1,5 +1,5 @@
 //
-//  AYQueryHomeContentCommand.h
+//  AYRefrashOwnerQueryDataCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/12/16.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYRemoteCallQueryCommand.h"
+#import "AYCommand.h"
 
-@interface AYQueryHomeContentCommand : AYRemoteCallQueryCommand
+@interface AYEnumOwnerQueryDataCommand : NSObject <AYCommand>
 
 @end

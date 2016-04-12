@@ -14,13 +14,24 @@ typedef NS_ENUM(NSInteger, AlbumControllerType) {
     AlbumControllerTypeCompire,
 };
 
+typedef NS_ENUM(NSInteger, AlbumTableCellType) {
+    AlbumTableCellTypeImage,
+    AlbumTableCellTypeUrl,
+};
+
 static NSString* const kAYAlbumTableCellName = @"AlbumTableCell";
 
-//@protocol AlbumActionDelegate <NSObject>
-//- (void)didCameraBtn: (UIViewController*)pv;
-//- (void)didMovieBtn: (UIViewController*)pv;
-//- (void)didCompareBtn: (UIViewController*)pv;
-//- (void)postViewController:(UIViewController*)pv didPostSueecss:(BOOL)success;
-//@end
+static NSString* const kAYAlbumTableCellMarginLeftKey = @"AlbumTableCellMarginLeft";
+static NSString* const kAYAlbumTableCellMarginRightKey = @"AlbumTableCellMarginRight";
+static NSString* const kAYAlbumTableCellMarginBetweenKey = @"AlbumTableCellMarginBetween";
+static NSString* const kAYAlbumTableCellCornerRadiusKey = @"AlbumTableCellCornerRadius";
+static NSString* const kAYAlbumTableCellCanSelectedKey = @"AlbumTableCellCanSelected";
+static NSString* const kAYAlbumTableCellGridBorderColorKey = @"AlbumTableCellGridBorderColor";
+static NSString* const kAYAlbumTableCellLineViewCountKey = @"AlbumTableCellLineViewCount";
+
+static NSString* const kAYAlbumTableCellTypeKey = @"AlbumTableCellType";
+static NSString* const kAYAlbumTableCellItemKey = @"AlbumTableCellItems";
+static NSString* const kAYAlbumTableCellRowKey = @"AlbumTableCellRow";
+static NSString* const kAYAlbumTableCellControllerTypeKey = @"AlbumTableCellControllerType";
 
 #endif /* AYAlbumDefines_h */

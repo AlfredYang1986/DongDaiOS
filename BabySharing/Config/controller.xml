@@ -73,6 +73,7 @@
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
 
         <view type="Table" name="Table" />
         <view type="ProfileHeader" name="ProfileHeader" />

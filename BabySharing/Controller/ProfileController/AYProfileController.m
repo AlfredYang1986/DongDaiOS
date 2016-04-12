@@ -161,6 +161,35 @@
 
         dispatch_async(dispatch_get_main_queue(), ^{
             self.status = RemoteControllerStatusReady;
+          
+//            NSUInteger publich_count, push_count = 0;
+            NSUInteger publich_count = 0;
+            {
+                id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
+                id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryData"];
+                NSArray* result = nil;
+                [cmd performWithResult:&result];
+                publich_count = result.count;
+                NSLog(@"result are %@", result);
+                
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"ProfilePublish"];
+                id<AYCommand> cmd_set_data = [del.commands objectForKey:@"changeQueryData:"];
+                [cmd_set_data performWithResult:&result];
+            }
+            
+            id<AYViewBase> view_seg = [self.views objectForKey:@"DongDaSeg"];
+            id<AYCommand> cmd_refresh_item = [view_seg.commands objectForKey:@"resetItemInfo:"];
+            
+            {
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:[NSString stringWithFormat:@"%lu", (unsigned long)publich_count] forKey:kAYSegViewTitleKey];
+                [dic setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewIndexTypeKey];
+                [cmd_refresh_item performWithResult:&dic];
+            }
+            
+            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
+            [cmd_refresh performWithResult:nil];
         });
     });
 }
@@ -204,6 +233,12 @@
         
         [cmd_query_content performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"user post result %@", result);
+           
+            NSDictionary* args = [result copy];
+            
+            id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
+            id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"RefrashOwnerQueryData"];
+            [cmd performWithResult:&args];
         }];
     }
     

@@ -366,7 +366,7 @@ static AYFactoryManager* instance = nil;
         } else if ([cat isEqualToString:kAYFactoryManagerCatigoryDelegate]) {
             
             NSArray* arr = [doc_delegate nodesForXPath:[[@"//delegate[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
-            NSLog(@"view arr is : %@", arr);
+            NSLog(@"delegate arr is : %@", arr);
             if (arr.count == 1) {
                 
                 GDataXMLElement* node = arr.lastObject;
