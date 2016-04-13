@@ -31,7 +31,9 @@ static NSString* const kAYFriendsControllerNavSegValue = @"DongDaSeg";
 static NSString* const kAYFriendsControllerFriendsSegValue = @"DongDaSeg2";
 static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
 
-@implementation AYFriendsController
+@implementation AYFriendsController {
+    CALayer* line_friend_up;
+}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -55,6 +57,27 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    CGFloat width  = [UIScreen mainScreen].bounds.size.width;
+    line_friend_up = [CALayer layer];
+    line_friend_up.borderWidth = 1.f;
+    line_friend_up.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.18].CGColor;
+    line_friend_up.frame = CGRectMake(0, 74 + SEARCH_BAR_MARGIN_TOP + SEARCH_BAR_HEIGHT + SEARCH_BAR_MARGIN_BOT + SEGAMENT_HEGHT + SEGAMENT_MARGIN_BOTTOM, width, 1);
+    line_friend_up.hidden = YES;
+    [self.view.layer addSublayer:line_friend_up];
+    
+    CALayer* line_seg = [CALayer layer];
+    line_seg.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+    line_seg.borderWidth = 1.f;
+    line_seg.frame = CGRectMake(0, SEGAMENT_HEGHT - 1, width, 1);
+    UIView* friend_seg = [self.views objectForKey:kAYFriendsControllerFriendsSegValue];
+    [friend_seg.layer addSublayer:line_seg];
+    
+    CALayer* line_seg_up = [CALayer layer];
+    line_seg_up.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.18].CGColor;
+    line_seg_up.borderWidth = 1.f;
+    line_seg_up.frame = CGRectMake(0, 0, width, 1);
+    [friend_seg.layer addSublayer:line_seg_up];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
