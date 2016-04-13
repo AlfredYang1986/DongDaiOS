@@ -19,13 +19,6 @@
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 
 @implementation AYSettingController
-@synthesize para = _para;
-
-@synthesize commands = _commands;
-@synthesize facades = _facades;
-@synthesize views = _views;
-@synthesize delegates = _delegates;
-
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     

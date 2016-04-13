@@ -1,8 +1,8 @@
 //
-//  AYTableView.h
+//  AYButtonView.h
 //  BabySharing
 //
-//  Created by Alfred Yang on 4/8/16.
+//  Created by Alfred Yang on 4/13/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
@@ -10,10 +10,6 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 
-@interface AYTableView : UITableView <AYViewBase>
-
-@end
-
-@interface AYTable2View : AYTableView
+@interface AYButtonView : UIButton <AYViewBase>
 
 @end

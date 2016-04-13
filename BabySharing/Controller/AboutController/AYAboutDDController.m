@@ -15,7 +15,6 @@
 #import "AYNotifyDefines.h"
 #import "AYFacadeBase.h"
 
-
 @implementation AYAboutDDController
 
 - (void)viewDidLoad {

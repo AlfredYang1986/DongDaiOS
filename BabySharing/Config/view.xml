@@ -36,6 +36,20 @@
         <command type="message" message="registerHeaderAndFooterWithNib:" />
     </view>
     
+    <view type="Table2" name="Table2" factory="AYDefaultViewFactory" >
+        <command type="message" message="refresh" />
+        <command type="message" message="registerDatasource:" />
+        <command type="message" message="registerDelegate:" />
+        <command type="message" message="registerCellWithClass:" />
+        <command type="message" message="registerCellWithNib:" />
+        <command type="message" message="registerHeaderAndFooterWithClass:" />
+        <command type="message" message="registerHeaderAndFooterWithNib:" />
+    </view>
+    
+    <view type="AddFriends" name="AddFriends" factory="AYDefaultViewFactory" >
+        <command type="notify" message="touchUpInside" />
+    </view>
+    
     <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" factory="AYDefaultViewFactory" >
         <command type="notify" message="popToPreviousWithoutSave" />
     </view>
@@ -74,6 +88,17 @@
     </view>
 
     <view type="DongDaSeg" name="DongDaSeg" factory="AYDefaultViewFactory" >
+        <command type="message" message="setSegInfo:" />
+        <command type="message" message="addItem:" />
+        <command type="message" message="removeItem:" />
+        <command type="message" message="queryPerferedHeight" />
+        <command type="message" message="queryPerferedHeightWithImage" />
+        <command type="message" message="queryCurrentSelectedIndex" />
+        <command type="message" message="resetItemInfo:" />
+        <command type="notify" message="segValueChanged:" />
+    </view>
+    
+    <view type="DongDaSeg2" name="DongDaSeg2" factory="AYDefaultViewFactory" >
         <command type="message" message="setSegInfo:" />
         <command type="message" message="addItem:" />
         <command type="message" message="removeItem:" />
