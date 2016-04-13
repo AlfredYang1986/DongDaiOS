@@ -26,6 +26,10 @@
     <command type="Module" name="RefrashOwnerQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="AppendOwnerQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="EnumOwnerQueryData" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="RefrashOwnerQueryPushData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="AppendOwnerQueryPushData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EnumOwnerQueryPushData" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />

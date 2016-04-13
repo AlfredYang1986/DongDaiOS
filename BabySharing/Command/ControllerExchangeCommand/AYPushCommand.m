@@ -42,7 +42,8 @@
         [dic_init setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
         [des performWithResult:&dic_init];
     }
-    
+   
+    des.hidesBottomBarWhenPushed = YES;
     [source.navigationController pushViewController:des animated:YES];
 }
 

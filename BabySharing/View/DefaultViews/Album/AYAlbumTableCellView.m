@@ -15,6 +15,8 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 
+
+
 #define BORDER_MODIFY       1
 
 @implementation AYAlbumTableCellView {
@@ -417,22 +419,22 @@
 }
 
 - (id)setUpItems:(id)obj {
-    
     NSDictionary* dic = (NSDictionary*)obj;
 
-    NSArray* content_arr =  [dic objectForKey:kAYAlbumTableCellItemKey];
+    NSLog(@"set items %@", dic);
+    
+    NSArray* arr_content =  [dic objectForKey:kAYAlbumTableCellItemKey];
+    AYAlbumTableCellView* view  =  [dic objectForKey:kAYAlbumTableCellSelfKey];
     int row = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellRowKey]).intValue;
     AlbumControllerType act = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellControllerTypeKey]).intValue;
     
     AlbumTableCellType t = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellTypeKey]).intValue;
     switch (t) {
-        case AlbumTableCellTypeImage: {
-                [self setUpContentViewWithImageNames:content_arr atLine:row andType:act];
-            }
+        case AlbumTableCellTypeImage:
+            [view setUpContentViewWithImageNames:arr_content atLine:row andType:act];
             break;
-        case AlbumTableCellTypeUrl: {
-                [self setUpContentViewWithImageURLs2:content_arr atLine:row andType:act];
-            }
+        case AlbumTableCellTypeUrl:
+//            [self setUpContentViewWithImageURLs2:content_arr atLine:row andType:act];
             break;
         default:
             break;

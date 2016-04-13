@@ -162,8 +162,8 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.status = RemoteControllerStatusReady;
           
-//            NSUInteger publich_count, push_count = 0;
-            NSUInteger publich_count = 0;
+            NSUInteger publich_count, push_count = 0;
+//            NSUInteger publich_count = 0;
             {
                 id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
                 id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryData"];
@@ -177,6 +177,19 @@
                 [cmd_set_data performWithResult:&result];
             }
             
+            {
+                id<AYFacadeBase> f_owner_query = OWNERQUERYPUSHMODEL;
+                id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryPushData"];
+                NSArray* result = nil;
+                [cmd performWithResult:&result];
+                push_count = result.count;
+                NSLog(@"result are %@", result);
+                
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"ProfilePush"];
+                id<AYCommand> cmd_set_data = [del.commands objectForKey:@"changeQueryData:"];
+                [cmd_set_data performWithResult:&result];
+            }
+            
             id<AYViewBase> view_seg = [self.views objectForKey:@"DongDaSeg"];
             id<AYCommand> cmd_refresh_item = [view_seg.commands objectForKey:@"resetItemInfo:"];
             
@@ -184,6 +197,13 @@
                 NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
                 [dic setValue:[NSString stringWithFormat:@"%lu", (unsigned long)publich_count] forKey:kAYSegViewTitleKey];
                 [dic setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewIndexTypeKey];
+                [cmd_refresh_item performWithResult:&dic];
+            }
+            
+            {
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:[NSString stringWithFormat:@"%lu", (unsigned long)push_count] forKey:kAYSegViewTitleKey];
+                [dic setValue:[NSNumber numberWithInt:1] forKey:kAYSegViewIndexTypeKey];
                 [cmd_refresh_item performWithResult:&dic];
             }
             
@@ -252,6 +272,12 @@
         
         [cmd_query_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"user push result %@", result);
+            
+            NSDictionary* args = [result copy];
+            
+            id<AYFacadeBase> f_owner_query = OWNERQUERYPUSHMODEL;
+            id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"RefrashOwnerQueryPushData"];
+            [cmd performWithResult:&args];
         }];
     }
 }

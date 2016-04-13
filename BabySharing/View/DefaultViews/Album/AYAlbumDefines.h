@@ -31,6 +31,7 @@ static NSString* const kAYAlbumTableCellLineViewCountKey = @"AlbumTableCellLineV
 
 static NSString* const kAYAlbumTableCellTypeKey = @"AlbumTableCellType";
 static NSString* const kAYAlbumTableCellItemKey = @"AlbumTableCellItems";
+static NSString* const kAYAlbumTableCellSelfKey = @"AlbumTableCellSelf";
 static NSString* const kAYAlbumTableCellRowKey = @"AlbumTableCellRow";
 static NSString* const kAYAlbumTableCellControllerTypeKey = @"AlbumTableCellControllerType";
 

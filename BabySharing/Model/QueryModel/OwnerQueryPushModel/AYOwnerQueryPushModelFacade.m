@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 BM. All rights reserved.
 //
 
-#import "AYOwnerQueryModelFacade.h"
+#import "AYOwnerQueryPushModelFacade.h"
 #import <CoreData/CoreData.h>
 #import "QueryContent+ContextOpt.h"
 #import "AYQueryModelDefines.h"
@@ -15,9 +15,9 @@
 #import <CoreData/CoreData.h>
 #import "AYNotifyDefines.h"
 
-static NSString* const LOCALDB_OWNER_QUERY = @"ownerQuery.sqlite";
+static NSString* const LOCALDB_OWNER_QUERY_PUSH = @"ownerPushQuery.sqlite";
 
-@implementation AYOwnerQueryModelFacade
+@implementation AYOwnerQueryPushModelFacade
 
 @synthesize doc = _doc;
 @synthesize querydata = _querydata;
@@ -30,7 +30,7 @@ static NSString* const LOCALDB_OWNER_QUERY = @"ownerQuery.sqlite";
      */
     if (_doc == nil) {
         NSString* docs=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_OWNER_QUERY]];
+        NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_OWNER_QUERY_PUSH]];
         _doc = (UIManagedDocument*)[[UIManagedDocument alloc] initWithFileURL:url];
         
         BOOL isDir = NO;

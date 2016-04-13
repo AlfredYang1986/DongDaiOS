@@ -14,6 +14,7 @@
 
 #import "QueryContent.h"
 #import "QueryContentItem.h"
+#import "AYAlbumDefines.h"
 #import "AYQueryModelDefines.h"
 
 @implementation AYProfilePublishDelegate {
@@ -59,7 +60,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix]];
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
     
     if (cell == nil) {
         cell = VIEW(kAYAlbumTableCellName, kAYAlbumTableCellName);
@@ -74,7 +75,6 @@
         [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
         [cmd_info performWithResult:&dic];
     }
-
 #define PHOTO_PER_LINE 3
     {
         NSInteger row = indexPath.row;
@@ -106,9 +106,10 @@
         id<AYCommand> cmd_item = [cell.commands objectForKey:@"setUpItems:"];
         NSMutableDictionary * dic = [[NSMutableDictionary alloc]init];
         [dic setValue:arr_content forKey:kAYAlbumTableCellItemKey];
+        [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
         [dic setValue:[NSNumber numberWithInteger:row] forKey:kAYAlbumTableCellRowKey];
         [dic setValue:[NSNumber numberWithInt:AlbumControllerTypePhoto] forKey:kAYAlbumTableCellControllerTypeKey];
-        
+
         [cmd_item performWithResult:&dic];
     }
     
@@ -131,5 +132,9 @@
     NSNumber* height = nil;
     [cmd_height performWithResult:&height];
     return height.floatValue;
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 @end

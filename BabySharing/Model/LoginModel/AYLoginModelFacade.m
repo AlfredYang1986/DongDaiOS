@@ -36,6 +36,10 @@ static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
         [_doc openWithCompletionHandler:^(BOOL success){
             [self enumDataFromLocalDB:_doc];
         }];
+    } else if (_doc.documentState == UIDocumentStateInConflict) {
+        [_doc saveToURL:url forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success){
+            [self enumDataFromLocalDB:_doc];
+        }];
     } else {
         
     }
