@@ -108,8 +108,22 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         
         <view type="Table" name="Table" />
-        
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="AboutDongda" />
+    </controller>
+
+
+    <controller type="DefaultController" name="UserAgree" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        
+        <view type="Table" name="Table" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="UserAgree" />
     </controller>
 </controllers>

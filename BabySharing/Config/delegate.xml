@@ -20,4 +20,9 @@
     </delegate>
     <delegate type="TableViewDelegateAndDatasource" name="AppSetting" factory="AYDefaultDelegateFactory" >
     </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="AboutDongda" factory="AYDefaultDelegateFactory" >
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="UserAgree" factory="AYDefaultDelegateFactory" >
+    </delegate>
 </delegates>

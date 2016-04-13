@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AYCommand.h"
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
+#import "AYViewController.h"
 
-@interface AYAboutDongdaCellView : UITableViewCell<AYViewBase,UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UIImageView *image;
+@interface AYAboutDongdaDelegate : NSObject<AYViewBase,UITableViewDelegate,UITableViewDataSource>
+
 @end

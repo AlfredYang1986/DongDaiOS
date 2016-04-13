@@ -1,12 +1,12 @@
 //
-//  AYSettingController.m
+//  AYUserAgreeController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 4/12/16.
-//  Copyright © 2016 Alfred Yang. All rights reserved.
+//  Created by Alfred Yang on 13/4/16.
+//  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSettingController.h"
+#import "AYUserAgreeController.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -14,18 +14,15 @@
 #import "AYResourceManager.h"
 #import "AYNotifyDefines.h"
 #import "AYFacadeBase.h"
-#import "AYAlbumDefines.h"
 
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 
-@implementation AYSettingController
-@synthesize para = _para;
+@interface AYUserAgreeController ()
 
-@synthesize commands = _commands;
-@synthesize facades = _facades;
-@synthesize views = _views;
-@synthesize delegates = _delegates;
+@end
+
+@implementation AYUserAgreeController
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -45,20 +42,15 @@
     }
 }
 
-#pragma mark -- life cycle
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     {
         id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-        id<AYCommand> cmd_view_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
-        NSString* title = @"设置";
-        [cmd_view_title performWithResult:&title];
+        id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
+        NSString* title = @"咚哒用户协议";
+        [cmd_title performWithResult:&title];
+        
     }
     
     {
@@ -66,29 +58,24 @@
         id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
         
-        id<AYDelegateBase> cmd_setting = [self.delegates objectForKey:@"AppSetting"];
+        id<AYDelegateBase> cmd_user_agreement = [self.delegates objectForKey:@"UserAgree"];
         
-        id obj = (id)cmd_setting;
+        id obj = (id)cmd_user_agreement;
         [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_setting;
+        obj = (id)cmd_user_agreement;
         [cmd_delegate performWithResult:&obj];
         
     }
     
-//    CALayer* line = [CALayer layer];
-//    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.10].CGColor;
-//    line.borderWidth = 1.f;
-//    line.frame = CGRectMake(0, 73, [UIScreen mainScreen].bounds.size.width, 1);
-//    [self.view.layer addSublayer:line];
     
-    OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 64 - 49 - 44, SCREEN_WIDTH - 2 * 17.5, 44)];
-    [logout_btn setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
-    logout_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
-    [logout_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [logout_btn setTitle:@"退出登录" forState:UIControlStateNormal];
-    [logout_btn addTarget:self action:@selector(signOutSelected) forControlEvents:UIControlEventTouchUpInside];
+    OBShapedButton* state = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 64 - 49 - 44, SCREEN_WIDTH, 44)];
+    [state setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
+    state.titleLabel.font = [UIFont systemFontOfSize:17.f];
+    [state setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [state setTitle:@"登陆即表示同意用户协议" forState:UIControlStateNormal];
+    
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    [(UIView*)view_table addSubview:logout_btn];
+    [(UIView*)view_table addSubview:state];
 }
 
 #pragma mark -- layout
@@ -109,6 +96,10 @@
     return nil;
 }
 
+- (void)signOutSelected{
+    NSLog(@"AboutButton onClick");
+}
+
 #pragma mark -- notification
 - (id)popToPreviousWithoutSave {
     NSLog(@"pop view controller");
@@ -122,16 +113,5 @@
     return nil;
 }
 
-#pragma mark -- actions
-- (void)signOutSelected {
-    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-    [notify setValue:kAYNotifyCurrentUserLogout forKey:kAYNotifyFunctionKey];
-    
-    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-    
-    id<AYFacadeBase> f = LOGINMODEL;
-    [f performWithResult:&notify];
-}
+
 @end

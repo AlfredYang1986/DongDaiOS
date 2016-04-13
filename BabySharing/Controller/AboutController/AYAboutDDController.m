@@ -15,8 +15,32 @@
 #import "AYNotifyDefines.h"
 #import "AYFacadeBase.h"
 
+#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
+
+@interface AYAboutDDController ()
+@property (nonatomic, strong) UIImageView *logoView;
+@end
 
 @implementation AYAboutDDController
+
+#pragma mark -- commands
+- (void)performWithResult:(NSObject**)obj {
+    
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+        NSDictionary* dic_push = [dic copy];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,13 +58,23 @@
         id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
         
-        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"RoleTagRecommend"];
+        id<AYDelegateBase> cmd_about = [self.delegates objectForKey:@"AboutDongda"];
         
-        id obj = (id)cmd_recommend;
+        id obj = (id)cmd_about;
         [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_recommend;
+        obj = (id)cmd_about;
         [cmd_delegate performWithResult:&obj];
+        
     }
+    
+    _logoView = [[UIImageView alloc]init];
+    _logoView.image = PNGRESOURCE(@"profile_about_dongda");
+    [_logoView sizeToFit];
+    _logoView.frame = CGRectMake((SCREEN_WIDTH - _logoView.bounds.size.width)*0.5, 50, _logoView.bounds.size.width, _logoView.bounds.size.height);
+//    NSLog(@"--%f,--%f",_logoView.bounds.size.width, _logoView.bounds.size.height);
+    
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    [(UIView*)view_table addSubview:_logoView];
 }
 
 #pragma mark -- layout
@@ -59,6 +93,10 @@
 - (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
     return nil;
+}
+
+- (void)signOutSelected{
+    NSLog(@"AboutButton onClick");
 }
 
 #pragma mark -- notification

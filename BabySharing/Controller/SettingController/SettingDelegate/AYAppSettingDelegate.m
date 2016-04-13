@@ -128,11 +128,11 @@
         
         NSLog(@"aboutdongda view controller");
         
-        id<AYCommand> aboutDD = DEFAULTCONTROLLER(@"AboutDD");
+        id<AYCommand> AboutDD = DEFAULTCONTROLLER(@"AboutDD");
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
         [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:aboutDD forKey:kAYControllerActionDestinationControllerKey];
+        [dic setValue:AboutDD forKey:kAYControllerActionDestinationControllerKey];
         [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         [_controller performWithResult:&dic];
         
