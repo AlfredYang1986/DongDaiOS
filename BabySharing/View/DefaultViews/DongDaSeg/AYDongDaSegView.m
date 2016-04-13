@@ -351,6 +351,8 @@
             self.layer.cornerRadius = ((NSNumber*)[dic objectForKey:key]).floatValue;
         } else if ([key isEqualToString:kAYSegViewCurrentSelectKey]) {
             self.selectedIndex = ((NSNumber*)[dic objectForKey:key]).intValue;
+        } else if ([key isEqualToString:kAYSegViewSelectedFontSizeKey]) {
+            self.font_size = ((NSNumber*)[dic objectForKey:key]).floatValue;
         }
     }
     return nil;
@@ -417,4 +419,8 @@
     [self refreshItemTitle:title atIndex:index];
     return nil;
 }
+@end
+
+@implementation AYDongDaSeg2View
+
 @end

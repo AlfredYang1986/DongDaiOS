@@ -126,4 +126,19 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="UserAgree" />
     </controller>
+    
+    <controller type="DefaultController" name="Friends" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        
+        <view type="Table" name="Table" />
+        <view type="Table2" name="Table2" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="DongDaSeg2" name="DongDaSeg2" />
+        <view type="AddFriends" name="AddFriends" />
+        
+<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
+<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
+    </controller>
 </controllers>

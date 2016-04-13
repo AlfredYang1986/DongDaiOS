@@ -44,3 +44,7 @@
 + (CGFloat)preferredHeight;
 + (CGFloat)preferredHeightWithImgAndText;
 @end
+
+@interface AYDongDaSeg2View : AYDongDaSegView
+
+@end

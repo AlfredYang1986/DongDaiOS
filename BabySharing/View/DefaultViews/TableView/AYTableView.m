@@ -81,3 +81,7 @@
     return nil;
 }
 @end
+
+@implementation AYTable2View
+
+@end

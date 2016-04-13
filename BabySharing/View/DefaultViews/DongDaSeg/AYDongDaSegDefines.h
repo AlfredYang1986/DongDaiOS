@@ -34,6 +34,7 @@ static NSString* const kAYSegViewSelectedImageKey = @"dongda seg selected image 
 
 static NSString* const kAYSegViewNormalFontColorKey = @"dongda seg normal font color key";
 static NSString* const kAYSegViewSelectedFontColorKey = @"dongda seg selected font color key";
+static NSString* const kAYSegViewSelectedFontSizeKey = @"dongda seg font size key";
 
 static NSString* const kAYSegViewMarginToEdgeKey = @"dongda seg margin to edge key";
 static NSString* const kAYSegViewMarginBetweenKey = @"dongda seg margin between items key";

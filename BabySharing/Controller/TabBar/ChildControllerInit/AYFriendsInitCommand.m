@@ -12,8 +12,6 @@
 #import "AYNavigationController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
-// test
-#import "AYPlaceHolderTabBarController.h"
 
 @implementation AYFriendsInitCommand
 @synthesize para = _para;
@@ -23,8 +21,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    UIViewController* controller = [[AYPlaceHolderTabBarController alloc]init];
-    controller.view.backgroundColor = [UIColor greenColor];
+    UIViewController* controller = CONTROLLER(@"DefaultController", @"Friends");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
