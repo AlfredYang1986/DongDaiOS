@@ -9,13 +9,13 @@
 #ifndef AYRemoteCallDefines_h
 #define AYRemoteCallDefines_h
 
-typedef NS_ENUM(NSInteger, UserPostOwnerConnections) {
-    UserPostOwnerConnectionsNone,
-    UserPostOwnerConnectionsSamePerson,
-    UserPostOwnerConnectionsFollowing,
-    UserPostOwnerConnectionsFollowed,
-    UserPostOwnerConnectionsFriends
-};
+//typedef NS_ENUM(NSInteger, UserPostOwnerConnections) {
+//    UserPostOwnerConnectionsNone,
+//    UserPostOwnerConnectionsSamePerson,
+//    UserPostOwnerConnectionsFollowing,
+//    UserPostOwnerConnectionsFollowed,
+//    UserPostOwnerConnectionsFriends
+//};
 
 typedef enum : NSUInteger {
     RemoteControllerStatusPrepare,

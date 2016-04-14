@@ -15,8 +15,6 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 
-
-
 #define BORDER_MODIFY       1
 
 @implementation AYAlbumTableCellView {

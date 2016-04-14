@@ -123,4 +123,10 @@
         <command type="message" message="queryCurrentGridViewByIndex:" />
         <command type="notify" message="selectedValueChanged:" />
     </view>
+
+    <view type="UserDisplay" name="UserDisplay" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="setDisplayUserInfo:" />
+        <command type="message" message="queryCellHeight" />
+    </view>
 </views>

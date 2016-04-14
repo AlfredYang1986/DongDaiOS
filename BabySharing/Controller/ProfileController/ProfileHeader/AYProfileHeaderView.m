@@ -15,6 +15,7 @@
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYFactoryManager.h"
+#import "AYQueryModelDefines.h"
 
 //#define BASE_LINE_HEIGHT        115
 #define BASE_LINE_HEIGHT        185

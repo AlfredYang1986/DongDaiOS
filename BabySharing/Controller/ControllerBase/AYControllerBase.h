@@ -25,6 +25,9 @@
 @property (nonatomic, readonly, getter=getControllerName) NSString* controller_name;
 
 - (id)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args;
+
+- (id)startRemoteCall:(id)obj;
+- (id)endRemoteCall:(id)obj;
 @end
 
 #endif /* AYControllerBase_h */
