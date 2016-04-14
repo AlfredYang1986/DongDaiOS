@@ -118,13 +118,14 @@
     <controller type="DefaultController" name="UserAgree" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="EmailRemote" notification="true" />
         
-        <view type="Table" name="Table" />
+        <view type="Web" name="Web" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
         <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="UserAgree" />
+        <delegate type="NavItemBarBtnDelegate" name="UserAgree" />
     </controller>
     
     <controller type="DefaultController" name="Friends" factory="AYDefaultControllerFactoy" >

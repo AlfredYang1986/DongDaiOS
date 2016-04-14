@@ -41,27 +41,24 @@
 
 #define PREFERRED_HEIGHT        62
 
-@interface AYUserAgreeCell : UITableViewCell
-
-@property (nonatomic, strong) UITextView *textContent;
-
-@end
-
-@implementation AYUserAgreeCell
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        NSLog(@"init reuse identifier");
-        self.textContent = [[UITextView alloc]init];
-        self.textContent.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
-        self.textContent.font = [UIFont systemFontOfSize:16.f];
-        [self addSubview:self.textContent];
-    }
-    return self;
-}
-@end
-
+//@interface AYUserAgreeCell : UITableViewCell
+//
+//@property (nonatomic, strong) UITextView *textContent;
+//
+//@end
+//
+//@implementation AYUserAgreeCell
+//
+//- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+//    if (self) {
+//        NSLog(@"init reuse identifier");
+//
+//    }
+//    return self;
+//}
+//@end
+//
 
 @implementation AYUserAgreeDelegate {
     NSArray* title;
@@ -75,7 +72,7 @@
 
 
 - (void)postPerform {
-    title = @[@"用户协议"];
+
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -96,35 +93,44 @@
 
 
 #pragma mark -- life cycle
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
-}
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    AYUserAgreeCell * cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-    
-    if (cell == nil) {
-        cell = [[AYUserAgreeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
-    }
-    cell.textContent.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-    cell.textContent.text = @"ssssssssssssssss";
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.backgroundColor = [UIColor greenColor];
-    
-    return cell;
-    
-}
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [UIScreen mainScreen].bounds.size.height;
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
-    return NO;
-}
-
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    return 1;
+//}
+//- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//    AYUserAgreeCell * cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+//    
+//    if (cell == nil) {
+//        cell = [[AYUserAgreeCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+//    }
+//    
+//    UIWebView *userPrivacyView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 108)];
+//    [userPrivacyView setBackgroundColor:[UIColor clearColor]];
+//    [userPrivacyView setOpaque:NO];
+////    NSString* path = @"/Users/alfredyang/Desktop/privacy.html";
+//    NSString *path = [[NSBundle mainBundle]pathForResource:@"privacy" ofType:@"html"];
+//    NSData *data = [NSData dataWithContentsOfFile:path];
+//    NSURL* url = [NSURL fileURLWithPath:path];
+////    NSURLRequest* request = [NSURLRequest requestWithURL:url] ;
+////    [webView loadRequest:request];
+//    [userPrivacyView loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:url];
+//    
+//    [cell addSubview:userPrivacyView];
+//    cell.accessoryType = UITableViewCellAccessoryNone;
+//    
+//    return cell;
+//    
+//}
+//
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return [UIScreen mainScreen].bounds.size.height;
+//}
+//
+//- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return NO;
+//}
 
 + (CGFloat)preferredHeight {
     return PREFERRED_HEIGHT;
@@ -134,7 +140,4 @@
     return PREFERRED_HEIGHT;
 }
 
-
-
 @end
-

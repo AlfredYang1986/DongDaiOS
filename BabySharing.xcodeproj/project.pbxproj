@@ -137,6 +137,9 @@
 		7039CBFA1CBBB5A700BE60C7 /* SearchSegImgTextItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBF21CBBB5A700BE60C7 /* SearchSegImgTextItem.m */; };
 		7039CBFB1CBBB5A700BE60C7 /* SearchSegItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBF41CBBB5A700BE60C7 /* SearchSegItem.m */; };
 		7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBF61CBBB5A700BE60C7 /* SearchSegTextTextItem.m */; };
+		703B89661CBF2AEC002EBB18 /* AYEmailRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89651CBF2AEC002EBB18 /* AYEmailRemoteFacade.m */; };
+		703B896E1CBF65EB002EBB18 /* privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 703B896D1CBF65EB002EBB18 /* privacy.html */; };
+		703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89711CBF81E4002EBB18 /* AYWebView.m */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -517,6 +520,11 @@
 		7039CBF51CBBB5A700BE60C7 /* SearchSegTextTextItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSegTextTextItem.h; sourceTree = "<group>"; };
 		7039CBF61CBBB5A700BE60C7 /* SearchSegTextTextItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSegTextTextItem.m; sourceTree = "<group>"; };
 		7039CBFE1CBBB60900BE60C7 /* AYDongDaSegDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDongDaSegDefines.h; sourceTree = "<group>"; };
+		703B89641CBF2AEC002EBB18 /* AYEmailRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEmailRemoteFacade.h; sourceTree = "<group>"; };
+		703B89651CBF2AEC002EBB18 /* AYEmailRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEmailRemoteFacade.m; sourceTree = "<group>"; };
+		703B896D1CBF65EB002EBB18 /* privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy.html; sourceTree = "<group>"; };
+		703B89701CBF81E4002EBB18 /* AYWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWebView.h; sourceTree = "<group>"; };
+		703B89711CBF81E4002EBB18 /* AYWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWebView.m; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -998,6 +1006,8 @@
 				700BE5F91CBA6E7D00A09B3A /* AYSearchRemoteFacade.m */,
 				70CDF6181CBCC3AF00311841 /* AYContentQueryRemoteFacade.h */,
 				70CDF6191CBCC3AF00311841 /* AYContentQueryRemoteFacade.m */,
+				703B89641CBF2AEC002EBB18 /* AYEmailRemoteFacade.h */,
+				703B89651CBF2AEC002EBB18 /* AYEmailRemoteFacade.m */,
 			);
 			path = Facades;
 			sourceTree = "<group>";
@@ -1220,6 +1230,7 @@
 				7039CBDA1CBB84D200BE60C7 /* DongDaSeg */,
 				7017F3331CB74F63002C416E /* SearchBar */,
 				7017F3361CB74F63002C416E /* TableView */,
+				703B896F1CBF81C1002EBB18 /* WebView */,
 			);
 			path = DefaultViews;
 			sourceTree = "<group>";
@@ -1530,6 +1541,7 @@
 		702E7A851CA151770097867E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				703B896D1CBF65EB002EBB18 /* privacy.html */,
 				7017F3521CB7BA74002C416E /* Info.plist */,
 				7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */,
 				702E7A981CA1572E0097867E /* default.png */,
@@ -1760,6 +1772,15 @@
 				7039CBF61CBBB5A700BE60C7 /* SearchSegTextTextItem.m */,
 			);
 			path = SearchSegItem;
+			sourceTree = "<group>";
+		};
+		703B896F1CBF81C1002EBB18 /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				703B89701CBF81E4002EBB18 /* AYWebView.h */,
+				703B89711CBF81E4002EBB18 /* AYWebView.m */,
+			);
+			path = WebView;
 			sourceTree = "<group>";
 		};
 		70490D9D1CA222470093D5DA /* APNNotificationCommand */ = {
@@ -2527,6 +2548,7 @@
 				702E7A8E1CA151770097867E /* icon-152.png in Resources */,
 				702E7AB71CA169C00097867E /* color.xml in Resources */,
 				7039CBCA1CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib in Resources */,
+				703B896E1CBF65EB002EBB18 /* privacy.html in Resources */,
 				70490DC01CA2339D0093D5DA /* read_me.txt in Resources */,
 				701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */,
 				700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */,
@@ -2629,6 +2651,7 @@
 				700BE5F01CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.m in Sources */,
 				700BE5B41CBA606800A09B3A /* AYShowModuleUpCommand.m in Sources */,
 				700BE5EB1CBA6E5800A09B3A /* AYLandingReqConfirmCodeCommand.m in Sources */,
+				703B89661CBF2AEC002EBB18 /* AYEmailRemoteFacade.m in Sources */,
 				70F68DA71CBE46C1005524BA /* AYAboutDongdaDelegate.m in Sources */,
 				702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */,
 				700BE5B11CBA5F2C00A09B3A /* AYPlaceHolderTabBarController.m in Sources */,
@@ -2722,6 +2745,7 @@
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
 				7027FD161CBC0246002756BC /* AYSettingController.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
+				703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,

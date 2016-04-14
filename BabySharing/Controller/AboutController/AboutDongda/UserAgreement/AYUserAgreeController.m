@@ -16,6 +16,9 @@
 #import "AYFacadeBase.h"
 #import "SGActionView.h"
 #import "RemoteInstance.h"
+#import "Tools.h"
+#import "AYModel.h"
+#import "AYRemoteCallCommand.h"
 
 
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
@@ -53,19 +56,15 @@
         id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
         NSString* title = @"咚哒用户协议";
         [cmd_title performWithResult:&title];
-        
     }
     
     {
-        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-        id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-        
+        id<AYViewBase> web_view = [self.views objectForKey:@"Web"];
+        id<AYCommand> cmd_delegate = [web_view.commands objectForKey:@"registerDelegate:"];
+//
         id<AYDelegateBase> cmd_user_agreement = [self.delegates objectForKey:@"UserAgree"];
-        
+//
         id obj = (id)cmd_user_agreement;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_user_agreement;
         [cmd_delegate performWithResult:&obj];
         
     }
@@ -73,20 +72,29 @@
     
     OBShapedButton* state = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 64 - 44, SCREEN_WIDTH, 44)];
     [state setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
+    [state setBackgroundColor:[UIColor clearColor]];
     state.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [state setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [state setTitle:@"登陆即表示同意用户协议" forState:UIControlStateNormal];
     state.userInteractionEnabled = NO;
     
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    [(UIView*)view_table addSubview:state];
+    [self.view addSubview:state];
 }
 
 #pragma mark -- layout
-- (id)TableLayout:(UIView*)view {
-    view.frame = self.view.bounds;
-    ((UITableView*)view).scrollEnabled = NO;
-    [((UITableView*)view) setSeparatorColor:[UIColor clearColor]];
+- (id)WebLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 100);
+    
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"privacy" ofType:@"html"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSURL* url = [NSURL fileURLWithPath:path];
+    //    NSURLRequest* request = [NSURLRequest requestWithURL:url] ;
+    //    [webView loadRequest:request];
+    [(UIWebView*)view loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:url];
+    
+//    [((UIWebView*)view) setOpaque:NO];
+    [((UIWebView*)view) setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:((UIWebView*)view)];
     return nil;
 }
 
@@ -105,10 +113,6 @@
     return nil;
 }
 
-- (void)signOutSelected{
-    NSLog(@"AboutButton onClick");
-}
-
 #pragma mark -- notification
 - (id)popToPreviousWithoutSave {
     NSLog(@"pop view controller");
@@ -123,7 +127,6 @@
 }
 
 - (id)rightItemBtnClick {
-    
     NSLog(@"controller alter...");
     [SGActionView showSheetWithTitle:@"" itemTitles:@[@"发送协议", @"以邮件的形式发送", @"复制全文", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
         switch (index) {
@@ -160,28 +163,24 @@
     NSString* email = tf.text;
     
     if ([self isValidateEmail:email]) {
+        
+        AYFacade* f = [self.facades objectForKey:@"EmailRemote"];
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"EmailSend"];
+        
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setObject:email forKey:@"email"];
         
-        NSError * error = nil;
-        NSData* jsonData =[NSJSONSerialization dataWithJSONObject:[dic copy] options:NSJSONWritingPrettyPrinted error:&error];
-        
-        NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:@"EMAIL_SENDPRIVACY"]];
-        
-        if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-            NSLog(@"send email success");
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"success" message:@"send email success" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-            [alert show];
-            
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"send email failed" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-            [alert show];
-        }
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"not validate email address" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
-        [alert show];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSLog(@"Update user detail remote result: %@", result);
+            if (success) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"success" message:@"咚哒用户协议已发送至您的邮箱" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"网络错误" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                [alert show];
+            }
+        }];
     }
 }
-
 
 @end
