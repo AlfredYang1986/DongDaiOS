@@ -101,6 +101,14 @@
     @throw [[NSException alloc]initWithName:@"error" reason:@"不要在苹果自建Controller中调用Command函数" userInfo:nil];
 }
 
+- (id)startRemoteCall:(id)obj {
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    return nil;
+}
+
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];

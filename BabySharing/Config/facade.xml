@@ -39,6 +39,12 @@
         <command type="Module" name="EnumOwnerQueryPushData" />
     </facade>
     
+    <facade type="DefaultFacade" name="HomeQueryModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashHomeQueryData" />
+        <command type="Module" name="AppendHomeQueryData" />
+        <command type="Module" name="EnumHomeQueryData" />
+    </facade>
+    
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="LandingReqConfirmCode" />
         <command type="Remote" name="LandingAuthConfirm" />

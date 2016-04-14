@@ -42,17 +42,9 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
 #define SHOWING_FOLLOWING   [self showData:@"isFollowingDataReady" changFunc:@"changeFollowingData:" queryFunc:@"QueryFollowing" resultKey:@"following"]
 #define SHOWING_FOLLOWED    [self showData:@"isFollowedDataReady" changFunc:@"changeFollowedData:" queryFunc:@"QueryFollowed" resultKey:@"followed"]
 - (void)showData:(NSString*)ready_func_name changFunc:(NSString*)change_func_name queryFunc:(NSString*)query_func_name resultKey:(NSString*)result_key {
+
     id<AYViewBase> view_friend = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
     id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
-    {
-        id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_friend.commands objectForKey:@"registerDelegate:"];
-        
-        id obj = (id)cmd_relations;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_relations;
-        [cmd_delegate performWithResult:&obj];
-    }
     
     id<AYCommand> cmd_is_ready = [cmd_relations.commands objectForKey:ready_func_name];
     NSNumber* isReady = nil;
@@ -164,13 +156,25 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     line_seg_up.borderWidth = 1.f;
     line_seg_up.frame = CGRectMake(0, 0, width, 1);
     [friend_seg.layer addSublayer:line_seg_up];
-  
-    SHOWING_FRIENDS;
-   
+ 
+    id<AYViewBase> view_friend = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
+    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
+    {
+        id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_friend.commands objectForKey:@"registerDelegate:"];
+        
+        id obj = (id)cmd_relations;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_relations;
+        [cmd_delegate performWithResult:&obj];
+    }
+    
     id<AYViewBase> view_friend_table = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
     id<AYCommand> cmd_hot_cell = [view_friend_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
+
+    SHOWING_FRIENDS;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -425,7 +429,4 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     
     return nil;
 }
-
-//static NSString* const kAYRemoteCallStartFuncName = @"startRemoteCall:";
-//static NSString* const kAYRemoteCallEndFuncName = @"endRemoteCall:";
 @end

@@ -6,11 +6,11 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYBackgroundImageView.h"
+#import "AYImageView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 
-@implementation AYBackgroundImageView
+@implementation AYImageView
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
