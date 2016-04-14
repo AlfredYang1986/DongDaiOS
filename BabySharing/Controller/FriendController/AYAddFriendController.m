@@ -75,30 +75,7 @@
         obj = (id)cmd_relations;
         [cmd_delegate performWithResult:&obj];
     }
-    
-    
-    
 }
-
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    
-////    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
-////    [self.view addSubview:seg];
-////    
-////    UIView* btn =[self.views objectForKey:@"SearchFriend"];
-////    [self.view addSubview:btn];
-//    
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-////    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
-////    [seg removeFromSuperview];
-////    
-////    UIView* btn =[self.views objectForKey:@"SearchFriend"];
-////    [btn removeFromSuperview];
-//}
 
 #pragma mark -- layout commands
 
@@ -108,6 +85,7 @@
     view.backgroundColor = [UIColor redColor];
     return nil;
 }
+
 - (id)TableLayout:(UIView*)view {
     
     view.frame = CGRectMake(0, 120, kSCREENW, kSCREENH - 120);
@@ -145,6 +123,7 @@
         [cmd_info performWithResult:&dic_user_info];
     }
     view.frame = CGRectMake(0, 40, kSCREENW, 80);
+    view.backgroundColor = [UIColor whiteColor];
     
     return nil;
 }

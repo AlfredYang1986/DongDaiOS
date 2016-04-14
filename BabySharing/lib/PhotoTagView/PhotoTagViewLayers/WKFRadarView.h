@@ -15,5 +15,5 @@
 @interface WKFRadarView : UIView
 @property (nonatomic,strong)UIImage *thumbnailImage;
 -(instancetype)initWithFrame:(CGRect)frame andThumbnail:(NSString *)thumbnailUrl;
--(void)addOrReplaceItem;
+//-(void)addOrReplaceItem;
 @end

@@ -8,6 +8,7 @@
 
 #import "PhotoTagView.h"
 #import "WKFRadarView.h"
+#import "Tools.h"
 
 //#define VER_MARGIN      10
 //#define HER_MARGIN      10
@@ -53,7 +54,8 @@
 }
 
 - (CGSize)preferredSizeWithTagTitle:(NSString*)title {
-    CGSize sz = [title sizeWithFont:TEXT_FONT constrainedToSize:TAG_CONSTRAINS_SIZE];
+//    CGSize sz = [title sizeWithFont:TEXT_FONT constrainedToSize:TAG_CONSTRAINS_SIZE];
+    CGSize sz = [Tools sizeWithString:title withFont:TEXT_FONT andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
     return CGSizeMake(TEXT_LEFT_MARGIN + sz.width + TEXT_RIGHT_MARGIN, MAX(sz.height, TAG_HEIGHT));
 }
 
@@ -63,7 +65,8 @@
 }
 
 - (CGSize)getTitleSizeWithTagTitle:(NSString *)title {
-    return [title sizeWithFont:TEXT_FONT constrainedToSize:TAG_CONSTRAINS_SIZE];
+//    return [title sizeWithFont:TEXT_FONT constrainedToSize:TAG_CONSTRAINS_SIZE];
+    return [Tools sizeWithString:title withFont:TEXT_FONT andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
 }
 
 - (CGRect)getTitleBoundsWithTagTitle:(NSString *)title {
