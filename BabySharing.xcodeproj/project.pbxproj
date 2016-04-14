@@ -99,6 +99,8 @@
 		701524991CBFA62E005B4C5B /* AYEnumHomeQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 701524981CBFA62E005B4C5B /* AYEnumHomeQueryDataCommand.m */; };
 		7015249C1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7015249B1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m */; };
 		7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7015249E1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m */; };
+		701524A31CBFBBA9005B4C5B /* GPUImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 701524A11CBFBBA9005B4C5B /* GPUImage.framework */; };
+		701524A41CBFBBA9005B4C5B /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701524A21CBFBBA9005B4C5B /* libGPUImage.a */; };
 		7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F32D1CB74D08002C416E /* AYSearchController.m */; };
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
@@ -492,6 +494,8 @@
 		7015249B1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendHomeQueryDataCommand.m; sourceTree = "<group>"; };
 		7015249D1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRefrashHomeQueryDataCommand.h; sourceTree = "<group>"; };
 		7015249E1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRefrashHomeQueryDataCommand.m; sourceTree = "<group>"; };
+		701524A11CBFBBA9005B4C5B /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GPUImage.framework; sourceTree = "<group>"; };
+		701524A21CBFBBA9005B4C5B /* libGPUImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGPUImage.a; sourceTree = "<group>"; };
 		7017F32C1CB74D08002C416E /* AYSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchController.h; sourceTree = "<group>"; };
 		7017F32D1CB74D08002C416E /* AYSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchController.m; sourceTree = "<group>"; };
 		7017F3341CB74F63002C416E /* AYSearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarView.h; sourceTree = "<group>"; };
@@ -863,6 +867,7 @@
 			files = (
 				708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */,
 				708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */,
+				701524A41CBFBBA9005B4C5B /* libGPUImage.a in Frameworks */,
 				708235BD1CA2422800658531 /* libz.tbd in Frameworks */,
 				708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */,
 				708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */,
@@ -870,6 +875,7 @@
 				708235B71CA241F800658531 /* libiconv.tbd in Frameworks */,
 				70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */,
 				70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */,
+				701524A31CBFBBA9005B4C5B /* GPUImage.framework in Frameworks */,
 				70490DE61CA23B090093D5DA /* Foundation.framework in Frameworks */,
 				70490DE41CA23B000093D5DA /* QuartzCore.framework in Frameworks */,
 				70490DE21CA23AF70093D5DA /* OpenGLES.framework in Frameworks */,
@@ -1542,6 +1548,15 @@
 			path = RefrashHomeQueryData;
 			sourceTree = "<group>";
 		};
+		701524A01CBFBBA9005B4C5B /* libGPUImage */ = {
+			isa = PBXGroup;
+			children = (
+				701524A11CBFBBA9005B4C5B /* GPUImage.framework */,
+				701524A21CBFBBA9005B4C5B /* libGPUImage.a */,
+			);
+			path = libGPUImage;
+			sourceTree = "<group>";
+		};
 		7017F32A1CB74CDF002C416E /* SearchController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2146,6 +2161,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				701524A01CBFBBA9005B4C5B /* libGPUImage */,
 				7015244A1CBF9AB4005B4C5B /* MJRefresh */,
 				7017F35A1CB7BE14002C416E /* FoundHotTagBtn */,
 				70B820A01CAA6F9A001EEAF2 /* TmpFileStorageModel */,
@@ -3287,6 +3303,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
+					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = (
@@ -3301,6 +3318,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libWeChatSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libWeiboSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/gotyeapi/libs",
+					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -3323,6 +3341,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
+					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
@@ -3336,6 +3355,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libWeChatSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libWeiboSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/gotyeapi/libs",
+					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
 				OTHER_LDFLAGS = (
 					"-lxml2",
