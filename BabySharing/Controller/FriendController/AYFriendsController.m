@@ -372,6 +372,15 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
 
 - (id)touchUpInside {
     NSLog(@"add friends btn selected");
+    
+//    id<AYCommand> AddFriend = DEFAULTCONTROLLER(@"AddFriend");
+//    
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic setValue:AddFriend forKey:kAYControllerActionDestinationControllerKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [self performWithResult:&dic];
+    
     return nil;
 }
 

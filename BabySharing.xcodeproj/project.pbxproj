@@ -150,6 +150,9 @@
 		703B89661CBF2AEC002EBB18 /* AYEmailRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89651CBF2AEC002EBB18 /* AYEmailRemoteFacade.m */; };
 		703B896E1CBF65EB002EBB18 /* privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 703B896D1CBF65EB002EBB18 /* privacy.html */; };
 		703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89711CBF81E4002EBB18 /* AYWebView.m */; };
+		703B89751CBF9F62002EBB18 /* AYAddFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89741CBF9F62002EBB18 /* AYAddFriendController.m */; };
+		703B89781CBFAB98002EBB18 /* AYContacterListDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */; };
+		703B897B1CBFB208002EBB18 /* AYSearchFriendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B897A1CBFB208002EBB18 /* AYSearchFriendView.m */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -555,6 +558,12 @@
 		703B896D1CBF65EB002EBB18 /* privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy.html; sourceTree = "<group>"; };
 		703B89701CBF81E4002EBB18 /* AYWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWebView.h; sourceTree = "<group>"; };
 		703B89711CBF81E4002EBB18 /* AYWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWebView.m; sourceTree = "<group>"; };
+		703B89731CBF9F62002EBB18 /* AYAddFriendController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAddFriendController.h; sourceTree = "<group>"; };
+		703B89741CBF9F62002EBB18 /* AYAddFriendController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAddFriendController.m; sourceTree = "<group>"; };
+		703B89761CBFAB98002EBB18 /* AYContacterListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContacterListDelegate.h; sourceTree = "<group>"; };
+		703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContacterListDelegate.m; sourceTree = "<group>"; };
+		703B89791CBFB208002EBB18 /* AYSearchFriendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFriendView.h; sourceTree = "<group>"; };
+		703B897A1CBFB208002EBB18 /* AYSearchFriendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFriendView.m; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -1206,6 +1215,8 @@
 				70120CB21CBE4FFE00B169F9 /* FriendsView */,
 				70120CAB1CBE4A9D00B169F9 /* AYFriendsController.h */,
 				70120CAC1CBE4A9D00B169F9 /* AYFriendsController.m */,
+				703B89731CBF9F62002EBB18 /* AYAddFriendController.h */,
+				703B89741CBF9F62002EBB18 /* AYAddFriendController.m */,
 			);
 			path = FriendController;
 			sourceTree = "<group>";
@@ -1224,6 +1235,8 @@
 			children = (
 				70120CB31CBE501800B169F9 /* AYAddFriendsView.h */,
 				70120CB41CBE501800B169F9 /* AYAddFriendsView.m */,
+				703B89791CBFB208002EBB18 /* AYSearchFriendView.h */,
+				703B897A1CBFB208002EBB18 /* AYSearchFriendView.m */,
 			);
 			path = FriendsView;
 			sourceTree = "<group>";
@@ -1258,6 +1271,8 @@
 			children = (
 				701524281CBF4DA0005B4C5B /* AYUserRelationsDelegate.h */,
 				701524291CBF4DA0005B4C5B /* AYUserRelationsDelegate.m */,
+				703B89761CBFAB98002EBB18 /* AYContacterListDelegate.h */,
+				703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */,
 			);
 			path = UserRelations;
 			sourceTree = "<group>";
@@ -2596,7 +2611,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = 45E5AAUFA8;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -2686,6 +2701,7 @@
 				701524191CBF499C005B4C5B /* AYFollowCommand.m in Sources */,
 				70F68DB21CBE595B005524BA /* AYSetNevigationBarRightBtnView.m in Sources */,
 				701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */,
+				703B89781CBFAB98002EBB18 /* AYContacterListDelegate.m in Sources */,
 				705C45201CA8FEBE00921799 /* AYPushCommand.m in Sources */,
 				7060BDB41CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m in Sources */,
 				70F68DAF1CBE4938005524BA /* AYUserAgreeDelegate.m in Sources */,
@@ -2808,6 +2824,7 @@
 				70CDF63D1CBD033900311841 /* QueryLocalModel.xcdatamodeld in Sources */,
 				708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */,
 				70CDF6371CBD033900311841 /* QueryContent+ContextOpt.m in Sources */,
+				703B89751CBF9F62002EBB18 /* AYAddFriendController.m in Sources */,
 				70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */,
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
@@ -2819,6 +2836,7 @@
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				70CDF61D1CBCC7D200311841 /* AYQueryPushContentCommand.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
+				703B897B1CBFB208002EBB18 /* AYSearchFriendView.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
@@ -3023,7 +3041,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -3058,7 +3076,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

@@ -129,4 +129,9 @@
         <command type="message" message="setDisplayUserInfo:" />
         <command type="message" message="queryCellHeight" />
     </view>
+    
+    <view type="SearchFriend" name="SearchFriend" factory="AYReuseViewFactory" >
+        <command type="notify" message="touchUpInside" />
+    </view>
+    
 </views>

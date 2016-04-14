@@ -41,4 +41,8 @@
         <command type="message" message="changeFollowedData:" />
         <command type="message" message="resetCurrentShowingIndex:" />
     </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="ContacterList" factory="AYDefaultDelegateFactory" >
+        
+    </delegate>
 </delegates>

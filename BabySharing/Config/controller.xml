@@ -144,4 +144,18 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />
     </controller>
+    <controller type="DefaultController" name="AddFriend" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SearchFriend" name="SearchFriend" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="Table" name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="ContacterList" />
+    </controller>
+    
 </controllers>
