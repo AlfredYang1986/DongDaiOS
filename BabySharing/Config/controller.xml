@@ -79,7 +79,7 @@
         <view type="Table" name="Table" />
         <view type="ProfileHeader" name="ProfileHeader" />
         <view type="DongDaSeg" name="DongDaSeg" />
-        <view type="BackgroundImage" name="BackgroundImage" />
+        <view type="Image" name="Image" />
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Loading" name="Loading" />
 
@@ -143,5 +143,21 @@
         <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />
+    </controller>
+    
+    <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
+        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
+        
+        <view type="Table" name="Table" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="Image" name="Image" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>
 </controllers>

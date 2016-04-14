@@ -78,7 +78,7 @@
     semaphore_push = dispatch_semaphore_create(0);
     
     {
-        id<AYViewBase> bkg = [self.views objectForKey:@"BackgroundImage"];
+        id<AYViewBase> bkg = [self.views objectForKey:@"Image"];
         id<AYCommand> cmd_bkg = [bkg.commands objectForKey:@"setBackgroundImage:"];
         UIImage* bg = PNGRESOURCE(@"profile_background_image");
         [cmd_bkg performWithResult:&bg];
@@ -163,6 +163,7 @@
             self.status = RemoteControllerStatusReady;
           
             NSUInteger publich_count, push_count = 0;
+//            NSUInteger publich_count = 0;
             {
                 id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
                 id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryData"];
@@ -326,7 +327,7 @@
     return nil;
 }
 
-- (id)BackgroundImageLayout:(UIView*)view {
+- (id)ImageLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     view.frame = CGRectMake(0, 0, width, height);

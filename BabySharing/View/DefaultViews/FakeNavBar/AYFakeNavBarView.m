@@ -22,7 +22,7 @@
 #pragma mark -- commands
 - (void)postPerform {
     {
-        UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, 30, 25)];
+        UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 30, 30, 25)];
         CALayer * layer = [CALayer layer];
         layer.contents = (id)PNGRESOURCE(@"dongda_back").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);
@@ -33,7 +33,7 @@
     }
     {
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(width - 15 - 30, 10, 30, 25)];
+        UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(width - 15 - 30, 30, 30, 25)];
         CALayer * layer = [CALayer layer];
         layer.contents = (id)PNGRESOURCE(@"profile_setting_dark").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);

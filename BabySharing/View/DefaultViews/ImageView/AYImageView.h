@@ -10,6 +10,6 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 
-@interface AYBackgroundImageView : UIImageView <AYViewBase>
+@interface AYImageView : UIImageView <AYViewBase>
 
 @end

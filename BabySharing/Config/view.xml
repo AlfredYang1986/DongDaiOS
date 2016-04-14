@@ -78,7 +78,7 @@
         <command type="message" message="setUserInfo:" />
     </view>
 
-    <view type="BackgroundImage" name="BackgroundImage" factory="AYDefaultViewFactory" >
+    <view type="Image" name="Image" factory="AYDefaultViewFactory" >
         <command type="message" message="setBackgroundImage:" />
     </view>
     
