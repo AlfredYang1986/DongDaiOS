@@ -134,4 +134,9 @@
         <command type="notify" message="touchUpInside" />
     </view>
     
+    <view type="HomeCell" name="HomeCell" factory="AYReuseViewFactory" >
+        <command type="message" message="willDisappear:" />
+        <command type="message" message="resetContent:" />
+        <command type="message" message="queryContentCellHeight" />
+    </view>
 </views>

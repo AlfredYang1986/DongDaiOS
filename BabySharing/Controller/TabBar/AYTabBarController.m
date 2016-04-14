@@ -13,9 +13,6 @@
 #import "DongDaTabBar.h"
 #import "AYViewController.h"
 
-// test
-#import "AYPlaceHolderTabBarController.h"
-
 @interface AYTabBarController () <UITabBarDelegate, UITabBarControllerDelegate>
 
 @end

@@ -15,6 +15,7 @@
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
+#import "AYHomeCellDefines.h"
 
 #import "Tools.h"
 #import "MJRefresh.h"
@@ -123,6 +124,10 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         [cmd_datasource performWithResult:&obj];
         obj = (id)del;
         [cmd_delegate performWithResult:&obj];
+
+        id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithClass:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYHomeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name];
     }
 }
 
