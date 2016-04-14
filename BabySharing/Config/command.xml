@@ -55,6 +55,7 @@
 
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryMultipleUsers" route="profile/multipleUserProfile" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="UploadUserImage" route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadUserFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
@@ -65,4 +66,10 @@
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="EmailSend" route="email/sendPrivacy" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="Follow" route="connections/follow" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="Unfollow" route="connections/unfollow" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryFriends" route="connections/queryMutureFollowingUsers" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryFollowing" route="connections/queryFollowingUsers" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryFollowed" route="connections/queryFollowedUsers" factory="AYRemoteCallFactory" />
 </commands>

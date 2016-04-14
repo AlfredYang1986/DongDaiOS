@@ -163,7 +163,6 @@
             self.status = RemoteControllerStatusReady;
           
             NSUInteger publich_count, push_count = 0;
-//            NSUInteger publich_count = 0;
             {
                 id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
                 id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryData"];

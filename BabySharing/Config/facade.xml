@@ -50,6 +50,7 @@
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UpdateUserDetail" />
         <command type="Remote" name="QueryUserProfile" />
+        <command type="Remote" name="QueryMultipleUsers" />
     </facade>
     
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
@@ -64,6 +65,14 @@
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryHomeContent" />
         <command type="Remote" name="QueryPushContent" />
+    </facade>
+
+    <facade type="DefaultFacade" name="RelationshipRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="Follow" />
+        <command type="Remote" name="Unfollow" />
+        <command type="Remote" name="QueryFriends" />
+        <command type="Remote" name="QueryFollowing" />
+        <command type="Remote" name="QueryFollowed" />
     </facade>
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >

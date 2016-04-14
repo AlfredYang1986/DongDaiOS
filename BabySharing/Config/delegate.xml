@@ -3,26 +3,42 @@
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="RoleTagSeleted:" />
     </delegate>
+   
     <delegate type="SearchBarDelegate" name="RoleTagSearchBar" factory="AYDefaultDelegateFactory" >
         <command type="notify" message="searchTextChanged:" />
     </delegate>
+   
     <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeSearchText:" />
         <command type="notify" message="RoleTagSeleted:" />
         <command type="notify" message="RoleTagAdded:" />
     </delegate>
+   
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+   
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+   
     <delegate type="TableViewDelegateAndDatasource" name="AppSetting" factory="AYDefaultDelegateFactory" >
     </delegate>
+
     <delegate type="TableViewDelegateAndDatasource" name="AboutDongda" factory="AYDefaultDelegateFactory" >
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="UserAgree" factory="AYDefaultDelegateFactory" >
+    </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="UserRelations" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="isFriendsDataReady" />
+        <command type="message" message="isFollowingDataReady" />
+        <command type="message" message="isFollowedDataReady" />
+        <command type="message" message="changeFriendsData:" />
+        <command type="message" message="changeFollowingData:" />
+        <command type="message" message="changeFollowedData:" />
+        <command type="message" message="resetCurrentShowingIndex:" />
     </delegate>
 </delegates>

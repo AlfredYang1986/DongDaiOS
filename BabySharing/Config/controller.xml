@@ -130,6 +130,8 @@
     <controller type="DefaultController" name="Friends" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="XMPP" notification="true" />
         
         <view type="Table" name="Table" />
@@ -137,8 +139,8 @@
         <view type="DongDaSeg" name="DongDaSeg" />
         <view type="DongDaSeg2" name="DongDaSeg2" />
         <view type="AddFriends" name="AddFriends" />
+        <view type="Loading" name="Loading" />
         
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
+        <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />
     </controller>
 </controllers>

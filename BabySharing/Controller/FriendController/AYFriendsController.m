@@ -15,6 +15,8 @@
 #import "AYNotifyDefines.h"
 #import "AYDongDaSegDefines.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "AYUserDisplayDefines.h"
 
 #define SEARCH_BAR_HEIGHT           0 //44
 #define SEGAMENT_HEGHT              46
@@ -34,6 +36,86 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
 @implementation AYFriendsController {
     CALayer* line_friend_up;
 }
+
+#pragma mark -- functions
+#define SHOWING_FRIENDS     [self showData:@"isFriendsDataReady" changFunc:@"changeFriendsData:" queryFunc:@"QueryFriends" resultKey:@"friends"]
+#define SHOWING_FOLLOWING   [self showData:@"isFollowingDataReady" changFunc:@"changeFollowingData:" queryFunc:@"QueryFollowing" resultKey:@"following"]
+#define SHOWING_FOLLOWED    [self showData:@"isFollowedDataReady" changFunc:@"changeFollowedData:" queryFunc:@"QueryFollowed" resultKey:@"followed"]
+- (void)showData:(NSString*)ready_func_name changFunc:(NSString*)change_func_name queryFunc:(NSString*)query_func_name resultKey:(NSString*)result_key {
+    id<AYViewBase> view_friend = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
+    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
+    {
+        id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_friend.commands objectForKey:@"registerDelegate:"];
+        
+        id obj = (id)cmd_relations;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_relations;
+        [cmd_delegate performWithResult:&obj];
+    }
+    
+    id<AYCommand> cmd_is_ready = [cmd_relations.commands objectForKey:ready_func_name];
+    NSNumber* isReady = nil;
+    [cmd_is_ready performWithResult:&isReady];
+    
+    id<AYViewBase> view_friend_seg = [self.views objectForKey:kAYFriendsControllerFriendsSegValue];
+    id<AYCommand> cmd = [view_friend_seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd performWithResult:&index];
+    NSLog(@"current index %@", index);
+    
+    id<AYCommand> cmd_change_index = [cmd_relations.commands objectForKey:@"resetCurrentShowingIndex:"];
+    [cmd_change_index performWithResult:&index];
+    
+    if (isReady.boolValue != YES) {
+        id<AYFacadeBase> f_login_model = LOGINMODEL;
+        id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"];
+        id obj = nil;
+        [cmd performWithResult:&obj];
+        NSLog(@"current login user is %@", obj);
+        NSString* owner_id = [obj objectForKey:@"user_id"];
+        {
+            id<AYFacadeBase> f = [self.facades objectForKey:@"RelationshipRemote"];
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:query_func_name];
+            
+            NSMutableDictionary* dic = [obj mutableCopy];
+            [dic setValue:owner_id forKey:@"owner_id"];
+            
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                
+                if (success) {
+                    NSArray* reVal = [result objectForKey:result_key];
+                   
+                    id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
+                    AYRemoteCallCommand* cmd_profile = [f_profile.commands objectForKey:@"QueryMultipleUsers"];
+                    
+                    NSMutableArray* ma = [[NSMutableArray alloc]initWithCapacity:reVal.count];
+                    for (NSDictionary* iter in reVal) {
+                        [ma addObject:[iter objectForKey:@"user_id"]];
+                    }
+                    
+                    NSMutableDictionary* profile_dic = [obj mutableCopy];
+                    [profile_dic setObject:[ma copy] forKey:@"query_list"];
+                    
+                    [cmd_profile performWithResult:[profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                         id<AYCommand> cmd = [cmd_relations.commands objectForKey:change_func_name];
+                        [cmd performWithResult:&result];
+                        
+                        id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
+                        [cmd_refresh performWithResult:nil];                      
+                    }];
+                
+                } else {
+                    NSLog(@"query user relations error");
+                }
+            }];
+        }
+    } else {
+        id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
+        [cmd_refresh performWithResult:nil];
+    }
+}
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -57,6 +139,10 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
+   
+    UIView* loading = [self.views objectForKey:@"Loading"];
+    loading.hidden = YES;
+    [self.view bringSubviewToFront:loading];
     
     CGFloat width  = [UIScreen mainScreen].bounds.size.width;
     line_friend_up = [CALayer layer];
@@ -78,6 +164,13 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     line_seg_up.borderWidth = 1.f;
     line_seg_up.frame = CGRectMake(0, 0, width, 1);
     [friend_seg.layer addSublayer:line_seg_up];
+  
+    SHOWING_FRIENDS;
+   
+    id<AYViewBase> view_friend_table = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
+    id<AYCommand> cmd_hot_cell = [view_friend_table.commands objectForKey:@"registerCellWithNib:"];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_hot_cell performWithResult:&class_name];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -137,7 +230,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
    
     CGFloat width  = [UIScreen mainScreen].bounds.size.width;
     {
-        id<AYViewBase> seg = (id<AYViewBase>)view; //[self.views objectForKey:kAYFriendsControllerNavSegValue];
+        id<AYViewBase> seg = (id<AYViewBase>)view;
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
         
         id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
@@ -222,23 +315,42 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     return nil;
 }
 
+- (id)LoadingLayout:(UIView*)view {
+    CGFloat width  = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
+    view.frame = CGRectMake(0, 0, width, height);
+    return nil;
+}
+
 #pragma mark -- notification
 - (id)segValueChanged:(id)obj {
     CGFloat width  = [UIScreen mainScreen].bounds.size.width;
-   
-   
     id<AYViewBase> view_friend_seg = [self.views objectForKey:kAYFriendsControllerFriendsSegValue];
     
     id<AYViewBase> seg = (id<AYViewBase>)obj;
+    id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd performWithResult:&index];
+    NSLog(@"current index %@", index);
     
     if (seg == view_friend_seg) {
 
-    } else {
-        id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
-        NSNumber* index = nil;
-        [cmd performWithResult:&index];
-        NSLog(@"current index %@", index);
+        switch (index.intValue) {
+            case 0:
+                SHOWING_FRIENDS;
+                break;
+            case 1:
+                SHOWING_FOLLOWING;
+                break;
+            case 2:
+                SHOWING_FOLLOWED;
+                break;
+            default:
+                break;
+        }
         
+    } else {
         CGFloat step = 0;
         if (index.intValue == 0)
             step = width;
@@ -262,4 +374,49 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     NSLog(@"add friends btn selected");
     return nil;
 }
+
+- (id)startRemoteCall:(id)obj {
+   
+    NSString* method = (NSString*)obj;
+    if ([method containsString:@"QueryMultipleUsers"]
+        || [method containsString:@"QueryFriends"]
+        || [method containsString:@"QueryFollowing"]
+        || [method containsString:@"QueryFollowed"]) {
+  
+        if (![method containsString:@"QueryMultipleUsers"]) {
+            UIView* loading_view = [self.views objectForKey:@"Loading"];
+            loading_view.hidden = YES;
+            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
+        }
+        
+    } else {
+        return [super startRemoteCall:obj];
+    }
+    
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    
+    NSString* method = (NSString*)obj;
+    if ([method containsString:@"QueryMultipleUsers"]
+        || [method containsString:@"QueryFriends"]
+        || [method containsString:@"QueryFollowing"]
+        || [method containsString:@"QueryFollowed"]) {
+       
+        if ([method containsString:@"QueryMultipleUsers"]) {
+            UIView* loading_view = [self.views objectForKey:@"Loading"];
+            loading_view.hidden = YES;
+            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
+        }
+        
+    } else {
+        return [super endRemoteCall:obj];
+    }
+    
+    return nil;
+}
+
+//static NSString* const kAYRemoteCallStartFuncName = @"startRemoteCall:";
+//static NSString* const kAYRemoteCallEndFuncName = @"endRemoteCall:";
 @end
