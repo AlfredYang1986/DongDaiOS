@@ -42,12 +42,17 @@
         <command type="message" message="resetCurrentShowingIndex:" />
     </delegate>
     
-<<<<<<< HEAD
     <delegate type="TableViewDelegateAndDatasource" name="ContacterList" factory="AYDefaultDelegateFactory" >
-        
-=======
+        <command type="message" message="isFriendsDataReady" />
+        <command type="message" message="isFollowingDataReady" />
+        <command type="message" message="isFollowedDataReady" />
+        <command type="message" message="changeFriendsData:" />
+        <command type="message" message="changeFollowingData:" />
+        <command type="message" message="changeFollowedData:" />
+        <command type="message" message="resetCurrentShowingIndex:" />
+    </delegate>
+
     <delegate type="TableViewDelegateAndDatasource" name="HomeContent" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
->>>>>>> origin/master
     </delegate>
 </delegates>

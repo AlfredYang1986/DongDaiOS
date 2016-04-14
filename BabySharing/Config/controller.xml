@@ -144,7 +144,7 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />
     </controller>
-<<<<<<< HEAD
+
     <controller type="DefaultController" name="AddFriend" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
@@ -158,8 +158,6 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="ContacterList" />
     </controller>
-    
-=======
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
         
@@ -176,5 +174,4 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>
->>>>>>> origin/master
 </controllers>

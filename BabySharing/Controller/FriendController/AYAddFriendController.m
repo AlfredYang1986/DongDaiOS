@@ -77,29 +77,41 @@
     }
     
     
+    
 }
+
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+////    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
+////    [self.view addSubview:seg];
+////    
+////    UIView* btn =[self.views objectForKey:@"SearchFriend"];
+////    [self.view addSubview:btn];
+//    
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+////    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
+////    [seg removeFromSuperview];
+////    
+////    UIView* btn =[self.views objectForKey:@"SearchFriend"];
+////    [btn removeFromSuperview];
+//}
 
 #pragma mark -- layout commands
 
 - (id)SearchFriendLayout:(UIView*)view {
     
-    
-    CGFloat offset_x = 0;
-    CGFloat offset_y = 10; //20 + 44 + 10;
-    
-    view.frame = CGRectMake(offset_x, offset_y, kSCREENW, kSCREENH - offset_y);
-    view.backgroundColor = [UIColor whiteColor];
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    view.frame = CGRectMake(0, 0, kSCREENW, 40);
+    view.backgroundColor = [UIColor redColor];
     return nil;
 }
 - (id)TableLayout:(UIView*)view {
-
     
-    CGFloat offset_x = 0;
-    CGFloat offset_y = 10; 
-    
-    view.frame = CGRectMake(offset_x, offset_y, kSCREENW, kSCREENH - offset_y);
-    view.backgroundColor = [UIColor whiteColor];
+    view.frame = CGRectMake(0, 120, kSCREENW, kSCREENH - 120);
+    view.backgroundColor = [UIColor blueColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
@@ -113,21 +125,26 @@
         id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
         NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
         [dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-        [dic_add_item_0 setValue:@"动态" forKey:kAYSegViewTitleKey];
+        [dic_add_item_0 setValue:@"通讯录" forKey:kAYSegViewTitleKey];
         [cmd_add_item performWithResult:&dic_add_item_0];
         
         NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
         [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-        [dic_add_item_1 setValue:@"好友" forKey:kAYSegViewTitleKey];
+        [dic_add_item_1 setValue:@"微信" forKey:kAYSegViewTitleKey];
         [cmd_add_item performWithResult:&dic_add_item_1];
+        
+        NSMutableDictionary* dic_add_item_2 = [[NSMutableDictionary alloc]init];
+        [dic_add_item_2 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
+        [dic_add_item_2 setValue:@"QQ好友" forKey:kAYSegViewTitleKey];
+        [cmd_add_item performWithResult:&dic_add_item_2];
         
         NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
         [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
-        [dic_user_info setValue:[NSNumber numberWithFloat:0.2933f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
+        [dic_user_info setValue:[NSNumber numberWithFloat:0.1033f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
         
         [cmd_info performWithResult:&dic_user_info];
     }
-    view.frame = CGRectMake(0, 0, kSCREENW, 44);
+    view.frame = CGRectMake(0, 40, kSCREENW, 80);
     
     return nil;
 }
@@ -154,5 +171,23 @@
     return nil;
 }
 
+#pragma mark -- notification
+- (id)segValueChanged:(id)obj {
+    NSLog(@"addfriend controller seg cheanged");
+    
+    return nil;
+}
+#pragma mark -- notification pop view controller
+- (id)popToPreviousWithoutSave {
+    NSLog(@"pop view controller");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
+    return nil;
+}
 
 @end

@@ -641,8 +641,8 @@
 		703B89711CBF81E4002EBB18 /* AYWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWebView.m; sourceTree = "<group>"; };
 		703B89731CBF9F62002EBB18 /* AYAddFriendController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAddFriendController.h; sourceTree = "<group>"; };
 		703B89741CBF9F62002EBB18 /* AYAddFriendController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAddFriendController.m; sourceTree = "<group>"; };
-		703B89761CBFAB98002EBB18 /* AYContacterListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContacterListDelegate.h; sourceTree = "<group>"; };
-		703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContacterListDelegate.m; sourceTree = "<group>"; };
+		703B89761CBFAB98002EBB18 /* AYContacterListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AYContacterListDelegate.h; path = ../UserRelations/AYContacterListDelegate.h; sourceTree = "<group>"; };
+		703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AYContacterListDelegate.m; path = ../UserRelations/AYContacterListDelegate.m; sourceTree = "<group>"; };
 		703B89791CBFB208002EBB18 /* AYSearchFriendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFriendView.h; sourceTree = "<group>"; };
 		703B897A1CBFB208002EBB18 /* AYSearchFriendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFriendView.m; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
@@ -1342,6 +1342,7 @@
 		701524261CBF4D90005B4C5B /* FriendsDelegate */ = {
 			isa = PBXGroup;
 			children = (
+				703B897C1CBFBD42002EBB18 /* ContacterList */,
 				701524271CBF4D90005B4C5B /* UserRelations */,
 			);
 			path = FriendsDelegate;
@@ -1352,8 +1353,6 @@
 			children = (
 				701524281CBF4DA0005B4C5B /* AYUserRelationsDelegate.h */,
 				701524291CBF4DA0005B4C5B /* AYUserRelationsDelegate.m */,
-				703B89761CBFAB98002EBB18 /* AYContacterListDelegate.h */,
-				703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */,
 			);
 			path = UserRelations;
 			sourceTree = "<group>";
@@ -2125,6 +2124,15 @@
 			path = WebView;
 			sourceTree = "<group>";
 		};
+		703B897C1CBFBD42002EBB18 /* ContacterList */ = {
+			isa = PBXGroup;
+			children = (
+				703B89761CBFAB98002EBB18 /* AYContacterListDelegate.h */,
+				703B89771CBFAB98002EBB18 /* AYContacterListDelegate.m */,
+			);
+			path = ContacterList;
+			sourceTree = "<group>";
+		};
 		70490D9D1CA222470093D5DA /* APNNotificationCommand */ = {
 			isa = PBXGroup;
 			children = (
@@ -2850,7 +2858,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = 45E5AAUFA8;
+						DevelopmentTeam = V6843SSXWV;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -3307,7 +3315,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -3342,7 +3350,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
