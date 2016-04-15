@@ -19,6 +19,7 @@
 
 #import "Tools.h"
 #import "MJRefresh.h"
+#import "QueryContent.h"
 
 typedef void(^queryContentFinish)(void);
 
@@ -48,16 +49,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     CATextLayer* badge;
     
-    CGFloat contentOffsetY;
-    NSTimer *timer;
-    CGFloat duration;
-    CGFloat velocity;
-    CGFloat distance;
-    CGFloat allDistance;
-    CGFloat acceleration;
-    CGFloat startIndex;
-    CGFloat endIndex;
-    BOOL isDecelerate;
     UIButton* actionView;
     CAShapeLayer *circleLayer;
     UIView *animationView;
@@ -128,6 +119,13 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYHomeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
+        
+        id<AYCommand> cmd_reg = [del.commands objectForKey:@"setCallBackTableView:"];
+        [cmd_reg performWithResult:&view_content];
+        
+        id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+        NSArray* arr = [self enumLocalHomeContent];
+        [cmd_change performWithResult:&arr];
     }
 }
 
@@ -205,9 +203,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     actionView.center = CGPointMake(width - actionView.frame.size.width / 2 + 5 + 65, 21 + actionView.frame.size.height / 2);
     
-//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//    NSString* filepath = [resourceBundle pathForResource:@"home_chat_back" ofType:@"png"];
     CALayer *layer = [[CALayer alloc] init];
     layer.frame = CGRectMake(0, 0, 30, 30);
     layer.position = CGPointMake(CGRectGetWidth(actionView.frame) / 2 - 65 / 2 - 0.5 - 4.5, CGRectGetHeight(actionView.frame) / 2);
@@ -412,5 +407,149 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
             block();
         }];
     }
+}
+
+#pragma mark -- notifies 
+- (id)showUserInfo:(id)args {
+    
+    QueryContent* tmp = (QueryContent*)args;
+   
+    AYViewController* des = DEFAULTCONTROLLER(@"Profile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:tmp.owner_id forKey:kAYControllerChangeArgsKey];
+    
+    [self performWithResult:&dic_push];
+    return nil;
+}
+
+- (id)likePostItem:(id)args {
+    
+    NSDictionary* dic = (NSDictionary*)args;
+    QueryContent* content = [dic objectForKey:kAYHomeCellContentKey];
+    id<AYViewBase> cell = [dic objectForKey:kAYHomeCellCellKey];
+   
+    NSDictionary* obj = nil;
+    CURRENUSER(obj)
+    
+    NSMutableDictionary* dic_like = [obj mutableCopy];
+    [dic_like setValue:content.content_post_id forKey:@"post_id"];
+   
+    id<AYFacadeBase> f_post = [self.facades objectForKey:@"ContentPostRemote"];
+    AYRemoteCallCommand* cmd_like = [f_post.commands objectForKey:@"PostLikeContent"];
+    
+    [cmd_like performWithResult:[dic_like copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+           
+            {
+                id<AYFacadeBase> f_home = HOMECONTENTMODEL;
+                id<AYCommand> cmd_refresh_like = [f_home.commands objectForKey:@"RefreshLikeData"];
+                NSMutableDictionary* dic = [result mutableCopy];
+                [dic setValue:content.content_post_id forKey:@"post_id"];
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"like_result"];
+                [cmd_refresh_like performWithResult:&dic];
+            }
+            
+            {
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
+                id<AYCommand> cmd_refresh_cell = [del.commands objectForKey:@"likePostItemResult:"];
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"like_result"];
+                [dic setValue:cell forKey:kAYHomeCellCellKey];
+                [cmd_refresh_cell performWithResult:&dic];
+            }
+        
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"由于某些不可抗力，出现了错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    return nil;
+}
+
+- (id)unLikePostItem:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    QueryContent* content = [dic objectForKey:kAYHomeCellContentKey];
+    id<AYViewBase> cell = [dic objectForKey:kAYHomeCellCellKey];
+    
+    NSDictionary* obj = nil;
+    CURRENUSER(obj)
+    
+    NSMutableDictionary* dic_like = [obj mutableCopy];
+    [dic_like setValue:content.content_post_id forKey:@"post_id"];
+    
+    id<AYFacadeBase> f_post = [self.facades objectForKey:@"ContentPostRemote"];
+    AYRemoteCallCommand* cmd_like = [f_post.commands objectForKey:@"PostUnlikeContent"];
+    
+    [cmd_like performWithResult:[dic_like copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            
+            {
+                id<AYFacadeBase> f_home = HOMECONTENTMODEL;
+                id<AYCommand> cmd_refresh_like = [f_home.commands objectForKey:@"RefreshLikeData"];
+                NSMutableDictionary* dic = [result mutableCopy];
+                [dic setValue:content.content_post_id forKey:@"post_id"];
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"like_result"];
+                [cmd_refresh_like performWithResult:&dic];
+            }
+            
+            {
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
+                id<AYCommand> cmd_refresh_cell = [del.commands objectForKey:@"likePostItemResult:"];
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:[NSNumber numberWithBool:NO] forKey:@"like_result"];
+                [dic setValue:cell forKey:kAYHomeCellCellKey];
+                [cmd_refresh_cell performWithResult:&dic];
+            }
+            
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"由于某些不可抗力，出现了错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    return nil;
+}
+
+- (id)pushPostItem:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    QueryContent* content = [dic objectForKey:kAYHomeCellContentKey];
+    id<AYViewBase> cell = [dic objectForKey:kAYHomeCellCellKey];
+    
+    NSDictionary* obj = nil;
+    CURRENUSER(obj)
+    
+    NSMutableDictionary* dic_like = [obj mutableCopy];
+    [dic_like setValue:content.content_post_id forKey:@"post_id"];
+    
+    id<AYFacadeBase> f_post = [self.facades objectForKey:@"ContentPostRemote"];
+    AYRemoteCallCommand* cmd_like = [f_post.commands objectForKey:@"PostPushContent"];
+    
+    [cmd_like performWithResult:[dic_like copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            
+            {
+                id<AYFacadeBase> f_home = HOMECONTENTMODEL;
+                id<AYCommand> cmd_refresh_like = [f_home.commands objectForKey:@"RefreshPushData"];
+                NSMutableDictionary* dic = [result mutableCopy];
+                [dic setValue:content.content_post_id forKey:@"post_id"];
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"lpush_result"];
+                [cmd_refresh_like performWithResult:&dic];
+            }
+            
+            {
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
+                id<AYCommand> cmd_refresh_cell = [del.commands objectForKey:@"pushPostItemResult:"];
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"push_result"];
+                [dic setValue:cell forKey:kAYHomeCellCellKey];
+                [cmd_refresh_cell performWithResult:&dic];
+            }
+            
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"由于某些不可抗力，出现了错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    return nil;
 }
 @end

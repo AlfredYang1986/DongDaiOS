@@ -32,6 +32,7 @@
     
     AYModelFacade* f = HOMECONTENTMODEL;
     [QueryContent refrashLocalQueryDataInContext:f.doc.managedObjectContext withData:reVal andTimeSpan:time.longLongValue];
+    [f.doc.managedObjectContext save:nil];
 }
 
 - (NSString*)getCommandType {

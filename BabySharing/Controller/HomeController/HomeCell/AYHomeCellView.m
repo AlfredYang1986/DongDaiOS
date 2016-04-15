@@ -81,8 +81,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-//        NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//        NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
         _ownerImage = [[UIImageView alloc] init];
         [self.contentView addSubview:_ownerImage];
         
@@ -118,7 +116,6 @@
         [self.contentView addSubview:_descriptionLabel];
         
         praiseImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-//        praiseImage.image = [UIImage imageNamed:[resourceBundle pathForResource:@"home_like_default" ofType:@"png"]];
         praiseImage.image = PNGRESOURCE(@"home_like_default");
         [self.contentView addSubview:praiseImage];
         _praiseCount = [[UILabel alloc] init];
@@ -128,7 +125,6 @@
         _praiseCount.text = @"赞";
         
         pushImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-//        pushImage.image = [UIImage imageNamed:[resourceBundle pathForResource:@"push" ofType:@"png"]];
         pushImage.image = PNGRESOURCE(@"push");
         [self.contentView addSubview:pushImage];
         [self.contentView addSubview:_praiseCount];
@@ -139,8 +135,7 @@
         _usefulCount.text = @"咚";
         
         // 中间的一条线
-        lineView = [CALayer layer]; // [[UIView alloc] init];
-//        [self.contentView addSubview:lineView];
+        lineView = [CALayer layer];
         [self.contentView.layer addSublayer:lineView];
         lineView.backgroundColor = [Tools colorWithRED:231.0 GREEN:231.0 BLUE:231.0 ALPHA:1.0].CGColor;
         
@@ -173,7 +168,6 @@
         _jionGroup.textColor = TextColor;
         [self.contentView addSubview:_jionGroup];
         jionImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-//        jionImage.image = [UIImage imageNamed:[resourceBundle pathForResource:@"home_chat" ofType:@"png"]];
         jionImage.image = PNGRESOURCE(@"home_chat");
         _jionGroup.leftView = jionImage;
         _jionGroup.leftViewMode = UITextFieldViewModeAlways;
@@ -185,9 +179,6 @@
         [_jionGroup addSubview:jionGroupView];
         // 播放按钮
         _videoSign = [[UIImageView alloc] init];
-//        NSString * yyBundlePath = [[ NSBundle mainBundle] pathForResource: @"YYBoundle" ofType :@"bundle"];
-//        NSBundle *yyResourceBundle = [NSBundle bundleWithPath:yyBundlePath];
-//        UIImage *image = [UIImage imageNamed:[yyResourceBundle pathForResource:[NSString stringWithFormat:@"playvideo"] ofType:@"png"]];
         UIImage *image = PNGRESOURCE(@"playvideo");
         _videoSign.image = image;
         _videoSign.frame = CGRectMake(0, 0, 30, 30);
@@ -529,55 +520,45 @@
 - (void)praiseImageTap {
     NSLog(@"heart btn did selected");
     if (self.content.isLike.integerValue == 1) {
-//        [_delegate didSelectNotLikeBtn:_content complete:^(BOOL success) {
-//            if (!success) {
-//                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"由于某些不可抗力，出现了错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//            } else {
-//                NSString *bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//                NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//                praiseImage.image = [UIImage imageNamed:[resourceBundle pathForResource:@"home_like_default" ofType:@"png"]];
-//                // 更新本地数据库
-//                [[AppDelegate defaultAppDelegate].qm refreshIslike:[NSNumber numberWithInteger:0] postId:self.content.content_post_id];
-//                self.content.isLike = [NSNumber numberWithInteger:0];
-//                
-////                [[AppDelegate defaultAppDelegate].qm refreshIslike:[NSNumber numberWithInteger:0] postId:self.content.content_post_id];
-//            }
-//        }];
+        
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:_content forKey:kAYHomeCellContentKey];
+        [dic setValue:self forKey:kAYHomeCellCellKey];
+        
+        id<AYCommand> cmd = [self.notifies objectForKey:@"unLikePostItem:"];
+        [cmd performWithResult:&dic];
+        
     } else {
-//        [_delegate didSelectLikeBtn:_content complete:^(BOOL success) {
-//            if (!success) {
-//                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"由于某些不可抗力，出现了错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//            } else {
-//                NSString *bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//                NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//                praiseImage.image = [UIImage imageNamed:[resourceBundle pathForResource:@"home_like_like" ofType:@"png"]];
-//                // 更新本地数据库
-//                // 更新本地数据库
-//                [[AppDelegate defaultAppDelegate].qm refreshIslike:[NSNumber numberWithInteger:1] postId:self.content.content_post_id];
-//                self.content.isLike = [NSNumber numberWithInteger:1];
-//            }
-//        }];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:_content forKey:kAYHomeCellContentKey];
+        [dic setValue:self forKey:kAYHomeCellCellKey];
+        
+        id<AYCommand> cmd = [self.notifies objectForKey:@"likePostItem:"];
+        [cmd performWithResult:&dic];
+        
     }
 }
 
 - (void)pushGroupTap {
     NSLog(@"推了一个");
-//    self.content.isPush = self.content.isPush.intValue == 0 ? [NSNumber numberWithInt:1] : [NSNumber numberWithInt:0];
-//    NSString *bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//    pushImage.image = self.content.isPush.integerValue == 0 ? [UIImage imageNamed:[resourceBundle pathForResource:@"push" ofType:@"png"]] : [UIImage imageNamed:[resourceBundle pathForResource:@"pushed" ofType:@"png"]];
-//    [_delegate didSelectCollectionBtn:_content];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:_content forKey:kAYHomeCellContentKey];
+    [dic setValue:self forKey:kAYHomeCellCellKey];
+    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"pushPostItem:"];
+    [cmd performWithResult:&dic];
 }
 
 - (void)jionGroupTap {
     NSLog(@"加入圈聊");
-//    [_delegate didSelectJoinGroupBtn:_content];
 }
 
 - (void)otherInfo {
-//    [_delegate didSelectScreenImg:_content];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"showUserInfo:"];
+    QueryContent* args = _content;
+    [cmd performWithResult:&args];
 }
-
 
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -645,4 +626,23 @@
 - (id)queryContentCellHeight {
     return [NSNumber numberWithFloat:[UIScreen mainScreen].bounds.size.height - 60 - 44 - 35];
 }
+
+- (id)resetLike:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    AYHomeCellView* cell = [dic objectForKey:kAYHomeCellCellKey];
+    NSNumber* like_result = [dic objectForKey:@"like_result"];
+    
+    cell.content.isLike = like_result;
+    return nil;
+}
+
+- (id)resetPush:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    AYHomeCellView* cell = [dic objectForKey:kAYHomeCellCellKey];
+    NSNumber* push_result = [dic objectForKey:@"push_result"];
+    
+    cell.content.isPush = push_result;
+    return nil;
+}
+
 @end

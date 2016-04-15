@@ -12,5 +12,6 @@
 static NSString* const kAYHomeCellName                              = @"HomeCell";
 
 static NSString* const kAYHomeCellCellKey                           = @"kAYHomeCellCellKey";
+static NSString* const kAYHomeCellPathKey                           = @"kAYHomeCellPathKey";
 static NSString* const kAYHomeCellContentKey                        = @"kAYHomeCellContentKey";
 #endif /* AYHomeCellDefines__h */

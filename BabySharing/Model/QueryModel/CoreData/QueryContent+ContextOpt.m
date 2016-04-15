@@ -445,4 +445,19 @@
     QueryContent* content = [QueryContent enumQueryContentByPostID:post_id inContext:context];
     content.relations = [NSNumber numberWithInt:relation];
 }
+
++ (void)refreshIslike:(NSNumber *)islike postId:(NSString *)post_id inContext:(NSManagedObjectContext*)context {
+    NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"QueryContent"];
+    request.predicate = [NSPredicate predicateWithFormat:@"content_post_id = %@", post_id];
+    NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"content_post_date" ascending:NO];
+    
+    request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
+    
+    NSError *error;
+    NSArray* matches = [context executeFetchRequest:request error:&error];
+    
+    for (QueryContent *content in matches) {
+        content.isLike = islike;
+    }
+}
 @end

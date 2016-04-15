@@ -213,6 +213,10 @@
         }
     });
 }
+
+- (void)setNoTextState:(MJRefreshState)state {
+    
+}
 @end
 
 @implementation UILabel(MJRefresh)

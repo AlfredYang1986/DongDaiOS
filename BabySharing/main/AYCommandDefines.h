@@ -85,5 +85,11 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define CHECKFACADE(CMD)
 #endif
 
+#define CURRENUSER(USER)            do { \
+                                        id<AYFacadeBase> f_login_model = LOGINMODEL; \
+                                        id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"]; \
+                                        [cmd performWithResult:&USER]; \
+                                    } while(0);
+
 
 #endif /* AYCommandDefines_h */

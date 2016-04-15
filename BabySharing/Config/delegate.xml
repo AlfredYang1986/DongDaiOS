@@ -54,5 +54,8 @@
 
     <delegate type="TableViewDelegateAndDatasource" name="HomeContent" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="message" message="setCallBackTableView:" />
+        <command type="message" message="likePostItemResult:" />
+        <command type="message" message="pushPostItemResult:" />
     </delegate>
 </delegates>

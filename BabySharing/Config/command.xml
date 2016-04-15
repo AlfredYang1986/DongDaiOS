@@ -34,6 +34,8 @@
     <command type="Module" name="RefrashHomeQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="AppendHomeQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="EnumHomeQueryData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="RefreshLikeData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="RefreshPushData" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
@@ -68,6 +70,10 @@
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PostLikeContent" route="post/postLike" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PostUnlikeContent" route="post/postUnlike" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PostPushContent" route="post/postPush" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="EmailSend" route="email/sendPrivacy" factory="AYRemoteCallFactory" />
     

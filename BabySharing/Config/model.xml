@@ -1,4 +1,3 @@
-
 <Models>
     <model name="model" factory="AYModelFactory" >
         <facade type="DefaultFacade" name="LoginModel" />

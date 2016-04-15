@@ -91,11 +91,17 @@
         id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
         UIColor* c_nav = [UIColor clearColor];
         [cmd_nav performWithResult:&c_nav];
-        
-        id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
-        NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-        [cmd_left_vis performWithResult:&left_hidden];
-        
+       
+        if (isPushed) {
+            id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
+            NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+            [cmd_right_vis performWithResult:&right_hidden];
+        } else {
+            id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
+            NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+            [cmd_left_vis performWithResult:&left_hidden];           
+        }
+
         [self.view bringSubviewToFront:(UIView*)nav];
     }
 
@@ -220,13 +226,15 @@
     id obj = nil;
     [cmd performWithResult:&obj];
     NSLog(@"current login user is %@", obj);
-    owner_id = [obj objectForKey:@"user_id"];
+    if (owner_id == nil) {
+        owner_id = [obj objectForKey:@"user_id"];
+    }
    
     [self startWaitForAllCallback];
     
     {
         NSMutableDictionary* dic_user_info = [obj mutableCopy];
-        [dic_user_info setValue:[dic_user_info objectForKey:@"user_id"] forKey:@"owner_user_id"];
+        [dic_user_info setValue:owner_id forKey:@"owner_user_id"];
         
         id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
         AYRemoteCallCommand* cmd_user_info = [f_profile.commands objectForKey:@"QueryUserProfile"];
@@ -283,11 +291,11 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    if (isPushed) {
-        [self.navigationController setNavigationBarHidden:NO];
-    } else {
+//    if (isPushed) {
+//        [self.navigationController setNavigationBarHidden:NO];
+//    } else {
         [self.navigationController setNavigationBarHidden:YES];
-    }
+//    }
 }
 
 #pragma mark -- layout
@@ -311,21 +319,21 @@
     return nil;
 }
 
-- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-    if (self.navigationController.navigationBar.hidden == YES) {
-        view.hidden = YES;
-    }
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    self.navigationItem.titleView = view;
-    if (self.navigationController.navigationBar.hidden == YES) {
-        view.hidden = YES;
-    }
-    return nil;
-}
+//- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
+////    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+//    if (!isPushed) {
+//        view.hidden = YES;
+//    }
+//    return nil;
+//}
+//
+//- (id)SetNevigationBarTitleLayout:(UIView*)view {
+////    self.navigationItem.titleView = view;
+//    if (!isPushed) {
+//        view.hidden = YES;
+//    }
+//    return nil;
+//}
 
 - (id)ImageLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;

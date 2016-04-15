@@ -43,6 +43,8 @@
         <command type="Module" name="RefrashHomeQueryData" />
         <command type="Module" name="AppendHomeQueryData" />
         <command type="Module" name="EnumHomeQueryData" />
+        <command type="Module" name="RefreshLikeData" />
+        <command type="Module" name="RefreshPushData" />
     </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
@@ -71,6 +73,12 @@
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryHomeContent" />
         <command type="Remote" name="QueryPushContent" />
+    </facade>
+
+    <facade type="DefaultFacade" name="ContentPostRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PostLikeContent" />
+        <command type="Remote" name="PostUnlikeContent" />
+        <command type="Remote" name="PostPushContent" />
     </facade>
     
     <facade type="DefaultFacade" name="EmailRemote" factory="AYDefaultFacadeFactory" >

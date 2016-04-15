@@ -138,5 +138,12 @@
         <command type="message" message="willDisappear:" />
         <command type="message" message="resetContent:" />
         <command type="message" message="queryContentCellHeight" />
+        <command type="message" message="resetLike:" />
+        <command type="message" message="resetPush:" />
+       
+        <command type="notify" message="showUserInfo:" />
+        <command type="notify" message="likePostItem:" />
+        <command type="notify" message="unLikePostItem:" />
+        <command type="notify" message="pushPostItem:" />
     </view>
 </views>

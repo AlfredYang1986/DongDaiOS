@@ -57,4 +57,7 @@
 #pragma mark -- query relations between owner and current user
 + (UserPostOwnerConnections)queryRelationsWithPost:(NSString*)post_id inContext:(NSManagedObjectContext*)context;
 + (void)refreshRelationsWithPost:(NSString*)post_id withConnections:(UserPostOwnerConnections)relation inContext:(NSManagedObjectContext*)context;
+
+#pragma mark -- likes
++ (void)refreshIslike:(NSNumber *)islike postId:(NSString *)post_id inContext:(NSManagedObjectContext*)context;
 @end
