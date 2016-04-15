@@ -44,7 +44,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 #define DECELERATION 400.0
 
 @implementation AYHomeController {
-    CGFloat rowHeight;
     BOOL isPushed;
     
     CATextLayer* badge;
@@ -83,7 +82,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         [[UINavigationBar appearance] setShadowImage:[Tools imageWithColor:[UIColor colorWithWhite:0.5922 alpha:0.25] size:CGSizeMake(width, 1)]];
         [[UINavigationBar appearance] setBackgroundImage:[Tools imageWithColor:[UIColor whiteColor] size:CGSizeMake(width, 64)] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     }
-    rowHeight = [UIScreen mainScreen].bounds.size.height - 60 - 44 - 35;
 }
 
 - (void)viewDidLoad {
@@ -93,7 +91,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
    
     UIView* view_fake = [self.views objectForKey:@"FakeNavBar"];
     UIView* view_image = [self.views objectForKey:@"Image"];
-//    [view_image removeFromSuperview];
     [view_fake addSubview:view_image];
    
     if (!isPushed) {
@@ -143,6 +140,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 12.5)];
     footView.backgroundColor = [UIColor colorWithRed:242.0 / 255.0 green:242.0 / 255.0 blue:242.0 / 255.0 alpha:1.0];
     [((UITableView*)view) setTableFooterView:footView];
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     
     if (!isPushed) {
         __unsafe_unretained UITableView *tableView = (UITableView*)view;
@@ -266,13 +264,18 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 - (void)didSelectChatGroupBtn {
     UIView* bkView = [self.views objectForKey:@"FakeNavBar"];
 
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    UIViewController* groupVC = [storyboard instantiateViewControllerWithIdentifier:@"cycleViewController"];
-//   
-//    groupVC.view.frame = CGRectMake(CGRectGetWidth(self.navigationController.view.frame), 0, CGRectGetWidth(self.navigationController.view.frame), CGRectGetHeight(self.navigationController.view.frame));
-//    
-//    [self.view addSubview:groupVC.view];
-//    [self.view bringSubviewToFront:bkView];
+    UIViewController* groupVC = DEFAULTCONTROLLER(@"GroupList");
+  
+    {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:self forKey:kAYControllerChangeArgsKey];
+        [dic setValue:kAYControllerActionInitValue forKey:kAYControllerActionKey];
+        [((id<AYCommand>)groupVC) performWithResult:&dic];
+    }
+    
+    groupVC.view.frame = CGRectMake(CGRectGetWidth(self.navigationController.view.frame), 0, CGRectGetWidth(self.navigationController.view.frame), CGRectGetHeight(self.navigationController.view.frame));
+    [self.view addSubview:groupVC.view];
+    [self.view bringSubviewToFront:bkView];
     actionView.enabled = NO;
     
     CABasicAnimation *maskLayerAnimation = [circleLayer animationForKey:@"path"] ? (CABasicAnimation *)[circleLayer animationForKey:@"path"] : [CABasicAnimation animationWithKeyPath:@"path"];
@@ -311,9 +314,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         }
         self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame) - CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
     } completion:^(BOOL finished) {
-//        groupVC.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
-//        [groupVC.view removeFromSuperview];
-//        [self.navigationController pushViewController:groupVC animated:NO];
+        groupVC.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+        [groupVC.view removeFromSuperview];
+        [self.navigationController pushViewController:groupVC animated:NO];
 
         for (UIView *subView in self.view.subviews) {
             if (![subView isEqual:bkView]) {

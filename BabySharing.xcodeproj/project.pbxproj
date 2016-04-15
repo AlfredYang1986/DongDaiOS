@@ -150,6 +150,7 @@
 		702510691CC0BF3E00DADF2B /* AYPostPushContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510681CC0BF3E00DADF2B /* AYPostPushContentCommand.m */; };
 		7025106E1CC0C64400DADF2B /* AYRefreshLikeDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025106D1CC0C64400DADF2B /* AYRefreshLikeDataCommand.m */; };
 		702510711CC0C65400DADF2B /* AYRefreshPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510701CC0C65400DADF2B /* AYRefreshPushDataCommand.m */; };
+		702510761CC0DD3300DADF2B /* AYGroupListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510751CC0DD3300DADF2B /* AYGroupListController.m */; };
 		7027FD161CBC0246002756BC /* AYSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD151CBC0246002756BC /* AYSettingController.m */; };
 		7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
@@ -610,6 +611,8 @@
 		7025106D1CC0C64400DADF2B /* AYRefreshLikeDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRefreshLikeDataCommand.m; sourceTree = "<group>"; };
 		7025106F1CC0C65400DADF2B /* AYRefreshPushDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRefreshPushDataCommand.h; sourceTree = "<group>"; };
 		702510701CC0C65400DADF2B /* AYRefreshPushDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRefreshPushDataCommand.m; sourceTree = "<group>"; };
+		702510741CC0DD3300DADF2B /* AYGroupListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGroupListController.h; sourceTree = "<group>"; };
+		702510751CC0DD3300DADF2B /* AYGroupListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGroupListController.m; sourceTree = "<group>"; };
 		7027FD141CBC0246002756BC /* AYSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSettingController.h; sourceTree = "<group>"; };
 		7027FD151CBC0246002756BC /* AYSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSettingController.m; sourceTree = "<group>"; };
 		7027FD181CBC0817002756BC /* AYAppSettingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppSettingDelegate.h; sourceTree = "<group>"; };
@@ -1915,6 +1918,15 @@
 			path = RefreshPushData;
 			sourceTree = "<group>";
 		};
+		702510731CC0DD2100DADF2B /* GroupListController */ = {
+			isa = PBXGroup;
+			children = (
+				702510741CC0DD3300DADF2B /* AYGroupListController.h */,
+				702510751CC0DD3300DADF2B /* AYGroupListController.m */,
+			);
+			path = GroupListController;
+			sourceTree = "<group>";
+		};
 		7027FD131CBC0238002756BC /* SettingController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2125,6 +2137,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				702510731CC0DD2100DADF2B /* GroupListController */,
 				7015243E1CBF938F005B4C5B /* HomeController */,
 				70120CAA1CBE4A9000B169F9 /* FriendController */,
 				708E7D8D1CBD5567005D96B5 /* AboutController */,
@@ -3276,6 +3289,7 @@
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				700BE6321CBA91B000A09B3A /* AYPlaceHolderInitCommand.m in Sources */,
+				702510761CC0DD3300DADF2B /* AYGroupListController.m in Sources */,
 				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,
 				70CDF6361CBD033900311841 /* QueryContent.m in Sources */,
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,

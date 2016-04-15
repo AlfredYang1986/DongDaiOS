@@ -232,13 +232,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-//    if (self.indexPath.row == 0) {
-//        self.contentView.frame = CGRectMake(12.5, 10, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 18.5);
-//    } else {
-//        self.contentView.frame = CGRectInset(self.contentView.frame, 12.5, 12.5 / 2);
-//    }
     self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 12.5);
-//    self.contentView.frame = CGRectInset(self.contentView.frame, 12.5, 6);
     _ownerImage.frame = CGRectMake(12, 10, 28, 28);
     
     [_ownerNameLable sizeToFit];
@@ -357,13 +351,9 @@
     if ((unsigned long)self.content.chaters.count > 3) {
         NSLog(@"MonkeyHengLog: %lu === %d, %@", (unsigned long)self.content.chaters.count, self.content.group_chat_count.intValue, self.content.content_post_id);
     }
-//    self.talkerCount.text = [NSString stringWithFormat:@"%d人正在圈聊", self.content.group_chat_count.intValue];
     self.talkerCount.text = [NSString stringWithFormat:@"%lu人正在圈聊", (unsigned long)(self.content.chaters == nil ? 0 : self.content.chaters.count)];
 
     // 设置头像
-//    NSString *bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//    NSString *defaultHeadPath = [resourceBundle pathForResource:[NSString stringWithFormat:@"default_user"] ofType:@"png"];
     self.ownerImage.image = [TmpFileStorageModel enumImageWithName:self.content.owner_photo withDownLoadFinishBolck:^(BOOL success, UIImage *img) {
         if (success) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -410,9 +400,7 @@
     
     _gpuImageView.hidden = YES;
     
-//    praiseImage.image = self.content.isLike.integerValue == 0 ? [UIImage imageNamed:[resourceBundle pathForResource:@"home_like_default" ofType:@"png"]] : [UIImage imageNamed:[resourceBundle pathForResource:@"home_like_like" ofType:@"png"]] ;
     praiseImage.image = self.content.isLike.integerValue == 0 ? PNGRESOURCE(@"home_like_default") : PNGRESOURCE(@"home_like_like");
-//    pushImage.image = self.content.isPush.integerValue == 0 ? [UIImage imageNamed:[resourceBundle pathForResource:@"push" ofType:@"png"]] : [UIImage imageNamed:[resourceBundle pathForResource:@"pushed" ofType:@"png"]];
     pushImage.image = self.content.isPush.integerValue == 0 ? PNGRESOURCE(@"push") : PNGRESOURCE(@"pushed");
     
     // 添加标签
@@ -447,19 +435,6 @@
         }
     }
 }
-
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-//    //    NSLog(@"keyPath:%@,object:%@",keyPath,NSStringFromClass([object class]));
-//    if ([keyPath isEqualToString:@"status"]) {
-//        AVPlayerItem *playerItem = (AVPlayerItem*)object;
-//        if (playerItem.status == AVPlayerStatusReadyToPlay) {
-//            [player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
-//                [_gpuImageMovie startProcessing];
-//                [player play];
-//            }];
-//        }
-//    }
-//}
 
 - (void)changeMovie:(NSURL*)path {
     AVPlayerItem* item = [[AVPlayerItem alloc] initWithURL:path];
@@ -540,8 +515,6 @@
 }
 
 - (void)pushGroupTap {
-    NSLog(@"推了一个");
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:_content forKey:kAYHomeCellContentKey];
     [dic setValue:self forKey:kAYHomeCellCellKey];
