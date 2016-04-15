@@ -8,7 +8,7 @@
 
 #import "AYGroupListCellView.h"
 #import "OBShapedButton.h"
-//#import "Targets.h"
+#import "Targets.h"
 #import "TmpFileStoragemodel.h"
 #import "GotyeOCAPI.h"
 #import "Tools.h"
@@ -39,22 +39,22 @@
 }
 
 - (void)setSession:(Targets *)current_session {
-//    _current_session = current_session;
-//   
-//    [self changeImage];
-//    [self changeThemeText];
-//    [self changeUnreadLabel];
-//    NSLog(@"MonkeyHengLog: %@ === %lld", @"_current_session.group_id.longLongValue", _current_session.group_id.longLongValue);
-//
-//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
-//    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
-//   
-//    [self changeMessageTextWithMessage:m];
-//    [self changeTimeTextWithMessage:m];
-//  
-//    // TODO : 我日 以后改
-//    if (_screen_name == nil) {
-//        
+    _current_session = current_session;
+   
+    [self changeImage];
+    [self changeThemeText];
+    [self changeUnreadLabel];
+    NSLog(@"MonkeyHengLog: %@ === %lld", @"_current_session.group_id.longLongValue", _current_session.group_id.longLongValue);
+
+    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
+    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
+   
+    [self changeMessageTextWithMessage:m];
+    [self changeTimeTextWithMessage:m];
+  
+    // TODO : 我日 以后改
+    if (_screen_name == nil) {
+        
 //        dispatch_queue_t q = dispatch_queue_create("name qu", nil);
 //        dispatch_async(q, ^{
 //            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -86,87 +86,79 @@
 //                //        return nil;
 //            }
 //        });
-//    }
+    }
 }
 
 - (void)changeUnreadLabel {
-//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
-//    int count = [GotyeOCAPI getUnreadMessageCount:group];
-//    if (count > 0) {
-//        brage.hidden = NO;
-//        NSString* str = [NSString stringWithFormat:@"%d", count];
-//        [brage setTitle:str forState:UIControlStateNormal];
-//    } else {
-//        brage.hidden = YES;
-//    }
+    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
+    int count = [GotyeOCAPI getUnreadMessageCount:group];
+    if (count > 0) {
+        brage.hidden = NO;
+        NSString* str = [NSString stringWithFormat:@"%d", count];
+        [brage setTitle:str forState:UIControlStateNormal];
+    } else {
+        brage.hidden = YES;
+    }
 }
 
 - (void)changeThemeText {
-//    _themeLabel.text = _current_session.target_name;
+    _themeLabel.text = _current_session.target_name;
 }
 
 - (void)changeMessageTextWithMessage:(GotyeOCMessage*)m {
-//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
-//    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
     if (![m.text isEqualToString:@""]) {
         _chatLabel.text = [[_screen_name stringByAppendingString:@" : "] stringByAppendingString:m.text];
     }
 }
 
 - (void)changeTimeTextWithMessage:(GotyeOCMessage *)m {
-//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
-//    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
-//    if ([GotyeOCAPI getUnreadMessageCount:[GotyeOCGroup groupWithId:_current_session.group_id.longLongValue]] == 0) {
-//        _timeLabel.text = @"";
-//        return;
-//    }
-//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-//    [formatter setDateStyle:NSDateFormatterMediumStyle];
-//    [formatter setTimeStyle:NSDateFormatterShortStyle];
-//    
-//    NSTimeInterval now_time = [NSDate date].timeIntervalSince1970;
-//    if (now_time - m.date > 24 * 60 * 60) {
-//        [formatter setDateFormat:@"MM-dd"];
-//    } else {
-//        [formatter setDateFormat:@"hh:mm"];
-//    }
-//    NSLog(@"MonkeyHengLog: %f === %u", now_time, m.date);
-//    NSDate* date = [NSDate dateWithTimeIntervalSince1970:m.date];
-//    
-////    _timeLabel.text = [formatter stringFromDate:date];
-//    _timeLabel.text = [Tools compareCurrentTime:date];
+    if ([GotyeOCAPI getUnreadMessageCount:[GotyeOCGroup groupWithId:_current_session.group_id.longLongValue]] == 0) {
+        _timeLabel.text = @"";
+        return;
+    }
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    
+    NSTimeInterval now_time = [NSDate date].timeIntervalSince1970;
+    if (now_time - m.date > 24 * 60 * 60) {
+        [formatter setDateFormat:@"MM-dd"];
+    } else {
+        [formatter setDateFormat:@"hh:mm"];
+    }
+    NSLog(@"MonkeyHengLog: %f === %u", now_time, m.date);
+    NSDate* date = [NSDate dateWithTimeIntervalSince1970:m.date];
+    
+    _timeLabel.text = [Tools compareCurrentTime:date];
 }
 
 - (void)changeImage {
-//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"default_user"] ofType:@"png"];
-//    
-//    UIImage* userImg = [TmpFileStorageModel enumImageWithName:_current_session.post_thumb withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-//        if (success) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                if (self) {
-//                    self.themeImg.image = user_img;
-//                    NSLog(@"owner img download success");
-//                }
-//            });
-//        } else {
-//            NSLog(@"down load owner image %@ failed", _current_session.post_thumb);
-//        }
-//    }];
-//    
-//    if (userImg == nil) {
-//        userImg = [UIImage imageNamed:filePath];
-//    }
-//    [self.themeImg setImage:userImg];
+    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
+    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
+    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"default_user"] ofType:@"png"];
+    
+    UIImage* userImg = [TmpFileStorageModel enumImageWithName:_current_session.post_thumb withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
+        if (success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (self) {
+                    self.themeImg.image = user_img;
+                    NSLog(@"owner img download success");
+                }
+            });
+        } else {
+            NSLog(@"down load owner image %@ failed", _current_session.post_thumb);
+        }
+    }];
+    
+    if (userImg == nil) {
+        userImg = [UIImage imageNamed:filePath];
+    }
+    [self.themeImg setImage:userImg];
 }
 
 - (void)awakeFromNib {
     // Initialization code
-//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    
-//    _themeImg.image = [UIImage imageNamed:[resourceBundle pathForResource:@"default_user" ofType:@"png"]];
+    _themeImg.image = PNGRESOURCE(@"default_user");
     _themeImg.layer.borderColor = [UIColor lightGrayColor].CGColor;
 //    _themeImg.layer.borderWidth = 1.f;
     _themeImg.layer.cornerRadius = 8.f;
@@ -193,6 +185,8 @@
     line.borderWidth = 1.f;
     line.frame = CGRectMake(10.5, 79, [UIScreen mainScreen].bounds.size.width - 10.5, 1);
     [self.layer addSublayer:line];
+    
+    [self setUpReuseCell];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -246,4 +240,18 @@
 }
 
 #pragma mark -- messages
+- (id)queryContentCellHeight {
+    return [NSNumber numberWithFloat:[AYGroupListCellView preferredHeight]];
+}
+
+- (id)resetContent:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    
+    Targets* t = [dic objectForKey:kAYGroupListCellContentKey];
+    AYGroupListCellView* cell = [dic objectForKey:kAYGroupListCellCellKey];
+    
+    cell.current_session = t;
+    return nil;
+}
+
 @end

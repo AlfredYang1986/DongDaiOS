@@ -275,7 +275,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     groupVC.view.frame = CGRectMake(CGRectGetWidth(self.navigationController.view.frame), 0, CGRectGetWidth(self.navigationController.view.frame), CGRectGetHeight(self.navigationController.view.frame));
     [self.view addSubview:groupVC.view];
-    [self.view bringSubviewToFront:bkView];
+//    [self.view bringSubviewToFront:bkView];
     actionView.enabled = NO;
     
     CABasicAnimation *maskLayerAnimation = [circleLayer animationForKey:@"path"] ? (CABasicAnimation *)[circleLayer animationForKey:@"path"] : [CABasicAnimation animationWithKeyPath:@"path"];

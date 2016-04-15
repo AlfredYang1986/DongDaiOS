@@ -8,7 +8,8 @@
 
 #ifndef AYGroupListCellDefines_h
 #define AYGroupListCellDefines_h
-static NSString* const kAYGroupListCellName                              = @"HomeCell";
+static NSString* const kAYGroupListCellName                              = @"GroupListCell";
 
-static NSString* const kAYGroupListCellCellKey                           = @"kAYHomeCellCellKey";
+static NSString* const kAYGroupListCellCellKey                           = @"kAYGroupListCellCellKey";
+static NSString* const kAYGroupListCellContentKey                        = @"kAYGroupListCellContentKey";
 #endif /* AYGroupListCellDefines_h */

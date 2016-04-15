@@ -146,4 +146,9 @@
         <command type="notify" message="unLikePostItem:" />
         <command type="notify" message="pushPostItem:" />
     </view>
+    
+    <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >
+        <command type="message" message="queryContentCellHeight" />
+        <command type="message" message="resetContent:" />
+    </view>
 </views>

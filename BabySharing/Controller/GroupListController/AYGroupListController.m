@@ -86,37 +86,45 @@
         id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithNib:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYGroupListCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
-    
-        {
-            id<AYFacadeBase> f_session = [self.facades objectForKey:@"ChatSessionRemote"];
-            AYRemoteCallCommand* cmd = [f_session.commands objectForKey:@"QueryChatGroup"];
-            
-            NSDictionary* obj = nil;
-            CURRENUSER(obj);
-            
-            [cmd performWithResult:[obj copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                if (success) {
-                    NSLog(@"query chat group: %@", result);
-                   
-                    id<AYFacadeBase> f_chat_session = CHATSESSIONMODEL;
-                    id<AYCommand> cmd = [f_chat_session.commands objectForKey:@"UpdataChatSession"];
-                   
-                    id args = [result copy];
-                    [cmd performWithResult:&args];
-                    
-                    id reVal = nil;
-                    id<AYCommand> cmd_query = [f_chat_session.commands objectForKey:@"QueryChatSession"];
-                    [cmd_query performWithResult:&reVal];
-                    
-                    id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
-                    [cmd_change performWithResult:&reVal];
-                    
-                } else {
-                    // TODO: error notify
-                }
-            }];
-        }
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    {
+        id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
+        id<AYFacadeBase> f_session = [self.facades objectForKey:@"ChatSessionRemote"];
+        AYRemoteCallCommand* cmd = [f_session.commands objectForKey:@"QueryChatGroup"];
         
+        NSDictionary* obj = nil;
+        CURRENUSER(obj);
+        
+        [cmd performWithResult:[obj copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            if (success) {
+                NSLog(@"query chat group: %@", result);
+                
+                id<AYFacadeBase> f_chat_session = CHATSESSIONMODEL;
+                id<AYCommand> cmd = [f_chat_session.commands objectForKey:@"UpdataChatSession"];
+                
+                id args = [result copy];
+                [cmd performWithResult:&args];
+                
+                id reVal = nil;
+                id<AYCommand> cmd_query = [f_chat_session.commands objectForKey:@"QueryChatSession"];
+                [cmd_query performWithResult:&reVal];
+                
+                id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+                [cmd_change performWithResult:&reVal];
+
+                id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+                id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
+                [cmd_refresh performWithResult:nil];
+            
+            } else {
+                // TODO: error notify
+            }
+        }];
     }
 }
 
@@ -232,7 +240,6 @@
             // 添加动画
             [scaleMaskLayer addAnimation:scaleAnimation forKey:@"scale-layer"];
             
-            // 设置各个view的frame
             homeVC.tabBarController.tabBar.hidden = NO;
             homeVC.tabBarController.tabBar.frame = CGRectMake(-CGRectGetWidth(homeVC.tabBarController.tabBar.frame), CGRectGetMinY(homeVC.tabBarController.tabBar.frame), CGRectGetWidth(homeVC.tabBarController.tabBar.frame), CGRectGetHeight(homeVC.tabBarController.tabBar.frame));
             homeVC.view.frame = CGRectMake(-CGRectGetWidth(homeVC.view.frame), 0, CGRectGetWidth(homeVC.view.frame), CGRectGetHeight(homeVC.view.frame));
