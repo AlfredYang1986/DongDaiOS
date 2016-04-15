@@ -47,6 +47,11 @@
         <command type="Module" name="RefreshPushData" />
     </facade>
     
+    <facade type="DefaultFacade" name="ChatSessionModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="UpdataChatSession" />
+        <command type="Module" name="QueryChatSession" />
+    </facade>
+    
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="LandingReqConfirmCode" />
         <command type="Remote" name="LandingAuthConfirm" />
@@ -91,6 +96,13 @@
         <command type="Remote" name="QueryFriends" />
         <command type="Remote" name="QueryFollowing" />
         <command type="Remote" name="QueryFollowed" />
+    </facade>
+   
+    <facade type="DefaultFacade" name="ChatSessionRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryChatGroup" />
+<!--        <command type="Remote" name="QueryChatGroup" /> 这个函数有问题，应该在服务器端就处理好哪些是已经加入的-->
+<!--        <command type="Remote" name="EnterChatGroup" />-->
+<!--        <command type="Remote" name="EnterChatGroup" />-->
     </facade>
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >

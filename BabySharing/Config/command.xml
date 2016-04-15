@@ -37,6 +37,9 @@
     <command type="Module" name="RefreshLikeData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="RefreshPushData" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="UpdataChatSession" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryChatSession" factory="AYDefaultModuleFactory" />
+
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
     <command type="Module" name="GernarateImgUUID" factory="AYDefaultModuleFactory" />
@@ -82,4 +85,8 @@
     <command type="Remote" name="QueryFriends" route="connections/queryMutureFollowingUsers" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryFollowing" route="connections/queryFollowingUsers" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryFollowed" route="connections/queryFollowedUsers" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="QueryChatGroup" route="group/queryChatGroup" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="EnterChatGroup" route="group/follow" factory="AYRemoteCallFactory" />-->
+<!--    <command type="Remote" name="LeaveChatGroup" route="group/follow" factory="AYRemoteCallFactory" />-->
 </commands>

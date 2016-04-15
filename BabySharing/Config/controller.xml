@@ -172,12 +172,14 @@
 
     <controller type="DefaultController" name="GroupList" factory="AYDefaultControllerFactoy" >
         
+        <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
+        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         <facade type="DefaultFacade" name="XMPP" notification="true" />
 
         <view type="Table" name="Table" />
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Image" name="Image" />
 
-<!--        <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />-->
+        <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
 </controllers>

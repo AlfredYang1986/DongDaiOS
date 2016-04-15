@@ -4,6 +4,7 @@
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         <facade type="DefaultFacade" name="HomeQueryModel" />
+        <facade type="DefaultFacade" name="ChatSessionModel" />
         
         <notify message="AppReady" controller="Landing" />
     </model>

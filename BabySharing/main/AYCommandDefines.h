@@ -66,6 +66,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define OWNERQUERYMODEL         FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"OwnerQueryModel")
 #define OWNERQUERYPUSHMODEL     FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"OwnerQueryPushModel")
 #define HOMECONTENTMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"HomeQueryModel")
+#define CHATSESSIONMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ChatSessionModel")
 
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 

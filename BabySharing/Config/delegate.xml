@@ -58,4 +58,8 @@
         <command type="message" message="likePostItemResult:" />
         <command type="message" message="pushPostItemResult:" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

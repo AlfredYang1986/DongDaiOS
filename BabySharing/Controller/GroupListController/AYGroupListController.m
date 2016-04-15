@@ -14,6 +14,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
+#import "AYGroupListCellDefines.h"
 
 #define TABLE_VIEW_TOP_MARGIN   74
 
@@ -70,6 +71,53 @@
     [self createAnimateView];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = NO;
+    
+    {
+        id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+        id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
+        id<AYCommand> cmd_datasource = [view_content.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_content.commands objectForKey:@"registerDelegate:"];
+        
+        id obj = (id)del;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)del;
+        [cmd_delegate performWithResult:&obj];
+        
+        id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithNib:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYGroupListCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name];
+    
+        {
+            id<AYFacadeBase> f_session = [self.facades objectForKey:@"ChatSessionRemote"];
+            AYRemoteCallCommand* cmd = [f_session.commands objectForKey:@"QueryChatGroup"];
+            
+            NSDictionary* obj = nil;
+            CURRENUSER(obj);
+            
+            [cmd performWithResult:[obj copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                if (success) {
+                    NSLog(@"query chat group: %@", result);
+                   
+                    id<AYFacadeBase> f_chat_session = CHATSESSIONMODEL;
+                    id<AYCommand> cmd = [f_chat_session.commands objectForKey:@"UpdataChatSession"];
+                   
+                    id args = [result copy];
+                    [cmd performWithResult:&args];
+                    
+                    id reVal = nil;
+                    id<AYCommand> cmd_query = [f_chat_session.commands objectForKey:@"QueryChatSession"];
+                    [cmd_query performWithResult:&reVal];
+                    
+                    id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+                    [cmd_change performWithResult:&reVal];
+                    
+                } else {
+                    // TODO: error notify
+                }
+            }];
+        }
+        
+    }
 }
 
 #pragma mark -- layouts
