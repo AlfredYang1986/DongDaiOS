@@ -66,33 +66,34 @@
     label.font = [UIFont systemFontOfSize:_font_size];
     label.tag = -1;
     [self addSubview:label];
+//    
+//    layer = [CALayer layer];
+//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
+//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
+//    UIImage* img = [UIImage imageNamed:[resourceBundle pathForResource:@"dongda_seg_selected" ofType:@"png"]];
+//    
+//    layer.contents = (id)img.CGImage;
+//    layer.frame = CGRectMake(0, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, ITEM_WIDTH, ITME_LAYER_LINE_HEIGHT);
+//    [self.layer addSublayer:layer];
+//    
+//    layer.hidden = _status == 0;
+//    label.textColor = _status == 0 ? _font_color : _select_font_color;
+    label.textColor = _font_color;
     
-    layer = [CALayer layer];
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    UIImage* img = [UIImage imageNamed:[resourceBundle pathForResource:@"dongda_seg_selected" ofType:@"png"]];
-    
-    layer.contents = (id)img.CGImage;
-    layer.frame = CGRectMake(0, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, ITEM_WIDTH, ITME_LAYER_LINE_HEIGHT);
-    [self.layer addSublayer:layer];
-    
-    layer.hidden = _status == 0;
-    label.textColor = _status == 0 ? _font_color : _select_font_color;
-    
-    if (_isLayerHidden) {
-        layer.hidden = YES;
-    }
+//    if (_isLayerHidden) {
+//        layer.hidden = YES;
+//    }
 }
 
 - (void)changeStatus:(NSInteger)status {
     _status = status;
-    layer.hidden = _status == 0;
+//    layer.hidden = _status == 0;
     UILabel* label = [self viewWithTag:-1];
     label.textColor = _status == 0 ? _font_color : _select_font_color;
     
-    if (_isLayerHidden) {
-        layer.hidden = YES;
-    }
+//    if (_isLayerHidden) {
+//        layer.hidden = YES;
+//    }
     
     UIImageView* v = [self viewWithTag:-2];
     if (_status == 0) {
@@ -100,6 +101,8 @@
     } else {
         v.image = _selected_img;
     }
+    
+    
 }
 
 - (void)changeItemTitle:(NSString *)title {

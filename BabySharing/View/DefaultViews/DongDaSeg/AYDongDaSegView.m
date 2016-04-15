@@ -381,6 +381,7 @@
                 UIImage* img_select = [dic objectForKey:kAYSegViewSelectedImageKey];
                 [self addItemWithImg:img andSelectImage:img_select andTitle:title];
             }
+            break;
         case AYSegViewItemTypeImage : {
                 UIImage* img = [dic objectForKey:kAYSegViewNormalImageKey];
                 UIImage* img_select = [dic objectForKey:kAYSegViewSelectedImageKey];
