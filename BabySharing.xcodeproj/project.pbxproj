@@ -265,6 +265,9 @@
 		708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 708236021CA2A9A100658531 /* AYDefaultFacadeFactory.m */; };
 		7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7082360B1CA2D09E00658531 /* AYDefaultModuleFactory.m */; };
 		708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E7D931CBD5567005D96B5 /* AYAboutDDController.m */; };
+		709949A81CC299DF00078A5B /* AYFoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949A71CC299DF00078A5B /* AYFoundController.m */; };
+		709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */; };
+		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
 		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
 		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
 		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
@@ -839,6 +842,12 @@
 		7082360B1CA2D09E00658531 /* AYDefaultModuleFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultModuleFactory.m; sourceTree = "<group>"; };
 		708E7D921CBD5567005D96B5 /* AYAboutDDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDDController.h; sourceTree = "<group>"; };
 		708E7D931CBD5567005D96B5 /* AYAboutDDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDDController.m; sourceTree = "<group>"; };
+		709949A61CC299DF00078A5B /* AYFoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundController.h; sourceTree = "<group>"; };
+		709949A71CC299DF00078A5B /* AYFoundController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundController.m; sourceTree = "<group>"; };
+		709949AA1CC29D6F00078A5B /* AYFoundGridDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundGridDelegate.h; sourceTree = "<group>"; };
+		709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundGridDelegate.m; sourceTree = "<group>"; };
+		709949AE1CC2A31600078A5B /* AYFakeStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFakeStatusBarView.h; sourceTree = "<group>"; };
+		709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFakeStatusBarView.m; sourceTree = "<group>"; };
 		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
 		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
 		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
@@ -1736,6 +1745,7 @@
 		7017F32F1CB74F31002C416E /* DefaultViews */ = {
 			isa = PBXGroup;
 			children = (
+				709949AD1CC2A30200078A5B /* FakeStatusBar */,
 				701524461CBF96F0005B4C5B /* ImageView */,
 				70120CAE1CBE4F6F00B169F9 /* Buttons */,
 				70CDF6091CBCBD8C00311841 /* Album */,
@@ -2272,6 +2282,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				709949A51CC299D200078A5B /* FoundController */,
 				702510731CC0DD2100DADF2B /* GroupListController */,
 				7015243E1CBF938F005B4C5B /* HomeController */,
 				70120CAA1CBE4A9000B169F9 /* FriendController */,
@@ -2744,6 +2755,34 @@
 				70F68DA61CBE46C1005524BA /* AYAboutDongdaDelegate.m */,
 			);
 			path = AboutDongdaView;
+			sourceTree = "<group>";
+		};
+		709949A51CC299D200078A5B /* FoundController */ = {
+			isa = PBXGroup;
+			children = (
+				709949A91CC29D6300078A5B /* FoundGridDelegate */,
+				709949A61CC299DF00078A5B /* AYFoundController.h */,
+				709949A71CC299DF00078A5B /* AYFoundController.m */,
+			);
+			path = FoundController;
+			sourceTree = "<group>";
+		};
+		709949A91CC29D6300078A5B /* FoundGridDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				709949AA1CC29D6F00078A5B /* AYFoundGridDelegate.h */,
+				709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */,
+			);
+			path = FoundGridDelegate;
+			sourceTree = "<group>";
+		};
+		709949AD1CC2A30200078A5B /* FakeStatusBar */ = {
+			isa = PBXGroup;
+			children = (
+				709949AE1CC2A31600078A5B /* AYFakeStatusBarView.h */,
+				709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */,
+			);
+			path = FakeStatusBar;
 			sourceTree = "<group>";
 		};
 		709CDE301CA40DFF0042BEE9 /* ViewBase */ = {
@@ -3306,6 +3345,7 @@
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				700BE5A41CBA33BA00A09B3A /* AYRoleTagAddDelegate.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
+				709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */,
 				702510711CC0C65400DADF2B /* AYRefreshPushDataCommand.m in Sources */,
 				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
 				701524CD1CBFBE7B005B4C5B /* PhotoTagRoundPointLayer.m in Sources */,
@@ -3327,6 +3367,7 @@
 				703B89661CBF2AEC002EBB18 /* AYEmailRemoteFacade.m in Sources */,
 				701524CF1CBFBE7B005B4C5B /* WKFRadarView.m in Sources */,
 				70F68DA71CBE46C1005524BA /* AYAboutDongdaDelegate.m in Sources */,
+				709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */,
 				702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */,
 				700BE5B11CBA5F2C00A09B3A /* AYPlaceHolderTabBarController.m in Sources */,
 				701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */,
@@ -3477,6 +3518,7 @@
 				701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */,
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
+				709949A81CC299DF00078A5B /* AYFoundController.m in Sources */,
 				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
 				70CDF61A1CBCC3AF00311841 /* AYContentQueryRemoteFacade.m in Sources */,
 				7025109F1CC0F5AB00DADF2B /* NotificationOwner.m in Sources */,

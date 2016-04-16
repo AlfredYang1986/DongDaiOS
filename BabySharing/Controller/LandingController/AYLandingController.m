@@ -294,21 +294,25 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     id obj = nil;
     [cmd performWithResult:&obj];
     
-    if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
-        NSLog(@"finally login over success");
+    UIViewController* controller = [Tools activityViewController];
+    if (controller == self) {
+        if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
+            NSLog(@"finally login over success");
+           
+            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+        
+            NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+            [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+            [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
        
-        AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-    
-        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-        [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
-        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-        id<AYCommand> cmd_show_module = SHOWMODULE;
-        [cmd_show_module performWithResult:&dic_show_module];
-    } else {
-        NSLog(@"something wrong with login process");
-        @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
+            id<AYCommand> cmd_show_module = SHOWMODULE;
+            [cmd_show_module performWithResult:&dic_show_module];
+        
+        } else {
+            NSLog(@"something wrong with login process");
+            @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
+        }
     }
     
     return nil;

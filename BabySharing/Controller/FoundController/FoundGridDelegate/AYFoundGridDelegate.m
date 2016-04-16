@@ -1,22 +1,22 @@
 //
-//  AYProfilePushDelegate.m
+//  AYFoundGridDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 4/11/16.
+//  Created by Alfred Yang on 4/17/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYProfilePushDelegate.h"
-#import "AYViewBase.h"
+#import "AYFoundGridDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "AYAlbumDefines.h"
 
 #import "QueryContent.h"
 #import "QueryContentItem.h"
-#import "AYAlbumDefines.h"
 #import "AYQueryModelDefines.h"
 
-@implementation AYProfilePushDelegate {
+@implementation AYFoundGridDelegate {
     NSArray* querydata;
 }
 #pragma mark -- command
@@ -26,7 +26,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
+
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -45,16 +45,9 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
-#pragma mark -- message
-- (id)changeQueryData:(id)obj {
-    querydata = obj;
-    return nil;
-}
-
 #pragma mark -- table
-#define PHOTO_PER_LINE  3
+#define PHOTO_PER_LINE      3
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return (querydata.count / PHOTO_PER_LINE) + 1;
     return (querydata.count / PHOTO_PER_LINE) + (querydata.count % PHOTO_PER_LINE != 0);
 }
 
@@ -136,5 +129,11 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+#pragma mark -- messages
+- (id)changeQueryData:(id)obj {
+    querydata = (NSArray*)obj;
+    return nil;
 }
 @end

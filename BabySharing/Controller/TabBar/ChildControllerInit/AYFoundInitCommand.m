@@ -12,8 +12,6 @@
 #import "AYNavigationController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
-// test
-#import "AYPlaceHolderTabBarController.h"
 
 @implementation AYFoundInitCommand
 @synthesize para = _para;
@@ -23,12 +21,12 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    UIViewController* controller = [[AYPlaceHolderTabBarController alloc]init];
-    controller.view.backgroundColor = [UIColor yellowColor];
+    UIViewController* controller = DEFAULTCONTROLLER(@"Found");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
-    
+   
+    [rootContorller setNavigationBarHidden:YES animated:NO];
     *obj = rootContorller;
 }
 

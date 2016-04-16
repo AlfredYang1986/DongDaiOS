@@ -31,29 +31,7 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
 
-    self.bounds = CGRectMake(0, 0, width + 10, 53);
-    self.showsCancelButton = YES;
-    
-    //    _searchBar.sb_bg = [UIColor colorWithWhite:0.1098 alpha:1.f];
-    self.sb_bg = [UIColor whiteColor];
-    self.textField.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
-    self.textField.borderStyle = UITextBorderStyleRoundedRect;
-    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateNormal];
-    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateDisabled];
-    [self.cancleBtn setTitle:@"添加" forState:UIControlStateNormal];
-    [self.cancleBtn setTitle:@"添加" forState:UIControlStateDisabled];
-    self.cancleBtn.backgroundColor = [UIColor colorWithRed:70.0/255.0 green:219.0 / 255.0 blue:202.0 / 255.0 alpha:1.f];
-    self.cancleBtn.layer.cornerRadius = 5.f;
-    self.cancleBtn.clipsToBounds = YES;
-    self.cancleBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-//    self.placeholder = [_delegate getSearchPlaceHolder];// @"搜索角色标签";
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChangedLenght:) name:UITextFieldTextDidChangeNotification object:nil];
-    self.showsSearchIcon = NO;
-    [self setPostLayoutSize:CGSizeMake(CANCELBTN_WIDTH, CANCELBTN_HEIGHT)];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -139,21 +117,21 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+   
+    if (sz.width != 0 && sz.height != 0) {
     
 #define CONTENT_MARGIN                  10.5
 #define TEXTFIELD_BTN_MARGIN_BETWEEN    13.5
-    CGFloat width = self.bounds.size.width;
-    CGFloat height = self.bounds.size.height;
+        CGFloat width = self.bounds.size.width;
+        CGFloat height = self.bounds.size.height;
+        
+        CGFloat ver_margin = (height - sz.height) / 2;
+        CGFloat textfield_width = width - CONTENT_MARGIN * 2 - TEXTFIELD_BTN_MARGIN_BETWEEN - sz.width;
     
-    CGFloat ver_margin = (height - sz.height) / 2;
-    CGFloat textfield_width = width - CONTENT_MARGIN * 2 - TEXTFIELD_BTN_MARGIN_BETWEEN - sz.width;
-    
-//    [UIView performWithoutAnimation:^{
         self.textField.font = [UIFont systemFontOfSize:12];
         self.textField.frame = CGRectMake(CONTENT_MARGIN, ver_margin, textfield_width, sz.height);
         self.cancleBtn.frame = CGRectMake(CONTENT_MARGIN + textfield_width + TEXTFIELD_BTN_MARGIN_BETWEEN, ver_margin, sz.width, sz.height);
-//    }];
-    
+    }
 }
 
 #pragma mark -- view commands
@@ -165,6 +143,37 @@
 
 - (id)registerDelegate:(id)obj {
     self.delegate = (id<UISearchBarDelegate>)obj;
+    return nil;
+}
+
+- (id)foundTitleSearchBar {
+    self.sb_bg = [UIColor whiteColor];
+    self.textField.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.textField.borderStyle = UITextBorderStyleRoundedRect;
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    return nil;
+}
+
+- (id)roleTagSearchBar {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    
+    self.bounds = CGRectMake(0, 0, width + 10, 53);
+    self.showsCancelButton = YES;
+    
+    self.sb_bg = [UIColor whiteColor];
+    self.textField.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.textField.borderStyle = UITextBorderStyleRoundedRect;
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateNormal];
+    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateDisabled];
+    [self.cancleBtn setTitle:@"添加" forState:UIControlStateNormal];
+    [self.cancleBtn setTitle:@"添加" forState:UIControlStateDisabled];
+    self.cancleBtn.backgroundColor = [UIColor colorWithRed:70.0/255.0 green:219.0 / 255.0 blue:202.0 / 255.0 alpha:1.f];
+    self.cancleBtn.layer.cornerRadius = 5.f;
+    self.cancleBtn.clipsToBounds = YES;
+    self.cancleBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    self.showsSearchIcon = NO;
+    [self setPostLayoutSize:CGSizeMake(CANCELBTN_WIDTH, CANCELBTN_HEIGHT)];
     return nil;
 }
 @end

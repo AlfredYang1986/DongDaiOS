@@ -62,4 +62,8 @@
     <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="FoundGrid" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

@@ -182,4 +182,15 @@
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
+    
+    <controller type="DefaultController" name="Found" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
+        
+        <view type="Table" name="Table" />
+        <view type="SearchBar" name="SearchBar" />
+        <view type="FakeStatusBar" name="FakeStatusBar" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="FoundGrid" />
+    </controller>
 </controllers>

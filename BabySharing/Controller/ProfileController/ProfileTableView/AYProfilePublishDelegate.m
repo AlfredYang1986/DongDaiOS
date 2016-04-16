@@ -55,7 +55,7 @@
 #pragma mark -- table
 #define PHOTO_PER_LINE  3
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return (querydata.count / PHOTO_PER_LINE) + 1;
+    return (querydata.count / PHOTO_PER_LINE) + (querydata.count % PHOTO_PER_LINE != 0);
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
