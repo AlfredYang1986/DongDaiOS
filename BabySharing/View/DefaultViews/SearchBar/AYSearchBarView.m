@@ -176,4 +176,23 @@
     [self setPostLayoutSize:CGSizeMake(CANCELBTN_WIDTH, CANCELBTN_HEIGHT)];
     return nil;
 }
+
+- (id)foundSearchBar {
+    self.showsCancelButton = YES;
+    [self.cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
+    UIColor* textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:1.0];
+    
+    self.sb_bg = [UIColor whiteColor];
+    [self.cancleBtn setTintColor:textColor];
+    [self.cancleBtn.titleLabel setTextColor:textColor];
+    self.cancleBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:0.3059 alpha:1.f] forState:UIControlStateNormal];
+    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:0.3059 alpha:1.f] forState:UIControlStateDisabled];
+
+    self.textField.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.textField.borderStyle = UITextBorderStyleRoundedRect;
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
+    return nil;
+}
 @end

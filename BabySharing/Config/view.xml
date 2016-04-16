@@ -26,6 +26,7 @@
         <command type="message" message="registerDelegate:" />
         <command type="message" message="foundTitleSearchBar" />
         <command type="message" message="roleTagSearchBar" />
+        <command type="message" message="foundSearchBar" />
     </view>
 
     <view type="Table" name="Table" factory="AYDefaultViewFactory" >

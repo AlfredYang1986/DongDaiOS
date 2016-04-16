@@ -395,19 +395,20 @@
 - (id)setCellInfo:(id)obj {
     NSDictionary* dic = (NSDictionary*)obj;
     
+    AYAlbumTableCellView* view  =  [dic objectForKey:kAYAlbumTableCellSelfKey];
     for (NSString* key in dic.allKeys) {
         if ([key isEqualToString:kAYAlbumTableCellMarginLeftKey]) {
-            self.margin_left = ((NSNumber*)[dic objectForKey:key]).floatValue;
+            view.margin_left = ((NSNumber*)[dic objectForKey:key]).floatValue;
         } else if ([key isEqualToString:kAYAlbumTableCellMarginRightKey]) {
-            self.margin_right = ((NSNumber*)[dic objectForKey:key]).floatValue;
+            view.margin_right = ((NSNumber*)[dic objectForKey:key]).floatValue;
         } else if ([key isEqualToString:kAYAlbumTableCellMarginBetweenKey]) {
-            self.marign_between = ((NSNumber*)[dic objectForKey:key]).floatValue;
+            view.marign_between = ((NSNumber*)[dic objectForKey:key]).floatValue;
         } else if ([key isEqualToString:kAYAlbumTableCellGridBorderColorKey]) {
-            self.grid_border_color = (UIColor*)[dic objectForKey:key];
+            view.grid_border_color = (UIColor*)[dic objectForKey:key];
         } else if ([key isEqualToString:kAYAlbumTableCellCanSelectedKey]) {
-            self.cannot_selected = ((NSNumber*)[dic objectForKey:key]).boolValue;
+            view.cannot_selected = ((NSNumber*)[dic objectForKey:key]).boolValue;
         } else if ([key isEqualToString:kAYAlbumTableCellCornerRadiusKey]) {
-            self.cell_cor_radius = ((NSNumber*)[dic objectForKey:key]).floatValue;
+            view.cell_cor_radius = ((NSNumber*)[dic objectForKey:key]).floatValue;
         } else if ([key isEqualToString:kAYAlbumTableCellLineViewCountKey]) {
             views_count = ((NSNumber*)[dic objectForKey:key]).intValue;
         }

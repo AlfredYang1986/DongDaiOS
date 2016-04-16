@@ -268,6 +268,9 @@
 		709949A81CC299DF00078A5B /* AYFoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949A71CC299DF00078A5B /* AYFoundController.m */; };
 		709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */; };
 		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
+		709949B31CC2AFBD00078A5B /* AYFoundSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949B21CC2AFBD00078A5B /* AYFoundSearchController.m */; };
+		709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949B51CC2BB0F00078A5B /* AYFoundTagsDelegate.m */; };
+		709949B91CC2BB2500078A5B /* AYFoundRoleTagDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949B81CC2BB2500078A5B /* AYFoundRoleTagDelegate.m */; };
 		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
 		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
 		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
@@ -848,6 +851,12 @@
 		709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundGridDelegate.m; sourceTree = "<group>"; };
 		709949AE1CC2A31600078A5B /* AYFakeStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFakeStatusBarView.h; sourceTree = "<group>"; };
 		709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFakeStatusBarView.m; sourceTree = "<group>"; };
+		709949B11CC2AFBD00078A5B /* AYFoundSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchController.h; sourceTree = "<group>"; };
+		709949B21CC2AFBD00078A5B /* AYFoundSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundSearchController.m; sourceTree = "<group>"; };
+		709949B41CC2BB0F00078A5B /* AYFoundTagsDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundTagsDelegate.h; sourceTree = "<group>"; };
+		709949B51CC2BB0F00078A5B /* AYFoundTagsDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundTagsDelegate.m; sourceTree = "<group>"; };
+		709949B71CC2BB2500078A5B /* AYFoundRoleTagDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundRoleTagDelegate.h; sourceTree = "<group>"; };
+		709949B81CC2BB2500078A5B /* AYFoundRoleTagDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundRoleTagDelegate.m; sourceTree = "<group>"; };
 		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
 		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
 		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
@@ -2763,6 +2772,8 @@
 				709949A91CC29D6300078A5B /* FoundGridDelegate */,
 				709949A61CC299DF00078A5B /* AYFoundController.h */,
 				709949A71CC299DF00078A5B /* AYFoundController.m */,
+				709949B11CC2AFBD00078A5B /* AYFoundSearchController.h */,
+				709949B21CC2AFBD00078A5B /* AYFoundSearchController.m */,
 			);
 			path = FoundController;
 			sourceTree = "<group>";
@@ -2772,6 +2783,10 @@
 			children = (
 				709949AA1CC29D6F00078A5B /* AYFoundGridDelegate.h */,
 				709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */,
+				709949B41CC2BB0F00078A5B /* AYFoundTagsDelegate.h */,
+				709949B51CC2BB0F00078A5B /* AYFoundTagsDelegate.m */,
+				709949B71CC2BB2500078A5B /* AYFoundRoleTagDelegate.h */,
+				709949B81CC2BB2500078A5B /* AYFoundRoleTagDelegate.m */,
 			);
 			path = FoundGridDelegate;
 			sourceTree = "<group>";
@@ -3297,6 +3312,7 @@
 				7015247C1CBF9AB4005B4C5B /* MJRefreshBackFooter.m in Sources */,
 				700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
+				709949B91CC2BB2500078A5B /* AYFoundRoleTagDelegate.m in Sources */,
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				701524861CBF9AB4005B4C5B /* MJRefreshBackStateFooter.m in Sources */,
@@ -3351,6 +3367,7 @@
 				701524CD1CBFBE7B005B4C5B /* PhotoTagRoundPointLayer.m in Sources */,
 				7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */,
 				7060BDB11CB60EEF001E4111 /* AYQueryCurrentLoginUserCommand.m in Sources */,
+				709949B31CC2AFBD00078A5B /* AYFoundSearchController.m in Sources */,
 				702510A01CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m in Sources */,
 				702459E81CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m in Sources */,
 				701524251CBF4A3D005B4C5B /* AYQueryFollowedCommand.m in Sources */,
@@ -3476,6 +3493,7 @@
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
 				70B8209F1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m in Sources */,
 				70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */,
+				709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				700BE6321CBA91B000A09B3A /* AYPlaceHolderInitCommand.m in Sources */,

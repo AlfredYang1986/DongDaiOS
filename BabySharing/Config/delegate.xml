@@ -66,4 +66,12 @@
     <delegate type="TableViewDelegateAndDatasource" name="FoundGrid" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="FoundTags" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

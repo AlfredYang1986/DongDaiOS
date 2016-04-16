@@ -193,4 +193,15 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="FoundGrid" />
     </controller>
+    
+    <controller type="DefaultController" name="FoundSearch" factory="AYDefaultControllerFactoy" >
+        
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="Table" name="Table" />
+        <view type="SearchBar" name="SearchBar" />
+        <view type="FakeStatusBar" name="FakeStatusBar" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" />
+        <delegate type="TableViewDelegateAndDatasource" name="FoundTags" />
+    </controller>
 </controllers>

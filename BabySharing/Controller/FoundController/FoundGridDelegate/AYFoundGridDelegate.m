@@ -62,8 +62,9 @@
     {
         id<AYCommand> cmd_info = [cell.commands objectForKey:@"setCellInfo:"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
+        [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
+        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginLeftKey];
+        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginRightKey];
         [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
         [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
         [cmd_info performWithResult:&dic];
@@ -114,8 +115,8 @@
     {
         id<AYCommand> cmd_info = [v.commands objectForKey:@"setCellInfo:"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
+        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginLeftKey];
+        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginRightKey];
         [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
         [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
         [cmd_info performWithResult:&dic];

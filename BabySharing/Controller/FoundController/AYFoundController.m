@@ -15,7 +15,6 @@
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
-#import "AYHomeCellDefines.h"
 #import "AYAlbumDefines.h"
 
 #define STATUS_HEIGHT       20
@@ -124,15 +123,20 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
 - (id)FakeStatusBarLayout:(UIView*)view {
     CGFloat found_width = [UIScreen mainScreen].bounds.size.width;
     view.frame = CGRectMake(0, 0, found_width, STATUS_HEIGHT);
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 #pragma mark -- searh bar delegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"FoundSearch" bundle:nil];
-//    FoundSearchController* svc = [storyboard instantiateViewControllerWithIdentifier:@"FoundSearch"];
-//    [self.navigationController pushViewController:svc animated:NO];
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"FoundSearch");
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [self performWithResult:&dic];
     return NO;
 }
 
