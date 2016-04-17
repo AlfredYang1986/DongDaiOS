@@ -59,7 +59,6 @@
     
     id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
     NSArray* arr = [recommands_role_tags copy];
-//    NSArray* arr = @[@"test1", @"test2"];
     [cmd performWithResult:&arr];
     
     return (UITableViewCell*)cell;

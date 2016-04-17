@@ -56,17 +56,37 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-    if (cell ==  nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+    if (previewDic == nil || previewDic.count == 0) {
+        id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = VIEW(FoundHotCell, FoundHotCell);
+        }
+        
+        cell.controller = self.controller;
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTags:"];
+       
+        NSArray* arr = [querydata copy];
+        [cmd performWithResult:&arr];
+        
+        return (UITableViewCell*)cell;
+    } else {
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+        if (cell ==  nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+        }
+        
+        cell.textLabel.text = @"alfred test";
+        return cell;
     }
-    
-    cell.textLabel.text = @"alfred test";
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    id<AYViewBase> header = VIEW(FoundHotCell, FoundHotCell);
+    id<AYCommand> cmd = [header.commands objectForKey:@"queryCellHeight"];
+    NSNumber* result = nil;
+    [cmd performWithResult:&result];
+    return result.floatValue;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -85,24 +105,12 @@
     
     header.controller = self.controller;
     
-//    if ([tableView numberOfRowsInSection:section] > 1) {
-//        header.line.hidden = NO;
-//    } else {
-//        header.line.hidden = YES;
-//    }
-    
     id<AYCommand> cmd = [header.commands objectForKey:@"changeHeaderTitle:"];
     NSString* str = nil;
     if (previewDic.count == 0) {
         str = @"热门标签";
-//        header.headLabell.text = @"热门标签";
-//        header.headLabell.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
-//        header.headLabell.font = [UIFont systemFontOfSize:14.f];
     } else {
         str = @"搜索结果";
-//        header.headLabell.text = @"搜索结果";
-//        header.headLabell.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
-//        header.headLabell.font = [UIFont systemFontOfSize:14.f];
     }
     
     [cmd performWithResult:&str];

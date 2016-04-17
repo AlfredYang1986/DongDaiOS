@@ -204,84 +204,69 @@
 //    }
 }
 
-- (void)setHotTags:(NSArray*)arr {
+- (id)setHotTags:(id)obj {
+    NSArray* arr = (NSArray*)obj;
     
     [self clearAllTags];
     
-//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
+    int index = 0;
+    CGFloat offset = 0;
+    for (NSDictionary* tmp in arr) {
+        UIFont* font = [UIFont systemFontOfSize:11.f];
+        
+        CGSize size = CGSizeMake(320, 2000); //设置一个行高上限
+        NSDictionary *attribute = @{NSFontAttributeName: font};
+        
+        NSString* tag_name = [tmp objectForKey:@"tag_name"];
+        NSInteger tag_type = ((NSNumber*)[tmp objectForKey:@"tag_type"]).integerValue;
+        CGSize sz_font = [tag_name boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+        CGSize sz = CGSizeMake(TAG_MARGIN + ICON_WIDTH + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
+        
+        FoundHotTagBtn* btn = [[FoundHotTagBtn alloc]initWithFrame:CGRectMake(0, 0, sz.width, sz.height)];
+        btn.tag_name = tag_name;
+        btn.tag_type = tag_type;
+        
+        UIImageView* img = [[UIImageView alloc] initWithFrame:CGRectMake(TAG_MARGIN / 2, TAG_MARGIN / 4, ICON_WIDTH, ICON_HEIGHT)];
+        img.center = CGPointMake(TAG_MARGIN / 2 + img.frame.size.width / 2, TAG_HEIGHT / 2 + 1);
+        if (tag_type == 0) {
+            img.image = PNGRESOURCE(@"tag_location_dark");
+        } else if (tag_type == 1) {
+            img.image = PNGRESOURCE(@"tag_time_dark");
+        } else if (tag_type == 3){
+            img.image = PNGRESOURCE(@"tag_brand_dark");
+        }
+        
+        [btn addSubview:img];
+        
+        UILabel* label = [[UILabel alloc]init];
+        label.font = font;
+        label.text = tag_name;
+        
+        label.textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:0.9f];
+        label.frame = CGRectMake(TAG_MARGIN + ICON_WIDTH, 0, sz_font.width, TAG_HEIGHT);
+        label.textAlignment = NSTextAlignmentLeft;
+        [btn addSubview:label];
+        
+        btn.layer.borderColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:0.45f].CGColor;
+        btn.layer.borderWidth = 1.f;
+        btn.layer.cornerRadius = TAG_CORDIUS;
+        btn.clipsToBounds = YES;
+        
+        btn.center = CGPointMake(MARGIN + btn.frame.size.width / 2 + offset, 66 / 2 - 10
+                                 );
+        offset += btn.frame.size.width + TAG_MARGIN_BETWEEN;
+        
+        if (offset >= [UIScreen mainScreen].bounds.size.width - 10)
+            break;
+        
+        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tagBtnSelected:)];
+        [btn addGestureRecognizer:tap];
+        
+        [self addSubview:btn];
+        ++index;
+    }
     
-    //    TagTypeLocation,
-    //    TagTypeTime,
-    //    TagTypeTags,
-    //    TagTypeBrand,
-    
-    //    0
-//    UIImage* image0 = [UIImage imageNamed:[resourceBundle pathForResource:@"tag_location_dark" ofType:@"png"]];
-    //    1
-//    UIImage* image1 = [UIImage imageNamed:[resourceBundle pathForResource:@"tag_time_dark" ofType:@"png"]];
-    //    3
-//    UIImage* image2 = [UIImage imageNamed:[resourceBundle pathForResource:@"tag_brand_dark" ofType:@"png"]];
-    
-    
-//    int index = 0;
-//    CGFloat offset = 0;
-//    for (RecommandTag* tmp in arr) {
-//        UIFont* font = [UIFont systemFontOfSize:11.f];
-//        
-//        CGSize size = CGSizeMake(320, 2000); //设置一个行高上限
-//        NSDictionary *attribute = @{NSFontAttributeName: font};
-//        CGSize sz_font = [tmp.tag_name boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-//        //        CGSize sz_font = [tmp.tag_name sizeWithFont:font constrainedToSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-//        CGSize sz = CGSizeMake(TAG_MARGIN + ICON_WIDTH + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
-//        
-//        //        UIView* btn = [[UIView alloc]initWithFrame:CGRectMake(0, 0, sz.width, sz.height)];
-//        FoundHotTagBtn* btn = [[FoundHotTagBtn alloc]initWithFrame:CGRectMake(0, 0, sz.width, sz.height)];
-//        btn.tag_name = tmp.tag_name;
-//        btn.tag_type = tmp.tag_type.intValue;
-//        
-//        UIImageView* img = [[UIImageView alloc] initWithFrame:CGRectMake(TAG_MARGIN / 2, TAG_MARGIN / 4, ICON_WIDTH, ICON_HEIGHT)];
-//        img.center = CGPointMake(TAG_MARGIN / 2 + img.frame.size.width / 2, TAG_HEIGHT / 2 + 1);
-//        if (tmp.tag_type.integerValue == 0) {
-//            img.image = image0;
-//        } else if (tmp.tag_type.integerValue == 1) {
-//            img.image = image1;
-//        } else if (tmp.tag_type.integerValue == 3){
-//            img.image = image2;
-//        }
-//        
-//        [btn addSubview:img];
-//        
-//        UILabel* label = [[UILabel alloc]init];
-//        label.font = font;
-//        label.text = tmp.tag_name;
-//        //        label.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
-//        label.textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:0.9f];
-//        label.frame = CGRectMake(TAG_MARGIN + ICON_WIDTH, 0, sz_font.width, TAG_HEIGHT);
-//        label.textAlignment = NSTextAlignmentLeft;
-//        [btn addSubview:label];
-//        
-//        //        btn.layer.borderColor = [UIColor colorWithWhite:0.6078 alpha:1.f].CGColor;
-//        btn.layer.borderColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:0.45f].CGColor;
-//        btn.layer.borderWidth = 1.f;
-//        btn.layer.cornerRadius = TAG_CORDIUS;
-//        btn.clipsToBounds = YES;
-//        
-//        //        btn.center = CGPointMake(MARGIN + btn.frame.size.width / 2 + index * (MARGIN + btn.frame.size.width), MARGIN_VER + btn.frame.size.height / 2);
-//        //        btn.center = CGPointMake(MARGIN + btn.frame.size.width / 2 + offset, _ver_margin + btn.frame.size.height / 2);
-//        btn.center = CGPointMake(MARGIN + btn.frame.size.width / 2 + offset, 66 / 2 - 10
-//                                 );
-//        offset += btn.frame.size.width + TAG_MARGIN_BETWEEN;
-//        
-//        if (offset >= [UIScreen mainScreen].bounds.size.width - 10)
-//            break;
-//        
-//        UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tagBtnSelected:)];
-//        [btn addGestureRecognizer:tap];
-//        
-//        [self addSubview:btn];
-//        ++index;
-//    }
+    return nil;
 }
 
 - (void)clearAllTags {

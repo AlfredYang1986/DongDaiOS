@@ -47,22 +47,46 @@
 #pragma mark -- table
 #define PHOTO_PER_LINE      3
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    if (previewDic.count == 0) {
+        return 1;
+    } else {
+        return previewDic.count;
+    }
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-    if (cell ==  nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+    if (previewDic == nil || previewDic.count == 0) {
+        id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = VIEW(FoundHotCell, FoundHotCell);
+        }
+        
+        cell.controller = self.controller;
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
+        NSArray* arr = [querydata copy];
+        [cmd performWithResult:&arr];
+        
+        return (UITableViewCell*)cell;
+    } else {
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+        if (cell ==  nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+        }
+        
+        cell.textLabel.text = @"alfred test";
+        return cell;
     }
     
-    cell.textLabel.text = @"alfred test";
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    id<AYViewBase> header = VIEW(FoundHotCell, FoundHotCell);
+    id<AYCommand> cmd = [header.commands objectForKey:@"queryCellHeight"];
+    NSNumber* result = nil;
+    [cmd performWithResult:&result];
+    return result.floatValue;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -85,7 +109,7 @@
         id<AYCommand> cmd = [header.commands objectForKey:@"changeHeaderTitle:"];
         NSString* str = nil;
         if (previewDic.count == 0) {
-            str = @"热门标签";
+            str = @"热门角色";
         } else {
             str = @"搜索结果";
         }

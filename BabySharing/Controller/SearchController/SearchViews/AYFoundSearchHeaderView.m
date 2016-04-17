@@ -99,7 +99,7 @@
         _headLabell.center = CGPointMake(CGRectGetWidth(self.frame) / 2 - (CGRectGetWidth(self.frame) / 2 + 2 -(_headLabell.frame.size.width + 20) / 2), CGRectGetHeight(self.frame) / 2);
     }
     
-    self.line.frame = CGRectMake(0, CGRectGetMaxY(self.frame), CGRectGetWidth(self.frame), 1);
+    self.line.frame = CGRectMake(0, CGRectGetMaxY(self.frame) - 1, CGRectGetWidth(self.frame), 1);
     self.line1.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
 }
 
