@@ -64,10 +64,12 @@
     <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changePreviewData:" />
+        <command type="notify" message="scrollToHideKeyBoard" />
     </delegate>
 
     <delegate type="TableViewDelegateAndDatasource" name="FoundTags" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changePreviewData:" />
+        <command type="notify" message="scrollToHideKeyBoard" />
     </delegate>
 </delegates>

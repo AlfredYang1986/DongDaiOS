@@ -72,6 +72,8 @@
     <command type="Remote" name="QueryAllRoleTags" route="roletags/queryAllRoleTags" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryRecommandTags" route="tags/queryRecommandTags" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryRecommandRoleTags" route="roletags/queryRecommandRoleTags" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="SearchTagWithPreviews" route="tags/queryFoundSearchTagData" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

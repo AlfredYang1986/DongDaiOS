@@ -13,6 +13,7 @@
 
 #import "Tools.h"
 #import "AYSearchDefines.h"
+#import "AYFoundSearchResultCellDefines.h"
 
 @implementation AYFoundTagsDelegate {
     NSArray* querydata;
@@ -45,7 +46,6 @@
 }
 
 #pragma mark -- table
-#define PHOTO_PER_LINE      3
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (previewDic.count == 0) {
         return 1;
@@ -57,9 +57,9 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (previewDic == nil || previewDic.count == 0) {
-        id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
+        id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundHotCellName] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
         if (cell == nil) {
-            cell = VIEW(FoundHotCell, FoundHotCell);
+            cell = VIEW(kAYFoundHotCellName, kAYFoundHotCellName);
         }
         
         cell.controller = self.controller;
@@ -71,26 +71,47 @@
         
         return (UITableViewCell*)cell;
     } else {
-        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-        if (cell ==  nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+
+        id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchResultCellName] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = VIEW(kAYFoundSearchResultCellName, kAYFoundSearchResultCellName);
         }
         
-        cell.textLabel.text = @"alfred test";
-        return cell;
+        cell.controller = self.controller;
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+       
+        NSDictionary* tmp = [previewDic objectAtIndex:indexPath.row];
+        
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:cell forKey:kAYFoundSearchResultCellCellKey];
+        [dic setValue:[tmp objectForKey:@"type"] forKey:kAYFoundSearchResultCellTagTypeKey];
+        [dic setValue:[tmp objectForKey:@"tag_name"] forKey:kAYFoundSearchResultCellTagNameKey];
+        [dic setValue:[tmp objectForKey:@"content"] forKey:kAYFoundSearchResultCellContentKey];
+        
+        [cmd performWithResult:&dic];
+        
+        return (UITableViewCell*)cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYViewBase> header = VIEW(FoundHotCell, FoundHotCell);
-    id<AYCommand> cmd = [header.commands objectForKey:@"queryCellHeight"];
+    id<AYCommand> cmd = nil;
+    if (previewDic.count == 0) {
+        id<AYViewBase> header = VIEW(kAYFoundHotCellName, kAYFoundHotCellName);
+        cmd = [header.commands objectForKey:@"queryCellHeight"];
+    } else {
+        id<AYViewBase> header = VIEW(kAYFoundSearchResultCellName, kAYFoundSearchResultCellName);
+        cmd = [header.commands objectForKey:@"queryCellHeight"];
+    }
+    
     NSNumber* result = nil;
     [cmd performWithResult:&result];
     return result.floatValue;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    id<AYViewBase> header = VIEW(FoundSearchHeader, FoundSearchHeader);
+    id<AYViewBase> header = VIEW(kAYFoundSearchHeaderName, kAYFoundSearchHeaderName);
     id<AYCommand> cmd = [header.commands objectForKey:@"queryHeaderHeight"];
     NSNumber* result = nil;
     [cmd performWithResult:&result];
@@ -98,9 +119,9 @@
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix]];
+    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchHeaderName] stringByAppendingString:kAYFactoryManagerViewsuffix]];
     if (header == nil) {
-        header = VIEW(FoundSearchHeader, FoundSearchHeader);
+        header = VIEW(kAYFoundSearchHeaderName, kAYFoundSearchHeaderName);
     }
     
     header.controller = self.controller;
@@ -118,6 +139,24 @@
     UITableViewHeaderFooterView* v = (UITableViewHeaderFooterView*)header;
     v.backgroundView = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[UIColor whiteColor] size:v.bounds.size]];
     return (UIView*)header;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (previewDic == nil || previewDic.count == 0) {
+        
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (previewDic == nil || previewDic.count == 0) {
+        return NO;
+    } else return YES;
+}
+
+#pragma mark -- scroll view delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToHideKeyBoard"];
+    [cmd performWithResult:nil];
 }
 
 #pragma mark -- messages

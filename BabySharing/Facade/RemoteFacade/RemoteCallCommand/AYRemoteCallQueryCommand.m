@@ -45,19 +45,19 @@
         NSLog(@"request result from sever: %@", result);
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
+            if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
+                block(YES, result);
+            } else {
+                NSDictionary* reError = [result objectForKey:@"error"];
+                block(NO, reError);
+            }
+            
             SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
             Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
             if (m) {
                 id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
                 func(cur, sel, name);
-            }
-            
-            if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-//                NSDictionary* reVal = [result objectForKey:@"result"];
-                block(YES, result);
-            } else {
-                NSDictionary* reError = [result objectForKey:@"error"];
-                block(NO, reError);
             }
         });
     });

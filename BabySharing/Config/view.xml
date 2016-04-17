@@ -161,4 +161,9 @@
         <command type="message" message="queryContentCellHeight" />
         <command type="message" message="resetContent:" />
     </view>
+    
+    <view type="FoundSearchResultCell" name="FoundSearchResultCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="queryCellHeight" />
+    </view>
 </views>

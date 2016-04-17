@@ -50,9 +50,9 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
+    id<AYViewBase> cell= [tableView dequeueReusableCellWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundHotCellName] stringByAppendingString:kAYFactoryManagerViewsuffix] forIndexPath:indexPath];
     if (cell == nil) {
-        cell = VIEW(FoundHotCell, FoundHotCell);
+        cell = VIEW(kAYFoundHotCellName, kAYFoundHotCellName);
     }
     
     cell.controller = self.controller;
@@ -70,9 +70,9 @@
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
-    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix]];
+    id<AYViewBase> header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:[[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchHeaderName] stringByAppendingString:kAYFactoryManagerViewsuffix]];
     if (header == nil) {
-        header = VIEW(FoundSearchHeader, FoundSearchHeader);
+        header = VIEW(kAYFoundSearchHeaderName, kAYFoundSearchHeaderName);
     }
     
     header.controller = self.controller;
@@ -87,7 +87,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYViewBase> header = VIEW(FoundHotCell, FoundHotCell);
+    id<AYViewBase> header = VIEW(kAYFoundHotCellName, kAYFoundHotCellName);
     id<AYCommand> cmd = [header.commands objectForKey:@"queryCellHeight"];
     NSNumber* result = nil;
     [cmd performWithResult:&result];
@@ -95,7 +95,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    id<AYViewBase> header = VIEW(FoundSearchHeader, FoundSearchHeader);
+    id<AYViewBase> header = VIEW(kAYFoundSearchHeaderName, kAYFoundSearchHeaderName);
     id<AYCommand> cmd = [header.commands objectForKey:@"queryHeaderHeight"];
     NSNumber* result = nil;
     [cmd performWithResult:&result];

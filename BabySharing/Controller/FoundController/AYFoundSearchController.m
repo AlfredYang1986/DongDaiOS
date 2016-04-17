@@ -18,6 +18,7 @@
 
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
+#import "AYFoundSearchResultCellDefines.h"
 
 #define STATUS_HEIGHT   20
 
@@ -82,12 +83,16 @@
         [cmd_delegate performWithResult:&obj];
         
         id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
-        NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchHeaderName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_header performWithResult:&nib_header_name];
         
         id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundHotCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_hot_cell performWithResult:&class_name];
+        
+        id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
+        NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchResultCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_search performWithResult:&nib_search_name];
     }
     
     [self queryRecommandData];
@@ -123,6 +128,39 @@
             id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundRoleTag"];
             id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
             id obj = result;
+            [cmd performWithResult:&obj];
+        }
+    }];
+}
+
+- (void)querySearchDataWithInput:(NSString*)searchText {
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
+    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchTagWithPreviews"];
+    AYRemoteCallCommand* cmd_role_tags = [f_search.commands objectForKey:@"SearchRoleTagWithPreviews"];
+   
+    NSMutableDictionary* dic = [user mutableCopy];
+    [dic setValue:searchText forKey:@"tag_name"];
+    [dic setValue:searchText forKey:@"role_tag"];
+    
+    [cmd_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSLog(@"query recommand tags result %@", result);
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundTags"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changePreviewData:"];
+            id obj = [result objectForKey:@"preview"];
+            [cmd performWithResult:&obj];
+        }
+    }];
+    
+    [cmd_role_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSLog(@"query recommand role tags result %@", result);
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundRoleTag"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changePreviewData:"];
+            id obj = [result objectForKey:@"preview"];
             [cmd performWithResult:&obj];
         }
     }];
@@ -256,6 +294,14 @@
     return nil;
 }
 
+- (id)scrollToHideKeyBoard {
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    if ([view isFirstResponder]) {
+        [view resignFirstResponder];
+    }
+    return nil;
+}
+
 - (id)startRemoteCall:(id)obj {
    
     NSString* method = (NSString*)obj;
@@ -309,5 +355,31 @@
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+    if ([searchText isEqualToString:@""]) {
+        {
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundTags"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changePreviewData:"];
+            id obj = nil;
+            [cmd performWithResult:&obj];
+        }
+
+        {
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundRoleTag"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changePreviewData:"];
+            id obj = nil;
+            [cmd performWithResult:&obj];
+        }
+        
+        id<AYViewBase> view = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"refresh"];
+        [cmd performWithResult:nil];
+        
+    } else {
+        [self querySearchDataWithInput:searchText];
+    }
 }
 @end

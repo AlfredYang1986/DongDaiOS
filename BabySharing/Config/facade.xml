@@ -77,6 +77,8 @@
         <command type="Remote" name="QueryAllRoleTags" />
         <command type="Remote" name="QueryRecommandRoleTags" />
         <command type="Remote" name="QueryRecommandTags" />
+        <command type="Remote" name="SearchTagWithPreviews" />
+        <command type="Remote" name="SearchRoleTagWithPreviews" />
     </facade>
     
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
