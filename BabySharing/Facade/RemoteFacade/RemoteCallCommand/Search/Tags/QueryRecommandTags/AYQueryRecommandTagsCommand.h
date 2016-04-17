@@ -1,5 +1,5 @@
 //
-//  AYFoundGridDelegate.h
+//  AYQueryRecommandTagsCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/17/16.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYAlbumDelegate.h"
+#import "AYRemoteCallCommand.h"
 
-@interface AYFoundGridDelegate : AYAlbumDelegate
+@interface AYQueryRecommandTagsCommand : AYRemoteCallCommand
 
 @end

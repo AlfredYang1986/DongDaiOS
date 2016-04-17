@@ -7,11 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYCommand.h"
-#import "AYViewBase.h"
-#import <UIKit/UIKit.h>
-#import "AYViewController.h"
+#import "AYContentDelegate.h"
 
-@interface AYHomeContentDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+@interface AYHomeContentDelegate : AYContentDelegate
 
 @end

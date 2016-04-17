@@ -421,6 +421,11 @@
     return nil;
 }
 
+- (id)queryIsGridSelected:(id)obj {
+//    NSInteger index = ((NSNumber*)obj).integerValue;
+    return [NSNumber numberWithBool:NO];
+}
+
 - (id)startRemoteCall:(id)obj {
     return nil;
 }

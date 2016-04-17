@@ -53,7 +53,12 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
+    {
+        UIView* view_loading = [self.views objectForKey:@"Loading"];
+        [self.view bringSubviewToFront:view_loading];
+        view_loading.hidden = YES;
+    }
 }
 
 #pragma mark -- layouts
@@ -133,6 +138,13 @@
     CGFloat found_width = [UIScreen mainScreen].bounds.size.width;
     view.frame = CGRectMake(0, 0, found_width, STATUS_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
+- (id)LoadingLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    view.frame = CGRectMake(0, 0, width, height);
     return nil;
 }
 

@@ -129,6 +129,7 @@
         <command type="message" message="queryPerferedHeight" />
         <command type="message" message="queryCurrentGridViewByIndex:" />
         <command type="notify" message="selectedValueChanged:" />
+        <command type="notify" message="queryIsGridSelected:" />
     </view>
 
     <view type="UserDisplay" name="UserDisplay" factory="AYReuseViewFactory" >

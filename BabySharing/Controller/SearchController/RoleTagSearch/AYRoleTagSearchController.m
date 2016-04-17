@@ -73,7 +73,8 @@
     [cmd_hot_cell performWithResult:&class_name];
    
     id<AYFacadeBase> facade_search_remote = [self.facades objectForKey:@"SearchRemote"];
-    AYRemoteCallCommand* cmd_query_role_tag = [facade_search_remote.commands objectForKey:@"QueryRecommandRoleTags"];
+//    AYRemoteCallCommand* cmd_query_role_tag = [facade_search_remote.commands objectForKey:@"QueryRecommandRoleTags"];
+    AYRemoteCallCommand* cmd_query_role_tag = [facade_search_remote.commands objectForKey:@"QueryAllRoleTags"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];

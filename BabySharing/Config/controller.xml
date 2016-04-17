@@ -195,11 +195,14 @@
     </controller>
     
     <controller type="DefaultController" name="FoundSearch" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="SearchRemote" notification="true" />
         
         <view type="DongDaSeg" name="DongDaSeg" />
         <view type="Table" name="Table" />
         <view type="SearchBar" name="SearchBar" />
         <view type="FakeStatusBar" name="FakeStatusBar" />
+        <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" />
         <delegate type="TableViewDelegateAndDatasource" name="FoundTags" />

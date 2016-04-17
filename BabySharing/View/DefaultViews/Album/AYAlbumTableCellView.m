@@ -70,10 +70,12 @@
         tmp.row = row;
         tmp.col = index;
         
-//        NSInteger iter = 3 * row + index; // [_delegate indexByRow:row andCol:index];
-//        if ([_delegate isSelectedAtIndex:iter]) {
-            tmp.viewSelected = YES;
-//        }
+        if (!_cannot_selected) {
+            NSNumber* iter = [NSNumber numberWithInteger:row * views_count + index];
+            id<AYCommand> cmd = [self.notifies objectForKey:@"queryIsGridSelected:"];
+            [cmd performWithResult:&iter];
+            tmp.viewSelected = iter.boolValue;
+        }
 
         [image_view addObject:tmp];
         [self addSubview:tmp];
@@ -132,10 +134,12 @@
         tmp.row = row;
         tmp.col = index;
         
-//        NSInteger iter = [_delegate indexByRow:row andCol:index];
-//        if ([_delegate isSelectedAtIndex:iter]) {
-            tmp.viewSelected = YES;
-//        }
+        if (!_cannot_selected) {
+            NSNumber* iter = [NSNumber numberWithInteger:row * views_count + index];
+            id<AYCommand> cmd = [self.notifies objectForKey:@"queryIsGridSelected:"];
+            [cmd performWithResult:&iter];
+            tmp.viewSelected = iter.boolValue;
+        }
         
         [image_view addObject:tmp];
         [self addSubview:tmp];

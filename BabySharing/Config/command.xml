@@ -69,7 +69,9 @@
     <command type="Remote" name="UploadUserImage" route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadUserFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
 
-    <command type="Remote" name="QueryRecommandRoleTags" route="roletags/queryAllRoleTags" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryAllRoleTags" route="roletags/queryAllRoleTags" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryRecommandTags" route="tags/queryRecommandTags" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryRecommandRoleTags" route="tags/queryRecommandRoleTags" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

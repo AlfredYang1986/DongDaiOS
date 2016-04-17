@@ -37,6 +37,7 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
 @end
 
 @implementation AYFoundController
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -60,7 +61,8 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+   
+
     {
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -93,6 +95,10 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     line1.borderWidth = 1.f;
     line1.frame = CGRectMake(0, 64, SCREEN_WIDTH, 1);
     [self.view.layer addSublayer:line1];
+    
+    {
+        
+    }
 }
 
 #pragma mark -- layouts
@@ -148,4 +154,21 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     [cmd performWithResult:&arr];
     return arr;
 }
+
+#pragma mark -- notifies
+- (id)queryIsGridSelected:(id)obj {
+//    NSInteger index = ((NSNumber*)obj).integerValue;
+//    if (index == current_select_index) {
+//        return [NSNumber numberWithBool:YES];
+//    } else return [NSNumber numberWithBool:NO];
+    return [NSNumber numberWithBool:NO];
+}
+
+//- (id)startRemoteCall:(id)obj {
+//    return nil;
+//}
+//
+//- (id)endRemoteCall:(id)obj {
+//    return nil;
+//}
 @end

@@ -72,7 +72,9 @@
     </facade>
 
     <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryAllRoleTags" />
         <command type="Remote" name="QueryRecommandRoleTags" />
+        <command type="Remote" name="QueryRecommandTags" />
     </facade>
     
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
@@ -102,7 +104,7 @@
         <command type="Remote" name="QueryChatGroup" />
 <!--        <command type="Remote" name="QueryChatGroup" /> 这个函数有问题，应该在服务器端就处理好哪些是已经加入的-->
 <!--        <command type="Remote" name="EnterChatGroup" />-->
-<!--        <command type="Remote" name="EnterChatGroup" />-->
+<!--        <command type="Remote" name="LeaveChatGroup" />-->
     </facade>
 
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >

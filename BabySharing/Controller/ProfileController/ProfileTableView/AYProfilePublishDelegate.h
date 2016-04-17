@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYCommand.h"
-#import "AYViewBase.h"
-#import <UIKit/UIKit.h>
+#import "AYAlbumDelegate.h"
 
-@interface AYProfilePublishDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+
+@interface AYProfilePublishDelegate : AYAlbumDelegate
 
 @end
