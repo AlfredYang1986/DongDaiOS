@@ -16,4 +16,7 @@ typedef enum : NSUInteger {
     SearchStatusInputWithNoResult,
 } SearchStatus;
 
+static NSString* const FoundSearchHeader = @"FoundSearchHeader";
+static NSString* const FoundHotCell = @"FoundHotTagsCell";
+
 #endif /* SearchDefines_h */

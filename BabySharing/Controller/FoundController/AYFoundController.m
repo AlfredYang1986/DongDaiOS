@@ -95,10 +95,6 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     line1.borderWidth = 1.f;
     line1.frame = CGRectMake(0, 64, SCREEN_WIDTH, 1);
     [self.view.layer addSublayer:line1];
-    
-    {
-        
-    }
 }
 
 #pragma mark -- layouts
@@ -163,12 +159,4 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
 //    } else return [NSNumber numberWithBool:NO];
     return [NSNumber numberWithBool:NO];
 }
-
-//- (id)startRemoteCall:(id)obj {
-//    return nil;
-//}
-//
-//- (id)endRemoteCall:(id)obj {
-//    return nil;
-//}
 @end

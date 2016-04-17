@@ -70,6 +70,7 @@
     <view type="FoundSearchHeader" name="FoundSearchHeader" factory="AYReuseViewFactory" >
         <command type="message" message="changeHeaderTitle:" />
         <command type="message" message="queryHeaderHeight" />
+        <command type="message" message="isLeftAlignment:" />
     </view>
     
     <view type="FoundHotTagsCell" name="FoundHotTagsCell" factory="AYReuseViewFactory" >

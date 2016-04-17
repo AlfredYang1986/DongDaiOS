@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYRemoteCallCommand.h"
+#import "AYRemoteCallQueryCommand.h"
 
-@interface AYQueryRecommandTagsCommand : AYRemoteCallCommand
+@interface AYQueryRecommandTagsCommand : AYRemoteCallQueryCommand
 
 @end

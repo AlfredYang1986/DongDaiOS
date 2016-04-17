@@ -13,7 +13,8 @@
 @interface AYFoundSearchHeaderView : UITableViewHeaderFooterView <AYViewBase>
 @property (weak, nonatomic) IBOutlet UILabel *headLabell;
 @property (weak, nonatomic) IBOutlet UIImageView *headImg;
-@property (strong, nonatomic) UIView *line1;
-@property (strong, nonatomic) UIView *line;
+@property (nonatomic) BOOL isLeftAlign;
+@property (strong, nonatomic) CALayer *line1;
+@property (strong, nonatomic) CALayer *line;
 + (CGFloat)prefferredHeight;
 @end

@@ -19,6 +19,8 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+@synthesize isLeftAlign = _isLeftAlign;
+
 #pragma mark -- commands
 - (void)postPerform {
     
@@ -62,6 +64,14 @@
     
     NSLog(@"reuser view with commands : %@", self.commands);
     NSLog(@"reuser view with notifications: %@", self.notifies);
+    
+    _line = [CALayer layer];
+    _line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+    [self.layer addSublayer:_line];
+    
+    _line1 = [CALayer layer];
+    _line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.1].CGColor;
+    [self.layer addSublayer:_line1];
 }
 
 + (CGFloat)prefferredHeight {
@@ -78,7 +88,7 @@
 //        _headLabell.center = CGPointMake(CGRectGetWidth(self.frame) / 2 - (CGRectGetWidth(self.frame) / 2 + 2 - (_headLabell.frame.size.width + 20) / 2), CGRectGetHeight(self.frame) / 2);
         //        _headLabell.textColor = [UIColor colorWithRed:70.0 / 255.0 green:219.0 / 255.0 blue:202.0 / 255.0 alpha:1.0];
         _headLabell.textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:1.0];
-        _headLabell.textAlignment = NSTextAlignmentCenter;
+        
     } else {
         _headImg.frame = CGRectMake(14.5, _headLabell.frame.origin.y, 14, 14);
         _headImg.center = CGPointMake(_headImg.center.x, 44 / 2);
@@ -89,19 +99,7 @@
         _headLabell.center = CGPointMake(CGRectGetWidth(self.frame) / 2 - (CGRectGetWidth(self.frame) / 2 + 2 -(_headLabell.frame.size.width + 20) / 2), CGRectGetHeight(self.frame) / 2);
     }
     
-    //    if (self.line == nil) {
-    //        self.line = [[UIView alloc] init];
-    //        self.line.backgroundColor = UpLineColor;
-    //        [self addSubview:self.line];
-    //    }
-    
     self.line.frame = CGRectMake(0, CGRectGetMaxY(self.frame), CGRectGetWidth(self.frame), 1);
-    
-    if (self.line1 == nil) {
-        self.line1 = [[UIView alloc] init];
-        self.line1.backgroundColor = [UIColor colorWithRed:0.5922 green:0.5922 blue:0.5922 alpha:0.10];
-        [self addSubview:self.line1];
-    }
     self.line1.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
 }
 
@@ -114,5 +112,15 @@
 
 - (id)queryHeaderHeight {
     return [NSNumber numberWithFloat:44.f];
+}
+
+- (id)isLeftAlignment:(id)obj {
+    _isLeftAlign = ((NSNumber*)obj).boolValue;
+    if (_isLeftAlign) {
+        _headLabell.textAlignment = NSTextAlignmentLeft;
+    } else {
+        _headLabell.textAlignment = NSTextAlignmentCenter;
+    }
+    return obj;
 }
 @end

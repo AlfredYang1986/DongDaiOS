@@ -10,7 +10,7 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-#import "AYRoleTagSearchControllerDefines.h"
+#import "AYSearchDefines.h"
 #import "Tools.h"
 
 @implementation AYRoleTagAddDelegate {

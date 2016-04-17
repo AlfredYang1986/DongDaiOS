@@ -12,7 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
-#import "AYRoleTagSearchControllerDefines.h"
+#import "AYSearchDefines.h"
 
 @implementation AYRoleTagSearchController {
 }
@@ -65,11 +65,11 @@
     [cmd_delegate performWithResult:&obj];
 
     id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
-    NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_header performWithResult:&nib_header_name];
     
     id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
    
     id<AYFacadeBase> facade_search_remote = [self.facades objectForKey:@"SearchRemote"];

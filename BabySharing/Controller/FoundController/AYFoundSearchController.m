@@ -17,6 +17,7 @@
 #import "AYRemoteCallDefines.h"
 
 #import "AYDongDaSegDefines.h"
+#import "AYSearchDefines.h"
 
 #define STATUS_HEIGHT   20
 
@@ -29,7 +30,13 @@
 #define STATUS_BAR_HEIGHT               20
 #define TAB_BAR_HEIGHT                  0 //49
 
-@implementation AYFoundSearchController
+@interface AYFoundSearchController () <UISearchBarDelegate>
+
+@end
+
+@implementation AYFoundSearchController {
+    NSMutableArray* loading_status;
+}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -53,12 +60,72 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
+   
+    loading_status = [[NSMutableArray alloc]init];
     {
         UIView* view_loading = [self.views objectForKey:@"Loading"];
         [self.view bringSubviewToFront:view_loading];
         view_loading.hidden = YES;
     }
+    
+    {
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"FoundTags"];
+//        id<AYDelegateBase> cmd_add = [self.delegates objectForKey:@"FoundRoleTag"];
+        
+        id obj = (id)cmd_recommend;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_recommend;
+        [cmd_delegate performWithResult:&obj];
+        
+        id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
+        NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_header performWithResult:&nib_header_name];
+        
+        id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:FoundHotCell] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_hot_cell performWithResult:&class_name];
+    }
+    
+    [self queryRecommandData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    [view resignFirstResponder];
+}
+
+- (void)queryRecommandData {
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
+    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryRecommandTags"];
+    AYRemoteCallCommand* cmd_role_tags = [f_search.commands objectForKey:@"QueryRecommandRoleTags"];
+    
+    [cmd_tags performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSLog(@"query recommand tags result %@", result);
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundTags"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
+            id obj = result;
+            [cmd performWithResult:&obj];
+        }
+    }];
+    
+    [cmd_role_tags performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSLog(@"query recommand role tags result %@", result);
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundRoleTag"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
+            id obj = result;
+            [cmd performWithResult:&obj];
+        }
+    }];
 }
 
 #pragma mark -- layouts
@@ -161,7 +228,7 @@
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
     
     switch (index.intValue) {
-        case 0: {
+        case 1: {
             id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"FoundRoleTag"];
             
             id obj = (id)cmd_pubish;
@@ -170,7 +237,7 @@
             [cmd_delegate performWithResult:&obj];
         }
             break;
-        case 1: {
+        case 0: {
             id<AYDelegateBase> cmd_push = [self.delegates objectForKey:@"FoundTags"];
             
             id obj = (id)cmd_push;
@@ -187,5 +254,60 @@
     [refresh performWithResult:nil];
     
     return nil;
+}
+
+- (id)startRemoteCall:(id)obj {
+   
+    NSString* method = (NSString*)obj;
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF=%@", method];
+    NSArray* tmp = [loading_status filteredArrayUsingPredicate:p];
+    if (tmp.count > 0) {
+        @throw [[NSException alloc]initWithName:@"error" reason:@"重复调用接口" userInfo:nil];
+    }
+
+    [loading_status addObject:method];
+   
+    if (loading_status.count == 1) {
+        UIView* loading_view = [self.views objectForKey:@"Loading"];
+        loading_view.hidden = NO;
+        [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
+    }
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    
+    NSString* method = (NSString*)obj;
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF=%@", method];
+    NSArray* tmp = [loading_status filteredArrayUsingPredicate:p];
+    if (tmp.count == 0) {
+        @throw [[NSException alloc]initWithName:@"error" reason:@"接口调用错误" userInfo:nil];
+    }
+
+    NSPredicate* p_not = [NSPredicate predicateWithFormat:@"SELF!=%@", method];
+    [loading_status filterUsingPredicate:p_not];
+   
+    if (loading_status.count == 0) {
+        UIView* loading_view = [self.views objectForKey:@"Loading"];
+        loading_view.hidden = YES;
+        [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
+        
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd = [view_table.commands objectForKey:@"refresh"];
+        [cmd performWithResult:nil];
+    }
+    return nil;
+}
+
+#pragma mark -- search bar delegate
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"pop view controller");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
 }
 @end
