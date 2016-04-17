@@ -23,6 +23,8 @@
 
         <command type="Module" name="QuerySNSProviders" />
         <command type="Module" name="ChangeSNSProviders" />
+        
+<!--        <command type="Module" name="QueryUserContacter" />-->
 
         <command type="Module" name="SignOutLocal" />
     </facade>

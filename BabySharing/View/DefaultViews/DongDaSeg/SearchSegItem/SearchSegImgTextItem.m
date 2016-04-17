@@ -77,8 +77,8 @@
 //    [self.layer addSublayer:layer];
 //    
 //    layer.hidden = _status == 0;
-//    label.textColor = _status == 0 ? _font_color : _select_font_color;
-    label.textColor = _font_color;
+    label.textColor = _status == 0 ? _font_color : _select_font_color;
+//    label.textColor = _font_color;
     
 //    if (_isLayerHidden) {
 //        layer.hidden = YES;

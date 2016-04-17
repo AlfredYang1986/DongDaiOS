@@ -18,7 +18,14 @@
 #import "AYRemoteCallCommand.h"
 #import "AYUserDisplayDefines.h"
 #import "AYResourceManager.h"
+#import "SearchSegImgTextItem.h"
 
+#import "AppDelegate.h"
+#import "AYFacade.h"
+#import "AYViewBase.h"
+#import "AYModel.h"
+
+@class AYDongDaSegView;
 #define kSCREENW [UIScreen mainScreen].bounds.size.width
 #define kSCREENH [UIScreen mainScreen].bounds.size.height
 
@@ -77,38 +84,43 @@
         obj = (id)cmd_relations;
         [cmd_delegate performWithResult:&obj];
     }
+    
+    id<AYViewBase> view_contacter_table = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_hot_cell = [view_contacter_table.commands objectForKey:@"registerCellWithNib:"];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_hot_cell performWithResult:&class_name];
+    
 }
 
 #pragma mark -- layout commands
 
 - (id)SearchFriendLayout:(UIView*)view {
     
-    view.frame = CGRectMake( (kSCREENW - 120)*0.5, 0,  120, 44);
+    view.frame = CGRectMake( 20, 6,  kSCREENW - 40, 36);
     [((UIButton*)view) setTitle:@"搜索好友" forState:UIControlStateNormal];
     [((UIButton*)view) setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     ((UIButton*)view).titleLabel.font = [UIFont systemFontOfSize:14.f];
     [((UIButton*)view) setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-//    CGFloat ivHeight = 16;
-//    UIImageView* iv = [[UIImageView alloc] initWithFrame:CGRectMake(0, (44 - ivHeight) * 0.5, 18, ivHeight)];
-//    iv.image = PNGRESOURCE(@"found_more_friend");
+    [((UIButton*)view).layer setMasksToBounds:YES];
+    [((UIButton*)view).layer setCornerRadius:3.0];
 //    [((UIButton*)view) addSubview:iv];
     
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor darkGrayColor];
     return nil;
 }
 
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 124, kSCREENW, kSCREENH - 124);
-    view.backgroundColor = [UIColor grayColor];
-//    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    view.frame = CGRectMake(0, 128, kSCREENW, kSCREENH - 124);
+//    view.backgroundColor = [UIColor grayColor];
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
 
 - (id)DongDaSegLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 44, kSCREENW, 80);
+    view.frame = CGRectMake(0, 48, kSCREENW, 80);
     {
         id<AYViewBase> seg = (id<AYViewBase>)view;
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -136,7 +148,7 @@
         [cmd_add_item performWithResult:&dic_add_item_2];
         
         NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
-        [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
+        [dic_user_info setValue:[NSNumber numberWithInt:-1] forKey:kAYSegViewCurrentSelectKey];
         [dic_user_info setValue:[NSNumber numberWithFloat:0.0933f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
         
         [cmd_info performWithResult:&dic_user_info];
@@ -156,14 +168,14 @@
 - (id)touchUpInside {
     NSLog(@"search friends btn selected");
     
-//    id<AYCommand> AddFriend = DEFAULTCONTROLLER(@"AddFriend");
+//    id<AYCommand> SearchFriend = DEFAULTCONTROLLER(@"SearchFriend");
 //    
 //    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
 //    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic setValue:AddFriend forKey:kAYControllerActionDestinationControllerKey];
+//    [dic setValue:SearchFriend forKey:kAYControllerActionDestinationControllerKey];
 //    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 //    [self performWithResult:&dic];
-    
+//    
     return nil;
 }
 
@@ -171,8 +183,59 @@
 - (id)segValueChanged:(id)obj {
     NSLog(@"addfriend controller seg cheanged");
     
+    id<AYViewBase> seg = (id<AYViewBase>)obj;
+    id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    
+//    id<AYViewBase> seg = (id<AYViewBase>)view;
+    id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
+    
+    NSNumber* index = nil;
+    [cmd performWithResult:&index];
+    NSLog(@"controller output current index %@", index);
+    
+    if (index.integerValue == 1) {
+        index = [NSNumber numberWithInt:index.integerValue > 0 ? 0 : -1];
+        
+        
+        
+    }else if (index.integerValue == 2){
+        index = [NSNumber numberWithInt:index.integerValue > 0 ? 0 : -1];
+        
+        
+        
+    }else {
+        
+//        AYFacade* f = [self.facades objectForKey:@"LoginModel"];
+//        AYRemoteCallCommand* cmd_contacter = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+//        
+//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//        [dic setValue:self.current_user_id forKey:@"user_id"];
+//        [dic setValue:self.current_auth_token forKey:@"auth_token"];
+//        [dic setValue:user_lst forKey:@"lst"];
+//        [dic setValue:provider_name forKey:@"provider_name"];
+//        
+//        [cmd_contacter performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//            if (success) {
+//                
+//            } else {
+//                
+//            }
+//        }];
+        
+    }
+    
+    NSMutableDictionary *dic_user_info = [[NSMutableDictionary alloc]init];
+    [dic_user_info setObject:index forKey:kAYSegViewCurrentSelectKey];
+    [cmd_info performWithResult:&dic_user_info];
+    
     return nil;
 }
+
+- (void)showData:(NSString*)ready_func_name changFunc:(NSString*)change_func_name queryFunc:(NSString*)query_func_name resultKey:(NSString*)result_key {
+    
+    
+}
+
 #pragma mark -- notification pop view controller
 - (id)popToPreviousWithoutSave {
     NSLog(@"pop view controller");

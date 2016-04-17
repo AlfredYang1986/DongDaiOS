@@ -311,6 +311,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
         
         CALayer* layer = [CALayer layer];
         layer.contents = (id)PNGRESOURCE(@"friend_add").CGImage;
+        
         layer.frame = CGRectMake(0, 0, 25, 25);
         layer.position = CGPointMake(25, 25);
         [view.layer addSublayer:layer];

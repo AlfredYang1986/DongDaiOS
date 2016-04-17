@@ -126,10 +126,19 @@
         if (iter.status == 1)
             return iter.tag - 1;
     }
+    
     return -1;
 }
 
 - (void)setSegSelectedIndex:(NSInteger)i {
+    SearchSegItem* tmp = [self viewWithTag:i + 1];
+    
+    for (SearchSegItem* iter in [self getSegItems]) {
+        iter.status = iter == tmp ? 1 : 0;
+    }
+}
+//resetSegSelectedIndex
+- (void)resetSegSelectedIndex:(NSInteger)i {
     SearchSegItem* tmp = [self viewWithTag:i + 1];
     
     for (SearchSegItem* iter in [self getSegItems]) {

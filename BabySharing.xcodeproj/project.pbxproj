@@ -3281,7 +3281,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = 45E5AAUFA8;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -3780,7 +3780,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -3818,7 +3818,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
