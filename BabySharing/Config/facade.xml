@@ -16,6 +16,9 @@
         <command type="Module" name="StillImageCaptureStart" />
         <command type="Module" name="StillImageCaptureStop" />
         <command type="Module" name="StillImageCaptureView" />
+        <command type="Module" name="StillImageCaptureChangeCamera" />
+        <command type="Module" name="StillImageCaptureChangeFlash" />
+        <command type="Remote" name="StillImageCaptureTake" />
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >

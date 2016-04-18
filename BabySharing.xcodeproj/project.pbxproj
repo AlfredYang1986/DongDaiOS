@@ -289,6 +289,9 @@
 		708E52901CC544EA008A6023 /* AYStillImageCaptureStopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E528F1CC544EA008A6023 /* AYStillImageCaptureStopCommand.m */; };
 		708E52941CC545B9008A6023 /* AYStillImageCaptureViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52931CC545B9008A6023 /* AYStillImageCaptureViewCommand.m */; };
 		708E52981CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52971CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m */; };
+		708E529C1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E529B1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m */; };
+		708E52A01CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */; };
+		708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */; };
 		708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E7D931CBD5567005D96B5 /* AYAboutDDController.m */; };
 		709949A81CC299DF00078A5B /* AYFoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949A71CC299DF00078A5B /* AYFoundController.m */; };
 		709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */; };
@@ -927,6 +930,12 @@
 		708E52931CC545B9008A6023 /* AYStillImageCaptureViewCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureViewCommand.m; sourceTree = "<group>"; };
 		708E52961CC54623008A6023 /* AYStillImageCaptureReleaseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureReleaseCommand.h; sourceTree = "<group>"; };
 		708E52971CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureReleaseCommand.m; sourceTree = "<group>"; };
+		708E529A1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureChangeCameraCommand.h; sourceTree = "<group>"; };
+		708E529B1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureChangeCameraCommand.m; sourceTree = "<group>"; };
+		708E529E1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureChangeFlashCommand.h; sourceTree = "<group>"; };
+		708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureChangeFlashCommand.m; sourceTree = "<group>"; };
+		708E52A21CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureTakeCommand.h; sourceTree = "<group>"; };
+		708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureTakeCommand.m; sourceTree = "<group>"; };
 		708E7D921CBD5567005D96B5 /* AYAboutDDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDDController.h; sourceTree = "<group>"; };
 		708E7D931CBD5567005D96B5 /* AYAboutDDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDDController.m; sourceTree = "<group>"; };
 		709949A61CC299DF00078A5B /* AYFoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundController.h; sourceTree = "<group>"; };
@@ -3038,6 +3047,9 @@
 		708E52781CC53739008A6023 /* StillImageCapture */ = {
 			isa = PBXGroup;
 			children = (
+				708E52A11CC54EFF008A6023 /* StillImageCaptureTake */,
+				708E529D1CC54C01008A6023 /* StillImageCaptureChangeFlash */,
+				708E52991CC54B49008A6023 /* StillImageCaptureChangeCamera */,
 				708E52951CC54623008A6023 /* StillImageCaptureRelease */,
 				708E52911CC545B9008A6023 /* StillImageCaptureView */,
 				708E528D1CC544EA008A6023 /* StillImageCaptureStop */,
@@ -3117,6 +3129,33 @@
 				708E52971CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m */,
 			);
 			path = StillImageCaptureRelease;
+			sourceTree = "<group>";
+		};
+		708E52991CC54B49008A6023 /* StillImageCaptureChangeCamera */ = {
+			isa = PBXGroup;
+			children = (
+				708E529A1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.h */,
+				708E529B1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m */,
+			);
+			path = StillImageCaptureChangeCamera;
+			sourceTree = "<group>";
+		};
+		708E529D1CC54C01008A6023 /* StillImageCaptureChangeFlash */ = {
+			isa = PBXGroup;
+			children = (
+				708E529E1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.h */,
+				708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */,
+			);
+			path = StillImageCaptureChangeFlash;
+			sourceTree = "<group>";
+		};
+		708E52A11CC54EFF008A6023 /* StillImageCaptureTake */ = {
+			isa = PBXGroup;
+			children = (
+				708E52A21CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.h */,
+				708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */,
+			);
+			path = StillImageCaptureTake;
 			sourceTree = "<group>";
 		};
 		708E7D8D1CBD5567005D96B5 /* AboutController */ = {
@@ -3846,6 +3885,7 @@
 				702510661CC0BEF700DADF2B /* AYPostUnlikeContentCommand.m in Sources */,
 				700BE6051CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.m in Sources */,
 				7039CBF91CBBB5A700BE60C7 /* SearchSegImgItem.m in Sources */,
+				708E529C1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m in Sources */,
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				700BE5A41CBA33BA00A09B3A /* AYRoleTagAddDelegate.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
@@ -4011,6 +4051,7 @@
 				700BE5EC1CBA6E5800A09B3A /* AYRemoteCallCommand.m in Sources */,
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
 				7027FD161CBC0246002756BC /* AYSettingController.m in Sources */,
+				708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
 				700693001CC4A1C600B511FF /* AYCameraRollController.m in Sources */,
 				708E52841CC53BC4008A6023 /* AYCameraInitCommand.m in Sources */,
@@ -4043,6 +4084,7 @@
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				709949A81CC299DF00078A5B /* AYFoundController.m in Sources */,
+				708E52A01CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m in Sources */,
 				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
 				70CDF61A1CBCC3AF00311841 /* AYContentQueryRemoteFacade.m in Sources */,
 				7025109F1CC0F5AB00DADF2B /* NotificationOwner.m in Sources */,

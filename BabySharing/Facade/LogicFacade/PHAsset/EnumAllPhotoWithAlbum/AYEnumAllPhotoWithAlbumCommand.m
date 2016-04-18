@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/Photos.h>
+#import <objc/runtime.h>
+#import "AYRemoteCallDefines.h"
+#import "Tools.h"
 
 @implementation AYEnumAllPhotoWithAlbumCommand
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
@@ -19,6 +22,17 @@
     if (fetchResult.count == 0) {
         return;
     }
+    
+    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
+    
+    UIViewController* cur = [Tools activityViewController];
+    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
+    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+    if (m) {
+        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+        func(cur, sel, name);
+    }
+    
     dispatch_queue_t queue = dispatch_queue_create("getThumbnailImage", nil);
     //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
@@ -45,6 +59,13 @@
             [dic setValue:imageArr forKey:@"images"];
             [dic setValue:assetArr forKey:@"assets"];
             block(YES, [dic copy]);
+            
+            SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
+            Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+            if (m) {
+                id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+                func(cur, sel, name);
+            }
         });
     });
 }

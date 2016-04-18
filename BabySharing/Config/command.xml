@@ -67,6 +67,9 @@
     <command type="Module" name="StillImageCaptureStart" factory="AYDefaultModuleFactory" />
     <command type="Module" name="StillImageCaptureStop" factory="AYDefaultModuleFactory" />
     <command type="Module" name="StillImageCaptureView" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureChangeCamera" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureChangeFlash" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="StillImageCaptureTake" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

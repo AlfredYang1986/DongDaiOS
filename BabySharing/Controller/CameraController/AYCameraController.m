@@ -14,6 +14,7 @@
 #import "AYFacadeBase.h"
 #import "AYDongDaSegDefines.h"
 #import "OBShapedButton.h"
+#import "AYRemoteCallCommand.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -142,6 +143,7 @@
         [f_btn_2 addTarget:self action:@selector(didChangeFreshLight) forControlEvents:UIControlEventTouchDown];
         f_btn_2.center = CGPointMake(FUNCTION_BAR_BTN_MARGIN + FUNCTION_BAR_BTN_WIDTH / 2, FUNCTION_BAR_HEIGHT / 2);
         [view addSubview:f_btn_2];
+        f_btn_2.tag = -99;
         //    isFlash = NO;
         flashMode = AVCaptureFlashModeOff;
     }
@@ -231,6 +233,10 @@
     return nil;
 }
 
+- (id)funcBtnSelected:(id)args {
+    return nil;
+}
+
 - (id)segValueChanged:(id)obj {
     
     id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
@@ -252,14 +258,40 @@
 
 #pragma mark -- actions
 - (void)didSelectTakePicBtn {
-    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"StillImageCapture"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"StillImageCaptureTake"];
+    [cmd performWithResult:nil andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        UIImage* img = (UIImage*)result;
+    }];
 }
 
 - (void)didChangeCameraBtn {
-    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"StillImageCapture"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"StillImageCaptureChangeCamera"];
+    [cmd performWithResult:nil];
 }
 
 - (void)didChangeFreshLight {
-    
+    NSNumber* result = [NSNumber numberWithInt:flashMode];
+    id<AYFacadeBase> f = [self.facades objectForKey:@"StillImageCapture"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"StillImageCaptureChangeFlash"];
+    [cmd performWithResult:&result];
+    flashMode = result.intValue;
+   
+    UIView* func = [self.views objectForKey:@"FunctionBar"];
+    UIButton* btn = [func viewWithTag:-99];
+    switch (flashMode) {
+        case AVCaptureFlashModeOff:
+            [btn setBackgroundImage:PNGRESOURCE(@"post_flash_off") forState:UIControlStateNormal];
+            break;
+        case AVCaptureFlashModeOn:
+            [btn setBackgroundImage:PNGRESOURCE(@"post_flash_on") forState:UIControlStateNormal];
+            break;
+        case AVCaptureFlashModeAuto:
+            [btn setBackgroundImage:PNGRESOURCE(@"post_flash_auto") forState:UIControlStateNormal];
+            break;
+        default:
+            break;
+    }
 }
 @end
