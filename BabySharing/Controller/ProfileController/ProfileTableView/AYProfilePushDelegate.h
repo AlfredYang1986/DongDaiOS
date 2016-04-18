@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYAlbumDelegate.h"
+#import "AYAlbumBaseDelegate.h"
 
-@interface AYProfilePushDelegate : AYAlbumDelegate
+@interface AYProfilePushDelegate : AYAlbumBaseDelegate
 
 @end

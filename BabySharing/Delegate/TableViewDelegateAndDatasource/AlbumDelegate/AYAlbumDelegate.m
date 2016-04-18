@@ -7,55 +7,16 @@
 //
 
 #import "AYAlbumDelegate.h"
+
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 
-#import "QueryContent.h"
-#import "QueryContentItem.h"
 #import "AYAlbumDefines.h"
 #import "AYQueryModelDefines.h"
 
-@implementation AYAlbumDelegate
-#pragma mark -- command
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
-
-@synthesize querydata = _querydata;
-
-- (void)postPerform {
-    
-}
-
-- (void)performWithResult:(NSObject**)obj {
-    
-}
-
-- (NSString*)getCommandType {
-    return kAYFactoryManagerCommandTypeModule;
-}
-
-- (NSString*)getViewType {
-    return kAYFactoryManagerCatigoryDelegate;
-}
-
-- (NSString*)getViewName {
-    return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-#pragma mark -- message
-- (id)changeQueryData:(id)obj {
-    _querydata = obj;
-    return nil;
-}
-
-#pragma mark -- table
-#define PHOTO_PER_LINE  3
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //    return (querydata.count / PHOTO_PER_LINE) + 1;
-    return (_querydata.count / PHOTO_PER_LINE) + (_querydata.count % PHOTO_PER_LINE != 0);
+@implementation AYAlbumDelegate {
+    NSArray* pHAssets;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -71,8 +32,8 @@
         id<AYCommand> cmd_info = [cell.commands objectForKey:@"setCellInfo:"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
+        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginLeftKey];
+        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginRightKey];
         [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
         [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
         [cmd_info performWithResult:&dic];
@@ -80,29 +41,12 @@
 #define PHOTO_PER_LINE 3
     {
         NSInteger row = indexPath.row;
-        NSMutableArray* arr_content = nil;
+        NSArray* arr_content = nil;
         @try {
-            NSArray* arr_tmp = [_querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, PHOTO_PER_LINE)]];
-            arr_content = [[NSMutableArray alloc] initWithCapacity:PHOTO_PER_LINE];
-            for (QueryContent* item in arr_tmp) {
-                for (QueryContentItem * cur in item.items) {
-                    if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
-                        [arr_content addObject:cur.item_name];
-                        break;
-                    }
-                }
-            }
+            arr_content = [self.querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, PHOTO_PER_LINE)]];
+        
         } @catch (NSException *exception) {
-            NSArray* arr_tmp = [_querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, _querydata.count - row * PHOTO_PER_LINE)]];
-            arr_content = [[NSMutableArray alloc]initWithCapacity:PHOTO_PER_LINE];
-            for (QueryContent* item in arr_tmp) {
-                for (QueryContentItem *cur in item.items) {
-                    if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
-                        [arr_content addObject:cur.item_name];
-                        break;
-                    }
-                }
-            }
+            arr_content = [self.querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, self.querydata.count - row * PHOTO_PER_LINE)]];
         }
         
         id<AYCommand> cmd_item = [cell.commands objectForKey:@"setUpItems:"];
@@ -118,25 +62,12 @@
     return (UITableViewCell*)cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYViewBase> v = VIEW(kAYAlbumTableCellName, kAYAlbumTableCellName);
-    {
-        id<AYCommand> cmd_info = [v.commands objectForKey:@"setCellInfo:"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
-        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
-        [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
-        [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
-        [cmd_info performWithResult:&dic];
-    }
-    
-    id<AYCommand> cmd_height = [v.commands objectForKey:@"queryPerferedHeight"];
-    NSNumber* height = nil;
-    [cmd_height performWithResult:&height];
-    return height.floatValue;
+#pragma mark -- notifications
+- (id)changeQueryData:(id)args {
+    NSDictionary* tmp = (NSDictionary*)args;
+    self.querydata = [tmp objectForKey:@"images"];
+    pHAssets = [tmp objectForKey:@"assets"];
+    return nil;
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
 @end

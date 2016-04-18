@@ -24,7 +24,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionShowModuleUpValue]) {
-        @throw [[NSException alloc]initWithName:@"error" reason:@"show module up command 只能出来push 操作" userInfo:nil];
+        @throw [[NSException alloc]initWithName:@"error" reason:@"show module up command 只能出来show module up 操作" userInfo:nil];
     }
     
     AYViewController* src = [dic objectForKey:kAYControllerActionSourceControllerKey];

@@ -116,8 +116,8 @@
     NSLog(@"select tab %@", item.title);
     
     if ([item.title isEqualToString:@"Post"]) {
-//        [self showCameraControllerOnController:self];
-        NSLog(@"post selected");
+        [self showAlbumRollController];
+        
     } else {
 //        int count = [GotyeOCAPI getTotalUnreadMessageCount];
 //        if (count > 0) {
@@ -146,5 +146,19 @@
     for (UIViewController * iter in viewControllers) {
         NSLog(@"%@", iter.title);
     }
+}
+
+#pragma mark -- actions
+- (void)showAlbumRollController {
+   
+    AYViewController* des = DEFAULTCONTROLLER(@"CameraRoll");
+    
+    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+    [dic_show_module setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+    [cmd_show_module performWithResult:&dic_show_module];
 }
 @end

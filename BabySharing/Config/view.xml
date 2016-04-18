@@ -123,6 +123,17 @@
         <command type="message" message="resetItemInfo:" />
         <command type="notify" message="segValueChanged:" />
     </view>
+
+    <view type="DropDownList" name="DropDownList" factory="AYDefaultViewFactory" >
+        <command type="message" message="setListInfo:" />
+        <command type="message" message="setTitle:" />
+        <command type="notify" message="showDropDownList:" />
+        <command type="notify" message="itemDidSelected:" />
+    </view>
+    
+    <view type="FunctionBar" name="FunctionBar" factory="AYDefaultViewFactory" >
+        <command type="notify" message="funcBtnSelected:" />
+    </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />

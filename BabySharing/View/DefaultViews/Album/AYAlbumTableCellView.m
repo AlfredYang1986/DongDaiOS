@@ -66,7 +66,14 @@
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageSubViewTaped:)];
         tap.numberOfTapsRequired = 1;
         [tmp addGestureRecognizer:tap];
-        [tmp setShowingPhotoWithName:[image_arr objectAtIndex:index]];
+        
+        id input_content = [image_arr objectAtIndex:index];
+        if ([input_content isKindOfClass:[NSString class]]) {
+            [tmp setShowingPhotoWithName:[image_arr objectAtIndex:index]];
+        } else if ([input_content isKindOfClass:[UIImage class]]) {
+            tmp.image = input_content;
+        }
+        
         tmp.row = row;
         tmp.col = index;
         
@@ -431,17 +438,17 @@
     int row = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellRowKey]).intValue;
     AlbumControllerType act = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellControllerTypeKey]).intValue;
     
-    AlbumTableCellType t = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellTypeKey]).intValue;
-    switch (t) {
-        case AlbumTableCellTypeImage:
+//    AlbumTableCellType t = ((NSNumber*)[dic objectForKey:kAYAlbumTableCellTypeKey]).intValue;
+//    switch (t) {
+//        case AlbumTableCellTypeImage:
             [view setUpContentViewWithImageNames:arr_content atLine:row andType:act];
-            break;
-        case AlbumTableCellTypeUrl:
+//            break;
+//        case AlbumTableCellTypeUrl:
 //            [self setUpContentViewWithImageURLs2:content_arr atLine:row andType:act];
-            break;
-        default:
-            break;
-    }
+//            break;
+//        default:
+//            break;
+//    }
     
     return  nil;
 }

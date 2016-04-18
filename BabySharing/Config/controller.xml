@@ -207,4 +207,18 @@
         <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" />
         <delegate type="TableViewDelegateAndDatasource" name="FoundTags" />
     </controller>
+
+    <controller type="DefaultController" name="CameraRoll" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="PHAsset" notification="true" />
+        
+        <view type="FakeStatusBar" name="FakeStatusBar" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="Table" name="Table" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="FunctionBar" name="FunctionBar" />
+        <view type="DropDownList" name="DropDownList" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="Album" />
+    </controller>
 </controllers>

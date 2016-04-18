@@ -72,4 +72,8 @@
         <command type="message" message="changePreviewData:" />
         <command type="notify" message="scrollToHideKeyBoard" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="Album" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>
