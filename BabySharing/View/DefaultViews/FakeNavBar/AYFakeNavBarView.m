@@ -60,6 +60,11 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+- (void)layoutSubviews {
+    leftBtn.center = CGPointMake(leftBtn.center.x, self.frame.size.height / 2);
+    rightBtn.center = CGPointMake(rightBtn.center.x, self.frame.size.height / 2);
+}
+
 #pragma mark -- 
 - (id)setTitleText:(id)args {
     return nil;

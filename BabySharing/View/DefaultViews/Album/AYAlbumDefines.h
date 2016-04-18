@@ -35,4 +35,7 @@ static NSString* const kAYAlbumTableCellSelfKey = @"AlbumTableCellSelf";
 static NSString* const kAYAlbumTableCellRowKey = @"AlbumTableCellRow";
 static NSString* const kAYAlbumTableCellControllerTypeKey = @"AlbumTableCellControllerType";
 
+static NSString* const kAYAlbumTableCellSelectedIndexKey = @"AlbumTableCellSelectedIndexKey";
+static NSString* const kAYAlbumTableCellUnSelectedIndexKey = @"AlbumTableCellUnSelectedIndexKey";
+
 #endif /* AYAlbumDefines_h */

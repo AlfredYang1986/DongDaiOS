@@ -35,7 +35,9 @@
             asset = [fetchResult objectAtIndex:i];
             [assetArr addObject:asset];
             [imageManager requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage *result, NSDictionary *info) {
-                [imageArr addObject:result];
+                if (result) {
+                    [imageArr addObject:result];
+                }
             }];
         }
         dispatch_async(dispatch_get_main_queue(), ^{

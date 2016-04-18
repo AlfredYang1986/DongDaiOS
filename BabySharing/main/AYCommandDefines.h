@@ -33,6 +33,7 @@ static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
 static NSString* const kAYFactoryManagerCommandTypePopToRoot = @"PopToRoot";
 static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
 static NSString* const kAYFactoryManagerCommandTypeShowModuleUp = @"ShowModuleUp";
+static NSString* const kAYFactoryManagerCommandTypeReversModule = @"ReversModule";
 static NSString* const kAYFactoryManagerCommandTypeAlertView = @"AlertView";
 static NSString* const kAYFactoryManagerCommandTypeAPN = @"APN";
 static NSString* const kAYFactoryManagerCommandTypeDefaultController = @"DefaultController";
@@ -51,6 +52,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define POPTOROOT               COMMAND(kAYFactoryManagerCommandTypePopToRoot, kAYFactoryManagerCommandTypePopToRoot)
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
+#define REVERSMODULE            COMMAND(kAYFactoryManagerCommandTypeReversModule, kAYFactoryManagerCommandTypeReversModule)
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]

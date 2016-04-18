@@ -7,7 +7,8 @@
     <command type="ShowModule" name="ShowModule" factory="AYControllerExchangFactory" />
     <command type="ShowModuleUp" name="ShowModuleUp" factory="AYControllerExchangFactory" />
     <command type="PopToRoot" name="PopToRoot" factory="AYControllerExchangFactory" />
-    
+    <command type="ReversModule" name="ReversModule" factory="AYControllerExchangFactory" />
+
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
@@ -56,9 +57,9 @@
     <command type="Module" name="ProfileInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="PlaceHolderInit" factory="AYDefaultModuleFactory" />
 
-    <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />/>
-    <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />/>
-    <command type="Remote" name="QueryRealPhoto" factory="AYDefaultModuleFactory" />/>
+    <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="QueryRealPhoto" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

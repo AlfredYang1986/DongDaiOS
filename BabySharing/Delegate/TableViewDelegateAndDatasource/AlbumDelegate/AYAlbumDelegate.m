@@ -62,6 +62,17 @@
     return (UITableViewCell*)cell;
 }
 
+#pragma mark -- scroll view delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    static CGFloat offset_origin_y = 0;
+    CGFloat offset_now_y = scrollView.contentOffset.y;
+    if (offset_now_y - offset_origin_y > 30) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"scrollForMoreSize"];
+        [cmd performWithResult:nil];
+    }
+    offset_origin_y = offset_now_y;
+}
+
 #pragma mark -- notifications
 - (id)changeQueryData:(id)args {
     NSDictionary* tmp = (NSDictionary*)args;

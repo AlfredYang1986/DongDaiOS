@@ -20,15 +20,21 @@
 
 #define PHOTO_PER_LINE  3
 //#define FAKE_NAVIGATION_BAR_HEIGHT  49
-#define FAKE_NAVIGATION_BAR_HEIGHT  44
-#define FAKE_STATUS_BAR_HEIGHT  20
+#define FAKE_NAVIGATION_BAR_HEIGHT  64
 #define FUNCTION_BAR_HEIGHT 22
 
 @implementation AYCameraRollController {
-    UIView* mainContaintView;
+    UIView* mainContentView;
     BOOL isMainContentViewShown;
     CALayer* contentLayer;
     NSInteger current_index;
+    
+    CGPoint point;
+    CGFloat last_scale;
+    UIImage *img;
+    NSURL* cur_movie_url;
+    
+    NSDictionary* fetch;
 }
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -54,13 +60,32 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
    
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat img_height = width;
+
     isMainContentViewShown = YES;
     current_index = 0;
+    contentLayer = [CALayer layer];
+    
+    mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, width, img_height)];
+    mainContentView.backgroundColor = [UIColor clearColor];
+    mainContentView.userInteractionEnabled = YES;
+    mainContentView.clipsToBounds = YES;
+    [self.view addSubview:mainContentView];
+    [mainContentView.layer addSublayer:contentLayer];
+                        
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [mainContentView addGestureRecognizer:pan];
+                            
+    UIPinchGestureRecognizer* pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(handlePinch:)];
+    [mainContentView addGestureRecognizer:pinch];
+    
+    [self.view sendSubviewToBack:mainContentView];
     
     UIView* nav = [self.views objectForKey:@"FakeNavBar"];
     UIView* drop = [self.views objectForKey:@"DropDownList"];
     [nav addSubview:drop];
-    
+   
     {
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -76,10 +101,6 @@
         id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_hot_cell performWithResult:&class_name];
-        
-//        id<AYCommand> cmd_change = [cmd_pubish.commands objectForKey:@"changeQueryData:"];
-//        NSArray* arr = [self enumLocalHomeContent];
-//        [cmd_change performWithResult:&arr];
     }
     
     {
@@ -95,7 +116,11 @@
             id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"Album"];
             id<AYCommand> cmd_change = [cmd_delegate.commands objectForKey:@"changeQueryData:"];
             id arr = (id)result;
+            fetch = result;
             [cmd_change performWithResult:&arr];
+        
+            // todo: ...
+            [self performSelector:@selector(setInitPhoto)];
             
             id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
             id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
@@ -116,6 +141,19 @@
     return YES;
 }
 
+- (void)setInitPhoto {
+    id<AYFacadeBase> f_ph = [self.facades objectForKey:@"PHAsset"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[[fetch objectForKey:@"assets"] objectAtIndex:current_index] forKey:@"asset"];
+    AYRemoteCallCommand* cmd_real_photo = [f_ph.commands objectForKey:@"QueryRealPhoto"];
+    [cmd_real_photo performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        img = (UIImage*)result;
+        last_scale = MAX(mainContentView.frame.size.width /  img.size.width, contentLayer.frame.size.height / img.size.height);
+        contentLayer.frame = CGRectMake(0, 0, img.size.width * last_scale, img.size.height * last_scale);
+        contentLayer.contents = (id)img.CGImage;
+    }];
+}
+
 #pragma mark -- layouts
 - (id)TableLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -134,20 +172,26 @@
     CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + img_height;//width * aspectRatio;
     view.frame = CGRectMake(0, height - FUNCTION_BAR_HEIGHT, width, FUNCTION_BAR_HEIGHT);
     view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
+   
+    CALayer* round_bottom = [CALayer layer];
+    round_bottom.frame = CGRectMake(0, 0, 24, 20);
+    round_bottom.contents = (id)PNGRESOURCE(@"post_three_line").CGImage;
+    round_bottom.position = CGPointMake(view.frame.size.width / 2, view.frame.size.height / 2);
+    [view.layer addSublayer:round_bottom];
     
     return nil;
 }
 
 - (id)FakeStatusBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, FAKE_STATUS_BAR_HEIGHT);
+    view.frame = CGRectMake(0, 0, width, FUNCTION_BAR_HEIGHT);
     view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, FAKE_STATUS_BAR_HEIGHT, width, FAKE_NAVIGATION_BAR_HEIGHT);
+    view.frame = CGRectMake(0, 0, width, FAKE_NAVIGATION_BAR_HEIGHT);
     view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     
     {
@@ -221,9 +265,11 @@
 
 #pragma mark -- notifications
 - (id)leftBtnSelected {
-    [self dismissViewControllerAnimated:YES completion:^{
-    
-    }];
+    id<AYCommand> cmd = REVERSMODULE;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [cmd performWithResult:&dic];
     return nil;
 }
 
@@ -232,12 +278,17 @@
 }
 
 - (id)segValueChanged:(id)obj {
+    id<AYCommand> cmd = REVERSMODULE;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [cmd performWithResult:&dic];
     return nil;
 }
 
 - (id)showDropDownList:(id)obj {
     UIView* tableview = (UIView*)obj;
-    tableview.frame = CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT + FAKE_STATUS_BAR_HEIGHT, tableview.bounds.size.width, tableview.bounds.size.height);
+    tableview.frame = CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, tableview.bounds.size.width, tableview.bounds.size.height);
     [self.view addSubview:tableview];
 //    [self.view bringSubviewToFront:bar];
     return nil;
@@ -246,6 +297,46 @@
 - (id)queryIsGridSelected:(id)obj {
     NSInteger index = ((NSNumber*)obj).integerValue;
     return [NSNumber numberWithBool:current_index == index];
+}
+
+- (id)selectedValueChanged:(id)obj {
+    
+    UITableView* view_table = [self.views objectForKey:@"Table"];
+   
+    NSNumber* old = [NSNumber numberWithInteger:current_index];
+    NSNumber* new_current = [NSNumber numberWithInteger:((NSNumber*)obj).integerValue];
+    
+    if (current_index != new_current.integerValue) {
+        
+        NSInteger old_row = current_index / 3;
+        NSIndexPath* old_index = [NSIndexPath indexPathForRow:old_row inSection:0];
+        id<AYViewBase> old_view = [view_table cellForRowAtIndexPath:old_index];
+        id<AYCommand> old_cmd = [old_view.commands objectForKey:@"unSelectAtIndex:"];
+        [old_cmd performWithResult:&old];
+        
+        current_index = ((NSNumber*)obj).integerValue;
+
+        NSInteger new_row = current_index / 3;
+        NSIndexPath* new_index = [NSIndexPath indexPathForRow:new_row inSection:0];
+        id<AYViewBase> new_view = [view_table cellForRowAtIndexPath:new_index];
+        id<AYCommand> new_cmd = [new_view.commands objectForKey:@"unSelectAtIndex:"];
+        [new_cmd performWithResult:&new_current];
+       
+        [view_table reloadRowsAtIndexPaths:@[old_index, new_index] withRowAnimation:UITableViewRowAnimationNone];
+     
+        id<AYFacadeBase> f_ph = [self.facades objectForKey:@"PHAsset"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[[fetch objectForKey:@"assets"] objectAtIndex:current_index] forKey:@"asset"];
+        AYRemoteCallCommand* cmd_real_photo = [f_ph.commands objectForKey:@"QueryRealPhoto"];
+        [cmd_real_photo performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            img = (UIImage*)result;
+            last_scale = MAX(mainContentView.frame.size.width /  img.size.width, contentLayer.frame.size.height / img.size.height);
+            contentLayer.frame = CGRectMake(0, 0, img.size.width * last_scale, img.size.height * last_scale);
+            contentLayer.contents = (id)img.CGImage;
+        }];
+    }
+    
+    return nil;
 }
 
 - (id)funcBtnSelected:(id)obj {
@@ -282,5 +373,123 @@
         }];
     }
     return nil;
+}
+
+- (id)scrollForMoreSize {
+    static const CGFloat kAnimationDuration = 0.3f; // in seconds
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGRect f_bar_end = CGRectMake(0, FUNCTION_BAR_TOP_MARGIN, width, FUNCTION_BAR_HEIGHT);
+    
+    CGFloat tab_bar_height_offset = [UIScreen mainScreen].bounds.size.height - SEG_HEIGHT;
+    CGRect table_view_end = CGRectMake(0, FUNCTION_BAR_HEIGHT + FUNCTION_BAR_TOP_MARGIN, width, tab_bar_height_offset - FUNCTION_BAR_HEIGHT - FUNCTION_BAR_TOP_MARGIN);
+    
+    UIView* f_bar = [self.views objectForKey:@"FunctionBar"];
+    UIView* albumView = [self.views objectForKey:@"Table"];
+    UIView* nav = [self.views objectForKey:@"FakeNavBar"];
+    
+    if (isMainContentViewShown) {
+        [UIView animateWithDuration:kAnimationDuration animations:^{
+            f_bar.frame = f_bar_end;
+            albumView.frame = table_view_end;
+        } completion:^(BOOL finished) {
+            isMainContentViewShown = NO;
+            nav.hidden = YES;
+        }];
+    }
+    return nil;
+}
+
+#pragma mark -- handle gesture
+- (void)handlePan:(UIPanGestureRecognizer*)gesture {
+    NSLog(@"pan gesture");
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"begin");
+        point = [gesture translationInView:self.view];
+        
+    } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"end");
+        point = CGPointMake(-1, -1);
+        CGFloat move_x = [self distanceMoveHer];
+        CGFloat move_y = [self distanceMoveVer];
+//        [self moveView:move_x and:move_y];
+        [CATransaction begin];
+        contentLayer.position = CGPointMake(move_x + contentLayer.position.x, move_y + contentLayer.position.y);
+        [CATransaction commit];
+        
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"changed");
+        CGPoint newPoint = [gesture translationInView:mainContentView];
+        
+        contentLayer.position = CGPointMake(contentLayer.position.x + (newPoint.x - point.x), contentLayer.position.y + (newPoint.y - point.y));
+        point = newPoint;
+    }
+}
+
+- (CGFloat)distanceMoveVer {
+    CGFloat top_margin = 0;
+    if (contentLayer.frame.origin.y > top_margin)
+        return -contentLayer.frame.origin.y + top_margin;
+    else if (contentLayer.frame.origin.y + contentLayer.frame.size.height < mainContentView.frame.size.height)
+        return mainContentView.frame.size.height - (contentLayer.frame.origin.y + contentLayer.frame.size.height);
+    else return 0;
+}
+
+- (CGFloat)distanceMoveHer {
+    
+    if (contentLayer.frame.origin.x > 0)
+        return -contentLayer.frame.origin.x;
+    else if (contentLayer.frame.origin.x + contentLayer.frame.size.width < mainContentView.frame.size.width)
+        return mainContentView.frame.size.width - (contentLayer.frame.origin.x + contentLayer.frame.size.width);
+    else return 0;
+}
+
+#pragma mark -- scale the pic
+- (void)handlePinch:(UIPinchGestureRecognizer*)gesture {
+    NSLog(@"pinch gesture");
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"begin");
+        
+    } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        [self checkScale];
+        
+        last_scale = MAX(mainContentView.frame.size.width /  img.size.width, mainContentView.frame.size.height / img.size.height);
+        
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"changed");
+        //        mainContentPhotoLayer.transform = CGAffineTransformScale(mainContentPhotoLayer.transform, gesture.scale,gesture.scale);
+        CGPoint cp = contentLayer.position;
+        CGFloat scale = 1 + (gesture.scale - 1) * 0.1;
+        contentLayer.frame = CGRectMake(contentLayer.frame.origin.x, contentLayer.frame.origin.y, contentLayer.frame.size.width * scale, contentLayer.frame.size.height * scale);
+        contentLayer.position = cp;
+    }
+}
+
+- (void)checkScale {
+    CGFloat top_margin = 0;
+    if (contentLayer.bounds.size.width > contentLayer.bounds.size.height) {
+        if (contentLayer.frame.size.height < mainContentView.frame.size.height) {
+            CGFloat width = (mainContentView.frame.size.height - top_margin) / contentLayer.frame.size.height * contentLayer.frame.size.width;
+            [self scaleView:contentLayer.frame and:CGRectMake(0, top_margin, width, mainContentView.frame.size.height)];
+        }
+    } else {
+        if (contentLayer.frame.size.width < mainContentView.frame.size.width) {
+            CGFloat height = mainContentView.frame.size.width / contentLayer.frame.size.width * contentLayer.frame.size.height;
+            [self scaleView:contentLayer.frame and:CGRectMake(0, top_margin, mainContentView.frame.size.width, height - top_margin)];
+        }
+    }
+}
+
+- (void)scaleView:(CGRect)frame_old and:(CGRect)frame_new {
+    
+    [CATransaction begin];
+    contentLayer.frame = frame_new;
+    [CATransaction setCompletionBlock:^{
+        CGFloat move_x = [self distanceMoveHer];
+        CGFloat move_y = [self distanceMoveVer];
+        [CATransaction begin];
+        contentLayer.position = CGPointMake(move_x + contentLayer.position.x, move_y + contentLayer.position.y);
+        [CATransaction commit];
+    }];
+    [CATransaction commit];
 }
 @end

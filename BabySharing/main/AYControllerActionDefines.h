@@ -18,6 +18,7 @@ static NSString* const kAYControllerActionPopValue = @"controller pop";
 static NSString* const kAYControllerActionPopToRootValue = @"controller pop to root";
 static NSString* const kAYControllerActionShowModuleValue = @"controller show model";
 static NSString* const kAYControllerActionShowModuleUpValue = @"controller show model up";
+static NSString* const kAYControllerActionReversModuleValue = @"controller revers model up";
 
 static NSString* const kAYControllerActionModelTypeKey = @"what kind of model";
 

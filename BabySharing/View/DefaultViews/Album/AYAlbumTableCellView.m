@@ -299,8 +299,11 @@
 }
 
 #pragma mark -- tap actions
-- (void)imageSubViewTaped:(id)sender {
-
+- (void)imageSubViewTaped:(UITapGestureRecognizer*)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"selectedValueChanged:"];
+    AlbumGridCell* tmp = (AlbumGridCell*)sender.view;
+    id args = [NSNumber numberWithInteger:tmp.row * 3 + tmp.col];
+    [cmd performWithResult:&args];
 }
 
 //#pragma mark -- tap actions
@@ -454,7 +457,14 @@
 }
 
 - (id)selectAtIndex:(id)obj {
-    [self selectedAtIndex:((NSNumber*)obj).intValue];
+    NSInteger index = ((NSNumber*)obj).integerValue;
+    [self selectedAtIndex:index % 3];
+    return nil;
+}
+
+- (id)unSelectAtIndex:(id)obj {
+    NSInteger index = ((NSNumber*)obj).integerValue;
+    ((AlbumGridCell*)[image_view objectAtIndex:index % 3]).viewSelected = NO;
     return nil;
 }
 

@@ -33,6 +33,7 @@
 		7006932C1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7006932B1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m */; };
 		700693301CC4DD0600B511FF /* AYQueryRealPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7006932F1CC4DD0600B511FF /* AYQueryRealPhotoCommand.m */; };
 		700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700693321CC4E80A00B511FF /* AYAlbumBaseDelegate.m */; };
+		700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700693351CC4F78E00B511FF /* AYReversModuleCommand.m */; };
 		700BE5971CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5961CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m */; };
 		700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */ = {isa = PBXBuildFile; fileRef = 700BE5991CBA1B4E00A09B3A /* delegate.xml */; };
 		700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE59D1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m */; };
@@ -422,6 +423,8 @@
 		7006932F1CC4DD0600B511FF /* AYQueryRealPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryRealPhotoCommand.m; sourceTree = "<group>"; };
 		700693311CC4E80A00B511FF /* AYAlbumBaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlbumBaseDelegate.h; sourceTree = "<group>"; };
 		700693321CC4E80A00B511FF /* AYAlbumBaseDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlbumBaseDelegate.m; sourceTree = "<group>"; };
+		700693341CC4F78E00B511FF /* AYReversModuleCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReversModuleCommand.h; sourceTree = "<group>"; };
+		700693351CC4F78E00B511FF /* AYReversModuleCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReversModuleCommand.m; sourceTree = "<group>"; };
 		700BE5951CBA179F00A09B3A /* AYRoleTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRoleTagRecommendDelegate.h; sourceTree = "<group>"; };
 		700BE5961CBA179F00A09B3A /* AYRoleTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagRecommendDelegate.m; sourceTree = "<group>"; };
 		700BE5991CBA1B4E00A09B3A /* delegate.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = delegate.xml; sourceTree = "<group>"; };
@@ -2812,6 +2815,8 @@
 				700BE5B31CBA606800A09B3A /* AYShowModuleUpCommand.m */,
 				700BE5B51CBA65A500A09B3A /* AYPopToRootCommand.h */,
 				700BE5B61CBA65A500A09B3A /* AYPopToRootCommand.m */,
+				700693341CC4F78E00B511FF /* AYReversModuleCommand.h */,
+				700693351CC4F78E00B511FF /* AYReversModuleCommand.m */,
 			);
 			path = ControllerExchangeCommand;
 			sourceTree = "<group>";
@@ -3795,6 +3800,7 @@
 				70CDF6371CBD033900311841 /* QueryContent+ContextOpt.m in Sources */,
 				703B89751CBF9F62002EBB18 /* AYAddFriendController.m in Sources */,
 				701524811CBF9AB4005B4C5B /* MJRefreshAutoNormalFooter.m in Sources */,
+				700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */,
 				7015248A1CBF9AB4005B4C5B /* MJRefreshStateHeader.m in Sources */,
 				7015248E1CBF9AB4005B4C5B /* UIScrollView+MJRefresh.m in Sources */,
 				70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */,
