@@ -11,6 +11,13 @@
         <command type="Module" name="LoginSNSWithWeibo" />
     </facade>
 
+    <facade type="DefaultFacade" name="StillImageCapture" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="StillImageCaptureInit" />
+        <command type="Module" name="StillImageCaptureStart" />
+        <command type="Module" name="StillImageCaptureStop" />
+        <command type="Module" name="StillImageCaptureView" />
+    </facade>
+
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="EnumAlbumName" />
         <command type="Remote" name="EnumAllPhotoWithAlbum" />

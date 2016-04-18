@@ -1,19 +1,18 @@
 //
-//  AYFoundInitCommand.m
+//  AYCameraInitCommand.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 4/10/16.
+//  Created by Alfred Yang on 4/18/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYCameraRollInitCommand.h"
-
+#import "AYCameraInitCommand.h"
 #import "AYCommandDefines.h"
 #import "AYNavigationController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
 
-@implementation AYCameraRollInitCommand
+@implementation AYCameraInitCommand
 @synthesize para = _para;
 
 - (void)postPerform {
@@ -21,11 +20,11 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    UIViewController* controller = DEFAULTCONTROLLER(@"CameraRoll");
+    UIViewController* controller = DEFAULTCONTROLLER(@"Camera");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
-   
+    
     [rootContorller setNavigationBarHidden:YES animated:NO];
     *obj = rootContorller;
 }

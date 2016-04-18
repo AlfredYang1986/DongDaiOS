@@ -226,7 +226,7 @@
 }
 
 #define SEG_BTN_MARGIN_BETWEEN          45
-#define SEG_HEIGHT                      49
+#define SEG_HEIGHT                      44
 - (id)DongDaSegLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat screen_height = [UIScreen mainScreen].bounds.size.height;
@@ -274,15 +274,27 @@
 }
 
 - (id)rightBtnSelected {
+    
+    
     return nil;
 }
 
 - (id)segValueChanged:(id)obj {
-    id<AYCommand> cmd = REVERSMODULE;
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [cmd performWithResult:&dic];
+    
+    id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
+    id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd performWithResult:&index];
+    
+    if (index.integerValue != 0) {
+        id<AYCommand> cmd = REVERSMODULE;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:index forKey:kAYControllerChangeArgsKey];
+        [cmd performWithResult:&dic];
+    }
+
     return nil;
 }
 

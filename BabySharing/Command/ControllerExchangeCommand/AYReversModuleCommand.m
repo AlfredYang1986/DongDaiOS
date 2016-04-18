@@ -34,9 +34,9 @@
     [source dismissViewControllerAnimated:YES completion:^{
         id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
         if (tmp != nil) {
-            AYViewController* des = (AYViewController*)[Tools activityViewController];
+            AYViewController* des = (AYViewController*)([Tools activityViewController].tabBarController);
             NSMutableDictionary* dic_back =[[NSMutableDictionary alloc]init];
-            [dic_back setValue:kAYControllerActionPopBackValue forKey:kAYControllerActionKey];
+            [dic_back setValue:kAYControllerActionInitValue forKey:kAYControllerActionKey];
             [dic_back setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
             [des performWithResult:&dic_back];
         }       

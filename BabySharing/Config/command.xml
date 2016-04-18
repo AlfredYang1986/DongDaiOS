@@ -56,10 +56,17 @@
     <command type="Module" name="FriendsInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ProfileInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="PlaceHolderInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CameraRollInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="QueryRealPhoto" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="StillImageCaptureInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureStart" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureStop" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureView" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

@@ -70,6 +70,8 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define HOMECONTENTMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"HomeQueryModel")
 #define CHATSESSIONMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ChatSessionModel")
 
+#define GPUSTILLIMAGECAPTURE    FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"StillImageCapture")
+
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])

@@ -1,5 +1,5 @@
 //
-//  AYCameraRollController.h
+//  AYCameraInitCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/18/16.
@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYViewController.h"
+#import "AYCommand.h"
 
-@interface AYCameraRollController : AYViewController
+@interface AYCameraInitCommand : NSObject<AYCommand>
 
 @end

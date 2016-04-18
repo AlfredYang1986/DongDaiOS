@@ -13,6 +13,8 @@
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
 @property (nonatomic, weak) id<AYViewBase> loading;
+
+- (void)clearController;
 @end
 
 #import "AYControllerActionDefines.h"

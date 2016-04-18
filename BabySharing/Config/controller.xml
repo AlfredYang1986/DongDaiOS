@@ -68,6 +68,8 @@
         <command type="Module" name="FriendsInit" />
         <command type="Module" name="ProfileInit" />
         <command type="Module" name="PlaceHolderInit" />
+        <command type="Module" name="CameraRollInit" />
+        <command type="Module" name="CameraInit" />
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
@@ -212,7 +214,6 @@
 
         <facade type="DefaultFacade" name="PHAsset" notification="true" />
         
-<!--        <view type="FakeStatusBar" name="FakeStatusBar" />-->
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Table" name="Table" />
         <view type="DongDaSeg" name="DongDaSeg" />
@@ -220,5 +221,18 @@
         <view type="DropDownList" name="DropDownList" />
 
         <delegate type="TableViewDelegateAndDatasource" name="Album" />
+    </controller>
+   
+    <controller type="DefaultController" name="Camera" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="StillImageCapture" notification="true" />
+       
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="FunctionBar" name="FunctionBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+    </controller>
+
+    <controller type="DefaultController" name="Movie" factory="AYDefaultControllerFactoy" >
     </controller>
 </controllers>
