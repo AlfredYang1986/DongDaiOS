@@ -25,6 +25,8 @@
 		7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB4A1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m */; };
 		7002DB4F1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB4E1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m */; };
 		7002DB541CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB531CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m */; };
+		7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB571CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m */; };
+		7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB5B1CC6173F0013FF2A /* MoviePlayTrait.m */; };
 		7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */; };
 		700692E71CC49A2C00B511FF /* AYFoundInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692DD1CC49A2C00B511FF /* AYFoundInitCommand.m */; };
 		700692E81CC49A2C00B511FF /* AYFriendsInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692E01CC49A2C00B511FF /* AYFriendsInitCommand.m */; };
@@ -431,6 +433,10 @@
 		7002DB4E1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordStopRecordCommand.m; sourceTree = "<group>"; };
 		7002DB521CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordDeleteRecordCommand.h; sourceTree = "<group>"; };
 		7002DB531CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordDeleteRecordCommand.m; sourceTree = "<group>"; };
+		7002DB561CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordMultipleMergeCommand.h; sourceTree = "<group>"; };
+		7002DB571CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordMultipleMergeCommand.m; sourceTree = "<group>"; };
+		7002DB5A1CC6173F0013FF2A /* MoviePlayTrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviePlayTrait.h; sourceTree = "<group>"; };
+		7002DB5B1CC6173F0013FF2A /* MoviePlayTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoviePlayTrait.m; sourceTree = "<group>"; };
 		7005D66C1CB68485004DE0E7 /* AYLocalImageWithNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocalImageWithNameCommand.h; sourceTree = "<group>"; };
 		7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocalImageWithNameCommand.m; sourceTree = "<group>"; };
 		700692DC1CC49A2C00B511FF /* AYFoundInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundInitCommand.h; sourceTree = "<group>"; };
@@ -1309,6 +1315,24 @@
 				7002DB531CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m */,
 			);
 			path = MovieRecordDeleteRecord;
+			sourceTree = "<group>";
+		};
+		7002DB551CC6168C0013FF2A /* MovieRecordMultipleMerge */ = {
+			isa = PBXGroup;
+			children = (
+				7002DB561CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.h */,
+				7002DB571CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m */,
+			);
+			path = MovieRecordMultipleMerge;
+			sourceTree = "<group>";
+		};
+		7002DB591CC6173F0013FF2A /* MoviePlayTrait */ = {
+			isa = PBXGroup;
+			children = (
+				7002DB5A1CC6173F0013FF2A /* MoviePlayTrait.h */,
+				7002DB5B1CC6173F0013FF2A /* MoviePlayTrait.m */,
+			);
+			path = MoviePlayTrait;
 			sourceTree = "<group>";
 		};
 		700692DB1CC49A2C00B511FF /* FoundInit */ = {
@@ -2898,6 +2922,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7002DB591CC6173F0013FF2A /* MoviePlayTrait */,
 				701524BC1CBFBE7B005B4C5B /* PhotoTagView */,
 				701524A01CBFBBA9005B4C5B /* libGPUImage */,
 				7015244A1CBF9AB4005B4C5B /* MJRefresh */,
@@ -3190,6 +3215,7 @@
 		708E52771CC53739008A6023 /* MovieRecord */ = {
 			isa = PBXGroup;
 			children = (
+				7002DB551CC6168C0013FF2A /* MovieRecordMultipleMerge */,
 				7002DB511CC610CA0013FF2A /* MovieRecordDeleteRecord */,
 				7002DB4C1CC60F680013FF2A /* MovieRecordStopRecord */,
 				7002DB481CC6089F0013FF2A /* MovieRecordStartRecord */,
@@ -3991,6 +4017,7 @@
 				70F369A41CC361F90067B62E /* AYQueryRecommandTagsCommand.m in Sources */,
 				7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */,
 				700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */,
+				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
 				709949B91CC2BB2500078A5B /* AYFoundRoleTagDelegate.m in Sources */,
 				7006932C1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m in Sources */,
@@ -4211,6 +4238,7 @@
 				709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
+				7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */,
 				70F3699F1CC361930067B62E /* AYQueryAllRoleTagsCommand.m in Sources */,
 				702510761CC0DD3300DADF2B /* AYGroupListController.m in Sources */,
 				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,

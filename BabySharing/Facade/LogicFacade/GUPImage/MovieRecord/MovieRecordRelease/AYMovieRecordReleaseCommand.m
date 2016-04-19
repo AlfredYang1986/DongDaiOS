@@ -26,6 +26,7 @@
     f.filterView = nil;
     f.filter = nil;
     f.videoCamera = nil;
+    f.trait = nil;
     
     for (NSURL* iter in f.movie_lst) {
         [TmpFileStorageModel deleteOneMovieFileWithUrl:iter];

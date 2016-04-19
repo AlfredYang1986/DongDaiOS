@@ -189,6 +189,13 @@
     return nil;
 }
 
+- (id)rightBtnSelected {
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordMultipleMerge"];
+    [cmd performWithResult:nil];
+    return nil;
+}
+
 #pragma mark -- actions
 - (void)didChangeCameraBtn {
     id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
@@ -251,6 +258,12 @@
     if (count == 0) {
         delete_current_movie_btn.hidden = YES;
     }
+    return nil;
+}
+
+- (id)DidMergeMovieRecord:(id)obj {
+    NSURL* url = (NSURL*)obj;
+    NSLog(@"final movie url is %@", url);
     return nil;
 }
 @end

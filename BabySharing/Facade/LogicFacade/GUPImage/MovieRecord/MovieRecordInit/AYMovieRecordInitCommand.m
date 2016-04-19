@@ -10,6 +10,7 @@
 #import "GPUImage.h"
 #import "AYMovieRecordFacade.h"
 #import "AYFactoryManager.h"
+#import "MoviePlayTrait.h"
 
 @implementation AYMovieRecordInitCommand
 @synthesize para = _para;
@@ -31,6 +32,7 @@
     [f.filter addTarget:f.filterView];
     
     f.movie_lst = [[NSMutableArray alloc]init];
+    f.trait = [[MoviePlayTrait alloc]init];
 }
 
 - (NSString*)getCommandType {

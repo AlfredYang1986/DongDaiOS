@@ -41,5 +41,6 @@ static NSString* const kAYNotifyCurrentUserLogout = @"LogoutCurrentUser";
 static NSString* const kAYNotifyDidStartMovieRecording = @"DidStartMovieRecording";
 static NSString* const kAYNotifyDidEndMovieRecording = @"DidEndMovieRecording";
 static NSString* const kAYNotifyDidDeleteMovieRecord = @"DidDeleteMovieRecord:";
+static NSString* const kAYNotifyDidMergeMovieRecord = @"DidMergeMovieRecord:";
 
 #endif /* AYNotifyDefines_h */
