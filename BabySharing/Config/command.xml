@@ -56,17 +56,11 @@
     <command type="Module" name="FriendsInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ProfileInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="PlaceHolderInit" factory="AYDefaultModuleFactory" />
-<<<<<<< Updated upstream
     <command type="Module" name="CameraRollInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
-<<<<<<< HEAD
-=======
+    <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
     
     <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
->>>>>>> Stashed changes
-=======
-    <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
->>>>>>> origin/master
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />
