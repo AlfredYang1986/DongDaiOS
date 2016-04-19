@@ -115,6 +115,7 @@
         <command type="Remote" name="QueryRecommandTags" />
         <command type="Remote" name="SearchTagWithPreviews" />
         <command type="Remote" name="SearchRoleTagWithPreviews" />
+        <command type="Remote" name="QueryRecommandTags" />
     </facade>
     
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >

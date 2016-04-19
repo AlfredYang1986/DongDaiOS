@@ -56,8 +56,12 @@
     }
     
     cell.controller = self.controller;
-    
-    id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
+   
+    id<AYCommand> cmd_query_title = [self.notifies objectForKey:@"queryHandleCommand"];
+    NSString* str = nil;
+    [cmd_query_title performWithResult:&str];
+   
+    id<AYCommand> cmd = [cell.commands objectForKey:str];
     NSArray* arr = [_recommands_tags copy];
     [cmd performWithResult:&arr];
     
@@ -76,9 +80,12 @@
     }
     
     header.controller = self.controller;
+   
+    id<AYCommand> cmd_query_title = [self.notifies objectForKey:@"queryHeaderTitle"];
+    NSString* str = nil;
+    [cmd_query_title performWithResult:&str];
     
     id<AYCommand> cmd = [header.commands objectForKey:@"changeHeaderTitle:"];
-    NSString* str = @"选择或者添加一个你的角色";
     [cmd performWithResult:&str];
     
     UITableViewHeaderFooterView* v = (UITableViewHeaderFooterView*)header;

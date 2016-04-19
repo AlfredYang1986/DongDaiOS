@@ -72,7 +72,12 @@
     UILabel *label = [cell.contentView viewWithTag:-1];
     
     if (indexPath.row == 0) {
-        label.text =  [NSString stringWithFormat:@"解锁新角色：%@", _searchText];
+        
+        id<AYCommand> cmd = [self.notifies objectForKey:@"queryNoResultTitle"];
+        NSString* str = nil;
+        [cmd performWithResult:&str];
+        
+        label.text =  [NSString stringWithFormat:str, _searchText];
     } else {
         label.text = [_showing_tags objectAtIndex:indexPath.row - 1];
     }
@@ -90,10 +95,10 @@
     id<AYCommand> n = nil;
     NSString* role_tag = nil;
     if (indexPath.row == 0) {
-        n = [self.notifies objectForKey:@"RoleTagSeleted:"];
+        n = [self.notifies objectForKey:@"TagSeleted:"];
         role_tag = _searchText;
     } else {
-        n = [self.notifies objectForKey:@"RoleTagAdded:"];
+        n = [self.notifies objectForKey:@"TagAdded:"];
         role_tag = [_showing_tags objectAtIndex:indexPath.row - 1];
     }
     [n performWithResult:&role_tag];
@@ -108,7 +113,12 @@
 
 - (id)changeSearchText:(id)obj {
     _searchText = (NSString*)obj;
-    _showing_tags = [[Tools sortWithArr:_recommand_tags headStr:_searchText] copy];
+    
+    NSArray* tmp = [_recommand_tags copy];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"handleResultToString:"];
+    [cmd performWithResult:&tmp];
+    
+    _showing_tags = [[Tools sortWithArr:tmp headStr:_searchText] copy];
     return nil;
 }
 @end

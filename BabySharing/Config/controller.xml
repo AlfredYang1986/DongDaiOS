@@ -57,9 +57,9 @@
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" />
-        <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" />
-        <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
+        <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" />
+        <delegate type="TableViewDelegateAndDatasource" name="TagAdd" />
+        <delegate type="SearchBarDelegate" name="SearchBar" />
     </controller>
     
     <controller type="DefaultController" name="TagSearch" factory="AYDefaultControllerFactoy" >
@@ -68,12 +68,12 @@
         
         <view type="SearchBar" name="SearchBar" />
         <view type="Table" name="Table" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="FakeNavBar" name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        
-<!--        <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" />-->
-        <delegate type="SearchBarDelegate" name="TagSearchBar" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" />
+        <delegate type="TableViewDelegateAndDatasource" name="TagAdd" />
+        <delegate type="SearchBarDelegate" name="SearchBar" />
     </controller>
     
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >

@@ -12,24 +12,8 @@
 #import "AYFactoryManager.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
-#import "AYSearchDefines.h"
 
 @implementation AYRoleTagSearchController
-
-#pragma mark -- commands
-- (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
-    
-    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        //        _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
-        //        NSLog(@"init args are : %@", _login_attr);
-    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        
-    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopValue]) {
-        
-    }
-}
-
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,103 +23,31 @@
     NSString* str = @"请输入角色标签";
     [cmd performWithResult:&str];
     
-    id<AYCommand> cmd_app = [view.commands objectForKey:@"roleTagSearchBar"];
-    [cmd_app performWithResult:&str];
-    
-    id<AYCommand> cmd_reg_search_delegate = [view.commands objectForKey:@"registerDelegate:"];
-    id<AYDelegateBase> cmd_search_del = [self.delegates objectForKey:@"RoleTagSearchBar"];
-    id obj_del = (id)cmd_search_del;
-    [cmd_reg_search_delegate performWithResult:&obj_del];
-    
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
     NSString* title = @"添加你的角色";
     [cmd_title performWithResult:&title];
+}
 
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-  
-    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"RoleTagRecommend"];
-    id<AYDelegateBase> cmd_add = [self.delegates objectForKey:@"RoleTagAdd"];
-    
-    id obj = (id)cmd_recommend;
-    [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_recommend;
-    [cmd_delegate performWithResult:&obj];
-
-    id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
-    NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchHeaderName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_header performWithResult:&nib_header_name];
-    
-    id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundHotCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_hot_cell performWithResult:&class_name];
-   
+- (id<AYCommand>)queryDataCommand {
     id<AYFacadeBase> facade_search_remote = [self.facades objectForKey:@"SearchRemote"];
-//    AYRemoteCallCommand* cmd_query_role_tag = [facade_search_remote.commands objectForKey:@"QueryRecommandRoleTags"];
     AYRemoteCallCommand* cmd_query_role_tag = [facade_search_remote.commands objectForKey:@"QueryAllRoleTags"];
-    
+    return cmd_query_role_tag;
+}
+
+- (NSDictionary*)queryDataArgs {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];
     [dic setValue:[NSNumber numberWithInteger:10] forKey:@"take"];
-    
-    [cmd_query_role_tag performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"recommand role tags are: %@", result);
-       
-        id obj = [result copy];
-        id<AYCommand> cmd_reset_data = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
-        [cmd_reset_data performWithResult:&obj];
-
-        obj = [result copy];
-        id<AYCommand> cmd_reset_data_2 = [cmd_add.commands objectForKey:@"changeQueryData:"];
-        [cmd_reset_data_2 performWithResult:&obj];
-        
-        id<AYCommand> cmd_reload = [view_table.commands objectForKey:@"refresh"];
-        [cmd_reload performWithResult:nil];
-    }];
+    return [dic copy];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+- (NSArray*)handleRecommandResult:(id)result {
+    return result;
 }
 
 #pragma mark -- notifications
-- (id)searchTextChanged:(id)obj {
-    NSString* search_text = (NSString*)obj;
-    NSLog(@"text %@", search_text);
-  
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-    
-    if (search_text.length == 0) {
-        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"RoleTagRecommend"];
-        
-        id obj = (id)cmd_recommend;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_recommend;
-        [cmd_delegate performWithResult:&obj];
-    } else {
-        id<AYDelegateBase> cmd_add = [self.delegates objectForKey:@"RoleTagAdd"];
-        
-        id obj = (id)cmd_add;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_add;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_reset_search_text = [cmd_add.commands objectForKey:@"changeSearchText:"];
-        [cmd_reset_search_text performWithResult:&search_text];
-    }
-
-    id<AYCommand> cmd_reload = [view_table.commands objectForKey:@"refresh"];
-    [cmd_reload performWithResult:nil];
-    
-    return nil;
-}
-
-- (id)RoleTagSeleted:(id)obj {
+- (id)TagAdded:(id)obj {
     NSString* role_tag = (NSString*)obj;
     NSLog(@"selected role tag : %@", role_tag);
     
@@ -149,7 +61,7 @@
     return nil;
 }
 
-- (id)RoleTagAdded:(id)obj {
+- (id)TagSeleted:(id)obj {
     NSString* role_tag = (NSString*)obj;
     NSLog(@"selected role tag : %@", role_tag);
     
@@ -161,5 +73,17 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
     return nil;
+}
+
+- (id)queryHeaderTitle {
+    return @"选择或者添加一个你的角色";
+}
+
+- (id)queryHandleCommand {
+    return @"setHotTagsText:";
+}
+
+- (id)queryNoResultTitle {
+    return @"解锁新角色：%@";
 }
 @end

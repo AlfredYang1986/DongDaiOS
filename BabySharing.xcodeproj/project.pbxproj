@@ -40,12 +40,8 @@
 		7002DB9C1CC660070013FF2A /* AYFoundHotTagsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB971CC660070013FF2A /* AYFoundHotTagsCellView.m */; };
 		7002DB9D1CC660070013FF2A /* AYFoundSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB9A1CC660070013FF2A /* AYFoundSearchHeaderView.m */; };
 		7002DB9E1CC660070013FF2A /* AYFoundSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7002DB9B1CC660070013FF2A /* AYFoundSearchHeaderView.xib */; };
-		7002DBA71CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBA11CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.m */; };
-		7002DBA81CC6604B0013FF2A /* AYRoleTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBA41CC6604B0013FF2A /* AYRoleTagAddDelegate.m */; };
-		7002DBA91CC6604B0013FF2A /* AYRoleTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBA61CC6604B0013FF2A /* AYRoleTagRecommendDelegate.m */; };
 		7002DBAD1CC660980013FF2A /* AYTagSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBAC1CC660980013FF2A /* AYTagSearchController.m */; };
 		7002DBB11CC6685E0013FF2A /* AYSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB01CC6685E0013FF2A /* AYSearchBarDelegate.m */; };
-		7002DBB51CC668DF0013FF2A /* AYTagSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB41CC668DF0013FF2A /* AYTagSearchBarDelegate.m */; };
 		7002DBBB1CC669D20013FF2A /* AYTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */; };
 		7002DBBC1CC669D20013FF2A /* AYTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */; };
 		7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */; };
@@ -480,18 +476,10 @@
 		7002DB991CC660070013FF2A /* AYFoundSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchHeaderView.h; sourceTree = "<group>"; };
 		7002DB9A1CC660070013FF2A /* AYFoundSearchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundSearchHeaderView.m; sourceTree = "<group>"; };
 		7002DB9B1CC660070013FF2A /* AYFoundSearchHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYFoundSearchHeaderView.xib; sourceTree = "<group>"; };
-		7002DBA01CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRoleTagSearchBarDelegate.h; sourceTree = "<group>"; };
-		7002DBA11CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagSearchBarDelegate.m; sourceTree = "<group>"; };
-		7002DBA31CC6604B0013FF2A /* AYRoleTagAddDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRoleTagAddDelegate.h; sourceTree = "<group>"; };
-		7002DBA41CC6604B0013FF2A /* AYRoleTagAddDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagAddDelegate.m; sourceTree = "<group>"; };
-		7002DBA51CC6604B0013FF2A /* AYRoleTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRoleTagRecommendDelegate.h; sourceTree = "<group>"; };
-		7002DBA61CC6604B0013FF2A /* AYRoleTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRoleTagRecommendDelegate.m; sourceTree = "<group>"; };
 		7002DBAB1CC660980013FF2A /* AYTagSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagSearchController.h; sourceTree = "<group>"; };
 		7002DBAC1CC660980013FF2A /* AYTagSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagSearchController.m; sourceTree = "<group>"; };
 		7002DBAF1CC6685E0013FF2A /* AYSearchBarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarDelegate.h; sourceTree = "<group>"; };
 		7002DBB01CC6685E0013FF2A /* AYSearchBarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchBarDelegate.m; sourceTree = "<group>"; };
-		7002DBB31CC668DF0013FF2A /* AYTagSearchBarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagSearchBarDelegate.h; sourceTree = "<group>"; };
-		7002DBB41CC668DF0013FF2A /* AYTagSearchBarDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagSearchBarDelegate.m; sourceTree = "<group>"; };
 		7002DBB71CC669D20013FF2A /* AYTagAddDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagAddDelegate.h; sourceTree = "<group>"; };
 		7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagAddDelegate.m; sourceTree = "<group>"; };
 		7002DBB91CC669D20013FF2A /* AYTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagRecommendDelegate.h; sourceTree = "<group>"; };
@@ -1498,30 +1486,9 @@
 			path = FoundSearchHeader;
 			sourceTree = "<group>";
 		};
-		7002DB9F1CC6604B0013FF2A /* SearchDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				7002DBA01CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.h */,
-				7002DBA11CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.m */,
-			);
-			path = SearchDelegate;
-			sourceTree = "<group>";
-		};
-		7002DBA21CC6604B0013FF2A /* TableDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				7002DBA31CC6604B0013FF2A /* AYRoleTagAddDelegate.h */,
-				7002DBA41CC6604B0013FF2A /* AYRoleTagAddDelegate.m */,
-				7002DBA51CC6604B0013FF2A /* AYRoleTagRecommendDelegate.h */,
-				7002DBA61CC6604B0013FF2A /* AYRoleTagRecommendDelegate.m */,
-			);
-			path = TableDelegate;
-			sourceTree = "<group>";
-		};
 		7002DBAA1CC660830013FF2A /* TagSearch */ = {
 			isa = PBXGroup;
 			children = (
-				7002DBB21CC668C20013FF2A /* SearchDelegate */,
 				7002DBAB1CC660980013FF2A /* AYTagSearchController.h */,
 				7002DBAC1CC660980013FF2A /* AYTagSearchController.m */,
 			);
@@ -1535,15 +1502,6 @@
 				7002DBB01CC6685E0013FF2A /* AYSearchBarDelegate.m */,
 			);
 			path = SearchBarDelegate;
-			sourceTree = "<group>";
-		};
-		7002DBB21CC668C20013FF2A /* SearchDelegate */ = {
-			isa = PBXGroup;
-			children = (
-				7002DBB31CC668DF0013FF2A /* AYTagSearchBarDelegate.h */,
-				7002DBB41CC668DF0013FF2A /* AYTagSearchBarDelegate.m */,
-			);
-			path = SearchDelegate;
 			sourceTree = "<group>";
 		};
 		7002DBB61CC669D20013FF2A /* TableDelegate */ = {
@@ -2424,8 +2382,6 @@
 		7017F32B1CB74CF1002C416E /* RoleTagSearch */ = {
 			isa = PBXGroup;
 			children = (
-				7002DB9F1CC6604B0013FF2A /* SearchDelegate */,
-				7002DBA21CC6604B0013FF2A /* TableDelegate */,
 				7017F33B1CB7512E002C416E /* AYRoleTagSearchController.h */,
 				7017F33C1CB7512E002C416E /* AYRoleTagSearchController.m */,
 			);
@@ -4494,7 +4450,6 @@
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */,
-				7002DBA91CC6604B0013FF2A /* AYRoleTagRecommendDelegate.m in Sources */,
 				70F3699F1CC361930067B62E /* AYQueryAllRoleTagsCommand.m in Sources */,
 				702510761CC0DD3300DADF2B /* AYGroupListController.m in Sources */,
 				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,
@@ -4504,7 +4459,6 @@
 				70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */,
 				70CDF63B1CBD033900311841 /* QueryContentTag.m in Sources */,
 				70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */,
-				7002DBA81CC6604B0013FF2A /* AYRoleTagAddDelegate.m in Sources */,
 				70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */,
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,
 				7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */,
@@ -4524,13 +4478,11 @@
 				700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */,
 				7002DB831CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m in Sources */,
 				7025105F1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.m in Sources */,
-				7002DBA71CC6604B0013FF2A /* AYRoleTagSearchBarDelegate.m in Sources */,
 				7015248F1CBF9AB4005B4C5B /* UIView+MJExtension.m in Sources */,
 				7039CBE51CBB86C000BE60C7 /* AYFakeNavBarView.m in Sources */,
 				7002DB2F1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m in Sources */,
 				700BE61C1CBA7BFE00A09B3A /* AYLandingInputView.m in Sources */,
 				70CDF6351CBD033900311841 /* QueryComments.m in Sources */,
-				7002DBB51CC668DF0013FF2A /* AYTagSearchBarDelegate.m in Sources */,
 				700BE6011CBA701100A09B3A /* AYLoginXMPPCommand.m in Sources */,
 				7039CBCE1CBB77EA00BE60C7 /* AYProfileController.m in Sources */,
 				7002DB1B1CC5EA630013FF2A /* AYAVController.m in Sources */,
