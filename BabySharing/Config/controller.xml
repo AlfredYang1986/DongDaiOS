@@ -70,6 +70,7 @@
         <command type="Module" name="PlaceHolderInit" />
         <command type="Module" name="CameraRollInit" />
         <command type="Module" name="CameraInit" />
+        <command type="Module" name="MovieInit" />
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
@@ -236,5 +237,24 @@
     </controller>
 
     <controller type="DefaultController" name="Movie" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="MovieRecord" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="FunctionBar" name="FunctionBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="PostPhotoPreview" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="GPUFilter" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="TagPreview" name="TagPreview" />
+        <view type="TagEntry" name="TagEntry" />
+        <view type="FilterPreview" name="FilterPreview" />
     </controller>
 </controllers>

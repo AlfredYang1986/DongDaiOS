@@ -71,6 +71,8 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define CHATSESSIONMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ChatSessionModel")
 
 #define GPUSTILLIMAGECAPTURE    FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"StillImageCapture")
+#define MOVIERECORD             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MovieRecord")
+#define GPUFILTER               FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"GPUFilter")
 
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 

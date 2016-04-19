@@ -15,7 +15,7 @@
 
 #define SHOWALBUM       [self showPostController:@"CameraRollInit"]
 #define SHOWCAMERA      [self showPostController:@"CameraInit"]
-#define SHOWMOVIEW      [self showPostController:@"MOVIEInit"]
+#define SHOWMOVIE       [self showPostController:@"MovieInit"]
 
 @interface AYTabBarController () <UITabBarDelegate, UITabBarControllerDelegate>
 
@@ -108,6 +108,7 @@
                 SHOWCAMERA;
                 break;
             case 2:
+                SHOWMOVIE;
                 break;
                 
             default:

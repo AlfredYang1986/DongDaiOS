@@ -19,6 +19,27 @@
         <command type="Module" name="StillImageCaptureChangeCamera" />
         <command type="Module" name="StillImageCaptureChangeFlash" />
         <command type="Remote" name="StillImageCaptureTake" />
+        <command type="Module" name="StillImageCaptureRelease" />
+    </facade>
+
+    <facade type="DefaultFacade" name="MovieRecord" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="MovieRecordInit" />
+        <command type="Module" name="MovieRecordStartCapture" />
+        <command type="Module" name="MovieRecordStopCapture" />
+        <command type="Module" name="MovieRecordView" />
+        <command type="Module" name="MovieRecordChangeCamera" />
+        <command type="Module" name="MovieRecordRelease" />
+        <command type="Module" name="MovieRecordStartRecord" />
+        <command type="Remote" name="MovieRecordStopRecord" />
+        <command type="Module" name="MovieRecordDeleteRecord" />
+        <command type="Module" name="MovieRecordMultipleMerge" />
+    </facade>
+
+    <facade type="DefaultFacade" name="GPUFilter" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="BlackAndWhiteFilter" />
+        <command type="Module" name="SceneFilter" />
+        <command type="Module" name="AvaterFilter" />
+        <command type="Module" name="FoodFilter" />
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
