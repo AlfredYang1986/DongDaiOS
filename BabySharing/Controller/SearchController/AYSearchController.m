@@ -9,9 +9,9 @@
 #import "AYSearchController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
+#import "AYViewBase.h"
 
 #define SEARCH_BAR_HEIGHT   53
-
 
 @implementation AYSearchController
 
@@ -23,6 +23,10 @@
 //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+   
+    id<AYViewBase> view = [self.views objectForKey:@"SearchBar"];
+    id<AYCommand> cmd_apperence = [view.commands objectForKey:@"TagSearchBar"];
+    [cmd_apperence performWithResult:nil];
     
 //    CALayer* line = [CALayer layer];
 //    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;

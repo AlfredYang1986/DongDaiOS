@@ -6,13 +6,13 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYRoleTagSearchBarDelegate.h"
+#import "AYSearchBarDelegate.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYSearchDefines.h"
 
-@implementation AYRoleTagSearchBarDelegate
+@implementation AYSearchBarDelegate
 #pragma mark -- command
 @synthesize para = _para;
 @synthesize controller = _controller;

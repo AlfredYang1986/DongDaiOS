@@ -62,6 +62,20 @@
         <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
     </controller>
     
+    <controller type="DefaultController" name="TagSearch" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="SearchRemote" notification="true" />
+        
+        <view type="SearchBar" name="SearchBar" />
+        <view type="Table" name="Table" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        
+<!--        <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" />-->
+<!--        <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" />-->
+        <delegate type="SearchBarDelegate" name="TagSearchBar" />
+    </controller>
+    
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="HomeInit" />
         <command type="Module" name="FoundInit" />

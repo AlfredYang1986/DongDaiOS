@@ -247,6 +247,20 @@ typedef enum : NSUInteger {
 }
 
 - (id)didTagEntrySelected:(id)obj {
+    
+    NSNumber* tag_type = (NSNumber*)obj;
+   
+    AYViewController* des = DEFAULTCONTROLLER(@"TagSearch");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:tag_type forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 

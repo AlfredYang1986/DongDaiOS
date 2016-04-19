@@ -6,25 +6,24 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYRoleTagAddDelegate.h"
+#import "AYTagAddDelegate.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYSearchDefines.h"
 #import "Tools.h"
 
-@implementation AYRoleTagAddDelegate {
-    NSArray* recommands_role_tags;
-    NSString* searchText;
-    
-    NSArray* showing_tags;
-}
+@implementation AYTagAddDelegate
 
 #pragma mark -- command
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
+
+@synthesize showing_tags = _showing_tags;
+@synthesize recommand_tags = _recommand_tags;
+@synthesize searchText = _searchText;
 
 - (void)postPerform {
     
@@ -49,7 +48,7 @@
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //    return 1;
-    return 1 + showing_tags.count;
+    return 1 + _showing_tags.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,9 +72,9 @@
     UILabel *label = [cell.contentView viewWithTag:-1];
     
     if (indexPath.row == 0) {
-        label.text =  [NSString stringWithFormat:@"解锁新角色：%@", searchText];
+        label.text =  [NSString stringWithFormat:@"解锁新角色：%@", _searchText];
     } else {
-        label.text = [showing_tags objectAtIndex:indexPath.row - 1];
+        label.text = [_showing_tags objectAtIndex:indexPath.row - 1];
     }
     
     return cell;
@@ -92,24 +91,24 @@
     NSString* role_tag = nil;
     if (indexPath.row == 0) {
         n = [self.notifies objectForKey:@"RoleTagSeleted:"];
-        role_tag = searchText;
+        role_tag = _searchText;
     } else {
         n = [self.notifies objectForKey:@"RoleTagAdded:"];
-        role_tag = [showing_tags objectAtIndex:indexPath.row - 1];
+        role_tag = [_showing_tags objectAtIndex:indexPath.row - 1];
     }
     [n performWithResult:&role_tag];
 }
 
 #pragma mark -- command
 - (id)changeQueryData:(id)obj {
-    recommands_role_tags = (NSArray*)obj;
-    showing_tags = [recommands_role_tags copy];
+    _recommand_tags = (NSArray*)obj;
+    _showing_tags = [_recommand_tags copy];
     return nil;
 }
 
 - (id)changeSearchText:(id)obj {
-    searchText = (NSString*)obj;
-    showing_tags = [[Tools sortWithArr:recommands_role_tags headStr:searchText] copy];
+    _searchText = (NSString*)obj;
+    _showing_tags = [[Tools sortWithArr:_recommand_tags headStr:_searchText] copy];
     return nil;
 }
 @end

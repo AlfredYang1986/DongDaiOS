@@ -1,5 +1,5 @@
 //
-//  AYRoleTagAddDelegate.h
+//  AYRoleTagSearchBarDelegate.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/10/16.
@@ -11,6 +11,6 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 
-@interface AYRoleTagAddDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+@interface AYSearchBarDelegate : NSObject <AYDelegateBase, UISearchBarDelegate>
 
 @end

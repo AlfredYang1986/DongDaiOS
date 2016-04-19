@@ -7,10 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYCommand.h"
-#import "AYViewBase.h"
-#import <UIKit/UIKit.h>
+#import "AYSearchBarDelegate.h"
 
-@interface AYRoleTagSearchBarDelegate : NSObject <AYDelegateBase, UISearchBarDelegate>
+@interface AYRoleTagSearchBarDelegate : AYSearchBarDelegate
 
 @end

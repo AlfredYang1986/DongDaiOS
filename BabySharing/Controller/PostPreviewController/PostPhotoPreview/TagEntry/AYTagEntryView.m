@@ -13,6 +13,8 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 
+#import "PhotoTagEnumDefines.h"
+
 #define TAG_BTN_WIDTH                   50
 #define TAG_BTN_HEIGHT                  50
 
@@ -88,7 +90,7 @@
     icon.position = CGPointMake(TAG_BTN_WIDTH / 2, TAG_BTN_HEIGHT / 2);
     [tag_btn.layer addSublayer:icon];
     
-    [tag_btn addTarget:self action:@selector(tagBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+    [tag_btn addTarget:self action:@selector(tagBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     [reVal addSubview:tag_btn];
     
     UILabel* tag_label = [[UILabel alloc] initWithFrame:CGRectMake(0, TAG_BTN_HEIGHT + 2, TAG_LABEL_WIDTH, TAG_LABEL_HEIGHT)];
@@ -110,8 +112,24 @@
     return nil;
 }
 
-- (void)tagBtnSelected {
+- (void)tagBtnSelected:(UIButton*)sender {
+    NSNumber* tag_type = nil;
+    switch (sender.superview.tag) {
+        case -3:
+            tag_type = [NSNumber numberWithInteger:TagTypeBrand];
+            break;
+        case -2:
+            tag_type = [NSNumber numberWithInteger:TagTypeTime];
+            break;
+        case -1:
+            tag_type = [NSNumber numberWithInteger:TagTypeLocation];
+            break;
+        default:
+            return;
+    }
     
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didTagEntrySelected:"];
+    [cmd performWithResult:&tag_type];
 }
 
 - (void)selfSelected {
