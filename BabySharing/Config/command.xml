@@ -56,8 +56,13 @@
     <command type="Module" name="FriendsInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ProfileInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="PlaceHolderInit" factory="AYDefaultModuleFactory" />
+<<<<<<< Updated upstream
     <command type="Module" name="CameraRollInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
+=======
+    
+    <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
+>>>>>>> Stashed changes
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />
@@ -76,6 +81,7 @@
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AuthWithSNS" route="login/authWithThird" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AuthSignOut" route="login/signout" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ContatcerInSystem" route="login/userLstInSystem" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />

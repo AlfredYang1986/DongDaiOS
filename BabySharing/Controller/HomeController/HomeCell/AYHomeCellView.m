@@ -233,7 +233,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 12.5);
-    _ownerImage.frame = CGRectMake(12, 10, 28, 28);
+    _ownerImage.frame = CGRectMake(8, 8, 32, 32);
     
     [_ownerNameLable sizeToFit];
     _ownerNameLable.frame = CGRectMake(50, 16, CGRectGetWidth(_ownerNameLable.frame), 14);
