@@ -243,4 +243,16 @@
         <view type="FunctionBar" name="FunctionBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
     </controller>
+    
+    <controller type="DefaultController" name="PostPhotoPreview" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="GPUFilter" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="TagPreview" name="TagPreview" />
+        <view type="TagEntry" name="TagEntry" />
+        <view type="FilterPreview" name="FilterPreview" />
+    </controller>
 </controllers>

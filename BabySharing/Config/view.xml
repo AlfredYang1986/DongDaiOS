@@ -135,6 +135,20 @@
         <command type="notify" message="funcBtnSelected:" />
     </view>
     
+    <view type="TagPreview" name="TagPreview" factory="AYDefaultViewFactory" >
+    </view>
+
+    <view type="TagEntry" name="TagEntry" factory="AYDefaultViewFactory" >
+        <command type="message" message="startSubBtnAnimation" />
+        <command type="notify" message="didSubBtnSelected:" />
+        <command type="notify" message="entryViewTaped" />
+    </view>
+
+    <view type="FilterPreview" name="FilterPreview" factory="AYDefaultViewFactory" >
+        <command type="message" message="setOriginImage:" />
+        <command type="notify" message="didSelectedFilter:" />
+    </view>
+    
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setUpItems:" />

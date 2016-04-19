@@ -33,7 +33,13 @@
         <command type="Remote" name="MovieRecordStopRecord" />
         <command type="Module" name="MovieRecordDeleteRecord" />
         <command type="Module" name="MovieRecordMultipleMerge" />
-<!--        <command type="Module" name="MovieRecordClearRecord" />-->
+    </facade>
+
+    <facade type="DefaultFacade" name="GPUFilter" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="BlackAndWhiteFilter" />
+        <command type="Module" name="SceneFilter" />
+        <command type="Module" name="AvaterFilter" />
+        <command type="Module" name="FoodFilter" />
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
