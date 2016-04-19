@@ -15,9 +15,12 @@
 #import "AYFacadeBase.h"
 #import "Tools.h"
 
-@implementation AYFilterPreviewView {
-    NSInteger current_selected;
-}
+@interface AYFilterPreviewView ()
+@property (nonatomic, setter=setCurrentSelected:) NSInteger current_selected;
+@end
+
+@implementation AYFilterPreviewView
+
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
@@ -137,6 +140,7 @@
     }
 
     {
+        
         id<AYCommand> cmd = [f.commands objectForKey:@"AvaterFilter"];
         UIImage* args = source;
         [cmd performWithResult:&args];
@@ -150,10 +154,55 @@
         [self addSubview:[self addPhotoEffectBtn:@"美食" bounds:CGRectMake(0, 0, button_height, button_height) tag:5 image:args]];
     }
     
+    self.current_selected = 2;
+    
     return nil;
 }
 
+- (void)setCurrentSelected:(NSInteger)index {
+    if (index != _current_selected) {
+        _current_selected = index;
+       
+        for (UIView* iter in self.subviews) {
+            UIImageView* img = [iter viewWithTag:-99];
+            img.layer.borderWidth = 0.f;
+        }
+        
+        UIView* btn = [self viewWithTag:_current_selected + 1];
+        UIImageView* img = [btn viewWithTag:-99];
+        img.layer.borderWidth = 2.f;
+        
+    }
+}
+//
+//- (id)changeMainPhotoFilterPreview:(id)obj {
+//    NSInteger index = ((NSNumber*)obj).integerValue;
+//    
+//    if (index != _current_selected) {
+//        self.current_selected = index;
+//       
+//        UIView* btn = [self viewWithTag:_current_selected + 1];
+//        UIImageView* img = [btn viewWithTag:-99];
+//        
+//        id result = img.image;
+//        return result;
+//    } else {
+//        return nil;
+//    }
+//}
+
 - (void)filterBtnSelected:(UIButton*)sender {
+    NSInteger index = sender.tag - 1;
     
+    if (index != _current_selected) {
+        self.current_selected = index;
+
+        UIView* btn = [self viewWithTag:_current_selected + 1];
+        UIImageView* img = [btn viewWithTag:-99];
+
+        id result = img.image;
+        id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedFilter:"];
+        [cmd performWithResult:&result];
+    }
 }
 @end

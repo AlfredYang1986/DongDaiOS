@@ -246,7 +246,7 @@ typedef enum : NSUInteger {
     return nil;
 }
 
-- (id)didSubBtnSelected:(id)obj {
+- (id)didTagEntrySelected:(id)obj {
     return nil;
 }
 

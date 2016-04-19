@@ -140,7 +140,7 @@
 
     <view type="TagEntry" name="TagEntry" factory="AYDefaultViewFactory" >
         <command type="message" message="startSubBtnAnimation" />
-        <command type="notify" message="didSubBtnSelected:" />
+        <command type="notify" message="didTagEntrySelected:" />
         <command type="notify" message="entryViewTaped" />
     </view>
 
