@@ -13,15 +13,15 @@
 #import "AYSearchDefines.h"
 #import "Tools.h"
 
-@implementation AYTagRecommendDelegate {
-    NSArray* recommands_role_tags;
-}
+@implementation AYTagRecommendDelegate
 
 #pragma mark -- command
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
+
+@synthesize recommands_tags = _recommands_tags;
 
 - (void)postPerform {
     
@@ -58,7 +58,7 @@
     cell.controller = self.controller;
     
     id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTagsText:"];
-    NSArray* arr = [recommands_role_tags copy];
+    NSArray* arr = [_recommands_tags copy];
     [cmd performWithResult:&arr];
     
     return (UITableViewCell*)cell;
@@ -104,7 +104,7 @@
 
 #pragma mark -- command
 - (id)changeQueryData:(id)obj {
-    recommands_role_tags = (NSArray*)obj;
+    _recommands_tags = (NSArray*)obj;
     return nil;
 }
 @end

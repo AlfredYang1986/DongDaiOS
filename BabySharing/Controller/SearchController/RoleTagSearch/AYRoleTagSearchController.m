@@ -39,6 +39,9 @@
     NSString* str = @"请输入角色标签";
     [cmd performWithResult:&str];
     
+    id<AYCommand> cmd_app = [view.commands objectForKey:@"roleTagSearchBar"];
+    [cmd_app performWithResult:&str];
+    
     id<AYCommand> cmd_reg_search_delegate = [view.commands objectForKey:@"registerDelegate:"];
     id<AYDelegateBase> cmd_search_del = [self.delegates objectForKey:@"RoleTagSearchBar"];
     id obj_del = (id)cmd_search_del;

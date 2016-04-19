@@ -12,5 +12,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AYTagRecommendDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
-
+@property (nonatomic, strong) NSArray* recommands_tags;
 @end
