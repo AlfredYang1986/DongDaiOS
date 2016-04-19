@@ -190,9 +190,15 @@
 }
 
 - (id)rightBtnSelected {
-    id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
-    id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordMultipleMerge"];
-    [cmd performWithResult:nil];
+    @try {
+        id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
+        id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordMultipleMerge"];
+        [cmd performWithResult:nil];
+    } @catch (NSException *exception) {
+        [[[UIAlertView alloc]initWithTitle:exception.name message:exception.reason delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+    } @finally {
+
+    }
     return nil;
 }
 
@@ -264,6 +270,17 @@
 - (id)DidMergeMovieRecord:(id)obj {
     NSURL* url = (NSURL*)obj;
     NSLog(@"final movie url is %@", url);
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"PostMoviePreview");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:url forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     return nil;
 }
 @end

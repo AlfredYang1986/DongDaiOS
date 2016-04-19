@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYViewController.h"
+#import "AYPostPreviewController.h"
 
-@interface AYPostPhotoPreviewController : AYViewController
+@interface AYPostPhotoPreviewController : AYPostPreviewController
 
 @end

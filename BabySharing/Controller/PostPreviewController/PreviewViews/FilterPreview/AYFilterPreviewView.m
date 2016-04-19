@@ -174,22 +174,6 @@
         
     }
 }
-//
-//- (id)changeMainPhotoFilterPreview:(id)obj {
-//    NSInteger index = ((NSNumber*)obj).integerValue;
-//    
-//    if (index != _current_selected) {
-//        self.current_selected = index;
-//       
-//        UIView* btn = [self viewWithTag:_current_selected + 1];
-//        UIImageView* img = [btn viewWithTag:-99];
-//        
-//        id result = img.image;
-//        return result;
-//    } else {
-//        return nil;
-//    }
-//}
 
 - (void)filterBtnSelected:(UIButton*)sender {
     NSInteger index = sender.tag - 1;

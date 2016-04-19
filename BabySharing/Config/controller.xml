@@ -271,4 +271,16 @@
         <view type="TagEntry" name="TagEntry" />
         <view type="FilterPreview" name="FilterPreview" />
     </controller>
+    
+    <controller type="DefaultController" name="PostMoviePreview" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="GPUFilter" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="TagPreview" name="TagPreview" />
+        <view type="TagEntry" name="TagEntry" />
+        <view type="FilterPreview" name="FilterPreview" />
+    </controller>
 </controllers>
