@@ -38,4 +38,8 @@ static NSString* const kAYNotifyEndLogin = @"SNSEndLogin:";
 
 static NSString* const kAYNotifyCurrentUserLogout = @"LogoutCurrentUser";
 
+static NSString* const kAYNotifyDidStartMovieRecording = @"DidStartMovieRecording";
+static NSString* const kAYNotifyDidEndMovieRecording = @"DidEndMovieRecording";
+static NSString* const kAYNotifyDidDeleteMovieRecord = @"DidDeleteMovieRecord:";
+
 #endif /* AYNotifyDefines_h */

@@ -10,6 +10,7 @@
 #import "GPUImage.h"
 #import "AYMovieRecordFacade.h"
 #import "AYFactoryManager.h"
+#import "TmpFileStorageModel.h"
 
 @implementation AYMovieRecordReleaseCommand
 @synthesize para = _para;
@@ -25,6 +26,10 @@
     f.filterView = nil;
     f.filter = nil;
     f.videoCamera = nil;
+    
+    for (NSURL* iter in f.movie_lst) {
+        [TmpFileStorageModel deleteOneMovieFileWithUrl:iter];
+    }
 }
 
 - (NSString*)getCommandType {

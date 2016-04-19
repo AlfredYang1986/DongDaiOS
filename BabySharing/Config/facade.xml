@@ -29,8 +29,10 @@
         <command type="Module" name="MovieRecordView" />
         <command type="Module" name="MovieRecordChangeCamera" />
         <command type="Module" name="MovieRecordRelease" />
-<!--        <command type="Module" name="MovieRecordStartRecord" />-->
-<!--        <command type="Remote" name="MovieRecordStopRecord" />-->
+        <command type="Module" name="MovieRecordStartRecord" />
+        <command type="Remote" name="MovieRecordStopRecord" />
+        <command type="Module" name="MovieRecordDeleteRecord" />
+<!--        <command type="Module" name="MovieRecordClearRecord" />-->
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >

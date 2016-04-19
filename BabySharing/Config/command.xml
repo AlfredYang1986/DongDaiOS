@@ -81,6 +81,8 @@
     <command type="Module" name="MovieRecordStartRecord" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="MovieRecordStopRecord" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieRecordRelease" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordDeleteRecord" factory="AYDefaultModuleFactory" />
+<!--    <command type="Module" name="MovieRecordClearRecord" factory="AYDefaultModuleFactory" />-->
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

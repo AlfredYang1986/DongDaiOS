@@ -15,9 +15,16 @@
 @class GPUImageVideoCamera;
 @class GPUImageMovieWriter;
 
+static float const kAYMovieRecordMaxMovieTime = 15.0f;
+
 @interface AYMovieRecordFacade : AYFacade
 @property (nonatomic, strong) GPUImageOutput<GPUImageInput> *filter;
 @property (nonatomic, strong) GPUImageMovieWriter *movieWriter;
 @property (nonatomic, strong) GPUImageView* filterView;
 @property (nonatomic, strong) GPUImageVideoCamera *videoCamera;
+
+@property (nonatomic) BOOL isRecording;
+@property (nonatomic) float seconds;
+@property (nonatomic, strong) NSMutableArray* movie_lst;
+@property (nonatomic, strong) NSURL* current_movie_url;
 @end

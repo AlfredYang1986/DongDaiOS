@@ -56,9 +56,9 @@
     [take_btn setBackgroundImage:PNGRESOURCE(@"post_movie_btn") forState:UIControlStateNormal];
     [take_btn setBackgroundImage:PNGRESOURCE(@"post_movie_btn_down") forState:UIControlStateHighlighted];
     [self.view addSubview:take_btn];
-    [take_btn addTarget:self action:@selector(didSelectTakePicBtn) forControlEvents:UIControlEventTouchDown];
-    [take_btn addTarget:self action:@selector(didSelectTakePicBtn) forControlEvents:UIControlEventTouchUpInside];
-    [take_btn addTarget:self action:@selector(didSelectTakePicBtn) forControlEvents:UIControlEventTouchUpOutside];
+    [take_btn addTarget:self action:@selector(didSelectRecordMovieBtn) forControlEvents:UIControlEventTouchDown];
+    [take_btn addTarget:self action:@selector(didSelectSaveMovieBtn) forControlEvents:UIControlEventTouchUpInside];
+    [take_btn addTarget:self action:@selector(didSelectSaveMovieBtn) forControlEvents:UIControlEventTouchUpOutside];
     take_btn.frame = CGRectMake(0, 0, PHOTO_TAKEN_BTN_WIDTH, PHOTO_TAKEN_BTN_HEIGHT);
     take_btn.center = CGPointMake(width / 2, height + last_height / 2 + PHOTO_TAKEN_BTN_MODIFY_MARGIN);
     
@@ -196,12 +196,22 @@
     [cmd performWithResult:nil];
 }
 
-- (void)didSelectTakePicBtn {
-    
+- (void)didSelectRecordMovieBtn {
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordStartRecord"];
+    [cmd performWithResult:nil];
+}
+
+- (void)didSelectSaveMovieBtn {
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordStopRecord"];
+    [cmd performWithResult:nil];
 }
 
 - (void)didSelectDeleteBtn {
-    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordDeleteRecord"];
+    [cmd performWithResult:nil];
 }
 
 - (void)handleTimer:(NSTimer *)sender {
@@ -213,10 +223,34 @@
     
     if (seconds > MOVIE_MAX_SECONDS) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self didSelectTakePicBtn];
+            [self didSelectSaveMovieBtn];
             [[[UIAlertView alloc] initWithTitle:@"通知" message:@"视频录制时间达到15秒" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         });
         [timer setFireDate:[NSDate distantFuture]];
     }
+}
+
+- (id)DidStartMovieRecording {
+    [timer setFireDate:[NSDate distantPast]]; // start
+    delete_current_movie_btn.hidden = NO;
+    return nil;
+}
+
+- (id)DidEndMovieRecording {
+    [timer setFireDate:[NSDate distantFuture]];
+    [progress_using_layer addPointAtEndWith:seconds];
+    return nil;
+}
+
+- (id)DidDeleteMovieRecord:(id)obj {
+    
+    NSInteger count = ((NSNumber*)obj).integerValue;
+    
+    [progress_using_layer deletePoint];
+    seconds = [progress_using_layer getCurrentTime];
+    if (count == 0) {
+        delete_current_movie_btn.hidden = YES;
+    }
+    return nil;
 }
 @end

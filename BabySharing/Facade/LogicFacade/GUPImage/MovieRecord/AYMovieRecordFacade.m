@@ -14,4 +14,9 @@
 @synthesize movieWriter = _movieWriter;
 @synthesize filterView = _filterView;
 @synthesize videoCamera = _videoCamera;
+
+@synthesize isRecording = _isRecording;
+@synthesize seconds = _seconds;
+@synthesize movie_lst = _movie_lst;
+@synthesize current_movie_url = _current_movie_url;
 @end

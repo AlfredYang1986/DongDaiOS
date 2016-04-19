@@ -29,6 +29,8 @@
     
     f.filterView = [[GPUImageView alloc]initWithFrame:CGRectMake(0, 0, 1024, 1024)];
     [f.filter addTarget:f.filterView];
+    
+    f.movie_lst = [[NSMutableArray alloc]init];
 }
 
 - (NSString*)getCommandType {
