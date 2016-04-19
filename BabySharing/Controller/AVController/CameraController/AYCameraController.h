@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYViewController.h"
+#import "AYAVController.h"
 
-@interface AYCameraController : AYViewController
+@interface AYCameraController : AYAVController
 
 @end

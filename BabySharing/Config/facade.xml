@@ -19,6 +19,18 @@
         <command type="Module" name="StillImageCaptureChangeCamera" />
         <command type="Module" name="StillImageCaptureChangeFlash" />
         <command type="Remote" name="StillImageCaptureTake" />
+        <command type="Module" name="StillImageCaptureRelease" />
+    </facade>
+
+    <facade type="DefaultFacade" name="MovieRecord" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="MovieRecordInit" />
+        <command type="Module" name="MovieRecordStartCapture" />
+        <command type="Module" name="MovieRecordStopCapture" />
+        <command type="Module" name="MovieRecordView" />
+        <command type="Module" name="MovieRecordChangeCamera" />
+        <command type="Module" name="MovieRecordRelease" />
+<!--        <command type="Module" name="MovieRecordStartRecord" />-->
+<!--        <command type="Remote" name="MovieRecordStopRecord" />-->
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
