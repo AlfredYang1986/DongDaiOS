@@ -13,15 +13,19 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 
-@implementation AYPostMoviePublishController
+@implementation AYPostMoviePublishController {
+    NSURL* movie_url;
+    UIImage* img_cover;
+}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-    } 
+        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        movie_url = [args objectForKey:@"url"];
+    }
 }
 
 @end

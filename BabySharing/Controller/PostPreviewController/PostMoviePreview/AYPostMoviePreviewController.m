@@ -9,6 +9,8 @@
 #import "AYPostMoviePreviewController.h"
 #import "AYViewBase.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "AYFactoryManager.h"
 
 @interface AYPostMoviePreviewController ()
 @property (nonatomic, weak) UIView* filterView;
@@ -115,6 +117,29 @@
 }
 
 - (id)rightBtnSelected {
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MoviePlayer"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"NewMovieCurrentFilter"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:movie_url forKey:@"url"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSMutableDictionary* args = [result mutableCopy];
+        [args setValue:self.mainContentView.image forKey:@"cover"];
+        
+        AYViewController* des = DEFAULTCONTROLLER(@"PostMoviePublish");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic_push setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }];
+    
     return nil;
 }
 @end
