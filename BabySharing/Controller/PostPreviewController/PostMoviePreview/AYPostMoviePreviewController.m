@@ -90,7 +90,16 @@
 }
 
 #pragma mark -- notifications
-- (id)didSelectedFilter:(id)obj {
+- (id)didSelectedFilterMovie:(id)obj {
+    NSLog(@"filter command is %@", obj);
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:obj forKey:@"filter"];
+    [dic setValue:movie_url forKey:@"url"];
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MoviePlayer"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"MovieAddFilter"];
+    [cmd performWithResult:&dic];
     return nil;
 }
 

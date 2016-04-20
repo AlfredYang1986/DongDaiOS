@@ -40,6 +40,7 @@
         <command type="Module" name="SceneFilter" />
         <command type="Module" name="AvaterFilter" />
         <command type="Module" name="FoodFilter" />
+        <command type="Module" name="QueryFilterWithName" />
     </facade>
     
     <facade type="DefaultFacade" name="MoviePlayer" factory="AYDefaultFacadeFactory" >
@@ -48,6 +49,7 @@
         <command type="Module" name="PauseMovie" />
         <command type="Module" name="ReleaseMovie" />
         <command type="Module" name="MovieDisplayView" />
+        <command type="Module" name="MovieAddFilter" />
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >

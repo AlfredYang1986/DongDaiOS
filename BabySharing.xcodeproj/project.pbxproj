@@ -339,6 +339,8 @@
 		70B1DC951CC73B760041794A /* AYReleaseMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC941CC73B760041794A /* AYReleaseMovieCommand.m */; };
 		70B1DC991CC73D5F0041794A /* AYMovieDisplayViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC981CC73D5F0041794A /* AYMovieDisplayViewCommand.m */; };
 		70B1DC9D1CC73E900041794A /* AYPauseMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */; };
+		70B1DCA11CC7576D0041794A /* AYQueryFilterWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */; };
+		70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */; };
 		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
 		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
 		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
@@ -1071,6 +1073,10 @@
 		70B1DC981CC73D5F0041794A /* AYMovieDisplayViewCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieDisplayViewCommand.m; sourceTree = "<group>"; };
 		70B1DC9B1CC73E900041794A /* AYPauseMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPauseMovieCommand.h; sourceTree = "<group>"; };
 		70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPauseMovieCommand.m; sourceTree = "<group>"; };
+		70B1DC9F1CC7576D0041794A /* AYQueryFilterWithNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryFilterWithNameCommand.h; sourceTree = "<group>"; };
+		70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryFilterWithNameCommand.m; sourceTree = "<group>"; };
+		70B1DCA31CC75BAA0041794A /* AYMovieAddFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieAddFilterCommand.h; sourceTree = "<group>"; };
+		70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieAddFilterCommand.m; sourceTree = "<group>"; };
 		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
 		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
 		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
@@ -3438,13 +3444,14 @@
 		708E52751CC53739008A6023 /* GPUFilter */ = {
 			isa = PBXGroup;
 			children = (
+				7002DB8D1CC6505D0013FF2A /* Avater */,
 				7002DB841CC64B7E0013FF2A /* AYGPUFilterDefines.h */,
 				7002DB7D1CC64A8D0013FF2A /* AYGPUFilterFacade.h */,
 				7002DB7E1CC64A8D0013FF2A /* AYGPUFilterFacade.m */,
-				7002DB8D1CC6505D0013FF2A /* Avater */,
 				7002DB801CC64AD60013FF2A /* BlackAndWhite */,
 				7002DB911CC651030013FF2A /* Food */,
 				7002DB851CC64C9D0013FF2A /* ImageFilter */,
+				70B1DC9E1CC757510041794A /* QueryFilterWithName */,
 				7002DB891CC64EC10013FF2A /* Scene */,
 			);
 			path = GPUFilter;
@@ -3453,14 +3460,15 @@
 		708E52761CC53739008A6023 /* MoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
-				70B1DC9A1CC73E850041794A /* PauseMovie */,
-				70B1DC961CC73D3F0041794A /* MovieDisplayView */,
-				70B1DC921CC73B6A0041794A /* ReleaseMovie */,
-				70B1DC8B1CC73B390041794A /* PlayMovieMeta */,
-				70B1DC831CC731DA0041794A /* PlayMovie */,
-				70B1DC7A1CC70D070041794A /* MovieCoverImages */,
 				70B1DC771CC706760041794A /* AYMoviePlayerFacade.h */,
 				70B1DC781CC706760041794A /* AYMoviePlayerFacade.m */,
+				70B1DCA21CC75B8D0041794A /* AddFilter */,
+				70B1DC7A1CC70D070041794A /* MovieCoverImages */,
+				70B1DC961CC73D3F0041794A /* MovieDisplayView */,
+				70B1DC9A1CC73E850041794A /* PauseMovie */,
+				70B1DC831CC731DA0041794A /* PlayMovie */,
+				70B1DC8B1CC73B390041794A /* PlayMovieMeta */,
+				70B1DC921CC73B6A0041794A /* ReleaseMovie */,
 			);
 			path = MoviePlayer;
 			sourceTree = "<group>";
@@ -3741,6 +3749,24 @@
 				70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */,
 			);
 			path = PauseMovie;
+			sourceTree = "<group>";
+		};
+		70B1DC9E1CC757510041794A /* QueryFilterWithName */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DC9F1CC7576D0041794A /* AYQueryFilterWithNameCommand.h */,
+				70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */,
+			);
+			path = QueryFilterWithName;
+			sourceTree = "<group>";
+		};
+		70B1DCA21CC75B8D0041794A /* AddFilter */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCA31CC75BAA0041794A /* AYMovieAddFilterCommand.h */,
+				70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */,
+			);
+			path = AddFilter;
 			sourceTree = "<group>";
 		};
 		70B820891CAA5802001EEAF2 /* SGActionView */ = {
@@ -4341,6 +4367,7 @@
 				7015247C1CBF9AB4005B4C5B /* MJRefreshBackFooter.m in Sources */,
 				70F369A41CC361F90067B62E /* AYQueryRecommandTagsCommand.m in Sources */,
 				7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */,
+				70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */,
 				700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */,
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
@@ -4588,6 +4615,7 @@
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */,
 				70CDF63B1CBD033900311841 /* QueryContentTag.m in Sources */,
+				70B1DCA11CC7576D0041794A /* AYQueryFilterWithNameCommand.m in Sources */,
 				70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */,
 				70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */,
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,

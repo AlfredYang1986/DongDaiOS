@@ -234,6 +234,14 @@
     return nil;
 }
 
+- (id)didSelectedFilterPhoto:(id)obj {
+    return nil;
+}
+
+- (id)didSelectedFilterMovie:(id)obj {
+    return nil;
+}
+
 - (id)didTagEntrySelected:(id)obj {
     
     NSNumber* tag_type = (NSNumber*)obj;

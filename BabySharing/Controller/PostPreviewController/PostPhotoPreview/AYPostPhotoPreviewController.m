@@ -52,7 +52,7 @@
 }
 
 #pragma mark -- notifications
-- (id)didSelectedFilter:(id)obj {
+- (id)didSelectedFilterPhoto:(id)obj {
     UIImage* img = (UIImage*)obj;
     self.mainContentView.image = img;
     return nil;

@@ -15,6 +15,25 @@
 #import "AYFacadeBase.h"
 #import "Tools.h"
 
+#define CMDFORINDEX(index, cmd)         do { \
+                                            switch (index) { \
+                                                case 0: \
+                                                    cmd = [f.commands objectForKey:@"BlackAndWhiteFilter"]; \
+                                                    break; \
+                                                case 1: \
+                                                    cmd = [f.commands objectForKey:@"SceneFilter"]; \
+                                                    break; \
+                                                case 3: \
+                                                    cmd = [f.commands objectForKey:@"AvaterFilter"]; \
+                                                    break; \
+                                                case 4: \
+                                                    cmd = [f.commands objectForKey:@"FoodFilter"]; \
+                                                    break; \
+                                                default: \
+                                                    break; \
+                                            } \
+                                        } while(0)
+
 @interface AYFilterPreviewView ()
 @property (nonatomic, setter=setCurrentSelected:) NSInteger current_selected;
 @end
@@ -121,42 +140,52 @@
     CGFloat height = self.frame.size.height;
     CGFloat margin = 0;
     CGFloat button_height = (height - 2 * margin) * MAGIC_NUMBER;
-   
+  
+    NSArray* const title = @[@"黑白", @"美景", @"原图", @"美肤", @"美食"];
+    
     id<AYFacadeBase> f = GPUFILTER;
-    
-    {
-        id<AYCommand> cmd = [f.commands objectForKey:@"BlackAndWhiteFilter"];
+    for (int index = 0; index < 5; ++index) {
+        id<AYCommand> cmd = nil;
+        CMDFORINDEX(index, cmd);
         UIImage* args = source;
-        [cmd performWithResult:&args];
-        [self addSubview:[self addPhotoEffectBtn:@"黑白" bounds:CGRectMake(0, 0, button_height, button_height) tag:1 image:args]];
+        if (cmd != nil) {
+            [cmd performWithResult:&args];
+        }
+        [self addSubview:[self addPhotoEffectBtn:[title objectAtIndex:index] bounds:CGRectMake(0, 0, button_height, button_height) tag:1 + index image:args]];
     }
     
-    {
-        id<AYCommand> cmd = [f.commands objectForKey:@"SceneFilter"];
-        UIImage* args = source;
-        [cmd performWithResult:&args];
-        [self addSubview:[self addPhotoEffectBtn:@"美景" bounds:CGRectMake(0, 0, button_height, button_height) tag:2 image:args]];
-    }
-    
-    {
-        UIImage* args = source;
-        [self addSubview:[self addPhotoEffectBtn:@"原图" bounds:CGRectMake(0, 0, button_height, button_height) tag:3 image:args]];
-    }
-
-    {
-        
-        id<AYCommand> cmd = [f.commands objectForKey:@"AvaterFilter"];
-        UIImage* args = source;
-        [cmd performWithResult:&args];
-        [self addSubview:[self addPhotoEffectBtn:@"美肤" bounds:CGRectMake(0, 0, button_height, button_height) tag:4 image:args]];
-    }
-
-    {
-        id<AYCommand> cmd = [f.commands objectForKey:@"FoodFilter"];
-        UIImage* args = source;
-        [cmd performWithResult:&args];
-        [self addSubview:[self addPhotoEffectBtn:@"美食" bounds:CGRectMake(0, 0, button_height, button_height) tag:5 image:args]];
-    }
+//    {
+//        id<AYCommand> cmd = [f.commands objectForKey:@"BlackAndWhiteFilter"];
+//        UIImage* args = source;
+//        [cmd performWithResult:&args];
+//        [self addSubview:[self addPhotoEffectBtn:@"黑白" bounds:CGRectMake(0, 0, button_height, button_height) tag:1 image:args]];
+//    }
+//    
+//    {
+//        id<AYCommand> cmd = [f.commands objectForKey:@"SceneFilter"];
+//        UIImage* args = source;
+//        [cmd performWithResult:&args];
+//        [self addSubview:[self addPhotoEffectBtn:@"美景" bounds:CGRectMake(0, 0, button_height, button_height) tag:2 image:args]];
+//    }
+//    
+//    {
+//        UIImage* args = source;
+//        [self addSubview:[self addPhotoEffectBtn:@"原图" bounds:CGRectMake(0, 0, button_height, button_height) tag:3 image:args]];
+//    }
+//
+//    {
+//        id<AYCommand> cmd = [f.commands objectForKey:@"AvaterFilter"];
+//        UIImage* args = source;
+//        [cmd performWithResult:&args];
+//        [self addSubview:[self addPhotoEffectBtn:@"美肤" bounds:CGRectMake(0, 0, button_height, button_height) tag:4 image:args]];
+//    }
+//
+//    {
+//        id<AYCommand> cmd = [f.commands objectForKey:@"FoodFilter"];
+//        UIImage* args = source;
+//        [cmd performWithResult:&args];
+//        [self addSubview:[self addPhotoEffectBtn:@"美食" bounds:CGRectMake(0, 0, button_height, button_height) tag:5 image:args]];
+//    }
     
     self.current_selected = 2;
     
@@ -175,8 +204,31 @@
         UIView* btn = [self viewWithTag:_current_selected + 1];
         UIImageView* img = [btn viewWithTag:-99];
         img.layer.borderWidth = 2.f;
-        
     }
+}
+
+- (id)queryFilterWithIndex:(NSInteger)index {
+    id<AYFacadeBase> f = GPUFILTER;
+    id<AYCommand> c = [f.commands objectForKey:@"QueryFilterWithName"];
+    NSString* str = nil;
+    switch (index) {
+        case 0:
+            str = @"BlackAndWhiteFilter";
+            break;
+        case 1:
+            str = @"SceneFilter";
+            break;
+        case 3:
+            str = @"AvaterFilter";
+            break;
+        case 4:
+            str = @"FoodFilter";
+            break;
+        default:
+            break;
+    }
+    [c performWithResult:&str];
+    return (id)str;
 }
 
 - (void)filterBtnSelected:(UIButton*)sender {
@@ -189,8 +241,12 @@
         UIImageView* img = [btn viewWithTag:-99];
 
         id result = img.image;
-        id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedFilter:"];
-        [cmd performWithResult:&result];
+        id<AYCommand> cmd_photo = [self.notifies objectForKey:@"didSelectedFilterPhoto:"];
+        [cmd_photo performWithResult:&result];
+
+        id filter = [self queryFilterWithIndex:index];
+        id<AYCommand> cmd_movie = [self.notifies objectForKey:@"didSelectedFilterMovie:"];
+        [cmd_movie performWithResult:&filter];
     }
 }
 @end

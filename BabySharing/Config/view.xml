@@ -146,7 +146,8 @@
 
     <view type="FilterPreview" name="FilterPreview" factory="AYDefaultViewFactory" >
         <command type="message" message="setOriginImage:" />
-        <command type="notify" message="didSelectedFilter:" />
+        <command type="notify" message="didSelectedFilterPhoto:" />
+        <command type="notify" message="didSelectedFilterMovie:" />
     </view>
 
     <view type="MovieCover" name="MovieCover" factory="AYDefaultViewFactory" >
