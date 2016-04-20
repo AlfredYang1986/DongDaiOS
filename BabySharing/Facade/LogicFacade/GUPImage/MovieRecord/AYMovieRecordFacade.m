@@ -25,10 +25,6 @@
 
 - (void)MergeMovieSuccessfulWithFinalURL:(NSURL *)url {
     NSLog(@"Merge Movie Successful");
-//    PostPreViewEffectController * distination = [[PostPreViewEffectController alloc]init];
-//    distination.editing_movie = url;
-//    distination.type = PostPreViewMovie;
-//    [self.navigationController pushViewController:distination animated:YES];
     
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];

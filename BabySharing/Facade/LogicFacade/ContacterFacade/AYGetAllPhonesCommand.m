@@ -17,7 +17,6 @@
     tmpAddressBook = [[CNContactStore alloc]init];
     people = [[NSMutableArray alloc]init];
 
-
     if (tmpAddressBook) {
         CNContactFetchRequest* req = [[CNContactFetchRequest alloc]initWithKeysToFetch:@[CNContactGivenNameKey, CNContactMiddleNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]];
         req.predicate = nil;
@@ -42,33 +41,7 @@
     return kAYFactoryManagerCommandTypeModule;
 }
 
-//- (id)init {
-//    self = [super init];
-//    if (self) {
-//        tmpAddressBook = [[CNContactStore alloc]init];
-//        people = [[NSMutableArray alloc]init];
-//    }
-//    
-//    if (tmpAddressBook) {
-//        CNContactFetchRequest* req = [[CNContactFetchRequest alloc]initWithKeysToFetch:@[CNContactGivenNameKey, CNContactMiddleNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]];
-//        req.predicate = nil;
-//        NSError* err = nil;
-//        if ([tmpAddressBook enumerateContactsWithFetchRequest:req error:&err usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
-//            *stop = NO;
-//            [people addObject:contact];
-//        }]) {
-//            none_friend_lst = people;
-//            people_all = [people copy];
-//        } else {
-//            UIAlertView* alert = [[UIAlertView alloc]initWithTitle:[err.userInfo objectForKey:NSLocalizedDescriptionKey] message:[err.userInfo objectForKey:NSLocalizedFailureReasonErrorKey] delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-//            [alert show];
-//        }
-//    }
-//    
-//    return self;
-//}
-
-- (NSArray*)getAllPhones2 {
+- (id)getAllPhones {
     NSMutableArray* arr = [[NSMutableArray alloc]init];
     for (CNContact* tmpPerson in people) {
         
@@ -82,9 +55,5 @@
         }
     }
     return [arr copy];
-}
-
-- (id)getAllPhones {
-    return [self getAllPhones2];
 }
 @end

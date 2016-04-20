@@ -10,7 +10,19 @@
 #import "AYViewBase.h"
 #import "AYFacadeBase.h"
 
-@implementation AYPostMoviePreviewController
+@implementation AYPostMoviePreviewController {
+    NSURL* movie_url;
+}
+#pragma mark -- commands
+- (void)performWithResult:(NSObject**)obj {
+    
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        movie_url = (NSURL*)[dic objectForKey:kAYControllerChangeArgsKey];
+    }
+}
+
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
