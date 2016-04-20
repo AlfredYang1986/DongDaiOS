@@ -13,11 +13,19 @@
 #define BOTTON_BAR_HEIGHT           (149.0 / 667.0) * [UIScreen mainScreen].bounds.size.height
 #define CARD_CONTENG_MARGIN             10.5
 
-//@interface AYPublishContainerView () <UITextViewDelegate>
-//@end
+typedef enum : NSUInteger {
+    AYPublishContainerViewStatusReady,
+    AYPublishContainerViewStatusFocus,
+    AYPublishContainerViewStatusInputed,
+} AYPublishContainerViewStatus;
+
+@interface AYPublishContainerView () <UITextViewDelegate>
+@property (nonatomic, setter=setCurrentStatus:) AYPublishContainerViewStatus status;
+@end
 
 @implementation AYPublishContainerView {
     UITextView* descriptionView;
+    UILabel* placeholder;
 }
 
 @synthesize para = _para;
@@ -44,10 +52,11 @@
     UIView *view = [[UIView alloc] initWithFrame:descriptionView.frame];
     view.backgroundColor = [UIColor whiteColor];
     descriptionView.frame = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame)), 9, 7);
+    descriptionView.delegate = self;
     [view addSubview:descriptionView];
     [self addSubview:view];
     
-    UILabel* placeholder = [[UILabel alloc]init];
+    placeholder = [[UILabel alloc]init];
     placeholder.font = [UIFont systemFontOfSize:15.0];
     placeholder.textColor = [UIColor colorWithRed:155.0 / 255.0 green:155.0 / 255.0 blue:155.0 / 255.0 alpha:1.0];
     placeholder.numberOfLines = 2;
@@ -75,13 +84,62 @@
 }
 
 #pragma mark -- actions
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    self.status = AYPublishContainerViewStatusFocus;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (descriptionView.text.length > 0) {
+        self.status = AYPublishContainerViewStatusInputed;
+    } else {
+        self.status = AYPublishContainerViewStatusReady;
+    }
+}
+
 - (void)textFieldChanged:(NSNotification*)notify {
     
+}
+
+- (void)setCurrentStatus:(AYPublishContainerViewStatus)status {
+    if (_status != status) {
+        _status = status;
+       
+        id b = nil;
+        id<AYCommand> cmd = [self.notifies objectForKey:@"canPublish:"];
+        switch (_status) {
+            case AYPublishContainerViewStatusReady: {
+                    placeholder.hidden = NO;
+                    b = [NSNumber numberWithBool:NO];
+                }
+                break;
+            case AYPublishContainerViewStatusFocus: {
+                    placeholder.hidden = YES;
+                    b = [NSNumber numberWithBool:NO];
+                }
+                break;
+            case AYPublishContainerViewStatusInputed: {
+                    placeholder.hidden = YES;
+                    
+                    b = [NSNumber numberWithBool:YES];
+                }
+                break;
+            default:
+                break;
+        }
+        [cmd performWithResult:&b];
+    }
 }
 
 #pragma mark -- messages
 - (id)resignFirstResponed {
     [descriptionView resignFirstResponder];
+    return nil;
+}
+
+- (id)clearInputs {
+    descriptionView.text = @"";
+    [descriptionView resignFirstResponder];
+    self.status = AYPublishContainerViewStatusReady;
     return nil;
 }
 @end

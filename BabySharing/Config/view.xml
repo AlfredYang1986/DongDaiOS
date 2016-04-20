@@ -164,6 +164,8 @@
 
     <view type="PublishContainer" name="PublishContainer" factory="AYDefaultViewFactory" >
         <command type="message" message="resignFirstResponed" />
+        <command type="message" message="clearInputs" />
+        <command type="notify" message="canPublish:" />
     </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >

@@ -12,6 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
+#import "Tools.h"
 
 #define CARD_CONTENG_MARGIN             10.5
 
@@ -33,6 +34,10 @@
     CGRect keyBoardFrame;
     BOOL isUpAnimation;
     CGFloat diff;
+    
+    UIButton* bar_publich_btn;
+    UIButton* bar_cancel_btn;
+    UIButton* bar_save_btn;
 }
 
 @synthesize mainContentView = _mainContentView;
@@ -54,6 +59,8 @@
     _mainContentView.userInteractionEnabled = YES;
     UIView* container = [self.views objectForKey:@"PublishContainer"];
     [container addSubview:_mainContentView];
+    
+    [self.view sendSubviewToBack:container];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [container addGestureRecognizer:tap];
@@ -108,6 +115,44 @@
     id right = [NSNumber numberWithBool:YES];
     [cmd_right performWithResult:&right];
     
+    bar_publich_btn = [[UIButton alloc]initWithFrame:CGRectMake(width - 10.5 - 50, 25, 50, 30)];
+    [bar_publich_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bar_publich_btn setTitle:@"发布" forState:UIControlStateNormal];
+    bar_publich_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [bar_publich_btn setBackgroundImage:[Tools imageWithColor:[UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.F] size:CGSizeMake(bar_publich_btn.bounds.size.width, bar_publich_btn.bounds.size.height)] forState:UIControlStateNormal];
+    [bar_publich_btn setBackgroundImage:[Tools imageWithColor:[UIColor darkGrayColor] size:CGSizeMake(bar_publich_btn.bounds.size.width, bar_publich_btn.bounds.size.height)] forState:UIControlStateDisabled];
+    bar_publich_btn.layer.cornerRadius = 4.f;
+    bar_publich_btn.clipsToBounds = YES;
+    //    [bar_right_btn sizeToFit];
+    [bar_publich_btn addTarget:self action:@selector(didSelectPostBtn) forControlEvents:UIControlEventTouchUpInside];
+    bar_publich_btn.center = CGPointMake(width - 10 - bar_publich_btn.frame.size.width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
+    [view addSubview:bar_publich_btn];
+    bar_publich_btn.enabled = NO;
+    /***************************************************************************************/
+
+#define CANCEL_BTN_WIDTH            30
+#define CANCEL_BTN_HEIGHT           CANCEL_BTN_WIDTH
+#define CANCEL_BTN_LEFT_MARGIN      10.5
+    bar_cancel_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, CANCEL_BTN_WIDTH, CANCEL_BTN_HEIGHT)];
+    bar_cancel_btn.center = CGPointMake(CANCEL_BTN_WIDTH / 2 + CANCEL_BTN_LEFT_MARGIN, FAKE_NAVIGATION_BAR_HEIGHT / 2);
+    [bar_cancel_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bar_cancel_btn setTitle:@"取消" forState:UIControlStateNormal];
+    bar_cancel_btn.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
+    [bar_cancel_btn sizeToFit];
+    [bar_cancel_btn addTarget:self action:@selector(didSelectCancelBtn) forControlEvents:UIControlEventTouchUpInside];
+    bar_cancel_btn.hidden = YES;
+    [view addSubview:bar_cancel_btn];
+    /***************************************************************************************/
+    
+    bar_save_btn = [[UIButton alloc]initWithFrame:CGRectMake(width - 10.5 - 50, 25, 50, 30)];
+    [bar_save_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bar_save_btn setTitle:@"保存" forState:UIControlStateNormal];
+    bar_save_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
+    [bar_save_btn addTarget:self action:@selector(didSelectSaveBtn) forControlEvents:UIControlEventTouchUpInside];
+    bar_save_btn.center = CGPointMake(width - 10 - bar_publich_btn.frame.size.width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
+    bar_save_btn.hidden = YES;
+    [view addSubview:bar_save_btn];
+   
     return nil;
 }
 
@@ -166,6 +211,12 @@
     return nil;
 }
 
+- (id)canPublish:(id)args {
+    BOOL b = ((NSNumber*)args).boolValue;
+    bar_publich_btn.enabled = b;
+    return nil;
+}
+
 - (void)tapElseWhere:(UITapGestureRecognizer*)tap {
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"hideKeyBoard" object:nil];
     id<AYViewBase> container = [self.views objectForKey:@"PublishContainer"];
@@ -178,6 +229,8 @@
     if (isUpAnimation) {
         return;
     }
+   
+    self.status = AYPostPublishControllerStatusInputing;
     
     UIView* container = [self.views objectForKey:@"PublishContainer"];
     
@@ -197,6 +250,9 @@
     if (!isUpAnimation) {
         return;
     }
+   
+    self.status = AYPostPublishControllerStatusReady;
+
     UIView* container = [self.views objectForKey:@"PublishContainer"];
     
     isUpAnimation = !isUpAnimation;
@@ -206,5 +262,53 @@
     [UIView animateWithDuration:0.3 animations:^{
         container.center = CGPointMake(container.center.x, container.center.y - diff);
     }];
+}
+
+#pragma mark -- actions
+- (void)didSelectPostBtn {
+    
+}
+
+- (void)didSelectCancelBtn {
+    id<AYViewBase> container = [self.views objectForKey:@"PublishContainer"];
+    id<AYCommand> cmd = [container.commands objectForKey:@"clearInputs"];
+    [cmd performWithResult:nil];
+}
+
+- (void)didSelectSaveBtn {
+    id<AYViewBase> container = [self.views objectForKey:@"PublishContainer"];
+    id<AYCommand> cmd = [container.commands objectForKey:@"resignFirstResponed"];
+    [cmd performWithResult:nil];
+}
+
+- (void)setCurrentStatus:(AYPostPublishControllerStatus)status {
+    if (_status != status) {
+        _status = status;
+        
+        id<AYViewBase> bar = [self.views objectForKey:@"FakeNavBar"];
+        id<AYCommand> cmd = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
+        id hidden = nil;
+        switch (_status) {
+            case AYPostPublishControllerStatusReady: {
+                    bar_save_btn.hidden = YES;
+                    bar_cancel_btn.hidden = YES;
+                    bar_publich_btn.hidden = NO;
+
+                    hidden = [NSNumber numberWithBool:NO];
+                }
+                break;
+            case AYPostPublishControllerStatusInputing: {
+                    bar_save_btn.hidden = NO;
+                    bar_cancel_btn.hidden = NO;
+                    bar_publich_btn.hidden = YES;
+
+                    hidden = [NSNumber numberWithBool:YES];
+                }
+                break;
+            default:
+                break;
+        }
+        [cmd performWithResult:&hidden];
+    }
 }
 @end

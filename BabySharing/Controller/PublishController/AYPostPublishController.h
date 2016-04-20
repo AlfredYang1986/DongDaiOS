@@ -9,9 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
+typedef enum : NSUInteger {
+    AYPostPublishControllerStatusReady,
+    AYPostPublishControllerStatusInputing,
+} AYPostPublishControllerStatus;
+
 @interface AYPostPublishController : AYViewController
 
+@property (nonatomic, setter=setCurrentStatus:) AYPostPublishControllerStatus status;
 @property (nonatomic, strong) UIImageView* mainContentView;
 
 - (NSString*)getNavTitle;
+- (void)setCurrentStatus:(AYPostPublishControllerStatus)status;
+- (void)didSelectPostBtn;
 @end
