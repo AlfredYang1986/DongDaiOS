@@ -13,6 +13,10 @@
 #import "DongDaTabBar.h"
 #import "AYViewController.h"
 
+#define SHOWALBUM       [self showPostController:@"CameraRollInit"]
+#define SHOWCAMERA      [self showPostController:@"CameraInit"]
+#define SHOWMOVIE       [self showPostController:@"MovieInit"]
+
 @interface AYTabBarController () <UITabBarDelegate, UITabBarControllerDelegate>
 
 @end
@@ -91,7 +95,36 @@
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    *obj = self;
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        
+        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
+        switch (index.integerValue) {
+            case 0:
+                SHOWALBUM;
+                break;
+            case 1:
+                SHOWCAMERA;
+                break;
+            case 2:
+                SHOWMOVIE;
+                break;
+                
+            default:
+                @throw [[NSException alloc]initWithName:@"error" reason:@"wrong args" userInfo:nil];
+                break;
+        }
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+        NSDictionary* dic_push = [dic copy];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+    }
 }
 
 - (id)performForView:(id<AYViewBase>)from andFacade:(NSString*)facade_name andMessage:(NSString*)command_name andArgs:(NSDictionary*)args {
@@ -116,7 +149,8 @@
     NSLog(@"select tab %@", item.title);
     
     if ([item.title isEqualToString:@"Post"]) {
-        [self showAlbumRollController];
+//        SHOWALBUM;
+        SHOWCAMERA;
         
     } else {
 //        int count = [GotyeOCAPI getTotalUnreadMessageCount];
@@ -149,9 +183,11 @@
 }
 
 #pragma mark -- actions
-- (void)showAlbumRollController {
+- (void)showPostController:(NSString*)name {
    
-    AYViewController* des = DEFAULTCONTROLLER(@"CameraRoll");
+    AYViewController* des = nil; //
+    id<AYCommand> cmd = [self.commands objectForKey:name];
+    [cmd performWithResult:&des];
     
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     [dic_show_module setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];

@@ -269,6 +269,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+
     self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 10.5);
 //    _ownerImage.frame = CGRectMake(12, 10, 28, 28);
     [_ownerImage mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -284,6 +285,10 @@
         make.centerY.equalTo(_ownerImage);
         make.left.equalTo(_ownerImage.mas_right).offset(8);
     }];
+
+//    self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 12.5);
+//    _ownerImage.frame = CGRectMake(8, 8, 32, 32);
+
     
     [_ownerRole sizeToFit];
 //    _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, 15, CGRectGetWidth(_ownerRole.frame) + 3, 16);

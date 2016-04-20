@@ -14,5 +14,7 @@
 
 @property (nonatomic, strong) NSString* route;
 
+- (void)beforeAsyncCall;
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block;
+- (void)endAsyncCall;
 @end

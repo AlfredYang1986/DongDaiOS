@@ -11,12 +11,16 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/Photos.h>
 #import "UIImage+fixOrientation.h"
+#import <objc/runtime.h>
+#import "AYRemoteCallDefines.h"
 
 @implementation AYQueryRealPhotoCommand
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     // 缩略图和PHAsset
     PHAsset* pHAsset = [args objectForKey:@"asset"];
     
+    [self beforeAsyncCall];
+   
     static PHImageRequestID requestid = -1;
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
@@ -31,6 +35,8 @@
         if (imageData != nil) {
             block(YES, (id)[[UIImage imageWithData:imageData] fixOrientation]);
         }
+        
+        [self endAsyncCall];
     }];
 }
 @end

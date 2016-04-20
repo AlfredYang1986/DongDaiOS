@@ -17,7 +17,7 @@
 
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     NSLog(@"download user image to server: %@", args);
-    
+  
     NSString* photo = [args objectForKey:@"image"];
     
     dispatch_queue_t post_queue = dispatch_queue_create("down load image", nil);

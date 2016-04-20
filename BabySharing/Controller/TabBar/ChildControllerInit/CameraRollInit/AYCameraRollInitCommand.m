@@ -13,8 +13,6 @@
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
 
-#import "AYPlaceHolderTabBarController.h"
-
 @implementation AYCameraRollInitCommand
 @synthesize para = _para;
 
@@ -23,8 +21,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-//    UIViewController* controller = DEFAULTCONTROLLER(@"Found");
-    UIViewController* controller = [[AYPlaceHolderTabBarController alloc]init];
+    UIViewController* controller = DEFAULTCONTROLLER(@"CameraRoll");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];

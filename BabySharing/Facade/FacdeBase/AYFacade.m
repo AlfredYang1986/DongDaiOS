@@ -95,7 +95,7 @@
 
 - (void)sendNotification:(NSString*)message_name withArgs:(NSDictionary*)args {
 //    for (NSObject * controller  in _observer) {
-    for (AYWeakPointNode * node in _observer) {
+    for (AYWeakPointNode * node in [_observer copy]) {
         id<AYCommand> controller = node.target;
         if (controller) {
             SEL sel = NSSelectorFromString(message_name);

@@ -11,6 +11,48 @@
         <command type="Module" name="LoginSNSWithWeibo" />
     </facade>
 
+    <facade type="DefaultFacade" name="StillImageCapture" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="StillImageCaptureInit" />
+        <command type="Module" name="StillImageCaptureStart" />
+        <command type="Module" name="StillImageCaptureStop" />
+        <command type="Module" name="StillImageCaptureView" />
+        <command type="Module" name="StillImageCaptureChangeCamera" />
+        <command type="Module" name="StillImageCaptureChangeFlash" />
+        <command type="Remote" name="StillImageCaptureTake" />
+        <command type="Module" name="StillImageCaptureRelease" />
+    </facade>
+
+    <facade type="DefaultFacade" name="MovieRecord" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="MovieRecordInit" />
+        <command type="Module" name="MovieRecordStartCapture" />
+        <command type="Module" name="MovieRecordStopCapture" />
+        <command type="Module" name="MovieRecordView" />
+        <command type="Module" name="MovieRecordChangeCamera" />
+        <command type="Module" name="MovieRecordRelease" />
+        <command type="Module" name="MovieRecordStartRecord" />
+        <command type="Remote" name="MovieRecordStopRecord" />
+        <command type="Module" name="MovieRecordDeleteRecord" />
+        <command type="Module" name="MovieRecordMultipleMerge" />
+    </facade>
+
+    <facade type="DefaultFacade" name="GPUFilter" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="BlackAndWhiteFilter" />
+        <command type="Module" name="SceneFilter" />
+        <command type="Module" name="AvaterFilter" />
+        <command type="Module" name="FoodFilter" />
+        <command type="Module" name="QueryFilterWithName" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="MoviePlayer" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="MovieCoverImages" />
+        <command type="Module" name="PlayMovie" />
+        <command type="Module" name="PauseMovie" />
+        <command type="Module" name="ReleaseMovie" />
+        <command type="Module" name="MovieDisplayView" />
+        <command type="Module" name="MovieAddFilter" />
+        <command type="Remote" name="NewMovieCurrentFilter" />
+    </facade>
+
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="EnumAlbumName" />
         <command type="Remote" name="EnumAllPhotoWithAlbum" />
@@ -29,8 +71,6 @@
 
         <command type="Module" name="QuerySNSProviders" />
         <command type="Module" name="ChangeSNSProviders" />
-        
-<!--        <command type="Module" name="QueryUserContacter" />-->
 
         <command type="Module" name="SignOutLocal" />
     </facade>
@@ -86,6 +126,7 @@
         <command type="Remote" name="QueryRecommandTags" />
         <command type="Remote" name="SearchTagWithPreviews" />
         <command type="Remote" name="SearchRoleTagWithPreviews" />
+        <command type="Remote" name="QueryRecommandTags" />
     </facade>
     
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >

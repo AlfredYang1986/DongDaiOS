@@ -56,12 +56,49 @@
     <command type="Module" name="FriendsInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ProfileInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="PlaceHolderInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CameraRollInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
     
     <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="QueryRealPhoto" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="StillImageCaptureInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureStart" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureStop" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureView" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureChangeCamera" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureChangeFlash" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="StillImageCaptureTake" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="StillImageCaptureRelease" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="MovieRecordInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordStartCapture" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordStopCapture" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordView" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordChangeCamera" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordStartRecord" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="MovieRecordStopRecord" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordRelease" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordDeleteRecord" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieRecordMultipleMerge" factory="AYDefaultModuleFactory" />
+
+    <command type="Module" name="BlackAndWhiteFilter" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SceneFilter" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="AvaterFilter" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="FoodFilter" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryFilterWithName" factory="AYDefaultModuleFactory" />
+
+    <command type="Module" name="MovieCoverImages" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="PlayMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="PauseMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ReleaseMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieDisplayView" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieAddFilter" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="NewMovieCurrentFilter" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

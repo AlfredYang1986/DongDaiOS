@@ -343,14 +343,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    [_lm signOutCurrentUser];
    
     NSDictionary* current_login_user = nil;
+    CURRENUSER(current_login_user);
    
-    {
-        AYFacade* f = LOGINMODEL;
-        id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
-        [cmd performWithResult:&current_login_user];
-    }
-    NSLog(@"current login user %@", current_login_user);
-    
     id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
     [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {

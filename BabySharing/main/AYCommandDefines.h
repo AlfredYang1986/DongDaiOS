@@ -70,6 +70,11 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define HOMECONTENTMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"HomeQueryModel")
 #define CHATSESSIONMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ChatSessionModel")
 
+#define GPUSTILLIMAGECAPTURE    FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"StillImageCapture")
+#define MOVIERECORD             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MovieRecord")
+#define GPUFILTER               FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"GPUFilter")
+#define MOVIEPLAYER             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MoviePlayer")
+
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])

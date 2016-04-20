@@ -60,6 +60,10 @@
 }
 
 - (void)dealloc {
+    [self clearController];
+}
+
+- (void)clearController {
     for (id<AYCommand> facade in self.facades.allValues) {
         NSMutableDictionary* reg = [[NSMutableDictionary alloc]init];
         [reg setValue:kAYNotifyActionKeyReceive forKey:kAYNotifyActionKey];

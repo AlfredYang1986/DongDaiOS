@@ -137,6 +137,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     /**
      * input method
      */

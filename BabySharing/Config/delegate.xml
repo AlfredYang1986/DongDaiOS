@@ -1,20 +1,24 @@
 <delegates>
-    <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" factory="AYDefaultDelegateFactory" >
-        <command type="message" message="changeQueryData:" />
-        <command type="notify" message="RoleTagSeleted:" />
-    </delegate>
-   
-    <delegate type="SearchBarDelegate" name="RoleTagSearchBar" factory="AYDefaultDelegateFactory" >
+    <delegate type="SearchBarDelegate" name="SearchBar" factory="AYDefaultDelegateFactory" >
         <command type="notify" message="searchTextChanged:" />
     </delegate>
-   
-    <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" factory="AYDefaultDelegateFactory" >
+    
+    <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="TagSeleted:" />
+        <command type="notify" message="queryHeaderTitle" />
+        <command type="notify" message="queryHandleCommand" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="TagAdd" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeSearchText:" />
-        <command type="notify" message="RoleTagSeleted:" />
-        <command type="notify" message="RoleTagAdded:" />
+        <command type="notify" message="TagSeleted:" />
+        <command type="notify" message="TagAdded:" />
+        <command type="notify" message="queryNoResultTitle" />
+        <command type="notify" message="handleResultToString:" />
     </delegate>
-   
+
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>

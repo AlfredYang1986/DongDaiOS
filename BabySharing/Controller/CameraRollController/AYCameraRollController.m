@@ -199,10 +199,18 @@
         id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
         UIImage* left = PNGRESOURCE(@"post_cancel");
         [cmd_left performWithResult:&left];
+     
+#define RIGHT_BTN_WIDTH             25
+#define RIGHT_BTN_HEIGHT            RIGHT_BTN_WIDTH
+#define RIGHT_BTN_RIGHT_MARGIN      10.5
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, RIGHT_BTN_WIDTH, RIGHT_BTN_HEIGHT)];
+        [bar_right_btn setTitleColor:[UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.f] forState:UIControlStateNormal];
+        [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(width - RIGHT_BTN_RIGHT_MARGIN - bar_right_btn.frame.size.width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
         
-        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnImg:"];
-        UIImage* right = PNGRESOURCE(@"dongda_next");
-        [cmd_right performWithResult:&right];
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+        [cmd_right performWithResult:&bar_right_btn];
     }
     
     return nil;
@@ -226,7 +234,7 @@
 }
 
 #define SEG_BTN_MARGIN_BETWEEN          45
-#define SEG_HEIGHT                      49
+#define SEG_HEIGHT                      44
 - (id)DongDaSegLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat screen_height = [UIScreen mainScreen].bounds.size.height;
@@ -274,15 +282,27 @@
 }
 
 - (id)rightBtnSelected {
+    
+    
     return nil;
 }
 
 - (id)segValueChanged:(id)obj {
-    id<AYCommand> cmd = REVERSMODULE;
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [cmd performWithResult:&dic];
+    
+    id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
+    id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd performWithResult:&index];
+    
+    if (index.integerValue != 0) {
+        id<AYCommand> cmd = REVERSMODULE;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:index forKey:kAYControllerChangeArgsKey];
+        [cmd performWithResult:&dic];
+    }
+
     return nil;
 }
 

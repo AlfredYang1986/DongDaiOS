@@ -57,9 +57,23 @@
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="RoleTagRecommend" />
-        <delegate type="TableViewDelegateAndDatasource" name="RoleTagAdd" />
-        <delegate type="SearchBarDelegate" name="RoleTagSearchBar" />
+        <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" />
+        <delegate type="TableViewDelegateAndDatasource" name="TagAdd" />
+        <delegate type="SearchBarDelegate" name="SearchBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="TagSearch" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="SearchRemote" notification="true" />
+        
+        <view type="SearchBar" name="SearchBar" />
+        <view type="Table" name="Table" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" />
+        <delegate type="TableViewDelegateAndDatasource" name="TagAdd" />
+        <delegate type="SearchBarDelegate" name="SearchBar" />
     </controller>
     
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
@@ -68,6 +82,9 @@
         <command type="Module" name="FriendsInit" />
         <command type="Module" name="ProfileInit" />
         <command type="Module" name="PlaceHolderInit" />
+        <command type="Module" name="CameraRollInit" />
+        <command type="Module" name="CameraInit" />
+        <command type="Module" name="MovieInit" />
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
@@ -214,7 +231,6 @@
 
         <facade type="DefaultFacade" name="PHAsset" notification="true" />
         
-<!--        <view type="FakeStatusBar" name="FakeStatusBar" />-->
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Table" name="Table" />
         <view type="DongDaSeg" name="DongDaSeg" />
@@ -222,5 +238,68 @@
         <view type="DropDownList" name="DropDownList" />
 
         <delegate type="TableViewDelegateAndDatasource" name="Album" />
+    </controller>
+   
+    <controller type="DefaultController" name="Camera" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="StillImageCapture" notification="true" />
+       
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="FunctionBar" name="FunctionBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+    </controller>
+
+    <controller type="DefaultController" name="Movie" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="MovieRecord" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="FunctionBar" name="FunctionBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="PostPhotoPreview" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="GPUFilter" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="TagPreview" name="TagPreview" />
+        <view type="TagEntry" name="TagEntry" />
+        <view type="FilterPreview" name="FilterPreview" />
+    </controller>
+    
+    <controller type="DefaultController" name="PostMoviePreview" factory="AYDefaultControllerFactoy" >
+
+        <facade type="DefaultFacade" name="GPUFilter" notification="true" />
+        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="MovieCover" name="MovieCover" />
+        <view type="TagEntry" name="TagEntry" />
+        <view type="FilterPreview" name="FilterPreview" />
+    </controller>
+    
+    <controller type="DefaultController" name="PostPhotoPublish" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SharingSNS" name="SharingSNS" />
+        <view type="PublishContainer" name="PublishContainer" />
+    </controller>
+    
+    <controller type="DefaultController" name="PostMoviePublish" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SharingSNS" name="SharingSNS" />
+        <view type="PublishContainer" name="PublishContainer" />
     </controller>
 </controllers>

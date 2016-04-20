@@ -10,5 +10,15 @@
 #import "AYViewController.h"
 
 @interface AYSearchController : AYViewController
+- (id<AYCommand>)queryDataCommand;
+- (NSDictionary*)queryDataArgs;
 
+- (NSArray*)handleRecommandResult:(id)result;
+- (id)handleResultToString:(id)result;
+- (id)queryHeaderTitle;
+- (id)queryHandleCommand;
+- (id)queryNoResultTitle;
+
+- (id)SearchBarLayout:(UIView*)view;
+- (id)TableLayout:(UIView*)view;
 @end

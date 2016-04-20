@@ -9,12 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-//typedef NS_ENUM(NSInteger, AlbumControllerType) {
-//    AlbumControllerTypePhoto,
-//    AlbumControllerTypeMovie,
-//    AlbumControllerTypeCompire,
-//};
-
 @interface AYCameraRollController : AYViewController
 
 @end

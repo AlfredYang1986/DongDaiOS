@@ -96,6 +96,7 @@
         <command type="message" message="setBackGroundColor:" />
         <command type="message" message="setLeftBtnImg:" />
         <command type="message" message="setRightBtnImg:" />
+        <command type="message" message="setRightBtnWithBtn:" />
         <command type="message" message="setLeftBtnVisibility:" />
         <command type="message" message="setRightBtnVisibility:" />
         <command type="notify" message="leftBtnSelected" />
@@ -133,6 +134,38 @@
     
     <view type="FunctionBar" name="FunctionBar" factory="AYDefaultViewFactory" >
         <command type="notify" message="funcBtnSelected:" />
+    </view>
+    
+    <view type="TagPreview" name="TagPreview" factory="AYDefaultViewFactory" >
+    </view>
+
+    <view type="TagEntry" name="TagEntry" factory="AYDefaultViewFactory" >
+        <command type="message" message="startSubBtnAnimation" />
+        <command type="notify" message="didTagEntrySelected:" />
+        <command type="notify" message="entryViewTaped" />
+    </view>
+
+    <view type="FilterPreview" name="FilterPreview" factory="AYDefaultViewFactory" >
+        <command type="message" message="setOriginImage:" />
+        <command type="notify" message="didSelectedFilterPhoto:" />
+        <command type="notify" message="didSelectedFilterMovie:" />
+    </view>
+
+    <view type="MovieCover" name="MovieCover" factory="AYDefaultViewFactory" >
+        <command type="message" message="setMovieUrl:" />
+        <command type="notify" message="didSelectedCover:" />
+    </view>
+
+    <view type="SharingSNS" name="SharingSNS" factory="AYDefaultViewFactory" >
+        <command type="notify" message="SharingSNSWithQQ:" />
+        <command type="notify" message="SharingSNSWithWechat:" />
+        <command type="notify" message="SharingSNSWithWeibo:" />
+    </view>
+
+    <view type="PublishContainer" name="PublishContainer" factory="AYDefaultViewFactory" >
+        <command type="message" message="resignFirstResponed" />
+        <command type="message" message="clearInputs" />
+        <command type="notify" message="canPublish:" />
     </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
