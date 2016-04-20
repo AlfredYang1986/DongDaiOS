@@ -30,40 +30,41 @@
         meta = [[AYPlayMovieMeta alloc]initWithURL:url];
         [f.playing_items setValue:meta forKey:str];
     }
-    
+   
+    [meta pause];
+
     NSString* strDir = [TmpFileStorageModel BMTmpMovieDir];
     NSString *testfile = [strDir stringByAppendingPathComponent:[TmpFileStorageModel generateFileName]];
     NSString* path = [testfile stringByAppendingPathExtension:@"mp4"];
+    unlink([path UTF8String]);
     NSURL* url_new = [NSURL fileURLWithPath:path];
     
-    GPUImageMovieWriter* movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:url_new size:CGSizeMake(480.0, 640.0)];
-    movieWriter.encodingLiveVideo = NO;
-   
-    [meta.movieFile addTarget:meta.filter];
-    [meta.filter addTarget:movieWriter];
+    meta.movieWriter = [[GPUImageMovieWriter alloc] initWithMovieURL:url_new size:CGSizeMake(480.0, 640.0)];
+    meta.movieWriter.encodingLiveVideo = YES;
+  
+    [meta.movieFile endProcessing];
+    [meta.movieFile removeAllTargets];
+    [meta.filter removeAllTargets];
     
-    movieWriter.shouldPassthroughAudio = YES;
-    meta.movieFile.audioEncodingTarget = movieWriter;
-    [meta.movieFile enableSynchronizedEncodingUsingMovieWriter:movieWriter];
+    [meta.movieFile addTarget:meta.filter];
+    [meta.filter addTarget:meta.movieWriter];
+    
+    meta.movieWriter.shouldPassthroughAudio = YES;
+    meta.movieFile.audioEncodingTarget = meta.movieWriter;
+    [meta.movieFile enableSynchronizedEncodingUsingMovieWriter:meta.movieWriter];
 
-    [movieWriter startRecording];
+    [meta.movieWriter startRecording];
     [meta.movieFile startProcessing];
     
     [self beforeAsyncCall];
-    
-    [movieWriter setCompletionBlock:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSMutableDictionary* result = [[NSMutableDictionary alloc]init];
-            [result setValue:url_new forKey:@"url"];
-            [self endAsyncCall];
-            block(YES, [result copy]);
-        });
+
+    [meta.movieWriter finishRecordingWithCompletionHandler:^{
+        [meta.filter removeTarget:meta.movieWriter];
+        meta.movieFile.audioEncodingTarget = nil;
+        NSMutableDictionary* result = [[NSMutableDictionary alloc]init];
+        [result setValue:url_new forKey:@"url"];
+        [self endAsyncCall];
+        block(YES, [result copy]);
     }];
-    
-//    [f.filter addTarget:f.movieWriter];
-//    [f.videoCamera addAudioInputsAndOutputs];
-//    f.videoCamera.audioEncodingTarget = f.movieWriter;
-//    f.isRecording = true;
-//    [f.movieWriter startRecording];
 }
 @end

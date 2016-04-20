@@ -16,6 +16,7 @@
 
 @synthesize movieFile = _movieFile;
 @synthesize filterView = _filterView;
+@synthesize movieWriter = _movieWriter;
 @synthesize filter = _filter;
 @synthesize player = _player;
 @synthesize avPlayerItem = _avPlayerItem;
