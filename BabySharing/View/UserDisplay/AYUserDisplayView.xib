@@ -51,7 +51,7 @@
                 <outlet property="relationContainer" destination="dcu-UY-XVA" id="RAS-Wz-IZy"/>
                 <outlet property="user_screen_photo" destination="ok4-Yj-8cN" id="N9l-1s-MMn"/>
             </connections>
-            <point key="canvasLocation" x="316" y="292"/>
+            <point key="canvasLocation" x="376" y="286"/>
         </tableViewCell>
     </objects>
 </document>

@@ -25,7 +25,11 @@
 #import "AYViewBase.h"
 #import "AYModel.h"
 
-@class AYDongDaSegView;
+#import <Contacts/CNContact.h>
+#import <Contacts/CNContactStore.h>
+#import <Contacts/CNContactFetchRequest.h>
+
+
 #define kSCREENW [UIScreen mainScreen].bounds.size.width
 #define kSCREENH [UIScreen mainScreen].bounds.size.height
 
@@ -42,7 +46,17 @@
 
 @end
 
-@implementation AYAddFriendController
+@implementation AYAddFriendController{
+
+    CNContactStore* tmpAddressBook;
+    NSArray* people_all;
+    NSMutableArray* people;
+
+    NSArray* friend_profile_lst;
+    NSArray* friend_lst;
+    NSArray* none_friend_lst;
+
+}
 
 - (void)performWithResult:(NSObject**)obj {
     
@@ -73,7 +87,7 @@
     }
     
     {
-        id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
+        id<AYViewBase> view_friend = [self.views objectForKey:@"Table2"];
         id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
         
         id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
@@ -85,12 +99,31 @@
         [cmd_delegate performWithResult:&obj];
     }
     
-    id<AYViewBase> view_contacter_table = [self.views objectForKey:@"Table"];
+    id<AYViewBase> view_contacter_table = [self.views objectForKey:@"Table2"];
     id<AYCommand> cmd_hot_cell = [view_contacter_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
     
 }
+//- (NSArray*)getAllPhones2 {
+//    NSMutableArray* arr = [[NSMutableArray alloc]init];
+//    for (CNContact* tmpPerson in people) {
+//        
+//        NSArray<CNLabeledValue<CNPhoneNumber*>*>* phones = tmpPerson.phoneNumbers;
+//        
+//        for (int index = 0; index < phones.count; ++index) {
+//            NSString* phoneNo = [phones objectAtIndex:index].value.stringValue;
+//            phoneNo = [phoneNo stringByReplacingOccurrencesOfString:@" " withString:@""];
+//            phoneNo = [phoneNo stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//            [arr addObject:phoneNo];
+//        }
+//    }
+//    return [arr copy];
+//}
+//
+//- (id)getAllPhones {
+//    return [self getAllPhones2];
+//}
 
 #pragma mark -- layout commands
 
@@ -110,7 +143,7 @@
 }
 
 
-- (id)TableLayout:(UIView*)view {
+- (id)Table2Layout:(UIView*)view {
     
     view.frame = CGRectMake(0, 128, kSCREENW, kSCREENH - 124);
 //    view.backgroundColor = [UIColor grayColor];
@@ -197,31 +230,62 @@
         index = [NSNumber numberWithInt:index.integerValue > 0 ? 0 : -1];
         
         
-        
     }else if (index.integerValue == 2){
         index = [NSNumber numberWithInt:index.integerValue > 0 ? 0 : -1];
         
         
+    }else if (index.integerValue == 0){
         
-    }else {
+        AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ContatcerInSystem"];
         
-//        AYFacade* f = [self.facades objectForKey:@"LoginModel"];
-//        AYRemoteCallCommand* cmd_contacter = [f.commands objectForKey:@"QueryCurrentLoginUser"];
-//        
-//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//        [dic setValue:self.current_user_id forKey:@"user_id"];
-//        [dic setValue:self.current_auth_token forKey:@"auth_token"];
-//        [dic setValue:user_lst forKey:@"lst"];
-//        [dic setValue:provider_name forKey:@"provider_name"];
-//        
-//        [cmd_contacter performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//            if (success) {
+        NSDictionary* obj = nil;
+        CURRENUSER(obj)
+        NSMutableDictionary* dic = [obj mutableCopy];
+        NSLog(@"*************%@",dic);
+        
+        id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
+        id<AYCommand> cmd_get_contacter = [cmd_relations.commands objectForKey:@"getAllPhones"];
+        
+//        AYFacade* f_contacter = [self.facades objectForKey:@"Contacter"];
+//        id<AYCommand> cmd_get_phones = [f_contacter.commands objectForKey:@"GetAllPhones"];
+        
+        NSArray* phones = nil;
+        [cmd_get_contacter performWithResult:&phones];
+        [dic setValue:phones forKey:@"lst"];
+//        phones = [self getAllPhones];
+//        [dic setValue:phones forKey:@"lst"];
+        [dic setValue:@"phone" forKey:@"provider_name"];
+        
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSLog(@"Update user detail remote result: %@", result);
+            if (success) {
+                NSArray* reVal = nil;
+                reVal = (NSArray*)result;
+                
+//                id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
+//                AYRemoteCallCommand* cmd_profile = [f_profile.commands objectForKey:@"QueryMultipleUsers"];
 //                
-//            } else {
+//                NSMutableArray* ma = [[NSMutableArray alloc]initWithCapacity:reVal.count];
+//                for (NSDictionary* iter in reVal) {
+//                    [ma addObject:[iter objectForKey:@"user_id"]];
+//                }
+                
+                id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
+                
+                id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeFriendsData:"];
+                [cmd performWithResult:&reVal];
 //                
-//            }
-//        }];
-        
+//                id<AYCommand> cmd_splitWithFriends = [cmd_relations.commands objectForKey:@"splitWithFriends:"];
+//                [cmd_splitWithFriends performWithResult:&reVal];
+                
+                id<AYViewBase> view_contacter = [self.views objectForKey:@"Table2"];
+                id<AYCommand> cmd_refresh = [view_contacter.commands objectForKey:@"refresh"];
+                [cmd_refresh performWithResult:nil];
+            } else {
+                NSLog(@"addfriend remote faild");
+            }
+        }];
     }
     
     NSMutableDictionary *dic_user_info = [[NSMutableDictionary alloc]init];
@@ -229,11 +293,6 @@
     [cmd_info performWithResult:&dic_user_info];
     
     return nil;
-}
-
-- (void)showData:(NSString*)ready_func_name changFunc:(NSString*)change_func_name queryFunc:(NSString*)query_func_name resultKey:(NSString*)result_key {
-    
-    
 }
 
 #pragma mark -- notification pop view controller

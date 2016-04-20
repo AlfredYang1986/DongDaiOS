@@ -207,6 +207,20 @@
 		702E7AB91CA169E30097867E /* command.xml in Resources */ = {isa = PBXBuildFile; fileRef = 702E7AB81CA169E30097867E /* command.xml */; };
 		702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ABF1CA16C830097867E /* AYAppInitCommandFactory.m */; };
 		702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ACF1CA184A70097867E /* AYAppInitCommand.m */; };
+		703291C31CC492B700028DF2 /* AYContatcerInSystemCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */; };
+		703291CA1CC4ACC700028DF2 /* AYGetAllPhonesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703291C91CC4ACC700028DF2 /* AYGetAllPhonesCommand.m */; };
+		7039932C1CC5C85800373101 /* images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7039932B1CC5C85800373101 /* images.xcassets */; };
+		703993481CC5FEF900373101 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7039932E1CC5FEF900373101 /* Info.plist */; };
+		703993491CC5FEF900373101 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993301CC5FEF900373101 /* MASCompositeConstraint.m */; };
+		7039934A1CC5FEF900373101 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993331CC5FEF900373101 /* MASConstraint.m */; };
+		7039934B1CC5FEF900373101 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993351CC5FEF900373101 /* MASConstraintMaker.m */; };
+		7039934C1CC5FEF900373101 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993371CC5FEF900373101 /* MASLayoutConstraint.m */; };
+		7039934D1CC5FEF900373101 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039933B1CC5FEF900373101 /* MASViewAttribute.m */; };
+		7039934E1CC5FEF900373101 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039933D1CC5FEF900373101 /* MASViewConstraint.m */; };
+		7039934F1CC5FEF900373101 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039933F1CC5FEF900373101 /* NSArray+MASAdditions.m */; };
+		703993501CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993421CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		703993511CC5FEF900373101 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993441CC5FEF900373101 /* View+MASAdditions.m */; };
+		703993521CC5FEF900373101 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 703993471CC5FEF900373101 /* ViewController+MASAdditions.m */; };
 		7039CBC81CBB68E500BE60C7 /* AYFoundHotTagsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */; };
 		7039CBC91CBB68E500BE60C7 /* AYFoundSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBC61CBB68E500BE60C7 /* AYFoundSearchHeaderView.m */; };
 		7039CBCA1CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7039CBC71CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib */; };
@@ -765,6 +779,37 @@
 		702E7ACE1CA184A70097867E /* AYAppInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppInitCommand.h; sourceTree = "<group>"; };
 		702E7ACF1CA184A70097867E /* AYAppInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppInitCommand.m; sourceTree = "<group>"; };
 		702E7AD11CA185C70097867E /* AYCommandDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYCommandDefines.h; sourceTree = "<group>"; };
+		703291C11CC492B700028DF2 /* AYContatcerInSystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContatcerInSystemCommand.h; sourceTree = "<group>"; };
+		703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContatcerInSystemCommand.m; sourceTree = "<group>"; };
+		703291C81CC4ACC700028DF2 /* AYGetAllPhonesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGetAllPhonesCommand.h; sourceTree = "<group>"; };
+		703291C91CC4ACC700028DF2 /* AYGetAllPhonesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGetAllPhonesCommand.m; sourceTree = "<group>"; };
+		7039932B1CC5C85800373101 /* images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = images.xcassets; sourceTree = "<group>"; };
+		7039932E1CC5FEF900373101 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7039932F1CC5FEF900373101 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
+		703993301CC5FEF900373101 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
+		703993311CC5FEF900373101 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
+		703993321CC5FEF900373101 /* MASConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraint.h; sourceTree = "<group>"; };
+		703993331CC5FEF900373101 /* MASConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraint.m; sourceTree = "<group>"; };
+		703993341CC5FEF900373101 /* MASConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASConstraintMaker.h; sourceTree = "<group>"; };
+		703993351CC5FEF900373101 /* MASConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASConstraintMaker.m; sourceTree = "<group>"; };
+		703993361CC5FEF900373101 /* MASLayoutConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASLayoutConstraint.h; sourceTree = "<group>"; };
+		703993371CC5FEF900373101 /* MASLayoutConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASLayoutConstraint.m; sourceTree = "<group>"; };
+		703993381CC5FEF900373101 /* Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Masonry.h; sourceTree = "<group>"; };
+		703993391CC5FEF900373101 /* MASUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASUtilities.h; sourceTree = "<group>"; };
+		7039933A1CC5FEF900373101 /* MASViewAttribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewAttribute.h; sourceTree = "<group>"; };
+		7039933B1CC5FEF900373101 /* MASViewAttribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewAttribute.m; sourceTree = "<group>"; };
+		7039933C1CC5FEF900373101 /* MASViewConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASViewConstraint.h; sourceTree = "<group>"; };
+		7039933D1CC5FEF900373101 /* MASViewConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASViewConstraint.m; sourceTree = "<group>"; };
+		7039933E1CC5FEF900373101 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASAdditions.h"; sourceTree = "<group>"; };
+		7039933F1CC5FEF900373101 /* NSArray+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MASAdditions.m"; sourceTree = "<group>"; };
+		703993401CC5FEF900373101 /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		703993411CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+MASDebugAdditions.h"; sourceTree = "<group>"; };
+		703993421CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
+		703993431CC5FEF900373101 /* View+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASAdditions.h"; sourceTree = "<group>"; };
+		703993441CC5FEF900373101 /* View+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASAdditions.m"; sourceTree = "<group>"; };
+		703993451CC5FEF900373101 /* View+MASShorthandAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASShorthandAdditions.h"; sourceTree = "<group>"; };
+		703993461CC5FEF900373101 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
+		703993471CC5FEF900373101 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		7039CBC31CBB68E500BE60C7 /* AYFoundHotTagsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundHotTagsCellView.h; sourceTree = "<group>"; };
 		7039CBC41CBB68E500BE60C7 /* AYFoundHotTagsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundHotTagsCellView.m; sourceTree = "<group>"; };
 		7039CBC51CBB68E500BE60C7 /* AYFoundSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchHeaderView.h; sourceTree = "<group>"; };
@@ -1331,6 +1376,7 @@
 				70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */,
 				700BE5D61CBA6E5800A09B3A /* AYRemoteCallCommand.h */,
 				700BE5D71CBA6E5800A09B3A /* AYRemoteCallCommand.m */,
+				703291C01CC4927A00028DF2 /* ContatcerInSystem */,
 				700BE5C91CBA6E5800A09B3A /* Auth */,
 				702510851CC0F2EC00DADF2B /* ChatSession */,
 				70F68DB31CBE6D7E005524BA /* EmailSend */,
@@ -2029,6 +2075,7 @@
 		701D8A3F1CA7B9C200B5D4C1 /* Facade */ = {
 			isa = PBXGroup;
 			children = (
+				703291C71CC4ACC700028DF2 /* ContacterFacade */,
 				701D8A401CA7B9C200B5D4C1 /* FacdeBase */,
 				701D8A441CA7B9C200B5D4C1 /* LogicFacade */,
 				701D8A551CA7B9C200B5D4C1 /* RemoteFacade */,
@@ -2422,6 +2469,7 @@
 		702E7A851CA151770097867E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				7039932B1CC5C85800373101 /* images.xcassets */,
 				703B896D1CBF65EB002EBB18 /* privacy.html */,
 				7017F3521CB7BA74002C416E /* Info.plist */,
 				7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */,
@@ -2565,6 +2613,57 @@
 			path = AppInitCommand;
 			sourceTree = "<group>";
 		};
+		703291C01CC4927A00028DF2 /* ContatcerInSystem */ = {
+			isa = PBXGroup;
+			children = (
+				703291C11CC492B700028DF2 /* AYContatcerInSystemCommand.h */,
+				703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */,
+			);
+			path = ContatcerInSystem;
+			sourceTree = "<group>";
+		};
+		703291C71CC4ACC700028DF2 /* ContacterFacade */ = {
+			isa = PBXGroup;
+			children = (
+				703291C81CC4ACC700028DF2 /* AYGetAllPhonesCommand.h */,
+				703291C91CC4ACC700028DF2 /* AYGetAllPhonesCommand.m */,
+			);
+			path = ContacterFacade;
+			sourceTree = "<group>";
+		};
+		7039932D1CC5FEF900373101 /* Masonry */ = {
+			isa = PBXGroup;
+			children = (
+				7039932E1CC5FEF900373101 /* Info.plist */,
+				7039932F1CC5FEF900373101 /* MASCompositeConstraint.h */,
+				703993301CC5FEF900373101 /* MASCompositeConstraint.m */,
+				703993311CC5FEF900373101 /* MASConstraint+Private.h */,
+				703993321CC5FEF900373101 /* MASConstraint.h */,
+				703993331CC5FEF900373101 /* MASConstraint.m */,
+				703993341CC5FEF900373101 /* MASConstraintMaker.h */,
+				703993351CC5FEF900373101 /* MASConstraintMaker.m */,
+				703993361CC5FEF900373101 /* MASLayoutConstraint.h */,
+				703993371CC5FEF900373101 /* MASLayoutConstraint.m */,
+				703993381CC5FEF900373101 /* Masonry.h */,
+				703993391CC5FEF900373101 /* MASUtilities.h */,
+				7039933A1CC5FEF900373101 /* MASViewAttribute.h */,
+				7039933B1CC5FEF900373101 /* MASViewAttribute.m */,
+				7039933C1CC5FEF900373101 /* MASViewConstraint.h */,
+				7039933D1CC5FEF900373101 /* MASViewConstraint.m */,
+				7039933E1CC5FEF900373101 /* NSArray+MASAdditions.h */,
+				7039933F1CC5FEF900373101 /* NSArray+MASAdditions.m */,
+				703993401CC5FEF900373101 /* NSArray+MASShorthandAdditions.h */,
+				703993411CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.h */,
+				703993421CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.m */,
+				703993431CC5FEF900373101 /* View+MASAdditions.h */,
+				703993441CC5FEF900373101 /* View+MASAdditions.m */,
+				703993451CC5FEF900373101 /* View+MASShorthandAdditions.h */,
+				703993461CC5FEF900373101 /* ViewController+MASAdditions.h */,
+				703993471CC5FEF900373101 /* ViewController+MASAdditions.m */,
+			);
+			path = Masonry;
+			sourceTree = "<group>";
+		};
 		7039CBC21CBB68E500BE60C7 /* SearchViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -2692,6 +2791,7 @@
 		70490DA51CA2339D0093D5DA /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				7039932D1CC5FEF900373101 /* Masonry */,
 				701524BC1CBFBE7B005B4C5B /* PhotoTagView */,
 				701524A01CBFBBA9005B4C5B /* libGPUImage */,
 				7015244A1CBF9AB4005B4C5B /* MJRefresh */,
@@ -3526,7 +3626,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = 45E5AAUFA8;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -3573,6 +3673,7 @@
 				7039CBCA1CBB68E500BE60C7 /* AYFoundSearchHeaderView.xib in Resources */,
 				703B896E1CBF65EB002EBB18 /* privacy.html in Resources */,
 				70490DC01CA2339D0093D5DA /* read_me.txt in Resources */,
+				7039932C1CC5C85800373101 /* images.xcassets in Resources */,
 				701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */,
 				700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */,
 				70490DC21CA2339D0093D5DA /* WeiboSDK.bundle in Resources */,
@@ -3592,6 +3693,7 @@
 				7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */,
 				702E7A931CA151770097867E /* icon@2x.png in Resources */,
 				702E7A991CA1572E0097867E /* default.png in Resources */,
+				703993481CC5FEF900373101 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3619,6 +3721,7 @@
 				701524831CBF9AB4005B4C5B /* BSRefreshAnimationFooter.m in Sources */,
 				701524191CBF499C005B4C5B /* AYFollowCommand.m in Sources */,
 				701524871CBF9AB4005B4C5B /* BSRefreshAnimationHeader.m in Sources */,
+				703993501CC5FEF900373101 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				70F68DB21CBE595B005524BA /* AYSetNevigationBarRightBtnView.m in Sources */,
 				701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */,
 				703B89781CBFAB98002EBB18 /* AYContacterListDelegate.m in Sources */,
@@ -3642,6 +3745,7 @@
 				7006931F1CC4A3C400B511FF /* AYFunctionBarView.m in Sources */,
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
+				703993491CC5FEF900373101 /* MASCompositeConstraint.m in Sources */,
 				701524861CBF9AB4005B4C5B /* MJRefreshBackStateFooter.m in Sources */,
 				700BE5A11CBA2BE800A09B3A /* AYRoleTagSearchBarDelegate.m in Sources */,
 				700693161CC4A3AF00B511FF /* AYDropDownListView.m in Sources */,
@@ -3680,12 +3784,14 @@
 				701D8A9A1CA7E06700B5D4C1 /* RegTmpToken.m in Sources */,
 				7039CBD91CBB7B4B00BE60C7 /* AYProfilePublishDelegate.m in Sources */,
 				707B4D3F1CA819D900F6256E /* UINavigationController+Retro.m in Sources */,
+				703993521CC5FEF900373101 /* ViewController+MASAdditions.m in Sources */,
 				700692FC1CC4A03100B511FF /* FoundHotTagBtn.m in Sources */,
 				70EAD8101CA6680C007965D2 /* AYModel.m in Sources */,
 				70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */,
 				702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */,
 				700BE5EE1CBA6E5800A09B3A /* AYUploadUserImageCommand.m in Sources */,
 				700692F51CC49B9600B511FF /* AYPlaceHolderTabBarController.m in Sources */,
+				7039934B1CC5FEF900373101 /* MASConstraintMaker.m in Sources */,
 				7015249C1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m in Sources */,
 				700BE5FD1CBA6E7D00A09B3A /* AYSearchRemoteFacade.m in Sources */,
 				7015247D1CBF9AB4005B4C5B /* MJRefreshComponent.m in Sources */,
@@ -3698,6 +3804,7 @@
 				709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */,
 				702510711CC0C65400DADF2B /* AYRefreshPushDataCommand.m in Sources */,
 				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
+				7039934C1CC5FEF900373101 /* MASLayoutConstraint.m in Sources */,
 				701524CD1CBFBE7B005B4C5B /* PhotoTagRoundPointLayer.m in Sources */,
 				7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */,
 				700693151CC4A3AF00B511FF /* DropDownMenu.m in Sources */,
@@ -3710,6 +3817,7 @@
 				701524891CBF9AB4005B4C5B /* MJRefreshNormalHeader.m in Sources */,
 				702510801CC0EA2C00DADF2B /* AYGroupListCellView.m in Sources */,
 				701524A91CBFBCF1005B4C5B /* AYHomeCellView.m in Sources */,
+				7039934F1CC5FEF900373101 /* NSArray+MASAdditions.m in Sources */,
 				70F68DAE1CBE4938005524BA /* AYUserAgreeController.m in Sources */,
 				70CDF63A1CBD033900311841 /* QueryContentItem.m in Sources */,
 				70CDF6041CBCA1B100311841 /* AYLogoutXMPPCommand.m in Sources */,
@@ -3742,6 +3850,7 @@
 				702510A31CC0F5AB00DADF2B /* Targets.m in Sources */,
 				7039CBD61CBB7B2600BE60C7 /* AYProfilePushDelegate.m in Sources */,
 				7039CBD21CBB7AE200BE60C7 /* AYProfileHeaderView.m in Sources */,
+				703993511CC5FEF900373101 /* View+MASAdditions.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */,
 				70CDF6391CBD033900311841 /* QueryContentChaters+CoreDataProperties.m in Sources */,
@@ -3761,6 +3870,7 @@
 				700693171CC4A3AF00B511FF /* UIBarButtonItem+WEPopover.m in Sources */,
 				700BE6101CBA7BF800A09B3A /* AYUserInfoInputView.m in Sources */,
 				7039CBFA1CBBB5A700BE60C7 /* SearchSegImgTextItem.m in Sources */,
+				7039934D1CC5FEF900373101 /* MASViewAttribute.m in Sources */,
 				70F369AA1CC362950067B62E /* AYAlbumDelegate.m in Sources */,
 				701524491CBF96F0005B4C5B /* AYImageView.m in Sources */,
 				701524851CBF9AB4005B4C5B /* MJRefreshBackNormalFooter.m in Sources */,
@@ -3803,6 +3913,7 @@
 				700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */,
 				7015248A1CBF9AB4005B4C5B /* MJRefreshStateHeader.m in Sources */,
 				7015248E1CBF9AB4005B4C5B /* UIScrollView+MJRefresh.m in Sources */,
+				7039934A1CC5FEF900373101 /* MASConstraint.m in Sources */,
 				70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */,
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
@@ -3818,8 +3929,10 @@
 				701524CB1CBFBE7B005B4C5B /* PhotoTagTariangleLayer2.m in Sources */,
 				700693191CC4A3AF00B511FF /* WEPopoverContainerView.m in Sources */,
 				703B897B1CBFB208002EBB18 /* AYSearchFriendView.m in Sources */,
+				7039934E1CC5FEF900373101 /* MASViewConstraint.m in Sources */,
 				701524801CBF9AB4005B4C5B /* MJRefreshAutoGifFooter.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
+				703291C31CC492B700028DF2 /* AYContatcerInSystemCommand.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
@@ -3832,6 +3945,7 @@
 				700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
 				70B8209F1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m in Sources */,
+				703291CA1CC4ACC700028DF2 /* AYGetAllPhonesCommand.m in Sources */,
 				70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */,
 				700693241CC4D70600B511FF /* AYPHAssetFacade.m in Sources */,
 				709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */,
@@ -4046,7 +4160,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -4084,7 +4198,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-sunfei.BabySharing";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

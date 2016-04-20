@@ -16,6 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYFactoryManager.h"
 #import "AYQueryModelDefines.h"
+#import "Tools.h"
 
 //#define BASE_LINE_HEIGHT        115
 #define BASE_LINE_HEIGHT        185
@@ -29,6 +30,7 @@
 #define ICE_HOT_ICON_HEIGHT   20
 #define HOT_RIGHT_MARGIN       8
 
+#define NAME_MARGIN_TOP         37
 #define NAME_LABEL_FONT_SIZE                    14.f
 #define ROLE_TAG_LABEL_FONT_SIZE                12.f
 #define LOCATION_LABEL_FONT_SIZE                13.f
@@ -44,31 +46,34 @@
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-#define USER_PHOTO_WIDTH                        75
-#define USER_PHOTO_HEIGHT                       USER_PHOTO_HEIGHT
-
 #define MARGIN_LEFT                 10.5
 #define MARGIN_REGIT                10.5
 #define MARGIN_TOP                  80
 #define MARGIN_BOTTN                5
 #define WHITE_AREA_HEIGHT           98
 
+#define THUMSUP_DES_FONT_SIZE       13.f
+
 #define WHITE_AREA_ORIGIN_Y         MARGIN_TOP
 #define WHITE_AREA_TO_LOCATION      10.5
 
+#define RELATION_BTN_WIDTH          69
+#define RELATION_BTN_HEIGHT         25
+
 @implementation AYProfileHeaderView {
-    UIView* hotTagView;
-    OBShapedButton* relations_btn;
-    //    SearchSegView2* search_seg;
+//    UIView* hotTagView;
+//    SearchSegView2* search_seg;
     
     UIView* white_area;
-    UILabel* thumup;
     
+    UIView *bg_view;
     UIImageView *imgView;
-    
-    OBShapedButton* userRoleTagBtn;
     UILabel *locationLabel;
     UILabel *nameLabel;
+    UILabel *userRoleTagLabel;
+    
+    UILabel* thumup;
+    OBShapedButton* relations_btn;
 }
 
 @synthesize para = _para;
@@ -126,41 +131,8 @@
     
     locationLabel.text = location;
     [locationLabel sizeToFit];
-    
-    locationLabel.center = CGPointMake(SCREEN_WIDTH - locationLabel.frame.size.width / 2 - MARGIN_REGIT * 2, WHITE_AREA_ORIGIN_Y - locationLabel.frame.size.height / 2 - WHITE_AREA_TO_LOCATION);
+//    locationLabel.center = CGPointMake(SCREEN_WIDTH - locationLabel.frame.size.width / 2 - MARGIN_REGIT * 2, WHITE_AREA_ORIGIN_Y - locationLabel.frame.size.height / 2 - WHITE_AREA_TO_LOCATION);
     locationLabel.hidden = YES;
-    return nil;
-}
-
-- (id)setOwnerRoleTag:(id)args {
-    
-    userRoleTagBtn.hidden = NO;
-    UILabel* label = [userRoleTagBtn viewWithTag:-1];
-    if (label == nil) {
-        label = [[UILabel alloc]init];
-        label.font = [UIFont systemFontOfSize:ROLE_TAG_LABEL_FONT_SIZE];
-        label.textColor = [UIColor whiteColor];
-        label.tag = -1;
-        [userRoleTagBtn addSubview:label];
-    }
-    
-#define ROLE_TAG_MARGIN             2
-#define ROLETAG_LEFT_MARGIN         ROLE_TAG_MARGIN
-   
-    NSString* role_tag = (NSString*)args;
-    
-    label.text = role_tag;
-    [label sizeToFit];
-    label.center = CGPointMake(ROLETAG_LEFT_MARGIN + label.frame.size.width / 2, ROLE_TAG_MARGIN + label.frame.size.height / 2);
-    
-    CGFloat width = self.frame.size.width;
-    userRoleTagBtn.frame = CGRectMake(width / 2 + ROLETAG_LEFT_MARGIN, 8, label.frame.size.width + ROLE_TAG_MARGIN + ROLE_TAG_MARGIN, label.frame.size.height + 2 * ROLE_TAG_MARGIN);
-    userRoleTagBtn.center = CGPointMake(nameLabel.center.x + nameLabel.frame.size.width / 2 + userRoleTagBtn.frame.size.width / 2 + 8, nameLabel.center.y);
-    
-    if ([@"" isEqualToString:role_tag]) {
-        userRoleTagBtn.hidden = YES;
-    }
-    
     return nil;
 }
 
@@ -169,9 +141,8 @@
     NSString* nickName = (NSString*)args;
     
     nameLabel.text = nickName;
-    [nameLabel sizeToFit];
-#define NAME_MARGIN_TOP         37
-    nameLabel.center = CGPointMake(MARGIN_LEFT + nameLabel.frame.size.width / 2, NAME_MARGIN_TOP + nameLabel.frame.size.height / 2);
+//    [nameLabel sizeToFit];
+//    nameLabel.center = CGPointMake(MARGIN_LEFT + nameLabel.frame.size.width / 2, NAME_MARGIN_TOP + nameLabel.frame.size.height / 2);
     
     return nil;
 }
@@ -218,65 +189,70 @@
     [self setOwnerScreenName:screen_name];
 
     NSString* role_tag = [result objectForKey:@"role_tag"];
-    [self setOwnerRoleTag:role_tag];
-
+    
+    userRoleTagLabel.text = role_tag;
+    [self updateRoleLabelConstraints];
     [self setRelations:[result objectForKey:@"relations"]];
 
     thumup.text = [NSString stringWithFormat:@"送出的赞 %d    收到的赞 %d", ((NSNumber*)[result objectForKey:@"been_pushed"]).intValue, ((NSNumber*)[result objectForKey:@"been_pushed"]).intValue];
     [thumup sizeToFit];
-    thumup.frame = CGRectMake(MARGIN_LEFT, NAME_MARGIN_TOP + thumup.frame.size.height + 18, thumup.frame.size.width, thumup.frame.size.height);
-    thumup.center = CGPointMake(thumup.center.x, relations_btn.center.y);
+//    thumup.frame = CGRectMake(MARGIN_LEFT, NAME_MARGIN_TOP + thumup.frame.size.height + 18, thumup.frame.size.width, thumup.frame.size.height);
+//    thumup.center = CGPointMake(thumup.center.x, relations_btn.center.y);
     
     return nil;
 }
 
+-(void)updateRoleLabelConstraints{
+    [userRoleTagLabel sizeToFit];
+    [userRoleTagLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(nameLabel);
+        make.left.equalTo(nameLabel.mas_right).offset(10);
+        make.width.equalTo(@(CGRectGetWidth(userRoleTagLabel.frame) + 4));
+        make.height.equalTo(@(CGRectGetHeight(userRoleTagLabel.frame) + 2));
+    }];
+    [super updateConstraints];
+}
 
 #pragma mark -- init sub views
 - (void)setUpViews {
     
-    /*************************************************************************************************************************/
-    // location label
-    //    _locationLabel = [[UILabel alloc]init];
-    //    _locationLabel.textColor = [UIColor whiteColor];
-    //    _locationLabel.font = [UIFont systemFontOfSize:LOCATION_LABEL_FONT_SIZE];
-    //    [self addSubview:_locationLabel];
-    /*************************************************************************************************************************/
-    
-    /*************************************************************************************************************************/
-    /**
-     * white area
-     */
-    white_area = [[UIView alloc]initWithFrame:CGRectMake(MARGIN_LEFT, MARGIN_TOP, self.frame.size.width - MARGIN_LEFT - MARGIN_REGIT, WHITE_AREA_HEIGHT)];
+//    white_area = [[UIView alloc]initWithFrame:CGRectMake(MARGIN_LEFT, MARGIN_TOP, self.frame.size.width - MARGIN_LEFT - MARGIN_REGIT, WHITE_AREA_HEIGHT)];
+    white_area = [[UIView alloc]init];
     white_area.backgroundColor = [UIColor whiteColor];
     white_area.layer.cornerRadius = 4.f;
     [self addSubview:white_area];
-    //    [self bringSubviewToFront:white_area];
-    /*************************************************************************************************************************/
+//    [self bringSubviewToFront:white_area];
     
-    /*************************************************************************************************************************/
-    // image view
-#define USER_PHOTO_WIDTH_2          72
-#define USER_PHOTO_HEIGHT_2         USER_PHOTO_WIDTH_2
-#define USER_PHOTO_BG_WIDTH_2       82
-#define USER_PHOTO_BG_HEIGHT_2      USER_PHOTO_BG_WIDTH_2
+    locationLabel = [[UILabel alloc]init];
+    locationLabel.textColor = [UIColor whiteColor];
+    locationLabel.font = [UIFont systemFontOfSize:LOCATION_LABEL_FONT_SIZE];
+    [white_area addSubview:locationLabel];
+
+#define USER_PHOTO_WIDTH         72
+#define USER_PHOTO_HEIGHT        USER_PHOTO_WIDTH
+#define USER_PHOTO_BG_WIDTH       82
+#define USER_PHOTO_BG_HEIGHT      USER_PHOTO_BG_WIDTH
 #define IMG_OFFSET_X                64
 #define IMG_OFFSET_Y                -10
-#define IMG_BORDER_WIDTH            6
+#define IMG_BORDER_WIDTH            3
     
-    UIView* bg_view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, USER_PHOTO_BG_WIDTH_2, USER_PHOTO_BG_HEIGHT_2)];
-    bg_view.center = CGPointMake(white_area.frame.origin.x + IMG_OFFSET_X, white_area.frame.origin.y + IMG_OFFSET_Y);
-    bg_view.layer.cornerRadius = USER_PHOTO_BG_WIDTH_2 / 2;
+//    bg_view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, USER_PHOTO_BG_WIDTH, USER_PHOTO_BG_HEIGHT)];
+//    bg_view.center = CGPointMake(white_area.frame.origin.x + IMG_OFFSET_X, white_area.frame.origin.y + IMG_OFFSET_Y);
+    bg_view = [[UIView alloc]init];
+
+    bg_view.layer.cornerRadius = USER_PHOTO_BG_WIDTH / 2;
     bg_view.clipsToBounds = YES;
     bg_view.backgroundColor = [UIColor whiteColor];
     [self addSubview:bg_view];
     [self bringSubviewToFront:bg_view];
     
-    imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, USER_PHOTO_WIDTH_2, USER_PHOTO_HEIGHT_2)];
-    imgView.center = CGPointMake(USER_PHOTO_BG_WIDTH_2 / 2,  USER_PHOTO_BG_HEIGHT_2 / 2);
-    imgView.layer.cornerRadius = USER_PHOTO_WIDTH_2 / 2;
-    //    _imgView.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.3].CGColor;
-    //    _imgView.layer.borderColor = [UIColor whiteColor].CGColor;
-    //    _imgView.layer.borderWidth = IMG_BORDER_WIDTH;
+//    imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT)];
+//    imgView.center = CGPointMake(USER_PHOTO_BG_WIDTH / 2,  USER_PHOTO_BG_HEIGHT / 2);
+    imgView = [[UIImageView alloc]init];
+
+    imgView.layer.cornerRadius = USER_PHOTO_WIDTH / 2;
+//    imgView.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.3].CGColor;
+//    imgView.layer.borderWidth = IMG_BORDER_WIDTH;
     imgView.clipsToBounds = YES;
     [bg_view addSubview:imgView];
     [bg_view bringSubviewToFront:imgView];
@@ -291,24 +267,29 @@
     [white_area bringSubviewToFront:nameLabel];
     /*************************************************************************************************************************/
     
-    if (userRoleTagBtn == nil) {
-        userRoleTagBtn = [[OBShapedButton alloc]init];
-        [userRoleTagBtn setBackgroundImage:PNGRESOURCE(@"home_role_tag") forState:UIControlStateNormal];
-        [white_area addSubview:userRoleTagBtn];
-        [white_area bringSubviewToFront:userRoleTagBtn];
-    }
+    userRoleTagLabel = [[UILabel alloc]init];
+    userRoleTagLabel.hidden = NO;
+    userRoleTagLabel.text = @"";
+    userRoleTagLabel.font = [UIFont systemFontOfSize:12];
+    userRoleTagLabel.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
+    userRoleTagLabel.textAlignment = NSTextAlignmentCenter;
+    userRoleTagLabel.layer.masksToBounds = YES;
+    userRoleTagLabel.layer.cornerRadius = 3;
+    userRoleTagLabel.layer.shouldRasterize = YES;
+    userRoleTagLabel.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    userRoleTagLabel.textColor = [UIColor whiteColor];
+    [white_area addSubview:userRoleTagLabel];
     
     /*************************************************************************************************************************/
-#define RELATION_BTN_WIDTH          69
-#define RELATION_BTN_HEIGHT         25
-    relations_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(white_area.frame.size.width - MARGIN_REGIT - RELATION_BTN_WIDTH, white_area.frame.size.height - MARGIN_REGIT - RELATION_BTN_HEIGHT, RELATION_BTN_WIDTH, RELATION_BTN_HEIGHT)];
+//    relations_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(white_area.frame.size.width - MARGIN_REGIT - RELATION_BTN_WIDTH, white_area.frame.size.height - MARGIN_REGIT - RELATION_BTN_HEIGHT, RELATION_BTN_WIDTH, RELATION_BTN_HEIGHT)];
+    relations_btn = [[OBShapedButton alloc]init];
 //    [relations_btn addTarget:self action:@selector(didSelectRelationBtn) forControlEvents:UIControlEventTouchUpInside];
     [white_area addSubview:relations_btn];
     [white_area bringSubviewToFront:relations_btn];
     /*************************************************************************************************************************/
     
     /*************************************************************************************************************************/
-#define THUMSUP_DES_FONT_SIZE       13.f
+
     thumup = [[UILabel alloc]init];
     thumup.textColor = [UIColor colorWithWhite:0.6078 alpha:1.f];
     thumup.font = [UIFont systemFontOfSize:THUMSUP_DES_FONT_SIZE];
@@ -318,7 +299,51 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    white_area.frame = CGRectMake(MARGIN_LEFT, MARGIN_TOP, self.frame.size.width - MARGIN_LEFT - MARGIN_REGIT, WHITE_AREA_HEIGHT);
-    relations_btn.frame = CGRectMake(white_area.frame.size.width - 3 * MARGIN_REGIT - RELATION_BTN_WIDTH, white_area.frame.size.height - MARGIN_REGIT - RELATION_BTN_HEIGHT, RELATION_BTN_WIDTH, RELATION_BTN_HEIGHT);
+//    white_area.frame = CGRectMake(MARGIN_LEFT, MARGIN_TOP, self.frame.size.width - MARGIN_LEFT - MARGIN_REGIT, WHITE_AREA_HEIGHT);
+    [white_area mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(79);
+        make.left.equalTo(self).offset(10);
+        make.right.equalTo(self).offset(-10);
+        make.height.equalTo(@(WHITE_AREA_HEIGHT));
+    }];
+    
+    [bg_view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(white_area.mas_top).offset(-60);
+        make.left.equalTo(white_area.mas_left).offset(20);
+        make.width.equalTo(@(USER_PHOTO_BG_WIDTH));
+        make.height.equalTo(@(USER_PHOTO_BG_HEIGHT));
+    }];
+    
+    [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(bg_view).insets(UIEdgeInsetsMake(5, 5, 5, 5));
+    }];
+    
+    [locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(white_area.mas_top).offset(-20);
+        make.right.equalTo(white_area.mas_right).offset(-10);
+    }];
+    
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(bg_view.mas_bottom).offset(MARGIN_LEFT);
+        make.left.equalTo(white_area.mas_left).offset(MARGIN_LEFT);
+    }];
+    
+    [userRoleTagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(nameLabel);
+        make.left.equalTo(nameLabel.mas_right).offset(10);
+    }];
+    
+    [thumup mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(nameLabel.mas_bottom).offset(15);
+        make.left.equalTo(white_area.mas_left).offset(10);
+    }];
+    
+    [relations_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(thumup);
+        make.right.equalTo(white_area.mas_right).offset(-10);
+        make.width.equalTo(@(RELATION_BTN_WIDTH));
+        make.height.equalTo(@(RELATION_BTN_HEIGHT));
+    }];
+    
 }
 @end

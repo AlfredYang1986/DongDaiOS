@@ -35,7 +35,7 @@
 @synthesize screen_name = _screen_name;
 
 + (CGFloat)preferredHeight {
-    return 80;
+    return 79;
 }
 
 - (void)setSession:(Targets *)current_session {

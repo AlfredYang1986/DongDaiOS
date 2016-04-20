@@ -16,7 +16,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYGroupListCellDefines.h"
 
-#define TABLE_VIEW_TOP_MARGIN   74
+#define TABLE_VIEW_TOP_MARGIN   64
 
 @implementation AYGroupListController {
     
