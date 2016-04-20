@@ -13,23 +13,14 @@
 #import "UIImage+fixOrientation.h"
 #import <objc/runtime.h>
 #import "AYRemoteCallDefines.h"
-#import "Tools.h"
 
 @implementation AYQueryRealPhotoCommand
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     // 缩略图和PHAsset
     PHAsset* pHAsset = [args objectForKey:@"asset"];
     
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
-    
+    [self beforeAsyncCall];
+   
     static PHImageRequestID requestid = -1;
     PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
     options.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
@@ -45,12 +36,7 @@
             block(YES, (id)[[UIImage imageWithData:imageData] fixOrientation]);
         }
         
-        SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
-        Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-        if (m) {
-            id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-            func(cur, sel, name);
-        }
+        [self endAsyncCall];
     }];
 }
 @end

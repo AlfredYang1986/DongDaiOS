@@ -23,16 +23,8 @@
         return;
     }
     
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
-    
+    [self beforeAsyncCall];
+   
     dispatch_queue_t queue = dispatch_queue_create("getThumbnailImage", nil);
     //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     PHCachingImageManager *imageManager = [[PHCachingImageManager alloc] init];
@@ -60,12 +52,7 @@
             [dic setValue:assetArr forKey:@"assets"];
             block(YES, [dic copy]);
             
-            SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
-            Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-            if (m) {
-                id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-                func(cur, sel, name);
-            }
+            [self endAsyncCall];
         });
     });
 }

@@ -113,4 +113,8 @@
     [cmd_source performWithResult:&args];
     return nil;
 }
+
+- (id)rightBtnSelected {
+    return nil;
+}
 @end

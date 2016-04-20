@@ -20,18 +20,7 @@
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     NSLog(@"request confirm code from sever: %@", args);
     
-    /**
-     * 1. create a view and block user interactions
-     */
-    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
-    
-    UIViewController* cur = [Tools activityViewController];
-    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, name);
-    }
+    [self beforeAsyncCall];
     
     /**
      * 2. call remote
@@ -52,13 +41,8 @@
                 NSDictionary* reError = [result objectForKey:@"error"];
                 block(NO, reError);
             }
-            
-            SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
-            Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-            if (m) {
-                id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-                func(cur, sel, name);
-            }
+    
+            [self endAsyncCall];
         });
     });
 }

@@ -341,6 +341,12 @@
 		70B1DC9D1CC73E900041794A /* AYPauseMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */; };
 		70B1DCA11CC7576D0041794A /* AYQueryFilterWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */; };
 		70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */; };
+		70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA91CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m */; };
+		70B1DCAF1CC76AC50041794A /* AYPostPublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCAE1CC76AC50041794A /* AYPostPublishController.m */; };
+		70B1DCB41CC76E540041794A /* AYPostMoviePublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCB31CC76E540041794A /* AYPostMoviePublishController.m */; };
+		70B1DCB71CC76E6D0041794A /* AYPostPhotoPublishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCB61CC76E6D0041794A /* AYPostPhotoPublishController.m */; };
+		70B1DCBC1CC77DCF0041794A /* AYSharingSNSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCBB1CC77DCF0041794A /* AYSharingSNSView.m */; };
+		70B1DCC01CC786670041794A /* AYPublishContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCBF1CC786670041794A /* AYPublishContainerView.m */; };
 		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
 		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
 		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
@@ -1077,6 +1083,18 @@
 		70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryFilterWithNameCommand.m; sourceTree = "<group>"; };
 		70B1DCA31CC75BAA0041794A /* AYMovieAddFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieAddFilterCommand.h; sourceTree = "<group>"; };
 		70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieAddFilterCommand.m; sourceTree = "<group>"; };
+		70B1DCA81CC7625F0041794A /* AYNewMovieCurrentFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNewMovieCurrentFilterCommand.h; sourceTree = "<group>"; };
+		70B1DCA91CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNewMovieCurrentFilterCommand.m; sourceTree = "<group>"; };
+		70B1DCAD1CC76AC50041794A /* AYPostPublishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostPublishController.h; sourceTree = "<group>"; };
+		70B1DCAE1CC76AC50041794A /* AYPostPublishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPublishController.m; sourceTree = "<group>"; };
+		70B1DCB21CC76E540041794A /* AYPostMoviePublishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostMoviePublishController.h; sourceTree = "<group>"; };
+		70B1DCB31CC76E540041794A /* AYPostMoviePublishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostMoviePublishController.m; sourceTree = "<group>"; };
+		70B1DCB51CC76E6D0041794A /* AYPostPhotoPublishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostPhotoPublishController.h; sourceTree = "<group>"; };
+		70B1DCB61CC76E6D0041794A /* AYPostPhotoPublishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPhotoPublishController.m; sourceTree = "<group>"; };
+		70B1DCBA1CC77DCF0041794A /* AYSharingSNSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSharingSNSView.h; sourceTree = "<group>"; };
+		70B1DCBB1CC77DCF0041794A /* AYSharingSNSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSharingSNSView.m; sourceTree = "<group>"; };
+		70B1DCBE1CC786670041794A /* AYPublishContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPublishContainerView.h; sourceTree = "<group>"; };
+		70B1DCBF1CC786670041794A /* AYPublishContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPublishContainerView.m; sourceTree = "<group>"; };
 		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
 		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
 		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
@@ -2934,6 +2952,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				70B1DCAC1CC769FC0041794A /* PublishController */,
 				7002DB611CC620D40013FF2A /* PostPreviewController */,
 				7002DB131CC5EA540013FF2A /* AVController */,
 				700692FD1CC4A1B600B511FF /* CameraRollController */,
@@ -3465,6 +3484,7 @@
 				70B1DCA21CC75B8D0041794A /* AddFilter */,
 				70B1DC7A1CC70D070041794A /* MovieCoverImages */,
 				70B1DC961CC73D3F0041794A /* MovieDisplayView */,
+				70B1DCA71CC7624E0041794A /* NewMovieCurrentFilter */,
 				70B1DC9A1CC73E850041794A /* PauseMovie */,
 				70B1DC831CC731DA0041794A /* PlayMovie */,
 				70B1DC8B1CC73B390041794A /* PlayMovieMeta */,
@@ -3767,6 +3787,72 @@
 				70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */,
 			);
 			path = AddFilter;
+			sourceTree = "<group>";
+		};
+		70B1DCA71CC7624E0041794A /* NewMovieCurrentFilter */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCA81CC7625F0041794A /* AYNewMovieCurrentFilterCommand.h */,
+				70B1DCA91CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m */,
+			);
+			path = NewMovieCurrentFilter;
+			sourceTree = "<group>";
+		};
+		70B1DCAC1CC769FC0041794A /* PublishController */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCB81CC77DAD0041794A /* PublishViews */,
+				70B1DCB01CC76CDC0041794A /* PostMoviePublish */,
+				70B1DCB11CC76CDC0041794A /* PostPhotoPublish */,
+				70B1DCAD1CC76AC50041794A /* AYPostPublishController.h */,
+				70B1DCAE1CC76AC50041794A /* AYPostPublishController.m */,
+			);
+			path = PublishController;
+			sourceTree = "<group>";
+		};
+		70B1DCB01CC76CDC0041794A /* PostMoviePublish */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCB21CC76E540041794A /* AYPostMoviePublishController.h */,
+				70B1DCB31CC76E540041794A /* AYPostMoviePublishController.m */,
+			);
+			path = PostMoviePublish;
+			sourceTree = "<group>";
+		};
+		70B1DCB11CC76CDC0041794A /* PostPhotoPublish */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCB51CC76E6D0041794A /* AYPostPhotoPublishController.h */,
+				70B1DCB61CC76E6D0041794A /* AYPostPhotoPublishController.m */,
+			);
+			path = PostPhotoPublish;
+			sourceTree = "<group>";
+		};
+		70B1DCB81CC77DAD0041794A /* PublishViews */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCBD1CC786590041794A /* PublishContainer */,
+				70B1DCB91CC77DBE0041794A /* SharingSNS */,
+			);
+			path = PublishViews;
+			sourceTree = "<group>";
+		};
+		70B1DCB91CC77DBE0041794A /* SharingSNS */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCBA1CC77DCF0041794A /* AYSharingSNSView.h */,
+				70B1DCBB1CC77DCF0041794A /* AYSharingSNSView.m */,
+			);
+			path = SharingSNS;
+			sourceTree = "<group>";
+		};
+		70B1DCBD1CC786590041794A /* PublishContainer */ = {
+			isa = PBXGroup;
+			children = (
+				70B1DCBE1CC786670041794A /* AYPublishContainerView.h */,
+				70B1DCBF1CC786670041794A /* AYPublishContainerView.m */,
+			);
+			path = PublishContainer;
 			sourceTree = "<group>";
 		};
 		70B820891CAA5802001EEAF2 /* SGActionView */ = {
@@ -4369,6 +4455,7 @@
 				7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */,
 				70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */,
 				700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */,
+				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
 				709949B91CC2BB2500078A5B /* AYFoundRoleTagDelegate.m in Sources */,
@@ -4400,6 +4487,7 @@
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				705C45121CA8EF7E00921799 /* AYUserInfoInputController.m in Sources */,
 				7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */,
+				70B1DCBC1CC77DCF0041794A /* AYSharingSNSView.m in Sources */,
 				701524151CBF4960005B4C5B /* AYRelationshipRemoteFacade.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
 				700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */,
@@ -4507,6 +4595,7 @@
 				702510841CC0F08A00DADF2B /* AYChatSessionRemoteFacade.m in Sources */,
 				701524451CBF94C7005B4C5B /* AYHomeContentDelegate.m in Sources */,
 				700BE5C31CBA6DE300A09B3A /* AYLoginSNSWithWechatCommand.m in Sources */,
+				70B1DCAF1CC76AC50041794A /* AYPostPublishController.m in Sources */,
 				702510A21CC0F5AB00DADF2B /* Targets+CoreDataProperties.m in Sources */,
 				700BE5C71CBA6DE900A09B3A /* AYLoginSNSWithWeiboCommand.m in Sources */,
 				708E527F1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m in Sources */,
@@ -4557,6 +4646,7 @@
 				708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */,
 				7015248D1CBF9AB4005B4C5B /* UIScrollView+MJExtension.m in Sources */,
 				705B845A1CC6A5730057D442 /* AYPostMoviePreviewController.m in Sources */,
+				70B1DCB41CC76E540041794A /* AYPostMoviePublishController.m in Sources */,
 				70CDF6371CBD033900311841 /* QueryContent+ContextOpt.m in Sources */,
 				703B89751CBF9F62002EBB18 /* AYAddFriendController.m in Sources */,
 				701524811CBF9AB4005B4C5B /* MJRefreshAutoNormalFooter.m in Sources */,
@@ -4570,6 +4660,7 @@
 				7015242A1CBF4DA0005B4C5B /* AYUserRelationsDelegate.m in Sources */,
 				70B1DC861CC731E80041794A /* AYPlayMovieCommand.m in Sources */,
 				700692F81CC49C1A00B511FF /* AYPlaceHolderInitCommand.m in Sources */,
+				70B1DCC01CC786670041794A /* AYPublishContainerView.m in Sources */,
 				7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */,
 				700692EA1CC49A2C00B511FF /* AYProfileInitCommand.m in Sources */,
 				700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */,
@@ -4608,6 +4699,7 @@
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */,
 				70F3699F1CC361930067B62E /* AYQueryAllRoleTagsCommand.m in Sources */,
+				70B1DCB71CC76E6D0041794A /* AYPostPhotoPublishController.m in Sources */,
 				702510761CC0DD3300DADF2B /* AYGroupListController.m in Sources */,
 				701D8A9F1CA7E06700B5D4C1 /* Providers+ContextOpt.m in Sources */,
 				7006931B1CC4A3AF00B511FF /* WETouchableView.m in Sources */,

@@ -284,4 +284,22 @@
         <view type="TagEntry" name="TagEntry" />
         <view type="FilterPreview" name="FilterPreview" />
     </controller>
+    
+    <controller type="DefaultController" name="PostPhotoPublish" factory="AYDefaultControllerFactoy" >
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SharingSNS" name="SharingSNS" />
+        <view type="PublishContainer" name="PublishContainer" />
+    </controller>
+    
+    <controller type="DefaultController" name="PostMoviePublish" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+        
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SharingSNS" name="SharingSNS" />
+        <view type="PublishContainer" name="PublishContainer" />
+    </controller>
 </controllers>

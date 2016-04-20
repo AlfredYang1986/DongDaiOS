@@ -9,6 +9,8 @@
 #import "AYPostPhotoPreviewController.h"
 #import "AYViewBase.h"
 #import "AYFacadeBase.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 
 @interface AYPostPhotoPreviewController ()
 @end
@@ -33,9 +35,6 @@
 
     self.mainContentView.image = origin_image;
     
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(mainViewHandleTap:)];
-//    [_mainContentView addGestureRecognizer:tap];
-
     id<AYViewBase> view_filter = [self.views objectForKey:@"FilterPreview"];
     id<AYCommand> cmd_source = [view_filter.commands objectForKey:@"setOriginImage:"];
     id args = origin_image;
@@ -55,6 +54,23 @@
 - (id)didSelectedFilterPhoto:(id)obj {
     UIImage* img = (UIImage*)obj;
     self.mainContentView.image = img;
+    return nil;
+}
+
+- (id)rightBtnSelected {
+    UIImage* img = self.mainContentView.image;
+   
+    AYViewController* des = DEFAULTCONTROLLER(@"PostPhotoPublish");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:img forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 @end
