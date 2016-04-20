@@ -148,6 +148,11 @@
         <command type="message" message="setOriginImage:" />
         <command type="notify" message="didSelectedFilter:" />
     </view>
+
+    <view type="MovieCover" name="MovieCover" factory="AYDefaultViewFactory" >
+        <command type="message" message="setMovieUrl:" />
+        <command type="notify" message="didSelectedCover:" />
+    </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />

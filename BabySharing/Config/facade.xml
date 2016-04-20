@@ -43,10 +43,11 @@
     </facade>
     
     <facade type="DefaultFacade" name="MoviePlayer" factory="AYDefaultFacadeFactory" >
-        <command type="Module" name="BlackAndWhiteFilter" />
-        <command type="Module" name="SceneFilter" />
-        <command type="Module" name="AvaterFilter" />
-        <command type="Module" name="FoodFilter" />
+        <command type="Module" name="MovieCoverImages" />
+        <command type="Module" name="PlayMovie" />
+        <command type="Module" name="PauseMovie" />
+        <command type="Module" name="ReleaseMovie" />
+        <command type="Module" name="MovieDisplayView" />
     </facade>
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >

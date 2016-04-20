@@ -21,4 +21,5 @@ typedef enum : NSUInteger {
 
 - (NSString*)getNavTitle;
 - (NSArray*)getFunctionBarItems;
+- (void)setCurrentStatus:(AYPostPhotoPreviewControllerType)status;
 @end

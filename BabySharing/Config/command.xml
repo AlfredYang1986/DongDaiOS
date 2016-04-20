@@ -91,6 +91,12 @@
     <command type="Module" name="AvaterFilter" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoodFilter" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="MovieCoverImages" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="PlayMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="PauseMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ReleaseMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MovieDisplayView" factory="AYDefaultModuleFactory" />
+
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />

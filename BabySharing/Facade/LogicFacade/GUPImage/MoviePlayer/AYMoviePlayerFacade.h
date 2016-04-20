@@ -9,5 +9,5 @@
 #import "AYFacade.h"
 
 @interface AYMoviePlayerFacade : AYFacade
-@property (nonatomic, strong) NSMutableArray* playing_items;
+@property (nonatomic, strong) NSMutableDictionary* playing_items;
 @end

@@ -1,5 +1,5 @@
 //
-//  AYMovieCoverImagesCommand.h
+//  AYMovieCoverView.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/20/16.
@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYCommand.h"
-#import "AYCommandDefines.h"
+#import "AYViewBase.h"
+#import <UIKit/UIKit.h>
 
-@interface AYMovieCoverImagesCommand : NSObject <AYCommand>
+@interface AYMovieCoverView : UIView <AYViewBase>
 
 @end

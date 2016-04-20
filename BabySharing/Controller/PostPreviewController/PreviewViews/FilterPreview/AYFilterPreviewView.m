@@ -111,6 +111,10 @@
 
 #pragma mark -- message
 - (id)setOriginImage:(id)obj {
+  
+    for (UIView* sub in self.subviews) {
+        [sub removeFromSuperview];
+    }
     
     UIImage* source = (UIImage*)obj;
 

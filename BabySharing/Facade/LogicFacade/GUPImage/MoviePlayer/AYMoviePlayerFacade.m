@@ -10,4 +10,8 @@
 
 @implementation AYMoviePlayerFacade
 @synthesize playing_items = _playing_items;
+
+- (void)postPerform {
+    _playing_items = [[NSMutableDictionary alloc]init];
+}
 @end

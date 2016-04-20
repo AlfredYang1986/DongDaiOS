@@ -145,6 +145,15 @@
     return nil;
 }
 
+- (id)MovieCoverLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width; //width * aspectRatio;
+    CGFloat prefered_height = [UIScreen mainScreen].bounds.size.height - height - FUNC_BAR_HEIGHT;
+    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, width, prefered_height);
+    view.hidden = YES;
+    return nil;
+}
+
 #pragma mark -- status
 - (void)setCurrentStatus:(AYPostPhotoPreviewControllerType)status {
     _status = status;
@@ -153,6 +162,8 @@
         case AYPostPhotoPreviewControllerTypeShowingTagsEntryBtn: {
             UIView* view_tag = [self.views objectForKey:@"TagPreview"];
             view_tag.hidden = NO;
+            UIView* view_cover = [self.views objectForKey:@"MovieCover"];
+            view_cover.hidden = NO;
             UIView* view_entry = [self.views objectForKey:@"TagEntry"];
             view_entry.hidden = NO;
             UIView* view_filter = [self.views objectForKey:@"FilterPreview"];
@@ -162,6 +173,8 @@
         case AYPostPhotoPreviewControllerTypeSegAtTags: {
             UIView* view_tag = [self.views objectForKey:@"TagPreview"];
             view_tag.hidden = NO;
+            UIView* view_cover = [self.views objectForKey:@"MovieCover"];
+            view_cover.hidden = NO;
             UIView* view_entry = [self.views objectForKey:@"TagEntry"];
             view_entry.hidden = YES;
             UIView* view_filter = [self.views objectForKey:@"FilterPreview"];
@@ -171,6 +184,8 @@
         case AYPostPhotoPreviewControllerTypeSegAtFilter: {
             UIView* view_tag = [self.views objectForKey:@"TagPreview"];
             view_tag.hidden = YES;
+            UIView* view_cover = [self.views objectForKey:@"MovieCover"];
+            view_cover.hidden = YES;
             UIView* view_entry = [self.views objectForKey:@"TagEntry"];
             view_entry.hidden = YES;
             UIView* view_filter = [self.views objectForKey:@"FilterPreview"];

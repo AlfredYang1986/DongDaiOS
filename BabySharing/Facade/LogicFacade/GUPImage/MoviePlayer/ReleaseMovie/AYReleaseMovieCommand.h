@@ -1,5 +1,5 @@
 //
-//  AYMovieCoverImagesCommand.h
+//  AYReleaseMovieCommand.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/20/16.
@@ -10,6 +10,6 @@
 #import "AYCommand.h"
 #import "AYCommandDefines.h"
 
-@interface AYMovieCoverImagesCommand : NSObject <AYCommand>
+@interface AYReleaseMovieCommand : NSObject <AYCommand>
 
 @end

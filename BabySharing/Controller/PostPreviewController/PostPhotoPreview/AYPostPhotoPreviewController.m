@@ -42,6 +42,7 @@
     [cmd_source performWithResult:&args];
 }
 
+
 - (NSString*)getNavTitle {
     return @"编辑图片";
 }

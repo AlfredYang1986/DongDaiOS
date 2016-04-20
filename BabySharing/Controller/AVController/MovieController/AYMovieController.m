@@ -84,13 +84,6 @@
     progress_using_layer.frame = CGRectMake(0, height, 0, 4);
     [self.view.layer addSublayer:progress_using_layer];
     
-    timer = [NSTimer scheduledTimerWithTimeInterval: MOVIE_CALL_BACK_STEP //1.0 / 12.0
-                                             target: self
-                                           selector: @selector(handleTimer:)
-                                           userInfo: nil
-                                            repeats: YES];
-    [timer setFireDate:[NSDate distantFuture]]; // stop
-    
     {
         id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
         id<AYCommand> cmd_init = [f.commands objectForKey:@"MovieRecordInit"];
@@ -119,6 +112,13 @@
     id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
     id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordStartCapture"];
     [cmd performWithResult:nil];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval: MOVIE_CALL_BACK_STEP //1.0 / 12.0
+                                             target: self
+                                           selector: @selector(handleTimer:)
+                                           userInfo: nil
+                                            repeats: YES];
+    [timer setFireDate:[NSDate distantFuture]]; // stop
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -126,13 +126,13 @@
     id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
     id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordStopCapture"];
     [cmd performWithResult:nil];
+    [timer invalidate];
 }
 
 - (void)clearController {
     id<AYFacadeBase> f = [self.facades objectForKey:@"MovieRecord"];
     id<AYCommand> cmd = [f.commands objectForKey:@"MovieRecordRelease"];
     [cmd performWithResult:nil];
-    
     [super clearController];
 }
 
