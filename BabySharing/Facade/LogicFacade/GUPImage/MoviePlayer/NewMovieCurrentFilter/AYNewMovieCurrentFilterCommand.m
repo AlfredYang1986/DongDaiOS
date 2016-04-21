@@ -23,6 +23,8 @@
 
     NSURL* url = [args objectForKey:@"url"];
     NSString* filter_name = [args objectForKey:@"filter"];
+   
+    [self beforeAsyncCall];
     
     GPUImageFilter* filter = nil;
     if ([filter_name isEqualToString:@"BlackAndWhite"]) {
@@ -45,11 +47,6 @@
     if (meta != nil) {
         [f.playing_items removeObjectForKey:str];
     }
-//        filter = [[GPUImageFilter alloc]init];
-//    } else {
-//        filter = meta.filter;
-//        [meta releaseMovie];
-//    }
     
     GPUImageMovie* movieFile = [[GPUImageMovie alloc] initWithURL:url];
 
@@ -79,12 +76,6 @@
         [writer finishRecording];
         [movieFile endProcessing];
         [movieFile removeAllTargets];
-        
-//        AYPlayMovieMeta* meta = [f.playing_items objectForKey:str];
-//        if (meta != nil) {
-//            [meta resetMovie];
-//            [filter addTarget:meta.filterView];
-//        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSMutableDictionary* result = [[NSMutableDictionary alloc]init];

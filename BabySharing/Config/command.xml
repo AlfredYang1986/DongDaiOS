@@ -138,4 +138,8 @@
     <command type="Remote" name="QueryChatGroup" route="group/queryChatGroup" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="EnterChatGroup" route="group/follow" factory="AYRemoteCallFactory" />-->
 <!--    <command type="Remote" name="LeaveChatGroup" route="group/follow" factory="AYRemoteCallFactory" />-->
+
+    <command type="Remote" name="PostContent" route="post/postContent" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
+    <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
 </commands>

@@ -151,6 +151,11 @@
         <command type="Remote" name="QueryFollowing" />
         <command type="Remote" name="QueryFollowed" />
     </facade>
+    
+    <facade type="DefaultFacade" name="PostRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PostPhotos" />
+        <command type="Remote" name="PostMovie" />
+    </facade>
    
     <facade type="DefaultFacade" name="ChatSessionRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryChatGroup" />
