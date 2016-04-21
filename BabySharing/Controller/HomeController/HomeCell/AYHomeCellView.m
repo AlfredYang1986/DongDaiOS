@@ -562,11 +562,6 @@
             self.filterView = url;
             
             self.filterView.frame = CGRectMake(0, 0, CGRectGetWidth(_mainImage.frame), CGRectGetHeight(_mainImage.frame));
-//            [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.centerY.equalTo(_mainImage);
-//                make.centerX.equalTo(_mainImage);
-//                make.size.equalTo(_mainImage);
-//            }];
             [_mainImage addSubview:self.filterView];
         }
         
