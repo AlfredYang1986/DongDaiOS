@@ -55,6 +55,7 @@ typedef enum : NSUInteger {
     descriptionView.delegate = self;
     [view addSubview:descriptionView];
     [self addSubview:view];
+    [self bringSubviewToFront:view];
     
     placeholder = [[UILabel alloc]init];
     placeholder.font = [UIFont systemFontOfSize:15.0];

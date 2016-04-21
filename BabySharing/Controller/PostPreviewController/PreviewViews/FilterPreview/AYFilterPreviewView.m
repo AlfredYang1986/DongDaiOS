@@ -154,39 +154,6 @@
         [self addSubview:[self addPhotoEffectBtn:[title objectAtIndex:index] bounds:CGRectMake(0, 0, button_height, button_height) tag:1 + index image:args]];
     }
     
-//    {
-//        id<AYCommand> cmd = [f.commands objectForKey:@"BlackAndWhiteFilter"];
-//        UIImage* args = source;
-//        [cmd performWithResult:&args];
-//        [self addSubview:[self addPhotoEffectBtn:@"黑白" bounds:CGRectMake(0, 0, button_height, button_height) tag:1 image:args]];
-//    }
-//    
-//    {
-//        id<AYCommand> cmd = [f.commands objectForKey:@"SceneFilter"];
-//        UIImage* args = source;
-//        [cmd performWithResult:&args];
-//        [self addSubview:[self addPhotoEffectBtn:@"美景" bounds:CGRectMake(0, 0, button_height, button_height) tag:2 image:args]];
-//    }
-//    
-//    {
-//        UIImage* args = source;
-//        [self addSubview:[self addPhotoEffectBtn:@"原图" bounds:CGRectMake(0, 0, button_height, button_height) tag:3 image:args]];
-//    }
-//
-//    {
-//        id<AYCommand> cmd = [f.commands objectForKey:@"AvaterFilter"];
-//        UIImage* args = source;
-//        [cmd performWithResult:&args];
-//        [self addSubview:[self addPhotoEffectBtn:@"美肤" bounds:CGRectMake(0, 0, button_height, button_height) tag:4 image:args]];
-//    }
-//
-//    {
-//        id<AYCommand> cmd = [f.commands objectForKey:@"FoodFilter"];
-//        UIImage* args = source;
-//        [cmd performWithResult:&args];
-//        [self addSubview:[self addPhotoEffectBtn:@"美食" bounds:CGRectMake(0, 0, button_height, button_height) tag:5 image:args]];
-//    }
-    
     self.current_selected = 2;
     
     return nil;
@@ -229,6 +196,30 @@
     }
     [c performWithResult:&str];
     return (id)str;
+}
+
+- (id)queryCurrentFilterName {
+    NSString* str = nil;
+    switch (self.current_selected) {
+        case 0:
+            str = @"BlackAndWhite";
+            break;
+        case 1:
+            str = @"Scene";
+            break;
+        case 2:
+            str = @"Normal";
+            break;
+        case 3:
+            str = @"Avater";
+            break;
+        case 4:
+            str = @"Food";
+            break;
+        default:
+            break;
+    }
+    return str;
 }
 
 - (void)filterBtnSelected:(UIButton*)sender {

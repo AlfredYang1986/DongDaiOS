@@ -51,6 +51,56 @@
     [super clearController];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.filterView removeFromSuperview];
+    self.filterView = nil;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
+    id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd performWithResult:&index];
+    
+    if (index.integerValue == 1) {
+        [self playCurrentMovie];
+    }
+}
+
+- (void)playCurrentMovie {
+    NSLog(@"start play movie");
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MoviePlayer"];
+    if (self.filterView == nil) {
+        id<AYCommand> cmd_view = [f.commands objectForKey:@"MovieDisplayView"];
+        id url = movie_url;
+        [cmd_view performWithResult:&url];
+        
+        self.filterView = url;
+#define FAKE_NAVIGATION_BAR_HEIGHT      64
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        CGFloat img_height = width;
+        self.filterView.frame = CGRectMake(0, -FAKE_NAVIGATION_BAR_HEIGHT, width, img_height + FAKE_NAVIGATION_BAR_HEIGHT);
+        [self.mainContentView addSubview:self.filterView];
+    }
+    
+    id<AYCommand> cmd_play = [f.commands objectForKey:@"PlayMovie"];
+    id url = movie_url;
+    [cmd_play performWithResult:&url];
+    self.filterView.hidden = NO;
+}
+
+- (void)pauseCurrentMovie {
+    id<AYFacadeBase> f = [self.facades objectForKey:@"MoviePlayer"];
+    id<AYCommand> cmd_play = [f.commands objectForKey:@"PauseMovie"];
+    id url = movie_url;
+    [cmd_play performWithResult:&url];
+    self.filterView.hidden = YES;
+}
+
 - (NSString*)getNavTitle {
     return @"编辑视频";
 }
@@ -62,32 +112,10 @@
 - (void)setCurrentStatus:(AYPostPhotoPreviewControllerType)status {
     [super setCurrentStatus:status];
     
-    id<AYFacadeBase> f = [self.facades objectForKey:@"MoviePlayer"];
     if (status == AYPostPhotoPreviewControllerTypeSegAtFilter) {
-        NSLog(@"start play movie");
-    
-        if (self.filterView == nil) {
-            id<AYCommand> cmd_view = [f.commands objectForKey:@"MovieDisplayView"];
-            id url = movie_url;
-            [cmd_view performWithResult:&url];
-            
-            self.filterView = url;
-#define FAKE_NAVIGATION_BAR_HEIGHT      64
-            CGFloat width = [UIScreen mainScreen].bounds.size.width;
-            CGFloat img_height = width;
-            self.filterView.frame = CGRectMake(0, -FAKE_NAVIGATION_BAR_HEIGHT, width, img_height + FAKE_NAVIGATION_BAR_HEIGHT);
-            [self.mainContentView addSubview:self.filterView];
-        }
-        
-        id<AYCommand> cmd_play = [f.commands objectForKey:@"PlayMovie"];
-        id url = movie_url;
-        [cmd_play performWithResult:&url];
-        self.filterView.hidden = NO;
+        [self playCurrentMovie];
     } else {
-        id<AYCommand> cmd_play = [f.commands objectForKey:@"PauseMovie"];
-        id url = movie_url;
-        [cmd_play performWithResult:&url];
-        self.filterView.hidden = YES;
+        [self pauseCurrentMovie];
     }
 }
 
@@ -120,9 +148,15 @@
     
     id<AYFacadeBase> f = [self.facades objectForKey:@"MoviePlayer"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"NewMovieCurrentFilter"];
-    
+   
+    id<AYViewBase> view = [self.views objectForKey:@"FilterPreview"];
+    NSString* str = nil;
+    id<AYCommand> cmd_name = [view.commands objectForKey:@"queryCurrentFilterName"];
+    [cmd_name performWithResult:&str];
+                              
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:movie_url forKey:@"url"];
+    [dic setValue:str forKey:@"filter"];
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSMutableDictionary* args = [result mutableCopy];

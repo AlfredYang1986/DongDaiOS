@@ -18,12 +18,15 @@
 @interface AYPlayMovieMeta : NSObject
 @property (nonatomic, strong) GPUImageMovie* movieFile;
 @property (nonatomic, strong) GPUImageView* filterView;
-@property (nonatomic, strong) GPUImageMovieWriter* movieWriter;
 @property (nonatomic, strong, setter=addMovieFilter:) GPUImageFilter* filter;
 @property (nonatomic, strong) AVPlayer* player;
 @property (nonatomic, strong) AVPlayerItem *avPlayerItem;
 
+@property (nonatomic, strong, readonly) NSURL* movie_url;
+
 - (instancetype)initWithURL:(NSURL*)url;
+- (void)resetMovie;
 - (void)play;
 - (void)pause;
+- (void)releaseMovie;
 @end

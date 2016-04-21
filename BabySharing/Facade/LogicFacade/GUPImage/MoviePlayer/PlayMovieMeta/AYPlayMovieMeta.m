@@ -16,33 +16,51 @@
 
 @synthesize movieFile = _movieFile;
 @synthesize filterView = _filterView;
-@synthesize movieWriter = _movieWriter;
 @synthesize filter = _filter;
 @synthesize player = _player;
 @synthesize avPlayerItem = _avPlayerItem;
 
+@synthesize movie_url = _movie_url;
+
 - (instancetype)initWithURL:(NSURL*)url {
     self = [super init];
     if (self) {
-        _avPlayerItem = [[AVPlayerItem alloc] initWithURL:url];
+        _movie_url = url;
+        [self resetMovie];
+    }
+    return self;
+}
+
+- (void)resetMovie {
+    _avPlayerItem = [[AVPlayerItem alloc] initWithURL:_movie_url];
+    if (_player == nil) {
         _player = [AVPlayer playerWithPlayerItem:_avPlayerItem];
-        
+    } else {
+        [_player replaceCurrentItemWithPlayerItem:_avPlayerItem];
+    }
+   
+    if (_movieFile == nil) {
         _movieFile = [[GPUImageMovie alloc] initWithPlayerItem:_avPlayerItem];
         _movieFile.runBenchmark = YES;
         _movieFile.playAtActualSpeed = NO;
         _movieFile.shouldRepeat = YES;
-        
+    } else {
+        _movieFile.playerItem = _avPlayerItem;
+    }
+    
+    if (_filter == nil) {
         _filter = [[GPUImageFilter alloc] init];
-        [_movieFile addTarget:_filter];
-        
+    }
+    [_movieFile addTarget:_filter];
+   
+    if (_filterView == nil) {
         _filterView = [[GPUImageView alloc]init];
         _filterView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-        [_filter addTarget:_filterView];
-
-        [_avPlayerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:NULL];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_avPlayerItem];
     }
-    return self;
+    [_filter addTarget:_filterView];
+    
+    [_avPlayerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:NULL];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_avPlayerItem];
 }
 
 - (void)play {
@@ -64,6 +82,23 @@
     [_player pause];
 }
 
+- (void)releaseMovie {
+    [_movieFile cancelProcessing];
+    [_player pause];
+    [_avPlayerItem removeObserver:self forKeyPath:@"status" context:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_avPlayerItem];
+    [_player replaceCurrentItemWithPlayerItem:nil];
+    _player = nil;
+    _movieFile.playerItem = nil;
+    _avPlayerItem = nil;
+    
+    [_movieFile removeAllTargets];
+    [_filter removeAllTargets];
+    
+    _movieFile = nil;
+    
+}
+
 - (void)addMovieFilter:(GPUImageFilter*)filter {
     if (_filter != filter) {
         _filter = filter;
@@ -81,10 +116,7 @@
 }
 
 - (void)dealloc {
-    [_movieFile endProcessing];
-    [_player pause];
-    [_avPlayerItem removeObserver:self forKeyPath:@"status" context:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_avPlayerItem];
+    [self releaseMovie];
 }
 
 -(void)moviePlayDidEnd:(NSNotification*)notification{

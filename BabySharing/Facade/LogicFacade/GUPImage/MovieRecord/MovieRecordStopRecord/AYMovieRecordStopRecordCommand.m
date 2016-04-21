@@ -13,7 +13,7 @@
 #import "TmpFileStorageModel.h"
 #import "AYNotifyDefines.h"
 
-#import <AssetsLibrary/AssetsLibrary.h>
+//#import <AssetsLibrary/AssetsLibrary.h>
 
 @implementation AYMovieRecordStopRecordCommand
 @synthesize para = _para;
@@ -29,14 +29,14 @@
         f.videoCamera.audioEncodingTarget = nil;
         [f.movieWriter finishRecordingWithCompletionHandler:^{
             // save to photo Album
-            ALAssetsLibrary* assetsLibrary = [[ALAssetsLibrary alloc] init];
-            [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:f.current_movie_url completionBlock:^(NSURL *assetURL, NSError *error) {
-                if (!error) {
-                    NSLog(@"captured video saved with no error.");
-                } else {
-                    NSLog(@"error occured while saving the video:%@", error);
-                }
-            }];
+//            ALAssetsLibrary* assetsLibrary = [[ALAssetsLibrary alloc] init];
+//            [assetsLibrary writeVideoAtPathToSavedPhotosAlbum:f.current_movie_url completionBlock:^(NSURL *assetURL, NSError *error) {
+//                if (!error) {
+//                    NSLog(@"captured video saved with no error.");
+//                } else {
+//                    NSLog(@"error occured while saving the video:%@", error);
+//                }
+//            }];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [f.movie_lst addObject:f.current_movie_url];

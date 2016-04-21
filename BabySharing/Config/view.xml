@@ -147,6 +147,7 @@
 
     <view type="FilterPreview" name="FilterPreview" factory="AYDefaultViewFactory" >
         <command type="message" message="setOriginImage:" />
+        <command type="message" message="queryCurrentFilterName" />
         <command type="notify" message="didSelectedFilterPhoto:" />
         <command type="notify" message="didSelectedFilterMovie:" />
     </view>
