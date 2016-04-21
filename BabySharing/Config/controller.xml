@@ -287,6 +287,8 @@
     
     <controller type="DefaultController" name="PostPhotoPublish" factory="AYDefaultControllerFactoy" >
         
+        <facade type="DefaultFacade" name="PostRemote" notification="true" />
+        
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SharingSNS" name="SharingSNS" />
@@ -296,6 +298,7 @@
     <controller type="DefaultController" name="PostMoviePublish" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+        <facade type="DefaultFacade" name="PostRemote" notification="true" />
         
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />

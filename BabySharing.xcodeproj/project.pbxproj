@@ -333,6 +333,7 @@
 		70AC5BAD1CC8C6B600E2568F /* AYPostUnlikeContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BAA1CC8C6B600E2568F /* AYPostUnlikeContentCommand.m */; };
 		70AC5BB01CC8C6DD00E2568F /* AYPostContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BAF1CC8C6DD00E2568F /* AYPostContentCommand.m */; };
 		70AC5BB31CC8C84600E2568F /* AYPostPhotosCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */; };
+		70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */; };
 		70B1DC761CC705640041794A /* AYGetAllPhonesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */; };
 		70B1DC791CC706760041794A /* AYMoviePlayerFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC781CC706760041794A /* AYMoviePlayerFacade.m */; };
 		70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC7C1CC70D220041794A /* AYMovieCoverImagesCommand.m */; };
@@ -1081,7 +1082,8 @@
 		70AC5BAF1CC8C6DD00E2568F /* AYPostContentCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostContentCommand.m; sourceTree = "<group>"; };
 		70AC5BB11CC8C84600E2568F /* AYPostPhotosCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostPhotosCommand.h; sourceTree = "<group>"; };
 		70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPhotosCommand.m; sourceTree = "<group>"; };
-		70AC5BB41CC8DA8400E2568F /* AYPostContentDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYPostContentDefines.h; sourceTree = "<group>"; };
+		70AC5BB51CC8E32C00E2568F /* AYPostMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostMovieCommand.h; sourceTree = "<group>"; };
+		70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostMovieCommand.m; sourceTree = "<group>"; };
 		70B1DC741CC705640041794A /* AYGetAllPhonesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGetAllPhonesCommand.h; sourceTree = "<group>"; };
 		70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGetAllPhonesCommand.m; sourceTree = "<group>"; };
 		70B1DC771CC706760041794A /* AYMoviePlayerFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMoviePlayerFacade.h; sourceTree = "<group>"; };
@@ -3752,7 +3754,8 @@
 				70AC5BAF1CC8C6DD00E2568F /* AYPostContentCommand.m */,
 				70AC5BB11CC8C84600E2568F /* AYPostPhotosCommand.h */,
 				70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */,
-				70AC5BB41CC8DA8400E2568F /* AYPostContentDefines.h */,
+				70AC5BB51CC8E32C00E2568F /* AYPostMovieCommand.h */,
+				70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */,
 			);
 			path = WithContents;
 			sourceTree = "<group>";
@@ -4685,6 +4688,7 @@
 				708235EF1CA2881600658531 /* AYLandingController.m in Sources */,
 				700BE5FA1CBA6E7D00A09B3A /* AYFileRemoteFacade.m in Sources */,
 				7002DBAD1CC660980013FF2A /* AYTagSearchController.m in Sources */,
+				70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */,
 				701524931CBFA462005B4C5B /* AYHomeQueryModelFacade.m in Sources */,
 				701524881CBF9AB4005B4C5B /* MJRefreshGifHeader.m in Sources */,
 				70120CAD1CBE4A9D00B169F9 /* AYFriendsController.m in Sources */,

@@ -11,7 +11,7 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYFacadeBase.h"
-#import "AYPostContentDefines.h"
+#import "AYQueryModelDefines.h"
 
 #import "TmpFileStorageModel.h"
 
@@ -25,7 +25,7 @@
      * 0. 得到需要上传的照片数量, 并初始化数据
      */
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 没一个图片是一个上传线程，需要一个semaphores等待上传完成
-    NSArray* images = [args objectForKey:@"attachments"];
+    NSArray* images = [args objectForKey:@"images"];
     NSInteger count = images.count;
     for (int index = 0; index < count; ++index) {
         dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
@@ -61,25 +61,11 @@
              */
             NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
             NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
+            [self endAsyncCall];
             block((image_result.count == 0 && post_data_result), server_reture_data);
         });
     });
    
-    /**
-     * 3. 启动异步线程对图片进行上传
-     */
-    for (int index = 0; index < images.count; ++index) {
-        NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-        [photo_dic setValue:[images objectAtIndex:index] forKey:@"image"];
-        
-        AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
-        [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            NSLog(@"upload result are %d", success);
-            [post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
-            dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
-        }];
-    }
-    
     /**
      * 5. 组合上传内容
      */
@@ -93,8 +79,24 @@
         [post_args setValue:[args objectForKey:@"tags"] forKey:@"tags"];
        
         NSMutableArray* arr_items = [[NSMutableArray alloc]init];
-        for (UIImage* iter in images) {
+        for (int index = 0; index < images.count; ++index) {
+            UIImage* iter = [images objectAtIndex:index];
             NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
+        
+            /**
+             * 3. 启动异步线程对图片进行上传
+             */
+            {
+                NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+                [photo_dic setValue:extent forKey:@"image"];
+                
+                AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
+                [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                    NSLog(@"upload result are %d", success);
+                    [post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
+                    dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
+                }];
+            }
            
             NSMutableDictionary* dic_tmp = [[NSMutableDictionary alloc]init];
             [dic_tmp setObject:[NSNumber numberWithInteger:ModelAttchmentTypeImage] forKey:@"type"];

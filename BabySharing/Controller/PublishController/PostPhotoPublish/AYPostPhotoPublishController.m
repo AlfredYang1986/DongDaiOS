@@ -12,6 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 @implementation AYPostPhotoPublishController {
     UIImage* post_image;
@@ -35,5 +36,29 @@
 #pragma mark -- actions
 - (NSString*)getNavTitle {
     return @"图片说明";
+}
+
+- (void)didSelectPostBtn {
+    // TODO: tags ...
+    
+    NSArray* images = @[post_image];
+    NSMutableDictionary* post_args = [[NSMutableDictionary alloc]init];
+    [post_args setValue:images forKey:@"images"];
+    
+    id<AYViewBase> view_des = [self.views objectForKey:@"PublishContainer"];
+    id<AYCommand> cmd_des = [view_des.commands objectForKey:@"queryUserDescription"];
+    id description = nil;
+    [cmd_des performWithResult:&description];
+    [post_args setValue:description forKey:@"description"];
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"PostRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PostPhotos"];
+   
+    [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        [[[UIAlertView alloc]initWithTitle:@"success" message:@"post content success" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        [self dismissViewControllerAnimated:YES completion:^{
+            NSLog(@"dismiss controller success");
+        }];
+    }];
 }
 @end

@@ -143,4 +143,9 @@ typedef enum : NSUInteger {
     self.status = AYPublishContainerViewStatusReady;
     return nil;
 }
+
+- (id)queryUserDescription {
+    id result = descriptionView.text;
+    return result;
+}
 @end
