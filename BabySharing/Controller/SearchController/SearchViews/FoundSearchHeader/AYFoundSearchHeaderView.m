@@ -49,8 +49,8 @@
     
 //    id<AYViewBase> header = VIEW([self getViewName], [self getViewName]);
     id<AYViewBase> header = VIEW(@"FoundSearchHeader", @"FoundSearchHeader");
-    self.commands = [[header commands] copy];
-    self.notifies = [[header notifies] copy];
+    self.commands = [[NSDictionary alloc]initWithDictionary:[header commands] copyItems:YES];
+    self.notifies = [[NSDictionary alloc]initWithDictionary:[header notifies] copyItems:YES];
     
     for (AYViewCommand* cmd in self.commands.allValues) {
         cmd.view = self;

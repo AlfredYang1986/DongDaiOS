@@ -76,9 +76,6 @@
 
 @property (nonatomic, weak) QueryContent *content;
 
-@property (nonatomic, strong) GPUImageMovie *gpuImageMovie;
-@property (nonatomic, strong) GPUImageView *gpuImageView;
-
 @property (nonatomic, strong) PhotoTagView *tagViewBand;
 @property (nonatomic, strong) PhotoTagView *tagViewTime;
 @property (nonatomic, strong) PhotoTagView *tagViewLocation;
@@ -89,15 +86,9 @@
     UIImageView *pushImage;
     UIImageView *jionImage;
     UIView *lineView;
-//    CALayer* lineView;
     UIView *jionGroupView;
     NSInteger indexChater;
     CGFloat originX;
-    
-//    AVPlayerItem* avPlayerItem;
-    AVPlayer* player;
-    
-    GPUImageFilter* filter;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
@@ -121,10 +112,7 @@
         [self.contentView addSubview:_ownerNameLable];
         
         _ownerRole = [[InsetsLabel alloc]init];
-//        UIEdgeInsets insetOwner = UIEdgeInsetsMake(4, 2, 4, 2);
-//        UIEdgeInsets insetOwner = UIEdgeInsetsMake(0, 0, 0, 0);
-//        _ownerRole = [[InsetsLabel alloc] initWithInsets:insetOwner];
-//        [_ownerRole drawTextInRect:CGRectMake(0, 0, 0, 0)];
+
         _ownerRole.text = @"";
         _ownerRole.font = [UIFont systemFontOfSize:12];
         _ownerRole.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
@@ -150,7 +138,6 @@
         _descriptionLabel.textColor = TextColor;
         [self.contentView addSubview:_descriptionLabel];
         
-//        praiseImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
         praiseImage = [[UIImageView alloc] init];
         praiseImage.image = PNGRESOURCE(@"home_like_default");
         [self.contentView addSubview:praiseImage];
@@ -222,10 +209,6 @@
         _videoSign.frame = CGRectMake(0, 0, 30, 30);
         [_mainImage addSubview:_videoSign];
 
-        _gpuImageView = [[GPUImageView alloc] init];
-        _gpuImageView.fillMode = kGPUImageFillModePreserveAspectRatioAndFill;
-        [_mainImage addSubview:_gpuImageView];
-        
         _tagViewBand = [[PhotoTagView alloc] initWithTagName:@"" andType:TagTypeBrand];
         [_mainImage addSubview:_tagViewBand];
         _tagViewTime = [[PhotoTagView alloc] initWithTagName:@"" andType:TagTypeTime];
@@ -253,13 +236,6 @@
         [praiseImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(praiseImageTap)]];
         [_jionGroup addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jionGroupTap)]];
         
-        // play movie
-        _gpuImageMovie = [[GPUImageMovie alloc]init];
-        filter = [[GPUImageFilter alloc]init];
-        [filter addTarget:_gpuImageView];
-        
-        player = [[AVPlayer alloc]init];
-        
         NSLog(@"init reuse identifier");
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -272,7 +248,6 @@
     [super layoutSubviews];
 
     self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 10.5);
-//    _ownerImage.frame = CGRectMake(12, 10, 28, 28);
     [_ownerImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(8);
         make.left.equalTo(self.contentView.mas_left).offset(8);
@@ -280,25 +255,18 @@
         make.height.equalTo(@32);
     }];
     
-//    [_ownerNameLable sizeToFit];
-//    _ownerNameLable.frame = CGRectMake(50, 16, CGRectGetWidth(_ownerNameLable.frame), 14);
     [_ownerNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_ownerImage);
         make.left.equalTo(_ownerImage.mas_right).offset(8);
     }];
 
-//    self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 12.5);
-//    _ownerImage.frame = CGRectMake(8, 8, 32, 32);
-
-    
     [_ownerRole sizeToFit];
-//    _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, 15, CGRectGetWidth(_ownerRole.frame) + 3, 16);
     [_ownerRole mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_ownerImage);
         make.left.equalTo(_ownerNameLable.mas_right).offset(10);
     }];
+
     if (CGRectGetWidth(_ownerRole.frame) != 0) {
-//        [self resetConstrRole];
         [_ownerRole mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_ownerImage);
             make.left.equalTo(_ownerNameLable.mas_right).offset(10);
@@ -308,41 +276,39 @@
         }];
     }
 
-//    _ownerDate.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) - 60, 16, 50, 14);
     [_ownerDate mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(@(16));
         make.right.equalTo(self.contentView).offset(-10);
         make.width.equalTo(@(50));
         make.height.equalTo(@(14));
     }];
-//    _mainImage.frame = CGRectMake(0, 46, CGRectGetWidth(self.contentView.frame), CGRectGetHeight(self.contentView.frame) - 176);
+
     [_mainImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_ownerImage.mas_bottom).offset(8);
         make.left.equalTo(self.contentView);
         make.width.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-128);
     }];
-//    _videoSign.center = CGPointMake(CGRectGetWidth(_mainImage.frame) - CGRectGetWidth(_videoSign.frame) / 2 - 10, CGRectGetHeight(_videoSign.frame) / 2 + 10);
+
     [_videoSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_mainImage);
         make.centerX.equalTo(_mainImage);
     }];
+
 //    _gpuImageView.frame = CGRectMake(0, 0, CGRectGetWidth(_mainImage.frame), CGRectGetHeight(_mainImage.frame));
-    [_gpuImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_mainImage);
-        make.centerX.equalTo(_mainImage);
-        make.size.equalTo(_mainImage);
-    }];
-//    _descriptionLabel.frame = CGRectMake(10, CGRectGetMaxY(_mainImage.frame) + 0, CGRectGetWidth(self.contentView.frame) - 20, 18);
+//    [_gpuImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(_mainImage);
+//        make.centerX.equalTo(_mainImage);
+//        make.size.equalTo(_mainImage);
+//    }];
+
     [_descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_mainImage.mas_bottom).offset(14);
         make.left.equalTo(self.contentView.mas_left).offset(10);
         make.right.equalTo(self.contentView.mas_right).offset(-10);
         make.height.equalTo(@18);
     }];
-//    _descriptionLabel.center = CGPointMake(CGRectGetWidth(self.contentView.frame) / 2, CGRectGetMaxY(_mainImage.frame) + 2 + CGRectGetHeight(_descriptionLabel.frame));
-    
-//    praiseImage.frame = CGRectMake(17, CGRectGetMaxY(_descriptionLabel.frame) + 15, 25, 25);
+
     [praiseImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_descriptionLabel.mas_bottom).offset(14);
         make.left.equalTo(self.contentView).offset(17);
@@ -350,97 +316,84 @@
         make.height.equalTo(@22);
     }];
     
-//    _praiseCount.frame = CGRectMake(CGRectGetMaxX(praiseImage.frame) + 11, CGRectGetMaxY(_descriptionLabel.frame) + 20, 15, 15);
     [_praiseCount mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(praiseImage);
         make.left.equalTo(praiseImage.mas_right).offset(10);
     }];
     
-//    pushImage.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) / 3, CGRectGetMaxY(_descriptionLabel.frame) + 15, 25, 25);
     [pushImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(praiseImage);
         make.left.equalTo(praiseImage.mas_right).offset(60);
         make.size.equalTo(praiseImage);
     }];
-//    _usefulCount.frame = CGRectMake(CGRectGetMaxX(pushImage.frame) + 5, CGRectGetMinY(_praiseCount.frame), 15, 15);
+
     [_usefulCount mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(praiseImage);
         make.left.equalTo(pushImage.mas_right).offset(10);
     }];
     
-//    lineView.frame = CGRectMake(15, CGRectGetMaxY(praiseImage.frame) + 15, CGRectGetWidth(self.contentView.frame) - 30, 1);
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(praiseImage.mas_bottom).offset(14);
         make.left.equalTo(self.contentView.mas_left).offset(10);
         make.right.equalTo(self.contentView.mas_right).offset(-10);
         make.height.equalTo(@1);
     }];
-//    CGFloat radius = (CGRectGetHeight(self.contentView.frame) - CGRectGetMaxY(lineView.frame)) / 2;
-//    _firstImage.frame = CGRectMake(0, 0, radius * 2 - 18, radius * 2 - 18);
-//    _firstImage.center = CGPointMake(18 + radius / 2, CGRectGetMaxY(lineView.frame) + radius);
+
     [_firstImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lineView.mas_bottom).offset(8);
         make.left.equalTo(self.contentView.mas_left).offset(10);
         make.width.equalTo(@28);
         make.height.equalTo(@28);
     }];
-//    _secondImage.frame = CGRectMake(0, 0, radius * 2 - 18, radius * 2 - 18);
-//    _secondImage.center = CGPointMake(CGRectGetMidX(_firstImage.frame) + radius - 5, CGRectGetMaxY(lineView.frame) + radius);
+
     [_secondImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_firstImage);
         make.left.equalTo(_firstImage).offset(22);
         make.size.equalTo(_firstImage);
     }];
-//    _thirdImage.frame = CGRectMake(0, 0, radius * 2 - 18, radius * 2 - 18);
-//    _thirdImage.center = CGPointMake(CGRectGetMidX(_secondImage.frame) + radius - 5, CGRectGetMaxY(lineView.frame) + radius);
+
     [_thirdImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_secondImage);
         make.left.equalTo(_secondImage).offset(22);
         make.size.equalTo(_secondImage);
     }];
+
     [self.contentView bringSubviewToFront:_thirdImage];
     [self.contentView bringSubviewToFront:_secondImage];
     [self.contentView bringSubviewToFront:_firstImage];
     
-//    [_talkerCount sizeToFit];
-//    _talkerCount.frame = CGRectMake(0, 0, CGRectGetWidth(_talkerCount.frame), CGRectGetHeight(_talkerCount.frame));
-//    CGFloat y = self.thirdImage.center.y;
-//    _talkerCount.center = CGPointMake(originX + CGRectGetWidth(_talkerCount.frame) / 2, [NSNumber numberWithFloat:y].intValue);
     [_talkerCount mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_firstImage);
         make.left.equalTo(self.contentView.mas_left).offset(originX);
     }];
     
-//    _jionGroup.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) - 97 , CGRectGetMaxY(lineView.frame) + 7, 90, CGRectGetHeight(self.contentView.frame) - CGRectGetMaxY(lineView.frame) - 14);
-//    jionGroupView.frame = CGRectMake(0, 0, CGRectGetWidth(_jionGroup.frame), CGRectGetHeight(_jionGroup.frame));
     [_jionGroup mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_firstImage);
-//        make.top.equalTo(lineView.mas_bottom).offset(8);
         make.right.equalTo(self.contentView.mas_right).offset(-10);
         make.width.equalTo(@85);
         make.height.equalTo(@26);
     }];
+    
     [jionGroupView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_jionGroup);
         make.left.equalTo(_jionGroup);
         make.size.equalTo(_jionGroup);
     }];
     
-//    _tagViewBand.frame = CGRectMake(_tagViewBand.offset_x * _mainImage.frame.size .width, _tagViewBand.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewBand.frame), CGRectGetHeight(_tagViewBand.frame));
     [_tagViewBand mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewBand.offset_y);
         make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewBand.offset_x);
         make.width.equalTo(@(_tagViewBand.bounds.size.width));
         make.height.equalTo(@(_tagViewBand.bounds.size.height));
     }];
-//        _tagViewTime.frame = CGRectMake(_tagViewTime.offset_x * _mainImage.frame.size.width, _tagViewTime.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewTime.frame), CGRectGetHeight(_tagViewTime.frame));
+
     [_tagViewTime mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewTime.offset_y);
         make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewTime.offset_x);
         make.width.equalTo(@(_tagViewTime.bounds.size.width));
         make.height.equalTo(@(_tagViewTime.bounds.size.height));
     }];
-//        _tagViewLocation.frame = CGRectMake(_tagViewLocation.offset_x * _mainImage.frame.size.width, _tagViewLocation.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewLocation.frame), CGRectGetHeight(_tagViewLocation.frame));
+
     [_tagViewLocation mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewLocation.offset_y);
         make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewLocation.offset_x);
@@ -461,8 +414,6 @@
     _thirdImage.layer.cornerRadius = radius;
     _thirdImage.layer.borderColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.25 ].CGColor;
     _thirdImage.layer.borderWidth = 2.0;
-//    self.thirdImage.layer.shouldRasterize = YES;
-//    self.thirdImage.layer.rasterizationScale = [UIScreen mainScreen].scale;
     _secondImage.layer.cornerRadius = radius;
     _secondImage.layer.borderColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.25 ].CGColor;
     _secondImage.layer.borderWidth = 2.0;
@@ -505,7 +456,6 @@
                 imageView.image = image;
             }
         }
-//        originX = originX + (indexChater + 1) * 26 + 10 - indexChater*8;
         originX = originX + (indexChater) * 28 + 10 - (indexChater - 1) * 5;
     }
     
@@ -564,8 +514,6 @@
         }
     }
     
-    _gpuImageView.hidden = YES;
-    
     praiseImage.image = self.content.isLike.integerValue == 0 ? PNGRESOURCE(@"home_like_default") : PNGRESOURCE(@"home_like_like");
     pushImage.image = self.content.isPush.integerValue == 0 ? PNGRESOURCE(@"push") : PNGRESOURCE(@"pushed");
     
@@ -603,29 +551,14 @@
 }
 
 - (void)changeMovie:(NSURL*)path {
-    AVPlayerItem* item = [[AVPlayerItem alloc] initWithURL:path];
-    if (player.currentItem != nil) {
-        [player pause];
-    }
-    _gpuImageMovie = [[GPUImageMovie alloc]initWithPlayerItem:item];
-    [_gpuImageMovie addTarget:filter];
-    _gpuImageMovie.runBenchmark = YES;
-    _gpuImageMovie.playAtActualSpeed = NO;
-    _gpuImageMovie.shouldRepeat = YES;
-    
-    [player replaceCurrentItemWithPlayerItem:item];
-    
-    [_gpuImageMovie startProcessing];
-    [player play];
+
 }
 
 - (void)mainImageTap {
-//    if (_queryContentItem != nil && _gpuImageMovie.progress == 0) {
     if (_queryContentItem != nil) { //&& _gpuImageMovie.progress == 0) {
         NSURL* url = [TmpFileStorageModel enumFileWithName:_queryContentItem.item_name andType:_queryContentItem.item_type.unsignedIntegerValue withDownLoadFinishBlock:^(BOOL success, NSURL *path) {
             if (success) {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    _gpuImageView.hidden = NO;
                     _videoSign.hidden = YES;
                     [self changeMovie:path];
                 });
@@ -635,27 +568,15 @@
             }
         }];
         if (url) {
-           
-            _gpuImageView.hidden = NO;
             _videoSign.hidden = YES;
-           
             [self changeMovie:url];
         }
     }
-//    if (_gpuImageMovie.progress != 0) {
-//        [self stopViedo];
-//    }
 }
 
 - (void)stopViedo {
     NSLog(@"停止播放视频");
-    _gpuImageView.hidden = YES;
     _videoSign.hidden = NO;
-
-    [_gpuImageMovie endProcessing];
-//    [_gpuImageMovie cancelProcessing];
-//    [_gpuImageMovie removeAllTargets];
-    [player pause];
 }
 
 - (void)praiseImageTap {
