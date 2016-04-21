@@ -12,6 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 @interface AYPostMoviePublishController ()
 @property (nonatomic, weak) UIView* filterView;
@@ -102,4 +103,30 @@
     }
 }
 
+- (void)didSelectPostBtn {
+    // TODO: tags ...
+    
+//    NSArray* images = @[];
+    NSMutableDictionary* post_args = [[NSMutableDictionary alloc]init];
+    [post_args setValue:img_cover forKey:@"cover_img"];
+    [post_args setValue:movie_url forKey:@"movie_url"];
+    
+    id<AYViewBase> view_des = [self.views objectForKey:@"PublishContainer"];
+    id<AYCommand> cmd_des = [view_des.commands objectForKey:@"queryUserDescription"];
+    id description = nil;
+    [cmd_des performWithResult:&description];
+    [post_args setValue:description forKey:@"description"];
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"PostRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PostMovie"];
+    
+    [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        [[[UIAlertView alloc]initWithTitle:@"success" message:@"post content success" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        id<AYCommand> cmd = REVERSMODULE;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [cmd performWithResult:&dic];
+    }];
+}
 @end

@@ -278,6 +278,7 @@
 		70490DE61CA23B090093D5DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE51CA23B090093D5DA /* Foundation.framework */; };
 		70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE71CA23B0E0093D5DA /* AVFoundation.framework */; };
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
+		704F08301CC8EC7800A9925D /* AYUploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */; };
 		705B84491CC6A16B0057D442 /* AYPostPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B84481CC6A16B0057D442 /* AYPostPreviewController.m */; };
 		705B84541CC6A4D60057D442 /* AYFilterPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B844D1CC6A4D60057D442 /* AYFilterPreviewView.m */; };
 		705B84551CC6A4D60057D442 /* AYTagEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B84501CC6A4D60057D442 /* AYTagEntryView.m */; };
@@ -969,6 +970,8 @@
 		70490DE51CA23B090093D5DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		70490DE71CA23B0E0093D5DA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		70490DE91CA23B180093D5DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		704F082E1CC8EC7800A9925D /* AYUploadFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUploadFileCommand.h; sourceTree = "<group>"; };
+		704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUploadFileCommand.m; sourceTree = "<group>"; };
 		705B84471CC6A16B0057D442 /* AYPostPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostPreviewController.h; sourceTree = "<group>"; };
 		705B84481CC6A16B0057D442 /* AYPostPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPreviewController.m; sourceTree = "<group>"; };
 		705B844C1CC6A4D60057D442 /* AYFilterPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFilterPreviewView.h; sourceTree = "<group>"; };
@@ -1879,6 +1882,7 @@
 		700BE5D81CBA6E5800A09B3A /* Files */ = {
 			isa = PBXGroup;
 			children = (
+				704F082D1CC8EC6C00A9925D /* UploadFile */,
 				700BE5D91CBA6E5800A09B3A /* DownloadUserFiles */,
 				700BE5DC1CBA6E5800A09B3A /* UploadUserImage */,
 			);
@@ -3277,6 +3281,15 @@
 			name = Framework;
 			sourceTree = "<group>";
 		};
+		704F082D1CC8EC6C00A9925D /* UploadFile */ = {
+			isa = PBXGroup;
+			children = (
+				704F082E1CC8EC7800A9925D /* AYUploadFileCommand.h */,
+				704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */,
+			);
+			path = UploadFile;
+			sourceTree = "<group>";
+		};
 		705B844A1CC6A4D60057D442 /* PreviewViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -4591,6 +4604,7 @@
 				70120CA91CBE0D9400B169F9 /* AYRefrashOwnerQueryPushDataCommand.m in Sources */,
 				70F428771CC7B18F00A69977 /* MASCompositeConstraint.m in Sources */,
 				7002DB371CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m in Sources */,
+				704F08301CC8EC7800A9925D /* AYUploadFileCommand.m in Sources */,
 				700BE5EF1CBA6E5800A09B3A /* AYUpdateUserDetailCommand.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
 				708E528C1CC54471008A6023 /* AYStillImageCaptureStartCommand.m in Sources */,

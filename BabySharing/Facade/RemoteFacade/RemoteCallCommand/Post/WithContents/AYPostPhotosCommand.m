@@ -15,9 +15,7 @@
 
 #import "TmpFileStorageModel.h"
 
-@implementation AYPostPhotosCommand {
-//    dispatch_semaphore_t semaphore_upload_photo
-}
+@implementation AYPostPhotosCommand
 
 - (void)performWithResult:(NSDictionary *)args andFinishBlack:(asynCommandFinishBlock)block {
    
@@ -36,8 +34,8 @@
     for (int index = 0; index < images.count; ++index) {
         [post_image_result addObject:[NSNumber numberWithBool:NO]];
     }
-    __block BOOL post_data_result = NO;                                                 // 记录上传用户数据线程的结果
-    __block NSDictionary* server_reture_data = nil;                                     // 服务器返回的数据
+    __block BOOL post_data_result = NO;                                         // 记录上传用户数据线程的结果
+    __block NSDictionary* server_reture_data = nil;                             // 服务器返回的数据
     
     /**
      * 1. 主线程 调用loading 阻塞用户消息

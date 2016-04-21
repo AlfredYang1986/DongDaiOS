@@ -56,9 +56,11 @@
    
     [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         [[[UIAlertView alloc]initWithTitle:@"success" message:@"post content success" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-        [self dismissViewControllerAnimated:YES completion:^{
-            NSLog(@"dismiss controller success");
-        }];
+        id<AYCommand> cmd = REVERSMODULE;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [cmd performWithResult:&dic];
     }];
 }
 @end

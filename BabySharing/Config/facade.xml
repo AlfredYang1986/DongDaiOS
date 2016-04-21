@@ -117,6 +117,7 @@
     
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UploadUserImage" />
+        <command type="Remote" name="UploadFile" />
         <command type="Remote" name="DownloadUserFiles" />
     </facade>
 
