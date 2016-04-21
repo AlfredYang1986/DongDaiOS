@@ -65,6 +65,8 @@
     NSArray* arr = [_recommands_tags copy];
     [cmd performWithResult:&arr];
     
+    
+    
     return (UITableViewCell*)cell;
 }
 
@@ -84,12 +86,12 @@
     id<AYCommand> cmd_query_title = [self.notifies objectForKey:@"queryHeaderTitle"];
     NSString* str = nil;
     [cmd_query_title performWithResult:&str];
-    
     id<AYCommand> cmd = [header.commands objectForKey:@"changeHeaderTitle:"];
     [cmd performWithResult:&str];
+    ((UIView*)header).backgroundColor = [UIColor whiteColor];
     
-    UITableViewHeaderFooterView* v = (UITableViewHeaderFooterView*)header;
-    v.backgroundView = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[UIColor whiteColor] size:v.bounds.size]];
+//    UITableViewHeaderFooterView* v = (UITableViewHeaderFooterView*)header;
+//    v.backgroundView = [[UIImageView alloc] initWithImage:[Tools imageWithColor:[UIColor whiteColor] size:v.bounds.size]];
     return (UIView*)header;
 }
 

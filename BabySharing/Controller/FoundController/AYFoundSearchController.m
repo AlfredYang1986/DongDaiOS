@@ -86,13 +86,13 @@
         NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchHeaderName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_header performWithResult:&nib_header_name];
         
-        id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundHotCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_hot_cell performWithResult:&class_name];
-        
         id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
         NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundSearchResultCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_search performWithResult:&nib_search_name];
+        
+        id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYFoundHotCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_hot_cell performWithResult:&class_name];
     }
     
     [self queryRecommandData];

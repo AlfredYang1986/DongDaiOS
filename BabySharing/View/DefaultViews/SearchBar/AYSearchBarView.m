@@ -68,7 +68,7 @@
         for (UIView* v in self.subviews.firstObject.subviews) {
             if ( [v isKindOfClass: [UITextField class]] ) {
                 _textField = (UITextField *)v;
-                _textField.leftView = nil;
+//                _textField.leftView = nil;
                 break;
             }
         }
@@ -131,6 +131,8 @@
         self.textField.font = [UIFont systemFontOfSize:12];
         self.textField.frame = CGRectMake(CONTENT_MARGIN, ver_margin, textfield_width, sz.height);
         self.cancleBtn.frame = CGRectMake(CONTENT_MARGIN + textfield_width + TEXTFIELD_BTN_MARGIN_BETWEEN, ver_margin, sz.width, sz.height);
+        
+        
     }
 }
 
@@ -180,15 +182,21 @@
 - (id)foundSearchBar {
     self.showsCancelButton = YES;
     [self.cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
-    UIColor* textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:1.0];
+//    UIColor* textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:1.0];
     
     self.sb_bg = [UIColor whiteColor];
-    [self.cancleBtn setTintColor:textColor];
-    [self.cancleBtn.titleLabel setTextColor:textColor];
+//    [self.cancleBtn setTintColor:textColor];
+//    [self.cancleBtn.titleLabel setTextColor:textColor];
     self.cancleBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:0.3059 alpha:1.f] forState:UIControlStateNormal];
-    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:0.3059 alpha:1.f] forState:UIControlStateDisabled];
-
+//    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:0.3059 alpha:1.f] forState:UIControlStateNormal];
+//    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:0.3059 alpha:1.f] forState:UIControlStateDisabled];
+    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateNormal];
+    [self.cancleBtn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateDisabled];
+    self.cancleBtn.backgroundColor = [UIColor colorWithRed:70.0/255.0 green:219.0 / 255.0 blue:202.0 / 255.0 alpha:1.f];
+    self.cancleBtn.layer.cornerRadius = 5.f;
+    self.cancleBtn.clipsToBounds = YES;
+    [self setPostLayoutSize:CGSizeMake(CANCELBTN_WIDTH, CANCELBTN_HEIGHT)];
+    
     self.textField.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.textField.borderStyle = UITextBorderStyleRoundedRect;
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;

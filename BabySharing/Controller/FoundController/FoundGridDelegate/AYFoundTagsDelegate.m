@@ -69,6 +69,18 @@
         NSArray* arr = [querydata copy];
         [cmd performWithResult:&arr];
         
+        CALayer *line = [CALayer layer];
+        line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+        line.borderWidth = 1.f;
+        line.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame) - 1, [UIScreen mainScreen].bounds.size.width, 1);
+        [((UITableViewCell*)cell).layer addSublayer:line];
+        
+        CALayer *line1 = [CALayer layer];
+        line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.1].CGColor;
+        line.borderWidth = 1.f;
+        line1.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame), [UIScreen mainScreen].bounds.size.width, 1);
+        [((UITableViewCell*)cell).layer addSublayer:line1];
+        
         return (UITableViewCell*)cell;
     } else {
 
@@ -90,6 +102,18 @@
         [dic setValue:[tmp objectForKey:@"content"] forKey:kAYFoundSearchResultCellContentKey];
         
         [cmd performWithResult:&dic];
+        
+        CALayer *line = [CALayer layer];
+        line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+        line.borderWidth = 1.f;
+        line.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame) - 1, [UIScreen mainScreen].bounds.size.width, 1);
+        [((UITableViewCell*)cell).layer addSublayer:line];
+        
+        CALayer *line1 = [CALayer layer];
+        line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.1].CGColor;
+        line.borderWidth = 1.f;
+        line1.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame), [UIScreen mainScreen].bounds.size.width, 1);
+        [((UITableViewCell*)cell).layer addSublayer:line1];
         
         return (UITableViewCell*)cell;
     }

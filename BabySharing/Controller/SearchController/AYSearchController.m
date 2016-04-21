@@ -208,7 +208,7 @@
 }
 
 - (id)queryHeaderTitle {
-    return nil;
+    return @"";
 }
 
 - (id)queryHandleCommand {

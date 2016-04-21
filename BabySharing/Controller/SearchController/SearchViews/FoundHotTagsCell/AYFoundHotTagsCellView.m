@@ -27,7 +27,7 @@
 #define TAG_CORDIUS             5
 #define TAG_MARGIN_BETWEEN      10.5
 
-#define PREFERRED_HEIGHT        62
+#define PREFERRED_HEIGHT        61
 
 @implementation AYFoundHotTagsCellView {
     CALayer* line;
@@ -219,9 +219,10 @@
         
         NSString* tag_name = [tmp objectForKey:@"tag_name"];
         NSInteger tag_type = ((NSNumber*)[tmp objectForKey:@"tag_type"]).integerValue;
-        CGSize sz_font = [tag_name boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-        CGSize sz = CGSizeMake(TAG_MARGIN + ICON_WIDTH + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
         
+        CGSize sz_font = [tag_name boundingRectWithSize:size options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+        
+        CGSize sz = CGSizeMake(TAG_MARGIN + ICON_WIDTH + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
         FoundHotTagBtn* btn = [[FoundHotTagBtn alloc]initWithFrame:CGRectMake(0, 0, sz.width, sz.height)];
         btn.tag_name = tag_name;
         btn.tag_type = tag_type;

@@ -255,7 +255,7 @@
 }
 
 + (CGFloat)preferredHeight {
-    return 80;
+    return 61;
 }
 
 - (void)layoutSubviews {

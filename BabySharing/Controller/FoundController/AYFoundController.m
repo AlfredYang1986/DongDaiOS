@@ -16,6 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYAlbumDefines.h"
+#import "AYFoundSearchResultCellDefines.h"
 
 #define STATUS_HEIGHT       20
 #define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
