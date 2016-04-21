@@ -197,6 +197,7 @@
         _talkerCount.font = [UIFont systemFontOfSize:12];
         _talkerCount.textColor = TextColor;
         [self.contentView addSubview:_talkerCount];
+        [self.contentView bringSubviewToFront:_talkerCount];
         
         _jionGroup = [[UITextField alloc] init];
         _jionGroup.enabled = YES;
@@ -405,9 +406,9 @@
 //    _talkerCount.frame = CGRectMake(0, 0, CGRectGetWidth(_talkerCount.frame), CGRectGetHeight(_talkerCount.frame));
 //    CGFloat y = self.thirdImage.center.y;
 //    _talkerCount.center = CGPointMake(originX + CGRectGetWidth(_talkerCount.frame) / 2, [NSNumber numberWithFloat:y].intValue);
-    [_talkerCount mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_talkerCount mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_firstImage);
-        make.left.equalTo(_thirdImage.mas_right).offset(10);
+        make.left.equalTo(self.contentView.mas_left).offset(originX);
     }];
     
 //    _jionGroup.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) - 97 , CGRectGetMaxY(lineView.frame) + 7, 90, CGRectGetHeight(self.contentView.frame) - CGRectGetMaxY(lineView.frame) - 14);
@@ -426,23 +427,23 @@
     }];
     
 //    _tagViewBand.frame = CGRectMake(_tagViewBand.offset_x * _mainImage.frame.size .width, _tagViewBand.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewBand.frame), CGRectGetHeight(_tagViewBand.frame));
-    [_tagViewBand mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@((self.contentView.bounds.size.height - 167 ) * _tagViewBand.offset_y));
-        make.left.equalTo(@(self.contentView.bounds.size.width * _tagViewBand.offset_x));
+    [_tagViewBand mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewBand.offset_y);
+        make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewBand.offset_x);
         make.width.equalTo(@(_tagViewBand.bounds.size.width));
         make.height.equalTo(@(_tagViewBand.bounds.size.height));
     }];
-//    _tagViewTime.frame = CGRectMake(_tagViewTime.offset_x * _mainImage.frame.size.width, _tagViewTime.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewTime.frame), CGRectGetHeight(_tagViewTime.frame));
-    [_tagViewTime mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@((self.contentView.bounds.size.height - 167 ) * _tagViewTime.offset_y));
-        make.left.equalTo(@(self.contentView.bounds.size.width * _tagViewTime.offset_x));
+//        _tagViewTime.frame = CGRectMake(_tagViewTime.offset_x * _mainImage.frame.size.width, _tagViewTime.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewTime.frame), CGRectGetHeight(_tagViewTime.frame));
+    [_tagViewTime mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewTime.offset_y);
+        make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewTime.offset_x);
         make.width.equalTo(@(_tagViewTime.bounds.size.width));
         make.height.equalTo(@(_tagViewTime.bounds.size.height));
     }];
-//    _tagViewLocation.frame = CGRectMake(_tagViewLocation.offset_x * _mainImage.frame.size.width, _tagViewLocation.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewLocation.frame), CGRectGetHeight(_tagViewLocation.frame));
-    [_tagViewLocation mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@((self.contentView.bounds.size.height - 167 ) * _tagViewLocation.offset_y));
-        make.left.equalTo(@(self.contentView.bounds.size.width * _tagViewLocation.offset_x));
+//        _tagViewLocation.frame = CGRectMake(_tagViewLocation.offset_x * _mainImage.frame.size.width, _tagViewLocation.offset_y * _mainImage.frame.size.height, CGRectGetWidth(_tagViewLocation.frame), CGRectGetHeight(_tagViewLocation.frame));
+    [_tagViewLocation mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewLocation.offset_y);
+        make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewLocation.offset_x);
         make.width.equalTo(@(_tagViewLocation.bounds.size.width));
         make.height.equalTo(@(_tagViewLocation.bounds.size.height));
     }];
@@ -481,19 +482,13 @@
     _thirdImage.hidden = YES;
     
     self.content = content;
-    originX = 20;
+    originX = 10;
+    indexChater = 0;
     if (self.content.chaters.count > 0) {
-        indexChater = 0;
         for (QueryContentChaters *chater in self.content.chaters) {
             if (indexChater == 3) {
                 break;
             }
-            if (indexChater == 0) {
-                originX += 30;
-            } else {
-                originX += 20;
-            }
-            
             UIImageView *imageView = [self.contentView viewWithTag:++indexChater];
             imageView.image = PNGRESOURCE(@"default_user");
             imageView.hidden = NO;
@@ -510,7 +505,10 @@
                 imageView.image = image;
             }
         }
+//        originX = originX + (indexChater + 1) * 26 + 10 - indexChater*8;
+        originX = originX + (indexChater) * 28 + 10 - (indexChater - 1) * 5;
     }
+    
     
     self.ownerNameLable.text = content.owner_name;
     self.descriptionLabel.text = content.content_description;
