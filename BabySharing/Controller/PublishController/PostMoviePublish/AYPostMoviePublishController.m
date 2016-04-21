@@ -106,7 +106,6 @@
 - (void)didSelectPostBtn {
     // TODO: tags ...
     
-//    NSArray* images = @[];
     NSMutableDictionary* post_args = [[NSMutableDictionary alloc]init];
     [post_args setValue:img_cover forKey:@"cover_img"];
     [post_args setValue:movie_url forKey:@"movie_url"];

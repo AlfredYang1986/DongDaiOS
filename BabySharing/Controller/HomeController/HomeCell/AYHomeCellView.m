@@ -10,7 +10,6 @@
 #import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
-#import <AVFoundation/AVFoundation.h>
 #import "GPUImage.h"
 #import "Define.h"
 #import "PhotoTagView.h"
@@ -25,6 +24,7 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 #import "AYHomeCellDefines.h"
+#import "AYFacadeBase.h"
 
 @interface InsetsLabel : UILabel
 @property(nonatomic) UIEdgeInsets insets;
@@ -79,6 +79,8 @@
 @property (nonatomic, strong) PhotoTagView *tagViewBand;
 @property (nonatomic, strong) PhotoTagView *tagViewTime;
 @property (nonatomic, strong) PhotoTagView *tagViewLocation;
+
+@property (nonatomic, weak) UIView* filterView;
 @end
 
 @implementation AYHomeCellView {
@@ -90,6 +92,8 @@
     NSInteger indexChater;
     CGFloat originX;
 }
+
+@synthesize filterView = _filterView;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
     self = [self initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -295,12 +299,7 @@
         make.centerX.equalTo(_mainImage);
     }];
 
-//    _gpuImageView.frame = CGRectMake(0, 0, CGRectGetWidth(_mainImage.frame), CGRectGetHeight(_mainImage.frame));
-//    [_gpuImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_mainImage);
-//        make.centerX.equalTo(_mainImage);
-//        make.size.equalTo(_mainImage);
-//    }];
+
 
     [_descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_mainImage.mas_bottom).offset(14);
@@ -551,7 +550,31 @@
 }
 
 - (void)changeMovie:(NSURL*)path {
-
+    NSLog(@"start to play movie at home cell");
+    
+    if (path) {
+        id<AYFacadeBase> f = MOVIEPLAYER;
+        if (self.filterView == nil) {
+            id<AYCommand> cmd_view = [f.commands objectForKey:@"MovieDisplayView"];
+            id url = path;
+            [cmd_view performWithResult:&url];
+            
+            self.filterView = url;
+            
+            self.filterView.frame = CGRectMake(0, 0, CGRectGetWidth(_mainImage.frame), CGRectGetHeight(_mainImage.frame));
+//            [self.filterView mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.centerY.equalTo(_mainImage);
+//                make.centerX.equalTo(_mainImage);
+//                make.size.equalTo(_mainImage);
+//            }];
+            [_mainImage addSubview:self.filterView];
+        }
+        
+        self.filterView.hidden = NO;
+        id<AYCommand> cmd_play = [f.commands objectForKey:@"PlayMovie"];
+        id url = path;
+        [cmd_play performWithResult:&url];
+    }
 }
 
 - (void)mainImageTap {
@@ -575,8 +598,16 @@
 }
 
 - (void)stopViedo {
-    NSLog(@"停止播放视频");
+    NSLog(@"end to play movie at home cell");
     _videoSign.hidden = NO;
+    
+    id<AYFacadeBase> f = MOVIEPLAYER;
+    id<AYCommand> cmd = [f.commands objectForKey:@"ReleaseMovie"];
+    id url = [TmpFileStorageModel enumFileWithName:_queryContentItem.item_name andType:_queryContentItem.item_type.unsignedIntegerValue withDownLoadFinishBlock:nil];
+    if (url != nil) {
+        [cmd performWithResult:&url];
+    }
+    [self.filterView removeFromSuperview];
 }
 
 - (void)praiseImageTap {

@@ -30,15 +30,6 @@
         SEL sel = NSSelectorFromString(_method_name);
         AYViewController* controller = (AYViewController*)_view.controller;
         Method m = class_getInstanceMethod([controller class], sel);
-//        IMP imp = method_getImplementation(m);
-//        id (*func)(id, SEL, ...) = imp;
-//        
-//        id result = nil;
-//        if (_need_args) {
-//            result = func(controller, sel, *obj);
-//        } else {
-//            result = func(controller, sel);
-//        }
         
         id result = nil;
         if (_need_args) {
