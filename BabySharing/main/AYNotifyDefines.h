@@ -43,4 +43,8 @@ static NSString* const kAYNotifyDidEndMovieRecording = @"DidEndMovieRecording";
 static NSString* const kAYNotifyDidDeleteMovieRecord = @"DidDeleteMovieRecord:";
 static NSString* const kAYNotifyDidMergeMovieRecord = @"DidMergeMovieRecord:";
 
+static NSString* const kAYNotifyXMPPMessageSendSuccess = @"XMPPMessageSendSuccess:";
+static NSString* const kAYNotifyXMPPMessageSendFailed = @"XMPPMessageSendFailed:";
+static NSString* const kAYNotifyXMPPReceiveMessage = @"XMPPReceiveMessage:";
+
 #endif /* AYNotifyDefines_h */

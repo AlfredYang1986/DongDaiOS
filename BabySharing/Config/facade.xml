@@ -98,6 +98,10 @@
     <facade type="DefaultFacade" name="ChatSessionModel" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="UpdataChatSession" />
         <command type="Module" name="QueryChatSession" />
+        <command type="Module" name="PushNotification" />
+        <command type="Module" name="QueryNotifications" />
+        <command type="Module" name="RemoveNotification" />
+        <command type="Module" name="ClearNotifications" />
     </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
@@ -168,6 +172,9 @@
     <facade type="DefaultFacade" name="XMPP" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginXMPP" />
         <command type="Module" name="LogoutXMPP" />
+        <command type="Module" name="UnreadMessageCount" />
+        <command type="Module" name="SendMessage" />
+        <command type="Module" name="QueryMessages" />
     </facade>
     
     <facade type="DefaultFacade" name="Contacter" factory="AYDefaultFacadeFactory" >

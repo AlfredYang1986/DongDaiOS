@@ -40,6 +40,10 @@
 
     <command type="Module" name="UpdataChatSession" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryChatSession" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="PushNotification" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryNotifications" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="RemoveNotification" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ClearNotifications" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
@@ -50,6 +54,9 @@
     
     <command type="Module" name="LoginXMPP" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LogoutXMPP" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="UnreadMessageCount" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SendMessage" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryMessages" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />

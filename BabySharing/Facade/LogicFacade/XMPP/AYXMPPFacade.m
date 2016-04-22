@@ -8,8 +8,12 @@
 
 #import "AYXMPPFacade.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 #import "AYNotifyDefines.h"
 #import "GotyeOCAPI.h"
+#import "EnumDefines.h"
+#import "RemoteInstance.h"
+#import "AYModel.h"
 
 static NSString* const kAYMessageCommandRegisterID = @"1afd2cc8-4060-41eb-aa5a-ee9460370156";
 static NSString* const kAYMessageCommandRegisterName = @"DongDa";
@@ -70,11 +74,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
  */
 -(void) onReconnecting:(GotyeStatusCode)code user:(GotyeOCUser*)user {
     NSLog(@"XMPP on Reconnecting");
-//    AppDelegate* app = (AppDelegate*)[UIApplication sharedApplication].delegate;
-//    app.im_user = user;
-    
-    //    [GotyeOCAPI activeSession:[GotyeOCUser userWithName:@"alfred_test"]];
-//    [GotyeOCAPI beginReceiveOfflineMessage];
+    [GotyeOCAPI beginReceiveOfflineMessage];
 }
 
 /**
@@ -83,8 +83,6 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
  */
 -(void) onLogout:(GotyeStatusCode)code {
     NSLog(@"XMPP on Logout");
-//    AppDelegate* app = (AppDelegate*)[UIApplication sharedApplication].delegate;
-//    app.im_user = nil;
 }
 
 /**
@@ -93,28 +91,14 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
  * @param downloadMediaIfNeed: 是否自动下载
  */
 -(void) onReceiveMessage:(GotyeOCMessage*)message downloadMediaIfNeed:(bool*)downloadMediaIfNeed {
-//    if (message.sender.type == GotyeChatTargetTypeRoom) {
-//        return;
-//    }
-//    
-//    if ([message.sender.name isEqualToString:@"alfred_test"]) {
-//        NSLog(@"this is a system notification");
-//        
-//        [_mm addNotification:[RemoteInstance searchDataFromData:[message.text dataUsingEncoding:NSUTF8StringEncoding]] withFinishBlock:^{
-//            [_contentController unReadMessageCountChanged:nil];
-//        }];
-//        
-//        [GotyeOCAPI markOneMessageAsRead:message isRead:YES];
-//        //        GotyeOCUser* u = [GotyeOCUser userWithName:@"alfred_test"];
-//        //        [GotyeOCAPI deleteMessage:u msg:message];
-//        //        [GotyeOCAPI deleteSession:u alsoRemoveMessages:YES];
-//        
-//    } else {
-//        NSLog(@"this is a chat message");
-//        
-//        // TODO: add logic for chat message
-//        [_contentController unReadMessageCountChanged:nil];
-//    }
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    [notify setValue:kAYNotifyXMPPReceiveMessage forKey:kAYNotifyFunctionKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:message forKey:@"message"];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [self performWithResult:&notify];
 }
 
 /**
@@ -123,35 +107,36 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
  * @param msglist: 消息列表
  * @param downloadMediaIfNeed: 是否需要下载
  */
-//-(void) onGetMessageList:(GotyeStatusCode)code totalCount:(unsigned)totalCount downloadMediaIfNeed:(bool*)downloadMediaIfNeed {
 -(void) onGetMessageList:(GotyeStatusCode)code msglist:(NSArray *)msgList downloadMediaIfNeed:(bool*)downloadMediaIfNeed {
     NSLog(@"get message count : %lu", (unsigned long)msgList.count);
+
+    /**
+     * for notification
+     */
+    GotyeOCUser* u = [GotyeOCUser userWithName:@"alfred_test"];
+    NSArray* arr = [GotyeOCAPI getMessageList:u more:YES];
+    for (int index = 0; index < arr.count; ++index) {
+        GotyeOCMessage* m = [arr objectAtIndex:index];
+        if (m.status == GotyeMessageStatusUnread) {
+            NSLog(@"message is : %@", m.text);
+            
+            NSDictionary* dic = [RemoteInstance searchDataFromData:[m.text dataUsingEncoding:NSUTF8StringEncoding]];
+            if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
+//                [_lm signOutCurrentUserLocal];        // other device login
+            } else {
+                
+                id<AYFacadeBase> f = CHATSESSIONMODEL;
+                id<AYCommand> cmd = [f.commands objectForKey:@"PushNotification"];
+                id args = dic;
+                [cmd performWithResult:&args];
+            }
+            
+            [GotyeOCAPI markOneMessageAsRead:m isRead:YES];
+        }
+    }
+    //    [GotyeOCAPI deleteMessages:u msglist:arr];
+    //    [GotyeOCAPI deleteSession:u alsoRemoveMessages:YES];
 //
-//    /**
-//     * for notification
-//     */
-//    GotyeOCUser* u = [GotyeOCUser userWithName:@"alfred_test"];
-//    NSArray* arr = [GotyeOCAPI getMessageList:u more:YES];
-//    for (int index = 0; index < arr.count; ++index) {
-//        GotyeOCMessage* m = [arr objectAtIndex:index];
-//        if (m.status == GotyeMessageStatusUnread) {
-//            NSLog(@"message is : %@", m.text);
-//            
-//            NSDictionary* dic = [RemoteInstance searchDataFromData:[m.text dataUsingEncoding:NSUTF8StringEncoding]];
-//            if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
-//                [_lm signOutCurrentUserLocal];
-//            } else {
-//                [_mm addNotification:dic withFinishBlock:^{
-//                    //                  [_contentController addOneNotification];
-//                }];
-//            }
-//            
-//            [GotyeOCAPI markOneMessageAsRead:m isRead:YES];
-//        }
-//    }
-//    //    [GotyeOCAPI deleteMessages:u msglist:arr];
-//    //    [GotyeOCAPI deleteSession:u alsoRemoveMessages:YES];
-//    
 //    /**
 //     * for messages
 //     */
@@ -165,5 +150,18 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
  */
 -(void) onSendMessage:(GotyeStatusCode)code message:(GotyeOCMessage*)message {
     NSLog(@"send message success: %@", message);
+   
+    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+    
+    if (code == GotyeStatusCodeOK) {
+        [notify setValue:kAYNotifyXMPPMessageSendSuccess forKey:kAYNotifyFunctionKey];
+    } else {
+        [notify setValue:kAYNotifyXMPPMessageSendFailed forKey:kAYNotifyFunctionKey];
+    }
+
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+    [self performWithResult:&notify];
 }
 @end
