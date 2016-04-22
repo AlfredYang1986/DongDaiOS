@@ -83,4 +83,8 @@
         <command type="message" message="changeQueryData:" />
         <command type="message" message="scrollForMoreSize" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="Notifications" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>
