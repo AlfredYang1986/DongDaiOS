@@ -213,4 +213,9 @@
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight" />
     </view>
+
+    <view type="NotificationCell" name="NotificationCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="queryCellHeight" />
+    </view>
 </views>

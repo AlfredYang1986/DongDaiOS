@@ -7,9 +7,13 @@
 //
 
 #import "AYNotificationDelegate.h"
+#import "AYNotificationCellDefines.h"
+#import "AYFactoryManager.h"
+
+#import "Notifications.h"
 
 @interface AYNotificationDelegate ()
-@property (nonatomic, weak, readonly, getter=getCurrentShowingData) NSArray* querydata;
+@property (nonatomic, strong) NSArray* querydata;
 @end
 
 @implementation AYNotificationDelegate
@@ -44,21 +48,43 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return self.querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYNotificationCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+        cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
     }
     
-    cell.textLabel.text = @"abcde";
-    return cell;
+    cell.controller = self.controller;
+    
+    id tmp = [self.querydata objectAtIndex:indexPath.row];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:tmp forKey:kAYNotificationCellContentKey];
+    [dic setValue:cell forKey:kAYNotificationCellCellKey];
+   
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    [cmd performWithResult:&dic];
+    
+    return (UITableViewCell*)cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
+    id<AYCommand> cmd = [cell.commands objectForKey:@"queryCellHeight"];
+    NSNumber* result = nil;
+    [cmd performWithResult:&result];
+    return result.floatValue;
+}
+
+#pragma mark -- messages
+- (id)changeQueryData:(id)args {
+    self.querydata = (NSArray*)args;
+    return nil;
 }
 @end

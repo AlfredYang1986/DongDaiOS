@@ -17,6 +17,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYUserDisplayDefines.h"
+#import "AYNotificationCellDefines.h"
 
 #define SEARCH_BAR_HEIGHT           0 //44
 #define SEGAMENT_HEGHT              46
@@ -158,7 +159,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     [friend_seg.layer addSublayer:line_seg_up];
 
     {
-        id<AYViewBase> view_notify = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
+        id<AYViewBase> view_notify = [self.views objectForKey:kAYFriendsControllerCommentsTableValue];
         id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Notification"];
 
         id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
@@ -170,7 +171,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
         [cmd_delegate performWithResult:&obj];
 
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYNotificationCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
     }
     

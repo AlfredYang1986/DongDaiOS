@@ -259,6 +259,8 @@
 		703CCDE21CC9EC7F00CF4563 /* AYNotificationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDE11CC9EC7F00CF4563 /* AYNotificationDelegate.m */; };
 		703CCDEA1CC9F11D00CF4563 /* AYAddFriendsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDE51CC9F11D00CF4563 /* AYAddFriendsView.m */; };
 		703CCDEB1CC9F11D00CF4563 /* AYSearchFriendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDE91CC9F11D00CF4563 /* AYSearchFriendView.m */; };
+		703CCDEF1CC9F2B100CF4563 /* AYNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */; };
+		703CCDF01CC9F2B100CF4563 /* AYNotificationCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -953,6 +955,10 @@
 		703CCDE51CC9F11D00CF4563 /* AYAddFriendsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAddFriendsView.m; sourceTree = "<group>"; };
 		703CCDE81CC9F11D00CF4563 /* AYSearchFriendView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFriendView.h; sourceTree = "<group>"; };
 		703CCDE91CC9F11D00CF4563 /* AYSearchFriendView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFriendView.m; sourceTree = "<group>"; };
+		703CCDEC1CC9F2B100CF4563 /* AYNotificationCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotificationCellView.h; sourceTree = "<group>"; };
+		703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNotificationCellView.m; sourceTree = "<group>"; };
+		703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYNotificationCellView.xib; sourceTree = "<group>"; };
+		703CCDF11CC9F96900CF4563 /* AYNotificationCellDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYNotificationCellDefines.h; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -3303,6 +3309,10 @@
 		703CCDE61CC9F11D00CF4563 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				703CCDF11CC9F96900CF4563 /* AYNotificationCellDefines.h */,
+				703CCDEC1CC9F2B100CF4563 /* AYNotificationCellView.h */,
+				703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */,
+				703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -4678,6 +4688,7 @@
 				70EAD80C1CA662EF007965D2 /* model.xml in Resources */,
 				7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */,
 				702E7A931CA151770097867E /* icon@2x.png in Resources */,
+				703CCDF01CC9F2B100CF4563 /* AYNotificationCellView.xib in Resources */,
 				702E7A991CA1572E0097867E /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5010,6 +5021,7 @@
 				708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
 				700693001CC4A1C600B511FF /* AYCameraRollController.m in Sources */,
+				703CCDEF1CC9F2B100CF4563 /* AYNotificationCellView.m in Sources */,
 				708E52841CC53BC4008A6023 /* AYCameraInitCommand.m in Sources */,
 				703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
@@ -5195,10 +5207,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"SANDBOX=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

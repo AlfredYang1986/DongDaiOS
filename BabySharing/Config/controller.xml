@@ -183,6 +183,7 @@
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
         <view type="Table" name="Table" />
         <view type="FakeNavBar" name="FakeNavBar" />
