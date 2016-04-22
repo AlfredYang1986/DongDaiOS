@@ -91,6 +91,24 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
  * @param downloadMediaIfNeed: 是否自动下载
  */
 -(void) onReceiveMessage:(GotyeOCMessage*)message downloadMediaIfNeed:(bool*)downloadMediaIfNeed {
+    
+    if (message.status == GotyeMessageStatusUnread) {
+        NSLog(@"message is : %@", message.text);
+        
+        NSDictionary* dic = [RemoteInstance searchDataFromData:[message.text dataUsingEncoding:NSUTF8StringEncoding]];
+        if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
+            //                [_lm signOutCurrentUserLocal];        // other device login
+        } else {
+            
+            id<AYFacadeBase> f = CHATSESSIONMODEL;
+            id<AYCommand> cmd = [f.commands objectForKey:@"PushNotification"];
+            id args = dic;
+            [cmd performWithResult:&args];
+        }
+        
+        [GotyeOCAPI markOneMessageAsRead:message isRead:YES];
+    }
+    
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
     [notify setValue:kAYNotifyXMPPReceiveMessage forKey:kAYNotifyFunctionKey];

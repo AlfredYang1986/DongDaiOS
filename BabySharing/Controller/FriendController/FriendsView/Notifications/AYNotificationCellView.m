@@ -400,7 +400,7 @@
 }
 
 #pragma mark -- messages
-- (id)queryContentCellHeight {
+- (id)queryCellHeight {
     return [NSNumber numberWithFloat:[AYNotificationCellView preferedHeight]];
 }
 

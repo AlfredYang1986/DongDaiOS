@@ -29,7 +29,7 @@
     NSDictionary* user = nil;
     CURRENUSER(user)
     
-    [NotificationOwner enumNotificationsForOwner:[user objectForKey:@"user_id"] inContext:f.doc.managedObjectContext];
+    *obj = [NotificationOwner enumNotificationsForOwner:[user objectForKey:@"user_id"] inContext:f.doc.managedObjectContext];
 }
 
 - (NSString*)getCommandType {

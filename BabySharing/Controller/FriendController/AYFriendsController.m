@@ -173,6 +173,14 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYNotificationCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
+        
+        id<AYFacadeBase> f = CHATSESSIONMODEL;
+        id<AYCommand> cmd_query_notify = [f.commands objectForKey:@"QueryNotifications"];
+        NSArray* notifies = nil;
+        [cmd_query_notify performWithResult:&notifies];
+        
+        id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+        [cmd performWithResult:&notifies];
     }
     
     {
@@ -405,6 +413,23 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     [self performWithResult:&dic];
     
+    return nil;
+}
+
+- (id)XMPPReceiveMessage:(id)message {
+    id<AYViewBase> view_notify = [self.views objectForKey:kAYFriendsControllerCommentsTableValue];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Notification"];
+    
+    id<AYFacadeBase> f = CHATSESSIONMODEL;
+    id<AYCommand> cmd_query_notify = [f.commands objectForKey:@"QueryNotifications"];
+    NSArray* notifies = nil;
+    [cmd_query_notify performWithResult:&notifies];
+    
+    id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+    [cmd performWithResult:&notifies];
+    
+    id<AYCommand> cmd_refresh = [view_notify.commands objectForKey:@"refresh"];
+    [cmd_refresh performWithResult:nil];
     return nil;
 }
 
