@@ -28,7 +28,7 @@
 //    SNS_bar = [[UIView alloc]initWithFrame:CGRectMake(0, height - BOTTON_BAR_HEIGHT, width, BOTTON_BAR_HEIGHT)];
 //    self.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
    
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
     
     UILabel* label = [[UILabel alloc]init];
     label.textColor = [UIColor whiteColor];

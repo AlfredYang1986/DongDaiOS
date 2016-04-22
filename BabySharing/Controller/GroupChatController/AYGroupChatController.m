@@ -267,9 +267,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         if (view_user_info.center.x < width) {
             [UIView animateWithDuration:0.3f animations:^{
                 UIView* view_input = [self.views objectForKey:@"ChatInput"];
-                view_input.center = CGPointMake(view_input.center.x - width, view_input.center.y);
+                view_input.center = CGPointMake(view_input.center.x + width, view_input.center.y);
                 UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-                view_user_info.center = CGPointMake(view_user_info.center.x - width, view_user_info.center.y);
+                view_user_info.center = CGPointMake(view_user_info.center.x + width, view_user_info.center.y);
             }];
         }
     }
