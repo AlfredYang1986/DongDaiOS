@@ -318,5 +318,7 @@
         <view type="Table" name="Table" />
         <view type="ChatInput" name="ChatInput" />
         <view type="Table2" name="Table2" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
     </controller>
 </controllers>

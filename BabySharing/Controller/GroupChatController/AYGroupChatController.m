@@ -42,18 +42,44 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 @implementation AYGroupChatController {
     CGRect keyBoardFrame;
+    NSString* owner_id;
+    NSString* group_id;
+    NSString* post_id;
 }
+
+#pragma mark -- commands
+- (void)performWithResult:(NSObject**)obj {
+    
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+        NSDictionary* dic_push = [dic copy];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+    }
+}
+
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
 
+    UIView* table_view = [self.views objectForKey:kAYGroupChatControllerMessageTable];
+    [self.view sendSubviewToBack:table_view];
+
     UIView* img = [self.views objectForKey:@"Image"];
     [self.view sendSubviewToBack:img];
     
     {
-        id<AYViewBase> view_user_info = [self.views objectForKey:@"ChatInput"];
+        id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
         id<AYDelegateBase> del_user_info = [self.delegates objectForKey:@"GroupChatUserInfo"];
         
         id<AYCommand> cmd_delegate = [view_user_info.commands objectForKey:@"registerDelegate:"];
@@ -233,5 +259,19 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
     id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
     [cmd performWithResult:nil];
+   
+    {
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+      
+        UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+        if (view_user_info.center.x < width) {
+            [UIView animateWithDuration:0.3f animations:^{
+                UIView* view_input = [self.views objectForKey:@"ChatInput"];
+                view_input.center = CGPointMake(view_input.center.x - width, view_input.center.y);
+                UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+                view_user_info.center = CGPointMake(view_user_info.center.x - width, view_user_info.center.y);
+            }];
+        }
+    }
 }
 @end

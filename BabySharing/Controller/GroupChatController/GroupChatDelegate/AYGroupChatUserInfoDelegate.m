@@ -16,6 +16,7 @@
 
 @implementation AYGroupChatUserInfoDelegate {
     NSArray* querydata;
+    NSDictionary* owner_info;
 }
 #pragma mark -- command
 @synthesize para = _para;
@@ -49,30 +50,41 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    
-    if (cell == nil) {
-        cell = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
-    }
-    
-    NSDictionary* tmp = nil;//[self.querydata objectAtIndex:indexPath.row];
-    {
-        id<AYCommand> cmd = [cell.commands objectForKey:@"setDisplayUserInfo:"];
+   
+    if (indexPath.row == 0) {
+     
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[tmp objectForKey:@"user_id"] forKey:kAYUserDisplayTableCellSetUserIDKey];
-        [dic setValue:[tmp objectForKey:@"screen_photo"] forKey:kAYUserDisplayTableCellSetUserScreenPhotoKey];
-        [dic setValue:[tmp objectForKey:@"relations"] forKey:kAYUserDisplayTableCellSetUserRelationsKey];
-        [dic setValue:[tmp objectForKey:@"screen_name"] forKey:kAYUserDisplayTableCellSetUserScreenNameKey];
-        [dic setValue:[tmp objectForKey:@"role_tag"] forKey:kAYUserDisplayTableCellSetUserRoleTagKey];
-        [dic setValue:cell forKey:kAYUserDisplayTableCellKey];
+        if (cell == nil) {
+            cell = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
+        }
         
-        [cmd performWithResult:&dic];
+        NSDictionary* tmp = owner_info;
+        {
+            id<AYCommand> cmd = [cell.commands objectForKey:@"setDisplayUserInfo:"];
+            
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:[tmp objectForKey:@"user_id"] forKey:kAYUserDisplayTableCellSetUserIDKey];
+            [dic setValue:[tmp objectForKey:@"screen_photo"] forKey:kAYUserDisplayTableCellSetUserScreenPhotoKey];
+            [dic setValue:[tmp objectForKey:@"relations"] forKey:kAYUserDisplayTableCellSetUserRelationsKey];
+            [dic setValue:[tmp objectForKey:@"screen_name"] forKey:kAYUserDisplayTableCellSetUserScreenNameKey];
+            [dic setValue:[tmp objectForKey:@"role_tag"] forKey:kAYUserDisplayTableCellSetUserRoleTagKey];
+            [dic setValue:cell forKey:kAYUserDisplayTableCellKey];
+            
+            [cmd performWithResult:&dic];
+        }
+        
+        return (UITableViewCell*)cell;
+    } else {
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+        }
+        
+        cell.textLabel.text = @"alfred test";
+        return cell;
     }
-    
-    return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,7 +105,9 @@
 
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {
-    querydata = (NSArray*)args;
+    NSDictionary* dic = (NSDictionary*)args;
+    owner_info = [dic objectForKey:@"owner"];
+    querydata = [dic objectForKey:@"joiners"];
     return nil;
 }
 @end
