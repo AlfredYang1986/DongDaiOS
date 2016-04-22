@@ -176,6 +176,9 @@
     </view>
 
     <view type="ChatInput" name="ChatInput" factory="AYDefaultViewFactory" >
+        <command type="notify" message="didSelectedBackBtn" />
+        <command type="notify" message="didSelectedUserInfoBtn" />
+        <command type="message" message="resignFocus" />
     </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
@@ -224,6 +227,11 @@
     </view>
 
     <view type="NotificationCell" name="NotificationCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="queryCellHeight" />
+    </view>
+
+    <view type="ChatGroupInfoCell" name="ChatGroupInfoCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight" />
     </view>

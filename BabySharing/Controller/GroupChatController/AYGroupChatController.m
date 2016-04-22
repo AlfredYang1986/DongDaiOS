@@ -12,6 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
+#import "AYUserDisplayDefines.h"
 
 #define BACK_BTN_WIDTH          23
 #define BACK_BTN_HEIGHT         23
@@ -50,6 +51,23 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
     UIView* img = [self.views objectForKey:@"Image"];
     [self.view sendSubviewToBack:img];
+    
+    {
+        id<AYViewBase> view_user_info = [self.views objectForKey:@"ChatInput"];
+        id<AYDelegateBase> del_user_info = [self.delegates objectForKey:@"GroupChatUserInfo"];
+        
+        id<AYCommand> cmd_delegate = [view_user_info.commands objectForKey:@"registerDelegate:"];
+        id<AYCommand> cmd_datasource = [view_user_info.commands objectForKey:@"registerDatasource:"];
+        
+        id obj = del_user_info;
+        [cmd_delegate performWithResult:&obj];
+        obj = del_user_info;
+        [cmd_datasource performWithResult:&obj];
+       
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        id<AYCommand> view_reg_cell = [view_user_info.commands objectForKey:@"registerCellWithNib:"];
+        [view_reg_cell performWithResult:&class_name];
+    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
@@ -117,7 +135,56 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
+- (id)Table2Layout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    view.frame = CGRectMake(USER_INFO_PANE_MARGIN + width, height - USER_INFO_CONTAINER_HEIGHT, USER_INFO_PANE_WIDTH, USER_INFO_CONTAINER_HEIGHT);
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    view.backgroundColor = [UIColor whiteColor];
+    view.layer.cornerRadius = 5.0;
+    view.clipsToBounds = YES;
+    return nil;
+}
+
 #pragma mark -- notifications
+- (id) didSelectedBackBtn {
+    NSLog(@"pop view controller");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
+    return nil;
+}
+
+- (id)didSelectedUserInfoBtn {
+   
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+   
+    void(^animationBlock)(BOOL finished) = ^(BOOL finished) {
+        [UIView animateWithDuration:0.3f animations:^{
+            UIView* view_input = [self.views objectForKey:@"ChatInput"];
+            view_input.center = CGPointMake(view_input.center.x - width, view_input.center.y);
+            UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+            view_user_info.center = CGPointMake(view_user_info.center.x - width, view_user_info.center.y);
+        }];
+    };
+    
+    if (self.view.center.y != height / 2) {
+        
+        [UIView animateWithDuration:0.3f animations:^{
+            self.view.center = CGPointMake(self.view.center.x, self.view.center.y + keyBoardFrame.size.height);
+        
+        } completion:animationBlock];
+    } else {
+        animationBlock(YES);
+    }
+    
+    return nil;
+}
 
 #pragma mark -- actions
 #pragma mark -- get input view height
@@ -144,18 +211,10 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     NSDictionary *userInfo = [notification userInfo];
     NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     keyBoardFrame = value.CGRectValue;
-    
-//    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-//    if (inputContainer.frame.origin.y + inputContainer.frame.size.height == height) {
-//        [self moveView:-keyBoardFrame.size.height];
-//    }
-    
-    //    if (isEmoji) {
-    //        [emoji removeFromSuperview];
-    //        emoji.frame = keyBoardFrame;
-    //        [keyboardView addSubview:emoji];
-    //        [keyboardView bringSubviewToFront:emoji];
-    //    }
+   
+    [UIView animateWithDuration:0.3f animations:^{
+        self.view.center = CGPointMake(self.view.center.x, self.view.center.y - keyBoardFrame.size.height);
+    }];
 }
 
 - (void)keyboardWasChange:(NSNotification *)notification {
@@ -165,15 +224,14 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (void)keyboardDidHidden:(NSNotification*)notification {
-//    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-//    if (inputContainer.frame.origin.y + inputContainer.frame.size.height != height) {
-//        [self moveView:keyBoardFrame.size.height];
-//    }
+    [UIView animateWithDuration:0.3f animations:^{
+        self.view.center = CGPointMake(self.view.center.x, self.view.center.y + keyBoardFrame.size.height);
+    }];
 }
 
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
-//    if (inputView.isFirstResponder) {
-//        [inputView resignFirstResponder];
-//    }
+    id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
+    [cmd performWithResult:nil];
 }
 @end

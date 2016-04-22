@@ -29,6 +29,7 @@
 
 @implementation AYChatInputView {
     CATextLayer* group_count;
+    UITextView* inputView;
 }
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -46,7 +47,7 @@
     [backBtn setImage:PNGRESOURCE(@"dongda_back") forState:UIControlStateNormal];
     [self addSubview:backBtn];
     
-    UITextView* inputView = [[UITextView alloc]init];
+    inputView = [[UITextView alloc]init];
     CGFloat input_width = [UIScreen mainScreen].bounds.size.width - 8 - BACK_BTN_WIDTH - BOTTOM_MARGIN - USER_BTN_WIDTH - BOTTOM_MARGIN - 8;
     inputView.frame = CGRectMake(8 + BACK_BTN_WIDTH + BOTTOM_MARGIN, (INPUT_CONTAINER_HEIGHT - INPUT_HEIGHT) / 2 - 2, input_width, INPUT_HEIGHT);
     inputView.delegate = self;
@@ -104,10 +105,17 @@
 
 #pragma mark -- actions
 - (void)backBtnSelected {
-    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedBackBtn"];
+    [cmd performWithResult:nil];
 }
 
 - (void)inputView2UserInfo {
-    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedUserInfoBtn"];
+    [cmd performWithResult:nil];
+}
+
+- (id)resignFocus {
+    [inputView resignFirstResponder];
+    return nil;
 }
 @end

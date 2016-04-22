@@ -10,29 +10,13 @@
 #import "EnumDefines.h"
 #import "AYQueryModelDefines.h"
 #import "AYViewBase.h"
-//#import "ModelDefines.h"
 
 @class Notifications;
-
-//typedef void(^complete)(BOOL success);
-//
-//@protocol MessageNotificationCellDelegate <NSObject>
-//
-//- (void)didSelectedSender:(Notifications *)notify;
-//- (void)didSelectedReceiver:(Notifications *)notify;
-//- (void)didselectedPostContent:(Notifications *)notify;
-//- (void)didselectedRelationsBtn:(Notifications *)notify;
-//- (void)didSelectedRelationBtn:(NSString*)user_id complete:(complete)complete;
-//
-//@end
-
-
 
 @interface AYNotificationCellView : UITableViewCell <AYViewBase>
 @property (strong, nonatomic) UILabel *postTimeLabel;
 @property (strong, nonatomic) UILabel *detailLabel;
 @property (weak, nonatomic, setter=setCurrentContent:) Notifications* notification;
-//@property (weak, nonatomic) id<MessageNotificationCellDelegate> delegate;
 
 + (CGFloat)preferedHeight;
 

@@ -87,4 +87,12 @@
     <delegate type="TableViewDelegateAndDatasource" name="Notification" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

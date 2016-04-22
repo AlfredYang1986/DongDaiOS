@@ -317,5 +317,6 @@
         <view type="GroupChatHeader" name="GroupChatHeader" />
         <view type="Table" name="Table" />
         <view type="ChatInput" name="ChatInput" />
+        <view type="Table2" name="Table2" />
     </controller>
 </controllers>

@@ -413,10 +413,6 @@
     
     cell.notification = content;
     
-//    [cell setUserImage:cell.notification.sender_screen_photo];
-//    [cell setDetailTarget:cell.notification.sender_screen_name andActionType:cell.notification.type.integerValue andConnectContent:nil];
-//    [cell setTimeLabel:cell.notification.date];
-    
     return nil;
 }
 
