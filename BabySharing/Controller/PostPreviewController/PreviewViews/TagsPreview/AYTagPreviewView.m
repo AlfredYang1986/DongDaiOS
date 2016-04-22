@@ -22,7 +22,11 @@
 #pragma mark -- life cycle
 - (void)layoutSubviews {
     UILabel* label = [self viewWithTag:-99];
-    label.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+//    label.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self).offset(-20);
+        make.centerX.equalTo(self);
+    }];
 }
 
 #pragma mark -- commands

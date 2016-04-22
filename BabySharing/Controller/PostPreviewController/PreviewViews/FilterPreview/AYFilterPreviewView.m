@@ -50,17 +50,30 @@
 #define MAGIC_NUMBER    0.4f
     CGFloat width = self.frame.size.width;
     CGFloat height = self.frame.size.height;
-    CGFloat margin = 0;
-    CGFloat button_height = (height - 2 * margin) * MAGIC_NUMBER;
-    
-    CGFloat preferred_width = MIN(width, 5 * (margin + button_height));
-    CGFloat edge_margin = ABS(width - preferred_width) / 2;
+    CGFloat margin = width * 0.026;
+    CGFloat button_height = (width - margin * 6) / 5;
     
     for (int index = 0; index < 5; ++index) {
         UIView* view = [self viewWithTag:index + 1];
         view.bounds = CGRectMake(0, 0, button_height, button_height);
-        view.center = CGPointMake(edge_margin + (index + 1) * margin + (2 * index + 1) * button_height / 2, height / 2);
+        CGFloat centerX = (index + 1) * margin + index * button_height + button_height * 0.5;
+//        NSLog(@"%f",centerX - button_height * 0.5);
+        view.center = CGPointMake(centerX, height * 0.5);
     }
+    
+//    CGFloat width = self.frame.size.width;
+//    CGFloat height = self.frame.size.height;
+//    CGFloat margin = 0;
+//    CGFloat button_height = (height - 2 * margin) * MAGIC_NUMBER;
+//    
+//    CGFloat preferred_width = MIN(width, 5 * (margin + button_height));
+//    CGFloat edge_margin = ABS(width - preferred_width) * 0.5;
+//    
+//    for (int index = 0; index < 5; ++index) {
+//        UIView* view = [self viewWithTag:index + 1];
+//        view.bounds = CGRectMake(0, 0, button_height, button_height);
+//        view.center = CGPointMake(edge_margin + (index + 1) * margin + (2 * index + 1) * button_height * 0.5, height * 0.5);
+//    }
 }
 
 #pragma mark -- commands

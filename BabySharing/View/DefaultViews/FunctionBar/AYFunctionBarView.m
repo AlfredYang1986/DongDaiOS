@@ -14,6 +14,7 @@
 #import "AYViewNotifyCommand.h"
 
 @implementation AYFunctionBarView
+
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;

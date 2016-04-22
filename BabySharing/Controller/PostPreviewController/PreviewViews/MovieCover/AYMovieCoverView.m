@@ -33,7 +33,10 @@
 #pragma mark -- layout
 - (void)layoutSubviews {
     UIView* container = [self viewWithTag:-99];
-    container.center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+    [container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self);
+    }];
 }
 
 #pragma mark -- commands

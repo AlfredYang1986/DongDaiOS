@@ -16,7 +16,7 @@
 #import "PhotoTagEnumDefines.h"
 
 #define TAG_BTN_WIDTH                   50
-#define TAG_BTN_HEIGHT                  50
+#define TAG_BTN_HEIGHT                  TAG_BTN_WIDTH
 
 #define TAG_ICON_WIDTH                  25
 #define TAG_ICON_HEIGHT                 TAG_ICON_WIDTH
@@ -38,12 +38,29 @@
 
 #pragma mark -- life cycle
 - (void)layoutSubviews {
-    CGFloat width = self.frame.size.width;
-    CGFloat height = self.frame.size.height;
+//    CGFloat width = self.frame.size.width;
+//    CGFloat height = self.frame.size.height;
 //    CGFloat button_height = self.frame.size.height / 3;
-    for (UIView* tmp in self.subviews) {
-        tmp.center = CGPointMake(width / 2 + (tmp.tag + 2) * TAG_BTN_MARGIN_BETWEEN, height / 2);
-    }
+
+    [_tagTime mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.centerX.equalTo(self);
+        make.width.mas_equalTo(TAG_BTN_WIDTH);
+        make.height.mas_equalTo(TAG_BTN_WIDTH);
+    }];
+    
+    [_tagBand mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.right.equalTo(_tagTime.mas_left).offset(-45);
+        make.size.equalTo(_tagTime);
+    }];
+    
+    [_tagLocal mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.left.equalTo(_tagTime.mas_right).offset(45);
+        make.size.equalTo(_tagTime);
+    }];
+    
 }
 
 #pragma mark -- commands
@@ -51,6 +68,18 @@
     [self addSubview:[self addTagBtn:@"品牌" image:PNGRESOURCE(@"post_band_tag") tag:-3]];
     [self addSubview:[self addTagBtn:@"时刻" image:PNGRESOURCE(@"post_time_tag") tag:-2]];
     [self addSubview:[self addTagBtn:@"地点" image:PNGRESOURCE(@"post_location_tag") tag:-1]];
+    
+    _tagBand = [[UIView alloc]init];
+    _tagTime = [[UIView alloc]init];
+    _tagLocal = [[UIView alloc]init];
+    for (UIView* tmp in self.subviews) {
+        if (tmp.tag == -3) {
+            _tagBand = tmp;
+        }else if (tmp.tag == -2){
+            _tagTime = tmp;
+        }else _tagLocal = tmp;
+    }
+    
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(selfSelected)];
     [self addGestureRecognizer:tap];

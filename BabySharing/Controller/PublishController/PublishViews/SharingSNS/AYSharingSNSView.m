@@ -34,42 +34,60 @@
     label.textColor = [UIColor whiteColor];
     label.text = @"多平台同步分享";
     [label sizeToFit];
-    CGFloat margin = 0;
-    label.center = CGPointMake(width / 2, BOTTON_BAR_HEIGHT / 3);
     [self addSubview:label];
+//    label.center = CGPointMake(width / 2, BOTTON_BAR_HEIGHT / 3);
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self).offset( - BOTTON_BAR_HEIGHT / 6);
+    }];
     
-    margin -= 20;
-    
-    UIButton* qq_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
-    UIImage * qq_image = PNGRESOURCE(@"login_qq");
-    UIImage * qq_image_click = PNGRESOURCE(@"login_qq_clicked");
-    [qq_btn setBackgroundImage:qq_image forState:UIControlStateNormal];
-    [qq_btn setBackgroundImage:qq_image_click forState:UIControlStateSelected];
-    [qq_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
-    qq_btn.backgroundColor = [UIColor clearColor];
-    qq_btn.center = CGPointMake(width / 2 / 2, BOTTON_BAR_HEIGHT * 2 / 3);
-    [self addSubview:qq_btn];
-    
-    UIButton* wechat_btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
+//    UIButton* wechat_btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
+    UIButton* wechat_btn = [[UIButton alloc] init];
+    [self addSubview:wechat_btn];
     UIImage * wechat_image = PNGRESOURCE(@"friendShip");
     UIImage * wechat_image_click = PNGRESOURCE(@"friendShip_select");
     [wechat_btn setBackgroundImage:wechat_image forState:UIControlStateNormal];
     [wechat_btn setBackgroundImage:wechat_image_click forState:UIControlStateSelected];
     [wechat_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
     wechat_btn.backgroundColor = [UIColor clearColor];
-    wechat_btn.center = CGPointMake(width / 2 , BOTTON_BAR_HEIGHT * 2 / 3);
-    [self addSubview:wechat_btn];
+//    wechat_btn.center = CGPointMake(width / 2 , BOTTON_BAR_HEIGHT * 2 / 3);
+    [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self).offset(BOTTON_BAR_HEIGHT / 6);
+        make.width.mas_offset(SNS_BUTTON_WIDTH);
+        make.height.mas_offset(SNS_BUTTON_HEIGHT);
+    }];
+    
+    UIButton* qq_btn = [[UIButton alloc]init];
+    [self addSubview:qq_btn];
+    UIImage * qq_image = PNGRESOURCE(@"login_qq");
+    UIImage * qq_image_click = PNGRESOURCE(@"login_qq_clicked");
+    [qq_btn setBackgroundImage:qq_image forState:UIControlStateNormal];
+    [qq_btn setBackgroundImage:qq_image_click forState:UIControlStateSelected];
+    [qq_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    qq_btn.backgroundColor = [UIColor clearColor];
+//    qq_btn.center = CGPointMake(width / 2 / 2, BOTTON_BAR_HEIGHT * 2 / 3);
+    [qq_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(wechat_btn.mas_left).offset(-80);
+        make.centerY.equalTo(wechat_btn);
+        make.size.equalTo(wechat_btn);
+    }];
     
     // 同步到微博
-    UIButton* weibo_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
+    UIButton* weibo_btn = [[UIButton alloc]init];
+    [self addSubview:weibo_btn];
     UIImage * weibo_image = PNGRESOURCE(@"login_weibo");
     UIImage * weibo_image_click = PNGRESOURCE(@"login_weibo_clicked");
     [weibo_btn setBackgroundImage:weibo_image forState:UIControlStateNormal];
     [weibo_btn setBackgroundImage:weibo_image_click forState:UIControlStateSelected];
     [weibo_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
     weibo_btn.backgroundColor = [UIColor clearColor];
-    weibo_btn.center = CGPointMake(width * 0.75, BOTTON_BAR_HEIGHT * 2 / 3);
-    [self addSubview:weibo_btn];
+//    weibo_btn.center = CGPointMake(width * 0.75, BOTTON_BAR_HEIGHT * 2 / 3);
+    [weibo_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(wechat_btn.mas_right).offset(80);
+        make.centerY.equalTo(wechat_btn);
+        make.size.equalTo(wechat_btn);
+    }];
     
 //    sns_buttons = @[wechat_btn, weibo_btn, qq_btn];
 }

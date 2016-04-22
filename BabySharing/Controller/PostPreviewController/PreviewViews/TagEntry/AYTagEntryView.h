@@ -11,5 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AYTagEntryView : UIView <AYViewBase>
-
+@property(strong, nonatomic) UIView* tagBand;
+@property(strong, nonatomic) UIView* tagTime;
+@property(strong, nonatomic) UIView* tagLocal;
 @end
