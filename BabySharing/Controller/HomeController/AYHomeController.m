@@ -555,4 +555,21 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     }];
     return nil;
 }
+
+- (id)joinGroup:(id)args {
+    
+//    QueryContent* tmp = (QueryContent*)args;
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic_push setValue:tmp.owner_id forKey:kAYControllerChangeArgsKey];
+    
+    [self performWithResult:&dic_push];
+    
+    return nil;
+}
 @end

@@ -170,6 +170,14 @@
         <command type="notify" message="canPublish:" />
     </view>
     
+    <view type="GroupChatHeader" name="GroupChatHeader" factory="AYDefaultViewFactory" >
+        <command type="message" message="setGroupChatViewInfo:" />
+        <command type="message" message="querGroupChatViewHeight" />
+    </view>
+
+    <view type="ChatInput" name="ChatInput" factory="AYDefaultViewFactory" >
+    </view>
+    
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setUpItems:" />
@@ -202,6 +210,7 @@
         <command type="notify" message="likePostItem:" />
         <command type="notify" message="unLikePostItem:" />
         <command type="notify" message="pushPostItem:" />
+        <command type="notify" message="joinGroup:" />
     </view>
     
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >

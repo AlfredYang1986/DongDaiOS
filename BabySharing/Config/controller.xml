@@ -308,4 +308,14 @@
         <view type="SharingSNS" name="SharingSNS" />
         <view type="PublishContainer" name="PublishContainer" />
     </controller>
+    
+    <controller type="DefaultController" name="GroupChat" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        
+        <view type="Image" name="Image" />
+        <view type="GroupChatHeader" name="GroupChatHeader" />
+        <view type="Table" name="Table" />
+        <view type="ChatInput" name="ChatInput" />
+    </controller>
 </controllers>

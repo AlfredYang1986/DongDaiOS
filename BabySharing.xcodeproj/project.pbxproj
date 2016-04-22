@@ -261,6 +261,9 @@
 		703CCDEB1CC9F11D00CF4563 /* AYSearchFriendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDE91CC9F11D00CF4563 /* AYSearchFriendView.m */; };
 		703CCDEF1CC9F2B100CF4563 /* AYNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */; };
 		703CCDF01CC9F2B100CF4563 /* AYNotificationCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */; };
+		703CCDF61CCA11AC00CF4563 /* AYGroupChatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDF51CCA11AC00CF4563 /* AYGroupChatController.m */; };
+		703CCDFA1CCA129300CF4563 /* AYGroupChatHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDF91CCA129300CF4563 /* AYGroupChatHeaderView.m */; };
+		703CCDFD1CCA1A7500CF4563 /* AYChatInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDFC1CCA1A7500CF4563 /* AYChatInputView.m */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -959,6 +962,12 @@
 		703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNotificationCellView.m; sourceTree = "<group>"; };
 		703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYNotificationCellView.xib; sourceTree = "<group>"; };
 		703CCDF11CC9F96900CF4563 /* AYNotificationCellDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYNotificationCellDefines.h; sourceTree = "<group>"; };
+		703CCDF41CCA11AC00CF4563 /* AYGroupChatController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGroupChatController.h; sourceTree = "<group>"; };
+		703CCDF51CCA11AC00CF4563 /* AYGroupChatController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGroupChatController.m; sourceTree = "<group>"; };
+		703CCDF81CCA129300CF4563 /* AYGroupChatHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGroupChatHeaderView.h; sourceTree = "<group>"; };
+		703CCDF91CCA129300CF4563 /* AYGroupChatHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGroupChatHeaderView.m; sourceTree = "<group>"; };
+		703CCDFB1CCA1A7500CF4563 /* AYChatInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChatInputView.h; sourceTree = "<group>"; };
+		703CCDFC1CCA1A7500CF4563 /* AYChatInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChatInputView.m; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -3043,6 +3052,7 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				703CCDF31CCA119F00CF4563 /* GroupChatController */,
 				70B1DCAC1CC769FC0041794A /* PublishController */,
 				7002DB611CC620D40013FF2A /* PostPreviewController */,
 				7002DB131CC5EA540013FF2A /* AVController */,
@@ -3324,6 +3334,27 @@
 				703CCDE91CC9F11D00CF4563 /* AYSearchFriendView.m */,
 			);
 			path = SearchFriends;
+			sourceTree = "<group>";
+		};
+		703CCDF31CCA119F00CF4563 /* GroupChatController */ = {
+			isa = PBXGroup;
+			children = (
+				703CCDF71CCA128300CF4563 /* GroupChatViews */,
+				703CCDF41CCA11AC00CF4563 /* AYGroupChatController.h */,
+				703CCDF51CCA11AC00CF4563 /* AYGroupChatController.m */,
+			);
+			path = GroupChatController;
+			sourceTree = "<group>";
+		};
+		703CCDF71CCA128300CF4563 /* GroupChatViews */ = {
+			isa = PBXGroup;
+			children = (
+				703CCDF81CCA129300CF4563 /* AYGroupChatHeaderView.h */,
+				703CCDF91CCA129300CF4563 /* AYGroupChatHeaderView.m */,
+				703CCDFB1CCA1A7500CF4563 /* AYChatInputView.h */,
+				703CCDFC1CCA1A7500CF4563 /* AYChatInputView.m */,
+			);
+			path = GroupChatViews;
 			sourceTree = "<group>";
 		};
 		70490D9D1CA222470093D5DA /* APNNotificationCommand */ = {
@@ -4872,6 +4903,7 @@
 				70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */,
 				701524931CBFA462005B4C5B /* AYHomeQueryModelFacade.m in Sources */,
 				701524881CBF9AB4005B4C5B /* MJRefreshGifHeader.m in Sources */,
+				703CCDF61CCA11AC00CF4563 /* AYGroupChatController.m in Sources */,
 				70120CAD1CBE4A9D00B169F9 /* AYFriendsController.m in Sources */,
 				7002DB941CC651220013FF2A /* AYFoodFilterCommand.m in Sources */,
 				701D8A941CA7E06700B5D4C1 /* LoginToken.m in Sources */,
@@ -4922,6 +4954,7 @@
 				702510881CC0F2FE00DADF2B /* AYQueryChatGroupCommand.m in Sources */,
 				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
+				703CCDFA1CCA129300CF4563 /* AYGroupChatHeaderView.m in Sources */,
 				701524CE1CBFBE7B005B4C5B /* PhotoTagTariangleLayer.m in Sources */,
 				701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */,
 				702510A11CC0F5AB00DADF2B /* Notifications.m in Sources */,
@@ -4996,6 +5029,7 @@
 				70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */,
 				700693241CC4D70600B511FF /* AYPHAssetFacade.m in Sources */,
 				709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */,
+				703CCDFD1CCA1A7500CF4563 /* AYChatInputView.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */,
@@ -5207,7 +5241,10 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"SANDBOX=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

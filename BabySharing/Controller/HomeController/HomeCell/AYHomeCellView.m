@@ -638,6 +638,9 @@
 
 - (void)jionGroupTap {
     NSLog(@"加入圈聊");
+    id<AYCommand> cmd = [self.notifies objectForKey:@"joinGroup:"];
+    id args = self.content;
+    [cmd performWithResult:&args];
 }
 
 - (void)otherInfo {
