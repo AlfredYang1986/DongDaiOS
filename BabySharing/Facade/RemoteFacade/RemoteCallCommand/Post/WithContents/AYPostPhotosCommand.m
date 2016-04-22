@@ -49,9 +49,9 @@
     dispatch_queue_t qw = dispatch_queue_create("wait thread", nil);
     dispatch_async(qw, ^{
         for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-            dispatch_semaphore_wait(iter, 30.f * NSEC_PER_SEC);
+            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         }
-        dispatch_semaphore_wait(semaphore, 30.f * NSEC_PER_SEC);
+        dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
             /**

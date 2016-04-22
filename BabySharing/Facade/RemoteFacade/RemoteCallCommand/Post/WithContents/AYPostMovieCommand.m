@@ -44,9 +44,9 @@
      */
     dispatch_queue_t qw = dispatch_queue_create("wait thread", nil);
     dispatch_async(qw, ^{
-        dispatch_semaphore_wait(movie_semephore, 30.f * NSEC_PER_SEC);
-        dispatch_semaphore_wait(cover_semephore, 30.f * NSEC_PER_SEC);
-        dispatch_semaphore_wait(semaphore, 30.f * NSEC_PER_SEC);
+        dispatch_semaphore_wait(movie_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        dispatch_semaphore_wait(cover_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
             /**

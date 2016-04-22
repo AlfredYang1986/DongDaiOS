@@ -13,6 +13,7 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYUserDisplayDefines.h"
+#import "AYRemoteCallCommand.h"
 
 #define BACK_BTN_WIDTH          23
 #define BACK_BTN_HEIGHT         23
@@ -45,6 +46,10 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     NSString* owner_id;
     NSString* group_id;
     NSString* post_id;
+    
+    dispatch_semaphore_t semaphore_owner_info;
+    __block BOOL owner_info_success;
+    __block NSDictionary* owner_info_result;
 }
 
 #pragma mark -- commands
@@ -53,7 +58,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
+        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        owner_id = [args objectForKey:@"owner_id"];
+        post_id = [args objectForKey:@"post_id"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -78,6 +85,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     UIView* img = [self.views objectForKey:@"Image"];
     [self.view sendSubviewToBack:img];
     
+    UIView* loading = [self.views objectForKey:@"Loading"];
+    [self.view bringSubviewToFront:loading];
+    
+    semaphore_owner_info = dispatch_semaphore_create(0);
+    
     {
         id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
         id<AYDelegateBase> del_user_info = [self.delegates objectForKey:@"GroupChatUserInfo"];
@@ -94,14 +106,27 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         id<AYCommand> view_reg_cell = [view_user_info.commands objectForKey:@"registerCellWithNib:"];
         [view_reg_cell performWithResult:&class_name];
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
+   
+    [self waitForControllerReady];
+    [self queryOwnerInfo];
    
     UIView* view_table = [self.views objectForKey:@"Table"];
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [view_table addGestureRecognizer:tap];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark -- layouts
@@ -169,6 +194,15 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     view.backgroundColor = [UIColor whiteColor];
     view.layer.cornerRadius = 5.0;
     view.clipsToBounds = YES;
+    return nil;
+}
+
+- (id)LoadingLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    view.frame = CGRectMake(0, 0, width, height);
+    view.hidden = YES;
+    view.userInteractionEnabled = NO;
     return nil;
 }
 
@@ -273,5 +307,78 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
             }];
         }
     }
+}
+
+#pragma mark -- block user interaction
+- (id)startRemoteCall:(id)obj {
+    UIView* loading = [self.views objectForKey:@"Loading"];
+    if (loading.hidden == YES) {
+        loading.hidden = NO;
+        
+        id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"startGif"];
+        [cmd performWithResult:nil];
+    }
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    return nil;
+}
+
+#pragma mark -- query data
+- (void)waitForControllerReady {
+    dispatch_queue_t qw = dispatch_queue_create("query data wait", nil);
+    dispatch_async(qw, ^{
+        dispatch_semaphore_wait(semaphore_owner_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+//        dispatch_semaphore_wait(semaphore_owner_info, DISPATCH_TIME_FOREVER);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+//            id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+//            id<AYCommand>
+            [self setInfoDataToDelegate];
+            
+            [self GroupChatControllerIsReady];
+        });
+    });
+}
+
+- (void)queryOwnerInfo {
+    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryUserProfile"];
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    NSMutableDictionary* dic = [user mutableCopy];
+    [dic setValue:owner_id forKey:@"owner_user_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        owner_info_success = success;
+        owner_info_result = [result copy];
+        
+        dispatch_semaphore_signal(semaphore_owner_info);
+    }];
+}
+
+- (void)setInfoDataToDelegate {
+    id<AYDelegateBase> del = [self.delegates objectForKey:@"GroupChatUserInfo"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:owner_info_result forKey:@"owner"];
+    
+    [cmd performWithResult:&dic];
+   
+    id<AYViewBase> view = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+    id<AYCommand> cmd_refresh = [view.commands objectForKey:@"refresh"];
+    [cmd_refresh performWithResult:nil];
+}
+
+- (void)GroupChatControllerIsReady {
+    UIView* loading = [self.views objectForKey:@"Loading"];
+    loading.hidden = YES;
+    
+    id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"stopGif"];
+    [cmd performWithResult:nil];
 }
 @end

@@ -312,12 +312,14 @@
     <controller type="DefaultController" name="GroupChat" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         
         <view type="Image" name="Image" />
         <view type="GroupChatHeader" name="GroupChatHeader" />
         <view type="Table" name="Table" />
         <view type="ChatInput" name="ChatInput" />
         <view type="Table2" name="Table2" />
+        <view type="Loading" name="Loading" />
 
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
     </controller>

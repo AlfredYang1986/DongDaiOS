@@ -558,7 +558,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 - (id)joinGroup:(id)args {
     
-//    QueryContent* tmp = (QueryContent*)args;
+    QueryContent* tmp = (QueryContent*)args;
     
     AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
     
@@ -566,8 +566,12 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:tmp.owner_id forKey:kAYControllerChangeArgsKey];
     
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:tmp.owner_id forKey:@"owner_id"];
+    [dic setValue:tmp.content_post_id forKey:@"post_id"];
+    
+    [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [self performWithResult:&dic_push];
     
     return nil;
