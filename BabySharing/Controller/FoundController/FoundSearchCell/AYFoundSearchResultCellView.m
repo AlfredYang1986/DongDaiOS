@@ -70,7 +70,7 @@
     
     self.margin1.constant = -15;
     self.margin2.constant = -15;
-//    self.imageArr = img_arr;
+    
      // 圆形头像
     [self setSearchResultCount:img_arr.count];
    
@@ -82,13 +82,12 @@
     }
 
     for (int index = 0; index < MIN(RECOMMEND_COUNT, img_arr.count); ++index) {
-        //        NSDictionary* iter = [img_arr objectAtIndex:index];
         NSDictionary* iter = [img_arr objectAtIndex:index];
         
         UIImageView* tmp = (UIImageView*)[self viewWithTag:-3 + index];
         tmp.layer.masksToBounds = YES;
         tmp.layer.borderWidth = 1.5;
-        tmp.layer.borderColor = [UIColor whiteColor].CGColor;
+        tmp.layer.borderColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.45].CGColor;
         tmp.layer.cornerRadius = 19.f;
         tmp.clipsToBounds = YES;
         
@@ -113,9 +112,8 @@
     }
 }
 
-
 - (void)setUserContentImages:(NSArray *)img_arr {
-    // 方头像
+    // 正方形 发布图片
     [self setSearchResultCount:img_arr.count];
     self.margin1.constant = 4;
     self.margin2.constant = 4;
@@ -129,7 +127,6 @@
     }
     
     for (int index = 0; index < MIN(RECOMMEND_COUNT, img_arr.count); ++index) {
-//        NSDictionary* iter = [img_arr objectAtIndex:index];
         NSDictionary* iter = [img_arr objectAtIndex:index];
         NSArray* items = [iter objectForKey:@"items"];
         NSDictionary* item = items.firstObject;
@@ -171,50 +168,71 @@
    
     if (_btn == nil) {
         _btn = [[UIView alloc] init];
+        [self addSubview:_btn];
         
-        UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(TAG_MARGIN / 2, TAG_MARGIN / 4, ICON_WIDTH, ICON_HEIGHT)];
-        img.tag = -98;
+        UIImageView* img = [[UIImageView alloc]init];
         [_btn addSubview:img];
+        img.tag = -98;
         
         UILabel* label = [[UILabel alloc]init];
+        [_btn addSubview:label];
         label.font = font;
         label.tag = -99;
         label.textAlignment = NSTextAlignmentCenter;
-        [_btn addSubview:label];
+
         
         _btn.clipsToBounds = YES;
-        [self addSubview:_btn];
     }
     
     if (type.integerValue == -1) {
+        self.type = SearchRole;
+        
         CGSize sz = CGSizeMake(sz_font.width + TAG_MARGIN, TAG_HEIGHT);
         
-        _btn.frame = CGRectMake(0, 0, sz.width, 16);
-
+        [_btn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.left.equalTo(self).offset(TAG_MARGIN);
+            make.width.mas_equalTo(sz.width + TAG_MARGIN);
+            make.height.mas_equalTo(TAG_HEIGHT);
+        }];
+        
         UIImageView* img = [_btn viewWithTag:-98];
         img.hidden = YES;
         
         UILabel* label = [_btn viewWithTag:-99];
         label.text = title;
         label.textColor = [UIColor whiteColor];
-        label.frame = CGRectMake(5, 0, sz_font.width, TAG_HEIGHT);
         label.textAlignment = NSTextAlignmentCenter;
-        label.center = CGPointMake(CGRectGetWidth(_btn.frame) / 2, CGRectGetHeight(_btn.frame) / 2);
-
+        
+        [label mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_btn);
+            make.left.equalTo(_btn.mas_left).offset(TAG_MARGIN *0.5);
+            make.right.equalTo(_btn.mas_right).offset(-TAG_MARGIN *0.5);
+        }];
+        
         _btn.layer.cornerRadius = 3;
         _btn.layer.shouldRasterize = YES;
         _btn.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        _btn.center = CGPointMake(CGRectGetWidth(_btn.frame) / 2 + MARGIN, [AYFoundSearchResultCellView preferredHeight] / 2);
         [_btn setBackgroundColor:[Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0]];
-        _btn.center = CGPointMake(CGRectGetWidth(_btn.frame) / 2 + MARGIN, [AYFoundSearchResultCellView preferredHeight] / 2);
 
     } else {
+        self.type = SearchSige;
         CGSize sz = CGSizeMake(TAG_MARGIN + ICON_WIDTH + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
-       
-        _btn.frame = CGRectMake(0, 0, sz.width, sz.height);
         UIImageView* img = [_btn viewWithTag:-98];
-        img.center = CGPointMake(TAG_MARGIN / 2 + img.frame.size.width / 2, TAG_HEIGHT / 2);
         img.hidden = NO;
+        
+        _btn.layer.borderColor = [UIColor colorWithWhite:0.6078 alpha:1.f].CGColor;
+        _btn.layer.borderWidth = 1.f;
+        _btn.layer.cornerRadius = TAG_CORDIUS;
+        [_btn setBackgroundColor:[UIColor whiteColor]];
+        
+        [_btn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.left.equalTo(self).offset(TAG_MARGIN);
+            make.width.mas_equalTo(sz.width);
+            make.height.mas_equalTo(TAG_HEIGHT);
+        }];
+        
         if (type.integerValue == 0) {
             img.image = PNGRESOURCE(@"tag_location_dark");
         } else if (type.integerValue == 1) {
@@ -224,24 +242,25 @@
         } else {
             
         }
+        
+        [img mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_btn);
+            make.left.equalTo(_btn.mas_left).offset(TAG_MARGIN * 0.5);
+            make.width.mas_equalTo(ICON_WIDTH);
+            make.height.mas_equalTo(ICON_HEIGHT);
+        }];
+        
         UILabel* label = [_btn viewWithTag:-99];
         label.text = title;
         label.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
-        label.frame = CGRectMake(TAG_MARGIN + ICON_WIDTH, 0, sz_font.width, TAG_HEIGHT);
         
-        _btn.layer.borderColor = [UIColor colorWithWhite:0.6078 alpha:1.f].CGColor;
-        _btn.layer.borderWidth = 1.f;
-        _btn.layer.cornerRadius = TAG_CORDIUS;
-
-        [_btn setBackgroundColor:[UIColor whiteColor]];
-        _btn.center = CGPointMake(MARGIN + _btn.frame.size.width / 2, [AYFoundSearchResultCellView preferredHeight] / 2);
+        [label mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_btn);
+            make.left.equalTo(img.mas_right).offset(0);
+            make.right.equalTo(_btn.mas_right).offset(- TAG_MARGIN * 0.5);
+        }];
+        
     }
-
-//    CGFloat width = self.frame.size.width;;
-//    UIView* tmp = [self viewWithTag:-1];
-//    if (width - MARGIN - sz.width - tmp.frame.origin.x > self.resultCountLabel.frame.size.width + 20) {
-//        self.resultCountLabel.hidden = NO;
-//    }
 }
 
 - (void)setSearchResultCount:(NSInteger)count {
@@ -258,11 +277,6 @@
     return 61;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    _btn.center = _btn.center;
-    self.resultCountLabel.center = CGPointMake(CGRectGetMaxX(_btn.frame) + 10 + self.resultCountLabel.frame.size.width / 2, CGRectGetMidY(_btn.frame));
-}
 
 - (UILabel *)resultCountLabel {
     if (_resultCountLabel == nil) {
@@ -342,5 +356,15 @@
 
 - (id)queryCellHeight {
     return [NSNumber numberWithFloat:[AYFoundSearchResultCellView preferredHeight]];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [_resultCountLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.left.equalTo(_btn.mas_right).offset(TAG_MARGIN);
+    }];
+    
 }
 @end

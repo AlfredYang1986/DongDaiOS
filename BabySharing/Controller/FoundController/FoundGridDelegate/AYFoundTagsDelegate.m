@@ -65,21 +65,9 @@
         cell.controller = self.controller;
         
         id<AYCommand> cmd = [cell.commands objectForKey:@"setHotTags:"];
-       
         NSArray* arr = [querydata copy];
         [cmd performWithResult:&arr];
-        
-        CALayer *line = [CALayer layer];
-        line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
-        line.borderWidth = 1.f;
-        line.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame) - 1, [UIScreen mainScreen].bounds.size.width, 1);
-        [((UITableViewCell*)cell).layer addSublayer:line];
-        
-        CALayer *line1 = [CALayer layer];
-        line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.1].CGColor;
-        line.borderWidth = 1.f;
-        line1.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame), [UIScreen mainScreen].bounds.size.width, 1);
-        [((UITableViewCell*)cell).layer addSublayer:line1];
+
         
         return (UITableViewCell*)cell;
     } else {
@@ -103,38 +91,31 @@
         
         [cmd performWithResult:&dic];
         
-        CALayer *line = [CALayer layer];
-        line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
-        line.borderWidth = 1.f;
-        line.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame) - 1, [UIScreen mainScreen].bounds.size.width, 1);
-        [((UITableViewCell*)cell).layer addSublayer:line];
-        
-        CALayer *line1 = [CALayer layer];
-        line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.1].CGColor;
-        line.borderWidth = 1.f;
-        line1.frame = CGRectMake(0, CGRectGetMaxY(((UITableViewCell*)cell).frame), [UIScreen mainScreen].bounds.size.width, 1);
-        [((UITableViewCell*)cell).layer addSublayer:line1];
-        
         return (UITableViewCell*)cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYCommand> cmd = nil;
-    if (previewDic.count == 0) {
+    
+    if (previewDic == nil || previewDic.count == 0) {
+        id<AYCommand> cmd = nil;
         id<AYViewBase> header = VIEW(kAYFoundHotCellName, kAYFoundHotCellName);
         cmd = [header.commands objectForKey:@"queryCellHeight"];
+        NSNumber* result = nil;
+        [cmd performWithResult:&result];
+        return result.floatValue;
     } else {
+        id<AYCommand> cmd = nil;
         id<AYViewBase> header = VIEW(kAYFoundSearchResultCellName, kAYFoundSearchResultCellName);
         cmd = [header.commands objectForKey:@"queryCellHeight"];
+        NSNumber* result = nil;
+        [cmd performWithResult:&result];
+        return result.floatValue;
     }
-    
-    NSNumber* result = nil;
-    [cmd performWithResult:&result];
-    return result.floatValue;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
     id<AYViewBase> header = VIEW(kAYFoundSearchHeaderName, kAYFoundSearchHeaderName);
     id<AYCommand> cmd = [header.commands objectForKey:@"queryHeaderHeight"];
     NSNumber* result = nil;

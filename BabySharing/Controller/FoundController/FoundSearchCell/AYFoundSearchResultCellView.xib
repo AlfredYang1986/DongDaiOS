@@ -83,7 +83,7 @@
                 <outlet property="margin2" destination="cor-VD-442" id="Mhm-vk-4NI"/>
                 <outlet property="nextIcon" destination="dLk-81-nF9" id="0un-8i-vJR"/>
             </connections>
-            <point key="canvasLocation" x="384.5" y="298.5"/>
+            <point key="canvasLocation" x="176.5" y="273.5"/>
         </tableViewCell>
     </objects>
 </document>

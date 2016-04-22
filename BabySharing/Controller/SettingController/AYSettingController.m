@@ -74,7 +74,7 @@
 //    line.frame = CGRectMake(0, 73, [UIScreen mainScreen].bounds.size.width, 1);
 //    [self.view.layer addSublayer:line];
     
-    OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 64 - 49 - 44, SCREEN_WIDTH - 2 * 17.5, 44)];
+    OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 64 - 49, SCREEN_WIDTH - 2 * 17.5, 44)];
     [logout_btn setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
     logout_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [logout_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
