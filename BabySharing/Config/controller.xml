@@ -157,6 +157,7 @@
         <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />
+        <delegate type="TableViewDelegateAndDatasource" name="Notification" />
     </controller>
 
     <controller type="DefaultController" name="AddFriend" factory="AYDefaultControllerFactoy" >

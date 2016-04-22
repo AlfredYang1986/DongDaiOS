@@ -156,10 +156,28 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     line_seg_up.borderWidth = 1.f;
     line_seg_up.frame = CGRectMake(0, 0, width, 1);
     [friend_seg.layer addSublayer:line_seg_up];
- 
-    id<AYViewBase> view_friend = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
-    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
+
     {
+        id<AYViewBase> view_notify = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
+        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Notification"];
+
+        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+        
+        id obj = (id)cmd_notify;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_notify;
+        [cmd_delegate performWithResult:&obj];
+
+        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name];
+    }
+    
+    {
+        id<AYViewBase> view_friend = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
+        id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
+
         id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_friend.commands objectForKey:@"registerDelegate:"];
         
@@ -167,12 +185,12 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
         [cmd_datasource performWithResult:&obj];
         obj = (id)cmd_relations;
         [cmd_delegate performWithResult:&obj];
+
+        id<AYCommand> cmd_hot_cell = [view_friend.commands objectForKey:@"registerCellWithNib:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_hot_cell performWithResult:&class_name];
     }
     
-    id<AYViewBase> view_friend_table = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
-    id<AYCommand> cmd_hot_cell = [view_friend_table.commands objectForKey:@"registerCellWithNib:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_hot_cell performWithResult:&class_name];
 
     SHOWING_FRIENDS;
 }
