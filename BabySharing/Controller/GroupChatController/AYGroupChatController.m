@@ -44,12 +44,19 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 @implementation AYGroupChatController {
     CGRect keyBoardFrame;
     NSString* owner_id;
-    NSString* group_id;
+    NSNumber* group_id;
     NSString* post_id;
+    NSString* theme;
     
     dispatch_semaphore_t semaphore_owner_info;
     __block BOOL owner_info_success;
     __block NSDictionary* owner_info_result;
+    
+    dispatch_semaphore_t semaphore_join_lst;
+    __block BOOL join_lst_success;
+    __block NSArray* join_lst_result;
+    
+    __block NSNumber* join_count;
 }
 
 #pragma mark -- commands
@@ -61,6 +68,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
         owner_id = [args objectForKey:@"owner_id"];
         post_id = [args objectForKey:@"post_id"];
+        theme = [args objectForKey:@"theme"];   // group name
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -89,6 +97,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [self.view bringSubviewToFront:loading];
     
     semaphore_owner_info = dispatch_semaphore_create(0);
+    semaphore_join_lst = dispatch_semaphore_create(0);
     
     {
         id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
@@ -109,6 +118,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
    
     [self waitForControllerReady];
     [self queryOwnerInfo];
+    [self enterChatGroup];
    
     UIView* view_table = [self.views objectForKey:@"Table"];
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
@@ -325,7 +335,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
-#pragma mark -- query data
+#pragma mark -- query user info
 - (void)waitForControllerReady {
     dispatch_queue_t qw = dispatch_queue_create("query data wait", nil);
     dispatch_async(qw, ^{
@@ -333,8 +343,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 //        dispatch_semaphore_wait(semaphore_owner_info, DISPATCH_TIME_FOREVER);
         
         dispatch_async(dispatch_get_main_queue(), ^{
-//            id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-//            id<AYCommand>
             [self setInfoDataToDelegate];
             
             [self GroupChatControllerIsReady];
@@ -372,6 +380,32 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYViewBase> view = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
     id<AYCommand> cmd_refresh = [view.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
+}
+
+#pragma mark -- enter group chat
+- (void)enterChatGroup {
+    id<AYFacadeBase> f = [self.facades objectForKey:@"ChatSessionRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"EnterChatGroup"];
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    NSMutableDictionary* dic = [user mutableCopy];
+    [dic setValue:theme forKey:@"group_name"];
+    [dic setValue:post_id forKey:@"post_id"];
+    [dic setValue:owner_id forKey:@"owner_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        join_lst_success = success;
+        join_count = [result objectForKey:@"joiners_count"];
+        
+       
+        id<AYFacadeBase> xmpp = [self.facades objectForKey:@"XMPP"];
+        id<AYCommand> cmd = [xmpp.commands objectForKey:@"JoinGroup"];
+        
+        id args = [result objectForKey:@"group_id"];
+        [cmd performWithResult:&args];
+    }];
 }
 
 - (void)GroupChatControllerIsReady {

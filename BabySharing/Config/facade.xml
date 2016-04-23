@@ -165,7 +165,7 @@
     <facade type="DefaultFacade" name="ChatSessionRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryChatGroup" />
 <!--        <command type="Remote" name="QueryChatGroup" /> 这个函数有问题，应该在服务器端就处理好哪些是已经加入的-->
-<!--        <command type="Remote" name="EnterChatGroup" />-->
+        <command type="Remote" name="EnterChatGroup" />
 <!--        <command type="Remote" name="LeaveChatGroup" />-->
     </facade>
 
@@ -175,6 +175,7 @@
         <command type="Module" name="UnreadMessageCount" />
         <command type="Module" name="SendMessage" />
         <command type="Module" name="QueryMessages" />
+        <command type="Module" name="JoinGroup" />
     </facade>
     
     <facade type="DefaultFacade" name="Contacter" factory="AYDefaultFacadeFactory" >

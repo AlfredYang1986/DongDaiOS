@@ -57,6 +57,7 @@
     <command type="Module" name="UnreadMessageCount" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SendMessage" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryMessages" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="JoinGroup" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />
@@ -144,7 +145,7 @@
     <command type="Remote" name="QueryFollowed" route="connections/queryFollowedUsers" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="QueryChatGroup" route="group/queryChatGroup" factory="AYRemoteCallFactory" />
-<!--    <command type="Remote" name="EnterChatGroup" route="group/follow" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="EnterChatGroup" route="group/createChatGroup" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="LeaveChatGroup" route="group/follow" factory="AYRemoteCallFactory" />-->
 
     <command type="Remote" name="PostContent" route="post/postContent" factory="AYRemoteCallFactory" />

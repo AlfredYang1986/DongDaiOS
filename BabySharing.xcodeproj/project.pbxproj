@@ -196,7 +196,6 @@
 		702510801CC0EA2C00DADF2B /* AYGroupListCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025107E1CC0EA2C00DADF2B /* AYGroupListCellView.m */; };
 		702510811CC0EA2C00DADF2B /* AYGroupListCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7025107F1CC0EA2C00DADF2B /* AYGroupListCellView.xib */; };
 		702510841CC0F08A00DADF2B /* AYChatSessionRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510831CC0F08A00DADF2B /* AYChatSessionRemoteFacade.m */; };
-		702510881CC0F2FE00DADF2B /* AYQueryChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510871CC0F2FE00DADF2B /* AYQueryChatGroupCommand.m */; };
 		7025109C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7025108B1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld */; };
 		7025109D1CC0F5AB00DADF2B /* Messages.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025108E1CC0F5AB00DADF2B /* Messages.m */; };
 		7025109E1CC0F5AB00DADF2B /* NotificationOwner+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510901CC0F5AB00DADF2B /* NotificationOwner+ContextOpt.m */; };
@@ -210,6 +209,9 @@
 		702510AE1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510AD1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m */; };
 		7027FD161CBC0246002756BC /* AYSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD151CBC0246002756BC /* AYSettingController.m */; };
 		7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */; };
+		702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */; };
+		702B84B91CCA999600CDEB3C /* AYEnterChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */; };
+		702B84BD1CCAA29400CDEB3C /* AYJoinGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84BC1CCAA29400CDEB3C /* AYJoinGroupCommand.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
 		702E7A821CA150A00097867E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A7B1CA1502C0097867E /* AppDelegate.m */; };
@@ -844,8 +846,6 @@
 		7025107F1CC0EA2C00DADF2B /* AYGroupListCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYGroupListCellView.xib; sourceTree = "<group>"; };
 		702510821CC0F08A00DADF2B /* AYChatSessionRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChatSessionRemoteFacade.h; sourceTree = "<group>"; };
 		702510831CC0F08A00DADF2B /* AYChatSessionRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChatSessionRemoteFacade.m; sourceTree = "<group>"; };
-		702510861CC0F2FE00DADF2B /* AYQueryChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryChatGroupCommand.h; sourceTree = "<group>"; };
-		702510871CC0F2FE00DADF2B /* AYQueryChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryChatGroupCommand.m; sourceTree = "<group>"; };
 		7025108C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MessageAndNotificationModel.xcdatamodel; sourceTree = "<group>"; };
 		7025108D1CC0F5AB00DADF2B /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Messages.h; sourceTree = "<group>"; };
 		7025108E1CC0F5AB00DADF2B /* Messages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Messages.m; sourceTree = "<group>"; };
@@ -872,6 +872,12 @@
 		7027FD151CBC0246002756BC /* AYSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSettingController.m; sourceTree = "<group>"; };
 		7027FD181CBC0817002756BC /* AYAppSettingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppSettingDelegate.h; sourceTree = "<group>"; };
 		7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppSettingDelegate.m; sourceTree = "<group>"; };
+		702B84B41CCA998000CDEB3C /* AYQueryChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryChatGroupCommand.h; sourceTree = "<group>"; };
+		702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryChatGroupCommand.m; sourceTree = "<group>"; };
+		702B84B71CCA999600CDEB3C /* AYEnterChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEnterChatGroupCommand.h; sourceTree = "<group>"; };
+		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
+		702B84BB1CCAA29400CDEB3C /* AYJoinGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYJoinGroupCommand.h; sourceTree = "<group>"; };
+		702B84BC1CCAA29400CDEB3C /* AYJoinGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinGroupCommand.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5B1CA14A490097867E /* BabySharingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabySharingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5F1CA14A490097867E /* BabySharingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BabySharingTests.m; sourceTree = "<group>"; };
@@ -1829,6 +1835,7 @@
 		700BE5B81CBA6C1400A09B3A /* XMPP */ = {
 			isa = PBXGroup;
 			children = (
+				702B84BA1CCAA28300CDEB3C /* JoinGroup */,
 				703CCD9D1CC9D21400CF4563 /* UnreadMessageCount */,
 				703CCD971CC9CF7E00CF4563 /* QueryMessages */,
 				703CCD991CC9CF7E00CF4563 /* SendMessages */,
@@ -2790,8 +2797,8 @@
 		702510851CC0F2EC00DADF2B /* ChatSession */ = {
 			isa = PBXGroup;
 			children = (
-				702510861CC0F2FE00DADF2B /* AYQueryChatGroupCommand.h */,
-				702510871CC0F2FE00DADF2B /* AYQueryChatGroupCommand.m */,
+				702B84B21CCA998000CDEB3C /* EnterChatGroup */,
+				702B84B31CCA998000CDEB3C /* QueryChatGroup */,
 			);
 			path = ChatSession;
 			sourceTree = "<group>";
@@ -2870,6 +2877,33 @@
 				7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */,
 			);
 			path = SettingDelegate;
+			sourceTree = "<group>";
+		};
+		702B84B21CCA998000CDEB3C /* EnterChatGroup */ = {
+			isa = PBXGroup;
+			children = (
+				702B84B71CCA999600CDEB3C /* AYEnterChatGroupCommand.h */,
+				702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */,
+			);
+			path = EnterChatGroup;
+			sourceTree = "<group>";
+		};
+		702B84B31CCA998000CDEB3C /* QueryChatGroup */ = {
+			isa = PBXGroup;
+			children = (
+				702B84B41CCA998000CDEB3C /* AYQueryChatGroupCommand.h */,
+				702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */,
+			);
+			path = QueryChatGroup;
+			sourceTree = "<group>";
+		};
+		702B84BA1CCAA28300CDEB3C /* JoinGroup */ = {
+			isa = PBXGroup;
+			children = (
+				702B84BB1CCAA29400CDEB3C /* AYJoinGroupCommand.h */,
+				702B84BC1CCAA29400CDEB3C /* AYJoinGroupCommand.m */,
+			);
+			path = JoinGroup;
 			sourceTree = "<group>";
 		};
 		702E7A391CA14A480097867E = {
@@ -4859,6 +4893,7 @@
 				7002DB9C1CC660070013FF2A /* AYFoundHotTagsCellView.m in Sources */,
 				701524371CBF60E6005B4C5B /* AYUserDisplayView.m in Sources */,
 				705B84551CC6A4D60057D442 /* AYTagEntryView.m in Sources */,
+				702B84BD1CCAA29400CDEB3C /* AYJoinGroupCommand.m in Sources */,
 				70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */,
 				70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */,
 				70AC5BAB1CC8C6B600E2568F /* AYPostLikeContentCommand.m in Sources */,
@@ -4989,7 +5024,6 @@
 				70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */,
 				70AC5BB01CC8C6DD00E2568F /* AYPostContentCommand.m in Sources */,
 				702510A61CC0F5CF00DADF2B /* AYChatSessionModelFacade.m in Sources */,
-				702510881CC0F2FE00DADF2B /* AYQueryChatGroupCommand.m in Sources */,
 				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
 				703CCDFA1CCA129300CF4563 /* AYGroupChatHeaderView.m in Sources */,
@@ -5046,6 +5080,7 @@
 				70F4287D1CC7B18F00A69977 /* NSArray+MASAdditions.m in Sources */,
 				701524801CBF9AB4005B4C5B /* MJRefreshAutoGifFooter.m in Sources */,
 				701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */,
+				702B84B91CCA999600CDEB3C /* AYEnterChatGroupCommand.m in Sources */,
 				703291C31CC492B700028DF2 /* AYContatcerInSystemCommand.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
@@ -5151,6 +5186,7 @@
 				7039CBED1CBB94DF00BE60C7 /* AYQueryUserProfileCommand.m in Sources */,
 				7060BDC31CB63387001E4111 /* AYOthersLoginController.m in Sources */,
 				7002DB8C1CC64EDA0013FF2A /* AYSceneFilterCommand.m in Sources */,
+				702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */,
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

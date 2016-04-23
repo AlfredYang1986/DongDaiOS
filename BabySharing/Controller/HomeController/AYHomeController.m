@@ -570,6 +570,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:tmp.owner_id forKey:@"owner_id"];
     [dic setValue:tmp.content_post_id forKey:@"post_id"];
+    [dic setValue:tmp.content_description forKey:@"theme"];
     
     [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [self performWithResult:&dic_push];

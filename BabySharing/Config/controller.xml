@@ -313,6 +313,7 @@
         
         <facade type="DefaultFacade" name="XMPP" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         
         <view type="Image" name="Image" />
         <view type="GroupChatHeader" name="GroupChatHeader" />
