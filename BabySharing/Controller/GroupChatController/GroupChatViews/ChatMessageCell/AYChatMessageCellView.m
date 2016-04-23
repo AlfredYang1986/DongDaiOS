@@ -15,11 +15,13 @@
 #import "OBShapedButton.h"
 #import "Tools.h"
 
+#import "AYFacadeBase.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYChatMessageCellDefines.h"
+#import "AYRemoteCallCommand.h"
 
 #define IMG_WIDTH               32
 #define IMG_HEIGHT              IMG_WIDTH
@@ -67,8 +69,6 @@
 }
 
 - (void)setupSubviews {
-//    AppDelegate* app = (AppDelegate*)[UIApplication sharedApplication].delegate;
-//    _lm = app.lm;
     self.backgroundColor = [UIColor clearColor];
     
     if (time_label == nil) {
@@ -124,17 +124,10 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     UITextView *tv = object;
-    // Center vertical alignment
     
     CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
     topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
     tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
-    
-    //    // Bottom vertical alignment
-    //    CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height);
-    //    topCorrect = (topCorrect <0.0 ? 0.0 : topCorrect);
-    //    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
-    
 }
 
 - (void)dealloc {
@@ -203,59 +196,37 @@
 
 - (void)setGotyeOCMessage:(GotyeOCMessage*)msg {
     _message = msg;
+   
+    NSDictionary* user = nil;
+    CURRENUSER(user);
     
-//    isSenderByOwner = [_lm.current_user_id isEqualToString:_message.sender.name];
-    [self setSenderImage:@""];
+    isSenderByOwner = [[user objectForKey:@"user_id"] isEqualToString:_message.sender.name];
     [self setContent:msg.text];
     [self setContentDate:nil];
     
     sender_user_id = _message.sender.name;
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:sender_user_id forKey:@"user_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        [self setSenderImage:[result objectForKey:@"screen_photo"]];
+    }];
 }
 
 - (void)setSenderImage:(NSString*)photo_name {
-//    dispatch_queue_t up = dispatch_queue_create("Get Profile Details", nil);
-//    dispatch_async(up, ^{
-//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-////        [dic setValue:_lm.current_auth_token forKey:@"auth_token"];
-////        [dic setValue:_lm.current_user_id forKey:@"user_id"];
-//        [dic setValue:_message.sender.name forKey:@"owner_user_id"];
-//        
-//        NSError * error = nil;
-//        NSData* jsonData =[NSJSONSerialization dataWithJSONObject:[dic copy] options:NSJSONWritingPrettyPrinted error:&error];
-//        
-//        NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:[PROFILE_HOST_DOMAIN stringByAppendingString:PROFILE_QUERY_DETAILS]]];
-//        
-//        if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-//            NSDictionary* reVal = [result objectForKey:@"result"];
-//           
-//            NSString* photo_name = [reVal objectForKey:@"screen_photo"];
-//            UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-//                if (success) {
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        if (self) {
-//                            imgView.image = user_img;
-//                            NSLog(@"owner img download success");
-//                        }
-//                    });
-//                } else {
-//                    NSLog(@"down load owner image %@ failed", photo_name);
-//                }
-//            }];
-//            
-//            if (userImg == nil) {
-//                userImg = PNGRESOURCE(@"default_user"); //[UIImage imageNamed:filePath];
-//            }
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [imgView setImage:userImg];
-//                
-//                name_label.text = [reVal objectForKey:@"screen_name"];
-//                [name_label sizeToFit];
-//            });
-//        }
-//    });
 
-    [imgView setImage:PNGRESOURCE(@"default_user")];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        [imgView setImage:img];
+    }];
 }
 
 - (void)setContent:(NSString*)content_text {
@@ -291,19 +262,28 @@
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
     id<AYViewBase> cell = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
-    self.commands = [[cell commands] copy];
-    self.notifies = [[cell notifies] copy];
-    
-    for (AYViewCommand* cmd in self.commands.allValues) {
-        cmd.view = self;
+   
+    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
+    for (NSString* name in cell.commands.allKeys) {
+        AYViewCommand* cmd = [cell.commands objectForKey:name];
+        AYViewCommand* c = [[AYViewCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_commands setValue:c forKey:name];
     }
+    self.commands = [arr_commands copy];
     
-    for (AYViewNotifyCommand* nty in self.notifies.allValues) {
-        nty.view = self;
+    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
+    for (NSString* name in cell.notifies.allKeys) {
+        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
+        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_notifies setValue:c forKey:name];
     }
-    
-    NSLog(@"reuser view with commands : %@", self.commands);
-    NSLog(@"reuser view with notifications: %@", self.notifies);
+    self.notifies = [arr_notifies copy];
 }
 
 #pragma mark -- commands

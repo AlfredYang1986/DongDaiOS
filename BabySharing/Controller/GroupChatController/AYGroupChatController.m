@@ -173,6 +173,14 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
+- (void)clearController {
+    [super clearController];
+    
+    id<AYFacadeBase> f = USERCACHE;
+    id<AYCommand> cmd = [f.commands objectForKey:@"ReleaseScreenNameAndPhoto"];
+    [cmd performWithResult:nil];
+}
+
 #pragma mark -- layouts
 - (id)GroupChatHeaderLayout:(UIView*)view {
     
@@ -378,12 +386,16 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 #pragma mark -- block user interaction
 - (id)startRemoteCall:(id)obj {
-    UIView* loading = [self.views objectForKey:@"Loading"];
-    if (loading.hidden == YES) {
-        loading.hidden = NO;
-        
-        id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"startGif"];
-        [cmd performWithResult:nil];
+    
+    NSString* method = (NSString*)obj;
+    if (![method isEqualToString:@"AYQueryUserProfileCommand"]) {
+        UIView* loading = [self.views objectForKey:@"Loading"];
+        if (loading.hidden == YES) {
+            loading.hidden = NO;
+            
+            id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"startGif"];
+            [cmd performWithResult:nil];
+        }   
     }
     return nil;
 }

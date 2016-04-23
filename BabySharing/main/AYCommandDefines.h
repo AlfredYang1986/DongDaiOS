@@ -75,6 +75,8 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define GPUFILTER               FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"GPUFilter")
 #define MOVIEPLAYER             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MoviePlayer")
 
+#define USERCACHE               FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ScreenNameAndPhotoCache")
+
 #define HOST                    ([[AYFactoryManager sharedInstance] queryServerHostRoute])
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])

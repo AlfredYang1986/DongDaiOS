@@ -446,6 +446,10 @@
 		805218871CCB62D1006EF119 /* AYChatGroupInputDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218861CCB62D1006EF119 /* AYChatGroupInputDelegate.m */; };
 		8052188B1CCB7457006EF119 /* AYChatMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052188A1CCB7457006EF119 /* AYChatMessageCellView.m */; };
 		805218961CCB8269006EF119 /* AYGroupChatMessagesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218951CCB8269006EF119 /* AYGroupChatMessagesDelegate.m */; };
+		8052189B1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */; };
+		805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */; };
+		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
+		805218A71CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1339,6 +1343,14 @@
 		8052188C1CCB78AD006EF119 /* AYChatMessageCellDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYChatMessageCellDefines.h; sourceTree = "<group>"; };
 		805218941CCB8269006EF119 /* AYGroupChatMessagesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGroupChatMessagesDelegate.h; sourceTree = "<group>"; };
 		805218951CCB8269006EF119 /* AYGroupChatMessagesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGroupChatMessagesDelegate.m; sourceTree = "<group>"; };
+		805218991CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYScreenNameAndPhotoCacheFacade.h; sourceTree = "<group>"; };
+		8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYScreenNameAndPhotoCacheFacade.m; sourceTree = "<group>"; };
+		8052189F1CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
+		805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
+		805218A21CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReleaseScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
+		805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
+		805218A51CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
+		805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2609,6 +2621,7 @@
 		701D8A441CA7B9C200B5D4C1 /* LogicFacade */ = {
 			isa = PBXGroup;
 			children = (
+				805218971CCB9C30006EF119 /* Cache */,
 				70B1DC731CC705640041794A /* ContacterFacade */,
 				700693391CC51ACD00B511FF /* GUPImage */,
 				700693211CC4D67600B511FF /* PHAsset */,
@@ -4145,11 +4158,11 @@
 		70B1DCAC1CC769FC0041794A /* PublishController */ = {
 			isa = PBXGroup;
 			children = (
-				70B1DCB81CC77DAD0041794A /* PublishViews */,
-				70B1DCB01CC76CDC0041794A /* PostMoviePublish */,
-				70B1DCB11CC76CDC0041794A /* PostPhotoPublish */,
 				70B1DCAD1CC76AC50041794A /* AYPostPublishController.h */,
 				70B1DCAE1CC76AC50041794A /* AYPostPublishController.m */,
+				70B1DCB01CC76CDC0041794A /* PostMoviePublish */,
+				70B1DCB11CC76CDC0041794A /* PostPhotoPublish */,
+				70B1DCB81CC77DAD0041794A /* PublishViews */,
 			);
 			path = PublishController;
 			sourceTree = "<group>";
@@ -4700,6 +4713,53 @@
 			path = ChatMessages;
 			sourceTree = "<group>";
 		};
+		805218971CCB9C30006EF119 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				805218981CCB9C30006EF119 /* ScreenNameAndPhoto */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
+		805218981CCB9C30006EF119 /* ScreenNameAndPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				805218991CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.h */,
+				8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */,
+				8052189C1CCB9CF1006EF119 /* PushScreenNameAndPhoto */,
+				8052189D1CCB9CF1006EF119 /* QueryScreenNameAndPhoto */,
+				8052189E1CCB9CF1006EF119 /* ReleaseScreenNameAndPhoto */,
+			);
+			path = ScreenNameAndPhoto;
+			sourceTree = "<group>";
+		};
+		8052189C1CCB9CF1006EF119 /* PushScreenNameAndPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				8052189F1CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.h */,
+				805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */,
+			);
+			path = PushScreenNameAndPhoto;
+			sourceTree = "<group>";
+		};
+		8052189D1CCB9CF1006EF119 /* QueryScreenNameAndPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				805218A51CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.h */,
+				805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */,
+			);
+			path = QueryScreenNameAndPhoto;
+			sourceTree = "<group>";
+		};
+		8052189E1CCB9CF1006EF119 /* ReleaseScreenNameAndPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				805218A21CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.h */,
+				805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */,
+			);
+			path = ReleaseScreenNameAndPhoto;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4927,6 +4987,7 @@
 				7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */,
 				70B1DCBC1CC77DCF0041794A /* AYSharingSNSView.m in Sources */,
 				701524151CBF4960005B4C5B /* AYRelationshipRemoteFacade.m in Sources */,
+				8052189B1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m in Sources */,
 				701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */,
 				700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */,
 				700BE5EA1CBA6E5800A09B3A /* AYLandingAuthConfirmCommand.m in Sources */,
@@ -5060,6 +5121,7 @@
 				70F369AA1CC362950067B62E /* AYAlbumDelegate.m in Sources */,
 				701524491CBF96F0005B4C5B /* AYImageView.m in Sources */,
 				701524851CBF9AB4005B4C5B /* MJRefreshBackNormalFooter.m in Sources */,
+				805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */,
 				7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */,
 				700692E81CC49A2C00B511FF /* AYFriendsInitCommand.m in Sources */,
 				70F369B21CC378650067B62E /* AYRemoteCallQueryCommand.m in Sources */,
@@ -5070,6 +5132,7 @@
 				708236031CA2A9A100658531 /* AYDefaultFacadeFactory.m in Sources */,
 				70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */,
 				70AC5BB01CC8C6DD00E2568F /* AYPostContentCommand.m in Sources */,
+				805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */,
 				702510A61CC0F5CF00DADF2B /* AYChatSessionModelFacade.m in Sources */,
 				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
 				70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */,
@@ -5081,6 +5144,7 @@
 				7002DB881CC64C9D0013FF2A /* ImageFilterFactory.m in Sources */,
 				7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */,
 				7015241C1CBF49CD005B4C5B /* AYUnfollowCommand.m in Sources */,
+				805218A71CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m in Sources */,
 				700BE5FC1CBA6E7D00A09B3A /* AYProfileRemoteFacade.m in Sources */,
 				701524841CBF9AB4005B4C5B /* MJRefreshBackGifFooter.m in Sources */,
 				708E527B1CC53739008A6023 /* AYStillImageCaptureFacade.m in Sources */,

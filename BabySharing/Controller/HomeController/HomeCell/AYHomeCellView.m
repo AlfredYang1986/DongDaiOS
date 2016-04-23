@@ -656,20 +656,29 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> header = VIEW(kAYHomeCellName, kAYHomeCellName);
-    self.commands = [[header commands] copy];
-    self.notifies = [[header notifies] copy];
+    id<AYViewBase> cell = VIEW(kAYHomeCellName, kAYHomeCellName);
     
-    for (AYViewCommand* cmd in self.commands.allValues) {
-        cmd.view = self;
+    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
+    for (NSString* name in cell.commands.allKeys) {
+        AYViewCommand* cmd = [cell.commands objectForKey:name];
+        AYViewCommand* c = [[AYViewCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_commands setValue:c forKey:name];
     }
+    self.commands = [arr_commands copy];
     
-    for (AYViewNotifyCommand* nty in self.notifies.allValues) {
-        nty.view = self;
+    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
+    for (NSString* name in cell.notifies.allKeys) {
+        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
+        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_notifies setValue:c forKey:name];
     }
-    
-    NSLog(@"reuser view with commands : %@", self.commands);
-    NSLog(@"reuser view with notifications: %@", self.notifies);
+    self.notifies = [arr_notifies copy];
 }
 
 #pragma mark -- commands

@@ -177,6 +177,12 @@
         <command type="Module" name="QueryMessages" />
         <command type="Module" name="JoinGroup" />
     </facade>
+
+    <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="PushScreenNameAndPhoto" />
+        <command type="Remote" name="QueryScreenNameAndPhoto" />
+        <command type="Module" name="ReleaseScreenNameAndPhoto" />
+    </facade>
     
     <facade type="DefaultFacade" name="Contacter" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="GetAllPhones" />
