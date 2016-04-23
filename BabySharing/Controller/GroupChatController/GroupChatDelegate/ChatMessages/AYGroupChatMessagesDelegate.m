@@ -10,12 +10,12 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-#import "AYSearchDefines.h"
-#import "Tools.h"
+#import "AYChatMessageCellDefines.h"
 
 @implementation AYGroupChatMessagesDelegate {
     NSArray* querydata;
 }
+
 #pragma mark -- command
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -44,24 +44,40 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
+
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYChatMessageCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
+        cell = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
     }
     
-    cell.textLabel.text = @"alfred test";
+    cell.controller = self.controller;
     
-    return cell;
+    id tmp = [querydata objectAtIndex:indexPath.row];
+    {
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:tmp forKey:kAYChatMessageCellContentKey];
+        [dic setValue:cell forKey:kAYChatMessageCellCellKey];
+        
+        [cmd performWithResult:&dic];
+    }
+    
+    return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    id result = [querydata objectAtIndex:indexPath.row];
+    id<AYViewBase> view = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
+    id<AYCommand> cmd = [view.commands objectForKey:@"queryCellHeight:"];
+    [cmd performWithResult:&result];
+    return ((NSNumber*)result).floatValue;
 }
 
 #pragma mark -- messages

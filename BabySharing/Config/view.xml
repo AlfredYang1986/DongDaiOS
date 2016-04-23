@@ -238,4 +238,9 @@
         <command type="message" message="queryCellHeight" />
         <command type="notify" message="hiddenChatGroupInfoPane" />
     </view>
+
+    <view type="ChatMessageCell" name="ChatMessageCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="queryCellHeight:" />
+    </view>
 </views>

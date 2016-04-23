@@ -28,8 +28,11 @@
     id<AYCommand> cmd = [f.commands objectForKey:@"UnreadMessageCount"];
     NSNumber* unReadCount = nil;
     [cmd performWithResult:&unReadCount];
+   
+    if (unReadCount.integerValue > 0) {
+        [GotyeOCAPI setMessageReadIncrement:unReadCount.unsignedIntValue];
+    }
     
-    [GotyeOCAPI setMessageReadIncrement:unReadCount.unsignedIntValue];
     GotyeOCGroup* group = [GotyeOCGroup groupWithId:group_id.longLongValue];
     id result = [[GotyeOCAPI getMessageList:group more:NO] mutableCopy];
     [GotyeOCAPI setMessageReadIncrement:10];

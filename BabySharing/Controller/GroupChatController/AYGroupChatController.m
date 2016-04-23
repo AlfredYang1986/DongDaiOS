@@ -14,6 +14,7 @@
 #import "AYFacadeBase.h"
 #import "AYUserDisplayDefines.h"
 #import "AYChatGroupInfoCellDefines.h"
+#import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
 
 #define BACK_BTN_WIDTH          23
@@ -58,6 +59,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     __block NSArray* join_lst_result;
     
     __block NSNumber* join_count;
+    
+    __block NSArray* current_messages;
 }
 
 #pragma mark -- commands
@@ -117,6 +120,23 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         [view_reg_cell performWithResult:&class_name];
         
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYChatGroupInfoCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [view_reg_cell performWithResult:&class_name];
+    }
+    
+    {
+        id<AYViewBase> view_message = [self.views objectForKey:kAYGroupChatControllerMessageTable];
+        id<AYDelegateBase> del_message = [self.delegates objectForKey:@"GroupChatMessages"];
+        
+        id<AYCommand> cmd_delegate = [view_message.commands objectForKey:@"registerDelegate:"];
+        id<AYCommand> cmd_datasource = [view_message.commands objectForKey:@"registerDatasource:"];
+        
+        id obj = del_message;
+        [cmd_delegate performWithResult:&obj];
+        obj = del_message;
+        [cmd_datasource performWithResult:&obj];
+       
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYChatMessageCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        id<AYCommand> view_reg_cell = [view_message.commands objectForKey:@"registerCellWithClass:"];
         [view_reg_cell performWithResult:&class_name];
     }
     
@@ -297,11 +317,13 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)XMPPMessageSendSuccess:(id)args {
     NSLog(@"send message success");
+    
     return nil;
 }
 
 - (id)XMPPMessageSendFailed:(id)args {
     NSLog(@"send message failed");
+    [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
     return nil;
 }
 
@@ -379,6 +401,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setInfoDataToDelegate];
+            [self setMessagesToDelegate];
             
             [self GroupChatControllerIsReady];
         });
@@ -419,6 +442,18 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [cmd_refresh performWithResult:nil];
 }
 
+- (void)setMessagesToDelegate {
+    id<AYDelegateBase> del = [self.delegates objectForKey:@"GroupChatMessages"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
+    
+    id args = current_messages;
+    [cmd performWithResult:&args];
+    
+    id<AYViewBase> view = [self.views objectForKey:kAYGroupChatControllerMessageTable];
+    id<AYCommand> cmd_refresh = [view.commands objectForKey:@"refresh"];
+    [cmd_refresh performWithResult:nil];
+}
+
 #pragma mark -- enter group chat
 - (void)enterChatGroup {
     id<AYFacadeBase> f = [self.facades objectForKey:@"ChatSessionRemote"];
@@ -447,6 +482,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         id<AYCommand> cmd_joiner_count = [view.commands objectForKey:@"setJoinerCount:"];
         id count = join_count;
         [cmd_joiner_count performWithResult:&count];
+        
+        id<AYCommand> cmd_query_messages = [xmpp.commands objectForKey:@"QueryMessages"];
+        NSMutableDictionary* args_query_messages = [[NSMutableDictionary alloc]init];
+        [args_query_messages setValue:group_id forKey:@"group_id"];
+        [cmd_query_messages performWithResult:&args_query_messages];
+        current_messages = [args_query_messages copy];
     }];
 }
 

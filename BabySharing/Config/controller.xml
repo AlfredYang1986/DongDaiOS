@@ -324,5 +324,6 @@
 
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
+        <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" />
     </controller>
 </controllers>

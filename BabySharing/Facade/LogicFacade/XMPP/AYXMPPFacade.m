@@ -192,10 +192,6 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
 
 - (void)onGetGroupMemberList:(GotyeStatusCode)code group:(GotyeOCGroup *)group pageIndex:(unsigned int)pageIndex curPageMemberList:(NSArray *)curPageMemberList allMemberList:(NSArray *)allMemberList {
   
-    NSLog(@"return group is %@", group);
-    NSLog(@"return group is %@", group.name);
-    NSLog(@"return group is %lld", group.id);
-    
     if (code == GotyeStatusCodeOK) {
         NSMutableArray* arr = [[NSMutableArray alloc]initWithCapacity:curPageMemberList.count];
         for (GotyeOCUser* user in allMemberList) {
@@ -223,39 +219,5 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
             [self performWithResult:&notify];
         }];
     }
-    
-//    dispatch_queue_t up = dispatch_queue_create("Get user list", nil);
-//    dispatch_async(up, ^{
-//        
-//        NSMutableArray* arr = [[NSMutableArray alloc]init];
-//        for (int index = 0; index < MIN(allMemberList.count, 6); ++index) {
-//            GotyeOCUser* user = [allMemberList objectAtIndex:index];
-//            [arr addObject:user.name];
-//        }
-//        
-//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//        
-//        [dic setObject:_lm.current_user_id forKey:@"user_id"];
-//        [dic setObject:_lm.current_auth_token forKey:@"auth_token"];
-//        
-//        [dic setObject:[arr copy] forKey:@"query_list"];
-//        
-//        NSError * error = nil;
-//        NSData* jsonData =[NSJSONSerialization dataWithJSONObject:[dic copy] options:NSJSONWritingPrettyPrinted error:&error];
-//        
-//        NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:[PROFILE_HOST_DOMAIN stringByAppendingString:PROFILE_QUERY_MULTIPLE]]];
-//        
-//        if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-//            
-//            current_talk_users = [result objectForKey:@"result"];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self reloadData];
-//            });
-//            
-//        } else {
-//            
-//            NSLog(@"error: %@", [result objectForKey:@"error"]);
-//        }
-//    });
 }
 @end
