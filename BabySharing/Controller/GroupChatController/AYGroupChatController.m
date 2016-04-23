@@ -13,6 +13,7 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYUserDisplayDefines.h"
+#import "AYChatGroupInfoCellDefines.h"
 #import "AYRemoteCallCommand.h"
 
 #define BACK_BTN_WIDTH          23
@@ -114,6 +115,19 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         id<AYCommand> view_reg_cell = [view_user_info.commands objectForKey:@"registerCellWithNib:"];
         [view_reg_cell performWithResult:&class_name];
+        
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYChatGroupInfoCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [view_reg_cell performWithResult:&class_name];
+    }
+    
+    {
+        id<AYViewBase> view_input = [self.views objectForKey:@"ChatInput"];
+        id<AYDelegateBase> del_input = [self.delegates objectForKey:@"ChatGroupInput"];
+        
+        id<AYCommand> cmd = [view_input.commands objectForKey:@"regInputDelegate:"];
+        
+        id obj = del_input;
+        [cmd performWithResult:&obj];
     }
    
     [self waitForControllerReady];
@@ -148,8 +162,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [cmd performWithResult:&height];
     
     view.frame = CGRectMake(0, 0, width, height.floatValue);
-//    view.backgroundColor = [UIColor clearColor];
-    view.backgroundColor = [UIColor greenColor];
+    view.backgroundColor = [UIColor clearColor];
     
     NSString* str = @"Alfred Test";
     id<AYCommand> cmd_test = [((id<AYViewBase>)view).commands objectForKey:@"setGroupChatViewInfo:"];
@@ -171,8 +184,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)TableLayout:(UIView*)view {
     
-//    view.backgroundColor = [UIColor clearColor];
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;  // 去除表框
 #define MARGIN_BETWEEN_TABVIEW_2_HEADER         20
 #define MARGIN_BETWEEN_TABVIEW_2_BOTTOM         10
@@ -192,7 +204,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (id)ChatInputLayout:(UIView*)view {
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     view.frame = CGRectMake(0, height - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-    view.backgroundColor = [UIColor yellowColor];
     return nil;
 }
 
@@ -201,6 +212,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     view.frame = CGRectMake(USER_INFO_PANE_MARGIN + width, height - USER_INFO_CONTAINER_HEIGHT, USER_INFO_PANE_WIDTH, USER_INFO_CONTAINER_HEIGHT);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    ((UITableView*)view).scrollEnabled = NO;
     view.backgroundColor = [UIColor whiteColor];
     view.layer.cornerRadius = 5.0;
     view.clipsToBounds = YES;
@@ -234,7 +246,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
    
-    void(^animationBlock)(BOOL finished) = ^(BOOL finished) {
+    void(^animationBlock)(void) = ^() {
         [UIView animateWithDuration:0.3f animations:^{
             UIView* view_input = [self.views objectForKey:@"ChatInput"];
             view_input.center = CGPointMake(view_input.center.x - width, view_input.center.y);
@@ -245,14 +257,51 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     if (self.view.center.y != height / 2) {
         
-        [UIView animateWithDuration:0.3f animations:^{
-            self.view.center = CGPointMake(self.view.center.x, self.view.center.y + keyBoardFrame.size.height);
-        
-        } completion:animationBlock];
-    } else {
-        animationBlock(YES);
-    }
+        id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
+        [cmd performWithResult:nil];
+        [UIView animateWithDuration:0.3f delay:0.3f options:UIViewAnimationOptionCurveEaseInOut animations:animationBlock completion:nil];
+    } else animationBlock();
     
+    return nil;
+}
+
+- (id)hiddenChatGroupInfoPane {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    
+    UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+    if (view_user_info.center.x < width) {
+        [UIView animateWithDuration:0.3f animations:^{
+            UIView* view_input = [self.views objectForKey:@"ChatInput"];
+            view_input.center = CGPointMake(view_input.center.x + width, view_input.center.y);
+            UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
+            view_user_info.center = CGPointMake(view_user_info.center.x + width, view_user_info.center.y);
+        }];
+    }
+    return nil;
+}
+
+- (id)sendMessage:(id)args {
+    NSString* text = (NSString*)args;
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"XMPP"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"SendMessage"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:text forKey:@"text"];
+    [dic setValue:group_id forKey:@"group_id"];
+    
+    [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)XMPPMessageSendSuccess:(id)args {
+    NSLog(@"send message success");
+    return nil;
+}
+
+- (id)XMPPMessageSendFailed:(id)args {
+    NSLog(@"send message failed");
     return nil;
 }
 
@@ -303,20 +352,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
     id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
     [cmd performWithResult:nil];
-   
-    {
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-      
-        UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-        if (view_user_info.center.x < width) {
-            [UIView animateWithDuration:0.3f animations:^{
-                UIView* view_input = [self.views objectForKey:@"ChatInput"];
-                view_input.center = CGPointMake(view_input.center.x + width, view_input.center.y);
-                UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-                view_user_info.center = CGPointMake(view_user_info.center.x + width, view_user_info.center.y);
-            }];
-        }
-    }
 }
 
 #pragma mark -- block user interaction
@@ -340,7 +375,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     dispatch_queue_t qw = dispatch_queue_create("query data wait", nil);
     dispatch_async(qw, ^{
         dispatch_semaphore_wait(semaphore_owner_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-//        dispatch_semaphore_wait(semaphore_owner_info, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore_join_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setInfoDataToDelegate];
@@ -374,6 +409,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:owner_info_result forKey:@"owner"];
+    [dic setValue:join_lst_result forKey:@"joiners"];
+    [dic setValue:join_count forKey:@"count"];
     
     [cmd performWithResult:&dic];
    
@@ -398,14 +435,26 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         join_lst_success = success;
         join_count = [result objectForKey:@"joiners_count"];
-        
        
         id<AYFacadeBase> xmpp = [self.facades objectForKey:@"XMPP"];
         id<AYCommand> cmd = [xmpp.commands objectForKey:@"JoinGroup"];
-        
-        id args = [result objectForKey:@"group_id"];
+       
+        group_id = [result objectForKey:@"group_id"];
+        id args = group_id;
         [cmd performWithResult:&args];
+        
+        id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
+        id<AYCommand> cmd_joiner_count = [view.commands objectForKey:@"setJoinerCount:"];
+        id count = join_count;
+        [cmd_joiner_count performWithResult:&count];
     }];
+}
+
+- (id)XMPPGetGroupMemberSuccess:(id)args {
+    join_lst_success = YES;
+    join_lst_result = [args objectForKey:@"result"];
+    dispatch_semaphore_signal(semaphore_join_lst);
+    return nil;
 }
 
 - (void)GroupChatControllerIsReady {

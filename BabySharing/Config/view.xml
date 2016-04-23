@@ -179,6 +179,8 @@
         <command type="notify" message="didSelectedBackBtn" />
         <command type="notify" message="didSelectedUserInfoBtn" />
         <command type="message" message="resignFocus" />
+        <command type="message" message="regInputDelegate:" />
+        <command type="message" message="setJoinerCount:" />
     </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
@@ -234,5 +236,6 @@
     <view type="ChatGroupInfoCell" name="ChatGroupInfoCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight" />
+        <command type="notify" message="hiddenChatGroupInfoPane" />
     </view>
 </views>

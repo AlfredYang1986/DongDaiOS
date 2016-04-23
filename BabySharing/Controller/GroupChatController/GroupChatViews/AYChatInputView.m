@@ -54,6 +54,8 @@
     inputView.backgroundColor = [UIColor clearColor];
     inputView.inputView.backgroundColor = [UIColor redColor];
     inputView.scrollEnabled = NO;
+    inputView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    inputView.returnKeyType = UIReturnKeySend;
     
     UIImageView* img = [[UIImageView alloc]init];
     img.image = PNGRESOURCE(@"group_chat_input_bg");
@@ -114,8 +116,19 @@
     [cmd performWithResult:nil];
 }
 
+- (id)setJoinerCount:(id)args {
+    group_count.string = [NSString stringWithFormat:@"%d", ((NSNumber*)args).intValue];
+    return nil;
+}
+
 - (id)resignFocus {
     [inputView resignFirstResponder];
+    return nil;
+}
+
+- (id)regInputDelegate:(id)args {
+    id<UITextViewDelegate> del = (id<UITextViewDelegate>)args;
+    inputView.delegate = del;
     return nil;
 }
 @end

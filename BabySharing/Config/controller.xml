@@ -323,5 +323,6 @@
         <view type="Loading" name="Loading" />
 
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
+        <delegate type="TextViewDelegate" name="ChatGroupInput" />
     </controller>
 </controllers>

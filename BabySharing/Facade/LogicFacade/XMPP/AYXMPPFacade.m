@@ -14,6 +14,7 @@
 #import "EnumDefines.h"
 #import "RemoteInstance.h"
 #import "AYModel.h"
+#import "AYRemoteCallCommand.h"
 
 static NSString* const kAYMessageCommandRegisterID = @"1afd2cc8-4060-41eb-aa5a-ee9460370156";
 static NSString* const kAYMessageCommandRegisterName = @"DongDa";
@@ -190,6 +191,38 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
 }
 
 - (void)onGetGroupMemberList:(GotyeStatusCode)code group:(GotyeOCGroup *)group pageIndex:(unsigned int)pageIndex curPageMemberList:(NSArray *)curPageMemberList allMemberList:(NSArray *)allMemberList {
+  
+    NSLog(@"return group is %@", group);
+    NSLog(@"return group is %@", group.name);
+    NSLog(@"return group is %lld", group.id);
+    
+    if (code == GotyeStatusCodeOK) {
+        NSMutableArray* arr = [[NSMutableArray alloc]initWithCapacity:curPageMemberList.count];
+        for (GotyeOCUser* user in allMemberList) {
+            [arr addObject:user.name];
+        }
+        
+        NSDictionary* user = nil;
+        CURRENUSER(user);
+        
+        NSMutableDictionary* args = [user mutableCopy];
+        [args setValue:[arr copy] forKey:@"query_list"];
+    
+        id<AYFacadeBase> f = DEFAULTFACADE(@"ProfileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryMultipleUsers"];
+        [cmd performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            NSMutableDictionary* reVal = [[NSMutableDictionary alloc]init];
+            [reVal setValue:[NSNumber numberWithLong:group.id] forKey:@"group_id"];
+            [reVal setValue:result forKey:@"result"];
+            
+            NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+            [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+            [notify setValue:kAYNotifyXMPPGetGroupMemberSuccess forKey:kAYNotifyFunctionKey];
+            
+            [notify setValue:[reVal copy] forKey:kAYNotifyArgsKey];
+            [self performWithResult:&notify];
+        }];
+    }
     
 //    dispatch_queue_t up = dispatch_queue_create("Get user list", nil);
 //    dispatch_async(up, ^{

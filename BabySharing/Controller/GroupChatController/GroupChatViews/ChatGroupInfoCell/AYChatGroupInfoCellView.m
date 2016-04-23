@@ -15,6 +15,10 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYNotificationCellDefines.h"
+#import "AYChatGroupInfoCellDefines.h"
+
+#define USER_INFO_BACK_BTN_HEIGHT           30
+#define USER_INFO_BACK_BTN_WIDTH            30
 
 @interface AYChatGroupInfoCellView ()
 @property (weak, nonatomic) IBOutlet UIView *user_list_view;
@@ -22,7 +26,9 @@
 
 @end
 
-@implementation AYChatGroupInfoCellView
+@implementation AYChatGroupInfoCellView {
+    UIButton* back_btn;
+}
 
 @synthesize user_list_view = _user_list_view;
 @synthesize online_count_label = _online_count_label;
@@ -33,6 +39,28 @@
     
     _online_count_label.font = [UIFont systemFontOfSize:14.f];
     _online_count_label.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
+    
+    if (back_btn == nil) {
+        back_btn = [[UIButton alloc]init];
+        CALayer* layer = [CALayer layer];
+        layer.contents = (id)PNGRESOURCE(@"group_chat").CGImage;
+        layer.frame = CGRectMake(0, 0, 22, 22);
+        layer.position = CGPointMake(USER_INFO_BACK_BTN_WIDTH / 2, USER_INFO_BACK_BTN_HEIGHT / 2);
+        
+        //  [back_btn setBackgroundImage:[UIImage imageNamed:[resourceBundle_dongda pathForResource:@"dongda_next_light" ofType:@"png"]] forState:UIControlStateNormal];
+        [back_btn addTarget:self action:@selector(userInfo2InputView) forControlEvents:UIControlEventTouchUpInside];
+        back_btn.frame = CGRectMake(self.bounds.size.width - USER_INFO_BACK_BTN_WIDTH - 10.5, 10.5, USER_INFO_BACK_BTN_WIDTH, USER_INFO_BACK_BTN_HEIGHT);
+        [back_btn.layer addSublayer:layer];
+        [self addSubview:back_btn];
+        [self bringSubviewToFront:back_btn];
+    }
+    
+    [self setUpReuseCell];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    back_btn.frame = CGRectMake(self.bounds.size.width - USER_INFO_BACK_BTN_WIDTH - 10.5, 10.5, USER_INFO_BACK_BTN_WIDTH, USER_INFO_BACK_BTN_HEIGHT);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -41,7 +69,7 @@
     // Configure the view for the selected state
 }
 
-#define PREFERRED_HEIGHT            98.5
+#define PREFERRED_HEIGHT            115
 
 + (CGFloat)preferredHeight {
     return PREFERRED_HEIGHT;
@@ -72,10 +100,6 @@
             tmp.layer.borderWidth = 1.5f;
             tmp.clipsToBounds = YES;
             
-            NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-            NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-            NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"default_user"] ofType:@"png"];
-            
             NSString* photo_name = [user_dic objectForKey:@"screen_photo"];
             UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
                 if (success) {
@@ -91,7 +115,7 @@
             }];
             
             if (userImg == nil) {
-                userImg = [UIImage imageNamed:filePath];
+                userImg = PNGRESOURCE(@"screen_photo");
             }
             [tmp setBackgroundImage:userImg forState:UIControlStateNormal];
             [_user_list_view addSubview:tmp];
@@ -108,7 +132,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
+    id<AYViewBase> cell = VIEW(kAYChatGroupInfoCellName, kAYChatGroupInfoCellName);
     self.commands = [[cell commands] copy];
     self.notifies = [[cell notifies] copy];
     
@@ -151,6 +175,19 @@
 }
 
 - (id)setCellInfo:(id)args {
+  
+    AYChatGroupInfoCellView* cell = [args objectForKey:kAYChatGroupInfoCellCellKey];
+    NSDictionary* dic = [args objectForKey:kAYChatGroupInfoCellContentKey];
+    
+    [cell setChatGroupJoinerNumber:[dic objectForKey:@"count"]];
+    [cell setChatGroupUserList:[dic objectForKey:@"joiners"]];
+    
     return nil;
+}
+
+#pragma mark -- actions
+- (void)userInfo2InputView {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"hiddenChatGroupInfoPane"];
+    [cmd performWithResult:nil];
 }
 @end

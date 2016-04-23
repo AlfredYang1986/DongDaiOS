@@ -12,11 +12,13 @@
 #import "AYFactoryManager.h"
 #import "AYSearchDefines.h"
 #import "AYUserDisplayDefines.h"
+#import "AYChatGroupInfoCellDefines.h"
 #import "Tools.h"
 
 @implementation AYGroupChatUserInfoDelegate {
     NSArray* querydata;
     NSDictionary* owner_info;
+    NSNumber* count;
 }
 #pragma mark -- command
 @synthesize para = _para;
@@ -51,7 +53,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
    
-    if (indexPath.row == 0) {
+    if (indexPath.row == 1) {
      
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
@@ -59,6 +61,8 @@
         if (cell == nil) {
             cell = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
         }
+        
+        cell.controller = self.controller;
         
         NSDictionary* tmp = owner_info;
         {
@@ -77,23 +81,38 @@
         
         return (UITableViewCell*)cell;
     } else {
-        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
-        }
         
-        cell.textLabel.text = @"alfred test";
-        return cell;
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYChatGroupInfoCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        if (cell == nil) {
+            cell = VIEW(kAYChatGroupInfoCellName, kAYChatGroupInfoCellName);
+        }
+
+        cell.controller = self.controller;
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:cell forKey:kAYChatGroupInfoCellCellKey];
+        
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:count forKey:@"count"];
+        [dic setValue:querydata forKey:@"joiners"];
+        
+        [args setValue:[dic copy] forKey:kAYChatGroupInfoCellContentKey];
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&args];
+        
+        return (UITableViewCell*)cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<AYViewBase> view = nil;
-    if (indexPath.row == 0) {
+    if (indexPath.row == 1) {
         view = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
     } else {
-//        view = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
-        return 115;
+        view = VIEW(kAYChatGroupInfoCellName, kAYChatGroupInfoCellName);
     }
     
     id<AYCommand> cmd = [view.commands objectForKey:@"queryCellHeight"];
@@ -103,11 +122,16 @@
     return result.floatValue;
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {
     NSDictionary* dic = (NSDictionary*)args;
     owner_info = [dic objectForKey:@"owner"];
     querydata = [dic objectForKey:@"joiners"];
+    count = [dic objectForKey:@"count"];
     return nil;
 }
 @end
