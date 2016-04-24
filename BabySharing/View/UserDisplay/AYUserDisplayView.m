@@ -16,6 +16,8 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 #import "AYUserDisplayDefines.h"
+#import "AYViewController.h"
+#import "Tools.h"
 
 #define IMG_WIDTH       40
 #define IMG_HEIGHT      IMG_WIDTH
@@ -204,7 +206,16 @@
 
 #pragma mark -- action
 - (void)didSelectedScreenPhoto {
-
+   
+    AYViewController* des = DEFAULTCONTROLLER(@"Profile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:_user_id forKey:kAYControllerChangeArgsKey];
+    
+    [_controller performWithResult:&dic_push];
 }
 
 - (id)queryTargetID {

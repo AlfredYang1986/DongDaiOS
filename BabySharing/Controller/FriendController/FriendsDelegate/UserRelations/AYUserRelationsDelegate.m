@@ -65,6 +65,8 @@
     if (cell == nil) {
         cell = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
     }
+
+    cell.controller = self.controller;
   
     NSDictionary* tmp = [self.querydata objectAtIndex:indexPath.row];
     {

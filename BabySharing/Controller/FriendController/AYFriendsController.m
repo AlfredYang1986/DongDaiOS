@@ -201,7 +201,6 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_hot_cell performWithResult:&class_name];
     }
-    
 
     SHOWING_FRIENDS;
 }
@@ -214,7 +213,6 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
    
     UIView* btn =[self.views objectForKey:kAYFriendsControllerAddFriendsValue];
     [self.navigationController.navigationBar addSubview:btn];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -224,17 +222,6 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
    
     UIView* btn =[self.views objectForKey:kAYFriendsControllerAddFriendsValue];
     [btn removeFromSuperview];
-    
-//    NSArray* tmp = @[];
-//    id result = tmp;
-//    id<AYFacadeBase> f = [self.facades objectForKey:@"RelationshipRemote"];
-//  
-//    NSArray* func_name = @[@"changeFriendsData:", @"isFollowingDataReady", @"isFollowedDataReady"];
-//    
-//    for (NSString* method in func_name) {
-//        id<AYCommand> cmd = [f.commands objectForKey:method];
-//        [cmd performWithResult:&result];
-//    }
 }
 
 #pragma mark -- layout commands
