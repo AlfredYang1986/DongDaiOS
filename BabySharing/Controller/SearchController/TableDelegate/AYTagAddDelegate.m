@@ -94,11 +94,12 @@
    
     id<AYCommand> n = nil;
     NSString* role_tag = nil;
+    n = [self.notifies objectForKey:@"TagSeleted:"];
     if (indexPath.row == 0) {
-        n = [self.notifies objectForKey:@"TagSeleted:"];
+//        n = [self.notifies objectForKey:@"TagSeleted:"];
         role_tag = _searchText;
     } else {
-        n = [self.notifies objectForKey:@"TagAdded:"];
+//        n = [self.notifies objectForKey:@"TagAdded:"];
         role_tag = [_showing_tags objectAtIndex:indexPath.row - 1];
     }
     [n performWithResult:&role_tag];

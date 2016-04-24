@@ -6,9 +6,13 @@
 //  Copyright (c) 2015 YY. All rights reserved.
 //
 
-#import "PhotoTagView.h"
+#import "AYPhotoTagView.h"
 #import "WKFRadarView.h"
 #import "Tools.h"
+#import "AYCommand.h"
+#import "AYCommandDefines.h"
+#import "AYResourceManager.h"
+#import "PhotoTagEnumDefines.h"
 
 //#define VER_MARGIN      10
 //#define HER_MARGIN      10
@@ -20,11 +24,11 @@
 #define TEXT_FONT               [UIFont systemFontOfSize:TEXT_FONT_SIZE]
 #define TAG_CONSTRAINS_SIZE     CGSizeMake(FLT_MAX, FLT_MAX)
 
-@interface PhotoTagView ()
+@interface AYPhotoTagView ()
 
 @end
 
-@implementation PhotoTagView {
+@implementation AYPhotoTagView {
     
     CALayer* tri;
     CALayer* tail;
@@ -48,6 +52,7 @@
         _content = name;
         _type = type;
         [self setUpTagView];
+        self.tag = kAYPhotoTagViewTag + type;
     }
     
     return self;
@@ -88,26 +93,22 @@
     radarView.center = CGPointMake(0 + 3.5, CGRectGetHeight(self.bounds) / 2);
     [self addSubview:radarView];
   
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    
     if (tri != nil) {
         [tri removeFromSuperlayer];
     }
     tri = [CALayer layer];
     tri.frame = CGRectMake(0, 0, TEXT_LEFT_MARGIN, TAG_HEIGHT);
-    tri.contents = (id)[UIImage imageNamed:[resourceBundle pathForResource:@"tag_tri" ofType:@"png"]].CGImage;
+    tri.contents = (id)PNGRESOURCE(@"tag_tri").CGImage;
     tri.masksToBounds = YES;
     [self.layer addSublayer:tri];
     
     CGRect text_bounds = [self getTitleBoundsWithTagTitle:_content];
-//    CAGradientLayer* text_bg = [CAGradientLayer layer];
     if (text_bg != nil) {
         [text_bg removeFromSuperlayer];
     }
     text_bg = [CALayer layer];
     text_bg.frame = CGRectMake(TEXT_LEFT_MARGIN, 0, text_bounds.size.width, TAG_HEIGHT);
-    text_bg.contents = (id)[UIImage imageNamed:[resourceBundle pathForResource:@"tag_text" ofType:@"png"]].CGImage;
+    text_bg.contents = (id)PNGRESOURCE(@"tag_text").CGImage;
     [self.layer addSublayer:text_bg];
     
     if (text_content != nil) {
@@ -130,7 +131,7 @@
     }
     tail = [CALayer layer];
     tail.frame = CGRectMake(self.bounds.size.width - TEXT_RIGHT_MARGIN, 0, TEXT_RIGHT_MARGIN, TAG_HEIGHT);
-    tail.contents = (id)[UIImage imageNamed:[resourceBundle pathForResource:@"tag_tail" ofType:@"png"]].CGImage;
+    tail.contents = (id)PNGRESOURCE(@"tag_tail").CGImage;
     [self.layer addSublayer:tail];
 }
 

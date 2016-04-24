@@ -11,7 +11,6 @@
 //#import "QueryCellDelegate.h"
 #import "AYQueryModelDefines.h"
 #import "AYViewBase.h"
-#import "Masonry.h"
 
 @interface AYHomeCellView : UITableViewCell <AYViewBase>
 

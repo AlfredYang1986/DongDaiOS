@@ -144,6 +144,20 @@
 }
 
 - (id)TagSeleted:(id)obj {
+    
+    NSString* tag = (NSString*)obj;
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:[NSNumber numberWithInteger:current_type] forKey:@"tag_type"];
+    [args setValue:tag forKey:@"tag_text"];
+   
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_pop setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
+    
     return nil;
 }
 

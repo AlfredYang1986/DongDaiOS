@@ -21,6 +21,7 @@
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
+    [super performWithResult:obj];
     
     NSDictionary* dic = (NSDictionary*)*obj;
     

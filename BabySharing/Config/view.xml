@@ -183,6 +183,9 @@
         <command type="message" message="setJoinerCount:" />
     </view>
     
+    <view type="PhotoTag" name="PhotoTag" factory="AYDefaultViewFactory" >
+    </view>
+    
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setUpItems:" />

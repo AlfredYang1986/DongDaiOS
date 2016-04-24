@@ -9,6 +9,8 @@
 #ifndef PhotoTagEnumDefines_h
 #define PhotoTagEnumDefines_h
 
+static NSInteger const kAYPhotoTagViewTag = -119;
+
 typedef enum : NSUInteger {
     PhotoTagViewStatusRight,
     PhotoTagViewStatusLeft,

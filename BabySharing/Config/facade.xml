@@ -123,6 +123,7 @@
         <command type="Remote" name="UploadUserImage" />
         <command type="Remote" name="UploadFile" />
         <command type="Remote" name="DownloadUserFiles" />
+        <command type="Remote" name="DownloadMovieFiles" />
     </facade>
 
     <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >

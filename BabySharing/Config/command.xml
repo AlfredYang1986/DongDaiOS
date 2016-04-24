@@ -112,6 +112,8 @@
     <command type="Remote" name="QueryScreenNameAndPhoto" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ReleaseScreenNameAndPhoto" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="PhotoTagInit" factory="AYDefaultModuleFactory" />
+
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />
@@ -126,6 +128,7 @@
     <command type="Remote" name="UploadUserImage" route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UploadFile" route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadUserFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="DownloadMovieFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryAllRoleTags" route="roletags/queryAllRoleTags" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryRecommandTags" route="tags/queryRecommandTags" factory="AYRemoteCallFactory" />

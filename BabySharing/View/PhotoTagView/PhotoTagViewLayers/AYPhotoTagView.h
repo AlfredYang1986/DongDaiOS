@@ -14,7 +14,7 @@ typedef enum : NSUInteger {
     PhotoTagViewDirectionRightToLeft,
 } PhotoTagViewDirection;
 
-@interface PhotoTagView : UIView
+@interface AYPhotoTagView : UIView
 
 @property (nonatomic) PhotoTagViewStatus status;
 //@property (nonatomic, strong, readonly) NSString* content;

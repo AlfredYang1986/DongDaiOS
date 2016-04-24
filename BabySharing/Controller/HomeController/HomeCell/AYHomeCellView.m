@@ -12,7 +12,7 @@
 #import "QueryContentItem.h"
 #import "GPUImage.h"
 #import "Define.h"
-#import "PhotoTagView.h"
+#import "PhotoTagEnumDefines.h"
 #import "QueryContentTag.h"
 #import "QueryContentChaters.h"
 #import "QueryContent+ContextOpt.h"
@@ -25,6 +25,8 @@
 #import "AYViewNotifyCommand.h"
 #import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "Masonry.h"
 
 @interface InsetsLabel : UILabel
 @property(nonatomic) UIEdgeInsets insets;
@@ -75,10 +77,6 @@
 @property (nonatomic, strong, readonly) QueryContentItem *queryContentItem;
 
 @property (nonatomic, weak) QueryContent *content;
-
-@property (nonatomic, strong) PhotoTagView *tagViewBand;
-@property (nonatomic, strong) PhotoTagView *tagViewTime;
-@property (nonatomic, strong) PhotoTagView *tagViewLocation;
 
 @property (nonatomic, weak) UIView* filterView;
 @end
@@ -213,13 +211,6 @@
         _videoSign.frame = CGRectMake(0, 0, 30, 30);
         [_mainImage addSubview:_videoSign];
 
-        _tagViewBand = [[PhotoTagView alloc] initWithTagName:@"" andType:TagTypeBrand];
-        [_mainImage addSubview:_tagViewBand];
-        _tagViewTime = [[PhotoTagView alloc] initWithTagName:@"" andType:TagTypeTime];
-        [_mainImage addSubview:_tagViewTime];
-        _tagViewLocation = [[PhotoTagView alloc] initWithTagName:@"" andType:TagTypeLocation];
-        [_mainImage addSubview:_tagViewLocation];
-
         self.contentView.layer.cornerRadius = 8;
         self.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
         self.contentView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -295,11 +286,11 @@
     }];
 
     [_videoSign mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_mainImage);
-        make.centerX.equalTo(_mainImage);
+        make.right.equalTo(self.contentView).offset(-10.5);
+        make.top.equalTo(_mainImage.mas_top).offset(10.5);
+        make.width.equalTo(@30);
+        make.height.equalTo(@30);
     }];
-
-
 
     [_descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_mainImage.mas_bottom).offset(14);
@@ -379,27 +370,6 @@
         make.size.equalTo(_jionGroup);
     }];
     
-    [_tagViewBand mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewBand.offset_y);
-        make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewBand.offset_x);
-        make.width.equalTo(@(_tagViewBand.bounds.size.width));
-        make.height.equalTo(@(_tagViewBand.bounds.size.height));
-    }];
-
-    [_tagViewTime mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewTime.offset_y);
-        make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewTime.offset_x);
-        make.width.equalTo(@(_tagViewTime.bounds.size.width));
-        make.height.equalTo(@(_tagViewTime.bounds.size.height));
-    }];
-
-    [_tagViewLocation mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.contentView.bounds.size.width * _tagViewLocation.offset_y);
-        make.left.mas_equalTo(self.contentView.bounds.size.width * _tagViewLocation.offset_x);
-        make.width.equalTo(@(_tagViewLocation.bounds.size.width));
-        make.height.equalTo(@(_tagViewLocation.bounds.size.height));
-    }];
-
     // 圆角
     CGFloat radius = 14.f;
     CGFloat ownerImageRadius = 16.f;
@@ -427,6 +397,9 @@
 
 - (void)updateViewWith:(QueryContent *)content {
     
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd_download = [f.commands objectForKey:@"DownloadUserFiles"];
+    
     _firstImage.hidden = YES;
     _secondImage.hidden = YES;
     _thirdImage.hidden = YES;
@@ -442,22 +415,16 @@
             UIImageView *imageView = [self.contentView viewWithTag:++indexChater];
             imageView.image = PNGRESOURCE(@"default_user");
             imageView.hidden = NO;
-             UIImage *image = [TmpFileStorageModel enumImageWithName:chater.chaterImg withDownLoadFinishBolck:^(BOOL success, UIImage *img) {
-                if (success) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        imageView.image = img;
-                    });
-                } else {
-                    NSLog(@"MonkeyHengLog: %@ === %@", @"下载头像失败", chater.chaterImg);
-                }
+            
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:chater.chaterImg forKey:@"image"];
+            [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                imageView.image = img;
             }];
-            if (image) {
-                imageView.image = image;
-            }
         }
         originX = originX + (indexChater) * 28 + 10 - (indexChater - 1) * 5;
     }
-    
     
     self.ownerNameLable.text = content.owner_name;
     self.descriptionLabel.text = content.content_description;
@@ -469,38 +436,27 @@
     self.talkerCount.text = [NSString stringWithFormat:@"%lu人正在圈聊", (unsigned long)(self.content.chaters == nil ? 0 : self.content.chaters.count)];
 
     // 设置头像
-    self.ownerImage.image = [TmpFileStorageModel enumImageWithName:self.content.owner_photo withDownLoadFinishBolck:^(BOOL success, UIImage *img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self) {
-                    self.ownerImage.image = img;
-                    NSLog(@"owner img download success");
-                }
-            });
-        }
+    self.ownerImage.image = PNGRESOURCE(@"default_user");// [UIImage imageNamed:defaultHeadPath];
+
+
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:self.content.owner_photo forKey:@"image"];
+    [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        self.ownerImage.image = img;
     }];
-    
-    if (self.ownerImage.image == nil) {
-        self.ownerImage.image = PNGRESOURCE(@"default_user");// [UIImage imageNamed:defaultHeadPath];
-    }
     
     // 设置大图
     for (QueryContentItem *item in self.content.items) {
         if (item.item_type.unsignedIntegerValue != PostPreViewMovie) {
-            self.mainImage.image = [TmpFileStorageModel enumImageWithName:item.item_name withDownLoadFinishBolck:^(BOOL success, UIImage *img) {
-                if (success) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (self) {
-                            self.mainImage.image = img;
-                            NSLog(@"owner img download success");
-                        }
-                    });
-                }
+            
+            self.mainImage.image = PNGRESOURCE(@"chat_mine_bg"); //  [UIImage imageNamed:defaultMainPath];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:item.item_name forKey:@"image"];
+            [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                self.mainImage.image = img;
             }];
-            if (self.mainImage.image == nil) {
-//                NSString *defaultMainPath = [resourceBundle pathForResource:[NSString stringWithFormat:@"chat_mine_bg"] ofType:@"png"];
-                self.mainImage.image = PNGRESOURCE(@"chat_mine_bg"); //  [UIImage imageNamed:defaultMainPath];
-            }
             break;
         }
     }
@@ -515,37 +471,28 @@
     
     praiseImage.image = self.content.isLike.integerValue == 0 ? PNGRESOURCE(@"home_like_default") : PNGRESOURCE(@"home_like_like");
     pushImage.image = self.content.isPush.integerValue == 0 ? PNGRESOURCE(@"push") : PNGRESOURCE(@"pushed");
+   
+    for (int index = kAYPhotoTagViewTag; index < kAYPhotoTagViewTag + TagTypeBrand + 1; ++index) {
+        UIView* tmp = [_mainImage viewWithTag:index];
+        [tmp removeFromSuperview];
+    }
     
-    // 添加标签
-    self.tagViewLocation.hidden = YES;
-    self.tagViewBand.hidden = YES;
-    self.tagViewTime.hidden = YES;
-
+    id<AYCommand> cmd = COMMAND(@"Module", @"PhotoTagInit");
     QueryContent *tmp = (QueryContent*)_content;
     for (QueryContentTag *tag in tmp.tags) {
-        NSLog(@"MonkeyHengLog: %@ === %d", @"tag", tag.tag_type.intValue);
-        switch (tag.tag_type.intValue) {
-            case TagTypeBrand:
-                self.tagViewBand.hidden = NO;
-                self.tagViewBand.content = tag.tag_content;
-                self.tagViewBand.offset_x = tag.tag_offset_x.floatValue;
-                self.tagViewBand.offset_y = tag.tag_offset_y.floatValue;
-                break;
-            case TagTypeTime:
-                self.tagViewTime.hidden = NO;
-                self.tagViewTime.content = tag.tag_content;
-                self.tagViewTime.offset_x = tag.tag_offset_x.floatValue;
-                self.tagViewTime.offset_y = tag.tag_offset_y.floatValue;
-                break;
-            case TagTypeLocation:
-                self.tagViewLocation.hidden = NO;
-                self.tagViewLocation.content = tag.tag_content;
-                self.tagViewLocation.offset_x = tag.tag_offset_x.floatValue;
-                self.tagViewLocation.offset_y = tag.tag_offset_y.floatValue;
-                break;
-            default:
-                break;
-        }
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:[NSNumber numberWithFloat:self.bounds.size.width] forKey:@"width"];
+        [args setValue:[NSNumber numberWithFloat:self.bounds.size.height - 192] forKey:@"height"];
+        [args setValue:tag.tag_offset_x forKey:@"offsetX"];
+        [args setValue:tag.tag_offset_y forKey:@"offsetY"];
+        [args setValue:tag.tag_content forKey:@"tag_text"];
+        [args setValue:tag.tag_type forKey:@"tag_type"];
+       
+        UIView* view = nil;
+        [cmd performWithResult:&args];
+        view = (UIView*)args;
+        
+        [_mainImage addSubview:view];
     }
 }
 
@@ -574,21 +521,17 @@
 
 - (void)mainImageTap {
     if (_queryContentItem != nil) { //&& _gpuImageMovie.progress == 0) {
-        NSURL* url = [TmpFileStorageModel enumFileWithName:_queryContentItem.item_name andType:_queryContentItem.item_type.unsignedIntegerValue withDownLoadFinishBlock:^(BOOL success, NSURL *path) {
-            if (success) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    _videoSign.hidden = YES;
-                    [self changeMovie:path];
-                });
-                
-            } else {
-                NSLog(@"down load movie %@ failed", _queryContentItem.item_name);
-            }
-        }];
-        if (url) {
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd_download = [f.commands objectForKey:@"DownloadMovieFiles"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:_queryContentItem.item_name forKey:@"name"];
+        
+        [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL succcess, NSDictionary * result) {
+            NSURL* path = (NSURL*)result;
             _videoSign.hidden = YES;
-            [self changeMovie:url];
-        }
+            [self changeMovie:path];
+        }];
     }
 }
 

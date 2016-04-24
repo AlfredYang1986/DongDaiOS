@@ -13,6 +13,7 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYDongDaSegDefines.h"
+#import "PhotoTagEnumDefines.h"
 
 #define FAKE_NAVIGATION_BAR_HEIGHT      64
 #define FUNC_BAR_HEIGHT                 47
@@ -20,6 +21,15 @@
 @implementation AYPostPreviewController
 @synthesize mainContentView = _mainContentView;
 @synthesize status = _status;
+
+#pragma mark -- commands
+- (void)performWithResult:(NSObject *__autoreleasing *)obj {
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        [self addTagToPreview:[dic objectForKey:kAYControllerChangeArgsKey]];
+    }
+}
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
@@ -41,6 +51,9 @@
     [self.view sendSubviewToBack:_mainContentView];
     
     self.status = AYPostPhotoPreviewControllerTypeShowingTagsEntryBtn;
+    
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(mainContentTaped:)];
+    [_mainContentView addGestureRecognizer:tap];
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -200,6 +213,26 @@
             
         default:
             break;
+    }
+}
+
+- (void)addTagToPreview:(NSDictionary*)dic {
+    NSMutableDictionary* args = [dic mutableCopy];
+    [args setValue:[NSNumber numberWithFloat:self.mainContentView.bounds.size.width] forKey:@"width"];
+    [args setValue:[NSNumber numberWithFloat:self.mainContentView.bounds.size.height] forKey:@"height"];
+  
+    id<AYCommand> cmd = [self.commands objectForKey:@"PhotoTagInit"];
+    [cmd performWithResult:&args];
+    UIView* tag_view = (UIView*)args;
+    
+    [self.mainContentView addSubview:tag_view];
+    
+    self.status = AYPostPhotoPreviewControllerTypeSegAtTags;
+}
+
+- (void)mainContentTaped:(UIGestureRecognizer*)tap {
+    if (self.status == AYPostPhotoPreviewControllerTypeSegAtTags) {
+        self.status = AYPostPhotoPreviewControllerTypeShowingTagsEntryBtn;
     }
 }
 
