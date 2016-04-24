@@ -17,7 +17,8 @@
 
 @property (nonatomic, strong) NSDictionary* commands;
 @property (nonatomic, strong) NSDictionary* notifies;
-@property (nonatomic, weak) id<AYControllerBase> controller;
+//@property (nonatomic, weak) id<AYControllerBase> controller;
+@property (nonatomic, weak) id controller;
 
 @property (nonatomic, readonly, getter=getViewType) NSString* view_type;
 @property (nonatomic, readonly, getter=getViewName) NSString* view_name;

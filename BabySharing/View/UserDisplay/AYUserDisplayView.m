@@ -146,7 +146,7 @@
         btn.center = CGPointMake(51, 25);
         [_relationContainer addSubview:btn];
         
-        ((id<AYViewBase>)btn).controller = self.controller;
+        ((id<AYViewBase>)btn).controller = self;
     }
 }
 
@@ -204,11 +204,20 @@
 
 #pragma mark -- action
 - (void)didSelectedScreenPhoto {
-//    [_delegate didSelectedScreenPhoto:_user_id];
+
 }
 
-- (void)didSelectedRelationBtn {
-//    [_delegate didSelectedRelationBtn:_user_id andCurrentRelation:_connections origin:self];
+- (id)queryTargetID {
+    id result = self.user_id;
+    return result;
+}
+
+- (id)relationChanged:(id)args {
+    NSNumber* new_relations = (NSNumber*)args;
+    NSLog(@"new relations %@", new_relations);
+    
+    [self setRelationship:new_relations.integerValue];
+    return nil;
 }
 
 @synthesize para = _para;

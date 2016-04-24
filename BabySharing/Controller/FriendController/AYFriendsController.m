@@ -47,9 +47,9 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     id<AYViewBase> view_friend = [self.views objectForKey:kAYFriendsControllerFriendsTableValue];
     id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
     
-    id<AYCommand> cmd_is_ready = [cmd_relations.commands objectForKey:ready_func_name];
-    NSNumber* isReady = nil;
-    [cmd_is_ready performWithResult:&isReady];
+//    id<AYCommand> cmd_is_ready = [cmd_relations.commands objectForKey:ready_func_name];
+//    NSNumber* isReady = nil;
+//    [cmd_is_ready performWithResult:&isReady];
     
     id<AYViewBase> view_friend_seg = [self.views objectForKey:kAYFriendsControllerFriendsSegValue];
     id<AYCommand> cmd = [view_friend_seg.commands objectForKey:@"queryCurrentSelectedIndex"];
@@ -60,7 +60,8 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     id<AYCommand> cmd_change_index = [cmd_relations.commands objectForKey:@"resetCurrentShowingIndex:"];
     [cmd_change_index performWithResult:&index];
     
-    if (isReady.boolValue != YES) {
+//    if (isReady.boolValue != YES)
+    {
         id<AYFacadeBase> f_login_model = LOGINMODEL;
         id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"];
         id obj = nil;
@@ -103,10 +104,11 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
                 }
             }];
         }
-    } else {
-        id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
-        [cmd_refresh performWithResult:nil];
     }
+//        else {
+//        id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
+//        [cmd_refresh performWithResult:nil];
+//    }
 }
 
 #pragma mark -- commands
@@ -222,6 +224,17 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
    
     UIView* btn =[self.views objectForKey:kAYFriendsControllerAddFriendsValue];
     [btn removeFromSuperview];
+    
+//    NSArray* tmp = @[];
+//    id result = tmp;
+//    id<AYFacadeBase> f = [self.facades objectForKey:@"RelationshipRemote"];
+//  
+//    NSArray* func_name = @[@"changeFriendsData:", @"isFollowingDataReady", @"isFollowedDataReady"];
+//    
+//    for (NSString* method in func_name) {
+//        id<AYCommand> cmd = [f.commands objectForKey:method];
+//        [cmd performWithResult:&result];
+//    }
 }
 
 #pragma mark -- layout commands
