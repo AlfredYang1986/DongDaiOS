@@ -28,13 +28,13 @@
 - (void)performWithResult:(NSObject**)obj {
     NSNumber* current_relations = (NSNumber*)*obj;
    
-    id result = nil;
+    id<AYViewBase> result = nil;
     switch (current_relations.integerValue) {
         case UserPostOwnerConnectionsSamePerson:
             result = VIEW(@"SamePersonBtn", @"SamePersonBtn");
             break;
         case UserPostOwnerConnectionsFollowing:
-            result = VIEW(@"FollowintBtn", @"FollowintBtn");
+            result = VIEW(@"FollowingBtn", @"FollowingBtn");
             break;
         case UserPostOwnerConnectionsFollowed:
             result = VIEW(@"FollowedBtn", @"FollowedBtn");
@@ -46,7 +46,7 @@
             result = VIEW(@"InvitationBtn", @"InvitationBtn");
             break;
     }
-    
+    [result postPerform];
     *obj = result;
 }
 

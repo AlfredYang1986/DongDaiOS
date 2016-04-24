@@ -193,7 +193,7 @@
     <view type="SamePersonBtn" name="SamePersonBtn" factory="AYDefaultViewFactory" >
     </view>
 
-    <view type="FollowintBtn" name="FollowintBtn" factory="AYDefaultViewFactory" >
+    <view type="FollowingBtn" name="FollowingBtn" factory="AYDefaultViewFactory" >
     </view>
 
     <view type="FollowedBtn" name="FollowedBtn" factory="AYDefaultViewFactory" >

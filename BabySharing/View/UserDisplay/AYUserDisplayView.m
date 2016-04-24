@@ -142,9 +142,9 @@
         UIView* btn = args;
         
         btn.tag = -1;
-        tmp.frame =  CGRectMake(0, 0, 69, 25);
-        tmp.center = CGPointMake(51, 25);
-        [_relationContainer addSubview:tmp];
+        btn.frame =  CGRectMake(0, 0, 69, 25);
+        btn.center = CGPointMake(51, 25);
+        [_relationContainer addSubview:btn];
         
         ((id<AYViewBase>)btn).controller = self.controller;
     }
