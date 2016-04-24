@@ -190,6 +190,21 @@
     <view type="PhotoTag" name="PhotoTag" factory="AYDefaultViewFactory" >
     </view>
     
+    <view type="SamePersonBtn" name="SamePersonBtn" factory="AYDefaultViewFactory" >
+    </view>
+
+    <view type="FollowintBtn" name="FollowintBtn" factory="AYDefaultViewFactory" >
+    </view>
+
+    <view type="FollowedBtn" name="FollowedBtn" factory="AYDefaultViewFactory" >
+    </view>
+
+    <view type="FriendsBtn" name="FriendsBtn" factory="AYDefaultViewFactory" >
+    </view>
+
+    <view type="InvitationBtn" name="InvitationBtn" factory="AYDefaultViewFactory" >
+    </view>
+    
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setUpItems:" />

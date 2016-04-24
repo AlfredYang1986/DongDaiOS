@@ -113,6 +113,7 @@
     <command type="Module" name="ReleaseScreenNameAndPhoto" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="PhotoTagInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="RelationshipBtnInit" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />

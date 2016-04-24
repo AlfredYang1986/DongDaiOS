@@ -236,8 +236,6 @@
 #define IMG_OFFSET_Y                -10
 #define IMG_BORDER_WIDTH            3
     
-//    bg_view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, USER_PHOTO_BG_WIDTH, USER_PHOTO_BG_HEIGHT)];
-//    bg_view.center = CGPointMake(white_area.frame.origin.x + IMG_OFFSET_X, white_area.frame.origin.y + IMG_OFFSET_Y);
     bg_view = [[UIView alloc]init];
 
     bg_view.layer.cornerRadius = USER_PHOTO_BG_WIDTH / 2;
@@ -246,13 +244,9 @@
     [self addSubview:bg_view];
     [self bringSubviewToFront:bg_view];
     
-//    imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, USER_PHOTO_WIDTH, USER_PHOTO_HEIGHT)];
-//    imgView.center = CGPointMake(USER_PHOTO_BG_WIDTH / 2,  USER_PHOTO_BG_HEIGHT / 2);
     imgView = [[UIImageView alloc]init];
 
     imgView.layer.cornerRadius = USER_PHOTO_WIDTH / 2;
-//    imgView.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.3].CGColor;
-//    imgView.layer.borderWidth = IMG_BORDER_WIDTH;
     imgView.clipsToBounds = YES;
     [bg_view addSubview:imgView];
     [bg_view bringSubviewToFront:imgView];
@@ -281,7 +275,6 @@
     [white_area addSubview:userRoleTagLabel];
     
     /*************************************************************************************************************************/
-//    relations_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(white_area.frame.size.width - MARGIN_REGIT - RELATION_BTN_WIDTH, white_area.frame.size.height - MARGIN_REGIT - RELATION_BTN_HEIGHT, RELATION_BTN_WIDTH, RELATION_BTN_HEIGHT)];
     relations_btn = [[OBShapedButton alloc]init];
 //    [relations_btn addTarget:self action:@selector(didSelectRelationBtn) forControlEvents:UIControlEventTouchUpInside];
     [white_area addSubview:relations_btn];

@@ -319,22 +319,6 @@
     return nil;
 }
 
-//- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
-////    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-//    if (!isPushed) {
-//        view.hidden = YES;
-//    }
-//    return nil;
-//}
-//
-//- (id)SetNevigationBarTitleLayout:(UIView*)view {
-////    self.navigationItem.titleView = view;
-//    if (!isPushed) {
-//        view.hidden = YES;
-//    }
-//    return nil;
-//}
-
 - (id)ImageLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;

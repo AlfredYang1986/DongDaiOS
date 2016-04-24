@@ -71,9 +71,7 @@
    
     if (_userRoleTagBtn == nil) {
         _userRoleTagBtn = [[OBShapedButton alloc]init];
-        NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-        NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-        [_userRoleTagBtn setBackgroundImage:[UIImage imageNamed:[resourceBundle pathForResource:@"home_role_tag" ofType:@"png"]] forState:UIControlStateNormal];
+        [_userRoleTagBtn setBackgroundImage:PNGRESOURCE(@"home_role_tag") forState:UIControlStateNormal];
         [self addSubview:_userRoleTagBtn];
     }
 
@@ -129,42 +127,26 @@
 }
 
 - (void)setRelationship:(UserPostOwnerConnections)connections {
-    _connections = connections;
     
-    OBShapedButton* tmp = [self viewWithTag:-1];
-    if (tmp == Nil) {
-        tmp = [[OBShapedButton alloc]init];
+    if (_connections != connections) {
+         _connections = connections;
+      
+        UIView* tmp = [_relationContainer viewWithTag:-1];
+        if (tmp) {
+            [tmp removeFromSuperview];
+        }
+        
+        id<AYCommand> cmd = COMMAND(@"Module", @"RelationshipBtnInit");
+        id args = [NSNumber numberWithInteger:_connections];
+        [cmd performWithResult:&args];
+        UIView* btn = args;
+        
+        btn.tag = -1;
         tmp.frame =  CGRectMake(0, 0, 69, 25);
         tmp.center = CGPointMake(51, 25);
-        tmp.tag = -1;
-        [tmp addTarget:self action:@selector(didSelectedRelationBtn) forControlEvents:UIControlEventTouchUpInside];
         [_relationContainer addSubview:tmp];
-    }
-   
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    
-    switch (connections) {
-        case UserPostOwnerConnectionsSamePerson:
-            // my own post, do nothing
-            break;
-        case UserPostOwnerConnectionsNone:
-        case UserPostOwnerConnectionsFollowed:
-            [tmp setBackgroundImage:[UIImage imageNamed:[resourceBundle pathForResource:[NSString stringWithFormat:@"friend_relation_follow"] ofType:@"png"]] forState:UIControlStateNormal];
-            
-            break;
-//            return @"+关注";
-        case UserPostOwnerConnectionsFollowing:
-            [tmp setBackgroundImage:[UIImage imageNamed:[resourceBundle pathForResource:[NSString stringWithFormat:@"friend_relation_following"] ofType:@"png"]] forState:UIControlStateNormal];
-            break;
-        case UserPostOwnerConnectionsFriends:
-            [tmp setBackgroundImage:[UIImage imageNamed:[resourceBundle pathForResource:[NSString stringWithFormat:@"friend_relation_muture_follow"] ofType:@"png"]] forState:UIControlStateNormal];
-//                return @"取消关注";
-            break;
-//            return @"-取关";
-        default:
-            [tmp setBackgroundImage:[UIImage imageNamed:[resourceBundle pathForResource:[NSString stringWithFormat:@"friend_invitation"] ofType:@"png"]] forState:UIControlStateNormal];
-            break;
+        
+        ((id<AYViewBase>)btn).controller = self.controller;
     }
 }
 

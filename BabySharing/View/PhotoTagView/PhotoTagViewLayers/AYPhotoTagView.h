@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "PhotoTagEnumDefines.h"
+#import "AYViewBase.h"
 
 typedef enum : NSUInteger {
     PhotoTagViewDirectionLeftToRight,
     PhotoTagViewDirectionRightToLeft,
 } PhotoTagViewDirection;
 
-@interface AYPhotoTagView : UIView
+@interface AYPhotoTagView : UIView <AYViewBase>
 
 @property (nonatomic) PhotoTagViewStatus status;
 //@property (nonatomic, strong, readonly) NSString* content;

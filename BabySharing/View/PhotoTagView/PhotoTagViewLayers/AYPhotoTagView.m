@@ -168,8 +168,35 @@
     }
 }
 
+#pragma mark -- messages
 - (void)setContent:(NSString *)content {
     _content = content;
     [self setUpTagView];
+}
+
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
+#pragma mark -- commands
+- (void)postPerform {
+    
+}
+
+- (void)performWithResult:(NSObject**)obj {
+    
+}
+
+- (NSString*)getViewType {
+    return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+    return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+    return kAYFactoryManagerCatigoryView;
 }
 @end
