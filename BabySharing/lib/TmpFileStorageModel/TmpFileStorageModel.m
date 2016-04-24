@@ -139,7 +139,7 @@
             
             NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
             NSURL* url = [NSURL fileURLWithPath:fullname];
-            unlink([fullname UTF8String]);
+//            unlink([fullname UTF8String]);
             NSLog(@"%@", url);
             NSError* error = nil;
             if ([data writeToFile:fullname options:NSDataWritingFileProtectionComplete error:&error]) {

@@ -47,5 +47,7 @@ static NSString* const kAYNotifyXMPPMessageSendSuccess = @"XMPPMessageSendSucces
 static NSString* const kAYNotifyXMPPMessageSendFailed = @"XMPPMessageSendFailed:";
 static NSString* const kAYNotifyXMPPReceiveMessage = @"XMPPReceiveMessage:";
 static NSString* const kAYNotifyXMPPGetGroupMemberSuccess = @"XMPPGetGroupMemberSuccess:";
+static NSString* const kAYNotifyXMPPMessageGetMessageListSuccess = @"XMPPMessageGetMessageListSuccess:";
+static NSString* const kAYNotifyXMPPMessageGetMessageListFailed = @"XMPPMessageGetMessageListFailed:";
 
 #endif /* AYNotifyDefines_h */

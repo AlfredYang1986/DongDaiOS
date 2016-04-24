@@ -132,16 +132,15 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     /**
      * for notification
      */
-    GotyeOCUser* u = [GotyeOCUser userWithName:@"alfred_test"];
-    NSArray* arr = [GotyeOCAPI getMessageList:u more:YES];
-    for (int index = 0; index < arr.count; ++index) {
-        GotyeOCMessage* m = [arr objectAtIndex:index];
+    NSPredicate* pn = [NSPredicate predicateWithFormat:@"SELF.name=%@", @"alfred_test"];
+    NSArray* dongda_notify = [msgList filteredArrayUsingPredicate:pn];
+    
+    for (GotyeOCMessage* m in dongda_notify) {
         if (m.status == GotyeMessageStatusUnread) {
             NSLog(@"message is : %@", m.text);
             
             NSDictionary* dic = [RemoteInstance searchDataFromData:[m.text dataUsingEncoding:NSUTF8StringEncoding]];
             if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
-//                [_lm signOutCurrentUserLocal];        // other device login
             } else {
                 
                 id<AYFacadeBase> f = CHATSESSIONMODEL;
@@ -153,13 +152,29 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
             [GotyeOCAPI markOneMessageAsRead:m isRead:YES];
         }
     }
-    //    [GotyeOCAPI deleteMessages:u msglist:arr];
-    //    [GotyeOCAPI deleteSession:u alsoRemoveMessages:YES];
-//
-//    /**
-//     * for messages
-//     */
-//    [_contentController unReadMessageCountChanged:nil];
+    
+
+    /**
+     * for message
+     */
+    NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.name!=%@", @"alfred_test"];
+    NSArray* dongda_msg = [msgList filteredArrayUsingPredicate:pm];
+   
+    if (dongda_msg.count > 0) {
+        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+        
+        if (code == GotyeStatusCodeOK) {
+            [notify setValue:kAYNotifyXMPPMessageGetMessageListSuccess forKey:kAYNotifyFunctionKey];
+        } else {
+            [notify setValue:kAYNotifyXMPPMessageGetMessageListFailed forKey:kAYNotifyFunctionKey];
+        }
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:dongda_msg forKey:@"msglist"];
+        [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+        [self performWithResult:&notify];
+    }
 }
 
 /**
@@ -180,6 +195,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     }
 
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:message forKey:@"message"];
     [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
     [self performWithResult:&notify];
 }

@@ -17,6 +17,9 @@
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
 
+#import "GotyeOCChatTarget.h"
+#import "GotyeOCMessage.h"
+
 #define BACK_BTN_WIDTH          23
 #define BACK_BTN_HEIGHT         23
 #define BOTTOM_MARGIN           10.5
@@ -59,8 +62,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     __block NSArray* join_lst_result;
     
     __block NSNumber* join_count;
-    
-    __block NSArray* current_messages;
+   
+    dispatch_semaphore_t semaphore_msg_lst;
+    __block NSMutableArray* current_messages;
 }
 
 #pragma mark -- commands
@@ -102,6 +106,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     semaphore_owner_info = dispatch_semaphore_create(0);
     semaphore_join_lst = dispatch_semaphore_create(0);
+    semaphore_msg_lst = dispatch_semaphore_create(0);
     
     {
         id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
@@ -325,7 +330,27 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)XMPPMessageSendSuccess:(id)args {
     NSLog(@"send message success");
+ 
+    NSDictionary* dic = (NSDictionary*)args;
+    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
+    if (m.receiver.id == group_id.longLongValue) {
+        [current_messages addObject:m];
+    }
     
+    [self setMessagesToDelegate];
+    [self scrollTableToFoot:YES];
+    return nil;
+}
+
+- (id)XMPPReceiveMessage:(id)args {
+    
+    NSDictionary* dic = (NSDictionary*)args;
+    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
+    if (m.receiver.id == group_id.longLongValue) {
+        [current_messages addObject:m];
+    }
+    [self setMessagesToDelegate];
+    [self scrollTableToFoot:YES];
     return nil;
 }
 
@@ -335,7 +360,33 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
+- (id)XMPPMessageGetMessageListSuccess:(id)args {
+  
+    current_messages = (NSMutableArray*)args;
+    dispatch_semaphore_signal(semaphore_msg_lst);
+    return nil;
+}
+
+- (id)XMPPMessageGetMessageListFailed:(id)args {
+    NSLog(@"send message failed");
+    [[[UIAlertView alloc]initWithTitle:@"error" message:@"获取消息列表失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+    return nil;
+}
+
 #pragma mark -- actions
+- (void)scrollTableToFoot:(BOOL)animated {
+    UITableView* queryView = [self.views objectForKey:kAYGroupChatControllerMessageTable];
+    
+    NSInteger s = [queryView numberOfSections];
+    if (s<1) return;
+    NSInteger r = [queryView numberOfRowsInSection:s-1];
+    if (r<1) return;
+    
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+    
+    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+}
+
 #pragma mark -- get input view height
 - (void)keyboardDidShow:(NSNotification*)notification {
     UIView *result = nil;
@@ -410,6 +461,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     dispatch_async(qw, ^{
         dispatch_semaphore_wait(semaphore_owner_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         dispatch_semaphore_wait(semaphore_join_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+//        dispatch_semaphore_wait(semaphore_msg_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setInfoDataToDelegate];
@@ -464,6 +516,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYViewBase> view = [self.views objectForKey:kAYGroupChatControllerMessageTable];
     id<AYCommand> cmd_refresh = [view.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
+    
+    [self scrollTableToFoot:YES];
 }
 
 #pragma mark -- enter group chat
@@ -499,7 +553,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         NSMutableDictionary* args_query_messages = [[NSMutableDictionary alloc]init];
         [args_query_messages setValue:group_id forKey:@"group_id"];
         [cmd_query_messages performWithResult:&args_query_messages];
-        current_messages = [args_query_messages copy];
+        current_messages = [args_query_messages mutableCopy];
     }];
 }
 
