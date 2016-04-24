@@ -20,6 +20,7 @@
 #import "Tools.h"
 #import "MJRefresh.h"
 #import "QueryContent.h"
+#import "Masonry.h"
 
 typedef void(^queryContentFinish)(void);
 
@@ -45,9 +46,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 @implementation AYHomeController {
     BOOL isPushed;
+    NSString* push_home_title;
+    NSArray* push_content;
+    NSNumber* start_index;
     
     CATextLayer* badge;
-    
     UIButton* actionView;
     CAShapeLayer *circleLayer;
     UIView *animationView;
@@ -62,6 +65,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         isPushed = YES;
+        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        push_home_title = [args objectForKey:@"home_title"];
+        push_content = [args objectForKey:@"content"];
+        start_index = [args objectForKey:@"start_index"];
+        
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -89,18 +97,33 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
    
-    UIView* view_fake = [self.views objectForKey:@"FakeNavBar"];
-    UIView* view_image = [self.views objectForKey:@"Image"];
-    [view_fake addSubview:view_image];
-   
     if (!isPushed) {
+        UIView* view_fake = [self.views objectForKey:@"FakeNavBar"];
+        UIView* view_image = [self.views objectForKey:@"Image"];
+        [view_fake addSubview:view_image];
+        view_image.hidden = NO;
+        
         id<AYCommand> cmd = [((id<AYViewBase>)view_fake).commands objectForKey:@"setLeftBtnVisibility:"];
         NSNumber* bHidden = [NSNumber numberWithBool:YES];
         [cmd performWithResult:&bHidden];
+
+        [self createNavActionView];
+        [self createAnimateView];
+    } else {
+        UIView* view_fake = [self.views objectForKey:@"FakeNavBar"];
+        UIView* view_label = [self.views objectForKey:@"Label"];
+        [view_fake addSubview:view_label];
+        view_label.hidden = NO;
+
+        id<AYCommand> cmd = [((id<AYViewBase>)view_label).commands objectForKey:@"changeLabelText:"];
+        id args = push_home_title;
+        [cmd performWithResult:&args];
+
+        [view_label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(view_fake);
+            make.centerY.equalTo(view_fake).offset(10);
+        }];
     }
-    
-    [self createNavActionView];
-    [self createAnimateView];
     
     {
         id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
@@ -120,9 +143,16 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYCommand> cmd_reg = [del.commands objectForKey:@"setCallBackTableView:"];
         [cmd_reg performWithResult:&view_content];
         
-        id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
-        NSArray* arr = [self enumLocalHomeContent];
-        [cmd_change performWithResult:&arr];
+        if (isPushed) {
+            id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+            NSArray* arr = push_content;
+            [cmd_change performWithResult:&arr];
+            
+        } else {
+            id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+            NSArray* arr = [self enumLocalHomeContent];
+            [cmd_change performWithResult:&arr];
+        }
     }
 }
 
@@ -173,7 +203,15 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     view.frame = CGRectMake(0, 0, 70, 22);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
     view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2 + 2, 12 + 64 / 2);
+    view.hidden = YES;
 //    [bkView addSubview:imgView];
+    return nil;
+}
+
+- (id)LabelLayout:(UIView*)view {
+//    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
+
+    view.hidden = YES;
     return nil;
 }
 
@@ -575,6 +613,18 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [self performWithResult:&dic_push];
     
+    return nil;
+}
+
+- (id)leftBtnSelected {
+    NSLog(@"pop view controller");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
     return nil;
 }
 @end

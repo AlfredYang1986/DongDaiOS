@@ -452,6 +452,7 @@
 		80D5E7C31CCC7C2000A82117 /* PhotoTagTariangleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7BD1CCC7C2000A82117 /* PhotoTagTariangleLayer.m */; };
 		80D5E7C41CCC7C2000A82117 /* WKFRadarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7BF1CCC7C2000A82117 /* WKFRadarView.m */; };
 		80D5E7C81CCC88C200A82117 /* AYDownloadMovieFilesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7C71CCC88C200A82117 /* AYDownloadMovieFilesCommand.m */; };
+		80D5E7D01CCCBDF000A82117 /* AYLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7CF1CCCBDF000A82117 /* AYLabelView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1357,6 +1358,8 @@
 		80D5E7BF1CCC7C2000A82117 /* WKFRadarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKFRadarView.m; sourceTree = "<group>"; };
 		80D5E7C61CCC88C200A82117 /* AYDownloadMovieFilesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDownloadMovieFilesCommand.h; sourceTree = "<group>"; };
 		80D5E7C71CCC88C200A82117 /* AYDownloadMovieFilesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDownloadMovieFilesCommand.m; sourceTree = "<group>"; };
+		80D5E7CE1CCCBDF000A82117 /* AYLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLabelView.h; sourceTree = "<group>"; };
+		80D5E7CF1CCCBDF000A82117 /* AYLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLabelView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2522,13 +2525,14 @@
 		7017F32F1CB74F31002C416E /* DefaultViews */ = {
 			isa = PBXGroup;
 			children = (
-				7006931C1CC4A3BA00B511FF /* FunctionBar */,
-				709949AD1CC2A30200078A5B /* FakeStatusBar */,
-				701524461CBF96F0005B4C5B /* ImageView */,
-				70120CAE1CBE4F6F00B169F9 /* Buttons */,
 				70CDF6091CBCBD8C00311841 /* Album */,
-				7039CBE21CBB86C000BE60C7 /* FakeNavBar */,
+				70120CAE1CBE4F6F00B169F9 /* Buttons */,
 				7039CBDA1CBB84D200BE60C7 /* DongDaSeg */,
+				7039CBE21CBB86C000BE60C7 /* FakeNavBar */,
+				709949AD1CC2A30200078A5B /* FakeStatusBar */,
+				7006931C1CC4A3BA00B511FF /* FunctionBar */,
+				701524461CBF96F0005B4C5B /* ImageView */,
+				80D5E7CD1CCCBDCD00A82117 /* LabelView */,
 				7017F3331CB74F63002C416E /* SearchBar */,
 				7017F3361CB74F63002C416E /* TableView */,
 				703B896F1CBF81C1002EBB18 /* WebView */,
@@ -3050,15 +3054,15 @@
 		702E7AAF1CA166E90097867E /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				702E7AB61CA169C00097867E /* color.xml */,
 				702E7AB81CA169E30097867E /* command.xml */,
 				702E7AB01CA166E90097867E /* controller.xml */,
+				700BE5991CBA1B4E00A09B3A /* delegate.xml */,
 				702E7AB21CA1698A0097867E /* facade.xml */,
 				702E7AB41CA169A40097867E /* font.xml */,
-				702E7AB61CA169C00097867E /* color.xml */,
-				7001310A1CA44057006003C8 /* view.xml */,
 				70EAD80B1CA662EF007965D2 /* model.xml */,
 				701D8A311CA7999A00B5D4C1 /* remote.xml */,
-				700BE5991CBA1B4E00A09B3A /* delegate.xml */,
+				7001310A1CA44057006003C8 /* view.xml */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -3083,25 +3087,25 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				703CCDF31CCA119F00CF4563 /* GroupChatController */,
-				70B1DCAC1CC769FC0041794A /* PublishController */,
-				7002DB611CC620D40013FF2A /* PostPreviewController */,
+				708E7D8D1CBD5567005D96B5 /* AboutController */,
 				7002DB131CC5EA540013FF2A /* AVController */,
 				700692FD1CC4A1B600B511FF /* CameraRollController */,
+				708235C11CA248B600658531 /* ControllerBase */,
 				709949A51CC299D200078A5B /* FoundController */,
+				70120CAA1CBE4A9000B169F9 /* FriendController */,
+				703CCDF31CCA119F00CF4563 /* GroupChatController */,
 				702510731CC0DD2100DADF2B /* GroupListController */,
 				7015243E1CBF938F005B4C5B /* HomeController */,
-				70120CAA1CBE4A9000B169F9 /* FriendController */,
-				708E7D8D1CBD5567005D96B5 /* AboutController */,
-				7027FD131CBC0238002756BC /* SettingController */,
-				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
-				700BE5A81CBA4F2900A09B3A /* TabBar */,
-				7017F32A1CB74CDF002C416E /* SearchController */,
-				7060BDC01CB632D3001E4111 /* OthersLoginController */,
-				705C450F1CA8EF6A00921799 /* UserInfoInput */,
 				708235EB1CA2881600658531 /* LandingController */,
 				708235EE1CA2881600658531 /* NavigationController */,
-				708235C11CA248B600658531 /* ControllerBase */,
+				7060BDC01CB632D3001E4111 /* OthersLoginController */,
+				7002DB611CC620D40013FF2A /* PostPreviewController */,
+				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
+				70B1DCAC1CC769FC0041794A /* PublishController */,
+				7017F32A1CB74CDF002C416E /* SearchController */,
+				7027FD131CBC0238002756BC /* SettingController */,
+				700BE5A81CBA4F2900A09B3A /* TabBar */,
+				705C450F1CA8EF6A00921799 /* UserInfoInput */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -4786,6 +4790,15 @@
 			path = DownloadMovieFiles;
 			sourceTree = "<group>";
 		};
+		80D5E7CD1CCCBDCD00A82117 /* LabelView */ = {
+			isa = PBXGroup;
+			children = (
+				80D5E7CE1CCCBDF000A82117 /* AYLabelView.h */,
+				80D5E7CF1CCCBDF000A82117 /* AYLabelView.m */,
+			);
+			path = LabelView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5002,6 +5015,7 @@
 				70120CA91CBE0D9400B169F9 /* AYRefrashOwnerQueryPushDataCommand.m in Sources */,
 				70F428771CC7B18F00A69977 /* MASCompositeConstraint.m in Sources */,
 				7002DB371CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m in Sources */,
+				80D5E7D01CCCBDF000A82117 /* AYLabelView.m in Sources */,
 				704F08301CC8EC7800A9925D /* AYUploadFileCommand.m in Sources */,
 				700BE5EF1CBA6E5800A09B3A /* AYUpdateUserDetailCommand.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,

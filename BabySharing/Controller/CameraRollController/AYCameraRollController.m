@@ -119,7 +119,6 @@
             fetch = result;
             [cmd_change performWithResult:&arr];
         
-            // todo: ...
             [self performSelector:@selector(setInitPhoto)];
             
             id<AYViewBase> view_table = [self.views objectForKey:@"Table"];

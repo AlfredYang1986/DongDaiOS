@@ -86,6 +86,10 @@
     <view type="Image" name="Image" factory="AYDefaultViewFactory" >
         <command type="message" message="setBackgroundImage:" />
     </view>
+
+    <view type="Label" name="Label" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeLabelText:" />
+    </view>
     
     <view type="FakeStatusBar" name="FakeStatusBar" factory="AYDefaultViewFactory" >
         <command type="message" message="setStatusBarColor:" />

@@ -40,6 +40,9 @@
 @implementation AYProfileController {
     BOOL isPushed;
     NSString* owner_id;
+    NSString* screen_name;
+    NSArray* post_content;
+    NSArray* push_content;
 
     dispatch_semaphore_t semaphore_publish;
     dispatch_semaphore_t semaphore_push;
@@ -138,16 +141,11 @@
         id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
         
         id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"ProfilePublish"];
-//        id<AYDelegateBase> cmd_push = [self.delegates objectForKey:@"ProfilePush"];
         
         id obj = (id)cmd_pubish;
         [cmd_datasource performWithResult:&obj];
         obj = (id)cmd_pubish;
         [cmd_delegate performWithResult:&obj];
-        
-//        id<AYCommand> cmd_header = [view_table.commands objectForKey:@"registerHeaderAndFooterWithNib:"];
-//        NSString* nib_header_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:RoleTagSearchHeader] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//        [cmd_header performWithResult:&nib_header_name];
         
         id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -169,7 +167,6 @@
             self.status = RemoteControllerStatusReady;
           
             NSUInteger publich_count, push_count = 0;
-//            NSUInteger publich_count = 0;
             {
                 id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
                 id<AYCommand> cmd = [f_owner_query.commands objectForKey:@"EnumOwnerQueryData"];
@@ -177,6 +174,7 @@
                 [cmd performWithResult:&result];
                 publich_count = result.count;
                 NSLog(@"result are %@", result);
+                post_content = result;
                 
                 id<AYDelegateBase> del = [self.delegates objectForKey:@"ProfilePublish"];
                 id<AYCommand> cmd_set_data = [del.commands objectForKey:@"changeQueryData:"];
@@ -190,6 +188,7 @@
                 [cmd performWithResult:&result];
                 push_count = result.count;
                 NSLog(@"result are %@", result);
+                push_content = result;
                 
                 id<AYDelegateBase> del = [self.delegates objectForKey:@"ProfilePush"];
                 id<AYCommand> cmd_set_data = [del.commands objectForKey:@"changeQueryData:"];
@@ -240,6 +239,7 @@
         AYRemoteCallCommand* cmd_user_info = [f_profile.commands objectForKey:@"QueryUserProfile"];
         [cmd_user_info performWithResult:[dic_user_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"User info are %@", result);
+            screen_name = [result objectForKey:@"screen_name"];
             
             id<AYViewBase> header = [self.views objectForKey:@"ProfileHeader"];
             id<AYCommand> cmd = [header.commands objectForKey:@"setUserInfo:"];
@@ -426,6 +426,41 @@
     return [NSNumber numberWithBool:NO];
 }
 
+- (id)selectedValueChanged:(id)obj {
+    NSNumber* new_current = [NSNumber numberWithInteger:((NSNumber*)obj).integerValue];
+    NSLog(@"%@ is selected", new_current);
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"Home");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:screen_name forKey:@"home_title"];
+    
+    id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
+    id<AYCommand> cmd_seg = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd_seg performWithResult:&index];
+   
+    if (index.integerValue == 0) {
+        [args setValue:post_content forKey:@"content"];
+    } else {
+        [args setValue:push_content forKey:@"content"];
+    }
+    
+    [args setValue:new_current forKey:@"start_index"];
+    
+    [dic_push setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+   
+    return nil;
+}
+
 - (id)startRemoteCall:(id)obj {
     return nil;
 }
@@ -443,6 +478,7 @@
     
     return nil;
 }
+
 
 #pragma mark -- status
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {

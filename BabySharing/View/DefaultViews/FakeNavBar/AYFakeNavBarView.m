@@ -9,6 +9,7 @@
 #import "AYFakeNavBarView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
+#import "Masonry.h"
 
 @implementation AYFakeNavBarView {
     UIButton* leftBtn;
@@ -22,7 +23,7 @@
 #pragma mark -- commands
 - (void)postPerform {
     {
-        UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, 30, 25)];
+        UIButton* barBtn = [[UIButton alloc]init];
         CALayer * layer = [CALayer layer];
         layer.contents = (id)PNGRESOURCE(@"dongda_back").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);
@@ -30,10 +31,16 @@
         [barBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchDown];
         leftBtn = barBtn;
         [self addSubview:barBtn];
+        
+        [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
+            make.left.equalTo(self.mas_left).offset(10.5f);
+            make.width.equalTo(@30);
+            make.height.equalTo(@30);
+        }];
     }
     {
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(width - 15 - 30, 10, 30, 25)];
+        UIButton* barBtn = [[UIButton alloc]init];
         CALayer * layer = [CALayer layer];
         layer.contents = (id)PNGRESOURCE(@"profile_setting_dark").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);
@@ -41,6 +48,13 @@
         [barBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchDown];
         rightBtn = barBtn;
         [self addSubview:barBtn];
+        
+        [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
+            make.right.equalTo(self.mas_right).offset(-10.5f);
+            make.width.equalTo(@30);
+            make.height.equalTo(@30);
+        }];
     }
 }
 

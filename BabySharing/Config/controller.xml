@@ -188,6 +188,7 @@
         <view type="Table" name="Table" />
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Image" name="Image" />
+        <view type="Label" name="Label" />
         
         <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>
