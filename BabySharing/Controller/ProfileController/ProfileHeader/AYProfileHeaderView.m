@@ -73,7 +73,7 @@
     UILabel *userRoleTagLabel;
     
     UILabel* thumup;
-    OBShapedButton* relations_btn;
+//    OBShapedButton* relations_btn;
 }
 
 @synthesize para = _para;
@@ -150,31 +150,30 @@
 - (id)setRelations:(id)args {
     
     int relations = ((NSNumber*)args).intValue;
-    
-    switch (relations) {
-        case UserPostOwnerConnectionsSamePerson:
-            // my own post, do nothing
-            [relations_btn setBackgroundImage:PNGRESOURCE(@"friend_relation_myself") forState:UIControlStateNormal];
-            break;
-        case UserPostOwnerConnectionsNone:
-        case UserPostOwnerConnectionsFollowed:
-            [relations_btn setBackgroundImage:PNGRESOURCE(@"friend_relation_follow") forState:UIControlStateNormal];
-            
-            break;
-            //            return @"+关注";
-        case UserPostOwnerConnectionsFollowing:
-            [relations_btn setBackgroundImage:PNGRESOURCE(@"friend_relation_following") forState:UIControlStateNormal];
-            break;
-        case UserPostOwnerConnectionsFriends:
-            [relations_btn setBackgroundImage:PNGRESOURCE(@"friend_relation_muture_follow") forState:UIControlStateNormal];
-            //                return @"取消关注";
-            break;
-            //            return @"-取关";
-        default:
-            break;
+   
+    UIView* tmp = [white_area viewWithTag:-100];
+    if (tmp) {
+        [tmp removeFromSuperview];
     }
-    relations_btn.tag = 100 - relations;
-
+    
+    id<AYCommand> cmd = COMMAND(@"Module", @"RelationshipBtnInit");
+    id arg_init  = [NSNumber numberWithInteger:relations];
+    [cmd performWithResult:&arg_init];
+    UIView* btn = arg_init;
+    
+    btn.tag = -100;
+    btn.frame =  CGRectMake(0, 0, 69, 25);
+    btn.center = CGPointMake(51, 25);
+    [white_area addSubview:btn];
+    
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(thumup);
+        make.right.equalTo(white_area.mas_right).offset(-10);
+        make.width.equalTo(@(RELATION_BTN_WIDTH));
+        make.height.equalTo(@(RELATION_BTN_HEIGHT));
+    }];
+    
+    ((id<AYViewBase>)btn).controller = self.controller;
     return nil;
 }
 
@@ -275,10 +274,10 @@
     [white_area addSubview:userRoleTagLabel];
     
     /*************************************************************************************************************************/
-    relations_btn = [[OBShapedButton alloc]init];
+//    relations_btn = [[OBShapedButton alloc]init];
 //    [relations_btn addTarget:self action:@selector(didSelectRelationBtn) forControlEvents:UIControlEventTouchUpInside];
-    [white_area addSubview:relations_btn];
-    [white_area bringSubviewToFront:relations_btn];
+//    [white_area addSubview:relations_btn];
+//    [white_area bringSubviewToFront:relations_btn];
     /*************************************************************************************************************************/
     
     /*************************************************************************************************************************/
@@ -288,11 +287,11 @@
     thumup.font = [UIFont systemFontOfSize:THUMSUP_DES_FONT_SIZE];
     [white_area addSubview:thumup];
     [white_area bringSubviewToFront:thumup];
+  
+    [self setSubviewsLayout];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-//    white_area.frame = CGRectMake(MARGIN_LEFT, MARGIN_TOP, self.frame.size.width - MARGIN_LEFT - MARGIN_REGIT, WHITE_AREA_HEIGHT);
+- (void)setSubviewsLayout {
     [white_area mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(79);
         make.left.equalTo(self).offset(10);
@@ -330,13 +329,5 @@
         make.top.equalTo(nameLabel.mas_bottom).offset(15);
         make.left.equalTo(white_area.mas_left).offset(10);
     }];
-    
-    [relations_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(thumup);
-        make.right.equalTo(white_area.mas_right).offset(-10);
-        make.width.equalTo(@(RELATION_BTN_WIDTH));
-        make.height.equalTo(@(RELATION_BTN_HEIGHT));
-    }];
-    
 }
 @end
