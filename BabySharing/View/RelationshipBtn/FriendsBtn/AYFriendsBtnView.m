@@ -15,8 +15,4 @@
     [super postPerform];
     [self setBackgroundImage:PNGRESOURCE(@"friend_relation_muture_follow") forState:UIControlStateNormal];
 }
-
-- (void)selfClicked {
-    
-}
 @end

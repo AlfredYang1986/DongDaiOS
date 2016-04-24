@@ -6,8 +6,8 @@
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYRelationshipBtnView.h"
+#import "AYFollowingBtnView.h"
 
-@interface AYFriendsBtnView : AYRelationshipBtnView
+@interface AYFriendsBtnView : AYFollowingBtnView
 
 @end
