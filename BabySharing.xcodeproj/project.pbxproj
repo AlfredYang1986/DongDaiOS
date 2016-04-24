@@ -460,6 +460,7 @@
 		80D5E7EC1CCCD0A200A82117 /* AYFollowingBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7EB1CCCD0A200A82117 /* AYFollowingBtnView.m */; };
 		80D5E7EF1CCCD0AB00A82117 /* AYFriendsBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7EE1CCCD0AB00A82117 /* AYFriendsBtnView.m */; };
 		80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */; };
+		80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1381,6 +1382,8 @@
 		80D5E7EE1CCCD0AB00A82117 /* AYFriendsBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFriendsBtnView.m; sourceTree = "<group>"; };
 		80D5E7F11CCCD41000A82117 /* AYInvitationBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInvitationBtnView.h; sourceTree = "<group>"; };
 		80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInvitationBtnView.m; sourceTree = "<group>"; };
+		80D5E7F51CCCE2E300A82117 /* AYNoneRelationBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNoneRelationBtnView.h; sourceTree = "<group>"; };
+		80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNoneRelationBtnView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -4821,6 +4824,7 @@
 				80D5E7E11CCCCF7800A82117 /* FollowingBtn */,
 				80D5E7E21CCCCF7800A82117 /* FriendsBtn */,
 				80D5E7F01CCCD3FF00A82117 /* InvitationBtn */,
+				80D5E7F41CCCE2BE00A82117 /* NoneRelationBtn */,
 				80D5E7DC1CCCCE7800A82117 /* RelationshipBtnInit */,
 				80D5E7E31CCCCF7800A82117 /* SamePersonBtn */,
 			);
@@ -4888,6 +4892,15 @@
 				80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */,
 			);
 			path = InvitationBtn;
+			sourceTree = "<group>";
+		};
+		80D5E7F41CCCE2BE00A82117 /* NoneRelationBtn */ = {
+			isa = PBXGroup;
+			children = (
+				80D5E7F51CCCE2E300A82117 /* AYNoneRelationBtnView.h */,
+				80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */,
+			);
+			path = NoneRelationBtn;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -5309,6 +5322,7 @@
 				70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */,
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
+				80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */,
 				701524821CBF9AB4005B4C5B /* MJRefreshAutoStateFooter.m in Sources */,
 				7015242A1CBF4DA0005B4C5B /* AYUserRelationsDelegate.m in Sources */,
 				70B1DC861CC731E80041794A /* AYPlayMovieCommand.m in Sources */,

@@ -201,6 +201,11 @@
     return nil;
 }
 
+- (id)changeRelations:(id)args {
+    [self setRelations:args];
+    return nil;
+}
+
 -(void)updateRoleLabelConstraints{
     [userRoleTagLabel sizeToFit];
     [userRoleTagLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -273,11 +278,6 @@
     userRoleTagLabel.textColor = [UIColor whiteColor];
     [white_area addSubview:userRoleTagLabel];
     
-    /*************************************************************************************************************************/
-//    relations_btn = [[OBShapedButton alloc]init];
-//    [relations_btn addTarget:self action:@selector(didSelectRelationBtn) forControlEvents:UIControlEventTouchUpInside];
-//    [white_area addSubview:relations_btn];
-//    [white_area bringSubviewToFront:relations_btn];
     /*************************************************************************************************************************/
     
     /*************************************************************************************************************************/

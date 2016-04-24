@@ -36,6 +36,7 @@
         case UserPostOwnerConnectionsFollowing:
             result = VIEW(@"FollowingBtn", @"FollowingBtn");
             break;
+        case UserPostOwnerConnectionsNone:
         case UserPostOwnerConnectionsFollowed:
             result = VIEW(@"FollowedBtn", @"FollowedBtn");
             break;

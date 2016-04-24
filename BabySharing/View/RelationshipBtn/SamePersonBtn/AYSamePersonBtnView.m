@@ -17,6 +17,7 @@
 }
 
 - (void)selfClicked {
-    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"SamePersonBtnSelected"];
+    [cmd performWithResult:nil];
 }
 @end

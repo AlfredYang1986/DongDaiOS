@@ -445,6 +445,27 @@
     return nil;
 }
 
+- (id)SamePersonBtnSelected {
+    NSLog(@"push to person setting");
+    return nil;
+}
+
+- (id)queryTargetID {
+    id result = owner_id;
+    return result;
+}
+
+- (id)relationChanged:(id)args {
+    NSNumber* new_relations = (NSNumber*)args;
+    NSLog(@"new relations %@", new_relations);
+    
+    id<AYViewBase> view_header = [self.views objectForKey:@"ProfileHeader"];
+    id<AYCommand> cmd = [view_header.commands objectForKey:@"changeRelations:"];
+    [cmd performWithResult:&new_relations];
+    
+    return nil;
+}
+
 - (id)startRemoteCall:(id)obj {
     return nil;
 }

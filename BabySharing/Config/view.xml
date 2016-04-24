@@ -81,6 +81,7 @@
 
     <view type="ProfileHeader" name="ProfileHeader" factory="AYDefaultViewFactory" >
         <command type="message" message="setUserInfo:" />
+        <command type="message" message="changeRelations:" />
     </view>
 
     <view type="Image" name="Image" factory="AYDefaultViewFactory" >
@@ -191,18 +192,30 @@
     </view>
     
     <view type="SamePersonBtn" name="SamePersonBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="SamePersonBtnSelected" />
     </view>
 
     <view type="FollowingBtn" name="FollowingBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="queryTargetID" />
+        <command type="notify" message="relationChanged:" />
     </view>
 
     <view type="FollowedBtn" name="FollowedBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="queryTargetID" />
+        <command type="notify" message="relationChanged:" />
     </view>
 
     <view type="FriendsBtn" name="FriendsBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="queryTargetID" />
+        <command type="notify" message="relationChanged:" />
     </view>
 
     <view type="InvitationBtn" name="InvitationBtn" factory="AYDefaultViewFactory" >
+    </view>
+    
+    <view type="NoneRelationBtn" name="NoneRelationBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="queryTargetID" />
+        <command type="notify" message="relationChanged:" />
     </view>
     
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
