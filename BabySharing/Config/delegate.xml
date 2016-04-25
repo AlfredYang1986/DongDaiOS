@@ -99,4 +99,8 @@
     <delegate type="TextViewDelegate" name="ChatGroupInput" factory="AYDefaultDelegateFactory" >
         <command type="notify" message="sendMessage:" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

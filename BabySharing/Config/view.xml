@@ -278,4 +278,9 @@
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight:" />
     </view>
+
+    <view type="SelfSettingCell" name="SelfSettingCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="queryCellHeight" />
+    </view>
 </views>

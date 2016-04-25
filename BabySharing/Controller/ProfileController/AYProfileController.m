@@ -41,6 +41,7 @@
     BOOL isPushed;
     NSString* owner_id;
     NSString* screen_name;
+    NSDictionary* profile_dic;
     NSArray* post_content;
     NSArray* push_content;
 
@@ -245,6 +246,7 @@
             id<AYCommand> cmd = [header.commands objectForKey:@"setUserInfo:"];
             NSDictionary* reVal = [result copy];
             [cmd performWithResult:&reVal];
+            profile_dic = result;
         }];
     }
     
@@ -447,6 +449,18 @@
 
 - (id)SamePersonBtnSelected {
     NSLog(@"push to person setting");
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 

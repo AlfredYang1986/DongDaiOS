@@ -332,4 +332,23 @@
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" />
     </controller>
+    
+    <controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
+
+        <command type="Module" name="OpenUIImagePickerCamera" />
+        <command type="Module" name="OpenUIImagePickerPicRoll" />
+        <command type="Module" name="GernarateImgUUID" />
+        <command type="Module" name="SaveImgLocal" />
+        <command type="Module" name="LocalImageWithName" />
+       
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
+        <view type="Table" name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
+    </controller>
 </controllers>
