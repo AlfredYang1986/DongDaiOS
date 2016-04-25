@@ -102,5 +102,6 @@
 
     <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="message" message="changeScreenPhoto:" />
     </delegate>
 </delegates>

@@ -7,7 +7,6 @@
 //
 
 #import "AYSelfSettingCellView.h"
-#import "TmpFileStorageModel.h"
 #import "Tools.h"
 
 #import "AYCommandDefines.h"
@@ -16,8 +15,12 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 #import "AYSelfSettingCellDefines.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
-@interface AYSelfSettingCellView()
+static NSString* const kAYSelfSettingCellHideCancelBtn = @"hideCancel";
+
+@interface AYSelfSettingCellView() 
 
 @end;
 
@@ -34,7 +37,7 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"hidCancel" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:kAYSelfSettingCellHideCancelBtn object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
 }
 
@@ -67,7 +70,7 @@
         self.nickTextFiled = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
         self.cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCancel) name:@"hideCancel" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCancel) name:kAYSelfSettingCellHideCancelBtn object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldChanged:) name:UITextFieldTextDidChangeNotification object:_nickTextFiled];
         self.cancelBtn.hidden = YES;
         [self.cancelBtn setBackgroundImage:PNGRESOURCE(@"cancel_circle") forState:UIControlStateNormal];
@@ -158,24 +161,17 @@
     if (photo_name == nil || photo_name.length == 0) {
         return;
     }
-    
-    UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self) {
-                    self.headView.image = user_img;
-                    NSLog(@"owner img download success");
-                }
-            });
-        } else {
-            NSLog(@"down load owner image %@ failed", photo_name);
-        }
+
+    [self.headView setImage:PNGRESOURCE(@"default_user")];
+   
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        [self.headView setImage:img];
     }];
-    
-    if (userImg == nil) {
-        userImg = PNGRESOURCE(@"default_user");
-    }
-    [self.headView setImage:userImg];
 }
 
 - (void)changeCellRoleRoleStr:(NSString *)roleStr {
@@ -199,6 +195,12 @@
     self.cancelBtn.hidden = YES;
 }
 
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self.nickTextFiled resignFirstResponder];
+    return NO;
+}
+
 - (void)textFieldChanged:(NSNotification *)noti {
     UITextField *textFile = (UITextField *)noti.object;
     NSString *toBeString = textFile.text;
@@ -219,6 +221,10 @@
             textFile.text = [Tools subStringWithByte:16 str:textFile.text];
         }
     }
+    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"screenNameChanged:"];
+    id args = toBeString;
+    [cmd performWithResult:&args];
 }
 
 #pragma mark -- command

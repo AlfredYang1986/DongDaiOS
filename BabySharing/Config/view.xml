@@ -283,5 +283,6 @@
     <view type="SelfSettingCell" name="SelfSettingCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight" />
+        <command type="notify" message="screenNameChanged:" />
     </view>
 </views>

@@ -10,9 +10,9 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-//#import "AYResourceManager.h"
 #import "AYNotifyDefines.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 #import "AYSelfSettingCellDefines.h"
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -22,6 +22,7 @@
 @implementation AYPersonalSettingController {
     NSDictionary* profile_dic;
     
+    NSDictionary* change_profile_dic;
 //    UIButton* btn_save;
 }
 #pragma mark -- commands
@@ -31,12 +32,20 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         profile_dic = [dic objectForKey:kAYControllerChangeArgsKey];
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        NSString* role_tag = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (change_profile_dic == nil) {
+            change_profile_dic = [[NSMutableDictionary alloc]init];
+        }
+        [change_profile_dic setValue:role_tag forKey:@"role_tag"];
     }
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
+    change_profile_dic = [[NSMutableDictionary alloc]init];
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> delegate = [self.delegates objectForKey:@"SelfSetting"];
@@ -109,6 +118,25 @@
 
 - (id)rightItemBtnClick {
     NSLog(@"save btn clicked");
+   
+    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
+    [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
+  
+    [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            [[[UIAlertView alloc]initWithTitle:@"success" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [self popToPreviousWithoutSave];
+        } else {
+            [[[UIAlertView alloc]initWithTitle:@"error" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+        }
+    }];
+    
     return nil;
 }
 
@@ -131,25 +159,22 @@
     [dic setValue:image forKey:@"image"];
     [save_cmd performWithResult:&dic];
 
-//    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhoteSelect"];
-//    id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
-//    [cmd performWithResult:&image];
+    id<AYDelegateBase> del = [self.delegates objectForKey:@"SelfSetting"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"changeScreenPhoto:"];
+    id args = img_name;
+    [cmd performWithResult:&args];
+    
+    id<AYViewBase> table = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_refresh = [table.commands objectForKey:@"refresh"];
+    [cmd_refresh performWithResult:nil];
+    
+    [change_profile_dic setValue:img_name forKey:@"screen_photo"];
 }
 
-//完成拍照
--(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    [picker dismissViewControllerAnimated:YES completion:^{
-    
-    }];
-    
-//    UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] fixOrientation];
-//    if (image == nil) {
-//        image = [info objectForKey:UIImagePickerControllerOriginalImage];
-//    }
-//    if (image != nil) {
-//        [self updateImage:image];
-//    }
+- (id)screenNameChanged:(id)args {
+    NSString* screen_name = (NSString*)args;
+    [change_profile_dic setValue:screen_name forKey:@"screen_name"];
+    return nil;
 }
 
 //用户取消拍照

@@ -341,8 +341,7 @@
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
        
-        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
-        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
 
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />

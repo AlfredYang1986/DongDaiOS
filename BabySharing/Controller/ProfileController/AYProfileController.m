@@ -153,7 +153,6 @@
         [cmd_hot_cell performWithResult:&class_name];
     }
    
-    [self refreshProfileData];
 }
 
 - (void)startWaitForAllCallback {
@@ -293,11 +292,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-//    if (isPushed) {
-//        [self.navigationController setNavigationBarHidden:NO];
-//    } else {
-        [self.navigationController setNavigationBarHidden:YES];
-//    }
+    [self.navigationController setNavigationBarHidden:YES];
+    [self refreshProfileData];
 }
 
 #pragma mark -- layout

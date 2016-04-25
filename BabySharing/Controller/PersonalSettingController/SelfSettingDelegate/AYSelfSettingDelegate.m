@@ -17,8 +17,6 @@
 @implementation AYSelfSettingDelegate {
     NSDictionary* profile_dic;
     NSArray* titles;
-    
-    NSMutableDictionary* change_profile_dic;
 }
 #pragma mark -- command
 @synthesize para = _para;
@@ -28,7 +26,6 @@
 
 - (void)postPerform {
     titles =  @[@"头像", @"昵称", @"角色"];
-    change_profile_dic = [[NSMutableDictionary alloc]init];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -140,6 +137,12 @@
 - (id)changeQueryData:(id)args {
     NSDictionary* dic = (NSDictionary*)args;
     profile_dic = dic;
+    return nil;
+}
+
+- (id)changeScreenPhoto:(id)args {
+    NSString* photo_name = (id)args;
+    [profile_dic setValue:photo_name forKey:@"screen_photo"];
     return nil;
 }
 @end
