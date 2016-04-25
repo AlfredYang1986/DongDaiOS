@@ -37,6 +37,7 @@
         <command type="message" message="registerCellWithNib:" />
         <command type="message" message="registerHeaderAndFooterWithClass:" />
         <command type="message" message="registerHeaderAndFooterWithNib:" />
+        <command type="message" message="scrollToPostion:" />
     </view>
     
     <view type="Table2" name="Table2" factory="AYDefaultViewFactory" >
@@ -47,6 +48,7 @@
         <command type="message" message="registerCellWithNib:" />
         <command type="message" message="registerHeaderAndFooterWithClass:" />
         <command type="message" message="registerHeaderAndFooterWithNib:" />
+        <command type="message" message="scrollToPostion:" />
     </view>
     
     <view type="AddFriends" name="AddFriends" factory="AYDefaultViewFactory" >

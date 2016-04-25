@@ -7,8 +7,6 @@
 //
 
 #import "AYChatGroupInfoCellView.h"
-#import "TmpFileStorageModel.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -16,6 +14,9 @@
 #import "AYViewNotifyCommand.h"
 #import "AYNotificationCellDefines.h"
 #import "AYChatGroupInfoCellDefines.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "AYControllerActionDefines.h"
 
 #define USER_INFO_BACK_BTN_HEIGHT           30
 #define USER_INFO_BACK_BTN_WIDTH            30
@@ -28,6 +29,8 @@
 
 @implementation AYChatGroupInfoCellView {
     UIButton* back_btn;
+    
+    NSArray* user_lst;
 }
 
 @synthesize user_list_view = _user_list_view;
@@ -79,7 +82,8 @@
     _online_count_label.text = [NSString stringWithFormat:@"%ld个人正在圈聊", (long)number.integerValue];
 }
 
-- (void)setChatGroupUserList:(NSArray*)user_lst {
+- (void)setChatGroupUserList:(NSArray*)lst {
+    user_lst = lst;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         for (UIView* view in _user_list_view.subviews) {
@@ -99,30 +103,43 @@
             tmp.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
             tmp.layer.borderWidth = 1.5f;
             tmp.clipsToBounds = YES;
+            [tmp setBackgroundImage:PNGRESOURCE(@"default_user") forState:UIControlStateNormal];
+            tmp.tag = index + 1;
             
             NSString* photo_name = [user_dic objectForKey:@"screen_photo"];
-            UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-                if (success) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (self) {
-                            [tmp setBackgroundImage:user_img forState:UIControlStateNormal];
-                            NSLog(@"owner img download success");
-                        }
-                    });
-                } else {
-                    NSLog(@"down load owner image %@ failed", photo_name);
-                }
-            }];
             
-            if (userImg == nil) {
-                userImg = PNGRESOURCE(@"screen_photo");
-            }
-            [tmp setBackgroundImage:userImg forState:UIControlStateNormal];
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:photo_name forKey:@"image"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                [tmp setBackgroundImage:img forState:UIControlStateNormal];
+            }];
             [_user_list_view addSubview:tmp];
+           
+            [tmp addTarget:self action:@selector(headerTaped:) forControlEvents:UIControlEventTouchUpInside];
             
             offset += PHOTO_WIDTH + PHOTO_MARGIN;
         }
     });
+}
+
+- (void)headerTaped:(UIButton*)btn {
+    NSInteger index = btn.tag - 1;
+    
+    NSDictionary* user_dic = [user_lst objectAtIndex:index];
+    NSString* user_id = [user_dic objectForKey:@"user_id"];
+   
+    UIViewController* des = DEFAULTCONTROLLER(@"Profile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:user_id forKey:kAYControllerChangeArgsKey];
+    
+    [_controller performWithResult:&dic_push];
 }
 
 @synthesize para = _para;

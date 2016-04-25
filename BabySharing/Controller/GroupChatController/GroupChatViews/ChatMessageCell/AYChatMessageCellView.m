@@ -22,6 +22,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
+#import "AYControllerActionDefines.h"
 
 #define IMG_WIDTH               32
 #define IMG_HEIGHT              IMG_WIDTH
@@ -135,7 +136,17 @@
 }
 
 - (void)screenPhotoTaped:(UITapGestureRecognizer*)gusture {
-//    [_delegate didSelectedScreenPhotoForUserID:sender_user_id];
+    
+    UIViewController* des = DEFAULTCONTROLLER(@"Profile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:sender_user_id forKey:kAYControllerChangeArgsKey];
+    
+    [_controller performWithResult:&dic_push];
+    
 }
 
 - (void)layoutSubviews {

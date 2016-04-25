@@ -3121,7 +3121,6 @@
 		702E7AC51CA171D30097867E /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				70E5A72D1CCDD00800974974 /* PersonalSettingController */,
 				708E7D8D1CBD5567005D96B5 /* AboutController */,
 				7002DB131CC5EA540013FF2A /* AVController */,
 				700692FD1CC4A1B600B511FF /* CameraRollController */,
@@ -3134,6 +3133,7 @@
 				708235EB1CA2881600658531 /* LandingController */,
 				708235EE1CA2881600658531 /* NavigationController */,
 				7060BDC01CB632D3001E4111 /* OthersLoginController */,
+				70E5A72D1CCDD00800974974 /* PersonalSettingController */,
 				7002DB611CC620D40013FF2A /* PostPreviewController */,
 				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
 				70B1DCAC1CC769FC0041794A /* PublishController */,

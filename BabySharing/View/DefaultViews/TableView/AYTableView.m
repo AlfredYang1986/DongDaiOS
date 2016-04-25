@@ -80,6 +80,16 @@
     [self reloadData];
     return nil;
 }
+
+- (id)scrollToPostion:(id)obj {
+    NSDictionary* dic = (NSDictionary*)obj;
+    NSInteger row = ((NSNumber*)[dic objectForKey:@"row"]).integerValue;
+    NSInteger section = ((NSNumber*)[dic objectForKey:@"section"]).integerValue;
+   
+    NSIndexPath* index = [NSIndexPath indexPathForRow:row inSection:section];
+    [self scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    return nil;
+}
 @end
 
 @implementation AYTable2View

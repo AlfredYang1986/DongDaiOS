@@ -139,7 +139,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYHomeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
-        
+       
         id<AYCommand> cmd_reg = [del.commands objectForKey:@"setCallBackTableView:"];
         [cmd_reg performWithResult:&view_content];
         
@@ -153,6 +153,18 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
             NSArray* arr = [self enumLocalHomeContent];
             [cmd_change performWithResult:&arr];
         }
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    if (isPushed && start_index) {
+        id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_scroll = [view_content.commands objectForKey:@"scrollToPostion:"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:start_index forKey:@"row"];
+        [dic setValue:[NSNumber numberWithInteger:0] forKey:@"section"];
+   
+        [cmd_scroll performWithResult:&dic];
     }
 }
 

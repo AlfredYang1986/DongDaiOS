@@ -62,7 +62,6 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-   
 
     {
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
@@ -159,5 +158,37 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
 //        return [NSNumber numberWithBool:YES];
 //    } else return [NSNumber numberWithBool:NO];
     return [NSNumber numberWithBool:NO];
+}
+
+- (id)selectedValueChanged:(id)obj {
+    NSNumber* new_current = [NSNumber numberWithInteger:((NSNumber*)obj).integerValue];
+    NSLog(@"%@ is selected", new_current);
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"Home");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:@"发现详情" forKey:@"home_title"];
+    
+    id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
+    id<AYCommand> cmd_seg = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
+    NSNumber* index = nil;
+    [cmd_seg performWithResult:&index];
+    
+    NSArray* arr = [self enumLocalHomeContent];
+    [args setValue:arr forKey:@"content"];
+    
+    [args setValue:new_current forKey:@"start_index"];
+    
+    [dic_push setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
+    return nil;
 }
 @end
