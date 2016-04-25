@@ -9,9 +9,15 @@
 #ifndef AYSelfSettingCellDefines_h
 #define AYSelfSettingCellDefines_h
 
+typedef enum : NSUInteger {
+    AYSelfSettingUserInfoStatusUnchange,
+    AYSelfSettingUserInfoStatusChanged,
+} AYSelfSettingUserInfoStatus;
+
 static NSString* const kAYSelfSettingCellName           = @"SelfSettingCell";
 
 static NSString* const kAYSelfSettingCellCellKey        = @"kAYSelfSettingCellCellKey";
+static NSString* const kAYSelfSettingCellTypeKey        = @"kAYSelfSettingCellTypeKey";
 static NSString* const kAYSelfSettingCellContentKey     = @"kAYSelfSettingCellContentKey";
 static NSString* const kAYSelfSettingCellTitleKey       = @"kAYSelfSettingCellTitleKey";
 static NSString* const kAYSelfSettingCellScreenPhotoKey = @"kAYSelfSettingCellScreenPhotoKey";

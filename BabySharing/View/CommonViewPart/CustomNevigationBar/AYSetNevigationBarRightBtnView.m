@@ -19,8 +19,9 @@
 
 #define BACK_BTN_LEFT_MARGIN    16 + 10
 
-@implementation AYSetNevigationBarRightBtnView
-
+@implementation AYSetNevigationBarRightBtnView {
+    CALayer* layer_btn;
+}
 
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -29,7 +30,7 @@
 
 - (void)postPerform {
     self.frame = CGRectMake(0, 0, 25, 25);
-    CALayer * layer_btn = [CALayer layer];
+    layer_btn = [CALayer layer];
     layer_btn.contents = (id)PNGRESOURCE(@"privacy_more").CGImage;
     layer_btn.frame = CGRectMake(0, 0, 25, 25);
     [self.layer addSublayer:layer_btn];
@@ -58,7 +59,14 @@
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"rightItemBtnClick"];
     [cmd performWithResult:nil];
-    
+}
+
+- (id)changeTextBtn:(NSString*)text {
+    [layer_btn removeFromSuperlayer];
+    [self setTitle:text forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self sizeToFit];
+    return nil;
 }
 
 @end

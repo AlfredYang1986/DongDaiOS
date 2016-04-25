@@ -58,12 +58,9 @@
 }
 
 - (void)createLabelInRect:(CGRect)rect andTitle:(NSString*)title andTopMargin:(CGFloat)top {
-//    NSString * bundlePath_dongda = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle_dongda = [NSBundle bundleWithPath:bundlePath_dongda];
     
     UIFont* font = [UIFont systemFontOfSize:14.f];
     
-//    UIButton* tmp = [[UIButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN, AREA_CODE_WIDTH, INPUT_TEXT_FIELD_HEIGHT)];
     UIButton* tmp = [[UIButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, top, AREA_CODE_WIDTH, INPUT_TEXT_FIELD_HEIGHT)];
     
     [tmp setBackgroundImage:PNGRESOURCE(@"login_input_left") forState:UIControlStateNormal];
@@ -197,7 +194,6 @@
     CGFloat width = rect.size.width;
     
     UIButton* next_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN + 2 * (INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) + INPUT_TEXT_FIELD_HEIGHT + LOGIN_BTN_TOP_MARGIN, width - 2 * INPUT_MARGIN, LOGIN_BTN_HEIGHT)];
-//    [next_btn addTarget:_delegate action:@selector(didClickNextBtn) forControlEvents:UIControlEventTouchDown];
     next_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
     [next_btn setTitle:@"进入咚哒" forState:UIControlStateNormal];
     [next_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -212,22 +208,17 @@
     CGRect rect = [UIScreen mainScreen].bounds;
     
     [self createLabelInRect:rect andTitle:@"昵称" andTopMargin:BASICMARGIN];
-//    name_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN andPlaceholder:@"请输入你的昵称" andPreString:[_delegate getPreScreenName] andRightImage:nil andCallback:@selector(textFieldChanged:) andCancelBtn:YES];
     name_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN andPlaceholder:@"请输入你的昵称" andPreString:@"" andRightImage:nil andCallback:@selector(textFieldChanged:) andCancelBtn:YES];
     name_text_field.font = [UIFont systemFontOfSize:14];
     name_text_field.delegate = self;
     
     [self createLabelInRect:rect andTitle:@"性别" andTopMargin:BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN];
-//    [self createColorfulLabelInRect:rect andTopMargin:BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN];
     [self createLabelInRect:rect andTitle:@"角色" andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN)];
-//    tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:[_delegate getPreRoleTag] andRightImage:[UIImage imageNamed:[resourceBundle_dongda pathForResource:@"dongda_next" ofType:@"png"]] andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
     tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:@"" andRightImage:PNGRESOURCE(@"dongda_next") andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
     tag_text_field.frame = CGRectMake(tag_text_field.frame.origin.x, tag_text_field.frame.origin.y, tag_text_field.frame.size.width, tag_text_field.frame.size.height);
 
     UIImageView *goTo = [[UIImageView alloc] initWithFrame:CGRectMake(rect.size.width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN - 40, 1, 45.5, 45.5)];
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    goTo.image = [UIImage imageNamed:[resourceBundle pathForResource:@"next" ofType:@"png"]];
+    goTo.image = PNGRESOURCE(@"next");
     goTo.contentMode = UIViewContentModeCenter;
     goTo.transform = CGAffineTransformMakeScale(0.7f, 0.7f);
     [tag_text_field addSubview:goTo];

@@ -11,10 +11,14 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYSelfSettingCellDefines.h"
+#import "SGActionView.h"
+#import "AYViewController.h"
 
 @implementation AYSelfSettingDelegate {
     NSDictionary* profile_dic;
     NSArray* titles;
+    
+    NSMutableDictionary* change_profile_dic;
 }
 #pragma mark -- command
 @synthesize para = _para;
@@ -24,6 +28,7 @@
 
 - (void)postPerform {
     titles =  @[@"头像", @"昵称", @"角色"];
+    change_profile_dic = [[NSMutableDictionary alloc]init];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -63,6 +68,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:cell forKey:kAYSelfSettingCellCellKey];
     [dic setValue:[titles objectAtIndex:index] forKey:kAYSelfSettingCellTitleKey];
+    [dic setValue:[NSNumber numberWithInteger:index] forKey:kAYSelfSettingCellTypeKey];
     
     switch (indexPath.row) {
         case 0:
@@ -93,6 +99,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == 0) {
+        [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
+            switch (index) {
+                case 0: {
+                    
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerCamera" andArgs:[dic copy]];
+                }
+                    break;
+                case 1: {
+                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
+                }
+                    break;
+                default:
+                    break;
+            }
+        }];
+    } else if (indexPath.row == 1) {
+        
+    } else if (indexPath.row == 2) {
+        AYViewController* des = DEFAULTCONTROLLER(@"RoleTagSearch");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        // [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
 }
 
 #pragma mark -- messages

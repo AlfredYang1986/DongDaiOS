@@ -58,6 +58,7 @@
     </view>
     <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" factory="AYDefaultViewFactory" >
         <command type="notify" message="rightItemBtnClick" />
+        <command type="message" message="changeTextBtn:" />
     </view>
     <view type="Web" name="Web" factory="AYDefaultViewFactory" >
         <command type="message" message="registerDelegate:" />
