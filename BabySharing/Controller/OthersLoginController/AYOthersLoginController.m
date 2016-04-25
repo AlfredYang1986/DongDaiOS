@@ -16,9 +16,9 @@
 #import "AYModel.h"
 #import "AYRemoteCallCommand.h"
 
-#define SCREEN_PHOTO_TOP_MARGIN                 [UIScreen mainScreen].bounds.size.height * (0.5 - 0.1844)
+#define SCREEN_PHOTO_TOP_MARGIN                 [UIScreen mainScreen].bounds.size.height * 0.1844
 #define SCREEN_PHOTO_CENTER_MARGIN              -[UIScreen mainScreen].bounds.size.height * 0.1828 +12 + 10
-#define SCREEN_PHOTO_WIDTH                      100
+#define SCREEN_PHOTO_WIDTH                      76
 #define SCREEN_PHOTO_HEIGHT                     SCREEN_PHOTO_WIDTH
 
 #define SCREEN_NAME_2_PHOTO_MARGIN              6 //22
@@ -80,50 +80,17 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    
-    _nickNameLabel = [[UILabel alloc]init];
-    _nickNameLabel.text = [_login_attr objectForKey:@"screen_name"];
-    _nickNameLabel.font = [UIFont systemFontOfSize:14.f];
-    [_nickNameLabel sizeToFit];
-    _nickNameLabel.textColor = [UIColor colorWithWhite:0.5922 alpha:1.f];
-    //    _nickNameLabel.center = CGPointMake(width / 2, SCREEN_PHOTO_TOP_MARGIN + _loginImgBtn.frame.size.height + SCREEN_NAME_2_PHOTO_MARGIN + _nickNameLabel.frame.size.height / 2);
-    _nickNameLabel.center = CGPointMake(width / 2, SCREEN_PHOTO_CENTER_MARGIN + height / 2 + SCREEN_NAME_2_PHOTO_MARGIN + _nickNameLabel.frame.size.height / 2);
-    [self.view addSubview:_nickNameLabel];
-    [self.view bringSubviewToFront:_nickNameLabel];
-    
-    _currentTagLabel = [[UILabel alloc] init];
-    _currentTagLabel.font = [UIFont systemFontOfSize:12];
-    _currentTagLabel.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
-    _currentTagLabel.textAlignment = NSTextAlignmentCenter;
-    _currentTagLabel.layer.masksToBounds = YES;
-    _currentTagLabel.layer.cornerRadius = 3;
-    _currentTagLabel.text = [_login_attr objectForKey:@"role_tag"];
-    _currentTagLabel.textColor = [UIColor whiteColor];
-    [_currentTagLabel sizeToFit];
-   
-    UIView* ib = [self.views objectForKey:@"UserScreenPhoteSelect"];
-    CGFloat offset_y = SCREEN_PHOTO_TOP_MARGIN + ib.frame.size.height + SCREEN_NAME_2_PHOTO_MARGIN + _nickNameLabel.frame.size.height / 2;
-    _currentTagLabel.frame = CGRectMake(0, 0, _currentTagLabel.frame.size.width + 5, 18);
-    CGFloat allWidth = _nickNameLabel.frame.size.width + _currentTagLabel.frame.size.width +  10;
-    
-    CGFloat padding = (width - allWidth) / 2;
-    
-    _nickNameLabel.center = CGPointMake(padding + _nickNameLabel.frame.size.width / 2, offset_y);
-    _currentTagLabel.center = CGPointMake(width - padding - _currentTagLabel.frame.size.width / 2, offset_y);
-    
-    [self.view addSubview:_currentTagLabel];
-    [self.view bringSubviewToFront:_currentTagLabel];
     
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define FAKE_BAR_HEIGHT         44
 #define STATUS_BAR_HEIGHT       20
     
 #define BACK_BTN_LEFT_MARGIN    10 //16 + 10
-    _fakeBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 74)];
+    _fakeBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, FAKE_BAR_HEIGHT)];
     _fakeBar.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:_fakeBar];
+    [self.view bringSubviewToFront:_fakeBar];
     
     UIButton* barBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     CALayer * layer_btn = [CALayer layer];
@@ -136,39 +103,98 @@
     [_fakeBar addSubview:barBtn];
     
     UILabel* qa = [[UILabel alloc]init];
+    [self.view addSubview:qa];
+    [self.view bringSubviewToFront:qa];
     qa.text = @"检测到该手机号码已绑定如下账号";
     qa.font = [UIFont systemFontOfSize:14.f];
     [qa sizeToFit];
     qa.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
-    qa.center = CGPointMake(width / 2, 20 + 44 / 2);
-    [_fakeBar addSubview:qa];
-    [_fakeBar bringSubviewToFront:qa];
+    [qa mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(SCREEN_PHOTO_TOP_MARGIN);
+        make.centerX.equalTo(self.view);
+    }];
     
-    [self.view addSubview:_fakeBar];
-    [self.view bringSubviewToFront:_fakeBar];
+    UIView* ib = [self.views objectForKey:@"UserScreenPhoteSelect"];
+    [ib mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(qa.mas_bottom).offset(38);
+        make.centerX.equalTo(self.view);
+        make.width.mas_equalTo(SCREEN_PHOTO_WIDTH);
+        make.height.mas_equalTo(SCREEN_PHOTO_WIDTH);
+    }];
+    
+    _nickNameLabel = [[UILabel alloc]init];
+    _nickNameLabel.text = [_login_attr objectForKey:@"screen_name"];
+    _nickNameLabel.font = [UIFont systemFontOfSize:14.f];
+    [_nickNameLabel sizeToFit];
+    _nickNameLabel.textColor = [UIColor colorWithWhite:0.5922 alpha:1.f];
+    [self.view addSubview:_nickNameLabel];
+    [self.view bringSubviewToFront:_nickNameLabel];
+    
+    [_nickNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(ib.mas_bottom).offset(18);
+    }];
+    
+    _currentTagLabel = [[UILabel alloc] init];
+    _currentTagLabel.font = [UIFont systemFontOfSize:12];
+    _currentTagLabel.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
+    _currentTagLabel.textAlignment = NSTextAlignmentCenter;
+    _currentTagLabel.layer.masksToBounds = YES;
+    _currentTagLabel.layer.cornerRadius = 3;
+    _currentTagLabel.text = [_login_attr objectForKey:@"role_tag"];
+    _currentTagLabel.textColor = [UIColor whiteColor];
+    [_currentTagLabel sizeToFit];
+    [self.view addSubview:_currentTagLabel];
+    [self.view bringSubviewToFront:_currentTagLabel];
+    [_currentTagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(_nickNameLabel);
+    }];
+    
+    CGFloat allWidth = _nickNameLabel.frame.size.width + _currentTagLabel.frame.size.width +  10;
+    CGFloat padding = (width - allWidth) / 2;
+    [_nickNameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(padding - 4);
+        make.top.equalTo(ib.mas_bottom).offset(18);
+    }];
+    [_currentTagLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_nickNameLabel.mas_right).offset(8);
+        make.top.equalTo(_nickNameLabel);
+    }];
     
     /**
      * border for yes btn and no btn
      */
-    _yesBtn = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, 0, YES_NO_BTN_WIDTH, YES_NO_BTN_HEIGHT)];
+    _yesBtn = [[OBShapedButton alloc]init];
     [_yesBtn setBackgroundImage:PNGRESOURCE(@"login_yes_btn_bg") forState:UIControlStateNormal];
     [_yesBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_yesBtn setTitle:@"是我, 进入咚哒" forState:UIControlStateNormal];
     _yesBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    _yesBtn.center = CGPointMake(width / 2, height / 2 + _fakeBar.frame.size.height + YES_BTN_TOP_MARGIN + YES_NO_BTN_HEIGHT / 2);
     [self.view addSubview:_yesBtn];
     [self.view bringSubviewToFront:_yesBtn];
     [_yesBtn addTarget:self action:@selector(didSelectMeButton) forControlEvents:UIControlEventTouchUpInside];
+    [_yesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_nickNameLabel.mas_bottom).offset(60);
+        make.centerX.equalTo(self.view);
+        make.width.mas_equalTo(YES_NO_BTN_WIDTH);
+        make.height.mas_equalTo(YES_NO_BTN_HEIGHT);
+    }];
     
     _noBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, YES_NO_BTN_WIDTH, YES_NO_BTN_HEIGHT)];
     [_noBtn setTitleColor:[UIColor colorWithWhite:0.2902 alpha:1.f] forState:UIControlStateNormal];
     [_noBtn setTitle:@"不是我, 帐号重建" forState:UIControlStateNormal];
     _noBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    _noBtn.center = CGPointMake(width / 2, height / 2 + _fakeBar.frame.size.height + YES_BTN_TOP_MARGIN + YES_NO_BTN_HEIGHT + YES_BTN_2_NO_BTN_MARGIN + YES_NO_BTN_HEIGHT / 2);
     [self.view addSubview:_noBtn];
     [self.view bringSubviewToFront:_noBtn];
     [_noBtn addTarget:self action:@selector(didSelectCreateNewAccount) forControlEvents:UIControlEventTouchUpInside];
-   
+    [_noBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_yesBtn.mas_bottom).offset(40);
+        make.centerX.equalTo(self.view);
+        make.width.mas_equalTo(YES_NO_BTN_WIDTH);
+        make.height.mas_equalTo(YES_NO_BTN_HEIGHT);
+    }];
+    
+    
     id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhoteSelect"];
     id<AYCommand> cmd = [view.commands objectForKey:@"canPhotoBtnClicked:"];
     NSNumber* b = [NSNumber numberWithBool:NO];

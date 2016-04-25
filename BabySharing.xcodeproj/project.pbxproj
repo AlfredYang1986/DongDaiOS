@@ -5625,7 +5625,10 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"SANDBOX=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

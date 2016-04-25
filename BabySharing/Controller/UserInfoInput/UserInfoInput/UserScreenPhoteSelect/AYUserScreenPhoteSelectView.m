@@ -17,9 +17,9 @@
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 6
-#define SCREEN_PHOTO_WIDTH                      100
-#define SCREEN_PHOTO_HEIGHT                     100
+#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 10
+#define SCREEN_PHOTO_WIDTH                      76
+#define SCREEN_PHOTO_HEIGHT                     76
 
 #define SCREEN_PHOTO_2_GENDER_BTN_MARGIN        30
 
@@ -42,6 +42,7 @@
     [self setBackgroundImage:img forState:UIControlStateNormal];
 //    [self asyncGetUserImage];
     [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {

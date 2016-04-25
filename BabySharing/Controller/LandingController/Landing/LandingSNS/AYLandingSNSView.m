@@ -66,7 +66,27 @@
     
     [self addSubview:split_img];
     
-    UIButton* qq_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
+    CGFloat forth_line_ver_line = third_line_ver_margin + sz.height + MARGIN_MODIFY / 2 + 2 * BASICMARGIN + SNS_BUTTON_HEIGHT / 2;
+    CGFloat fifth_line_ver_line = forth_line_ver_line + SNS_BUTTON_HEIGHT / 2 + 2 * BASICMARGIN;
+    CGFloat height = fifth_line_ver_line + sz.height + BASICMARGIN + MARGIN_MODIFY;
+    self.bounds = CGRectMake(0, 0, width, height);
+    
+    UIButton* wechat_btn = [[UIButton alloc]init];
+    [self addSubview:wechat_btn];
+    NSString * wechat_file = [resourceBundle_dongda pathForResource:[NSString stringWithFormat:@"login_wechat_gray"] ofType:@"png"];
+    UIImage * wechat_image = [UIImage imageNamed:wechat_file];
+    [wechat_btn setBackgroundImage:wechat_image forState:UIControlStateNormal];
+    [wechat_btn addTarget:self action:@selector(wechatBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    wechat_btn.backgroundColor = [UIColor clearColor];
+    wechat_btn.clipsToBounds = YES;
+    [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self.mas_top).offset(height / 2 + SPLIT_VIEW_HEIGHT / 2);
+        make.width.mas_offset(SNS_BUTTON_WIDTH);
+        make.height.mas_offset(SNS_BUTTON_HEIGHT);
+    }];
+    
+    UIButton* qq_btn = [[UIButton alloc]init];
     NSString * qq_file = [resourceBundle_dongda pathForResource:[NSString stringWithFormat:@"login_qq_gray"] ofType:@"png"];
     UIImage * qq_image = [UIImage imageNamed:qq_file];
     [qq_btn setBackgroundImage:qq_image forState:UIControlStateNormal];
@@ -74,8 +94,13 @@
     qq_btn.backgroundColor = [UIColor clearColor];
     qq_btn.contentMode = UIViewContentModeCenter;
     [self addSubview:qq_btn];
+    [qq_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(wechat_btn.mas_left).offset(-SNS_BUTTON_MARGIN);
+        make.centerY.equalTo(wechat_btn);
+        make.size.equalTo(wechat_btn);
+    }];
     
-    UIButton* weibo_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
+    UIButton* weibo_btn = [[UIButton alloc]init];
     NSString * weibo_file = [resourceBundle_dongda pathForResource:[NSString stringWithFormat:@"login_weibo_gray"] ofType:@"png"];
     UIImage * weibo_image = [UIImage imageNamed:weibo_file];
     [weibo_btn setBackgroundImage:weibo_image forState:UIControlStateNormal];
@@ -83,25 +108,12 @@
     weibo_btn.backgroundColor = [UIColor clearColor];
     weibo_btn.contentMode = UIViewContentModeCenter;
     [self addSubview:weibo_btn];
-    
-    UIButton* wechat_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
-    NSString * wechat_file = [resourceBundle_dongda pathForResource:[NSString stringWithFormat:@"login_wechat_gray"] ofType:@"png"];
-    UIImage * wechat_image = [UIImage imageNamed:wechat_file];
-    [wechat_btn setBackgroundImage:wechat_image forState:UIControlStateNormal];
-    [wechat_btn addTarget:self action:@selector(wechatBtnSelected:) forControlEvents:UIControlEventTouchDown];
-    wechat_btn.backgroundColor = [UIColor clearColor];
-    wechat_btn.clipsToBounds = YES;
-    [self addSubview:wechat_btn];
-    
-    CGFloat forth_line_ver_line = third_line_ver_margin + sz.height + MARGIN_MODIFY / 2 + 2 * BASICMARGIN + SNS_BUTTON_HEIGHT / 2;
-    CGFloat fifth_line_ver_line = forth_line_ver_line + SNS_BUTTON_HEIGHT / 2 + 2 * BASICMARGIN;
-    
-    CGFloat height = fifth_line_ver_line + sz.height + BASICMARGIN + MARGIN_MODIFY;
-    self.bounds = CGRectMake(0, 0, width, height);
-    
-    wechat_btn.center = CGPointMake(width / 2, height / 2 + SPLIT_VIEW_HEIGHT / 2);
-    qq_btn.center = CGPointMake(width / 2 - SNS_BUTTON_MARGIN, height / 2 + SPLIT_VIEW_HEIGHT / 2);
-    weibo_btn.center = CGPointMake(width / 2 + SNS_BUTTON_MARGIN, height / 2 + SPLIT_VIEW_HEIGHT / 2);
+    [weibo_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(wechat_btn.mas_right).offset(SNS_BUTTON_MARGIN);
+        make.centerY.equalTo(wechat_btn);
+        make.size.equalTo(wechat_btn);
+    }];
+
 }
 
 - (void)performWithResult:(NSObject**)obj {

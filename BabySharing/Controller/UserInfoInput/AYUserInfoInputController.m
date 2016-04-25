@@ -15,15 +15,17 @@
 #import "AYModel.h"
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
+#import "OBShapedButton.h"
+
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 6
-#define SCREEN_PHOTO_WIDTH                      100
-#define SCREEN_PHOTO_HEIGHT                     100
+#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 10
+#define SCREEN_PHOTO_WIDTH                      76
+#define SCREEN_PHOTO_HEIGHT                     76
 
 #define SCREEN_PHOTO_2_GENDER_BTN_MARGIN        30
 
@@ -35,7 +37,7 @@
 
 #define GENDER_BTN_BETWEEN_MARGIN               SCREEN_WIDTH / 4
 
-#define INPUT_VIEW_2_SCREEN_PHOTO_MARGIN        (SCREEN_HEIGHT / 15 - 5)
+#define INPUT_VIEW_2_SCREEN_PHOTO_MARGIN        (SCREEN_HEIGHT / 20 - 5)
 
 #define TICK_BTN_WIDTH                          17
 #define TICK_BTN_HEIGHT                         TICK_BTN_WIDTH
@@ -127,6 +129,34 @@
         NSString* arg = [role_tag copy];
         [cmd performWithResult:&arg];
     }
+    
+    UIButton* pri_btn = [[OBShapedButton alloc]init];
+    [self.view addSubview:pri_btn];
+    pri_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [pri_btn setTitle:@"进入即同意用户协议及隐私条款" forState:UIControlStateNormal];
+    [pri_btn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    pri_btn.clipsToBounds = YES;
+    [pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
+    [pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-30);
+        make.width.mas_equalTo([UIScreen mainScreen].bounds.size.width - 20);
+        make.height.mas_equalTo(20);
+    }];
+}
+
+- (void)pri_btnDidClick{
+    NSLog(@"push to suer privacy");
+    id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:UserAgree forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -162,7 +192,7 @@
 
 - (id)UserInfoInputLayout:(UIView*)view {
 //    [view setUpWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    view.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_PHOTO_TOP_MARGIN + SCREEN_PHOTO_HEIGHT + INPUT_VIEW_2_SCREEN_PHOTO_MARGIN + view.frame.size.height / 2);
+    view.center = CGPointMake(SCREEN_WIDTH / 2, SCREEN_PHOTO_TOP_MARGIN + SCREEN_PHOTO_HEIGHT + SCREEN_PHOTO_TOP_MARGIN*0.5 + view.frame.size.height / 2);
     return nil;
 }
 

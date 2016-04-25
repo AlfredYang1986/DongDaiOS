@@ -92,17 +92,28 @@
 - (void)createAreaCodeBtnInRect:(CGRect)rect {
     
     UIFont* font = [UIFont systemFontOfSize:12.f];
-    area_code_btn = [[UIButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN, AREA_CODE_WIDTH, INPUT_TEXT_FIELD_HEIGHT)];
+    area_code_btn = [[UIButton alloc]init];
+    [self addSubview:area_code_btn];
     [area_code_btn setBackgroundImage:PNGRESOURCE(@"login_input_left") forState:UIControlStateNormal];
+    [area_code_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(BASICMARGIN);
+        make.left.equalTo(self).offset(INPUT_MARGIN);
+        make.width.mas_equalTo(AREA_CODE_WIDTH);
+        make.height.mas_equalTo(INPUT_TEXT_FIELD_HEIGHT);
+    }];
     
     UILabel* area_code_label = [[UILabel alloc]init];
     area_code_label.text = @"+86";
     area_code_label.font = font;
     area_code_label.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
     [area_code_label sizeToFit];
-    area_code_label.frame = CGRectMake(13.5, INPUT_TEXT_FIELD_HEIGHT / 2 - area_code_label.bounds.size.height / 2, area_code_label.bounds.size.width, area_code_label.bounds.size.height);
+//    area_code_label.frame = CGRectMake(13.5, INPUT_TEXT_FIELD_HEIGHT / 2 - area_code_label.bounds.size.height / 2, area_code_label.bounds.size.width, area_code_label.bounds.size.height);
     area_code_label.tag = -1;
     [area_code_btn addSubview:area_code_label];
+    [area_code_label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(13.5);
+        make.centerY.equalTo(area_code_btn);
+    }];
     
     CALayer* t_layer = [CALayer layer];
     t_layer.contents = (id)PNGRESOURCE(@"landing_input_triangle").CGImage;
@@ -111,7 +122,6 @@
     [area_code_btn.layer addSublayer:t_layer];
     [area_code_btn addTarget:self action:@selector(areaCodeBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self addSubview:area_code_btn];
 }
 
 - (void)createPhoneAreaIn:(CGRect)rect {
@@ -121,7 +131,16 @@
     
     UIFont* font = [UIFont systemFontOfSize:13.f];
     
-    phone_area = [[UITextField alloc]initWithFrame:CGRectMake(first_line_start_margin, BASICMARGIN, width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN, INPUT_TEXT_FIELD_HEIGHT)];
+//    phone_area = [[UITextField alloc]initWithFrame:CGRectMake(first_line_start_margin, BASICMARGIN, width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN, INPUT_TEXT_FIELD_HEIGHT)];
+    phone_area = [[UITextField alloc]init];
+    [self addSubview:phone_area];
+    [phone_area mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(INPUT_MARGIN + AREA_CODE_WIDTH);
+        make.centerY.equalTo(area_code_btn);
+        make.width.mas_equalTo(width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN);
+        make.height.mas_equalTo(INPUT_TEXT_FIELD_HEIGHT);
+    }];
+    
     phone_area.backgroundColor = [UIColor whiteColor];
     phone_area.font = font;
     
@@ -151,24 +170,32 @@
     
     clear_btn.hidden = YES;
     
-    [self addSubview:phone_area];
 }
 
 - (void)createCodeLabelInRect:(CGRect)rect {
     
-    UIButton* tmp = [[UIButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN, AREA_CODE_WIDTH, INPUT_TEXT_FIELD_HEIGHT)];
+    UIButton* tmp = [[UIButton alloc]init];
+    [self addSubview:tmp];
     [tmp setBackgroundImage:PNGRESOURCE(@"login_input_left") forState:UIControlStateNormal];
+    [tmp mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(area_code_btn);
+        make.top.equalTo(self).offset(BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN);
+        make.size.equalTo(area_code_btn);
+    }];
     
     UILabel* label = [[UILabel alloc]init];
     label.text = @"动态密码";
     label.font = [UIFont systemFontOfSize:13.f];
     label.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
     [label sizeToFit];
-    label.center = CGPointMake(AREA_CODE_WIDTH / 2, INPUT_TEXT_FIELD_HEIGHT / 2);
+//    label.center = CGPointMake(AREA_CODE_WIDTH / 2, INPUT_TEXT_FIELD_HEIGHT / 2);
     label.tag = -1;
     [tmp addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(tmp);
+        make.centerY.equalTo(tmp);
+    }];
     
-    [self addSubview:tmp];
 }
 
 - (void)createConfirmCodeAreaInRect:(CGRect)rect {
@@ -176,10 +203,16 @@
 //    NSString * bundlePath_dongda = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
 //    NSBundle *resourceBundle_dongda = [NSBundle bundleWithPath:bundlePath_dongda];
     
-    //    UIFont* font = [UIFont systemFontOfSize:13.f];
-    confirm_area = [[UITextField alloc]initWithFrame:CGRectMake(INPUT_MARGIN + AREA_CODE_WIDTH, BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN, width - 2 * INPUT_MARGIN - AREA_CODE_WIDTH - CODE_BTN_WIDTH - 5, INPUT_TEXT_FIELD_HEIGHT)];
+    confirm_area = [[UITextField alloc]init];
+    [self addSubview:confirm_area];
     confirm_area.font = [UIFont systemFontOfSize:13.f];
     [confirm_area setBackground:PNGRESOURCE(@"login_input_right")];
+    [confirm_area mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(INPUT_MARGIN + AREA_CODE_WIDTH);
+        make.top.equalTo(self).offset(BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN);
+        make.width.mas_equalTo(width - 2 * INPUT_MARGIN - AREA_CODE_WIDTH - CODE_BTN_WIDTH - 5);
+        make.height.mas_equalTo(INPUT_TEXT_FIELD_HEIGHT);
+    }];
     
     CGRect frame = confirm_area.frame;
     frame.size.width = TEXT_FIELD_LEFT_PADDING;
@@ -191,10 +224,8 @@
     [confirm_area setValue:[UIColor colorWithWhite:0.6078 alpha:1.f] forKeyPath:@"_placeholderLabel.textColor"];
     confirm_area.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(confirmCodeTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-//    confirm_area.delegate = self;
     confirm_area.keyboardType = UIKeyboardTypeNumberPad;
     
-    [self addSubview:confirm_area];
 }
 
 - (void)createCodeBtnInRect:(CGRect)rect {
@@ -203,11 +234,17 @@
 //    NSBundle *resourceBundle_dongda = [NSBundle bundleWithPath:bundlePath_dongda];
     
     confirm_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(width - INPUT_MARGIN - CODE_BTN_WIDTH, BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN, CODE_BTN_WIDTH, INPUT_TEXT_FIELD_HEIGHT)];
+    [self addSubview:confirm_btn];
     confirm_btn.titleLabel.font = [UIFont systemFontOfSize:11.f];
     [confirm_btn setTitleColor:[UIColor colorWithWhite:0.2902 alpha:1.f] forState:UIControlStateNormal];
     confirm_btn.clipsToBounds = YES;
-//    [confirm_btn setBackgroundImage:[UIImage imageNamed:[resourceBundle_dongda pathForResource:@"login_code_bg" ofType:@"png"]] forState:UIControlStateNormal];
     [confirm_btn setBackgroundImage:PNGRESOURCE(@"login_code_bg") forState:UIControlStateNormal];
+    [confirm_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self).offset(-INPUT_MARGIN);
+        make.centerY.equalTo(confirm_area);
+        make.width.mas_equalTo(CODE_BTN_WIDTH);
+        make.height.mas_equalTo(INPUT_TEXT_FIELD_HEIGHT);
+    }];
     
     //    // 这个地方需要该
     //    confirm_btn.titleLabel.text = @"   获取\n动态密码";
@@ -225,14 +262,15 @@
     confirm_btn.titleLabel.numberOfLines = 2;
     [confirm_btn addTarget:self action:@selector(confirmBtnSelected:) forControlEvents:UIControlEventTouchDown];
     
-    [self addSubview:confirm_btn];
 }
 
 
 - (void)createLoginBtnInRect:(CGRect)rect {
     CGFloat width = rect.size.width;
     
+//    next_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN + INPUT_TEXT_FIELD_HEIGHT + LOGIN_BTN_TOP_MARGIN, width - 2 * INPUT_MARGIN, LOGIN_BTN_HEIGHT)];
     next_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN + INPUT_TEXT_FIELD_HEIGHT + LOGIN_BTN_TOP_MARGIN, width - 2 * INPUT_MARGIN, LOGIN_BTN_HEIGHT)];
+    [self addSubview:next_btn];
     [next_btn addTarget:self action:@selector(nextBtnSelected:) forControlEvents:UIControlEventTouchDown];
     next_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
     [next_btn setTitle:@"登 录" forState:UIControlStateNormal];
@@ -241,8 +279,12 @@
     [next_btn setBackgroundImage:PNGRESOURCE(@"login_btn_bg") forState:UIControlStateNormal];
     [next_btn setBackgroundImage:PNGRESOURCE(@"login_btn_bg_disable") forState:UIControlStateDisabled];
     next_btn.enabled = NO;
-    
-    [self addSubview:next_btn];
+    [next_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self).offset(-15);
+        make.centerX.equalTo(self);
+        make.width.mas_equalTo(width - 2 * INPUT_MARGIN);
+        make.height.mas_equalTo(LOGIN_BTN_HEIGHT);
+    }];
 }
 
 #pragma mark -- handle

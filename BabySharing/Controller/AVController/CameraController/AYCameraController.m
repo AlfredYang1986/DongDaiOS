@@ -74,8 +74,12 @@
 #define PHOTO_TAKEN_BTN_HEIGHT                  PHOTO_TAKEN_BTN_WIDTH
 #define PHOTO_TAKEN_BTN_MODIFY_MARGIN           -15
     
-    take_btn.frame = CGRectMake(0, 0, PHOTO_TAKEN_BTN_WIDTH, PHOTO_TAKEN_BTN_HEIGHT);
-    take_btn.center = CGPointMake(width / 2, height + last_height / 2 + PHOTO_TAKEN_BTN_MODIFY_MARGIN);
+    [take_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view.mas_bottom).offset(-(last_height / 2 + 22));
+        make.width.mas_equalTo(PHOTO_TAKEN_BTN_WIDTH);
+        make.height.mas_equalTo(PHOTO_TAKEN_BTN_HEIGHT);
+    }];
     
     {
         id<AYFacadeBase> f = [self.facades objectForKey:@"StillImageCapture"];
@@ -90,8 +94,16 @@
         float width = self.view.frame.size.width;
         CGFloat aspectRatio = 4.0 / 3.0;
         float height = self.view.frame.size.width * aspectRatio;
-        _filterView.frame = CGRectMake(0, width - height + FAKE_NAVIGATION_BAR_HEIGHT, width, height);
+//        _filterView.frame = CGRectMake(0, width - height + FAKE_NAVIGATION_BAR_HEIGHT, width, height);
         [self.view addSubview:_filterView];
+        
+        [_filterView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.view);
+            make.top.equalTo(self.view).offset(width - height + FAKE_NAVIGATION_BAR_HEIGHT);
+            make.width.mas_equalTo(width);
+            make.height.mas_equalTo(height);
+        }];
+        
         [self.view sendSubviewToBack:_filterView];
     }
 }
@@ -124,25 +136,35 @@
 
 #pragma mark -- layout
 #define FUNCTION_BAR_HEIGHT         44
-#define FUNCTION_BAR_BTN_WIDTH      25
-#define FUNCTION_BAR_BTN_HEIGHT     25
+#define FUNCTION_BAR_BTN_WIDTH      30
+#define FUNCTION_BAR_BTN_HEIGHT     30
 #define FUNCTION_BAR_BTN_MARGIN     8
 - (id)FunctionBarLayout:(UIView*)view {
     [super FunctionBarLayout:view];
   
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UIButton* f_btn_1 = [[UIButton alloc]initWithFrame:CGRectMake(FUNCTION_BAR_BTN_MARGIN, FUNCTION_BAR_BTN_MARGIN, FUNCTION_BAR_BTN_WIDTH + 5, FUNCTION_BAR_BTN_HEIGHT + 5)];
+//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    UIButton* f_btn_1 = [[UIButton alloc]init];
     [f_btn_1 setBackgroundImage:PNGRESOURCE(@"post_change_camera") forState:UIControlStateNormal];
     [f_btn_1 addTarget:self action:@selector(didChangeCameraBtn) forControlEvents:UIControlEventTouchDown];
-    f_btn_1.center = CGPointMake(width - FUNCTION_BAR_BTN_MARGIN - FUNCTION_BAR_BTN_WIDTH / 2, FUNCTION_BAR_HEIGHT / 2);
     [view addSubview:f_btn_1];
+    [f_btn_1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view).offset(-FUNCTION_BAR_BTN_MARGIN);
+        make.centerY.equalTo(view);
+        make.width.mas_equalTo(FUNCTION_BAR_BTN_WIDTH);
+        make.height.mas_equalTo(FUNCTION_BAR_BTN_HEIGHT);
+    }];
     
-    UIButton* f_btn_2 = [[UIButton alloc]initWithFrame:CGRectMake(FUNCTION_BAR_BTN_MARGIN, FUNCTION_BAR_BTN_MARGIN, FUNCTION_BAR_BTN_WIDTH, FUNCTION_BAR_BTN_HEIGHT)];
+    UIButton* f_btn_2 = [[UIButton alloc]init];
     [f_btn_2 setBackgroundImage:PNGRESOURCE(@"post_flash_off") forState:UIControlStateNormal];
     [f_btn_2 addTarget:self action:@selector(didChangeFreshLight) forControlEvents:UIControlEventTouchDown];
-    f_btn_2.center = CGPointMake(FUNCTION_BAR_BTN_MARGIN + FUNCTION_BAR_BTN_WIDTH / 2, FUNCTION_BAR_HEIGHT / 2);
     [view addSubview:f_btn_2];
     f_btn_2.tag = -99;
+    [f_btn_2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view).offset(FUNCTION_BAR_BTN_MARGIN);
+        make.centerY.equalTo(view);
+        make.width.mas_equalTo(FUNCTION_BAR_BTN_WIDTH - 4);
+        make.height.mas_equalTo(FUNCTION_BAR_BTN_HEIGHT - 5);
+    }];
     //    isFlash = NO;
     flashMode = AVCaptureFlashModeOff;
 

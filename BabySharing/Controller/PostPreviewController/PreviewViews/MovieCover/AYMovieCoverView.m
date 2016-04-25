@@ -36,7 +36,11 @@
     [container mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.centerY.equalTo(self);
+        make.width.mas_equalTo(THUMB_SMALL_WIDTH * 8);
+        make.height.mas_equalTo(THUMB_SMALL_HEIGHT);
     }];
+//    container.center = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height / 2);
+
 }
 
 #pragma mark -- commands
@@ -69,7 +73,7 @@
     [cmd performWithResult:&thumbs];
     
     NSInteger steps = 8;
-    UIView* container = [[UIView alloc]initWithFrame:CGRectMake(0, 0, THUMB_SMALL_WIDTH * steps, THUMB_SMALL_HEIGHT)];
+    UIView* container = [[UIView alloc]init];
     container.tag = -99;
     [self addSubview:container];
     
@@ -104,7 +108,7 @@
         tmp.bounds = CGRectMake(0, 0, THUMB_LARGE_WIDTH, THUMB_LARGE_HEIGHT);
         tmp.center = ct;
         tmp.layer.borderWidth = 2.f;
-    
+        
         [container bringSubviewToFront:tmp];
         
         id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedCover:"];

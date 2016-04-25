@@ -33,10 +33,11 @@
         [self addSubview:barBtn];
         
         [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
+//            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
+            make.centerY.equalTo(self);
             make.left.equalTo(self.mas_left).offset(10.5f);
             make.width.equalTo(@30);
-            make.height.equalTo(@30);
+            make.height.equalTo(@26);
         }];
     }
     {
@@ -50,7 +51,8 @@
         [self addSubview:barBtn];
         
         [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
+//            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
+            make.centerY.equalTo(self);
             make.right.equalTo(self.mas_right).offset(-10.5f);
             make.width.equalTo(@30);
             make.height.equalTo(@30);

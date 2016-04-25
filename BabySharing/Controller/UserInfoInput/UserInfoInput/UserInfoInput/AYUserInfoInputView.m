@@ -139,7 +139,15 @@
     
     UIFont *font = [UIFont systemFontOfSize:14.f];
     
-    UITextField *phone_area = [[UITextField alloc]initWithFrame:CGRectMake(first_line_start_margin, top, width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN, INPUT_TEXT_FIELD_HEIGHT)];
+    UITextField *phone_area = [[UITextField alloc]init];
+    [self addSubview:phone_area];
+    [phone_area mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(top);
+        make.left.equalTo(self).offset(first_line_start_margin);
+        make.width.mas_equalTo(width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN);
+        make.height.mas_equalTo(INPUT_TEXT_FIELD_HEIGHT);
+    }];
+    
     [phone_area setBackground:PNGRESOURCE(@"login_input_right")];
     phone_area.font = font;
     
@@ -186,14 +194,16 @@
         phone_area.rightView = rightview;
     }
     
-    [self addSubview:phone_area];
     return phone_area;
 }
 
 - (void)createNextBtnInRect:(CGRect)rect {
     CGFloat width = rect.size.width;
     
-    UIButton* next_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(INPUT_MARGIN, BASICMARGIN + 2 * (INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) + INPUT_TEXT_FIELD_HEIGHT + LOGIN_BTN_TOP_MARGIN, width - 2 * INPUT_MARGIN, LOGIN_BTN_HEIGHT)];
+
+    UIButton* next_btn = [[OBShapedButton alloc]init];
+    [self addSubview:next_btn];
+    
     next_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
     [next_btn setTitle:@"进入咚哒" forState:UIControlStateNormal];
     [next_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -201,7 +211,12 @@
     [next_btn setBackgroundImage:PNGRESOURCE(@"login_btn_bg") forState:UIControlStateNormal];
     [next_btn addTarget:self action:@selector(didClickNextBtn) forControlEvents:UIControlEventTouchUpInside];
     
-    [self addSubview:next_btn];
+    [next_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(tag_text_field.mas_bottom).offset([UIScreen mainScreen].bounds.size.height * 0.12);
+        make.centerX.equalTo(self);
+        make.width.mas_equalTo(width - 2 * INPUT_MARGIN);
+        make.height.mas_equalTo(LOGIN_BTN_HEIGHT);
+    }];
 }
 
 - (void)setUp {
@@ -215,6 +230,8 @@
     [self createLabelInRect:rect andTitle:@"性别" andTopMargin:BASICMARGIN + INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN];
     [self createLabelInRect:rect andTitle:@"角色" andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN)];
     tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:@"" andRightImage:PNGRESOURCE(@"dongda_next") andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
+//    tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + /*2 * */(INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:[_delegate getPreRoleTag] andRightImage:[UIImage imageNamed:[resourceBundle_dongda pathForResource:@"dongda_next" ofType:@"png"]] andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
+    tag_text_field = [self createInputAreaInRect:rect andTopMargin:BASICMARGIN + (INPUT_TEXT_FIELD_HEIGHT + LINE_MARGIN) andPlaceholder:@"萌妹？辣妈？快来认领！" andPreString:@"" andRightImage:PNGRESOURCE(@"dongda_next") andCallback:@selector(textFieldChanged:) andCancelBtn:NO];
     tag_text_field.frame = CGRectMake(tag_text_field.frame.origin.x, tag_text_field.frame.origin.y, tag_text_field.frame.size.width, tag_text_field.frame.size.height);
 
     UIImageView *goTo = [[UIImageView alloc] initWithFrame:CGRectMake(rect.size.width - AREA_CODE_WIDTH - 2 * INPUT_MARGIN - 40, 1, 45.5, 45.5)];
