@@ -147,8 +147,24 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (previewDic == nil || previewDic.count == 0) {
+    if (!(previewDic == nil & previewDic.count != 0)) {
+        NSDictionary* dic = [previewDic objectAtIndex:indexPath.row];
+
+        AYViewController* des = DEFAULTCONTROLLER(@"TagContent");
         
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:[dic objectForKey:@"tag_name"] forKey:@"tag_name"];
+        [args setValue:[dic objectForKey:@"type"] forKey:@"tag_type"];
+        
+        [dic_push setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
     }
 }
 

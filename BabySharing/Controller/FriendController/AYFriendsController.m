@@ -207,6 +207,8 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+   
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
     
     UIView* seg = [self.views objectForKey:kAYFriendsControllerNavSegValue];
     [self.navigationController.navigationBar addSubview:seg];
@@ -222,6 +224,10 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
    
     UIView* btn =[self.views objectForKey:kAYFriendsControllerAddFriendsValue];
     [btn removeFromSuperview];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
 }
 
 #pragma mark -- layout commands

@@ -10,5 +10,6 @@
 #import "AYViewController.h"
 
 @interface AYHomeController : AYViewController
-
+@property (nonatomic) BOOL isPushed;
+@property (nonatomic, strong) NSString* push_home_title;
 @end

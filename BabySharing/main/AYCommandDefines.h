@@ -69,6 +69,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define OWNERQUERYPUSHMODEL     FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"OwnerQueryPushModel")
 #define HOMECONTENTMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"HomeQueryModel")
 #define CHATSESSIONMODEL        FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ChatSessionModel")
+#define TAGCONTENTMODEL         FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"TagContentModel")
 
 #define GPUSTILLIMAGECAPTURE    FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"StillImageCapture")
 #define MOVIERECORD             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MovieRecord")

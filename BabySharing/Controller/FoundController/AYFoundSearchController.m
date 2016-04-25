@@ -345,6 +345,31 @@
     return nil;
 }
 
+- (id)TagSeleted:(id)obj {
+    
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* dic = (NSDictionary*)obj;
+       
+        AYViewController* des = DEFAULTCONTROLLER(@"TagContent");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        [dic_push setValue:dic forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+        
+    } else if ([obj isKindOfClass:[NSString class]]) {
+        NSLog(@"role tag notify");
+//        NSString* role_tag = (NSString*)obj;
+    }
+    
+    return nil;
+}
+
 #pragma mark -- search bar delegate
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     NSLog(@"pop view controller");

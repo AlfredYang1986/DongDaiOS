@@ -45,8 +45,8 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 #define DECELERATION 400.0
 
 @implementation AYHomeController {
-    BOOL isPushed;
-    NSString* push_home_title;
+//    BOOL _isPushed;
+//    NSString* _push_home_title;
     NSArray* push_content;
     NSNumber* start_index;
     
@@ -58,15 +58,18 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     CALayer *maskLayer;
 }
 
+@synthesize isPushed = _isPushed;
+@synthesize push_home_title = _push_home_title;
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        isPushed = YES;
+        _isPushed = YES;
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-        push_home_title = [args objectForKey:@"home_title"];
+        _push_home_title = [args objectForKey:@"home_title"];
         push_content = [args objectForKey:@"content"];
         start_index = [args objectForKey:@"start_index"];
         
@@ -97,7 +100,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
    
-    if (!isPushed) {
+    if (!_isPushed) {
         UIView* view_fake = [self.views objectForKey:@"FakeNavBar"];
         UIView* view_image = [self.views objectForKey:@"Image"];
         [view_fake addSubview:view_image];
@@ -116,7 +119,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         view_label.hidden = NO;
 
         id<AYCommand> cmd = [((id<AYViewBase>)view_label).commands objectForKey:@"changeLabelText:"];
-        id args = push_home_title;
+        id args = _push_home_title;
         [cmd performWithResult:&args];
 
         [view_label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -143,7 +146,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYCommand> cmd_reg = [del.commands objectForKey:@"setCallBackTableView:"];
         [cmd_reg performWithResult:&view_content];
         
-        if (isPushed) {
+        if (_isPushed) {
             id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
             NSArray* arr = push_content;
             [cmd_change performWithResult:&arr];
@@ -156,8 +159,15 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
-    if (isPushed && start_index) {
+    [super viewDidAppear:animated];
+    
+    if (_isPushed && start_index) {
         id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
         id<AYCommand> cmd_scroll = [view_content.commands objectForKey:@"scrollToPostion:"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -170,7 +180,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 #pragma mark -- layouts
 - (id)TableLayout:(UIView*)view {
-#define CONTENT_TAB_BAT_HEIGHT          (isPushed ? 0 : 49)
+#define CONTENT_TAB_BAT_HEIGHT          (_isPushed ? 0 : 49)
 
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height - 64 - CONTENT_TAB_BAT_HEIGHT;
@@ -184,7 +194,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [((UITableView*)view) setTableFooterView:footView];
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     
-    if (!isPushed) {
+    if (!_isPushed) {
         __unsafe_unretained UITableView *tableView = (UITableView*)view;
         
         // 下拉刷新
@@ -202,7 +212,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         tableView.mj_footer = [BSRefreshAnimationFooter footerWithRefreshingBlock:^{
             [self appendHomeContent:^{
                 [tableView reloadData];
-                [tableView.mj_header endRefreshing];
+                [tableView.mj_footer endRefreshing];
             }];
         }];
     }
@@ -222,7 +232,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 - (id)LabelLayout:(UIView*)view {
 //    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
-
     view.hidden = YES;
     return nil;
 }
@@ -428,11 +437,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 }
 
 - (void)appendHomeContent:(queryContentFinish)block {
-    id<AYFacadeBase> f_login_model = LOGINMODEL;
-    id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"];
-    id obj = nil;
-    [cmd performWithResult:&obj];
-    NSLog(@"current login user is %@", obj);
+
+    NSDictionary* user = nil;
+    CURRENUSER(user);
     
     {
         NSArray* arr = [self enumLocalHomeContent];
@@ -440,8 +447,13 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYFacadeBase> f_query_content = [self.facades objectForKey:@"ContentQueryRemote"];
         AYRemoteCallCommand* cmd_query_content = [f_query_content.commands objectForKey:@"QueryHomeContent"];
         
-        NSMutableDictionary* dic = [obj mutableCopy];
+        NSMutableDictionary* dic = [user mutableCopy];
         [dic setValue:[NSNumber numberWithInteger:arr.count] forKey:@"skip"];
+       
+        id<AYCommand> cmd_time_span = [f_query_content.commands objectForKey:@"EnumHomeTimeSpan"];
+        NSDate* d = nil;
+        [cmd_time_span performWithResult:&d];
+        [dic setValue:d forKey:@"date"];
         
         [cmd_query_content performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"user post result %@", result);

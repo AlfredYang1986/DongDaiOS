@@ -17,6 +17,9 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYNotificationCellDefines.h"
+#import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
+#import "AYRemoteCallCommand.h"
 
 #define MARGIN  8
 #define IMG_WIDTH       38
@@ -128,45 +131,30 @@
 }
 
 - (void)setUserImage:(NSString*)photo_name {
-   
-    UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self) {
-                    self.imgView.image = user_img;
-                    NSLog(@"owner img download success");
-                }
-            });
-        } else {
-            NSLog(@"down load owner image %@ failed", photo_name);
-        }
-    }];
+  
+    [self.imgView setImage:PNGRESOURCE(@"default_user")];
     
-    if (userImg == nil) {
-        userImg = PNGRESOURCE(@"default_user"); //[UIImage imageNamed:filePath];
-    }
-    [self.imgView setImage:userImg];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        [self.imgView setImage:img];
+    }];
 }
 
 - (void)UIImageView:(UIImageView*)imgView setPostImage:(NSString*)photo_name {
-   
-    UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self) {
-                    imgView.image = user_img;
-                    NSLog(@"owner img download success");
-                }
-            });
-        } else {
-            NSLog(@"down load owner image %@ failed", photo_name);
-        }
-    }];
+    [imgView setImage:PNGRESOURCE(@"default_user")];
     
-    if (userImg == nil) {
-        userImg = PNGRESOURCE(@"default_user"); // [UIImage imageNamed:filePath];
-    }
-    [imgView setImage:userImg];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        [imgView setImage:img];
+    }];
 }
 
 - (void)setDetailTarget:(NSString*)screen_name andActionType:(NotificationActionType)type andConnectContent:(NSString*)Post_id {
@@ -348,11 +336,33 @@
 }
 
 - (void)senderImgSelected:(UITapGestureRecognizer*)geture {
-//    [_delegate didSelectedSender:_notification];
+    UIViewController* des = DEFAULTCONTROLLER(@"Profile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:_notification.sender_id forKey:kAYControllerChangeArgsKey];
+    
+    [_controller performWithResult:&dic_push];
 }
 
 - (void)postContentClicked:(UITapGestureRecognizer*)geture {
-//    [_delegate didselectedPostContent:_notification];
+    UIViewController* des = DEFAULTCONTROLLER(@"Home");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:@"点赞详情" forKey:@"home_title"];
+   
+//    [args setValue:arr forKey:@"content"];
+    [dic_push setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 @synthesize para = _para;

@@ -34,9 +34,15 @@
     
     <command type="Module" name="RefrashHomeQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="AppendHomeQueryData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EnumHomeTimeSpan" factory="AYDefaultModuleFactory" />
     <command type="Module" name="EnumHomeQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="RefreshLikeData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="RefreshPushData" factory="AYDefaultModuleFactory" />
+
+    <command type="Module" name="RefrashTagContentData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="AppendTagContentData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EnumTagContentData" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EnumTagContentTimeSpan" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="UpdataChatSession" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryChatSession" factory="AYDefaultModuleFactory" />
@@ -136,6 +142,7 @@
     <command type="Remote" name="QueryRecommandRoleTags" route="roletags/queryRecommandRoleTags" factory="AYRemoteCallFactory" />
     <command type="Remote" name="SearchTagWithPreviews" route="tags/queryFoundSearchTagData" factory="AYRemoteCallFactory" />
     <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryContentsWithTag" route="tags/queryContentsWithTag" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

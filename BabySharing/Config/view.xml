@@ -80,6 +80,7 @@
         <command type="message" message="setHotTagsText:" />
         <command type="message" message="setHotTags:" />
         <command type="message" message="queryCellHeight" />
+        <command type="notify" message="TagSeleted:" />
     </view>
 
     <view type="ProfileHeader" name="ProfileHeader" factory="AYDefaultViewFactory" >

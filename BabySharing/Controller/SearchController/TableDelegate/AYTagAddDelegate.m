@@ -92,14 +92,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
    
-    id<AYCommand> n = nil;
+    id<AYCommand> n = [self.notifies objectForKey:@"TagSeleted:"];
     NSString* role_tag = nil;
-    n = [self.notifies objectForKey:@"TagSeleted:"];
     if (indexPath.row == 0) {
-//        n = [self.notifies objectForKey:@"TagSeleted:"];
         role_tag = _searchText;
     } else {
-//        n = [self.notifies objectForKey:@"TagAdded:"];
         role_tag = [_showing_tags objectAtIndex:indexPath.row - 1];
     }
     [n performWithResult:&role_tag];

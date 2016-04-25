@@ -208,7 +208,7 @@
 //    [dic setValue:SearchFriend forKey:kAYControllerActionDestinationControllerKey];
 //    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 //    [self performWithResult:&dic];
-//    
+    
     return nil;
 }
 

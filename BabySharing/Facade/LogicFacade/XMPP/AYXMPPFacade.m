@@ -157,24 +157,24 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     /**
      * for message
      */
-    NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.name!=%@", @"alfred_test"];
-    NSArray* dongda_msg = [msgList filteredArrayUsingPredicate:pm];
-   
-    if (dongda_msg.count > 0) {
-        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-        
-        if (code == GotyeStatusCodeOK) {
-            [notify setValue:kAYNotifyXMPPMessageGetMessageListSuccess forKey:kAYNotifyFunctionKey];
-        } else {
-            [notify setValue:kAYNotifyXMPPMessageGetMessageListFailed forKey:kAYNotifyFunctionKey];
-        }
-        
-        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-        [args setValue:dongda_msg forKey:@"msglist"];
-        [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-        [self performWithResult:&notify];
-    }
+//    NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.name!=%@", @"alfred_test"];
+//    NSArray* dongda_msg = [msgList filteredArrayUsingPredicate:pm];
+//   
+//    if (dongda_msg.count > 0) {
+//        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+//        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+//        
+//        if (code == GotyeStatusCodeOK) {
+//            [notify setValue:kAYNotifyXMPPMessageGetMessageListSuccess forKey:kAYNotifyFunctionKey];
+//        } else {
+//            [notify setValue:kAYNotifyXMPPMessageGetMessageListFailed forKey:kAYNotifyFunctionKey];
+//        }
+//        
+//        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+//        [args setValue:dongda_msg forKey:@"msglist"];
+//        [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//        [self performWithResult:&notify];
+//    }
 }
 
 /**

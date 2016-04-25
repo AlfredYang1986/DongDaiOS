@@ -144,8 +144,10 @@
 }
 
 - (id)TagSeleted:(id)obj {
+   
+    NSDictionary* dic = (NSDictionary*)obj;
+    NSString* tag = [dic objectForKey:@"tag_name"];
     
-    NSString* tag = (NSString*)obj;
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
     [args setValue:[NSNumber numberWithInteger:current_type] forKey:@"tag_type"];
     [args setValue:tag forKey:@"tag_text"];

@@ -350,4 +350,21 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
+    
+    <controller type="DefaultController" name="TagContent" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <facade type="DefaultFacade" name="TagContentModel" notification="true"/>
+        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
+        <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
+        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
+        
+        <view type="Table" name="Table" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="Image" name="Image" />
+        <view type="Label" name="Label" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
+    </controller>
 </controllers>

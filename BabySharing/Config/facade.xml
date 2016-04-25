@@ -91,6 +91,7 @@
         <command type="Module" name="RefrashHomeQueryData" />
         <command type="Module" name="AppendHomeQueryData" />
         <command type="Module" name="EnumHomeQueryData" />
+        <command type="Module" name="EnumHomeTimeSpan" />
         <command type="Module" name="RefreshLikeData" />
         <command type="Module" name="RefreshPushData" />
     </facade>
@@ -102,6 +103,13 @@
         <command type="Module" name="QueryNotifications" />
         <command type="Module" name="RemoveNotification" />
         <command type="Module" name="ClearNotifications" />
+    </facade>
+
+    <facade type="DefaultFacade" name="TagContentModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashTagContentData" />
+        <command type="Module" name="AppendTagContentData" />
+        <command type="Module" name="EnumTagContentData" />
+        <command type="Module" name="EnumTagContentTimeSpan" />
     </facade>
     
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
@@ -138,6 +146,7 @@
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryHomeContent" />
         <command type="Remote" name="QueryPushContent" />
+        <command type="Remote" name="QueryContentsWithTag" />
     </facade>
 
     <facade type="DefaultFacade" name="ContentPostRemote" factory="AYDefaultFacadeFactory" >

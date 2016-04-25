@@ -308,13 +308,21 @@
 }
 
 - (void)tagBtnSelected:(UITapGestureRecognizer*)tap {
-//    FoundHotTagBtn* tmp = (FoundHotTagBtn*)tap.view;
-//    [_delegate recommandTagBtnSelected:tmp.tag_name adnType:tmp.tag_type];
+    FoundHotTagBtn* tmp = (FoundHotTagBtn*)tap.view;
+    id<AYCommand> n = [self.notifies objectForKey:@"TagSeleted:"];
+    NSString* tag_name = tmp.tag_name;
+    NSNumber* tag_type = [NSNumber numberWithInteger:tmp.tag_type];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:tag_name forKey:@"tag_name"];
+    [dic setValue:tag_type forKey:@"tag_type"];
+    [n performWithResult:&dic];
 }
 
 - (void)roleTagBtnSelected:(UITapGestureRecognizer*)tap {
-//    FoundHotTagBtn* tmp = (FoundHotTagBtn*)tap.view;
-//    [_delegate recommandRoleTagBtnSelected:tmp.tag_name];
+    FoundHotTagBtn* tmp = (FoundHotTagBtn*)tap.view;
+    id<AYCommand> n = [self.notifies objectForKey:@"TagSeleted:"];
+    NSString* role_tag = tmp.tag_name;
+    [n performWithResult:&role_tag];
 }
 
 - (void)addButtomLine{
