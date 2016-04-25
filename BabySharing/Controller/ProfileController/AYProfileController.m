@@ -159,9 +159,9 @@
     self.status = RemoteControllerStatusLoading;
     dispatch_queue_t wait = dispatch_queue_create("wait for query", nil);
     dispatch_async(wait, ^{
-        dispatch_semaphore_wait(semaphore_user_info, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(semaphore_push, DISPATCH_TIME_FOREVER);
-        dispatch_semaphore_wait(semaphore_publish, DISPATCH_TIME_FOREVER);
+        dispatch_semaphore_wait(semaphore_user_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        dispatch_semaphore_wait(semaphore_push, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        dispatch_semaphore_wait(semaphore_publish, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
 
         dispatch_async(dispatch_get_main_queue(), ^{
             self.status = RemoteControllerStatusReady;

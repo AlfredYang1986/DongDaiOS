@@ -141,8 +141,21 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (previewDic == nil || previewDic.count == 0) {
-    
+    if (previewDic != nil && previewDic.count != 0) {
+        NSDictionary* dic = [previewDic objectAtIndex:indexPath.row];
+        NSString* role_tag = [dic objectForKey:@"role_tag"];
+        
+        AYViewController* des = DEFAULTCONTROLLER(@"UserPerview");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+        [dic_push setValue:role_tag forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
     }
 }
 

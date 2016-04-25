@@ -18,6 +18,8 @@
 #import "AYUserDisplayDefines.h"
 #import "AYViewController.h"
 #import "Tools.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 #define IMG_WIDTH       40
 #define IMG_HEIGHT      IMG_WIDTH
@@ -95,12 +97,6 @@
     [self setUpReuseCell];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)layoutSublayersOfLayer:(CALayer *)layer {
     if (layer == line) {
         line.frame = CGRectMake(_lineMargin, _cellHeight - 1, self.bounds.size.width - 2 * _lineMargin, 1);
@@ -108,24 +104,16 @@
 }
 
 - (void)setUserScreenPhoto:(NSString*)photo_name {
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"default_user"] ofType:@"png"];
-    
-    UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                _user_screen_photo.image = user_img;
-            });
-        } else {
-            NSLog(@"down load owner image");
-        }
+   
+    [_user_screen_photo setImage:PNGRESOURCE(@"default_user")];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        [_user_screen_photo setImage:img];
     }];
-    
-    if (userImg == nil) {
-        userImg = [UIImage imageNamed:filePath];
-    }
-    [_user_screen_photo setImage:userImg];
 }
 
 - (void)setRelationship:(UserPostOwnerConnections)connections {

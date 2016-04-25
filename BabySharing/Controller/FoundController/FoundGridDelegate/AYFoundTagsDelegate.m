@@ -147,7 +147,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!(previewDic == nil & previewDic.count != 0)) {
+    if (previewDic != nil && previewDic.count != 0) {
         NSDictionary* dic = [previewDic objectAtIndex:indexPath.row];
 
         AYViewController* des = DEFAULTCONTROLLER(@"TagContent");

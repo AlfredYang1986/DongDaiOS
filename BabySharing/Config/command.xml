@@ -166,4 +166,8 @@
     <command type="Remote" name="PostContent" route="post/postContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
+
+    <command type="Remote" name="UserRecommand" route="users/queryRecommandUsers" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UserWithRoleTag" route="users/queryRecommandUsersWithRoleTag" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UserWithScreenName" route="users/queryUsersWithScreenName" factory="AYRemoteCallFactory" />
 </commands>

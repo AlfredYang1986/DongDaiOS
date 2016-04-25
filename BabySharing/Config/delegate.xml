@@ -104,4 +104,8 @@
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeScreenPhoto:" />
     </delegate>
+
+    <delegate type="TableViewDelegateAndDatasource" name="UserTablePreview" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

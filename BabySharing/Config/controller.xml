@@ -367,4 +367,15 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>
+    
+    <controller type="DefaultController" name="UserPerview" factory="AYDefaultControllerFactoy" >
+        
+        <facade type="DefaultFacade" name="UserSearchRemote" notification="true" />
+        
+        <view type="Table" name="Table" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="UserTablePreview" />
+    </controller>
 </controllers>

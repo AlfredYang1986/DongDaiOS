@@ -363,8 +363,19 @@
         [cmd performWithResult:&dic_push];
         
     } else if ([obj isKindOfClass:[NSString class]]) {
-        NSLog(@"role tag notify");
-//        NSString* role_tag = (NSString*)obj;
+        NSString* role_tag = (NSString*)obj;
+        
+        AYViewController* des = DEFAULTCONTROLLER(@"UserPerview");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        [dic_push setValue:role_tag forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
     }
     
     return nil;

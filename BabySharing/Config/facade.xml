@@ -171,6 +171,12 @@
         <command type="Remote" name="PostPhotos" />
         <command type="Remote" name="PostMovie" />
     </facade>
+
+    <facade type="DefaultFacade" name="UserSearchRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="UserRecommand" />
+        <command type="Remote" name="UserWithRoleTag" />
+        <command type="Remote" name="UserWithScreenName" />
+    </facade>
    
     <facade type="DefaultFacade" name="ChatSessionRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryChatGroup" />
