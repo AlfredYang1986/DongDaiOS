@@ -13,4 +13,7 @@
 
 @interface AYAlbumBaseDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray* querydata;
+
+- (void)changeCellInfo:(id<AYViewBase>)cell;
+- (void)resetImageContent:(NSInteger)row cell:(id<AYViewBase>)cell;
 @end

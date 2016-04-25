@@ -144,10 +144,10 @@
             NSError* error = nil;
             if ([data writeToFile:fullname options:NSDataWritingFileProtectionComplete error:&error]) {
                 NSLog(@"write data to file success");
-                block(YES, url);
+                if (block) block(YES, url);
             } else {
                 NSLog(@"write data to file error: %@", error);
-                block(NO, nil);
+                if(block) block(NO, nil);
             }
         });
         

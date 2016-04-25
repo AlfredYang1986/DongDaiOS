@@ -68,73 +68,17 @@
     }
     
     cell.controller = self.controller;
-    {
-        id<AYCommand> cmd_info = [cell.commands objectForKey:@"setCellInfo:"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
-        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginLeftKey];
-        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginRightKey];
-        //        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
-        //        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
-        [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
-        [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
-        [cmd_info performWithResult:&dic];
-    }
-#define PHOTO_PER_LINE 3
-    {
-        NSInteger row = indexPath.row;
-        NSMutableArray* arr_content = nil;
-        @try {
-            NSArray* arr_tmp = [_querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, PHOTO_PER_LINE)]];
-            arr_content = [[NSMutableArray alloc] initWithCapacity:PHOTO_PER_LINE];
-            for (QueryContent* item in arr_tmp) {
-                for (QueryContentItem * cur in item.items) {
-                    if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
-                        [arr_content addObject:cur.item_name];
-                        break;
-                    }
-                }
-            }
-        } @catch (NSException *exception) {
-            NSArray* arr_tmp = [_querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, _querydata.count - row * PHOTO_PER_LINE)]];
-            arr_content = [[NSMutableArray alloc]initWithCapacity:PHOTO_PER_LINE];
-            for (QueryContent* item in arr_tmp) {
-                for (QueryContentItem *cur in item.items) {
-                    if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
-                        [arr_content addObject:cur.item_name];
-                        break;
-                    }
-                }
-            }
-        }
-        
-        id<AYCommand> cmd_item = [cell.commands objectForKey:@"setUpItems:"];
-        NSMutableDictionary * dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:arr_content forKey:kAYAlbumTableCellItemKey];
-        [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
-        [dic setValue:[NSNumber numberWithInteger:row] forKey:kAYAlbumTableCellRowKey];
-        [dic setValue:[NSNumber numberWithInt:AlbumControllerTypePhoto] forKey:kAYAlbumTableCellControllerTypeKey];
-        
-        [cmd_item performWithResult:&dic];
-    }
+    
+    [self changeCellInfo:cell];
+    NSInteger row = indexPath.row;
+    [self resetImageContent:row cell:cell];
     
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<AYViewBase> v = VIEW(kAYAlbumTableCellName, kAYAlbumTableCellName);
-    {
-        id<AYCommand> cmd_info = [v.commands objectForKey:@"setCellInfo:"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginLeftKey];
-        [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginRightKey];
-        //        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
-        //        [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
-        [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
-        [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
-        [cmd_info performWithResult:&dic];
-    }
-    
+    [self changeCellInfo:v];
     id<AYCommand> cmd_height = [v.commands objectForKey:@"queryPerferedHeight"];
     NSNumber* height = nil;
     [cmd_height performWithResult:&height];
@@ -143,5 +87,56 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+#pragma mark -- arcitons
+- (void)changeCellInfo:(id<AYViewBase>)cell {
+    id<AYCommand> cmd_info = [cell.commands objectForKey:@"setCellInfo:"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
+    [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginLeftKey];
+    [dic setValue:[NSNumber numberWithFloat:0.f] forKey:kAYAlbumTableCellMarginRightKey];
+    // [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginLeftKey];
+    // [dic setValue:[NSNumber numberWithFloat:10.5f] forKey:kAYAlbumTableCellMarginRightKey];
+    [dic setValue:[NSNumber numberWithFloat:3.f] forKey:kAYAlbumTableCellCornerRadiusKey];
+    [dic setValue:[NSNumber numberWithFloat:2.f] forKey:kAYAlbumTableCellMarginBetweenKey];
+    [cmd_info performWithResult:&dic];
+}
+
+- (void)resetImageContent:(NSInteger)row cell:(id<AYViewBase>)cell {
+    #define PHOTO_PER_LINE 3
+    NSMutableArray* arr_content = nil;
+    @try {
+        NSArray* arr_tmp = [_querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, PHOTO_PER_LINE)]];
+        arr_content = [[NSMutableArray alloc] initWithCapacity:PHOTO_PER_LINE];
+        for (QueryContent* item in arr_tmp) {
+            for (QueryContentItem * cur in item.items) {
+                if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
+                    [arr_content addObject:cur.item_name];
+                    break;
+                }
+            }
+        }
+    } @catch (NSException *exception) {
+        NSArray* arr_tmp = [_querydata objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(row * PHOTO_PER_LINE, _querydata.count - row * PHOTO_PER_LINE)]];
+        arr_content = [[NSMutableArray alloc]initWithCapacity:PHOTO_PER_LINE];
+        for (QueryContent* item in arr_tmp) {
+            for (QueryContentItem *cur in item.items) {
+                if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
+                    [arr_content addObject:cur.item_name];
+                    break;
+                }
+            }
+        }
+    }
+    
+    id<AYCommand> cmd_item = [cell.commands objectForKey:@"setUpItems:"];
+    NSMutableDictionary * dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:arr_content forKey:kAYAlbumTableCellItemKey];
+    [dic setValue:cell forKey:kAYAlbumTableCellSelfKey];
+    [dic setValue:[NSNumber numberWithInteger:row] forKey:kAYAlbumTableCellRowKey];
+    [dic setValue:[NSNumber numberWithInt:AlbumControllerTypePhoto] forKey:kAYAlbumTableCellControllerTypeKey];
+    
+    [cmd_item performWithResult:&dic];
 }
 @end

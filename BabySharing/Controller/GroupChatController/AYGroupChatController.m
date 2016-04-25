@@ -100,6 +100,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
     UIView* img = [self.views objectForKey:@"Image"];
     [self.view sendSubviewToBack:img];
+   
+    UIView* bar = [self.views objectForKey:@"GroupChatHeader"];
+    [self.view bringSubviewToFront:bar];
     
     UIView* loading = [self.views objectForKey:@"Loading"];
     [self.view bringSubviewToFront:loading];
