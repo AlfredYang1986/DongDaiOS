@@ -160,7 +160,6 @@
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //    return [self.querydata count] + none_friend_lst.count ;
-    return [self.querydata count] ;
     return [self.querydata count] + none_friend_lst.count;
 }
 
