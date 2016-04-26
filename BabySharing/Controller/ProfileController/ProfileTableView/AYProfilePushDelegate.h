@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AYAlbumBaseDelegate.h"
+#import "AYCommand.h"
+#import "AYViewBase.h"
+#import <UIKit/UIKit.h>
+#import "AYViewController.h"
 
-@interface AYProfilePushDelegate : AYAlbumBaseDelegate
+@interface AYProfilePushDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

@@ -152,6 +152,23 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_hot_cell performWithResult:&class_name];
     }
+    {
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"ProfilePush"];
+        
+        id obj = (id)cmd_pubish;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_pubish;
+        [cmd_delegate performWithResult:&obj];
+        
+        id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
+        NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfilePushCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_search performWithResult:&nib_search_name];
+        
+    }
    
 }
 
@@ -311,9 +328,12 @@
 
 - (id)TableLayout:(UIView*)view {
 #define PUSHED_MODIFY           (isPushed ? 49 : 0)
-    view.frame = CGRectMake(QUERY_VIEW_MARGIN_LEFT, QUERY_VIEW_MARGIN_UP + HEADER_VIEW_HEIGHT + SEG_CTR_HEIGHT - 2, [UIScreen mainScreen].bounds.size.width - QUERY_VIEW_MARGIN_LEFT - QUERY_VIEW_MARGIN_RIGHT, [UIScreen mainScreen].bounds.size.height - QUERY_VIEW_MARGIN_UP - QUERY_VIEW_MARGIN_BOTTOM - HEADER_VIEW_HEIGHT - 100 + PUSHED_MODIFY);
+    view.frame = CGRectMake(QUERY_VIEW_MARGIN_LEFT, QUERY_VIEW_MARGIN_UP + HEADER_VIEW_HEIGHT + SEG_CTR_HEIGHT - 3, [UIScreen mainScreen].bounds.size.width - QUERY_VIEW_MARGIN_LEFT - QUERY_VIEW_MARGIN_RIGHT, [UIScreen mainScreen].bounds.size.height - QUERY_VIEW_MARGIN_UP - QUERY_VIEW_MARGIN_BOTTOM - HEADER_VIEW_HEIGHT - 100 + PUSHED_MODIFY);
+    UIView* head = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 8)];
+    head.backgroundColor = [UIColor whiteColor];
+    ((UITableView*)view).tableHeaderView = head;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 

@@ -19,6 +19,7 @@
         <command type="message" message="changeRoleTag:" />
         <command type="notify" message="updateUserProfile:" />
         <command type="notify" message="beginEditTextFiled" />
+        <command type="message" message="hideKeyboard" />
     </view>
 
     <view type="SearchBar" name="SearchBar" factory="AYDefaultViewFactory" >
@@ -234,6 +235,12 @@
     </view>
 
     <view type="UserDisplay" name="UserDisplay" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="setDisplayUserInfo:" />
+        <command type="message" message="queryCellHeight" />
+    </view>
+    
+    <view type="UserDisplay" name="ProfilePushCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setDisplayUserInfo:" />
         <command type="message" message="queryCellHeight" />

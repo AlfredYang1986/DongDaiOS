@@ -334,4 +334,9 @@
     tag_text_field.text = role_tag;
     return nil;
 }
+
+- (id)hideKeyboard {
+    [name_text_field resignFirstResponder];
+    return nil;
+}
 @end

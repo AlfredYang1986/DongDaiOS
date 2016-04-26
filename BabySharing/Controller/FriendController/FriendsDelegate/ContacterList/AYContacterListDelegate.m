@@ -116,9 +116,9 @@
 //- (void)splitWithFriends:(NSArray*)obj {
     NSPredicate* p = [NSPredicate predicateWithBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
         CNContact* tmpPerson = evaluatedObject;
-        NSArray<CNLabeledValue<CNPhoneNumber*>*>* phones = tmpPerson.phoneNumbers; //ABRecordCopyValue(CFBridgingRetain(tmpPerson), kABPersonPhoneProperty);
+        NSArray<CNLabeledValue<CNPhoneNumber*>*>* phones = tmpPerson.phoneNumbers;
         for (int index = 0; index < phones.count; ++index) {
-            NSString* phoneNo = [phones objectAtIndex:index].value.stringValue; //CFBridgingRelease(ABMultiValueCopyValueAtIndex(phones, index));
+            NSString* phoneNo = [phones objectAtIndex:index].value.stringValue;
             phoneNo = [phoneNo stringByReplacingOccurrencesOfString:@" " withString:@""];
             phoneNo = [phoneNo stringByReplacingOccurrencesOfString:@"-" withString:@""];
             
@@ -137,9 +137,9 @@
     
     NSPredicate* p_not = [NSPredicate predicateWithBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
         CNContact* tmpPerson = evaluatedObject;
-        NSArray<CNLabeledValue<CNPhoneNumber*>*>* phones = tmpPerson.phoneNumbers; //ABRecordCopyValue(CFBridgingRetain(tmpPerson), kABPersonPhoneProperty);
+        NSArray<CNLabeledValue<CNPhoneNumber*>*>* phones = tmpPerson.phoneNumbers;
         for (int index = 0; index < phones.count; ++index) {
-            NSString* phoneNo = [phones objectAtIndex:index].value.stringValue; //CFBridgingRelease(ABMultiValueCopyValueAtIndex(phones, index));
+            NSString* phoneNo = [phones objectAtIndex:index].value.stringValue;
             phoneNo = [phoneNo stringByReplacingOccurrencesOfString:@" " withString:@""];
             phoneNo = [phoneNo stringByReplacingOccurrencesOfString:@"-" withString:@""];
             

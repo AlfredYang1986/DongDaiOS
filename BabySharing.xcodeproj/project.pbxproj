@@ -305,6 +305,8 @@
 		7060BDBD1CB631E2001E4111 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7060BDBC1CB631E2001E4111 /* LaunchScreen.storyboard */; };
 		7060BDBF1CB63219001E4111 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7060BDBE1CB63219001E4111 /* InfoPlist.strings */; };
 		7060BDC31CB63387001E4111 /* AYOthersLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7060BDC21CB63387001E4111 /* AYOthersLoginController.m */; };
+		706881641CCF641800D9D715 /* AYProfilePushCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706881621CCF641800D9D715 /* AYProfilePushCellView.m */; };
+		706881651CCF641800D9D715 /* AYProfilePushCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 706881631CCF641800D9D715 /* AYProfilePushCellView.xib */; };
 		707B4D3D1CA819D900F6256E /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D381CA819D900F6256E /* Tools.m */; };
 		707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D3A1CA819D900F6256E /* UIImage+fixOrientation.m */; };
 		707B4D3F1CA819D900F6256E /* UINavigationController+Retro.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D3C1CA819D900F6256E /* UINavigationController+Retro.m */; };
@@ -1078,6 +1080,9 @@
 		7060BDBE1CB63219001E4111 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		7060BDC11CB63387001E4111 /* AYOthersLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOthersLoginController.h; sourceTree = "<group>"; };
 		7060BDC21CB63387001E4111 /* AYOthersLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOthersLoginController.m; sourceTree = "<group>"; };
+		706881611CCF641800D9D715 /* AYProfilePushCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfilePushCellView.h; sourceTree = "<group>"; };
+		706881621CCF641800D9D715 /* AYProfilePushCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfilePushCellView.m; sourceTree = "<group>"; };
+		706881631CCF641800D9D715 /* AYProfilePushCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYProfilePushCellView.xib; sourceTree = "<group>"; };
 		707B4D361CA819D900F6256E /* Define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
 		707B4D371CA819D900F6256E /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		707B4D381CA819D900F6256E /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
@@ -2324,6 +2329,7 @@
 				701524261CBF4D90005B4C5B /* FriendsDelegate */,
 				70120CB21CBE4FFE00B169F9 /* FriendsView */,
 				703CCDDF1CC9EBA700CF4563 /* NotificationDelegate */,
+				703B897C1CBFBD42002EBB18 /* ContacterList */,
 				703CCDDA1CC9EAE600CF4563 /* SearchFriendController */,
 			);
 			path = FriendController;
@@ -2369,7 +2375,6 @@
 			isa = PBXGroup;
 			children = (
 				706881591CCF10BB00D9D715 /* SearchFriend */,
-				703B897C1CBFBD42002EBB18 /* ContacterList */,
 				701524271CBF4D90005B4C5B /* UserRelations */,
 			);
 			path = FriendsDelegate;
@@ -3262,6 +3267,7 @@
 		7039CBCB1CBB77D100BE60C7 /* ProfileController */ = {
 			isa = PBXGroup;
 			children = (
+				706881601CCF641800D9D715 /* ProfilePushCell */,
 				7039CBD31CBB7AFA00BE60C7 /* ProfileTableView */,
 				7039CBCF1CBB7AD300BE60C7 /* ProfileHeader */,
 				7039CBCC1CBB77EA00BE60C7 /* AYProfileController.h */,
@@ -3349,7 +3355,8 @@
 				703CCDD11CC9E9E500CF4563 /* AYContacterListDelegate.h */,
 				703CCDD21CC9E9E500CF4563 /* AYContacterListDelegate.m */,
 			);
-			path = ContacterList;
+			name = ContacterList;
+			path = FriendsDelegate/ContacterList;
 			sourceTree = "<group>";
 		};
 		703CCD971CC9CF7E00CF4563 /* QueryMessages */ = {
@@ -3716,6 +3723,16 @@
 			children = (
 			);
 			path = SearchFriend;
+			sourceTree = "<group>";
+		};
+		706881601CCF641800D9D715 /* ProfilePushCell */ = {
+			isa = PBXGroup;
+			children = (
+				706881611CCF641800D9D715 /* AYProfilePushCellView.h */,
+				706881621CCF641800D9D715 /* AYProfilePushCellView.m */,
+				706881631CCF641800D9D715 /* AYProfilePushCellView.xib */,
+			);
+			path = ProfilePushCell;
 			sourceTree = "<group>";
 		};
 		7077673A1CA55EAE00BC0806 /* ViewCommand */ = {
@@ -5284,6 +5301,7 @@
 				7001310B1CA44057006003C8 /* view.xml in Resources */,
 				702510811CC0EA2C00DADF2B /* AYGroupListCellView.xib in Resources */,
 				70490DBE1CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				706881651CCF641800D9D715 /* AYProfilePushCellView.xib in Resources */,
 				70F369C01CC395710067B62E /* AYFoundSearchResultCellView.xib in Resources */,
 				702E7A8E1CA151770097867E /* icon-152.png in Resources */,
 				702E7AB71CA169C00097867E /* color.xml in Resources */,
@@ -5337,6 +5355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				706881641CCF641800D9D715 /* AYProfilePushCellView.m in Sources */,
 				701524831CBF9AB4005B4C5B /* BSRefreshAnimationFooter.m in Sources */,
 				701524191CBF499C005B4C5B /* AYFollowCommand.m in Sources */,
 				701524871CBF9AB4005B4C5B /* BSRefreshAnimationHeader.m in Sources */,

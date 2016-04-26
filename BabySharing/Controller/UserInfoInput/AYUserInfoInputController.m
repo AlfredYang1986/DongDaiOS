@@ -164,7 +164,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
 }
 
@@ -255,6 +255,12 @@
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     NSLog(@"tap esle where");
+    
+}
+- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
+    id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
+    [cmd performWithResult:nil];
 }
 
 #pragma mark -- UIImagePickerControllerDelegate

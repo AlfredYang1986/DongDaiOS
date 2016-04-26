@@ -205,7 +205,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     }];
 }
 
-#pragma mark -- actions
+#pragma mark -- actions//michauxs
 - (void)handleTap:(UITapGestureRecognizer*)gueture {
     id<AYViewBase> view = [self.views objectForKey:@"LandingInput"];
     id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];

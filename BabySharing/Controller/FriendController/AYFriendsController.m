@@ -96,7 +96,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
                         [cmd performWithResult:&result];
                         
                         id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
-                        [cmd_refresh performWithResult:nil];                      
+                        [cmd_refresh performWithResult:nil];
                     }];
                 
                 } else {
