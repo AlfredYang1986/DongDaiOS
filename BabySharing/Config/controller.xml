@@ -165,7 +165,6 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
-<!--        <facade type="DefaultFacade" name="Contacter" notification="true" />-->
 
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
@@ -180,13 +179,14 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="SearchRemote" notification="true" />
-        
+        <facade type="DefaultFacade" name="UserSearchRemote" notification="true" />
+<!--        <facade type="DefaultFacade" name="UserWithScreenName" notification="true" />-->
+
         <view type="Table" name="Table" />
         <view type="SearchBar" name="SearchBar" />
         <view type="Loading" name="Loading" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" />
-        <delegate type="TableViewDelegateAndDatasource" name="FoundTags" /> 
+        <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />
     </controller>
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >

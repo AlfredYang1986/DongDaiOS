@@ -2368,6 +2368,7 @@
 		701524261CBF4D90005B4C5B /* FriendsDelegate */ = {
 			isa = PBXGroup;
 			children = (
+				706881591CCF10BB00D9D715 /* SearchFriend */,
 				703B897C1CBFBD42002EBB18 /* ContacterList */,
 				701524271CBF4D90005B4C5B /* UserRelations */,
 			);
@@ -3708,6 +3709,13 @@
 				7060BDC21CB63387001E4111 /* AYOthersLoginController.m */,
 			);
 			path = OthersLoginController;
+			sourceTree = "<group>";
+		};
+		706881591CCF10BB00D9D715 /* SearchFriend */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SearchFriend;
 			sourceTree = "<group>";
 		};
 		7077673A1CA55EAE00BC0806 /* ViewCommand */ = {

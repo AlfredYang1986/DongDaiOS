@@ -9,6 +9,15 @@
 #import "AYSearchFriendController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
+#import "AYViewBase.h"
+#import "AYResourceManager.h"
+#import "AYFacadeBase.h"
+#import "AYFacade.h"
+#import "AYRemoteCallCommand.h"
+#import "AYRemoteCallDefines.h"
+
+#import "AYDongDaSegDefines.h"
+#import "AYSearchDefines.h"
 
 @interface AYSearchFriendController ()<UISearchBarDelegate>
 
@@ -88,6 +97,8 @@
     view.frame = CGRectMake(0, 0, width, height - 64);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 
@@ -130,61 +141,52 @@
     [cmd performWithResult:&dic_pop];
 }
 
+
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
-    if ([searchText isEqualToString:@""]) {
-        {
-            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundTags"];
-            id<AYCommand> cmd = [del.commands objectForKey:@"changePreviewData:"];
-            id obj = nil;
-            [cmd performWithResult:&obj];
-        }
+    if (![searchText isEqualToString:@""]) {
         
-        {
-            id<AYDelegateBase> del = [self.delegates objectForKey:@"FoundRoleTag"];
-            id<AYCommand> cmd = [del.commands objectForKey:@"changePreviewData:"];
-            id obj = nil;
-            [cmd performWithResult:&obj];
-        }
+        id<AYFacadeBase> f_search = [self.facades objectForKey:@"UserSearchRemote"];
+        AYRemoteCallCommand* cmd_screen_name = [f_search.commands objectForKey:@"UserWithScreenName"];
+        NSDictionary* obj = nil;
+        CURRENUSER(obj)
+        NSMutableDictionary* dic = [obj mutableCopy];
+        [dic setValue:searchText forKey:@"screen_name"];
         
-        id<AYViewBase> view = [self.views objectForKey:@"Table"];
-        id<AYCommand> cmd = [view.commands objectForKey:@"refresh"];
-        [cmd performWithResult:nil];
-        
+        [cmd_screen_name performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            if (success) {
+                NSLog(@"query recommand tags result %@", result);
+                
+                id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
+                id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"UserRelations"];
+                
+                id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeFriendsData:"];
+                NSArray* tmp = (NSArray*)result;
+                [cmd performWithResult:&tmp];
+                
+                id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
+                [cmd_refresh performWithResult:nil];
+            }else {
+                NSLog(@"UserSearchRemote remote faild");
+            }
+        }];
     }
+
 }
 
-//- (id)searchTextChanged:(id)obj {
-//    NSString* search_text = (NSString*)obj;
-//    NSLog(@"text %@", search_text);
-//    
-//    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-//    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-//    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-//    
-//    if (search_text.length == 0) {
-//        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"TagRecommend"];
-//        
-//        id obj = (id)cmd_recommend;
-//        [cmd_datasource performWithResult:&obj];
-//        obj = (id)cmd_recommend;
-//        [cmd_delegate performWithResult:&obj];
-//    } else {
-//        id<AYDelegateBase> cmd_add = [self.delegates objectForKey:@"TagAdd"];
-//        
-//        id obj = (id)cmd_add;
-//        [cmd_datasource performWithResult:&obj];
-//        obj = (id)cmd_add;
-//        [cmd_delegate performWithResult:&obj];
-//        
-//        id<AYCommand> cmd_reset_search_text = [cmd_add.commands objectForKey:@"changeSearchText:"];
-//        [cmd_reset_search_text performWithResult:&search_text];
-//    }
-//    
-//    id<AYCommand> cmd_reload = [view_table.commands objectForKey:@"refresh"];
-//    [cmd_reload performWithResult:nil];
-//    
-//    return nil;
-//}
+- (id)searchTextChanged:(id)obj {
+    NSString* search_text = (NSString*)obj;
+    NSLog(@"text %@", search_text);
+    
+    return nil;
+}
+
+- (id)scrollToHideKeyBoard {
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    if ([view isFirstResponder]) {
+        [view resignFirstResponder];
+    }
+    return nil;
+}
 
 @end

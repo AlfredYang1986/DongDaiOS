@@ -44,6 +44,7 @@
         <command type="message" message="changeFollowingData:" />
         <command type="message" message="changeFollowedData:" />
         <command type="message" message="resetCurrentShowingIndex:" />
+        <command type="notify" message="scrollToHideKeyBoard" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="ContacterList" factory="AYDefaultDelegateFactory" >

@@ -93,6 +93,7 @@
     [self.layer addSublayer:line];
     
     _cellHeight = [AYUserDisplayView preferredHeight];
+    _connections = -1;
     
     [self setUpReuseCell];
 }

@@ -140,4 +140,10 @@
             return nil;
     }
 }
+
+#pragma mark -- scroll view delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToHideKeyBoard"];
+    [cmd performWithResult:nil];
+}
 @end
