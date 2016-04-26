@@ -169,11 +169,24 @@
 
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SearchFriend" name="SearchFriend" />
         <view type="DongDaSeg" name="DongDaSeg" />
         <view type="Table2" name="Table2" />
+        <view type="SearchBar" name="SearchBar" />
         
         <delegate type="TableViewDelegateAndDatasource" name="ContacterList" />
+    </controller>
+    
+    <controller type="DefaultController" name="SearchFriend" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        <facade type="DefaultFacade" name="SearchRemote" notification="true" />
+        
+        <view type="Table" name="Table" />
+        <view type="SearchBar" name="SearchBar" />
+        <view type="Loading" name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" />
+        <delegate type="TableViewDelegateAndDatasource" name="FoundTags" /> 
     </controller>
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >

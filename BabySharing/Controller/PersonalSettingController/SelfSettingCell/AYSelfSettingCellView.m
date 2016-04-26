@@ -170,7 +170,9 @@ static NSString* const kAYSelfSettingCellHideCancelBtn = @"hideCancel";
     [dic setValue:photo_name forKey:@"image"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
-        [self.headView setImage:img];
+        if (img != nil) {
+            [self.headView setImage:img];
+        }
     }];
 }
 

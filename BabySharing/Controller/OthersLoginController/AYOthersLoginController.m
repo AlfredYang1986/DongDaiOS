@@ -207,7 +207,9 @@
     [cmd_download performWithResult:[dic_download copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
-        [cmd performWithResult:&img];
+        if (img != nil) {
+            [cmd performWithResult:&img];
+        }
     }];
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];

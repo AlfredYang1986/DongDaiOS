@@ -114,7 +114,9 @@
             [dic setValue:photo_name forKey:@"image"];
             [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 UIImage* img = (UIImage*)result;
-                [tmp setBackgroundImage:img forState:UIControlStateNormal];
+                if (img != nil) {
+                    [tmp setBackgroundImage:img forState:UIControlStateNormal];
+                }
             }];
             [_user_list_view addSubview:tmp];
            

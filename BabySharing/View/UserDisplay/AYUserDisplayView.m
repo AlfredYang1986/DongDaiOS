@@ -112,7 +112,9 @@
     [dic setValue:photo_name forKey:@"image"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
-        [_user_screen_photo setImage:img];
+        if (img != nil) {
+            [_user_screen_photo setImage:img];
+        }
     }];
 }
 

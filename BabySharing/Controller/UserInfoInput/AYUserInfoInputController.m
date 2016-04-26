@@ -110,7 +110,9 @@
         AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
         [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             UIImage* image = (UIImage*)result;
-            [cmd performWithResult:&image];
+            if (image != nil) {
+                [cmd performWithResult:&image];
+            }
         }];
     }
     

@@ -101,6 +101,7 @@
 		700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6211CBA7CEB00A09B3A /* DongDaTabBar.m */; };
 		700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */; };
 		700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */; };
+		701152581CCE62750064A79C /* AYFoundNickCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701152571CCE62750064A79C /* AYFoundNickCellView.m */; };
 		70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */; };
 		70120CA71CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9F1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m */; };
 		70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120CA21CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m */; };
@@ -689,6 +690,8 @@
 		700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DongDaTabBarItem.m; sourceTree = "<group>"; };
 		700BE62A1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPreCreateControllerFactoy.h; sourceTree = "<group>"; };
 		700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPreCreateControllerFactoy.m; sourceTree = "<group>"; };
+		701152561CCE62750064A79C /* AYFoundNickCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundNickCellView.h; sourceTree = "<group>"; };
+		701152571CCE62750064A79C /* AYFoundNickCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundNickCellView.m; sourceTree = "<group>"; };
 		70120C9C1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendOwnerQueryPushDataCommand.h; sourceTree = "<group>"; };
 		70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendOwnerQueryPushDataCommand.m; sourceTree = "<group>"; };
 		70120C9E1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOwnerQueryPushModelFacade.h; sourceTree = "<group>"; };
@@ -2269,6 +2272,15 @@
 			path = ChildControllerInit;
 			sourceTree = "<group>";
 		};
+		701152551CCE62200064A79C /* FoundNickCell */ = {
+			isa = PBXGroup;
+			children = (
+				701152561CCE62750064A79C /* AYFoundNickCellView.h */,
+				701152571CCE62750064A79C /* AYFoundNickCellView.m */,
+			);
+			path = FoundNickCell;
+			sourceTree = "<group>";
+		};
 		70120C9A1CBE0D9400B169F9 /* OwnerQueryPushModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -3243,6 +3255,7 @@
 		7039CBC21CBB68E500BE60C7 /* SearchViews */ = {
 			isa = PBXGroup;
 			children = (
+				701152551CCE62200064A79C /* FoundNickCell */,
 				7002DB951CC660070013FF2A /* FoundHotTagsCell */,
 				7002DB981CC660070013FF2A /* FoundSearchHeader */,
 				700692F91CC4A03100B511FF /* FoundHotTagBtn */,
@@ -5656,6 +5669,7 @@
 				80D5E7C11CCC7C2000A82117 /* AYPhotoTagView.m in Sources */,
 				8086A2411CCE8122006186D4 /* AYEnumTagContentTimeSpanCommand.m in Sources */,
 				70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */,
+				701152581CCE62750064A79C /* AYFoundNickCellView.m in Sources */,
 				80D5E7C31CCC7C2000A82117 /* PhotoTagTariangleLayer.m in Sources */,
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,
 				705B84561CC6A4D60057D442 /* AYTagPreviewView.m in Sources */,

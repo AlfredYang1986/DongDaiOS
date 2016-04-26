@@ -420,7 +420,9 @@
             [dic setValue:chater.chaterImg forKey:@"image"];
             [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 UIImage* img = (UIImage*)result;
-                imageView.image = img;
+                if (img != nil) {
+                    imageView.image = img;
+                }
             }];
         }
         originX = originX + (indexChater) * 28 + 10 - (indexChater - 1) * 5;

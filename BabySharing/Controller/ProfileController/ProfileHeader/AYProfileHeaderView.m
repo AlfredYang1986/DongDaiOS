@@ -119,7 +119,9 @@
         NSData * imageData = UIImageJPEGRepresentation(img, 1);
         CGFloat length = [imageData length]/1000;
         NSLog(@"img size %f", length);
-        imgView.image = img;
+        if (img != nil) {
+            imgView.image = img;
+        }
     }];
     
     return nil;

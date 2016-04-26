@@ -7,6 +7,7 @@
 //
 
 #import "AYViewController.h"
+#import "AYViewBase.h"
 
 @interface AYSearchFriendController : AYViewController
 
