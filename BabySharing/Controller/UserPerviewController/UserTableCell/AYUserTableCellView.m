@@ -66,14 +66,18 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    CALayer* layer = [CALayer layer];
+    layer.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+    layer.borderWidth = 1.f;
+    layer.frame = CGRectMake(0, [AYUserTableCellView preferredHeight] - 1, [UIScreen mainScreen].bounds.size.width, 1);
+    [self.layer addSublayer:layer];
+    
     _headView.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _headView.layer.borderWidth = 1.5f;
     _headView.layer.cornerRadius = IMG_WIDTH / 2;
     _headView.clipsToBounds = YES;
     
     _headView.userInteractionEnabled = YES;
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didSelectedScreenPhoto)];
-//    [_headView addGestureRecognizer:tap];
     
     if (_userRoleTagBtn == nil) {
         _userRoleTagBtn = [[OBShapedButton alloc]init];
@@ -111,11 +115,14 @@
 - (void)setUserScreenName:(NSString*)name {
     _userNameLabel.text = name;
     _userNameLabel.font = [UIFont systemFontOfSize:14.0f];
-    [_userNameLabel sizeToFit];
+    
 #define TAG_2_NAME_MARGIN   10
 #define USER_NAME_TOP_MARGIN    8
-    //    _userNameLabel.center = CGPointMake(_headView.center.x + _headView.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width / 2, PREFERRED_HEIGHT / 2);
-    _userNameLabel.center = CGPointMake(_headView.center.x + _headView.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width / 2, PREFERRED_HEIGHT / 2);
+    
+    [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_headView);
+        make.left.equalTo(_headView.mas_right).offset(8);
+    }];
 }
 
 - (void)setUserRoleTag:(NSString*)role_tag {
@@ -135,9 +142,21 @@
     [label sizeToFit];
     label.center = CGPointMake(5 + label.frame.size.width / 2, ROLE_TAG_MARGIN + label.frame.size.height / 2);
     
-    _userRoleTagBtn.frame = CGRectMake(0, 0, label.frame.size.width + 10 + ROLE_TAG_MARGIN, label.frame.size.height + 2 * ROLE_TAG_MARGIN);
-    //    _userRoleTagBtn.center = CGPointMake(_headView.center.x + _headView.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width + TAG_2_NAME_MARGIN + _userRoleTagBtn.frame.size.width / 2, PREFERRED_HEIGHT / 2);
-    _userRoleTagBtn.center = CGPointMake(_headView.center.x + _headView.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width + TAG_2_NAME_MARGIN + _userRoleTagBtn.frame.size.width / 2, PREFERRED_HEIGHT / 2);
+    [_userRoleTagBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_headView);
+        make.left.equalTo(_userNameLabel.mas_right).offset(8);
+        make.width.mas_equalTo(label.frame.size.width + 10 + ROLE_TAG_MARGIN);
+        make.height.mas_equalTo(label.frame.size.height + 2 * ROLE_TAG_MARGIN);
+    }];
+    
+    if (label.frame.size.width != 0) {
+        [_userRoleTagBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_headView);
+            make.left.equalTo(_userNameLabel.mas_right).offset(8);
+            make.width.mas_equalTo(label.frame.size.width + 10 + ROLE_TAG_MARGIN);
+            make.height.mas_equalTo(label.frame.size.height + 2 * ROLE_TAG_MARGIN);
+        }];
+    }
     
     if ([@"" isEqualToString:role_tag]) {
         _userRoleTagBtn.hidden = YES;
@@ -152,17 +171,30 @@
     }
    
     NSMutableArray* marr = [[NSMutableArray alloc]init];
+    CGFloat offset = 0;
+    CGFloat index = 0;
     for (NSDictionary* tmp  in perviews) {
         NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.type=0"];
         NSArray* filter_arr = [[tmp objectForKey:@"items"] filteredArrayUsingPredicate:p];
         NSString* photo_name = [filter_arr.firstObject objectForKey:@"name"];
        
-        CGFloat width = [UIScreen mainScreen].bounds.size.width / 3;
-        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width, width)];
+        CGFloat width = ([UIScreen mainScreen].bounds.size.width - 3) / 3 ;
+        offset = (width + 1.5) * index;
+        UIImageView* view = [[UIImageView alloc]init];
+        view.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+        view.layer.borderWidth = 1.f;
         [self setPhoto:photo_name forView:view];
-        view.center = CGPointMake(view.center.x + marr.count * width, view.center.y + PREFERRED_HEIGHT);
+//        view.center = CGPointMake(view.center.x + marr.count * width, view.center.y + PREFERRED_HEIGHT);
+        NSLog(@"sunfei -- %f",offset);
         [marr addObject:view];
         [self addSubview:view];
+        [view mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self).offset(-8);
+            make.left.equalTo(self).offset(offset);
+            make.width.mas_equalTo(width);
+            make.height.mas_equalTo(width);
+        }];
+        ++index;
     }
     perviewViews = [marr copy];
 }
@@ -197,9 +229,15 @@
         UIView* btn = args;
         
         btn.tag = -1;
-        btn.frame =  CGRectMake(0, 0, 69, 25);
-        btn.center = CGPointMake(51, 25);
+//        btn.frame =  CGRectMake(0, 0, 69, 25);
+//        btn.center = CGPointMake(51, 25);
         [_relationContainer addSubview:btn];
+        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_headView);
+            make.right.equalTo(self).offset(-10);
+            make.width.mas_equalTo(69);
+            make.height.mas_equalTo(25);
+        }];
         
         ((id<AYViewBase>)btn).controller = self;
     }

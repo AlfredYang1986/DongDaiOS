@@ -102,7 +102,7 @@
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     view.frame = CGRectMake(0, 0, width, height - 64);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 
