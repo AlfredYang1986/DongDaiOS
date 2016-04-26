@@ -247,7 +247,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         message.description = @"我在咚哒，快来加入咚哒吧";
         message.thumbData = UIImagePNGRepresentation([UIImage imageNamed:[[NSBundle mainBundle] pathForResource:@"icon" ofType:@"png"]]);
         WXWebpageObject *webpageObject = [WXWebpageObject object];
-        webpageObject.webpageUrl = @"www.baidu.com";
+        webpageObject.webpageUrl = @"https://appsto.re/cn/E_Orbb.i";
         message.mediaObject = webpageObject;
         
         SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
@@ -269,7 +269,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         QQApiObject *qqObj;
         
         NSData *previewData = UIImagePNGRepresentation([Tools OriginImage:[UIImage imageNamed:[[NSBundle mainBundle] pathForResource:@"icon" ofType:@"png"]] scaleToSize:CGSizeMake(100, 100)]);
-        qqObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:@"www.baidu.com"] title:@"咚哒" description:@"快来加入咚哒吧!!!" previewImageData:previewData targetContentType:QQApiURLTargetTypeNews];
+        qqObj = [QQApiNewsObject objectWithURL:[NSURL URLWithString:@"https://appsto.re/cn/E_Orbb.i"] title:@"咚哒" description:@"快来加入咚哒吧!!!" previewImageData:previewData targetContentType:QQApiURLTargetTypeNews];
         
         req = [SendMessageToQQReq reqWithContent:qqObj];
         if ([QQApiInterface sendReq:req] != EQQAPISENDSUCESS) {
