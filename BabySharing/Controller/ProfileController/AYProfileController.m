@@ -135,7 +135,18 @@
         
         [cmd_info performWithResult:&dic_user_info];
     }
-    
+    {
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"ProfilePush"];
+        
+        id obj = (id)cmd_pubish;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_pubish;
+        [cmd_delegate performWithResult:&obj];
+    }
     {
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -151,24 +162,13 @@
         id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_hot_cell performWithResult:&class_name];
+    
     }
-    {
-        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-        id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-        
-        id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"ProfilePush"];
-        
-        id obj = (id)cmd_pubish;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_pubish;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-        NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfilePushCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_search performWithResult:&nib_search_name];
-        
-    }
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
+    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfilePushCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_search performWithResult:&nib_search_name];
+    
    
 }
 
@@ -334,6 +334,7 @@
     ((UITableView*)view).tableHeaderView = head;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
+//    ((UITableView*)view).
     return nil;
 }
 

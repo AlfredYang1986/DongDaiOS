@@ -68,15 +68,15 @@
     
     cell.controller = self.controller;
     
-//    id tmp = [self.querydata objectAtIndex:indexPath.row];
-//    NSDictionary* dic = [tmp mutableCopy];
-//    
-//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//    [cmd performWithResult:&dic];
+    
+    id tmp = [self.querydata objectAtIndex:indexPath.row];
+    NSLog(@"sunfei -- %@",tmp);
+    
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    [cmd performWithResult:&tmp];
     
     return (UITableViewCell*)cell;
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
@@ -90,9 +90,46 @@
 //    return 5.f;
 //}
 
+//-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return NO;
+//}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSLog(@"did select push cell");
+    
+    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
+    cell.controller = self.controller;
+    id<AYCommand> cmd = [cell.notifies objectForKey:@"selectedValueChanged:"];
+    id args = [NSNumber numberWithFloat:indexPath.row];
+    [cmd performWithResult:&args];
+    
+}
+
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {
-    self.querydata = (NSArray*)args;
+    
+    NSArray* transArray = (NSArray*)args;
+    
+    NSMutableArray* tempArr = nil;
+    tempArr = [[NSMutableArray alloc] initWithCapacity:transArray.count];
+    for (QueryContent* item in transArray) {
+        NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
+        
+        for (QueryContentItem * cur in item.items) {
+            if (cur.item_type.unsignedIntegerValue != PostPreViewMovie) {
+                [dict setObject:cur.item_name forKey:@"owner_photo"];
+                break;
+            }
+        }
+        [dict setObject:item.owner_name forKey:@"owner_name"];
+        [dict setObject:item.content_description forKey:@"content_description"];
+        [dict setObject:item.content_post_date forKey:@"content_post_date"];
+        
+        [tempArr addObject:dict];
+    }
+    self.querydata = [tempArr copy];
     return nil;
 }
 @end

@@ -49,36 +49,28 @@
     _headLabell.textColor = [UIColor colorWithRed:70.0 / 255.0 green:219.0 / 255.0 blue:202.0 / 255.0 alpha:1.0];
     
 //    id<AYViewBase> header = VIEW([self getViewName], [self getViewName]);
-    id<AYViewBase> header = VIEW(@"FoundSearchHeader", @"FoundSearchHeader");
-    self.commands = [[NSDictionary alloc]initWithDictionary:[header commands] copyItems:YES];
-    self.notifies = [[NSDictionary alloc]initWithDictionary:[header notifies] copyItems:YES];
-    
-    for (AYViewCommand* cmd in self.commands.allValues) {
-        cmd.view = self;
+    id<AYViewBase> cell = VIEW(@"FoundSearchHeader", @"FoundSearchHeader");
+    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
+    for (NSString* name in cell.commands.allKeys) {
+        AYViewCommand* cmd = [cell.commands objectForKey:name];
+        AYViewCommand* c = [[AYViewCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_commands setValue:c forKey:name];
     }
-
-    for (AYViewNotifyCommand* nty in self.notifies.allValues) {
-        nty.view = self;
+    self.commands = [arr_commands copy];
+    
+    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
+    for (NSString* name in cell.notifies.allKeys) {
+        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
+        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_notifies setValue:c forKey:name];
     }
-    
-    _headLabell.font = [UIFont systemFontOfSize:14];
-    _headLabell.textColor = [UIColor colorWithRed:74.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:1.0];
-    
-    
-    NSLog(@"reuser view with commands : %@", self.commands);
-    NSLog(@"reuser view with notifications: %@", self.notifies);
-    
-//    _line = [CALayer layer];
-//    _line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
-//    [self.layer addSublayer:_line];
-//    
-//    _line1 = [CALayer layer];
-//    _line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.1].CGColor;
-//    [self.layer addSublayer:_line1];
-//
-//    self.line.frame = CGRectMake(0, CGRectGetMaxY(self.frame) - 1, CGRectGetWidth(self.frame), 1);
-//    self.line1.frame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 1);
-//    [self layoutSubviews];
+    self.notifies = [arr_notifies copy];
 }
 
 + (CGFloat)prefferredHeight {

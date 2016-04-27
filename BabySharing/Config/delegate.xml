@@ -25,6 +25,7 @@
    
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="message" message="didSelectPushRow:" />
     </delegate>
    
     <delegate type="TableViewDelegateAndDatasource" name="AppSetting" factory="AYDefaultDelegateFactory" >
