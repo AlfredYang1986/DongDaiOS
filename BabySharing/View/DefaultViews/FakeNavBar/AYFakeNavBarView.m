@@ -39,6 +39,7 @@
             make.width.equalTo(@30);
             make.height.equalTo(@26);
         }];
+        
     }
     {
         UIButton* barBtn = [[UIButton alloc]init];

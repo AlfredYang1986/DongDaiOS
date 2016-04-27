@@ -154,7 +154,7 @@
 - (id)ImageLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, 70, 22);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
-    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2 + 2, 12 + 64 / 2);
+    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, 10 + 64 / 2);
     return nil;
 }
 

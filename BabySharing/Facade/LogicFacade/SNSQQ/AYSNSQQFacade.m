@@ -196,4 +196,8 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
         [[[UIAlertView alloc] initWithTitle:@"通知" message:@"获取QQ详细信息失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     }
 }
+
+
+
+
 @end

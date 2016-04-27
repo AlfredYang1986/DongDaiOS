@@ -202,6 +202,7 @@
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Image" name="Image" />
         <view type="Label" name="Label" />
+        <view type="FakeStatusBar" name="FakeStatusBar" />
         
         <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>

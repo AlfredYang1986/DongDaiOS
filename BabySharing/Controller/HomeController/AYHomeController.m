@@ -124,7 +124,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
         [view_label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view_fake);
-            make.centerY.equalTo(view_fake).offset(10);
+            make.centerY.equalTo(view_fake);
         }];
     }
     
@@ -224,7 +224,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     view.frame = CGRectMake(0, 0, 70, 22);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
-    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2 + 2, 12 + 64 / 2);
+    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2 + 2, 44 / 2);
     view.hidden = YES;
 //    [bkView addSubview:imgView];
     return nil;
@@ -236,15 +236,22 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     return nil;
 }
 
+- (id)FakeStatusBarLayout:(UIView*)view {
+    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 0, screen_width, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
 - (id)FakeNavBarLayout:(UIView*)view {
     CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, screen_width, 64);
+    view.frame = CGRectMake(0, 20, screen_width, 44);
     view.backgroundColor = [UIColor whiteColor];
     
     CALayer* line = [CALayer layer];
     line.borderWidth = 1.f;
     line.borderColor = [UIColor colorWithRed:0.5922 green:0.5922 blue:0.5922 alpha:0.25].CGColor;
-    line.frame = CGRectMake(0, 63, screen_width, 1);
+    line.frame = CGRectMake(0, 43, screen_width, 1);
     [view.layer addSublayer:line];
     return nil;
 }
@@ -258,7 +265,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [actionView addTarget:self action:@selector(didSelectChatGroupBtn) forControlEvents:UIControlEventTouchUpInside];
     actionView.tag = -99;
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    actionView.center = CGPointMake(width - actionView.frame.size.width / 2 + 5 + 65, 21 + actionView.frame.size.height / 2);
+    actionView.center = CGPointMake(width - actionView.frame.size.width / 2 + 5 + 65, 1 + actionView.frame.size.height / 2);
     
     CALayer *layer = [[CALayer alloc] init];
     layer.frame = CGRectMake(0, 0, 30, 30);

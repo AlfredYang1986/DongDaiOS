@@ -57,7 +57,12 @@
     if (cell == nil) {
         cell = VIEW(kAYSelfSettingCellName, kAYSelfSettingCellName);
     }
-
+    CALayer* line = [CALayer layer];
+    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.30].CGColor;
+    line.borderWidth = 1.f;
+    line.frame = CGRectMake(0, 44 - 1, [UIScreen mainScreen].bounds.size.width , 1);
+    [((UITableViewCell*)cell).layer addSublayer:line];
+    
     cell.controller = self.controller;
 
     NSInteger index = indexPath.row;
