@@ -224,7 +224,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryMultipleUsers"];
         [cmd performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSMutableDictionary* reVal = [[NSMutableDictionary alloc]init];
-            [reVal setValue:[NSNumber numberWithLong:group.id] forKey:@"group_id"];
+            [reVal setValue:[NSNumber numberWithLongLong:group.id] forKey:@"group_id"];
             [reVal setValue:result forKey:@"result"];
             
             NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
