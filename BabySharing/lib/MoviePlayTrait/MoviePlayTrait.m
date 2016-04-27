@@ -12,6 +12,12 @@
 #import <AVFoundation/AVFoundation.h>
 #import "TmpFileStorageModel.h"
 
+#import "AYCommand.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYNotifyDefines.h"
+#import "AYFacadeBase.h"
+
 @interface MoviePlayTrait ()
 @property (nonatomic, strong) NSMutableArray* players;
 @end
@@ -170,7 +176,15 @@
     exporter.shouldOptimizeForNetworkUse = YES;
     [exporter exportAsynchronouslyWithCompletionHandler:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self exportDidFinish:exporter];
+//            [self exportDidFinish:exporter];
+            id<AYFacadeBase> f = MOVIERECORD;
+            
+            NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+            [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+            [notify setValue:kAYNotifyDidMergeMovieRecord forKey:kAYNotifyFunctionKey];
+            
+            [notify setValue:url forKey:kAYNotifyArgsKey];
+            [f performWithResult:&notify];
         });
     }];
 }
@@ -185,15 +199,10 @@
             [library writeVideoAtPathToSavedPhotosAlbum:outputURL completionBlock:^(NSURL *assetURL, NSError *error){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (error) {
-//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Video Saving Failed"
-//                                                                       delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//                        [alert show];
                         NSLog(@"Video Saving Failed");
                     } else {
-//                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Video Saved" message:@"Saved To Photo Album"
-//                                                                       delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//                        [alert show];
                         NSLog(@"Video Saving success");
+
                     }
                 });
             }];

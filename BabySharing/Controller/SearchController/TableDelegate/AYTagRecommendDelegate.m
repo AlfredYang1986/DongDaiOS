@@ -65,8 +65,6 @@
     NSArray* arr = [_recommands_tags copy];
     [cmd performWithResult:&arr];
     
-    
-    
     return (UITableViewCell*)cell;
 }
 

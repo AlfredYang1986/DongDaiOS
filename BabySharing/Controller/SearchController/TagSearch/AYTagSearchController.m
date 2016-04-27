@@ -144,9 +144,15 @@
 }
 
 - (id)TagSeleted:(id)obj {
+ 
+    NSString* tag = nil;
    
-    NSDictionary* dic = (NSDictionary*)obj;
-    NSString* tag = [dic objectForKey:@"tag_name"];
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+        NSDictionary* dic = (NSDictionary*)obj;
+        tag = [dic objectForKey:@"tag_name"];
+    } else if ([obj isKindOfClass:[NSString class]]) {
+        tag = (NSString*)obj;
+    }
     
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
     [args setValue:[NSNumber numberWithInteger:current_type] forKey:@"tag_type"];

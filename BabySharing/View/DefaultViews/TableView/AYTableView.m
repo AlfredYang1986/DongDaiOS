@@ -87,7 +87,7 @@
     NSInteger section = ((NSNumber*)[dic objectForKey:@"section"]).integerValue;
    
     NSIndexPath* index = [NSIndexPath indexPathForRow:row inSection:section];
-    [self scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:NO];
     return nil;
 }
 @end

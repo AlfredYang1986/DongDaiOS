@@ -162,10 +162,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     
     if (_isPushed && start_index) {
         id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
@@ -173,9 +169,13 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:start_index forKey:@"row"];
         [dic setValue:[NSNumber numberWithInteger:0] forKey:@"section"];
-   
+        
         [cmd_scroll performWithResult:&dic];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 #pragma mark -- layouts

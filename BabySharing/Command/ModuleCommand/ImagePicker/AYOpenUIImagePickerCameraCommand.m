@@ -32,7 +32,7 @@
         NSLog(@"设备不支持照相机");
     }
     pickerImage.delegate = (id<UINavigationControllerDelegate ,UIImagePickerControllerDelegate>)controller;
-    pickerImage.allowsEditing = NO;
+    pickerImage.allowsEditing = YES;
     [controller presentViewController:pickerImage animated:YES completion:nil];
 }
 
