@@ -132,7 +132,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     /**
      * for notification
      */
-    NSPredicate* pn = [NSPredicate predicateWithFormat:@"SELF.name=%@", @"alfred_test"];
+    NSPredicate* pn = [NSPredicate predicateWithFormat:@"SELF.sender.name=%@", @"alfred_test"];
     NSArray* dongda_notify = [msgList filteredArrayUsingPredicate:pn];
     
     for (GotyeOCMessage* m in dongda_notify) {
