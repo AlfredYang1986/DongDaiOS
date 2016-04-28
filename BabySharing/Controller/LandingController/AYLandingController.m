@@ -225,6 +225,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             inputView.hidden = NO;
             sns_view.hidden = NO;
             loading_view.hidden = YES;
+            [loading_view removeFromSuperview];
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
             }
             break;

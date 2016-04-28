@@ -46,7 +46,7 @@
 #pragma mark -- life cycle
 - (void)awakeFromNib {
     [super awakeFromNib];
-    _headLabell.textColor = [UIColor colorWithRed:70.0 / 255.0 green:219.0 / 255.0 blue:202.0 / 255.0 alpha:1.0];
+    _headLabell.textColor = [UIColor colorWithRed:70.0 / 255.0 green:74.0 / 255.0 blue:74.0 / 255.0 alpha:1.0];
     
 //    id<AYViewBase> header = VIEW([self getViewName], [self getViewName]);
     id<AYViewBase> cell = VIEW(@"FoundSearchHeader", @"FoundSearchHeader");

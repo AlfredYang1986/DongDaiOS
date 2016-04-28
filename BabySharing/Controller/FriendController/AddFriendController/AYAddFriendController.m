@@ -103,6 +103,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
         id<AYCommand> cmd_view_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
         NSString* title = @"添加好友";
+        ((UILabel*)view_title).textColor = [UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f];
         [cmd_view_title performWithResult:&title];
     }
     
@@ -134,8 +135,12 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     [cmd performWithResult:&del];
     
     id<AYCommand> cmd_place_hold = [((id<AYViewBase>)view).commands objectForKey:@"changeSearchBarPlaceHolder:"];
-    id place_holder = @"搜索好友";
+    id place_holder = @"搜索昵称";
     [cmd_place_hold performWithResult:&place_holder];
+    
+//    UITextField *searchField = [view valueForKey:@"_searchField"];
+//    searchField.textColor = [UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f];
+//    [searchField setValue:[UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f] forKeyPath:@"_placeholderLabel.textColor"];
     
     id<AYCommand> cmd_apperence = [((id<AYViewBase>)view).commands objectForKey:@"foundTitleSearchBar"];
     [cmd_apperence performWithResult:nil];
@@ -147,7 +152,6 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     NSLog(@"search friends ....");
     
     id<AYCommand> SearchFriend = DEFAULTCONTROLLER(@"SearchFriend");
-
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:SearchFriend forKey:kAYControllerActionDestinationControllerKey];
@@ -158,11 +162,9 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     return NO;
 }
 
-
 - (id)Table2Layout:(UIView*)view {
     
     view.frame = CGRectMake(0, 128, kSCREENW, kSCREENH - 124);
-//    view.backgroundColor = [UIColor grayColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }

@@ -97,8 +97,6 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSLog(@"did select push cell");
-    
     id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
     cell.controller = self.controller;
     id<AYCommand> cmd = [cell.notifies objectForKey:@"selectedValueChanged:"];

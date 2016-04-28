@@ -16,6 +16,7 @@
 #import "AYChatGroupInfoCellDefines.h"
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
+#import "AYChatInputView.h"
 
 #import "GotyeOCChatTarget.h"
 #import "GotyeOCMessage.h"
@@ -328,6 +329,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [dic setValue:group_id forKey:@"group_id"];
     
     [cmd performWithResult:&dic];
+    
+//    id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
+//    ((AYChatInputView*)view).inputView.text = @"";
     return nil;
 }
 
@@ -570,7 +574,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (void)GroupChatControllerIsReady {
     UIView* loading = [self.views objectForKey:@"Loading"];
     loading.hidden = YES;
-    
+    [loading removeFromSuperview];
     id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"stopGif"];
     [cmd performWithResult:nil];
 }

@@ -130,10 +130,10 @@
   
     [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            [[[UIAlertView alloc]initWithTitle:@"success" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
             [self popToPreviousWithoutSave];
         } else {
-            [[[UIAlertView alloc]initWithTitle:@"error" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
         }
     }];
     

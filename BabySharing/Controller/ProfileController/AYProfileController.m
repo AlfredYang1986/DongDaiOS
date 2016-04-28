@@ -525,6 +525,7 @@
     switch (_status) {
         case RemoteControllerStatusReady: {
             loading_view.hidden = YES;
+            [loading_view removeFromSuperview];
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
         }
             break;
