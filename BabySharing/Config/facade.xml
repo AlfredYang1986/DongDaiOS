@@ -50,6 +50,7 @@
         <command type="Module" name="ReleaseMovie" />
         <command type="Module" name="MovieDisplayView" />
         <command type="Module" name="MovieAddFilter" />
+        <command type="Module" name="ReleaseAllMovies" />
         <command type="Remote" name="NewMovieCurrentFilter" />
     </facade>
 

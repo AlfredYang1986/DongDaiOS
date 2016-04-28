@@ -110,6 +110,7 @@
     <command type="Module" name="PlayMovie" factory="AYDefaultModuleFactory" />
     <command type="Module" name="PauseMovie" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ReleaseMovie" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ReleaseAllMovies" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieDisplayView" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieAddFilter" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="NewMovieCurrentFilter" factory="AYDefaultModuleFactory" />

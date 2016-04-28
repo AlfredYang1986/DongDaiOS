@@ -174,8 +174,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    id<AYFacadeBase> f = MOVIEPLAYER;
+    id<AYCommand> cmd = [f.commands objectForKey:@"ReleaseAllMovies"];
+    [cmd performWithResult:nil];
 }
 
 #pragma mark -- layouts

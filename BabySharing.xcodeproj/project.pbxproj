@@ -41,6 +41,7 @@
 		7002DBB11CC6685E0013FF2A /* AYSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB01CC6685E0013FF2A /* AYSearchBarDelegate.m */; };
 		7002DBBB1CC669D20013FF2A /* AYTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */; };
 		7002DBBC1CC669D20013FF2A /* AYTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */; };
+		70049C311CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */; };
 		7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */; };
 		700692E71CC49A2C00B511FF /* AYFoundInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692DD1CC49A2C00B511FF /* AYFoundInitCommand.m */; };
 		700692E81CC49A2C00B511FF /* AYFriendsInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692E01CC49A2C00B511FF /* AYFriendsInitCommand.m */; };
@@ -570,6 +571,8 @@
 		7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagAddDelegate.m; sourceTree = "<group>"; };
 		7002DBB91CC669D20013FF2A /* AYTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagRecommendDelegate.h; sourceTree = "<group>"; };
 		7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagRecommendDelegate.m; sourceTree = "<group>"; };
+		70049C2F1CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReleaseAllMoviesCommand.h; sourceTree = "<group>"; };
+		70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseAllMoviesCommand.m; sourceTree = "<group>"; };
 		7005D66C1CB68485004DE0E7 /* AYLocalImageWithNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocalImageWithNameCommand.h; sourceTree = "<group>"; };
 		7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocalImageWithNameCommand.m; sourceTree = "<group>"; };
 		700692DC1CC49A2C00B511FF /* AYFoundInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundInitCommand.h; sourceTree = "<group>"; };
@@ -1768,6 +1771,15 @@
 				7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */,
 			);
 			path = TableDelegate;
+			sourceTree = "<group>";
+		};
+		70049C2E1CD1CE3E00B1287C /* ReleaseAllMovies */ = {
+			isa = PBXGroup;
+			children = (
+				70049C2F1CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.h */,
+				70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */,
+			);
+			path = ReleaseAllMovies;
 			sourceTree = "<group>";
 		};
 		700692DB1CC49A2C00B511FF /* FoundInit */ = {
@@ -3900,6 +3912,7 @@
 				70B1DC9A1CC73E850041794A /* PauseMovie */,
 				70B1DC831CC731DA0041794A /* PlayMovie */,
 				70B1DC8B1CC73B390041794A /* PlayMovieMeta */,
+				70049C2E1CD1CE3E00B1287C /* ReleaseAllMovies */,
 				70B1DC921CC73B6A0041794A /* ReleaseMovie */,
 			);
 			path = MoviePlayer;
@@ -5660,6 +5673,7 @@
 				7002DB4F1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m in Sources */,
 				70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */,
 				8086A2551CCE983B006186D4 /* AYUserSearchRemoteFacade.m in Sources */,
+				70049C311CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m in Sources */,
 				705B84491CC6A16B0057D442 /* AYPostPreviewController.m in Sources */,
 				705B84541CC6A4D60057D442 /* AYFilterPreviewView.m in Sources */,
 				7002DB181CC5EA540013FF2A /* AYCameraController.m in Sources */,
