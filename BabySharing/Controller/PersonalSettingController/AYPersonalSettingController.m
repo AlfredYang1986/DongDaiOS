@@ -38,6 +38,19 @@
             change_profile_dic = [[NSMutableDictionary alloc]init];
         }
         [change_profile_dic setValue:role_tag forKey:@"role_tag"];
+        
+        NSMutableDictionary* dic = [profile_dic mutableCopy];
+        
+        for (NSString* key in change_profile_dic.allKeys) {
+            [dic setValue:[change_profile_dic objectForKey:key] forKey:key];
+        }
+        
+        id<AYDelegateBase> delegate = [self.delegates objectForKey:@"SelfSetting"];
+        id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
+        [cmd performWithResult:&dic];
+        id<AYViewBase> table = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_refresh = [table.commands objectForKey:@"refresh"];
+        [cmd_refresh performWithResult:nil];
     }
 }
 

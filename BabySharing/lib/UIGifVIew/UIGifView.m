@@ -128,7 +128,6 @@ void getFrameInfo(CFURLRef url, NSMutableArray *frames, NSMutableArray *delayTim
 
 -(void)timeGoes{
     _timeCount++ ;
-    NSLog(@"sunfei----%f",_timeCount);
     if (_isRemoveGif) {
         [_timer invalidate];
     }

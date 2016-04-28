@@ -293,7 +293,6 @@
         
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tagBtnSelected:)];
         [btn addGestureRecognizer:tap];
-        NSLog(@"sunfei--%f",CGRectGetMaxY(self.frame));
     }
     
     return nil;

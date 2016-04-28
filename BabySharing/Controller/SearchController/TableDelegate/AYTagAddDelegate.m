@@ -91,7 +91,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-   
+   //michauxs:tagadd
     id<AYCommand> n = [self.notifies objectForKey:@"TagSeleted:"];
     NSString* role_tag = nil;
     if (indexPath.row == 0) {
