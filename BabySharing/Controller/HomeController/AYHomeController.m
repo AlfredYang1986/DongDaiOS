@@ -162,9 +162,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
+    
     if (_isPushed && start_index) {
         id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
         id<AYCommand> cmd_scroll = [view_content.commands objectForKey:@"scrollToPostion:"];

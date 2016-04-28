@@ -9,6 +9,8 @@
 #import "AYTableView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
+#import "AYFactoryManager.h"
+#import "AYHomeCellDefines.h"
 
 @implementation AYTableView
 @synthesize para = _para;
@@ -82,13 +84,16 @@
 }
 
 - (id)scrollToPostion:(id)obj {
+#pragma mark -- only use for HomeCell or get position errors
     NSDictionary* dic = (NSDictionary*)obj;
     NSInteger row = ((NSNumber*)[dic objectForKey:@"row"]).integerValue;
-    NSInteger section = ((NSNumber*)[dic objectForKey:@"section"]).integerValue;
    
-    NSIndexPath* index = [NSIndexPath indexPathForRow:row inSection:section];
-    
-    [self scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    id<AYViewBase> cell = VIEW(kAYHomeCellName, kAYHomeCellName);
+    id<AYCommand> cmd = [cell.commands objectForKey:@"queryContentCellHeight"];
+    NSNumber* result = nil;
+    [cmd performWithResult:&result];
+   
+    [self setContentOffset:CGPointMake(0, row * result.floatValue)];
     return nil;
 }
 @end
