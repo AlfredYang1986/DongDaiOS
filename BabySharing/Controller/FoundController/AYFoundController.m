@@ -115,6 +115,8 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     CGFloat search_height = 44;
     FOUND_BOUNDS
     view.frame = FOUND_VIEW_START;
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 

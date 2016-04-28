@@ -32,7 +32,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.layer.borderColor = [UIColor whiteColor].CGColor;
+//        self.layer.borderColor = [UIColor whiteColor].CGColor;
 //        self.layer.borderWidth = 0.75f;
         self.clipsToBounds = YES;
     }

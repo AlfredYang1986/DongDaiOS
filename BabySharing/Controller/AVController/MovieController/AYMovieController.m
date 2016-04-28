@@ -37,7 +37,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blackColor];
+//    self.view.backgroundColor = [UIColor colorWithWhite:0.3098 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
    
     self.current_seg_index = 2;
@@ -59,8 +59,14 @@
     [take_btn addTarget:self action:@selector(didSelectRecordMovieBtn) forControlEvents:UIControlEventTouchDown];
     [take_btn addTarget:self action:@selector(didSelectSaveMovieBtn) forControlEvents:UIControlEventTouchUpInside];
     [take_btn addTarget:self action:@selector(didSelectSaveMovieBtn) forControlEvents:UIControlEventTouchUpOutside];
-    take_btn.frame = CGRectMake(0, 0, PHOTO_TAKEN_BTN_WIDTH, PHOTO_TAKEN_BTN_HEIGHT);
-    take_btn.center = CGPointMake(width / 2, height + last_height / 2 + PHOTO_TAKEN_BTN_MODIFY_MARGIN);
+//    take_btn.frame = CGRectMake(0, 0, PHOTO_TAKEN_BTN_WIDTH, PHOTO_TAKEN_BTN_HEIGHT);
+//    take_btn.center = CGPointMake(width / 2, height + last_height / 2 + PHOTO_TAKEN_BTN_MODIFY_MARGIN);
+    [take_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view.mas_bottom).offset(-(last_height / 2 + 22));
+        make.width.mas_equalTo(PHOTO_TAKEN_BTN_WIDTH);
+        make.height.mas_equalTo(PHOTO_TAKEN_BTN_HEIGHT);
+    }];
     
     /**
      * delete btn
@@ -138,18 +144,24 @@
 
 #pragma mark -- layout
 #define FUNCTION_BAR_HEIGHT         44
-#define FUNCTION_BAR_BTN_WIDTH      25
-#define FUNCTION_BAR_BTN_HEIGHT     25
+#define FUNCTION_BAR_BTN_WIDTH      30
+#define FUNCTION_BAR_BTN_HEIGHT     30
 #define FUNCTION_BAR_BTN_MARGIN     8
 - (id)FunctionBarLayout:(UIView*)view {
     [super FunctionBarLayout:view];
-   
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UIButton* f_btn_1 = [[UIButton alloc]initWithFrame:CGRectMake(FUNCTION_BAR_BTN_MARGIN, FUNCTION_BAR_BTN_MARGIN, FUNCTION_BAR_BTN_WIDTH + 5, FUNCTION_BAR_BTN_HEIGHT + 5)];
+    
+//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    UIButton* f_btn_1 = [[UIButton alloc]init];
     [f_btn_1 setBackgroundImage:PNGRESOURCE(@"post_change_camera") forState:UIControlStateNormal];
     [f_btn_1 addTarget:self action:@selector(didChangeCameraBtn) forControlEvents:UIControlEventTouchDown];
     [view addSubview:f_btn_1];
-    f_btn_1.center = CGPointMake(width - FUNCTION_BAR_BTN_MARGIN - FUNCTION_BAR_BTN_WIDTH / 2, FUNCTION_BAR_HEIGHT / 2);
+    
+    [f_btn_1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view).offset(-FUNCTION_BAR_BTN_MARGIN);
+        make.centerY.equalTo(view);
+        make.width.mas_equalTo(FUNCTION_BAR_BTN_WIDTH);
+        make.height.mas_equalTo(FUNCTION_BAR_BTN_HEIGHT);
+    }];
     return nil;
 }
 
@@ -189,6 +201,7 @@
 #define SEG_HEIGHT                      44
 - (id)DongDaSegLayout:(UIView*)view {
     [super DongDaSegLayout:view];
+//    view.backgroundColor = [UIColor blackColor];
     
     id<AYViewBase> seg = (id<AYViewBase>)view;
     id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];

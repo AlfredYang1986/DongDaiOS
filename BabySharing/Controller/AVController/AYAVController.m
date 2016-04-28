@@ -42,7 +42,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.1898 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
@@ -62,9 +62,9 @@
 - (id)FunctionBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width;
-    view.frame = CGRectMake(0, height - FUNCTION_BAR_HEIGHT, width, FUNCTION_BAR_HEIGHT);
-    view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
-    
+    view.frame = CGRectMake(0, height - FUNCTION_BAR_HEIGHT + 44, width, FUNCTION_BAR_HEIGHT);
+//    view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
+    view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
@@ -93,6 +93,7 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat screen_height = [UIScreen mainScreen].bounds.size.height;
     view.frame = CGRectMake(0, screen_height - SEG_HEIGHT, width, SEG_HEIGHT);
+//    view.backgroundColor = [UIColor blackColor];
     
     id<AYViewBase> seg = (id<AYViewBase>)view;
     id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -115,7 +116,7 @@
     
     NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
     //    [dic_user_info setValue:[NSNumber numberWithFloat:4.f] forKey:kAYSegViewCornerRadiusKey];
-    [dic_user_info setValue:[UIColor colorWithWhite:0.1098 alpha:1.f] forKey:kAYSegViewBackgroundColorKey];
+    [dic_user_info setValue:[UIColor colorWithWhite:0.0498 alpha:1.f] forKey:kAYSegViewBackgroundColorKey];
     [dic_user_info setValue:[NSNumber numberWithBool:NO] forKey:kAYSegViewLineHiddenKey];
     [dic_user_info setValue:[NSNumber numberWithInt:1] forKey:kAYSegViewCurrentSelectKey];
     [dic_user_info setValue:[NSNumber numberWithFloat:SEG_BTN_MARGIN_BETWEEN] forKey:kAYSegViewMarginBetweenKey];

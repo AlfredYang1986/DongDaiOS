@@ -132,7 +132,6 @@
 //            [tmp setMovieDurationLayer:duration];
 //        }
         tmp.userInteractionEnabled = YES;
-        
         UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageSubViewTaped:)];
         tap.numberOfTapsRequired = 1;
         [tmp addGestureRecognizer:tap];
@@ -361,7 +360,7 @@
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
-        _grid_border_color = [UIColor whiteColor];
+        _grid_border_color = [UIColor clearColor];
     }
     return self;
 }

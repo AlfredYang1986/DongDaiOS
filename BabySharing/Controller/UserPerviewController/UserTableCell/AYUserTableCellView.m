@@ -181,13 +181,11 @@
         CGFloat width = ([UIScreen mainScreen].bounds.size.width - 3) / 3 ;
         offset = (width + 1.5) * index;
         UIImageView* view = [[UIImageView alloc]init];
-        view.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
-        view.layer.borderWidth = 1.f;
         [self setPhoto:photo_name forView:view];
-//        view.center = CGPointMake(view.center.x + marr.count * width, view.center.y + PREFERRED_HEIGHT);
-        NSLog(@"sunfei -- %f",offset);
+        
         [marr addObject:view];
         [self addSubview:view];
+        
         [view mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self).offset(-8);
             make.left.equalTo(self).offset(offset);

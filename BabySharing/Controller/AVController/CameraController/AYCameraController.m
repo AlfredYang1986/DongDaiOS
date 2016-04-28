@@ -52,7 +52,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blackColor];
+//    self.view.backgroundColor = [UIColor colorWithWhite:0.3098 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.current_seg_index = 1;
