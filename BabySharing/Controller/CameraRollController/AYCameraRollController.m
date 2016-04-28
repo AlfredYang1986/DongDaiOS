@@ -35,6 +35,7 @@
     NSURL* cur_movie_url;
     
     NSDictionary* fetch;
+    NSArray* albums;
 }
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -108,23 +109,9 @@
         id<AYCommand> cmd = [f_ph.commands objectForKey:@"EnumAlbumName"];
         NSArray* arr = nil;
         [cmd performWithResult:&arr];
+        albums = arr;
   
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:arr.firstObject forKey:@"fetch"];
-        AYRemoteCallCommand* cmd_init_ph_grid = [f_ph.commands objectForKey:@"EnumAllPhotoWithAlbum"];
-        [cmd_init_ph_grid performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"Album"];
-            id<AYCommand> cmd_change = [cmd_delegate.commands objectForKey:@"changeQueryData:"];
-            id arr = (id)result;
-            fetch = result;
-            [cmd_change performWithResult:&arr];
-        
-            [self performSelector:@selector(setInitPhoto)];
-            
-            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
-            [cmd_refresh performWithResult:nil];
-        }];
+        [self changeGridPhotoContentWithAlbumIndex:0];
         
         id<AYViewBase> view_drop = [self.views objectForKey:@"DropDownList"];
         id<AYCommand> cmd_drop_date = [view_drop.commands objectForKey:@"setListInfo:"];
@@ -132,9 +119,40 @@
     }
 }
 
-//-(UIStatusBarStyle)preferredStatusBarStyle {
-//    return UIStatusBarStyleLightContent;
-//}
+- (void)changeGridPhotoContentWithAlbumIndex:(NSInteger)index {
+    id<AYFacadeBase> f_ph = [self.facades objectForKey:@"PHAsset"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[albums objectAtIndex:index] forKey:@"fetch"];
+    AYRemoteCallCommand* cmd_init_ph_grid = [f_ph.commands objectForKey:@"EnumAllPhotoWithAlbum"];
+    [cmd_init_ph_grid performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"Album"];
+        id<AYCommand> cmd_change = [cmd_delegate.commands objectForKey:@"changeQueryData:"];
+        id arr = (id)result;
+        fetch = result;
+        [cmd_change performWithResult:&arr];
+        
+        [self performSelector:@selector(setInitPhoto)];
+        [self changeDropDownListTitleWithAlbumIndex:index];
+        
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
+        [cmd_refresh performWithResult:nil];
+    }];
+}
+
+- (void)changeDropDownListTitleWithAlbumIndex:(NSInteger)index {
+   
+    id<AYFacadeBase> f_ph = [self.facades objectForKey:@"PHAsset"];
+    id<AYCommand> cmd_name = [f_ph.commands objectForKey:@"QueryAlbumNameWithAlbum"];
+    id args = [albums objectAtIndex:index];
+    [cmd_name performWithResult:&args];
+    NSString* title = args;
+    
+    id<AYViewBase> drop = [self.views objectForKey:@"DropDownList"];
+    id<AYCommand> cmd = [drop.commands objectForKey:@"setTitle:"];
+    NSString* str = title;
+    [cmd performWithResult:&str];
+}
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
@@ -221,14 +239,8 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     view.frame = CGRectMake(0, 0, TITLE_LABEL_WIDTH, TITLE_LABEL_HEIGHT);
     view.center = CGPointMake(width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
-    
-    {
-        id<AYViewBase> drop = (id<AYViewBase>)view;
-        id<AYCommand> cmd = [drop.commands objectForKey:@"setTitle:"];
-        NSString* str = @"所有照片";
-        [cmd performWithResult:&str];
-    }
-    
+   
+//    [self changeDropDownListTitleWithAlbumIndex:0];
     return nil;
 }
 
@@ -319,6 +331,13 @@
     tableview.frame = CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, tableview.bounds.size.width, tableview.bounds.size.height);
     [self.view addSubview:tableview];
 //    [self.view bringSubviewToFront:bar];
+    return nil;
+}
+
+- (id)itemDidSelected:(id)obj {
+    NSLog(@"drop down lst select item %@", obj);
+    NSNumber* index = (NSNumber*)obj;
+    [self changeGridPhotoContentWithAlbumIndex:index.integerValue];
     return nil;
 }
 

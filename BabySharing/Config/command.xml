@@ -77,6 +77,7 @@
     <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryAlbumNameWithAlbum" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="EnumAllPhotoWithAlbum" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="QueryRealPhoto" factory="AYDefaultModuleFactory" />
     

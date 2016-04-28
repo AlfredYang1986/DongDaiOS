@@ -42,6 +42,7 @@
 		7002DBBB1CC669D20013FF2A /* AYTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */; };
 		7002DBBC1CC669D20013FF2A /* AYTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */; };
 		70049C311CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */; };
+		70049C351CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70049C341CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m */; };
 		7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */; };
 		700692E71CC49A2C00B511FF /* AYFoundInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692DD1CC49A2C00B511FF /* AYFoundInitCommand.m */; };
 		700692E81CC49A2C00B511FF /* AYFriendsInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692E01CC49A2C00B511FF /* AYFriendsInitCommand.m */; };
@@ -573,6 +574,8 @@
 		7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagRecommendDelegate.m; sourceTree = "<group>"; };
 		70049C2F1CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReleaseAllMoviesCommand.h; sourceTree = "<group>"; };
 		70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseAllMoviesCommand.m; sourceTree = "<group>"; };
+		70049C331CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryAlbumNameWithAlbumCommand.h; sourceTree = "<group>"; };
+		70049C341CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryAlbumNameWithAlbumCommand.m; sourceTree = "<group>"; };
 		7005D66C1CB68485004DE0E7 /* AYLocalImageWithNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocalImageWithNameCommand.h; sourceTree = "<group>"; };
 		7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocalImageWithNameCommand.m; sourceTree = "<group>"; };
 		700692DC1CC49A2C00B511FF /* AYFoundInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundInitCommand.h; sourceTree = "<group>"; };
@@ -1782,6 +1785,15 @@
 			path = ReleaseAllMovies;
 			sourceTree = "<group>";
 		};
+		70049C321CD1EDB300B1287C /* QueryAlbumNameWithAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				70049C331CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.h */,
+				70049C341CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m */,
+			);
+			path = QueryAlbumNameWithAlbum;
+			sourceTree = "<group>";
+		};
 		700692DB1CC49A2C00B511FF /* FoundInit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1892,6 +1904,7 @@
 		700693211CC4D67600B511FF /* PHAsset */ = {
 			isa = PBXGroup;
 			children = (
+				70049C321CD1EDB300B1287C /* QueryAlbumNameWithAlbum */,
 				7006932D1CC4DCF200B511FF /* QueryRealPhoto */,
 				700693291CC4DB0600B511FF /* EnumAllPhotoWithAlbum */,
 				700693251CC4D8CF00B511FF /* EnumAlbumName */,
@@ -5483,6 +5496,7 @@
 				700BE6051CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.m in Sources */,
 				7039CBF91CBBB5A700BE60C7 /* SearchSegImgItem.m in Sources */,
 				708E529C1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m in Sources */,
+				70049C351CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m in Sources */,
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
 				709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */,

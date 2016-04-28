@@ -17,8 +17,18 @@
 @implementation AYEnumAllPhotoWithAlbumCommand
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     // 缩略图和PHAsset
-    PHFetchResult* fetchResult = [args objectForKey:@"fetch"];
-    
+    id tmp = [args objectForKey:@"fetch"];
+    PHFetchResult* fetchResult = nil;
+ 
+    if ([tmp isKindOfClass:[PHFetchResult class]]) {
+        fetchResult = tmp;
+    } else if ([tmp isKindOfClass:[PHAssetCollection class]]) {
+        PHFetchOptions *options = [[PHFetchOptions alloc] init];
+        options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
+        options.predicate = [NSPredicate predicateWithFormat:@"mediaType = %d",PHAssetMediaTypeImage];
+        fetchResult = [PHAsset fetchAssetsInAssetCollection:tmp options:options];
+    }
+
     if (fetchResult.count == 0) {
         return;
     }

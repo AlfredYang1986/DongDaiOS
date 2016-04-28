@@ -56,6 +56,7 @@
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="EnumAlbumName" />
+        <command type="Module" name="QueryAlbumNameWithAlbum" />
         <command type="Remote" name="EnumAllPhotoWithAlbum" />
         <command type="Remote" name="QueryRealPhoto" />
     </facade>

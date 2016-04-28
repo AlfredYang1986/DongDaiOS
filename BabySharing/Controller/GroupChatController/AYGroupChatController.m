@@ -200,7 +200,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     view.frame = CGRectMake(0, 0, width, height.floatValue);
     view.backgroundColor = [UIColor clearColor];
     
-    NSString* str = @"Alfred Test";
+    NSString* str = theme;
     id<AYCommand> cmd_test = [((id<AYViewBase>)view).commands objectForKey:@"setGroupChatViewInfo:"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:str forKey:@"theme"];

@@ -119,7 +119,9 @@
 #pragma mark -- table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    [_delegate didSelectCell:[tableView cellForRowAtIndexPath:indexPath]];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"itemDidSelected:"];
+    id args = [NSNumber numberWithInteger:indexPath.row];
+    [cmd performWithResult:&args];
     [self dismissListFromSuper];
 }
 
