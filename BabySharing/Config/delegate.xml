@@ -83,7 +83,7 @@
 
     <delegate type="TableViewDelegateAndDatasource" name="Album" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="message" message="scrollForMoreSize" />
+        <command type="notify" message="scrollForMoreSize" />
     </delegate>
 
     <delegate type="TableViewDelegateAndDatasource" name="Notification" factory="AYDefaultDelegateFactory" >
