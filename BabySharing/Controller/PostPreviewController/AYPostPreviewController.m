@@ -18,7 +18,9 @@
 #define FAKE_NAVIGATION_BAR_HEIGHT      64
 #define FUNC_BAR_HEIGHT                 47
 
-@implementation AYPostPreviewController
+@implementation AYPostPreviewController  {
+    CGPoint point;
+}
 @synthesize mainContentView = _mainContentView;
 @synthesize status = _status;
 
@@ -227,6 +229,12 @@
     
     [self.mainContentView addSubview:tag_view];
     
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tagTaped:)];
+    [tag_view addGestureRecognizer:tap];
+
+    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+    [tag_view addGestureRecognizer:pan];
+    
     self.status = AYPostPhotoPreviewControllerTypeSegAtTags;
 }
 
@@ -242,6 +250,63 @@
 
 - (NSArray*)getFunctionBarItems {
     return nil;
+}
+
+#pragma mark -- tap
+- (void)tagTaped:(UITapGestureRecognizer*)tap {
+    NSLog(@"tag taped");
+    id<AYViewBase> view = (id<AYViewBase>)tap.view;
+    id<AYCommand> cmd = [view.commands objectForKey:@"changeTagDirection"];
+    [cmd performWithResult:nil];
+}
+
+#pragma mark == pan#pragma mark -- paste img pan handle
+- (void)handlePan:(UIPanGestureRecognizer*)gesture {
+    NSLog(@"pan gesture");
+    UIView* tmp = gesture.view;
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"begin");
+        point = [gesture translationInView:self.mainContentView];
+        [self.mainContentView bringSubviewToFront:tmp];
+        
+    } else if (gesture.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"end");
+        point = CGPointMake(-1, -1);
+        CGFloat move_x = [self distanceMoveHerWithView:tmp];
+        CGFloat move_y = [self distanceMoveVerWithView:tmp];
+        [self moveView:move_x and:move_y withView:tmp];
+        
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"changeed");
+        if ([gesture locationInView:self.mainContentView].y > self.mainContentView.frame.size.height - self.mainContentView.frame.size.height * 0.15) {
+            return;
+        } else {
+            tmp.center = [gesture locationInView:self.mainContentView];
+        }
+    }
+}
+
+- (void)moveView:(float)move_x and:(float)move_y withView:(UIView*)view {
+    [UIView animateWithDuration:0.3f animations:^{
+        view.center = CGPointMake(view.center.x + move_x, view.center.y + move_y);
+    }];
+}
+
+- (CGFloat)distanceMoveVerWithView:(UIView*)view {
+    if (view.frame.origin.y < 0)
+        return -view.frame.origin.y;
+    else if (view.frame.origin.y + view.frame.size.height > self.mainContentView.frame.size.height)
+        return -(view.frame.origin.y + view.frame.size.height - self.mainContentView.frame.size.height);
+    else return 0;
+}
+
+- (CGFloat)distanceMoveHerWithView:(UIView*)view {
+    
+    if (view.frame.origin.x < 0)
+        return -view.frame.origin.x;
+    else if (view.frame.origin.x + view.frame.size.width > self.mainContentView.frame.size.width)
+        return -(view.frame.origin.x + view.frame.size.width - self.mainContentView.frame.size.width);
+    else return 0;
 }
 
 #pragma mark -- notification

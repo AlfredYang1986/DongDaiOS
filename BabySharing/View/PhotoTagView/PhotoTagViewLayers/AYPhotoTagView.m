@@ -199,4 +199,9 @@
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
 }
+
+- (id)changeTagDirection {
+    self.direction = (self.direction + 1) % 2;
+    return nil;
+}
 @end

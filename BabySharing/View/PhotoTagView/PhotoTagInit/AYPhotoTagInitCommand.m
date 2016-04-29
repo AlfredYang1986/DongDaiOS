@@ -10,7 +10,9 @@
 #import "AYCommandDefines.h"
 #import "PhotoTagEnumDefines.h"
 #import "AYPhotoTagView.h"
-//#import "Masonry.h"
+#import "AYFactoryManager.h"
+#import "AYViewCommand.h"
+#import "AYViewNotifyCommand.h"
 
 @implementation AYPhotoTagInitCommand
 @synthesize para = _para;
@@ -30,6 +32,8 @@
     NSNumber* offset_y = [args objectForKey:@"offsetY"];
     
     AYPhotoTagView *tmp = [[AYPhotoTagView alloc] initWithTagName:tag_text andType:tag_type];
+    [self setUpReuseView:tmp];
+    
     CGPoint point_tmp;
     
     if (offset_x && offset_y) {
@@ -60,5 +64,31 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCommandTypeModule;
+}
+
+- (void)setUpReuseView:(id<AYViewBase>)view {
+    id<AYViewBase> cell = VIEW(@"PhotoTag", @"PhotoTag");
+    
+    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
+    for (NSString* name in cell.commands.allKeys) {
+        AYViewCommand* cmd = [cell.commands objectForKey:name];
+        AYViewCommand* c = [[AYViewCommand alloc]init];
+        c.view = view;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_commands setValue:c forKey:name];
+    }
+    view.commands = [arr_commands copy];
+    
+    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
+    for (NSString* name in cell.notifies.allKeys) {
+        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
+        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
+        c.view = view;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_notifies setValue:c forKey:name];
+    }
+    view.notifies = [arr_notifies copy];
 }
 @end
