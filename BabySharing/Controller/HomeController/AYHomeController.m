@@ -608,7 +608,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
                 id<AYCommand> cmd_refresh_like = [f_home.commands objectForKey:@"RefreshPushData"];
                 NSMutableDictionary* dic = [result mutableCopy];
                 [dic setValue:content.content_post_id forKey:@"post_id"];
-                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"lpush_result"];
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"push_result"];
                 [cmd_refresh_like performWithResult:&dic];
             }
             

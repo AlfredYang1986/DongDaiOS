@@ -26,14 +26,11 @@
     NSDictionary* result = (NSDictionary*)*obj;
     
     NSString* post_id = [result objectForKey:@"post_id"];
-//    NSNumber* push_result = [result objectForKey:@"push_result"];
     
     AYModelFacade* f = HOMECONTENTMODEL;
-    NSArray* push_array =  [[result objectForKey:@"result"] objectForKey:@"push"];
-    NSNumber* push_count =  [[result objectForKey:@"result"] objectForKey:@"push_count"];
+    NSArray* push_array =  [result  objectForKey:@"push"];
+    NSNumber* push_count =  [result objectForKey:@"push_count"];
     [QueryContent refreshLikesToPostWithID:post_id withArr:push_array andLikesCount:push_count inContext:f.doc.managedObjectContext];
-//    [QueryContent refreshLikesToPostWithID:post_id withArr:like_array andLikesCount:like_count inContext:f.doc.managedObjectContext];
-//    [QueryContent refreshIslike:like_result postId:post_id inContext:f.doc.managedObjectContext];
 }
 
 - (NSString*)getCommandType {

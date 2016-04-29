@@ -147,7 +147,6 @@
 		701524991CBFA62E005B4C5B /* AYEnumHomeQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 701524981CBFA62E005B4C5B /* AYEnumHomeQueryDataCommand.m */; };
 		7015249C1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7015249B1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m */; };
 		7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7015249E1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m */; };
-		701524A41CBFBBA9005B4C5B /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701524A21CBFBBA9005B4C5B /* libGPUImage.a */; };
 		701524A91CBFBCF1005B4C5B /* AYHomeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701524A81CBFBCF1005B4C5B /* AYHomeCellView.m */; };
 		7017F32E1CB74D08002C416E /* AYSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F32D1CB74D08002C416E /* AYSearchController.m */; };
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
@@ -484,6 +483,7 @@
 		80D5E7EF1CCCD0AB00A82117 /* AYFriendsBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7EE1CCCD0AB00A82117 /* AYFriendsBtnView.m */; };
 		80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */; };
 		80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */; };
+		80E249511CD31C0700277130 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701524A21CBFBBA9005B4C5B /* libGPUImage.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1462,7 +1462,7 @@
 			files = (
 				708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */,
 				708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */,
-				701524A41CBFBBA9005B4C5B /* libGPUImage.a in Frameworks */,
+				80E249511CD31C0700277130 /* libGPUImage.a in Frameworks */,
 				708235BD1CA2422800658531 /* libz.tbd in Frameworks */,
 				708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */,
 				708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */,
