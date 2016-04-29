@@ -78,6 +78,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         owner_id = [args objectForKey:@"owner_id"];
         post_id = [args objectForKey:@"post_id"];
         theme = [args objectForKey:@"theme"];   // group name
+        group_id = [args objectForKey:@"group_id"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -201,11 +202,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     view.frame = CGRectMake(0, 0, width, height.floatValue);
     view.backgroundColor = [UIColor clearColor];
     
-    NSString* str = theme;
-    id<AYCommand> cmd_test = [((id<AYViewBase>)view).commands objectForKey:@"setGroupChatViewInfo:"];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:str forKey:@"theme"];
-    [cmd_test performWithResult:&dic];
+
     
     return nil;
 }
@@ -530,19 +527,35 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 #pragma mark -- enter group chat
 - (void)enterChatGroup {
     id<AYFacadeBase> f = [self.facades objectForKey:@"ChatSessionRemote"];
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"EnterChatGroup"];
-    
+   
     NSDictionary* user = nil;
     CURRENUSER(user);
-    
+
     NSMutableDictionary* dic = [user mutableCopy];
-    [dic setValue:theme forKey:@"group_name"];
     [dic setValue:post_id forKey:@"post_id"];
     [dic setValue:owner_id forKey:@"owner_id"];
+    
+    AYRemoteCallCommand* cmd = nil;
+    if (theme == nil) {
+        cmd = [f.commands objectForKey:@"JoinChatGroup"];
+        [dic setValue:group_id forKey:@"group_id"];
+    } else {
+        cmd = [f.commands objectForKey:@"EnterChatGroup"];
+        [dic setValue:theme forKey:@"group_name"];
+    }
+    
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         join_lst_success = success;
         join_count = [result objectForKey:@"joiners_count"];
+        theme = [result objectForKey:@"group_name"];
+        
+        NSString* str = theme;
+        id<AYViewBase> header = [self.views objectForKey:@"GroupChatHeader"];
+        id<AYCommand> cmd_test = [header.commands objectForKey:@"setGroupChatViewInfo:"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:str forKey:@"theme"];
+        [cmd_test performWithResult:&dic];
        
         id<AYFacadeBase> xmpp = [self.facades objectForKey:@"XMPP"];
         id<AYCommand> cmd = [xmpp.commands objectForKey:@"JoinGroup"];

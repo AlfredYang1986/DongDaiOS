@@ -10,6 +10,7 @@
 #import "AYFactoryManager.h"
 #import "AYCommandDefines.h"
 #import "AYGroupListCellDefines.h"
+#import "AYNotifyDefines.h"
 
 #import "Targets.h"
 
@@ -111,6 +112,27 @@
     NSNumber* result = nil;
     [cmd performWithResult:&result];
     return result.floatValue;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    Targets* tmp = [querydata objectAtIndex:indexPath.row];
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:tmp.owner_id forKey:@"owner_id"];
+    [dic setValue:tmp.post_id forKey:@"post_id"];
+    [dic setValue:tmp.group_id forKey:@"group_id"];
+    
+    [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
+    [_controller performWithResult:&dic_push];
 }
 
 #pragma mark -- messages

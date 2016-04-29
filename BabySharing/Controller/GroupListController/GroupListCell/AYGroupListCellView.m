@@ -9,11 +9,8 @@
 #import "AYGroupListCellView.h"
 #import "OBShapedButton.h"
 #import "Targets.h"
-#import "TmpFileStoragemodel.h"
 #import "GotyeOCAPI.h"
 #import "Tools.h"
-#import "AppDelegate.h"
-#import "RemoteInstance.h"
 
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
@@ -21,6 +18,8 @@
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 #import "AYGroupListCellDefines.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 @implementation AYGroupListCellView {
     OBShapedButton* brage;
@@ -133,27 +132,17 @@
 }
 
 - (void)changeImage {
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"default_user"] ofType:@"png"];
-    
-    UIImage* userImg = [TmpFileStorageModel enumImageWithName:_current_session.post_thumb withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self) {
-                    self.themeImg.image = user_img;
-                    NSLog(@"owner img download success");
-                }
-            });
-        } else {
-            NSLog(@"down load owner image %@ failed", _current_session.post_thumb);
+    [self.themeImg setImage:PNGRESOURCE(@"default_user")];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:_current_session.post_thumb forKey:@"image"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            [self.themeImg setImage:img];
         }
     }];
-    
-    if (userImg == nil) {
-        userImg = [UIImage imageNamed:filePath];
-    }
-    [self.themeImg setImage:userImg];
 }
 
 - (void)awakeFromNib {

@@ -484,6 +484,7 @@
 		80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */; };
 		80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */; };
 		80E249511CD31C0700277130 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701524A21CBFBBA9005B4C5B /* libGPUImage.a */; };
+		80E249551CD32E6100277130 /* AYJoinChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1453,6 +1454,8 @@
 		80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInvitationBtnView.m; sourceTree = "<group>"; };
 		80D5E7F51CCCE2E300A82117 /* AYNoneRelationBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNoneRelationBtnView.h; sourceTree = "<group>"; };
 		80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNoneRelationBtnView.m; sourceTree = "<group>"; };
+		80E249531CD32E6100277130 /* AYJoinChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYJoinChatGroupCommand.h; sourceTree = "<group>"; };
+		80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinChatGroupCommand.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2910,6 +2913,7 @@
 		702510851CC0F2EC00DADF2B /* ChatSession */ = {
 			isa = PBXGroup;
 			children = (
+				80E249521CD32E5000277130 /* JoinChatGroup */,
 				702B84B21CCA998000CDEB3C /* EnterChatGroup */,
 				702B84B31CCA998000CDEB3C /* QueryChatGroup */,
 			);
@@ -5219,6 +5223,15 @@
 			path = NoneRelationBtn;
 			sourceTree = "<group>";
 		};
+		80E249521CD32E5000277130 /* JoinChatGroup */ = {
+			isa = PBXGroup;
+			children = (
+				80E249531CD32E6100277130 /* AYJoinChatGroupCommand.h */,
+				80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */,
+			);
+			path = JoinChatGroup;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -5438,6 +5451,7 @@
 				7015247E1CBF9AB4005B4C5B /* MJRefreshFooter.m in Sources */,
 				701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */,
 				70120CA91CBE0D9400B169F9 /* AYRefrashOwnerQueryPushDataCommand.m in Sources */,
+				80E249551CD32E6100277130 /* AYJoinChatGroupCommand.m in Sources */,
 				70F428771CC7B18F00A69977 /* MASCompositeConstraint.m in Sources */,
 				7002DB371CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m in Sources */,
 				80D5E7D01CCCBDF000A82117 /* AYLabelView.m in Sources */,
