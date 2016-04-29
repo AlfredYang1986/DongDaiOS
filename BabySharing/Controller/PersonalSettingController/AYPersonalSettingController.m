@@ -157,6 +157,9 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     
     [picker dismissViewControllerAnimated:YES completion:nil];
+//    [picker dismissViewControllerAnimated:YES completion:^{
+//        picker.mediaTypes = [NSArray arrayWithObjects: @"public.image", nil];
+//    }];
     
     // get image name
     id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];

@@ -82,8 +82,10 @@
 @end
 
 @implementation AYHomeCellView {
-    UIImageView *praiseImage;//
+    UIImageView *praiseImage;
     UIImageView *pushImage;
+    UIView *praiseView;
+    UIView *pushView;
     UIImageView *jionImage;
     UIView *lineView;
     UIView *jionGroupView;
@@ -140,24 +142,35 @@
         _descriptionLabel.textColor = TextColor;
         [self.contentView addSubview:_descriptionLabel];
         
+        praiseView = [[UIView alloc]init];
+//        praiseView.backgroundColor = [UIColor blueColor];
         praiseImage = [[UIImageView alloc] init];
         praiseImage.image = PNGRESOURCE(@"home_like_default");
-        [self.contentView addSubview:praiseImage];
         _praiseCount = [[UILabel alloc] init];
         _praiseCount.font = [UIFont systemFontOfSize:12];
         _praiseCount.textAlignment = NSTextAlignmentCenter;
         _praiseCount.textColor = TextColor;
         _praiseCount.text = @"赞";
         
-        pushImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+        [self.contentView addSubview:praiseView];
+        [praiseView addSubview:praiseImage];
+        [praiseView addSubview:_praiseCount];
+        
+        
+        pushView = [[UIView alloc]init];
+//        pushView.backgroundColor = [UIColor blueColor];
+        pushImage = [[UIImageView alloc] init];
         pushImage.image = PNGRESOURCE(@"push");
-        [self.contentView addSubview:pushImage];
-        [self.contentView addSubview:_praiseCount];
         _usefulCount = [[UILabel alloc] init];
         _usefulCount.textAlignment = NSTextAlignmentCenter;
         _usefulCount.font = [UIFont systemFontOfSize:12];
         _usefulCount.textColor = TextColor;
         _usefulCount.text = @"咚";
+        
+        [self.contentView addSubview:pushView];
+        [pushView addSubview:pushImage];
+        [pushView addSubview:_usefulCount];
+        
         
         // 中间的一条线
 //        lineView = [CALayer layer];
@@ -165,7 +178,6 @@
         [self.contentView addSubview:lineView];
         lineView.backgroundColor = [Tools colorWithRED:231.0 GREEN:231.0 BLUE:231.0 ALPHA:1.0];
         
-        [self.contentView addSubview:_usefulCount];
         _firstImage = [[UIImageView alloc] init];
         _firstImage.tag = 1;
         _firstImage.clipsToBounds = YES;
@@ -223,12 +235,14 @@
         // 加入动作
         _ownerImage.userInteractionEnabled = YES;
         [_ownerImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(otherInfo)]];
-        pushImage.userInteractionEnabled = YES;
-        [pushImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushGroupTap)]];
+        
+        pushView.userInteractionEnabled = YES;
+        [pushView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushGroupTap)]];
         _mainImage.userInteractionEnabled = YES;
         [_mainImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainImageTap)]];
-        praiseImage.userInteractionEnabled = YES;
-        [praiseImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(praiseImageTap)]];
+        praiseView.userInteractionEnabled = YES;
+        [praiseView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(praiseImageTap)]];
+        
         [_jionGroup addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jionGroupTap)]];
         
         NSLog(@"init reuse identifier");
@@ -298,29 +312,48 @@
         make.right.equalTo(self.contentView.mas_right).offset(-10);
         make.height.equalTo(@18);
     }];
-
-    [praiseImage mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    //**********praiseView
+    [praiseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_descriptionLabel.mas_bottom).offset(14);
         make.left.equalTo(self.contentView).offset(17);
+        make.width.equalTo(@45);
+        make.height.equalTo(@22);
+    }];
+    [praiseImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(praiseView);
+        make.left.equalTo(praiseView);
         make.width.equalTo(@22);
         make.height.equalTo(@22);
     }];
     
     [_praiseCount mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(praiseImage);
-        make.left.equalTo(praiseImage.mas_right).offset(10);
+        make.centerY.equalTo(praiseView);
+        make.left.equalTo(praiseView).offset(30);
+    }];
+    //*****************
+    
+    //********pushImage
+    [pushView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(praiseView);
+        make.left.equalTo(praiseView.mas_right).offset(40);
+        make.size.equalTo(praiseView);
     }];
     
     [pushImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(praiseImage);
-        make.left.equalTo(praiseImage.mas_right).offset(60);
-        make.size.equalTo(praiseImage);
+        make.top.equalTo(pushView);
+        make.left.equalTo(pushView);
+        make.width.equalTo(@22);
+        make.height.equalTo(@22);
     }];
 
     [_usefulCount mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(praiseImage);
-        make.left.equalTo(pushImage.mas_right).offset(10);
+        make.centerY.equalTo(pushView);
+        make.left.equalTo(pushView).offset(27);
     }];
+    
+    
+    //************
     
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(praiseImage.mas_bottom).offset(14);

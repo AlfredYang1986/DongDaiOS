@@ -167,7 +167,6 @@
     
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//    [(UIView*)cell.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     if (cell == nil) {
         cell = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
         

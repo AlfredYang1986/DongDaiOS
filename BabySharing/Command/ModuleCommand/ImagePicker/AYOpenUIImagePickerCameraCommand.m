@@ -26,7 +26,8 @@
     UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         pickerImage.sourceType = UIImagePickerControllerSourceTypeCamera;
-        pickerImage.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pickerImage.sourceType];
+//        pickerImage.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pickerImage.sourceType];
+        pickerImage.mediaTypes = [NSArray arrayWithObjects:@"public.image", nil];
         
     } else {
         NSLog(@"设备不支持照相机");
