@@ -18,11 +18,16 @@
 #define FAKE_NAVIGATION_BAR_HEIGHT      64
 #define FUNC_BAR_HEIGHT                 47
 
+@interface AYPostPreviewController ()
+@property (nonatomic, weak) UIView* edit_tag_view;
+@end
+
 @implementation AYPostPreviewController  {
     CGPoint point;
 }
 @synthesize mainContentView = _mainContentView;
 @synthesize status = _status;
+@synthesize edit_tag_view = _edit_tag_view;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -188,6 +193,7 @@
             view_entry.hidden = NO;
             UIView* view_filter = [self.views objectForKey:@"FilterPreview"];
             view_filter.hidden = YES;
+            [self.edit_tag_view removeFromSuperview];
             }
             break;
         case AYPostPhotoPreviewControllerTypeSegAtTags: {
@@ -199,6 +205,7 @@
             view_entry.hidden = YES;
             UIView* view_filter = [self.views objectForKey:@"FilterPreview"];
             view_filter.hidden = YES;
+            [self.edit_tag_view removeFromSuperview];
             }
             break;
         case AYPostPhotoPreviewControllerTypeSegAtFilter: {
@@ -210,6 +217,7 @@
             view_entry.hidden = YES;
             UIView* view_filter = [self.views objectForKey:@"FilterPreview"];
             view_filter.hidden = NO;
+            [self.edit_tag_view removeFromSuperview];
             }
             break;
             
@@ -235,6 +243,9 @@
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
     [tag_view addGestureRecognizer:pan];
     
+    UILongPressGestureRecognizer* lp = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
+    [tag_view addGestureRecognizer:lp];
+    
     self.status = AYPostPhotoPreviewControllerTypeSegAtTags;
 }
 
@@ -255,14 +266,35 @@
 #pragma mark -- tap
 - (void)tagTaped:(UITapGestureRecognizer*)tap {
     NSLog(@"tag taped");
+    [self.edit_tag_view removeFromSuperview];
     id<AYViewBase> view = (id<AYViewBase>)tap.view;
     id<AYCommand> cmd = [view.commands objectForKey:@"changeTagDirection"];
     [cmd performWithResult:nil];
 }
 
-#pragma mark == pan#pragma mark -- paste img pan handle
+#pragma mark -- handle long press
+- (void)handleLongPress:(UILongPressGestureRecognizer*)gesture {
+    NSLog(@"long gesture");
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+      
+        id<AYCommand> cmd = [self.commands objectForKey:@"TagEditInit"];
+        UIView* view = gesture.view;
+        [cmd performWithResult:&view];
+        ((id<AYViewBase>)view).controller = self;
+        if (self.edit_tag_view != nil) {
+            [self.edit_tag_view removeFromSuperview];
+        }
+   
+        self.edit_tag_view = view;
+        self.edit_tag_view.center = CGPointMake(gesture.view.center.x, /*FAKE_NAVIGATION_BAR_HEIGHT +*/ gesture.view.center.y - gesture.view.bounds.size.height / 2 - self.edit_tag_view.bounds.size.height / 2);
+        [self.mainContentView addSubview:self.edit_tag_view];
+    }
+}
+
+#pragma mark -- paste img pan handle
 - (void)handlePan:(UIPanGestureRecognizer*)gesture {
     NSLog(@"pan gesture");
+    [self.edit_tag_view removeFromSuperview];
     UIView* tmp = gesture.view;
     if (gesture.state == UIGestureRecognizerStateBegan) {
         NSLog(@"begin");
@@ -345,21 +377,30 @@
     return nil;
 }
 
-- (id)didTagEntrySelected:(id)obj {
-    
-    NSNumber* tag_type = (NSNumber*)obj;
-   
+- (void)pushToTagSearchController:(id)args {
     AYViewController* des = DEFAULTCONTROLLER(@"TagSearch");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:tag_type forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
+    [cmd performWithResult:&dic_push]; 
+}
+
+- (id)didTagEntrySelected:(id)obj {
+    NSNumber* tag_type = (NSNumber*)obj;
+    [self pushToTagSearchController:tag_type];
+    return nil;
+}
+
+- (id)EditBtnSelected:(id)obj {
+    NSDictionary* dic = (NSDictionary*)obj;
+    NSNumber* tag_type = [dic objectForKey:@"tag_type"];
+    [self pushToTagSearchController:tag_type];
+    [self.edit_tag_view removeFromSuperview];
     return nil;
 }
 

@@ -204,6 +204,8 @@
 		702510A61CC0F5CF00DADF2B /* AYChatSessionModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510A51CC0F5CF00DADF2B /* AYChatSessionModelFacade.m */; };
 		702510AB1CC0F67500DADF2B /* AYQueryChatSessionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510AA1CC0F67500DADF2B /* AYQueryChatSessionCommand.m */; };
 		702510AE1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510AD1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m */; };
+		702561B21CD350050099F056 /* AYTagEditView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702561B11CD350050099F056 /* AYTagEditView.m */; };
+		702561B51CD351230099F056 /* AYTagEditInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702561B41CD351230099F056 /* AYTagEditInitCommand.m */; };
 		7027FD161CBC0246002756BC /* AYSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD151CBC0246002756BC /* AYSettingController.m */; };
 		7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */; };
 		702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */; };
@@ -904,6 +906,10 @@
 		702510AA1CC0F67500DADF2B /* AYQueryChatSessionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryChatSessionCommand.m; sourceTree = "<group>"; };
 		702510AC1CC0F68700DADF2B /* AYUpdataChatSessionCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdataChatSessionCommand.h; sourceTree = "<group>"; };
 		702510AD1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdataChatSessionCommand.m; sourceTree = "<group>"; };
+		702561B01CD350050099F056 /* AYTagEditView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagEditView.h; sourceTree = "<group>"; };
+		702561B11CD350050099F056 /* AYTagEditView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagEditView.m; sourceTree = "<group>"; };
+		702561B31CD351230099F056 /* AYTagEditInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagEditInitCommand.h; sourceTree = "<group>"; };
+		702561B41CD351230099F056 /* AYTagEditInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagEditInitCommand.m; sourceTree = "<group>"; };
 		7027FD141CBC0246002756BC /* AYSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSettingController.h; sourceTree = "<group>"; };
 		7027FD151CBC0246002756BC /* AYSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSettingController.m; sourceTree = "<group>"; };
 		7027FD181CBC0817002756BC /* AYAppSettingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppSettingDelegate.h; sourceTree = "<group>"; };
@@ -2977,6 +2983,17 @@
 			path = UpdataChatSession;
 			sourceTree = "<group>";
 		};
+		702561AF1CD34FF60099F056 /* TagEditView */ = {
+			isa = PBXGroup;
+			children = (
+				702561B01CD350050099F056 /* AYTagEditView.h */,
+				702561B11CD350050099F056 /* AYTagEditView.m */,
+				702561B31CD351230099F056 /* AYTagEditInitCommand.h */,
+				702561B41CD351230099F056 /* AYTagEditInitCommand.m */,
+			);
+			path = TagEditView;
+			sourceTree = "<group>";
+		};
 		7027FD131CBC0238002756BC /* SettingController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3656,6 +3673,7 @@
 		705B844A1CC6A4D60057D442 /* PreviewViews */ = {
 			isa = PBXGroup;
 			children = (
+				702561AF1CD34FF60099F056 /* TagEditView */,
 				70B1DC7E1CC713080041794A /* MovieCover */,
 				705B844B1CC6A4D60057D442 /* FilterPreview */,
 				705B844E1CC6A4D60057D442 /* TagEntry */,
@@ -5743,6 +5761,7 @@
 				7027FD161CBC0246002756BC /* AYSettingController.m in Sources */,
 				708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
+				702561B51CD351230099F056 /* AYTagEditInitCommand.m in Sources */,
 				700693001CC4A1C600B511FF /* AYCameraRollController.m in Sources */,
 				703CCDEF1CC9F2B100CF4563 /* AYNotificationCellView.m in Sources */,
 				708E52841CC53BC4008A6023 /* AYCameraInitCommand.m in Sources */,
@@ -5759,6 +5778,7 @@
 				7039CBE51CBB86C000BE60C7 /* AYFakeNavBarView.m in Sources */,
 				7002DB2F1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m in Sources */,
 				703CCDD01CC9E73900CF4563 /* AYQueryMessagesCommand.m in Sources */,
+				702561B21CD350050099F056 /* AYTagEditView.m in Sources */,
 				700BE61C1CBA7BFE00A09B3A /* AYLandingInputView.m in Sources */,
 				70CDF6351CBD033900311841 /* QueryComments.m in Sources */,
 				8052188B1CCB7457006EF119 /* AYChatMessageCellView.m in Sources */,

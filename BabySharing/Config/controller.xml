@@ -281,6 +281,7 @@
     <controller type="DefaultController" name="PostPhotoPreview" factory="AYDefaultControllerFactoy" >
 
         <command type="Module" name="PhotoTagInit" />
+        <command type="Module" name="TagEditInit" />
 
         <facade type="DefaultFacade" name="GPUFilter" notification="true" />
         
@@ -295,6 +296,7 @@
     <controller type="DefaultController" name="PostMoviePreview" factory="AYDefaultControllerFactoy" >
 
         <command type="Module" name="PhotoTagInit" />
+        <command type="Module" name="TagEditInit" />
 
         <facade type="DefaultFacade" name="GPUFilter" notification="true" />
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
