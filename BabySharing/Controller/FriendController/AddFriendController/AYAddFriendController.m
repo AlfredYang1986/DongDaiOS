@@ -125,6 +125,28 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
+    UIView* nava = [self.views objectForKey:@"SetNevigationBarTitle"];
+    [self.navigationController.navigationBar addSubview:nava];
+    
+    UIView* left = [self.views objectForKey:@"SetNevigationBarLeftBtn"];
+    [self.navigationController.navigationBar addSubview:left];
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    UIView* nava = [self.views objectForKey:@"SetNevigationBarTitle"];
+    [nava removeFromSuperview];
+    
+    UIView* left =[self.views objectForKey:@"SetNevigationBarLeftBtn"];
+    [left removeFromSuperview];
+}
+
 #pragma mark -- layout commands
 - (id)SearchBarLayout:(UIView*)view {
     
@@ -302,6 +324,14 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
                 NSArray* reVal = nil;
                 reVal = (NSArray*)result;
                 
+//                for (int i = 0 ;i < reVal.count; ++i) {
+//                    for (NSObject* value in [reVal[i] allValues]) {
+//                        if ( [phones containsObject:(NSString*)value]) {
+//                            reVal remove
+//                        }
+//                    }
+//                }
+                
                 id<AYViewBase> view_friend = [self.views objectForKey:@"Table2"];
                 id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
                 
@@ -343,6 +373,24 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
+    return nil;
+}
+
+//michauxs todo:
+- (id)SamePersonBtnSelected {
+    NSLog(@"push to person setting");
+    
+//    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+//    
+//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd = PUSH;
+//    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 

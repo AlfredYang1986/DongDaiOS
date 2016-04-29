@@ -22,7 +22,11 @@
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
-   
+    
+    <delegate type="TableViewDelegateAndDatasource" name="Picker" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="didSelectPushRow:" />

@@ -149,7 +149,7 @@
     [_userNameLabel sizeToFit];
 #define TAG_2_NAME_MARGIN   10
 #define USER_NAME_TOP_MARGIN    8
-//    _userNameLabel.center = CGPointMake(_user_screen_photo.center.x + _user_screen_photo.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width / 2, PREFERRED_HEIGHT / 2);
+    
     _userNameLabel.center = CGPointMake(_user_screen_photo.center.x + _user_screen_photo.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width / 2, _cellHeight / 2);
 }
 
@@ -197,16 +197,30 @@
 
 #pragma mark -- action
 - (void)didSelectedScreenPhoto {
-   
-    AYViewController* des = DEFAULTCONTROLLER(@"Profile");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:_user_id forKey:kAYControllerChangeArgsKey];
-    
-    [_controller performWithResult:&dic_push];
+    switch (_connections) {
+        case UserPostOwnerConnectionsNone:
+        case UserPostOwnerConnectionsFriends:
+        case UserPostOwnerConnectionsFollowed:
+        case UserPostOwnerConnectionsFollowing:
+        case UserPostOwnerConnectionsSamePerson:
+        {
+            AYViewController* des = DEFAULTCONTROLLER(@"Profile");
+            
+            NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+            [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+            [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+            [dic_push setValue:_user_id forKey:kAYControllerChangeArgsKey];
+            
+            id<AYCommand> cmd = PUSH;
+            [cmd performWithResult:&dic_push];
+            break;
+        }
+        default:
+            return;
+            break;
+            
+    }
 }
 
 - (id)queryTargetID {

@@ -8,6 +8,6 @@
 
 #import "AYRelationshipBtnView.h"
 
-@interface AYInvitationBtnView : AYRelationshipBtnView
+@interface AYInvitationBtnView : AYRelationshipBtnView<UIAlertViewDelegate>  
 
 @end

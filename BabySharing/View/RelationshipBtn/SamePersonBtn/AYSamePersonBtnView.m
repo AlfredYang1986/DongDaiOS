@@ -9,6 +9,17 @@
 #import "AYSamePersonBtnView.h"
 #import "AYResourceManager.h"
 #import "AYCommandDefines.h"
+#import "AYViewController.h"
+#import "AYViewBase.h"
+#import "AYCommandDefines.h"
+#import "AYFacadeBase.h"
+#import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "AYDongDaSegDefines.h"
+#import "AYAlbumDefines.h"
+#import "AYRemoteCallDefines.h"
 
 @implementation AYSamePersonBtnView
 - (void)postPerform {
@@ -17,7 +28,9 @@
 }
 
 - (void)selfClicked {
+
     id<AYCommand> cmd = [self.notifies objectForKey:@"SamePersonBtnSelected"];
     [cmd performWithResult:nil];
+    
 }
 @end

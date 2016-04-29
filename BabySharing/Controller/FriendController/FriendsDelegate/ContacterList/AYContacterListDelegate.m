@@ -127,13 +127,13 @@
                 return [[iter objectForKey:@"phoneNo"] isEqualToString:phoneNo];
             }];
             
-            if ([obj filteredArrayUsingPredicate:p_match].count > 0) return YES;
+            if ([friends_data filteredArrayUsingPredicate:p_match].count > 0) return YES;
         }
         return NO;
     }];
     
     friend_lst = [people filteredArrayUsingPredicate:p];
-    friend_profile_lst = obj;
+    friend_profile_lst = friends_data;
     
     NSPredicate* p_not = [NSPredicate predicateWithBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
         CNContact* tmpPerson = evaluatedObject;
@@ -148,7 +148,7 @@
                 return [[iter objectForKey:@"phoneNo"] isEqualToString:phoneNo];
             }];
             
-            if ([obj filteredArrayUsingPredicate:p_match].count == 0) return YES;
+            if ([friends_data filteredArrayUsingPredicate:p_match].count == 0) return YES;
         }
         return NO;
     }];
@@ -171,6 +171,7 @@
         cell = VIEW(kAYUserDisplayTableCellName, kAYUserDisplayTableCellName);
         
     }
+    cell.controller = self.controller;
     
     BOOL isFriends = NO;
     CNContact* tmpPerson = nil;
@@ -210,7 +211,7 @@
             [dic setValue:tmpLastName forKey:kAYUserDisplayTableCellSetUserScreenNameKey];
         }
         [dic setValue:@"" forKey:kAYUserDisplayTableCellSetUserScreenPhotoKey];
-        [dic setValue:[NSNumber numberWithInt:-1] forKey:kAYUserDisplayTableCellSetUserRelationsKey];
+        [dic setValue:[NSNumber numberWithInt:-2] forKey:kAYUserDisplayTableCellSetUserRelationsKey];
         [dic setValue:@"" forKey:kAYUserDisplayTableCellSetUserRoleTagKey];
         [dic setValue:cell forKey:kAYUserDisplayTableCellKey];
     }
@@ -221,6 +222,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    if (indexPath.row < self.querydata.count) {
+        return;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIAlertView* view = [[UIAlertView alloc]initWithTitle:@"短信邀请" message:@"免费发送短信给联系人？" delegate:nil cancelButtonTitle:@"放弃" otherButtonTitles:@"邀请", nil];
     view.delegate = self;
@@ -231,7 +235,8 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         NSLog(@"Send SMS....");
-    }
+        
+    }else return;
 
 }
 
