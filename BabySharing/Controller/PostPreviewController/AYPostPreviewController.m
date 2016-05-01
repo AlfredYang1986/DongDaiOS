@@ -226,6 +226,18 @@
     }
 }
 
+- (void)clearPhotoTagWithType:(NSInteger)t {
+    for (id<AYViewBase> tmp in [self.mainContentView.subviews copy]) {
+        id<AYCommand> cmd = [tmp.commands objectForKey:@"queryTagType"];
+        NSNumber* result = nil;
+        [cmd performWithResult:&result];
+        
+        if (result.integerValue == t) {
+            [((UIView*)tmp) removeFromSuperview];
+        }
+    }
+}
+
 - (void)addTagToPreview:(NSDictionary*)dic {
     NSMutableDictionary* args = [dic mutableCopy];
     [args setValue:[NSNumber numberWithFloat:self.mainContentView.bounds.size.width] forKey:@"width"];
@@ -233,18 +245,25 @@
   
     id<AYCommand> cmd = [self.commands objectForKey:@"PhotoTagInit"];
     [cmd performWithResult:&args];
-    UIView* tag_view = (UIView*)args;
+    id<AYViewBase> tag_view = (id<AYViewBase>)args;
+  
+    {
+        id<AYCommand> cmd = [tag_view.commands objectForKey:@"queryTagType"];
+        NSNumber* result = nil;
+        [cmd performWithResult:&result];
+        [self clearPhotoTagWithType:result.integerValue];
+    }
     
-    [self.mainContentView addSubview:tag_view];
+    [self.mainContentView addSubview:(UIView*)tag_view];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tagTaped:)];
-    [tag_view addGestureRecognizer:tap];
+    [(UIView*)tag_view addGestureRecognizer:tap];
 
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
-    [tag_view addGestureRecognizer:pan];
+    [(UIView*)tag_view addGestureRecognizer:pan];
     
     UILongPressGestureRecognizer* lp = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(handleLongPress:)];
-    [tag_view addGestureRecognizer:lp];
+    [(UIView*)tag_view addGestureRecognizer:lp];
     
     self.status = AYPostPhotoPreviewControllerTypeSegAtTags;
 }

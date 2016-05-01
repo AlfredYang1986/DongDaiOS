@@ -305,6 +305,7 @@
 
     <view type="PhotoTag" name="PhotoTag" factory="AYReuseViewFactory" >
         <command type="message" message="changeTagDirection" />
+        <command type="message" message="queryTagType" />
     </view>
 
     <view type="TagEdit" name="TagEdit" factory="AYReuseViewFactory" >

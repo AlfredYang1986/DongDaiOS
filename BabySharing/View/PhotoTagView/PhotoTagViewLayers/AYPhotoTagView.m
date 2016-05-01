@@ -204,4 +204,8 @@
     self.direction = (self.direction + 1) % 2;
     return nil;
 }
+
+- (id)queryTagType {
+    return [NSNumber numberWithInteger:self.type];
+}
 @end
