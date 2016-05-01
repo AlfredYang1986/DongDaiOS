@@ -37,7 +37,7 @@
     CGPoint point_tmp;
     
     if (offset_x && offset_y) {
-        point_tmp = CGPointMake(width * offset_x.floatValue, height * offset_x.floatValue);
+        point_tmp = CGPointMake(width * offset_x.floatValue, height * offset_y.floatValue);
     } else {
         switch (tag_type) {
             case TagTypeLocation:
@@ -57,6 +57,8 @@
         }       
     }
 
+    tmp.offset_x = point_tmp.x / width;
+    tmp.offset_y = point_tmp.y / height;
     tmp.frame = CGRectMake(point_tmp.x, point_tmp.y, tmp.bounds.size.width, tmp.bounds.size.height);
     
     *obj = tmp;
