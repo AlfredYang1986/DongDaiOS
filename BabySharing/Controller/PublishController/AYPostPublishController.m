@@ -41,6 +41,7 @@
 }
 
 @synthesize mainContentView = _mainContentView;
+@synthesize tags = _tags;
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {

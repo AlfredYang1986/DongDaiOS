@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, setter=setCurrentStatus:) AYPostPublishControllerStatus status;
 @property (nonatomic, strong) UIImageView* mainContentView;
+@property (nonatomic, strong) NSArray* tags;
 
 - (NSString*)getNavTitle;
 - (void)setCurrentStatus:(AYPostPublishControllerStatus)status;

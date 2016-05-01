@@ -409,6 +409,19 @@
     [cmd performWithResult:&dic_push]; 
 }
 
+- (NSArray*)photoTagToDictionary {
+    NSMutableArray* arr = [[NSMutableArray alloc]init];
+    for (id<AYViewBase> tmp in [self.mainContentView.subviews copy]) {
+        NSDictionary* dic = nil;
+        id<AYCommand> cmd = [tmp.commands objectForKey:@"queryContentInfo"];
+        [cmd performWithResult:&dic];
+        if (dic) {
+            [arr addObject:dic];
+        }
+    }
+    return [arr copy];
+}
+
 - (id)didTagEntrySelected:(id)obj {
     NSNumber* tag_type = (NSNumber*)obj;
     [self pushToTagSearchController:tag_type];

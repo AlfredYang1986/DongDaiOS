@@ -208,4 +208,14 @@
 - (id)queryTagType {
     return [NSNumber numberWithInteger:self.type];
 }
+
+- (id)queryContentInfo {
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:self.content forKey:@"content"];
+    [dic setValue:[NSNumber numberWithFloat:self.type] forKey:@"type"];
+    [dic setValue:[NSNumber numberWithFloat:self.offset_x] forKey:@"offsetX"];
+    [dic setValue:[NSNumber numberWithFloat:self.offset_y] forKey:@"offsetY"];
+    
+    return [dic copy];
+}
 @end

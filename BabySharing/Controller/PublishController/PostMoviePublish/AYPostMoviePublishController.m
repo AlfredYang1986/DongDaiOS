@@ -34,6 +34,7 @@
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
         movie_url = [args objectForKey:@"url"];
         img_cover = [args objectForKey:@"cover"];
+        self.tags = [args objectForKey:@"tags"];
     }
 }
 
@@ -109,6 +110,7 @@
     NSMutableDictionary* post_args = [[NSMutableDictionary alloc]init];
     [post_args setValue:img_cover forKey:@"cover_img"];
     [post_args setValue:movie_url forKey:@"movie_url"];
+    [post_args setValue:self.tags forKey:@"tags"];
     
     id<AYViewBase> view_des = [self.views objectForKey:@"PublishContainer"];
     id<AYCommand> cmd_des = [view_des.commands objectForKey:@"queryUserDescription"];

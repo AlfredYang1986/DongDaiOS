@@ -23,8 +23,11 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        post_image = [dic objectForKey:kAYControllerChangeArgsKey];
-    } 
+//        post_image = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        post_image = [args objectForKey:@"image"];
+        self.tags = [args objectForKey:@"tags"];
+    }
 }
 
 #pragma mark -- life cycle
@@ -44,6 +47,7 @@
     NSArray* images = @[post_image];
     NSMutableDictionary* post_args = [[NSMutableDictionary alloc]init];
     [post_args setValue:images forKey:@"images"];
+    [post_args setValue:self.tags forKey:@"tags"];
     
     id<AYViewBase> view_des = [self.views objectForKey:@"PublishContainer"];
     id<AYCommand> cmd_des = [view_des.commands objectForKey:@"queryUserDescription"];

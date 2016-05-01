@@ -162,6 +162,7 @@
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSMutableDictionary* args = [result mutableCopy];
         [args setValue:self.mainContentView.image forKey:@"cover"];
+        [args setValue:[self photoTagToDictionary] forKey:@"tags"];
         
         AYViewController* des = DEFAULTCONTROLLER(@"PostMoviePublish");
         
