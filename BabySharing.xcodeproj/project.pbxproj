@@ -315,6 +315,9 @@
 		707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D3A1CA819D900F6256E /* UIImage+fixOrientation.m */; };
 		707B4D3F1CA819D900F6256E /* UINavigationController+Retro.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D3C1CA819D900F6256E /* UINavigationController+Retro.m */; };
 		707B4D431CA81E7600F6256E /* AYChangeRegUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D421CA81E7600F6256E /* AYChangeRegUserCommand.m */; };
+		707FC5011CD8A65F00C0BC37 /* AYShareWithWeiboCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC5001CD8A65F00C0BC37 /* AYShareWithWeiboCommand.m */; };
+		707FC5091CD8D5B300C0BC37 /* AYShareWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC5081CD8D5B300C0BC37 /* AYShareWithWechatCommand.m */; };
+		707FC50C1CD8D5E400C0BC37 /* AYShareWithQQCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707FC50B1CD8D5E400C0BC37 /* AYShareWithQQCommand.m */; };
 		708235B71CA241F800658531 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235B61CA241F800658531 /* libiconv.tbd */; };
 		708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235B81CA2420A00658531 /* libsqlite3.tbd */; };
 		708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235BA1CA2421B00658531 /* libstdc++.tbd */; };
@@ -1108,6 +1111,12 @@
 		707B4D3C1CA819D900F6256E /* UINavigationController+Retro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+Retro.m"; sourceTree = "<group>"; };
 		707B4D411CA81E7600F6256E /* AYChangeRegUserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChangeRegUserCommand.h; sourceTree = "<group>"; };
 		707B4D421CA81E7600F6256E /* AYChangeRegUserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChangeRegUserCommand.m; sourceTree = "<group>"; };
+		707FC4FF1CD8A65F00C0BC37 /* AYShareWithWeiboCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYShareWithWeiboCommand.h; sourceTree = "<group>"; };
+		707FC5001CD8A65F00C0BC37 /* AYShareWithWeiboCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShareWithWeiboCommand.m; sourceTree = "<group>"; };
+		707FC5071CD8D5B300C0BC37 /* AYShareWithWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYShareWithWechatCommand.h; sourceTree = "<group>"; };
+		707FC5081CD8D5B300C0BC37 /* AYShareWithWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShareWithWechatCommand.m; sourceTree = "<group>"; };
+		707FC50A1CD8D5E400C0BC37 /* AYShareWithQQCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYShareWithQQCommand.h; sourceTree = "<group>"; };
+		707FC50B1CD8D5E400C0BC37 /* AYShareWithQQCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShareWithQQCommand.m; sourceTree = "<group>"; };
 		708235B61CA241F800658531 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		708235B81CA2420A00658531 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		708235BA1CA2421B00658531 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
@@ -2741,6 +2750,7 @@
 		701D8A4C1CA7B9C200B5D4C1 /* SNSQQ */ = {
 			isa = PBXGroup;
 			children = (
+				707FC5031CD8D51000C0BC37 /* ShareWithQQ */,
 				700BE5BC1CBA6DAD00A09B3A /* LoginWithQQ */,
 				701D8A4D1CA7B9C200B5D4C1 /* AYSNSQQFacade.h */,
 				701D8A4E1CA7B9C200B5D4C1 /* AYSNSQQFacade.m */,
@@ -2751,6 +2761,7 @@
 		701D8A4F1CA7B9C200B5D4C1 /* SNSWechat */ = {
 			isa = PBXGroup;
 			children = (
+				707FC5021CD8D4F600C0BC37 /* ShareWithWechat */,
 				700BE5C01CBA6DE300A09B3A /* LoginWithWechat */,
 				701D8A501CA7B9C200B5D4C1 /* AYSNSWechatFacade.h */,
 				701D8A511CA7B9C200B5D4C1 /* AYSNSWechatFacade.m */,
@@ -2761,6 +2772,7 @@
 		701D8A521CA7B9C200B5D4C1 /* SNSWeibo */ = {
 			isa = PBXGroup;
 			children = (
+				707FC4FE1CD8A62C00C0BC37 /* ShareWithWeibo */,
 				700BE5C41CBA6DE900A09B3A /* LoginWithWeibo */,
 				701D8A531CA7B9C200B5D4C1 /* AYSNSWeiboFacade.h */,
 				701D8A541CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m */,
@@ -3819,6 +3831,33 @@
 				705C450D1CA8E4ED00921799 /* AYQueryRegUserCommand.m */,
 			);
 			path = RegUser;
+			sourceTree = "<group>";
+		};
+		707FC4FE1CD8A62C00C0BC37 /* ShareWithWeibo */ = {
+			isa = PBXGroup;
+			children = (
+				707FC4FF1CD8A65F00C0BC37 /* AYShareWithWeiboCommand.h */,
+				707FC5001CD8A65F00C0BC37 /* AYShareWithWeiboCommand.m */,
+			);
+			path = ShareWithWeibo;
+			sourceTree = "<group>";
+		};
+		707FC5021CD8D4F600C0BC37 /* ShareWithWechat */ = {
+			isa = PBXGroup;
+			children = (
+				707FC5071CD8D5B300C0BC37 /* AYShareWithWechatCommand.h */,
+				707FC5081CD8D5B300C0BC37 /* AYShareWithWechatCommand.m */,
+			);
+			path = ShareWithWechat;
+			sourceTree = "<group>";
+		};
+		707FC5031CD8D51000C0BC37 /* ShareWithQQ */ = {
+			isa = PBXGroup;
+			children = (
+				707FC50A1CD8D5E400C0BC37 /* AYShareWithQQCommand.h */,
+				707FC50B1CD8D5E400C0BC37 /* AYShareWithQQCommand.m */,
+			);
+			path = ShareWithQQ;
 			sourceTree = "<group>";
 		};
 		708235C11CA248B600658531 /* ControllerBase */ = {
@@ -5570,6 +5609,7 @@
 				703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */,
 				700BE5EB1CBA6E5800A09B3A /* AYLandingReqConfirmCodeCommand.m in Sources */,
 				703B89661CBF2AEC002EBB18 /* AYEmailRemoteFacade.m in Sources */,
+				707FC5091CD8D5B300C0BC37 /* AYShareWithWechatCommand.m in Sources */,
 				70F68DA71CBE46C1005524BA /* AYAboutDongdaDelegate.m in Sources */,
 				709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */,
 				702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */,
@@ -5759,6 +5799,7 @@
 				70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */,
 				80D5E7C31CCC7C2000A82117 /* PhotoTagTariangleLayer.m in Sources */,
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,
+				707FC50C1CD8D5E400C0BC37 /* AYShareWithQQCommand.m in Sources */,
 				705B84561CC6A4D60057D442 /* AYTagPreviewView.m in Sources */,
 				7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */,
 				700BE5EC1CBA6E5800A09B3A /* AYRemoteCallCommand.m in Sources */,
@@ -5831,6 +5872,7 @@
 				7002DB8C1CC64EDA0013FF2A /* AYSceneFilterCommand.m in Sources */,
 				702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */,
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,
+				707FC5011CD8A65F00C0BC37 /* AYShareWithWeiboCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

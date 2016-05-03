@@ -3,12 +3,15 @@
     </facade>
     <facade type="DefaultFacade" name="SNSQQ" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithQQ" />
+        <command type="Remote" name="ShareWithQQ" />
     </facade>
     <facade type="DefaultFacade" name="SNSWechat" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWechat" />
+        <command type="Remote" name="ShareWithWechat" />
     </facade>
     <facade type="DefaultFacade" name="SNSWeibo" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWeibo" />
+        <command type="Remote" name="ShareWithWeibo" />
     </facade>
 
     <facade type="DefaultFacade" name="StillImageCapture" factory="AYDefaultFacadeFactory" >

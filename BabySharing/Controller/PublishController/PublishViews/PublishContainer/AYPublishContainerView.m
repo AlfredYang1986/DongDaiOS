@@ -39,10 +39,10 @@ typedef enum : NSUInteger {
 - (void)postPerform {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     
-    CGFloat img_height = width - 10.5 * 2; //width * aspectRatio;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+//    CGFloat img_height = width - 10.5 * 2; //width * aspectRatio;
+//    CGFloat height = [UIScreen mainScreen].bounds.size.height;
     
-    descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, img_height , width - 2 * CARD_CONTENG_MARGIN, height - img_height - FAKE_NAVIGATION_BAR_HEIGHT - BOTTON_BAR_HEIGHT - CARD_CONTENG_MARGIN)];
+    descriptionView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, width - 2 * CARD_CONTENG_MARGIN, 110)];
     descriptionView.font = [UIFont systemFontOfSize:15.0];
     //    _descriptionView.delegate = self;
     descriptionView.editable = YES;
@@ -51,11 +51,17 @@ typedef enum : NSUInteger {
     
     UIView *view = [[UIView alloc] initWithFrame:descriptionView.frame];
     view.backgroundColor = [UIColor whiteColor];
-    descriptionView.frame = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame)), 9, 7);
+    descriptionView.frame = CGRectInset(CGRectMake(0, 0, CGRectGetWidth(view.frame), CGRectGetHeight(view.frame)), 7, 7);
     descriptionView.delegate = self;
     [view addSubview:descriptionView];
     [self addSubview:view];
     [self bringSubviewToFront:view];
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self);
+        make.left.equalTo(self);
+        make.width.mas_equalTo(width - 2 * CARD_CONTENG_MARGIN);
+        make.height.mas_equalTo(100);
+    }];
     
     placeholder = [[UILabel alloc]init];
     placeholder.font = [UIFont systemFontOfSize:15.0];
@@ -64,8 +70,8 @@ typedef enum : NSUInteger {
     placeholder.text = @"一句话传递你的主张(18个字)";
     placeholder.textAlignment = NSTextAlignmentCenter;
     [placeholder sizeToFit];
-    placeholder.frame = CGRectMake(12, img_height + 13, placeholder.frame.size.width, placeholder.frame.size.height);
-    [self addSubview:placeholder];
+    placeholder.frame = CGRectMake(12, 13, placeholder.frame.size.width, placeholder.frame.size.height);
+    [view addSubview:placeholder];
 }
 
 - (void)performWithResult:(NSObject**)obj {

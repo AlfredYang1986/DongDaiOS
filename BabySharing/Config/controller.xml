@@ -312,6 +312,9 @@
     <controller type="DefaultController" name="PostPhotoPublish" factory="AYDefaultControllerFactoy" >
 
         <facade type="DefaultFacade" name="PostRemote" notification="true" />
+        <facade type="DefaultFacade" name="SNSQQ" notification="true" />
+        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        <facade type="DefaultFacade" name="SNSWeibo" notification="true" />
         
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
@@ -323,6 +326,9 @@
         
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
         <facade type="DefaultFacade" name="PostRemote" notification="true" />
+        <facade type="DefaultFacade" name="SNSQQ" notification="true" />
+        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        <facade type="DefaultFacade" name="SNSWeibo" notification="true" />
         
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />

@@ -261,7 +261,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     if (index.integerValue == 1) {
         index = [NSNumber numberWithInt:index.integerValue > 0 ? -1 : -2];
         //*************
-        if ([WXApi isWXAppInstalled]) {
+        if (![WXApi isWXAppInstalled]) {
             [[[UIAlertView alloc] initWithTitle:@"通知" message:@"当前手机未安装微信无法分享" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             return nil;
         }
@@ -380,16 +380,33 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 - (id)SamePersonBtnSelected {
     NSLog(@"push to person setting");
     
-//    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-//    
-//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd = PUSH;
-//    [cmd performWithResult:&dic_push];
+    id<AYFacadeBase> f_login_model = LOGINMODEL;
+    id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"];
+    id obj = nil;
+    [cmd performWithResult:&obj];
+    
+    NSMutableDictionary* dic_user_info = [obj mutableCopy];
+    [dic_user_info setValue:[obj objectForKey:@"user_id"] forKey:@"owner_user_id"];
+    
+    id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd_user_info = [f_profile.commands objectForKey:@"QueryUserProfile"];
+    [cmd_user_info performWithResult:[dic_user_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"User info are %@", result);
+        NSDictionary* profile_dic = [result copy];
+        
+        AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }];
+    
+    
     
     return nil;
 }

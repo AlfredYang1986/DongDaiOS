@@ -43,6 +43,11 @@
 @synthesize mainContentView = _mainContentView;
 @synthesize tags = _tags;
 
+
+@synthesize isShareQQ = _isShareQQ;
+@synthesize isShareWechat = _isShareWechat;
+@synthesize isShareWeibo = _isShareWeibo;
+
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,14 +59,22 @@
     [view_nav addSubview:view_title];
 
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat img_height = width - 10.5 * 2;
-    _mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width - 2 * CARD_CONTENG_MARGIN, img_height)];
+//    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+//    CGFloat img_height = width - 10.5 * 2;
+//    _mainContentView = [[UIImageView alloc]init];
+    _mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, width - 2 * CARD_CONTENG_MARGIN, width - 2 * CARD_CONTENG_MARGIN)];
+
     _mainContentView.backgroundColor = [UIColor clearColor];
     _mainContentView.userInteractionEnabled = YES;
     UIView* container = [self.views objectForKey:@"PublishContainer"];
     [container addSubview:_mainContentView];
-    
+    [container sendSubviewToBack:_mainContentView];
     [self.view sendSubviewToBack:container];
+//    [_mainContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(container);
+//        make.top.equalTo(container);
+//        make.width.equalTo(container);
+//    }];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [container addGestureRecognizer:tap];
@@ -209,6 +222,20 @@
 }
 
 - (id)SharingSNSWithWeibo:(id)args {
+    return nil;
+}
+
+
+-(id)SharingSNSWithQQ{
+    _isShareQQ = YES;
+    return nil;
+}
+-(id)SharingSNSWithWechat{
+    _isShareWechat = YES;
+    return nil;
+}
+-(id)SharingSNSWithWeibo{
+    _isShareWeibo = YES;
     return nil;
 }
 

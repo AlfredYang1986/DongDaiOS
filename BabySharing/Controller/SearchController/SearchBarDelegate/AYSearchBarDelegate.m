@@ -39,7 +39,7 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
-#pragma mark -- search bar delegate//michauxs
+#pragma mark -- search bar delegate//
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     id<AYCommand> n = [self.notifies objectForKey:@"searchTextChanged:"];
     NSString* str = searchText;

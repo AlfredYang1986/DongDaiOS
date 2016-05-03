@@ -43,6 +43,7 @@
     
 //    UIButton* wechat_btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, SNS_BUTTON_WIDTH, SNS_BUTTON_HEIGHT)];
     UIButton* wechat_btn = [[UIButton alloc] init];
+    wechat_btn.tag = 11;
     [self addSubview:wechat_btn];
     UIImage * wechat_image = PNGRESOURCE(@"friendShip");
     UIImage * wechat_image_click = PNGRESOURCE(@"friendShip_select");
@@ -59,6 +60,7 @@
     }];
     
     UIButton* qq_btn = [[UIButton alloc]init];
+    qq_btn.tag = 10;
     [self addSubview:qq_btn];
     UIImage * qq_image = PNGRESOURCE(@"login_qq");
     UIImage * qq_image_click = PNGRESOURCE(@"login_qq_clicked");
@@ -75,6 +77,7 @@
     
     // 同步到微博
     UIButton* weibo_btn = [[UIButton alloc]init];
+    weibo_btn.tag = 12;
     [self addSubview:weibo_btn];
     UIImage * weibo_image = PNGRESOURCE(@"login_weibo");
     UIImage * weibo_image_click = PNGRESOURCE(@"login_weibo_clicked");
@@ -109,7 +112,27 @@
 }
 
 #pragma mark -- actions
-- (void)SNSBtnSelected:(UIButton*)sender {
-    sender.selected = !sender.selected;
+- (void)SNSBtnSelected:(UIButton*)btn {
+    
+//    CGFloat selectedIndex = btn.tag;
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:[NSNumber numberWithFloat:selectedIndex] forKey:@"indexKey"];
+    btn.selected = !btn.selected;
+    
+    if (btn.tag == 10 && btn.selected) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithQQ"];
+        [cmd performWithResult:nil];
+    }
+    if (btn.tag == 11 && btn.selected) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWechat"];
+        [cmd performWithResult:nil];
+    }
+    if (btn.tag == 12 && btn.selected) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWeibo"];
+        [cmd performWithResult:nil];
+    }
+    
+    
+    
 }
 @end
