@@ -39,7 +39,7 @@
             id reVal = [result objectForKey:@"relations"];
             [cmd_notify performWithResult:&reVal];
         } else {
-            [[[UIAlertView alloc]initWithTitle:@"error" message:@"取消关注失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [[[UIAlertView alloc]initWithTitle:@"取消关注失败" message:@"请检查网络连接是否正常" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
         }
     }];
 }

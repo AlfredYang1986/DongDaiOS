@@ -70,11 +70,6 @@
     [container addSubview:_mainContentView];
     [container sendSubviewToBack:_mainContentView];
     [self.view sendSubviewToBack:container];
-//    [_mainContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(container);
-//        make.top.equalTo(container);
-//        make.width.equalTo(container);
-//    }];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [container addGestureRecognizer:tap];
@@ -214,28 +209,20 @@
 }
 
 - (id)SharingSNSWithQQ:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    _isShareQQ = ((NSNumber*)[dic valueForKey:@"BtnSelected"]).boolValue;
     return nil;
 }
 
 - (id)SharingSNSWithWechat:(id)args {
+    NSDictionary* dic = (NSDictionary*)args;
+    _isShareWechat = ((NSNumber*)[dic valueForKey:@"BtnSelected"]).boolValue;
     return nil;
 }
 
 - (id)SharingSNSWithWeibo:(id)args {
-    return nil;
-}
-
-
--(id)SharingSNSWithQQ{
-    _isShareQQ = YES;
-    return nil;
-}
--(id)SharingSNSWithWechat{
-    _isShareWechat = YES;
-    return nil;
-}
--(id)SharingSNSWithWeibo{
-    _isShareWeibo = YES;
+    NSDictionary* dic = (NSDictionary*)args;
+    _isShareWeibo = ((NSNumber*)[dic valueForKey:@"BtnSelected"]).boolValue;
     return nil;
 }
 

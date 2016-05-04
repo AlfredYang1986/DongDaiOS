@@ -3276,6 +3276,7 @@
 		702E7AC71CA171D30097867E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				704B5D391CD9A973001423B9 /* PushResetBtn */,
 				80D5E7D11CCCCB7C00A82117 /* RelationshipBtn */,
 				80D5E7B11CCC7C2000A82117 /* PhotoTagView */,
 				700693011CC4A3AF00B511FF /* DropDownView */,
@@ -3674,6 +3675,13 @@
 				70490DC31CA23A430093D5DA /* Contacts.framework */,
 			);
 			name = Framework;
+			sourceTree = "<group>";
+		};
+		704B5D391CD9A973001423B9 /* PushResetBtn */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PushResetBtn;
 			sourceTree = "<group>";
 		};
 		704F082D1CC8EC6C00A9925D /* UploadFile */ = {

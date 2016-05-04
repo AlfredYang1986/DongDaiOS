@@ -13,6 +13,7 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
+#import "AYPublishContainerView.h"
 
 @interface AYPostPhotoPublishController ()
 
@@ -81,7 +82,7 @@
         
         NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
         [dict setValue:post_image forKey:@"image"];
-        [dict setValue:self.tags.lastObject forKey:@"decs"];
+        [dict setValue:(NSString*)description forKey:@"decs"];
         
         [cmd performWithResult:[dict copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
@@ -99,14 +100,12 @@
         
         NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
         [dict setValue:post_image forKey:@"image"];
-        [dict setValue:self.tags.lastObject forKey:@"decs"];
+        [dict setValue:(NSString*)description forKey:@"decs"];
         
         [cmd performWithResult:[dict copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-//                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微信同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
             } else {
-                NSString* msg = (NSString*)result;
-                NSLog(@"%@",msg);
                 [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微信同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             }
         }];
@@ -119,7 +118,7 @@
         
         NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
         [dict setValue:post_image forKey:@"image"];
-        [dict setValue:self.tags.lastObject forKey:@"decs"];
+        [dict setValue:(NSString*)description forKey:@"decs"];
         
         [cmd performWithResult:[dict copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             if (success) {
@@ -133,73 +132,4 @@
         
     }
 }
-//if ([super isShareQQ]) {
-//    
-//    dispatch_queue_t queue = dispatch_queue_create("get_userInfo", nil);
-//    dispatch_async(queue, ^{
-//        
-//        NSDictionary* obj = nil;
-//        CURRENUSER(obj)
-//        NSMutableDictionary* dic = [obj mutableCopy];
-//        [dic setValue:[dic objectForKey:@"user_id"] forKey:@"owner_user_id"];
-//        
-//        NSError * error = nil;
-//        NSData* jsonData =[NSJSONSerialization dataWithJSONObject:[dic copy] options:NSJSONWritingPrettyPrinted error:&error];
-//        
-//        NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:@"http://www.altlys.com:9000/profile/userProfile"]];
-//        if ([[result valueForKey:@"status"] isEqualToString:@"ok"]) {
-//            NSDictionary *dict = [result valueForKey:@"result"];
-//            NSLog(@"sunfei -- %@",dict);
-//            UIImage* userImg = [TmpFileStorageModel enumImageWithName:[dict valueForKey:@"screen_photo"] withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-//                if (success) {
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        if (self) {
-//                            UIImage *shareImage = [Tools addPortraitToImage:post_image userHead:user_img userName:[dict valueForKey:@"screen_name"]];
-//                            //-----******************
-//                            if (![TencentOAuth iphoneQQInstalled]) {
-//                                [[[UIAlertView alloc] initWithTitle:@"提示" message:@"当前手机未安装QQ无法分享到QQ空间" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//                                return;
-//                            }
-//                            SendMessageToQQReq* req;
-//                            QQApiObject *qqObj;
-//                            
-//                            NSData *thumbnailImg = UIImagePNGRepresentation([Tools OriginImage:shareImage scaleToSize:CGSizeMake(100, 100)]);
-//                            NSData *previewImg = UIImagePNGRepresentation(shareImage);
-//                            qqObj = [QQApiImageObject objectWithData:previewImg previewImageData:thumbnailImg title:@"咚哒" description:@"texteeeee"];
-//                            
-//                            req = [SendMessageToQQReq reqWithContent:qqObj];
-//                            if ([QQApiInterface sendReq:req] != EQQAPISENDSUCESS) {
-//                                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"QQ分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//                            }
-//                            //*******************
-//                        }
-//                    });
-//                } else {
-//                    [[[UIAlertView alloc] initWithTitle:@"通知" message:@"QQ分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//                }
-//            }];
-//            if (userImg != nil) {
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    UIImage *shareImage = [Tools addPortraitToImage:post_image userHead:userImg userName:[dict valueForKey:@"screen_name"]];
-//                    if (![TencentOAuth iphoneQQInstalled]) {
-//                        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"当前手机未安装QQ无法分享到QQ空间" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//                        return;
-//                    }
-//                    SendMessageToQQReq* req;
-//                    QQApiObject *qqObj;
-//                    
-//                    NSData *thumbnailImg = UIImagePNGRepresentation([Tools OriginImage:shareImage scaleToSize:CGSizeMake(100, 100)]);
-//                    NSData *previewImg = UIImagePNGRepresentation(shareImage);
-//                    qqObj = [QQApiImageObject objectWithData:previewImg previewImageData:thumbnailImg title:@"咚哒" description:@"texteeeee"];
-//                    
-//                    req = [SendMessageToQQReq reqWithContent:qqObj];
-//                    if ([QQApiInterface sendReq:req] != EQQAPISENDSUCESS) {
-//                        [[[UIAlertView alloc] initWithTitle:@"通知" message:@"QQ分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//                    }
-//                });
-//            }
-//        }
-//    });
-//    
-//}
 @end

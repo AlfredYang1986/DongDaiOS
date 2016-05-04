@@ -63,7 +63,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 };
 
 @interface AYAddFriendController ()
-
+@property(assign, nonatomic)BOOL noteIndex;
 @end
 
 @implementation AYAddFriendController{
@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     NSArray* friend_profile_lst;
     NSArray* friend_lst;
     NSArray* none_friend_lst;
-
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -98,7 +98,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    _noteIndex = NO;
     {
         id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
         id<AYCommand> cmd_view_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
@@ -122,6 +122,10 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     id<AYCommand> cmd_hot_cell = [view_contacter_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
+    
+    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 128, kSCREENW, 5)];
+    headView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f];
+    [self.view addSubview:headView];
     
 }
 
@@ -186,7 +190,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 
 - (id)Table2Layout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 128, kSCREENW, kSCREENH - 124);
+    view.frame = CGRectMake(0, 133, kSCREENW, kSCREENH - 133 - 64);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
@@ -250,18 +254,18 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     
     id<AYViewBase> seg = (id<AYViewBase>)obj;
     id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
-    
-//    id<AYViewBase> seg = (id<AYViewBase>)view;
-    id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
-    
     NSNumber* index = nil;
     [cmd performWithResult:&index];
-    NSLog(@"controller output current index %@", index);
+    
+    id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
     
     if (index.integerValue == 1) {
-        index = [NSNumber numberWithInt:index.integerValue > 0 ? -1 : -2];
+        index = [NSNumber numberWithInt:_noteIndex ? 0 : -1];
+        NSMutableDictionary *dic_user_info = [[NSMutableDictionary alloc]init];
+        [dic_user_info setObject:index forKey:kAYSegViewCurrentSelectKey];
+        [cmd_info performWithResult:&dic_user_info];
         //*************
-        if (![WXApi isWXAppInstalled]) {
+        if ([WXApi isWXAppInstalled]) {
             [[[UIAlertView alloc] initWithTitle:@"通知" message:@"当前手机未安装微信无法分享" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             return nil;
         }
@@ -282,8 +286,10 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         //*************
         
     }else if (index.integerValue == 2){
-        index = [NSNumber numberWithInt:index.integerValue > 0 ? -1 : -2];
-        
+        index = [NSNumber numberWithInt:_noteIndex ? 0 : -1];
+        NSMutableDictionary *dic_user_info = [[NSMutableDictionary alloc]init];
+        [dic_user_info setObject:index forKey:kAYSegViewCurrentSelectKey];
+        [cmd_info performWithResult:&dic_user_info];
         //*************
         if (![TencentOAuth iphoneQQInstalled]) {
             [[[UIAlertView alloc] initWithTitle:@"通知" message:@"当前手机未安装QQ无法分享到QQ空间" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
@@ -302,6 +308,11 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         //*************
         
     }else if (index.integerValue == 0){
+        _noteIndex = YES;
+        
+        NSMutableDictionary *dic_user_info = [[NSMutableDictionary alloc]init];
+        [dic_user_info setObject:index forKey:kAYSegViewCurrentSelectKey];
+        [cmd_info performWithResult:&dic_user_info];
         
         AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ContatcerInSystem"];

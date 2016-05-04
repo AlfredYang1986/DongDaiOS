@@ -25,18 +25,19 @@
 //        [[[UIAlertView alloc] initWithTitle:@"通知" message:@"当前手机未安装QQ无法分享到QQ空间" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 //        return;
 //    }
-    SendMessageToQQReq* req;
-    QQApiObject *qqObj;
+//    SendMessageToQQReq* req;
+//    QQApiObject *qqObj;
     
     NSData *thumbnailImg = UIImagePNGRepresentation([Tools OriginImage:[args objectForKey:@"image"] scaleToSize:CGSizeMake(100, 100)]);
     NSData *previewImg = UIImagePNGRepresentation([args objectForKey:@"image"]);
-    qqObj = [QQApiImageObject objectWithData:previewImg previewImageData:thumbnailImg title:@"咚哒" description:[args objectForKey:@"decs"]];
+    QQApiObject *qqObj = [QQApiImageObject objectWithData:previewImg previewImageData:thumbnailImg title:@"咚哒" description:[args objectForKey:@"decs"]];
     
-    req = [SendMessageToQQReq reqWithContent:qqObj];
-    if ([QQApiInterface sendReq:req] == EQQAPISENDSUCESS) {
-        block(YES, nil);
+    SendMessageToQQReq* req = [SendMessageToQQReq reqWithContent:qqObj];
+    
+    if ([QQApiInterface sendReq:req] != EQQAPISENDSUCESS) {//EQQAPISENDSUCESS
+        block( NO, nil);
     }else {
-        block(NO, nil);
+        block( YES, nil);
     }
 
 }

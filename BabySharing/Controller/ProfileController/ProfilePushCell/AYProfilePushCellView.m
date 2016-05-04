@@ -173,7 +173,7 @@
     }
     
     else if((temp = temp/60) <24){
-        result = [NSString stringWithFormat:@"%ld小前",temp];
+        result = [NSString stringWithFormat:@"%ld小时前",temp];
     }
     
     else if((temp = temp/24) <30){

@@ -119,17 +119,23 @@
 //    [dic setValue:[NSNumber numberWithFloat:selectedIndex] forKey:@"indexKey"];
     btn.selected = !btn.selected;
     
-    if (btn.tag == 10 && btn.selected) {
-        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithQQ"];
-        [cmd performWithResult:nil];
+    if (btn.tag == 10 ) {
+        NSMutableDictionary* qq_dic = [[NSMutableDictionary alloc]init];
+        [qq_dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"BtnSelected"];
+        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithQQ:"];
+        [cmd performWithResult:&qq_dic];
     }
-    if (btn.tag == 11 && btn.selected) {
-        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWechat"];
-        [cmd performWithResult:nil];
+    if (btn.tag == 11 ) {
+        NSMutableDictionary* wechat_dic = [[NSMutableDictionary alloc]init];
+        [wechat_dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"BtnSelected"];
+        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWechat:"];
+        [cmd performWithResult:&wechat_dic];
     }
-    if (btn.tag == 12 && btn.selected) {
-        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWeibo"];
-        [cmd performWithResult:nil];
+    if (btn.tag == 12 ) {
+        NSMutableDictionary* weibo_dic = [[NSMutableDictionary alloc]init];
+        [weibo_dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"BtnSelected"];
+        id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWeibo:"];
+        [cmd performWithResult:&weibo_dic];
     }
     
     

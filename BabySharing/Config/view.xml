@@ -168,9 +168,9 @@
     </view>
 
     <view type="SharingSNS" name="SharingSNS" factory="AYDefaultViewFactory" >
-        <command type="notify" message="SharingSNSWithQQ" />
-        <command type="notify" message="SharingSNSWithWechat" />
-        <command type="notify" message="SharingSNSWithWeibo" />
+        <command type="notify" message="SharingSNSWithQQ:" />
+        <command type="notify" message="SharingSNSWithWechat:" />
+        <command type="notify" message="SharingSNSWithWeibo:" />
     </view>
 
     <view type="PublishContainer" name="PublishContainer" factory="AYDefaultViewFactory" >
