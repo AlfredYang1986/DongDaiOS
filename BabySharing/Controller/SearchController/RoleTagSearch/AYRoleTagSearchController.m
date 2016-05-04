@@ -12,6 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
+#import "Tools.h"
 
 @implementation AYRoleTagSearchController
 #pragma mark -- life cycle
@@ -73,6 +74,11 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
     return nil;
+}
+
+-(BOOL)isActive{
+    UIViewController * tmp = [Tools activityViewController];
+    return tmp == self;
 }
 
 - (id)queryHeaderTitle {

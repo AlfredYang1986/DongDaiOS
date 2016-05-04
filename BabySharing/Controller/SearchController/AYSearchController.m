@@ -92,6 +92,7 @@
 //    line_2.frame = CGRectMake(0, 127, width, 1);
 //    [self.view.layer addSublayer:line_2];
 }
+
 -(BOOL)isActive{
     UIViewController * tmp = [Tools activityViewController];
     return tmp == self;

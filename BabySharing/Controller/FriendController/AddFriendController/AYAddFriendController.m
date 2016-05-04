@@ -7,6 +7,7 @@
 //
 
 #import "AYAddFriendController.h"
+#import "AYModelFacade.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -28,6 +29,11 @@
 #import <Contacts/CNContact.h>
 #import <Contacts/CNContactStore.h>
 #import <Contacts/CNContactFetchRequest.h>
+
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
 
 #import "QQApiInterfaceObject.h"
 #import "QQApiInterface.h"
@@ -332,16 +338,22 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"Update user detail remote result: %@", result);
             if (success) {
-                NSArray* reVal = nil;
-                reVal = (NSArray*)result;
+//                NSArray* reVal = nil;
+                NSMutableArray* reVal = (NSMutableArray*)result;
                 
-//                for (int i = 0 ;i < reVal.count; ++i) {
-//                    for (NSObject* value in [reVal[i] allValues]) {
-//                        if ( [phones containsObject:(NSString*)value]) {
-//                            reVal remove
-//                        }
-//                    }
-//                }
+                AYModelFacade* f = LOGINMODEL;
+                CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+                NSString* phoneNo = tmp.who.phoneNo;
+                
+                for (int i = 0 ;i < reVal.count; ++i) {
+                    for (NSObject* value in [reVal[i] allValues]) {
+                        if ([value isKindOfClass:[NSString class]]) {
+                            if ( [(NSString*)value isEqualToString:phoneNo]) {
+                                [reVal removeObjectAtIndex:i];
+                            }
+                        }
+                    }
+                }
                 
                 id<AYViewBase> view_friend = [self.views objectForKey:@"Table2"];
                 id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
@@ -391,33 +403,25 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 - (id)SamePersonBtnSelected {
     NSLog(@"push to person setting");
     
-    id<AYFacadeBase> f_login_model = LOGINMODEL;
-    id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentLoginUser"];
-    id obj = nil;
-    [cmd performWithResult:&obj];
+    AYModelFacade* f = LOGINMODEL;
+    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     
-    NSMutableDictionary* dic_user_info = [obj mutableCopy];
-    [dic_user_info setValue:[obj objectForKey:@"user_id"] forKey:@"owner_user_id"];
+    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [cur setValue:tmp.who.user_id forKey:@"user_id"];
+    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
     
-    id<AYFacadeBase> f_profile = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd_user_info = [f_profile.commands objectForKey:@"QueryUserProfile"];
-    [cmd_user_info performWithResult:[dic_user_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"User info are %@", result);
-        NSDictionary* profile_dic = [result copy];
-        
-        AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-        
-        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-        [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
-    }];
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
     
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
     
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     
     return nil;
 }

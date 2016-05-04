@@ -13,7 +13,6 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "AYPublishContainerView.h"
 
 @interface AYPostPhotoPublishController ()
 

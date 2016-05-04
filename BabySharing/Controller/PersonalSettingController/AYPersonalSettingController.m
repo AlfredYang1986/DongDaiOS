@@ -14,6 +14,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYSelfSettingCellDefines.h"
+#import "Tools.h"
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -192,6 +193,7 @@
     [change_profile_dic setValue:screen_name forKey:@"screen_name"];
     return nil;
 }
+
 
 //用户取消拍照
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
