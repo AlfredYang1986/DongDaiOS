@@ -13,6 +13,7 @@
 #import "TmpFileStorageModel.h"
 #import "RemoteInstance.h"
 #import "AYNotifyDefines.h"
+#import "AYQueryModelDefines.h"
 
 #import "WeiboSDK.h"
 #import "WeiboUser.h"
@@ -38,7 +39,11 @@ typedef enum : NSUInteger {
     AYPostPublishControllerStatusReady,
     AYPostPublishControllerStatusInputing,
 } AYPostPublishControllerStatus;
-
+//typedef enum : NSUInteger {
+//    PostPreViewPhote,
+//    PostPreViewMovie,
+//    PostPreViewText,
+//} PostPreViewType;
 @interface AYPostPublishController : AYViewController
 
 @property (nonatomic, setter=setCurrentStatus:) AYPostPublishControllerStatus status;
@@ -48,7 +53,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) BOOL isShareWeibo;
 @property (nonatomic) BOOL isShareWechat;
 @property (nonatomic) BOOL isShareQQ;
-
+@property (nonatomic) PostPreViewType publishType;
 - (NSString*)getNavTitle;
 - (void)setCurrentStatus:(AYPostPublishControllerStatus)status;
 - (void)didSelectPostBtn;

@@ -24,6 +24,7 @@
 }
 
 @synthesize filterView = _filterView;
+@synthesize publishType = _publishType;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -42,6 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mainContentView.image = img_cover;
+    _publishType = PostPreViewMovie;
     [self playCurrentMovie];
 }
 
@@ -121,13 +123,66 @@
     id<AYFacadeBase> f = [self.facades objectForKey:@"PostRemote"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PostMovie"];
     
+    id<AYCommand> cmd_module_up = REVERSMODULE;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [cmd_module_up performWithResult:&dic];
     [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        [[[UIAlertView alloc]initWithTitle:@"success" message:@"post content success" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-        id<AYCommand> cmd = REVERSMODULE;
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
-        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        [cmd performWithResult:&dic];
+        if (success) {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"分享视频已成功发布" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        }else {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"网络错误，视频发布失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        }
+        
     }];
+    
+    NSMutableDictionary* dict_sns = [[NSMutableDictionary alloc]init];
+    [dict_sns setValue:img_cover forKey:@"image"];
+    [dict_sns setValue:(NSString*)description forKey:@"decs"];
+    [dict_sns setValue:[NSNumber numberWithInt:_publishType] forKey:@"publishType"];
+    
+    if ([super isShareQQ]) {
+        id<AYFacadeBase> f = [self.facades objectForKey:@"SNSQQ"];
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithQQ"];
+        
+        [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                
+            }else {
+                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"QQ同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }
+    
+    if ([super isShareWechat]) {
+        id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithWechat"];
+        
+        [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                
+            } else {
+                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微信同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }
+    
+    if ([super isShareWeibo]) {
+        id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWeibo"];
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithWeibo"];
+        
+        [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            if (success) {
+                //                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            } else {
+                NSString* msg = (NSString*)result;
+                NSLog(@"%@",msg);
+                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+        
+    }
+
 }
 @end

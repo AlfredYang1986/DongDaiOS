@@ -62,7 +62,7 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
     {
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];

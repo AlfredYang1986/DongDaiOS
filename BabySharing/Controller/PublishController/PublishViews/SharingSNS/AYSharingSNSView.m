@@ -14,6 +14,11 @@
 #define BOTTON_BAR_HEIGHT           (149.0 / 667.0) * [UIScreen mainScreen].bounds.size.height
 #define SNS_BUTTON_WIDTH            25
 #define SNS_BUTTON_HEIGHT           SNS_BUTTON_WIDTH
+@interface AYSharingSNSView(){
+    BOOL isClickAleart;
+}
+
+@end
 
 @implementation AYSharingSNSView
 @synthesize para = _para;
@@ -29,6 +34,7 @@
 //    self.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
    
 //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    isClickAleart = NO;
     
     UILabel* label = [[UILabel alloc]init];
     label.textColor = [UIColor whiteColor];
@@ -114,9 +120,6 @@
 #pragma mark -- actions
 - (void)SNSBtnSelected:(UIButton*)btn {
     
-//    CGFloat selectedIndex = btn.tag;
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:[NSNumber numberWithFloat:selectedIndex] forKey:@"indexKey"];
     btn.selected = !btn.selected;
     
     if (btn.tag == 10 ) {

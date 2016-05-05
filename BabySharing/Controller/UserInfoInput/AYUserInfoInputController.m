@@ -328,7 +328,7 @@
         [dic setValue:[NSNumber numberWithInt:1] forKey:@"create"];
     }
     
-    if (isChangeImg) {
+//    if (isChangeImg) {
         [dic setValue:screen_photo forKey:@"screen_photo"];
        
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -339,13 +339,13 @@
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
         }];
-    }
+//    }
     
     id<AYFacadeBase> profileRemote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
     [cmd performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"Update user detail remote result: %@", result);
-        if (success) {
+        if (success) {//michauxs
             AYModel* m = MODEL;
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];
             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];

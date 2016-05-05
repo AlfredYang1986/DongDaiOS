@@ -148,18 +148,21 @@
     [self.view bringSubviewToFront:_currentTagLabel];
     [_currentTagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(_nickNameLabel);
+        make.centerY.equalTo(_nickNameLabel);
     }];
     
-    CGFloat allWidth = _nickNameLabel.frame.size.width + _currentTagLabel.frame.size.width +  10;
+    CGFloat allWidth = _nickNameLabel.frame.size.width + _currentTagLabel.frame.size.width +  14;
     CGFloat padding = (width - allWidth) / 2;
     [_nickNameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(padding - 4);
         make.top.equalTo(ib.mas_bottom).offset(18);
     }];
+    
     [_currentTagLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_nickNameLabel.mas_right).offset(8);
-        make.top.equalTo(_nickNameLabel);
+        make.centerY.equalTo(_nickNameLabel);
+        make.width.mas_equalTo(CGRectGetWidth(_currentTagLabel.frame) + 18);
+        make.height.mas_equalTo(CGRectGetHeight(_currentTagLabel.frame) + 2);
     }];
     
     /**

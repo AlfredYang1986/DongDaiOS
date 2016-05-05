@@ -78,6 +78,8 @@
         <command type="Module" name="ChangeSNSProviders" />
 
         <command type="Module" name="SignOutLocal" />
+        
+        <command type="Module" name="SaveScreenPhoto" />
     </facade>
 
     <facade type="DefaultFacade" name="OwnerQueryModel" factory="AYDefaultFacadeFactory" >
