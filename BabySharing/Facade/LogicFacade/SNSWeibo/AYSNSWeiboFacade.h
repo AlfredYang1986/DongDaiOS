@@ -7,6 +7,8 @@
 //
 
 #import "AYFacade.h"
+#import "Providers.h"
+#import "Providers+ContextOpt.h"
 
 @interface AYSNSWeiboFacade : AYFacade
 

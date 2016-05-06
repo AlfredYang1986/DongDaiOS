@@ -345,7 +345,7 @@
     AYRemoteCallCommand* cmd = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
     [cmd performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"Update user detail remote result: %@", result);
-        if (success) {//michauxs
+        if (success) {
             AYModel* m = MODEL;
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];
             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];

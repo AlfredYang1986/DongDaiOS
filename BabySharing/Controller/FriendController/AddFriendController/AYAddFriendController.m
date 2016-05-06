@@ -399,7 +399,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     return nil;
 }
 
-//michauxs todo:
+//michauxs todo://已按照phoneNo从通讯录移除自己
 - (id)SamePersonBtnSelected {
     NSLog(@"push to person setting");
     

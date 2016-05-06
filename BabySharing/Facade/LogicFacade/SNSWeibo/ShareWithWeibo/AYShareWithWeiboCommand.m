@@ -45,9 +45,9 @@
     
     AYModelFacade* fl = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:fl.doc.managedObjectContext];
-    NSString* token = tmp.who.user_id;
-    NSLog(@"sunfei -- %@",token);
-    Providers* cur = [Providers enumProvideInContext:fl.doc.managedObjectContext ByName:@"weibo" andCurrentUserID:tmp.who.user_id];
+    NSString* user_id = tmp.who.user_id;
+    NSLog(@"sunfei -- %@",user_id);
+    Providers* cur = [Providers enumProvideInContext:fl.doc.managedObjectContext ByName:@"weibo" andCurrentUserID:user_id];
     
     PostPreViewType type =  ((NSNumber*)[args objectForKey:@"publishType"]).intValue;
     switch (type) {

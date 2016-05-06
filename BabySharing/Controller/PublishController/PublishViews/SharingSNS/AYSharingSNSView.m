@@ -120,21 +120,38 @@
 #pragma mark -- actions
 - (void)SNSBtnSelected:(UIButton*)btn {
     
-    btn.selected = !btn.selected;
+    UIButton* qq = [self viewWithTag:10];
+    UIButton* weixin = [self viewWithTag:11];
+    UIButton* weibo = [self viewWithTag:12];
     
     if (btn.tag == 10 ) {
+        if (weibo.selected || weixin.selected) {
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您已经选择了同步分享平台" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            return;
+        }
+        btn.selected = !btn.selected;
         NSMutableDictionary* qq_dic = [[NSMutableDictionary alloc]init];
         [qq_dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"BtnSelected"];
         id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithQQ:"];
         [cmd performWithResult:&qq_dic];
     }
     if (btn.tag == 11 ) {
+        if (weibo.selected || qq.selected) {
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您已经选择了同步分享平台" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            return;
+        }
+        btn.selected = !btn.selected;
         NSMutableDictionary* wechat_dic = [[NSMutableDictionary alloc]init];
         [wechat_dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"BtnSelected"];
         id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWechat:"];
         [cmd performWithResult:&wechat_dic];
     }
     if (btn.tag == 12 ) {
+        if (qq.selected || weixin.selected) {
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您已经选择了同步分享平台" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            return;
+        }
+        btn.selected = !btn.selected;
         NSMutableDictionary* weibo_dic = [[NSMutableDictionary alloc]init];
         [weibo_dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"BtnSelected"];
         id<AYCommand> cmd = [self.notifies objectForKey:@"SharingSNSWithWeibo:"];
