@@ -28,7 +28,7 @@ CGRect rc_search = CGRectMake(0, 0, SCREEN_WIDTH, search_height);
 CGFloat found_height = [UIScreen mainScreen].bounds.size.height; \
 CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
 
-#define FOUND_VIEW_START    CGRectMake(0, STATUS_HEIGHT + search_height + 45, rc1.size.width, rc1.size.height - STATUS_HEIGHT - search_height - 49 - 12 - 35)
+#define FOUND_VIEW_START    CGRectMake(0, STATUS_HEIGHT + search_height + 10, rc1.size.width, rc1.size.height - STATUS_HEIGHT - search_height - 49 - 10)
 #define FOUND_VIEW_END      CGRectMake(0, 0, rc1.size.width, rc1.size.height - STATUS_HEIGHT - 49)
 
 #define SEARCH_RECT         CGRectMake(0, STATUS_HEIGHT, rc_search.size.width, rc_search.size.height)
@@ -84,8 +84,24 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
         [cmd_change performWithResult:&arr];
     }
     
-    UIView *headview = [[UIView alloc]initWithFrame:CGRectMake(0, 69, SCREEN_WIDTH, 40)];
-    [self.view addSubview:headview];
+    
+    CALayer* line = [CALayer layer];
+    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.30].CGColor;
+    line.borderWidth = 1.f;
+    line.frame = CGRectMake(0, 64, SCREEN_WIDTH, 1);
+    [self.view.layer addSublayer:line];
+    
+    
+}
+
+#pragma mark -- layouts
+- (id)TableLayout:(UIView*)view {
+    CGFloat search_height = 44;
+    FOUND_BOUNDS
+    view.frame = FOUND_VIEW_START;
+    
+    UIView *headview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
+//    [view addSubview:headview];
     headview.backgroundColor = [UIColor whiteColor];
     UILabel *headLabel = [[UILabel alloc]init];
     [headview addSubview:headLabel];
@@ -96,27 +112,16 @@ CGRect rc1 = CGRectMake(0, search_height, found_width, found_height);
         make.centerY.equalTo(headview);
         make.left.equalTo(headview).offset(10);
     }];
-    
-    CALayer* line = [CALayer layer];
-    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.30].CGColor;
-    line.borderWidth = 1.f;
-    line.frame = CGRectMake(0, 64, SCREEN_WIDTH, 1);
-    [self.view.layer addSublayer:line];
-    
     CALayer* line1 = [CALayer layer];
     line1.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.10].CGColor;
     line1.borderWidth = 1.f;
-    line1.frame = CGRectMake(0, 69, SCREEN_WIDTH, 1);
-    [self.view.layer addSublayer:line1];
-}
-
-#pragma mark -- layouts
-- (id)TableLayout:(UIView*)view {
-    CGFloat search_height = 44;
-    FOUND_BOUNDS
-    view.frame = FOUND_VIEW_START;
+    line1.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
+    [headview.layer addSublayer:line1];
+    
+    view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
+    ((UITableView*)view).tableHeaderView = headview;
     return nil;
 }
 
