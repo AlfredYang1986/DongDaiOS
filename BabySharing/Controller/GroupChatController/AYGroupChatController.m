@@ -21,6 +21,12 @@
 #import "GotyeOCChatTarget.h"
 #import "GotyeOCMessage.h"
 
+#import "AYModelFacade.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+
 #define BACK_BTN_WIDTH          23
 #define BACK_BTN_HEIGHT         23
 #define BOTTOM_MARGIN           10.5
@@ -591,4 +597,32 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"stopGif"];
     [cmd performWithResult:nil];
 }
+
+- (id)SamePersonBtnSelected {
+    NSLog(@"push to person setting");
+    
+    AYModelFacade* f = LOGINMODEL;
+    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+    
+    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [cur setValue:tmp.who.user_id forKey:@"user_id"];
+    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
+    return nil;
+}
+
 @end

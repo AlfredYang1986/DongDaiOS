@@ -255,12 +255,22 @@
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     NSLog(@"tap esle where");
+//    id<AYCommand> cmd = [self.commands objectForKey:@"tapGesture:"];
+//    [cmd performWithResult:nil];//michauxs
     
 }
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
     id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
     [cmd performWithResult:nil];
+}
+- (void)tapGestureScreenPhoto {
+    id<AYViewBase> view = [self.views objectForKey:@"UserInfoInput"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
+    [cmd performWithResult:nil];
+    //    id<AYCommand> cmd = [self.commands objectForKey:@"tapGesture:"];
+    //    [cmd performWithResult:nil];//michauxs
+    
 }
 
 #pragma mark -- UIImagePickerControllerDelegate

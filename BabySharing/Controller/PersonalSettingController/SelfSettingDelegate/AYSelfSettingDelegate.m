@@ -13,6 +13,7 @@
 #import "AYSelfSettingCellDefines.h"
 #import "SGActionView.h"
 #import "AYViewController.h"
+#import "AYSelfSettingCellView.h"
 
 @implementation AYSelfSettingDelegate {
     NSDictionary* profile_dic;
@@ -136,6 +137,12 @@
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
     }
+}
+
+#pragma mark -- scroll view delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToHideKeyBoard"];
+    [cmd performWithResult:nil];
 }
 
 #pragma mark -- messages

@@ -109,6 +109,7 @@
     <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeScreenPhoto:" />
+        <command type="notify" message="scrollToHideKeyBoard" />
     </delegate>
 
     <delegate type="TableViewDelegateAndDatasource" name="UserTablePreview" factory="AYDefaultDelegateFactory" >

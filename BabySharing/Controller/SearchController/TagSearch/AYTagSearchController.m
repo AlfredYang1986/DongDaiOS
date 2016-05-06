@@ -16,6 +16,8 @@
 
 #import "PhotoTagEnumDefines.h"
 
+#import "Tools.h"
+
 @interface AYTagSearchController ()
 @property (nonatomic, setter=setCurrentStatus:) TagType status;
 @end
@@ -146,12 +148,19 @@
 - (id)TagSeleted:(id)obj {
  
     NSString* tag = nil;
-   
     if ([obj isKindOfClass:[NSDictionary class]]) {
         NSDictionary* dic = (NSDictionary*)obj;
         tag = [dic objectForKey:@"tag_name"];
+
     } else if ([obj isKindOfClass:[NSString class]]) {
         tag = (NSString*)obj;
+        //michauxs:标签长度限制
+        unichar string_count = [Tools bityWithStr:tag];
+        if ( string_count < 1 || string_count > 16) {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"标签长度应在1-16之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+            [alert show];
+            return nil;
+        }
     }
     
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];

@@ -307,40 +307,33 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
         id<AYViewBase> seg = [self.views objectForKey:kAYFriendsControllerFriendsSegValue];
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
         
+        NSMutableDictionary* dic_reset_lay = [[NSMutableDictionary alloc]init];
+        [dic_reset_lay setValue:[NSNumber numberWithBool:YES] forKey:kAYSegViewLineHiddenKey];
+        [cmd_info performWithResult:&dic_reset_lay];
         
-        dispatch_group_t hiddenLay = dispatch_group_create();
-        dispatch_group_async(hiddenLay, dispatch_get_global_queue(0, 0), ^{
-            
-            NSMutableDictionary* dic_reset_lay = [[NSMutableDictionary alloc]init];
-            [dic_reset_lay setValue:[NSNumber numberWithBool:YES] forKey:kAYSegViewLineHiddenKey];
-            [cmd_info performWithResult:&dic_reset_lay];
-        });
-        dispatch_group_notify(hiddenLay, dispatch_get_global_queue(0, 0), ^{
-            
-            id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
-            NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
-            [dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-            [dic_add_item_0 setValue:@"好友" forKey:kAYSegViewTitleKey];
-            [cmd_add_item performWithResult:&dic_add_item_0];
-            
-            NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
-            [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-            [dic_add_item_1 setValue:@"关注" forKey:kAYSegViewTitleKey];
-            [cmd_add_item performWithResult:&dic_add_item_1];
-            
-            NSMutableDictionary* dic_add_item_2 = [[NSMutableDictionary alloc]init];
-            [dic_add_item_2 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-            [dic_add_item_2 setValue:@"粉丝" forKey:kAYSegViewTitleKey];
-            [cmd_add_item performWithResult:&dic_add_item_2];
-            
-            NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
-            [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
-            [dic_user_info setValue:[NSNumber numberWithInt:14.f] forKey:kAYSegViewSelectedFontSizeKey];
-            [dic_user_info setValue:[UIColor colorWithWhite:0.4667 alpha:1.f] forKey:kAYSegViewNormalFontColorKey];
-            [dic_user_info setValue:[NSNumber numberWithBool:YES] forKey:kAYSegViewLineHiddenKey];
-            [dic_user_info setValue:[NSNumber numberWithFloat:0.05* [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
-            [cmd_info performWithResult:&dic_user_info];
-        });
+        id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
+        NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
+        [dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
+        [dic_add_item_0 setValue:@"好友" forKey:kAYSegViewTitleKey];
+        [cmd_add_item performWithResult:&dic_add_item_0];
+        
+        NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
+        [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
+        [dic_add_item_1 setValue:@"关注" forKey:kAYSegViewTitleKey];
+        [cmd_add_item performWithResult:&dic_add_item_1];
+        
+        NSMutableDictionary* dic_add_item_2 = [[NSMutableDictionary alloc]init];
+        [dic_add_item_2 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
+        [dic_add_item_2 setValue:@"粉丝" forKey:kAYSegViewTitleKey];
+        [cmd_add_item performWithResult:&dic_add_item_2];
+        
+        NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
+        [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
+        [dic_user_info setValue:[NSNumber numberWithInt:14.f] forKey:kAYSegViewSelectedFontSizeKey];
+        [dic_user_info setValue:[UIColor colorWithWhite:0.4667 alpha:1.f] forKey:kAYSegViewNormalFontColorKey];
+        [dic_user_info setValue:[NSNumber numberWithBool:YES] forKey:kAYSegViewLineHiddenKey];
+        [dic_user_info setValue:[NSNumber numberWithFloat:0.05* [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
+        [cmd_info performWithResult:&dic_user_info];
         
     }
     

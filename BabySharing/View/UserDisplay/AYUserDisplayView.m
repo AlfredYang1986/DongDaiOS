@@ -223,6 +223,12 @@
     }
 }
 
+- (id)SamePersonBtnSelected {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"SamePersonBtnSelected"];
+    [cmd performWithResult:nil];
+    return nil;
+}
+
 - (id)queryTargetID {
     id result = self.user_id;
     return result;

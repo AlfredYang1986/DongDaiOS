@@ -15,6 +15,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYSelfSettingCellDefines.h"
 #import "Tools.h"
+#import "AYSelfSettingCellView.h"
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
@@ -85,6 +86,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 #pragma mark -- layouts
@@ -194,6 +199,11 @@
     return nil;
 }
 
+- (id)scrollToHideKeyBoard {
+//    id<AYViewBase> cell = [self.views objectForKey:@"SelfSettingCell"];
+    
+    return nil;
+}
 
 //用户取消拍照
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

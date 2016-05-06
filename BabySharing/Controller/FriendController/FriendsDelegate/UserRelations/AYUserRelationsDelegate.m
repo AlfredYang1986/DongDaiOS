@@ -95,6 +95,12 @@
     return result.floatValue;
 }
 
+#pragma mark -- scroll view delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToHideKeyBoard"];
+    [cmd performWithResult:nil];
+}
+
 #pragma mark -- message commands
 - (id)isFriendsDataReady {
     return [NSNumber numberWithBool:friends_data != nil];

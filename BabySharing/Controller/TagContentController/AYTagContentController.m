@@ -49,7 +49,7 @@ typedef void(^refreshFinishBlock)(void);
 - (void)viewDidLoad {
     self.isPushed = YES;
     [super viewDidLoad];
-   
+    
     id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
     id<AYCommand> cmd_datasource = [view_content.commands objectForKey:@"registerDatasource:"];
@@ -178,4 +178,10 @@ typedef void(^refreshFinishBlock)(void);
     return data;
 }
 
+- (id)FakeStatusBarLayout:(UIView*)view {
+    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 0, screen_width, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
 @end

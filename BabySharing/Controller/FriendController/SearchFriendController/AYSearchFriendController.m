@@ -80,10 +80,44 @@
     UIView* titleSearch = [self.views objectForKey:@"SearchBar"];
     self.navigationItem.titleView = titleSearch;
     self.navigationItem.hidesBackButton = YES;
+    
+    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 10)];
+    headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
+    [self.view addSubview:headView];
+    
+//    CALayer* line1 = [CALayer layer];
+//    line1.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
+//    line1.borderWidth = 1.f;
+//    line1.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1);
+//    [headView.layer addSublayer:line1];
+    CALayer* line2 = [CALayer layer];
+    line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
+    line2.borderWidth = 1.f;
+    line2.frame = CGRectMake(0, 9, [UIScreen mainScreen].bounds.size.width, 1);
+    [headView.layer addSublayer:line2];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
+    UIView* nava = [self.views objectForKey:@"SetNevigationBarTitle"];
+    [self.navigationController.navigationBar addSubview:nava];
+    
+    UIView* left = [self.views objectForKey:@"SetNevigationBarLeftBtn"];
+    [self.navigationController.navigationBar addSubview:left];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    UIView* nava = [self.views objectForKey:@"SetNevigationBarTitle"];
+    [nava removeFromSuperview];
+    
+    UIView* left =[self.views objectForKey:@"SetNevigationBarLeftBtn"];
+    [left removeFromSuperview];
+    
     UIView* view = [self.views objectForKey:@"SearchBar"];
     [view resignFirstResponder];
 }
@@ -94,7 +128,7 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
     
-    view.frame = CGRectMake(0, 0, width, height - 64);
+    view.frame = CGRectMake(0, 10, width, height - 74);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;

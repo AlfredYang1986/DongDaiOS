@@ -65,7 +65,13 @@
 - (id)TagSeleted:(id)obj {
     NSString* role_tag = (NSString*)obj;
     NSLog(@"selected role tag : %@", role_tag);
-    
+    //michauxs:角色名长度限制
+    unichar string_count = [Tools bityWithStr:role_tag];
+    if ( string_count < 4 || string_count > 16) {
+        UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"角色名长度应在4-16之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil];
+        [alert show];
+        return nil;
+    }
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];

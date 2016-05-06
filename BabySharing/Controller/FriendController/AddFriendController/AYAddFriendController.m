@@ -105,6 +105,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     _noteIndex = NO;
+    
     {
         id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
         id<AYCommand> cmd_view_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
@@ -129,9 +130,24 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
     
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 128, kSCREENW, 5)];
-    headView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f];
+    UIView* headView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kSCREENW, 10)];
+    headView1.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
+    [self.view addSubview:headView1];
+    
+    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 138, kSCREENW, 5)];
+    headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView];
+    
+    CALayer* line1 = [CALayer layer];
+    line1.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
+    line1.borderWidth = 1.f;
+    line1.frame = CGRectMake(0, 0, kSCREENW, 1);
+    [headView.layer addSublayer:line1];
+    CALayer* line2 = [CALayer layer];
+    line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
+    line2.borderWidth = 1.f;
+    line2.frame = CGRectMake(0, 4, kSCREENW, 1);
+    [headView.layer addSublayer:line2];
     
 }
 
@@ -160,7 +176,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 #pragma mark -- layout commands
 - (id)SearchBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake( 20, 10,  kSCREENW - 40, 30);
+    view.frame = CGRectMake( 20, 20,  kSCREENW - 40, 30);
     
     id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"registerDelegate:"];
     id del = self;
@@ -196,14 +212,14 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 
 - (id)Table2Layout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 133, kSCREENW, kSCREENH - 133 - 64);
+    view.frame = CGRectMake(0, 143, kSCREENW, kSCREENH - 133 - 64 - 10);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
 
 - (id)DongDaSegLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 48, kSCREENW, 80);
+    view.frame = CGRectMake(0, 58, kSCREENW, 80);
     {
         id<AYViewBase> seg = (id<AYViewBase>)view;
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -411,6 +427,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
     [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
     [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
     
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
     

@@ -79,6 +79,8 @@
 }
 
 - (void)didSelectImgBtn {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"tapGestureScreenPhoto"];
+    [cmd performWithResult:nil];//michauxs
     [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
         switch (index) {
             case 0: {
