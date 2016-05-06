@@ -94,9 +94,9 @@
     
     [_movieFile removeAllTargets];
     [_filter removeAllTargets];
+    [_filterView removeFromSuperview];
     
     _movieFile = nil;
-    
 }
 
 - (void)addMovieFilter:(GPUImageFilter*)filter {
