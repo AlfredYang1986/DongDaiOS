@@ -28,6 +28,8 @@
 #import "AYRemoteCallCommand.h"
 #import "Masonry.h"
 
+#import "AYThumbsAndPushDefines.h"
+
 @interface InsetsLabel : UILabel
 @property(nonatomic) UIEdgeInsets insets;
 -(id) initWithFrame:(CGRect)frame andInsets: (UIEdgeInsets) insets;
@@ -59,6 +61,7 @@
 @end
 
 @interface AYHomeCellView ()
+@property (nonatomic) NSInteger cell_index;
 
 @property (nonatomic, strong, readonly) UIImageView *ownerImage;
 @property (nonatomic, strong, readonly) UILabel *ownerNameLable;
@@ -66,8 +69,6 @@
 @property (nonatomic, strong, readonly) UILabel *ownerDate;
 @property (nonatomic, strong, readonly) UIImageView *mainImage;
 @property (nonatomic, strong, readonly) UILabel *descriptionLabel;
-@property (nonatomic, strong, readonly) UILabel *praiseCount;
-@property (nonatomic, strong, readonly) UILabel *usefulCount;
 @property (nonatomic, strong, readonly) UIImageView *firstImage;
 @property (nonatomic, strong, readonly) UIImageView *secondImage;
 @property (nonatomic, strong, readonly) UIImageView *thirdImage;
@@ -76,14 +77,12 @@
 @property (nonatomic, strong, readonly) UIImageView *videoSign;
 @property (nonatomic, strong, readonly) QueryContentItem *queryContentItem;
 
-@property (nonatomic, weak) QueryContent *content;
+@property (nonatomic, weak, setter=setCurrentContent:) QueryContent *content;
 
 @property (nonatomic, weak) UIView* filterView;
 @end
 
 @implementation AYHomeCellView {
-    UIImageView *praiseImage;
-    UIImageView *pushImage;
     UIView *praiseView;
     UIView *pushView;
     UIImageView *jionImage;
@@ -91,9 +90,12 @@
     UIView *jionGroupView;
     NSInteger indexChater;
     CGFloat originX;
+    
+    BOOL isSetupViews;
 }
 
 @synthesize filterView = _filterView;
+@synthesize cell_index = _cell_index;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier indexPath:(NSIndexPath *)indexPath {
     self = [self initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -107,143 +109,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        _ownerImage = [[UIImageView alloc] init];
-        [self.contentView addSubview:_ownerImage];
-        
-        _ownerNameLable = [[UILabel alloc] init];
-        _ownerNameLable.font = [UIFont systemFontOfSize:14];
-        _ownerNameLable.textColor = TextColor;
-        [self.contentView addSubview:_ownerNameLable];
-        
-        _ownerRole = [[InsetsLabel alloc]init];
-
-        _ownerRole.text = @"";
-        _ownerRole.font = [UIFont systemFontOfSize:12];
-        _ownerRole.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
-        _ownerRole.textAlignment = NSTextAlignmentCenter;
-        _ownerRole.layer.masksToBounds = YES;
-        _ownerRole.layer.cornerRadius = 3;
-        _ownerRole.layer.shouldRasterize = YES;
-        _ownerRole.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        _ownerRole.textColor = [UIColor whiteColor];
-        [self.contentView addSubview:_ownerRole];
-        
-        _ownerDate = [[UILabel alloc] init];
-        _ownerDate.font = [UIFont systemFontOfSize:11];
-        _ownerDate.textAlignment = NSTextAlignmentRight;
-        _ownerDate.textColor = TextColor;
-        [self.contentView addSubview:_ownerDate];
-        
-        _mainImage = [[UIImageView alloc] init];
-        [self.contentView addSubview:_mainImage];
-        
-        _descriptionLabel = [[UILabel alloc] init];
-        _descriptionLabel.font = [UIFont systemFontOfSize:15.0];
-        _descriptionLabel.textColor = TextColor;
-        [self.contentView addSubview:_descriptionLabel];
-        
-        praiseView = [[UIView alloc]init];
-//        praiseView.backgroundColor = [UIColor blueColor];
-        praiseImage = [[UIImageView alloc] init];
-        praiseImage.image = PNGRESOURCE(@"home_like_default");
-        _praiseCount = [[UILabel alloc] init];
-        _praiseCount.font = [UIFont systemFontOfSize:12];
-        _praiseCount.textAlignment = NSTextAlignmentCenter;
-        _praiseCount.textColor = TextColor;
-        _praiseCount.text = @"赞";
-        
-        [self.contentView addSubview:praiseView];
-        [praiseView addSubview:praiseImage];
-        [praiseView addSubview:_praiseCount];
-        
-        
-        pushView = [[UIView alloc]init];
-//        pushView.backgroundColor = [UIColor blueColor];
-        pushImage = [[UIImageView alloc] init];
-        pushImage.image = PNGRESOURCE(@"push");
-        _usefulCount = [[UILabel alloc] init];
-        _usefulCount.textAlignment = NSTextAlignmentCenter;
-        _usefulCount.font = [UIFont systemFontOfSize:12];
-        _usefulCount.textColor = TextColor;
-        _usefulCount.text = @"咚";
-        
-        [self.contentView addSubview:pushView];
-        [pushView addSubview:pushImage];
-        [pushView addSubview:_usefulCount];
-        
-        
-        // 中间的一条线
-//        lineView = [CALayer layer];
-        lineView = [[UIView alloc]init];
-        [self.contentView addSubview:lineView];
-        lineView.backgroundColor = [Tools colorWithRED:231.0 GREEN:231.0 BLUE:231.0 ALPHA:1.0];
-        
-        _firstImage = [[UIImageView alloc] init];
-        _firstImage.tag = 1;
-        _firstImage.clipsToBounds = YES;
-        
-        [self.contentView addSubview:_firstImage];
-        _secondImage = [[UIImageView alloc] init];
-        _secondImage.tag = 2;
-        _secondImage.clipsToBounds = YES;
-        
-        [self.contentView addSubview:_secondImage];
-        _thirdImage = [[UIImageView alloc] init];
-        _thirdImage.tag = 3;
-        _thirdImage.clipsToBounds = YES;
-        
-        [self.contentView addSubview:_thirdImage];
-        _talkerCount = [[UILabel alloc] init];
-        _talkerCount.text = @"没有返回全聊人数";
-        _talkerCount.font = [UIFont systemFontOfSize:12];
-        _talkerCount.textColor = TextColor;
-        [self.contentView addSubview:_talkerCount];
-        [self.contentView bringSubviewToFront:_talkerCount];
-        
-        _jionGroup = [[UITextField alloc] init];
-        _jionGroup.enabled = YES;
-        _jionGroup.font = [UIFont systemFontOfSize:12];
-        _jionGroup.text = @"  加入圈聊";
-        _jionGroup.textColor = TextColor;
-        [self.contentView addSubview:_jionGroup];
-        jionImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-        jionImage.image = PNGRESOURCE(@"home_chat");
-        _jionGroup.leftView = jionImage;
-        _jionGroup.leftViewMode = UITextFieldViewModeAlways;
-        [self.contentView addSubview:_jionGroup];
-        
-        jionGroupView = [[UIView alloc] init];
-        jionGroupView.alpha = 0.1;
-        jionGroupView.backgroundColor = [UIColor whiteColor];
-        [_jionGroup addSubview:jionGroupView];
-        // 播放按钮
-        _videoSign = [[UIImageView alloc] init];
-        UIImage *image = PNGRESOURCE(@"playvideo");
-        _videoSign.image = image;
-        _videoSign.frame = CGRectMake(0, 0, 30, 30);
-        [_mainImage addSubview:_videoSign];
-
-        self.contentView.layer.cornerRadius = 8;
-        self.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.contentView.layer.shadowOffset = CGSizeMake(0, 0);
-        self.contentView.layer.shadowOpacity = 0.25;
-        self.contentView.layer.shadowRadius = 2;
-        self.contentView.layer.shouldRasterize = YES;
-        self.contentView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        self.backgroundColor = [Tools colorWithRED:242.0 GREEN:242.0 BLUE:242.0 ALPHA:1.0];
-        self.contentView.backgroundColor = [UIColor whiteColor];
-        // 加入动作
-        _ownerImage.userInteractionEnabled = YES;
-        [_ownerImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(otherInfo)]];
-        
-        pushView.userInteractionEnabled = YES;
-        [pushView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushGroupTap)]];
-        _mainImage.userInteractionEnabled = YES;
-        [_mainImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainImageTap)]];
-        praiseView.userInteractionEnabled = YES;
-        [praiseView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(praiseImageTap)]];
-        
-        [_jionGroup addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jionGroupTap)]];
+        isSetupViews = NO;
         
         NSLog(@"init reuse identifier");
         if (reuseIdentifier != nil) {
@@ -253,9 +119,124 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setCurrentContent:(QueryContent*)content {
+    _content = content;
+    
+    if (!isSetupViews) {
+        [self setUpViews];
+    }
+}
 
+- (void)setUpViews {
+    _ownerImage = [[UIImageView alloc] init];
+    [self.contentView addSubview:_ownerImage];
+    
+    _ownerNameLable = [[UILabel alloc] init];
+    _ownerNameLable.font = [UIFont systemFontOfSize:14];
+    _ownerNameLable.textColor = TextColor;
+    [self.contentView addSubview:_ownerNameLable];
+    
+    _ownerRole = [[InsetsLabel alloc]init];
+
+    _ownerRole.text = @"";
+    _ownerRole.font = [UIFont systemFontOfSize:12];
+    _ownerRole.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
+    _ownerRole.textAlignment = NSTextAlignmentCenter;
+    _ownerRole.layer.masksToBounds = YES;
+    _ownerRole.layer.cornerRadius = 3;
+    _ownerRole.layer.shouldRasterize = YES;
+    _ownerRole.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    _ownerRole.textColor = [UIColor whiteColor];
+    [self.contentView addSubview:_ownerRole];
+    
+    _ownerDate = [[UILabel alloc] init];
+    _ownerDate.font = [UIFont systemFontOfSize:11];
+    _ownerDate.textAlignment = NSTextAlignmentRight;
+    _ownerDate.textColor = TextColor;
+    [self.contentView addSubview:_ownerDate];
+    
+    _mainImage = [[UIImageView alloc] init];
+    [self.contentView addSubview:_mainImage];
+    
+    _descriptionLabel = [[UILabel alloc] init];
+    _descriptionLabel.font = [UIFont systemFontOfSize:15.0];
+    _descriptionLabel.textColor = TextColor;
+    [self.contentView addSubview:_descriptionLabel];
+   
+    // 中间的一条线
+//        lineView = [CALayer layer];
+    lineView = [[UIView alloc]init];
+    [self.contentView addSubview:lineView];
+    lineView.backgroundColor = [Tools colorWithRED:231.0 GREEN:231.0 BLUE:231.0 ALPHA:1.0];
+    
+    _firstImage = [[UIImageView alloc] init];
+    _firstImage.tag = 1;
+    _firstImage.clipsToBounds = YES;
+    
+    [self.contentView addSubview:_firstImage];
+    _secondImage = [[UIImageView alloc] init];
+    _secondImage.tag = 2;
+    _secondImage.clipsToBounds = YES;
+    
+    [self.contentView addSubview:_secondImage];
+    _thirdImage = [[UIImageView alloc] init];
+    _thirdImage.tag = 3;
+    _thirdImage.clipsToBounds = YES;
+    
+    [self.contentView addSubview:_thirdImage];
+    _talkerCount = [[UILabel alloc] init];
+    _talkerCount.text = @"没有返回圈聊人数";
+    _talkerCount.font = [UIFont systemFontOfSize:12];
+    _talkerCount.textColor = TextColor;
+    [self.contentView addSubview:_talkerCount];
+    [self.contentView bringSubviewToFront:_talkerCount];
+    
+    _jionGroup = [[UITextField alloc] init];
+    _jionGroup.enabled = YES;
+    _jionGroup.font = [UIFont systemFontOfSize:12];
+    _jionGroup.text = @"  加入圈聊";
+    _jionGroup.textColor = TextColor;
+    [self.contentView addSubview:_jionGroup];
+    jionImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+    jionImage.image = PNGRESOURCE(@"home_chat");
+    _jionGroup.leftView = jionImage;
+    _jionGroup.leftViewMode = UITextFieldViewModeAlways;
+    [self.contentView addSubview:_jionGroup];
+    
+    jionGroupView = [[UIView alloc] init];
+    jionGroupView.alpha = 0.1;
+    jionGroupView.backgroundColor = [UIColor whiteColor];
+    [_jionGroup addSubview:jionGroupView];
+    // 播放按钮
+    _videoSign = [[UIImageView alloc] init];
+    UIImage *image = PNGRESOURCE(@"playvideo");
+    _videoSign.image = image;
+    _videoSign.frame = CGRectMake(0, 0, 30, 30);
+    [_mainImage addSubview:_videoSign];
+
+    self.contentView.layer.cornerRadius = 8;
+    self.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.contentView.layer.shadowOffset = CGSizeMake(0, 0);
+    self.contentView.layer.shadowOpacity = 0.25;
+    self.contentView.layer.shadowRadius = 2;
+    self.contentView.layer.shouldRasterize = YES;
+    self.contentView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.backgroundColor = [Tools colorWithRED:242.0 GREEN:242.0 BLUE:242.0 ALPHA:1.0];
+    self.contentView.backgroundColor = [UIColor whiteColor];
+    // 加入动作
+    _ownerImage.userInteractionEnabled = YES;
+    [_ownerImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(otherInfo)]];
+    
+    _mainImage.userInteractionEnabled = YES;
+    [_mainImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainImageTap)]];
+    
+    [_jionGroup addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jionGroupTap)]];
+  
+    [self setRoundCorner];
+    isSetupViews = YES;
+}
+
+- (void)setUplayout {
     self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 10.5);
     [_ownerImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView.mas_top).offset(8);
@@ -320,17 +301,6 @@
         make.width.equalTo(@45);
         make.height.equalTo(@22);
     }];
-    [praiseImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(praiseView);
-        make.left.equalTo(praiseView);
-        make.width.equalTo(@22);
-        make.height.equalTo(@22);
-    }];
-    
-    [_praiseCount mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(praiseView);
-        make.left.equalTo(praiseView).offset(30);
-    }];
     //*****************
     
     //********pushImage
@@ -339,24 +309,10 @@
         make.left.equalTo(praiseView.mas_right).offset(40);
         make.size.equalTo(praiseView);
     }];
-    
-    [pushImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(pushView);
-        make.left.equalTo(pushView);
-        make.width.equalTo(@22);
-        make.height.equalTo(@22);
-    }];
-
-    [_usefulCount mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(pushView);
-        make.left.equalTo(pushView).offset(27);
-    }];
-    
-    
     //************
     
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(praiseImage.mas_bottom).offset(14);
+        make.top.equalTo(pushView.mas_bottom).offset(14);
         make.left.equalTo(self.contentView.mas_left).offset(10);
         make.right.equalTo(self.contentView.mas_right).offset(-10);
         make.height.equalTo(@1);
@@ -402,7 +358,15 @@
         make.left.equalTo(_jionGroup);
         make.size.equalTo(_jionGroup);
     }];
-    
+  
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self setUplayout];
+}
+
+- (void)setRoundCorner {
     // 圆角
     CGFloat radius = 14.f;
     CGFloat ownerImageRadius = 16.f;
@@ -430,6 +394,11 @@
 
 - (void)updateViewWith:(QueryContent *)content {
     
+    self.content = content;
+    
+    [self resetLikeBtn:self];
+    [self resetPushBtn:self];
+    
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd_download = [f.commands objectForKey:@"DownloadUserFiles"];
     
@@ -437,7 +406,6 @@
     _secondImage.hidden = YES;
     _thirdImage.hidden = YES;
     
-    self.content = content;
     originX = 10;
     indexChater = 0;
     if (self.content.chaters.count > 0) {
@@ -504,9 +472,6 @@
         }
     }
     
-    praiseImage.image = self.content.isLike.integerValue == 0 ? PNGRESOURCE(@"home_like_default") : PNGRESOURCE(@"home_like_like");
-    pushImage.image = self.content.isPush.integerValue == 0 ? PNGRESOURCE(@"push") : PNGRESOURCE(@"pushed");
-   
     for (int index = kAYPhotoTagViewTag; index < kAYPhotoTagViewTag + TagTypeBrand + 1; ++index) {
         UIView* tmp = [_mainImage viewWithTag:index];
         [tmp removeFromSuperview];
@@ -581,37 +546,6 @@
         [cmd performWithResult:&url];
     }
     [self.filterView removeFromSuperview];
-}
-
-- (void)praiseImageTap {
-    NSLog(@"heart btn did selected");
-    if (self.content.isLike.integerValue == 1) {
-        
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:_content forKey:kAYHomeCellContentKey];
-        [dic setValue:self forKey:kAYHomeCellCellKey];
-        
-        id<AYCommand> cmd = [self.notifies objectForKey:@"unLikePostItem:"];
-        [cmd performWithResult:&dic];
-        
-    } else {
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:_content forKey:kAYHomeCellContentKey];
-        [dic setValue:self forKey:kAYHomeCellCellKey];
-        
-        id<AYCommand> cmd = [self.notifies objectForKey:@"likePostItem:"];
-        [cmd performWithResult:&dic];
-        
-    }
-}
-
-- (void)pushGroupTap {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:_content forKey:kAYHomeCellContentKey];
-    [dic setValue:self forKey:kAYHomeCellCellKey];
-    
-    id<AYCommand> cmd = [self.notifies objectForKey:@"pushPostItem:"];
-    [cmd performWithResult:&dic];
 }
 
 - (void)jionGroupTap {
@@ -695,6 +629,7 @@
     NSDictionary* dic = (NSDictionary*)obj;
     AYHomeCellView* cell = [dic objectForKey:kAYHomeCellCellKey];
     QueryContent* content = [dic objectForKey:kAYHomeCellContentKey];
+    cell.cell_index = ((NSNumber*)[dic objectForKey:kAYHomeCellCellIndexKey]).integerValue;
     [cell updateViewWith:content];
     return nil;
 }
@@ -706,19 +641,65 @@
 - (id)resetLike:(id)args {
     NSDictionary* dic = (NSDictionary*)args;
     AYHomeCellView* cell = [dic objectForKey:kAYHomeCellCellKey];
-    NSNumber* like_result = [dic objectForKey:@"like_result"];
+    NSNumber* like_result = [dic objectForKey:kAYThumbsPushBtnContentResultKey];
     
     cell.content.isLike = like_result;
+    
+    [self resetLikeBtn:cell];
+    [self setNeedsLayout];
     return nil;
+}
+
+- (void)resetLikeBtn:(AYHomeCellView*)cell {
+    [praiseView removeFromSuperview];
+    praiseView = nil;
+    
+    id<AYCommand> cmd = MODULE(@"ThumbsAndPushInit");
+    NSNumber* thumbs = [NSNumber numberWithInteger:cell.content.isLike.integerValue];
+    [cmd performWithResult:&thumbs];
+    
+    id<AYViewBase> tmp_thumbs =  (id<AYViewBase>)thumbs;
+    tmp_thumbs.controller = cell.controller;
+    id<AYCommand> cmd_thumbs = [tmp_thumbs.commands objectForKey:@"changeBtnConnectInfo:"];
+    NSMutableDictionary* thumbs_args = [[NSMutableDictionary alloc]init];
+    [thumbs_args setValue:_content.content_post_id forKey:kAYThumbsPushBtnContentIDKey];
+    [thumbs_args setValue:[NSNumber numberWithFloat:cell.cell_index] forKey:kAYThumbsPushBtnContentIndexKey];
+    [cmd_thumbs performWithResult:&thumbs_args];
+    
+    praiseView = (UIView*)thumbs;
+    [self.contentView addSubview:praiseView];
 }
 
 - (id)resetPush:(id)args {
     NSDictionary* dic = (NSDictionary*)args;
     AYHomeCellView* cell = [dic objectForKey:kAYHomeCellCellKey];
-    NSNumber* push_result = [dic objectForKey:@"push_result"];
+    NSNumber* push_result = [dic objectForKey:kAYThumbsPushBtnContentResultKey];
     
     cell.content.isPush = push_result;
+
+    [self resetPushBtn:cell];
+    [self setNeedsLayout];
     return nil;
+}
+
+- (void)resetPushBtn:(AYHomeCellView*)cell {
+    [pushView removeFromSuperview];
+    pushView = nil;
+    
+    id<AYCommand> cmd = MODULE(@"ThumbsAndPushInit");
+    NSNumber* pushed = [NSNumber numberWithInteger:cell.content.isPush.integerValue + 2];
+    [cmd performWithResult:&pushed];
+    
+    id<AYViewBase> tmp_push =  (id<AYViewBase>)pushed;
+    tmp_push.controller = cell.controller;
+    id<AYCommand> cmd_push = [tmp_push.commands objectForKey:@"changeBtnConnectInfo:"];
+    NSMutableDictionary* thumbs_args = [[NSMutableDictionary alloc]init];
+    [thumbs_args setValue:_content.content_post_id forKey:kAYThumbsPushBtnContentIDKey];
+    [thumbs_args setValue:[NSNumber numberWithFloat:cell.cell_index] forKey:kAYThumbsPushBtnContentIndexKey];
+    [cmd_push performWithResult:&thumbs_args];
+    
+    pushView = (UIView*)pushed;
+    [self.contentView addSubview:pushView];
 }
 
 @end

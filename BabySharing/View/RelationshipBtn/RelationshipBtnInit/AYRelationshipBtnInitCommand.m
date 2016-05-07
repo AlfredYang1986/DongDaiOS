@@ -12,10 +12,10 @@
 #import "AYRelationshipBtnView.h"
 #import "AYQueryModelDefines.h"
 
-#import "AYSamePersonBtnView.h"
-#import "AYFollowingBtnView.h"
-#import "AYFollowedBtnView.h"
-#import "AYFriendsBtnView.h"
+//#import "AYSamePersonBtnView.h"
+//#import "AYFollowingBtnView.h"
+//#import "AYFollowedBtnView.h"
+//#import "AYFriendsBtnView.h"
 #import "AYFactoryManager.h"
 
 @implementation AYRelationshipBtnInitCommand

@@ -70,6 +70,8 @@
     if (cell == nil) {
         cell = VIEW(kAYHomeCellName, kAYHomeCellName);
     }
+
+    cell.controller = self.controller;
     
     QueryContent* tmp = [querydata objectAtIndex:indexPath.row];
     id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
@@ -77,9 +79,9 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:tmp forKey:kAYHomeCellContentKey];
     [dic setValue:cell forKey:kAYHomeCellCellKey];
+    [dic setValue:[NSNumber numberWithInteger:indexPath.row] forKey:kAYHomeCellCellIndexKey];
     
     [cmd performWithResult:&dic];
-    cell.controller = self.controller;
     
     return (UITableViewCell*)cell;
 }
@@ -234,14 +236,13 @@
     
     NSDictionary* dic = (NSDictionary*)obj;
     id<AYViewBase> cell = [dic objectForKey:kAYHomeCellCellKey];
-    
     id<AYCommand> cmd = [cell.commands objectForKey:@"resetLike:"];
     
     NSDictionary* args = [dic copy];
     [cmd performWithResult:&args];
     
-    NSIndexPath* currentIndex = [queryView indexPathForCell:(UITableViewCell*)cell];
-    [queryView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+//    NSIndexPath* currentIndex = [queryView indexPathForCell:(UITableViewCell*)cell];
+//    [queryView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
     
     return nil;
 }
@@ -256,8 +257,8 @@
     NSDictionary* args = [dic copy];
     [cmd performWithResult:&args];
     
-    NSIndexPath* currentIndex = [queryView indexPathForCell:(UITableViewCell*)cell];
-    [queryView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
+//    NSIndexPath* currentIndex = [queryView indexPathForCell:(UITableViewCell*)cell];
+//    [queryView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
     return nil;
 }
 @end

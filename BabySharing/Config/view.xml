@@ -221,6 +221,31 @@
         <command type="notify" message="relationChanged:" />
     </view>
     
+    <view type="ThumbsNormalBtn" name="ThumbsNormalBtn" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeCount:" />
+        <command type="message" message="changeBtnConnectInfo:" />
+        <command type="notify" message="thumbsChanged:" />
+    </view>
+
+    <view type="ThumbsUpBtn" name="ThumbsUpBtn" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeCount:" />
+        <command type="message" message="changeBtnConnectInfo:" />
+        <command type="notify" message="thumbsChanged:" />
+    </view>
+    
+    <view type="PushNormalBtn" name="PushNormalBtn" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeCount:" />
+        <command type="message" message="changeBtnConnectInfo:" />
+        <command type="notify" message="pushChanged:" />
+        <command type="notify" message="thumbsChanged:" />
+    </view>
+
+    <view type="PushUpBtn" name="PushUpBtn" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeCount:" />
+        <command type="message" message="changeBtnConnectInfo:" />
+        <command type="notify" message="pushChanged:" />
+    </view>
+    
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setUpItems:" />
