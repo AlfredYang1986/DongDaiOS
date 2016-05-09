@@ -158,33 +158,47 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
 }
 
 + (UIImage*)enumImageWithName:(NSString*)name withDownLoadFinishBolck:(imageDidDownloadBlock)block {
-    NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"png"];
-//    SDImageCache *imageCache = [[SDImageCache alloc]initWithNamespace:kDongDaCacheKey];
-//    SDWebImageManager* manager = [SDWebImageManager sharedManager];
-//    SDImageCache* imageCache = [SDImageCache sharedImageCache];
+//    NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"png"];
+//    UIImage* reVal = [UIImage imageWithContentsOfFile:path];
+//    if (!reVal) {
+//        /**
+//         * down load from server
+//         */
+//        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//        
+//        dispatch_queue_t aq = dispatch_queue_create("download queue", nil);
+//        dispatch_async(aq, ^{
+//            
+//            NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
+//            UIImage* img = [UIImage imageWithData:data];
+//            
+//            [[SDImageCache sharedImageCache] storeImage:img forKey:name toDisk:NO];
+//            
+//            [TmpFileStorageModel saveToTmpDirWithImage:img withName:name];
+//            if (block) {
+//                if (img) block(YES, img);
+//                else block(NO, img);
+//            }
+//        });
+//    }
+//    return reVal;
     
-    UIImage* reVal = [UIImage imageWithContentsOfFile:path];
-    if (!reVal) {
-        /**
-         * down load from server
-         */
+    UIImage* imageCache = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:name];
+    if (!imageCache) {
         id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        
-        dispatch_queue_t aq = dispatch_queue_create("download queue", nil);
-        dispatch_async(aq, ^{
-            NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
-            
-            UIImage* img = [UIImage imageWithData:data];
-            [[SDImageCache sharedImageCache] storeImage:img forKey:kDongDaCacheKey];
-            [TmpFileStorageModel saveToTmpDirWithImage:img withName:name];
-            if (block) {
-                if (img) block(YES, img);
-                else block(NO, img);
-            }
-        });
+        NSURL *imgURL = [NSURL URLWithString:[cmd.route stringByAppendingPathComponent:name]];
+        SDWebImageManager* maneger = [SDWebImageManager sharedManager];
+        [maneger downloadImageWithURL:imgURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            if (image) {
+                [[SDImageCache sharedImageCache] storeImage:image forKey:name];
+                [TmpFileStorageModel saveToTmpDirWithImage:image withName:name];
+                block(YES, image);
+            }else block(NO, image);
+        }];
     }
-    return reVal;
+    return imageCache;
 }
 
 #pragma mark -- get file stroage size
