@@ -228,7 +228,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     view.frame = CGRectMake(0, 0, 70, 22);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
-    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2 + 2, 44 / 2);
+    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, 44 / 2);
     view.hidden = YES;
 //    [bkView addSubview:imgView];
     return nil;

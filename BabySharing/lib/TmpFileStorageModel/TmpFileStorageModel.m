@@ -20,6 +20,8 @@
 #define TMP_IMAGE_DIR           @"images"
 #define TMP_MOVIE_DIR           @"movies"
 
+static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
+
 //#define ATT_DOWNLOAD_HOST       @"http://localhost:9000/query/downloadFile/"
 
 @implementation TmpFileStorageModel
@@ -157,6 +159,10 @@
 
 + (UIImage*)enumImageWithName:(NSString*)name withDownLoadFinishBolck:(imageDidDownloadBlock)block {
     NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"png"];
+//    SDImageCache *imageCache = [[SDImageCache alloc]initWithNamespace:kDongDaCacheKey];
+//    SDWebImageManager* manager = [SDWebImageManager sharedManager];
+//    SDImageCache* imageCache = [SDImageCache sharedImageCache];
+    
     UIImage* reVal = [UIImage imageWithContentsOfFile:path];
     if (!reVal) {
         /**
@@ -168,7 +174,9 @@
         dispatch_queue_t aq = dispatch_queue_create("download queue", nil);
         dispatch_async(aq, ^{
             NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
+            
             UIImage* img = [UIImage imageWithData:data];
+            [[SDImageCache sharedImageCache] storeImage:img forKey:kDongDaCacheKey];
             [TmpFileStorageModel saveToTmpDirWithImage:img withName:name];
             if (block) {
                 if (img) block(YES, img);

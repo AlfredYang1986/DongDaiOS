@@ -11,6 +11,10 @@
 //#import "PostDefine.h"
 #import "AYQueryModelDefines.h"
 
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+#import "SDWebImageManager.h"
+
 typedef void(^imageDidDownloadBlock)(BOOL success, UIImage* img);
 typedef void(^fileDidDownloadBlock)(BOOL success, NSURL* img);
 

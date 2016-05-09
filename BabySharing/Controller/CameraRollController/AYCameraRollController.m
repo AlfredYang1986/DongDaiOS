@@ -383,7 +383,12 @@
         }];
     }
     
+    if (!isMainContentViewShown) {
+        [self funcBtnSelected:nil];
+    }
+    
     return nil;
+    
 }
 
 - (id)funcBtnSelected:(id)obj {

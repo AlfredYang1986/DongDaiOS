@@ -66,7 +66,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     static CGFloat offset_origin_y = 0;
     CGFloat offset_now_y = scrollView.contentOffset.y;
-    if (offset_now_y - offset_origin_y > 20) {
+    if (offset_now_y - offset_origin_y > 15) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"scrollForMoreSize"];
         [cmd performWithResult:nil];
     }
