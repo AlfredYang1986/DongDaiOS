@@ -26,7 +26,10 @@ static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
     NSString* docs=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_LOGIN]];
     _doc = (UIManagedDocument*)[[UIManagedDocument alloc] initWithFileURL:url];
-   
+  
+    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES};
+    _doc.persistentStoreOptions = options;
+    
     BOOL isDir = NO;
     if (![[NSFileManager defaultManager]fileExistsAtPath:[url path] isDirectory:&isDir]) {
         [_doc saveToURL:url forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success){

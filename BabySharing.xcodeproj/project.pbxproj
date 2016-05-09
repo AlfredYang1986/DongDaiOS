@@ -607,6 +607,9 @@
 		70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseAllMoviesCommand.m; sourceTree = "<group>"; };
 		70049C331CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryAlbumNameWithAlbumCommand.h; sourceTree = "<group>"; };
 		70049C341CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryAlbumNameWithAlbumCommand.m; sourceTree = "<group>"; };
+		700515141CE0681D00F4D406 /* LoginLocalModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LoginLocalModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		700515151CE069AE00F4D406 /* QueryLocalModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "QueryLocalModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		700515161CE069BF00F4D406 /* MessageAndNotificationModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MessageAndNotificationModel 2.xcdatamodel"; sourceTree = "<group>"; };
 		7005D66C1CB68485004DE0E7 /* AYLocalImageWithNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocalImageWithNameCommand.h; sourceTree = "<group>"; };
 		7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocalImageWithNameCommand.m; sourceTree = "<group>"; };
 		700692DC1CC49A2C00B511FF /* AYFoundInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundInitCommand.h; sourceTree = "<group>"; };
@@ -6348,6 +6351,7 @@
 		701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				700515141CE0681D00F4D406 /* LoginLocalModel 2.xcdatamodel */,
 				701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */,
 			);
 			currentVersion = 701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */;
@@ -6358,6 +6362,7 @@
 		7025108B1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				700515161CE069BF00F4D406 /* MessageAndNotificationModel 2.xcdatamodel */,
 				7025108C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodel */,
 			);
 			currentVersion = 7025108C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodel */;
@@ -6368,6 +6373,7 @@
 		70CDF6311CBD033900311841 /* QueryLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				700515151CE069AE00F4D406 /* QueryLocalModel 2.xcdatamodel */,
 				70CDF6321CBD033900311841 /* QueryLocalModel.xcdatamodel */,
 			);
 			currentVersion = 70CDF6321CBD033900311841 /* QueryLocalModel.xcdatamodel */;

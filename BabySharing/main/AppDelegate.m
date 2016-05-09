@@ -121,6 +121,8 @@
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
+#pragma mark -- coredata version control
+
 #pragma mark -- open sns url
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     

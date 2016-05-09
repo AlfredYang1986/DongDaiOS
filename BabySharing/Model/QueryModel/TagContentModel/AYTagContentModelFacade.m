@@ -7,6 +7,7 @@
 //
 
 #import "AYTagContentModelFacade.h"
+#import <CoreData/CoreData.h>
 
 static NSString* const LOCALDB_TAG_QUERY = @"tagQuery.sqlite";
 
@@ -25,6 +26,9 @@ static NSString* const LOCALDB_TAG_QUERY = @"tagQuery.sqlite";
         NSString* docs=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
         NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_TAG_QUERY]];
         _doc = (UIManagedDocument*)[[UIManagedDocument alloc] initWithFileURL:url];
+
+        NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES};
+        _doc.persistentStoreOptions = options;
         
         BOOL isDir = NO;
         if (![[NSFileManager defaultManager]fileExistsAtPath:[url path] isDirectory:&isDir]) {
