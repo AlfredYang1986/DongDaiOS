@@ -18,8 +18,8 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    NSString* name = [((NSDictionary*)*obj) objectForKey:@"photo"];
-    *obj = [TmpFileStorageModel enumImageWithName:name withDownLoadFinishBolck:nil];
+//    NSString* name = [((NSDictionary*)*obj) objectForKey:@"photo"];
+    *obj = [TmpFileStorageModel enumImageWithName:(NSDictionary*)*obj withDownLoadFinishBolck:nil];
 }
 
 - (NSString*)getCommandType {

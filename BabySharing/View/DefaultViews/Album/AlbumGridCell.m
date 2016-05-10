@@ -10,6 +10,11 @@
 #import "RemoteInstance.h"
 #import "TmpFileStorageModel.h"
 
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "AYFactoryManager.h"
+#import "AYControllerActionDefines.h"
+
 #define LAYER_WIDTH 20
 
 @implementation AlbumGridCell
@@ -114,23 +119,20 @@
     NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
     NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"relase_imge_default"] ofType:@"png"];
-    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
     [self setImage:[UIImage imageNamed:filePath]];
-    UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-        if (success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (self) {
-                    self.image = user_img;
-                    NSLog(@"owner img download success");
-                }
-            });
-        } else {
-            NSLog(@"down load owner image %@ failed", photo_name);
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            self.image = img;
         }
     }];
-    if (userImg != nil) {
-        [self setImage:userImg];
 //        userImg = [UIImage imageNamed:filePath];
-    }
+    
 }
 @end

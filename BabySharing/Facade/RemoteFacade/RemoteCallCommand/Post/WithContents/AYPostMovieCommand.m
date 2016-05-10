@@ -79,6 +79,8 @@
     {
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
         [photo_dic setValue:extent forKey:@"image"];
+        [photo_dic setValue:cover_img forKey:@"upload_image"];
+        
         AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);

@@ -130,6 +130,22 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                 [cmd_provider performWithResult:&dic_result];
                 
                 NSString* screen_photo = [result objectForKey:@"screen_photo"];
+                NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:user.profileImageUrl]];
+                UIImage* img = [UIImage imageWithData:data];
+                
+//                screen_photo = [TmpFileStorageModel generateFileName];
+                [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
+                
+                NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+                [photo_dic setValue:screen_photo forKey:@"image"];
+                [photo_dic setValue:img forKey:@"upload_image"];
+                
+                id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
+                AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
+                [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                    NSLog(@"upload result are %d", success);
+                    
+                }];
                 
                 if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
                     NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:user.profileImageUrl]];
@@ -138,8 +154,9 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                     screen_photo = [TmpFileStorageModel generateFileName];
                     [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
                     
-                    NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+                    NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
                     [photo_dic setValue:screen_photo forKey:@"image"];
+                    [photo_dic setValue:img forKey:@"upload_image"];
                     
                     id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
                     AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
@@ -154,11 +171,6 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                          *     2.4  保存context
                          * 3. 返回打印log
                          */
-//                        AYModelFacade* mf = LOGINMODEL;
-//                        NSMutableDictionary* dic_image_string = [[NSMutableDictionary alloc]init];
-//                        [dic_image_string setValue:(NSString*)result forKey:@"screenImageKey"];
-//                        id<AYCommand> cmd = [mf.commands objectForKey:@"SaveScreenPhoto"];
-//                        [cmd performWithResult:&dic_image_string];
                         /**
                          * 1. xml 下找到 LOGINMODEL
                          * 2. 添加一个Command 叫什么随便，功能如下

@@ -19,6 +19,10 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFoundSearchResultCellDefines.h"
 
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "AYControllerActionDefines.h"
+
 #define RECOMMEND_COUNT         3
 
 #define MARGIN                  13
@@ -92,23 +96,38 @@
         tmp.clipsToBounds = YES;
         
         NSString* photo_name = [iter objectForKey:@"screen_photo"];
-        UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-            if (success) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (self) {
-                        tmp.image = user_img;
-                        NSLog(@"owner img download success");
-                    }
-                });
-            } else {
-                NSLog(@"down load owner image %@ failed", photo_name);
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:photo_name forKey:@"image"];
+        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img != nil) {
+                tmp.image = img;
+            }else{
+                [tmp setImage:PNGRESOURCE(@"default_user")];
             }
         }];
         
-        if (userImg == nil) {
-            userImg = PNGRESOURCE(@"default_user");
-        }
-        [tmp setImage:userImg];
+//        UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
+//            if (success) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    if (self) {
+//                        tmp.image = user_img;
+//                        NSLog(@"owner img download success");
+//                    }
+//                });
+//            } else {
+//                NSLog(@"down load owner image %@ failed", photo_name);
+//            }
+//        }];
+//        
+//        if (userImg == nil) {
+//            userImg = PNGRESOURCE(@"default_user");
+//        }
+//        [tmp setImage:userImg];
     }
 }
 
@@ -139,23 +158,39 @@
         tmp.layer.borderWidth = 0.f;
         
         NSString* photo_name = [item objectForKey:@"name"];
-        UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
-            if (success) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (self) {
-                        tmp.image = user_img;
-                        NSLog(@"owner img download success");
-                    }
-                });
-            } else {
-                NSLog(@"down load owner image %@ failed", photo_name);
+//        NSString* photo_name = [iter objectForKey:@"screen_photo"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:photo_name forKey:@"image"];
+        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img != nil) {
+                tmp.image = img;
+            }else{
+                [tmp setImage:PNGRESOURCE(@"default_user")];
             }
         }];
         
-        if (userImg == nil) {
-            userImg = PNGRESOURCE(@"default_user");
-        }
-        [tmp setImage:userImg];
+//        UIImage* userImg = [TmpFileStorageModel enumImageWithName:photo_name withDownLoadFinishBolck:^(BOOL success, UIImage *user_img) {
+//            if (success) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    if (self) {
+//                        tmp.image = user_img;
+//                        NSLog(@"owner img download success");
+//                    }
+//                });
+//            } else {
+//                NSLog(@"down load owner image %@ failed", photo_name);
+//            }
+//        }];
+//        
+//        if (userImg == nil) {
+//            userImg = PNGRESOURCE(@"default_user");
+//        }
+//        [tmp setImage:userImg];
     }
 }
 

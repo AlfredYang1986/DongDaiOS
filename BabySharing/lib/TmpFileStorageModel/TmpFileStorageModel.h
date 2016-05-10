@@ -29,7 +29,7 @@ typedef void(^fileDidDownloadBlock)(BOOL success, NSURL* img);
 + (void)saveAsToAlbumWithImageName:(NSString*)name;
 // for item
 + (NSURL*)enumFileWithName:(NSString*)name andType:(PostPreViewType)type withDownLoadFinishBlock:(fileDidDownloadBlock)block;
-+ (UIImage*)enumImageWithName:(NSString*)name withDownLoadFinishBolck:(imageDidDownloadBlock)block;
++ (UIImage*)enumImageWithName:(NSDictionary*)name withDownLoadFinishBolck:(imageDidDownloadBlock)block;
 
 #pragma mark -- item movie dir
 + (NSString*)BMTmpMovieDir;

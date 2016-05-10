@@ -137,6 +137,7 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:_current_session.post_thumb forKey:@"image"];
+    [dic setValue:@"img_icon" forKey:@"expect_size"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         if (img != nil) {

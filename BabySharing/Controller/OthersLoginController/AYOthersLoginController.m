@@ -207,6 +207,7 @@
     AYRemoteCallCommand* cmd_download = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic_download = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic_download setValue:[_login_attr objectForKey:@"screen_photo"] forKey:@"image"];
+    [dic_download setValue:@"img_icon" forKey:@"expect_size"];
     [cmd_download performWithResult:[dic_download copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];

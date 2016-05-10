@@ -36,7 +36,7 @@
     else {
         image = [[UIImage alloc] initWithData:data];
 //        if (data.length/1024 > 1024) {
-            image = [self compressImageWith:image];
+//            image = [self compressImageWith:image andExpectedWidth:640];
 //        }
         UIImageOrientation orientation = [self sd_imageOrientationFromImageData:data];
         if (orientation != UIImageOrientationUp) {
@@ -50,11 +50,11 @@
     return image;
 }
 
-+(UIImage *)compressImageWith:(UIImage *)image
++(UIImage *)compressImageWith:(UIImage *)image andExpectedWidth:(CGFloat)width
 {
     float imageWidth = image.size.width;
     float imageHeight = image.size.height;
-    float width = 640;
+//    float width = 640;
     float height = image.size.height/(image.size.width/width);
     
     float widthScale = imageWidth /width;

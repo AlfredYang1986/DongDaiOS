@@ -113,12 +113,10 @@
     AYRemoteCallCommand* cmd_download = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic_download = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic_download setValue:screen_photo forKey:@"image"];
+    [dic_download setValue:@"img_thum" forKey:@"expect_size"];
+    
     [cmd_download performWithResult:[dic_download copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
-        
-        NSData * imageData = UIImageJPEGRepresentation(img, 1);
-        CGFloat length = [imageData length]/1000;
-        NSLog(@"img size %f", length);
         if (img != nil) {
             imgView.image = img;
         }
@@ -183,6 +181,7 @@
 
     NSDictionary* result = (NSDictionary*)args;
     
+//    NSString* screen_photo = [result objectForKey:@"screen_photo"];
     NSString* screen_photo = [[result objectForKey:@"screen_photo"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     [self setOwnerPhoto:screen_photo];
     

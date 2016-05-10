@@ -141,16 +141,16 @@
 
 -(void)setPhotoImageWithString:(NSString*)photo_name{
 
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"relase_imge_default"] ofType:@"png"];
-    [_photoImage setImage:[UIImage imageNamed:filePath]];
+//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
+//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
+//    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"relase_imge_default"] ofType:@"png"];
+    [_photoImage setImage:PNGRESOURCE(@"relase_imge_default")];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
     [dict setValue:photo_name forKey:@"image"];
-    
+    [dict setValue:@"img_icon" forKey:@"expect_size"];
     [cmd performWithResult:[dict copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         if (img != nil) {

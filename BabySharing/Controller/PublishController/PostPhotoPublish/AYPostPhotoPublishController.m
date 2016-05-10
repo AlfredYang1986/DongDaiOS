@@ -74,14 +74,14 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PostPhotos"];
    
     [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
+//        if (success) {
 //            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"分享已成功发布" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
             id<AYCommand> cmd = REVERSMODULE;
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
             [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
             [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
             [cmd performWithResult:&dic];
-        }
+//        }
     }];
     
     AYModelFacade* fl = LOGINMODEL;
@@ -96,7 +96,7 @@
     
     NSMutableDictionary* dic_load_img = [[NSMutableDictionary alloc]init];
     [dic_load_img setValue:photo_name forKey:@"image"];
-    
+    [dic_load_img setValue:@"img_icon" forKey:@"expect_size"];
     
     [cmd_fp performWithResult:[dic_load_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;

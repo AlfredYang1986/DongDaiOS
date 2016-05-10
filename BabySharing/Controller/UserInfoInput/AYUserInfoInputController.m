@@ -105,7 +105,8 @@
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:screen_photo forKey:@"image"];
-       
+        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        
         id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
         [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -324,12 +325,9 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:screen_name forKey:@"screen_name"];
     [dic setValue:role_tag forKey:@"role_tag"];
-    
     [dic setValue:auth_token forKey:@"auth_token"];
     [dic setValue:user_id forKey:@"user_id"];
-    
     [dic setValue:0 forKey:@"gender"];
-    
     [dic setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     [dic setValue:[NSNumber numberWithInt:1] forKey:@"refresh_token"];
     
