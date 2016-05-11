@@ -204,6 +204,7 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"StillImageCaptureTake"];
     [cmd performWithResult:nil andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
+        img = [self clipImage:img withRect:CGRectMake(0, img.size.height - img.size.width, img.size.width, img.size.width)];
         NSLog(@"save btn success");
         
         AYViewController* des = DEFAULTCONTROLLER(@"PostPhotoPreview");
@@ -218,6 +219,18 @@
         [cmd performWithResult:&dic_push];
         
     }];
+}
+- (UIImage*)clipImage:(UIImage*)image withRect:(CGRect)rect {
+    
+    CGImageRef subImageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+    //    CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));
+    //    UIGraphicsBeginImageContext(smallBounds.size);
+    //    CGContextRef context = UIGraphicsGetCurrentContext();
+    //    CGContextDrawImage(context, smallBounds, subImageRef);
+    UIImage* smallImage = [UIImage imageWithCGImage:subImageRef];
+    //    UIGraphicsEndImageContext();
+    
+    return smallImage;
 }
 
 - (void)didChangeCameraBtn {

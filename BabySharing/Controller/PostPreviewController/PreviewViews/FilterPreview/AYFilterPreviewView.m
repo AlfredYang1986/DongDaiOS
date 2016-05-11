@@ -117,7 +117,7 @@
     tl.fontSize = 11.f;
     
     CGSize s = [Tools sizeWithString:title withFont:[UIFont systemFontOfSize:11.f] andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-    tl.frame = CGRectMake(0, bounds.size.height - s.height, bounds.size.width, s.height);
+    tl.frame = CGRectMake(0, bounds.size.height - s.height, bounds.size.width, s.height +5);
     tl.alignmentMode = @"center";
     tl.contentsScale = 2.f;
     [btn.layer addSublayer:tl];
