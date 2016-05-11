@@ -130,22 +130,6 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                 [cmd_provider performWithResult:&dic_result];
                 
                 NSString* screen_photo = [result objectForKey:@"screen_photo"];
-                NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:user.profileImageUrl]];
-                UIImage* img = [UIImage imageWithData:data];
-                
-//                screen_photo = [TmpFileStorageModel generateFileName];
-                [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
-                
-                NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-                [photo_dic setValue:screen_photo forKey:@"image"];
-                [photo_dic setValue:img forKey:@"upload_image"];
-                
-                id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
-                AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
-                [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                    NSLog(@"upload result are %d", success);
-                    
-                }];
                 
                 if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
                     NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:user.profileImageUrl]];
@@ -162,24 +146,6 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                     AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
                     [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                         NSLog(@"upload result are %d", success);
-                        /**
-                         * 1. xml 下找到 LOGINMODEL
-                         * 2. 添加一个Command 叫什么随便，功能如下
-                         *     2.1  读取当前user（CurrentToken） （已有）
-                         *     2.2  拿到当前user的LoginToken
-                         *     2.3  修改LoginToken中screen_image值（值为screen_photo）
-                         *     2.4  保存context
-                         * 3. 返回打印log
-                         */
-                        /**
-                         * 1. xml 下找到 LOGINMODEL
-                         * 2. 添加一个Command 叫什么随便，功能如下
-                         *     2.1  创建一个Provders，名字为微博（详情参考老代码）
-                         *     2.2  调用Providers＋OptContext函数 创建Weibo记录id和token
-                         *     2.4  保存context
-                         * 3. 返回打印log
-                         */
-                        
                     }];
                    
                     NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];

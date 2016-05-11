@@ -19,6 +19,10 @@
 #import "RemoteInstance.h"
 #import "TmpFileStorageModel.h"
 
+//SDWebImage
+#import "UIImageView+WebCache.h"
+#import "UIImage+MultiFormat.h"
+
 static NSString* const kQQTencentID = @"1104831230";
 static NSString* const kQQTencentPermissionUserInfo = @"get_user_info";
 static NSString* const kQQTencentPermissionSimpleUserInfo = @"get_simple_userinfo";
@@ -95,30 +99,16 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
         [cmd_provider performWithResult:&dic_result];
         
         NSString* screen_photo = [result objectForKey:@"screen_photo"];
-        NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"figureurl_qq_2"]]];
-        UIImage* img = [UIImage imageWithData:data];
-        
-//        screen_photo = [TmpFileStorageModel generateFileName];
-        [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
-        
-        NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-        [photo_dic setValue:screen_photo forKey:@"image"];
-        [photo_dic setValue:img forKey:@"upload_image"];
-        
-        id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
-        [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            NSLog(@"upload result are %d", success);
-        }];
         
         if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
             NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"figureurl_qq_2"]]];
             UIImage* img = [UIImage imageWithData:data];
             
             screen_photo = [TmpFileStorageModel generateFileName];
+//           NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:img];
             [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
             
-            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:3];
             [photo_dic setValue:screen_photo forKey:@"image"];
             [photo_dic setValue:@"img_thum" forKey:@"expect_size"];
             [photo_dic setValue:img forKey:@"upload_image"];
@@ -148,7 +138,33 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
                 }
             }];
         }
-        
+//        NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"figureurl_qq_2"]]];
+//        UIImage* img = [UIImage imageWithData:data];
+////        NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:img];
+//        
+////        UIImage *imageSizeIcon = [self pressImageWith:img andExpectedWidth:120];
+////        NSData *icon_data = UIImageJPEGRepresentation(imageSizeIcon, 1);
+////        UIImage *imageIcon = [UIImage imageWithData:icon_data];
+////        
+////        UIImage *imageSizeThum = [self pressImageWith:img andExpectedWidth:240];
+////        NSData *thum_data = UIImageJPEGRepresentation(imageSizeThum, 1);
+////        UIImage *imageThum = [UIImage imageWithData:thum_data];
+////        
+////        [[SDImageCache sharedImageCache] storeImage:imageIcon forKey:[screen_photo stringByAppendingString:@"img_icon"] toDisk:NO];
+////        [[SDImageCache sharedImageCache] storeImage:imageThum forKey:[screen_photo stringByAppendingString:@"img_thum"] toDisk:NO];
+////        [TmpFileStorageModel saveToTmpDirWithImage:imageIcon withName:[screen_photo stringByAppendingString:@"img_icon"]];
+////        [TmpFileStorageModel saveToTmpDirWithImage:imageThum withName:[screen_photo stringByAppendingString:@"img_thum"]];
+//        [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
+//        
+//        NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+//        [photo_dic setValue:screen_photo forKey:@"image"];
+//        [photo_dic setValue:img forKey:@"upload_image"];
+//        
+//        id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
+//        AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
+//        [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//            NSLog(@"upload result are %d", success);
+//        }];
         /**
          *  4. push notification to the controller
          *      and controller to refresh the view
@@ -216,7 +232,35 @@ static NSString* const kQQTencentPermissionAdd = @"add_t";
     }
 }
 
-
+#pragma mark -- image size compress
+-(UIImage *)pressImageWith:(UIImage *)image andExpectedWidth:(CGFloat)width
+{
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+    float height = image.size.height/(image.size.width/width);
+    
+    float widthScale = imageWidth /width;
+    float heightScale = imageHeight /height;
+    
+    // 创建一个bitmap的context
+    // 并把它设置成为当前正在使用的context
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    
+    if (widthScale > heightScale) {
+        [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+    }
+    else {
+        [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+    }
+    
+    // 从当前context中创建一个改变大小后的图片
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+    
+}
 
 
 @end

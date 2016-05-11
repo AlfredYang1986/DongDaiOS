@@ -46,6 +46,7 @@
 
 @interface AYUserInfoInputController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) NSMutableDictionary* login_attr;
+@property (nonatomic, strong) UIImage *changeImage;
 @end
 
 @implementation AYUserInfoInputController {
@@ -54,6 +55,7 @@
 }
 
 @synthesize login_attr = _login_attr;
+@synthesize changeImage = _changeImage;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -279,7 +281,7 @@
 
     isChangeImg = YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
-
+    _changeImage = image;
     // get image name
     id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
     NSString* img_name = nil;
@@ -335,19 +337,20 @@
         [dic setValue:[_login_attr objectForKey:@"phoneNo"] forKey:@"phoneNo"];
         [dic setValue:[NSNumber numberWithInt:1] forKey:@"create"];
     }
+    [dic setValue:screen_photo forKey:@"screen_photo"];
     
-//    if (isChangeImg) {
-        [dic setValue:screen_photo forKey:@"screen_photo"];
+    if (isChangeImg) {
        
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
         [photo_dic setValue:screen_photo forKey:@"image"];
+        [photo_dic setValue:_changeImage forKey:@"upload_image"];
         
         id<AYFacadeBase> up_facade = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
         }];
-//    }
+    }
     
     id<AYFacadeBase> profileRemote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [profileRemote.commands objectForKey:@"UpdateUserDetail"];

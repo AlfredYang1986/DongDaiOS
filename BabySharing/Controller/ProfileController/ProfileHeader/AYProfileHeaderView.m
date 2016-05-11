@@ -252,6 +252,8 @@
     imgView = [[UIImageView alloc]init];
 
     imgView.layer.cornerRadius = USER_PHOTO_WIDTH / 2;
+    imgView.layer.borderColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.25].CGColor;
+    imgView.layer.borderWidth = 2;
     imgView.clipsToBounds = YES;
     [bg_view addSubview:imgView];
     [bg_view bringSubviewToFront:imgView];

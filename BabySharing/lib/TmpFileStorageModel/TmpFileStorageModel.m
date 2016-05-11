@@ -161,12 +161,21 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
     
     NSString* name = [args objectForKey:@"image"];
     NSString* sizeType = [args objectForKey:@"expect_size"];//icon-120 thum-240 desc-750
+    
+    NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"png"];
+    UIImage* fileImg = [UIImage imageWithContentsOfFile:path];
+    if ([sizeType isEqualToString:@"img_local"] && fileImg) {
+        if (block) {
+            block(YES, fileImg);
+        }
+        return fileImg;
+    }
+    
     UIImage* reVal = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:[name stringByAppendingString:sizeType]];
     if (!reVal) {
         /**
          * down load from server
          */
-        
         NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:[name stringByAppendingString:sizeType]] stringByAppendingPathExtension:@"png"];
         UIImage* cacheImg = [UIImage imageWithContentsOfFile:path];
         if (cacheImg) {
@@ -176,34 +185,60 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
             }
         }else
         {
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
             
             dispatch_queue_t aq = dispatch_queue_create("download queue", nil);
             dispatch_async(aq, ^{
                 
+                id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+                AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
                 NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
                 UIImage* img = [UIImage imageWithData:data];
                 
-                UIImage *newSizeImg = nil;
+                UIImage *imageSizeIcon = [self pressImageWith:img andExpectedWidth:120];
+                NSData *icon_data = UIImageJPEGRepresentation(imageSizeIcon, 1);
+                UIImage *imageIcon = [UIImage imageWithData:icon_data];
+                
+                UIImage *imageSizeThum = [self pressImageWith:img andExpectedWidth:240];
+                NSData *thum_data = UIImageJPEGRepresentation(imageSizeThum, 1);
+                UIImage *imageThum = [UIImage imageWithData:thum_data];
+                
+                UIImage *imageSizeDecs = [self pressImageWith:img andExpectedWidth:750];
+                NSData *desc_data = UIImageJPEGRepresentation(imageSizeDecs, 1);
+                UIImage *imageDesc = [UIImage imageWithData:desc_data];
+                
+                [TmpFileStorageModel saveToTmpDirWithImage:imageIcon withName:[name stringByAppendingString:sizeType]];
+                [TmpFileStorageModel saveToTmpDirWithImage:imageThum withName:[name stringByAppendingString:sizeType]];
+                [TmpFileStorageModel saveToTmpDirWithImage:imageDesc withName:[name stringByAppendingString:sizeType]];
+                
                 if ([sizeType isEqualToString:@"img_icon"]) {
-                    newSizeImg = [self pressImageWith:img andExpectedWidth:120];
+                    [[SDImageCache sharedImageCache] storeImage:imageIcon forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+                    if (block) {
+                        block(YES, imageIcon);
+                    }
                 }
                 else if([sizeType isEqualToString:@"img_thum"]){
-                    newSizeImg = [self pressImageWith:img andExpectedWidth:240];
+                    [[SDImageCache sharedImageCache] storeImage:imageThum forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+                    if (block) {
+                        block(YES, imageThum);
+                    }
                 }
                 else if([sizeType isEqualToString:@"img_desc"]){
-                    newSizeImg = [self pressImageWith:img andExpectedWidth:750];
+                    [[SDImageCache sharedImageCache] storeImage:imageDesc forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+                    if (block) {
+                        block(YES, imageDesc);
+                    }
                 }else {
-                  return ;
+                   [[SDImageCache sharedImageCache] storeImage:img forKey:name toDisk:NO];
+                    if (block) {
+                        block(YES, img);
+                    }
+                    return ;
                 }
-                NSData *new_data = UIImageJPEGRepresentation(newSizeImg, 1);
-                UIImage *saveImg = [UIImage imageWithData:new_data];
-                [[SDImageCache sharedImageCache] storeImage:saveImg forKey:[name stringByAppendingString:sizeType] toDisk:NO];
-                [TmpFileStorageModel saveToTmpDirWithImage:saveImg withName:[name stringByAppendingString:sizeType]];
-                if (block) {
-                    block(YES, saveImg);
-                }
+                
+//                NSData *new_data = UIImageJPEGRepresentation(newSizeImg, 1);
+//                UIImage *saveImg = [UIImage imageWithData:new_data];
+//                [[SDImageCache sharedImageCache] storeImage:saveImg forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+//                [TmpFileStorageModel saveToTmpDirWithImage:saveImg withName:[name stringByAppendingString:sizeType]];
             });
         }
     }
