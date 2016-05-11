@@ -25,8 +25,12 @@
     NSDictionary* profile_dic;
     
     NSDictionary* change_profile_dic;
+    UIImage *changeOwnerImage;
+    NSString *changeImageName;
 //    UIButton* btn_save;
 }
+
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -138,6 +142,14 @@
 - (id)rightItemBtnClick {
     NSLog(@"save btn clicked");
    
+    AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
+    NSMutableDictionary *up_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [up_dic setValue:changeImageName forKey:@"image"];
+    [up_dic setValue:changeOwnerImage forKey:@"upload_image"];
+    [up_cmd performWithResult:[up_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        NSLog(@"upload result are %d", success);
+    }];
+    
     id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
     
@@ -163,6 +175,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     
     [picker dismissViewControllerAnimated:YES completion:nil];
+    changeOwnerImage = image;
 //    [picker dismissViewControllerAnimated:YES completion:^{
 //        picker.mediaTypes = [NSArray arrayWithObjects: @"public.image", nil];
 //    }];
@@ -171,6 +184,7 @@
     id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
     NSString* img_name = nil;
     [uuid_cmd performWithResult:&img_name];
+    changeImageName = img_name;
     NSLog(@"new image name is %@", img_name);
 //    [_login_attr setValue:img_name forKey:@"screen_photo"];
 
@@ -200,8 +214,6 @@
 }
 
 - (id)scrollToHideKeyBoard {
-//    id<AYViewBase> cell = [self.views objectForKey:@"SelfSettingCell"];
-    
     return nil;
 }
 

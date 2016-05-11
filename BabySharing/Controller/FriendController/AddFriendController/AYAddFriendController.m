@@ -443,4 +443,9 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     return nil;
 }
 
+-(BOOL)isActive{
+    UIViewController * tmp = [Tools activityViewController];
+    return tmp == self;
+}
+
 @end

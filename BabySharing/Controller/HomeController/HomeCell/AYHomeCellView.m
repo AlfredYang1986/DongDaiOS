@@ -419,6 +419,7 @@
             
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
             [dic setValue:chater.chaterImg forKey:@"image"];
+            [dic setValue:@"img_icon" forKey:@"expect_size"];
             [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 UIImage* img = (UIImage*)result;
                 if (img != nil) {
@@ -444,6 +445,7 @@
 
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:self.content.owner_photo forKey:@"image"];
+    [dic setValue:@"img_icon" forKey:@"expect_size"];
     [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         self.ownerImage.image = img;
@@ -456,6 +458,7 @@
             self.mainImage.image = PNGRESOURCE(@"chat_mine_bg"); //  [UIImage imageNamed:defaultMainPath];
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
             [dic setValue:item.item_name forKey:@"image"];
+            [dic setValue:@"img_desc" forKey:@"expect_size"];
             [cmd_download performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 UIImage* img = (UIImage*)result;
                 self.mainImage.image = img;

@@ -113,12 +113,10 @@
     AYRemoteCallCommand* cmd_download = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic_download = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic_download setValue:screen_photo forKey:@"image"];
+    [dic_download setValue:@"img_thum" forKey:@"expect_size"];
+    
     [cmd_download performWithResult:[dic_download copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
-        
-        NSData * imageData = UIImageJPEGRepresentation(img, 1);
-        CGFloat length = [imageData length]/1000;
-        NSLog(@"img size %f", length);
         if (img != nil) {
             imgView.image = img;
         }
@@ -183,6 +181,7 @@
 
     NSDictionary* result = (NSDictionary*)args;
     
+//    NSString* screen_photo = [result objectForKey:@"screen_photo"];
     NSString* screen_photo = [[result objectForKey:@"screen_photo"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     [self setOwnerPhoto:screen_photo];
     
@@ -253,6 +252,8 @@
     imgView = [[UIImageView alloc]init];
 
     imgView.layer.cornerRadius = USER_PHOTO_WIDTH / 2;
+    imgView.layer.borderColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.25].CGColor;
+    imgView.layer.borderWidth = 2;
     imgView.clipsToBounds = YES;
     [bg_view addSubview:imgView];
     [bg_view bringSubviewToFront:imgView];

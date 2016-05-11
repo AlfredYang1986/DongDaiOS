@@ -157,34 +157,154 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
     }
 }
 
-+ (UIImage*)enumImageWithName:(NSString*)name withDownLoadFinishBolck:(imageDidDownloadBlock)block {
-    NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"png"];
-//    SDImageCache *imageCache = [[SDImageCache alloc]initWithNamespace:kDongDaCacheKey];
-//    SDWebImageManager* manager = [SDWebImageManager sharedManager];
-//    SDImageCache* imageCache = [SDImageCache sharedImageCache];
++ (UIImage*)enumImageWithName:(NSDictionary*)args withDownLoadFinishBolck:(imageDidDownloadBlock)block {
     
-    UIImage* reVal = [UIImage imageWithContentsOfFile:path];
+    NSString* name = [args objectForKey:@"image"];
+    NSString* sizeType = [args objectForKey:@"expect_size"];//icon-120 thum-240 desc-750
+    
+    NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"png"];
+    UIImage* fileImg = [UIImage imageWithContentsOfFile:path];
+    if ([sizeType isEqualToString:@"img_local"] && fileImg) {
+        if (block) {
+            block(YES, fileImg);
+        }
+        return fileImg;
+    }
+    
+    UIImage* reVal = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:[name stringByAppendingString:sizeType]];
     if (!reVal) {
         /**
          * down load from server
          */
-        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        
-        dispatch_queue_t aq = dispatch_queue_create("download queue", nil);
-        dispatch_async(aq, ^{
-            NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
-            
-            UIImage* img = [UIImage imageWithData:data];
-            [[SDImageCache sharedImageCache] storeImage:img forKey:kDongDaCacheKey];
-            [TmpFileStorageModel saveToTmpDirWithImage:img withName:name];
+        NSString* path = [[[TmpFileStorageModel BMTmpImageDir] stringByAppendingPathComponent:[name stringByAppendingString:sizeType]] stringByAppendingPathExtension:@"png"];
+        UIImage* cacheImg = [UIImage imageWithContentsOfFile:path];
+        if (cacheImg) {
+            [[SDImageCache sharedImageCache] storeImage:cacheImg forKey:[name stringByAppendingString:sizeType] toDisk:NO];
             if (block) {
-                if (img) block(YES, img);
-                else block(NO, img);
+               block(YES, cacheImg);
             }
-        });
+        }else
+        {
+            
+            dispatch_queue_t aq = dispatch_queue_create("download queue", nil);
+            dispatch_async(aq, ^{
+                
+                id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+                AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+                NSData* data = [RemoteInstance remoteDownloadFileWithName:name andHost:cmd.route];
+                UIImage* img = [UIImage imageWithData:data];
+                
+                UIImage *imageSizeIcon = [self pressImageWith:img andExpectedWidth:120];
+                NSData *icon_data = UIImageJPEGRepresentation(imageSizeIcon, 1);
+                UIImage *imageIcon = [UIImage imageWithData:icon_data];
+                
+                UIImage *imageSizeThum = [self pressImageWith:img andExpectedWidth:240];
+                NSData *thum_data = UIImageJPEGRepresentation(imageSizeThum, 1);
+                UIImage *imageThum = [UIImage imageWithData:thum_data];
+                
+                UIImage *imageSizeDecs = [self pressImageWith:img andExpectedWidth:750];
+                NSData *desc_data = UIImageJPEGRepresentation(imageSizeDecs, 1);
+                UIImage *imageDesc = [UIImage imageWithData:desc_data];
+                
+                [TmpFileStorageModel saveToTmpDirWithImage:imageIcon withName:[name stringByAppendingString:sizeType]];
+                [TmpFileStorageModel saveToTmpDirWithImage:imageThum withName:[name stringByAppendingString:sizeType]];
+                [TmpFileStorageModel saveToTmpDirWithImage:imageDesc withName:[name stringByAppendingString:sizeType]];
+                
+                if ([sizeType isEqualToString:@"img_icon"]) {
+                    [[SDImageCache sharedImageCache] storeImage:imageIcon forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+                    if (block) {
+                        block(YES, imageIcon);
+                    }
+                }
+                else if([sizeType isEqualToString:@"img_thum"]){
+                    [[SDImageCache sharedImageCache] storeImage:imageThum forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+                    if (block) {
+                        block(YES, imageThum);
+                    }
+                }
+                else if([sizeType isEqualToString:@"img_desc"]){
+                    [[SDImageCache sharedImageCache] storeImage:imageDesc forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+                    if (block) {
+                        block(YES, imageDesc);
+                    }
+                }else {
+                   [[SDImageCache sharedImageCache] storeImage:img forKey:name toDisk:NO];
+                    if (block) {
+                        block(YES, img);
+                    }
+                    return ;
+                }
+                
+//                NSData *new_data = UIImageJPEGRepresentation(newSizeImg, 1);
+//                UIImage *saveImg = [UIImage imageWithData:new_data];
+//                [[SDImageCache sharedImageCache] storeImage:saveImg forKey:[name stringByAppendingString:sizeType] toDisk:NO];
+//                [TmpFileStorageModel saveToTmpDirWithImage:saveImg withName:[name stringByAppendingString:sizeType]];
+            });
+        }
     }
     return reVal;
+//    NSString* name = [args objectForKey:@"image"];
+//    NSString* sizeType = [args objectForKey:@"expect_size"];//icon-120 thum-240 desc-750
+//    UIImage* imageCache = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:[name stringByAppendingString:sizeType]];
+//    if (!imageCache) {
+//        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//        NSURL *imgURL = [NSURL URLWithString:[cmd.route stringByAppendingPathComponent:name]];
+//        SDWebImageManager* maneger = [SDWebImageManager sharedManager];
+//        [maneger downloadImageWithURL:imgURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//            if (image) {
+//                UIImage *newSizeImg = nil;
+//                if ([sizeType isEqualToString:@"img_icon"]) {
+//                    newSizeImg = [self pressImageWith:image andExpectedWidth:120];
+//                }
+//                else if([sizeType isEqualToString:@"img_thum"]){
+//                    newSizeImg = [self pressImageWith:image andExpectedWidth:240];
+//                }
+//                else if([sizeType isEqualToString:@"img_desc"]){
+//                    newSizeImg = [self pressImageWith:image andExpectedWidth:750];
+//                }else {
+//                  return ;
+//                }
+//                NSData *data = UIImageJPEGRepresentation(newSizeImg, 1);
+//                UIImage *saveImg = [UIImage imageWithData:data];
+//                [[SDImageCache sharedImageCache] storeImage:saveImg forKey:[name stringByAppendingString:sizeType]];
+//                [TmpFileStorageModel saveToTmpDirWithImage:saveImg withName:[name stringByAppendingString:sizeType]];
+//
+//                block(YES, saveImg);
+//            }else
+//                block(NO, image);
+//        }];
+//    }
+//    return imageCache;
+}
+
++(UIImage *)pressImageWith:(UIImage *)image andExpectedWidth:(CGFloat)width
+{
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+    float height = image.size.height/(image.size.width/width);
+    
+    float widthScale = imageWidth /width;
+    float heightScale = imageHeight /height;
+    
+    // 创建一个bitmap的context
+    // 并把它设置成为当前正在使用的context
+    UIGraphicsBeginImageContext(CGSizeMake(width, height));
+    
+    if (widthScale > heightScale) {
+        [image drawInRect:CGRectMake(0, 0, imageWidth /heightScale , height)];
+    }
+    else {
+        [image drawInRect:CGRectMake(0, 0, width , imageHeight /widthScale)];
+    }
+    
+    // 从当前context中创建一个改变大小后的图片
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+    
 }
 
 #pragma mark -- get file stroage size

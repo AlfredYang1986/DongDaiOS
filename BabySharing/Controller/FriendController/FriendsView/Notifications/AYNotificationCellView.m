@@ -138,6 +138,7 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_icon" forKey:@"expect_size"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         [self.imgView setImage:img];
@@ -151,6 +152,7 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_icon" forKey:@"expect_size"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         if (img != nil) {

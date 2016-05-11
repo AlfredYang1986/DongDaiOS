@@ -174,12 +174,14 @@ static NSString* const kWechatDescription = @"wechat";
         [dic_result setValue:@"wechat" forKey:@"provide_name"];
         [dic_result setValue:whchat_openID forKey:@"provide_user_id"];
         [dic_result setValue:accessToken forKey:@"provide_token"];
+        [dic_result setValue:screen_name forKey:@"provide_screen_name"];
         [dic_result setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
         
         id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
         [cmd_provider performWithResult:&dic_result];
         
         NSString* screen_photo = [result objectForKey:@"screen_photo"];
+        
         if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
             NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"headimgurl"]]];
             UIImage* img = [UIImage imageWithData:data];
@@ -187,8 +189,10 @@ static NSString* const kWechatDescription = @"wechat";
             screen_photo = [TmpFileStorageModel generateFileName];
             [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
 
-            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:3];
             [photo_dic setValue:screen_photo forKey:@"image"];
+            [photo_dic setValue:@"img_thum" forKey:@"expect_size"];
+            [photo_dic setValue:img forKey:@"upload_image"];
 
             id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];

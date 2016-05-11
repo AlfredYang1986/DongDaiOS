@@ -46,6 +46,7 @@
 
 @interface AYUserInfoInputController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) NSMutableDictionary* login_attr;
+@property (nonatomic, strong) UIImage *changeImage;
 @end
 
 @implementation AYUserInfoInputController {
@@ -54,6 +55,7 @@
 }
 
 @synthesize login_attr = _login_attr;
+@synthesize changeImage = _changeImage;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -105,7 +107,8 @@
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:screen_photo forKey:@"image"];
-       
+        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        
         id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
         [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -278,7 +281,7 @@
 
     isChangeImg = YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
-
+    _changeImage = image;
     // get image name
     id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
     NSString* img_name = nil;
@@ -324,12 +327,9 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:screen_name forKey:@"screen_name"];
     [dic setValue:role_tag forKey:@"role_tag"];
-    
     [dic setValue:auth_token forKey:@"auth_token"];
     [dic setValue:user_id forKey:@"user_id"];
-    
     [dic setValue:0 forKey:@"gender"];
-    
     [dic setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     [dic setValue:[NSNumber numberWithInt:1] forKey:@"refresh_token"];
     
@@ -337,19 +337,20 @@
         [dic setValue:[_login_attr objectForKey:@"phoneNo"] forKey:@"phoneNo"];
         [dic setValue:[NSNumber numberWithInt:1] forKey:@"create"];
     }
+    [dic setValue:screen_photo forKey:@"screen_photo"];
     
-//    if (isChangeImg) {
-        [dic setValue:screen_photo forKey:@"screen_photo"];
+    if (isChangeImg) {
        
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
         [photo_dic setValue:screen_photo forKey:@"image"];
+        [photo_dic setValue:_changeImage forKey:@"upload_image"];
         
         id<AYFacadeBase> up_facade = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
         }];
-//    }
+    }
     
     id<AYFacadeBase> profileRemote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [profileRemote.commands objectForKey:@"UpdateUserDetail"];

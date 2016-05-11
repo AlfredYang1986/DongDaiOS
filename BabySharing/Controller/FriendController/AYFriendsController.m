@@ -484,4 +484,9 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     
     return nil;
 }
+//michauxs:scrollToHideKeyBoard
+- (id)scrollToHideKeyBoard {
+    return nil;
+}
+
 @end
