@@ -292,7 +292,21 @@
     return nil;
 }
 
+//michauxs todo
 - (id)rightBtnSelected {
+    
+    CGFloat width = mainContentView.frame.size.width;
+    CGFloat height = mainContentView.frame.size.height;
+    
+    CGFloat scale_x = img.size.width / contentLayer.frame.size.width;
+    CGFloat scale_y = img.size.height / contentLayer.frame.size.height;
+    
+    CGFloat top_margin = 0;
+    CGFloat offset_x = fabs(contentLayer.frame.origin.x);
+    CGFloat offset_y = fabs(contentLayer.frame.origin.y - top_margin);
+    
+    img = [self clipImage:img withRect:CGRectMake(offset_x * scale_x, offset_y * scale_y, width * scale_x, height * scale_y)];
+    
     AYViewController* des = DEFAULTCONTROLLER(@"PostPhotoPreview");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
@@ -305,6 +319,20 @@
     [cmd performWithResult:&dic_push];
     
     return nil;
+}
+
+- (UIImage*)clipImage:(UIImage*)image withRect:(CGRect)rect {
+    
+    CGImageRef subImageRef = CGImageCreateWithImageInRect(image.CGImage, rect);
+    //    CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));
+    
+    //    UIGraphicsBeginImageContext(smallBounds.size);
+    //    CGContextRef context = UIGraphicsGetCurrentContext();
+    //    CGContextDrawImage(context, smallBounds, subImageRef);
+    UIImage* smallImage = [UIImage imageWithCGImage:subImageRef];
+    //    UIGraphicsEndImageContext();
+    
+    return smallImage;
 }
 
 - (id)segValueChanged:(id)obj {
