@@ -282,8 +282,8 @@
     NSData * imageData = UIImageJPEGRepresentation(image,1);
     CGFloat length = [imageData length] / 1024;
     NSData* data;
-    if (length > 100) {
-       data = UIImageJPEGRepresentation(image, 100.0 / [imageData length]/1024.0);
+    if (length > 200) {
+       data = UIImageJPEGRepresentation(image, 200.0 / [imageData length]/1024.0);
     } else {
 //        CGFloat kCompressQuality = 0.3;
         data = UIImageJPEGRepresentation(image, 1.0);

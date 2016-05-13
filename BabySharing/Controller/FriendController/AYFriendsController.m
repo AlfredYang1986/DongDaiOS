@@ -239,7 +239,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     CGFloat offset_x = 0;
     CGFloat offset_y = 10; //20 + 44 + 10;
     
-    view.frame = CGRectMake(offset_x, offset_y, width, height - offset_y - BOTTOM_BAR_HEIGHT);
+    view.frame = CGRectMake(offset_x, offset_y, width, height - offset_y - BOTTOM_BAR_HEIGHT - 64);
     view.backgroundColor = [UIColor whiteColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;

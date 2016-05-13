@@ -19,6 +19,8 @@
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
+#import "Tools.h"
+
 @interface AYSearchFriendController ()<UISearchBarDelegate>
 
 @end
@@ -108,7 +110,20 @@
     UIView* left = [self.views objectForKey:@"SetNevigationBarLeftBtn"];
     [self.navigationController.navigationBar addSubview:left];
     
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    if (![view isFirstResponder]) {
+        [view becomeFirstResponder];
+    }
+    
 }
+
+//- (void)viewDidAppear:(BOOL)animated{
+//    [super viewDidAppear:animated];
+//    UIView* view = [self.views objectForKey:@"SearchBar"];
+//    if (![view isFirstResponder]) {
+//        [view becomeFirstResponder];
+//    }
+//}
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -175,8 +190,6 @@
     [cmd performWithResult:&dic_pop];
 }
 
-
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if (![searchText isEqualToString:@""]) {
         
@@ -221,6 +234,11 @@
         [view resignFirstResponder];
     }
     return nil;
+}
+
+-(BOOL)isActive{
+    UIViewController * tmp = [Tools activityViewController];
+    return tmp == self;
 }
 
 @end

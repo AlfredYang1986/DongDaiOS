@@ -23,28 +23,30 @@ static NSString* const LOCALDB_LOGIN = @"notifyData.sqlite";
     /**
      * get authorised user array in the local database
      */
-    NSString* docs=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_LOGIN]];
-    _doc = (UIManagedDocument*)[[UIManagedDocument alloc] initWithFileURL:url];
-
-    NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES};
-    _doc.persistentStoreOptions = options;
-    
-    BOOL isDir = NO;
-    if (![[NSFileManager defaultManager]fileExistsAtPath:[url path] isDirectory:&isDir]) {
-        [_doc saveToURL:url forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success){
-            [self enumDataFromLocalDB:_doc];
-        }];
-    } else if (_doc.documentState == UIDocumentStateClosed) {
-        [_doc openWithCompletionHandler:^(BOOL success){
-            [self enumDataFromLocalDB:_doc];
-        }];
-    } else if (_doc.documentState == UIDocumentStateInConflict) {
-        [_doc saveToURL:url forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success){
-            [self enumDataFromLocalDB:_doc];
-        }];
-    } else {
+    if (_doc == nil) {
+        NSString* docs=[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+        NSURL* url =[NSURL fileURLWithPath:[docs stringByAppendingPathComponent:LOCALDB_LOGIN]];
+        _doc = (UIManagedDocument*)[[UIManagedDocument alloc] initWithFileURL:url];
         
+        NSDictionary *options = @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES};
+        _doc.persistentStoreOptions = options;
+        
+        BOOL isDir = NO;
+        if (![[NSFileManager defaultManager]fileExistsAtPath:[url path] isDirectory:&isDir]) {
+            [_doc saveToURL:url forSaveOperation:UIDocumentSaveForCreating completionHandler:^(BOOL success){
+                [self enumDataFromLocalDB:_doc];
+            }];
+        } else if (_doc.documentState == UIDocumentStateClosed) {
+            [_doc openWithCompletionHandler:^(BOOL success){
+                [self enumDataFromLocalDB:_doc];
+            }];
+        } else if (_doc.documentState == UIDocumentStateInConflict) {
+            [_doc saveToURL:url forSaveOperation:UIDocumentSaveForOverwriting completionHandler:^(BOOL success){
+                [self enumDataFromLocalDB:_doc];
+            }];
+        } else {
+            
+        }
     }
 }
 

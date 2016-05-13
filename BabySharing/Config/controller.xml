@@ -148,6 +148,7 @@
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         
         <view type="Table" name="Table" />
         <view type="Table2" name="Table2" />

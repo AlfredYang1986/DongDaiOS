@@ -21,6 +21,9 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
+#import "QueryContent.h"
+#import "QueryContentItem.h"
+
 #define MARGIN  8
 #define IMG_WIDTH       38
 #define IMG_HEIGHT      IMG_WIDTH
@@ -53,6 +56,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
     _imgView.layer.borderWidth = 1.5f;
     _imgView.layer.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
     _imgView.layer.cornerRadius = 19.f;
@@ -71,38 +75,74 @@
     _detailLabel = [[UILabel alloc]init];
     _detailLabel.font = [UIFont systemFontOfSize:13.f];
     _detailLabel.numberOfLines = 0;
+    _detailLabel.backgroundColor = [UIColor grayColor];
     [self addSubview:_detailLabel];
 
     _postTimeLabel = [[UILabel alloc]init];
     _postTimeLabel.font = [UIFont systemFontOfSize:11.f];
     [self addSubview:_postTimeLabel];
     _postTimeLabel.textColor = [UIColor colorWithWhite:151.f / 255.f alpha:1.f];
+//    _postTimeLabel.hidden = YES;
     
     [self setUpReuseCell];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    CGFloat kScreenW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat cellH = 80;
+    CGFloat detailW = _detailLabel.frame.size.width;
+    CGFloat detailH = _detailLabel.frame.size.height;
+    CGFloat timeW = _postTimeLabel.frame.size.width;
+    CGFloat timeH = _postTimeLabel.frame.size.height;
+//    CGFloat cellCenterX = CGRectGetMidX(self.frame);
+//    CGFloat cellCenterY = CGRectGetMidY(self.frame);
     
     CGSize sz = [Tools sizeWithString:_detailLabel.text withFont:_detailLabel.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat max_width = [UIScreen mainScreen].bounds.size.width - IMG_WIDTH - CONTENT_WIDTH - 3 * MARGIN;
-    if (sz.width > max_width) {
-        _detailLabel.frame = CGRectMake(0, 0, MIN(max_width, _detailLabel.frame.size.width), 2 * _detailLabel.frame.size.height);
-        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, [AYNotificationCellView preferedHeight] / 2);
-    } else {
-        _detailLabel.frame = CGRectMake(0, 0, MIN(max_width, _detailLabel.frame.size.width), _detailLabel.frame.size.height);
-        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, [AYNotificationCellView preferedHeight] / 2 - MARGIN);
+    CGSize sz2 = [Tools sizeWithString:_postTimeLabel.text withFont:_postTimeLabel.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
+    CGFloat max_width = kScreenW - IMG_WIDTH - CONTENT_WIDTH - 5 * MARGIN;
+
+    if (sz.width + sz2.width < max_width) {
+        
+        _detailLabel.frame = CGRectMake(56, (cellH - detailH)/2, detailW, detailH);
+        _postTimeLabel.frame = CGRectMake(CGRectGetMaxX(_detailLabel.frame)+MARGIN, (cellH - timeH)/2, timeW, timeH);
+    }else if(sz.width < max_width){
+        
+        _detailLabel.frame = CGRectMake(56, 40-detailH, detailW, detailH);
+        _postTimeLabel.frame = CGRectMake(56, 40, timeW, timeH);
+    }else if (sz.width > max_width){
+        
+        _detailLabel.frame = CGRectMake(56, 40-detailH, max_width, detailH * 2);
+        _postTimeLabel.frame = CGRectMake( 56 + sz.width - max_width +  2 * MARGIN, 40 + 4, timeW, timeH);
     }
     
-    if (_detailLabel.frame.origin.x + _detailLabel.frame.size.width + _postTimeLabel.frame.size.width + 3 * MARGIN > [UIScreen mainScreen].bounds.size.width - 50) {
-        CGFloat offset = sz.width - _detailLabel.frame.size.width > 0 ? sz.width - _detailLabel.frame.size.width + MARGIN : 0;
-        _postTimeLabel.frame = CGRectMake(_detailLabel.frame.origin.x + offset, _detailLabel.frame.origin.y + _detailLabel.frame.size.height + (offset == 0 ? 0 : -1) * (_postTimeLabel.frame.size.height) - TIME_POSITION_MODIFY, _postTimeLabel.frame.size.width, _postTimeLabel.frame.size.height);
-        
-    } else {
-        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, [AYNotificationCellView preferedHeight] / 2);
-        _postTimeLabel.center = CGPointMake(_detailLabel.center.x + _detailLabel.frame.size.width / 2 + _postTimeLabel.frame.size.width / 2 + MARGIN, _detailLabel.center.y);
-    }
+//    if (sz.width > max_width) {
+//        _detailLabel.frame = CGRectMake(0, 0, MIN(max_width, _detailLabel.frame.size.width), 2 * _detailLabel.frame.size.height);
+//        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, cellH / 2);
+//    } else
+//    { _detailLabel.frame = CGRectMake(0, 0, MIN(max_width, _detailLabel.frame.size.width), _detailLabel.frame.size.height);
+//        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, cellH / 2 - MARGIN);
+//    }
+//    
+//    if (_detailLabel.frame.origin.x + _detailLabel.frame.size.width + _postTimeLabel.frame.size.width + 3 * MARGIN > [UIScreen mainScreen].bounds.size.width - 50) {
+//        CGFloat offset = sz.width - _detailLabel.frame.size.width > 0 ? sz.width - _detailLabel.frame.size.width + MARGIN : 0;
+//        _postTimeLabel.frame = CGRectMake(_detailLabel.frame.origin.x + offset, _detailLabel.frame.origin.y + _detailLabel.frame.size.height + (offset == 0 ? 0 : -1) * (_postTimeLabel.frame.size.height) - TIME_POSITION_MODIFY, _postTimeLabel.frame.size.width, _postTimeLabel.frame.size.height);
+//        
+//    } else
+//    {_detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, cellH / 2);
+//        _postTimeLabel.center = CGPointMake(_detailLabel.center.x + _detailLabel.frame.size.width / 2 + _postTimeLabel.frame.size.width / 2 + MARGIN, _detailLabel.center.y);
+//    }
 }
+
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    
+//    [_detailLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self);
+//        make.left.equalTo(self).offset(56);
+//        make.right.equalTo(self).offset(-68);
+//    }];
+//}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
@@ -131,7 +171,7 @@
 }
 
 - (void)setUserImage:(NSString*)photo_name {
-  
+    self.imgView.image = nil;
     [self.imgView setImage:PNGRESOURCE(@"default_user")];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
@@ -146,6 +186,7 @@
 }
 
 - (void)UIImageView:(UIImageView*)imgView setPostImage:(NSString*)photo_name {
+    imgView.image = nil;
     [imgView setImage:PNGRESOURCE(@"default_user")];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
@@ -190,7 +231,7 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(relationBtnClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            
+            tmp.image = nil;
             tmp.image = PNGRESOURCE(@"command_following");
 
             }
@@ -217,7 +258,7 @@
             if (tmp == nil) {
                 tmp = [[UIImageView alloc]init];
                 [_connectContentView addSubview:tmp];
-
+                
                 tmp.frame = CGRectMake(0, 0, 45, 45);
                 tmp.center = CGPointMake(25, 25);
                 tmp.layer.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.3].CGColor;
@@ -229,7 +270,7 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postContentClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            
+            tmp.image = nil;
             [self UIImageView:tmp setPostImage:_notification.action_post_item];
 
             }
@@ -239,8 +280,8 @@
             NSString* receiver_id = _notification.receiver_screen_name;
             
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[[[sender_name stringByAppendingString:@" 咚了 "] stringByAppendingString:receiver_id] stringByAppendingString:@" 的照片"]];
-            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:70.f / 255.f green:219.f / 255.f blue:202.f / 255.f alpha:1.f] range:NSMakeRange(0,sender_name.length)];
-            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:70.f / 255.f green:219.f / 255.f blue:202.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length + 4, receiver_id.length)];
+            [str addAttribute:NSForegroundColorAttributeName value:[Tools colorWithRED:70.f GREEN:219.f BLUE:202.f ALPHA:1.f] range:NSMakeRange(0,sender_name.length)];
+            [str addAttribute:NSForegroundColorAttributeName value:[Tools colorWithRED:70.f GREEN:219.f BLUE:202.f ALPHA:1.f] range:NSMakeRange(sender_name.length + 4, receiver_id.length)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length, 4)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length + 4 + receiver_id.length, 4)];
             
@@ -266,7 +307,7 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postContentClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            
+            tmp.image = nil;
             [self UIImageView:tmp setPostImage:_notification.action_post_item];
             
             }
@@ -303,7 +344,7 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postContentClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            
+            tmp.image = nil;
             [self UIImageView:tmp setPostImage:_notification.action_post_item];
             
             }
@@ -352,17 +393,37 @@
 }
 
 - (void)postContentClicked:(UITapGestureRecognizer*)geture {
-    UIViewController* des = DEFAULTCONTROLLER(@"Home");
     
+    UIImageView *tapView = (UIImageView*)geture.view;
+    NSLog(@"sunfei -- %@",tapView.image);
+    NSLog(@"sunfei -- %@",self.notification.action_post_item);
+    
+    //home content
+    id<AYFacadeBase> f_owner_query = HOMECONTENTMODEL;
+    id<AYCommand> cmd_owner_query = [f_owner_query.commands objectForKey:@"EnumHomeQueryData"];
+    NSArray* arr_h = nil;
+    [cmd_owner_query performWithResult:&arr_h];
+    NSArray* contentArr = nil;
+    for (QueryContent* content  in arr_h) {
+        for (QueryContentItem* item in content.items) {
+            if ([item.item_name isEqualToString:self.notification.action_post_item]) {
+                contentArr = @[content];
+                NSLog(@"sunfei item -- %@",item.item_name);
+            }
+        }
+    }
+    
+    
+    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+    [args setValue:@"点赞详情" forKey:@"home_title"];
+    [args setValue:[NSNumber numberWithInteger:0] forKey:@"start_index"];
+    [args setValue:contentArr forKey:@"content"];
+    
+    UIViewController* des = DEFAULTCONTROLLER(@"Home");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-    [args setValue:@"点赞详情" forKey:@"home_title"];
-   
-//    [args setValue:arr forKey:@"content"];
     [dic_push setValue:[args copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;

@@ -82,6 +82,11 @@
     return result.floatValue;
 }
 
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
+}
+
+
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {
     self.querydata = (NSArray*)args;
