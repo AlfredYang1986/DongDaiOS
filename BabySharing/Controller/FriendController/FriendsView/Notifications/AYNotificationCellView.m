@@ -38,6 +38,10 @@
 @interface AYNotificationCellView ()
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 @property (weak, nonatomic) IBOutlet UIView *connectContentView;
+@property (strong, nonatomic) UILabel *postTimeLabel;
+//@property (strong, nonatomic) UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailLabel;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerConstraint;
 
 @end
 
@@ -47,8 +51,8 @@
 @synthesize connectContentView = _connectContentView;
 @synthesize notification = _notification;
 
-@synthesize postTimeLabel = _postTimeLabel;
-@synthesize detailLabel = _detailLabel;
+//@synthesize postTimeLabel = _postTimeLabel;
+//@synthesize detailLabel = _detailLabel;
 
 + (CGFloat)preferedHeight {
     return 80;
@@ -56,7 +60,6 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    
     _imgView.layer.borderWidth = 1.5f;
     _imgView.layer.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
     _imgView.layer.cornerRadius = 19.f;
@@ -72,17 +75,14 @@
     line.frame = CGRectMake(10.5, 80 - 1, [UIScreen mainScreen].bounds.size.width - 10.5 * 2, 1);
     [self.layer addSublayer:line];
     
-    _detailLabel = [[UILabel alloc]init];
     _detailLabel.font = [UIFont systemFontOfSize:13.f];
     _detailLabel.numberOfLines = 0;
-    _detailLabel.backgroundColor = [UIColor grayColor];
-    [self addSubview:_detailLabel];
-
+    _detailLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    
     _postTimeLabel = [[UILabel alloc]init];
     _postTimeLabel.font = [UIFont systemFontOfSize:11.f];
-    [self addSubview:_postTimeLabel];
     _postTimeLabel.textColor = [UIColor colorWithWhite:151.f / 255.f alpha:1.f];
-//    _postTimeLabel.hidden = YES;
+    [self addSubview:_postTimeLabel];
     
     [self setUpReuseCell];
 }
@@ -91,58 +91,27 @@
     [super layoutSubviews];
     CGFloat kScreenW = [UIScreen mainScreen].bounds.size.width;
     CGFloat cellH = 80;
-    CGFloat detailW = _detailLabel.frame.size.width;
+//    CGFloat detailW = _detailLabel.frame.size.width;
     CGFloat detailH = _detailLabel.frame.size.height;
     CGFloat timeW = _postTimeLabel.frame.size.width;
     CGFloat timeH = _postTimeLabel.frame.size.height;
-//    CGFloat cellCenterX = CGRectGetMidX(self.frame);
-//    CGFloat cellCenterY = CGRectGetMidY(self.frame);
     
     CGSize sz = [Tools sizeWithString:_detailLabel.text withFont:_detailLabel.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGSize sz2 = [Tools sizeWithString:_postTimeLabel.text withFont:_postTimeLabel.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGFloat max_width = kScreenW - IMG_WIDTH - CONTENT_WIDTH - 5 * MARGIN;
 
     if (sz.width + sz2.width < max_width) {
-        
-        _detailLabel.frame = CGRectMake(56, (cellH - detailH)/2, detailW, detailH);
-        _postTimeLabel.frame = CGRectMake(CGRectGetMaxX(_detailLabel.frame)+MARGIN, (cellH - timeH)/2, timeW, timeH);
+        _centerConstraint.constant = 0;
+        _postTimeLabel.frame = CGRectMake(CGRectGetMaxX(_detailLabel.frame)+MARGIN, (cellH - timeH)/2 - 1, timeW, timeH);
     }else if(sz.width < max_width){
-        
-        _detailLabel.frame = CGRectMake(56, 40-detailH, detailW, detailH);
-        _postTimeLabel.frame = CGRectMake(56, 40, timeW, timeH);
+        _centerConstraint.constant -= detailH/2;
+        _postTimeLabel.frame = CGRectMake(56, 40 + 2, timeW, timeH);
     }else if (sz.width > max_width){
-        
-        _detailLabel.frame = CGRectMake(56, 40-detailH, max_width, detailH * 2);
-        _postTimeLabel.frame = CGRectMake( 56 + sz.width - max_width +  2 * MARGIN, 40 + 4, timeW, timeH);
+        _centerConstraint.constant = 0;
+        _postTimeLabel.frame = CGRectMake( 56 + sz.width - max_width + MARGIN, 40 + 4, timeW, timeH);
     }
     
-//    if (sz.width > max_width) {
-//        _detailLabel.frame = CGRectMake(0, 0, MIN(max_width, _detailLabel.frame.size.width), 2 * _detailLabel.frame.size.height);
-//        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, cellH / 2);
-//    } else
-//    { _detailLabel.frame = CGRectMake(0, 0, MIN(max_width, _detailLabel.frame.size.width), _detailLabel.frame.size.height);
-//        _detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, cellH / 2 - MARGIN);
-//    }
-//    
-//    if (_detailLabel.frame.origin.x + _detailLabel.frame.size.width + _postTimeLabel.frame.size.width + 3 * MARGIN > [UIScreen mainScreen].bounds.size.width - 50) {
-//        CGFloat offset = sz.width - _detailLabel.frame.size.width > 0 ? sz.width - _detailLabel.frame.size.width + MARGIN : 0;
-//        _postTimeLabel.frame = CGRectMake(_detailLabel.frame.origin.x + offset, _detailLabel.frame.origin.y + _detailLabel.frame.size.height + (offset == 0 ? 0 : -1) * (_postTimeLabel.frame.size.height) - TIME_POSITION_MODIFY, _postTimeLabel.frame.size.width, _postTimeLabel.frame.size.height);
-//        
-//    } else
-//    {_detailLabel.center = CGPointMake(IMG_WIDTH + 2 * MARGIN + _detailLabel.frame.size.width / 2, cellH / 2);
-//        _postTimeLabel.center = CGPointMake(_detailLabel.center.x + _detailLabel.frame.size.width / 2 + _postTimeLabel.frame.size.width / 2 + MARGIN, _detailLabel.center.y);
-//    }
 }
-
-//- (void)layoutSubviews {
-//    [super layoutSubviews];
-//    
-//    [_detailLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(self);
-//        make.left.equalTo(self).offset(56);
-//        make.right.equalTo(self).offset(-68);
-//    }];
-//}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
@@ -155,7 +124,6 @@
     NSString* reVal = @"not implemented";
     switch (type) {
         case NotificationActionTypeFollow:
-//            reVal = @"%@ is now following you";
             reVal = @"is now following you";
             break;
         case NotificationActionTypeUnFollow:
@@ -171,8 +139,6 @@
 }
 
 - (void)setUserImage:(NSString*)photo_name {
-    self.imgView.image = nil;
-    [self.imgView setImage:PNGRESOURCE(@"default_user")];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
@@ -181,13 +147,14 @@
     [dic setValue:@"img_icon" forKey:@"expect_size"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
-        [self.imgView setImage:img];
+        if (img != nil) {
+           [self.imgView setImage:img];
+        }else
+            [self.imgView setImage:PNGRESOURCE(@"default_user")];
     }];
 }
 
 - (void)UIImageView:(UIImageView*)imgView setPostImage:(NSString*)photo_name {
-    imgView.image = nil;
-    [imgView setImage:PNGRESOURCE(@"default_user")];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
@@ -198,7 +165,9 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             [imgView setImage:img];
-        }
+        }else
+//            [imgView setImage:PNGRESOURCE(@"default_user")];
+            [imgView setBackgroundColor:[UIColor colorWithWhite:0.92 alpha:1.f]];
     }];
 }
 
@@ -206,33 +175,38 @@
     if (screen_name == nil) {
         screen_name = self.notification.sender_screen_name;
     }
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:LINE_MARGIN];
+    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    
     switch (type) {
         case NotificationActionTypeFollow: {
+            
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:[screen_name stringByAppendingString:@" 关注了你"]];
-//            [str addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(0,screen_name.length)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:70.f / 255.f green:219.f / 255.f blue:202.f / 255.f alpha:1.f] range:NSMakeRange(0,screen_name.length)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(screen_name.length + 1, 4)];
             
-            NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            [paragraphStyle setLineSpacing:LINE_MARGIN];
             [str addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
             
             _detailLabel.attributedText = str;
            
-            UIImageView* tmp = [_connectContentView viewWithTag:-1];
-            if (tmp == nil) {
-                tmp = [[UIImageView alloc] init];
-                [_connectContentView addSubview:tmp];
+            UIImageView* tmp_f = [_connectContentView viewWithTag:-87];
+            tmp_f.image = nil;
+            if (tmp_f == nil) {
+                tmp_f = [[UIImageView alloc] init];
+                [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                [_connectContentView addSubview:tmp_f];
+                tmp_f.tag = -87;
 
-                tmp.frame = CGRectMake(0, 0, 45, 20.5);
-                tmp.center = CGPointMake(25 - 2, 25);
+                tmp_f.frame = CGRectMake(0, 0, 45, 20.5);
+                tmp_f.center = CGPointMake(25 - 2, 25);
                
-                tmp.userInteractionEnabled = YES;
+                tmp_f.userInteractionEnabled = YES;
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(relationBtnClicked:)];
-                [tmp addGestureRecognizer:tap];
+                [tmp_f addGestureRecognizer:tap];
             }
-            tmp.image = nil;
-            tmp.image = PNGRESOURCE(@"command_following");
+            
+            tmp_f.image = PNGRESOURCE(@"command_following");
 
             }
             break;
@@ -248,16 +222,17 @@
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length, 4)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length + 4 + receiver_id.length, 4)];
             
-            NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            [paragraphStyle setLineSpacing:LINE_MARGIN];
             [str addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
             
             _detailLabel.attributedText = str;
             
-            UIImageView* tmp = [_connectContentView viewWithTag:-1];
+            UIImageView* tmp = [_connectContentView viewWithTag:-88];
+            tmp.image = nil;
             if (tmp == nil) {
                 tmp = [[UIImageView alloc]init];
+                [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
                 [_connectContentView addSubview:tmp];
+                tmp.tag = -88;
                 
                 tmp.frame = CGRectMake(0, 0, 45, 45);
                 tmp.center = CGPointMake(25, 25);
@@ -270,7 +245,7 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postContentClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            tmp.image = nil;
+            
             [self UIImageView:tmp setPostImage:_notification.action_post_item];
 
             }
@@ -285,16 +260,17 @@
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length, 4)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length + 4 + receiver_id.length, 4)];
             
-            NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            [paragraphStyle setLineSpacing:LINE_MARGIN];
             [str addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
             
             _detailLabel.attributedText = str;
             
-            UIImageView* tmp = [_connectContentView viewWithTag:-1];
+            UIImageView* tmp = [_connectContentView viewWithTag:-88];
+            tmp.image = nil;
             if (tmp == nil) {
                 tmp = [[UIImageView alloc]init];
+                [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
                 [_connectContentView addSubview:tmp];
+                tmp.tag = -88;
                 
                 tmp.frame = CGRectMake(0, 0, 45, 45);
                 tmp.center = CGPointMake(25, 25);
@@ -307,7 +283,6 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postContentClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            tmp.image = nil;
             [self UIImageView:tmp setPostImage:_notification.action_post_item];
             
             }
@@ -321,17 +296,18 @@
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:70.f / 255.f green:219.f / 255.f blue:202.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length + 6, receiver_id.length)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length, 6)];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithWhite:151.f / 255.f alpha:1.f] range:NSMakeRange(sender_name.length + 6 + receiver_id.length, 4)];
-
-            NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            [paragraphStyle setLineSpacing:LINE_MARGIN];
+            
             [str addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
             
             _detailLabel.attributedText = str;
             
-            UIImageView* tmp = [_connectContentView viewWithTag:-1];
+            UIImageView* tmp = [_connectContentView viewWithTag:-88];
+            tmp.image = nil;
             if (tmp == nil) {
                 tmp = [[UIImageView alloc]init];
+                [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
                 [_connectContentView addSubview:tmp];
+                tmp.tag = -88;
                 
                 tmp.frame = CGRectMake(0, 0, 45, 45);
                 tmp.center = CGPointMake(25, 25);
@@ -344,7 +320,6 @@
                 UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(postContentClicked:)];
                 [tmp addGestureRecognizer:tap];
             }
-            tmp.image = nil;
             [self UIImageView:tmp setPostImage:_notification.action_post_item];
             
             }

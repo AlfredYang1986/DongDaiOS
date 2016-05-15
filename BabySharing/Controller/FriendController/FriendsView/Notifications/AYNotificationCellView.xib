@@ -30,9 +30,18 @@
                             <constraint firstAttribute="height" constant="50" id="zs1-yu-wIR"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无动态纪录！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8pl-d5-VC3">
+                        <rect key="frame" x="54" y="25" width="421" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="w4x-rG-154" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="9DA-PY-VtW"/>
+                    <constraint firstItem="w4x-rG-154" firstAttribute="leading" secondItem="8pl-d5-VC3" secondAttribute="trailing" constant="8" id="CFr-RN-iKy"/>
+                    <constraint firstItem="8pl-d5-VC3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="TgD-wa-Mtk"/>
+                    <constraint firstItem="8pl-d5-VC3" firstAttribute="leading" secondItem="HGS-Xy-xnp" secondAttribute="trailing" constant="8" id="boC-SG-gUg"/>
                     <constraint firstItem="HGS-Xy-xnp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cbf-qb-LXr"/>
                     <constraint firstItem="HGS-Xy-xnp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="dhE-UI-Ofk"/>
                     <constraint firstItem="w4x-rG-154" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="jCJ-E9-CXH"/>
@@ -45,10 +54,12 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="centerConstraint" destination="TgD-wa-Mtk" id="ivX-Ls-0kJ"/>
                 <outlet property="connectContentView" destination="w4x-rG-154" id="2It-lz-0Pl"/>
+                <outlet property="detailLabel" destination="8pl-d5-VC3" id="otr-ie-PmQ"/>
                 <outlet property="imgView" destination="HGS-Xy-xnp" id="gBG-Bx-fN1"/>
             </connections>
-            <point key="canvasLocation" x="159.5" y="318"/>
+            <point key="canvasLocation" x="152.5" y="282"/>
         </tableViewCell>
     </objects>
 </document>

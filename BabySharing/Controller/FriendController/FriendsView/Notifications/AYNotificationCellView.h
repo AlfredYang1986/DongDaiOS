@@ -14,8 +14,6 @@
 @class Notifications;
 
 @interface AYNotificationCellView : UITableViewCell <AYViewBase>
-@property (strong, nonatomic) UILabel *postTimeLabel;
-@property (strong, nonatomic) UILabel *detailLabel;
 @property (weak, nonatomic, setter=setCurrentContent:) Notifications* notification;
 
 + (CGFloat)preferedHeight;

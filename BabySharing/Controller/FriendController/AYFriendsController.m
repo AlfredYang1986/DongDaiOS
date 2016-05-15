@@ -242,6 +242,7 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     view.frame = CGRectMake(offset_x, offset_y, width, height - offset_y - BOTTOM_BAR_HEIGHT - 64);
     view.backgroundColor = [UIColor whiteColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 

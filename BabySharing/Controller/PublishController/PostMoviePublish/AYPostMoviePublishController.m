@@ -43,7 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mainContentView.image = img_cover;
-    _publishType = PostPreViewMovie;
+    _publishType = PostPreViewPhote;
     [self playCurrentMovie];
 }
 
