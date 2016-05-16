@@ -104,6 +104,7 @@
         _centerConstraint.constant = 0;
         _postTimeLabel.frame = CGRectMake(CGRectGetMaxX(_detailLabel.frame)+MARGIN, (cellH - timeH)/2 - 1, timeW, timeH);
     }else if(sz.width < max_width){
+        _centerConstraint.constant = 0;
         _centerConstraint.constant -= detailH/2;
         _postTimeLabel.frame = CGRectMake(56, 40 + 2, timeW, timeH);
     }else if (sz.width > max_width){
