@@ -1,9 +1,23 @@
 <views>
-    <view type="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" >
+    <view type="LandingInputNo" name="LandingInputNo" factory="AYDefaultViewFactory" >
+        <command type="message" message="hideKeyboard" />
+        <command type="message" message="queryPhoneNo:" />
+    </view>
+    
+    <view type="LandingInputCoder" name="LandingInputCoder" factory="AYDefaultViewFactory" >
         <command type="message" message="hideKeyboard" />
         <command type="message" message="startConfirmCodeTimer" />
         <command type="message" message="stopConfirmCodeTimer" />
+        <command type="message" message="queryCurCoder:" />
+        <command type="notify"  message="queryCurPhoneNo:" />
+        <command type="notify"  message="reReqConfirmCode" />
     </view>
+    
+    <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >
+        <command type="message" message="hideKeyboard" />
+        <command type="notify"  message="queryCurPhoneNo:" />
+    </view>
+    
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />
     <view type="LandingSNS" name="LandingSNS" factory="AYDefaultViewFactory" />
     <view type="Loading" name="Loading" factory="AYDefaultViewFactory" >

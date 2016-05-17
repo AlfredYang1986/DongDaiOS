@@ -10,6 +10,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYLandingInputView : UIView <AYViewBase>
-
+@interface AYLandingInputCoderView : UIView <AYViewBase>
+@property(nonatomic, strong) UITextField *coder_area;
 @end

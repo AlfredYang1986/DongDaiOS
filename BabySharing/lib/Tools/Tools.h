@@ -24,4 +24,5 @@
 + (UIViewController *)activityViewController;
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 + (CGSize)sizeWithString:(NSString*)str withFont:(UIFont*)font andMaxSize:(CGSize)sz;
++ (UIColor*)themeColor;
 @end
