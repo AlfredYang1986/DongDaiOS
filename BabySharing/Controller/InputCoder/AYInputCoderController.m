@@ -73,7 +73,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools themeColor];
-    self.navigationController.navigationBar.tintColor = [Tools themeColor];
+//    self.navigationController.navigationBar.tintColor = [Tools themeColor];
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
@@ -172,11 +172,6 @@
     id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
     [cmd performWithResult:nil];
     
-    /*  */
-//    AYFacade* f = [self.facades objectForKey:@"LoginModel"];
-//    id<AYCommand> cmd_token = [f.commands objectForKey:@"QueryTmpUser"];
-//    NSString* reg_token = nil;
-//    [cmd_token performWithResult:&reg_token];
     
     id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
     id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"queryCurCoder:"];
@@ -193,18 +188,47 @@
     AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"LandingAuthConfirm"];
     [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        NSMutableDictionary* args = [result mutableCopy];
+        NSString* msg = [result objectForKey:@"message"];
+        
+        id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
+        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
         if (success) {
-            NSLog(@"验证码验证成功");
             
-            id<AYCommand> setting = DEFAULTCONTROLLER(@"InputName");
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-            [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+            
+            [args setValue:@"new_user" forKey:@"user_state"];
+            [dic setValue:args forKey:kAYControllerChangeArgsKey];
             
             id<AYCommand> cmd_push = PUSH;
             [cmd_push performWithResult:&dic];
-        }else NSLog(@"sunfei -- %@",result);
+        }
+        else if ([msg isEqualToString:@"already login"]) {
+            
+            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+            [args setValue:@"logined_user" forKey:@"user_state"];
+            [dic setValue:args forKey:kAYControllerChangeArgsKey];
+            
+            id<AYCommand> cmd_push = PUSH;
+            [cmd_push performWithResult:&dic];
+        }
+        else if ([msg isEqualToString:@"new user"]) {
+            
+            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+            [args setValue:@"new_user" forKey:@"user_state"];
+            [dic setValue:args forKey:kAYControllerChangeArgsKey];
+            
+            id<AYCommand> cmd_push = PUSH;
+            [cmd_push performWithResult:&dic];
+        }else
+        {
+            [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+            
+        }
+        
     }];
     
     return nil;
@@ -219,6 +243,11 @@
     [cmd_coder performWithResult:[dic_coder copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             NSLog(@"验证码已发送");
+            AYModel* m = MODEL;
+            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
+            [cmd performWithResult:&result];
+            
             _reg_token = [result objectForKey:@"reg_token"];
         }
     }];

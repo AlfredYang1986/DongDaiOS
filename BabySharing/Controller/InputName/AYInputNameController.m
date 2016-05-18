@@ -45,7 +45,8 @@
 #define TICK_BTN_2_PRIVACY_MARGIN               10
 
 @interface AYInputNameController () <UINavigationControllerDelegate>
-@property (nonatomic, strong) NSString* phoneNo;
+@property (nonatomic, strong) NSMutableDictionary* dic_userinfo;
+@property (nonatomic, strong) NSString* userName;
 @end
 
 @implementation AYInputNameController {
@@ -53,7 +54,8 @@
     CGRect keyBoardFrame;
 }
 
-@synthesize phoneNo = _phoneNo;
+@synthesize dic_userinfo = _dic_userinfo;
+@synthesize userName = _userName;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -61,7 +63,11 @@
     NSDictionary* dic = (NSDictionary*)*obj;
 
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        _phoneNo = (NSString*)[dic objectForKey:kAYControllerChangeArgsKey];
+        _dic_userinfo = [(NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        NSString* nameString = [_dic_userinfo objectForKey:@"screen_name"];
+        if (nameString) {
+            _userName = nameString;
+        }
     }
 }
 
@@ -157,22 +163,93 @@
 - (id)rightBtnSelected {
     NSLog(@"setting view controller");
     id<AYViewBase> view = [self.views objectForKey:@"LandingInputName"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
-    [cmd performWithResult:nil];
+    id<AYCommand> cmd_hiden = [view.commands objectForKey:@"hideKeyboard"];
+    [cmd_hiden performWithResult:nil];
     
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"TabBar");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputName"];
+    id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"queryInputName:"];
+    NSString* input_name = nil;
+    [cmd_coder performWithResult:&input_name];
     
-    id<AYCommand> cmd_push = PUSH;
-    [cmd_push performWithResult:&dic];
+    if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 16) {
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"角色名长度应在4-16之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return nil;
+    }
+    
+    //通用参数
+    NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
+    [dic_update setValue:[_dic_userinfo objectForKey:@"auth_token"] forKey:@"auth_token"];
+    [dic_update setValue:[_dic_userinfo objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_update setValue:0 forKey:@"gender"];
+    [dic_update setValue:[Tools getDeviceUUID] forKey:@"uuid"];
+    [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"refresh_token"];
+    [dic_update setValue:(NSString*)input_name forKey:@"screen_name"];
+    if ([[_dic_userinfo allKeys] containsObject:@"phoneNo"]) {
+        [dic_update setValue:[_dic_userinfo objectForKey:@"phoneNo"] forKey:@"phoneNo"];
+        [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"create"];
+    }
+    
+    //新用户
+    if ([[_dic_userinfo objectForKey:@"user_state"] isEqualToString:@"new_user"]) {
+        [dic_update setValue:@"无角色名" forKey:@"role_tag"];
+        [dic_update setValue:@"" forKey:@"screen_photo"];
+    }
+    
+    //已注册用户
+    if ([[_dic_userinfo objectForKey:@"user_state"] isEqualToString:@"logined_user"]) {
+        [dic_update setValue:[_dic_userinfo objectForKey:@"role_tag"] forKey:@"role_tag"];
+        [dic_update setValue:[_dic_userinfo objectForKey:@"screen_photo"] forKey:@"screen_photo"];
+    }
+    
+    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+    [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"Update user detail remote result: %@", result);
+        if (success) {
+            AYModel* m = MODEL;
+            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+            [cmd performWithResult:&result];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+    
+    AYModel* m = MODEL;
+    AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+    NSDictionary* args = [_dic_userinfo copy];
+    [cmd performWithResult:&args];
+    
+    
     return nil;
 }
 
--(id)queryCurPhoneNo:(NSString*)args{
-    return _phoneNo;
+- (id)CurrentLoginUserChanged:(id)args {
+    
+    UIViewController* active = [Tools activityViewController];
+    //    if (active.viewControllers.lastObject == self) {
+    if (active == self) {
+        NSLog(@"Notify args: %@", args);
+        //    NSLog(@"TODO: 进入咚哒");
+        
+        NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+        [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+        [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        NSString* message_name = @"LoginSuccess";
+        [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = POPTOROOT;
+        [cmd performWithResult:&dic_pop];
+    }
+    
+    return nil;
+}
+
+-(id)queryCurUserName:(NSString*)args{
+    return _userName;
 }
 
 - (BOOL)prefersStatusBarHidden{

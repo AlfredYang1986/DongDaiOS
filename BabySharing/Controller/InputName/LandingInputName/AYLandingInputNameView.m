@@ -42,7 +42,7 @@
     /**/
     UILabel *input_tips;
     UIView  *inputView;
-    UITextField *coder_area;
+    UITextField *name_area;
 }
 
 @synthesize para = _para;
@@ -96,33 +96,33 @@
         make.size.mas_equalTo(CGSizeMake(2, 25));
     }];
     
-    coder_area = [[UITextField alloc]init];
-    [self addSubview:coder_area];
-    coder_area.backgroundColor = [UIColor clearColor];
-    coder_area.font = [UIFont systemFontOfSize:14.f];
-    coder_area.placeholder = @"输入姓名";
-    [coder_area setValue:[Tools themeColor] forKeyPath:@"_placeholderLabel.textColor"];
-    coder_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
+    name_area = [[UITextField alloc]init];
+    [self addSubview:name_area];
+    name_area.backgroundColor = [UIColor clearColor];
+    name_area.font = [UIFont systemFontOfSize:14.f];
+    name_area.placeholder = @"输入姓名";
+    [name_area setValue:[Tools themeColor] forKeyPath:@"_placeholderLabel.textColor"];
+    name_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-    coder_area.keyboardType = UIKeyboardTypeNumberPad;
-    coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
+    name_area.keyboardType = UIKeyboardTypeDefault;
+    name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     
-    [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
+    [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(rules2.mas_right).offset(5);
         make.centerY.equalTo(inputView);
         make.right.equalTo(inputView);
         make.height.mas_equalTo(40);
     }];
     
-    CGRect frame = coder_area.frame;
+    CGRect frame = name_area.frame;
     frame.size.width = TEXT_FIELD_LEFT_PADDING;
     UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    coder_area.leftViewMode = UITextFieldViewModeAlways;
-    coder_area.leftView = leftview;
+    name_area.leftViewMode = UITextFieldViewModeAlways;
+    name_area.leftView = leftview;
     
-    clear_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, coder_area.frame.size.height)];
-    clear_btn.center = CGPointMake(coder_area.frame.size.width - 25 / 2, coder_area.frame.size.height / 2);
-    [coder_area addSubview:clear_btn];
+    clear_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, name_area.frame.size.height)];
+    clear_btn.center = CGPointMake(name_area.frame.size.width - 25 / 2, name_area.frame.size.height / 2);
+    [name_area addSubview:clear_btn];
     
 }
 
@@ -144,10 +144,13 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    id<AYCommand> cmd = [self.notifies objectForKey:@"queryCurPhoneNo:"];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"queryCurUserName:"];
     NSString* numb = nil;
     [cmd performWithResult:&numb];
     input_tips.text = @"你的名字";
+    if (numb) {
+        name_area.text = numb;
+    }
 }
 
 #pragma mark -- handle
@@ -157,21 +160,13 @@
 
 - (void)phoneTextFieldChanged:(UITextField*)tf {
     
-    if (![coder_area.text isEqualToString:@""]) {
+    if (![name_area.text isEqualToString:@""]) {
         clear_btn.hidden = NO;
     } else {
         clear_btn.hidden = YES;
     }
 }
 
-- (void)confirmCodeTextFieldChanged:(UITextField*)tf {
-    
-    if (![coder_area.text isEqualToString:@""]) {
-        next_btn.enabled = YES;
-    } else {
-        next_btn.enabled = NO;
-    }
-}
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 //    if (textField == confirm_area && confirm_area.text.length >= 4 && ![string isEqualToString:@""]) return NO;
@@ -179,32 +174,16 @@
         return YES;
 }
 
-- (void)confirmBtnSelected:(UIButton*)sender {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:coder_area.text forKey:@"phoneNo"];
-    [_controller performForView:self andFacade:@"LandingRemote" andMessage:@"LandingReqConfirmCode" andArgs:[dic copy]];
-}
-
-- (void)nextBtnSelected:(UIButton*)sender {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:coder_area.text forKey:@"phoneNo"];
-    NSString* reg_token = [_controller performForView:self andFacade:@"LoginModel" andMessage:@"QueryTmpUser" andArgs:[dic copy]];
-    NSLog(@"query reg token is %@", reg_token);
-    
-    NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
-    [dic_auth setValue:coder_area.text forKey:@"phoneNo"];
-    [dic_auth setValue:reg_token forKey:@"reg_token"];
-    [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
- 
-    [_controller performForView:self andFacade:@"LandingRemote" andMessage:@"LandingAuthConfirm" andArgs:[dic_auth copy]];
-}
-
 #pragma mark -- view commands
 - (id)hideKeyboard {
-    if ([coder_area isFirstResponder]) {
-        [coder_area resignFirstResponder];
+    if ([name_area isFirstResponder]) {
+        [name_area resignFirstResponder];
     }
     return nil;
+}
+
+-(id)queryInputName:(NSString*)args{
+    return name_area.text;
 }
 
 @end

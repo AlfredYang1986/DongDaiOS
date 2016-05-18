@@ -536,7 +536,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
         switch (r) {
             case RegisterResultSuccess: {
-                AYViewController* des = DEFAULTCONTROLLER(@"UserInfoInput");
+                AYViewController* des = DEFAULTCONTROLLER(@"InputName");
                 
                 NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
                 [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

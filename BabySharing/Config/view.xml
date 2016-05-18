@@ -15,7 +15,8 @@
     
     <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >
         <command type="message" message="hideKeyboard" />
-        <command type="notify"  message="queryCurPhoneNo:" />
+        <command type="message" message="queryInputName:" />
+        <command type="notify"  message="queryCurUserName:" />
     </view>
     
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />

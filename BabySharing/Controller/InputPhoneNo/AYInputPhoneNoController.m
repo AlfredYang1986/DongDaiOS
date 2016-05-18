@@ -186,6 +186,10 @@
         if (success) {
             NSLog(@"验证码已发送");
             NSLog(@"%@",result);
+            AYModel* m = MODEL;
+            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
+            [cmd performWithResult:&result];
             
             id<AYCommand> setting = DEFAULTCONTROLLER(@"InputCoder");
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];

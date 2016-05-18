@@ -25,7 +25,7 @@
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputNo"         name="LandingInputNo" />
-        
+        <model notification="true" />
     </controller>
     
     <controller type="DefaultController" name="InputCoder" factory="AYDefaultControllerFactoy" >
@@ -36,13 +36,17 @@
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputCoder"      name="LandingInputCoder" />
         
+        <model notification="true" />
     </controller>
     
     <controller type="DefaultController" name="InputName" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputName"      name="LandingInputName" />
         
+        <model notification="true" />
     </controller>
     
     <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >
