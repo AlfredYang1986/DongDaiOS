@@ -16,7 +16,7 @@
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
-
+#import "TmpFileStorageModel.h"
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
 
@@ -176,75 +176,20 @@
         return nil;
     }
     
-    //通用参数
-    NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
-    [dic_update setValue:[_dic_userinfo objectForKey:@"auth_token"] forKey:@"auth_token"];
-    [dic_update setValue:[_dic_userinfo objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic_update setValue:0 forKey:@"gender"];
-    [dic_update setValue:[Tools getDeviceUUID] forKey:@"uuid"];
-    [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"refresh_token"];
-    [dic_update setValue:(NSString*)input_name forKey:@"screen_name"];
-    if ([[_dic_userinfo allKeys] containsObject:@"phoneNo"]) {
-        [dic_update setValue:[_dic_userinfo objectForKey:@"phoneNo"] forKey:@"phoneNo"];
-        [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"create"];
-    }
-    
-    //新用户
-    if ([[_dic_userinfo objectForKey:@"user_state"] isEqualToString:@"new_user"]) {
-        [dic_update setValue:@"无角色名" forKey:@"role_tag"];
-        [dic_update setValue:@"" forKey:@"screen_photo"];
-    }
-    
-    //已注册用户
-    if ([[_dic_userinfo objectForKey:@"user_state"] isEqualToString:@"logined_user"]) {
-        [dic_update setValue:[_dic_userinfo objectForKey:@"role_tag"] forKey:@"role_tag"];
-        [dic_update setValue:[_dic_userinfo objectForKey:@"screen_photo"] forKey:@"screen_photo"];
-    }
-    
-    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-    [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"Update user detail remote result: %@", result);
-        if (success) {
-            AYModel* m = MODEL;
-            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-            [cmd performWithResult:&result];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-            [alert show];
-        }
-    }];
-    
-    AYModel* m = MODEL;
-    AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-    NSDictionary* args = [_dic_userinfo copy];
-    [cmd performWithResult:&args];
+    [_dic_userinfo setValue:@"无角色名" forKey:@"role_tag"];
+    [_dic_userinfo setValue:input_name forKey:@"screen_name"];
     
     
-    return nil;
-}
-
-- (id)CurrentLoginUserChanged:(id)args {
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"Welcome");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:_dic_userinfo forKey:kAYControllerChangeArgsKey];
     
-    UIViewController* active = [Tools activityViewController];
-    //    if (active.viewControllers.lastObject == self) {
-    if (active == self) {
-        NSLog(@"Notify args: %@", args);
-        //    NSLog(@"TODO: 进入咚哒");
-        
-        NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-        [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-        [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-        
-        NSString* message_name = @"LoginSuccess";
-        [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd = POPTOROOT;
-        [cmd performWithResult:&dic_pop];
-    }
-    
+    id<AYCommand> cmd_push = PUSH;
+    [cmd_push performWithResult:&dic];
+      
     return nil;
 }
 

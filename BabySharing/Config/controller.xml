@@ -49,6 +49,24 @@
         <model notification="true" />
     </controller>
     
+    <controller type="DefaultController" name="Welcome" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="OpenUIImagePickerCamera" />
+        <command type="Module" name="OpenUIImagePickerPicRoll" />
+        <command type="Module" name="GernarateImgUUID" />
+        <command type="Module" name="SaveImgLocal" />
+        <command type="Module" name="LocalImageWithName" />
+        
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        
+        <view type="UserScreenPhoteSelect" name="UserScreenPhote" />
+<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
+<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
+
+        <model notification="true" />
+    </controller>
+    
     <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="OpenUIImagePickerCamera" />
         <command type="Module" name="OpenUIImagePickerPicRoll" />

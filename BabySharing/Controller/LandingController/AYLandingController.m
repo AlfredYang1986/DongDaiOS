@@ -209,25 +209,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 #pragma mark -- views layouts
-//- (id)LandingTitleLayout:(UIView*)view {
-//    NSLog(@"Landing Title view layout");
-//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-//    view.center = CGPointMake(width / 2, LOGO_TOP_MARGIN + view.bounds.size.height / 2);
-//    return nil;
-//}
-
-//- (id)LandingInputLayout:(UIView*)view {
-//    NSLog(@"Landing Input View view layout");
-//    CGFloat last_height = view.bounds.size.height;
-//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-//    UIView* title = [self.views objectForKey:@"LandingTitle"];
-//    view.frame = CGRectMake(0, INPUT_VIEW_START_POINT, width, last_height);
-//    return nil;
-//}
 
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
-//    CGFloat sns_height = view.bounds.size.height;
     view.frame = CGRectMake(0, KSCREENH - 108 - 36, KSCREENW, 36);
     return nil;
 }
@@ -536,7 +520,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
         switch (r) {
             case RegisterResultSuccess: {
-                AYViewController* des = DEFAULTCONTROLLER(@"InputName");
+                AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
                 
                 NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
                 [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

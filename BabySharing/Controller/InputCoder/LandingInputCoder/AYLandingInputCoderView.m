@@ -193,10 +193,11 @@
 
 #pragma mark -- handle
 - (void)handleTimer:(NSTimer*)sender {
-    if (-- seconds > 0) {
+    seconds--;
+    if (seconds > 0) {
         count_timer.text = [NSString stringWithFormat:@"%lds",(long)seconds];
     } else {
-        seconds = 30;
+        
         [timer setFireDate:[NSDate distantFuture]];
         count_timer.hidden = YES;
         re_get_coder.hidden = NO;
@@ -205,6 +206,10 @@
 }
 
 -(void)requestCoder:(UIButton*)sender{
+    seconds = 30;
+    re_get_coder.hidden = YES;
+    count_timer.hidden = NO;
+    [timer setFireDate:[NSDate distantPast]];
 
     id<AYCommand> cmd = [self.notifies objectForKey:@"reReqConfirmCode"];
     [cmd performWithResult:nil];
@@ -215,19 +220,16 @@
 }
 
 - (void)phoneTextFieldChanged:(UITextField*)tf {
-    
-//    if (![coder_area.text isEqualToString:@""] && confirm_area.text.length >= 4) {
-//        next_btn.enabled = YES;
-//    } else {
-//        next_btn.enabled = NO;
-//    }
-    
+
     if (![_coder_area.text isEqualToString:@""]) {
         clear_btn.hidden = NO;
         count_timer.hidden = YES;
-    } else {
+    } else if( seconds > 0){
         clear_btn.hidden = YES;
         count_timer.hidden = NO;
+    }else{
+        clear_btn.hidden = YES;
+        count_timer.hidden = YES;
     }
 }
 
@@ -278,14 +280,6 @@
     seconds = 30;
     confirm_btn.enabled = NO;
     [timer setFireDate:[NSDate distantPast]];
-    return nil;
-}
-
-- (id)stopConfirmCodeTimer {
-    seconds = 0;
-    confirm_btn.enabled = YES;
-    [timer setFireDate:[NSDate distantFuture]];
-    [confirm_btn setTitle:@"获取\n动态密码" forState:UIControlStateNormal];
     return nil;
 }
 

@@ -196,39 +196,33 @@
         [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        if (success) {
-            
-            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
-            
-            [args setValue:@"new_user" forKey:@"user_state"];
-            [dic setValue:args forKey:kAYControllerChangeArgsKey];
-            
-            id<AYCommand> cmd_push = PUSH;
-            [cmd_push performWithResult:&dic];
-        }
-        else if ([msg isEqualToString:@"already login"]) {
-            
-            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
-            [args setValue:@"logined_user" forKey:@"user_state"];
-            [dic setValue:args forKey:kAYControllerChangeArgsKey];
-            
-            id<AYCommand> cmd_push = PUSH;
-            [cmd_push performWithResult:&dic];
-        }
-        else if ([msg isEqualToString:@"new user"]) {
-            
-            [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
-            [args setValue:@"new_user" forKey:@"user_state"];
-            [dic setValue:args forKey:kAYControllerChangeArgsKey];
-            
-            id<AYCommand> cmd_push = PUSH;
-            [cmd_push performWithResult:&dic];
-        }else
-        {
-            [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
-            
-        }
+        [dic setValue:args forKey:kAYControllerChangeArgsKey];
         
+//        [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
+        AYModel* m = MODEL;
+        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+        [cmd performWithResult:&result];
+        if (success || [msg isEqualToString:@"new user"]) {
+            
+            id<AYCommand> cmd_push = PUSH;
+            [cmd_push performWithResult:&dic];
+        }else if([msg isEqualToString:@"already login"]){
+            
+            id<AYCommand> setting = DEFAULTCONTROLLER(@"Welcome");
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
+            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+            [dic setValue:args forKey:kAYControllerChangeArgsKey];
+            
+            id<AYCommand> cmd_push = PUSH;
+            [cmd_push performWithResult:&dic];
+        }
+        else{
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            
+        }
     }];
     
     return nil;
