@@ -11,5 +11,5 @@
 #import "AYViewBase.h"
 
 @interface AYLandingInputCoderView : UIView <AYViewBase>
-@property(nonatomic, strong) UITextField *coder_area;
+
 @end

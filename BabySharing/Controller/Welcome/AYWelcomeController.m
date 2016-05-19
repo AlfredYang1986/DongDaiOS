@@ -18,18 +18,15 @@
 #import "OBShapedButton.h"
 
 
-#define NEXT_BTN_MARGIN_BOTTOM  80
-
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 10
 #define SCREEN_PHOTO_WIDTH                      114
 
 #define WELCOMEY        SCREEN_HEIGHT * 98/667
 #define TIPSY           WELCOMEY + 54
-#define PHOTOY          TIPSY + 35
-#define ENTERBTNY       PHOTOY + 141
+#define PHOTOY          TIPSY + 40
+#define ENTERBTNY       PHOTOY + 151
 
 @interface AYWelcomeController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) NSMutableDictionary* login_attr;
@@ -70,7 +67,7 @@
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:screen_photo forKey:@"image"];
-        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        [dic setValue:@"img_thum" forKey:@"expect_size"];
         
         id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
@@ -212,17 +209,6 @@
         [dic_update setValue:[_login_attr objectForKey:@"phoneNo"] forKey:@"phoneNo"];
         [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"create"];
     }
-    
-//    NSString* msg = [_login_attr objectForKey:@"message"];
-//    //新用户
-//    if ([msg isEqualToString:@"new_user"] || !msg) {
-//        [dic_update setValue:@"" forKey:@"screen_photo"];
-//    }
-//
-//    //已注册用户
-//    if ([msg isEqualToString:@"logined_user"]) {
-//        [dic_update setValue:[_login_attr objectForKey:@"role_tag"] forKey:@"role_tag"];
-//    }
     
     if (isChangeImg) {
         

@@ -18,31 +18,9 @@
 #import "OBShapedButton.h"
 
 
-#define NEXT_BTN_MARGIN_BOTTOM  80
-
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-#define SCREEN_PHOTO_TOP_MARGIN                 SCREEN_HEIGHT / 10
-#define SCREEN_PHOTO_WIDTH                      76
-#define SCREEN_PHOTO_HEIGHT                     76
-
-#define SCREEN_PHOTO_2_GENDER_BTN_MARGIN        30
-
-#define GENDER_BTN_WIDTH                        38
-#define GENDER_BTN_HEIGHT                       GENDER_BTN_WIDTH
-
-#define FATHER_ICON_WIDTH                       11.5
-#define FATHER_ICON_HEIGHT                      FATHER_ICON_WIDTH
-
-#define GENDER_BTN_BETWEEN_MARGIN               SCREEN_WIDTH / 4
-
-#define INPUT_VIEW_2_SCREEN_PHOTO_MARGIN        (SCREEN_HEIGHT / 20 - 5)
-
-#define TICK_BTN_WIDTH                          17
-#define TICK_BTN_HEIGHT                         TICK_BTN_WIDTH
-
-#define TICK_BTN_2_PRIVACY_MARGIN               10
 
 @interface AYInputCoderController () <UINavigationControllerDelegate>
 @property (nonatomic, strong) NSString* phoneNo;
@@ -59,7 +37,7 @@
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-//    [super performWithResult:obj];
+    
     NSDictionary* dic = (NSDictionary*)*obj;
 
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
@@ -73,7 +51,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools themeColor];
-//    self.navigationController.navigationBar.tintColor = [Tools themeColor];
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
@@ -245,6 +222,14 @@
             _reg_token = [result objectForKey:@"reg_token"];
         }
     }];
+    return nil;
+}
+
+- (id)startRemoteCall:(id)obj {
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
     return nil;
 }
 

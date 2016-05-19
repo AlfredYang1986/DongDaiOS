@@ -115,7 +115,7 @@
         [text_content removeFromSuperlayer];
     }
     text_content = [CATextLayer layer];
-    text_content.frame = CGRectMake(0, (TAG_HEIGHT - text_bounds.size.height) / 2, text_bounds.size.width, text_bounds.size.height);
+    text_content.frame = CGRectMake(0, (TAG_HEIGHT - text_bounds.size.height) / 2 - 1, text_bounds.size.width, text_bounds.size.height + 2);
     text_content.string = _content;
     text_content.font = CFBridgingRetain(TEXT_FONT);
     text_content.fontSize = [TEXT_FONT pointSize];

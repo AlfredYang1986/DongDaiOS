@@ -344,7 +344,7 @@
 // 获取字体size
 + (CGSize)sizeWithString:(NSString*)str withFont:(UIFont*)font andMaxSize:(CGSize)sz {
 //    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-//    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+//    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 //    NSDictionary *attributes = @{NSFontAttributeName:font, NSParagraphStyleAttributeName:paragraphStyle.copy};
 //    
 //    return [str boundingRectWithSize:sz options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
@@ -358,8 +358,8 @@
     
     [st addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, st.length)];
     con.lineFragmentPadding = 0;
-//    con.lineBreakMode = NSLineBreakByWordWrapping;
-    con.lineBreakMode = NSLineBreakByCharWrapping;
+    con.lineBreakMode = NSLineBreakByWordWrapping;
+//    con.lineBreakMode = NSLineBreakByCharWrapping;
     return [m usedRectForTextContainer:con].size;
 }
 

@@ -158,7 +158,6 @@
         tmp.layer.borderWidth = 0.f;
         
         NSString* photo_name = [item objectForKey:@"name"];
-//        NSString* photo_name = [iter objectForKey:@"screen_photo"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:photo_name forKey:@"image"];
         [dic setValue:@"img_icon" forKey:@"expect_size"];
@@ -215,7 +214,6 @@
         label.tag = -99;
         label.textAlignment = NSTextAlignmentCenter;
 
-        
         _btn.clipsToBounds = YES;
     }
     
@@ -223,7 +221,7 @@
         self.type = SearchRole;
         
         CGSize sz = CGSizeMake(sz_font.width + TAG_MARGIN, TAG_HEIGHT);
-        
+        _btn.layer.borderWidth = 0.f;
         [_btn mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
             make.left.equalTo(self).offset(TAG_MARGIN);

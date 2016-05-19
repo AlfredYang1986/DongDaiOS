@@ -53,9 +53,7 @@
     switch (type) {
         case PostPreViewPhote:{
             if (cur == nil) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享请先绑定微博或用微博登录" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
-                [alert show];
-                block(NO, (NSDictionary*)@"weibo not authorization");
+                block(NO, (NSDictionary*)@"weiboNotAuth");
                 return;
             } else {
                 dispatch_queue_t wb_query_queue = dispatch_queue_create("wb share queus", nil);

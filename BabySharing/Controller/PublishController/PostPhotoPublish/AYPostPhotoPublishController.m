@@ -158,8 +158,11 @@
                         //                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                     } else {
                         NSString* msg = (NSString*)result;
-                        NSLog(@"%@",msg);
+                        if ([msg isEqualToString:@"weiboNotAuth"]) {
+                            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享请先绑定微博或用微博登录" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil] show];
+                        }else
                         [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                        
                     }
                 }];
                 

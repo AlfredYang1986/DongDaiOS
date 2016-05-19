@@ -246,7 +246,6 @@
         [self addSubview:btn];
         [btn mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
-//            make.top.equalTo(self).offset(4);
             make.left.equalTo(self).offset(offset);
             make.width.mas_equalTo(sz.width);
             make.height.mas_equalTo(sz.height);
