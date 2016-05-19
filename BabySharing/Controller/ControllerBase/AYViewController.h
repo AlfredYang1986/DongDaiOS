@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "AYControllerBase.h"
+#import "AYResourceManager.h"
 
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>

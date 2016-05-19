@@ -16,6 +16,18 @@
 #import "Tools.h"
 #import "AYRemoteCallDefines.h"
 
+@interface DDButton : UIButton
+-(void)setImage:(UIImage *)image forState:(UIControlState)state withFrame:(CGRect)rect;
+@end
+
+@implementation DDButton
+-(void)setImage:(UIImage *)image forState:(UIControlState)state withFrame:(CGRect)rect{
+    [super setImage:image forState:state];
+//    rect.origin.x
+    
+}
+
+@end
 
 typedef NS_ENUM(NSInteger, RegisterResult) {
     RegisterResultSuccess,
@@ -25,8 +37,9 @@ typedef NS_ENUM(NSInteger, RegisterResult) {
 
 static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult";
 
-#define LOGO_TOP_MARGIN 97
-
+#define LOGO_TOP_MARGIN 144
+#define KSCREENW                    [UIScreen mainScreen].bounds.size.width
+#define KSCREENH                    [UIScreen mainScreen].bounds.size.height
 #define INPUT_VIEW_TOP_MARGIN       ([UIScreen mainScreen].bounds.size.height / 6.0)
 #define INPUT_VIEW_START_POINT      (title.frame.origin.y + title.frame.size.height + INPUT_VIEW_TOP_MARGIN)
 
@@ -94,12 +107,95 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     bar.barStyle = UIStatusBarStyleDefault;
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [Tools themeColor];
    
     isUpAnimation = NO;
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
-    [self.view addGestureRecognizer:tap];
+    UIImageView *title = [[UIImageView alloc]init];
+    title.image = PNGRESOURCE(@"login_logo");
+    [self.view addSubview:title];
+    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(144);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(163, 73));
+    }];
+    
+    UIView *phoneNoLogin = [[UIView alloc]init];
+    [self.view addSubview:phoneNoLogin];
+    [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
+    phoneNoLogin.layer.cornerRadius = 6.f;
+    phoneNoLogin.clipsToBounds = YES;
+    
+    [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
+        //        make.top.equalTo(self.view).offset(KSCREENH * 398/667);
+        make.bottom.equalTo(self.view).offset(-226);
+        make.centerX.equalTo(self.view);
+        make.left.equalTo(self.view).offset(64);
+        make.right.equalTo(self.view).offset(-64);
+        make.height.mas_equalTo(40);
+    }];
+    
+    UIImageView *p_login_img = [[UIImageView alloc]init];
+    p_login_img.image = PNGRESOURCE(@"phone_icon");
+    [phoneNoLogin addSubview:p_login_img];
+    [p_login_img mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(phoneNoLogin.mas_centerX).offset(-50);
+        make.centerY.equalTo(phoneNoLogin);
+        make.size.mas_equalTo(CGSizeMake(10, 20));
+    }];
+    UILabel *p_login_text = [[UILabel alloc]init];
+    p_login_text.text = @"手机号登录";
+    p_login_text.font = [UIFont systemFontOfSize:14.f];
+    p_login_text.textColor = [Tools themeColor];
+    [phoneNoLogin addSubview:p_login_text];
+    [p_login_text mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(phoneNoLogin.mas_centerX).offset(50);
+        make.centerY.equalTo(phoneNoLogin);
+    }];
+    
+    phoneNoLogin.userInteractionEnabled = YES;
+    [phoneNoLogin addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushInputPhoneNo)]];
+    
+    /****** *****/
+    UILabel *or = [[UILabel alloc]init];
+    or.backgroundColor = [UIColor clearColor];
+    or.text = @"或";
+    or.font = [UIFont systemFontOfSize:12.f];
+    or.textColor = [UIColor whiteColor];
+    or.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:or];
+    
+    [or mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).offset(-174);
+        make.centerX.equalTo(self.view);
+        make.left.equalTo(self.view).offset(33);
+        make.right.equalTo(self.view).offset(-33);
+        make.height.mas_equalTo(12);
+    }];
+    
+    CALayer* left_line = [[CALayer alloc]init];
+    left_line.backgroundColor = [UIColor whiteColor].CGColor;
+    left_line.frame = CGRectMake(0, 6, (KSCREENW - 2*33 - 62)/2, 1);
+    [or.layer addSublayer:left_line];
+    CALayer* right_line = [[CALayer alloc]init];
+    right_line.backgroundColor = [UIColor whiteColor].CGColor;
+    right_line.frame = CGRectMake((KSCREENW - 2*33 - 62)/2 + 62, 6, (KSCREENW - 2*33 - 62)/2, 1);
+    [or.layer addSublayer:right_line];
+    
+    /****** *****/
+    UIButton* pri_btn = [[UIButton alloc]init];
+    [self.view addSubview:pri_btn];
+    pri_btn.titleLabel.font = [UIFont systemFontOfSize:10.f];
+    [pri_btn setTitle:@"进入即同意用户协议及隐私条款" forState:UIControlStateNormal];
+    [pri_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    pri_btn.clipsToBounds = YES;
+    [pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
+    [pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-32);
+        make.width.mas_equalTo(170);
+        make.height.mas_equalTo(15);
+    }];
 }
 
 - (void)postPerform {
@@ -112,53 +208,17 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    // [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
 #pragma mark -- views layouts
-- (id)LandingTitleLayout:(UIView*)view {
-    NSLog(@"Landing Title view layout");
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.center = CGPointMake(width / 2, LOGO_TOP_MARGIN + view.bounds.size.height / 2);
-    return nil;
-}
-
-- (id)LandingInputLayout:(UIView*)view {
-    NSLog(@"Landing Input View view layout");
-    CGFloat last_height = view.bounds.size.height;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UIView* title = [self.views objectForKey:@"LandingTitle"];
-    view.frame = CGRectMake(0, INPUT_VIEW_START_POINT, width, last_height);
-    return nil;
-}
 
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
-//    view.delegate = self;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    
-    CGFloat sns_height = view.bounds.size.height;
-    view.frame = CGRectMake(0, height - sns_height, width, sns_height);
+    view.frame = CGRectMake(0, KSCREENH - 108 - 36, KSCREENW, 36);
     return nil;
 }
 
 - (id)LoadingLayout:(UIView*)view {
     NSLog(@"Landing Loading View view layout");
-
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    
-    view.frame = CGRectMake(0, 0, width, height);
+    view.frame = CGRectMake(0, 0, KSCREENW, KSCREENH);
     return nil;
 }
 
@@ -206,23 +266,42 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 #pragma mark -- actions
-- (void)handleTap:(UITapGestureRecognizer*)gueture {
-    id<AYViewBase> view = [self.views objectForKey:@"LandingInput"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
-    [cmd performWithResult:nil];
+-(void)pri_btnDidClick{
+    NSLog(@"push to suer privacy");
+    id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:UserAgree forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic];
+}
+
+-(void)pushInputPhoneNo{
+    NSLog(@"push to InputPhoneNo");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"InputPhoneNo");
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic];
 }
 
 #pragma mark -- status
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {
     _landing_status = new_status;
     
-    UIView* inputView = [self.views objectForKey:@"LandingInput"];
     UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
     UIView* loading_view = [self.views objectForKey:@"Loading"];
     
     switch (_landing_status) {
         case RemoteControllerStatusReady: {
-            inputView.hidden = NO;
+//            inputView.hidden = NO;
             sns_view.hidden = NO;
             loading_view.hidden = YES;
             [loading_view removeFromSuperview];
@@ -231,14 +310,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             break;
         case RemoteControllerStatusPrepare:
         case RemoteControllerStatusLoading: {
-            inputView.hidden = YES;
-            sns_view.hidden = YES;
+            sns_view.hidden = NO;
             loading_view.hidden = NO;
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
             }
             break;
         default:
-            @throw [[NSException alloc]initWithName:@"Error" reason:@"登陆状态设置错误" userInfo:nil];
+            @throw [[NSException alloc]initWithName:@"提示" reason:@"登陆状态设置错误" userInfo:nil];
             break;
     }
 }
@@ -301,7 +379,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             NSLog(@"finally login over success");
            
             AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-        
+            
             NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
             [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
             [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -442,7 +520,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
         switch (r) {
             case RegisterResultSuccess: {
-                AYViewController* des = DEFAULTCONTROLLER(@"UserInfoInput");
+                AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
                 
                 NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
                 [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -455,7 +533,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             }
                 break;
             case RegisterResultOthersLogin: {
-                AYViewController* des = DEFAULTCONTROLLER(@"OthersLogin");
+                AYViewController* des = DEFAULTCONTROLLER(@"InputName");
                 
                 NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
                 [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -493,5 +571,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (id)endRemoteCall:(id)obj {
     self.landing_status = RemoteControllerStatusReady;
     return nil;
+}
+
+- (BOOL)prefersStatusBarHidden{
+    return YES;
 }
 @end

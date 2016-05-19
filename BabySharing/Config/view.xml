@@ -1,9 +1,24 @@
 <views>
-    <view type="LandingInput" name="LandingInput" factory="AYDefaultViewFactory" >
+    <view type="LandingInputNo" name="LandingInputNo" factory="AYDefaultViewFactory" >
+        <command type="message" message="hideKeyboard" />
+        <command type="message" message="queryPhoneNo:" />
+    </view>
+    
+    <view type="LandingInputCoder" name="LandingInputCoder" factory="AYDefaultViewFactory" >
         <command type="message" message="hideKeyboard" />
         <command type="message" message="startConfirmCodeTimer" />
         <command type="message" message="stopConfirmCodeTimer" />
+        <command type="message" message="queryCurCoder:" />
+        <command type="notify"  message="queryCurPhoneNo:" />
+        <command type="notify"  message="reReqConfirmCode" />
     </view>
+    
+    <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >
+        <command type="message" message="hideKeyboard" />
+        <command type="message" message="queryInputName:" />
+        <command type="notify"  message="queryCurUserName:" />
+    </view>
+    
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />
     <view type="LandingSNS" name="LandingSNS" factory="AYDefaultViewFactory" />
     <view type="Loading" name="Loading" factory="AYDefaultViewFactory" >
@@ -11,6 +26,11 @@
         <command type="message" message="stopGif" />
     </view>
     <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
+        <command type="message" message="changeScreenPhoto:" />
+        <command type="message" message="canPhotoBtnClicked:" />
+        <command type="notify" message="tapGestureScreenPhoto" />
+    </view>
+    <view type="UserScreenPhote" name="UserScreenPhote" factory="AYDefaultViewFactory" >
         <command type="message" message="changeScreenPhoto:" />
         <command type="message" message="canPhotoBtnClicked:" />
         <command type="notify" message="tapGestureScreenPhoto" />

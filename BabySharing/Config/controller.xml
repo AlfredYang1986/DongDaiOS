@@ -2,8 +2,6 @@
     <controller type="DefaultController" name="Navigation" factory="AYDefaultControllerFactoy" />
     
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="LandingAreaCode" />
-
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
@@ -11,11 +9,61 @@
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="XMPP" notification="true"/>
         
-        <view type="LandingTitle" name="LandingTitle" />
-        <view type="LandingInput" name="LandingInput" />
+<!--        <view type="LandingTitle" name="LandingTitle" />-->
+<!--        <view type="LandingInput" name="LandingInput" />-->
         <view type="LandingSNS" name="LandingSNS" />
-        <view type="Loading" name="Loading" />
+        <view type="Loading"    name="Loading" />
         
+        <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputPhoneNo" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="LandingAreaCode" />
+        
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        
+        <view type="FakeNavBar"             name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
+        <view type="LandingInputNo"         name="LandingInputNo" />
+        <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputCoder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        
+        <view type="FakeNavBar"             name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
+        <view type="LandingInputCoder"      name="LandingInputCoder" />
+        
+        <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputName" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeNavBar"             name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
+        <view type="LandingInputName"      name="LandingInputName" />
+        
+        <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="Welcome" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="OpenUIImagePickerCamera" />
+        <command type="Module" name="OpenUIImagePickerPicRoll" />
+        <command type="Module" name="GernarateImgUUID" />
+        <command type="Module" name="SaveImgLocal" />
+        <command type="Module" name="LocalImageWithName" />
+        
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        
+        <view type="UserScreenPhoteSelect" name="UserScreenPhote" />
+<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
+<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
+
         <model notification="true" />
     </controller>
     
@@ -127,8 +175,7 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="AboutDongda" />
     </controller>
-
-
+    
     <controller type="DefaultController" name="UserAgree" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="FileRemote" notification="true" />

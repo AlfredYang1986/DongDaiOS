@@ -172,17 +172,26 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    [super FakeNavBarLayout:view];
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 0, width, FAKE_NAVIGATION_BAR_HEIGHT);
+    view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = PNGRESOURCE(@"post_cancel");
-    [cmd_left performWithResult:&left];
+    {
+        id<AYViewBase> bar = (id<AYViewBase>)view;
+        id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+        UIImage* left = PNGRESOURCE(@"post_cancel");
+        [cmd_left performWithResult:&left];
+        
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+        [bar_right_btn setTitleColor:[UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.f] forState:UIControlStateNormal];
+        [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+        
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+        [cmd_right performWithResult:&bar_right_btn];
+    }
     
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-    id right = [NSNumber numberWithBool:YES];
-    [cmd_right performWithResult:&right];
-
     return nil;
 }
 
@@ -192,6 +201,8 @@
     titleView.text = @"拍照";
     return nil;
 }
+
+
 
 #pragma mark -- notification
 - (id)rightBtnSelected {

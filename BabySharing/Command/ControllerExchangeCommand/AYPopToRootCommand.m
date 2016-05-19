@@ -33,9 +33,10 @@
         @throw [[NSException alloc]initWithName:@"error" reason:@"pop command source controler 必须是一个navigation controller" userInfo:nil];
     }
     
+    AYViewController* des = source.navigationController.viewControllers.firstObject;
+    
     [source.navigationController popToRootViewControllerAnimated:YES];
     
-    AYViewController* des = source.navigationController.viewControllers.lastObject;
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
     if (tmp != nil) {
         NSMutableDictionary* dic_back =[[NSMutableDictionary alloc]init];
