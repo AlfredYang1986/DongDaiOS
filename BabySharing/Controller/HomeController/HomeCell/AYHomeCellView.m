@@ -30,35 +30,7 @@
 
 #import "AYThumbsAndPushDefines.h"
 
-@interface InsetsLabel : UILabel
-@property(nonatomic) UIEdgeInsets insets;
--(id) initWithFrame:(CGRect)frame andInsets: (UIEdgeInsets) insets;
--(id) initWithInsets: (UIEdgeInsets) insets;
-@end
-
-@implementation InsetsLabel
-@synthesize insets=_insets;
--(id) initWithFrame:(CGRect)frame andInsets:(UIEdgeInsets)insets {
-    self = [super initWithFrame:frame];
-    if(self){
-        self.insets = insets;
-    }
-    return self;
-}
-
--(id) initWithInsets:(UIEdgeInsets)insets {
-    self = [super init];
-    if(self){
-        self.insets = insets;
-    }
-    return self;
-}
-
-- (void)drawTextInRect:(CGRect)rect {
-//    UIEdgeInsets insets = {2, 4, 2, 4};
-    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, self.insets)];
-}
-@end
+#import "InsetsLabel.h"
 
 @interface AYHomeCellView ()
 @property (nonatomic) NSInteger cell_index;
@@ -137,7 +109,7 @@
     [self.contentView addSubview:_ownerNameLable];
     
     _ownerRole = [[InsetsLabel alloc]init];
-
+    [_ownerRole setInsets:UIEdgeInsetsMake(2, 4, 2, 4)];
     _ownerRole.text = @"";
     _ownerRole.font = [UIFont systemFontOfSize:12];
     _ownerRole.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
@@ -485,7 +457,7 @@
     for (QueryContentTag *tag in tmp.tags) {
         NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
         [args setValue:[NSNumber numberWithFloat:self.bounds.size.width] forKey:@"width"];
-        [args setValue:[NSNumber numberWithFloat:self.bounds.size.height - 192] forKey:@"height"];
+        [args setValue:[NSNumber numberWithFloat:self.bounds.size.width] forKey:@"height"];
         [args setValue:tag.tag_offset_x forKey:@"offsetX"];
         [args setValue:tag.tag_offset_y forKey:@"offsetY"];
         [args setValue:tag.tag_content forKey:@"tag_text"];

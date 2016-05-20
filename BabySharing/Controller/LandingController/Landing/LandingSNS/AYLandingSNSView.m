@@ -14,6 +14,9 @@
 
 #define BASICMARGIN     8
 
+#define KSCREENW                    [UIScreen mainScreen].bounds.size.width
+#define KSCREENH                    [UIScreen mainScreen].bounds.size.height
+
 #define SNS_BUTTON_WIDTH                    36
 #define SNS_BUTTON_HEIGHT                   SNS_BUTTON_WIDTH
 
@@ -24,9 +27,7 @@
 #define SNS_WEIBO                           2
 
 #define SNS_COUNT                           3
-
 #define INPUT_MARGIN                        32.5
-
 #define MARGIN_MODIFY                       5
 
 @implementation AYLandingSNSView {
@@ -43,6 +44,32 @@
 //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
 //    self.bounds = CGRectMake(0, 0, width, 36);
     
+    /****** *****/
+    UILabel *or = [[UILabel alloc]init];
+    or.backgroundColor = [UIColor clearColor];
+    or.text = @"或";
+    or.font = [UIFont systemFontOfSize:12.f];
+    or.textColor = [UIColor whiteColor];
+    or.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:or];
+    
+    [or mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.centerX.equalTo(self);
+        make.left.equalTo(self).offset(33);
+        make.right.equalTo(self).offset(-33);
+        make.height.mas_equalTo(12);
+    }];
+    
+    CALayer* left_line = [[CALayer alloc]init];
+    left_line.backgroundColor = [UIColor whiteColor].CGColor;
+    left_line.frame = CGRectMake(0, 6, (KSCREENW - 2*33 - 62)/2, 1);
+    [or.layer addSublayer:left_line];
+    CALayer* right_line = [[CALayer alloc]init];
+    right_line.backgroundColor = [UIColor whiteColor].CGColor;
+    right_line.frame = CGRectMake((KSCREENW - 2*33 - 62)/2 + 62, 6, (KSCREENW - 2*33 - 62)/2, 1);
+    [or.layer addSublayer:right_line];
+    
     UIButton* wechat_btn = [[UIButton alloc]init];
     [self addSubview:wechat_btn];
     [wechat_btn setBackgroundImage:PNGRESOURCE(@"wechat_icon") forState:UIControlStateNormal];
@@ -51,7 +78,7 @@
     wechat_btn.clipsToBounds = YES;
     [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.centerY.equalTo(self);
+        make.bottom.equalTo(self);
         make.width.mas_offset(SNS_BUTTON_WIDTH);
         make.height.mas_offset(SNS_BUTTON_HEIGHT);
     }];

@@ -21,6 +21,8 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
+#import "InsetsLabel.h"
+
 #define IMG_WIDTH       40
 #define IMG_HEIGHT      IMG_WIDTH
 
@@ -33,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UIView *relationContainer;
 @property (nonatomic, strong) OBShapedButton* userRoleTagBtn;
 @property (nonatomic, strong) UILabel* userNameLabel;
+//@property (nonatomic, strong) InsetsLabel *userRoleTagBtn;
 @end
 
 @implementation AYUserDisplayView {
@@ -165,15 +168,29 @@
         [_userRoleTagBtn addSubview:label];
     }
     
-#define ROLE_TAG_MARGIN 2
-    
     label.text = role_tag;
     [label sizeToFit];
-    label.center = CGPointMake(5 + label.frame.size.width / 2, ROLE_TAG_MARGIN + label.frame.size.height / 2);
+    label.center = CGPointMake(5 + label.frame.size.width / 2, 2 + label.frame.size.height / 2);
     
-    _userRoleTagBtn.frame = CGRectMake(0, 0, label.frame.size.width + 10 + ROLE_TAG_MARGIN, label.frame.size.height + 2 * ROLE_TAG_MARGIN);
-//    _userRoleTagBtn.center = CGPointMake(_user_screen_photo.center.x + _user_screen_photo.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width + TAG_2_NAME_MARGIN + _userRoleTagBtn.frame.size.width / 2, PREFERRED_HEIGHT / 2);
+    _userRoleTagBtn.frame = CGRectMake(0, 0, label.frame.size.width + 10 + 2, label.frame.size.height + 2 * 2);
     _userRoleTagBtn.center = CGPointMake(_user_screen_photo.center.x + _user_screen_photo.frame.size.width / 2 + NAME_LEFT_MARGIN + _userNameLabel.frame.size.width + TAG_2_NAME_MARGIN + _userRoleTagBtn.frame.size.width / 2, _cellHeight / 2);
+    
+//    [_userRoleTagBtn sizeToFit];
+//    [_userRoleTagBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(self);
+//        make.left.equalTo(_userNameLabel.mas_right).offset(10);
+//        make.size.mas_equalTo(CGSizeMake(label.frame.size.width + 10 + 2, label.frame.size.height + 2 * 2));
+//    }];
+//    
+//    if (CGRectGetWidth(_userRoleTagBtn.frame) != 0) {
+//        [_userRoleTagBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self);
+//            make.left.equalTo(_userNameLabel.mas_right).offset(10);
+//            make.right.lessThanOrEqualTo(self.mas_right).offset(-50);
+//            make.width.equalTo(@(CGRectGetWidth(_userRoleTagBtn.frame) + 8));
+//            make.height.equalTo(@(CGRectGetHeight(_userRoleTagBtn.frame) + 4));
+//        }];
+//    }
     
     if ([@"" isEqualToString:role_tag]) {
         _userRoleTagBtn.hidden = YES;
@@ -194,6 +211,11 @@
     } else {
         line.frame = CGRectMake(_lineMargin, _cellHeight - 1, self.bounds.size.width -  2 * _lineMargin, 1);
     }
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    
 }
 
 #pragma mark -- action

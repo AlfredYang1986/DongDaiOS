@@ -21,6 +21,10 @@
 #define USER_INFO_BACK_BTN_HEIGHT           30
 #define USER_INFO_BACK_BTN_WIDTH            30
 
+#define PHOTO_WIDTH             40
+#define PHOTO_HEIGHT            40
+#define PHOTO_MARGIN            8
+
 @interface AYChatGroupInfoCellView ()
 @property (weak, nonatomic) IBOutlet UIView *user_list_view;
 @property (weak, nonatomic) IBOutlet UILabel* online_count_label;
@@ -90,10 +94,6 @@
             [view removeFromSuperview];
         }
        
-#define PHOTO_WIDTH             40
-#define PHOTO_HEIGHT            40
-#define PHOTO_MARGIN            8
-        
         CGFloat offset = 8;
         CGFloat offset_y = 38;
         for (int index = 0; index < MIN(user_lst.count, 6); ++index) {

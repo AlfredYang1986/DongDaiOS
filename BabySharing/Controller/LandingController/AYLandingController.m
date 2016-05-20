@@ -52,6 +52,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     CGFloat modify;
     CGFloat diff;
     BOOL isUpAnimation;
+    UIButton* pri_btn;
+    UIView *phoneNoLogin;
     
     dispatch_semaphore_t wait_for_qq_api;
     dispatch_semaphore_t wait_for_weibo_api;
@@ -120,7 +122,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         make.size.mas_equalTo(CGSizeMake(163, 73));
     }];
     
-    UIView *phoneNoLogin = [[UIView alloc]init];
+    phoneNoLogin = [[UIView alloc]init];
     [self.view addSubview:phoneNoLogin];
     [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     phoneNoLogin.layer.cornerRadius = 6.f;
@@ -156,34 +158,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     phoneNoLogin.userInteractionEnabled = YES;
     [phoneNoLogin addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushInputPhoneNo)]];
     
-    /****** *****/
-    UILabel *or = [[UILabel alloc]init];
-    or.backgroundColor = [UIColor clearColor];
-    or.text = @"或";
-    or.font = [UIFont systemFontOfSize:12.f];
-    or.textColor = [UIColor whiteColor];
-    or.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:or];
-    
-    [or mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(-174);
-        make.centerX.equalTo(self.view);
-        make.left.equalTo(self.view).offset(33);
-        make.right.equalTo(self.view).offset(-33);
-        make.height.mas_equalTo(12);
-    }];
-    
-    CALayer* left_line = [[CALayer alloc]init];
-    left_line.backgroundColor = [UIColor whiteColor].CGColor;
-    left_line.frame = CGRectMake(0, 6, (KSCREENW - 2*33 - 62)/2, 1);
-    [or.layer addSublayer:left_line];
-    CALayer* right_line = [[CALayer alloc]init];
-    right_line.backgroundColor = [UIColor whiteColor].CGColor;
-    right_line.frame = CGRectMake((KSCREENW - 2*33 - 62)/2 + 62, 6, (KSCREENW - 2*33 - 62)/2, 1);
-    [or.layer addSublayer:right_line];
     
     /****** *****/
-    UIButton* pri_btn = [[UIButton alloc]init];
+    pri_btn = [[UIButton alloc]init];
     [self.view addSubview:pri_btn];
     pri_btn.titleLabel.font = [UIFont systemFontOfSize:10.f];
     [pri_btn setTitle:@"进入即同意用户协议及隐私条款" forState:UIControlStateNormal];
@@ -212,7 +189,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
-    view.frame = CGRectMake(0, KSCREENH - 108 - 36, KSCREENW, 36);
+    view.frame = CGRectMake(0, KSCREENH - 108 - 36 - 46, KSCREENW, 36+46);
     return nil;
 }
 
@@ -301,17 +278,21 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     switch (_landing_status) {
         case RemoteControllerStatusReady: {
-//            inputView.hidden = NO;
+            phoneNoLogin.hidden = NO;
+            pri_btn.hidden = NO;
             sns_view.hidden = NO;
             loading_view.hidden = YES;
-            [loading_view removeFromSuperview];
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
+            [loading_view removeFromSuperview];
             }
             break;
         case RemoteControllerStatusPrepare:
         case RemoteControllerStatusLoading: {
-            sns_view.hidden = NO;
+            phoneNoLogin.hidden = YES;
+            pri_btn.hidden = YES;
+            sns_view.hidden = YES;
             loading_view.hidden = NO;
+            [self.view addSubview:loading_view];
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
             }
             break;
@@ -343,25 +324,25 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)SNSStartLogin:(id)args {
-    self.landing_status = RemoteControllerStatusLoading;
+//    self.landing_status = RemoteControllerStatusLoading;
     return nil;
 }
 
 - (id)SNSEndLogin:(id)args {
-    self.landing_status = RemoteControllerStatusReady;
+//    self.landing_status = RemoteControllerStatusReady;
     return nil;
 }
 
 - (id)SNSLoginSuccess:(id)args {
     NSLog(@"SNS Login success with %@", args);
+    self.landing_status = RemoteControllerStatusLoading;
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
     [dic setValue:args forKey:kAYControllerChangeArgsKey];
     [self performWithResult:&dic];
-
-    self.landing_status = RemoteControllerStatusReady;
+    
     return nil;
 }
 
@@ -400,6 +381,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (id)LoginSuccess {
     NSLog(@"Login Success");
     NSLog(@"to do login with XMPP server");
+    
+    self.landing_status = RemoteControllerStatusLoading;
     
     AYFacade* f = LOGINMODEL;
     id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];

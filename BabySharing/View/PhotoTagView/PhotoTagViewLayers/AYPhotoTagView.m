@@ -135,6 +135,12 @@
     [self.layer addSublayer:tail];
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    _offset_x = self.frame.origin.x / self.frame.size.width;
+    _offset_y = self.frame.origin.y / self.frame.size.height;
+}
+
 - (void)layoutSublayersOfLayer:(CALayer *)layer {
     if (layer == text_content) {
     }

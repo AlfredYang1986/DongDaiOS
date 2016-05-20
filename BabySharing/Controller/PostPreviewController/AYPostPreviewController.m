@@ -15,6 +15,8 @@
 #import "AYDongDaSegDefines.h"
 #import "PhotoTagEnumDefines.h"
 
+#import "AYPhotoTagView.h"
+
 #define FAKE_NAVIGATION_BAR_HEIGHT      64
 #define FUNC_BAR_HEIGHT                 47
 
@@ -314,50 +316,82 @@
 - (void)handlePan:(UIPanGestureRecognizer*)gesture {
     NSLog(@"pan gesture");
     [self.edit_tag_view removeFromSuperview];
-    UIView* tmp = gesture.view;
+    AYPhotoTagView* tmp = (AYPhotoTagView*)gesture.view;
+    
+    static CGFloat or_x = 0;
+    static CGFloat or_y = 0;
+    
     if (gesture.state == UIGestureRecognizerStateBegan) {
         NSLog(@"begin");
         point = [gesture translationInView:self.mainContentView];
         [self.mainContentView bringSubviewToFront:tmp];
         
+        or_x = tmp.frame.origin.x;
+        or_y = tmp.frame.origin.y;
     } else if (gesture.state == UIGestureRecognizerStateEnded) {
         NSLog(@"end");
-        point = CGPointMake(-1, -1);
-        CGFloat move_x = [self distanceMoveHerWithView:tmp];
-        CGFloat move_y = [self distanceMoveVerWithView:tmp];
+//        point = CGPointMake(-1, -1);
+        if (tmp.frame.origin.x < 0) {
+            CGRect tmpRect = CGRectMake(0, tmp.frame.origin.y, tmp.bounds.size.width, tmp.bounds.size.height);
+            tmp.frame = tmpRect;
+        }
+        else if (tmp.frame.origin.y < 0) {
+            CGRect tmpRect = CGRectMake(tmp.frame.origin.x, 0, tmp.bounds.size.width, tmp.bounds.size.height);
+            tmp.frame = tmpRect;
+        }
+        else if (CGRectGetMaxX(tmp.frame) > CGRectGetMaxX(self.mainContentView.frame)) {
+            CGRect tmpRect = CGRectMake(CGRectGetMaxX(self.mainContentView.frame)-tmp.bounds.size.width, tmp.frame.origin.y, tmp.bounds.size.width, tmp.bounds.size.height);
+            tmp.frame = tmpRect;
+        }
+        else if (CGRectGetMaxY(tmp.frame) > CGRectGetMaxY(self.mainContentView.frame)) {
+            CGRect tmpRect = CGRectMake(tmp.frame.origin.x, CGRectGetMaxY(self.mainContentView.frame)-tmp.bounds.size.height, tmp.bounds.size.width, tmp.bounds.size.height);
+            tmp.frame = tmpRect;
+        }
+        
+        tmp.offset_x = tmp.frame.origin.x / self.mainContentView.bounds.size.width;
+        tmp.offset_y = tmp.frame.origin.y / self.mainContentView.bounds.size.height;
+        
+        CGFloat move_x = [self distanceMoveHerWithView:tmp andOrx:or_x];
+        CGFloat move_y = [self distanceMoveVerWithView:tmp andOry:or_y];
         [self moveView:move_x and:move_y withView:tmp];
+        point = CGPointMake(move_x, move_y);
         
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
         NSLog(@"changeed");
-        if ([gesture locationInView:self.mainContentView].y > self.mainContentView.frame.size.height - self.mainContentView.frame.size.height * 0.15) {
+        if ([gesture locationInView:self.mainContentView].y > self.mainContentView.frame.size.height - self.mainContentView.frame.size.height * 0.1) {
             return;
         } else {
             tmp.center = [gesture locationInView:self.mainContentView];
-        }
+                }
+//        tmp.center = [gesture locationInView:self.mainContentView];
+        
     }
 }
 
 - (void)moveView:(float)move_x and:(float)move_y withView:(UIView*)view {
     [UIView animateWithDuration:0.3f animations:^{
-        view.center = CGPointMake(view.center.x + move_x, view.center.y + move_y);
+//        view.center = CGPointMake(view.center.x + move_x, view.center.y + move_y);
+        view.center = CGPointMake(view.center.x , view.center.y );
     }];
 }
 
-- (CGFloat)distanceMoveVerWithView:(UIView*)view {
-    if (view.frame.origin.y < 0)
-        return -view.frame.origin.y;
-    else if (view.frame.origin.y + view.frame.size.height > self.mainContentView.frame.size.height)
-        return -(view.frame.origin.y + view.frame.size.height - self.mainContentView.frame.size.height);
-    else return 0;
+- (CGFloat)distanceMoveVerWithView:(UIView*)view andOry:(CGFloat)y{
+//    if (view.frame.origin.y < 0)
+//        return -view.frame.origin.y;
+//    else if (view.frame.origin.y + view.frame.size.height > self.mainContentView.frame.size.height)
+//        return -(view.frame.origin.y + view.frame.size.height - self.mainContentView.frame.size.height);
+//    else return 0;
+    return view.frame.origin.y - y;
 }
 
-- (CGFloat)distanceMoveHerWithView:(UIView*)view {
+- (CGFloat)distanceMoveHerWithView:(UIView*)view andOrx:(CGFloat)x{
     
-    if (view.frame.origin.x < 0)
-        return -view.frame.origin.x;
-    else if (view.frame.origin.x + view.frame.size.width > self.mainContentView.frame.size.width)
-        return -(view.frame.origin.x + view.frame.size.width - self.mainContentView.frame.size.width);
-    else return 0;
+//    if (view.frame.origin.x < 0)
+//        return -view.frame.origin.x;
+//    else if (view.frame.origin.x + view.frame.size.width > self.mainContentView.frame.size.width)
+//        return -(view.frame.origin.x + view.frame.size.width - self.mainContentView.frame.size.width);
+//    else return 0;
+    return view.frame.origin.x - x;
 }
 
 #pragma mark -- notification

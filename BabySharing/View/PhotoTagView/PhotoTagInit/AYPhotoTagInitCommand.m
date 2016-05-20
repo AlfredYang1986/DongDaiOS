@@ -31,7 +31,7 @@
     NSNumber* offset_x = [args objectForKey:@"offsetX"];
     NSNumber* offset_y = [args objectForKey:@"offsetY"];
     
-    AYPhotoTagView *tmp = [[AYPhotoTagView alloc] initWithTagName:tag_text andType:tag_type];
+    AYPhotoTagView *tmp = [[AYPhotoTagView alloc] initWithTagName:tag_text andType:tag_type ];
     [self setUpReuseView:tmp];
     
     CGPoint point_tmp;
