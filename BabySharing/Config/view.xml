@@ -19,6 +19,13 @@
         <command type="notify"  message="queryCurUserName:" />
     </view>
     
+    <view type="LandingInputRole" name="LandingInputRole" factory="AYDefaultViewFactory" >
+        <command type="message" message="hideKeyboard" />
+        <command type="message" message="queryInputRole:" />
+        <command type="message" message="changeQueryData:" />
+        <command type="notify"  message="queryCurUserName:" />
+    </view>
+    
     <view type="LandingTitle" name="LandingTitle" factory="AYDefaultViewFactory" />
     <view type="LandingSNS" name="LandingSNS" factory="AYDefaultViewFactory" />
     <view type="Loading" name="Loading" factory="AYDefaultViewFactory" >

@@ -503,16 +503,31 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
         switch (r) {
             case RegisterResultSuccess: {
-                AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
-                
-                NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-                [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-                [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-                [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-                [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-                
-                id<AYCommand> cmd = PUSH;
-                [cmd performWithResult:&dic_push];
+//                NSString* sss = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"];
+                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
+                    
+                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
+                    
+                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+                    
+                    id<AYCommand> cmd = PUSH;
+                    [cmd performWithResult:&dic_push];
+                }else{
+                    AYViewController* des = DEFAULTCONTROLLER(@"InputRole");
+                    
+                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+                    
+                    id<AYCommand> cmd = PUSH;
+                    [cmd performWithResult:&dic_push];
+                }
             }
                 break;
             case RegisterResultOthersLogin: {

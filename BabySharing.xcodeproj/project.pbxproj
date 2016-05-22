@@ -437,6 +437,8 @@
 		70CDF64F1CBD0F0E00311841 /* AYRefrashOwnerQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF64E1CBD0F0E00311841 /* AYRefrashOwnerQueryDataCommand.m */; };
 		70CDF6521CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6511CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.m */; };
 		70D46B641CEEB14A0093D50F /* InsetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D46B631CEEB14A0093D50F /* InsetsLabel.m */; };
+		70E162DB1CF18AB500A5689F /* AYInputRoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E162D71CF18AB500A5689F /* AYInputRoleController.m */; };
+		70E162DC1CF18AB500A5689F /* AYLandingInputRoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E162DA1CF18AB500A5689F /* AYLandingInputRoleView.m */; };
 		70E5A7301CCDD01C00974974 /* AYPersonalSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E5A72F1CCDD01C00974974 /* AYPersonalSettingController.m */; };
 		70E5A7341CCDE4F700974974 /* AYSelfSettingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E5A7331CCDE4F700974974 /* AYSelfSettingDelegate.m */; };
 		70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8041CA64B7B007965D2 /* AYLoadingView.m */; };
@@ -1395,6 +1397,10 @@
 		70CDF6511CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendOwnerQueryDataCommand.m; sourceTree = "<group>"; };
 		70D46B621CEEB14A0093D50F /* InsetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetsLabel.h; sourceTree = "<group>"; };
 		70D46B631CEEB14A0093D50F /* InsetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetsLabel.m; sourceTree = "<group>"; };
+		70E162D61CF18AB500A5689F /* AYInputRoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInputRoleController.h; sourceTree = "<group>"; };
+		70E162D71CF18AB500A5689F /* AYInputRoleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInputRoleController.m; sourceTree = "<group>"; };
+		70E162D91CF18AB500A5689F /* AYLandingInputRoleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingInputRoleView.h; sourceTree = "<group>"; };
+		70E162DA1CF18AB500A5689F /* AYLandingInputRoleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingInputRoleView.m; sourceTree = "<group>"; };
 		70E5A72E1CCDD01C00974974 /* AYPersonalSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPersonalSettingController.h; sourceTree = "<group>"; };
 		70E5A72F1CCDD01C00974974 /* AYPersonalSettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalSettingController.m; sourceTree = "<group>"; };
 		70E5A7321CCDE4F700974974 /* AYSelfSettingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSelfSettingDelegate.h; sourceTree = "<group>"; };
@@ -3559,6 +3565,7 @@
 		703B6E321CEAC57D00EBEBE5 /* LandingInputStep */ = {
 			isa = PBXGroup;
 			children = (
+				70E162D51CF18AB500A5689F /* InputRole */,
 				703B6E331CEAC61500EBEBE5 /* InputName */,
 				703B6E2A1CEA013F00EBEBE5 /* InputCoder */,
 				703B6E1E1CE9A87B00EBEBE5 /* InputPhoneNo */,
@@ -4850,6 +4857,25 @@
 			path = UILabel_Inset;
 			sourceTree = "<group>";
 		};
+		70E162D51CF18AB500A5689F /* InputRole */ = {
+			isa = PBXGroup;
+			children = (
+				70E162D81CF18AB500A5689F /* LandingInputRole */,
+				70E162D61CF18AB500A5689F /* AYInputRoleController.h */,
+				70E162D71CF18AB500A5689F /* AYInputRoleController.m */,
+			);
+			path = InputRole;
+			sourceTree = "<group>";
+		};
+		70E162D81CF18AB500A5689F /* LandingInputRole */ = {
+			isa = PBXGroup;
+			children = (
+				70E162D91CF18AB500A5689F /* AYLandingInputRoleView.h */,
+				70E162DA1CF18AB500A5689F /* AYLandingInputRoleView.m */,
+			);
+			path = LandingInputRole;
+			sourceTree = "<group>";
+		};
 		70E5A72D1CCDD00800974974 /* PersonalSettingController */ = {
 			isa = PBXGroup;
 			children = (
@@ -5776,6 +5802,7 @@
 				70F4287C1CC7B18F00A69977 /* MASViewConstraint.m in Sources */,
 				708E52881CC53C2E008A6023 /* AYCameraRollInitCommand.m in Sources */,
 				8086A2451CCE8674006186D4 /* AYUserPerviewController.m in Sources */,
+				70E162DB1CF18AB500A5689F /* AYInputRoleController.m in Sources */,
 				70B1DC8E1CC73B390041794A /* AYPlayMovieMeta.m in Sources */,
 				7006931F1CC4A3C400B511FF /* AYFunctionBarView.m in Sources */,
 				80F3E8581CDDB54800970BDE /* AYPushUpBtnView.m in Sources */,
@@ -5793,6 +5820,7 @@
 				703CCDEA1CC9F11D00CF4563 /* AYAddFriendsView.m in Sources */,
 				7002DB651CC620D40013FF2A /* AYPostPhotoPreviewController.m in Sources */,
 				7015247E1CBF9AB4005B4C5B /* MJRefreshFooter.m in Sources */,
+				70E162DC1CF18AB500A5689F /* AYLandingInputRoleView.m in Sources */,
 				701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */,
 				70120CA91CBE0D9400B169F9 /* AYRefrashOwnerQueryPushDataCommand.m in Sources */,
 				80E249551CD32E6100277130 /* AYJoinChatGroupCommand.m in Sources */,

@@ -102,7 +102,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"2/3";
+    titleView.text = @"2/4";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -175,21 +175,21 @@
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
         [dic setValue:args forKey:kAYControllerChangeArgsKey];
         
-//        [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
         AYModel* m = MODEL;
         AYFacade* f = [m.facades objectForKey:@"LoginModel"];
         id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
         [cmd performWithResult:&result];
+        
         if (success || [msg isEqualToString:@"new user"]) {
             
             id<AYCommand> cmd_push = PUSH;
             [cmd_push performWithResult:&dic];
         }else if([msg isEqualToString:@"already login"]){
             
-            id<AYCommand> setting = DEFAULTCONTROLLER(@"Welcome");
+            id<AYCommand> Welcome = DEFAULTCONTROLLER(@"Welcome");
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
             [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-            [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+            [dic setValue:Welcome forKey:kAYControllerActionDestinationControllerKey];
             [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
             [dic setValue:args forKey:kAYControllerChangeArgsKey];
             

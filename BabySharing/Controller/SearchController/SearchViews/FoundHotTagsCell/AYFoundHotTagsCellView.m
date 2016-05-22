@@ -126,7 +126,7 @@
     CGFloat preTagWidth = 0;
     for (NSString* tmp in arr) {
         
-        UIFont* font = [UIFont systemFontOfSize:16.f];
+        UIFont* font = [UIFont systemFontOfSize:12.f];
         CGSize sz_font = [Tools sizeWithString:tmp withFont:font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
         CGSize sz = CGSizeMake(TAG_MARGIN /*+ ICON_WIDTH*/ + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
         
