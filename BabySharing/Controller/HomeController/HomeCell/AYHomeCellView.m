@@ -126,6 +126,7 @@
     _ownerDate.textAlignment = NSTextAlignmentRight;
     _ownerDate.textColor = TextColor;
     [self.contentView addSubview:_ownerDate];
+    [self bringSubviewToFront:_ownerDate];
     
     _mainImage = [[UIImageView alloc] init];
     [self.contentView addSubview:_mainImage];
@@ -210,40 +211,78 @@
 
 - (void)setUplayout {
     self.contentView.frame = CGRectMake(12.5, 10.5, CGRectGetWidth(self.contentView.frame) - 25, CGRectGetHeight(self.contentView.frame) - 10.5);
-    [_ownerImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView.mas_top).offset(8);
-        make.left.equalTo(self.contentView.mas_left).offset(8);
-        make.width.equalTo(@32);
-        make.height.equalTo(@32);
+    [_ownerImage sizeToFit];
+//    [_ownerImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.contentView.mas_top).offset(8);
+//        make.left.equalTo(self.contentView.mas_left).offset(8);
+//        make.width.equalTo(@32);
+//        make.height.equalTo(@32);
+//    }];
+    _ownerImage.frame = CGRectMake(8, 8, 32, 32);
+    
+    [_ownerNameLable sizeToFit];
+//    [_ownerNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(_ownerImage);
+//        make.left.equalTo(_ownerImage.mas_right).offset(8);
+//        make.width.mas_greaterThanOrEqualTo(1);
+//    }];
+    _ownerNameLable.frame = CGRectMake(CGRectGetMaxX(_ownerImage.frame) + 10, CGRectGetMidY(_ownerImage.frame)- _ownerNameLable.bounds.size.height*0.5, _ownerNameLable.bounds.size.width, _ownerNameLable.bounds.size.height);
+    
+    [_ownerDate sizeToFit];
+    [_ownerDate mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_ownerNameLable);
+        make.right.equalTo(self.contentView).offset(-10);
     }];
     
-    [_ownerNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_ownerImage);
-        make.left.equalTo(_ownerImage.mas_right).offset(8);
-    }];
-
     [_ownerRole sizeToFit];
-    [_ownerRole mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_ownerImage);
-        make.left.equalTo(_ownerNameLable.mas_right).offset(10);
-    }];
-
-    if (CGRectGetWidth(_ownerRole.frame) != 0) {
-        [_ownerRole mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(_ownerImage);
-            make.left.equalTo(_ownerNameLable.mas_right).offset(10);
-            make.right.lessThanOrEqualTo(self.contentView.mas_right).offset(-50);
-            make.width.equalTo(@(CGRectGetWidth(_ownerRole.frame) + 8));
-            make.height.equalTo(@(CGRectGetHeight(_ownerRole.frame) + 4));
-        }];
-    }
-
-    [_ownerDate mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(@(16));
-        make.right.equalTo(self.contentView).offset(-10);
-        make.width.equalTo(@(50));
-        make.height.equalTo(@(14));
-    }];
+//    [_ownerRole mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(_ownerImage);
+//        make.left.equalTo(_ownerNameLable.mas_right).offset(10);
+//    }];
+//
+//    if (CGRectGetWidth(_ownerRole.frame) != 0) {
+//        [_ownerRole mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(_ownerImage);
+//            make.left.equalTo(_ownerNameLable.mas_right).offset(10);
+//            make.width.equalTo(@(CGRectGetWidth(_ownerRole.frame)+8));
+//            make.height.equalTo(@(CGRectGetHeight(_ownerRole.frame)+4));
+//        }];
+//    }
+    
+    CGFloat name_w = CGRectGetWidth(_ownerNameLable.frame);
+    CGFloat role_w = CGRectGetWidth(_ownerRole.frame);
+//    CGFloat date_w = CGRectGetWidth(_ownerDate.frame);
+    
+//    if ((32 + name_w + role_w +8+8+10+50) > self.frame.size.width) {
+//        NSLog(@"-- %f",image_w + name_w + role_w + date_w +8+8+10+10+10);
+//        NSLog(@"-- %f",self.frame.size.width);
+//        [self updateConstraints];
+//        
+//    }
+    
+    
+    if ((32 + name_w + role_w +10+10.5+10+80) > self.frame.size.width) {
+        
+//        _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, self.frame.size.width - (image_w + name_w  +10+10.5+10+100), _ownerRole.bounds.size.height + 4);
+//        NSLog(@"%f",self.frame.size.width - (32 + name_w  +10+10.5+10+100));
+        
+        CGFloat role_afterLimit = self.frame.size.width - (32 + name_w  +10+10.5+10+75);
+        CGFloat name_afterLimit = self.frame.size.width - (32 + role_w  +10+10.5+10+75);
+        CGFloat min_role_limit = 45;
+        CGFloat overMore = min_role_limit - role_afterLimit;
+//        CGFloat name_overMore = min_role_limit - name_afterLimit;
+        
+        if (_ownerRole.bounds.size.width < min_role_limit) {
+            _ownerNameLable.frame = CGRectMake(_ownerNameLable.frame.origin.x, _ownerNameLable.frame.origin.y, name_afterLimit, _ownerNameLable.bounds.size.height);
+            _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) , CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, _ownerRole.bounds.size.width+8, _ownerRole.bounds.size.height+4 );
+        }else{
+            
+            _ownerNameLable.frame = CGRectMake(_ownerNameLable.frame.origin.x, _ownerNameLable.frame.origin.y, _ownerNameLable.bounds.size.width - overMore, _ownerNameLable.bounds.size.height);
+            _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) , CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, min_role_limit, _ownerRole.bounds.size.height +4);
+            
+        }
+    }else
+        _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, _ownerRole.bounds.size.width + 8, _ownerRole.bounds.size.height + 4);
 
     [_mainImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_ownerImage.mas_bottom).offset(8);
@@ -266,7 +305,7 @@
         make.height.equalTo(@18);
     }];
     
-    //**********praiseView
+    //********praiseView
     [praiseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_descriptionLabel.mas_bottom).offset(14);
         make.left.equalTo(self.contentView).offset(17);
@@ -337,6 +376,18 @@
     [super layoutSubviews];
     [self setUplayout];
 }
+
+//-(void)updateConstraints{
+//    
+//    [_ownerRole mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(_ownerImage);
+//        make.left.equalTo(_ownerNameLable.mas_right).offset(10);
+//        make.right.lessThanOrEqualTo(self).offset(-70);
+//        make.height.equalTo(@(CGRectGetHeight(_ownerRole.frame)+4));
+//    }];
+//    
+//    [super updateConstraints];
+//}
 
 - (void)setRoundCorner {
     // 圆角

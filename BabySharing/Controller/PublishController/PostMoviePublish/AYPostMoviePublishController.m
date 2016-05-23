@@ -132,7 +132,7 @@
         if (success) {
             [[[UIAlertView alloc]initWithTitle:@"提示" message:@"分享视频已成功发布" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         }else {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"网络错误，视频发布失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"网络错误，视频发布出现异常" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         }
         
     }];
@@ -145,7 +145,6 @@
     if ([super isShareQQ]) {
         id<AYFacadeBase> f = [self.facades objectForKey:@"SNSQQ"];
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithQQ"];
-        
         [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
@@ -158,7 +157,6 @@
     if ([super isShareWechat]) {
         id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithWechat"];
-        
         [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
@@ -171,14 +169,16 @@
     if ([super isShareWeibo]) {
         id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWeibo"];
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithWeibo"];
-        
         [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             if (success) {
-                //                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             } else {
                 NSString* msg = (NSString*)result;
-                NSLog(@"%@",msg);
-                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                if ([msg isEqualToString:@"weiboNotAuth"]) {
+                    [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享请先绑定微博或用微博登录" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil] show];
+                }else
+                    [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
             }
         }];
         

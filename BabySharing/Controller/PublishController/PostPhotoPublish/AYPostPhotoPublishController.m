@@ -111,12 +111,6 @@
                 
                 id<AYFacadeBase> f = [self.facades objectForKey:@"SNSQQ"];
                 AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithQQ"];
-                
-                //        NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
-                //        [dict setValue:post_image forKey:@"image"];
-                //        [dict setValue:(NSString*)description forKey:@"decs"];
-                //        [dict setValue:[NSNumber numberWithInt:_publishType] forKey:@"publishType"];
-                
                 [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                     if (success) {
                         
@@ -130,11 +124,6 @@
                 
                 id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
                 AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithWechat"];
-                
-                //        NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
-                //        [dict setValue:post_image forKey:@"image"];
-                //        [dict setValue:(NSString*)description forKey:@"decs"];
-                
                 [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                     if (success) {
                         
@@ -148,14 +137,9 @@
                 
                 id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWeibo"];
                 AYRemoteCallCommand* cmd = [f.commands objectForKey:@"ShareWithWeibo"];
-                
-                //        NSMutableDictionary* dict = [[NSMutableDictionary alloc]init];
-                //        [dict setValue:post_image forKey:@"image"];
-                //        [dict setValue:(NSString*)description forKey:@"decs"];
-                
                 [cmd performWithResult:[dict_sns copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                     if (success) {
-                        //                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                        [[[UIAlertView alloc] initWithTitle:@"通知" message:@"微博同步分享成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                     } else {
                         NSString* msg = (NSString*)result;
                         if ([msg isEqualToString:@"weiboNotAuth"]) {

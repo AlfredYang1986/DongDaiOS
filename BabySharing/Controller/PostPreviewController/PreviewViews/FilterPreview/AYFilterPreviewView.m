@@ -50,15 +50,18 @@
 #define MAGIC_NUMBER    0.4f
     CGFloat width = self.frame.size.width;
     CGFloat height = self.frame.size.height;
-    CGFloat margin = width * 0.026;
-    CGFloat button_height = (width - margin * 6) / 5;
+//    CGFloat margin = width * 0.027;
+//    CGFloat button_height = (width - margin * 6) / 5;
+    
+    CGFloat button_height = height * 0.35;
+    CGFloat margin = (width - button_height*5)/6;
     
     for (int index = 0; index < 5; ++index) {
         UIView* view = [self viewWithTag:index + 1];
-        view.bounds = CGRectMake(0, 0, button_height, button_height);
-        CGFloat centerX = (index + 1) * margin + index * button_height + button_height * 0.5;
-//        NSLog(@"%f",centerX - button_height * 0.5);
-        view.center = CGPointMake(centerX, height * 0.5);
+        view.frame = CGRectMake(index*button_height + (index+1)*margin, (height - button_height)*0.5, button_height, button_height);
+        
+//        CGFloat centerX = (index + 1) * margin + index * button_height + button_height * 0.5;
+//        view.center = CGPointMake(centerX, height * 0.5);
     }
     
 //    CGFloat width = self.frame.size.width;
@@ -103,8 +106,10 @@
      * it is magic, don't touch
      */
     UIButton* btn = [[UIButton alloc]initWithFrame:bounds];
+    
     [btn setTitle:title forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+//    btn.backgroundColor = [UIColor orangeColor];
     [btn addTarget:self action:@selector(filterBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     
     /**
@@ -126,9 +131,8 @@
      * image preview
      */
     UIImageView* il = [[UIImageView alloc]init];
-    CGFloat mar = 0;
-    CGFloat len = MIN(bounds.size.height - s.height - mar, bounds.size.width);
-    il.frame = CGRectMake((bounds.size.width - len) / 2, (bounds.size.height - s.height - mar - len) / 2, len, len);
+    CGFloat len = MIN(bounds.size.height - s.height, bounds.size.width);
+    il.frame = CGRectMake((bounds.size.width - len) / 2, (bounds.size.height - s.height - len) / 2, len, len);
     il.image = image;
     il.layer.cornerRadius = 4.f;
     il.layer.borderColor = [UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.f].CGColor;
@@ -151,8 +155,7 @@
     UIImage* source = (UIImage*)obj;
 
     CGFloat height = self.frame.size.height;
-    CGFloat margin = 0;
-    CGFloat button_height = (height - 2 * margin) * MAGIC_NUMBER;
+    CGFloat button_height = height * MAGIC_NUMBER;
   
     NSArray* const title = @[@"黑白", @"美景", @"原图", @"美肤", @"美食"];
     

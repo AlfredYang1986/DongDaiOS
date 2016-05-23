@@ -358,10 +358,11 @@
     
     [st addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, st.length)];
     con.lineFragmentPadding = 0;
-    con.lineBreakMode = NSLineBreakByWordWrapping;
-//    con.lineBreakMode = NSLineBreakByCharWrapping;
+//    con.lineBreakMode = NSLineBreakByWordWrapping;
+    con.lineBreakMode = NSLineBreakByCharWrapping;
     return [m usedRectForTextContainer:con].size;
 }
+
 
 + (UIColor*)themeColor{
     return [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];

@@ -20,6 +20,9 @@
 #define FAKE_NAVIGATION_BAR_HEIGHT      64
 #define FUNC_BAR_HEIGHT                 47
 
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+
 @interface AYPostPreviewController ()
 @property (nonatomic, weak) UIView* edit_tag_view;
 @end
@@ -50,9 +53,8 @@
     UIView* view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:view_title];
     
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat img_height = width;
-    _mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, width, img_height)];
+    CGFloat img_height = SCREEN_WIDTH;
+    _mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, img_height)];
     _mainContentView.backgroundColor = [UIColor clearColor];
     _mainContentView.userInteractionEnabled = YES;
     _mainContentView.clipsToBounds = YES;
@@ -71,8 +73,8 @@
 
 #pragma mark -- layout
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, FAKE_NAVIGATION_BAR_HEIGHT);
+    
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, FAKE_NAVIGATION_BAR_HEIGHT);
     view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
@@ -87,7 +89,7 @@
     [bar_right_btn setTitleColor:[UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.f] forState:UIControlStateNormal];
     [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
     [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - RIGHT_BTN_RIGHT_MARGIN - bar_right_btn.frame.size.width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - RIGHT_BTN_RIGHT_MARGIN - bar_right_btn.frame.size.width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
     
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
@@ -98,10 +100,9 @@
 #define SEG_BTN_MARGIN_BETWEEN  80
 - (id)DongDaSegLayout:(UIView*)view {
     
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat img_height = width;
+    CGFloat img_height = SCREEN_WIDTH;
     CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + img_height; //width * aspectRatio;
-    view.frame = CGRectMake(0, height, width, FUNC_BAR_HEIGHT);
+    view.frame = CGRectMake(0, height, SCREEN_WIDTH, FUNC_BAR_HEIGHT);
     
     id<AYViewBase> seg = (id<AYViewBase>)view;
     id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -134,49 +135,47 @@
 }
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
     titleView.text = [self getNavTitle]; //@"编辑图片";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
+    titleView.center = CGPointMake(SCREEN_WIDTH / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
     return nil;
 }
 
 - (id)TagPreviewLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width; //width * aspectRatio;
-    CGFloat prefered_height = [UIScreen mainScreen].bounds.size.height - height - FUNC_BAR_HEIGHT;
-    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, width, prefered_height);
+    
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + SCREEN_WIDTH; //width * aspectRatio;
+    CGFloat prefered_height = SCREEN_HEIGHT- height - FUNC_BAR_HEIGHT;
+    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, SCREEN_WIDTH, prefered_height);
     view.hidden = YES;
     return nil;
 }
 
 - (id)TagEntryLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width - FUNC_BAR_HEIGHT;
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + SCREEN_WIDTH - FUNC_BAR_HEIGHT;
     
-    view.frame = CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, width, height);
+    view.frame = CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, height);
     view.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f];
     view.hidden = YES;
     return nil;
 }
 
 - (id)FilterPreviewLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width; //width * aspectRatio;
-    CGFloat prefered_height = [UIScreen mainScreen].bounds.size.height - height - FUNC_BAR_HEIGHT;
-    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, width, prefered_height);
+    
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + SCREEN_WIDTH; //width * aspectRatio;
+    CGFloat prefered_height = SCREEN_HEIGHT - height - FUNC_BAR_HEIGHT;
+    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, SCREEN_WIDTH, prefered_height);
     view.hidden = YES;
     return nil;
 }
 
 - (id)MovieCoverLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width; //width * aspectRatio;
-    CGFloat prefered_height = [UIScreen mainScreen].bounds.size.height - height - FUNC_BAR_HEIGHT;
-    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, width, prefered_height);
+    
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + SCREEN_WIDTH; //width * aspectRatio;
+    CGFloat prefered_height = SCREEN_HEIGHT - height - FUNC_BAR_HEIGHT;
+    view.frame = CGRectMake(0, height + FUNC_BAR_HEIGHT, SCREEN_WIDTH, prefered_height);
     view.hidden = YES;
     return nil;
 }

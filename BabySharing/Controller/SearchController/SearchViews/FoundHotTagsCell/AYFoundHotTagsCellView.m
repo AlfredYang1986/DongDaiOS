@@ -128,7 +128,7 @@
         
         UIFont* font = [UIFont systemFontOfSize:12.f];
         CGSize sz_font = [Tools sizeWithString:tmp withFont:font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-        CGSize sz = CGSizeMake(TAG_MARGIN /*+ ICON_WIDTH*/ + sz_font.width + TAG_MARGIN, TAG_HEIGHT);
+        CGSize sz = CGSizeMake(TAG_MARGIN + 6 /*+ ICON_WIDTH*/ + sz_font.width, TAG_HEIGHT);
         
         FoundHotTagBtn* btn = [[FoundHotTagBtn alloc]init];
         btn.tag_name = tmp;
@@ -158,8 +158,7 @@
         [btn addSubview:label];
         [label mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(btn);
-            make.left.equalTo(btn).offset(6);
-            make.right.equalTo(btn).offset(-6);
+            make.left.equalTo(btn).offset(8);
         }];
         
         label.font = font;

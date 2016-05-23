@@ -23,6 +23,8 @@
 #import "AYRemoteCallCommand.h"
 #import "AYControllerActionDefines.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #define RECOMMEND_COUNT         3
 
 #define MARGIN                  13
@@ -90,10 +92,29 @@
         
         UIImageView* tmp = (UIImageView*)[self viewWithTag:-3 + index];
         tmp.layer.masksToBounds = YES;
-        tmp.layer.borderWidth = 1.5;
+        tmp.layer.borderWidth = 3;
         tmp.layer.borderColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.45].CGColor;
         tmp.layer.cornerRadius = 19.f;
         tmp.clipsToBounds = YES;
+        
+        UIView *border = [[UIView alloc]initWithFrame:CGRectMake(-1, -1, tmp.bounds.size.width+2, tmp.bounds.size.width+2)];
+        border.layer.masksToBounds = YES;
+        border.layer.borderWidth = 2.5;
+        border.layer.borderColor = [UIColor whiteColor].CGColor;
+        border.layer.cornerRadius = (tmp.bounds.size.width + 3) * 0.5;
+        [tmp addSubview:border];
+        [tmp bringSubviewToFront:border];
+//        [border drawRect:tmp.frame];
+//        
+//        UIGraphicsBeginImageContext(tmp.frame.size);
+//        CGContextRef context = UIGraphicsGetCurrentContext();
+//        CGContextSetRGBStrokeColor(context,1,1,1,1.0);//画笔线的颜色
+//        CGContextSetLineWidth(context, 1.0);//线的宽度
+//        CGContextAddArc(context, 19, 19, 2, 0, 2*3.14, 0); //添加一个圆
+//        CGContextDrawPath(context, kCGPathStroke); //绘制路径
+//        
+//        UIGraphicsEndImageContext();
+        
         
         NSString* photo_name = [iter objectForKey:@"screen_photo"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -142,6 +163,7 @@
         tmp.layer.cornerRadius = 0.f;
         tmp.layer.borderColor = [UIColor clearColor].CGColor;
         tmp.layer.borderWidth = 0.f;
+        [tmp.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         tmp.image = nil;
     }
     
