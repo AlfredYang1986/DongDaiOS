@@ -281,7 +281,7 @@
 
 #pragma mark -- actions
 - (void)didSelectPostBtn {
-    
+    bar_publich_btn.userInteractionEnabled = NO;
 }
 
 - (void)didSelectCancelBtn {

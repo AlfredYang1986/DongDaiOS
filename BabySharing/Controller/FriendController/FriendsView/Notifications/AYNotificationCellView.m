@@ -43,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *detailLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *centerConstraint;
 
+@property (nonatomic, strong) NSString *receiver_id;
 @end
 
 @implementation AYNotificationCellView
@@ -50,6 +51,10 @@
 @synthesize imageView = _imageView;
 @synthesize connectContentView = _connectContentView;
 @synthesize notification = _notification;
+
+//@synthesize connections = _connections;
+@synthesize sender_id = _sender_id;
+@synthesize receiver_id = _receiver_id;
 
 //@synthesize postTimeLabel = _postTimeLabel;
 //@synthesize detailLabel = _detailLabel;
@@ -98,7 +103,7 @@
     
     CGSize sz = [Tools sizeWithString:_detailLabel.text withFont:_detailLabel.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
     CGSize sz2 = [Tools sizeWithString:_postTimeLabel.text withFont:_postTimeLabel.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-    CGFloat max_width = kScreenW - IMG_WIDTH - CONTENT_WIDTH - 5 * MARGIN;
+    CGFloat max_width = kScreenW - IMG_WIDTH - CONTENT_WIDTH - 4 * MARGIN;
 
     if (sz.width + sz2.width < max_width) {
         _centerConstraint.constant = 0;
@@ -190,25 +195,10 @@
             [str addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
             
             _detailLabel.attributedText = str;
-           
-            UIImageView* tmp_f = [_connectContentView viewWithTag:-87];
-            tmp_f.image = nil;
-            if (tmp_f == nil) {
-                tmp_f = [[UIImageView alloc] init];
-                [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-                [_connectContentView addSubview:tmp_f];
-                tmp_f.tag = -87;
 
-                tmp_f.frame = CGRectMake(0, 0, 45, 20.5);
-                tmp_f.center = CGPointMake(25 - 2, 25);
-               
-                tmp_f.userInteractionEnabled = YES;
-                UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(relationBtnClicked:)];
-                [tmp_f addGestureRecognizer:tap];
-            }
             
-            tmp_f.image = PNGRESOURCE(@"command_following");
-
+//            tmp_f.image = PNGRESOURCE(@"command_following");
+            
             }
             break;
         case NotificationActionTypeUnFollow:
@@ -339,21 +329,56 @@
     [_postTimeLabel sizeToFit];
 }
 
-- (void)setRelationShip:(UserPostOwnerConnections)connetions {
+- (void)setRelationShip:(UserPostOwnerConnections)connections {
+    _connections = connections;
     
+    UIImageView* tmp_f = [_connectContentView viewWithTag:-87];
+    tmp_f.image = nil;
+    if (tmp_f == nil) {
+        [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        id<AYCommand> cmd = COMMAND(@"Module", @"NotifyFollowBtnInit");
+        id args = [NSNumber numberWithInteger:_connections];
+        [cmd performWithResult:&args];
+        
+        UIView* tmp_f = args;
+        [_connectContentView addSubview:tmp_f];
+        tmp_f.tag = -87;
+        tmp_f.frame = CGRectMake(0, 0, 45, 20.5);
+        tmp_f.center = CGPointMake(25 - 2, 25);
+        
+        ((id<AYViewBase>)tmp_f).controller = self;
+    }
+
+}
+- (id)queryTargetID {
+    id result = self.sender_id;
+    return result;
 }
 
-- (void)relationBtnClicked:(UITapGestureRecognizer*)gesture {
-//    [_delegate didselectedRelationsBtn:_notification];
-//    [_delegate didSelectedRelationBtn:self.notification.sender_id complete:^(BOOL success) {
-//        if (success) {
-//            NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//            NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//            NSString* filepath = [resourceBundle pathForResource:@"command_follow" ofType:@"png"];
-//            UIImageView *imgeView = (UIImageView *)gesture.view;
-//            imgeView.image = [UIImage imageNamed:filepath];
-//        };
-//    }];
+- (id)relationChanged:(id)args {
+    NSNumber* new_relations = (NSNumber*)args;
+    NSLog(@"new relations %@", new_relations);
+    _connections = new_relations.integerValue;
+    
+    UIImageView* tmp_f = [_connectContentView viewWithTag:-86];
+    if (tmp_f == nil) {
+        [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        id<AYCommand> cmd = COMMAND(@"Module", @"NotifyFollowBtnInit");
+        id args = [NSNumber numberWithInteger:_connections];
+        [cmd performWithResult:&args];
+        
+        UIView* tmp_f = args;
+        [_connectContentView addSubview:tmp_f];
+        tmp_f.tag = -86;
+        tmp_f.frame = CGRectMake(0, 0, 45, 20.5);
+        tmp_f.center = CGPointMake(25 - 2, 25);
+        
+        ((id<AYViewBase>)tmp_f).controller = self;
+    }else
+        [_connectContentView addSubview:tmp_f];
+    return nil;
+    
+    //    [self setRelationship:new_relations.integerValue];
 }
 
 - (void)senderImgSelected:(UITapGestureRecognizer*)geture {
@@ -388,7 +413,6 @@
             }
         }
     }
-    
     
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
     [args setValue:@"点赞详情" forKey:@"home_title"];
@@ -482,5 +506,52 @@
     [self setUserImage:tmp.sender_screen_photo];
     [self setDetailTarget:tmp.sender_screen_name andActionType:tmp.type.integerValue andConnectContent:nil];
     [self setTimeLabel:tmp.date];
+    [self setSender_id:tmp.sender_id];
+    [self setReceiver_id:tmp.receiver_id];
+    
+    if (tmp.type.integerValue == 0) {
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"RelationshipRemote");
+        AYRemoteCallCommand* cmd_query_relations = [f.commands objectForKey:@"QueryFollowing"];
+        NSDictionary* user = nil;
+        CURRENUSER(user)
+        
+        NSMutableDictionary* dic = [user mutableCopy];
+        [dic setValue:[user objectForKey:@"user_id"] forKey:@"owner_id"];
+        [dic setValue:_sender_id forKey:@"follow_user_id"];
+        
+        [cmd_query_relations performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                NSArray *reArray = [result objectForKey:@"following"];
+                for (NSDictionary *tmp in reArray) {
+                    if ([[tmp objectForKey:@"user_id"] isEqualToString:_sender_id]) {
+                        [self setRelationship:2];
+                        _connections = 2;
+                        break ;
+                    }
+                }
+//                [self setRelationship:0];
+                _connections = 0;
+                UIImageView* tmp_f = [_connectContentView viewWithTag:-87];
+                if (tmp_f == nil) {
+                    
+                    [_connectContentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                    id<AYCommand> cmd = COMMAND(@"Module", @"NotifyFollowBtnInit");
+                    id args = [NSNumber numberWithInteger:_connections];
+                    [cmd performWithResult:&args];
+                    
+                    UIView* tmp_f = args;
+                    [_connectContentView addSubview:tmp_f];
+                    tmp_f.tag = -87;
+                    
+                    tmp_f.frame = CGRectMake(0, 0, 45, 20.5);
+                    tmp_f.center = CGPointMake(25 - 2, 25);
+                    
+                    ((id<AYViewBase>)tmp_f).controller = self;
+                }else
+                [_connectContentView addSubview:tmp_f];
+            }
+        }];
+    }
 }
 @end

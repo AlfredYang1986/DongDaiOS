@@ -16,6 +16,9 @@
 @interface AYNotificationCellView : UITableViewCell <AYViewBase>
 @property (weak, nonatomic, setter=setCurrentContent:) Notifications* notification;
 
+@property (nonatomic, strong) NSString* sender_id;
+@property (nonatomic, setter=setRelationship:) UserPostOwnerConnections connections;
+
 + (CGFloat)preferedHeight;
 
 - (void)setUserImage:(NSString*)photo_name;
@@ -23,6 +26,6 @@
 
 - (void)setDetailTarget:(NSString*)screen_name andActionType:(NotificationActionType)type andConnectContent:(NSString*)Post_id;
 - (void)setTimeLabel:(NSDate*)time_label;
-- (void)setRelationShip:(UserPostOwnerConnections)connetions;
+- (void)setRelationShip:(UserPostOwnerConnections)connections;
 
 @end

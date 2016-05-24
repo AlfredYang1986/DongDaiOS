@@ -21,6 +21,9 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
+#define BRAGE_WIDTH     25
+#define BRAGE_HEIGHT    BRAGE_WIDTH
+
 @implementation AYGroupListCellView {
     OBShapedButton* brage;
 }
@@ -156,8 +159,6 @@
     
     brage = [[OBShapedButton alloc] init];
     [brage setBackgroundImage:PNGRESOURCE(@"chat_round") forState:UIControlStateNormal];
-#define BRAGE_WIDTH     25
-#define BRAGE_HEIGHT    BRAGE_WIDTH
     brage.frame = CGRectMake(0, 0, BRAGE_WIDTH, BRAGE_HEIGHT);
     brage.center = CGPointMake(48 + BRAGE_WIDTH / 2, 5.5 + BRAGE_HEIGHT / 2);
     [brage setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -170,11 +171,11 @@
     _chatLabel.textColor = [UIColor colorWithWhite:0.6078 alpha:1.f];
     _timeLabel.textColor = [UIColor colorWithWhite:0.6078 alpha:1.f];
     
-    CALayer* line = [CALayer layer];
-    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
-    line.borderWidth = 1.f;
-    line.frame = CGRectMake(10.5, 79, [UIScreen mainScreen].bounds.size.width - 10.5, 1);
-    [self.layer addSublayer:line];
+//    CALayer* line = [CALayer layer];
+//    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+//    line.borderWidth = 1.f;
+//    line.frame = CGRectMake(10.5, 79, [UIScreen mainScreen].bounds.size.width - 10.5, 1);
+//    [self.layer addSublayer:line];
     
     [self setUpReuseCell];
 }

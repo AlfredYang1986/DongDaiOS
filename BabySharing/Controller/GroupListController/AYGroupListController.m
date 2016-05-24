@@ -16,6 +16,8 @@
 #import "AYRemoteCallDefines.h"
 #import "AYGroupListCellDefines.h"
 
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 #define TABLE_VIEW_TOP_MARGIN   64
 
 @implementation AYGroupListController {
@@ -89,9 +91,14 @@
     }
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+    
     {
         id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
         id<AYFacadeBase> f_session = [self.facades objectForKey:@"ChatSessionRemote"];
@@ -130,23 +137,22 @@
 
 #pragma mark -- layouts
 - (id)TableLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
     
-    view.frame = CGRectMake(0, TABLE_VIEW_TOP_MARGIN, width, height - TABLE_VIEW_TOP_MARGIN);
+    view.frame = CGRectMake(0, TABLE_VIEW_TOP_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT - TABLE_VIEW_TOP_MARGIN);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, screen_width, 64);
+    
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
     view.backgroundColor = [UIColor whiteColor];
     
     CALayer* line = [CALayer layer];
     line.borderWidth = 1.f;
     line.borderColor = [UIColor colorWithRed:0.5922 green:0.5922 blue:0.5922 alpha:0.25].CGColor;
-    line.frame = CGRectMake(0, 63, screen_width, 1);
+    line.frame = CGRectMake(0, 63, SCREEN_WIDTH, 1);
     [view.layer addSublayer:line];
     return nil;
 }
@@ -154,7 +160,7 @@
 - (id)ImageLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, 70, 22);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
-    view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, 10 + 64 / 2);
+    view.center = CGPointMake(SCREEN_WIDTH / 2, 10 + 64 / 2);
     return nil;
 }
 
@@ -163,8 +169,7 @@
     
     [actionView addTarget:self action:@selector(popToHomeViewController) forControlEvents:UIControlEventTouchUpInside];
     actionView.tag = -99;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    actionView.center = CGPointMake(width - actionView.frame.size.width / 2 + 5, 21 + actionView.frame.size.height / 2);
+    actionView.center = CGPointMake(SCREEN_WIDTH - actionView.frame.size.width / 2 + 5, 21 + actionView.frame.size.height / 2);
     actionView.backgroundColor = [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:actionView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerBottomLeft cornerRadii:CGSizeMake(20, 20)];
     CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];

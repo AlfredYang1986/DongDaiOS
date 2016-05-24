@@ -59,6 +59,9 @@
 - (void)didSelectPostBtn {
     // TODO: tags ...
 //    NSLog(@"%d",[super isShareQQ]? 1 : 0);
+    
+    [super didSelectPostBtn];
+    
     NSArray* images = @[post_image];
     NSMutableDictionary* post_args = [[NSMutableDictionary alloc]init];
     [post_args setValue:images forKey:@"images"];

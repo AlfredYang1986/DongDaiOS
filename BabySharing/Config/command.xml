@@ -127,6 +127,7 @@
     <command type="Module" name="PhotoTagInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="TagEditInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="RelationshipBtnInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="NotifyFollowBtnInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ThumbsAndPushInit" factory="AYDefaultModuleFactory" />
 
     <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />

@@ -7,9 +7,24 @@
 //
 
 #import "AYSharingSNSView.h"
-
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
+#import "AYFactoryManager.h"
+
+#import "WeiboSDK.h"
+// weibo sdk
+#import "WBHttpRequest+WeiboUser.h"
+#import "WBHttpRequest+WeiboShare.h"
+
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+
+#import "Providers.h"
+#import "Providers+ContextOpt.h"
+#import "AYModelFacade.h"
+#import "AYQueryModelDefines.h"
 
 #define BOTTON_BAR_HEIGHT           (149.0 / 667.0) * [UIScreen mainScreen].bounds.size.height
 #define SNS_BUTTON_WIDTH            25
@@ -149,6 +164,14 @@
     if (btn.tag == 12 ) {
         if (qq.selected || weixin.selected) {
             [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您已经选择了同步分享平台" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            return;
+        }
+        AYModelFacade* fl = LOGINMODEL;
+        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:fl.doc.managedObjectContext];
+        NSString* user_id = tmp.who.user_id;
+        Providers* cur = [Providers enumProvideInContext:fl.doc.managedObjectContext ByName:@"weibo" andCurrentUserID:user_id];
+        if (cur == nil) {
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"微博同步分享请先绑定微博或用微博登录" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             return;
         }
         btn.selected = !btn.selected;

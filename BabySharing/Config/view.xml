@@ -273,6 +273,15 @@
         <command type="notify" message="pushChanged:" />
     </view>
     
+    <view type="NotifyUnFollowBtn" name="NotifyUnFollowBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="queryTargetID" />
+        <command type="notify" message="relationChanged:" />
+    </view>
+    <view type="NotifyFollowedBtn" name="NotifyFollowedBtn" factory="AYDefaultViewFactory" >
+        <command type="notify" message="queryTargetID" />
+        <command type="notify" message="relationChanged:" />
+    </view>
+    
     <view type="AlbumTableCell" name="AlbumTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="setUpItems:" />

@@ -20,7 +20,6 @@
 #import "Tools.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "Tools.h"
 
 #import "InsetsLabel.h"
 
@@ -84,10 +83,12 @@
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didSelectedScreenPhoto)];
     [_user_screen_photo addGestureRecognizer:tap];
     
-    _userNameLabel = [[UILabel alloc]init];
-    _userNameLabel.font = [UIFont systemFontOfSize:14.f];
-    _userNameLabel.textColor = [UIColor colorWithWhite:0.4667 alpha:1.f];
-    [self addSubview:_userNameLabel];
+    if (_userNameLabel == nil) {
+        _userNameLabel = [[UILabel alloc]init];
+        _userNameLabel.font = [UIFont systemFontOfSize:14.f];
+        _userNameLabel.textColor = [UIColor colorWithWhite:0.4667 alpha:1.f];
+        [self addSubview:_userNameLabel];
+    }
    
     if (_userRoleTagBtn == nil) {
         _userRoleTagBtn = [[InsetsLabel alloc]init];
@@ -183,7 +184,7 @@
     _userRoleTagBtn.text = role_tag;
     
     [_userRoleTagBtn sizeToFit];
-    
+    //michauxs:角色名＋昵称长度限制
     CGFloat image_w = CGRectGetWidth(_user_screen_photo.frame);
     CGFloat name_w = CGRectGetWidth(_userNameLabel.frame);
     CGFloat role_w = CGRectGetWidth(_userRoleTagBtn.frame);
@@ -201,7 +202,6 @@
         }
     }else
     _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - _userRoleTagBtn.bounds.size.height -4) * 0.5, _userRoleTagBtn.bounds.size.width + 8, _userRoleTagBtn.bounds.size.height + 4);
-    
     
     
     if ([role_tag isEqualToString:@""] || !role_tag) {

@@ -121,7 +121,7 @@
 - (id)SearchBarLayout:(UIView*)view {
     [super SearchBarLayout:view];
 //    view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y + 64, view.frame.size.width, view.frame.size.height);
-    view.frame = CGRectMake(5, view.frame.origin.y + 64, view.frame.size.width, view.frame.size.height);
+    view.frame = CGRectMake(0, view.frame.origin.y + 64, view.frame.size.width, view.frame.size.height);
     return nil;
 }
 

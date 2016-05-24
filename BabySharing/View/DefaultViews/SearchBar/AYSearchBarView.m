@@ -159,7 +159,7 @@
 - (id)roleTagSearchBar {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     
-    self.bounds = CGRectMake(0, 0, width + 10, 53);
+    self.bounds = CGRectMake(0, 0, width, 53);
     self.showsCancelButton = YES;
     
     self.sb_bg = [UIColor whiteColor];

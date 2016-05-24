@@ -40,12 +40,21 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r2r-sr-JrD">
+                        <rect key="frame" x="10" y="206" width="554" height="1"/>
+                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="iHb-J0-jLr"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="6X0-8M-E7O" firstAttribute="top" secondItem="YAU-8v-xzm" secondAttribute="topMargin" id="Gri-3f-MrZ"/>
+                    <constraint firstAttribute="trailing" secondItem="r2r-sr-JrD" secondAttribute="trailing" id="I53-Og-uF4"/>
                     <constraint firstItem="wew-n8-2JF" firstAttribute="leading" secondItem="6X0-8M-E7O" secondAttribute="trailing" constant="24" id="Iq4-6B-3af"/>
                     <constraint firstAttribute="trailingMargin" secondItem="6X0-8M-E7O" secondAttribute="trailing" constant="8" id="OO3-Zw-8va"/>
                     <constraint firstItem="5ic-TK-kse" firstAttribute="leading" secondItem="wew-n8-2JF" secondAttribute="leading" id="OX3-0B-Lc7"/>
+                    <constraint firstAttribute="bottom" secondItem="r2r-sr-JrD" secondAttribute="bottom" id="Pyi-pS-SXK"/>
                     <constraint firstAttribute="trailingMargin" secondItem="wew-n8-2JF" secondAttribute="trailing" constant="55" id="R6L-dG-ggV"/>
                     <constraint firstItem="wew-n8-2JF" firstAttribute="top" secondItem="YAU-8v-xzm" secondAttribute="topMargin" constant="22" id="RKI-4M-DGm"/>
                     <constraint firstItem="6X0-8M-E7O" firstAttribute="leading" secondItem="YAU-8v-xzm" secondAttribute="leadingMargin" id="V70-8a-C2p"/>
@@ -55,6 +64,7 @@
                     <constraint firstItem="6X0-8M-E7O" firstAttribute="top" secondItem="YAU-8v-xzm" secondAttribute="topMargin" id="ZJe-hk-rD8"/>
                     <constraint firstAttribute="trailingMargin" secondItem="TKO-Vp-Ezx" secondAttribute="trailing" constant="10" id="fY0-Km-sBF"/>
                     <constraint firstItem="TKO-Vp-Ezx" firstAttribute="top" secondItem="wew-n8-2JF" secondAttribute="top" id="lNL-3R-blc"/>
+                    <constraint firstItem="r2r-sr-JrD" firstAttribute="leading" secondItem="YAU-8v-xzm" secondAttribute="leading" constant="10" id="mIC-Bd-qGK"/>
                     <constraint firstItem="5ic-TK-kse" firstAttribute="bottom" secondItem="6X0-8M-E7O" secondAttribute="bottom" id="uZF-LR-5bf"/>
                 </constraints>
                 <variation key="default">
@@ -73,7 +83,7 @@
                 <outlet property="themeLabel" destination="wew-n8-2JF" id="3LD-8R-ySQ"/>
                 <outlet property="timeLabel" destination="TKO-Vp-Ezx" id="QhA-KK-0O0"/>
             </connections>
-            <point key="canvasLocation" x="424" y="269"/>
+            <point key="canvasLocation" x="580" y="323"/>
         </tableViewCell>
     </objects>
 </document>

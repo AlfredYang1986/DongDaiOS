@@ -508,7 +508,7 @@
     for (QueryContentTag *tag in tmp.tags) {
         NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
         [args setValue:[NSNumber numberWithFloat:self.bounds.size.width] forKey:@"width"];
-        [args setValue:[NSNumber numberWithFloat:self.bounds.size.width] forKey:@"height"];
+        [args setValue:[NSNumber numberWithFloat:self.bounds.size.height - 192] forKey:@"height"];
         [args setValue:tag.tag_offset_x forKey:@"offsetX"];
         [args setValue:tag.tag_offset_y forKey:@"offsetY"];
         [args setValue:tag.tag_content forKey:@"tag_text"];
