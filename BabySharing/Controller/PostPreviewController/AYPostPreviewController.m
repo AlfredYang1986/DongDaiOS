@@ -247,7 +247,8 @@
     id<AYCommand> cmd = [self.commands objectForKey:@"PhotoTagInit"];
     [cmd performWithResult:&args];
     id<AYViewBase> tag_view = (id<AYViewBase>)args;
-  
+    
+    
     {
         id<AYCommand> cmd = [tag_view.commands objectForKey:@"queryTagType"];
         NSNumber* result = nil;
@@ -256,6 +257,9 @@
     }
     
     [self.mainContentView addSubview:(UIView*)tag_view];
+    
+    //切换到home  脉冲动画激活
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTagAnimation" object:nil];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tagTaped:)];
     [(UIView*)tag_view addGestureRecognizer:tap];

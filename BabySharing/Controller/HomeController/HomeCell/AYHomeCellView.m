@@ -377,18 +377,6 @@
     [self setUplayout];
 }
 
-//-(void)updateConstraints{
-//    
-//    [_ownerRole mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_ownerImage);
-//        make.left.equalTo(_ownerNameLable.mas_right).offset(10);
-//        make.right.lessThanOrEqualTo(self).offset(-70);
-//        make.height.equalTo(@(CGRectGetHeight(_ownerRole.frame)+4));
-//    }];
-//    
-//    [super updateConstraints];
-//}
-
 - (void)setRoundCorner {
     // 圆角
     CGFloat radius = 14.f;
@@ -520,6 +508,9 @@
         
         [_mainImage addSubview:view];
     }
+    
+    //脉冲动画开始
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTagAnimation" object:nil];
 }
 
 - (void)changeMovie:(NSURL*)path {

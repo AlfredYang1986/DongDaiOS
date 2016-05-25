@@ -173,6 +173,14 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         
         [cmd_scroll performWithResult:&dic];
     }
+    
+    //切换到home  脉冲动画激活
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTagAnimation" object:nil];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
