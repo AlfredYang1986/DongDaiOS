@@ -236,7 +236,7 @@
     diff = self.view.frame.size.height - maxY - step.floatValue;
     
     [UIView animateWithDuration:0.3 animations:^{
-        container.center = CGPointMake(container.center.x, container.center.y - fabsf(diff));
+        container.center = CGPointMake(container.center.x, container.center.y - fabs(diff));
     }];
 }
 
@@ -251,7 +251,7 @@
     
     isUpAnimation = !isUpAnimation;
     [UIView animateWithDuration:0.3 animations:^{
-        container.center = CGPointMake(container.center.x, container.center.y + fabsf(diff));
+        container.center = CGPointMake(container.center.x, container.center.y + fabs(diff));
     }];
 }
 

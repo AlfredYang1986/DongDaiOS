@@ -11,6 +11,7 @@
 #import "Notifications.h"
 #import "Tools.h"
 
+#import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -28,7 +29,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *fromTitle;
 
-@property(strong, nonatomic) UIImage *photoimg;
+@property(strong, nonatomic) NSString *photoimg;
+
 @end
 
 @implementation AYProfilePushCellView
@@ -53,6 +55,10 @@
 //    line.borderWidth = 1.f;
 //    line.frame = CGRectMake(10.5, 80 - 1, [UIScreen mainScreen].bounds.size.width - 10.5 * 2, 1);
 //    [self.layer addSublayer:line];
+    
+    _fromLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(fromPersonProfile:)];
+    [_fromLabel addGestureRecognizer:tap];
     
     [self setUpReuseCell];
 }
@@ -135,15 +141,14 @@
     
     NSDate* content_post_date = [dic objectForKey:@"content_post_date"];
     [self setTimeLabelWithDate:content_post_date];
-
+    
+    _photoimg = [dic objectForKey:@"owner_id"];
+    
     return nil;
 }
 
 -(void)setPhotoImageWithString:(NSString*)photo_name{
 
-//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//    NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"relase_imge_default"] ofType:@"png"];
     [_photoImage setImage:PNGRESOURCE(@"relase_imge_default")];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
@@ -196,6 +201,21 @@
     _timeLabel.text = result;
 }
 
+-(void)fromPersonProfile:(UIGestureRecognizer*)tap{
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"Profile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:_photoimg forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+
+//michauxs:cell点击取消高亮状态
 -(void)setSelected:(BOOL)selected animated:(BOOL)animated {
     
 }

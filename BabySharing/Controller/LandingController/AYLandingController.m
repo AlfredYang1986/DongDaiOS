@@ -121,6 +121,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(163, 73));
     }];
+    title.hidden = YES;
     
     phoneNoLogin = [[UIView alloc]init];
     [self.view addSubview:phoneNoLogin];

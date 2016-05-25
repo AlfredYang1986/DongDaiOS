@@ -234,7 +234,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 - (id)ImageLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 0, 70, 22);
+    view.frame = CGRectMake(0, 0, 48.5, 22);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
     view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, 44 / 2);
     view.hidden = YES;

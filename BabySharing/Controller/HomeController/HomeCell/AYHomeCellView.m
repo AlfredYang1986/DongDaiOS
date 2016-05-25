@@ -31,13 +31,16 @@
 #import "AYThumbsAndPushDefines.h"
 
 #import "InsetsLabel.h"
+#import "OBShapedButton.h"
 
 @interface AYHomeCellView ()
 @property (nonatomic) NSInteger cell_index;
 
 @property (nonatomic, strong, readonly) UIImageView *ownerImage;
 @property (nonatomic, strong, readonly) UILabel *ownerNameLable;
-@property (nonatomic, strong, readonly) InsetsLabel *ownerRole;
+//@property (nonatomic, strong, readonly) InsetsLabel *ownerRole;
+@property (nonatomic, strong, readonly) UIButton *ownerRole;
+@property (nonatomic, strong, readonly) UILabel *ownerRoleLabel;
 @property (nonatomic, strong, readonly) UILabel *ownerDate;
 @property (nonatomic, strong, readonly) UIImageView *mainImage;
 @property (nonatomic, strong, readonly) UILabel *descriptionLabel;
@@ -108,18 +111,35 @@
     _ownerNameLable.textColor = TextColor;
     [self.contentView addSubview:_ownerNameLable];
     
-    _ownerRole = [[InsetsLabel alloc]init];
-    [_ownerRole setInsets:UIEdgeInsetsMake(2, 4, 2, 4)];
-    _ownerRole.text = @"";
-    _ownerRole.font = [UIFont systemFontOfSize:12];
-    _ownerRole.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
-    _ownerRole.textAlignment = NSTextAlignmentCenter;
-    _ownerRole.layer.masksToBounds = YES;
-    _ownerRole.layer.cornerRadius = 3;
-    _ownerRole.layer.shouldRasterize = YES;
-    _ownerRole.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    _ownerRole.textColor = [UIColor whiteColor];
+    
+    _ownerRole = [[UIButton alloc]init];
+//    [_ownerRole setInsets:UIEdgeInsetsMake(2, 4, 2, 4)];
+    _ownerRole.userInteractionEnabled = NO;
+//    UIImage *bg = PNGRESOURCE(@"login_role_bg");
+    UIImage *bg = [UIImage imageNamed:@"login_role_bg2"];
+//    NSInteger leftCapWidth = bg.size.width * 0.5f;
+//    NSInteger topCapHeight = bg.size.height * 0.5f;
+//    bg = [bg stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];
+//    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(bg.size.width * 0.2, 0, bg.size.width * 0.3, bg.size.height) resizingMode:UIImageResizingModeStretch];
+    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
+    [_ownerRole setBackgroundImage:bg forState:UIControlStateNormal];
+    
+//    _ownerRole.text = @"";
+//    _ownerRole.layer.masksToBounds = YES;
+//    _ownerRole.layer.cornerRadius = 3;
+//    _ownerRole.layer.shouldRasterize = YES;
+//    _ownerRole.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//    _ownerRoleLabel.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
+//    _ownerRoleLabel.textAlignment = NSTextAlignmentCenter;
+    
     [self.contentView addSubview:_ownerRole];
+    
+    _ownerRoleLabel = [[UILabel alloc]init];
+    _ownerRoleLabel.textColor = [UIColor whiteColor];
+    _ownerRoleLabel.font = [UIFont systemFontOfSize:12];
+    
+    [_ownerRole addSubview:_ownerRoleLabel];
+    
     
     _ownerDate = [[UILabel alloc] init];
     _ownerDate.font = [UIFont systemFontOfSize:11];
@@ -137,7 +157,6 @@
     [self.contentView addSubview:_descriptionLabel];
    
     // 中间的一条线
-//        lineView = [CALayer layer];
     lineView = [[UIView alloc]init];
     [self.contentView addSubview:lineView];
     lineView.backgroundColor = [Tools colorWithRED:231.0 GREEN:231.0 BLUE:231.0 ALPHA:1.0];
@@ -234,7 +253,10 @@
         make.right.equalTo(self.contentView).offset(-10);
     }];
     
-    [_ownerRole sizeToFit];
+    CGSize sz = [Tools sizeWithString:_ownerRoleLabel.text withFont:[UIFont systemFontOfSize:12.f] andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
+//    _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, CGRectGetMidY(_ownerImage.frame)- (sz.height + 8)*0.5, sz.width + 12, sz.height + 4);
+    
+//    [_ownerRole sizeToFit];
 //    [_ownerRole mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.centerY.equalTo(_ownerImage);
 //        make.left.equalTo(_ownerNameLable.mas_right).offset(10);
@@ -250,16 +272,9 @@
 //    }
     
     CGFloat name_w = CGRectGetWidth(_ownerNameLable.frame);
-    CGFloat role_w = CGRectGetWidth(_ownerRole.frame);
+//    CGFloat role_w = CGRectGetWidth(_ownerRole.frame);
+    CGFloat role_w = sz.width + 12;
 //    CGFloat date_w = CGRectGetWidth(_ownerDate.frame);
-    
-//    if ((32 + name_w + role_w +8+8+10+50) > self.frame.size.width) {
-//        NSLog(@"-- %f",image_w + name_w + role_w + date_w +8+8+10+10+10);
-//        NSLog(@"-- %f",self.frame.size.width);
-//        [self updateConstraints];
-//        
-//    }
-    
     
     if ((32 + name_w + role_w +10+10.5+10+80) > self.frame.size.width) {
         
@@ -274,16 +289,24 @@
         
         if (_ownerRole.bounds.size.width < min_role_limit) {
             _ownerNameLable.frame = CGRectMake(_ownerNameLable.frame.origin.x, _ownerNameLable.frame.origin.y, name_afterLimit, _ownerNameLable.bounds.size.height);
-            _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) , CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, _ownerRole.bounds.size.width+8, _ownerRole.bounds.size.height+4 );
+            _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) , CGRectGetMidY(_ownerNameLable.frame)-10, sz.width+14, 20 );
         }else{
             
             _ownerNameLable.frame = CGRectMake(_ownerNameLable.frame.origin.x, _ownerNameLable.frame.origin.y, _ownerNameLable.bounds.size.width - overMore, _ownerNameLable.bounds.size.height);
-            _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) , CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, min_role_limit, _ownerRole.bounds.size.height +4);
+            _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) , CGRectGetMidY(_ownerNameLable.frame)-10, min_role_limit, 20);
             
         }
     }else
-        _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, CGRectGetMidY(_ownerNameLable.frame)-_ownerRole.bounds.size.height*0.5 - 2, _ownerRole.bounds.size.width + 8, _ownerRole.bounds.size.height + 4);
+        _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, CGRectGetMidY(_ownerNameLable.frame)-10, sz.width + 14, 20);
 
+    
+//    _ownerRoleLabel.frame = CGRectMake(10, 2, sz.width, sz.height);
+    [_ownerRoleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_ownerRole);
+        make.left.equalTo(_ownerRole).offset(10);
+        make.right.equalTo(_ownerRole).offset(4);
+    }];
+    
     [_mainImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_ownerImage.mas_bottom).offset(8);
         make.left.equalTo(self.contentView);
@@ -443,7 +466,7 @@
     
     self.ownerNameLable.text = content.owner_name;
     self.descriptionLabel.text = content.content_description;
-    self.ownerRole.text = content.owner_role;
+    self.ownerRoleLabel.text = content.owner_role;
     self.ownerDate.text = [Tools compareCurrentTime:content.content_post_date];
     if ((unsigned long)self.content.chaters.count > 3) {
         NSLog(@"MonkeyHengLog: %lu === %d, %@", (unsigned long)self.content.chaters.count, self.content.group_chat_count.intValue, self.content.content_post_id);

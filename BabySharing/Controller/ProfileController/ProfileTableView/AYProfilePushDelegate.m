@@ -124,6 +124,7 @@
         [dict setObject:item.owner_name forKey:@"owner_name"];
         [dict setObject:item.content_description forKey:@"content_description"];
         [dict setObject:item.content_post_date forKey:@"content_post_date"];
+        [dict setObject:item.owner_id forKey:@"owner_id"];
         
         [tempArr addObject:dict];
     }

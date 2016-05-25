@@ -225,7 +225,6 @@
 		702E7A911CA151770097867E /* icon-bk.png in Resources */ = {isa = PBXBuildFile; fileRef = 702E7A8A1CA151770097867E /* icon-bk.png */; };
 		702E7A921CA151770097867E /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 702E7A8B1CA151770097867E /* icon.png */; };
 		702E7A931CA151770097867E /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 702E7A8C1CA151770097867E /* icon@2x.png */; };
-		702E7A991CA1572E0097867E /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 702E7A981CA1572E0097867E /* default.png */; };
 		702E7AA41CA160040097867E /* GDataXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7AA31CA160040097867E /* GDataXMLNode.m */; };
 		702E7AAE1CA1622C0097867E /* AYFactoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7AAD1CA1622C0097867E /* AYFactoryManager.m */; };
 		702E7AB11CA166E90097867E /* controller.xml in Resources */ = {isa = PBXBuildFile; fileRef = 702E7AB01CA166E90097867E /* controller.xml */; };
@@ -274,6 +273,8 @@
 		703CCDF61CCA11AC00CF4563 /* AYGroupChatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDF51CCA11AC00CF4563 /* AYGroupChatController.m */; };
 		703CCDFA1CCA129300CF4563 /* AYGroupChatHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDF91CCA129300CF4563 /* AYGroupChatHeaderView.m */; };
 		703CCDFD1CCA1A7500CF4563 /* AYChatInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDFC1CCA1A7500CF4563 /* AYChatInputView.m */; };
+		7043362A1CF587C900F9B73B /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 704336291CF587C900F9B73B /* default.png */; };
+		704336321CF5D88600F9B73B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 704336311CF5D88600F9B73B /* Assets.xcassets */; };
 		704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 704697AF1CE047F200DACD8A /* MKAnnotationView+WebCache.m */; };
 		704697D01CE047F200DACD8A /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 704697B11CE047F200DACD8A /* NSData+ImageContentType.m */; };
 		704697D11CE047F200DACD8A /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 704697B31CE047F200DACD8A /* SDImageCache.m */; };
@@ -990,7 +991,6 @@
 		702E7A8A1CA151770097867E /* icon-bk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-bk.png"; sourceTree = "<group>"; };
 		702E7A8B1CA151770097867E /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		702E7A8C1CA151770097867E /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
-		702E7A981CA1572E0097867E /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		702E7AA21CA160040097867E /* GDataXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GDataXMLNode.h; sourceTree = "<group>"; };
 		702E7AA31CA160040097867E /* GDataXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GDataXMLNode.m; sourceTree = "<group>"; };
 		702E7AAC1CA1622C0097867E /* AYFactoryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFactoryManager.h; sourceTree = "<group>"; };
@@ -1085,6 +1085,8 @@
 		703CCDF91CCA129300CF4563 /* AYGroupChatHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGroupChatHeaderView.m; sourceTree = "<group>"; };
 		703CCDFB1CCA1A7500CF4563 /* AYChatInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChatInputView.h; sourceTree = "<group>"; };
 		703CCDFC1CCA1A7500CF4563 /* AYChatInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChatInputView.m; sourceTree = "<group>"; };
+		704336291CF587C900F9B73B /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
+		704336311CF5D88600F9B73B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		704697AE1CE047F200DACD8A /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		704697AF1CE047F200DACD8A /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		704697B01CE047F200DACD8A /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -3252,6 +3254,7 @@
 			children = (
 				702E7AAF1CA166E90097867E /* Config */,
 				702E7A851CA151770097867E /* Resource */,
+				704336311CF5D88600F9B73B /* Assets.xcassets */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -3310,7 +3313,7 @@
 				703B896D1CBF65EB002EBB18 /* privacy.html */,
 				7017F3521CB7BA74002C416E /* Info.plist */,
 				7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */,
-				702E7A981CA1572E0097867E /* default.png */,
+				704336291CF587C900F9B73B /* default.png */,
 				702E7A861CA151770097867E /* icon-120.png */,
 				702E7A871CA151770097867E /* icon-152.png */,
 				702E7A881CA151770097867E /* icon-167.png */,
@@ -5769,6 +5772,7 @@
 				7001310B1CA44057006003C8 /* view.xml in Resources */,
 				702510811CC0EA2C00DADF2B /* AYGroupListCellView.xib in Resources */,
 				70490DBE1CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				704336321CF5D88600F9B73B /* Assets.xcassets in Resources */,
 				706881651CCF641800D9D715 /* AYProfilePushCellView.xib in Resources */,
 				70F369C01CC395710067B62E /* AYFoundSearchResultCellView.xib in Resources */,
 				702E7A8E1CA151770097867E /* icon-152.png in Resources */,
@@ -5796,9 +5800,9 @@
 				70A7571B1CCA4B8300B23E44 /* AYChatGroupInfoCellView.xib in Resources */,
 				70EAD80C1CA662EF007965D2 /* model.xml in Resources */,
 				7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */,
+				7043362A1CF587C900F9B73B /* default.png in Resources */,
 				702E7A931CA151770097867E /* icon@2x.png in Resources */,
 				703CCDF01CC9F2B100CF4563 /* AYNotificationCellView.xib in Resources */,
-				702E7A991CA1572E0097867E /* default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6430,10 +6434,10 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-test.BabySharing";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -6470,10 +6474,10 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.blackmirror-test.BabySharing";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
