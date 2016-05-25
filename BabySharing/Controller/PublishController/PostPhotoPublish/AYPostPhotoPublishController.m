@@ -159,4 +159,12 @@
     }];
     
 }
+
+- (void)KeyboardShowKeyboard:(id)args {
+    [super KeyboardShowKeyboard:args];
+}
+
+- (void)KeyboardHideKeyboard:(id)args {
+    [super KeyboardHideKeyboard:args];
+}
 @end

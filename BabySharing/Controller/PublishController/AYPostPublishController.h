@@ -57,4 +57,6 @@ typedef enum : NSUInteger {
 - (NSString*)getNavTitle;
 - (void)setCurrentStatus:(AYPostPublishControllerStatus)status;
 - (void)didSelectPostBtn;
+- (void)KeyboardShowKeyboard:(id)args;
+- (void)KeyboardHideKeyboard:(id)args;
 @end

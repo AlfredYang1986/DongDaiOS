@@ -79,25 +79,6 @@
     return YES; //返回NO表示要显示，返回YES将hiden
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    /**
-     * input method
-     */
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardDidChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHidden:) name:UIKeyboardWillHideNotification object:nil];
-//    inputView.isMoved = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-}
-
 #pragma mark -- layouts
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -240,42 +221,37 @@
 }
 
 #pragma mark -- keyboard
-- (void)keyboardWillShow:(NSNotification *)notification {
+- (void)KeyboardShowKeyboard:(id)args {
+    NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
     if (isUpAnimation) {
         return;
     }
-   
+    
     self.status = AYPostPublishControllerStatusInputing;
     
     UIView* container = [self.views objectForKey:@"PublishContainer"];
     
     isUpAnimation = !isUpAnimation;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
     CGFloat maxY = CGRectGetMaxY(container.frame);
-    diff = self.view.frame.size.height - maxY - keyBoardFrame.size.height;
+    diff = self.view.frame.size.height - maxY - step.floatValue;
     
     [UIView animateWithDuration:0.3 animations:^{
-        container.center = CGPointMake(container.center.x, container.center.y + diff);
+        container.center = CGPointMake(container.center.x, container.center.y - fabsf(diff));
     }];
 }
 
-- (void)keyboardWillHidden:(NSNotification *)notification {
+- (void)KeyboardHideKeyboard:(id)args {
     if (!isUpAnimation) {
         return;
     }
-   
+    
     self.status = AYPostPublishControllerStatusReady;
-
+    
     UIView* container = [self.views objectForKey:@"PublishContainer"];
     
     isUpAnimation = !isUpAnimation;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
     [UIView animateWithDuration:0.3 animations:^{
-        container.center = CGPointMake(container.center.x, container.center.y - diff);
+        container.center = CGPointMake(container.center.x, container.center.y + fabsf(diff));
     }];
 }
 

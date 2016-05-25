@@ -375,6 +375,7 @@
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
         <facade type="DefaultFacade" name="SNSWeibo" notification="true" />
+        <facade type="DefaultFacade" name="Keyboard" notification="true" />
         
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
