@@ -48,9 +48,9 @@
      */
     dispatch_queue_t qw = dispatch_queue_create("wait thread", nil);
     dispatch_async(qw, ^{
-        for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        }
+//        for (dispatch_semaphore_t iter in semaphores_upload_photos) {
+//            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+//        }
         dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -97,7 +97,7 @@
                     dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
                 }];
             }
-           
+            
             NSMutableDictionary* dic_tmp = [[NSMutableDictionary alloc]init];
             [dic_tmp setObject:[NSNumber numberWithInteger:ModelAttchmentTypeImage] forKey:@"type"];
             [dic_tmp setObject:extent forKey:@"name"];
@@ -106,12 +106,28 @@
         }
         [post_args setObject:arr_items forKey:@"items"];
 
-        AYRemoteCallCommand* cmd = COMMAND(@"Remote", @"PostContent");
-        [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            post_data_result = success;
-            server_reture_data = result;
+        /**
+         * 4. 等待图片进程全部处理完成
+         */
+        for (dispatch_semaphore_t iter in semaphores_upload_photos) {
+            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        }
+        
+        NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
+        NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
+        
+        if (image_result.count == 0) {
+            AYRemoteCallCommand* cmd = COMMAND(@"Remote", @"PostContent");
+            [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                post_data_result = success;
+                server_reture_data = result;
+                dispatch_semaphore_signal(semaphore);
+            }];
+        } else {
+            post_data_result = NO;
+            server_reture_data = @{@"error":@"post image error"};
             dispatch_semaphore_signal(semaphore);
-        }];
+        }
     });
 }
 @end

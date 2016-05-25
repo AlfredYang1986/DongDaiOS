@@ -44,8 +44,8 @@
      */
     dispatch_queue_t qw = dispatch_queue_create("wait thread", nil);
     dispatch_async(qw, ^{
-        dispatch_semaphore_wait(movie_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        dispatch_semaphore_wait(cover_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+//        dispatch_semaphore_wait(movie_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+//        dispatch_semaphore_wait(cover_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -119,12 +119,21 @@
             [post_args setObject:arr_items forKey:@"items"];
         }
         
-        AYRemoteCallCommand* cmd = COMMAND(@"Remote", @"PostContent");
-        [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            post_data_result = success;
-            server_reture_data = result;
+        dispatch_semaphore_wait(movie_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        dispatch_semaphore_wait(cover_semephore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        
+        if (post_movie_result && post_cover_result) {
+            AYRemoteCallCommand* cmd = COMMAND(@"Remote", @"PostContent");
+            [cmd performWithResult:[post_args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                post_data_result = success;
+                server_reture_data = result;
+                dispatch_semaphore_signal(semaphore);
+            }];
+        } else {
+            post_data_result = NO;
+            server_reture_data = @{@"error":@"post attachment error"};
             dispatch_semaphore_signal(semaphore);
-        }];
+        }
     });
 }
 @end
