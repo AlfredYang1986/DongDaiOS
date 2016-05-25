@@ -50,4 +50,8 @@ static NSString* const kAYNotifyXMPPGetGroupMemberSuccess = @"XMPPGetGroupMember
 static NSString* const kAYNotifyXMPPMessageGetMessageListSuccess = @"XMPPMessageGetMessageListSuccess:";
 static NSString* const kAYNotifyXMPPMessageGetMessageListFailed = @"XMPPMessageGetMessageListFailed:";
 
+static NSString* const kAYNotifyKeyboardShowKeyboard = @"KeyboardShowKeyboard:";
+static NSString* const kAYNotifyKeyboardHideKeyboard = @"KeyboardHideKeyboard:";
+static NSString* const kAYNotifyKeyboardArgsHeightKey = @"KeyboardArgsHeightKey";
+
 #endif /* AYNotifyDefines_h */

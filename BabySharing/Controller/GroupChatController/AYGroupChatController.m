@@ -17,6 +17,7 @@
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
 #import "AYChatInputView.h"
+#import "AYNotifyDefines.h"
 
 #import "GotyeOCChatTarget.h"
 #import "GotyeOCMessage.h"
@@ -175,20 +176,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [view_table addGestureRecognizer:tap];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-
 - (void)clearController {
     [super clearController];
     
@@ -207,8 +194,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     view.frame = CGRectMake(0, 0, width, height.floatValue);
     view.backgroundColor = [UIColor clearColor];
-    
-
     
     return nil;
 }
@@ -398,44 +383,18 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- get input view height
-- (void)keyboardDidShow:(NSNotification*)notification {
-    UIView *result = nil;
-    NSArray *windowsArray = [UIApplication sharedApplication].windows;
-    for (UIView *tmpWindow in windowsArray) {
-        NSArray *viewArray = [tmpWindow subviews];
-        for (UIView *tmpView  in viewArray) {
-            NSLog(@"%@", [NSString stringWithUTF8String:object_getClassName(tmpView)]);
-            // if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIPeripheralHostView"]) {
-            if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIInputSetContainerView"]) {
-                result = tmpView;
-                break;
-            }
-        }
-        
-        if (result != nil) {
-            break;
-        }
-    }
-    
-    //    keyboardView = result;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
-   
+- (void)KeyboardShowKeyboard:(id)args {
+    NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
     [UIView animateWithDuration:0.3f animations:^{
-        self.view.center = CGPointMake(self.view.center.x, self.view.center.y - keyBoardFrame.size.height);
+        self.view.center = CGPointMake(self.view.center.x, height / 2 - step.floatValue);
     }];
 }
 
-- (void)keyboardWasChange:(NSNotification *)notification {
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
-}
-
-- (void)keyboardDidHidden:(NSNotification*)notification {
+- (void)KeyboardHideKeyboard:(id)args {
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
     [UIView animateWithDuration:0.3f animations:^{
-        self.view.center = CGPointMake(self.view.center.x, self.view.center.y + keyBoardFrame.size.height);
+        self.view.center = CGPointMake(self.view.center.x, height / 2);
     }];
 }
 

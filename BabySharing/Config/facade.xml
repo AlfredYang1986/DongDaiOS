@@ -211,4 +211,7 @@
     <facade type="DefaultFacade" name="Contacter" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="GetAllPhones" />
     </facade>
+    
+    <facade type ="DefaultFacade" name="Keyboard" factory="AYDefaultFacadeFactory" >
+    </facade>
 </facades>

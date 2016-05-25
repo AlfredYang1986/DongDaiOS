@@ -402,6 +402,7 @@
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
+        <facade type="DefaultFacade" name="Keyboard" notification="true" />
 
         <view type="Image" name="Image" />
         <view type="GroupChatHeader" name="GroupChatHeader" />

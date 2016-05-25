@@ -16,6 +16,7 @@
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
+#import "AYNotifyDefines.h"
 
 
 #define NEXT_BTN_MARGIN_BOTTOM  80
@@ -171,25 +172,6 @@
     [self.view addGestureRecognizer:tap];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    /**
-     * input method
-     */
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardDidChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardDidHideNotification object:nil];
-//    inputView.isMoved = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
-}
-
 #pragma mark -- views layouts
 - (id)UserScreenPhoteSelectLayout:(UIView*)view {
     return nil;
@@ -209,50 +191,6 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     self.navigationItem.titleView = view;
     return nil;
-}
-
-#pragma mark -- keyboard
-- (void)keyboardDidShow:(NSNotification*)notification {
-    UIView *result = nil;
-    NSArray *windowsArray = [UIApplication sharedApplication].windows;
-    for (UIView *tmpWindow in windowsArray) {
-        NSArray *viewArray = [tmpWindow subviews];
-        for (UIView *tmpView  in viewArray) {
-            NSLog(@"%@", [NSString stringWithUTF8String:object_getClassName(tmpView)]);
-            // if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIPeripheralHostView"]) {
-            if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIInputSetContainerView"]) {
-                result = tmpView;
-                break;
-            }
-        }
-        
-        if (result != nil) {
-            break;
-        }
-    }
-    
-    //    keyboardView = result;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
-    
-//    CGFloat height = [UIScreen mainScreen].bounds.size.height - (inputView.frame.size.height + inputView.frame.origin.y);
-//    if (!inputView.isMoved) {
-//        [self moveView:-height];
-//    }
-}
-
-- (void)keyboardWasChange:(NSNotification *)notification {
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
-}
-
-- (void)keyboardDidHidden:(NSNotification*)notification {
-//    CGFloat height = [UIScreen mainScreen].bounds.size.height - (inputView.frame.size.height + inputView.frame.origin.y);
-//    if (inputView.isMoved) {
-//        [self moveView:height];
-//    }
 }
 
 #pragma mark -- actions
