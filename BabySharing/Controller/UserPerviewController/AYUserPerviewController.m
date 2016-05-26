@@ -15,6 +15,12 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
+#import "AYModelFacade.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+
 @implementation AYUserPerviewController {
     NSString* role_tag;
 }
@@ -132,4 +138,6 @@
     [cmd performWithResult:&dic_pop];
     return nil;
 }
+
+
 @end

@@ -65,7 +65,8 @@
         id result = nil;
         [self receiveMessage:message_name andArgs:args withResult:&result];
         *obj = result;
-    } else {
+    }
+    else {
         NSString* notify_name = [dic objectForKey:kAYNotifyFunctionKey];
 //        NSString* notify_target = [dic objectForKey:kAYNotifyTargetKey];
         NSDictionary* notify_arg = [dic objectForKey:kAYNotifyArgsKey];

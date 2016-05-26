@@ -18,26 +18,22 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#define CELL_HEADER_HEIGHT  59
-#define CELL_FOOTER_HEIGHT  10
+#import "AYViewController.h"
+#import "AYModelFacade.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
 
 #define HEADER_CONTAINER    80
+#define PREFERRED_HEIGHT    80
 
 #define PHOTO_PER_LINE      3
-
-
-#define HEARDER_CELL_INDEX  0
-#define CONTENT_CELL_INDEX  1
-#define FOOTER_CELL_INDEX   2
-
-#define CELL_COUNTS         3
 
 #define IMG_WIDTH       40
 #define IMG_HEIGHT      IMG_WIDTH
 
-#define PREFERRED_HEIGHT    80
-
-#define NAME_LEFT_MARGIN    10.5
+#define MARGIN_ALL      (10+10.5+10+90)
 
 @interface AYUserTableCellView ()
 @property (weak, nonatomic) IBOutlet UIImageView *headView;
@@ -81,7 +77,9 @@
     
     if (_userRoleTagBtn == nil) {
         _userRoleTagBtn = [[OBShapedButton alloc]init];
-        [_userRoleTagBtn setBackgroundImage:PNGRESOURCE(@"home_role_tag") forState:UIControlStateNormal];
+        UIImage *bg = [UIImage imageNamed:@"login_role_bg2"];
+        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
+        [_userRoleTagBtn setBackgroundImage:bg forState:UIControlStateNormal];
         [self addSubview:_userRoleTagBtn];
     }
     
@@ -118,13 +116,8 @@
     _userNameLabel.text = name;
     _userNameLabel.font = [UIFont systemFontOfSize:14.0f];
     
-#define TAG_2_NAME_MARGIN   10
-#define USER_NAME_TOP_MARGIN    8
-    
-    [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_headView);
-        make.left.equalTo(_headView.mas_right).offset(8);
-    }];
+    [_userNameLabel sizeToFit];
+    _userNameLabel.frame = CGRectMake(CGRectGetMaxX(_headView.frame)+8, CGRectGetMidY(_headView.frame)-10, CGRectGetWidth(_userNameLabel.bounds), CGRectGetHeight(_userNameLabel.bounds));
 }
 
 - (void)setUserRoleTag:(NSString*)role_tag {
@@ -135,30 +128,39 @@
         label.font = [UIFont systemFontOfSize:12.f];
         label.textColor = [UIColor whiteColor];
         label.tag = -19;
+        [_userRoleTagBtn.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
         [_userRoleTagBtn addSubview:label];
     }
     
-#define ROLE_TAG_MARGIN 2
-    
     label.text = role_tag;
     [label sizeToFit];
-    label.center = CGPointMake(5 + label.frame.size.width / 2, ROLE_TAG_MARGIN + label.frame.size.height / 2);
     
-    [_userRoleTagBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_headView);
-        make.left.equalTo(_userNameLabel.mas_right).offset(8);
-        make.width.mas_equalTo(label.frame.size.width + 10 + ROLE_TAG_MARGIN);
-        make.height.mas_equalTo(label.frame.size.height + 2 * ROLE_TAG_MARGIN);
+    //michauxs:角色名＋昵称长度限制
+    CGFloat image_w = CGRectGetWidth(_headView.bounds);
+    CGFloat name_w = CGRectGetWidth(_userNameLabel.bounds);
+    CGFloat role_w = 0;
+    role_w = CGRectGetWidth(label.bounds)+14;
+    
+    if ((image_w + name_w + role_w + MARGIN_ALL) > self.frame.size.width) {
+        _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, CGRectGetMidY(_headView.frame)-10, self.frame.size.width - image_w-name_w- MARGIN_ALL, 20);
+        NSLog(@"%f",self.frame.size.width - image_w-name_w-130.5);
+        
+        CGFloat min_role_limit = 50;
+        CGFloat role_afterLimit = self.frame.size.width - image_w-name_w-MARGIN_ALL;
+        if (role_afterLimit < min_role_limit) {
+            
+            CGFloat overMore = min_role_limit - role_afterLimit;
+            _userNameLabel.frame = CGRectMake(CGRectGetMaxX(_headView.frame)+10, CGRectGetMidY(_headView.frame)-10, _userNameLabel.bounds.size.width - overMore, _userNameLabel.bounds.size.height);
+            _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, CGRectGetMidY(_headView.frame)-10, min_role_limit, 20 );
+        }
+    }else
+        _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, CGRectGetMidY(_headView.frame)-10, role_w, 20);
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_userRoleTagBtn);
+        make.left.equalTo(_userRoleTagBtn).offset(10);
+        make.right.equalTo(_userRoleTagBtn).offset(-4);
     }];
-    
-    if (label.frame.size.width != 0) {
-        [_userRoleTagBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(_headView);
-            make.left.equalTo(_userNameLabel.mas_right).offset(8);
-            make.width.mas_equalTo(label.frame.size.width + 10 + ROLE_TAG_MARGIN);
-            make.height.mas_equalTo(label.frame.size.height + 2 * ROLE_TAG_MARGIN);
-        }];
-    }
     
     if ([@"" isEqualToString:role_tag]) {
         _userRoleTagBtn.hidden = YES;
@@ -345,4 +347,32 @@
 - (id)queryCellHeight {
     return [NSNumber numberWithFloat:[AYUserTableCellView preferredHeight]];
 }
+
+- (id)SamePersonBtnSelected {
+    NSLog(@"push to person setting");
+    
+    AYModelFacade* f = LOGINMODEL;
+    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+    
+    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [cur setValue:tmp.who.user_id forKey:@"user_id"];
+    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
+    return nil;
+}
+
 @end

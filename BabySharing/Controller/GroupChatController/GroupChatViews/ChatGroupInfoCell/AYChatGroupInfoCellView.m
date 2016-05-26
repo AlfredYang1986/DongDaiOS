@@ -50,7 +50,7 @@
     if (back_btn == nil) {
         back_btn = [[UIButton alloc]init];
         CALayer* layer = [CALayer layer];
-        layer.contents = (id)PNGRESOURCE(@"group_chat").CGImage;
+        layer.contents = (id)[UIImage imageNamed:@"chan_group_back"].CGImage;
         layer.frame = CGRectMake(0, 0, 22, 22);
         layer.position = CGPointMake(USER_INFO_BACK_BTN_WIDTH / 2, USER_INFO_BACK_BTN_HEIGHT / 2);
         

@@ -31,11 +31,12 @@
 #define NAME_LEFT_MARGIN    10.5
 #define TAG_2_NAME_MARGIN   10
 #define USER_NAME_TOP_MARGIN    8
+#define MARGIN_ALL      (10+10.5+10+90)
 
 @interface AYUserDisplayView ()
 @property (weak, nonatomic) IBOutlet UIImageView *user_screen_photo;
 @property (weak, nonatomic) IBOutlet UIView *relationContainer;
-@property (nonatomic, strong) InsetsLabel* userRoleTagBtn;
+@property (nonatomic, strong) UIButton* userRoleTagBtn;
 //@property (weak, nonatomic) IBOutlet NSLayoutConstraint *userNameLabelWidth;
 //@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (nonatomic, assign) CGSize userName;
@@ -91,21 +92,14 @@
     }
    
     if (_userRoleTagBtn == nil) {
-        _userRoleTagBtn = [[InsetsLabel alloc]init];
-//        [_userRoleTagBtn setBackgroundImage:PNGRESOURCE(@"home_role_tag") forState:UIControlStateNormal];
-        
-        [_userRoleTagBtn setInsets:UIEdgeInsetsMake(2, 4, 2, 4)];
-        _userRoleTagBtn.text = @"";
-        _userRoleTagBtn.font = [UIFont systemFontOfSize:12];
-        _userRoleTagBtn.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
-        _userRoleTagBtn.textAlignment = NSTextAlignmentCenter;
-        _userRoleTagBtn.layer.masksToBounds = YES;
-        _userRoleTagBtn.layer.cornerRadius = 3;
-        _userRoleTagBtn.layer.shouldRasterize = YES;
-        _userRoleTagBtn.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        _userRoleTagBtn.textColor = [UIColor whiteColor];
-        
+        _userRoleTagBtn = [[UIButton alloc]init];
+        _userRoleTagBtn.userInteractionEnabled = NO;
+        _userRoleTagBtn.backgroundColor = [UIColor clearColor];
         [self addSubview:_userRoleTagBtn];
+        
+//        _userRoleTagBtn.layer.contents = (id)bg.CGImage;
+//        _userRoleTagBtn.layer.rasterizationScale = 2;
+//        _userRoleTagBtn.layer.shouldRasterize = YES;
     }
     
     line = [CALayer layer];
@@ -120,11 +114,11 @@
     [self setUpReuseCell];
 }
 
-- (void)layoutSublayersOfLayer:(CALayer *)layer {
-    if (layer == line) {
-        line.frame = CGRectMake(_lineMargin, _cellHeight - 1, self.bounds.size.width - 2 * _lineMargin, 1);
-    }
-}
+//- (void)layoutSublayersOfLayer:(CALayer *)layer {
+//    if (layer == line) {
+//        line.frame = CGRectMake(_lineMargin, _cellHeight - 1, self.bounds.size.width - 2 * _lineMargin, 1);
+//    }
+//}
 
 - (void)setUserScreenPhoto:(NSString*)photo_name {
    
@@ -169,8 +163,8 @@
 - (void)setUserScreenName:(NSString*)name {
     _userNameLabel.text = name;
     _userNameLabel.font = [UIFont systemFontOfSize:14.0f];
-    [_userNameLabel sizeToFit];
     
+    [_userNameLabel sizeToFit];
     _userNameLabel.frame = CGRectMake(CGRectGetMaxX(_user_screen_photo.frame)+10, (self.frame.size.height - _userNameLabel.bounds.size.height)*0.5, _userNameLabel.bounds.size.width, _userNameLabel.bounds.size.height);
     
 //    _userName = [Tools sizeWithString:name withFont:[UIFont systemFontOfSize:14.f] andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
@@ -181,54 +175,60 @@
 
 - (void)setUserRoleTag:(NSString*)role_tag {
     _userRoleTagBtn.hidden = NO;
-    _userRoleTagBtn.text = role_tag;
     
-    [_userRoleTagBtn sizeToFit];
+    
+    UILabel* label = [_userRoleTagBtn viewWithTag:-19];
+    if (label == nil) {
+        label = [[UILabel alloc] init];
+        label.font = [UIFont systemFontOfSize:12.f];
+        label.textColor = [UIColor whiteColor];
+        label.tag = -19;
+        label.text = @"";
+        [_userRoleTagBtn.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+        [_userRoleTagBtn addSubview:label];
+    }
+    
+    label.text = role_tag;
+    [label sizeToFit];
+    
     //michauxs:角色名＋昵称长度限制
-    CGFloat image_w = CGRectGetWidth(_user_screen_photo.frame);
-    CGFloat name_w = CGRectGetWidth(_userNameLabel.frame);
-    CGFloat role_w = CGRectGetWidth(_userRoleTagBtn.frame);
+    CGFloat image_w = CGRectGetWidth(_user_screen_photo.bounds);
+    CGFloat name_w = CGRectGetWidth(_userNameLabel.bounds);
+    CGFloat role_w = 0;
+    role_w = CGRectGetWidth(label.bounds)+14;
     
-    if ((image_w + name_w + role_w +10+10.5+10+100) > self.frame.size.width) {
-        _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - _userRoleTagBtn.bounds.size.height - 4) * 0.5, self.frame.size.width - image_w-name_w-130.5, _userRoleTagBtn.bounds.size.height + 4);
+    if ((image_w + name_w + role_w + MARGIN_ALL) > self.frame.size.width) {
+        _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - 20) * 0.5, self.frame.size.width - image_w-name_w- MARGIN_ALL, 20);
         NSLog(@"%f",self.frame.size.width - image_w-name_w-130.5);
         
         CGFloat min_role_limit = 50;
-        CGFloat role_afterLimit = self.frame.size.width - image_w-name_w-130.5;
+        CGFloat role_afterLimit = self.frame.size.width - image_w-name_w-MARGIN_ALL;
         if (role_afterLimit < min_role_limit) {
+            
             CGFloat overMore = min_role_limit - role_afterLimit;
             _userNameLabel.frame = CGRectMake(CGRectGetMaxX(_user_screen_photo.frame)+10, (self.frame.size.height - _userNameLabel.bounds.size.height)*0.5, _userNameLabel.bounds.size.width - overMore, _userNameLabel.bounds.size.height);
-            _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - _userRoleTagBtn.bounds.size.height) * 0.5, min_role_limit, _userRoleTagBtn.bounds.size.height );
+            _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - 20) * 0.5, min_role_limit, 20 );
         }
     }else
-    _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - _userRoleTagBtn.bounds.size.height -4) * 0.5, _userRoleTagBtn.bounds.size.width + 8, _userRoleTagBtn.bounds.size.height + 4);
+    _userRoleTagBtn.frame = CGRectMake(CGRectGetMaxX(_userNameLabel.frame) + 10, (self.frame.size.height - 20) * 0.5, role_w, 20);
     
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(_userRoleTagBtn);
+        make.left.equalTo(_userRoleTagBtn).offset(10);
+        make.right.equalTo(_userRoleTagBtn).offset(-4);
+    }];
+    
+    UIImage *bg = [UIImage imageNamed:@"login_role_bg2"];
+    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
+    [_userRoleTagBtn setBackgroundImage:bg forState:UIControlStateNormal];
     
     if ([role_tag isEqualToString:@""] || !role_tag) {
         _userRoleTagBtn.hidden = YES;
     }
-    
-//    [_userRoleTagBtn sizeToFit];
-//    [_userRoleTagBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(self);
-//        make.left.equalTo(_userNameLabel.mas_right).offset(10);
-////        make.size.mas_equalTo(CGSizeMake(_userRoleTagBtn.frame.size.width + 10 + 2, _userRoleTagBtn.frame.size.height + 2 * 2));
-//    }];
-//    
-//    if (CGRectGetWidth(_userRoleTagBtn.frame) != 0) {
-//        [_userRoleTagBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.equalTo(self);
-//            make.left.equalTo(_userNameLabel.mas_right).offset(10);
-//            make.right.lessThanOrEqualTo(self.mas_right).offset(-50);
-//            make.width.equalTo(@(CGRectGetWidth(_userRoleTagBtn.frame) + 8));
-//            make.height.equalTo(@(CGRectGetHeight(_userRoleTagBtn.frame) + 4));
-//        }];
-//    }
 }
 
 - (void)setCellHeight:(CGFloat)cellHeight {
     _cellHeight = cellHeight;
-    
     line.frame = CGRectMake(_lineMargin, _cellHeight - 1, self.bounds.size.width - 2 * _lineMargin, 1);
 }
 
@@ -244,7 +244,6 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-
 }
 
 #pragma mark -- action

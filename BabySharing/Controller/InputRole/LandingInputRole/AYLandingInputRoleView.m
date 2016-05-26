@@ -206,17 +206,11 @@
             }];
         });
         
-        UIImage *bg = PNGRESOURCE(@"login_role_bg");
+        UIImage *bg = [UIImage imageNamed:@"login_role_bg2"];
+        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
         
-//        NSInteger leftCapWidth = bg.size.width * 0.2f;
-//        NSInteger topCapHeight = bg.size.height * 0.5f;
-//        bg = [bg stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];
-//        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(bg.size.width * 0.2, 0, bg.size.width * 0.3, bg.size.height) resizingMode:UIImageResizingModeStretch];
-        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(40, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
-//        btn.layer.contents = (id)bg.CGImage;
         UIImageView *bgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, sz.width, sz.height)];
         bgView.image = bg;
-        bgView.contentScaleFactor = 2;
         [btn addSubview:bgView];
         [btn sendSubviewToBack:bgView];
         
