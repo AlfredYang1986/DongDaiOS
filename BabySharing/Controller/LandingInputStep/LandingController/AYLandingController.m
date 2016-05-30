@@ -130,7 +130,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     phoneNoLogin.clipsToBounds = YES;
     
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        //        make.top.equalTo(self.view).offset(KSCREENH * 398/667);
+//        make.top.equalTo(self.view).offset(KSCREENH * 398/667);
         make.bottom.equalTo(self.view).offset(-226);
         make.centerX.equalTo(self.view);
         make.left.equalTo(self.view).offset(64);
@@ -259,7 +259,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 -(void)pushInputPhoneNo{
     NSLog(@"push to InputPhoneNo");
-    id<AYCommand> des = DEFAULTCONTROLLER(@"InputPhoneNo");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"InputInvateCode");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -504,31 +504,46 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
         switch (r) {
             case RegisterResultSuccess: {
-//                NSString* sss = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"];
-                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
-                    
-                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
-                    
-                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-                    
-                    id<AYCommand> cmd = PUSH;
-                    [cmd performWithResult:&dic_push];
-                }else{
-                    AYViewController* des = DEFAULTCONTROLLER(@"InputRole");
-                    
-                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-                    
-                    id<AYCommand> cmd = PUSH;
-                    [cmd performWithResult:&dic_push];
-                }
+                AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
+                
+                NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+                [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+                [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+                [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+//                
+//                NSString* role_name = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"];
+//                if ([role_name isEqualToString:@""] || !role_name) {
+//                    [dic_push setValue:@"new_user" forKey:@"sns"];
+//                }
+                id<AYCommand> cmd = PUSH;
+                [cmd performWithResult:&dic_push];
+//                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
+//                }
+//                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
+//                    
+//                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
+//                    
+//                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+//                    
+//                    id<AYCommand> cmd = PUSH;
+//                    [cmd performWithResult:&dic_push];
+//                }else{
+//                    AYViewController* des = DEFAULTCONTROLLER(@"InputRole");
+//                    
+//                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
+//                    [dic_push setValue:@"new" forKey:@"sns"];
+//                    id<AYCommand> cmd = PUSH;
+//                    [cmd performWithResult:&dic_push];
+//                }
             }
                 break;
             case RegisterResultOthersLogin: {

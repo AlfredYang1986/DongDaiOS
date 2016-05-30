@@ -17,6 +17,24 @@
         <model notification="true" />
     </controller>
     
+    <controller type="DefaultController" name="InputInvateCode" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="LandingAreaCode" />
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        
+        <view type="FakeNavBar"             name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
+        <view type="InputInvateCode"         name="InputInvateCode" />
+        <model notification="true" />
+    </controller>
+    
+    <controller type="DefaultController" name="GetInvateCode" factory="AYDefaultControllerFactoy" >
+        <view type="Web" name="Web" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
+        
+    </controller>
+    
     <controller type="DefaultController" name="InputPhoneNo" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="LandingAreaCode" />
         
@@ -39,23 +57,23 @@
         <model notification="true" />
     </controller>
     
-    <controller type="DefaultController" name="InputName" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+    <controller type="DefaultController"    name="InputName" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="ProfileRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
-        <view type="LandingInputName"      name="LandingInputName" />
+        <view type="LandingInputName"       name="LandingInputName" />
         
         <model notification="true" />
     </controller>
     
-    <controller type="DefaultController" name="InputRole" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-        <facade type="DefaultFacade" name="SearchRemote" notification="true" />
+    <controller type="DefaultController"    name="InputRole" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"        name="SearchRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
-        <view type="LandingInputRole"      name="LandingInputRole" />
+        <view type="LandingInputRole"       name="LandingInputRole" />
         
         <model notification="true" />
     </controller>
@@ -71,9 +89,8 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
-        <view type="UserScreenPhoteSelect" name="UserScreenPhote" />
-<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
+        <view type="FakeNavBar"             name="FakeNavBar" />
+        <view type="UserScreenPhoteSelect"  name="UserScreenPhote" />
 
         <model notification="true" />
     </controller>
@@ -89,10 +106,10 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
        
-        <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />
-        <view type="UserInfoInput" name="UserInfoInput" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="UserScreenPhoteSelect"      name="UserScreenPhoteSelect" />
+        <view type="UserInfoInput"              name="UserInfoInput" />
+        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />
        
         <model notification="true" />
     </controller>
@@ -190,7 +207,7 @@
     <controller type="DefaultController" name="UserAgree" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
-        <facade type="DefaultFacade" name="EmailRemote" notification="true" />
+        <facade type="DefaultFacade" name="SendRemote" notification="true" />
         
         <view type="Web" name="Web" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
@@ -224,6 +241,7 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        <facade type="DefaultFacade" name="SendRemote" notification="true" />
 
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
         <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />

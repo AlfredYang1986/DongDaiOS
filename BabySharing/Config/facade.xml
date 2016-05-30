@@ -162,8 +162,9 @@
         <command type="Remote" name="PostPushContent" />
     </facade>
     
-    <facade type="DefaultFacade" name="EmailRemote" factory="AYDefaultFacadeFactory" >
+    <facade type="DefaultFacade" name="SendRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="EmailSend" />
+        <command type="Remote" name="SMSSend" />
     </facade>
 
     <facade type="DefaultFacade" name="RelationshipRemote" factory="AYDefaultFacadeFactory" >

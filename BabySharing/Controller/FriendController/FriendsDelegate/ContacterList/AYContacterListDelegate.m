@@ -11,6 +11,14 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYUserDisplayDefines.h"
+#import "AYFacadeBase.h"
+#import "AYModelFacade.h"
+
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+#import "LoginToken.h"
+
+#import "RemoteInstance.h"
 
 #import <Contacts/CNContact.h>
 #import <Contacts/CNContactStore.h>
@@ -235,6 +243,50 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         NSLog(@"Send SMS....");
+        
+//        sendInvateSMS
+        
+        
+        AYModelFacade* f = LOGINMODEL;
+        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+        
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setObject:tmp.who.user_id forKey:@"user_id"];
+        [dic setObject:tmp.who.auth_token forKey:@"auth_token"];
+        [dic setObject:tmp.who.screen_name forKey:@"screen_name"];
+        
+        CNContact* tmpPerson = [people objectAtIndex:alertView.tag];
+        
+        NSArray<CNLabeledValue<CNPhoneNumber*>*>* phoneNos = tmpPerson.phoneNumbers;
+        if (phoneNos.count > 0) {
+            NSString* phoneNo = [phoneNos objectAtIndex:0].value.stringValue; //CFBridgingRelease(ABMultiValueCopyValueAtIndex(phoneNos, 0));
+            [dic setObject:phoneNo forKey:@"phoneNo"];
+            
+            id<AYCommand> cmd = [self.notifies objectForKey:@"sendInvateSMS:"];
+            [cmd performWithResult:&dic];
+
+            
+//            NSString* phoneNo = [phoneNos objectAtIndex:0].value.stringValue; //CFBridgingRelease(ABMultiValueCopyValueAtIndex(phoneNos, 0));
+//            [dic setObject:phoneNo forKey:@"phoneNo"];
+//            NSError * error = nil;
+//            NSData* jsonData =[NSJSONSerialization dataWithJSONObject:[dic copy] options:NSJSONWritingPrettyPrinted error:&error];
+//            
+//            NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:@"http://www.altlys.com:9000/connections/sentSMSInvitation"]];
+//            
+//            if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
+//                NSString* reVal = [result objectForKey:@"result"];
+//                NSLog(@"send invitation result: %@", reVal);
+//            } else {
+////                NSDictionary* reError = [result objectForKey:@"error"];
+////                NSString* msg = [reError objectForKey:@"message"];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"邀请联系人发生未知错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+//                [alert show];
+//            }
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"联系人号码错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+            [alert show];
+        }
+        
         
     }else return;
 

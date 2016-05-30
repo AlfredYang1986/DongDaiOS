@@ -104,7 +104,7 @@
     [role_area setValue:[Tools themeColor] forKeyPath:@"_placeholderLabel.textColor"];
     role_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-    role_area.keyboardType = UIKeyboardTypeNumberPad;
+//    role_area.keyboardType = UIKeyboardTypeNumberPad;
     role_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     
     [role_area mas_makeConstraints:^(MASConstraintMaker *make) {

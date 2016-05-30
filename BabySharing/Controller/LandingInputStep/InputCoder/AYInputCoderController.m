@@ -56,9 +56,9 @@
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
     
-    id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
-    id<AYCommand> cmd_view = [view.commands objectForKey:@"startConfirmCodeTimer"];
-    [cmd_view performWithResult:nil];
+//    id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
+//    id<AYCommand> cmd_view = [view.commands objectForKey:@"startConfirmCodeTimer"];
+//    [cmd_view performWithResult:nil];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -102,7 +102,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"2/4";
+    titleView.text = @"2/3";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -112,7 +112,8 @@
 
 - (id)LandingInputCoderLayout:(UIView*)view {
     NSLog(@"Landing Input View view layout");
-    view.frame = CGRectMake(43, 102, SCREEN_WIDTH - 43*2, 130);
+    CGFloat margin = 22.f;
+    view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 240);
     return nil;
 }
 
@@ -198,16 +199,18 @@
         }
         else{
             [[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-            
         }
     }];
     
     return nil;
 }
 
--(id)reReqConfirmCode{
+-(id)reReqConfirmCode:(id)args{
+    NSDictionary *args_dic = (NSDictionary*)args;
+    _phoneNo = [args_dic objectForKey:@"phoneNo"];
+    
     NSMutableDictionary* dic_coder = [[NSMutableDictionary alloc]init];
-    [dic_coder setValue:[self phoneNo] forKey:@"phoneNo"];
+    [dic_coder setValue:[args_dic objectForKey:@"phoneNo"] forKey:@"phoneNo"];
     
     AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_coder = [f.commands objectForKey:@"LandingReqConfirmCode"];
@@ -220,6 +223,10 @@
             [cmd performWithResult:&result];
             
             _reg_token = [result objectForKey:@"reg_token"];
+            
+            id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
+            id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"startConfirmCodeTimer"];
+            [cmd_coder performWithResult:nil];
         }
     }];
     return nil;

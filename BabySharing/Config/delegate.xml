@@ -56,6 +56,7 @@
         <command type="message" message="changeFriendsData:" />
         <command type="message" message="getAllPhones" />
         <command type="message" message="splitWithFriends:" />
+        <command type="notify" message="sendInvateSMS:" />
     </delegate>
 
     <delegate type="TableViewDelegateAndDatasource" name="HomeContent" factory="AYDefaultDelegateFactory" >

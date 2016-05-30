@@ -53,6 +53,7 @@
 - (void)postPerform {
     
     input_tips = [[UILabel alloc]init];
+    input_tips.text = @"你的名字";
     input_tips.font = [UIFont systemFontOfSize:14.f];
     input_tips.textColor = [Tools colorWithRED:242 GREEN:242 BLUE:242 ALPHA:1.f];
     input_tips.textAlignment = NSTextAlignmentLeft;
@@ -62,63 +63,45 @@
         make.left.equalTo(self);
     }];
     
-    /* 验证输入 */
+    /* 姓名 */
     inputView = [[UIView alloc]init];
     [self addSubview:inputView];
     [inputView setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     inputView.layer.cornerRadius = 6.f;
     inputView.clipsToBounds = YES;
     [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(input_tips.mas_bottom).offset(15);
-        make.left.equalTo(input_tips);
+        make.top.equalTo(input_tips.mas_bottom).offset(12);
+        make.left.equalTo(self);
         make.width.equalTo(self);
         make.height.mas_equalTo(40);
     }];
     
-    UILabel* name_icon = [[UILabel alloc]init];
-    [inputView addSubview:name_icon];
-    name_icon.text = @"姓名";
-    [name_icon sizeToFit];
-    name_icon.font = [UIFont systemFontOfSize:14.f];
-    name_icon.textColor = [Tools themeColor];
-    [name_icon mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(inputView);
-        make.left.equalTo(inputView).offset(19);
-        make.width.mas_equalTo(name_icon.bounds.size.width);
-    }];
-    
-    UIImageView* rules2 = [[UIImageView alloc]init];
-    [inputView addSubview:rules2];
-    rules2.image = PNGRESOURCE(@"rules_themecolor");
-    [rules2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(name_icon.mas_right).offset(19);
-        make.centerY.equalTo(inputView);
-        make.size.mas_equalTo(CGSizeMake(2, 25));
+    UILabel *leftView = [[UILabel alloc]init];
+    leftView.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.f];
+    leftView.text = @"姓名";
+    leftView.font = [UIFont systemFontOfSize:14.f];
+    leftView.textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
+    leftView.textAlignment = NSTextAlignmentCenter;
+    [inputView addSubview:leftView];
+    [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(inputView);
+        make.left.equalTo(inputView);
+        make.size.mas_equalTo(CGSizeMake(90, 40));
     }];
     
     name_area = [[UITextField alloc]init];
-    [self addSubview:name_area];
     name_area.backgroundColor = [UIColor clearColor];
     name_area.font = [UIFont systemFontOfSize:14.f];
-    name_area.placeholder = @"输入姓名";
-    [name_area setValue:[Tools themeColor] forKeyPath:@"_placeholderLabel.textColor"];
     name_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-    name_area.keyboardType = UIKeyboardTypeDefault;
     name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    [inputView addSubview:name_area];
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(rules2.mas_right).offset(5);
-        make.centerY.equalTo(inputView);
         make.right.equalTo(inputView);
-        make.height.mas_equalTo(40);
+        make.top.equalTo(inputView);
+        make.left.equalTo(leftView.mas_right).offset(10);
+        make.height.equalTo(inputView);
     }];
-    
-    CGRect frame = name_area.frame;
-    frame.size.width = TEXT_FIELD_LEFT_PADDING;
-    UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    name_area.leftViewMode = UITextFieldViewModeAlways;
-    name_area.leftView = leftview;
     
     clear_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, name_area.frame.size.height)];
     clear_btn.center = CGPointMake(name_area.frame.size.width - 25 / 2, name_area.frame.size.height / 2);
@@ -144,20 +127,12 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    id<AYCommand> cmd = [self.notifies objectForKey:@"queryCurUserName:"];
-    NSString* numb = nil;
-    [cmd performWithResult:&numb];
-    input_tips.text = @"你的名字";
-    if (numb) {
-        name_area.text = numb;
-    }
+//    id<AYCommand> cmd = [self.notifies objectForKey:@"queryCurUserName:"];
+//    NSString* numb = nil;
+//    [cmd performWithResult:&numb];
 }
 
 #pragma mark -- handle
-- (void)areaCodeBtnSelected:(UIButton*)sender {
-    [_controller performForView:self andFacade:nil andMessage:@"LandingAreaCode" andArgs:nil];
-}
-
 - (void)phoneTextFieldChanged:(UITextField*)tf {
     
     if (![name_area.text isEqualToString:@""]) {

@@ -30,6 +30,7 @@
 @implementation AYInputNameController {
     BOOL isChangeImg;
     CGRect keyBoardFrame;
+    
 }
 
 @synthesize dic_userinfo = _dic_userinfo;
@@ -37,7 +38,6 @@
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-//    [super performWithResult:obj];
     NSDictionary* dic = (NSDictionary*)*obj;
 
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
@@ -54,6 +54,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools themeColor];
     self.navigationController.navigationBar.tintColor = [Tools themeColor];
+    
+    
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
@@ -84,7 +86,7 @@
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"完成" forState:UIControlStateNormal];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
     
@@ -97,7 +99,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"3/4";
+    titleView.text = @"3/3";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -107,7 +109,8 @@
 
 - (id)LandingInputNameLayout:(UIView*)view {
     NSLog(@"Landing Input View view layout");
-    view.frame = CGRectMake(43, 102, SCREEN_WIDTH - 43*2, 130);
+    CGFloat margin = 22;
+    view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 130);
     return nil;
 }
 
@@ -154,10 +157,20 @@
         return nil;
     }
     
-//    [_dic_userinfo setValue:@"无角色名" forKey:@"role_tag"];
+    [_dic_userinfo setValue:@" " forKey:@"role_tag"];
     [_dic_userinfo setValue:input_name forKey:@"screen_name"];
     
-    id<AYCommand> destin = DEFAULTCONTROLLER(@"InputRole");
+//    id<AYCommand> destin = DEFAULTCONTROLLER(@"InputRole");
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
+//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic setValue:_dic_userinfo forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd_push = PUSH;
+//    [cmd_push performWithResult:&dic];
+    
+    id<AYCommand> destin = DEFAULTCONTROLLER(@"Welcome");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
@@ -166,7 +179,6 @@
     
     id<AYCommand> cmd_push = PUSH;
     [cmd_push performWithResult:&dic];
-      
     return nil;
 }
 

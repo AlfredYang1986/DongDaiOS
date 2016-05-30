@@ -8,6 +8,6 @@
 
 #import "AYFacade.h"
 
-@interface AYEmailRemoteFacade : AYFacade
+@interface AYSendRemoteFacade : AYFacade
 
 @end

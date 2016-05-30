@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYEmailRemoteFacade.h"
+#import "AYSendRemoteFacade.h"
 
-@implementation AYEmailRemoteFacade
+@implementation AYSendRemoteFacade
 
 @end

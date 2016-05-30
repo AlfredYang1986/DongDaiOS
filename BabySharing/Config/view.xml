@@ -1,4 +1,10 @@
 <views>
+    <view type="InputInvateCode" name="InputInvateCode" factory="AYDefaultViewFactory" >
+        <command type="message" message="hideKeyboard" />
+        <command type="message" message="queryInvateCode:" />
+        <command type="notify"  message="invateCode" />
+    </view>
+    
     <view type="LandingInputNo" name="LandingInputNo" factory="AYDefaultViewFactory" >
         <command type="message" message="hideKeyboard" />
         <command type="message" message="queryPhoneNo:" />
@@ -10,7 +16,7 @@
         <command type="message" message="stopConfirmCodeTimer" />
         <command type="message" message="queryCurCoder:" />
         <command type="notify"  message="queryCurPhoneNo:" />
-        <command type="notify"  message="reReqConfirmCode" />
+        <command type="notify"  message="reReqConfirmCode:" />
     </view>
     
     <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >

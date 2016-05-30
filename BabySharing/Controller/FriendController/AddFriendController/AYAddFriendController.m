@@ -415,6 +415,25 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     return nil;
 }
 
+-(id)sendInvateSMS:(id)args{
+    NSDictionary *dic = (NSDictionary*)args;
+    
+    AYFacade* f = [self.facades objectForKey:@"SendRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"SMSSend"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"Update user detail remote result: %@", result);
+        if (success) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"邀请已发送给联系人" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+            [alert show];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"邀请联系人发生未知错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil];
+            [alert show];
+        }
+    }];
+    return nil;
+}
+
 //michauxs todo://已按照phoneNo从通讯录移除自己
 - (id)SamePersonBtnSelected {
     NSLog(@"push to person setting");

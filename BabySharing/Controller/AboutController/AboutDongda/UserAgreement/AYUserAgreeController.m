@@ -174,7 +174,7 @@
     
     if ([self isValidateEmail:email]) {
         
-        AYFacade* f = [self.facades objectForKey:@"EmailRemote"];
+        AYFacade* f = [self.facades objectForKey:@"SendRemote"];
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"EmailSend"];
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
