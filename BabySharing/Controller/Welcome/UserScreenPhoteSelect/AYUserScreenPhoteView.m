@@ -69,25 +69,42 @@
 }
 
 - (void)didSelectImgBtn {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"tapGestureScreenPhoto"];
+    [cmd performWithResult:nil];//michauxs
     
-    [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
-        switch (index) {
-            case 0: {
-                
-                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerCamera" andArgs:[dic copy]];
-                }
-                break;
-            case 1: {
-                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
-                }
-                break;
-            default:
-                break;
-        }
-    }];
+//    [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
+//        switch (index) {
+//            case 0: {
+//                
+//                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerCamera" andArgs:[dic copy]];
+//                }
+//                break;
+//            case 1: {
+//                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
+//                }
+//                break;
+//            default:
+//                break;
+//        }
+//    }];
 }
+
+-(id)albumBtnClicked {
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
+    return nil;
+}
+
+-(id)takePhotoBtnClicked {
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerCamera" andArgs:[dic copy]];
+    return nil;
+}
+
 @end

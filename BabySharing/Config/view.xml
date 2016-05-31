@@ -46,6 +46,8 @@
     <view type="UserScreenPhote" name="UserScreenPhote" factory="AYDefaultViewFactory" >
         <command type="message" message="changeScreenPhoto:" />
         <command type="message" message="canPhotoBtnClicked:" />
+        <command type="message" message="albumBtnClicked" />
+        <command type="message" message="takePhotoBtnClicked" />
         <command type="notify" message="tapGestureScreenPhoto" />
     </view>
     <view type="UserInfoInput" name="UserInfoInput" factory="AYDefaultViewFactory" >
