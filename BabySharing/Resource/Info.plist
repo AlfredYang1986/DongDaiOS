@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseDescription</key>
+	<string>咚哒</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>咚哒</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -93,6 +97,7 @@
 		<string>sinaweibo</string>
 		<string>weibosdk</string>
 		<string>weibosdk2.5</string>
+		<string>iosamap</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

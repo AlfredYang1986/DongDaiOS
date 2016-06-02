@@ -59,10 +59,10 @@
     [cmd_found_init performWithResult:&found];
     found.tabBarItem.title = @"Found";
    
-    id<AYCommand> cmd_post_init = [self.commands objectForKey:@"PlaceHolderInit"];
-    AYViewController* post = nil;
-    [cmd_post_init performWithResult:&post];
-    post.tabBarItem.title = @"Post";
+//    id<AYCommand> cmd_post_init = [self.commands objectForKey:@"PlaceHolderInit"];
+//    AYViewController* post = nil;
+//    [cmd_post_init performWithResult:&post];
+//    post.tabBarItem.title = @"Post";
 
     id<AYCommand> cmd_friends_init = [self.commands objectForKey:@"FriendsInit"];
     AYViewController* friends = nil;
@@ -74,7 +74,8 @@
     [cmd_profile_init performWithResult:&profile];
     profile.tabBarItem.title = @"Profile";
     
-    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
+//    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
+    self.viewControllers = [NSArray arrayWithObjects:home, found, friends, profile, nil];
     
     self.delegate = self;
     
@@ -84,7 +85,7 @@
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
     [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:PNGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
     [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_found") andSelectedImg:PNGRESOURCE(@"tab_found_selected") andTitle:@"发现"];
-    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
+//    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
     [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_friends") andSelectedImg:PNGRESOURCE(@"tab_friends_selected") andTitle:@"好友"];
     [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_profile") andSelectedImg:PNGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
@@ -149,7 +150,6 @@
     NSLog(@"select tab %@", item.title);
     
     if ([item.title isEqualToString:@"Post"]) {
-//        SHOWALBUM;
         SHOWCAMERA;
         
     } else {

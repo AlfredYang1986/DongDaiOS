@@ -362,7 +362,7 @@
         <command type="message" message="queryCellHeight" />
         <command type="notify" message="hiddenChatGroupInfoPane" />
     </view>
-
+    
     <view type="ChatMessageCell" name="ChatMessageCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight:" />
@@ -382,5 +382,9 @@
 
     <view type="TagEdit" name="TagEdit" factory="AYReuseViewFactory" >
         <command type="notify" message="EditBtnSelected:" />
+    </view>
+    
+    <view type="LocationCell" name="LocationCell" factory="AYReuseViewFactory" >
+        <command type="message" message="resetContent:" />
     </view>
 </views>

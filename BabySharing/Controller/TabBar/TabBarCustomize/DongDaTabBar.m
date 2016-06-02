@@ -96,9 +96,9 @@
     for (int index = 0; index < self.count; ++index) {
         UIButton* tmp = (UIButton*)[self viewWithTag:index];
         if (index == 1) {
-            tmp.frame = CGRectMake(index * step - 6, 0, step, height);
+            tmp.frame = CGRectMake(index * step , 0, step, height);
         } else if (index == 3) {
-            tmp.frame = CGRectMake(index * step + 6, 0, step, height);
+            tmp.frame = CGRectMake(index * step , 0, step, height);
         } else {
             tmp.frame = CGRectMake(index * step, 0, step, height);
         }

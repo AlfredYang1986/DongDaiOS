@@ -21,7 +21,6 @@
 #import "AYDongDaSegDefines.h"
 
 @interface SettingCell : UITableViewCell
-
 @property (nonatomic, strong) UILabel *label;
 
 @end
