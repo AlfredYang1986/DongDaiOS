@@ -101,7 +101,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     UIImageView *coverImg = [[UIImageView alloc]init];
-    coverImg.image = [UIImage imageNamed:@""];
+    coverImg.image = [UIImage imageNamed:@"lol"];
     coverImg.backgroundColor = [UIColor lightGrayColor];
     [self.view addSubview:coverImg];
     [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {

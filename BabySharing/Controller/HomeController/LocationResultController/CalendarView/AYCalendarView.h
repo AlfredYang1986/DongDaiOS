@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import "AYCalendarCellView.h"
 
-//@interface AYCalendarView : UIScrollView <AYViewBase>
-@interface AYCalendarView : UIView <AYViewBase>
+@interface AYCalendarView : UIScrollView <AYViewBase>
+//@interface AYCalendarView : UIView <AYViewBase,UIPickerViewDataSource,UIPickerViewDelegate>
 
--(void)getClickDate:(NSString*)date;
+-(void)getClickDate:(AYCalendarCellView*)date;
 @end

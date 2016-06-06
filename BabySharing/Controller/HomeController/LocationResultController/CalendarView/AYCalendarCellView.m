@@ -20,7 +20,9 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYCalendarCellView
+@implementation AYCalendarCellView{
+    
+}
 //
 //@synthesize para = _para;
 //@synthesize controller = _controller;
@@ -80,6 +82,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         self.numLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         self.numLabel.textAlignment = 1;
         [self addSubview:self.numLabel];
@@ -92,9 +95,10 @@
 
 - (void)selfDidClick:(UITapGestureRecognizer*)tap{
 //    NSLog(@"%@--%@",self.numLabel.text,self.dateString);
-//    self.backgroundColor = [Tools themeColor];
+    
+    
     if (self.CellDateBlock) {
-        self.CellDateBlock(self.dateString);
+        self.CellDateBlock(self);
     }
 }
 

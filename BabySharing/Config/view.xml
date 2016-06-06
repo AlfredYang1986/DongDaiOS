@@ -392,5 +392,6 @@
     <view type="Calendar" name="Calendar" factory="AYReuseViewFactory" >
         <command type="message" message="hiddenBeShowing" />
         <command type="notify" message="hiddenCLResultTable" />
+        <command type="notify" message="resetContentSize:" />
     </view>
 </views>

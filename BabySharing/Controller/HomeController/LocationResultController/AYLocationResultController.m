@@ -40,6 +40,8 @@
     
     CLLocation *loc;
     AMapSearchAPI *search;
+    
+    UIButton *doSearchBtn;
 }
 
 - (void)postPerform{
@@ -52,6 +54,9 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+//        if (<#condition#>) {
+//            <#statements#>
+//        }
         loc = [args objectForKey:@"location"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -73,8 +78,14 @@
     id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
     AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryMMWithLocation"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[NSNumber numberWithFloat:loc.coordinate.latitude] forKey:@"latitude"];
-    [dic setValue:[NSNumber numberWithFloat:loc.coordinate.longitude] forKey:@"longtitude"];
+    NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
+    NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
+    if (latitude) {
+        [dic setValue:latitude forKey:@"latitude"];
+    }
+    if (longtitude) {
+        [dic setValue:longtitude forKey:@"longtitude"];
+    }
     [cmd_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
             NSLog(@"query recommand tags result %@", result);
@@ -117,6 +128,18 @@
     line2.borderWidth = 1.f;
     line2.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line2];
+    
+    doSearchBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, [UIScreen mainScreen].bounds.size.height - 45 - 20, SCREEN_WIDTH - 40, 45)];
+    [doSearchBtn setBackgroundColor:[Tools themeColor]];
+    [doSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    doSearchBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [doSearchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    doSearchBtn.layer.cornerRadius = 4.f;
+    doSearchBtn.clipsToBounds = YES;
+    doSearchBtn.hidden = YES;
+    [self.view addSubview:doSearchBtn];
+    
+    [doSearchBtn addTarget:self action:@selector(doSearchBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -148,7 +171,7 @@
     UIButton* bar_left_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_left_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
     [bar_left_btn setTitle:@"返回" forState:UIControlStateNormal];
-    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_left_btn sizeToFit];
     bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
     
@@ -159,7 +182,7 @@
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
     [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
@@ -196,10 +219,15 @@
 
 - (id)CalendarLayout:(UIView*)view {
     CGFloat margin = 20.f;
-    view.frame = CGRectMake(margin, 74, SCREEN_WIDTH - 2* margin, view.bounds.size.height);
+    view.frame = CGRectMake(margin, 74, SCREEN_WIDTH - 2* margin, 140);
     view.backgroundColor = [UIColor clearColor];
-//    view.hidden = YES;
+    ((UIScrollView*)view).showsVerticalScrollIndicator = NO;
     return nil;
+}
+
+#pragma mark -- actions
+-(void)doSearchBtnClick{
+    
 }
 
 #pragma mark -- notifies
@@ -233,6 +261,8 @@
 -(id)hiddenCLResultTable{
     UIView *view_table = [self.views objectForKey:@"Table"];
     view_table.hidden = !view_table.hidden;
+    
+    doSearchBtn.hidden = !doSearchBtn.hidden;
     return nil;
 }
 
@@ -241,6 +271,12 @@
     if ([view isFirstResponder]) {
         [view resignFirstResponder];
     }
+    return nil;
+}
+
+- (id)resetContentSize:(NSNumber*)numb{
+    UIScrollView *view = [self.views objectForKey:@"Calendar"];
+    view.contentSize = CGSizeMake(0, numb.floatValue);
     return nil;
 }
 
