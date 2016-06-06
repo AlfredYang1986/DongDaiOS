@@ -84,7 +84,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
@@ -191,6 +191,13 @@
 }
 
 #pragma mark -- layouts
+- (id)FakeStatusBarLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 0, width, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 10+64, SCREEN_WIDTH, SCREEN_HEIGHT - 74);
     

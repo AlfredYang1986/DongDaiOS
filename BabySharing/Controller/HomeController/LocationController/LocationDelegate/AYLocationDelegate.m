@@ -68,7 +68,8 @@
 
 @implementation AYLocationDelegate {
     NSArray* previewDic;
-    NSString *locationName;
+    NSString *auto_locationName;
+    CLLocation *auto_location;
 }
 #pragma mark -- command
 @synthesize para = _para;
@@ -113,10 +114,8 @@
             cell = [[AutoLocationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
         }
         
-//        NSString *location = [NSString stringWithFormat:@"%@",@"北京市"];
-//        location = [NSString stringWithFormat:@"%@，%@",location,@"朝阳区"];
-        if (locationName && ![locationName isEqualToString:@""]) {
-            cell.locationlabel.text = locationName;
+        if (auto_locationName && ![auto_locationName isEqualToString:@""]) {
+            cell.locationlabel.text = auto_locationName;
         }
         return cell;
     } else {
@@ -126,18 +125,16 @@
         if (cell == nil) {
             cell = VIEW(@"LocationCell", @"LocationCell");
         }
-        
         cell.controller = self.controller;
         
         AMapTip *tip = previewDic[indexPath.row];
         
-//        cell.textLabel.text = tip.name;
-//        cell.detailTextLabel.text = tip.district;
-        
+        //        cell.textLabel.text = tip.name;
+        //        cell.detailTextLabel.text = tip.district;
         id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
-        
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:tip.name forKey:@"location_name"];
+        [dic setValue:tip.district forKey:@"district"];
         [cmd performWithResult:&dic];
         
         return (UITableViewCell*)cell;
@@ -155,22 +152,33 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (previewDic != nil && previewDic.count != 0) {
-//        NSDictionary* dic = [previewDic objectAtIndex:indexPath.row];
-//        NSString* role_tag = [dic objectForKey:@"role_tag"];
-//        
-//        AYViewController* des = DEFAULTCONTROLLER(@"UserPerview");
-//        
-//        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//        
-//        [dic_push setValue:role_tag forKey:kAYControllerChangeArgsKey];
-//        
-//        id<AYCommand> cmd = PUSH;
-//        [cmd performWithResult:&dic_push];
+    
+    NSMutableDictionary *dic_location = [[NSMutableDictionary alloc]init];
+    if (previewDic == nil || previewDic.count == 0) {
+        if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil]show];
+            return;
+        }
+        [dic_location setValue:auto_locationName forKey:@"location_name"];
+        [dic_location setValue:auto_location forKey:@"location"];
+    }else{
+        AMapTip *tip = previewDic[indexPath.row];
+        [dic_location setValue:tip.name forKey:@"location_name"];
+        [dic_location setValue:tip.district forKey:@"district"];
+        [dic_location setValue:tip.location forKey:@"location"];
     }
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"LocationResult");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    [dic_push setValue:dic_location forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- scroll view delegate
@@ -181,8 +189,9 @@
 
 #pragma mark -- messages
 -(id)autoLocationData:(id)args{
-    NSString *name = (NSString*)args;
-    locationName = name;
+    NSDictionary *dic = (NSDictionary*)args;
+    auto_locationName = [dic objectForKey:@"auto_location_name"];
+    auto_location = [dic objectForKey:@"auto_location"];
     return nil;
 }
 - (id)changeLocationResultData:(id)obj {

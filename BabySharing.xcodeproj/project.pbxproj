@@ -313,6 +313,13 @@
 		70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE71CA23B0E0093D5DA /* AVFoundation.framework */; };
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
 		704F08301CC8EC7800A9925D /* AYUploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */; };
+		705712011D01333000FCAE65 /* AYLocationResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705711F81D01333000FCAE65 /* AYLocationResultController.m */; };
+		705712021D01333000FCAE65 /* AYCalendarCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705711FB1D01333000FCAE65 /* AYCalendarCellView.m */; };
+		705712031D01333000FCAE65 /* AYCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705711FD1D01333000FCAE65 /* AYCalendarView.m */; };
+		705712041D01333000FCAE65 /* AYLocationResultDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705712001D01333000FCAE65 /* AYLocationResultDelegate.m */; };
+		705712091D0165B600FCAE65 /* AYCLResultCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705712071D0165B600FCAE65 /* AYCLResultCellView.m */; };
+		7057120A1D0165B600FCAE65 /* AYCLResultCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 705712081D0165B600FCAE65 /* AYCLResultCellView.xib */; };
+		7057120E1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7057120D1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.m */; };
 		705B84491CC6A16B0057D442 /* AYPostPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B84481CC6A16B0057D442 /* AYPostPreviewController.m */; };
 		705B84541CC6A4D60057D442 /* AYFilterPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B844D1CC6A4D60057D442 /* AYFilterPreviewView.m */; };
 		705B84551CC6A4D60057D442 /* AYTagEntryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B84501CC6A4D60057D442 /* AYTagEntryView.m */; };
@@ -1156,6 +1163,19 @@
 		70490DE91CA23B180093D5DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		704F082E1CC8EC7800A9925D /* AYUploadFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUploadFileCommand.h; sourceTree = "<group>"; };
 		704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUploadFileCommand.m; sourceTree = "<group>"; };
+		705711F71D01333000FCAE65 /* AYLocationResultController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocationResultController.h; sourceTree = "<group>"; };
+		705711F81D01333000FCAE65 /* AYLocationResultController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocationResultController.m; sourceTree = "<group>"; };
+		705711FA1D01333000FCAE65 /* AYCalendarCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCalendarCellView.h; sourceTree = "<group>"; };
+		705711FB1D01333000FCAE65 /* AYCalendarCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCalendarCellView.m; sourceTree = "<group>"; };
+		705711FC1D01333000FCAE65 /* AYCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCalendarView.h; sourceTree = "<group>"; };
+		705711FD1D01333000FCAE65 /* AYCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCalendarView.m; sourceTree = "<group>"; };
+		705711FF1D01333000FCAE65 /* AYLocationResultDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocationResultDelegate.h; sourceTree = "<group>"; };
+		705712001D01333000FCAE65 /* AYLocationResultDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocationResultDelegate.m; sourceTree = "<group>"; };
+		705712061D0165B600FCAE65 /* AYCLResultCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCLResultCellView.h; sourceTree = "<group>"; };
+		705712071D0165B600FCAE65 /* AYCLResultCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCLResultCellView.m; sourceTree = "<group>"; };
+		705712081D0165B600FCAE65 /* AYCLResultCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYCLResultCellView.xib; sourceTree = "<group>"; };
+		7057120C1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryMMWithLocationCommand.h; sourceTree = "<group>"; };
+		7057120D1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryMMWithLocationCommand.m; sourceTree = "<group>"; };
 		705B84471CC6A16B0057D442 /* AYPostPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostPreviewController.h; sourceTree = "<group>"; };
 		705B84481CC6A16B0057D442 /* AYPostPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPreviewController.m; sourceTree = "<group>"; };
 		705B844C1CC6A4D60057D442 /* AYFilterPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFilterPreviewView.h; sourceTree = "<group>"; };
@@ -2566,11 +2586,12 @@
 		7015243E1CBF938F005B4C5B /* HomeController */ = {
 			isa = PBXGroup;
 			children = (
+				70F96CCD1CFD8F33005663C8 /* LocationController */,
+				705711F61D01333000FCAE65 /* LocationResultController */,
 				70F96CD11CFD92E7005663C8 /* HomeCell */,
 				70F96CD51CFD92E7005663C8 /* HomeContentDelegate */,
 				7015243F1CBF939C005B4C5B /* AYHomeController.h */,
 				701524401CBF939C005B4C5B /* AYHomeController.m */,
-				70F96CCD1CFD8F33005663C8 /* LocationController */,
 			);
 			path = HomeController;
 			sourceTree = "<group>";
@@ -3836,6 +3857,57 @@
 			path = UploadFile;
 			sourceTree = "<group>";
 		};
+		705711F61D01333000FCAE65 /* LocationResultController */ = {
+			isa = PBXGroup;
+			children = (
+				705711F71D01333000FCAE65 /* AYLocationResultController.h */,
+				705711F81D01333000FCAE65 /* AYLocationResultController.m */,
+				705711F91D01333000FCAE65 /* CalendarView */,
+				705712051D01657800FCAE65 /* CLResultCellView */,
+				705711FE1D01333000FCAE65 /* Locationdelegate */,
+			);
+			path = LocationResultController;
+			sourceTree = "<group>";
+		};
+		705711F91D01333000FCAE65 /* CalendarView */ = {
+			isa = PBXGroup;
+			children = (
+				705711FA1D01333000FCAE65 /* AYCalendarCellView.h */,
+				705711FB1D01333000FCAE65 /* AYCalendarCellView.m */,
+				705711FC1D01333000FCAE65 /* AYCalendarView.h */,
+				705711FD1D01333000FCAE65 /* AYCalendarView.m */,
+			);
+			path = CalendarView;
+			sourceTree = "<group>";
+		};
+		705711FE1D01333000FCAE65 /* Locationdelegate */ = {
+			isa = PBXGroup;
+			children = (
+				705711FF1D01333000FCAE65 /* AYLocationResultDelegate.h */,
+				705712001D01333000FCAE65 /* AYLocationResultDelegate.m */,
+			);
+			path = Locationdelegate;
+			sourceTree = "<group>";
+		};
+		705712051D01657800FCAE65 /* CLResultCellView */ = {
+			isa = PBXGroup;
+			children = (
+				705712061D0165B600FCAE65 /* AYCLResultCellView.h */,
+				705712071D0165B600FCAE65 /* AYCLResultCellView.m */,
+				705712081D0165B600FCAE65 /* AYCLResultCellView.xib */,
+			);
+			path = CLResultCellView;
+			sourceTree = "<group>";
+		};
+		7057120B1D01AB7100FCAE65 /* QueryMMWithLocation */ = {
+			isa = PBXGroup;
+			children = (
+				7057120C1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.h */,
+				7057120D1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.m */,
+			);
+			path = QueryMMWithLocation;
+			sourceTree = "<group>";
+		};
 		705B844A1CC6A4D60057D442 /* PreviewViews */ = {
 			isa = PBXGroup;
 			children = (
@@ -4825,6 +4897,7 @@
 		70CDF6141CBCC35400311841 /* Query */ = {
 			isa = PBXGroup;
 			children = (
+				7057120B1D01AB7100FCAE65 /* QueryMMWithLocation */,
 				8086A21A1CCE6176006186D4 /* QueryContentsWithTag */,
 				8086A21D1CCE6176006186D4 /* QueryHomeContent */,
 				8086A2201CCE6176006186D4 /* QueryPushCommand */,
@@ -5836,6 +5909,7 @@
 				70490DBE1CA2339D0093D5DA /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				704336321CF5D88600F9B73B /* Assets.xcassets in Resources */,
 				706881651CCF641800D9D715 /* AYProfilePushCellView.xib in Resources */,
+				7057120A1D0165B600FCAE65 /* AYCLResultCellView.xib in Resources */,
 				7003D93B1CFE7E98001CD17C /* AMap.bundle in Resources */,
 				70F369C01CC395710067B62E /* AYFoundSearchResultCellView.xib in Resources */,
 				702E7A8E1CA151770097867E /* icon-152.png in Resources */,
@@ -6053,6 +6127,7 @@
 				700BE5B41CBA606800A09B3A /* AYShowModuleUpCommand.m in Sources */,
 				703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */,
 				700BE5EB1CBA6E5800A09B3A /* AYLandingReqConfirmCodeCommand.m in Sources */,
+				705712021D01333000FCAE65 /* AYCalendarCellView.m in Sources */,
 				703B89661CBF2AEC002EBB18 /* AYSendRemoteFacade.m in Sources */,
 				707FC5091CD8D5B300C0BC37 /* AYShareWithWechatCommand.m in Sources */,
 				70F68DA71CBE46C1005524BA /* AYAboutDongdaDelegate.m in Sources */,
@@ -6086,6 +6161,7 @@
 				701524881CBF9AB4005B4C5B /* MJRefreshGifHeader.m in Sources */,
 				703CCDF61CCA11AC00CF4563 /* AYGroupChatController.m in Sources */,
 				70120CAD1CBE4A9D00B169F9 /* AYFriendsController.m in Sources */,
+				705712011D01333000FCAE65 /* AYLocationResultController.m in Sources */,
 				7002DB941CC651220013FF2A /* AYFoodFilterCommand.m in Sources */,
 				701D8A941CA7E06700B5D4C1 /* LoginToken.m in Sources */,
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
@@ -6095,8 +6171,10 @@
 				7039CBD21CBB7AE200BE60C7 /* AYProfileHeaderView.m in Sources */,
 				706E46221CFC204100CC7C53 /* AYGetInvateCodeController.m in Sources */,
 				708E52901CC544EA008A6023 /* AYStillImageCaptureStopCommand.m in Sources */,
+				705712041D01333000FCAE65 /* AYLocationResultDelegate.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				70E9AB701CF3FE960019D33A /* AYNotifyFollowBtnView.m in Sources */,
+				7057120E1D01ABB100FCAE65 /* AYQueryMMWithLocationCommand.m in Sources */,
 				7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */,
 				70CDF6391CBD033900311841 /* QueryContentChaters+CoreDataProperties.m in Sources */,
 				80D5E7C81CCC88C200A82117 /* AYDownloadMovieFilesCommand.m in Sources */,
@@ -6210,6 +6288,7 @@
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */,
 				70F96CD81CFD92E7005663C8 /* AYHomeCellView.m in Sources */,
+				705712031D01333000FCAE65 /* AYCalendarView.m in Sources */,
 				7002DB1E1CC5ECD10013FF2A /* AYMovieController.m in Sources */,
 				70F428781CC7B18F00A69977 /* MASConstraint.m in Sources */,
 				700693191CC4A3AF00B511FF /* WEPopoverContainerView.m in Sources */,
@@ -6326,6 +6405,7 @@
 				701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */,
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
+				705712091D0165B600FCAE65 /* AYCLResultCellView.m in Sources */,
 				70B1DC991CC73D5F0041794A /* AYMovieDisplayViewCommand.m in Sources */,
 				709949A81CC299DF00078A5B /* AYFoundController.m in Sources */,
 				70F4287E1CC7B18F00A69977 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,

@@ -75,7 +75,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
+    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

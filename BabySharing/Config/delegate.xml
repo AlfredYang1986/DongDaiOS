@@ -118,8 +118,16 @@
         <command type="message" message="changeScreenPhoto:" />
         <command type="notify" message="scrollToHideKeyBoard" />
     </delegate>
-
+    
     <delegate type="TableViewDelegateAndDatasource" name="UserTablePreview" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
+    <delegate type="CollectionViewDelegateAndDatasource" name="Calendar" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="LocationResult" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
 </delegates>

@@ -24,9 +24,16 @@
 #import "AYRemoteCallCommand.h"
 #import "Masonry.h"
 
+#import <CoreLocation/CoreLocation.h>
+
 @implementation AYLocationCellView{
     UILabel *locationLabel;
-    NSString *location;
+    NSString *locationName;
+    
+    UILabel *destrictLabel;
+    NSString *districtName;
+    
+    CLLocation *location;
 }
 
 //- (void)awakeFromNib {
@@ -123,13 +130,15 @@
 }
 
 -(void)layoutSubviews{
-    locationLabel.text = location;
+    locationLabel.text = locationName;
     [super layoutSubviews];
 }
 
 - (id)resetContent:(id)obj {
     NSDictionary* dic = (NSDictionary*)obj;
-    location = [dic objectForKey:@"location_name"];
+    locationName = [dic objectForKey:@"location_name"];
+    districtName = [dic objectForKey:@"district"];
+    location = [dic objectForKey:@"location"];
     return nil;
 }
 @end

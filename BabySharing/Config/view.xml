@@ -142,6 +142,7 @@
         <command type="message" message="setBackGroundColor:" />
         <command type="message" message="setLeftBtnImg:" />
         <command type="message" message="setRightBtnImg:" />
+        <command type="message" message="setLeftBtnWithBtn:" />
         <command type="message" message="setRightBtnWithBtn:" />
         <command type="message" message="setLeftBtnVisibility:" />
         <command type="message" message="setRightBtnVisibility:" />
@@ -386,5 +387,10 @@
     
     <view type="LocationCell" name="LocationCell" factory="AYReuseViewFactory" >
         <command type="message" message="resetContent:" />
+    </view>
+    
+    <view type="Calendar" name="Calendar" factory="AYReuseViewFactory" >
+        <command type="message" message="hiddenBeShowing" />
+        <command type="notify" message="hiddenCLResultTable" />
     </view>
 </views>

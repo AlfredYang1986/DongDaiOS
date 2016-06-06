@@ -114,17 +114,6 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         [cmd_view_title performWithResult:&title];
     }
     
-//    id<AYViewBase> view_friend = [self.views objectForKey:@"Table2"];
-//    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
-//    
-//    id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
-//    id<AYCommand> cmd_delegate = [view_friend.commands objectForKey:@"registerDelegate:"];
-//    
-//    id obj = (id)cmd_relations;
-//    [cmd_datasource performWithResult:&obj];
-//    obj = (id)cmd_relations;
-//    [cmd_delegate performWithResult:&obj];
-    
     id<AYViewBase> view_contacter_table = [self.views objectForKey:@"Table2"];
     id<AYCommand> cmd_hot_cell = [view_contacter_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -185,10 +174,6 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     id<AYCommand> cmd_place_hold = [((id<AYViewBase>)view).commands objectForKey:@"changeSearchBarPlaceHolder:"];
     id place_holder = @"搜索昵称";
     [cmd_place_hold performWithResult:&place_holder];
-    
-//    UITextField *searchField = [view valueForKey:@"_searchField"];
-//    searchField.textColor = [UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f];
-//    [searchField setValue:[UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f] forKeyPath:@"_placeholderLabel.textColor"];
     
     id<AYCommand> cmd_apperence = [((id<AYViewBase>)view).commands objectForKey:@"foundTitleSearchBar"];
     [cmd_apperence performWithResult:nil];

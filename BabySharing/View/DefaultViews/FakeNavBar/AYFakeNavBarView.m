@@ -124,13 +124,24 @@
     return nil;
 }
 
+- (id)setLeftBtnWithBtn:(id)args {
+    UIButton* btn = (UIButton*)args;
+    
+    [leftBtn removeFromSuperview];
+    [btn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchDown];
+    leftBtn = btn;
+    [self addSubview:btn];
+    
+    return nil;
+}
+
 - (id)setRightBtnWithBtn:(id)args {
     UIButton* btn = (UIButton*)args;
-  
+    
     [rightBtn removeFromSuperview];
     
-//    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-//    btn.frame = CGRectMake(width - 15 - 30, 10, 30, 25);
+    //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    //    btn.frame = CGRectMake(width - 15 - 30, 10, 30, 25);
     [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchDown];
     rightBtn = btn;
     [self addSubview:btn];
