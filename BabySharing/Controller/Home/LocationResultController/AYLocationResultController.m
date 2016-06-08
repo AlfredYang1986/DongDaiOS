@@ -39,6 +39,8 @@
     CLLocation *loc;
     AMapSearchAPI *search;
     
+    NSArray *searchResultArrWithLoc;
+    
     NSDictionary *dic_pop;
 }
 
@@ -75,31 +77,6 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
-    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryMMWithLocation"];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
-    NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
-    if (latitude) {
-        [dic setValue:latitude forKey:@"latitude"];
-    }
-    if (longtitude) {
-        [dic setValue:longtitude forKey:@"longtitude"];
-    }
-    [cmd_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            NSLog(@"query recommand tags result %@", result);
-            
-        }
-    }];
-    
-    loading_status = [[NSMutableArray alloc]init];
-    {
-        UIView* view_loading = [self.views objectForKey:@"Loading"];
-        [self.view bringSubviewToFront:view_loading];
-        view_loading.hidden = YES;
-    }
-    
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
@@ -118,6 +95,40 @@
     id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&nib_search_name];
+    
+    id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
+    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryMMWithLocation"];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
+    NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
+    if (latitude) {
+        [dic setValue:latitude forKey:@"latitude"];
+    }
+    if (longtitude) {
+        [dic setValue:longtitude forKey:@"longtitude"];
+    }
+    [cmd_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSLog(@"query recommand tags result %@", result);
+            searchResultArrWithLoc = (NSArray*)result;
+            NSArray *arr = (NSArray*)result;
+            id<AYCommand> cmd = [view_table.commands objectForKey:@"changeQueryData:"];
+            [cmd performWithResult:&arr];
+            
+            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+            [refresh performWithResult:nil];
+            
+        } else {
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"搜索附近失败，请是否开启定位并检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    
+    loading_status = [[NSMutableArray alloc]init];
+    {
+        UIView* view_loading = [self.views objectForKey:@"Loading"];
+        [self.view bringSubviewToFront:view_loading];
+        view_loading.hidden = YES;
+    }
     
     UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 10)];
     headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
@@ -230,16 +241,19 @@
 }
 
 - (id)rightBtnSelected {
-    NSLog(@"setting view controller");
+    NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+    [args setValue:loc forKey:@"location"];
+    [args setValue:searchResultArrWithLoc forKey:@"result_data"];
+    id<AYCommand> des = DEFAULTCONTROLLER(@"Map");
     
-//    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputCoder");
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    
-//    id<AYCommand> cmd_push = PUSH;
-//    [cmd_push performWithResult:&dic];
+    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+    [dic_show_module setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+    [cmd_show_module performWithResult:&dic_show_module];
     
     return nil;
 }

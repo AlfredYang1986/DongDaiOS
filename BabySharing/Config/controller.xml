@@ -510,4 +510,12 @@
         <view type="FiterScroll"     name="FiterScroll" />
         <!--        <view type="Calendar"       name="Calendar" />-->
     </controller>
+    
+    <controller type="DefaultController" name="Map" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="ShowBoard"      name="ShowBoard" />
+        <view type="MapView"        name="MapView" />
+    </controller>
 </controllers>

@@ -110,4 +110,17 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+- (id)setCellInfo:(id)args{
+    NSDictionary *dic = (NSDictionary*)args;
+    _descLabel.text = [dic objectForKey:@"description"];
+    return nil;
+//    service_id: (String)
+//    title : (String)
+//    description : (String)
+//    capacity : (Int)
+//    price : (Float)
+//    owner_id : (String)
+//    offer_date (json object)
+//    location : (json object)
+}
 @end

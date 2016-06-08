@@ -405,4 +405,13 @@
         <command type="message"     message="resetFiterArgs" />
         <command type="notify"      message="hiddenCLResultTable" />
     </view>
+    
+    <view type="ShowBoard" name="ShowBoard" factory="AYReuseViewFactory" >
+        <command type="message"     message=":" />
+        <command type="notify"      message="" />
+    </view>
+    <view type="MapView" name="MapView" factory="AYReuseViewFactory" >
+        <command type="message"     message=":" />
+        <command type="notify"      message="queryTheLoc:" />
+    </view>
 </views>

@@ -165,7 +165,11 @@
         AMapTip *tip = previewDic[indexPath.row];
         [dic_location setValue:tip.name forKey:@"location_name"];
         [dic_location setValue:tip.district forKey:@"district"];
-        [dic_location setValue:tip.location forKey:@"location"];
+        double latitude = tip.location.latitude;
+        double longitude = tip.location.longitude;
+//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+        CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
+        [dic_location setValue:loc forKey:@"location"];
     }
     
     AYViewController* des = DEFAULTCONTROLLER(@"LocationResult");

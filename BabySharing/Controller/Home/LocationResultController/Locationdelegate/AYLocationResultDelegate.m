@@ -21,7 +21,9 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYLocationResultDelegate
+@implementation AYLocationResultDelegate{
+    NSArray *querydata;
+}
 
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -38,7 +40,6 @@
 }
 
 #pragma mark -- commands
-
 - (NSString*)getViewType {
     return kAYFactoryManagerCatigoryView;
 }
@@ -51,9 +52,14 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+- (id)changeQueryData:(NSArray*)array{
+    querydata = array;
+    return nil;
+}
+
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return self.querydata.count;
+//    return querydata.count;
     return 2;
 }
 
@@ -68,10 +74,10 @@
     cell.controller = self.controller;
     
     
-//    id tmp = [self.querydata objectAtIndex:indexPath.row];
-//    NSLog(@"sunfei -- %@",tmp);
-//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//    [cmd performWithResult:&tmp];
+    id tmp = [querydata objectAtIndex:indexPath.row];
+    NSLog(@"sunfei -- %@",tmp);
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    [cmd performWithResult:&tmp];
     
     return (UITableViewCell*)cell;
 }
