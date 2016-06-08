@@ -6,15 +6,16 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYCalendarView.h"
+#import "AYFiterScrollView.h"
 #import "AYCommandDefines.h"
 #import "AYCalendarCellView.h"
 #import "Tools.h"
 
 #define WIDTH  self.frame.size.width
+#define HEIGHT self.frame.size.height
 #define MARGIN 10.f
 
-@interface AYCalendarView ()<UIPickerViewDataSource, UIPickerViewDelegate>
+@interface AYFiterScrollView ()<UIPickerViewDataSource, UIPickerViewDelegate, UIScrollViewDelegate>
 @property(nonatomic,assign) int year;
 @property(nonatomic,assign) int searchYear;
 @property(nonatomic,assign) int month;
@@ -28,14 +29,13 @@
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UIView *calendarContentView;
 @property (nonatomic, strong) UIView *planDateView;
-@property (nonatomic, strong) UIView *filtTimeView;
 @property (nonatomic, strong) UIView *chilrenNumbView;
 @property (nonatomic, strong) UIButton *moreFilterBtn;
 
 @property(nonatomic,copy) NSMutableArray *registerArr;
 @end
 
-@implementation AYCalendarView{
+@implementation AYFiterScrollView{
     UILabel *didStarPlanTime;
     UILabel *choocePostTime;
     UILabel *chooceGetTime;
@@ -48,7 +48,9 @@
     int numbOfCurrentDay;
     
     AYCalendarCellView *tmp;
+    CGFloat sumHeight;
     
+    BOOL isPostClick;
     NSArray *ons;
     NSArray *hours;
     NSArray *minis;
@@ -60,7 +62,6 @@
 @synthesize headerView = _headerView;
 @synthesize calendarContentView = _calendarContentView;
 @synthesize planDateView = _planDateView;
-@synthesize filtTimeView = _filtTimeView;
 @synthesize chilrenNumbView = _chilrenNumbView;
 @synthesize moreFilterBtn = _moreFilterBtn;
 
@@ -94,6 +95,8 @@
     
     self.daysOfMonth = [self getDaysOfMonthWithYear:self.year withMonth:self.month];
     self.searchDaysOfMonth = self.daysOfMonth;
+    
+    sumHeight = 140;
     
     ons = @[@"AM", @"PM"];
     hours = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12"];
@@ -209,7 +212,8 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    self.contentSize = CGSizeMake(WIDTH, 1400);
+    self.delegate = self;
+    self.contentSize = CGSizeMake(WIDTH, 680);
     
     if (!_calendarContentView) {
         [self addCollectionCell];
@@ -220,12 +224,9 @@
     if (!alockOptionView) {
         [self addAlockOptionView];
     }
-    if (!_moreFilterBtn) {
-        [self addMoreFilterBtn];
-    }
-    if (!_filtTimeView) {
-        [self addFiltTimeView];
-    }
+//    if (!_moreFilterBtn) {
+//        [self addMoreFilterBtn];
+//    }
     if (!_chilrenNumbView) {
         [self addChilrenNumbView];
     }
@@ -268,28 +269,23 @@
 }
 #pragma mark -- layout
 -(void)addChilrenNumbView{
-    _chilrenNumbView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 0/*70*/)];
+    _chilrenNumbView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 70/*70*/)];
     _chilrenNumbView.backgroundColor = [UIColor whiteColor];
     _chilrenNumbView.layer.cornerRadius =3.f;
     _chilrenNumbView.clipsToBounds = YES;
     [self addSubview:_chilrenNumbView];
-    
-    chilrenCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 110, 70)];
+    sumChilrenCount = 1;
+    chilrenCountLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, 110, 70)];
     chilrenCountLabel.text = [NSString stringWithFormat:@"%d 个小孩",sumChilrenCount];
     [_chilrenNumbView addSubview:chilrenCountLabel];
     
-    UIImageView *passCountBtn = [[UIImageView alloc]initWithFrame:CGRectMake(WIDTH - 10 - 110, 13, 110, 45)];
-    passCountBtn.image = [UIImage imageNamed:@"lol"];
-    [_chilrenNumbView addSubview:passCountBtn];
-    passCountBtn.userInteractionEnabled = YES;
-    [passCountBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPassbtnClick:)]];
+    UIImageView *plusCountBtn = [[UIImageView alloc]initWithFrame:CGRectMake(WIDTH - 15 - 110, 13, 110, 45)];
+    plusCountBtn.image = [UIImage imageNamed:@"lol"];
+    [_chilrenNumbView addSubview:plusCountBtn];
+    plusCountBtn.userInteractionEnabled = YES;
+    [plusCountBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPlusbtnClick:)]];
 }
 
-- (void)addFiltTimeView{
-    _filtTimeView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame), WIDTH, 0/*70*/)];
-    _filtTimeView.clipsToBounds = YES;
-    [self addSubview:_filtTimeView];
-}
 - (void)addAlockOptionView{
     alockOptionView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame), WIDTH, 0)];
     UIButton *save = [[UIButton alloc]initWithFrame:CGRectMake(WIDTH - 50 - 10, 8, 50, 14)];
@@ -323,11 +319,9 @@
 }
 - (void)addCollectionCell{
     CGFloat width = self.frame.size.width;
-    _calendarContentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, width, 0)];
+    _calendarContentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, width, 300)];
     _calendarContentView.clipsToBounds = YES;
     [self addSubview:self.calendarContentView];
-    //    _calendarContentView.hidden = YES;
-    
     [self addHeaderView];
     
     int  column = 7;
@@ -389,27 +383,21 @@
     
 }
 
-- (void)addMoreFilterBtn{
-    _moreFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 45)];
-    [self addSubview:_moreFilterBtn];
-    [_moreFilterBtn setTitle:@"更多筛选条件" forState:UIControlStateNormal];
-    [_moreFilterBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [_moreFilterBtn setBackgroundColor:[UIColor clearColor]];
-    _moreFilterBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    _moreFilterBtn.layer.cornerRadius = 4.f;
-    _moreFilterBtn.layer.borderColor = [Tools themeColor].CGColor;
-    _moreFilterBtn.layer.borderWidth = 1.5f;
-    [_moreFilterBtn addTarget:self action:@selector(didMorefilterbtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
-//    [_moreFilterBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(_planDateView.mas_bottom).offset(10);
-//        make.centerX.equalTo(self);
-//        make.size.mas_equalTo(CGSizeMake(self.bounds.size.width, 45));
-//    }];
-}
+//- (void)addMoreFilterBtn{
+//    _moreFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 45)];
+//    [self addSubview:_moreFilterBtn];
+//    [_moreFilterBtn setTitle:@"更多筛选条件" forState:UIControlStateNormal];
+//    [_moreFilterBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+//    [_moreFilterBtn setBackgroundColor:[UIColor clearColor]];
+//    _moreFilterBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+//    _moreFilterBtn.layer.cornerRadius = 4.f;
+//    _moreFilterBtn.layer.borderColor = [Tools themeColor].CGColor;
+//    _moreFilterBtn.layer.borderWidth = 1.5f;
+//    [_moreFilterBtn addTarget:self action:@selector(didMorefilterbtnClick) forControlEvents:UIControlEventTouchUpInside];
+//}
 
 - (void)addplanDateView {
-    _planDateView = [[UIView alloc]initWithFrame:CGRectMake(0, 10, WIDTH, 60)];
+    _planDateView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_calendarContentView.frame) + 10, WIDTH, 70)];
     _planDateView.backgroundColor = [UIColor whiteColor];
     _planDateView.layer.cornerRadius =3.f;
     _planDateView.clipsToBounds = YES;
@@ -424,10 +412,10 @@
     CALayer *line_separator = [CALayer layer];
     line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:1.f].CGColor;
     line_separator.borderWidth = 1.f;
-    line_separator.frame = CGRectMake(WIDTH *0.5, 10, 1, 40);
+    line_separator.frame = CGRectMake(WIDTH *0.5, 10, 1, 50);
     [_planDateView.layer addSublayer:line_separator];
     
-    UIView *PostTimeView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH *0.5, 60)];
+    UIView *PostTimeView = [[UIView alloc]initWithFrame:CGRectMake(0, 5, WIDTH *0.5, 70)];
     [_planDateView addSubview:PostTimeView];
     
     CATextLayer *postTitle = [CATextLayer layer];
@@ -439,19 +427,8 @@
     postTitle.contentsScale = 2.f;
     [PostTimeView.layer addSublayer:postTitle];
     
-    didStarPlanTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, WIDTH * 0.5, 16)];
-    didStarPlanTime.text = @"选择时间";
-    didStarPlanTime.hidden = NO;
-    didStarPlanTime.font = [UIFont systemFontOfSize:14.f];
-    didStarPlanTime.textColor = [Tools themeColor];
-    didStarPlanTime.textAlignment = NSTextAlignmentCenter;
-    [PostTimeView addSubview:didStarPlanTime];
-    didStarPlanTime.userInteractionEnabled = YES;
-    [didStarPlanTime addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didStarPlanTime:)]];
-    
     choocePostTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, WIDTH * 0.5, 16)];
     choocePostTime.text = @"选择时间";
-    choocePostTime.hidden = YES;
     choocePostTime.font = [UIFont systemFontOfSize:14.f];
     choocePostTime.textColor = [Tools themeColor];
     choocePostTime.textAlignment = NSTextAlignmentCenter;
@@ -460,7 +437,7 @@
     [choocePostTime addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChoocePostTime:)]];
     
     /* get */
-    UIView *GetTimeView = [[UIView alloc]initWithFrame:CGRectMake(WIDTH *0.5, 0, WIDTH *0.5, 100)];
+    UIView *GetTimeView = [[UIView alloc]initWithFrame:CGRectMake(WIDTH *0.5, 5, WIDTH *0.5, 70)];
     [_planDateView addSubview:GetTimeView];
     CATextLayer *getTitle = [CATextLayer layer];
     getTitle.frame = CGRectMake(0, 10, WIDTH * 0.5, 20);
@@ -477,6 +454,8 @@
     chooceGetTime.textColor = [UIColor blackColor];
     chooceGetTime.textAlignment = NSTextAlignmentCenter;
     [GetTimeView addSubview:chooceGetTime];
+    chooceGetTime.userInteractionEnabled = YES;
+    [chooceGetTime addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChooceGetTime:)]];
 }
 
 - (void)addHeaderView{
@@ -488,14 +467,12 @@
     UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, 30)];
     dateLabel.textAlignment = NSTextAlignmentLeft;
     dateLabel.font = [UIFont systemFontOfSize:14.f];
-    //    dateLabel.center = CGPointMake(width/2, 20);
     //    dateLabel.text = [NSString stringWithFormat:@"%d-%.2d",self.searchYear,self.searchMonth];
     dateLabel.text = @"选择日期";
     dateLabel.textColor = [Tools themeColor];
     [_headerView addSubview:dateLabel];
     
     UIView *blueView = [[UIView alloc]initWithFrame:CGRectMake(0, 30, WIDTH, 30)];
-    //    blueView.backgroundColor = Blue_textColor;
     [_headerView addSubview:blueView];
     CGFloat labelWidth = (WIDTH)/7;
     for (int i = 0; i<7; i++) {
@@ -519,53 +496,48 @@
     if (!mini || [mini isEqualToString:@""]) {
         mini = minis[0];
     }
-    choocePostTime.text = [NSString stringWithFormat:@"%@:%@ .%@",hour,mini, on];
-    alockOptionView.frame = CGRectMake(alockOptionView.frame.origin.x, alockOptionView.frame.origin.y, WIDTH, 0);
-    _chilrenNumbView.frame = CGRectMake(_chilrenNumbView.frame.origin.x, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, CGRectGetHeight(_chilrenNumbView.frame));
+    
+    if (isPostClick) {
+        choocePostTime.text = [NSString stringWithFormat:@"%@:%@.%@",hour,mini, on];
+    } else {
+        chooceGetTime.text = [NSString stringWithFormat:@"%@:%@.%@",hour,mini, on];
+    }
+    [self hiddenAlockOptionView];
 }
 - (void)didCancelBtnClick{
-    alockOptionView.frame = CGRectMake(alockOptionView.frame.origin.x, alockOptionView.frame.origin.y, WIDTH, 0);
-    _chilrenNumbView.frame = CGRectMake(_chilrenNumbView.frame.origin.x, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, CGRectGetHeight(_chilrenNumbView.frame));
+    [self hiddenAlockOptionView];
 }
+-(void)hiddenAlockOptionView{
+    choocePostTime.userInteractionEnabled = YES;
+    chooceGetTime.userInteractionEnabled = YES;
+    [UIView animateWithDuration:0.25 animations:^{
+        alockOptionView.frame = CGRectMake(alockOptionView.frame.origin.x, alockOptionView.frame.origin.y, WIDTH, 0);
+        _chilrenNumbView.frame = CGRectMake(_chilrenNumbView.frame.origin.x, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, CGRectGetHeight(_chilrenNumbView.frame));
+    }];
+}
+-(void)showAlockOptionView{
+    choocePostTime.userInteractionEnabled = NO;
+    chooceGetTime.userInteractionEnabled = NO;
+    [UIView animateWithDuration:0.25 animations:^{
+        alockOptionView.frame = CGRectMake(alockOptionView.frame.origin.x, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + MARGIN, WIDTH, 192);
+        _chilrenNumbView.frame = CGRectMake(_chilrenNumbView.frame.origin.x, CGRectGetMaxY(alockOptionView.frame) + 10, WIDTH, CGRectGetHeight(_chilrenNumbView.frame));
+        
+    }];
+    sumHeight = CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70 + 192;
+//    self.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70 + 162);
+}
+//送
 - (void)didChoocePostTime:(UIGestureRecognizer*)tap{
-    
-    alockOptionView.frame = CGRectMake(alockOptionView.frame.origin.x, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + MARGIN, WIDTH, 192);
-    _chilrenNumbView.frame = CGRectMake(_chilrenNumbView.frame.origin.x, CGRectGetMaxY(alockOptionView.frame) + 10, WIDTH, CGRectGetHeight(_chilrenNumbView.frame));
-    
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, [UIScreen mainScreen].bounds.size.height - self.frame.origin.y - 45 - 20 - 10);
-    self.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70 + 162);
-    
-//    CGFloat height = CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70 + 192;
-//    NSNumber *height_numb = [NSNumber numberWithFloat:height];
-//    id<AYCommand> reset_cmd = [self.notifies objectForKey:@"resetContentSize:"];
-//    [reset_cmd performWithResult:&height_numb];
+    isPostClick = YES;
+    [self showAlockOptionView];
 }
-- (void)didStarPlanTime:(UIGestureRecognizer*)tap{
-    didStarPlanTime.hidden = YES;
-    choocePostTime.hidden = NO;
-    choocePostTime.text = @"选择时间";
-    chooceGetTime.text = @"——";
-    
-    _calendarContentView.frame = CGRectMake(_calendarContentView.frame.origin.x, _calendarContentView.frame.origin.y, _calendarContentView.frame.size.width, 300);
-    _planDateView.frame = CGRectMake(_planDateView.frame.origin.x, CGRectGetMaxY(_calendarContentView.frame)+ 10, _planDateView.bounds.size.width, _planDateView.bounds.size.height);
-    _chilrenNumbView.frame = CGRectMake(_chilrenNumbView.frame.origin.x, CGRectGetMaxY(_planDateView.frame)+ 10, _chilrenNumbView.frame.size.width, 70);
-    _moreFilterBtn.hidden = YES;
-    
-    id<AYCommand> hidden = [self.notifies objectForKey:@"hiddenCLResultTable"];
-    [hidden performWithResult:nil];
-    
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, [UIScreen mainScreen].bounds.size.height - self.frame.origin.y - 45 - 20 - 10);
-//    self.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70);
-    self.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70);
-    
-//    CGFloat height = CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70;
-//    NSNumber *height_numb = [NSNumber numberWithFloat:height];
-//    id<AYCommand> reset_cmd = [self.notifies objectForKey:@"resetContentSize:"];
-//    [reset_cmd performWithResult:&height_numb];
+//接
+-(void)didChooceGetTime:(UIGestureRecognizer*)tap{
+    isPostClick = NO;
+    [self showAlockOptionView];
 }
 
 -(void)getClickDate:(AYCalendarCellView*)view{
-    NSLog(@"----%@",view);
     if (tmp) {
         tmp.numLabel.textColor = [UIColor blackColor];
         tmp.backgroundColor = [UIColor whiteColor];
@@ -574,45 +546,9 @@
     tmp.numLabel.textColor = [UIColor whiteColor];
     tmp.backgroundColor = [Tools themeColor];
     theDayDate = view.dateString;
-    
-//    optionDateCount ++;
-//    if (optionDateCount == 1) {
-//        if (date) {
-//            choocePostTime.text = date;
-//        }
-//        return;
-//    }
-//    if (optionDateCount == 2) {
-//        if (date) {
-//            chooceGetTime.text = date;
-//        }
-//        optionDateCount = 0;
-//        choocePostTime.userInteractionEnabled = YES;
-//        
-//        _calendarContentView.frame = CGRectMake(_calendarContentView.frame.origin.x, _calendarContentView.frame.origin.y, _calendarContentView.frame.size.width, 0);
-//        _planDateView.frame = CGRectMake(_planDateView.frame.origin.x, CGRectGetMaxY(_calendarContentView.frame)+ 10, _planDateView.bounds.size.width, _planDateView.bounds.size.height);
-//        _moreFilterBtn.frame = CGRectMake(_moreFilterBtn.frame.origin.x, CGRectGetMaxY(_planDateView.frame) + 10, CGRectGetWidth(_moreFilterBtn.frame), CGRectGetHeight(_moreFilterBtn.frame));
-//        
-//        id<AYCommand> hidden = [self.notifies objectForKey:@"hiddenCLResultTable"];
-//        [hidden performWithResult:nil];
-//        
-//        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, 140);
-//        //    self.contentSize = CGSizeMake(WIDTH, self.frame.size.height - _headerView.bounds.size.height - _calendarContentView.bounds.size.height);
-//        //        _calendarContentView.hidden = YES;
-//    }
 }
 
-- (void)didMorefilterbtnClick{
-    alockOptionView.frame = CGRectMake(CGRectGetMinX(alockOptionView.frame), CGRectGetMaxY(_planDateView.frame), WIDTH, 70);
-    [self moreFilterBtnFrameUpdate];
-}
-
--(void)moreFilterBtnFrameUpdate{
-    _moreFilterBtn.frame = CGRectMake(_moreFilterBtn.frame.origin.x, CGRectGetMaxY(_planDateView.frame) + 10, CGRectGetWidth(_moreFilterBtn.frame), CGRectGetHeight(_moreFilterBtn.frame));
-    
-}
-
--(void)didPassbtnClick:(UIGestureRecognizer*)tap{
+-(void)didPlusbtnClick:(UIGestureRecognizer*)tap{
     CGPoint tapPoint = [tap locationInView:tap.view];
     if (tapPoint.x < CGRectGetWidth(tap.view.frame) * 0.5) {
         sumChilrenCount = sumChilrenCount == 0 ? 0 : sumChilrenCount - 1;
@@ -624,24 +560,32 @@
 }
 
 #pragma mark -- commands
-- (id)hiddenBeShowing{
-    if (_calendarContentView.hidden == NO) {
-        optionDateCount = 0;
-        choocePostTime.userInteractionEnabled = YES;
-        
-        _calendarContentView.frame = CGRectMake(_calendarContentView.frame.origin.x, _calendarContentView.frame.origin.y, _calendarContentView.frame.size.width, 0);
-        _planDateView.frame = CGRectMake(_planDateView.frame.origin.x, CGRectGetMaxY(_calendarContentView.frame)+ 10, _planDateView.bounds.size.width, _planDateView.bounds.size.height);
-        _moreFilterBtn.frame = CGRectMake(_moreFilterBtn.frame.origin.x, CGRectGetMaxY(_planDateView.frame) + 10, CGRectGetWidth(_moreFilterBtn.frame), CGRectGetHeight(_moreFilterBtn.frame));
-        
-        id<AYCommand> hidden = [self.notifies objectForKey:@"hiddenCLResultTable"];
-        [hidden performWithResult:nil];
-        
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.bounds.size.width, 140);
-        //    self.contentSize = CGSizeMake(WIDTH, self.frame.size.height - _headerView.bounds.size.height - _calendarContentView.bounds.size.height);
-//        _calendarContentView.hidden = YES;
-    }
+-(id)queryFiterArgs:(NSDictionary*)args{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:theDayDate forKey:@"plan_date"];
+    [dic setValue:choocePostTime.text forKey:@"plan_time_post"];
+    [dic setValue:chooceGetTime.text forKey:@"plan_time_get"];
+    [dic setValue:[NSNumber numberWithInt:sumChilrenCount] forKey:@"chilren_numb"];
+    
+    return dic;
+}
+
+-(id)resetFiterArgs{
+    
+    [self getClickDate:nil];
+    
+    choocePostTime.text = @"选择时间";
+    chooceGetTime.text = @"——";
+    sumChilrenCount = 1;
+    chilrenCountLabel.text = [NSString stringWithFormat:@"%d 个小孩",sumChilrenCount];
     return nil;
 }
 
-
+#pragma mark -- scrollView delegate
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    if (self.contentOffset.y > sumHeight - ([UIScreen mainScreen].bounds.size.height - self.frame.origin.y - 45 - 20 - 10)) {
+//        self.contentOffset = CGPointMake(0, sumHeight - ([UIScreen mainScreen].bounds.size.height - self.frame.origin.y - 45 - 20 - 10));
+//        
+//    }
+//}
 @end

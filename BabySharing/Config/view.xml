@@ -386,12 +386,23 @@
     </view>
     
     <view type="LocationCell" name="LocationCell" factory="AYReuseViewFactory" >
-        <command type="message" message="resetContent:" />
+        <command type="message"     message="resetContent:" />
     </view>
     
     <view type="Calendar" name="Calendar" factory="AYReuseViewFactory" >
-        <command type="message" message="hiddenBeShowing" />
-        <command type="notify" message="hiddenCLResultTable" />
-        <command type="notify" message="resetContentSize:" />
+        <command type="message"     message="hiddenBeShowing" />
+        <command type="notify"      message="hiddenCLResultTable" />
+        <command type="notify"      message="resetContentSize:" />
+    </view>
+    
+    <view type="TimeOption" name="TimeOption" factory="AYReuseViewFactory" >
+        <command type="message"     message="sendFiterArgs:" />
+        <command type="notify"      message="hiddenBeShowing" />
+    </view>
+    
+    <view type="FiterScroll" name="FiterScroll" factory="AYReuseViewFactory" >
+        <command type="message"     message="queryFiterArgs:" />
+        <command type="message"     message="resetFiterArgs" />
+        <command type="notify"      message="hiddenCLResultTable" />
     </view>
 </views>

@@ -99,7 +99,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"3/3";
+    titleView.text = @"2/2";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -157,7 +157,7 @@
         return nil;
     }
     
-    [_dic_userinfo setValue:@" " forKey:@"role_tag"];
+    [_dic_userinfo setValue:@"" forKey:@"role_tag"];
     [_dic_userinfo setValue:input_name forKey:@"screen_name"];
     
 //    id<AYCommand> destin = DEFAULTCONTROLLER(@"InputRole");

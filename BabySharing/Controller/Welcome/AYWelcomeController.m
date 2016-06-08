@@ -40,7 +40,8 @@
 //    UIButton *enterBtn;
     UILabel *tips;
     
-    BOOL isFirstSNS;
+    BOOL isFirst;
+    BOOL isFirstPhone;
     UIView *screenPhotoView;
 }
 
@@ -56,10 +57,13 @@
         _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         NSLog(@"init args are : %@", _login_attr);
         if (![_login_attr objectForKey:@"role_tag"] || [[_login_attr objectForKey:@"role_tag"]isEqualToString:@""]) {
-            isFirstSNS = YES;
+            isFirst = YES;
+//            isFirstPhone = YES;
             [_login_attr setValue:@" " forKey:@"role_tag"];
         }
-    } 
+//        if ([[_login_attr objectForKey:@"role_tag"]isEqualToString:@"NEW"]) {
+//        }
+    }
 }
 
 #pragma mark -- life cycle
@@ -112,22 +116,23 @@
     
     id<AYViewBase> photo_view = [self.views objectForKey:@"UserScreenPhote"];
     UIView *photoView = (UIView*)photo_view;
+    if (!isFirst) {
+        UIButton *enterBtn = [[UIButton alloc]init];
+        [enterBtn setTitle:@"进入咚哒" forState:UIControlStateNormal];
+        [enterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [enterBtn setBackgroundColor:[UIColor clearColor]];
+        enterBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
+        
+        [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:enterBtn];
+        [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(photoView.mas_bottom).offset(isFirst?130:100);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(98, 24));
+        }];
+    }
     
-    UIButton *enterBtn = [[UIButton alloc]init];
-    [enterBtn setTitle:@"进入咚哒" forState:UIControlStateNormal];
-    [enterBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [enterBtn setBackgroundColor:[UIColor clearColor]];
-    enterBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    
-    [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:enterBtn];
-    [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(photoView.mas_bottom).offset(isFirstSNS?130:100);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(98, 24));
-    }];
-    
-    if (isFirstSNS) {
+    if (isFirst) {
         _invateCode = [[UITextField alloc]init];
         [self.view addSubview:_invateCode];
         _invateCode.layer.cornerRadius = 4.f;
@@ -200,15 +205,24 @@
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = PNGRESOURCE(@"bar_left_white");
     [cmd_left performWithResult:&left];
-    
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"  " forState:UIControlStateNormal];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-    
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    if (isFirst) {
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 25)];
+        [bar_right_btn setTitle:@"进入咚哒" forState:UIControlStateNormal];
+        [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+        [cmd_right performWithResult:&bar_right_btn];
+    } else {
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 25)];
+        [bar_right_btn setTitle:@"  " forState:UIControlStateNormal];
+        [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+        bar_right_btn.userInteractionEnabled = NO;
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+        [cmd_right performWithResult:&bar_right_btn];
+    }
     
     return nil;
 }
@@ -339,7 +353,7 @@
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     NSLog(@"tap esle where");
-    if (isFirstSNS) {
+    if (isFirst) {
         if ([_invateCode isFirstResponder]) {
             [_invateCode resignFirstResponder];
         }
@@ -399,7 +413,7 @@
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您没有选择用户头像" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         return ;
     }
-    if (isFirstSNS) {
+    if (isFirst) {
         if (![_invateCode.text isEqualToString:@"1111"]) {
             [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入有效的邀请码" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             return ;
@@ -472,7 +486,7 @@
 
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");
-    if (isFirstSNS) {
+    if (isFirst) {
         
         NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
         [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
@@ -495,13 +509,20 @@
 }
 
 - (id)tapGestureScreenPhoto {
+    if (isFirst) {
+        if ([_invateCode isFirstResponder]) {
+            [_invateCode resignFirstResponder];
+        }
+    }
     [UIView animateWithDuration:0.3 animations:^{
         screenPhotoView.hidden = NO;
         screenPhotoView.alpha = 1;
     }];
     return nil;
 }
+
 - (id)rightBtnSelected {
+    [self updateUserProfile];
     return nil;
 }
 

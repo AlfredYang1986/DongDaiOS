@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYLocationResultController.h"
+#import "AYFiterController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -22,26 +22,15 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
-
 #import "Tools.h"
-#import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
-#import <AMapSearchKit/AMapSearchKit.h>
-
-#import "AYCalendarView.h"
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-@implementation AYLocationResultController{
+@implementation AYFiterController{
     NSMutableArray *loading_status;
-    
-    CLLocation *loc;
-    AMapSearchAPI *search;
-    
-    UIButton *doSearchBtn;
+    UIButton *didSearchBtn;
 }
 
 - (void)postPerform{
@@ -53,11 +42,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-//        if (<#condition#>) {
-//            <#statements#>
-//        }
-        loc = [args objectForKey:@"location"];
+//        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -75,24 +60,6 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
-    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryMMWithLocation"];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
-    NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
-    if (latitude) {
-        [dic setValue:latitude forKey:@"latitude"];
-    }
-    if (longtitude) {
-        [dic setValue:longtitude forKey:@"longtitude"];
-    }
-    [cmd_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            NSLog(@"query recommand tags result %@", result);
-            
-        }
-    }];
-    
     loading_status = [[NSMutableArray alloc]init];
     {
         UIView* view_loading = [self.views objectForKey:@"Loading"];
@@ -104,21 +71,6 @@
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
     
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-    
-    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"LocationResult"];
-    
-    id obj = (id)cmd_recommend;
-    [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_recommend;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_search performWithResult:&nib_search_name];
-    
     UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 10)];
     headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView];
@@ -129,17 +81,16 @@
     line2.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line2];
     
-    doSearchBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, [UIScreen mainScreen].bounds.size.height - 45 - 20, SCREEN_WIDTH - 40, 45)];
-    [doSearchBtn setBackgroundColor:[Tools themeColor]];
-    [doSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
-    doSearchBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [doSearchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    doSearchBtn.layer.cornerRadius = 4.f;
-    doSearchBtn.clipsToBounds = YES;
-    doSearchBtn.hidden = YES;
-    [self.view addSubview:doSearchBtn];
+    didSearchBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, [UIScreen mainScreen].bounds.size.height - 45 - 20, SCREEN_WIDTH - 40, 45)];
+    [didSearchBtn setBackgroundColor:[Tools themeColor]];
+    [didSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    didSearchBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [didSearchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    didSearchBtn.layer.cornerRadius = 4.f;
+    didSearchBtn.clipsToBounds = YES;
+    [self.view addSubview:didSearchBtn];
     
-    [doSearchBtn addTarget:self action:@selector(doSearchBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [didSearchBtn addTarget:self action:@selector(didSearchBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -148,9 +99,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    id<AYViewBase> view = [self.views objectForKey:@"Calendar"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"hiddenBeShowing"];
-    [cmd performWithResult:nil];
 }
 
 #pragma mark -- layouts
@@ -181,7 +129,7 @@
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"重置" forState:UIControlStateNormal];
     bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
@@ -202,32 +150,29 @@
     return nil;
 }
 
-- (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 74 + 160, SCREEN_WIDTH, SCREEN_HEIGHT - 74-160);
-    
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
-}
-
-- (id)CalendarLayout:(UIView*)view {
+- (id)FiterScrollLayout:(UIView*)view {
     CGFloat margin = 20.f;
-    view.frame = CGRectMake(margin, 74, SCREEN_WIDTH - 2* margin, 140);
+    view.frame = CGRectMake(margin, 74, SCREEN_WIDTH - 2* margin, SCREEN_HEIGHT - 74 - 65 -10);
     view.backgroundColor = [UIColor clearColor];
     ((UIScrollView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 
 #pragma mark -- actions
--(void)doSearchBtnClick{
+-(void)didSearchBtnClick{
+    id<AYViewBase> view = [self.views objectForKey:@"FiterScroll"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"queryFiterArgs:"];
+    NSDictionary *dic = nil;
+    [cmd performWithResult:&dic];
+    NSLog(@"%@",dic);
     
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_pop setValue:dic forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_pop = POP;
+    [cmd_pop performWithResult:&dic_pop];
 }
 
 #pragma mark -- notifies
@@ -244,25 +189,13 @@
 }
 
 - (id)rightBtnSelected {
-    NSLog(@"setting view controller");
-    
-//    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputCoder");
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    
-//    id<AYCommand> cmd_push = PUSH;
-//    [cmd_push performWithResult:&dic];
-    
+    id<AYViewBase> view = [self.views objectForKey:@"FiterScroll"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"resetFiterArgs"];
+    [cmd performWithResult:nil];
     return nil;
 }
 
 -(id)hiddenCLResultTable{
-    UIView *view_table = [self.views objectForKey:@"Table"];
-    view_table.hidden = !view_table.hidden;
-    
-    doSearchBtn.hidden = !doSearchBtn.hidden;
     return nil;
 }
 
@@ -271,12 +204,6 @@
     if ([view isFirstResponder]) {
         [view resignFirstResponder];
     }
-    return nil;
-}
-
-- (id)resetContentSize:(NSNumber*)numb{
-    UIScrollView *view = [self.views objectForKey:@"Calendar"];
-    view.contentSize = CGSizeMake(0, numb.floatValue);
     return nil;
 }
 

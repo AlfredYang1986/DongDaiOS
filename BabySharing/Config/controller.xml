@@ -497,9 +497,17 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="FakeNavBar"     name="SetNevigationBarTitle" />
         <view type="Loading"        name="Loading" />
+        <view type="TimeOption"     name="TimeOption" />
         <view type="Table"          name="Table" />
-        <view type="Calendar"       name="Calendar" />
 
         <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
+    </controller>
+    
+    <controller type="DefaultController" name="Fiter" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="FiterScroll"     name="FiterScroll" />
+        <!--        <view type="Calendar"       name="Calendar" />-->
     </controller>
 </controllers>

@@ -10,7 +10,7 @@
 #import "AYViewBase.h"
 #import "AYCalendarCellView.h"
 
-@interface AYCalendarView : UIScrollView <AYViewBase>
+@interface AYFiterScrollView : UIScrollView <AYViewBase>
 //@interface AYCalendarView : UIView <AYViewBase,UIPickerViewDataSource,UIPickerViewDelegate>
 
 -(void)getClickDate:(AYCalendarCellView*)date;

@@ -258,8 +258,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 -(void)pushInputPhoneNo{
-    NSLog(@"push to InputPhoneNo");
-    id<AYCommand> des = DEFAULTCONTROLLER(@"InputInvateCode");
+    NSLog(@"push to InputCoder");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"InputCoder");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
