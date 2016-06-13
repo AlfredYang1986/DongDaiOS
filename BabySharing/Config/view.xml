@@ -407,11 +407,25 @@
     </view>
     
     <view type="ShowBoard" name="ShowBoard" factory="AYReuseViewFactory" >
-        <command type="message"     message=":" />
-        <command type="notify"      message="" />
+        <command type="message"     message="changeOffsetX:" />
+        <command type="notify"      message="sendChangeAnnoMessage:" />
     </view>
     <view type="MapView" name="MapView" factory="AYReuseViewFactory" >
-        <command type="message"     message=":" />
+        <command type="message"     message="changeAnnoView:" />
         <command type="notify"      message="queryTheLoc:" />
+        <command type="notify"      message="sendChangeOffsetMessage:" />
+    </view>
+    
+    <view type="FouceScroll" name="FouceScroll" factory="AYReuseViewFactory" >
+        <command type="message"     message=":" />
+        <command type="notify"      message=":" />
+    </view>
+    <view type="MainScroll" name="MainScroll" factory="AYReuseViewFactory" >
+        <command type="message"     message=":" />
+        <command type="notify"      message=":" />
+    </view>
+    
+    <view type="ContentListCell" name="ContentListCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="resetContent:" />
     </view>
 </views>

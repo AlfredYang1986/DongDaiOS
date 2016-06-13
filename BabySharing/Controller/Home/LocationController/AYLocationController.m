@@ -139,7 +139,8 @@
     [super viewDidAppear:animated];
     
     //授权使用定位服务
-    [self.manager requestWhenInUseAuthorization];
+    [self.manager requestAlwaysAuthorization];
+//    [self.manager requestWhenInUseAuthorization];
     //定位精度
     self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     

@@ -18,6 +18,7 @@
 
 @implementation AYMapViewView{
     MKAnnotationView *tmp;
+    NSArray *arrayWithLoc;
 }
 
 @synthesize para = _para;
@@ -30,23 +31,29 @@
     self.delegate = self;
 //    self.userTrackingMode = MKUserTrackingModeFollow;
 //    self.userTrackingMode = MKUserTrackingModeNone;
-//    self.centerCoordinate = self.userLocation.location.coordinate;
+    //    self.centerCoordinate = self.userLocation.location.coordinate;
+    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
+    CLLocation *loc1 = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
     
-    AYAnnonation *anno = [[AYAnnonation alloc]init];
+    arrayWithLoc = @[loc, loc1];
     
-    anno.coordinate = CLLocationCoordinate2DMake(39.901508, 116.406997);
-    anno.title = @"不知道哪";
-    //    anno.subtitle = @"working!!!";
-    anno.imageName = @"category_3";
-    [self addAnnotation:anno];
+    for (int i = 0; i < arrayWithLoc.count; ++i) {
+        AYAnnonation *anno = [[AYAnnonation alloc]init];
+        CLLocation *loc = arrayWithLoc[i];
+        anno.coordinate = loc.coordinate;
+        anno.title = @"不知道哪";
+        anno.imageName = @"category_3";
+        anno.index = i;
+        [self addAnnotation:anno];
+    }
     
-    AYAnnonation *anno2 = [[AYAnnonation alloc]init];
-    anno2.coordinate = CLLocationCoordinate2DMake(39.961508, 116.456997);
-    anno2.title = @"三元桥";
-    //    anno2.subtitle = @"working!!!";
-    anno2.imageName = @"category_3";
-    
-    [self addAnnotation:anno2];
+//    AYAnnonation *anno2 = [[AYAnnonation alloc]init];
+//    anno2.coordinate = CLLocationCoordinate2DMake(39.961508, 116.456997);
+//    anno2.title = @"三元桥";
+//    //    anno2.subtitle = @"working!!!";
+//    anno2.imageName = @"category_3";
+//    anno2.index = 1;
+//    [self addAnnotation:anno2];
 }
 
 - (void)layoutSubviews{
@@ -56,13 +63,14 @@
     [query_cmd performWithResult:&loc];
     //rang
     self.visibleMapRect = MKMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 100000, 120000, 200000);
+    AYAnnonation *anno = [[AYAnnonation alloc]init];
+    anno.coordinate = loc.coordinate;
+    anno.title = @"定位位置";
+    anno.imageName = @"category_5";
+    anno.index = 9999;
+    [self addAnnotation:anno];
     //center
     [self setCenterCoordinate:loc.coordinate animated:NO];
-    
-//    AYAnnonation *anno0 = [[AYAnnonation alloc]init];
-//    anno0.coordinate = loc.coordinate;
-//    [self addAnnotation:anno0];
-    
     
 }
 
@@ -83,10 +91,16 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+-(id)changeAnnoView:(NSNumber*)index{
+//    NSLog(@"sunfei -- %@",index);
+    
+    return nil;
+}
+
 #pragma mark -- MKMapViewDelegate
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
-        //默认就是红色小球
+        //默认红色小球
         static NSString *ID = @"anno";
         
         MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
@@ -103,7 +117,7 @@
         return annotationView;
     }else{
         
-        //采用系统默认  蓝色大头针
+        //采用系统默认蓝色大头针
         return nil;
         
     }
@@ -111,6 +125,10 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
+    AYAnnonation *anno = view.annotation;
+    if (anno.index == 9999) {
+        return;
+    }
     NSLog(@"didSelectAnnotationView");
     if (tmp && tmp == view) {
         return;
@@ -121,10 +139,14 @@
     }
     view.image = nil;
     view.image = [UIImage imageNamed:@"category_5"];
-    AYAnnonation *anno = view.annotation;
+    
     tmp = view;
     
     [self setCenterCoordinate:anno.coordinate animated:YES];
+    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
+    NSNumber *index = [NSNumber numberWithFloat:anno.index];
+    [cmd performWithResult:&index];
 }
 
 -(id)www{

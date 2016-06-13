@@ -130,4 +130,8 @@
     <delegate type="TableViewDelegateAndDatasource" name="LocationResult" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="ContentList" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="QueryData:" />
+    </delegate>
 </delegates>

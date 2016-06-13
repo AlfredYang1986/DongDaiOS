@@ -1,12 +1,12 @@
 //
-//  AYCalendarDelegate.m
+//  AYContentListDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 2/6/16.
+//  Created by Alfred Yang on 13/6/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYLocationResultDelegate.h"
+#import "AYContentListDelegate.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
 #import "Tools.h"
@@ -21,7 +21,7 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYLocationResultDelegate{
+@implementation AYContentListDelegate{
     NSArray *querydata;
 }
 
@@ -59,16 +59,16 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return querydata.count;
+    //    return querydata.count;
     return 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ContentListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
     if (cell == nil) {
-        cell = VIEW(@"CLResultCell", @"CLResultCell");
+        cell = VIEW(@"ContentListCell", @"ContentListCell");
     }
     
     cell.controller = self.controller;
@@ -83,27 +83,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 290;
+    return 135;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    
-//    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
-//    cell.controller = self.controller;
-//    id<AYCommand> cmd = [cell.notifies objectForKey:@"selectedValueChanged:"];
-//    id args = [NSNumber numberWithFloat:indexPath.row];
-//    [cmd performWithResult:&args];
-//
-    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    //    [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = PUSH;
-    [cmd_show_module performWithResult:&dic];
+
 }
 
 @end

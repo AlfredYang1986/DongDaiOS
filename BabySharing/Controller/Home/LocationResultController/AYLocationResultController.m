@@ -247,12 +247,12 @@
     id<AYCommand> des = DEFAULTCONTROLLER(@"Map");
     
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
     
-    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+    id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic_show_module];
     
     return nil;

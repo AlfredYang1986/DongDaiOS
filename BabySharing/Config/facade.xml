@@ -216,4 +216,9 @@
     
     <facade type ="DefaultFacade" name="Keyboard" factory="AYDefaultFacadeFactory" >
     </facade>
+    
+    <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="Push" />
+        <command type="Remote" name="Pop" />
+    </facade>
 </facades>

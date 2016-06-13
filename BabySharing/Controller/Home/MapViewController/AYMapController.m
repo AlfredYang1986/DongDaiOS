@@ -150,28 +150,35 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
-    
-//    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-//    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-//    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    
-//    id<AYCommand> cmd = POP;
-//    [cmd performWithResult:&dic_pop];
     return nil;
 }
 
 - (id)rightBtnSelected {
-    id<AYCommand> cmd = REVERSMODULE;
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     return nil;
 }
 
 -(id)queryTheLoc:(id)args{
-    
     return loc;
+}
+
+-(id)sendChangeOffsetMessage:(NSNumber*)index{
+    id<AYViewBase> view = [self.views objectForKey:@"ShowBoard"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"changeOffsetX:"];
+    [cmd performWithResult:&index];
+    
+    return nil;
+}
+
+-(id)sendChangeAnnoMessage:(NSNumber*)index{
+    id<AYViewBase> view = [self.views objectForKey:@"MapView"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"changeAnnoView:"];
+    [cmd performWithResult:&index];
+    
+    return nil;
 }
 @end

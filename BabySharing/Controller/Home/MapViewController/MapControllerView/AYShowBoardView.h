@@ -10,6 +10,6 @@
 #import "AYViewBase.h"
 
 //@interface AYShowBoardView : UIView <AYViewBase>
-@interface AYShowBoardView : UIScrollView <AYViewBase>
+@interface AYShowBoardView : UIScrollView <AYViewBase, UIScrollViewDelegate>
 
 @end

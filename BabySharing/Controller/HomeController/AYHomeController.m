@@ -193,6 +193,8 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 //    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
     
+    
+    
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
