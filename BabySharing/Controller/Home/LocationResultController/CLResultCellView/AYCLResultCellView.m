@@ -22,6 +22,9 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+
 @interface AYCLResultCellView ()
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
 @property (weak, nonatomic) IBOutlet UIImageView *friendIcon;
@@ -33,9 +36,19 @@
 @property (weak, nonatomic) IBOutlet UILabel *adresslabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ownerIconImage;
 
+@property (nonatomic, strong) CLGeocoder *gecoder;
 @end
 
-@implementation AYCLResultCellView
+@implementation AYCLResultCellView{
+    NSDictionary *cellInfo;
+}
+
+-(CLGeocoder *)gecoder{
+    if (!_gecoder) {
+        _gecoder = [[CLGeocoder alloc]init];
+    }
+    return _gecoder;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -112,7 +125,23 @@
 
 - (id)setCellInfo:(id)args{
     NSDictionary *dic = (NSDictionary*)args;
-    _descLabel.text = [dic objectForKey:@"description"];
+    cellInfo = dic;
+    _descLabel.text = [dic objectForKey:@"title"];
+    
+    NSNumber *price = [dic objectForKey:@"price"];
+    _costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",price.floatValue];
+    
+    NSDictionary *dic_loc = [dic objectForKey:@"location"];
+    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+    [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        CLPlacemark *pl = [placemarks firstObject];
+//        NSLog(@"%@",pl.addressDictionary);
+        _adresslabel.text = pl.subLocality;
+    }];
+    
     return nil;
 //    service_id: (String)
 //    title : (String)

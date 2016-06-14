@@ -19,6 +19,8 @@
 @implementation AYMapViewView{
     MKAnnotationView *tmp;
     NSArray *arrayWithLoc;
+    AYAnnonation *currentAnno;
+    NSMutableArray *annoArray;
 }
 
 @synthesize para = _para;
@@ -29,46 +31,56 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.delegate = self;
+    annoArray = [[NSMutableArray alloc]init];
 //    self.userTrackingMode = MKUserTrackingModeFollow;
 //    self.userTrackingMode = MKUserTrackingModeNone;
-    //    self.centerCoordinate = self.userLocation.location.coordinate;
-    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
-    CLLocation *loc1 = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
+//    self.centerCoordinate = self.userLocation.location.coordinate;
+
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+//    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    arrayWithLoc = @[loc, loc1];
+    [self removeAnnotations:annoArray];
     
-    for (int i = 0; i < arrayWithLoc.count; ++i) {
+    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryTheLoc:"];
+    NSDictionary *resultAndLoc = nil;
+    [query_cmd performWithResult:&resultAndLoc];
+    
+//    CLLocation *loc0 = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
+//    CLLocation *loc1 = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
+//    arrayWithLoc = @[loc0, loc1];
+    
+    CLLocation *loc = [resultAndLoc objectForKey:@"location"];
+    NSArray *fiteResultData = [resultAndLoc objectForKey:@"result_data"];
+    
+    for (int i = 0; i < fiteResultData.count; ++i) {
+        NSDictionary *info = fiteResultData[i];
+        
+        NSDictionary *dic_loc = [info objectForKey:@"location"];
+        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+        
         AYAnnonation *anno = [[AYAnnonation alloc]init];
-        CLLocation *loc = arrayWithLoc[i];
-        anno.coordinate = loc.coordinate;
+        anno.coordinate = location.coordinate;
         anno.title = @"不知道哪";
         anno.imageName = @"category_3";
         anno.index = i;
         [self addAnnotation:anno];
+        [annoArray addObject:anno];
     }
     
-//    AYAnnonation *anno2 = [[AYAnnonation alloc]init];
-//    anno2.coordinate = CLLocationCoordinate2DMake(39.961508, 116.456997);
-//    anno2.title = @"三元桥";
-//    //    anno2.subtitle = @"working!!!";
-//    anno2.imageName = @"category_3";
-//    anno2.index = 1;
-//    [self addAnnotation:anno2];
-}
-
-- (void)layoutSubviews{
-    
-    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryTheLoc:"];
-    CLLocation *loc = nil;
-    [query_cmd performWithResult:&loc];
     //rang
-    self.visibleMapRect = MKMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 100000, 120000, 200000);
+    self.visibleMapRect = MKMapRectMake(loc.coordinate.latitude - 80000, loc.coordinate.longitude - 140000, 160000, 280000);
     AYAnnonation *anno = [[AYAnnonation alloc]init];
     anno.coordinate = loc.coordinate;
     anno.title = @"定位位置";
     anno.imageName = @"category_5";
     anno.index = 9999;
     [self addAnnotation:anno];
+    [annoArray addObject:anno];
     //center
     [self setCenterCoordinate:loc.coordinate animated:NO];
     
@@ -147,11 +159,6 @@
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
     NSNumber *index = [NSNumber numberWithFloat:anno.index];
     [cmd performWithResult:&index];
-}
-
--(id)www{
-    
-    return nil;
 }
 
 @end

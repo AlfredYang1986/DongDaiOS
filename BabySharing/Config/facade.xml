@@ -148,7 +148,6 @@
         <command type="Remote" name="SearchTagWithPreviews" />
         <command type="Remote" name="SearchRoleTagWithPreviews" />
         <command type="Remote" name="QueryRecommandTags" />
-        <command type="Remote" name="QueryMMWithLocation" />
     </facade>
     
     <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >
@@ -218,7 +217,8 @@
     </facade>
     
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
-        <command type="Remote" name="Push" />
-        <command type="Remote" name="Pop" />
+        <command type="Remote" name="PushPersonalInfo" />
+        <command type="Remote" name="PublishService" />
+        <command type="Remote" name="QueryMMWithLocation" />
     </facade>
 </facades>

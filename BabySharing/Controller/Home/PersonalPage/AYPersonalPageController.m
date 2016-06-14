@@ -34,12 +34,32 @@
 
 @end
 
-@implementation AYPersonalPageController
+@implementation AYPersonalPageController{
+    NSDictionary *personal_info;
+}
+- (void)performWithResult:(NSObject**)obj {
+    
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        personal_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+    }
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    id<AYViewBase> main_scroll = [self.views objectForKey:@"MainScroll"];
+    id<AYCommand> cmd = [main_scroll.commands objectForKey:@"setPersonalInfo:"];
+    NSDictionary *dic_info = personal_info;
+    [cmd performWithResult:&dic_info];
     
     UIView *view = [[UIView alloc]init];
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
@@ -133,7 +153,7 @@
 }
 
 - (void)didBookBtnClick:(UIButton*)btn{
-    
+    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 }
 
 @end

@@ -55,7 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     loading_status = [[NSMutableArray alloc]init];

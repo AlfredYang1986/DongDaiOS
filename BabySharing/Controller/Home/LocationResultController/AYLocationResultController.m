@@ -96,7 +96,7 @@
     NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&nib_search_name];
     
-    id<AYFacadeBase> f_search = [self.facades objectForKey:@"SearchRemote"];
+    id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryMMWithLocation"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
@@ -111,15 +111,16 @@
         if (success) {
             NSLog(@"query recommand tags result %@", result);
             searchResultArrWithLoc = (NSArray*)result;
-            NSArray *arr = (NSArray*)result;
-            id<AYCommand> cmd = [view_table.commands objectForKey:@"changeQueryData:"];
+            id arr = (NSArray*)result;
+            id<AYDelegateBase> del = [self.delegates objectForKey:@"LocationResult"];
+            id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
             [cmd performWithResult:&arr];
             
             id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
             [refresh performWithResult:nil];
             
         } else {
-            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"搜索附近失败，请是否开启定位并检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"搜索附近失败，请查看是否开启定位并检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
     }];
     

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,21 +14,23 @@
                         <viewControllerLayoutGuide type="bottom" id="zny-nj-Gzm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MJn-3X-8bM">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default.png" translatesAutoresizingMaskIntoConstraints="NO" id="o88-Lp-VE7">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchscreen" translatesAutoresizingMaskIntoConstraints="NO" id="o88-Lp-VE7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" red="0.32097205590838962" green="1" blue="0.49913353974029873" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="o88-Lp-VE7" firstAttribute="top" secondItem="MJn-3X-8bM" secondAttribute="topMargin" id="Utb-mP-V8V"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="o88-Lp-VE7" secondAttribute="trailing" constant="-20" id="XQ4-mY-pWN"/>
-                            <constraint firstItem="zny-nj-Gzm" firstAttribute="top" secondItem="o88-Lp-VE7" secondAttribute="bottom" id="dqH-mt-YcB"/>
-                            <constraint firstItem="o88-Lp-VE7" firstAttribute="leading" secondItem="MJn-3X-8bM" secondAttribute="leadingMargin" constant="-20" id="pMs-Hm-wSL"/>
+                            <constraint firstItem="o88-Lp-VE7" firstAttribute="top" secondItem="MJn-3X-8bM" secondAttribute="top" id="GzY-h1-4BQ"/>
+                            <constraint firstAttribute="trailing" secondItem="o88-Lp-VE7" secondAttribute="trailing" id="Mhh-Ct-jSh"/>
+                            <constraint firstAttribute="bottom" secondItem="o88-Lp-VE7" secondAttribute="bottom" id="Sdi-Qy-79Q"/>
+                            <constraint firstItem="o88-Lp-VE7" firstAttribute="leading" secondItem="MJn-3X-8bM" secondAttribute="leading" id="tv5-kd-J6R"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CI4-qc-epY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -37,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="default.png" width="750" height="1334"/>
+        <image name="launchscreen" width="375" height="667"/>
     </resources>
 </document>

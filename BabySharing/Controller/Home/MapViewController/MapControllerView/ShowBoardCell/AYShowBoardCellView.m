@@ -9,7 +9,6 @@
 #import "AYShowBoardCellView.h"
 #import "AYCommandDefines.h"
 #import "Tools.h"
-#import <MapKit/MapKit.h>
 #import "AYAnnonation.h"
 
 @implementation AYShowBoardCellView{
@@ -31,7 +30,7 @@
         }];
         
         _distanceLabel = [[UILabel alloc]init];
-        _distanceLabel.text = @"距离您约1.1km";
+        _distanceLabel.text = @"距离您约0km";
         _distanceLabel.font = [UIFont systemFontOfSize:13.f];
         _distanceLabel.textColor = [UIColor colorWithWhite:0.3f alpha:1.f];
         [self addSubview:_distanceLabel];
@@ -86,7 +85,7 @@
         }];
         
         _titleLabel = [[UILabel alloc]init];
-        _titleLabel.text = @"喜欢画画的插画师妈妈";
+        _titleLabel.text = @"一句话了解妈妈";
         _titleLabel.font = [UIFont systemFontOfSize:13.f];
         _titleLabel.textColor = [UIColor colorWithWhite:0.2f alpha:1.f];
         [self addSubview:_titleLabel];
@@ -96,7 +95,7 @@
         }];
         
         _friendsLabel = [[UILabel alloc]init];
-        _friendsLabel.text = @"1个共同好友";
+        _friendsLabel.text = @"0个共同好友";
         _friendsLabel.font = [UIFont systemFontOfSize:12.f];
         _friendsLabel.textColor = [UIColor colorWithWhite:0.4f alpha:1.f];
         [self addSubview:_friendsLabel];
@@ -111,7 +110,17 @@
 }
 
 -(void)layoutSubviews {
-    
+    [super layoutSubviews];
+    if (self.contentInfo) {
+        _titleLabel.text = [self.contentInfo objectForKey:@"title"];
+        
+        NSDictionary *dic_loc = [self.contentInfo objectForKey:@"location"];
+        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+        CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+        CLLocationDistance meters = [self.location distanceFromLocation:loc];
+        _distanceLabel.text = [NSString stringWithFormat:@"距离您约%.2fkm",(float)meters * 0.001];
+    }
 }
 
 

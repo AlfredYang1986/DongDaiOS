@@ -52,15 +52,15 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(NSArray*)array{
-    querydata = array;
+- (id)changeQueryData:(id)array{
+    querydata = (NSArray*)array;
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return querydata.count;
-    return 2;
+    return querydata.count;
+//    return 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -88,19 +88,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    
-//    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
-//    cell.controller = self.controller;
-//    id<AYCommand> cmd = [cell.notifies objectForKey:@"selectedValueChanged:"];
-//    id args = [NSNumber numberWithFloat:indexPath.row];
-//    [cmd performWithResult:&args];
-//
+    
+    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+    
     id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    //    [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];

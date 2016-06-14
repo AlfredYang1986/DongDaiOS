@@ -109,7 +109,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     bar.barStyle = UIStatusBarStyleDefault;
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    self.view.backgroundColor = [Tools themeColor];
+//    self.view.backgroundColor = [Tools themeColor];
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"launchscreen"]];
    
     isUpAnimation = NO;
     

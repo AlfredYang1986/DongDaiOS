@@ -96,6 +96,7 @@
     [self setContentOffset:CGPointMake(0, row * result.floatValue)];
     return nil;
 }
+
 @end
 
 @implementation AYTable2View

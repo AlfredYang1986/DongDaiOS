@@ -30,6 +30,8 @@
 }
 
 - (void)layoutSubviews{
+    [super layoutSubviews];
+    
     NSArray *imageNameArr = @[@"lol",@"lol",@"lol"];
     for (int i = 0; i < 3; ++i) {
         CGFloat offset_x = SCREEN_WIDTH * i;

@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import <MapKit/MapKit.h>
 
 @interface AYShowBoardCellView : UIView
+
+@property (nonatomic, strong) NSDictionary *contentInfo;
+@property (nonatomic, strong) CLLocation *location;
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *distanceLabel;

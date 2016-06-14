@@ -28,6 +28,7 @@
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
+#import <CoreLocation/CoreLocation.h>
 
 typedef void(^queryContentFinish)(void);
 
@@ -146,6 +147,18 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         make.left.equalTo(hello);
         make.top.equalTo(hello.mas_bottom).offset(10);
     }];
+    
+    UIButton *personal = [[UIButton alloc]init];
+    [personal setTitle:@"一键发布服务信息" forState:UIControlStateNormal];
+    personal.backgroundColor = [Tools themeColor];
+    [self.view addSubview:personal];
+    [personal mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(say.mas_bottom).offset(50);
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.height.mas_equalTo(44);
+    }];
+    [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -199,6 +212,81 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [cmd performWithResult:&dic_push];
 }
 
-#pragma mark -- notifies
+-(void)didPushInfo{
+    NSDictionary* obj = nil;
+    CURRENUSER(obj)
+    NSDictionary* args = [obj mutableCopy];
+//    NSDate *timeSpan = [NSDate dateWithTimeInterval:<#(NSTimeInterval)#> sinceDate:<#(nonnull NSDate *)#>]
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
+    
+    NSString *startDateString = @"2016-06-15 11:15";
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-dd HH:mm"];
+    NSDate *startDate = [format dateFromString:startDateString];
+    NSTimeInterval start = startDate.timeIntervalSinceReferenceDate * 1000;
+    
+    NSString *endDateString = @"2016-06-15 12:15";
+    NSDate *endDate = [format dateFromString:endDateString];
+    NSTimeInterval end = endDate.timeIntervalSinceReferenceDate * 1000;
+    
+    NSMutableDictionary *offer_date = [[NSMutableDictionary alloc]init];
+    [offer_date setValue:[NSNumber numberWithLong:start] forKey:@"start"];
+    [offer_date setValue:[NSNumber numberWithLong:end] forKey:@"end"];
+    [dic setValue:offer_date forKey:@"offer_date"];
+    
+//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
+    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
+    NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
+    [location setValue:[NSNumber numberWithFloat:loc.coordinate.latitude] forKey:@"latitude"];
+    [location setValue:[NSNumber numberWithFloat:loc.coordinate.longitude] forKey:@"longtitude"];
+    [dic setValue:location forKey:@"location"];
+    
+    [dic setValue:@"爱花花的文艺妈妈33" forKey:@"title"];
+    [dic setValue:@"description:33一位爱花花的文艺妈妈" forKey:@"description"];
+    [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
+    [dic setValue:[NSNumber numberWithFloat:66] forKey:@"price"];
+    
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushPersonalInfo"];
+    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"上传成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            
+            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
+            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
+            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
+            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
+            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+                if (success) {
+                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                }
+            }];
+        }
+    }];
+    
+    //    owner_id :  (String)
+    //    offer_date: (json object) {
+    //          start: (long => 苹果的timespan）
+    //          end: (同上)
+    //        }
+    //    location: (json object) {
+    //      latitude: (float => 高德地图经度)
+    //      longtitude: (float => 高德地图纬度)
+    //    }
+    //    title: (String)
+    //    description: (String)
+    //    capacity : (Int)
+    //    price: (Float)
+}
 
+#pragma mark -- notifies
+- (id)startRemoteCall:(id)obj {
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    return nil;
+}
 @end

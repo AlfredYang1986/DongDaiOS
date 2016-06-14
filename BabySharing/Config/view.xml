@@ -409,6 +409,7 @@
     <view type="ShowBoard" name="ShowBoard" factory="AYReuseViewFactory" >
         <command type="message"     message="changeOffsetX:" />
         <command type="notify"      message="sendChangeAnnoMessage:" />
+        <command type="notify"      message="queryResultDate:" />
     </view>
     <view type="MapView" name="MapView" factory="AYReuseViewFactory" >
         <command type="message"     message="changeAnnoView:" />
@@ -421,7 +422,7 @@
         <command type="notify"      message=":" />
     </view>
     <view type="MainScroll" name="MainScroll" factory="AYReuseViewFactory" >
-        <command type="message"     message=":" />
+        <command type="message"     message="setPersonalInfo:" />
         <command type="notify"      message=":" />
     </view>
     

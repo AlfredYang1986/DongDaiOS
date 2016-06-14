@@ -32,8 +32,10 @@
 
 @implementation AYMapController{
     NSMutableArray *loading_status;
+    
+    NSDictionary *resultAndLoc;
     CLLocation *loc;
-    NSArray *fiteResultArrWithLoc;
+    NSArray *fiteResultData;
 }
 
 - (void)postPerform{
@@ -46,9 +48,9 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-        loc = [args objectForKey:@"location"];
-        fiteResultArrWithLoc = [args objectForKey:@"result_data"];
+        resultAndLoc = [dic objectForKey:kAYControllerChangeArgsKey];
+        loc = [resultAndLoc objectForKey:@"location"];
+        fiteResultData = [resultAndLoc objectForKey:@"result_data"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -163,7 +165,11 @@
 }
 
 -(id)queryTheLoc:(id)args{
-    return loc;
+    return resultAndLoc;
+}
+
+-(id)queryResultDate:(id)args{
+    return resultAndLoc;
 }
 
 -(id)sendChangeOffsetMessage:(NSNumber*)index{

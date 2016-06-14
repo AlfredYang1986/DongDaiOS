@@ -24,6 +24,11 @@
 @end
 
 @implementation AYMainScrollView{
+    NSDictionary *personal_info;
+    
+    UILabel *titleLabel;
+    UILabel *babyNumbLabel;
+    
     UILabel *aboutMMIntru;
     UIButton *readMore;
     UIButton *takeOffMore;
@@ -36,12 +41,12 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     CGFloat width = SCREEN_WIDTH - 15*2;
-    self.contentSize = CGSizeMake(width, 810);
+//    self.contentSize = CGSizeMake(width, 810);
     self.scrollEnabled = YES;
     self.showsVerticalScrollIndicator = NO;
     
-    UILabel *titleLabel = [[UILabel alloc]init];
-    titleLabel.text = @"带着宝宝画插画";
+    titleLabel = [[UILabel alloc]init];
+    titleLabel.text = @"一句话了解妈妈";
     titleLabel.textColor = [UIColor colorWithWhite:0.2f alpha:1.f];
     titleLabel.font = [UIFont systemFontOfSize:16.f];
     [self addSubview:titleLabel];
@@ -136,7 +141,7 @@
         make.left.equalTo(self);
     }];
     
-    UILabel *babyNumbLabel = [[UILabel alloc]init];
+    babyNumbLabel = [[UILabel alloc]init];
     babyNumbLabel.text = @"我还可以看护的孩子：0个";
     babyNumbLabel.textColor = [UIColor colorWithWhite:0.2f alpha:1.f];
     babyNumbLabel.font = [UIFont systemFontOfSize:14.f];
@@ -419,6 +424,17 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    
+    if (personal_info) {
+        titleLabel.text = [personal_info objectForKey:@"title"];
+        NSNumber *numb = [personal_info objectForKey:@"capacity"];
+        babyNumbLabel.text = [NSString stringWithFormat:@"我还可以看护的孩子：%d个",numb.intValue];
+        
+        aboutMMIntru.text = [personal_info objectForKey:@"description"];
+    }
+    
+    CGFloat width = SCREEN_WIDTH - 15*2;
+    self.contentSize = CGSizeMake(width, 810);
 }
 
 #pragma mark -- commands
@@ -436,6 +452,11 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
+}
+
+-(id)setPersonalInfo:(NSDictionary*)args {
+    personal_info = args;
+    return nil;
 }
 
 #pragma mark -- actions

@@ -152,7 +152,16 @@
     <command type="Remote" name="SearchTagWithPreviews" route="tags/queryFoundSearchTagData" factory="AYRemoteCallFactory" />
     <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryContentsWithTag" route="tags/queryContentsWithTag" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PushPersonalInfo"  route="kidnap/push"     factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PublishService"    route="kidnap/publish"  factory="AYRemoteCallFactory" />
+    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMMWithLocation" route="kidnap/search" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

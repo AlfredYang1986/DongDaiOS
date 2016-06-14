@@ -173,15 +173,14 @@
     [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
         
         CLPlacemark *pl = [placemarks firstObject];
-//        NSString *name = pl.name;
-        NSLog(@"%@",pl.addressDictionary);
+        NSString *name = pl.name;
         
         id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
         id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
         id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"autoLocationData:"];
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:pl.name forKey:@"auto_location_name"];
+        [dic setValue:name forKey:@"auto_location_name"];
         [dic setValue:loc forKey:@"auto_location"];
         [cmd performWithResult:&dic];
         
