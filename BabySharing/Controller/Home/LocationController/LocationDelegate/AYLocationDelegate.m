@@ -126,12 +126,12 @@
             cell = VIEW(@"LocationCell", @"LocationCell");
         }
         cell.controller = self.controller;
+        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
+        //        NSDictionary *dic = previewDic[indexPath.row];
         
         AMapTip *tip = previewDic[indexPath.row];
-        
-        //        cell.textLabel.text = tip.name;
-        //        cell.detailTextLabel.text = tip.district;
-        id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:tip.name forKey:@"location_name"];
         [dic setValue:tip.district forKey:@"district"];
@@ -156,20 +156,26 @@
     NSMutableDictionary *dic_location = [[NSMutableDictionary alloc]init];
     if (previewDic == nil || previewDic.count == 0) {
         if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil]show];
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             return;
         }
         [dic_location setValue:auto_locationName forKey:@"location_name"];
         [dic_location setValue:auto_location forKey:@"location"];
     }else{
+        //        NSDictionary *dic = previewDic[indexPath.row];
+        //        CLLocation *loc = [dic objectForKey:@"location"];
         AMapTip *tip = previewDic[indexPath.row];
         [dic_location setValue:tip.name forKey:@"location_name"];
         [dic_location setValue:tip.district forKey:@"district"];
         double latitude = tip.location.latitude;
         double longitude = tip.location.longitude;
-//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
         CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
         [dic_location setValue:loc forKey:@"location"];
+        
+        if (latitude == 0 && longitude == 0) {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"公交线路暂无法定位" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            return;
+        }
     }
     
     AYViewController* des = DEFAULTCONTROLLER(@"LocationResult");

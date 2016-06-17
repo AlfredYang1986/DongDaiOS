@@ -66,27 +66,27 @@
     /* 姓名 */
     inputView = [[UIView alloc]init];
     [self addSubview:inputView];
-    [inputView setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
-    inputView.layer.cornerRadius = 6.f;
+    [inputView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
+    inputView.layer.cornerRadius = 4.f;
     inputView.clipsToBounds = YES;
     [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(input_tips.mas_bottom).offset(12);
+        make.top.equalTo(input_tips.mas_bottom).offset(15);
         make.left.equalTo(self);
         make.width.equalTo(self);
         make.height.mas_equalTo(40);
     }];
     
     UILabel *leftView = [[UILabel alloc]init];
-    leftView.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.f];
-    leftView.text = @"姓名";
+    leftView.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
+    leftView.text = @"姓 名";
     leftView.font = [UIFont systemFontOfSize:14.f];
-    leftView.textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
+    leftView.textColor = [Tools themeColor];
     leftView.textAlignment = NSTextAlignmentCenter;
     [inputView addSubview:leftView];
     [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputView);
         make.left.equalTo(inputView);
-        make.size.mas_equalTo(CGSizeMake(90, 40));
+        make.size.mas_equalTo(CGSizeMake(96, 40));
     }];
     
     name_area = [[UITextField alloc]init];

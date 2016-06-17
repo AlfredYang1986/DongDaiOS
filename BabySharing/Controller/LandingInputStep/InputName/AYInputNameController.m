@@ -86,7 +86,7 @@
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"完成" forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
     
@@ -99,7 +99,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"2/2";
+    titleView.text = @" ";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -109,7 +109,7 @@
 
 - (id)LandingInputNameLayout:(UIView*)view {
     NSLog(@"Landing Input View view layout");
-    CGFloat margin = 22;
+    CGFloat margin = 15;
     view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 130);
     return nil;
 }

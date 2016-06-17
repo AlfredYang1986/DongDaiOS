@@ -348,8 +348,6 @@
 		706E46141CFC107A00CC7C53 /* AYLandingInputNoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46051CFC107A00CC7C53 /* AYLandingInputNoView.m */; };
 		706E46151CFC107A00CC7C53 /* AYLandingSNSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46081CFC107A00CC7C53 /* AYLandingSNSView.m */; };
 		706E46161CFC107A00CC7C53 /* AYLandingTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E460B1CFC107A00CC7C53 /* AYLandingTitleView.m */; };
-		706E461A1CFC118B00CC7C53 /* AYInputInvateCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46191CFC118B00CC7C53 /* AYInputInvateCodeController.m */; };
-		706E461E1CFC133F00CC7C53 /* AYInputInvateCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E461D1CFC133F00CC7C53 /* AYInputInvateCodeView.m */; };
 		706E46221CFC204100CC7C53 /* AYGetInvateCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46211CFC204100CC7C53 /* AYGetInvateCodeController.m */; };
 		706E46241CFC5DD700CC7C53 /* getInvateCode.html in Resources */ = {isa = PBXBuildFile; fileRef = 706E46231CFC5DD700CC7C53 /* getInvateCode.html */; };
 		707B4D3D1CA819D900F6256E /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D381CA819D900F6256E /* Tools.m */; };
@@ -1248,10 +1246,6 @@
 		706E46081CFC107A00CC7C53 /* AYLandingSNSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingSNSView.m; sourceTree = "<group>"; };
 		706E460A1CFC107A00CC7C53 /* AYLandingTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingTitleView.h; sourceTree = "<group>"; };
 		706E460B1CFC107A00CC7C53 /* AYLandingTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingTitleView.m; sourceTree = "<group>"; };
-		706E46181CFC118B00CC7C53 /* AYInputInvateCodeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInputInvateCodeController.h; sourceTree = "<group>"; };
-		706E46191CFC118B00CC7C53 /* AYInputInvateCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInputInvateCodeController.m; sourceTree = "<group>"; };
-		706E461C1CFC133F00CC7C53 /* AYInputInvateCodeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInputInvateCodeView.h; sourceTree = "<group>"; };
-		706E461D1CFC133F00CC7C53 /* AYInputInvateCodeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInputInvateCodeView.m; sourceTree = "<group>"; };
 		706E46201CFC204100CC7C53 /* AYGetInvateCodeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGetInvateCodeController.h; sourceTree = "<group>"; };
 		706E46211CFC204100CC7C53 /* AYGetInvateCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGetInvateCodeController.m; sourceTree = "<group>"; };
 		706E46231CFC5DD700CC7C53 /* getInvateCode.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = getInvateCode.html; sourceTree = "<group>"; };
@@ -4092,7 +4086,6 @@
 				706E461F1CFC1FE400CC7C53 /* getInvateCode */,
 				706E45EF1CFC107A00CC7C53 /* InputName */,
 				706E45E91CFC107A00CC7C53 /* InputCoder */,
-				706E46171CFC111D00CC7C53 /* Invatecode */,
 				706E45FF1CFC107A00CC7C53 /* LandingController */,
 			);
 			path = LandingInputStep;
@@ -4210,25 +4203,6 @@
 				706E460B1CFC107A00CC7C53 /* AYLandingTitleView.m */,
 			);
 			path = LandingTitle;
-			sourceTree = "<group>";
-		};
-		706E46171CFC111D00CC7C53 /* Invatecode */ = {
-			isa = PBXGroup;
-			children = (
-				706E461B1CFC131500CC7C53 /* InputInvateCodeView */,
-				706E46181CFC118B00CC7C53 /* AYInputInvateCodeController.h */,
-				706E46191CFC118B00CC7C53 /* AYInputInvateCodeController.m */,
-			);
-			path = Invatecode;
-			sourceTree = "<group>";
-		};
-		706E461B1CFC131500CC7C53 /* InputInvateCodeView */ = {
-			isa = PBXGroup;
-			children = (
-				706E461C1CFC133F00CC7C53 /* AYInputInvateCodeView.h */,
-				706E461D1CFC133F00CC7C53 /* AYInputInvateCodeView.m */,
-			);
-			path = InputInvateCodeView;
 			sourceTree = "<group>";
 		};
 		706E461F1CFC1FE400CC7C53 /* getInvateCode */ = {
@@ -6467,7 +6441,6 @@
 				700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */,
 				7015248A1CBF9AB4005B4C5B /* MJRefreshStateHeader.m in Sources */,
 				703CCDE21CC9EC7F00CF4563 /* AYNotificationDelegate.m in Sources */,
-				706E461E1CFC133F00CC7C53 /* AYInputInvateCodeView.m in Sources */,
 				7015248E1CBF9AB4005B4C5B /* UIScrollView+MJRefresh.m in Sources */,
 				70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */,
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
@@ -6591,7 +6564,6 @@
 				703CCDD01CC9E73900CF4563 /* AYQueryMessagesCommand.m in Sources */,
 				702561B21CD350050099F056 /* AYTagEditView.m in Sources */,
 				7003FBC51CED4B4700230B20 /* AYWelcomeController.m in Sources */,
-				706E461A1CFC118B00CC7C53 /* AYInputInvateCodeController.m in Sources */,
 				70CDF6351CBD033900311841 /* QueryComments.m in Sources */,
 				8052188B1CCB7457006EF119 /* AYChatMessageCellView.m in Sources */,
 				700BE6011CBA701100A09B3A /* AYLoginXMPPCommand.m in Sources */,

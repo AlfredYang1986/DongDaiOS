@@ -15,8 +15,11 @@
         <command type="message" message="startConfirmCodeTimer" />
         <command type="message" message="stopConfirmCodeTimer" />
         <command type="message" message="queryCurCoder:" />
+        <command type="message" message="showEnterBtnForOldUser" />
+        <command type="message" message="hideEnterBtnForOldUser" />
         <command type="notify"  message="queryCurPhoneNo:" />
         <command type="notify"  message="reReqConfirmCode:" />
+        <command type="notify"  message="rightBtnSelected" />
     </view>
     
     <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >
@@ -408,11 +411,13 @@
     
     <view type="ShowBoard" name="ShowBoard" factory="AYReuseViewFactory" >
         <command type="message"     message="changeOffsetX:" />
+        <command type="message"     message="changeResultData:" />
         <command type="notify"      message="sendChangeAnnoMessage:" />
         <command type="notify"      message="queryResultDate:" />
     </view>
     <view type="MapView" name="MapView" factory="AYReuseViewFactory" >
         <command type="message"     message="changeAnnoView:" />
+        <command type="message"     message="changeResultData:" />
         <command type="notify"      message="queryTheLoc:" />
         <command type="notify"      message="sendChangeOffsetMessage:" />
     </view>

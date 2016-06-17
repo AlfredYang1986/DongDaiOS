@@ -62,6 +62,7 @@
             [locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self).offset(20);
                 make.centerY.equalTo(self);
+                make.width.equalTo(self);
             }];
             
             CALayer *line_separator = [CALayer layer];
@@ -130,8 +131,11 @@
 }
 
 -(void)layoutSubviews{
-    locationLabel.text = locationName;
     [super layoutSubviews];
+    if (locationName && ![locationName isEqualToString:@""] ) {
+        
+        locationLabel.text = locationName;
+    }
 }
 
 - (id)resetContent:(id)obj {

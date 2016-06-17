@@ -72,7 +72,7 @@
     }
     
     cell.controller = self.controller;
-    
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     
     id tmp = [querydata objectAtIndex:indexPath.row];
     NSLog(@"sunfei -- %@",tmp);

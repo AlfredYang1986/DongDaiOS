@@ -237,16 +237,17 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [dic setValue:offer_date forKey:@"offer_date"];
     
 //    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
-    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
+//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
+    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.931508 longitude:116.416997];
     NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
     [location setValue:[NSNumber numberWithFloat:loc.coordinate.latitude] forKey:@"latitude"];
     [location setValue:[NSNumber numberWithFloat:loc.coordinate.longitude] forKey:@"longtitude"];
     [dic setValue:location forKey:@"location"];
     
-    [dic setValue:@"爱花花的文艺妈妈33" forKey:@"title"];
-    [dic setValue:@"description:33一位爱花花的文艺妈妈" forKey:@"description"];
+    [dic setValue:@"爱购物的时尚妈妈33" forKey:@"title"];
+    [dic setValue:@"description:33一位爱购物的文艺妈妈" forKey:@"description"];
     [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
-    [dic setValue:[NSNumber numberWithFloat:66] forKey:@"price"];
+    [dic setValue:[NSNumber numberWithFloat:128] forKey:@"price"];
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushPersonalInfo"];

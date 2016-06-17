@@ -14,6 +14,7 @@
 #import "AYFactoryManager.h"
 
 #define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
+#define WIDTH               SCREEN_WIDTH - 15*2
 
 @interface AYMainScrollView()
 @property (nonatomic, strong) UIButton *oneStarBtn;
@@ -40,7 +41,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-    CGFloat width = SCREEN_WIDTH - 15*2;
+//    CGFloat width = SCREEN_WIDTH - 15*2;
 //    self.contentSize = CGSizeMake(width, 810);
     self.scrollEnabled = YES;
     self.showsVerticalScrollIndicator = NO;
@@ -187,7 +188,7 @@
     photoImageView.image = [UIImage imageNamed:@"lol"];
     [self addSubview:photoImageView];
     [photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(width - 52);
+        make.left.mas_equalTo(WIDTH - 52);
         make.top.equalTo(MMLabel.mas_top).offset(-5);
         make.size.mas_equalTo(CGSizeMake(52, 52));
     }];
@@ -210,7 +211,7 @@
     [aboutMMIntru mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(aboutMMTitle.mas_bottom).offset(5);
         make.left.equalTo(self);
-        make.width.mas_equalTo(width);
+        make.width.mas_equalTo(WIDTH);
     }];
     readMore = [[UIButton alloc]init];
     [readMore setTitle:@"阅读更多" forState:UIControlStateNormal];
@@ -245,7 +246,7 @@
     [contentHeadView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(readMore.mas_bottom).offset(35);
         make.left.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(width, 90));
+        make.size.mas_equalTo(CGSizeMake(WIDTH, 90));
     }];
     UILabel *contentCount = [[UILabel alloc]init];
     contentCount.text = @"0条评论";
@@ -305,7 +306,7 @@
     [contextlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(contentHeadView.mas_bottom).offset(10);
         make.left.equalTo(self);
-        make.width.mas_equalTo(width);
+        make.width.mas_equalTo(WIDTH);
     }];
     UIButton *showMore = [[UIButton alloc]init];
     [showMore setTitle:@"展开更多" forState:UIControlStateNormal];
@@ -360,7 +361,7 @@
     [self addSubview:chatBtn];
     [chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(addPlusLabel.mas_bottom).offset(30);
-        make.left.mas_equalTo((width - 75)*0.5);
+        make.left.mas_equalTo((WIDTH - 75)*0.5);
         make.size.mas_equalTo(CGSizeMake(75, 80));
     }];
     [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -427,14 +428,14 @@
     
     if (personal_info) {
         titleLabel.text = [personal_info objectForKey:@"title"];
+        
         NSNumber *numb = [personal_info objectForKey:@"capacity"];
         babyNumbLabel.text = [NSString stringWithFormat:@"我还可以看护的孩子：%d个",numb.intValue];
         
         aboutMMIntru.text = [personal_info objectForKey:@"description"];
     }
     
-    CGFloat width = SCREEN_WIDTH - 15*2;
-    self.contentSize = CGSizeMake(width, 810);
+    self.contentSize = CGSizeMake(WIDTH, 810);
 }
 
 #pragma mark -- commands

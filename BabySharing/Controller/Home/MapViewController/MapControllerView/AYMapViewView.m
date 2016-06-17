@@ -21,6 +21,8 @@
     NSArray *arrayWithLoc;
     AYAnnonation *currentAnno;
     NSMutableArray *annoArray;
+    
+    NSDictionary *resultAndLoc;
 }
 
 @synthesize para = _para;
@@ -44,13 +46,9 @@
     
     [self removeAnnotations:annoArray];
     
-    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryTheLoc:"];
-    NSDictionary *resultAndLoc = nil;
-    [query_cmd performWithResult:&resultAndLoc];
-    
-//    CLLocation *loc0 = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
-//    CLLocation *loc1 = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
-//    arrayWithLoc = @[loc0, loc1];
+//    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryTheLoc:"];
+//    NSDictionary *resultAndLoc = nil;
+//    [query_cmd performWithResult:&resultAndLoc];
     
     CLLocation *loc = [resultAndLoc objectForKey:@"location"];
     NSArray *fiteResultData = [resultAndLoc objectForKey:@"result_data"];
@@ -109,6 +107,10 @@
     return nil;
 }
 
+-(id)changeResultData:(NSDictionary*)args{
+    resultAndLoc = args;
+    return nil;
+}
 #pragma mark -- MKMapViewDelegate
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
     if ([annotation isKindOfClass:[AYAnnonation class]]) {

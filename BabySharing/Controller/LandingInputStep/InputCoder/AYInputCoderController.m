@@ -78,8 +78,7 @@
 
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 64);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
     view.backgroundColor = [Tools themeColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
@@ -89,9 +88,9 @@
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+    [bar_right_btn setTitle:@"" forState:UIControlStateNormal];
+    bar_right_btn.userInteractionEnabled = NO;
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
     
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
@@ -102,7 +101,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"1/2";
+    titleView.text = @"  ";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -112,7 +111,7 @@
 
 - (id)LandingInputCoderLayout:(UIView*)view {
     NSLog(@"Landing Input View view layout");
-    CGFloat margin = 22.f;
+    CGFloat margin = 15.f;
     view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 240);
     return nil;
 }
@@ -187,15 +186,30 @@
             [cmd_push performWithResult:&dic];
         }else if([msg isEqualToString:@"already login"]){
             
-            id<AYCommand> Welcome = DEFAULTCONTROLLER(@"Welcome");
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-            [dic setValue:Welcome forKey:kAYControllerActionDestinationControllerKey];
-            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic setValue:args forKey:kAYControllerChangeArgsKey];
+//            id<AYCommand> Welcome = DEFAULTCONTROLLER(@"Welcome");
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
+//            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//            [dic setValue:Welcome forKey:kAYControllerActionDestinationControllerKey];
+//            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//            [dic setValue:args forKey:kAYControllerChangeArgsKey];
+//            
+//            id<AYCommand> cmd_push = PUSH;
+//            [cmd_push performWithResult:&dic];
             
-            id<AYCommand> cmd_push = PUSH;
-            [cmd_push performWithResult:&dic];
+            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+            [cmd_profile performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                NSLog(@"Update user detail remote result: %@", result);
+                if (success) {
+                    AYModel* m = MODEL;
+                    AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+                    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                    [cmd performWithResult:&result];
+                } else {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登录失败，请检查网络是否正常连接" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+                    [alert show];
+                }
+            }];
         }
         else{
             [[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
@@ -216,17 +230,49 @@
     AYRemoteCallCommand* cmd_coder = [f.commands objectForKey:@"LandingReqConfirmCode"];
     [cmd_coder performWithResult:[dic_coder copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            NSLog(@"验证码已发送");
+            NSLog(@"验证码已发送");//is_reg
             AYModel* m = MODEL;
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];
             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
             [cmd performWithResult:&result];
-            
             _reg_token = [result objectForKey:@"reg_token"];
             
             id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
             id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"startConfirmCodeTimer"];
             [cmd_coder performWithResult:nil];
+            
+            id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
+            NSNumber *is_reg = [result objectForKey:@"is_reg"];
+            if (is_reg.intValue == 0) {
+                
+                id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
+                id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
+                UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+                [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
+                [bar_right_btn sizeToFit];
+                bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+                [fake_cmd performWithResult:&bar_right_btn];
+                
+                id<AYCommand> hide_cmd = [input.commands objectForKey:@"hideEnterBtnForOldUser"];
+                [hide_cmd performWithResult:nil];
+                
+            } else if (is_reg.intValue == 1) {
+                id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
+                id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
+                UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+                [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [bar_right_btn setTitle:@" " forState:UIControlStateNormal];
+                [bar_right_btn sizeToFit];
+                bar_right_btn.userInteractionEnabled = NO;
+                bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+                [fake_cmd performWithResult:&bar_right_btn];
+                
+                id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
+                [show_cmd performWithResult:nil];
+            }
+            
+            
         }
     }];
     return nil;
@@ -253,6 +299,23 @@
 
 - (BOOL)prefersStatusBarHidden{
     return YES;
+}
+
+- (id)CurrentLoginUserChanged:(id)args {
+    NSLog(@"Notify args: %@", args);
+    //    NSLog(@"TODO: 进入咚哒");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSString* message_name = @"LoginSuccess";
+    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic_pop];
+    
+    return nil;
 }
 
 @end

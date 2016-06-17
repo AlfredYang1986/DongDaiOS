@@ -76,6 +76,16 @@
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
     
+    id<AYViewBase> show = [self.views objectForKey:@"ShowBoard"];
+    id<AYCommand> cmd = [show.commands objectForKey:@"changeResultData:"];
+    NSDictionary *dic_show = [resultAndLoc mutableCopy];
+    [cmd performWithResult:&dic_show];
+    
+    id<AYViewBase> map = [self.views objectForKey:@"MapView"];
+    id<AYCommand> cmd_map = [map.commands objectForKey:@"changeResultData:"];
+    NSDictionary *dic_map = [resultAndLoc mutableCopy];
+    [cmd_map performWithResult:&dic_map];
+    
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

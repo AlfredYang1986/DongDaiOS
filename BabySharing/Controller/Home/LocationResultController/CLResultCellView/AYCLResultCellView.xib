@@ -23,12 +23,6 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjh-IW-WoY">
-                        <rect key="frame" x="12" y="260" width="23" height="23"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <state key="normal" image="tab_found"/>
-                        <state key="selected" image="tab_found_selected"/>
-                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(13)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OnD-a0-oh7">
                         <rect key="frame" x="146" y="263" width="25" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -67,6 +61,12 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="oKf-ix-c8B">
                         <rect key="frame" x="316" y="236" width="45" height="45"/>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjh-IW-WoY">
+                        <rect key="frame" x="12" y="260" width="23" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <state key="normal" image="tab_found"/>
+                        <state key="selected" image="tab_found_selected"/>
+                    </button>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNq-iK-0H8">
                         <rect key="frame" x="38" y="260" width="23" height="23"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -91,6 +91,9 @@
                         <state key="normal" image="tab_found"/>
                         <state key="selected" image="tab_found_selected"/>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="jhU-Wc-HDR">
+                        <rect key="frame" x="331" y="15" width="30" height="30"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <connections>

@@ -43,6 +43,8 @@
     
     CLLocation *loc;
     AMapSearchAPI *search;
+    
+    AMapBusLine *aBusMapTip;
 }
 
 @synthesize manager = _manager;
@@ -251,11 +253,11 @@
     AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
     tips.keywords = searchText;
     tips.city     = @"北京";
-    //    tips.cityLimit = YES; 是否限制城市
+    tips.cityLimit = YES; //是否限制城市
     [search AMapInputTipsSearch:tips];
-
 }
 
+/* 输入提示回调. */
 - (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response
 {
 //    [self.tips setArray:response.tips];
@@ -264,11 +266,55 @@
     id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
 
     id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeLocationResultData:"];
+    
     NSArray* tmp = response.tips;
+//    NSMutableArray *arr = [[NSMutableArray alloc]init];
+//    for (AMapTip *tip in tmp) {
+//        if (tip.uid != nil && tip.location != nil) /* 可以直接在地图打点  */
+//        {
+//            CLLocation *location = [[CLLocation alloc]initWithLatitude:tip.location.latitude longitude:tip.location.longitude];
+//            NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:tip.name forKey:@"location_name"];
+//            [dic setValue:location forKey:@"location"];
+//            [arr addObject:dic];
+//        }
+//        else if (tip.uid != nil && tip.location == nil)/* 公交路线，显示出来*/
+//        {
+//            AMapBusLineIDSearchRequest *request = [[AMapBusLineIDSearchRequest alloc] init];
+//            request.city                        = @"北京";
+//            request.uid                         = tip.uid;
+//            request.requireExtension            = YES;
+//            
+//            [search AMapBusLineIDSearch:request];
+//            
+//            if (aBusMapTip) {
+//                CLLocation *location = [[CLLocation alloc]initWithLatitude:aBusMapTip.location.latitude longitude:aBusMapTip.location.latitude];NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+//                [dic setValue:aBusMapTip.name forKey:@"location_name"];
+//                [dic setValue:location forKey:@"location"];
+//                [arr addObject:dic];
+//            }
+//        }
+//        else if(tip.uid == nil && tip.location == nil)/* 品牌名，进行POI关键字搜索 */
+//        {
+//            
+//        }
+//    }
+    
+    
     [cmd performWithResult:&tmp];
 
     id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
+}
+/* 公交搜索回调. */
+- (void)onBusLineSearchDone:(AMapBusLineBaseSearchRequest *)request response:(AMapBusLineSearchResponse *)response
+{
+    if (response.buslines.count != 0)
+    {
+        aBusMapTip = response.buslines.firstObject;
+//        AMapBusLine *busLine
+    }
+    
 }
 
 - (id)searchTextChanged:(id)obj {

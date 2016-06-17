@@ -86,7 +86,7 @@
     [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:PNGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
     [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_found") andSelectedImg:PNGRESOURCE(@"tab_found_selected") andTitle:@"发现"];
 //    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
-    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_friends") andSelectedImg:PNGRESOURCE(@"tab_friends_selected") andTitle:@"好友"];
+    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_friends") andSelectedImg:PNGRESOURCE(@"tab_friends_selected") andTitle:@"消息"];//1.3之前的好友
     [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_profile") andSelectedImg:PNGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {

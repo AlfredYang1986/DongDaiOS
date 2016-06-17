@@ -19,7 +19,7 @@
 #define CellWidth   300
 
 @implementation AYShowBoardView{
-    NSArray *fiteResultArrWithLoc;
+    NSDictionary *resultAndLoc;
     int indexNumb;
 }
 
@@ -37,9 +37,9 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryResultDate:"];
-    NSDictionary *resultAndLoc = nil;
-    [query_cmd performWithResult:&resultAndLoc];
+//    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryResultDate:"];
+//    NSDictionary *resultAndLoc = nil;
+//    [query_cmd performWithResult:&resultAndLoc];
     
     //    CLLocation *loc0 = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
     //    CLLocation *loc1 = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
@@ -80,8 +80,12 @@
 }
 
 -(id)changeOffsetX:(NSNumber*)index {
-//    self.contentOffset = CGPointMake(CellWidth * index.floatValue, 0);
     [self setContentOffset:CGPointMake(CellWidth * index.floatValue, 0) animated:YES];
+    return nil;
+}
+
+-(id)changeResultData:(NSDictionary*)args{
+    resultAndLoc = args;
     return nil;
 }
 

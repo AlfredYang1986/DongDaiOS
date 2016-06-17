@@ -17,6 +17,7 @@
 #import "AYRemoteCallCommand.h"
 
 #define TEXT_FIELD_LEFT_PADDING             10
+#define TimeZore                            8
 
 @implementation AYLandingInputCoderView {
     
@@ -36,7 +37,7 @@
     UILabel *count_timer;
     
     UIButton *getCodeBtn;
-    UIButton *re_get_coder;
+    UIButton *enterBtn;
 }
 
 @synthesize para = _para;
@@ -45,9 +46,9 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
+    seconds = 8;
     input_tips = [[UILabel alloc]init];
-    input_tips.font = [UIFont systemFontOfSize:14.f];
+    input_tips.font = [UIFont systemFontOfSize:15.f];
     input_tips.textColor = [Tools colorWithRED:242 GREEN:242 BLUE:242 ALPHA:1.f];
     input_tips.text = @"输入你的手机号码";
     input_tips.textAlignment = NSTextAlignmentLeft;
@@ -59,8 +60,8 @@
     
     UIView *countryAreaView = [[UIView alloc]init];
     [self addSubview:countryAreaView];
-    [countryAreaView setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
-    countryAreaView.layer.cornerRadius = 6.f;
+    [countryAreaView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
+    countryAreaView.layer.cornerRadius = 4.f;
     countryAreaView.clipsToBounds = YES;
     [countryAreaView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(input_tips.mas_bottom).offset(15);
@@ -70,16 +71,16 @@
     }];
 
     UILabel *area = [[UILabel alloc]init];
-    area.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.f];
+    area.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
     area.text = @"国家/地区";
     area.font = [UIFont systemFontOfSize:14.f];
-    area.textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
+    area.textColor = [Tools themeColor];
     area.textAlignment = NSTextAlignmentCenter;
     [countryAreaView addSubview:area];
     [area mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(countryAreaView);
         make.left.equalTo(countryAreaView);
-        make.size.mas_equalTo(CGSizeMake(90, 40));
+        make.size.mas_equalTo(CGSizeMake(96, 40));
     }];
 
     inputArea = [[UILabel alloc]init];
@@ -98,43 +99,45 @@
     [areaBtn addTarget:self action:@selector(areaBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [countryAreaView addSubview:areaBtn];
     [areaBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(countryAreaView.mas_right).offset(-8);
+        make.right.equalTo(countryAreaView.mas_right).offset(-15);
         make.centerY.equalTo(countryAreaView);
-        make.size.mas_equalTo(CGSizeMake(8, 8));
+        make.size.mas_equalTo(CGSizeMake(11, 6));
     }];
     
     /* 电话号码 */
     inputPhoneNoView = [[UIView alloc]init];
     [self addSubview:inputPhoneNoView];
-    [inputPhoneNoView setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
-    inputPhoneNoView.layer.cornerRadius = 6.f;
+    [inputPhoneNoView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
+    inputPhoneNoView.layer.cornerRadius = 4.f;
     inputPhoneNoView.clipsToBounds = YES;
     [inputPhoneNoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(countryAreaView.mas_bottom).offset(12);
         make.left.equalTo(input_tips);
-        make.width.equalTo(self);
+        make.right.equalTo(self).offset(-110);
         make.height.mas_equalTo(40);
     }];
     
     UILabel *phoneNo = [[UILabel alloc]init];
-    phoneNo.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.f];
+    phoneNo.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
     phoneNo.text = @"电话号码";
     phoneNo.font = [UIFont systemFontOfSize:14.f];
-    phoneNo.textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
+    phoneNo.textColor = [Tools themeColor];
     phoneNo.textAlignment = NSTextAlignmentCenter;
     [inputPhoneNoView addSubview:phoneNo];
     [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputPhoneNoView);
         make.left.equalTo(inputPhoneNoView);
-        make.size.mas_equalTo(CGSizeMake(90, 40));
+        make.size.mas_equalTo(CGSizeMake(96, 40));
     }];
 
     inputPhoneNo = [[UITextField alloc]init];
+    inputPhoneNo.delegate = self;
     inputPhoneNo.backgroundColor = [UIColor clearColor];
     inputPhoneNo.font = [UIFont systemFontOfSize:14.f];
     inputPhoneNo.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
-//    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
+    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
     [inputPhoneNoView addSubview:inputPhoneNo];
     [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(inputPhoneNoView);
@@ -144,23 +147,30 @@
     }];
     
     getCodeBtn = [[UIButton alloc]init];
-    [getCodeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+    [getCodeBtn setTitle:@"获取动态密码" forState:UIControlStateNormal];
+    
+    [getCodeBtn setTitleColor:[Tools colorWithRED:155.f GREEN:155.f BLUE:155.f ALPHA:1.f] forState:UIControlStateDisabled];
     [getCodeBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    getCodeBtn.enabled = NO;
+    
     getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
+    getCodeBtn.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
+    getCodeBtn.layer.cornerRadius = 4.f;
+    getCodeBtn.clipsToBounds = YES;
     [getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [inputPhoneNoView addSubview:getCodeBtn];
+    [self addSubview:getCodeBtn];
     [getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(inputPhoneNoView.mas_right).offset(-8);
+        make.right.equalTo(self);
         make.centerY.equalTo(inputPhoneNoView);
-        make.size.mas_equalTo(CGSizeMake(68, 40));
+        make.size.mas_equalTo(CGSizeMake(95, 40));
     }];
     
     
     /* 验证码 */
     inputCodeView = [[UIView alloc]init];
     [self addSubview:inputCodeView];
-    [inputCodeView setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
-    inputCodeView.layer.cornerRadius = 6.f;
+    [inputCodeView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
+    inputCodeView.layer.cornerRadius = 4.f;
     inputCodeView.clipsToBounds = YES;
     [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputPhoneNoView.mas_bottom).offset(12);
@@ -170,16 +180,16 @@
     }];
     
     UILabel *confirmCode = [[UILabel alloc]init];
-    confirmCode.backgroundColor = [UIColor colorWithWhite:0.85f alpha:1.f];
+    confirmCode.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
     confirmCode.text = @"动态密码";
     confirmCode.font = [UIFont systemFontOfSize:14.f];
-    confirmCode.textColor = [UIColor colorWithWhite:0.15f alpha:1.f];
+    confirmCode.textColor = [Tools themeColor];
     confirmCode.textAlignment = NSTextAlignmentCenter;
     [inputCodeView addSubview:confirmCode];
     [confirmCode mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputCodeView);
         make.left.equalTo(inputCodeView);
-        make.size.mas_equalTo(CGSizeMake(90, 40));
+        make.size.mas_equalTo(CGSizeMake(96, 40));
     }];
     
     coder_area = [[UITextField alloc]init];
@@ -187,7 +197,8 @@
     coder_area.font = [UIFont systemFontOfSize:14.f];
     coder_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
     coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    coder_area.keyboardType = UIKeyboardTypeNumberPad;
+    
     [inputCodeView addSubview:coder_area];
     [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(inputCodeView);
@@ -195,40 +206,26 @@
         make.left.equalTo(confirmCode.mas_right).offset(10);
         make.height.equalTo(inputCodeView);
     }];
-    
-    count_timer = [[UILabel alloc]init];
-    count_timer.font = [UIFont systemFontOfSize:12.f];
-    count_timer.textColor = [Tools themeColor];
-    count_timer.textAlignment = NSTextAlignmentLeft;
-    count_timer.hidden = YES;
-    [inputCodeView addSubview:count_timer];
-    [inputCodeView bringSubviewToFront:count_timer];
-    [count_timer mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(inputCodeView).offset(-12);
-        make.centerY.equalTo(inputCodeView);
-    }];
-    
-    clear_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, coder_area.frame.size.height)];
-    clear_btn.center = CGPointMake(coder_area.frame.size.width - 25 / 2, coder_area.frame.size.height / 2);
-    [coder_area addSubview:clear_btn];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coderTextFieldChange:) name:UITextFieldTextDidChangeNotification object:coder_area];
+//    clear_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, coder_area.frame.size.height)];
+//    clear_btn.center = CGPointMake(coder_area.frame.size.width - 25 / 2, coder_area.frame.size.height / 2);
+//    [coder_area addSubview:clear_btn];
     
     /* 重新获取coder */
-    re_get_coder = [[UIButton alloc]init];
-    [re_get_coder setTitle:@"重新获取动态密码" forState:UIControlStateNormal];
-    [re_get_coder setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    re_get_coder.alpha = 0;
-    [re_get_coder setBackgroundColor:[UIColor clearColor]];
-    re_get_coder.titleLabel.font = [UIFont systemFontOfSize:12.f];
-    re_get_coder.layer.cornerRadius = 4.f;
-    re_get_coder.layer.borderColor = [UIColor whiteColor].CGColor;
-    re_get_coder.layer.borderWidth = 1.f;
-    re_get_coder.hidden = YES;
-    [re_get_coder addTarget:self action:@selector(requestCoder:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:re_get_coder];
-    [re_get_coder mas_makeConstraints:^(MASConstraintMaker *make) {
+    enterBtn = [[UIButton alloc]init];
+    [enterBtn setBackgroundColor:[UIColor clearColor]];
+    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
+    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
+    enterBtn.enabled = NO;
+    enterBtn.hidden = YES;
+    enterBtn.alpha = 0;
+//    enterBtn.backgroundColor = [UIColor blackColor];
+    [enterBtn addTarget:self action:@selector(requestCoder:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:enterBtn];
+    [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputCodeView.mas_bottom).offset(18);
         make.centerX.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(120, 26));
+        make.size.mas_equalTo(CGSizeMake(115, 40));
     }];
     
     
@@ -261,54 +258,62 @@
 }
 
 -(void)requestCoder:(UIButton*)sender{
-    seconds = 30;
-    re_get_coder.hidden = YES;
-    [UIView animateWithDuration:0.5 animations:^{
-        re_get_coder.alpha = 0;
-    }];
-    count_timer.hidden = NO;
-    [timer setFireDate:[NSDate distantPast]];
+//    seconds = TimeZore;
+//    [timer setFireDate:[NSDate distantPast]];
+//    
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:inputPhoneNo.text forKey:@"phoneNo"];
+//    
+//    id<AYCommand> cmd = [self.notifies objectForKey:@"reReqConfirmCode:"];
+//    [cmd performWithResult:&dic];
     
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:inputPhoneNo.text forKey:@"phoneNo"];
-    
-    id<AYCommand> cmd = [self.notifies objectForKey:@"reReqConfirmCode:"];
-    [cmd performWithResult:&dic];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"rightBtnSelected"];
+    [cmd performWithResult:nil];
 }
 
 - (void)areaCodeBtnSelected:(UIButton*)sender {
     [_controller performForView:self andFacade:nil andMessage:@"LandingAreaCode" andArgs:nil];
 }
 
-- (void)phoneTextFieldChanged:(UITextField*)tf {
+- (void)phoneTextFieldChanged:(NSNotification *)tf {
 
-    if (![coder_area.text isEqualToString:@""]) {
-        clear_btn.hidden = NO;
-        count_timer.hidden = YES;
-    } else if( seconds > 0){
-        clear_btn.hidden = YES;
-        count_timer.hidden = NO;
-    }else{
-        clear_btn.hidden = YES;
-        count_timer.hidden = YES;
+    if (tf.object == inputPhoneNo && inputPhoneNo.text.length == 11 && ![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {
+        getCodeBtn.enabled = YES;
+    }
+    if (tf.object == inputPhoneNo && [inputPhoneNo.text isEqualToString:@""]) {
+        getCodeBtn.enabled = NO;
+    }
+}
+
+- (void)coderTextFieldChange:(NSNotification*)tf{
+    if (tf.object == coder_area && coder_area.text.length >= 3) {
+        enterBtn.enabled = YES;
+    }
+    if (tf.object == coder_area && coder_area.text.length < 4) {
+        enterBtn.enabled = NO;
     }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if (textField == coder_area && coder_area.text.length >= 4 && ![string isEqualToString:@""]) return NO;
-    else return YES;
+
+    if (textField == inputPhoneNo && inputPhoneNo.text.length >= 11 && ![string isEqualToString:@""]){
+        return NO;
+    }
+    else{
+        
+        return YES;
+    }
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
-    count_timer.hidden = YES;
-    clear_btn.hidden = NO;
+    
+//    clear_btn.hidden = NO;
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField{
     if (seconds > 0) {
-        count_timer.hidden = NO;
+        
     }
-    clear_btn.hidden = YES;
+//    clear_btn.hidden = YES;
 }
 
 -(void)areaBtnClick{
@@ -324,25 +329,26 @@
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:inputPhoneNo.text forKey:@"phoneNo"];
-    
     id<AYCommand> cmd = [self.notifies objectForKey:@"reReqConfirmCode:"];
     [cmd performWithResult:&dic];
-
 }
 
 #pragma mark -- handle
 - (void)timerRun:(NSTimer*)sender {
     seconds--;
     if (seconds > 0) {
-        count_timer.text = [NSString stringWithFormat:@"%lds",(long)seconds];
+//        count_timer.text = [NSString stringWithFormat:@"%lds",(long)seconds];
+        [getCodeBtn setTitle:[NSString stringWithFormat:@"%lds",(long)seconds] forState:UIControlStateNormal];
     } else {
         
         [timer setFireDate:[NSDate distantFuture]];
-        count_timer.hidden = YES;
-        re_get_coder.hidden = NO;
-        [UIView animateWithDuration:0.5 animations:^{
-            re_get_coder.alpha = 1;
-        }];
+        
+        [getCodeBtn setTitle:@"重获动态密码" forState:UIControlStateNormal];
+        if (inputPhoneNo.text.length >= 10) {
+            getCodeBtn.enabled = YES;
+        }
+//        getCodeBtn.userInteractionEnabled = YES;
+        
     }
     
 }
@@ -358,12 +364,33 @@
 }
 
 - (id)startConfirmCodeTimer {
+    getCodeBtn.enabled = NO;
+    seconds = TimeZore;
     
-    //    getCodeBtn.userInteractionEnabled = NO;
-    getCodeBtn.hidden = YES;
-    count_timer.hidden = NO;
-    seconds = 30;
     [timer setFireDate:[NSDate distantPast]];
+    return nil;
+}
+
+-(id)showEnterBtnForOldUser{
+    if (enterBtn.hidden) {
+        
+        enterBtn.hidden = NO;
+        [UIView animateWithDuration:0.5 animations:^{
+            enterBtn.alpha = 1;
+        }];
+    }
+    return nil;
+}
+
+-(id)hideEnterBtnForOldUser{
+    if (!enterBtn.hidden) {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            enterBtn.alpha = 0;
+        } completion:^(BOOL finished) {
+            enterBtn.hidden = YES;
+        }];
+    }
     return nil;
 }
 

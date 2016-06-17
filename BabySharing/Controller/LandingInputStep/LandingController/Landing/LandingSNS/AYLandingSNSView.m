@@ -42,13 +42,13 @@
 
 - (void)postPerform {
 //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-//    self.bounds = CGRectMake(0, 0, width, 36);
+    self.bounds = CGRectMake(0, 0, KSCREENW, 106);
     
     /****** *****/
     UILabel *or = [[UILabel alloc]init];
     or.backgroundColor = [UIColor clearColor];
-    or.text = @"或";
-    or.font = [UIFont systemFontOfSize:12.f];
+    or.text = @"第三方社交账号登陆";
+    or.font = [UIFont systemFontOfSize:10.f];
     or.textColor = [UIColor whiteColor];
     or.textAlignment = NSTextAlignmentCenter;
     [self addSubview:or];
@@ -56,18 +56,18 @@
     [or mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
         make.centerX.equalTo(self);
-        make.left.equalTo(self).offset(33);
-        make.right.equalTo(self).offset(-33);
-        make.height.mas_equalTo(12);
+        make.left.equalTo(self).offset(37.5);
+        make.right.equalTo(self).offset(-37.5);
+        make.height.mas_equalTo(10);
     }];
     
     CALayer* left_line = [[CALayer alloc]init];
     left_line.backgroundColor = [UIColor whiteColor].CGColor;
-    left_line.frame = CGRectMake(0, 6, (KSCREENW - 2*33 - 62)/2, 1);
+    left_line.frame = CGRectMake(0, 5, (KSCREENW - 2*37.5 - 124)/2, 1);
     [or.layer addSublayer:left_line];
     CALayer* right_line = [[CALayer alloc]init];
     right_line.backgroundColor = [UIColor whiteColor].CGColor;
-    right_line.frame = CGRectMake((KSCREENW - 2*33 - 62)/2 + 62, 6, (KSCREENW - 2*33 - 62)/2, 1);
+    right_line.frame = CGRectMake((KSCREENW - 2*37.5 - 124)/2 + 124, 5, (KSCREENW - 2*37.5 - 124)/2, 1);
     [or.layer addSublayer:right_line];
     
     UIButton* wechat_btn = [[UIButton alloc]init];
@@ -78,7 +78,7 @@
     wechat_btn.clipsToBounds = YES;
     [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.bottom.equalTo(self);
+        make.bottom.equalTo(self).offset(-24);
         make.width.mas_offset(SNS_BUTTON_WIDTH);
         make.height.mas_offset(SNS_BUTTON_HEIGHT);
     }];
@@ -104,7 +104,11 @@
         make.centerY.equalTo(wechat_btn);
         make.size.equalTo(wechat_btn);
     }];
-
+    
+    CALayer* bottom = [[CALayer alloc]init];
+    bottom.backgroundColor = [UIColor whiteColor].CGColor;
+    bottom.frame = CGRectMake(37.5, self.bounds.size.height - 1, KSCREENW - 2*37.5, 1);
+    [self.layer addSublayer:bottom];
 }
 
 - (void)performWithResult:(NSObject**)obj {

@@ -8,6 +8,7 @@
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="XMPP" notification="true"/>
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         
 <!--        <view type="LandingTitle" name="LandingTitle" />-->
 <!--        <view type="LandingInput" name="LandingInput" />-->
@@ -18,20 +19,20 @@
     </controller>
     
     <controller type="DefaultController" name="InputInvateCode" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="LandingAreaCode" />
-        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        <command type="Module"          name="LandingAreaCode" />
+        <facade type="DefaultFacade"    name="LandingRemote" notification="true" />
         
-        <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
-        <view type="InputInvateCode"         name="InputInvateCode" />
+        <view type="FakeNavBar"                 name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />
+        <view type="InputInvateCode"            name="InputInvateCode" />
         <model notification="true" />
     </controller>
     
     <controller type="DefaultController" name="GetInvateCode" factory="AYDefaultControllerFactoy" >
         <view type="Web" name="Web" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
+        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarRightBtn"   name="SetNevigationBarRightBtn" />
         
     </controller>
     
@@ -49,6 +50,7 @@
     <controller type="DefaultController" name="InputCoder" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
@@ -85,6 +87,7 @@
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
         
+        <facade type="DefaultFacade" name="XMPP" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>

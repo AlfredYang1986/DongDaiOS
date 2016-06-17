@@ -126,16 +126,17 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     phoneNoLogin = [[UIView alloc]init];
     [self.view addSubview:phoneNoLogin];
-    [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
-    phoneNoLogin.layer.cornerRadius = 6.f;
+//    [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
+    phoneNoLogin.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
+    phoneNoLogin.layer.cornerRadius = 4.f;
     phoneNoLogin.clipsToBounds = YES;
     
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.view).offset(KSCREENH * 398/667);
         make.bottom.equalTo(self.view).offset(-226);
         make.centerX.equalTo(self.view);
-        make.left.equalTo(self.view).offset(64);
-        make.right.equalTo(self.view).offset(-64);
+        make.left.equalTo(self.view).offset(37.5);
+        make.right.equalTo(self.view).offset(-37.5);
         make.height.mas_equalTo(40);
     }];
     
@@ -171,7 +172,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
     [pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-32);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-22);
         make.width.mas_equalTo(170);
         make.height.mas_equalTo(15);
     }];
@@ -185,13 +186,20 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
+//    UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
+//    if (sns_view.hidden) {
+//        
+//        sns_view.hidden = NO;
+//        phoneNoLogin.hidden = NO;
+//        pri_btn.hidden = NO;
+//    }
 }
 
 #pragma mark -- views layouts
-
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
-    view.frame = CGRectMake(0, KSCREENH - 108 - 36 - 46, KSCREENW, 36+46);
+    view.frame = CGRectMake(0, KSCREENH - 108 - 36 - 46, KSCREENW, view.frame.size.height);
     return nil;
 }
 
@@ -457,43 +465,32 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)LandingAuthConfirmRemoteResult:(BOOL)success RemoteArgs:(NSDictionary*)result {
     NSLog(@"remote auth confirm notify");
+    NSString* msg = [result objectForKey:@"message"];
     if (success) {
-        [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
-//        return LoginModelResultSuccess;
-       
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
-        [dic setValue:result forKey:kAYControllerChangeArgsKey];
-        [self performWithResult:&dic];
-        
-    } else {
-        NSString* msg = [result objectForKey:@"message"];
         if ([msg isEqualToString:@"already login"]) {
             [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
- 
+            
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
             [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
             [dic setValue:[NSNumber numberWithInt:RegisterResultOthersLogin] forKey:kAYLandingControllerRegisterResultKey];
             [dic setValue:result forKey:kAYControllerChangeArgsKey];
             [self performWithResult:&dic];
-
-        } else if ([msg isEqualToString:@"new user"]) {
-            
+        }
+        else if ([msg isEqualToString:@"new user"]) {
             [self performForView:nil andFacade:@"LoginModel" andMessage:@"ChangeRegUser" andArgs:result];
- 
+            
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
             [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
             [dic setValue:[NSNumber numberWithInt:RegisterResultSuccess] forKey:kAYLandingControllerRegisterResultKey];
             [dic setValue:result forKey:kAYControllerChangeArgsKey];
             [self performWithResult:&dic];
-            
-        } else {
-            [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
-//            return LoginModelResultError;
         }
-        
     }
+    else {
+        [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
+    }
+        
+    
     return nil;
 }
 
@@ -505,20 +502,37 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         RegisterResult r = ((NSNumber*)[dic objectForKey:kAYLandingControllerRegisterResultKey]).integerValue;
         switch (r) {
             case RegisterResultSuccess: {
-                AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
                 
-                NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-                [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-                [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-                [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-                [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-//                
-//                NSString* role_name = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"];
-//                if ([role_name isEqualToString:@""] || !role_name) {
-//                    [dic_push setValue:@"new_user" forKey:@"sns"];
-//                }
-                id<AYCommand> cmd = PUSH;
-                [cmd performWithResult:&dic_push];
+                NSMutableDictionary *dic_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+                NSString* role_name = [dic_info objectForKey:@"role_tag"];
+                if ([role_name isEqualToString:@""] || !role_name) {
+                    
+                    [dic_info setValue:@" " forKey:@"role_tag"];
+                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
+                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+                    [dic_push setValue:[dic_info copy] forKey:kAYControllerChangeArgsKey];
+                    id<AYCommand> cmd = PUSH;
+                    [cmd performWithResult:&dic_push];
+                } else {
+//                    NSDictionary *args = [dic objectForKey:kAYControllerChangeArgsKey];
+                    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+                    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+                    [cmd_profile performWithResult:[dic_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                        NSLog(@"Update user detail remote result: %@", result);
+                        if (success) {
+                            AYModel* m = MODEL;
+                            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+                            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                            [cmd performWithResult:&result];
+                        } else {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无法登录，参数设置错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+                            [alert show];
+                        }
+                    }];
+                }
 //                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
 //                }
 //                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
@@ -530,18 +544,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 //                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 //                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-//                    
-//                    id<AYCommand> cmd = PUSH;
-//                    [cmd performWithResult:&dic_push];
-//                }else{
-//                    AYViewController* des = DEFAULTCONTROLLER(@"InputRole");
-//                    
-//                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-//                    [dic_push setValue:@"new" forKey:@"sns"];
 //                    id<AYCommand> cmd = PUSH;
 //                    [cmd performWithResult:&dic_push];
 //                }
@@ -577,6 +579,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         }
     }
 }
+
+- (id)CurrentLoginUserChanged:(id)args {
+    
+    [self LoginSuccess];
+    return nil;
+}
+
 
 - (id)startRemoteCall:(id)obj {
     self.landing_status = RemoteControllerStatusLoading;

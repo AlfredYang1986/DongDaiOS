@@ -22,7 +22,7 @@
 - (void)postPerform {
     
     
-    self.layer.cornerRadius = 114 / 2;
+    self.layer.cornerRadius = 100 / 2;
     self.clipsToBounds = YES;
     self.tag = -110;
     self.backgroundColor = [UIColor clearColor];
