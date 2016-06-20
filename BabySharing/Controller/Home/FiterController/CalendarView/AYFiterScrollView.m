@@ -11,9 +11,10 @@
 #import "AYCalendarCellView.h"
 #import "Tools.h"
 
-#define WIDTH  self.frame.size.width
-#define HEIGHT self.frame.size.height
-#define MARGIN 10.f
+#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
+#define WIDTH               (self.frame.size.width - 30)
+#define HEIGHT              self.frame.size.height
+#define MARGIN              10.f
 
 @interface AYFiterScrollView ()<UIPickerViewDataSource, UIPickerViewDelegate, UIScrollViewDelegate>
 @property(nonatomic,assign) int year;
@@ -150,7 +151,6 @@
 //返回当前日
 -(int)getDay{
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    
     NSDate *nowDate = [NSDate date];
     NSDateComponents *nowDateComps = [[NSDateComponents alloc] init];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -164,12 +164,7 @@
 -(int)getWeekOfFirstDayOfMonthWithYear:(int)year withMonth:(int)month{
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    
-    NSString *firstWeekDayMonth = [[NSString alloc] initWithFormat:@"%d",year];
-    firstWeekDayMonth = [firstWeekDayMonth stringByAppendingString:[[NSString alloc]initWithFormat:@"%s","-"]];
-    firstWeekDayMonth = [firstWeekDayMonth stringByAppendingString:[[NSString alloc]initWithFormat:@"%d",month]];
-    firstWeekDayMonth = [firstWeekDayMonth stringByAppendingString:[[NSString alloc]initWithFormat:@"%s","-"]];
-    firstWeekDayMonth = [firstWeekDayMonth stringByAppendingString:[[NSString alloc]initWithFormat:@"%d",1]];
+    NSString *firstWeekDayMonth = [NSString stringWithFormat:@"%d-%d-%d",year,month,1];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
@@ -182,7 +177,6 @@
 
 //返回一个月有多少天
 -(int)getDaysOfMonthWithYear:(int)year withMonth:(int)month{
-    
     NSInteger days = 0;
     //1,3,5,7,8,10,12
     NSArray *bigMoth = [[NSArray alloc] initWithObjects:@"1",@"3",@"5",@"7",@"8",@"10",@"12", nil];
@@ -213,7 +207,7 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     self.delegate = self;
-    self.contentSize = CGSizeMake(WIDTH, 680);
+    self.contentSize = CGSizeMake(WIDTH, 560);
     
     if (!_calendarContentView) {
         [self addCollectionCell];
@@ -224,12 +218,9 @@
     if (!alockOptionView) {
         [self addAlockOptionView];
     }
-//    if (!_moreFilterBtn) {
-//        [self addMoreFilterBtn];
+//    if (!_chilrenNumbView) {
+//        [self addChilrenNumbView];
 //    }
-    if (!_chilrenNumbView) {
-        [self addChilrenNumbView];
-    }
     
 }
 
@@ -269,7 +260,7 @@
 }
 #pragma mark -- layout
 -(void)addChilrenNumbView{
-    _chilrenNumbView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 70/*70*/)];
+    _chilrenNumbView = [[UIView alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 70/*70*/)];
     _chilrenNumbView.backgroundColor = [UIColor whiteColor];
     _chilrenNumbView.layer.cornerRadius =3.f;
     _chilrenNumbView.clipsToBounds = YES;
@@ -287,7 +278,7 @@
 }
 
 - (void)addAlockOptionView{
-    alockOptionView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame), WIDTH, 0)];
+    alockOptionView = [[UIView alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_planDateView.frame), WIDTH, 0)];
     UIButton *save = [[UIButton alloc]initWithFrame:CGRectMake(WIDTH - 50 - 10, 8, 50, 14)];
     [save setBackgroundColor:[UIColor clearColor]];
     [save setTitle:@"完成" forState:UIControlStateNormal];
@@ -318,8 +309,8 @@
     alockPickerView.dataSource = self;
 }
 - (void)addCollectionCell{
-    CGFloat width = self.frame.size.width;
-    _calendarContentView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, width, 300)];
+//    CGFloat width = self.frame.size.width;
+    _calendarContentView = [[UIView alloc]initWithFrame:CGRectMake(15, 0, WIDTH, 280)];
     _calendarContentView.clipsToBounds = YES;
     [self addSubview:self.calendarContentView];
     [self addHeaderView];
@@ -329,22 +320,23 @@
         int  rowIndex = i / column;  // 行索引
         int columnIndex = i % column;  // 列索引
         CGFloat margin = 2.f;
-        CGFloat cell_w = (self.bounds.size.width - 8*margin)/7;
+        CGFloat cell_w = (WIDTH - 8 * margin) / 7;
         CGFloat org_x = margin * (columnIndex + 1) + cell_w * columnIndex;
-        CGFloat org_y = margin * (rowIndex + 1) + cell_w * rowIndex + 60;
+        CGFloat org_y = margin * (rowIndex + 1) + cell_w * rowIndex + CGRectGetHeight(_headerView.frame);
         
         AYCalendarCellView *cell = [[AYCalendarCellView alloc]initWithFrame:CGRectMake(org_x, org_y, cell_w, cell_w)];
         
         cell.numLabel.text = [NSString stringWithFormat:@"%d",i];
         [self.calendarContentView addSubview:cell];
         
+        //第一个星期日是 负几号
         //星期几
-        int dateNum = i - [self getWeekOfFirstDayOfMonthWithYear:self.searchYear withMonth:self.searchMonth]+1;
+        int dateNum = i - [self getWeekOfFirstDayOfMonthWithYear:self.searchYear withMonth:self.searchMonth] + 1;
         
         //月内
-        if (dateNum >= 1 && (i<self.searchDaysOfMonth+[self getWeekOfFirstDayOfMonthWithYear:self.searchYear withMonth:self.searchMonth])) {
-            cell.numLabel.text=[NSString stringWithFormat:@"%d",dateNum];
-            cell.numLabel.textColor=[UIColor blackColor];
+        if (dateNum >= 1 && (i < self.searchDaysOfMonth + [self getWeekOfFirstDayOfMonthWithYear:self.searchYear withMonth:self.searchMonth])) {
+            cell.numLabel.text = [NSString stringWithFormat:@"%d",dateNum];
+            cell.numLabel.textColor = [UIColor blackColor];
             cell.dateString = [NSString stringWithFormat:@"%.4d-%.2d-%.2d",self.searchYear,self.searchMonth,dateNum];
         }
         //前一个月
@@ -352,21 +344,24 @@
             cell.numLabel.textColor=[UIColor grayColor];
             int days;
             if (self.searchMonth != 1 ) {
-                days = [self getDaysOfMonthWithYear:self.searchYear withMonth:self.searchMonth-1];
-            }else if(self.searchMonth == 1){
+                days = [self getDaysOfMonthWithYear:self.searchYear withMonth:(self.searchMonth - 1)];
+            }else if(self.searchMonth == 1) {
                 days = [self getDaysOfMonthWithYear:self.searchYear-1 withMonth:12];
             }
-            cell.numLabel.text = [NSString stringWithFormat:@"%d",dateNum+days];
-            cell.dateString = [NSString stringWithFormat:@"%.4d-%.2d-%.2d",self.searchYear,self.searchMonth-1,dateNum+days];
+//            cell.numLabel.text = [NSString stringWithFormat:@"%d",dateNum+days];
+            cell.dateString = [NSString stringWithFormat:@"%.4d-%.2d-%.2d",self.searchYear,self.searchMonth - 1, dateNum+days];
+            cell.numLabel.text = @"";
+            cell.userInteractionEnabled = NO;
         }
         //后一个月
         if (dateNum > self.searchDaysOfMonth) {
-            cell.numLabel.text = [NSString stringWithFormat:@"%d",dateNum - self.searchDaysOfMonth];
-            cell.numLabel.textColor = [UIColor grayColor];
+//            cell.numLabel.text = [NSString stringWithFormat:@"%d",dateNum - self.searchDaysOfMonth];
+            cell.numLabel.text = @"";
+//            cell.numLabel.textColor = [UIColor grayColor];
             cell.dateString = [NSString stringWithFormat:@"%.4d-%.2d-%.2d",self.searchYear,self.searchMonth+1,dateNum- self.searchDaysOfMonth];
+            cell.userInteractionEnabled = NO;
         }
-        
-        //数组内包含当前日期则说明此日期时 今天，设置颜色为蓝色；
+        //数组内包含当前日期则说明此日期时 今天，设置颜色为主题色；
         if([self.registerArr.lastObject isEqualToString: [NSString stringWithFormat:@"%.4d-%.2d-%.2d",self.searchYear,self.searchMonth,dateNum]]){
             numbOfCurrentDay = i;
             cell.numLabel.textColor=[Tools themeColor];
@@ -377,112 +372,103 @@
         cell.CellDateBlock = ^(AYCalendarCellView *dateString){
             if (i >= numbOfCurrentDay) {
                 [self getClickDate:dateString];
-            }
+            } else [[[UIAlertView alloc]initWithTitle:@"提示" message:@"昨日之日不可留" delegate:nil cancelButtonTitle:@"今日之前不可选" otherButtonTitles:nil, nil] show];
         };
     }
-    
 }
 
-//- (void)addMoreFilterBtn{
-//    _moreFilterBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_planDateView.frame) + 10, WIDTH, 45)];
-//    [self addSubview:_moreFilterBtn];
-//    [_moreFilterBtn setTitle:@"更多筛选条件" forState:UIControlStateNormal];
-//    [_moreFilterBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-//    [_moreFilterBtn setBackgroundColor:[UIColor clearColor]];
-//    _moreFilterBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-//    _moreFilterBtn.layer.cornerRadius = 4.f;
-//    _moreFilterBtn.layer.borderColor = [Tools themeColor].CGColor;
-//    _moreFilterBtn.layer.borderWidth = 1.5f;
-//    [_moreFilterBtn addTarget:self action:@selector(didMorefilterbtnClick) forControlEvents:UIControlEventTouchUpInside];
-//}
-
 - (void)addplanDateView {
-    _planDateView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_calendarContentView.frame) + 10, WIDTH, 70)];
+    _planDateView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_calendarContentView.frame) + 10, SCREEN_WIDTH, 80)];
     _planDateView.backgroundColor = [UIColor whiteColor];
-    _planDateView.layer.cornerRadius =3.f;
-    _planDateView.clipsToBounds = YES;
-    _planDateView.layer.shadowColor = [UIColor blackColor].CGColor;
-    _planDateView.layer.shadowOffset = CGSizeMake(0, 0);
-    _planDateView.layer.shadowOpacity = 0.25;
-    _planDateView.layer.shadowRadius = 2;
-    _planDateView.layer.shouldRasterize = YES;
-    _planDateView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//    _planDateView.layer.cornerRadius = 3.f;
+//    _planDateView.clipsToBounds = YES;
+//    _planDateView.layer.shadowColor = [UIColor blackColor].CGColor;
+//    _planDateView.layer.shadowOffset = CGSizeMake(0, 0);
+//    _planDateView.layer.shadowOpacity = 0.25;
+//    _planDateView.layer.shadowRadius = 2;
+//    _planDateView.layer.shouldRasterize = YES;
+//    _planDateView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [self addSubview:_planDateView];
+    
+    CALayer *line_top = [CALayer layer];
+    line_top.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
+    line_top.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [_planDateView.layer addSublayer:line_top];
+    CALayer *line_bottom = [CALayer layer];
+    line_bottom.frame = CGRectMake(0, 79, SCREEN_WIDTH, 1);
+    line_bottom.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [_planDateView.layer addSublayer:line_bottom];
     
     CALayer *line_separator = [CALayer layer];
     line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:1.f].CGColor;
     line_separator.borderWidth = 1.f;
-    line_separator.frame = CGRectMake(WIDTH *0.5, 10, 1, 50);
+    line_separator.frame = CGRectMake(SCREEN_WIDTH *0.5, 10, 1, 60);
     [_planDateView.layer addSublayer:line_separator];
     
-    UIView *PostTimeView = [[UIView alloc]initWithFrame:CGRectMake(0, 5, WIDTH *0.5, 70)];
+    UIView *PostTimeView = [[UIView alloc]initWithFrame:CGRectMake(0, 5, SCREEN_WIDTH *0.5, 80)];
     [_planDateView addSubview:PostTimeView];
     
     CATextLayer *postTitle = [CATextLayer layer];
-    postTitle.frame = CGRectMake(0, 10, WIDTH * 0.5, 20);
-    postTitle.string = @"预计送娃时间";
+    postTitle.frame = CGRectMake(0, 10, SCREEN_WIDTH * 0.5, 20);
+    postTitle.string = @"预计开始时间";
     postTitle.fontSize = 14.f;
     postTitle.foregroundColor = [UIColor blackColor].CGColor;
     postTitle.alignmentMode = @"center";
     postTitle.contentsScale = 2.f;
     [PostTimeView.layer addSublayer:postTitle];
     
-    choocePostTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, WIDTH * 0.5, 16)];
-    choocePostTime.text = @"选择时间";
-    choocePostTime.font = [UIFont systemFontOfSize:14.f];
+    choocePostTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 35, SCREEN_WIDTH * 0.5, 25)];
+    choocePostTime.text = @"——";
+    choocePostTime.font = [UIFont systemFontOfSize:25.f];
     choocePostTime.textColor = [Tools themeColor];
     choocePostTime.textAlignment = NSTextAlignmentCenter;
     [PostTimeView addSubview:choocePostTime];
     choocePostTime.userInteractionEnabled = YES;
-    [choocePostTime addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChoocePostTime:)]];
+    [PostTimeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChoocePostTime:)]];
     
     /* get */
-    UIView *GetTimeView = [[UIView alloc]initWithFrame:CGRectMake(WIDTH *0.5, 5, WIDTH *0.5, 70)];
+    UIView *GetTimeView = [[UIView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH *0.5, 5, SCREEN_WIDTH *0.5, 80)];
     [_planDateView addSubview:GetTimeView];
     CATextLayer *getTitle = [CATextLayer layer];
-    getTitle.frame = CGRectMake(0, 10, WIDTH * 0.5, 20);
-    getTitle.string = @"预计接娃时间";
+    getTitle.frame = CGRectMake(0, 10, SCREEN_WIDTH * 0.5, 20);
+    getTitle.string = @"预计结束时间";
     getTitle.fontSize = 14.f;
     getTitle.foregroundColor = [UIColor blackColor].CGColor;
     getTitle.alignmentMode = @"center";
     getTitle.contentsScale = 2.f;
     [GetTimeView.layer addSublayer:getTitle];
     
-    chooceGetTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, WIDTH * 0.5, 16)];
+    chooceGetTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 35, SCREEN_WIDTH * 0.5, 25)];
     chooceGetTime.text = @"——";
-    chooceGetTime.font = [UIFont systemFontOfSize:14.f];
-    chooceGetTime.textColor = [UIColor blackColor];
+    chooceGetTime.font = [UIFont systemFontOfSize:25.f];
+    chooceGetTime.textColor = [Tools themeColor];
     chooceGetTime.textAlignment = NSTextAlignmentCenter;
     [GetTimeView addSubview:chooceGetTime];
     chooceGetTime.userInteractionEnabled = YES;
-    [chooceGetTime addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChooceGetTime:)]];
+    [GetTimeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChooceGetTime:)]];
 }
 
 - (void)addHeaderView{
-    NSArray *a = [NSArray arrayWithObjects:@"日", @"一",@"二",@"三",@"四",@"五",@"六",nil];
+    NSArray *titleArr = [NSArray arrayWithObjects:@"日", @"一",@"二",@"三",@"四",@"五",@"六",nil];
 //    [_headerView removeFromSuperview];
-    _headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 60)];
+    _headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 30)];
     [_calendarContentView addSubview:self.headerView];
     
-    UILabel *dateLabel = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, 100, 30)];
-    dateLabel.textAlignment = NSTextAlignmentLeft;
-    dateLabel.font = [UIFont systemFontOfSize:14.f];
-    //    dateLabel.text = [NSString stringWithFormat:@"%d-%.2d",self.searchYear,self.searchMonth];
-    dateLabel.text = @"选择日期";
-    dateLabel.textColor = [Tools themeColor];
-    [_headerView addSubview:dateLabel];
-    
-    UIView *blueView = [[UIView alloc]initWithFrame:CGRectMake(0, 30, WIDTH, 30)];
-    [_headerView addSubview:blueView];
+    UIView *titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 30)];
+    [_headerView addSubview:titleView];
     CGFloat labelWidth = (WIDTH)/7;
     for (int i = 0; i<7; i++) {
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(i*labelWidth+3, 0, labelWidth, 30)];
-        label.text = [a objectAtIndex:i];
+        label.text = [titleArr objectAtIndex:i];
         label.textAlignment = 1;
-        label.textColor = [UIColor grayColor];
+        label.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
         label.font = [UIFont systemFontOfSize:14.f];
-        [blueView addSubview:label];
+        [titleView addSubview:label];
     }
+    CALayer *line_separator = [CALayer layer];
+    line_separator.frame = CGRectMake(0, 29, WIDTH, 1);
+    line_separator.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [_headerView.layer addSublayer:line_separator];
 }
 
 #pragma mark -- actions
@@ -524,7 +510,6 @@
         
     }];
     sumHeight = CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70 + 192;
-//    self.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_planDateView.frame) + CGRectGetHeight(_calendarContentView.frame) + 3 * MARGIN + 70 + 162);
 }
 //送
 - (void)didChoocePostTime:(UIGestureRecognizer*)tap{
@@ -539,13 +524,38 @@
 
 -(void)getClickDate:(AYCalendarCellView*)view{
     if (tmp) {
-        tmp.numLabel.textColor = [UIColor blackColor];
-        tmp.backgroundColor = [UIColor whiteColor];
+        tmp.backgroundColor = [UIColor clearColor];
+        if ([tmp.numLabel.text isEqualToString:[NSString stringWithFormat:@"%d",self.day]]) {
+            tmp.numLabel.textColor = [Tools themeColor];
+        }
+        else {
+            tmp.numLabel.textColor = [UIColor blackColor];
+        }
     }
-    tmp = view;
-    tmp.numLabel.textColor = [UIColor whiteColor];
-    tmp.backgroundColor = [Tools themeColor];
+    view.numLabel.textColor = [UIColor whiteColor];
+    view.backgroundColor = [Tools themeColor];
     theDayDate = view.dateString;
+    tmp = view;
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-dd"];
+    NSDate *startDate = [format dateFromString:view.dateString];
+//    NSTimeInterval date = startDate.timeIntervalSince1970;
+    
+    NSDateFormatter *unformat = [[NSDateFormatter alloc] init];
+    [unformat setDateFormat:@"MM月dd日 EEEE"];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [unformat setTimeZone:timeZone];
+    NSString *undate = [unformat stringFromDate:startDate];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"changeNavTitle:"];
+    if (view == nil) {
+        NSDate *todayDate = [NSDate date];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        [formatter setDateFormat:@"MM月dd日 EEEE"];
+        NSString* title = [formatter stringFromDate:todayDate];
+        [cmd performWithResult:&title];
+    } else [cmd performWithResult:&undate];
+    
 }
 
 -(void)didPlusbtnClick:(UIGestureRecognizer*)tap{
@@ -562,9 +572,23 @@
 #pragma mark -- commands
 -(id)queryFiterArgs:(NSDictionary*)args{
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-dd hh:mm.aa"];
+    [format setAMSymbol:(@"AM")];
+    [format setPMSymbol:@"PM"];
+    
+    NSString *plan_time_post = [NSString stringWithFormat:@"%@ %@",theDayDate,choocePostTime.text];
+    NSDate *startDate = [format dateFromString:plan_time_post];
+    NSTimeInterval start = startDate.timeIntervalSince1970 * 1000;
+    
+    NSString *plan_time_get = [NSString stringWithFormat:@"%@ %@", theDayDate,chooceGetTime.text];//2016-06-18 3:45.AM
+    NSDate *endDate = [format dateFromString:plan_time_get];
+    NSTimeInterval end = endDate.timeIntervalSince1970 * 1000; //s
+    
     [dic setValue:theDayDate forKey:@"plan_date"];
-    [dic setValue:choocePostTime.text forKey:@"plan_time_post"];
-    [dic setValue:chooceGetTime.text forKey:@"plan_time_get"];
+    [dic setValue:[NSNumber numberWithDouble:start] forKey:@"plan_time_post"];
+    [dic setValue:[NSNumber numberWithDouble:end] forKey:@"plan_time_get"];
     [dic setValue:[NSNumber numberWithInt:sumChilrenCount] forKey:@"chilren_numb"];
     
     return dic;
@@ -574,10 +598,10 @@
     
     [self getClickDate:nil];
     
-    choocePostTime.text = @"选择时间";
+    choocePostTime.text = @"——";
     chooceGetTime.text = @"——";
     sumChilrenCount = 1;
-    chilrenCountLabel.text = [NSString stringWithFormat:@"%d 个小孩",sumChilrenCount];
+//    chilrenCountLabel.text = [NSString stringWithFormat:@"%d 个小孩",sumChilrenCount];
     return nil;
 }
 

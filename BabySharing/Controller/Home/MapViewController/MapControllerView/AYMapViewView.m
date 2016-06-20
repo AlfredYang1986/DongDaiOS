@@ -64,18 +64,18 @@
         AYAnnonation *anno = [[AYAnnonation alloc]init];
         anno.coordinate = location.coordinate;
         anno.title = @"不知道哪";
-        anno.imageName = @"category_3";
+        anno.imageName = @"position_small";
         anno.index = i;
         [self addAnnotation:anno];
         [annoArray addObject:anno];
     }
     
     //rang
-    self.visibleMapRect = MKMapRectMake(loc.coordinate.latitude - 80000, loc.coordinate.longitude - 140000, 160000, 280000);
+    self.visibleMapRect = MKMapRectMake(loc.coordinate.latitude - 320000, loc.coordinate.longitude - 560000, 640000, 1120000);
     AYAnnonation *anno = [[AYAnnonation alloc]init];
     anno.coordinate = loc.coordinate;
     anno.title = @"定位位置";
-    anno.imageName = @"category_5";
+    anno.imageName = @"position_big";
     anno.index = 9999;
     [self addAnnotation:anno];
     [annoArray addObject:anno];
@@ -149,10 +149,10 @@
     }
     if (tmp && tmp != view) {
         tmp.image = nil;
-        tmp.image = [UIImage imageNamed:@"category_3"];
+        tmp.image = [UIImage imageNamed:@"position_small"];
     }
     view.image = nil;
-    view.image = [UIImage imageNamed:@"category_5"];
+    view.image = [UIImage imageNamed:@"position_big"];
     
     tmp = view;
     

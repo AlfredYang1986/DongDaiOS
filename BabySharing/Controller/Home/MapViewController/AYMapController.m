@@ -115,20 +115,25 @@
     [bar_left_btn setTitle:@"  " forState:UIControlStateNormal];
     bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_left_btn sizeToFit];
+    bar_left_btn.userInteractionEnabled = NO;
     bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnWithBtn:"];
     //    UIImage* left = PNGRESOURCE(@"bar_left_white");
     [cmd_left performWithResult:&bar_left_btn];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"关闭" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+//    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+//    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
+//    [bar_right_btn setTitle:@"关闭" forState:UIControlStateNormal];
+//    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+//    [bar_right_btn sizeToFit];
+//    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+//    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+//    [cmd_right performWithResult:&bar_right_btn];
+    
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnImg:"];
+    UIImage* right = IMGRESOURCE(@"map_close");
+    [cmd_right performWithResult:&right];
     
     return nil;
 }

@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYCalendarCellView : UIView /*<AYViewBase>*/
+@interface AYCalendarCellView : UIView <AYViewBase>
+//@interface AYCalendarCellView : UIView /*<AYViewBase>*/
 @property (nonatomic, copy) void (^CellDateBlock)(AYCalendarCellView *dateString);
 
 @property(nonatomic,strong) UILabel *numLabel;

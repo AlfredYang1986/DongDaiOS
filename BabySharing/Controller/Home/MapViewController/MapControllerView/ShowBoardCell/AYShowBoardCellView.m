@@ -24,65 +24,20 @@
         _imageView.image = [UIImage imageNamed:@"lol"];
         [self addSubview:_imageView];
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(10);
-            make.left.equalTo(self).offset(10);
-            make.size.mas_equalTo(CGSizeMake(130, 80));
+            make.top.equalTo(self).offset(12.5);
+            make.left.equalTo(self).offset(12.5);
+            make.size.mas_equalTo(CGSizeMake(100, 82));
         }];
         
-        _distanceLabel = [[UILabel alloc]init];
-        _distanceLabel.text = @"距离您约0km";
-        _distanceLabel.font = [UIFont systemFontOfSize:13.f];
-        _distanceLabel.textColor = [UIColor colorWithWhite:0.3f alpha:1.f];
-        [self addSubview:_distanceLabel];
-        [_distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(10);
-            make.right.equalTo(self).offset(-10);
-        }];
-        
-        _fiveStarBtn = [[UIButton alloc]init];
-        [self addSubview:_fiveStarBtn];
-        [self setImageAndSelectImage:_fiveStarBtn WithName:@"tab_found"];
-        [_fiveStarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-10);
-            make.top.equalTo(_distanceLabel.mas_bottom).offset(5);
-            make.size.mas_equalTo(CGSizeMake(15, 15));
-        }];
-        
-        _fourStarBtn = [[UIButton alloc]init];
-        [self addSubview:_fourStarBtn];
-        [self setImageAndSelectImage:_fourStarBtn WithName:@"tab_found"];
-        [_fourStarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_fiveStarBtn.mas_left).offset(-5);
-            make.centerY.equalTo(_fiveStarBtn);
-            make.size.equalTo(_fiveStarBtn);
-        }];
-        
-        _threeStarBtn = [[UIButton alloc]init];
-        [self addSubview:_threeStarBtn];
-        [self setImageAndSelectImage:_threeStarBtn WithName:@"tab_found"];
-        [_threeStarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_fourStarBtn.mas_left).offset(-5);
-            make.centerY.equalTo(_fiveStarBtn);
-            make.size.equalTo(_fiveStarBtn);
-        }];
-        
-        _twoStarBtn = [[UIButton alloc]init];
-        [self addSubview:_twoStarBtn];
-        [self setImageAndSelectImage:_twoStarBtn WithName:@"tab_found"];
-        [_twoStarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_threeStarBtn.mas_left).offset(-5);
-            make.centerY.equalTo(_fiveStarBtn);
-            make.size.equalTo(_fiveStarBtn);
-        }];
-        
-        _oneStarBtn = [[UIButton alloc]init];
-        [self addSubview:_oneStarBtn];
-        [self setImageAndSelectImage:_oneStarBtn WithName:@"tab_found"];
-        [_oneStarBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_twoStarBtn.mas_left).offset(-5);
-            make.centerY.equalTo(_fiveStarBtn);
-            make.size.equalTo(_fiveStarBtn);
-        }];
+//        _distanceLabel = [[UILabel alloc]init];
+//        _distanceLabel.text = @"距离您约0km";
+//        _distanceLabel.font = [UIFont systemFontOfSize:13.f];
+//        _distanceLabel.textColor = [UIColor colorWithWhite:0.3f alpha:1.f];
+//        [self addSubview:_distanceLabel];
+//        [_distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self).offset(10);
+//            make.right.equalTo(self).offset(-10);
+//        }];
         
         _titleLabel = [[UILabel alloc]init];
         _titleLabel.text = @"一句话了解妈妈";
@@ -90,8 +45,39 @@
         _titleLabel.textColor = [UIColor colorWithWhite:0.2f alpha:1.f];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_fiveStarBtn.mas_bottom).offset(10);
-            make.right.equalTo(self).offset(-10);
+//            make.top.equalTo(_starRangImage.mas_bottom).offset(10);
+//            make.right.equalTo(self).offset(-10);
+            make.top.equalTo(self).offset(12.5);
+            make.left.equalTo(_imageView.mas_right).offset(12.5);
+            make.right.equalTo(self).offset(-12.5);
+        }];
+        
+        _starRangImage = [[UIImageView alloc]init];
+        _starRangImage.image = IMGRESOURCE(@"star_rang_1");
+        [self addSubview:_starRangImage];
+        [_starRangImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_titleLabel);
+            make.top.equalTo(_titleLabel.mas_bottom).offset(10);
+            make.size.mas_equalTo(CGSizeMake(90, 14));
+        }];
+        
+        _contentCount = [[UILabel alloc]init];
+        _contentCount.text = @"(0)";
+        _contentCount.font = [UIFont systemFontOfSize:14.f];
+        _contentCount.textColor = [Tools colorWithRED:155 GREEN:155 BLUE:155 ALPHA:1.f];
+        [self addSubview:_contentCount];
+        [_contentCount mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_starRangImage.mas_right).offset(10);
+            make.centerY.equalTo(_starRangImage);
+        }];
+        
+        _iconImage = [[UIImageView alloc]init];
+        _iconImage.image = IMGRESOURCE(@"tab_found_selected");
+        [self addSubview: _iconImage];
+        [_iconImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_titleLabel);
+            make.bottom.equalTo(self).offset(-12.5);
+            make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
         
         _friendsLabel = [[UILabel alloc]init];
@@ -100,8 +86,8 @@
         _friendsLabel.textColor = [UIColor colorWithWhite:0.4f alpha:1.f];
         [self addSubview:_friendsLabel];
         [_friendsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-10);
-            make.top.equalTo(_titleLabel.mas_bottom).offset(5);
+            make.left.equalTo(_iconImage.mas_right).offset(12.5);
+            make.centerY.equalTo(_iconImage);
         }];
         
         self.userInteractionEnabled = YES;

@@ -29,36 +29,47 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        
-        self.titleLabel = [[UILabel alloc]init];
-        self.titleLabel.font = [UIFont systemFontOfSize:14.f];
-        self.titleLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.f];
-        self.titleLabel.textAlignment = NSTextAlignmentLeft;
-        self.titleLabel.text = @"当前位置";
-        [self addSubview:self.titleLabel];
-        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(18);
-            make.left.equalTo(self).offset(20);
-        }];
-        
-        self.locationlabel = [[UILabel alloc]init];
-        self.locationlabel.font = [UIFont systemFontOfSize:12.f];
-        self.locationlabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-        self.locationlabel.textAlignment = NSTextAlignmentLeft;
-        self.locationlabel.text = @"正在获取当前位置...";
-        [self addSubview:self.locationlabel];
-        [self.locationlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(8);
-            make.left.equalTo(self).offset(20);
-        }];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         self.locationIcon = [[UIImageView alloc]init];
-        [self.locationIcon setImage:[UIImage imageNamed:@"tab_found_selected"]];
+        [self.locationIcon setImage:IMGRESOURCE(@"position")];
         [self addSubview:self.locationIcon];
         [self.locationIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-20);
+            make.left.equalTo(self).offset(30);
             make.centerY.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(30, 30));
+            make.size.mas_equalTo(CGSizeMake(17, 17));
+        }];
+//        self.titleLabel = [[UILabel alloc]init];
+//        self.titleLabel.font = [UIFont systemFontOfSize:14.f];
+//        self.titleLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.f];
+//        self.titleLabel.textAlignment = NSTextAlignmentLeft;
+//        self.titleLabel.text = @"获取当前位置";
+//        [self addSubview:self.titleLabel];
+//        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+////            make.top.equalTo(self).offset(18);
+////            make.left.equalTo(self).offset(20);
+//            make.left.equalTo(self.locationIcon.mas_right).offset(10);
+//            make.centerY.equalTo(self);
+//        }];
+        
+        self.locationlabel = [[UILabel alloc]init];
+        self.locationlabel.font = [UIFont systemFontOfSize:14.f];
+        self.locationlabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.f];
+        self.locationlabel.textAlignment = NSTextAlignmentLeft;
+        self.locationlabel.text = @"获取当前位置";
+        [self addSubview:self.locationlabel];
+        [self.locationlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.locationIcon.mas_right).offset(10);
+            make.centerY.equalTo(self);
+        }];
+        
+        UIView *line = [[UIView alloc]init];
+        line.backgroundColor = [UIColor colorWithWhite:0.8f alpha:1.f];
+        [self addSubview:line];
+        [line mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self);
+            make.left.equalTo(self).offset(15);
+            make.right.equalTo(self).offset(-15);
         }];
     }
     return self;
@@ -70,6 +81,8 @@
     NSArray* previewDic;
     NSString *auto_locationName;
     CLLocation *auto_location;
+    
+    int countDidClick;
 }
 #pragma mark -- command
 @synthesize para = _para;
@@ -78,7 +91,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
+    countDidClick = 0;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -113,7 +126,6 @@
         if (cell == nil) {
             cell = [[AutoLocationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
         }
-        
         if (auto_locationName && ![auto_locationName isEqualToString:@""]) {
             cell.locationlabel.text = auto_locationName;
         }
@@ -143,24 +155,33 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (previewDic == nil || previewDic.count == 0) {
-        return 80;
-    }
-    else{
+//    if (previewDic == nil || previewDic.count == 0) {
+//        return 80;
+//    }
+//    else{
         return 44;
-    }
+//    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSMutableDictionary *dic_location = [[NSMutableDictionary alloc]init];
     if (previewDic == nil || previewDic.count == 0) {
-        if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        if (countDidClick == 0) {
+            countDidClick = 1;
+            id<AYCommand> cmd_location = [self.notifies objectForKey:@"startLocation"];
+            [cmd_location performWithResult:nil];
             return;
+        }else if (countDidClick == 1) {
+            countDidClick = 0;
+            if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
+                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                return;
+            }
+            [dic_location setValue:auto_locationName forKey:@"location_name"];
+            [dic_location setValue:auto_location forKey:@"location"];
         }
-        [dic_location setValue:auto_locationName forKey:@"location_name"];
-        [dic_location setValue:auto_location forKey:@"location"];
+        
     }else{
         //        NSDictionary *dic = previewDic[indexPath.row];
         //        CLLocation *loc = [dic objectForKey:@"location"];
@@ -172,14 +193,13 @@
         CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
         [dic_location setValue:loc forKey:@"location"];
         
-        if (latitude == 0 && longitude == 0) {
+        if (tip.uid != nil && tip.location == nil) {
             [[[UIAlertView alloc]initWithTitle:@"提示" message:@"公交线路暂无法定位" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             return;
         }
     }
     
     AYViewController* des = DEFAULTCONTROLLER(@"LocationResult");
-    
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

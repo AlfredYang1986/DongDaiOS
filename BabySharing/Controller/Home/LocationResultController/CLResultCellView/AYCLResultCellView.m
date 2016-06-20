@@ -29,12 +29,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
 @property (weak, nonatomic) IBOutlet UIImageView *friendIcon;
 @property (weak, nonatomic) IBOutlet UILabel *friendCountLabel;
+@property (weak, nonatomic) IBOutlet UIButton *unLikeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UILabel *costLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contentCountLabel;
 @property (weak, nonatomic) IBOutlet UILabel *adresslabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ownerIconImage;
+@property (weak, nonatomic) IBOutlet UIImageView *starRangImage;
 
 @property (nonatomic, strong) CLGeocoder *gecoder;
 @end
@@ -67,6 +69,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    _unLikeBtn.hidden = YES;
     
 }
 
@@ -77,6 +80,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
+//    id<AYViewBase> cell = VIEW(@"CLResultCell", @"CLResultCell");
     id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
@@ -142,14 +146,20 @@
         _adresslabel.text = pl.subLocality;
     }];
     
+    _starRangImage.image = IMGRESOURCE(@"star_rang_5");
+    
     return nil;
-//    service_id: (String)
-//    title : (String)
-//    description : (String)
-//    capacity : (Int)
-//    price : (Float)
-//    owner_id : (String)
-//    offer_date (json object)
-//    location : (json object)
+}
+
+#pragma mark -- actions
+- (IBAction)didLikeBtnClick:(id)sender {
+    
+    _likeBtn.hidden = YES;
+    _unLikeBtn.hidden = NO;
+}
+- (IBAction)didUnLikeBtnClick:(id)sender {
+    
+    _unLikeBtn.hidden = YES;
+    _likeBtn.hidden = NO;
 }
 @end

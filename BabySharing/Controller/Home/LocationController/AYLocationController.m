@@ -139,18 +139,7 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-    //授权使用定位服务
-    [self.manager requestAlwaysAuthorization];
-//    [self.manager requestWhenInUseAuthorization];
-    //定位精度
-    self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    
-    self.manager.delegate = self;
-    if ([CLLocationManager locationServicesEnabled]) {
-        //开始定位
-        [self.manager startUpdatingLocation];
-    }
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -160,43 +149,16 @@
     [view resignFirstResponder];
 }
 
-//定位成功 调用代理方法
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    //CLLocation  位置对象
-    
-    loc = [locations firstObject];
-    CLLocationCoordinate2D coordinate = loc.coordinate;
-    
-    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
-    
-    //位置改变幅度大 ->重新定位
-    [manager stopUpdatingLocation];
-    
-    [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-        CLPlacemark *pl = [placemarks firstObject];
-        NSString *name = pl.name;
-        
-        id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
-        id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"autoLocationData:"];
-        
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:name forKey:@"auto_location_name"];
-        [dic setValue:loc forKey:@"auto_location"];
-        [cmd performWithResult:&dic];
-        
-        id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
-        [cmd_refresh performWithResult:nil];
-        
-    }];
-}
-
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     view.frame = CGRectMake(0, 0, width, 20);
     view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
+- (id)FakeNavBarLayout:(UIView*)view {
+    
     return nil;
 }
 
@@ -284,7 +246,6 @@
 //            request.city                        = @"北京";
 //            request.uid                         = tip.uid;
 //            request.requireExtension            = YES;
-//            
 //            [search AMapBusLineIDSearch:request];
 //            
 //            if (aBusMapTip) {
@@ -300,7 +261,6 @@
 //        }
 //    }
     
-    
     [cmd performWithResult:&tmp];
 
     id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
@@ -312,7 +272,6 @@
     if (response.buslines.count != 0)
     {
         aBusMapTip = response.buslines.firstObject;
-//        AMapBusLine *busLine
     }
     
 }
@@ -335,6 +294,55 @@
 -(BOOL)isActive{
     UIViewController * tmp = [Tools activityViewController];
     return tmp == self;
+}
+
+#pragma mark -- notifies
+-(id)startLocation{
+    
+    //授权使用定位服务
+    [self.manager requestAlwaysAuthorization];
+    //    [self.manager requestWhenInUseAuthorization];
+    //定位精度
+    self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    
+    self.manager.delegate = self;
+    if ([CLLocationManager locationServicesEnabled]) {
+        //开始定位
+        [self.manager startUpdatingLocation];
+    }
+    return nil;
+}
+
+//定位成功 调用代理方法
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    //CLLocation  位置对象
+    
+    loc = [locations firstObject];
+    CLLocationCoordinate2D coordinate = loc.coordinate;
+    
+    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
+    
+    //位置改变幅度大 ->重新定位
+    [manager stopUpdatingLocation];
+    
+    [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
+        
+        CLPlacemark *pl = [placemarks firstObject];
+        NSString *name = pl.name;
+        
+        id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
+        id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
+        id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"autoLocationData:"];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:name forKey:@"auto_location_name"];
+        [dic setValue:loc forKey:@"auto_location"];
+        [cmd performWithResult:&dic];
+        
+        id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
+        [cmd_refresh performWithResult:nil];
+        
+    }];
 }
 
 @end

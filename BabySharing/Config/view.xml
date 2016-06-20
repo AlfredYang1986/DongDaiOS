@@ -407,6 +407,7 @@
         <command type="message"     message="queryFiterArgs:" />
         <command type="message"     message="resetFiterArgs" />
         <command type="notify"      message="hiddenCLResultTable" />
+        <command type="notify"      message="changeNavTitle:" />
     </view>
     
     <view type="ShowBoard" name="ShowBoard" factory="AYReuseViewFactory" >

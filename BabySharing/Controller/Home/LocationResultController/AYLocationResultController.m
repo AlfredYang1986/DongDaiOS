@@ -37,6 +37,7 @@
     NSMutableArray *loading_status;
     
     CLLocation *loc;
+    NSString *location_name;
     AMapSearchAPI *search;
     
     NSArray *searchResultArrWithLoc;
@@ -55,6 +56,7 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
         loc = [args objectForKey:@"location"];
+        location_name = [args objectForKey:@"location_name"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -65,6 +67,7 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         dic_pop = [dic objectForKey:kAYControllerChangeArgsKey];
         
+        //获取新的fiter条件 --> remote --> 刷新table
         id<AYViewBase> view = [self.views objectForKey:@"TimeOption"];
         id<AYCommand> cmd = [view.commands objectForKey:@"sendFiterArgs:"];
         NSDictionary *dic = [dic_pop copy];
@@ -164,24 +167,25 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    [cmd_left performWithResult:&left];
     
-    UIButton* bar_left_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_left_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-    [bar_left_btn setTitle:@"返回" forState:UIControlStateNormal];
-    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [bar_left_btn sizeToFit];
-    bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
-    
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnWithBtn:"];
-//    UIImage* left = PNGRESOURCE(@"bar_left_white");
-    [cmd_left performWithResult:&bar_left_btn];
+//    UIButton* bar_left_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+//    [bar_left_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
+//    [bar_left_btn setTitle:@"返回" forState:UIControlStateNormal];
+//    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+//    [bar_left_btn sizeToFit];
+//    bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
+//    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnWithBtn:"];
+//    [cmd_left performWithResult:&bar_left_btn];
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
     [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
@@ -189,18 +193,18 @@
 }
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"当前位置";
+//    titleView.text = @"当前位置";
+    titleView.text = location_name;
     titleView.font = [UIFont systemFontOfSize:16.f];
     titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
     [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 44 / 2);
+    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 + 10 + 10 + 70 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 84 - 80);
+    view.frame = CGRectMake(0, 64 + 10 + 10 + 75 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 84 - 85);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
@@ -215,11 +219,11 @@
 }
 
 - (id)TimeOptionLayout:(UIView*)view {
-    CGFloat margin = 20.f;
-    view.frame = CGRectMake(margin, 64 + 10, view.frame.size.width, view.frame.size.height);
+    CGFloat margin = 15.f;
+    view.frame = CGRectMake(margin, 64 + 10, SCREEN_WIDTH - margin * 2, view.frame.size.height);
     view.backgroundColor = [UIColor whiteColor];
-    view.layer.cornerRadius = 3.f;
-    view.clipsToBounds = YES;
+//    view.layer.cornerRadius = 3.f;
+//    view.clipsToBounds = YES;
     return nil;
 }
 

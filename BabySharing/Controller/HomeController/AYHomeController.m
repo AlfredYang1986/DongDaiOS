@@ -108,34 +108,37 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
         make.left.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 370));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH));
     }];
     
     UIButton *found = [[UIButton alloc]init];
-    found.layer.cornerRadius = 35.f;
-    found.clipsToBounds = YES;
-    found.backgroundColor = [UIColor whiteColor];
-    [found setImage:[UIImage imageNamed:@"tab_found_selected"] forState:UIControlStateNormal];
+//    found.layer.cornerRadius = 37.5f;
+//    found.clipsToBounds = YES;
+    found.backgroundColor = [UIColor clearColor];
+    [found setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
     [found addTarget:self action:@selector(foundBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:found];
     [found mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view).offset(30);
         make.top.equalTo(coverImg.mas_bottom).offset(-35);
-        make.size.mas_equalTo(CGSizeMake(70, 70));
+        make.size.mas_equalTo(CGSizeMake(75, 75));
     }];
     
     AYModelFacade* f = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-//    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
     NSString *name = tmp.who.screen_name;
-    
     UILabel *hello = [[UILabel alloc]init];
-    hello.text = [NSString stringWithFormat:@"%@，你好",name];
     hello.font = [UIFont systemFontOfSize:16.f];
     hello.textColor = [UIColor blackColor];
+    NSString *subName = [name substringFromIndex:name.length - 1];
+    NSMutableAttributedString *helloString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@，你好",subName]];
+    
+    NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:43.f],NSForegroundColorAttributeName:[Tools themeColor]};
+    [helloString setAttributes:dic range:NSMakeRange(0, subName.length)];
+    hello.attributedText = helloString;
     [self.view addSubview:hello];
     [hello mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(20);
+        make.left.equalTo(self.view).offset(30);
         make.top.equalTo(found.mas_bottom).offset(20);
     }];
     UILabel *say = [[UILabel alloc]init];
@@ -153,7 +156,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     personal.backgroundColor = [Tools themeColor];
     [self.view addSubview:personal];
     [personal mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(say.mas_bottom).offset(50);
+        make.top.equalTo(say.mas_bottom).offset(40);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(44);
@@ -216,20 +219,20 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     NSDictionary* obj = nil;
     CURRENUSER(obj)
     NSDictionary* args = [obj mutableCopy];
-//    NSDate *timeSpan = [NSDate dateWithTimeInterval:<#(NSTimeInterval)#> sinceDate:<#(nonnull NSDate *)#>]
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
     
-    NSString *startDateString = @"2016-06-15 11:15";
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy-MM-dd HH:mm"];
+    NSString *startDateString = @"2016-06-15 11:15";
     NSDate *startDate = [format dateFromString:startDateString];
-    NSTimeInterval start = startDate.timeIntervalSinceReferenceDate * 1000;
+    NSTimeInterval start = startDate.timeIntervalSince1970 * 1000;
     
     NSString *endDateString = @"2016-06-15 12:15";
     NSDate *endDate = [format dateFromString:endDateString];
-    NSTimeInterval end = endDate.timeIntervalSinceReferenceDate * 1000;
+    NSTimeInterval end = endDate.timeIntervalSince1970 * 1000;
+//    NSDate *ddd = [NSDate dateWithTimeIntervalSinceReferenceDate:end];
     
     NSMutableDictionary *offer_date = [[NSMutableDictionary alloc]init];
     [offer_date setValue:[NSNumber numberWithLong:start] forKey:@"start"];
@@ -266,20 +269,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
             }];
         }
     }];
-    
-    //    owner_id :  (String)
-    //    offer_date: (json object) {
-    //          start: (long => 苹果的timespan）
-    //          end: (同上)
-    //        }
-    //    location: (json object) {
-    //      latitude: (float => 高德地图经度)
-    //      longtitude: (float => 高德地图纬度)
-    //    }
-    //    title: (String)
-    //    description: (String)
-    //    capacity : (Int)
-    //    price: (Float)
 }
 
 #pragma mark -- notifies

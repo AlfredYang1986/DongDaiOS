@@ -3,12 +3,6 @@
         <command type="notify" message="searchTextChanged:" />
     </delegate>
     
-    <delegate type="TableViewDelegateAndDatasource" name="Location" factory="AYDefaultDelegateFactory" >
-        <command type="message" message="autoLocationData:" />
-        <command type="message" message="changeLocationResultData:" />
-        <command type="notify" message="scrollToHideKeyBoard" />
-    </delegate>
-    
     <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="TagSeleted:" />
@@ -125,6 +119,13 @@
     
     <delegate type="CollectionViewDelegateAndDatasource" name="Calendar" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="Location" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="autoLocationData:" />
+        <command type="message" message="changeLocationResultData:" />
+        <command type="notify" message="scrollToHideKeyBoard" />
+        <command type="notify" message="startLocation" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="LocationResult" factory="AYDefaultDelegateFactory" >

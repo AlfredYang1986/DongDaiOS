@@ -19,6 +19,9 @@
 @property (nonatomic, strong) UILabel *distanceLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *friendsLabel;
+@property (nonatomic, strong) UIImageView *starRangImage;
+@property (nonatomic, strong) UILabel *contentCount;
+@property (nonatomic, strong) UIImageView *iconImage;
 
 @property (nonatomic, strong) UIButton *oneStarBtn;
 @property (nonatomic, strong) UIButton *twoStarBtn;

@@ -81,10 +81,10 @@
     line2.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line2];
     
-    didSearchBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, [UIScreen mainScreen].bounds.size.height - 45 - 20, SCREEN_WIDTH - 40, 45)];
+    didSearchBtn = [[UIButton alloc]initWithFrame:CGRectMake(15, [UIScreen mainScreen].bounds.size.height - 45 - 15, SCREEN_WIDTH - 30, 45)];
     [didSearchBtn setBackgroundColor:[Tools themeColor]];
     [didSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
-    didSearchBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    didSearchBtn.titleLabel.font = [UIFont systemFontOfSize:20.f];
     [didSearchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     didSearchBtn.layer.cornerRadius = 4.f;
     didSearchBtn.clipsToBounds = YES;
@@ -115,24 +115,16 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    
-    UIButton* bar_left_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_left_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-    [bar_left_btn setTitle:@"返回" forState:UIControlStateNormal];
-    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [bar_left_btn sizeToFit];
-    bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
-    
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnWithBtn:"];
-//    UIImage* left = PNGRESOURCE(@"bar_left_white");
-    [cmd_left performWithResult:&bar_left_btn];
+    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    [cmd_left performWithResult:&left];
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
+    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
     [bar_right_btn setTitle:@"重置" forState:UIControlStateNormal];
     bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
@@ -140,18 +132,39 @@
 }
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"当前位置";
-    titleView.font = [UIFont systemFontOfSize:14.f];
+    
+    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
+    id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
+    
+    NSDate *todayDate = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    [formatter setDateFormat:@"MM月dd日 EEEE"];
+    NSString* title = [formatter stringFromDate:todayDate];
+    [cmd_title performWithResult:&title];
+    
+//    titleView.text = dayDate;
+    titleView.font = [UIFont systemFontOfSize:16.f];
     titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
     [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 44 / 2);
+    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
+    return nil;
+}
+-(id)changeNavTitle:(NSString *)title{
+    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
+    id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
+    [cmd_title performWithResult:&title];
+    
+    UILabel* titleView = (UILabel*)view_title;
+    titleView.font = [UIFont systemFontOfSize:16.f];
+    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
+    [titleView sizeToFit];
+    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
     return nil;
 }
 
 - (id)FiterScrollLayout:(UIView*)view {
-    CGFloat margin = 20.f;
+    CGFloat margin = 0.f;
     view.frame = CGRectMake(margin, 74, SCREEN_WIDTH - 2* margin, SCREEN_HEIGHT - 74 - 65 -10);
     view.backgroundColor = [UIColor clearColor];
     ((UIScrollView*)view).showsVerticalScrollIndicator = NO;

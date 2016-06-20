@@ -82,6 +82,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
 #define GIFRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumGIFResourceURLWithName:NAME])
+#define IMGRESOURCE(NAME)       [UIImage imageNamed:NAME]
 
 
 #ifdef DEBUG

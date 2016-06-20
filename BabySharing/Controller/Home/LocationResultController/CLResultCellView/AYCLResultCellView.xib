@@ -24,13 +24,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="(13)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OnD-a0-oh7">
-                        <rect key="frame" x="146" y="263" width="25" height="17"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="朝阳区" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdM-9Z-X6j">
-                        <rect key="frame" x="179" y="261" width="42" height="21"/>
+                        <rect key="frame" x="120" y="261" width="25" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -43,12 +37,6 @@
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQz-5S-PN2">
-                        <rect key="frame" x="331" y="15" width="30" height="30"/>
-                        <state key="normal" title="收藏">
-                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                    </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="z6a-8h-XAa">
                         <rect key="frame" x="18" y="15" width="28" height="28"/>
                     </imageView>
@@ -61,39 +49,29 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="oKf-ix-c8B">
                         <rect key="frame" x="316" y="236" width="45" height="45"/>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjh-IW-WoY">
-                        <rect key="frame" x="12" y="260" width="23" height="23"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <state key="normal" image="tab_found"/>
-                        <state key="selected" image="tab_found_selected"/>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auy-YH-ceZ">
+                        <rect key="frame" x="339" y="18" width="22" height="22"/>
+                        <state key="normal" image="heart"/>
+                        <connections>
+                            <action selector="didLikeBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fBl-LU-Fim"/>
+                        </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNq-iK-0H8">
-                        <rect key="frame" x="38" y="260" width="23" height="23"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <state key="normal" image="tab_found"/>
-                        <state key="selected" image="tab_found_selected"/>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzu-EL-qRs">
+                        <rect key="frame" x="338" y="18" width="23" height="22"/>
+                        <state key="normal" image="heart_unlike"/>
+                        <connections>
+                            <action selector="didUnLikeBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="bI0-iJ-Qia"/>
+                        </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pwp-0L-sty">
-                        <rect key="frame" x="64" y="260" width="23" height="23"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <state key="normal" image="tab_found"/>
-                        <state key="selected" image="tab_found_selected"/>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cpr-o1-jcI">
-                        <rect key="frame" x="115" y="260" width="23" height="23"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <state key="normal" image="tab_found"/>
-                        <state key="selected" image="tab_found_selected"/>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xDB-Hg-jyU">
-                        <rect key="frame" x="89" y="260" width="23" height="23"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <state key="normal" image="tab_found"/>
-                        <state key="selected" image="tab_found_selected"/>
-                    </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="jhU-Wc-HDR">
-                        <rect key="frame" x="331" y="15" width="30" height="30"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="star_rang_1" translatesAutoresizingMaskIntoConstraints="NO" id="tbi-Hs-8Dm">
+                        <rect key="frame" x="18" y="261" width="90" height="14"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="朝阳区" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdM-9Z-X6j">
+                        <rect key="frame" x="155" y="259" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </tableViewCellContentView>
             <connections>
@@ -103,16 +81,20 @@
                 <outlet property="descLabel" destination="vtg-UL-53k" id="QKw-Lf-sJE"/>
                 <outlet property="friendCountLabel" destination="6Vb-uX-99A" id="UA3-dR-gMx"/>
                 <outlet property="friendIcon" destination="z6a-8h-XAa" id="O0O-Kb-91E"/>
-                <outlet property="likeBtn" destination="QQz-5S-PN2" id="Zvd-k2-vBn"/>
+                <outlet property="likeBtn" destination="auy-YH-ceZ" id="fsg-f0-aGb"/>
                 <outlet property="mainImage" destination="AGi-wg-VLC" id="EXh-Z7-FLC"/>
                 <outlet property="ownerIconImage" destination="oKf-ix-c8B" id="eas-G6-mbg"/>
+                <outlet property="starRangImage" destination="tbi-Hs-8Dm" id="3WY-wD-7O7"/>
+                <outlet property="unLikeBtn" destination="mzu-EL-qRs" id="nGI-qW-0VK"/>
             </connections>
-            <point key="canvasLocation" x="361.5" y="325"/>
+            <point key="canvasLocation" x="389.5" y="278"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="heart" width="22" height="19"/>
+        <image name="heart_unlike" width="23" height="20"/>
         <image name="lol" width="375" height="225"/>
-        <image name="tab_found" width="23" height="23"/>
+        <image name="star_rang_1" width="90" height="14"/>
         <image name="tab_found_selected" width="23" height="23"/>
     </resources>
 </document>

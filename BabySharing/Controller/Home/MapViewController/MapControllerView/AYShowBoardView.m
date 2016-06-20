@@ -16,7 +16,7 @@
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
-#define CellWidth   300
+#define CellWidth   258
 
 @implementation AYShowBoardView{
     NSDictionary *resultAndLoc;
@@ -37,22 +37,14 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-//    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryResultDate:"];
-//    NSDictionary *resultAndLoc = nil;
-//    [query_cmd performWithResult:&resultAndLoc];
-    
-    //    CLLocation *loc0 = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
-    //    CLLocation *loc1 = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
-    //    arrayWithLoc = @[loc0, loc1];
-    
     CLLocation *loc = [resultAndLoc objectForKey:@"location"];
     NSArray *fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.contentSize = CGSizeMake(310 * fiteResultData.count + 10, 0);
+    self.contentSize = CGSizeMake(268 * fiteResultData.count + 10, 0);
     for (int i = 0; i < fiteResultData.count; ++i) {
         CGFloat offset_x = 10 * (i+1) + CellWidth * i;
-        AYShowBoardCellView *cell = [[AYShowBoardCellView alloc]initWithFrame:CGRectMake(offset_x, 10, 300, 110)];
+        AYShowBoardCellView *cell = [[AYShowBoardCellView alloc]initWithFrame:CGRectMake(offset_x, 0, 258, 107)];
         cell.backgroundColor = [UIColor whiteColor];
         cell.location = loc;
         cell.contentInfo = fiteResultData[i];
@@ -107,6 +99,7 @@
 
 #pragma mark -- scrollview delegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
 //    NSLog(@"%f",(self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth);
     if ((int)((self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth) != indexNumb) {
         indexNumb = (int)((self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth);
