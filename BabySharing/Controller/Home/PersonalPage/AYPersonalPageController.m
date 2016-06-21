@@ -36,6 +36,8 @@
 
 @implementation AYPersonalPageController{
     NSDictionary *personal_info;
+    UIButton *shareBtn;
+    UIButton *collectionBtn;
 }
 - (void)performWithResult:(NSObject**)obj {
     
@@ -56,53 +58,56 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+    
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServicePage"];
+    
+    id obj = (id)cmd_recommend;
+    [cmd_datasource performWithResult:&obj];
+    obj = (id)cmd_recommend;
+    [cmd_delegate performWithResult:&obj];
+    
     id<AYViewBase> main_scroll = [self.views objectForKey:@"MainScroll"];
     id<AYCommand> cmd = [main_scroll.commands objectForKey:@"setPersonalInfo:"];
     NSDictionary *dic_info = personal_info;
     [cmd performWithResult:&dic_info];
     
-    UIView *view = [[UIView alloc]init];
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
-    view.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:view];
-    [self.view bringSubviewToFront:view];
+    id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
+    [self.view bringSubviewToFront:(UINavigationBar*)navBar];
+    ((UINavigationBar*)navBar).hidden = YES;
     
-//    id<AYViewBase> bar = (id<AYViewBase>)view;
-    UIButton* bar_left_btn = [[UIButton alloc]initWithFrame:CGRectMake(10, 0, 25, 25)];
-    [bar_left_btn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateNormal];
-    [bar_left_btn setTitle:@"返回" forState:UIControlStateNormal];
-    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [bar_left_btn sizeToFit];
-    [bar_left_btn addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
-    bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
-    [view addSubview:bar_left_btn];
+    shareBtn = [[UIButton alloc]init];
+    [shareBtn setImage:IMGRESOURCE(@"service_share") forState:UIControlStateNormal];
+    [self.view addSubview:shareBtn];
+    [self.view bringSubviewToFront:shareBtn];
+    [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view).offset(-25);
+        make.centerY.equalTo(self.view.mas_top).offset(225);
+        make.size.mas_equalTo(CGSizeMake(52, 52));
+    }];
+    [shareBtn addTarget:self action:@selector(didShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-//    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnWithBtn:"];
-//    //    UIImage* left = PNGRESOURCE(@"bar_left_white");
-//    [cmd_left performWithResult:&bar_left_btn];
+    collectionBtn = [[UIButton alloc]init];
+    [collectionBtn setImage:IMGRESOURCE(@"service_collection") forState:UIControlStateNormal];
+    [self.view addSubview:collectionBtn];
+    [self.view bringSubviewToFront:collectionBtn];
+    [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(shareBtn.mas_left).offset(-20);
+        make.centerY.equalTo(shareBtn);
+        make.size.equalTo(shareBtn);
+    }];
+    [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 80, 28)];
-    [bar_right_btn setTitleColor:[UIColor colorWithWhite:1.f alpha:1.f] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"1个共同好友" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-//    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    [view addSubview:bar_right_btn];
     
-    UIImageView *friendsImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 28, 28)];
-    [friendsImage setBackgroundColor:[UIColor orangeColor]];
-    friendsImage.layer.cornerRadius = 14.f;
-    friendsImage.clipsToBounds = YES;
-    friendsImage.center = CGPointMake( width - 10.5 - bar_right_btn.frame.size.width - 28/2, 44/2);
-    [view addSubview:friendsImage];
-    
-    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 40, SCREEN_WIDTH, 44)];
+    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
-    [bookBtn setTitle:@"立即预定" forState:UIControlStateNormal];
+    [bookBtn setTitle:@"预定" forState:UIControlStateNormal];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bookBtn];
+    [self.view bringSubviewToFront:bookBtn];
 }
 
 #pragma mark -- layouts
@@ -111,28 +116,61 @@
     return nil;
 }
 
-//- (id)FakeNavBarLayout:(UIView*)view {
-//
-////    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-////    [cmd_right performWithResult:&bar_right_btn];
+- (id)FakeNavBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.backgroundColor = [UIColor orangeColor];
+    
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    [cmd_left performWithResult:&left];
+    
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+    id right = [NSNumber numberWithBool:YES];
+    [cmd_right performWithResult:&right];
+    
+    UIButton *bar_publich_btn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 10.5 - 50, 25, 50, 30)];
+    [bar_publich_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bar_publich_btn setTitle:@"分享" forState:UIControlStateNormal];
+    bar_publich_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [bar_publich_btn setBackgroundImage:[Tools imageWithColor:[UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.F] size:CGSizeMake(bar_publich_btn.bounds.size.width, bar_publich_btn.bounds.size.height)] forState:UIControlStateNormal];
+    [bar_publich_btn setBackgroundImage:[Tools imageWithColor:[UIColor darkGrayColor] size:CGSizeMake(bar_publich_btn.bounds.size.width, bar_publich_btn.bounds.size.height)] forState:UIControlStateDisabled];
+    bar_publich_btn.layer.cornerRadius = 4.f;
+    bar_publich_btn.clipsToBounds = YES;
+    bar_publich_btn.center = CGPointMake(SCREEN_WIDTH - 10 - bar_publich_btn.frame.size.width / 2, 44 / 2);
+    [view addSubview:bar_publich_btn];
+    bar_publich_btn.enabled = NO;
+    return nil;
+}
+
+- (id)TableLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44);
+    
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
+    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
+    
+    [self.view sendSubviewToBack:view];
+    return nil;
+}
+
+//- (id)FouceScrollLayout:(UIView*)view {
+//    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 225);
+//    
+//    [self.view sendSubviewToBack:view];
 //    return nil;
 //}
-
-- (id)FouceScrollLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 210);
-    return nil;
-}
-- (id)MainScrollLayout:(UIView*)view {
-    CGFloat margin = 15.f;
-    view.frame = CGRectMake(margin, 210, SCREEN_WIDTH - margin*2, SCREEN_HEIGHT - 210 - 44 - 10);
-    
-    return nil;
-}
+//
+//- (id)MainScrollLayout:(UIView*)view {
+//    CGFloat margin = 15.f;
+//    view.frame = CGRectMake(margin, 225, SCREEN_WIDTH - margin*2, SCREEN_HEIGHT - 225 - 44);
+//    return nil;
+//}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -142,6 +180,25 @@
     return nil;
 }
 
+-(id)sendPopMessage{
+    [self leftBtnSelected];
+    return nil;
+}
+
+-(id)scrollOffsetY:(NSNumber*)y{
+    
+    [shareBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.view).offset(-25);
+        make.centerY.equalTo(self.view.mas_top).offset(225 - y.floatValue);
+        make.size.mas_equalTo(CGSizeMake(52, 52));
+    }];
+    [collectionBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(shareBtn.mas_left).offset(-20);
+        make.centerY.equalTo(shareBtn);
+        make.size.equalTo(shareBtn);
+    }];
+    return nil;
+}
 #pragma mark -- actions
 - (void)didPOPClick{
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -156,4 +213,18 @@
     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 }
 
+-(void)didShareBtnClick:(UIButton*)btn{
+    
+}
+
+-(void)didCollectionBtnClick:(UIButton*)btn{
+    
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+//-(BOOL)prefersStatusBarHidden{
+//    return YES;
+//}
 @end

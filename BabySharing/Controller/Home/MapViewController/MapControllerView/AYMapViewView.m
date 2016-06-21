@@ -75,7 +75,7 @@
     AYAnnonation *anno = [[AYAnnonation alloc]init];
     anno.coordinate = loc.coordinate;
     anno.title = @"定位位置";
-    anno.imageName = @"position_big";
+    anno.imageName = @"location_self";
     anno.index = 9999;
     [self addAnnotation:anno];
     [annoArray addObject:anno];

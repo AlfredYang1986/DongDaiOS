@@ -135,4 +135,10 @@
     <delegate type="TableViewDelegateAndDatasource" name="ContentList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="QueryData:" />
     </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="ServicePage" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="QueryData:" />
+        <command type="notify" message="sendPopMessage" />
+        <command type="notify" message="scrollOffsetY:" />
+    </delegate>
 </delegates>

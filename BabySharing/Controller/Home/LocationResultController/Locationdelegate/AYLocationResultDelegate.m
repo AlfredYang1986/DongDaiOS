@@ -75,7 +75,6 @@
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     
     id tmp = [querydata objectAtIndex:indexPath.row];
-    NSLog(@"sunfei -- %@",tmp);
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [cmd performWithResult:&tmp];
     

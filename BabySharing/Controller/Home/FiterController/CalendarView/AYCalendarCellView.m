@@ -79,8 +79,8 @@
 
 
 
-- (instancetype)initWithFrame:(CGRect)frame{
-    self=[super initWithFrame:frame];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) {
 //        self.backgroundColor = [UIColor whiteColor];
         self.numLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
@@ -92,7 +92,7 @@
         self.userInteractionEnabled = YES;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfDidClick:)]];
     }
-//    [self setUpReuseCell];
+    [self setUpReuseCell];
     return self;
 }
 

@@ -365,4 +365,21 @@
 + (UIColor*)themeColor{
     return [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];
 }
++ (UIColor*)blackColor{
+    return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1.0];
+}
++ (UIColor*)garyColor{
+    return [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
+}
++ (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align{
+    label.text = text;
+    label.textColor = color;
+    label.textAlignment = align;
+    label.font = [UIFont systemFontOfSize:font];
+    if (backgroundColor) {
+        label.backgroundColor = backgroundColor;
+    }else label.backgroundColor = [UIColor clearColor];
+    
+    return label;
+}
 @end

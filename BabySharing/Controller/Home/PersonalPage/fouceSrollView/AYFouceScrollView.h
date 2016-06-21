@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import "SDCycleScrollView.h"
 
-@interface AYFouceScrollView : UIScrollView <AYViewBase, UIScrollViewDelegate>
+//@interface AYFouceScrollView : UIScrollView <AYViewBase, UIScrollViewDelegate>
+//@interface AYFouceScrollView : UICollectionView <AYViewBase, UICollectionViewDelegate, UICollectionViewDataSource>
+//@interface AYFouceScrollView : SDCycleScrollView <AYViewBase, SDCycleScrollViewDelegate>
+@interface AYFouceScrollView : UIView <AYViewBase, SDCycleScrollViewDelegate>
 
 @end

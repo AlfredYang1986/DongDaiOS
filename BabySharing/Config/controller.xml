@@ -525,10 +525,12 @@
     
     <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"      name="FakeStatusBar" />
-<!--        <view type="FakeNavBar"         name="FakeNavBar" />-->
-        <view type="FouceScroll"        name="FouceScroll" />
-        <view type="MainScroll"         name="MainScroll" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
+<!--        <view type="FouceScroll"        name="FouceScroll" />-->
+<!--        <view type="MainScroll"         name="MainScroll" />-->
 
+        <delegate type="TableViewDelegateAndDatasource" name="ServicePage" />
     </controller>
     
     <controller type="DefaultController" name="ContentList" factory="AYDefaultControllerFactoy" >
