@@ -11,8 +11,7 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 #import "AYViewController.h"
-#import "SDCycleScrollView.h"
 
-@interface AYServicePageDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource, SDCycleScrollViewDelegate>
+@interface AYServicePageDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

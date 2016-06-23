@@ -573,6 +573,10 @@
 -(id)queryFiterArgs:(NSDictionary*)args{
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     
+    if (![self isAllReady]) {
+        return nil;
+    }
+    
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy-MM-dd hh:mm.aa"];
     [format setAMSymbol:(@"AM")];
@@ -592,6 +596,12 @@
     [dic setValue:[NSNumber numberWithInt:sumChilrenCount] forKey:@"chilren_numb"];
     
     return dic;
+}
+
+-(BOOL)isAllReady{
+    if (!theDayDate || [theDayDate isEqualToString:@""] || [chooceGetTime.text isEqualToString:@"——"] || !chooceGetTime.text || [choocePostTime.text isEqualToString:@"——"] || !choocePostTime) {
+        return NO;
+    } else return YES;
 }
 
 -(id)resetFiterArgs{

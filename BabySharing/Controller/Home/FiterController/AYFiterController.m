@@ -179,6 +179,11 @@
     [cmd performWithResult:&dic];
     NSLog(@"%@",dic);
     
+    if (!dic) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"未设置正确的时间!－_－'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return;
+    }
+    
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];

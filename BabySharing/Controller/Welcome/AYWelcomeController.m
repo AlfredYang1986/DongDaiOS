@@ -225,8 +225,6 @@
     [self.view addSubview:screenPhotoView];
     [screenPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-//        make.left.equalTo(self.view).offset(22);
-//        make.right.equalTo(self.view).offset(-22);
         make.bottom.equalTo(self.view).offset(-30);
         make.width.mas_equalTo(SCREEN_WIDTH - 2*22);
         make.height.mas_equalTo(130);
@@ -250,11 +248,6 @@
     line_up.borderColor = [Tools colorWithRED:161 GREEN:235 BLUE:224 ALPHA:1.f].CGColor;
     line_up.frame = CGRectMake(10, 40, SCREEN_WIDTH - 2*32, 1);
     [options_12.layer addSublayer:line_up];
-//    CALayer *line_down = [CALayer layer];
-//    line_down.borderWidth = 1.f;
-//    line_down.borderColor = [Tools themeColor].CGColor;
-//    line_down.frame = CGRectMake(10, 41, SCREEN_WIDTH - 2*32, 1);
-//    [options_12.layer addSublayer:line_down];
     
     UIButton *album = [[UIButton alloc]init];
     [album setBackgroundColor:[UIColor clearColor]];

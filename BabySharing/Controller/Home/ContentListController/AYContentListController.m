@@ -85,9 +85,7 @@
     [cmd_search performWithResult:&nib_search_name];
     
     countTitleLabel = [[UILabel alloc]init];
-    countTitleLabel.text = @"0条评论";
-    countTitleLabel.textColor = [UIColor redColor];
-    countTitleLabel.font = [UIFont systemFontOfSize:16.f];
+    countTitleLabel = [Tools setLabelWith:countTitleLabel andText:@"0条评论 * 0个共同好友" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countTitleLabel];
     [countTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(20);
@@ -95,7 +93,7 @@
     }];
     
     UIButton *closeBtn = [[UIButton alloc]init];
-    [closeBtn setImage:[UIImage imageNamed:@"tab_found_selected"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage imageNamed:@"content_close"] forState:UIControlStateNormal];
     [self.view addSubview:closeBtn];
     [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(countTitleLabel);
