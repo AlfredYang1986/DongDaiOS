@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface AYAnnonation : NSObject <MKAnnotation>
+@interface AYAnnonation : NSObject <MAAnnotation>
 //位置
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 

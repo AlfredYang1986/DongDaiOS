@@ -8,7 +8,9 @@
 
 #import <MapKit/MapKit.h>
 #import "AYViewBase.h"
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface AYMapViewView : MKMapView <AYViewBase>
+@interface AYMapViewView : MAMapView <AYViewBase, MAMapViewDelegate/*, AMapSearchDelegate*/>
 
 @end

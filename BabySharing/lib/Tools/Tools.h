@@ -27,6 +27,7 @@
 + (UIColor*)themeColor;
 + (UIColor*)blackColor;
 + (UIColor*)garyColor;
++ (UIColor*)garyBackgroundColor;
 
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 @end

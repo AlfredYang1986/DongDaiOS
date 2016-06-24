@@ -36,7 +36,7 @@
 @end
 
 @implementation AYPersonalPageController{
-    NSDictionary *personal_info;
+    NSDictionary *service_info;
     UIButton *shareBtn;
     UIButton *collectionBtn;
     UIButton *unCollectionBtn;
@@ -50,7 +50,8 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        personal_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -75,10 +76,15 @@
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
     
-    id<AYViewBase> main_scroll = [self.views objectForKey:@"MainScroll"];
-    id<AYCommand> cmd = [main_scroll.commands objectForKey:@"setPersonalInfo:"];
-    NSDictionary *dic_info = personal_info;
-    [cmd performWithResult:&dic_info];
+//    id<AYViewBase> main_scroll = [self.views objectForKey:@"MainScroll"];
+//    id<AYCommand> cmd = [main_scroll.commands objectForKey:@"setPersonalInfo:"];
+//    NSDictionary *dic_info = personal_info;
+//    [cmd performWithResult:&dic_info];
+    
+//    id<AYDelegateBase> delegate = [self.delegates objectForKey:@"ServicePage"];
+    id<AYCommand> cmd = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
+    NSDictionary *info_dic = [service_info copy];
+    [cmd performWithResult:&info_dic];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];

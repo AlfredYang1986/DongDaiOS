@@ -20,13 +20,30 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
+#import <MapKit/MapKit.h>
 
 #import "AYPlayItemsView.h"
 
 #define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
 #define WIDTH               SCREEN_WIDTH - 18*2
 
-@implementation AYServiceInfoCellView
+@interface AYServiceInfoCellView ()
+@property (nonatomic, strong) CLGeocoder *gecoder;
+@end
+
+@implementation AYServiceInfoCellView{
+    UILabel *aboutMMIntru;
+    UITextView *aboutMMIntruText;
+}
+//@synthesize aboutMMIntru = _aboutMMIntru;
+
+-(CLGeocoder *)gecoder{
+    if (!_gecoder) {
+        _gecoder = [[CLGeocoder alloc]init];
+    }
+    return _gecoder;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -87,10 +104,10 @@
             make.left.equalTo(_photoImageView.mas_right).offset(15);
         }];
         
-        UILabel *MMAdressLabel = [[UILabel alloc]init];
-        MMAdressLabel = [Tools setLabelWith:MMAdressLabel andText:@"三元桥，朝阳区" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:MMAdressLabel];
-        [MMAdressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        _MMAdressLabel = [[UILabel alloc]init];
+        _MMAdressLabel = [Tools setLabelWith:_MMAdressLabel andText:@"三元桥，朝阳区" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        [self addSubview:_MMAdressLabel];
+        [_MMAdressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(MMLabel.mas_bottom).offset(12);
             make.left.equalTo(MMLabel);
         }];
@@ -103,16 +120,30 @@
             make.right.equalTo(self).offset(-18);
         }];
         
-        _aboutMMIntru = [[UILabel alloc]init];
-        _aboutMMIntru = [Tools setLabelWith:_aboutMMIntru andText:@"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈," andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-        _aboutMMIntru.numberOfLines = 3.f;
-        
-        [self addSubview:_aboutMMIntru];
-        [_aboutMMIntru mas_makeConstraints:^(MASConstraintMaker *make) {
+        aboutMMIntru = [[UILabel alloc]init];
+        aboutMMIntru = [Tools setLabelWith:aboutMMIntru andText:@"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈," andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        aboutMMIntru.numberOfLines = 3.f;
+        [self addSubview:aboutMMIntru];
+        [aboutMMIntru mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_photoImageView.mas_bottom).offset(15);
             make.left.equalTo(_titleLabel);
             make.width.mas_equalTo(WIDTH);
         }];
+        
+//        aboutMMIntruText = [[UITextView alloc]init];
+//        NSString *strHtml = @"<b>提示</b><br/>1、测试测试测试测试测试测试测试测试测试测试测试测试<br/>2、测试测试测试测试测试测试测试测试测试测试";
+//        NSAttributedString * strAtt = [[NSAttributedString alloc] initWithData:[strHtml dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+////        self.labelContent.attributedText = strAtt;
+//        aboutMMIntruText.attributedText = strAtt;
+//        aboutMMIntruText.backgroundColor = [UIColor orangeColor];
+//        [aboutMMIntruText sizeToFit];
+//        [self addSubview:aboutMMIntruText];
+//        [aboutMMIntruText mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(_photoImageView.mas_bottom).offset(15);
+//            make.left.equalTo(_titleLabel);
+//            make.size.mas_equalTo(CGSizeMake(WIDTH, 50));
+//        }];
+        
         _readMore = [[UIButton alloc]init];
         [_readMore setTitle:@"阅读更多" forState:UIControlStateNormal];
         [_readMore setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
@@ -120,7 +151,7 @@
         _readMore.titleLabel.font = [UIFont systemFontOfSize:14.f];
         [self addSubview:_readMore];
         [_readMore mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_aboutMMIntru.mas_bottom).offset(5);
+            make.top.equalTo(aboutMMIntru.mas_bottom).offset(5);
             make.left.equalTo(_titleLabel);
             make.size.mas_equalTo(CGSizeMake(60, 16));
         }];
@@ -134,28 +165,18 @@
         _takeOffMore.hidden = YES;
         [self addSubview:_takeOffMore];
         [_takeOffMore mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_aboutMMIntru.mas_bottom).offset(5);
+            make.top.equalTo(aboutMMIntru.mas_bottom).offset(5);
             make.left.equalTo(_titleLabel);
             make.size.mas_equalTo(CGSizeMake(30, 16));
         }];
         [_takeOffMore addTarget:self action:@selector(didTakeOffMoreClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-//        UIView *line02 = [[UIView alloc]init];
-//        line02.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f];
-//        [self addSubview:line02];
-//        [line02 mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(_aboutMMIntru.mas_bottom).offset(25);
-//            make.left.equalTo(self);
-//            make.width.equalTo(self);
-//            make.height.equalTo(@1);
-//        }];
         
         /*************************************/
         UILabel *familyLabel = [[UILabel alloc]init];
         familyLabel = [Tools setLabelWith:familyLabel andText:@"家庭成员描述：" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:familyLabel];
         [familyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_aboutMMIntru.mas_bottom).offset(25);
+            make.top.equalTo(aboutMMIntru.mas_bottom).offset(25);
             make.left.equalTo(_titleLabel);
             make.size.mas_equalTo(CGSizeMake(WIDTH, 64));
         }];
@@ -168,16 +189,6 @@
         line03.backgroundColor = [UIColor colorWithWhite:0.9f alpha:1.f].CGColor;
         line03.frame = CGRectMake(0, 63, WIDTH, 1);
         [familyLabel.layer addSublayer:line03];
-        
-//        UIView *line03 = [[UIView alloc]init];
-//        line03.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f];
-//        [self addSubview:line03];
-//        [line03 mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(familyLabel.mas_bottom).offset(25);
-//            make.left.equalTo(self);
-//            make.width.equalTo(self);
-//            make.height.equalTo(@1);
-        //        }];
         /*************************************/
         
         UIView *playItems = [[UIView alloc]init];
@@ -231,7 +242,7 @@
         iconImageView.backgroundColor = [UIColor orangeColor];
         iconImageView.layer.cornerRadius = 18.5f;
         iconImageView.clipsToBounds = YES;
-        iconImageView.image = [UIImage imageNamed:@"tab_found_selected"];
+//        iconImageView.image = [UIImage imageNamed:@"tab_found_selected"];
         [self addSubview:iconImageView];
         [iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(oneStarRangImage.mas_bottom).offset(30);
@@ -320,7 +331,6 @@
         }
         
         /*************************************/
-        
         UIEdgeInsets iamgeInsets = UIEdgeInsetsMake(-10, 6, 10, -6);
         UIEdgeInsets titleInsets = UIEdgeInsetsMake(30, -50, -30, 0);
         
@@ -394,14 +404,34 @@
     }
     return self;
 }
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
+    if (_service_info) {
+        self.titleLabel.text = [_service_info objectForKey:@"title"];
+//        aboutMMIntru.text = [_service_info objectForKey:@"description"];
+        
+        NSDictionary *dic_loc = [_service_info objectForKey:@"location"];
+        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+        [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            CLPlacemark *pl = [placemarks firstObject];
+            NSLog(@"%@",pl.addressDictionary);
+            _MMAdressLabel.text = [NSString stringWithFormat:@"%@,%@",pl.thoroughfare,pl.subLocality];
+        }];
+    }
+}
+
+
 //More
 -(void)didReadMoreClick:(UIButton*)btn{
-    _aboutMMIntru.numberOfLines = 6.f;
+    aboutMMIntru.numberOfLines = 6.f;
     _readMore.hidden = YES;
     _takeOffMore.hidden = NO;
 }
 -(void)didTakeOffMoreClick:(UIButton*)btn{
-    _aboutMMIntru.numberOfLines = 3.f;
+    aboutMMIntru.numberOfLines = 3.f;
     _readMore.hidden = NO;
     _takeOffMore.hidden = YES;
 }

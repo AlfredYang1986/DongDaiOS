@@ -29,6 +29,7 @@
 
 @implementation AYServicePageDelegate{
     NSArray *imageNameArr;
+    NSDictionary *querydata;
 }
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -58,8 +59,8 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(id)array{
-//    querydata = (NSArray*)array;
+- (id)changeQueryData:(NSDictionary*)args{
+    querydata = args;
     return nil;
 }
 
@@ -85,6 +86,10 @@
         AYServiceInfoCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYServiceInfoCellView"];
         if (cell == nil) {
             cell = [[AYServiceInfoCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYServiceInfoCellView"];
+        }
+        
+        if (querydata) {
+            cell.service_info = querydata;
         }
         
         [cell.chatBtn   addTarget:self  action:@selector(didChatBtnClick:)      forControlEvents:UIControlEventTouchUpInside];

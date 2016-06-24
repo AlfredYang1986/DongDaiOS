@@ -31,6 +31,7 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.delegate = self;
+//    self.pagingEnabled = YES;
     indexNumb = 0;
 }
 
@@ -44,7 +45,7 @@
     self.contentSize = CGSizeMake(268 * fiteResultData.count + 10, 0);
     for (int i = 0; i < fiteResultData.count; ++i) {
         CGFloat offset_x = 10 * (i+1) + CellWidth * i;
-        AYShowBoardCellView *cell = [[AYShowBoardCellView alloc]initWithFrame:CGRectMake(offset_x, 0, 258, 107)];
+        AYShowBoardCellView *cell = [[AYShowBoardCellView alloc]initWithFrame:CGRectMake(offset_x, 0, CellWidth, 107)];
         cell.backgroundColor = [UIColor whiteColor];
         cell.location = loc;
         cell.contentInfo = fiteResultData[i];
@@ -72,7 +73,8 @@
 }
 
 -(id)changeOffsetX:(NSNumber*)index {
-    [self setContentOffset:CGPointMake(CellWidth * index.floatValue, 0) animated:YES];
+    [self setContentOffset:CGPointMake(CellWidth * index.floatValue - (self.frame.size.width - CellWidth)*0.5, 0) animated:YES];
+    
     return nil;
 }
 
@@ -101,13 +103,18 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
 //    NSLog(@"%f",(self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth);
-    if ((int)((self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth) != indexNumb) {
-        indexNumb = (int)((self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth);
+    if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) != indexNumb) {
+        
+        indexNumb = (int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth);
+        
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeAnnoMessage:"];
         NSNumber *index = [NSNumber numberWithFloat:indexNumb];
         [cmd performWithResult:&index];
     }
-    
 }
 
+//一个拖拽后续动作全部结束时 调用
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+}
 @end

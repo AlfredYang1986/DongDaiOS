@@ -17,12 +17,13 @@
 @end
 
 @implementation AYMapViewView{
-    MKAnnotationView *tmp;
+    MAAnnotationView *tmp;
     NSArray *arrayWithLoc;
     AYAnnonation *currentAnno;
     NSMutableArray *annoArray;
     
     NSDictionary *resultAndLoc;
+    NSArray *fiteResultData;
 }
 
 @synthesize para = _para;
@@ -37,21 +38,24 @@
 //    self.userTrackingMode = MKUserTrackingModeFollow;
 //    self.userTrackingMode = MKUserTrackingModeNone;
 //    self.centerCoordinate = self.userLocation.location.coordinate;
-
+//    self.rotateEnabled = NO;
+    
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-//    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
-    [self removeAnnotations:annoArray];
-    
-//    id<AYCommand> query_cmd = [self.notifies objectForKey:@"queryTheLoc:"];
-//    NSDictionary *resultAndLoc = nil;
-//    [query_cmd performWithResult:&resultAndLoc];
+    if (annoArray.count != 0) {
+        [self removeAnnotations:annoArray];
+        NSLog(@"remove arr");
+    }
+    if (currentAnno) {
+        [self removeAnnotation:currentAnno];
+        NSLog(@"remove current_anno");
+    }
     
     CLLocation *loc = [resultAndLoc objectForKey:@"location"];
-    NSArray *fiteResultData = [resultAndLoc objectForKey:@"result_data"];
+    fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
     for (int i = 0; i < fiteResultData.count; ++i) {
         NSDictionary *info = fiteResultData[i];
@@ -63,22 +67,25 @@
         
         AYAnnonation *anno = [[AYAnnonation alloc]init];
         anno.coordinate = location.coordinate;
-        anno.title = @"不知道哪";
+        anno.title = @"谁知道哪！";
         anno.imageName = @"position_small";
-        anno.index = i;
+        anno.index = i + 1;
         [self addAnnotation:anno];
+        NSLog(@"add anno");
         [annoArray addObject:anno];
     }
     
     //rang
-    self.visibleMapRect = MKMapRectMake(loc.coordinate.latitude - 320000, loc.coordinate.longitude - 560000, 640000, 1120000);
-    AYAnnonation *anno = [[AYAnnonation alloc]init];
-    anno.coordinate = loc.coordinate;
-    anno.title = @"定位位置";
-    anno.imageName = @"location_self";
-    anno.index = 9999;
-    [self addAnnotation:anno];
-    [annoArray addObject:anno];
+    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
+    currentAnno = [[AYAnnonation alloc]init];
+    currentAnno.coordinate = loc.coordinate;
+    currentAnno.title = @"定位位置";
+    currentAnno.imageName = @"location_self";
+    currentAnno.index = 9999;
+    [self addAnnotation:currentAnno];
+    NSLog(@"add current_anno");
+//    [annoArray addObject:anno];
+//    currentAnno = anno;
     //center
     [self setCenterCoordinate:loc.coordinate animated:NO];
     
@@ -102,8 +109,37 @@
 }
 
 -(id)changeAnnoView:(NSNumber*)index{
-//    NSLog(@"sunfei -- %@",index);
+    NSLog(@"sunfei -- %@",index);
     
+    NSDictionary *info = fiteResultData[index.integerValue];
+    
+    NSDictionary *dic_loc = [info objectForKey:@"location"];
+    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+    [self setCenterCoordinate:location.coordinate animated:YES];
+    
+    for (NSObject *sub in self.subviews) {
+        NSLog(@"%@",sub);
+        if ([sub isKindOfClass:[UIView class]]) {
+            for (NSObject *sub_2 in ((UIView*)sub).subviews) {
+                <#statements#>
+            }
+        }
+//        if ([sub isKindOfClass:[MAAnnotationView class]]) {
+//            NSLog(@"yes");
+//        }
+    }
+    
+//    AYAnnonation *anno = [[AYAnnonation alloc]init];
+//    anno.coordinate = location.coordinate;
+//    anno.title = @"谁知道哪！";
+//    anno.imageName = @"position_small";
+//    anno.index = index.integerValue;
+    
+//    [self addAnnotation:anno];
+//    NSLog(@"replace anno");
+//    [annoArray addObject:anno];
     return nil;
 }
 
@@ -112,38 +148,35 @@
     return nil;
 }
 #pragma mark -- MKMapViewDelegate
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation{
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
         //默认红色小球
         static NSString *ID = @"anno";
         
-        MKAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
+        MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
         if (annotationView == nil) {
-            annotationView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];
+            annotationView = [[MAAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];
         }
         //设置属性 指定图片
         AYAnnonation *anno = (AYAnnonation *) annotation;
         annotationView.image = [UIImage imageNamed:anno.imageName];
+        annotationView.tag = anno.index;
         //展示详情界面
         annotationView.canShowCallout = NO;
-//        annotationView.leftCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//        annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         return annotationView;
-    }else{
-        
+    } else {
         //采用系统默认蓝色大头针
         return nil;
         
     }
 }
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-    
+- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {//MKAnnotation
     AYAnnonation *anno = view.annotation;
     if (anno.index == 9999) {
         return;
     }
-    NSLog(@"didSelectAnnotationView");
+    
     if (tmp && tmp == view) {
         return;
     }
@@ -153,9 +186,7 @@
     }
     view.image = nil;
     view.image = [UIImage imageNamed:@"position_big"];
-    
     tmp = view;
-    
     [self setCenterCoordinate:anno.coordinate animated:YES];
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];

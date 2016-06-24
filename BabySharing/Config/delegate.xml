@@ -137,7 +137,7 @@
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="ServicePage" factory="AYDefaultDelegateFactory" >
-        <command type="message" message="QueryData:" />
+        <command type="message" message="changeQueryData:" />
         <command type="notify" message="sendPopMessage" />
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
