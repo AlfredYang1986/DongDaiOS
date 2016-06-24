@@ -18,6 +18,9 @@
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
 
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
 
@@ -44,7 +47,9 @@
     NSDictionary* profile_dic;
     NSArray* post_content;
     NSArray* push_content;
-
+    
+    UIView *cover;
+    
     dispatch_semaphore_t semaphore_publish;
     dispatch_semaphore_t semaphore_push;
     dispatch_semaphore_t semaphore_user_info;
@@ -58,7 +63,7 @@
         
         owner_id = [dic objectForKey:kAYControllerChangeArgsKey];
         isPushed = YES;
-    
+        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
         NSDictionary* dic_push = [dic copy];
@@ -66,11 +71,11 @@
         [cmd performWithResult:&dic_push];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-    
+        
     }
 }
 
-#pragma mark -- life cycle 
+#pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -86,16 +91,16 @@
         id<AYCommand> cmd_bkg = [bkg.commands objectForKey:@"setBackgroundImage:"];
         UIImage* bg = PNGRESOURCE(@"profile_background_image");
         [cmd_bkg performWithResult:&bg];
-       
+        
         [self.view sendSubviewToBack:(UIView*)bkg];
     }
-
+    
     {
         id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
         id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
         UIColor* c_nav = [UIColor clearColor];
         [cmd_nav performWithResult:&c_nav];
-       
+        
         if (isPushed) {
             id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
             NSNumber* right_hidden = [NSNumber numberWithBool:YES];
@@ -103,12 +108,12 @@
         } else {
             id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
             NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-            [cmd_left_vis performWithResult:&left_hidden];           
+            [cmd_left_vis performWithResult:&left_hidden];
         }
-
+        
         [self.view bringSubviewToFront:(UIView*)nav];
     }
-
+    
     {
         id<AYViewBase> seg = [self.views objectForKey:@"DongDaSeg"];
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -119,7 +124,7 @@
         [dic_add_item_0 setValue:@"0" forKey:kAYSegViewTitleKey];
         [dic_add_item_0 setValue:@"发布" forKey:kAYSegViewSubTitleKey];
         [cmd_add_item performWithResult:&dic_add_item_0];
-
+        
         NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
         [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitleWithSubTitle] forKey:kAYSegViewItemTypeKey];
         [dic_add_item_1 setValue:@"0" forKey:kAYSegViewTitleKey];
@@ -166,10 +171,10 @@
         id<AYCommand> cmd_hot_cell = [view_table.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYAlbumTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_hot_cell performWithResult:&class_name];
-    
+        
     }
     
-   
+    
 }
 
 - (void)startWaitForAllCallback {
@@ -179,10 +184,10 @@
         dispatch_semaphore_wait(semaphore_user_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         dispatch_semaphore_wait(semaphore_push, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         dispatch_semaphore_wait(semaphore_publish, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             self.status = RemoteControllerStatusReady;
-          
+            
             NSUInteger publich_count, push_count = 0;
             {
                 id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
@@ -245,7 +250,7 @@
     if (owner_id == nil) {
         owner_id = [obj objectForKey:@"user_id"];
     }
-   
+    
     [self startWaitForAllCallback];
     
     {
@@ -279,7 +284,7 @@
         
         [cmd_query_content performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"user post result %@", result);
-           
+            
             NSDictionary* args = [result copy];
             
             id<AYFacadeBase> f_owner_query = OWNERQUERYMODEL;
@@ -334,7 +339,7 @@
     ((UITableView*)view).tableHeaderView = head;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
-//    ((UITableView*)view).
+    //    ((UITableView*)view).
     return nil;
 }
 
@@ -347,6 +352,18 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, STATUS_BAR_HEIGHT, [UIScreen mainScreen].bounds.size.width, FAKE_BAR_HEIGHT);
+    
+    if (isPushed) {
+        
+        UIButton *bar_save_btn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 10.5 - 50, 25, 22, 22)];
+        //        [bar_save_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        //        [bar_save_btn setTitle:@"保存" forState:UIControlStateNormal];
+        //        bar_save_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
+        [bar_save_btn setImage:[UIImage imageNamed:@"tips_off_light"] forState:UIControlStateNormal];
+        [bar_save_btn addTarget:self action:@selector(didSelectCrimeBtn) forControlEvents:UIControlEventTouchUpInside];
+        bar_save_btn.center = CGPointMake(SCREEN_WIDTH - 22 - 22 / 2, 44 / 2);
+        [view addSubview:bar_save_btn];
+    }
     return nil;
 }
 
@@ -373,7 +390,7 @@
 
 - (id)rightBtnSelected {
     NSLog(@"setting view controller");
-   
+    
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -390,29 +407,29 @@
     id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
     NSNumber* index = nil;
     [cmd performWithResult:&index];
-   
+    
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
     
     switch (index.intValue) {
         case 0: {
-                id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"ProfilePublish"];
-        
-                id obj = (id)cmd_pubish;
-                [cmd_datasource performWithResult:&obj];
-                obj = (id)cmd_pubish;
-                [cmd_delegate performWithResult:&obj];
-            }
+            id<AYDelegateBase> cmd_pubish = [self.delegates objectForKey:@"ProfilePublish"];
+            
+            id obj = (id)cmd_pubish;
+            [cmd_datasource performWithResult:&obj];
+            obj = (id)cmd_pubish;
+            [cmd_delegate performWithResult:&obj];
+        }
             break;
         case 1: {
-                id<AYDelegateBase> cmd_push = [self.delegates objectForKey:@"ProfilePush"];
-                
-                id obj = (id)cmd_push;
-                [cmd_datasource performWithResult:&obj];
-                obj = (id)cmd_push;
-                [cmd_delegate performWithResult:&obj];
-            }
+            id<AYDelegateBase> cmd_push = [self.delegates objectForKey:@"ProfilePush"];
+            
+            id obj = (id)cmd_push;
+            [cmd_datasource performWithResult:&obj];
+            obj = (id)cmd_push;
+            [cmd_delegate performWithResult:&obj];
+        }
             break;
         default:
             break;
@@ -425,7 +442,7 @@
 }
 
 - (id)queryIsGridSelected:(id)obj {
-//    NSInteger index = ((NSNumber*)obj).integerValue;
+    //    NSInteger index = ((NSNumber*)obj).integerValue;
     return [NSNumber numberWithBool:NO];
 }
 
@@ -447,7 +464,7 @@
     id<AYCommand> cmd_seg = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
     NSNumber* index = nil;
     [cmd_seg performWithResult:&index];
-   
+    
     if (index.integerValue == 0) {
         [args setValue:post_content forKey:@"content"];
     } else {
@@ -460,7 +477,7 @@
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
-   
+    
     return nil;
 }
 
@@ -515,6 +532,62 @@
     return nil;
 }
 
+- (void)didSelectCrimeBtn{
+    
+    if (!cover) {
+        cover = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        cover.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
+        [self.view addSubview:cover];
+        [self.view bringSubviewToFront:cover];
+        
+        UIView *btnBg = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 124, SCREEN_WIDTH, 124)];
+        btnBg.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+        [cover addSubview:btnBg];
+        
+        CALayer *line = [CALayer layer];
+        line.borderColor = [UIColor colorWithWhite:0.7922 alpha:1.f].CGColor;
+        line.borderWidth = 1.f;
+        line.frame = CGRectMake(0, 62, [UIScreen mainScreen].bounds.size.width, 1);
+        [btnBg.layer addSublayer:line];
+        
+        UIButton *doCrime = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 61)];
+        [doCrime setTitle:@"举报该用户" forState:UIControlStateNormal];
+        doCrime.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [doCrime setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
+        [doCrime addTarget:self action:@selector(doCrimeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [btnBg addSubview:doCrime];
+        
+        UIButton *cancel = [[UIButton alloc]initWithFrame:CGRectMake(0, 63, SCREEN_WIDTH, 61)];
+        [cancel setTitle:@"取消" forState:UIControlStateNormal];
+        cancel.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [cancel setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
+        [cancel addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [btnBg addSubview:cancel];
+    }else
+        cover.hidden = NO;
+}
+
+- (void)doCrimeBtnClick{
+    
+    NSMutableDictionary *expose = [[NSMutableDictionary alloc]init];
+    [expose setValue:[NSNumber numberWithInt:0] forKey:@"expose_type"];
+    [expose setValue:owner_id forKey:@"user_id"];
+    
+    id<AYFacadeBase> expose_remote = [self.facades objectForKey:@"ExposeRemote"];
+    AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeUser"];
+    [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"我们将尽快审查您举报的用户！感谢您的监督和支持！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }else {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"举报发生未知错误，请检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    cover.hidden = YES;
+}
+
+- (void)cancelBtnClick{
+    cover.hidden = YES;
+}
 
 #pragma mark -- status
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {

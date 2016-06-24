@@ -25,6 +25,9 @@
 
 typedef void(^queryContentFinish)(void);
 
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+
 #define HEADER_MARGIN_TO_SCREEN 10.5
 #define CONTENT_START_POINT     71
 #define PAN_HANDLE_CHECK_POINT  10
@@ -46,8 +49,8 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 #define DECELERATION 400.0
 
 @implementation AYHomeController {
-//    BOOL _isPushed;
-//    NSString* _push_home_title;
+    //    BOOL _isPushed;
+    //    NSString* _push_home_title;
     NSArray* push_content;
     NSNumber* start_index;
     
@@ -57,6 +60,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     UIView *animationView;
     CGFloat radius;
     CALayer *maskLayer;
+    
+    UIView *cover;
+    NSString *notePostId;
 }
 
 @synthesize isPushed = _isPushed;
@@ -100,7 +106,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-   
+    
     if (!_isPushed) {
         UIView* view_fake = [self.views objectForKey:@"FakeNavBar"];
         UIView* view_image = [self.views objectForKey:@"Image"];
@@ -110,7 +116,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYCommand> cmd = [((id<AYViewBase>)view_fake).commands objectForKey:@"setLeftBtnVisibility:"];
         NSNumber* bHidden = [NSNumber numberWithBool:YES];
         [cmd performWithResult:&bHidden];
-
+        
         [self createNavActionView];
         [self createAnimateView];
     } else {
@@ -118,11 +124,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         UIView* view_label = [self.views objectForKey:@"Label"];
         [view_fake addSubview:view_label];
         view_label.hidden = NO;
-
+        
         id<AYCommand> cmd = [((id<AYViewBase>)view_label).commands objectForKey:@"changeLabelText:"];
         id args = _push_home_title;
         [cmd performWithResult:&args];
-
+        
         [view_label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(view_fake);
             make.centerY.equalTo(view_fake);
@@ -139,11 +145,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         [cmd_datasource performWithResult:&obj];
         obj = (id)del;
         [cmd_delegate performWithResult:&obj];
-
+        
         id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithClass:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYHomeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
-       
+        
         id<AYCommand> cmd_reg = [del.commands objectForKey:@"setCallBackTableView:"];
         [cmd_reg performWithResult:&view_content];
         
@@ -193,7 +199,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 #pragma mark -- layouts
 - (id)TableLayout:(UIView*)view {
 #define CONTENT_TAB_BAT_HEIGHT          (_isPushed ? 0 : 49)
-
+    
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height - 64 - CONTENT_TAB_BAT_HEIGHT;
     
@@ -228,7 +234,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
             }];
         }];
     }
-//    view.backgroundColor = [UIColor redColor];
+    //    view.backgroundColor = [UIColor redColor];
     return nil;
 }
 
@@ -238,12 +244,12 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     ((UIImageView*)view).image = PNGRESOURCE(@"home_title_logo");
     view.center = CGPointMake([UIScreen mainScreen].bounds.size.width / 2, 44 / 2);
     view.hidden = YES;
-//    [bkView addSubview:imgView];
+    //    [bkView addSubview:imgView];
     return nil;
 }
 
 - (id)LabelLayout:(UIView*)view {
-//    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
+    //    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
     view.hidden = YES;
     return nil;
 }
@@ -341,9 +347,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 - (void)didSelectChatGroupBtn {
     UIView* bkView = [self.views objectForKey:@"FakeNavBar"];
-
+    
     UIViewController* groupVC = DEFAULTCONTROLLER(@"GroupList");
-  
+    
     {
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:self forKey:kAYControllerChangeArgsKey];
@@ -353,7 +359,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     groupVC.view.frame = CGRectMake(CGRectGetWidth(self.navigationController.view.frame), 0, CGRectGetWidth(self.navigationController.view.frame), CGRectGetHeight(self.navigationController.view.frame));
     [self.view addSubview:groupVC.view];
-//    [self.view bringSubviewToFront:bkView];
+    //    [self.view bringSubviewToFront:bkView];
     actionView.enabled = NO;
     
     CABasicAnimation *maskLayerAnimation = [circleLayer animationForKey:@"path"] ? (CABasicAnimation *)[circleLayer animationForKey:@"path"] : [CABasicAnimation animationWithKeyPath:@"path"];
@@ -395,7 +401,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         groupVC.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         [groupVC.view removeFromSuperview];
         [self.navigationController pushViewController:groupVC animated:NO];
-
+        
         for (UIView *subView in self.view.subviews) {
             if (![subView isEqual:bkView]) {
                 subView.frame = CGRectMake(CGRectGetMinX(subView.frame) + [UIScreen mainScreen].bounds.size.width, CGRectGetMinY(subView.frame), CGRectGetWidth(subView.frame), CGRectGetHeight(subView.frame));
@@ -456,7 +462,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 }
 
 - (void)appendHomeContent:(queryContentFinish)block {
-
+    
     NSDictionary* user = nil;
     CURRENUSER(user);
     
@@ -468,7 +474,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         
         NSMutableDictionary* dic = [user mutableCopy];
         [dic setValue:[NSNumber numberWithInteger:arr.count] forKey:@"skip"];
-       
+        
         id<AYCommand> cmd_time_span = [f_query_content.commands objectForKey:@"EnumHomeTimeSpan"];
         NSDate* d = nil;
         [cmd_time_span performWithResult:&d];
@@ -493,11 +499,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     }
 }
 
-#pragma mark -- notifies 
+#pragma mark -- notifies
 - (id)showUserInfo:(id)args {
     
     QueryContent* tmp = (QueryContent*)args;
-   
+    
     AYViewController* des = DEFAULTCONTROLLER(@"Profile");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
@@ -575,4 +581,88 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [cmd performWithResult:&dic_pop];
     return nil;
 }
+
+- (id)crimeReport:(NSString*)postid{
+    notePostId = postid;
+    if (!cover) {
+        cover = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        cover.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
+        [self.view addSubview:cover];
+        [self.view bringSubviewToFront:cover];
+        
+        UIView *btnBg = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 124, SCREEN_WIDTH, 124)];
+        btnBg.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+        [cover addSubview:btnBg];
+        
+        CALayer *line = [CALayer layer];
+        line.borderColor = [UIColor colorWithWhite:0.7922 alpha:1.f].CGColor;
+        line.borderWidth = 1.f;
+        line.frame = CGRectMake(0, 62, [UIScreen mainScreen].bounds.size.width, 1);
+        [btnBg.layer addSublayer:line];
+        
+        UIButton *doCrime = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 61)];
+        [doCrime setTitle:@"举报该内容" forState:UIControlStateNormal];
+        doCrime.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [doCrime setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
+        [doCrime addTarget:self action:@selector(doCrimeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [btnBg addSubview:doCrime];
+        
+        UIButton *cancel = [[UIButton alloc]initWithFrame:CGRectMake(0, 63, SCREEN_WIDTH, 61)];
+        [cancel setTitle:@"取消" forState:UIControlStateNormal];
+        cancel.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [cancel setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
+        [cancel addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [btnBg addSubview:cancel];
+    }else
+        cover.hidden = NO;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) + CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+    }];
+    return nil;
+}
+
+- (void)doCrimeBtnClick{
+    
+    //    id<AYViewBase> view = [self.views objectForKey:@"HomeCell"];
+    //    id<AYCommand> query_cmd = [view.commands objectForKey:@"queryPostId:"];
+    //    NSString *post_id = nil;
+    //    [query_cmd performWithResult:&post_id];
+    //
+    //    id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
+    //    id<AYCommand> cmd_ex = [del.commands objectForKey:@"queryPostId:"];
+    
+    NSMutableDictionary *expose = [[NSMutableDictionary alloc]init];
+    [expose setValue:[NSNumber numberWithInt:1] forKey:@"expose_type"];
+    [expose setValue:notePostId forKey:@"post_id"];
+    
+    id<AYFacadeBase> expose_remote = [self.facades objectForKey:@"ExposeRemote"];
+    AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeContent"];
+    [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"我们将尽快处理您举报的内容！感谢您的监督和支持！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }else {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"举报发生未知错误，请检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    
+    cover.hidden = YES;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+    }];
+}
+
+- (void)cancelBtnClick{
+    cover.hidden = YES;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+    }];
+}
+- (id)startRemoteCall:(id)obj {
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    return nil;
+}
+
 @end

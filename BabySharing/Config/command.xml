@@ -181,4 +181,7 @@
     <command type="Remote" name="UserRecommand" route="users/queryRecommandUsers" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UserWithRoleTag" route="users/queryRecommandUsersWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UserWithScreenName" route="users/queryUsersWithScreenName" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="ExposeUser"        route="expose/user" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ExposeContent"     route="expose/content" factory="AYRemoteCallFactory" />
 </commands>

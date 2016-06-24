@@ -166,6 +166,10 @@
         <command type="Remote" name="EmailSend" />
         <command type="Remote" name="SMSSend" />
     </facade>
+    <facade type="DefaultFacade" name="ExposeRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="ExposeUser" />
+        <command type="Remote" name="ExposeContent" />
+    </facade>
 
     <facade type="DefaultFacade" name="RelationshipRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="Follow" />

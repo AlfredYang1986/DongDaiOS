@@ -164,6 +164,7 @@
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />
@@ -268,6 +269,7 @@
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
         
+        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="XMPP" notification="true" />
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>

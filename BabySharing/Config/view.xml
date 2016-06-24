@@ -340,6 +340,7 @@
         <command type="notify" message="unLikePostItem:" />
         <command type="notify" message="pushPostItem:" />
         <command type="notify" message="joinGroup:" />
+        <command type="notify" message="crimeReport:" />
     </view>
     
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >
