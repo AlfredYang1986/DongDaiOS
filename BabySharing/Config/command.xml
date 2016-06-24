@@ -68,6 +68,15 @@
     <command type="Module" name="SendMessage" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryMessages" factory="AYDefaultModuleFactory" />
     <command type="Module" name="JoinGroup" factory="AYDefaultModuleFactory" />
+   
+    <command type="Module" name="LoginEM" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LogoutEM" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMUnreadMessageCount" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SendEMMessage" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryEMMessages" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="JoinEMGroup" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMEnterBackground" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMEnterFront" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />

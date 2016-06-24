@@ -206,6 +206,17 @@
         <command type="Module" name="QueryMessages" />
         <command type="Module" name="JoinGroup" />
     </facade>
+    
+    <facade type="DefaultFacade" name="EMC" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="LoginEM" />
+        <command type="Module" name="LogoutEM" />
+        <command type="Module" name="EMUnreadMessageCount" />
+        <command type="Module" name="SendEMMessage" />
+        <command type="Module" name="QueryEMMessages" />
+        <command type="Module" name="JoinEMGroup" />
+        <command type="Module" name="EMEnterBackground" />
+        <command type="Module" name="EMEnterFront" />
+    </facade>
 
     <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="PushScreenNameAndPhoto" />
