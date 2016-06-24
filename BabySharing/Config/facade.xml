@@ -207,7 +207,7 @@
         <command type="Module" name="JoinGroup" />
     </facade>
     
-    <facade type="DefaultFacade" name="EMC" factory="AYDefaultFacadeFactory" >
+    <facade type="DefaultFacade" name="EM" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginEM" />
         <command type="Module" name="LogoutEM" />
         <command type="Module" name="EMUnreadMessageCount" />
