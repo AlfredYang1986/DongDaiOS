@@ -7,7 +7,10 @@
 //
 
 #import "AYJoinEMGroupCommand.h"
-#import "GotyeOCAPI.h"
+//#import "GotyeOCAPI.h"
+#import "EMSDK.h"
+#import "EMError.h"
+#import "EMConversation.h"
 
 @implementation AYJoinEMGroupCommand
 @synthesize para = _para;
@@ -17,9 +20,15 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    NSNumber* group_id = (NSNumber*)*obj;
-    GotyeOCGroup* group = [GotyeOCGroup groupWithId:group_id.longLongValue];
-    [GotyeOCAPI joinGroup:group];
+    NSString* group_id = (NSString*)*obj;
+    
+    EMError *error = nil;
+    [[EMClient sharedClient].roomManager joinChatroom:group_id error:&error];
+    if (error == nil) {
+        NSLog(@"环信: 进入聊天室成功");
+    } else {
+        NSLog(@"环信: error is : %d", error.code);
+    }
 }
 
 - (NSString*)getCommandType {

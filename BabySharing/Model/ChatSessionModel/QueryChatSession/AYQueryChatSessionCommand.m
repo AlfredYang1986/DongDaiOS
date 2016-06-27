@@ -15,7 +15,12 @@
 #import "NotificationOwner+ContextOpt.h"
 
 #import "Targets.h"
-#import "GotyeOCAPI.h"
+//#import "GotyeOCAPI.h"
+
+#import "EMSDK.h"
+#import "EMError.h"
+#import "EMMessage.h"
+#import "EMConversation.h"
 
 @implementation AYQueryChatSessionCommand
 @synthesize para = _para;
@@ -36,9 +41,15 @@
     NSArray* result = [NotificationOwner enumTargetForOwner:[dic objectForKey:@"user_id"] andPred:pred inContext:f.doc.managedObjectContext];
     
     for (Targets* t in result) {
-        GotyeOCGroup* group = [GotyeOCGroup groupWithId:t.group_id.longLongValue];
-        GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
-        t.last_time = [NSDate dateWithTimeIntervalSince1970:m.date];
+        
+        EMConversation* c = [[EMClient sharedClient].chatManager getConversation:[t.group_id stringValue] type:EMConversationTypeChatRoom createIfNotExist:NO];
+
+        NSTimeInterval d = [NSDate date].timeIntervalSince1970;
+        NSArray* result = [c loadMoreMessagesWithType:EMMessageBodyTypeText before:d limit:1 from:nil direction:EMMessageSearchDirectionDownload];
+        if (result.count > 0) {
+            EMMessage* m = result.firstObject;
+            t.last_time = [NSDate dateWithTimeIntervalSinceNow:m.timestamp];
+        }
     }
     
     *obj = [result sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {

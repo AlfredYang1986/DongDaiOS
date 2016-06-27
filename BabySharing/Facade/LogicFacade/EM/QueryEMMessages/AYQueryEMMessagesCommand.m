@@ -10,7 +10,10 @@
 #import "AYFactoryManager.h"
 #import "AYFacadeBase.h"
 
-#import "GotyeOCAPI.h"
+//#import "GotyeOCAPI.h"
+#import "EMSDK.h"
+#import "EMError.h"
+#import "EMConversation.h"
 
 @implementation AYQueryEMMessagesCommand
 @synthesize para = _para;
@@ -22,19 +25,12 @@
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-    NSNumber* group_id = [dic objectForKey:@"group_id"];
-    
-//    id<AYFacadeBase> f = DEFAULTFACADE(@"XMPP");
-//    id<AYCommand> cmd = [f.commands objectForKey:@"UnreadMessageCount"];
-//    NSNumber* unReadCount = nil;
-//    [cmd performWithResult:&unReadCount];
+    NSString* group_id = [dic objectForKey:@"group_id"];
    
-//    if (unReadCount.integerValue > 0) {
-//        [GotyeOCAPI setMessageReadIncrement:unReadCount.unsignedIntValue];
-//    }
-    GotyeOCGroup* group = [GotyeOCGroup groupWithId:group_id.longLongValue];
-    id result = [GotyeOCAPI getMessageList:group more:YES];
-//    [GotyeOCAPI setMessageReadIncrement:10];
+    NSTimeInterval t = [NSDate date].timeIntervalSince1970;
+   
+    EMConversation* c = [[EMClient sharedClient].chatManager getConversation:group_id type:EMConversationTypeChatRoom createIfNotExist:NO];
+    NSArray* result = [c loadMoreMessagesWithType:EMMessageBodyTypeText before:t limit:10 from:nil direction:EMMessageSearchDirectionDownload];
     
     *obj = result;
 }

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYCommand.h"
+#import "AYFacade.h"
 #import "AYCommandDefines.h"
 #import "AYViewController.h"
 #import "AYNavigationController.h"
@@ -74,10 +75,18 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  
+    AYFacade* em = DEFAULTFACADE(@"EM");
+    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterBackground"];
+    [cmd performWithResult:nil];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+    AYFacade* em = DEFAULTFACADE(@"EM");
+    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterFront"];
+    [cmd performWithResult:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

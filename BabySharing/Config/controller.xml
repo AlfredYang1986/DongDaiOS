@@ -7,7 +7,7 @@
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
-        <facade type="DefaultFacade" name="XMPP" notification="true"/>
+        <!-- <facade type="DefaultFacade" name="XMPP" notification="true"/> -->
         <facade type="DefaultFacade" name="EM" notification="true"/>
         
 <!--        <view type="LandingTitle" name="LandingTitle" />-->
@@ -224,7 +224,8 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <facade type="DefaultFacade" name="EM" notification="true" />
+        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         
         <view type="Table" name="Table" />
@@ -271,7 +272,8 @@
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
-        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <facade type="DefaultFacade" name="EM" notification="true" />
+        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
@@ -291,7 +293,8 @@
         
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
-        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
+        <facade type="DefaultFacade" name="EM" notification="true" />
 
         <view type="Table" name="Table" />
         <view type="FakeNavBar" name="FakeNavBar" />
@@ -420,7 +423,8 @@
     
     <controller type="DefaultController" name="GroupChat" factory="AYDefaultControllerFactoy" >
         
-        <facade type="DefaultFacade" name="XMPP" notification="true" />
+        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
+        <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
@@ -458,7 +462,8 @@
     
     <controller type="DefaultController" name="TagContent" factory="AYDefaultControllerFactoy" >
         
-        <facade type="DefaultFacade" name="XMPP" notification="true" />
+<!--        <facade type="DefaultFacade" name="XMPP" notification="true" />-->
+        <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="TagContentModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>

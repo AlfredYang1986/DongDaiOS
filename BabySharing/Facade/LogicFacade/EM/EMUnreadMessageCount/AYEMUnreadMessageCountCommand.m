@@ -7,7 +7,10 @@
 //
 
 #import "AYEMUnreadMessageCountCommand.h"
-#import "GotyeOCAPI.h"
+//#import "GotyeOCAPI.h"
+#import "EMSDK.h"
+#import "EMError.h"
+#import "EMConversation.h"
 
 @implementation AYEMUnreadMessageCountCommand
 @synthesize para = _para;
@@ -17,7 +20,11 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    int count = [GotyeOCAPI getUnreadNotifyCount];
+    int count = 0;
+    NSArray *conversations = [[EMClient sharedClient].chatManager loadAllConversationsFromDB];
+    for (EMConversation* c in conversations) {
+        count += c.unreadMessagesCount;
+    }
     *obj = [NSNumber numberWithInt:count];
 }
 

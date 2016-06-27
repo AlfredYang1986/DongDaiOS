@@ -61,13 +61,15 @@
     <command type="Module" name="SaveImgLocal" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="LocalImageWithName" factory="AYDefaultModuleFactory" />
-    
+   
+    <!--
     <command type="Module" name="LoginXMPP" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LogoutXMPP" factory="AYDefaultModuleFactory" />
     <command type="Module" name="UnreadMessageCount" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SendMessage" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryMessages" factory="AYDefaultModuleFactory" />
     <command type="Module" name="JoinGroup" factory="AYDefaultModuleFactory" />
+    -->
    
     <command type="Module" name="LoginEM" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LogoutEM" factory="AYDefaultModuleFactory" />

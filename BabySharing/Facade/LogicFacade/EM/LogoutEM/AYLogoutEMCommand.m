@@ -7,7 +7,9 @@
 //
 
 #import "AYLogoutEMCommand.h"
-#import "GotyeOCAPI.h"
+//#import "GotyeOCAPI.h"
+#import "EMSDK.h"
+#import "EMError.h"
 
 @implementation AYLogoutEMCommand
 @synthesize para = _para;
@@ -17,7 +19,11 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    [GotyeOCAPI logout];
+//    [GotyeOCAPI logout];
+    EMError *error = [[EMClient sharedClient] logout:YES];
+    if (!error) {
+        NSLog(@"环信: 退出成功");
+    }
 }
 
 - (NSString*)getCommandType {
