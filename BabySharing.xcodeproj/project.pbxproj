@@ -77,7 +77,6 @@
 		700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5AD1CBA583800A09B3A /* AYShowModuleCommand.m */; };
 		700BE5B41CBA606800A09B3A /* AYShowModuleUpCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5B31CBA606800A09B3A /* AYShowModuleUpCommand.m */; };
 		700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5B61CBA65A500A09B3A /* AYPopToRootCommand.m */; };
-		700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5BA1CBA6C1E00A09B3A /* AYXMPPFacade.m */; };
 		700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5BE1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m */; };
 		700BE5C31CBA6DE300A09B3A /* AYLoginSNSWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5C21CBA6DE300A09B3A /* AYLoginSNSWithWechatCommand.m */; };
 		700BE5C71CBA6DE900A09B3A /* AYLoginSNSWithWeiboCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5C61CBA6DE900A09B3A /* AYLoginSNSWithWeiboCommand.m */; };
@@ -94,7 +93,6 @@
 		700BE5FB1CBA6E7D00A09B3A /* AYLandingRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5F51CBA6E7D00A09B3A /* AYLandingRemoteFacade.m */; };
 		700BE5FC1CBA6E7D00A09B3A /* AYProfileRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5F71CBA6E7D00A09B3A /* AYProfileRemoteFacade.m */; };
 		700BE5FD1CBA6E7D00A09B3A /* AYSearchRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE5F91CBA6E7D00A09B3A /* AYSearchRemoteFacade.m */; };
-		700BE6011CBA701100A09B3A /* AYLoginXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6001CBA701100A09B3A /* AYLoginXMPPCommand.m */; };
 		700BE6051CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6041CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.m */; };
 		700BE6081CBA75D400A09B3A /* AYQuerySNSProvidersCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6071CBA75D400A09B3A /* AYQuerySNSProvidersCommand.m */; };
 		700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6211CBA7CEB00A09B3A /* DongDaTabBar.m */; };
@@ -207,7 +205,6 @@
 		7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027FD191CBC0817002756BC /* AYAppSettingDelegate.m */; };
 		702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */; };
 		702B84B91CCA999600CDEB3C /* AYEnterChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */; };
-		702B84BD1CCAA29400CDEB3C /* AYJoinGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84BC1CCAA29400CDEB3C /* AYJoinGroupCommand.m */; };
 		702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
@@ -249,9 +246,6 @@
 		703CCDBF1CC9D71000CF4563 /* AYQueryNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDBE1CC9D71000CF4563 /* AYQueryNotificationsCommand.m */; };
 		703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */; };
 		703CCDC71CC9D9E400CF4563 /* AYClearNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */; };
-		703CCDCA1CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC91CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.m */; };
-		703CCDCD1CC9E53D00CF4563 /* AYSendMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDCC1CC9E53D00CF4563 /* AYSendMessageCommand.m */; };
-		703CCDD01CC9E73900CF4563 /* AYQueryMessagesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDCF1CC9E73900CF4563 /* AYQueryMessagesCommand.m */; };
 		703CCDD31CC9E9E500CF4563 /* AYContacterListDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDD21CC9E9E500CF4563 /* AYContacterListDelegate.m */; };
 		703CCDDD1CC9EAE600CF4563 /* AYAddFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDD91CC9EAE600CF4563 /* AYAddFriendController.m */; };
 		703CCDDE1CC9EAE600CF4563 /* AYSearchFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDDC1CC9EAE600CF4563 /* AYSearchFriendController.m */; };
@@ -346,6 +340,13 @@
 		706E461E1CFC133F00CC7C53 /* AYInputInvateCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E461D1CFC133F00CC7C53 /* AYInputInvateCodeView.m */; };
 		706E46221CFC204100CC7C53 /* AYGetInvateCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46211CFC204100CC7C53 /* AYGetInvateCodeController.m */; };
 		706E46241CFC5DD700CC7C53 /* getInvateCode.html in Resources */ = {isa = PBXBuildFile; fileRef = 706E46231CFC5DD700CC7C53 /* getInvateCode.html */; };
+		7073E80F1D215D5600DA4698 /* AYXMPPFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E7FC1D215D5600DA4698 /* AYXMPPFacade.m */; };
+		7073E8101D215D5600DA4698 /* AYJoinGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E7FF1D215D5600DA4698 /* AYJoinGroupCommand.m */; };
+		7073E8111D215D5600DA4698 /* AYLoginXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E8021D215D5600DA4698 /* AYLoginXMPPCommand.m */; };
+		7073E8121D215D5600DA4698 /* AYLogoutXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E8051D215D5600DA4698 /* AYLogoutXMPPCommand.m */; };
+		7073E8131D215D5600DA4698 /* AYQueryMessagesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E8081D215D5600DA4698 /* AYQueryMessagesCommand.m */; };
+		7073E8141D215D5600DA4698 /* AYSendMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E80B1D215D5600DA4698 /* AYSendMessageCommand.m */; };
+		7073E8151D215D5600DA4698 /* AYUnreadMessageCountCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E80E1D215D5600DA4698 /* AYUnreadMessageCountCommand.m */; };
 		707B4D3D1CA819D900F6256E /* Tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D381CA819D900F6256E /* Tools.m */; };
 		707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D3A1CA819D900F6256E /* UIImage+fixOrientation.m */; };
 		707B4D3F1CA819D900F6256E /* UINavigationController+Retro.m in Sources */ = {isa = PBXBuildFile; fileRef = 707B4D3C1CA819D900F6256E /* UINavigationController+Retro.m */; };
@@ -436,7 +437,6 @@
 		70B820B41CAA9BD5001EEAF2 /* AYViewNotifyCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820B31CAA9BD5001EEAF2 /* AYViewNotifyCommand.m */; };
 		70C4C8DD1CF7E53000F44C36 /* AYSMSSendCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4C8DC1CF7E53000F44C36 /* AYSMSSendCommand.m */; };
 		70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */; };
-		70CDF6041CBCA1B100311841 /* AYLogoutXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6031CBCA1B100311841 /* AYLogoutXMPPCommand.m */; };
 		70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */; };
 		70CDF60E1CBCBD8C00311841 /* AlbumGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF60B1CBCBD8C00311841 /* AlbumGridCell.m */; };
 		70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF60D1CBCBD8C00311841 /* AYAlbumTableCellView.m */; };
@@ -714,8 +714,6 @@
 		700BE5B31CBA606800A09B3A /* AYShowModuleUpCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShowModuleUpCommand.m; sourceTree = "<group>"; };
 		700BE5B51CBA65A500A09B3A /* AYPopToRootCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPopToRootCommand.h; sourceTree = "<group>"; };
 		700BE5B61CBA65A500A09B3A /* AYPopToRootCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPopToRootCommand.m; sourceTree = "<group>"; };
-		700BE5B91CBA6C1E00A09B3A /* AYXMPPFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYXMPPFacade.h; sourceTree = "<group>"; };
-		700BE5BA1CBA6C1E00A09B3A /* AYXMPPFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYXMPPFacade.m; sourceTree = "<group>"; };
 		700BE5BD1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginSNSWithQQCommand.h; sourceTree = "<group>"; };
 		700BE5BE1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginSNSWithQQCommand.m; sourceTree = "<group>"; };
 		700BE5C11CBA6DE300A09B3A /* AYLoginSNSWithWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginSNSWithWechatCommand.h; sourceTree = "<group>"; };
@@ -748,8 +746,6 @@
 		700BE5F71CBA6E7D00A09B3A /* AYProfileRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfileRemoteFacade.m; sourceTree = "<group>"; };
 		700BE5F81CBA6E7D00A09B3A /* AYSearchRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchRemoteFacade.h; sourceTree = "<group>"; };
 		700BE5F91CBA6E7D00A09B3A /* AYSearchRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchRemoteFacade.m; sourceTree = "<group>"; };
-		700BE5FF1CBA701100A09B3A /* AYLoginXMPPCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginXMPPCommand.h; sourceTree = "<group>"; };
-		700BE6001CBA701100A09B3A /* AYLoginXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginXMPPCommand.m; sourceTree = "<group>"; };
 		700BE6031CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChangeSNSProvidersCommand.h; sourceTree = "<group>"; };
 		700BE6041CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChangeSNSProvidersCommand.m; sourceTree = "<group>"; };
 		700BE6061CBA75D400A09B3A /* AYQuerySNSProvidersCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQuerySNSProvidersCommand.h; sourceTree = "<group>"; };
@@ -978,8 +974,6 @@
 		702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryChatGroupCommand.m; sourceTree = "<group>"; };
 		702B84B71CCA999600CDEB3C /* AYEnterChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEnterChatGroupCommand.h; sourceTree = "<group>"; };
 		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
-		702B84BB1CCAA29400CDEB3C /* AYJoinGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYJoinGroupCommand.h; sourceTree = "<group>"; };
-		702B84BC1CCAA29400CDEB3C /* AYJoinGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinGroupCommand.m; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1055,12 +1049,6 @@
 		703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoveNotificationCommand.m; sourceTree = "<group>"; };
 		703CCDC51CC9D9E400CF4563 /* AYClearNotificationsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYClearNotificationsCommand.h; sourceTree = "<group>"; };
 		703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYClearNotificationsCommand.m; sourceTree = "<group>"; };
-		703CCDC81CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUnreadMessageCountCommand.h; sourceTree = "<group>"; };
-		703CCDC91CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUnreadMessageCountCommand.m; sourceTree = "<group>"; };
-		703CCDCB1CC9E53D00CF4563 /* AYSendMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSendMessageCommand.h; sourceTree = "<group>"; };
-		703CCDCC1CC9E53D00CF4563 /* AYSendMessageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSendMessageCommand.m; sourceTree = "<group>"; };
-		703CCDCE1CC9E73900CF4563 /* AYQueryMessagesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryMessagesCommand.h; sourceTree = "<group>"; };
-		703CCDCF1CC9E73900CF4563 /* AYQueryMessagesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryMessagesCommand.m; sourceTree = "<group>"; };
 		703CCDD11CC9E9E500CF4563 /* AYContacterListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContacterListDelegate.h; sourceTree = "<group>"; };
 		703CCDD21CC9E9E500CF4563 /* AYContacterListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContacterListDelegate.m; sourceTree = "<group>"; };
 		703CCDD81CC9EAE600CF4563 /* AYAddFriendController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAddFriendController.h; sourceTree = "<group>"; };
@@ -1233,6 +1221,20 @@
 		706E46201CFC204100CC7C53 /* AYGetInvateCodeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGetInvateCodeController.h; sourceTree = "<group>"; };
 		706E46211CFC204100CC7C53 /* AYGetInvateCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGetInvateCodeController.m; sourceTree = "<group>"; };
 		706E46231CFC5DD700CC7C53 /* getInvateCode.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = getInvateCode.html; sourceTree = "<group>"; };
+		7073E7FB1D215D5600DA4698 /* AYXMPPFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYXMPPFacade.h; sourceTree = "<group>"; };
+		7073E7FC1D215D5600DA4698 /* AYXMPPFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYXMPPFacade.m; sourceTree = "<group>"; };
+		7073E7FE1D215D5600DA4698 /* AYJoinGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYJoinGroupCommand.h; sourceTree = "<group>"; };
+		7073E7FF1D215D5600DA4698 /* AYJoinGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinGroupCommand.m; sourceTree = "<group>"; };
+		7073E8011D215D5600DA4698 /* AYLoginXMPPCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginXMPPCommand.h; sourceTree = "<group>"; };
+		7073E8021D215D5600DA4698 /* AYLoginXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginXMPPCommand.m; sourceTree = "<group>"; };
+		7073E8041D215D5600DA4698 /* AYLogoutXMPPCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLogoutXMPPCommand.h; sourceTree = "<group>"; };
+		7073E8051D215D5600DA4698 /* AYLogoutXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLogoutXMPPCommand.m; sourceTree = "<group>"; };
+		7073E8071D215D5600DA4698 /* AYQueryMessagesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryMessagesCommand.h; sourceTree = "<group>"; };
+		7073E8081D215D5600DA4698 /* AYQueryMessagesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryMessagesCommand.m; sourceTree = "<group>"; };
+		7073E80A1D215D5600DA4698 /* AYSendMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSendMessageCommand.h; sourceTree = "<group>"; };
+		7073E80B1D215D5600DA4698 /* AYSendMessageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSendMessageCommand.m; sourceTree = "<group>"; };
+		7073E80D1D215D5600DA4698 /* AYUnreadMessageCountCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUnreadMessageCountCommand.h; sourceTree = "<group>"; };
+		7073E80E1D215D5600DA4698 /* AYUnreadMessageCountCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUnreadMessageCountCommand.m; sourceTree = "<group>"; };
 		707B4D361CA819D900F6256E /* Define.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Define.h; sourceTree = "<group>"; };
 		707B4D371CA819D900F6256E /* Tools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tools.h; sourceTree = "<group>"; };
 		707B4D381CA819D900F6256E /* Tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tools.m; sourceTree = "<group>"; };
@@ -1450,8 +1452,6 @@
 		70C4C8DC1CF7E53000F44C36 /* AYSMSSendCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSMSSendCommand.m; sourceTree = "<group>"; };
 		70CDF5FE1CBC9DCE00311841 /* AYAuthSignOutCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthSignOutCommand.h; sourceTree = "<group>"; };
 		70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAuthSignOutCommand.m; sourceTree = "<group>"; };
-		70CDF6021CBCA1B100311841 /* AYLogoutXMPPCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLogoutXMPPCommand.h; sourceTree = "<group>"; };
-		70CDF6031CBCA1B100311841 /* AYLogoutXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLogoutXMPPCommand.m; sourceTree = "<group>"; };
 		70CDF6061CBCA4E500311841 /* AYSignOutLocalCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSignOutLocalCommand.h; sourceTree = "<group>"; };
 		70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSignOutLocalCommand.m; sourceTree = "<group>"; };
 		70CDF60A1CBCBD8C00311841 /* AlbumGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumGridCell.h; sourceTree = "<group>"; };
@@ -2230,21 +2230,6 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		700BE5B81CBA6C1400A09B3A /* XMPP */ = {
-			isa = PBXGroup;
-			children = (
-				702B84BA1CCAA28300CDEB3C /* JoinGroup */,
-				703CCD9D1CC9D21400CF4563 /* UnreadMessageCount */,
-				703CCD971CC9CF7E00CF4563 /* QueryMessages */,
-				703CCD991CC9CF7E00CF4563 /* SendMessages */,
-				70CDF6011CBCA19D00311841 /* LogoutXMPP */,
-				700BE5FE1CBA700200A09B3A /* LoginXMPP */,
-				700BE5B91CBA6C1E00A09B3A /* AYXMPPFacade.h */,
-				700BE5BA1CBA6C1E00A09B3A /* AYXMPPFacade.m */,
-			);
-			path = XMPP;
-			sourceTree = "<group>";
-		};
 		700BE5BC1CBA6DAD00A09B3A /* LoginWithQQ */ = {
 			isa = PBXGroup;
 			children = (
@@ -2449,15 +2434,6 @@
 				70D657081D1D410F003D1D7D /* AYExposeRemoteFacade.m */,
 			);
 			path = Facades;
-			sourceTree = "<group>";
-		};
-		700BE5FE1CBA700200A09B3A /* LoginXMPP */ = {
-			isa = PBXGroup;
-			children = (
-				700BE5FF1CBA701100A09B3A /* AYLoginXMPPCommand.h */,
-				700BE6001CBA701100A09B3A /* AYLoginXMPPCommand.m */,
-			);
-			path = LoginXMPP;
 			sourceTree = "<group>";
 		};
 		700BE6021CBA74A400A09B3A /* SNSProviders */ = {
@@ -2912,13 +2888,13 @@
 		701D8A441CA7B9C200B5D4C1 /* LogicFacade */ = {
 			isa = PBXGroup;
 			children = (
+				7073E7FA1D215D5600DA4698 /* XMPP */,
 				70A1A54A1D1D4A860063FC7F /* EM */,
 				702BD33A1CF55F700010F2BA /* Keyboard */,
 				805218971CCB9C30006EF119 /* Cache */,
 				70B1DC731CC705640041794A /* ContacterFacade */,
 				700693391CC51ACD00B511FF /* GUPImage */,
 				700693211CC4D67600B511FF /* PHAsset */,
-				700BE5B81CBA6C1400A09B3A /* XMPP */,
 				701D8A4C1CA7B9C200B5D4C1 /* SNSQQ */,
 				701D8A4F1CA7B9C200B5D4C1 /* SNSWechat */,
 				701D8A521CA7B9C200B5D4C1 /* SNSWeibo */,
@@ -3223,15 +3199,6 @@
 				702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */,
 			);
 			path = QueryChatGroup;
-			sourceTree = "<group>";
-		};
-		702B84BA1CCAA28300CDEB3C /* JoinGroup */ = {
-			isa = PBXGroup;
-			children = (
-				702B84BB1CCAA29400CDEB3C /* AYJoinGroupCommand.h */,
-				702B84BC1CCAA29400CDEB3C /* AYJoinGroupCommand.m */,
-			);
-			path = JoinGroup;
 			sourceTree = "<group>";
 		};
 		702BD33A1CF55F700010F2BA /* Keyboard */ = {
@@ -3610,33 +3577,6 @@
 			);
 			name = ContacterList;
 			path = FriendsDelegate/ContacterList;
-			sourceTree = "<group>";
-		};
-		703CCD971CC9CF7E00CF4563 /* QueryMessages */ = {
-			isa = PBXGroup;
-			children = (
-				703CCDCE1CC9E73900CF4563 /* AYQueryMessagesCommand.h */,
-				703CCDCF1CC9E73900CF4563 /* AYQueryMessagesCommand.m */,
-			);
-			path = QueryMessages;
-			sourceTree = "<group>";
-		};
-		703CCD991CC9CF7E00CF4563 /* SendMessages */ = {
-			isa = PBXGroup;
-			children = (
-				703CCDCB1CC9E53D00CF4563 /* AYSendMessageCommand.h */,
-				703CCDCC1CC9E53D00CF4563 /* AYSendMessageCommand.m */,
-			);
-			path = SendMessages;
-			sourceTree = "<group>";
-		};
-		703CCD9D1CC9D21400CF4563 /* UnreadMessageCount */ = {
-			isa = PBXGroup;
-			children = (
-				703CCDC81CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.h */,
-				703CCDC91CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.m */,
-			);
-			path = UnreadMessageCount;
 			sourceTree = "<group>";
 		};
 		703CCDB81CC9D56800CF4563 /* PushNotification */ = {
@@ -4220,6 +4160,75 @@
 				706E46211CFC204100CC7C53 /* AYGetInvateCodeController.m */,
 			);
 			path = getInvateCode;
+			sourceTree = "<group>";
+		};
+		7073E7FA1D215D5600DA4698 /* XMPP */ = {
+			isa = PBXGroup;
+			children = (
+				7073E7FB1D215D5600DA4698 /* AYXMPPFacade.h */,
+				7073E7FC1D215D5600DA4698 /* AYXMPPFacade.m */,
+				7073E7FD1D215D5600DA4698 /* JoinGroup */,
+				7073E8001D215D5600DA4698 /* LoginXMPP */,
+				7073E8031D215D5600DA4698 /* LogoutXMPP */,
+				7073E8061D215D5600DA4698 /* QueryMessages */,
+				7073E8091D215D5600DA4698 /* SendMessages */,
+				7073E80C1D215D5600DA4698 /* UnreadMessageCount */,
+			);
+			path = XMPP;
+			sourceTree = "<group>";
+		};
+		7073E7FD1D215D5600DA4698 /* JoinGroup */ = {
+			isa = PBXGroup;
+			children = (
+				7073E7FE1D215D5600DA4698 /* AYJoinGroupCommand.h */,
+				7073E7FF1D215D5600DA4698 /* AYJoinGroupCommand.m */,
+			);
+			path = JoinGroup;
+			sourceTree = "<group>";
+		};
+		7073E8001D215D5600DA4698 /* LoginXMPP */ = {
+			isa = PBXGroup;
+			children = (
+				7073E8011D215D5600DA4698 /* AYLoginXMPPCommand.h */,
+				7073E8021D215D5600DA4698 /* AYLoginXMPPCommand.m */,
+			);
+			path = LoginXMPP;
+			sourceTree = "<group>";
+		};
+		7073E8031D215D5600DA4698 /* LogoutXMPP */ = {
+			isa = PBXGroup;
+			children = (
+				7073E8041D215D5600DA4698 /* AYLogoutXMPPCommand.h */,
+				7073E8051D215D5600DA4698 /* AYLogoutXMPPCommand.m */,
+			);
+			path = LogoutXMPP;
+			sourceTree = "<group>";
+		};
+		7073E8061D215D5600DA4698 /* QueryMessages */ = {
+			isa = PBXGroup;
+			children = (
+				7073E8071D215D5600DA4698 /* AYQueryMessagesCommand.h */,
+				7073E8081D215D5600DA4698 /* AYQueryMessagesCommand.m */,
+			);
+			path = QueryMessages;
+			sourceTree = "<group>";
+		};
+		7073E8091D215D5600DA4698 /* SendMessages */ = {
+			isa = PBXGroup;
+			children = (
+				7073E80A1D215D5600DA4698 /* AYSendMessageCommand.h */,
+				7073E80B1D215D5600DA4698 /* AYSendMessageCommand.m */,
+			);
+			path = SendMessages;
+			sourceTree = "<group>";
+		};
+		7073E80C1D215D5600DA4698 /* UnreadMessageCount */ = {
+			isa = PBXGroup;
+			children = (
+				7073E80D1D215D5600DA4698 /* AYUnreadMessageCountCommand.h */,
+				7073E80E1D215D5600DA4698 /* AYUnreadMessageCountCommand.m */,
+			);
+			path = UnreadMessageCount;
 			sourceTree = "<group>";
 		};
 		7077673A1CA55EAE00BC0806 /* ViewCommand */ = {
@@ -5037,15 +5046,6 @@
 				70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */,
 			);
 			path = AuthSignOut;
-			sourceTree = "<group>";
-		};
-		70CDF6011CBCA19D00311841 /* LogoutXMPP */ = {
-			isa = PBXGroup;
-			children = (
-				70CDF6021CBCA1B100311841 /* AYLogoutXMPPCommand.h */,
-				70CDF6031CBCA1B100311841 /* AYLogoutXMPPCommand.m */,
-			);
-			path = LogoutXMPP;
 			sourceTree = "<group>";
 		};
 		70CDF6051CBCA4C700311841 /* SignOutLocal */ = {
@@ -6130,10 +6130,7 @@
 				7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */,
 				706E46151CFC107A00CC7C53 /* AYLandingSNSView.m in Sources */,
 				70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */,
-				703CCDCA1CC9DC9C00CF4563 /* AYUnreadMessageCountCommand.m in Sources */,
-				703CCDCD1CC9E53D00CF4563 /* AYSendMessageCommand.m in Sources */,
 				70F4287B1CC7B18F00A69977 /* MASViewAttribute.m in Sources */,
-				700BE5BB1CBA6C1E00A09B3A /* AYXMPPFacade.m in Sources */,
 				704697D11CE047F200DACD8A /* SDImageCache.m in Sources */,
 				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				805218871CCB62D1006EF119 /* AYChatGroupInputDelegate.m in Sources */,
@@ -6145,6 +6142,7 @@
 				7006932C1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m in Sources */,
 				7002DB331CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m in Sources */,
 				70F4287C1CC7B18F00A69977 /* MASViewConstraint.m in Sources */,
+				7073E80F1D215D5600DA4698 /* AYXMPPFacade.m in Sources */,
 				708E52881CC53C2E008A6023 /* AYCameraRollInitCommand.m in Sources */,
 				8086A2451CCE8674006186D4 /* AYUserPerviewController.m in Sources */,
 				70B1DC8E1CC73B390041794A /* AYPlayMovieMeta.m in Sources */,
@@ -6156,6 +6154,7 @@
 				8086A24E1CCE8A8C006186D4 /* AYUserTableCellView.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				706E46101CFC107A00CC7C53 /* AYInputPhoneNoController.m in Sources */,
+				7073E8111D215D5600DA4698 /* AYLoginXMPPCommand.m in Sources */,
 				701524861CBF9AB4005B4C5B /* MJRefreshBackStateFooter.m in Sources */,
 				704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */,
 				700693161CC4A3AF00B511FF /* AYDropDownListView.m in Sources */,
@@ -6200,7 +6199,6 @@
 				701524371CBF60E6005B4C5B /* AYUserDisplayView.m in Sources */,
 				705B84551CC6A4D60057D442 /* AYTagEntryView.m in Sources */,
 				706E46121CFC107A00CC7C53 /* AYLandingInputRoleView.m in Sources */,
-				702B84BD1CCAA29400CDEB3C /* AYJoinGroupCommand.m in Sources */,
 				70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */,
 				70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */,
 				70AC5BAB1CC8C6B600E2568F /* AYPostLikeContentCommand.m in Sources */,
@@ -6235,6 +6233,7 @@
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
 				709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */,
+				7073E8141D215D5600DA4698 /* AYSendMessageCommand.m in Sources */,
 				702510711CC0C65400DADF2B /* AYRefreshPushDataCommand.m in Sources */,
 				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
 				7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */,
@@ -6261,7 +6260,6 @@
 				70F68DAE1CBE4938005524BA /* AYUserAgreeController.m in Sources */,
 				80D5E7E61CCCCF9A00A82117 /* AYSamePersonBtnView.m in Sources */,
 				70CDF63A1CBD033900311841 /* QueryContentItem.m in Sources */,
-				70CDF6041CBCA1B100311841 /* AYLogoutXMPPCommand.m in Sources */,
 				700BE5F01CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.m in Sources */,
 				700BE5B41CBA606800A09B3A /* AYShowModuleUpCommand.m in Sources */,
 				703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */,
@@ -6283,6 +6281,7 @@
 				705EC8831CE4BC1D0008D5EA /* AYTagContentModelFacade.m in Sources */,
 				708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */,
 				7006931A1CC4A3AF00B511FF /* WEPopoverController.m in Sources */,
+				7073E8131D215D5600DA4698 /* AYQueryMessagesCommand.m in Sources */,
 				7002DB3B1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m in Sources */,
 				705EC8701CE472D90008D5EA /* AYSearchFriendDelegate.m in Sources */,
 				7015248C1CBF9AB4005B4C5B /* MJRefreshConst.m in Sources */,
@@ -6293,6 +6292,7 @@
 				805218961CCB8269006EF119 /* AYGroupChatMessagesDelegate.m in Sources */,
 				700BE5FA1CBA6E7D00A09B3A /* AYFileRemoteFacade.m in Sources */,
 				7002DBAD1CC660980013FF2A /* AYTagSearchController.m in Sources */,
+				7073E8121D215D5600DA4698 /* AYLogoutXMPPCommand.m in Sources */,
 				70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */,
 				701524931CBFA462005B4C5B /* AYHomeQueryModelFacade.m in Sources */,
 				701524881CBF9AB4005B4C5B /* MJRefreshGifHeader.m in Sources */,
@@ -6317,6 +6317,7 @@
 				70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */,
 				70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */,
 				80D5E7DB1CCCCE5600A82117 /* AYPhotoTagInitCommand.m in Sources */,
+				7073E8151D215D5600DA4698 /* AYUnreadMessageCountCommand.m in Sources */,
 				70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
 				702510841CC0F08A00DADF2B /* AYChatSessionRemoteFacade.m in Sources */,
@@ -6509,6 +6510,7 @@
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
+				7073E8101D215D5600DA4698 /* AYJoinGroupCommand.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,
 				700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */,
 				7002DB831CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m in Sources */,
@@ -6516,13 +6518,11 @@
 				7015248F1CBF9AB4005B4C5B /* UIView+MJExtension.m in Sources */,
 				7039CBE51CBB86C000BE60C7 /* AYFakeNavBarView.m in Sources */,
 				7002DB2F1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m in Sources */,
-				703CCDD01CC9E73900CF4563 /* AYQueryMessagesCommand.m in Sources */,
 				702561B21CD350050099F056 /* AYTagEditView.m in Sources */,
 				7003FBC51CED4B4700230B20 /* AYWelcomeController.m in Sources */,
 				706E461A1CFC118B00CC7C53 /* AYInputInvateCodeController.m in Sources */,
 				70CDF6351CBD033900311841 /* QueryComments.m in Sources */,
 				8052188B1CCB7457006EF119 /* AYChatMessageCellView.m in Sources */,
-				700BE6011CBA701100A09B3A /* AYLoginXMPPCommand.m in Sources */,
 				7039CBCE1CBB77EA00BE60C7 /* AYProfileController.m in Sources */,
 				7002DB1B1CC5EA630013FF2A /* AYAVController.m in Sources */,
 				700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */,
@@ -6701,7 +6701,10 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"SANDBOX=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

@@ -8,8 +8,14 @@
 
 #import "AYLoginEMCommand.h"
 //#import "GotyeOCAPI.h"
+#import "AYFacadeBase.h"
+#import "AYFacade.h"
 #import "EMSDK.h"
 #import "EMError.h"
+#import "AYCommandDefines.h"
+#import "AYNotiyCommand.h"
+#import "AYNotifyDefines.h"
+#import "AYFactoryManager.h"
 
 static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
 
@@ -34,6 +40,16 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
         error = [[EMClient sharedClient] loginWithUsername:current_user_id password:kAYEMDongdaCommonPassword];
         if (error == nil) {
             NSLog(@"环信: 登陆成功");
+            
+            NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+            [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+            [notify setValue:kAYNotifyLoginEMSuccess forKey:kAYNotifyFunctionKey];
+            
+            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+            [args setValue:current_user_id forKey:@"user_id"];
+            
+            [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+            [((AYFacade*)EMCLIENT) performWithResult:&notify];
         } else {
             NSLog(@"环信: 登陆失败");
         }

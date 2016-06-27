@@ -1,5 +1,5 @@
 //
-//  AYXMPPFacade.m
+//  AYEMFacade.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/10/16.

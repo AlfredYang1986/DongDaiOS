@@ -75,6 +75,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define MOVIERECORD             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MovieRecord")
 #define GPUFILTER               FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"GPUFilter")
 #define MOVIEPLAYER             FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"MoviePlayer")
+#define EMCLIENT                FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"EM")
 
 #define USERCACHE               FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"ScreenNameAndPhotoCache")
 
