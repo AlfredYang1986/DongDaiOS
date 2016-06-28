@@ -12,6 +12,9 @@
 #import "EMError.h"
 #import "EMChatroom.h"
 #import "EMMessage.h"
+#import "AYFactoryManager.h"
+#import "AYCommandDefines.h"
+#import "AYNotifyDefines.h"
 
 @implementation AYSendEMMessageCommand
 @synthesize para = _para;
@@ -46,7 +49,21 @@
     //message.chatType = EMChatTypeChatRoom;// 设置为聊天室消息
     
     [[EMClient sharedClient].chatManager asyncSendMessage:message progress:nil completion:^(EMMessage *aMessage, EMError *aError) {
+        NSLog(@"send message success: %@", message);
         
+        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+        
+        if (aError == nil) {
+            [notify setValue:kAYNotifyEMMessageSendSuccess forKey:kAYNotifyFunctionKey];
+        } else {
+            [notify setValue:kAYNotifyEMMessageSendFailed forKey:kAYNotifyFunctionKey];
+        }
+        
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:aMessage forKey:@"message"];
+        [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+        [self performWithResult:&notify];
     }];
 }
 

@@ -20,7 +20,7 @@
 
 static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 
-@interface AYEMFacade () <EMClientDelegate, EMChatManagerDelegate, EMChatroomManagerDelegate /*, EMGroupManagerDelegate*/>
+@interface AYEMFacade () <EMClientDelegate, EMChatManagerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate>
 
 @end
 
@@ -70,6 +70,28 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     AYFacade* f = LOGINMODEL;
     id<AYCommand> cmd = [f.commands objectForKey:@"SignOutLocal"];
     [cmd performWithResult:nil];
+}
+
+/*!
+ *  自动登录返回结果
+ *
+ *  @param aError 错误信息
+ */
+- (void)didAutoLoginWithError:(EMError *)aError {
+    NSLog(@"auto login");
+}
+
+/*!
+ *  SDK连接服务器的状态变化时会接收到该回调
+ *
+ *  有以下几种情况，会引起该方法的调用：
+ *  1. 登录成功后，手机无法上网时，会调用该回调
+ *  2. 登录成功后，网络状态变化时，会调用该回调
+ *
+ *  @param aConnectionState 当前状态
+ */
+- (void)didConnectionStateChanged:(EMConnectionState)aConnectionState {
+    NSLog(@"connection state changed");
 }
 
 #pragma mark -- EM Chat Manager Delegate

@@ -214,6 +214,7 @@
         <command type="Module" name="SendEMMessage" />
         <command type="Module" name="QueryEMMessages" />
         <command type="Module" name="JoinEMGroup" />
+        <command type="Module" name="EMQueryGroupMemberLst" />
         <command type="Module" name="EMEnterBackground" />
         <command type="Module" name="EMEnterFront" />
     </facade>

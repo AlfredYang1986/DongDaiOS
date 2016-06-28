@@ -32,7 +32,7 @@
     EMConversation* c = [[EMClient sharedClient].chatManager getConversation:group_id type:EMConversationTypeChatRoom createIfNotExist:NO];
     NSArray* result = [c loadMoreMessagesWithType:EMMessageBodyTypeText before:t limit:10 from:nil direction:EMMessageSearchDirectionDownload];
     
-    *obj = result;
+    *obj = result != nil ? result : [[NSArray alloc]init];
 }
 
 - (NSString*)getCommandType {

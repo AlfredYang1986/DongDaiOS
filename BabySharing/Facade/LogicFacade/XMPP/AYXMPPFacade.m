@@ -59,7 +59,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-    [notify setValue:kAYNotifyLoginXMPPSuccess forKey:kAYNotifyFunctionKey];
+//    [notify setValue:kAYNotifyLoginXMPPSuccess forKey:kAYNotifyFunctionKey];
     
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
     [args setValue:user.name forKey:@"user_id"];
@@ -112,7 +112,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-    [notify setValue:kAYNotifyXMPPReceiveMessage forKey:kAYNotifyFunctionKey];
+//    [notify setValue:kAYNotifyXMPPReceiveMessage forKey:kAYNotifyFunctionKey];
     
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
     [args setValue:message forKey:@"message"];
@@ -189,9 +189,9 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
     
     if (code == GotyeStatusCodeOK) {
-        [notify setValue:kAYNotifyXMPPMessageSendSuccess forKey:kAYNotifyFunctionKey];
+//        [notify setValue:kAYNotifyXMPPMessageSendSuccess forKey:kAYNotifyFunctionKey];
     } else {
-        [notify setValue:kAYNotifyXMPPMessageSendFailed forKey:kAYNotifyFunctionKey];
+//        [notify setValue:kAYNotifyXMPPMessageSendFailed forKey:kAYNotifyFunctionKey];
     }
 
     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
@@ -229,7 +229,7 @@ static NSString* const kAYMessageCommandRegisterName = @"DongDa";
             
             NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
             [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-            [notify setValue:kAYNotifyXMPPGetGroupMemberSuccess forKey:kAYNotifyFunctionKey];
+//            [notify setValue:kAYNotifyXMPPGetGroupMemberSuccess forKey:kAYNotifyFunctionKey];
             
             [notify setValue:[reVal copy] forKey:kAYNotifyArgsKey];
             [self performWithResult:&notify];

@@ -380,6 +380,7 @@
 		708E52A01CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */; };
 		708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */; };
 		708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E7D931CBD5567005D96B5 /* AYAboutDDController.m */; };
+		709768AE1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */; };
 		709949A81CC299DF00078A5B /* AYFoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949A71CC299DF00078A5B /* AYFoundController.m */; };
 		709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */; };
 		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
@@ -1305,6 +1306,8 @@
 		708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureTakeCommand.m; sourceTree = "<group>"; };
 		708E7D921CBD5567005D96B5 /* AYAboutDDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDDController.h; sourceTree = "<group>"; };
 		708E7D931CBD5567005D96B5 /* AYAboutDDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDDController.m; sourceTree = "<group>"; };
+		709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMQueryGroupMemberLstCommand.h; sourceTree = "<group>"; };
+		709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMQueryGroupMemberLstCommand.m; sourceTree = "<group>"; };
 		709949A61CC299DF00078A5B /* AYFoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundController.h; sourceTree = "<group>"; };
 		709949A71CC299DF00078A5B /* AYFoundController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundController.m; sourceTree = "<group>"; };
 		709949AA1CC29D6F00078A5B /* AYFoundGridDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundGridDelegate.h; sourceTree = "<group>"; };
@@ -4600,6 +4603,15 @@
 			path = AboutDongdaView;
 			sourceTree = "<group>";
 		};
+		709768AB1D2262C5005554DB /* EMQueryGroupMemberLst */ = {
+			isa = PBXGroup;
+			children = (
+				709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */,
+				709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */,
+			);
+			path = EMQueryGroupMemberLst;
+			sourceTree = "<group>";
+		};
 		709949A51CC299D200078A5B /* FoundController */ = {
 			isa = PBXGroup;
 			children = (
@@ -4721,6 +4733,7 @@
 			children = (
 				70A1A54B1D1D4A860063FC7F /* AYEMFacade.h */,
 				70A1A54C1D1D4A860063FC7F /* AYEMFacade.m */,
+				709768AB1D2262C5005554DB /* EMQueryGroupMemberLst */,
 				7082F1E01D1D4DD300E64496 /* EMEnterBackground */,
 				7082F1E11D1D4DD300E64496 /* EMEnterFront */,
 				70A1A54D1D1D4A860063FC7F /* EMUnreadMessageCount */,
@@ -6390,6 +6403,7 @@
 				7025107A1CC0E72200DADF2B /* AYJoinedGroupListDelegate.m in Sources */,
 				70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */,
 				7015241F1CBF49F2005B4C5B /* AYQueryFriendsCommand.m in Sources */,
+				709768AE1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m in Sources */,
 				70CDF63D1CBD033900311841 /* QueryLocalModel.xcdatamodeld in Sources */,
 				702510AE1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m in Sources */,
 				708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */,
@@ -6691,8 +6705,8 @@
 		702E7A701CA14A490097867E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Yuan Yang (2X5VX27Y79)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yuan Yang (2X5VX27Y79)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -6737,8 +6751,8 @@
 		702E7A711CA14A490097867E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Yuan Yang (V6843SSXWV)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yuan Yang (V6843SSXWV)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (

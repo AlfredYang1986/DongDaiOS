@@ -31,7 +31,7 @@ static NSString* const kAYNotifyLoginModelReady = @"LoginModelRegister:";
 
 static NSString* const kAYNotifySNSLoginSuccess = @"SNSLoginSuccess:";
 static NSString* const kAYCurrentLoginUserChanged = @"CurrentLoginUserChanged:";
-static NSString* const kAYNotifyLoginXMPPSuccess = @"LoginXMPPSuccess:";
+//static NSString* const kAYNotifyLoginXMPPSuccess = @"LoginXMPPSuccess:";
 static NSString* const kAYNotifyLoginEMSuccess = @"LoginEMSuccess:";
 
 static NSString* const kAYNotifyStartLogin = @"SNSStartLogin:";
@@ -44,12 +44,19 @@ static NSString* const kAYNotifyDidEndMovieRecording = @"DidEndMovieRecording";
 static NSString* const kAYNotifyDidDeleteMovieRecord = @"DidDeleteMovieRecord:";
 static NSString* const kAYNotifyDidMergeMovieRecord = @"DidMergeMovieRecord:";
 
-static NSString* const kAYNotifyXMPPMessageSendSuccess = @"XMPPMessageSendSuccess:";
-static NSString* const kAYNotifyXMPPMessageSendFailed = @"XMPPMessageSendFailed:";
-static NSString* const kAYNotifyXMPPReceiveMessage = @"XMPPReceiveMessage:";
-static NSString* const kAYNotifyXMPPGetGroupMemberSuccess = @"XMPPGetGroupMemberSuccess:";
-static NSString* const kAYNotifyXMPPMessageGetMessageListSuccess = @"XMPPMessageGetMessageListSuccess:";
-static NSString* const kAYNotifyXMPPMessageGetMessageListFailed = @"XMPPMessageGetMessageListFailed:";
+//static NSString* const kAYNotifyXMPPMessageSendSuccess = @"XMPPMessageSendSuccess:";
+//static NSString* const kAYNotifyXMPPMessageSendFailed = @"XMPPMessageSendFailed:";
+//static NSString* const kAYNotifyXMPPReceiveMessage = @"XMPPReceiveMessage:";
+//static NSString* const kAYNotifyXMPPGetGroupMemberSuccess = @"XMPPGetGroupMemberSuccess:";
+//static NSString* const kAYNotifyXMPPMessageGetMessageListSuccess = @"XMPPMessageGetMessageListSuccess:";
+//static NSString* const kAYNotifyXMPPMessageGetMessageListFailed = @"XMPPMessageGetMessageListFailed:";
+
+static NSString* const kAYNotifyEMMessageSendSuccess = @"EMMessageSendSuccess:";
+static NSString* const kAYNotifyEMMessageSendFailed = @"EMMessageSendFailed:";
+static NSString* const kAYNotifyEMReceiveMessage = @"EMReceiveMessage:";
+static NSString* const kAYNotifyEMGetGroupMemberSuccess = @"EMGetGroupMemberSuccess:";
+static NSString* const kAYNotifyEMMessageGetMessageListSuccess = @"EMMessageGetMessageListSuccess:";
+static NSString* const kAYNotifyEMMessageGetMessageListFailed = @"EMMessageGetMessageListFailed:";
 
 static NSString* const kAYNotifyKeyboardShowKeyboard = @"KeyboardShowKeyboard:";
 static NSString* const kAYNotifyKeyboardHideKeyboard = @"KeyboardHideKeyboard:";
