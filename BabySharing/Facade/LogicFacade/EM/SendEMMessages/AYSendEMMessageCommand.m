@@ -15,6 +15,9 @@
 #import "AYFactoryManager.h"
 #import "AYCommandDefines.h"
 #import "AYNotifyDefines.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYFacade.h"
 
 @implementation AYSendEMMessageCommand
 @synthesize para = _para;
@@ -31,14 +34,9 @@
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
-//    NSNumber* group_id = [dic objectForKey:@"group_id"];
     NSString* group_id = [dic objectForKey:@"group_id"];
     NSString* text = [dic objectForKey:@"text"];
-    
-//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:group_id.longLongValue];
-//    GotyeOCMessage* m = [GotyeOCMessage createTextMessage:group text:text];
-//    [GotyeOCAPI sendMessage:m];
-    
+
     EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:text];
     NSString *from = [[EMClient sharedClient] currentUsername];
     
@@ -49,7 +47,7 @@
     //message.chatType = EMChatTypeChatRoom;// 设置为聊天室消息
     
     [[EMClient sharedClient].chatManager asyncSendMessage:message progress:nil completion:^(EMMessage *aMessage, EMError *aError) {
-        NSLog(@"send message success: %@", message);
+        NSLog(@"send message success: %@", aMessage);
         
         NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
         [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
@@ -63,7 +61,7 @@
         NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
         [args setValue:aMessage forKey:@"message"];
         [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-        [self performWithResult:&notify];
+        [((AYFacade*)EMCLIENT) performWithResult:&notify];
     }];
 }
 

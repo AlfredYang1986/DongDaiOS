@@ -80,6 +80,7 @@
     <command type="Module" name="EMQueryGroupMemberLst" factory="AYDefaultModuleFactory" />
     <command type="Module" name="EMEnterBackground" factory="AYDefaultModuleFactory" />
     <command type="Module" name="EMEnterFront" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMClientInit" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />

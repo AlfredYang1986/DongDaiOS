@@ -18,18 +18,31 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 
+#import "EMSDK.h"
+#import "EMError.h"
+
+static NSString* const kAYEMAppKey = @"blackmirror#dongda";
+
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Override point for customization after application launch.
     NSLog(@"项目路径 ======= %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
 
 //    [NSThread sleepForTimeInterval:3.f];
+    
+    EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
+    //    options.apnsCertName = @"istore_dev";
+    EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
+    if (error) {
+        NSLog(@"error is : %d", error.code);
+        @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
+    }
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
   

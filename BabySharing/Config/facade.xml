@@ -217,6 +217,7 @@
         <command type="Module" name="EMQueryGroupMemberLst" />
         <command type="Module" name="EMEnterBackground" />
         <command type="Module" name="EMEnterFront" />
+        <command type="Module" name="EMClientInit" />
     </facade>
 
     <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" factory="AYDefaultFacadeFactory" >

@@ -149,6 +149,7 @@
 		7017F33D1CB7512E002C416E /* AYRoleTagSearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F33C1CB7512E002C416E /* AYRoleTagSearchController.m */; };
 		7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3461CB79699002C416E /* AYReuseViewFactory.m */; };
 		7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */; };
+		701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */; };
 		701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */ = {isa = PBXBuildFile; fileRef = 701D8A311CA7999A00B5D4C1 /* remote.xml */; };
 		701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */; };
 		701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A431CA7B9C200B5D4C1 /* AYFacade.m */; };
@@ -194,7 +195,6 @@
 		7025109F1CC0F5AB00DADF2B /* NotificationOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510921CC0F5AB00DADF2B /* NotificationOwner.m */; };
 		702510A01CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510941CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m */; };
 		702510A11CC0F5AB00DADF2B /* Notifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510961CC0F5AB00DADF2B /* Notifications.m */; };
-		702510A21CC0F5AB00DADF2B /* Targets+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510981CC0F5AB00DADF2B /* Targets+CoreDataProperties.m */; };
 		702510A31CC0F5AB00DADF2B /* Targets.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025109A1CC0F5AB00DADF2B /* Targets.m */; };
 		702510A61CC0F5CF00DADF2B /* AYChatSessionModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510A51CC0F5CF00DADF2B /* AYChatSessionModelFacade.m */; };
 		702510AB1CC0F67500DADF2B /* AYQueryChatSessionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510AA1CC0F67500DADF2B /* AYQueryChatSessionCommand.m */; };
@@ -381,6 +381,7 @@
 		708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */; };
 		708E7D951CBD5567005D96B5 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E7D931CBD5567005D96B5 /* AYAboutDDController.m */; };
 		709768AE1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */; };
+		709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768B01D226FA4005554DB /* Targets+CoreDataProperties.m */; };
 		709949A81CC299DF00078A5B /* AYFoundController.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949A71CC299DF00078A5B /* AYFoundController.m */; };
 		709949AC1CC29D6F00078A5B /* AYFoundGridDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AB1CC29D6F00078A5B /* AYFoundGridDelegate.m */; };
 		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
@@ -863,6 +864,8 @@
 		7017F3461CB79699002C416E /* AYReuseViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReuseViewFactory.m; sourceTree = "<group>"; };
 		7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DongDaBoundle.bundle; sourceTree = "<group>"; };
 		7017F3521CB7BA74002C416E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7018421E1D2399B2003154F1 /* AYEMClientInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMClientInitCommand.h; sourceTree = "<group>"; };
+		7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMClientInitCommand.m; sourceTree = "<group>"; };
 		701D8A311CA7999A00B5D4C1 /* remote.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = remote.xml; sourceTree = "<group>"; };
 		701D8A341CA7A96200B5D4C1 /* AYRemoteCallFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallFactory.h; sourceTree = "<group>"; };
 		701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteCallFactory.m; sourceTree = "<group>"; };
@@ -952,8 +955,6 @@
 		702510941CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Notifications+CoreDataProperties.m"; sourceTree = "<group>"; };
 		702510951CC0F5AB00DADF2B /* Notifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notifications.h; sourceTree = "<group>"; };
 		702510961CC0F5AB00DADF2B /* Notifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notifications.m; sourceTree = "<group>"; };
-		702510971CC0F5AB00DADF2B /* Targets+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Targets+CoreDataProperties.h"; sourceTree = "<group>"; };
-		702510981CC0F5AB00DADF2B /* Targets+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Targets+CoreDataProperties.m"; sourceTree = "<group>"; };
 		702510991CC0F5AB00DADF2B /* Targets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Targets.h; sourceTree = "<group>"; };
 		7025109A1CC0F5AB00DADF2B /* Targets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Targets.m; sourceTree = "<group>"; };
 		7025109B1CC0F5AB00DADF2B /* EnumDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumDefines.h; sourceTree = "<group>"; };
@@ -1308,6 +1309,9 @@
 		708E7D931CBD5567005D96B5 /* AYAboutDDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAboutDDController.m; sourceTree = "<group>"; };
 		709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMQueryGroupMemberLstCommand.h; sourceTree = "<group>"; };
 		709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMQueryGroupMemberLstCommand.m; sourceTree = "<group>"; };
+		709768AF1D226FA4005554DB /* Targets+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Targets+CoreDataProperties.h"; sourceTree = "<group>"; };
+		709768B01D226FA4005554DB /* Targets+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Targets+CoreDataProperties.m"; sourceTree = "<group>"; };
+		709768B21D2272E5005554DB /* MessageAndNotificationModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MessageAndNotificationModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		709949A61CC299DF00078A5B /* AYFoundController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundController.h; sourceTree = "<group>"; };
 		709949A71CC299DF00078A5B /* AYFoundController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundController.m; sourceTree = "<group>"; };
 		709949AA1CC29D6F00078A5B /* AYFoundGridDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundGridDelegate.h; sourceTree = "<group>"; };
@@ -2859,6 +2863,15 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
+		7018421D1D239993003154F1 /* EMClientInit */ = {
+			isa = PBXGroup;
+			children = (
+				7018421E1D2399B2003154F1 /* AYEMClientInitCommand.h */,
+				7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */,
+			);
+			path = EMClientInit;
+			sourceTree = "<group>";
+		};
 		701D8A331CA7A95000B5D4C1 /* RemoteCallFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -3120,6 +3133,8 @@
 			isa = PBXGroup;
 			children = (
 				7025108B1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld */,
+				709768AF1D226FA4005554DB /* Targets+CoreDataProperties.h */,
+				709768B01D226FA4005554DB /* Targets+CoreDataProperties.m */,
 				7025108D1CC0F5AB00DADF2B /* Messages.h */,
 				7025108E1CC0F5AB00DADF2B /* Messages.m */,
 				7025108F1CC0F5AB00DADF2B /* NotificationOwner+ContextOpt.h */,
@@ -3130,8 +3145,6 @@
 				702510941CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m */,
 				702510951CC0F5AB00DADF2B /* Notifications.h */,
 				702510961CC0F5AB00DADF2B /* Notifications.m */,
-				702510971CC0F5AB00DADF2B /* Targets+CoreDataProperties.h */,
-				702510981CC0F5AB00DADF2B /* Targets+CoreDataProperties.m */,
 				702510991CC0F5AB00DADF2B /* Targets.h */,
 				7025109A1CC0F5AB00DADF2B /* Targets.m */,
 			);
@@ -4733,6 +4746,7 @@
 			children = (
 				70A1A54B1D1D4A860063FC7F /* AYEMFacade.h */,
 				70A1A54C1D1D4A860063FC7F /* AYEMFacade.m */,
+				7018421D1D239993003154F1 /* EMClientInit */,
 				709768AB1D2262C5005554DB /* EMQueryGroupMemberLst */,
 				7082F1E01D1D4DD300E64496 /* EMEnterBackground */,
 				7082F1E11D1D4DD300E64496 /* EMEnterFront */,
@@ -6144,6 +6158,7 @@
 				706E46151CFC107A00CC7C53 /* AYLandingSNSView.m in Sources */,
 				70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */,
 				70F4287B1CC7B18F00A69977 /* MASViewAttribute.m in Sources */,
+				701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */,
 				704697D11CE047F200DACD8A /* SDImageCache.m in Sources */,
 				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				805218871CCB62D1006EF119 /* AYChatGroupInputDelegate.m in Sources */,
@@ -6156,6 +6171,7 @@
 				7002DB331CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m in Sources */,
 				70F4287C1CC7B18F00A69977 /* MASViewConstraint.m in Sources */,
 				7073E80F1D215D5600DA4698 /* AYXMPPFacade.m in Sources */,
+				709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */,
 				708E52881CC53C2E008A6023 /* AYCameraRollInitCommand.m in Sources */,
 				8086A2451CCE8674006186D4 /* AYUserPerviewController.m in Sources */,
 				70B1DC8E1CC73B390041794A /* AYPlayMovieMeta.m in Sources */,
@@ -6337,7 +6353,6 @@
 				701524451CBF94C7005B4C5B /* AYHomeContentDelegate.m in Sources */,
 				700BE5C31CBA6DE300A09B3A /* AYLoginSNSWithWechatCommand.m in Sources */,
 				70B1DCAF1CC76AC50041794A /* AYPostPublishController.m in Sources */,
-				702510A21CC0F5AB00DADF2B /* Targets+CoreDataProperties.m in Sources */,
 				700BE5C71CBA6DE900A09B3A /* AYLoginSNSWithWeiboCommand.m in Sources */,
 				708E527F1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m in Sources */,
 				70AC5BB31CC8C84600E2568F /* AYPostPhotosCommand.m in Sources */,
@@ -6894,6 +6909,7 @@
 		7025108B1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				709768B21D2272E5005554DB /* MessageAndNotificationModel 3.xcdatamodel */,
 				700515161CE069BF00F4D406 /* MessageAndNotificationModel 2.xcdatamodel */,
 				7025108C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodel */,
 			);

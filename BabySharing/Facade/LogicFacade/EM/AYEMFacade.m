@@ -18,7 +18,6 @@
 #import "AYModel.h"
 #import "AYRemoteCallCommand.h"
 
-static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 
 @interface AYEMFacade () <EMClientDelegate, EMChatManagerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate>
 
@@ -34,13 +33,13 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 }
 
 - (void)postPerform {
-    EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
-//    options.apnsCertName = @"istore_dev";
-    EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
-    if (error) {
-        NSLog(@"error is : %d", error.code);
-        @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
-    }
+//    EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
+////    options.apnsCertName = @"istore_dev";
+//    EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
+//    if (error) {
+//        NSLog(@"error is : %d", error.code);
+//        @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
+//    }
     
     //消息回调:EMChatManagerChatDelegate
     //注册消息回调

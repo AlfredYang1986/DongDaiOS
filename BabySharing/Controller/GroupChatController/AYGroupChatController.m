@@ -314,8 +314,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (id)sendMessage:(id)args {
     NSString* text = (NSString*)args;
     
-    id<AYFacadeBase> f = [self.facades objectForKey:@"XMPP"];
-    id<AYCommand> cmd = [f.commands objectForKey:@"SendMessage"];
+//    id<AYFacadeBase> f = [self.facades objectForKey:@"XMPP"];
+    id<AYFacadeBase> f = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"SendEMMessage"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:text forKey:@"text"];

@@ -42,7 +42,7 @@
     
     for (Targets* t in result) {
         
-        EMConversation* c = [[EMClient sharedClient].chatManager getConversation:[t.group_id stringValue] type:EMConversationTypeChatRoom createIfNotExist:NO];
+        EMConversation* c = [[EMClient sharedClient].chatManager getConversation:t.group_id type:EMConversationTypeChatRoom createIfNotExist:NO];
 
         NSTimeInterval d = [NSDate date].timeIntervalSince1970;
         NSArray* result = [c loadMoreMessagesWithType:EMMessageBodyTypeText before:d limit:1 from:nil direction:EMMessageSearchDirectionDownload];
