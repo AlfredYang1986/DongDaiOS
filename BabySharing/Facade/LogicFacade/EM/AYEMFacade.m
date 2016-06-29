@@ -99,7 +99,18 @@
  @brief 接收到一条及以上非cmd消息
  */
 - (void)didReceiveMessages:(NSArray *)aMessages {
+    for (EMMessage* message in aMessages) {
+        NSLog(@"message is : %@", ((EMTextMessageBody*)message.body).text);
     
+        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+        [notify setValue:kAYNotifyEMReceiveMessage forKey:kAYNotifyFunctionKey];
+    
+        NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+        [args setValue:message forKey:@"message"];
+        [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+        [self performWithResult:&notify];
+    }
 }
 
 /*!

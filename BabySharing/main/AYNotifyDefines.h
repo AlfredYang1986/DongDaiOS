@@ -54,6 +54,7 @@ static NSString* const kAYNotifyDidMergeMovieRecord = @"DidMergeMovieRecord:";
 static NSString* const kAYNotifyEMMessageSendSuccess = @"EMMessageSendSuccess:";
 static NSString* const kAYNotifyEMMessageSendFailed = @"EMMessageSendFailed:";
 static NSString* const kAYNotifyEMReceiveMessage = @"EMReceiveMessage:";
+static NSString* const kAYNotifyEMReceiveCMDMessage = @"EMReceiveCMDMessage:";
 static NSString* const kAYNotifyEMGetGroupMemberSuccess = @"EMGetGroupMemberSuccess:";
 static NSString* const kAYNotifyEMMessageGetMessageListSuccess = @"EMMessageGetMessageListSuccess:";
 static NSString* const kAYNotifyEMMessageGetMessageListFailed = @"EMMessageGetMessageListFailed:";
