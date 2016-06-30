@@ -70,7 +70,6 @@
     
     
     id tmp = [self.querydata objectAtIndex:indexPath.row];
-    NSLog(@"sunfei -- %@",tmp);
     
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [cmd performWithResult:&tmp];

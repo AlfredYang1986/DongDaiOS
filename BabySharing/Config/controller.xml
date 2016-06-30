@@ -511,7 +511,7 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="FakeNavBar"     name="SetNevigationBarTitle" />
-        <view type="FiterScroll"     name="FiterScroll" />
+        <view type="FiterScroll"    name="FiterScroll" />
         <!--        <view type="Calendar"       name="Calendar" />-->
     </controller>
     
@@ -534,7 +534,7 @@
     </controller>
     
     <controller type="DefaultController" name="ContentList" factory="AYDefaultControllerFactoy" >
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
+<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
         <view type="Table"          name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="ContentList" />

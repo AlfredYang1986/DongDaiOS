@@ -406,8 +406,10 @@
     <view type="FiterScroll" name="FiterScroll" factory="AYReuseViewFactory" >
         <command type="message"     message="queryFiterArgs:" />
         <command type="message"     message="resetFiterArgs" />
+        <command type="message"     message="dateScrollToCenter:" />
         <command type="notify"      message="hiddenCLResultTable" />
         <command type="notify"      message="changeNavTitle:" />
+        <command type="notify"      message="queryDateString:" />
     </view>
     
     <view type="ShowBoard" name="ShowBoard" factory="AYReuseViewFactory" >

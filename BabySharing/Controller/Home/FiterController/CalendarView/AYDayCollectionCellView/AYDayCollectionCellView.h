@@ -13,6 +13,7 @@
 /** 月 */
 @property (nonatomic, copy) NSString *gregoiainDay;
 @property (nonatomic, copy) NSString *dayDay;
+@property (nonatomic, assign) BOOL isGone;
 /** 日 */
 @property (nonatomic, copy) NSString *lunarDay;
 

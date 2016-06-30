@@ -217,7 +217,45 @@
     return [self.chineseDays objectAtIndex:(localeComp.day==0? 29: localeComp.day-1)];
 }
 
+//返回当前年
+-(int)getYear{
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDate *nowDate = [NSDate date];
+    NSDateComponents *nowDateComps = [[NSDateComponents alloc] init];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    nowDateComps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:nowDate];
+    
+    return (int)[nowDateComps year];
+    
+}
 
+//返回当前月
+-(int)getMonth{
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDate *nowDate = [NSDate date];
+    NSDateComponents *nowDateComps = [[NSDateComponents alloc] init];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    nowDateComps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:nowDate];
+    
+    return (int)[nowDateComps month];
+}
+
+//返回当前日
+-(int)getDay{
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    
+    NSDate *nowDate = [NSDate date];
+    NSDateComponents *nowDateComps = [[NSDateComponents alloc] init];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    nowDateComps = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:nowDate];
+    
+    return (int)[nowDateComps day];
+}
 
 
 @end

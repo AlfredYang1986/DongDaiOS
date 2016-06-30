@@ -16,19 +16,6 @@
 #import "Tools.h"
 #import "AYRemoteCallDefines.h"
 
-@interface DDButton : UIButton
--(void)setImage:(UIImage *)image forState:(UIControlState)state withFrame:(CGRect)rect;
-@end
-
-@implementation DDButton
--(void)setImage:(UIImage *)image forState:(UIControlState)state withFrame:(CGRect)rect{
-    [super setImage:image forState:state];
-//    rect.origin.x
-    
-}
-
-@end
-
 typedef NS_ENUM(NSInteger, RegisterResult) {
     RegisterResultSuccess,
     RegisterResultError,
@@ -109,8 +96,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     bar.barStyle = UIStatusBarStyleDefault;
     
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-//    self.view.backgroundColor = [Tools themeColor];
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"launchscreen"]];
+//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"launchscreen"]];
+//    UIImage *image = [UIImage fullscreenImageWithName:@"home_bg.png"];
+    self.view.layer.contents = (id)IMGRESOURCE(@"launchscreen").CGImage;
    
     isUpAnimation = NO;
     
@@ -128,7 +116,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [self.view addSubview:phoneNoLogin];
 //    [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
     phoneNoLogin.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
-    phoneNoLogin.layer.cornerRadius = 4.f;
+    phoneNoLogin.layer.cornerRadius = 2.f;
     phoneNoLogin.clipsToBounds = YES;
     
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -536,7 +524,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
 //                }
 //                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
-//                    
 //                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
 //                    
 //                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];

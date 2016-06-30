@@ -213,6 +213,9 @@
         id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
         if (img != nil) {
             [cmd performWithResult:&img];
+        }else {
+            UIImage *tmp_img = PNGRESOURCE(@"default_user");
+            [cmd performWithResult:&tmp_img];
         }
     }];
     

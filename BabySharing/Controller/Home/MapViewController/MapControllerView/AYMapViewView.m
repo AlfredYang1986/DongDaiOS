@@ -69,7 +69,7 @@
         anno.coordinate = location.coordinate;
         anno.title = @"谁知道哪！";
         anno.imageName = @"position_small";
-        anno.index = i + 1;
+        anno.index = i + 200;
         [self addAnnotation:anno];
         NSLog(@"add anno");
         [annoArray addObject:anno];
@@ -123,11 +123,16 @@
         NSLog(@"%@",sub);
         if ([sub isKindOfClass:[UIView class]]) {
             for (NSObject *sub_2 in ((UIView*)sub).subviews) {
-                <#statements#>
+                NSLog(@"%@--%@",sub,sub_2);
+//                if ([sub_2 isKindOfClass:[MAMapScrollView class]]) { //MAMapScrollView
+//                    for (NSObject *sub_3 in ((UIScrollView*)sub_2).subviews) {
+//                        NSLog(@"\n====%@",sub_3);
+//                    }
+//                }
             }
         }
-//        if ([sub isKindOfClass:[MAAnnotationView class]]) {
-//            NSLog(@"yes");
+//        if (sub.tag == 200 + index.integerValue) {
+//            
 //        }
     }
     
@@ -190,7 +195,7 @@
     [self setCenterCoordinate:anno.coordinate animated:YES];
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
-    NSNumber *index = [NSNumber numberWithFloat:anno.index];
+    NSNumber *index = [NSNumber numberWithFloat:(anno.index-200)];
     [cmd performWithResult:&index];
 }
 

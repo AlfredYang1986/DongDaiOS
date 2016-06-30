@@ -36,15 +36,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    
+    _photoImage.layer.borderWidth = 2.f;
+    _photoImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
     _photoImage.layer.cornerRadius = _photoImage.bounds.size.width * 0.5;
     _photoImage.clipsToBounds = YES;
-    
-    CALayer *line_separator = [CALayer layer];
-    line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
-    line_separator.borderWidth = 1.f;
-    line_separator.frame = CGRectMake(10, self.bounds.size.height - 1, self.bounds.size.width - 20, 1);
-    [self.layer addSublayer:line_separator];
     
     [self setUpReuseCell];
 }

@@ -95,7 +95,9 @@
     welcome.font = [UIFont systemFontOfSize:24.f];
     welcome.textColor = [UIColor whiteColor];
     welcome.textAlignment = NSTextAlignmentLeft;
-    welcome.text = @"欢迎";
+//    welcome.text = @"欢迎";
+    NSString *user_name = [_login_attr objectForKey:@"screen_name"];
+    welcome.text = [NSString stringWithFormat:@"欢迎，%@",[user_name substringFromIndex:(user_name.length - 1)]];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(WELCOMEY);
@@ -107,7 +109,7 @@
     
     _invateCode = [[UITextField alloc]init];
     [self.view addSubview:_invateCode];
-    _invateCode.layer.cornerRadius = 4.f;
+    _invateCode.layer.cornerRadius = 2.f;
     _invateCode.clipsToBounds = YES;
     _invateCode.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
     _invateCode.font = [UIFont systemFontOfSize:14.f];
@@ -232,7 +234,7 @@
     
     UIView *options_12 = [[UIView alloc]init];
     options_12.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
-    options_12.layer.cornerRadius = 4.f;
+    options_12.layer.cornerRadius = 2.f;
     options_12.clipsToBounds = YES;
     
     [screenPhotoView addSubview:options_12];
@@ -279,7 +281,7 @@
     
     UIView *options_3 = [[UIView alloc]init];
     options_3.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
-    options_3.layer.cornerRadius = 4.f;
+    options_3.layer.cornerRadius = 2.f;
     options_3.clipsToBounds = YES;
     
     [screenPhotoView addSubview:options_3];
@@ -385,8 +387,8 @@
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     
     if (!screen_photo || [screen_photo isEqualToString:@""]) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您没有选择用户头像" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        return ;
+//        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您没有选择用户头像" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//        return ;
     }
     if (![_invateCode.text isEqualToString:@"1111"]) {
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入有效的邀请码" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
@@ -396,7 +398,7 @@
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
     [dic_update setValue:[_login_attr objectForKey:@"screen_name"] forKey:@"screen_name"];
     [dic_update setValue:[_login_attr objectForKey:@"role_tag"] forKey:@"role_tag"];
-    [dic_update setValue:screen_photo forKey:@"screen_photo"];
+    [dic_update setValue:[_login_attr objectForKey:@"screen_photo"] forKey:@"screen_photo"];
     [dic_update setValue:[_login_attr objectForKey:@"auth_token"] forKey:@"auth_token"];
     [dic_update setValue:[_login_attr objectForKey:@"user_id"] forKey:@"user_id"];
     [dic_update setValue:0 forKey:@"gender"];
@@ -437,32 +439,32 @@
     
 }
 
-//- (id)CurrentLoginUserChanged:(id)args {
-//    NSLog(@"Notify args: %@", args);
-////    NSLog(@"TODO: 进入咚哒");
+- (id)CurrentLoginUserChanged:(id)args {
+    NSLog(@"Notify args: %@", args);
+//    NSLog(@"TODO: 进入咚哒");
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+  
+    NSString* message_name = @"LoginSuccess";
+    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic_pop];
+    
+//    AYFacade* f = LOGINMODEL;
+//    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+//    id obj = nil;
+//    [cmd performWithResult:&obj];
 //    
-//    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-//    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-//    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-//  
-//    NSString* message_name = @"LoginSuccess";
-//    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd = POPTOROOT;
-//    [cmd performWithResult:&dic_pop];
-//    
-////    AYFacade* f = LOGINMODEL;
-////    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
-////    id obj = nil;
-////    [cmd performWithResult:&obj];
-////    
-////    AYFacade* xmpp = [self.facades objectForKey:@"XMPP"];
-////    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginXMPP"];
-////    NSDictionary* dic = (NSDictionary*)obj;
-////    NSString* current_user_id = [dic objectForKey:@"user_id"];
-////    [cmd_login_xmpp performWithResult:&current_user_id];
-//    return nil;
-//}
+//    AYFacade* xmpp = [self.facades objectForKey:@"XMPP"];
+//    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginXMPP"];
+//    NSDictionary* dic = (NSDictionary*)obj;
+//    NSString* current_user_id = [dic objectForKey:@"user_id"];
+//    [cmd_login_xmpp performWithResult:&current_user_id];
+    return nil;
+}
 
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");

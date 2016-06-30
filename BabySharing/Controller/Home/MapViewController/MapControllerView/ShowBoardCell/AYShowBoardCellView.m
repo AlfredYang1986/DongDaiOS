@@ -89,6 +89,8 @@
             make.left.equalTo(_iconImage.mas_right).offset(12.5);
             make.centerY.equalTo(_iconImage);
         }];
+        _iconImage.hidden = YES;
+        _friendsLabel.hidden = YES;
         
         self.userInteractionEnabled = YES;
     }

@@ -394,11 +394,6 @@
 }
 
 - (void)postContentClicked:(UITapGestureRecognizer*)geture {
-    
-    UIImageView *tapView = (UIImageView*)geture.view;
-    NSLog(@"sunfei -- %@",tapView.image);
-    NSLog(@"sunfei -- %@",self.notification.action_post_item);
-    
     //home content
     id<AYFacadeBase> f_owner_query = HOMECONTENTMODEL;
     id<AYCommand> cmd_owner_query = [f_owner_query.commands objectForKey:@"EnumHomeQueryData"];
@@ -409,7 +404,6 @@
         for (QueryContentItem* item in content.items) {
             if ([item.item_name isEqualToString:self.notification.action_post_item]) {
                 contentArr = @[content];
-                NSLog(@"sunfei item -- %@",item.item_name);
             }
         }
     }

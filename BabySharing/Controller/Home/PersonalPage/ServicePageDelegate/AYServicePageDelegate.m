@@ -108,7 +108,7 @@
     if (indexPath.row == 0) {
         return 225;
     }else {
-        return 1000;
+        return 1024;
     }
 }
 
@@ -118,7 +118,6 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat off_y = scrollView.contentOffset.y;
-    NSLog(@"%f",off_y);
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
     NSNumber *y = [NSNumber numberWithFloat:off_y];

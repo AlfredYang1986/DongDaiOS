@@ -31,6 +31,8 @@
 @implementation AYFiterController{
     NSMutableArray *loading_status;
     UIButton *didSearchBtn;
+    
+    NSString *dateString;
 }
 
 - (void)postPerform{
@@ -42,7 +44,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        dateString = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -57,7 +59,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     loading_status = [[NSMutableArray alloc]init];
@@ -96,7 +98,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    id<AYViewBase> fiter = [self.views objectForKey:@"FiterScroll"];
+    id<AYCommand> cmd = [fiter.commands objectForKey:@"dateScrollToCenter:"];
+    NSString *str = [dateString copy];
+    [cmd performWithResult:&str];
+}
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
@@ -228,5 +236,9 @@
 -(BOOL)isActive{
     UIViewController * tmp = [Tools activityViewController];
     return tmp == self;
+}
+
+-(id)queryDateString:(id)args{
+    return dateString;
 }
 @end

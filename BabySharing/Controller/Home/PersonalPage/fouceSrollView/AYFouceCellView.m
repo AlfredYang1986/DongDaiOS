@@ -39,7 +39,7 @@
         cycleScrollView.pageControlDotSize = CGSizeMake(10, 10);
         [self addSubview:cycleScrollView];
         cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        cycleScrollView.autoScrollTimeInterval = 4.0;
+        cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 //不自动滚动
         
         _popImage = [[UIImageView alloc]init];
         _popImage.image = IMGRESOURCE(@"bar_left_white");
@@ -70,6 +70,9 @@
             make.size.mas_equalTo(CGSizeMake(28, 28));
         }];
         _friendsImage.userInteractionEnabled = YES;
+        
+        xFriend.hidden = YES;
+        _friendsImage.hidden = YES;
         
         UILabel *costLabel = [[UILabel alloc]init];
         costLabel = [Tools setLabelWith:costLabel andText:[NSString stringWithFormat:@"¥ %.1f／小时",80.f] andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];

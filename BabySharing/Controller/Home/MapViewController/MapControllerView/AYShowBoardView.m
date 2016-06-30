@@ -73,7 +73,10 @@
 }
 
 -(id)changeOffsetX:(NSNumber*)index {
-    [self setContentOffset:CGPointMake(CellWidth * index.floatValue - (self.frame.size.width - CellWidth)*0.5, 0) animated:YES];
+    if (index.floatValue == 0) {
+        [self setContentOffset:CGPointMake(0, 0) animated:YES];
+    } else
+        [self setContentOffset:CGPointMake(CellWidth * index.floatValue - (self.frame.size.width - CellWidth)*0.5, 0) animated:YES];
     
     return nil;
 }
@@ -101,16 +104,40 @@
 
 #pragma mark -- scrollview delegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    static CGFloat pre_offset_x = 0;
+    CGFloat cur_offset_x = self.contentOffset.x;
+    CGFloat slide = pre_offset_x - cur_offset_x;
+    pre_offset_x = cur_offset_x;
     
-//    NSLog(@"%f",(self.contentOffset.x + SCREEN_WIDTH/2) / CellWidth);
-    if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) != indexNumb) {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeAnnoMessage:"];
+    if (slide < 0) {
+        if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) > indexNumb) {
+            indexNumb = (int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth);
+            
+            NSNumber *index = [NSNumber numberWithFloat:indexNumb];
+            [cmd performWithResult:&index];
+            NSLog(@"%d",indexNumb);
+        }
         
-        indexNumb = (int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth);
+    } else if (slide > 0){
+        if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) < indexNumb-1) {
+            indexNumb = (int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) + 1;
+            
+            NSNumber *index = [NSNumber numberWithFloat:indexNumb];
+            [cmd performWithResult:&index];
+            NSLog(@"%d",indexNumb);
+        }
+    } else {
         
-        id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeAnnoMessage:"];
+    }
+    if (self.contentOffset.x == 0) {
+        indexNumb = 0;
+        
         NSNumber *index = [NSNumber numberWithFloat:indexNumb];
         [cmd performWithResult:&index];
+        NSLog(@"%d",indexNumb);
     }
+    
 }
 
 //一个拖拽后续动作全部结束时 调用

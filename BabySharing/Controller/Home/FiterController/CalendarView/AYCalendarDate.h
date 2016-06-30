@@ -73,5 +73,11 @@
 - (NSDate *) strToDate:(NSString *)dateStr;
 // 日期转字符串
 - (NSString *) dataToString:(NSDate *)date;
+//返回当前年
+-(int)getYear;
+//返回当前月
+-(int)getMonth;
+//返回当前日
+-(int)getDay;
 
 @end

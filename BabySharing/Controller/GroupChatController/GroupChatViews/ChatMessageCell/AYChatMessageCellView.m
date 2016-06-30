@@ -239,7 +239,7 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             [imgView setImage:img];
-        }
+        }else [imgView setImage:PNGRESOURCE(@"default_user")];
     }];
 }
 

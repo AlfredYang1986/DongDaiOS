@@ -98,7 +98,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     UIImageView *coverImg = [[UIImageView alloc]init];
@@ -144,14 +144,17 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     UILabel *say = [[UILabel alloc]init];
     say.text = @"找到附近你认同的妈妈，帮你带两个小时孩子";
     say.font = [UIFont systemFontOfSize:16.f];
+    say.numberOfLines = 0;
     say.textColor = [UIColor grayColor];
     [self.view addSubview:say];
     [say mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(hello);
+        make.left.equalTo(self.view).offset(30);
+        make.right.equalTo(self.view).offset(-30);
         make.top.equalTo(hello.mas_bottom).offset(10);
     }];
     
     UIButton *personal = [[UIButton alloc]init];
+    personal.hidden = YES;
     [personal setTitle:@"一键发布服务信息" forState:UIControlStateNormal];
     personal.backgroundColor = [Tools themeColor];
     [self.view addSubview:personal];

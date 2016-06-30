@@ -119,10 +119,25 @@
 
 + (LoginToken *)createTokenInContext:(NSManagedObjectContext*)context withUserID:(NSString*)user_id andAttrs:(NSDictionary*)dic {
     
+    /*
+    NSManagedObjectContext（托管对象上下文）：数据库
+    NSEntityDescription（实体描述）：表
+    NSFetchRequest（请求）：命令集
+    NSPredicate（谓词）：查询语句
+     
+    在书中给出的例子中的一些语句可以用数据库的常用操作来理解
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];           //指定一个“数据库”
+    NSEntityDescription *entityDescription = [[NSEntityDescription alloc] entityForName:@"Line" inManagedObjectContext:context];                                            //指定一个“表”，Line即是“表名”，context即这个“表”所在的“数据库”
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];                        //创建一个空“命令”
+    [request setEntity:entityDescription];                                          //给这个“命令”指定一个目标“表”
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(linenum = %d)",i];      //创建一个“查询”，寻找linenum=i的行
+    [request setPredicate:pred];                                                    //赋予“命令”具体的内容，即实现一个“查询”
+    NSArray *objects = [context executeFetchRequest:request error:&error];          //执行“命令”，获得“结果”objects
+    */
+    
     NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"LoginToken"];
     request.predicate = [NSPredicate predicateWithFormat:@"user_id = %@", user_id];
     NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
-    
     request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
     
     NSError* error = nil;

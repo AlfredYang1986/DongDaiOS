@@ -67,7 +67,7 @@
     inputView = [[UIView alloc]init];
     [self addSubview:inputView];
     [inputView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
-    inputView.layer.cornerRadius = 4.f;
+    inputView.layer.cornerRadius = 2.f;
     inputView.clipsToBounds = YES;
     [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(input_tips.mas_bottom).offset(15);

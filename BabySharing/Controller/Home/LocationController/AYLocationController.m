@@ -137,9 +137,10 @@
     [super viewWillAppear:animated];
 }
 
--(void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    [view becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

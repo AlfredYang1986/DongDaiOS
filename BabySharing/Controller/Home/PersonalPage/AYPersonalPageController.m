@@ -127,7 +127,7 @@
     
     UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
-    [bookBtn setTitle:@"预定" forState:UIControlStateNormal];
+    [bookBtn setTitle:@"沟通" forState:UIControlStateNormal];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:bookBtn];

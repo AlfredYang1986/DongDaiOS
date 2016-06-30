@@ -22,6 +22,7 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="em2-VA-kTh" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="BYX-lL-j0d"/>
                 <constraint firstItem="em2-VA-kTh" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="wxg-e8-H5I"/>

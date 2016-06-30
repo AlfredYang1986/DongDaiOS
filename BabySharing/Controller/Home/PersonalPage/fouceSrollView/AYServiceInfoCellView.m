@@ -33,7 +33,9 @@
 
 @implementation AYServiceInfoCellView{
     UILabel *aboutMMIntru;
+    UILabel *aboutMMDesc;
     UITextView *aboutMMIntruText;
+    UILabel *contextlabel;
 }
 //@synthesize aboutMMIntru = _aboutMMIntru;
 
@@ -56,7 +58,7 @@
         }];
         
         _starRangImage = [[UIImageView alloc]init];
-        _starRangImage.image = IMGRESOURCE(@"star_rang_1");
+        _starRangImage.image = IMGRESOURCE(@"star_rang_5");
         [self addSubview:_starRangImage];
         [_starRangImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_titleLabel);
@@ -121,7 +123,7 @@
         }];
         
         aboutMMIntru = [[UILabel alloc]init];
-        aboutMMIntru = [Tools setLabelWith:aboutMMIntru andText:@"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈," andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        aboutMMIntru = [Tools setLabelWith:aboutMMIntru andText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         aboutMMIntru.numberOfLines = 3.f;
         [self addSubview:aboutMMIntru];
         [aboutMMIntru mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -129,20 +131,6 @@
             make.left.equalTo(_titleLabel);
             make.width.mas_equalTo(WIDTH);
         }];
-        
-//        aboutMMIntruText = [[UITextView alloc]init];
-//        NSString *strHtml = @"<b>提示</b><br/>1、测试测试测试测试测试测试测试测试测试测试测试测试<br/>2、测试测试测试测试测试测试测试测试测试测试";
-//        NSAttributedString * strAtt = [[NSAttributedString alloc] initWithData:[strHtml dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-////        self.labelContent.attributedText = strAtt;
-//        aboutMMIntruText.attributedText = strAtt;
-//        aboutMMIntruText.backgroundColor = [UIColor orangeColor];
-//        [aboutMMIntruText sizeToFit];
-//        [self addSubview:aboutMMIntruText];
-//        [aboutMMIntruText mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(_photoImageView.mas_bottom).offset(15);
-//            make.left.equalTo(_titleLabel);
-//            make.size.mas_equalTo(CGSizeMake(WIDTH, 50));
-//        }];
         
         _readMore = [[UIButton alloc]init];
         [_readMore setTitle:@"阅读更多" forState:UIControlStateNormal];
@@ -176,7 +164,7 @@
         familyLabel = [Tools setLabelWith:familyLabel andText:@"家庭成员描述：" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:familyLabel];
         [familyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(aboutMMIntru.mas_bottom).offset(25);
+            make.top.equalTo(_readMore.mas_bottom).offset(25);
             make.left.equalTo(_titleLabel);
             make.size.mas_equalTo(CGSizeMake(WIDTH, 64));
         }];
@@ -274,10 +262,11 @@
             make.right.equalTo(self).offset(-18);
         }];
         
-        UILabel *contextlabel = [[UILabel alloc]init];
-        contextlabel.text = @"关于妈妈关于。妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,";
+        contextlabel = [[UILabel alloc]init];
+        contextlabel.text = @"";
         contextlabel.textColor = [Tools blackColor];
         contextlabel.font = [UIFont systemFontOfSize:14.f];
+        
         contextlabel.numberOfLines = 2.f;
         [self addSubview:contextlabel];
         [contextlabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -335,7 +324,6 @@
         UIEdgeInsets titleInsets = UIEdgeInsetsMake(30, -50, -30, 0);
         
         _chatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _chatBtn.backgroundColor = [UIColor orangeColor];
         [_chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
         _chatBtn.imageEdgeInsets = iamgeInsets;
         [_chatBtn setTitle:@"与TA沟通" forState:UIControlStateNormal];
@@ -361,7 +349,7 @@
         [self addSubview:_dailyBtn];
         [_dailyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_chatBtn);
-            make.right.equalTo(_chatBtn.mas_left).offset(-50);
+            make.right.equalTo(_chatBtn.mas_left).offset(-SCREEN_WIDTH*(60/375));
             make.size.equalTo(_chatBtn);
         }];
         
@@ -376,7 +364,7 @@
         [self addSubview:_costBtn];
         [_costBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_chatBtn);
-            make.left.equalTo(_chatBtn.mas_right).offset(50);
+            make.left.equalTo(_chatBtn.mas_right).offset(SCREEN_WIDTH*(60/375));
             make.size.equalTo(_chatBtn);
         }];
         
@@ -411,6 +399,37 @@
         self.titleLabel.text = [_service_info objectForKey:@"title"];
 //        aboutMMIntru.text = [_service_info objectForKey:@"description"];
         
+        NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+        paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+        paraStyle.alignment = NSTextAlignmentLeft;
+        /** 行高 */
+        paraStyle.lineSpacing = 8;
+        paraStyle.hyphenationFactor = 1.0;
+        paraStyle.firstLineHeadIndent = 0.0;
+        paraStyle.paragraphSpacingBefore = 0.0;
+        paraStyle.headIndent = 0;
+        paraStyle.tailIndent = 0;
+        NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
+        
+        if (_takeOffMore.hidden) {
+            NSString *desc = @"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈.";
+            if (desc.length > 60) {
+                desc = [desc substringToIndex:60];
+                desc = [desc stringByAppendingString:@"..."];
+            }
+            
+            NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
+            aboutMMIntru.attributedText = descAttri;
+            
+        }
+        
+        NSString *contentString = @"关于妈妈关于。妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,";
+        if (contentString.length > 46) {
+            contentString = [contentString substringToIndex:46];
+            contentString = [contentString stringByAppendingString:@"..."];
+        }
+        contextlabel.attributedText = [[NSAttributedString alloc]initWithString:contentString attributes:dic_format];
+        
         NSDictionary *dic_loc = [_service_info objectForKey:@"location"];
         NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
         NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
@@ -427,13 +446,30 @@
 //More
 -(void)didReadMoreClick:(UIButton*)btn{
     aboutMMIntru.numberOfLines = 6.f;
+    
     _readMore.hidden = YES;
     _takeOffMore.hidden = NO;
+    NSString *desc = @"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈.";
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paraStyle.alignment = NSTextAlignmentLeft;
+    /** 行高 */
+    paraStyle.lineSpacing = 8;
+    paraStyle.hyphenationFactor = 1.0;
+    paraStyle.firstLineHeadIndent = 0.0;
+    paraStyle.paragraphSpacingBefore = 0.0;
+    paraStyle.headIndent = 0;
+    paraStyle.tailIndent = 0;
+    NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
+    NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
+    aboutMMIntru.attributedText = descAttri;
+    NSLog(@"%@",aboutMMIntru.attributedText);
+    
 }
 -(void)didTakeOffMoreClick:(UIButton*)btn{
-    aboutMMIntru.numberOfLines = 3.f;
     _readMore.hidden = NO;
     _takeOffMore.hidden = YES;
+    aboutMMIntru.numberOfLines = 3.f;
 }
 @end
 /********* ********/

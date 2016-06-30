@@ -58,11 +58,11 @@
     
     _costLabel.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.2f];
     
-    CALayer *line_separator = [CALayer layer];
-    line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
-    line_separator.borderWidth = 1.f;
-    line_separator.frame = CGRectMake(0, 289, self.bounds.size.width, 1);
-    [self.layer addSublayer:line_separator];
+//    CALayer *line_separator = [CALayer layer];
+//    line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
+//    line_separator.borderWidth = 1.f;
+//    line_separator.frame = CGRectMake(0, 289, self.bounds.size.width, 1);
+//    [self.layer addSublayer:line_separator];
     
     [self setUpReuseCell];
 }

@@ -61,7 +61,7 @@
     UIView *countryAreaView = [[UIView alloc]init];
     [self addSubview:countryAreaView];
     [countryAreaView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
-    countryAreaView.layer.cornerRadius = 4.f;
+    countryAreaView.layer.cornerRadius = 2.f;
     countryAreaView.clipsToBounds = YES;
     [countryAreaView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(input_tips.mas_bottom).offset(15);
@@ -108,7 +108,7 @@
     inputPhoneNoView = [[UIView alloc]init];
     [self addSubview:inputPhoneNoView];
     [inputPhoneNoView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
-    inputPhoneNoView.layer.cornerRadius = 4.f;
+    inputPhoneNoView.layer.cornerRadius = 2.f;
     inputPhoneNoView.clipsToBounds = YES;
     [inputPhoneNoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(countryAreaView.mas_bottom).offset(12);
@@ -155,7 +155,7 @@
     
     getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
     getCodeBtn.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
-    getCodeBtn.layer.cornerRadius = 4.f;
+    getCodeBtn.layer.cornerRadius = 2.f;
     getCodeBtn.clipsToBounds = YES;
     [getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:getCodeBtn];
@@ -170,7 +170,7 @@
     inputCodeView = [[UIView alloc]init];
     [self addSubview:inputCodeView];
     [inputCodeView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
-    inputCodeView.layer.cornerRadius = 4.f;
+    inputCodeView.layer.cornerRadius = 2.f;
     inputCodeView.clipsToBounds = YES;
     [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputPhoneNoView.mas_bottom).offset(12);

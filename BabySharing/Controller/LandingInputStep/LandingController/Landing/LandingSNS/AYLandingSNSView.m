@@ -78,7 +78,8 @@
     wechat_btn.clipsToBounds = YES;
     [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.bottom.equalTo(self).offset(-24);
+//        make.bottom.equalTo(self).offset(-24);
+        make.centerY.equalTo(self).offset(2);
         make.width.mas_offset(SNS_BUTTON_WIDTH);
         make.height.mas_offset(SNS_BUTTON_HEIGHT);
     }];

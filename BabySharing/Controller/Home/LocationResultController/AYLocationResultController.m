@@ -171,15 +171,6 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-//    UIButton* bar_left_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-//    [bar_left_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-//    [bar_left_btn setTitle:@"返回" forState:UIControlStateNormal];
-//    bar_left_btn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-//    [bar_left_btn sizeToFit];
-//    bar_left_btn.center = CGPointMake(10.5 + bar_left_btn.frame.size.width / 2, 44 / 2);
-//    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnWithBtn:"];
-//    [cmd_left performWithResult:&bar_left_btn];
-    
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
     [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
@@ -194,7 +185,7 @@
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     UILabel* titleView = (UILabel*)view;
-//    titleView.text = @"当前位置";
+    
     titleView.text = location_name;
     titleView.font = [UIFont systemFontOfSize:16.f];
     titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];

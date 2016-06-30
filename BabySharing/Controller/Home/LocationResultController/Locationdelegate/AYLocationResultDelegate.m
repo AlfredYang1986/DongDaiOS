@@ -70,7 +70,6 @@
     if (cell == nil) {
         cell = VIEW(@"CLResultCell", @"CLResultCell");
     }
-    
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -82,12 +81,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 290;
+    return 315;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");

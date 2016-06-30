@@ -156,8 +156,8 @@
     [cmd_coder performWithResult:&input_coder];
     
     NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
-    [dic_auth setValue:[self phoneNo] forKey:@"phoneNo"];
-    [dic_auth setValue:[self reg_token] forKey:@"reg_token"];
+    [dic_auth setValue:self.phoneNo forKey:@"phoneNo"];
+    [dic_auth setValue:self.reg_token forKey:@"reg_token"];
     [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     [dic_auth setValue:input_coder forKey:@"code"];
     
@@ -244,28 +244,23 @@
             id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
             NSNumber *is_reg = [result objectForKey:@"is_reg"];
             if (is_reg.intValue == 0) {
-                
                 id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
                 id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
                 UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
                 [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
                 [bar_right_btn sizeToFit];
-                bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+                bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
                 [fake_cmd performWithResult:&bar_right_btn];
                 
                 id<AYCommand> hide_cmd = [input.commands objectForKey:@"hideEnterBtnForOldUser"];
                 [hide_cmd performWithResult:nil];
-                
             } else if (is_reg.intValue == 1) {
                 id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
                 id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
-                UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-                [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, 25, 25)];
                 [bar_right_btn setTitle:@" " forState:UIControlStateNormal];
-                [bar_right_btn sizeToFit];
                 bar_right_btn.userInteractionEnabled = NO;
-                bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
                 [fake_cmd performWithResult:&bar_right_btn];
                 
                 id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
@@ -284,13 +279,6 @@
 
 - (id)endRemoteCall:(id)obj {
     return nil;
-}
-
--(NSString*)phoneNo{
-    return _phoneNo;
-}
--(NSString*)reg_token{
-    return _reg_token;
 }
 
 -(id)queryCurPhoneNo:(NSString*)args{

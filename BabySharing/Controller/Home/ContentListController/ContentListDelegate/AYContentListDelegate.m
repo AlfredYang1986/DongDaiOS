@@ -75,19 +75,23 @@
     
     
     id tmp = [querydata objectAtIndex:indexPath.row];
-    NSLog(@"sunfei -- %@",tmp);
+    
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [cmd performWithResult:&tmp];
     
     return (UITableViewCell*)cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 135;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return 150;
+//}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
 
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
 }
 
 @end

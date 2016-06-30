@@ -119,7 +119,7 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             imgView.image = img;
-        }
+        } else imgView.image = PNGRESOURCE(@"default_user");
     }];
     
     return nil;

@@ -78,53 +78,6 @@
         make.centerY.equalTo(didStarPlanTime);
         make.size.mas_equalTo(CGSizeMake(23, 23));
     }];
-    
-//    CALayer *line_separator = [CALayer layer];
-//    line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:1.f].CGColor;
-//    line_separator.borderWidth = 1.f;
-//    line_separator.frame = CGRectMake(WIDTH *0.5, 10, 1, 50);
-//    [self.layer addSublayer:line_separator];
-//    
-//    UIView *PostTimeView = [[UIView alloc]initWithFrame:CGRectMake(0, 5, WIDTH *0.5, 60)];
-//    [self addSubview:PostTimeView];
-//    
-//    CATextLayer *postTitle = [CATextLayer layer];
-//    postTitle.frame = CGRectMake(0, 10, WIDTH * 0.5, 20);
-//    postTitle.string = @"预计送娃时间";
-//    postTitle.fontSize = 14.f;
-//    postTitle.foregroundColor = [UIColor blackColor].CGColor;
-//    postTitle.alignmentMode = @"center";
-//    postTitle.contentsScale = 2.f;
-//    [PostTimeView.layer addSublayer:postTitle];
-//    
-//    didStarPlanTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, WIDTH * 0.5, 16)];
-//    didStarPlanTime.text = @"选择时间";
-//    didStarPlanTime.font = [UIFont systemFontOfSize:14.f];
-//    didStarPlanTime.textColor = [Tools themeColor];
-//    didStarPlanTime.textAlignment = NSTextAlignmentCenter;
-//    [PostTimeView addSubview:didStarPlanTime];
-//    didStarPlanTime.userInteractionEnabled = YES;
-//    [didStarPlanTime addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didStarPlanTime:)]];
-//    
-//    
-//    /* get */
-//    UIView *GetTimeView = [[UIView alloc]initWithFrame:CGRectMake(WIDTH *0.5, 5, WIDTH *0.5, 60)];
-//    [self addSubview:GetTimeView];
-//    CATextLayer *getTitle = [CATextLayer layer];
-//    getTitle.frame = CGRectMake(0, 10, WIDTH * 0.5, 20);
-//    getTitle.string = @"预计接娃时间";
-//    getTitle.fontSize = 14.f;
-//    getTitle.foregroundColor = [UIColor blackColor].CGColor;
-//    getTitle.alignmentMode = @"center";
-//    getTitle.contentsScale = 2.f;
-//    [GetTimeView.layer addSublayer:getTitle];
-//    
-//    chooceGetTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 30, WIDTH * 0.5, 16)];
-//    chooceGetTime.text = @"——";
-//    chooceGetTime.font = [UIFont systemFontOfSize:14.f];
-//    chooceGetTime.textColor = [UIColor blackColor];
-//    chooceGetTime.textAlignment = NSTextAlignmentCenter;
-//    [GetTimeView addSubview:chooceGetTime];
 }
 
 - (void)layoutSubviews{
@@ -134,7 +87,7 @@
 -(id)sendFiterArgs:(NSDictionary*)args{
     
     NSNumber *startNumb = [args objectForKey:@"plan_time_post"];
-    NSTimeInterval start = startNumb.doubleValue * 0.001;
+    NSTimeInterval start = startNumb.doubleValue;
     NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
     NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
     [formatterDay setDateFormat:@"yyyy年MM月dd日,  EEEE"];
@@ -149,7 +102,7 @@
     post_time = [formatterTime stringFromDate:startDate];
     
     NSNumber *endNumb = [args objectForKey:@"plan_time_get"];
-    NSTimeInterval end = endNumb.doubleValue * 0.001;
+    NSTimeInterval end = endNumb.doubleValue;
     NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
     get_time = [formatterTime stringFromDate:endDate];
     if (post_time && ![post_time isEqualToString:@""]) {
@@ -183,11 +136,16 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:dateLabel.text forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- notifies
+-(id)queryDateSetAlready{
+    
+    return dateLabel.text;
+}
 
 @end
