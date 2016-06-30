@@ -1108,6 +1108,8 @@
 		704697CC1CE047F200DACD8A /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		704697CD1CE047F200DACD8A /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		704697CE1CE047F200DACD8A /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		7047BD291D24C04C00A44F18 /* LoginLocalModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LoginLocalModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		7047BD2A1D24C06A00A44F18 /* QueryLocalModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "QueryLocalModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -6898,6 +6900,7 @@
 		701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7047BD291D24C04C00A44F18 /* LoginLocalModel 3.xcdatamodel */,
 				700515141CE0681D00F4D406 /* LoginLocalModel 2.xcdatamodel */,
 				701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */,
 			);
@@ -6921,6 +6924,7 @@
 		70CDF6311CBD033900311841 /* QueryLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7047BD2A1D24C06A00A44F18 /* QueryLocalModel 3.xcdatamodel */,
 				700515151CE069AE00F4D406 /* QueryLocalModel 2.xcdatamodel */,
 				70CDF6321CBD033900311841 /* QueryLocalModel.xcdatamodel */,
 			);

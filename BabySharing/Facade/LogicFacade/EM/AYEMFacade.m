@@ -18,6 +18,8 @@
 #import "AYModel.h"
 #import "AYRemoteCallCommand.h"
 
+#import "RemoteInstance.h"
+
 
 @interface AYEMFacade () <EMClientDelegate, EMChatManagerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate>
 
@@ -99,13 +101,43 @@
  @brief 接收到一条及以上非cmd消息
  */
 - (void)didReceiveMessages:(NSArray *)aMessages {
-    for (EMMessage* message in aMessages) {
-        NSLog(@"message is : %@", ((EMTextMessageBody*)message.body).text);
+  
+    /**
+     * for notification
+     */
+    NSPredicate* pn = [NSPredicate predicateWithFormat:@"SELF.from=%@", @"dongda_master"];
+    NSArray* dongda_notify = [aMessages filteredArrayUsingPredicate:pn];
     
+    for (EMMessage* message in dongda_notify) {
+        if (message.isRead == NO && message.body.type == EMMessageBodyTypeText) {
+            NSLog(@"message is : %@", ((EMTextMessageBody*)message.body).text);
+            
+            NSDictionary* dic = [RemoteInstance searchDataFromData:[((EMTextMessageBody*)message.body).text dataUsingEncoding:NSUTF8StringEncoding]];
+            if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
+            
+            } else {
+                
+                id<AYFacadeBase> f = CHATSESSIONMODEL;
+                id<AYCommand> cmd = [f.commands objectForKey:@"PushNotification"];
+                id args = dic;
+                [cmd performWithResult:&args];
+            }
+            
+            message.isRead = YES;
+        }
+    }
+  
+    /**
+     * for message
+     */
+    NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.from!=%@", @"dongda_master"];
+    NSArray* dongda_msg = [aMessages filteredArrayUsingPredicate:pm];
+    
+    for (EMMessage* message in dongda_msg) {
         NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
         [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
         [notify setValue:kAYNotifyEMReceiveMessage forKey:kAYNotifyFunctionKey];
-    
+        
         NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
         [args setValue:message forKey:@"message"];
         [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
