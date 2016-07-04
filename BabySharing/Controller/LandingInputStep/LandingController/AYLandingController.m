@@ -259,7 +259,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 -(void)pushInputPhoneNo{
     NSLog(@"push to InputPhoneNo");
-    id<AYCommand> des = DEFAULTCONTROLLER(@"InputInvateCode");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"InputCoder");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -449,8 +449,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         NSLog(@"current login user %@", current_login_user);
         
         {
-            AYFacade* f = [self.facades objectForKey:@"XMPP"];
-            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutXMPP"];
+            AYFacade* f = [self.facades objectForKey:@"EM"];
+            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
             [cmd_xmpp_logout performWithResult:nil];
         }
         
@@ -564,17 +564,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 //                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
 //                    
-//                    id<AYCommand> cmd = PUSH;
-//                    [cmd performWithResult:&dic_push];
-//                }else{
-//                    AYViewController* des = DEFAULTCONTROLLER(@"InputRole");
-//                    
-//                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-//                    [dic_push setValue:@"new" forKey:@"sns"];
 //                    id<AYCommand> cmd = PUSH;
 //                    [cmd performWithResult:&dic_push];
 //                }

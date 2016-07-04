@@ -389,10 +389,6 @@
 		709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949B51CC2BB0F00078A5B /* AYFoundTagsDelegate.m */; };
 		709949B91CC2BB2500078A5B /* AYFoundRoleTagDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949B81CC2BB2500078A5B /* AYFoundRoleTagDelegate.m */; };
 		709962F31CE06CCA005CADD6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 709962F21CE06CCA005CADD6 /* MapKit.framework */; };
-		70A1A50E1D1D3BC60063FC7F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A1A50A1D1D3BC60063FC7F /* libcrypto.a */; };
-		70A1A50F1D1D3BC60063FC7F /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A1A50B1D1D3BC60063FC7F /* libcurl.a */; };
-		70A1A5101D1D3BC60063FC7F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A1A50C1D1D3BC60063FC7F /* libssl.a */; };
-		70A1A5111D1D3BC60063FC7F /* libHyphenateFullSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70A1A50D1D1D3BC60063FC7F /* libHyphenateFullSDK.a */; };
 		70A1A55F1D1D4A860063FC7F /* AYEMFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A1A54C1D1D4A860063FC7F /* AYEMFacade.m */; };
 		70A1A5601D1D4A860063FC7F /* AYEMUnreadMessageCountCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A1A54F1D1D4A860063FC7F /* AYEMUnreadMessageCountCommand.m */; };
 		70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A1A5521D1D4A860063FC7F /* AYJoinEMGroupCommand.m */; };
@@ -437,6 +433,10 @@
 		70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A61CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m */; };
 		70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */; };
 		70B820B41CAA9BD5001EEAF2 /* AYViewNotifyCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B820B31CAA9BD5001EEAF2 /* AYViewNotifyCommand.m */; };
+		70C2DF681D24CE3B00A9F217 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF641D24CE3B00A9F217 /* libcrypto.a */; };
+		70C2DF691D24CE3B00A9F217 /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF651D24CE3B00A9F217 /* libcurl.a */; };
+		70C2DF6A1D24CE3B00A9F217 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF661D24CE3B00A9F217 /* libssl.a */; };
+		70C2DF6B1D24CE3B00A9F217 /* libHyphenateFullSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 70C2DF671D24CE3B00A9F217 /* libHyphenateFullSDK.a */; };
 		70C4C8DD1CF7E53000F44C36 /* AYSMSSendCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C4C8DC1CF7E53000F44C36 /* AYSMSSendCommand.m */; };
 		70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */; };
 		70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */; };
@@ -1365,10 +1365,6 @@
 		70A1A5051D1D3BC60063FC7F /* IEMContactManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEMContactManager.h; sourceTree = "<group>"; };
 		70A1A5061D1D3BC60063FC7F /* IEMGroupManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEMGroupManager.h; sourceTree = "<group>"; };
 		70A1A5071D1D3BC60063FC7F /* OpenGLView20.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenGLView20.h; sourceTree = "<group>"; };
-		70A1A50A1D1D3BC60063FC7F /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		70A1A50B1D1D3BC60063FC7F /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
-		70A1A50C1D1D3BC60063FC7F /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
-		70A1A50D1D1D3BC60063FC7F /* libHyphenateFullSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libHyphenateFullSDK.a; sourceTree = "<group>"; };
 		70A1A54B1D1D4A860063FC7F /* AYEMFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMFacade.h; sourceTree = "<group>"; };
 		70A1A54C1D1D4A860063FC7F /* AYEMFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMFacade.m; sourceTree = "<group>"; };
 		70A1A54E1D1D4A860063FC7F /* AYEMUnreadMessageCountCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMUnreadMessageCountCommand.h; sourceTree = "<group>"; };
@@ -1457,6 +1453,10 @@
 		70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSaveImgLocalCommand.m; sourceTree = "<group>"; };
 		70B820B21CAA9BD5001EEAF2 /* AYViewNotifyCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYViewNotifyCommand.h; sourceTree = "<group>"; };
 		70B820B31CAA9BD5001EEAF2 /* AYViewNotifyCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYViewNotifyCommand.m; sourceTree = "<group>"; };
+		70C2DF641D24CE3B00A9F217 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		70C2DF651D24CE3B00A9F217 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
+		70C2DF661D24CE3B00A9F217 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		70C2DF671D24CE3B00A9F217 /* libHyphenateFullSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libHyphenateFullSDK.a; sourceTree = "<group>"; };
 		70C4C8DB1CF7E53000F44C36 /* AYSMSSendCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSMSSendCommand.h; sourceTree = "<group>"; };
 		70C4C8DC1CF7E53000F44C36 /* AYSMSSendCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSMSSendCommand.m; sourceTree = "<group>"; };
 		70CDF5FE1CBC9DCE00311841 /* AYAuthSignOutCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthSignOutCommand.h; sourceTree = "<group>"; };
@@ -1703,9 +1703,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70A1A50E1D1D3BC60063FC7F /* libcrypto.a in Frameworks */,
-				70A1A50F1D1D3BC60063FC7F /* libcurl.a in Frameworks */,
-				70A1A5101D1D3BC60063FC7F /* libssl.a in Frameworks */,
 				709962F31CE06CCA005CADD6 /* MapKit.framework in Frameworks */,
 				70490DDA1CA23ABD0093D5DA /* ImageIO.framework in Frameworks */,
 				708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */,
@@ -1723,6 +1720,7 @@
 				70490DE21CA23AF70093D5DA /* OpenGLES.framework in Frameworks */,
 				70490DE01CA23AEA0093D5DA /* CoreVideo.framework in Frameworks */,
 				70490DDE1CA23ADF0093D5DA /* CoreMedia.framework in Frameworks */,
+				70C2DF681D24CE3B00A9F217 /* libcrypto.a in Frameworks */,
 				70490DDC1CA23AC70093D5DA /* SystemConfiguration.framework in Frameworks */,
 				70490DD81CA23AB40093D5DA /* CoreGraphics.framework in Frameworks */,
 				70490DD61CA23AAB0093D5DA /* CFNetwork.framework in Frameworks */,
@@ -1732,12 +1730,14 @@
 				70490DCE1CA23A790093D5DA /* UIKit.framework in Frameworks */,
 				70490DCC1CA23A6E0093D5DA /* CoreLocation.framework in Frameworks */,
 				70490DCA1CA23A640093D5DA /* AddressBook.framework in Frameworks */,
+				70C2DF691D24CE3B00A9F217 /* libcurl.a in Frameworks */,
 				70490DC81CA23A5B0093D5DA /* CoreTelephony.framework in Frameworks */,
 				70490DC61CA23A4F0093D5DA /* AudioToolbox.framework in Frameworks */,
+				70C2DF6A1D24CE3B00A9F217 /* libssl.a in Frameworks */,
 				70490DC41CA23A430093D5DA /* Contacts.framework in Frameworks */,
 				70490DBF1CA2339D0093D5DA /* libWeChatSDK.a in Frameworks */,
 				70490DC11CA2339D0093D5DA /* libWeiboSDK.a in Frameworks */,
-				70A1A5111D1D3BC60063FC7F /* libHyphenateFullSDK.a in Frameworks */,
+				70C2DF6B1D24CE3B00A9F217 /* libHyphenateFullSDK.a in Frameworks */,
 				70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4727,20 +4727,10 @@
 		70A1A5081D1D3BC60063FC7F /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				70A1A5091D1D3BC60063FC7F /* 3rdparty */,
-				70A1A50D1D1D3BC60063FC7F /* libHyphenateFullSDK.a */,
+				70C2DF631D24CE3B00A9F217 /* 3rdparty */,
+				70C2DF671D24CE3B00A9F217 /* libHyphenateFullSDK.a */,
 			);
 			path = lib;
-			sourceTree = "<group>";
-		};
-		70A1A5091D1D3BC60063FC7F /* 3rdparty */ = {
-			isa = PBXGroup;
-			children = (
-				70A1A50A1D1D3BC60063FC7F /* libcrypto.a */,
-				70A1A50B1D1D3BC60063FC7F /* libcurl.a */,
-				70A1A50C1D1D3BC60063FC7F /* libssl.a */,
-			);
-			path = 3rdparty;
 			sourceTree = "<group>";
 		};
 		70A1A54A1D1D4A860063FC7F /* EM */ = {
@@ -5057,6 +5047,16 @@
 				70B820A91CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m */,
 			);
 			path = ImageStorage;
+			sourceTree = "<group>";
+		};
+		70C2DF631D24CE3B00A9F217 /* 3rdparty */ = {
+			isa = PBXGroup;
+			children = (
+				70C2DF641D24CE3B00A9F217 /* libcrypto.a */,
+				70C2DF651D24CE3B00A9F217 /* libcurl.a */,
+				70C2DF661D24CE3B00A9F217 /* libssl.a */,
+			);
+			path = 3rdparty;
 			sourceTree = "<group>";
 		};
 		70C4C8D71CF7E45F00F44C36 /* SMSSend */ = {
@@ -6732,10 +6732,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"SANDBOX=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

@@ -134,6 +134,7 @@
     inputPhoneNo.font = [UIFont systemFontOfSize:14.f];
     inputPhoneNo.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
 //    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
+    inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
     [inputPhoneNoView addSubview:inputPhoneNo];
     [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -187,6 +188,7 @@
     coder_area.font = [UIFont systemFontOfSize:14.f];
     coder_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
     coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
+    coder_area.keyboardType = UIKeyboardTypeNumberPad;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
     [inputCodeView addSubview:coder_area];
     [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {

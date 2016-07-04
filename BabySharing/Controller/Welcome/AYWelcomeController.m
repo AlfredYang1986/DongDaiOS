@@ -57,7 +57,7 @@
         NSLog(@"init args are : %@", _login_attr);
         if (![_login_attr objectForKey:@"role_tag"] || [[_login_attr objectForKey:@"role_tag"]isEqualToString:@""]) {
             isFirstSNS = YES;
-            [_login_attr setValue:@" " forKey:@"role_tag"];
+            [_login_attr setValue:@"未设置角色名" forKey:@"role_tag"];
         }
     } 
 }
