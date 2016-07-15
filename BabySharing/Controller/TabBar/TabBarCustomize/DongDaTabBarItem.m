@@ -43,7 +43,6 @@
 */
 
 - (id)initWithMidImage:(UIImage*)image {
-    
     self = [super init];
     if (self) {
         _img = image;
@@ -68,7 +67,6 @@
     }
     return self;
 }
-
 
 - (id)initWithImage:(UIImage*)image andSelectImage:(UIImage*)selectImg {
     self = [super init];

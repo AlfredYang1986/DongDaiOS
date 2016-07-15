@@ -141,4 +141,32 @@
         <command type="notify" message="sendPopMessage" />
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
+    
+    
+    <delegate type="TableViewDelegateAndDatasource" name="Profile" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="sendRegMessage" />
+        <command type="notify" message="scrollOffsetY:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="BabyInfo" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="sendDelMessage:" />
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="showPicker:" />
+        <command type="notify" message="showPicker2:" />
+    </delegate>
+    
+    <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="message" message="queryBabyBirthday:" />
+        <command type="notify" message="sendDelMessage:" />
+        <command type="notify" message="scrollOffsetY:" />
+    </delegate>
+    <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker2" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="message" message="queryBabySex:" />
+        <command type="notify" message="sendDelMessage:" />
+        <command type="notify" message="scrollOffsetY:" />
+    </delegate>
 </delegates>

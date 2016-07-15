@@ -170,7 +170,7 @@
 }
 
 #pragma mark- 设置pickView数据
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 2;
 }
 
@@ -181,7 +181,7 @@
 //    else
     if(component == 0){
         return hours.count;
-    }else
+    } else
         return minis.count;
 }
 
@@ -191,19 +191,16 @@
 //    }else
     if (component == 0){
         return hours[row];
-    }else
+    } else
         return minis[row];
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
     return SCREEN_WIDTH * 0.5;
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-//    if (component == 0) {
-//        on = ons[row];
-//    } else
     if(component == 0){
         hour = hours[row];
-    }else
+    } else
         mini = minis[row];
 }
 
@@ -540,14 +537,6 @@
 
 #pragma mark <UICollectionViewDataSource>
 -(void)refreshScrollPositionCurrentDate {
-//    id<AYCommand> cmd = [self.notifies objectForKey:@"queryDateString:"];
-//    NSString *str = nil;
-//    [cmd performWithResult:&str];
-//    
-//    str = [str substringToIndex:10];
-//    NSArray *calendar = [str componentsSeparatedByString:@"年"];
-//    NSArray *calendar2 = [calendar[1] componentsSeparatedByString:@"月"];
-//    [self refreshControlWithYear:calendar[0] month:calendar2[0] day:calendar2[1]];
     NSDate *Date = [[NSDate alloc]init];
     NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
     [self refreshControlWithYear:calendar[0] month:calendar[1] day:calendar[2]];

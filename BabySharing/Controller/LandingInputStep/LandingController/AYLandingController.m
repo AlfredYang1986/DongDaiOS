@@ -358,6 +358,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             NSLog(@"finally login over success");
            
             AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+//            AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
             
             NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
             [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];

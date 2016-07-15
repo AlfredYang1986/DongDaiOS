@@ -130,7 +130,8 @@
 - (id)setCellInfo:(id)args{
     NSDictionary *dic = (NSDictionary*)args;
     cellInfo = dic;
-    _descLabel.text = [dic objectForKey:@"title"];
+    NSString *title = [dic objectForKey:@"title"];
+    _descLabel.text = title?title:@"爱画画大使饭店发烧发烧反复说过";
     
     NSNumber *price = [dic objectForKey:@"price"];
     _costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",price.floatValue];

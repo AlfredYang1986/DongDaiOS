@@ -31,9 +31,19 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.label = [[UILabel alloc]init];
-        self.label.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
+        self.label.textColor = [Tools blackColor];
         self.label.font = [UIFont systemFontOfSize:14.f];
         [self addSubview:self.label];
+        [self.label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.left.equalTo(self).offset(20);
+        }];
+        
+        CALayer* line = [CALayer layer];
+        line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.20].CGColor;
+        line.borderWidth = 1.f;
+        line.frame = CGRectMake(8, 68 - 1, [UIScreen mainScreen].bounds.size.width - 16, 1);
+        [self.layer addSublayer:line];
     }
     return self;
 }
@@ -76,47 +86,22 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     SettingCell * cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-    
     if (cell == nil) {
         cell = [[SettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
-        CALayer* line = [CALayer layer];
-        line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.20].CGColor;
-        line.borderWidth = 1.f;
-        line.frame = CGRectMake(8, 44 - 1, tableView.frame.size.width, 1);
-        [cell.layer addSublayer:line];
     }
     
     cell.label.text = [title objectAtIndex:indexPath.row];
-    [cell.label sizeToFit];
-    cell.label.frame = CGRectMake(10, (44 - CGRectGetHeight(cell.label.frame)) / 2, cell.label.frame.size.width, cell.label.frame.size.height);
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
-//    if ([cell.label.text isEqualToString:@"退出登录"]) {
-//        
-//        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:@"退出登录"];
-//        [str addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,str.length)];
-//        cell.textLabel.attributedText = str;
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    
-//    } else if ([cell.label.text isEqualToString:@"关于咚哒"]) {
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//   
-//    } else
-        if ([cell.label.text isEqualToString:[title objectAtIndex:2]]) {
+    if (indexPath.row == 2) {
         cell.label.text = [cell.label.text stringByAppendingString:[NSString stringWithFormat:@"(%.2fM)", [TmpFileStorageModel tmpFileStorageSize]]];
-        [cell.label sizeToFit];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
     return cell;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return 68;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,9 +109,7 @@
     if(indexPath.row == 0){
         NSLog(@"go discuss");
     }else if(indexPath.row == 1){
-        
         NSLog(@"aboutdongda view controller");
-        
         id<AYCommand> AboutDD = DEFAULTCONTROLLER(@"AboutDD");
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -135,7 +118,6 @@
         [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         [_controller performWithResult:&dic];
         
-        
     }else{
         [TmpFileStorageModel deleteBMTmpImageDir];
         [TmpFileStorageModel deleteBMTmpMovieDir];
@@ -143,4 +125,5 @@
         [tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
+
 @end

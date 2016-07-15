@@ -437,4 +437,36 @@
     <view type="ContentListCell" name="ContentListCell" factory="AYReuseViewFactory" >
         <command type="message"     message="resetContent:" />
     </view>
+    
+    <view type="ProfileHeadCell" name="ProfileHeadCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setPersonalInfo:" />
+        <command type="notify"      message=":" />
+    </view>
+    <view type="SelfSetting" name="SelfSetting" factory="AYReuseViewFactory" >
+        <command type="message"     message="hideKeyboard" />
+        <command type="notify"      message=":" />
+    </view>
+    
+    <view type="BabyInfoCell" name="BabyInfoCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="hideKeyboard" />
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="" />
+    </view>
+    
+    <view type="Picker" name="Picker" factory="AYDefaultViewFactory" >
+        <command type="message" message="refresh" />
+        <command type="message" message="registerDatasource:" />
+        <command type="message" message="registerDelegate:" />
+        <command type="message" message="scrollToPostion:" />
+        <command type="notify"      message="didSaveClick" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    <view type="Picker2" name="Picker2" factory="AYDefaultViewFactory" >
+        <command type="message" message="refresh" />
+        <command type="message" message="registerDatasource:" />
+        <command type="message" message="registerDelegate:" />
+        <command type="message" message="scrollToPostion:" />
+        <command type="notify"      message="didSaveClick" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
 </views>

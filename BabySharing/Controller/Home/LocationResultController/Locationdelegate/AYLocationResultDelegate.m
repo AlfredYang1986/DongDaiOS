@@ -59,8 +59,9 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return querydata.count;
-//    return 2;
+    if (querydata.count != 0) {
+        return querydata.count;
+    } else return 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

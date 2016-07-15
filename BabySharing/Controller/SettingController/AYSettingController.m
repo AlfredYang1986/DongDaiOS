@@ -68,12 +68,6 @@
         
     }
     
-//    CALayer* line = [CALayer layer];
-//    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.10].CGColor;
-//    line.borderWidth = 1.f;
-//    line.frame = CGRectMake(0, 73, [UIScreen mainScreen].bounds.size.width, 1);
-//    [self.view.layer addSublayer:line];
-    
     OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 64 - 49, SCREEN_WIDTH - 2 * 17.5, 44)];
     [logout_btn setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
     logout_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
@@ -88,7 +82,7 @@
 - (id)TableLayout:(UIView*)view {
     view.frame = self.view.bounds;
     ((UITableView*)view).scrollEnabled = NO;
-    [((UITableView*)view) setSeparatorColor:[UIColor clearColor]];
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
 

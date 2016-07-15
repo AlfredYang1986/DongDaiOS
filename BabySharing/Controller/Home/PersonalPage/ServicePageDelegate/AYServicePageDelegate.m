@@ -71,7 +71,6 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-//        AYFouceCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYFouceCellView" forIndexPath:indexPath];
         AYFouceCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYFouceCellView"];
         if (cell == nil) {
             cell = [[AYFouceCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYFouceCellView"];

@@ -446,7 +446,7 @@
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-  
+    
     NSString* message_name = @"LoginSuccess";
     [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
     

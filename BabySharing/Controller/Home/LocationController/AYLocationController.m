@@ -135,12 +135,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    UIView* view = [self.views objectForKey:@"SearchBar"];
+    [view becomeFirstResponder];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    UIView* view = [self.views objectForKey:@"SearchBar"];
-    [view becomeFirstResponder];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -208,10 +208,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    if (searchText.length == 0)
-    {
-        return;
-    }
+    if (searchText.length == 0) return;
     
     AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
     tips.keywords = searchText;

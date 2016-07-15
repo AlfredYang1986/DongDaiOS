@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "AYControllerBase.h"
 #import "AYResourceManager.h"
+#import "Tools.h"
 
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>

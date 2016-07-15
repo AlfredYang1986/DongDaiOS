@@ -118,3 +118,4 @@ BabySharing/lib/libWeiboSDK/*.a
 BabySharing/lib/libQQSDK
 BabySharing.xcodeproj/project.xcworkspace
 BabySharing.xcodeproj/xcuserdata
+BabySharing/lib/HyphenateFullSDK/lib

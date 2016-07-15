@@ -12,6 +12,7 @@
 #import "AYControllerActionDefines.h"
 #import "AYResourceManager.h"
 #import "AYControllerBase.h"
+#import "Tools.h"
 
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define FAKE_BAR_HEIGHT         44
@@ -64,7 +65,7 @@
 - (id)changeTextBtn:(NSString*)text {
     [layer_btn removeFromSuperlayer];
     [self setTitle:text forState:UIControlStateNormal];
-    [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
     [self sizeToFit];
     return nil;
 }

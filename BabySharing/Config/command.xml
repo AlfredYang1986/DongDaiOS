@@ -78,6 +78,9 @@
     <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
     
+    <command type="Module" name="OrderInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ProfileServiceInit" factory="AYDefaultModuleFactory" />
+    
     <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
