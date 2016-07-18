@@ -32,6 +32,9 @@
 
 typedef void(^queryContentFinish)(void);
 
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+
 #define HEADER_MARGIN_TO_SCREEN 10.5
 #define CONTENT_START_POINT     71
 #define PAN_HANDLE_CHECK_POINT  10
@@ -55,8 +58,8 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 #define DECELERATION 400.0
 
 @implementation AYHomeController {
-//    BOOL _isPushed;
-//    NSString* _push_home_title;
+    //    BOOL _isPushed;
+    //    NSString* _push_home_title;
     NSArray* push_content;
     NSNumber* start_index;
     
@@ -66,6 +69,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     UIView *animationView;
     CGFloat radius;
     CALayer *maskLayer;
+    
+    UIView *cover;
+    NSString *notePostId;
 }
 
 @synthesize isPushed = _isPushed;
@@ -100,6 +106,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
+
     
     UIImageView *coverImg = [[UIImageView alloc]init];
     coverImg.image = [UIImage imageNamed:@"lol"];
@@ -189,7 +196,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 }
 
 - (id)LabelLayout:(UIView*)view {
-
     return nil;
 }
 
@@ -198,7 +204,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-
     return nil;
 }
 
@@ -282,4 +287,81 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 - (id)endRemoteCall:(id)obj {
     return nil;
 }
+
+- (id)crimeReport:(NSString*)postid{
+    notePostId = postid;
+    if (!cover) {
+        cover = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        cover.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.2f];
+        [self.view addSubview:cover];
+        [self.view bringSubviewToFront:cover];
+        
+        UIView *btnBg = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 124, SCREEN_WIDTH, 124)];
+        btnBg.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+        [cover addSubview:btnBg];
+        
+        CALayer *line = [CALayer layer];
+        line.borderColor = [UIColor colorWithWhite:0.7922 alpha:1.f].CGColor;
+        line.borderWidth = 1.f;
+        line.frame = CGRectMake(0, 62, [UIScreen mainScreen].bounds.size.width, 1);
+        [btnBg.layer addSublayer:line];
+        
+        UIButton *doCrime = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 61)];
+        [doCrime setTitle:@"举报该内容" forState:UIControlStateNormal];
+        doCrime.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [doCrime setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
+        [doCrime addTarget:self action:@selector(doCrimeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [btnBg addSubview:doCrime];
+        
+        UIButton *cancel = [[UIButton alloc]initWithFrame:CGRectMake(0, 63, SCREEN_WIDTH, 61)];
+        [cancel setTitle:@"取消" forState:UIControlStateNormal];
+        cancel.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [cancel setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
+        [cancel addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [btnBg addSubview:cancel];
+    }else
+        cover.hidden = NO;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) + CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+    }];
+    return nil;
+}
+
+- (void)doCrimeBtnClick{
+    
+    //    id<AYViewBase> view = [self.views objectForKey:@"HomeCell"];
+    //    id<AYCommand> query_cmd = [view.commands objectForKey:@"queryPostId:"];
+    //    NSString *post_id = nil;
+    //    [query_cmd performWithResult:&post_id];
+    //
+    //    id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
+    //    id<AYCommand> cmd_ex = [del.commands objectForKey:@"queryPostId:"];
+    
+    NSMutableDictionary *expose = [[NSMutableDictionary alloc]init];
+    [expose setValue:[NSNumber numberWithInt:1] forKey:@"expose_type"];
+    [expose setValue:notePostId forKey:@"post_id"];
+    
+    id<AYFacadeBase> expose_remote = [self.facades objectForKey:@"ExposeRemote"];
+    AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeContent"];
+    [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"我们将尽快处理您举报的内容！感谢您的监督和支持！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }else {
+            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"举报发生未知错误，请检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    
+    cover.hidden = YES;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+    }];
+}
+
+- (void)cancelBtnClick{
+    cover.hidden = YES;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+    }];
+}
+
 @end

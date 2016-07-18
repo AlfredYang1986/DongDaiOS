@@ -55,14 +55,17 @@
    
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
-//        NSLog(@"init args are : %@", _login_attr);
         isFirst = YES;
-//        if (![_login_attr objectForKey:@"role_tag"] || [[_login_attr objectForKey:@"role_tag"]isEqualToString:@""]) {
-//            
-//            [_login_attr setValue:@" " forKey:@"role_tag"];
-//        }
         
     }
+//=======
+//        NSLog(@"init args are : %@", _login_attr);
+//        if (![_login_attr objectForKey:@"role_tag"] || [[_login_attr objectForKey:@"role_tag"]isEqualToString:@""]) {
+//            isFirstSNS = YES;
+//            [_login_attr setValue:@"未设置角色名" forKey:@"role_tag"];
+//        }
+//    } 
+//>>>>>>> Service_version_initial
 }
 
 #pragma mark -- life cycle

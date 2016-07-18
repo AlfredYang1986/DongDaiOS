@@ -22,6 +22,9 @@
 #import "AppDelegate.h"
 #import "AYNavigationController.h"
 
+#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
 
@@ -51,7 +54,9 @@
     NSDictionary* profile_dic;
     NSArray* post_content;
     NSArray* push_content;
-
+    
+    UIView *cover;
+    
     dispatch_semaphore_t semaphore_publish;
     dispatch_semaphore_t semaphore_push;
     dispatch_semaphore_t semaphore_user_info;
@@ -64,15 +69,15 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         owner_id = [dic objectForKey:kAYControllerChangeArgsKey];
         isPushed = YES;
-    
+        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-    
+        
     }
 }
 
-#pragma mark -- life cycle 
+#pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -83,6 +88,7 @@
     UIColor* c_nav = [UIColor clearColor];
     [cmd_nav performWithResult:&c_nav];
     
+
     id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
@@ -103,6 +109,7 @@
         obj = (id)cmd_notify;
         [cmd_delegate performWithResult:&obj];
         
+
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
         NSString* class_name = @"AYProfileHeadCellView";
         [cmd_cell performWithResult:&class_name];
@@ -122,6 +129,7 @@
 //    view.backgroundColor = [UIColor orangeColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
+
     return nil;
 }
 
@@ -133,7 +141,9 @@
     [view.layer addSublayer:line];
     return nil;
 }
+
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
+
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
     titleView.text = @"我的";
@@ -145,10 +155,12 @@
 }
 
 #pragma mark -- notification
+
 - (id)queryIsGridSelected:(id)obj {
-//    NSInteger index = ((NSNumber*)obj).integerValue;
+    //    NSInteger index = ((NSNumber*)obj).integerValue;
     return [NSNumber numberWithBool:NO];
 }
+
 
 - (id)SamePersonBtnSelected {
     NSLog(@"push to person setting");
@@ -194,6 +206,7 @@
     
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     
+
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];

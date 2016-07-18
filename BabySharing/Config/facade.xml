@@ -166,6 +166,10 @@
         <command type="Remote" name="EmailSend" />
         <command type="Remote" name="SMSSend" />
     </facade>
+    <facade type="DefaultFacade" name="ExposeRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="ExposeUser" />
+        <command type="Remote" name="ExposeContent" />
+    </facade>
 
     <facade type="DefaultFacade" name="RelationshipRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="Follow" />
@@ -201,6 +205,19 @@
         <command type="Module" name="SendMessage" />
         <command type="Module" name="QueryMessages" />
         <command type="Module" name="JoinGroup" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="EM" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="LoginEM" />
+        <command type="Module" name="LogoutEM" />
+        <command type="Module" name="EMUnreadMessageCount" />
+        <command type="Module" name="SendEMMessage" />
+        <command type="Module" name="QueryEMMessages" />
+        <command type="Module" name="JoinEMGroup" />
+        <command type="Module" name="EMQueryGroupMemberLst" />
+        <command type="Module" name="EMEnterBackground" />
+        <command type="Module" name="EMEnterFront" />
+        <command type="Module" name="EMClientInit" />
     </facade>
 
     <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" factory="AYDefaultFacadeFactory" >

@@ -11,13 +11,14 @@
 #import "AYCommand.h"
 #import "AYCommandDefines.h"
 
-@class GotyeOCMessage;
+//@class GotyeOCMessage;
+@class EMMessage;
 
 @interface AYChatMessageCellView : UITableViewCell <AYViewBase>
 
-@property (nonatomic, weak, setter=setGotyeOCMessage:) GotyeOCMessage* message;
+@property (nonatomic, weak, setter=setEMMessage:) EMMessage* message;
 
 + (CGFloat)preferredHeightWithInputText:(NSString*)content andSenderID:(NSString*)sender_user_id;
 
-- (void)setGotyeOCMessage:(GotyeOCMessage*)msg;
+- (void)setEMMessage:(EMMessage*)msg;
 @end

@@ -50,6 +50,9 @@
 @property (nonatomic, strong, readonly) UILabel *talkerCount;
 @property (nonatomic, strong, readonly) UITextField *jionGroup;
 @property (nonatomic, strong, readonly) UIImageView *videoSign;
+
+@property (nonatomic, strong, readonly) UIButton *crimeBtn;
+
 @property (nonatomic, strong, readonly) QueryContentItem *queryContentItem;
 
 @property (nonatomic, weak, setter=setCurrentContent:) QueryContent *content;
@@ -116,24 +119,24 @@
     
     
     _ownerRole = [[UIButton alloc]init];
-//    [_ownerRole setInsets:UIEdgeInsetsMake(2, 4, 2, 4)];
+    //    [_ownerRole setInsets:UIEdgeInsetsMake(2, 4, 2, 4)];
     _ownerRole.userInteractionEnabled = NO;
-//    UIImage *bg = PNGRESOURCE(@"login_role_bg");
+    //    UIImage *bg = PNGRESOURCE(@"login_role_bg");
     UIImage *bg = [UIImage imageNamed:@"login_role_bg2"];
-//    NSInteger leftCapWidth = bg.size.width * 0.5f;
-//    NSInteger topCapHeight = bg.size.height * 0.5f;
-//    bg = [bg stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];
-//    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(bg.size.width * 0.2, 0, bg.size.width * 0.3, bg.size.height) resizingMode:UIImageResizingModeStretch];
+    //    NSInteger leftCapWidth = bg.size.width * 0.5f;
+    //    NSInteger topCapHeight = bg.size.height * 0.5f;
+    //    bg = [bg stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:topCapHeight];
+    //    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(bg.size.width * 0.2, 0, bg.size.width * 0.3, bg.size.height) resizingMode:UIImageResizingModeStretch];
     bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
     [_ownerRole setBackgroundImage:bg forState:UIControlStateNormal];
     
-//    _ownerRole.text = @"";
-//    _ownerRole.layer.masksToBounds = YES;
-//    _ownerRole.layer.cornerRadius = 3;
-//    _ownerRole.layer.shouldRasterize = YES;
-//    _ownerRole.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//    _ownerRoleLabel.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
-//    _ownerRoleLabel.textAlignment = NSTextAlignmentCenter;
+    //    _ownerRole.text = @"";
+    //    _ownerRole.layer.masksToBounds = YES;
+    //    _ownerRole.layer.cornerRadius = 3;
+    //    _ownerRole.layer.shouldRasterize = YES;
+    //    _ownerRole.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    //    _ownerRoleLabel.backgroundColor = [Tools colorWithRED:254.0 GREEN:192.0 BLUE:0.0 ALPHA:1.0];
+    //    _ownerRoleLabel.textAlignment = NSTextAlignmentCenter;
     
     [self.contentView addSubview:_ownerRole];
     
@@ -158,7 +161,12 @@
     _descriptionLabel.font = [UIFont systemFontOfSize:15.0];
     _descriptionLabel.textColor = TextColor;
     [self.contentView addSubview:_descriptionLabel];
-   
+    
+    _crimeBtn = [[UIButton alloc]init];
+    [_crimeBtn setImage:[UIImage imageNamed:@"tips_off_black"] forState:UIControlStateNormal];
+    [_crimeBtn addTarget:self action:@selector(crimeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_crimeBtn];
+    
     // 中间的一条线
     lineView = [[UIView alloc]init];
     [self.contentView addSubview:lineView];
@@ -208,7 +216,7 @@
     _videoSign.image = image;
     _videoSign.frame = CGRectMake(0, 0, 30, 30);
     [_mainImage addSubview:_videoSign];
-
+    
     self.contentView.layer.cornerRadius = 8;
     self.contentView.layer.shadowColor = [UIColor blackColor].CGColor;
     self.contentView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -226,7 +234,7 @@
     [_mainImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mainImageTap)]];
     
     [_jionGroup addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jionGroupTap)]];
-  
+    
     [self setRoundCorner];
     isSetupViews = YES;
 }
@@ -237,12 +245,6 @@
     _ownerImage.frame = CGRectMake(8, 8, 32, 32);
     
     [_ownerNameLable sizeToFit];
-//    CGSize nameSize = [Tools sizeWithString:nameString withFont:_ownerNameLable.font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-//    [_ownerNameLable mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(_ownerImage);
-//        make.left.equalTo(_ownerImage.mas_right).offset(8);
-//        make.width.mas_equalTo(nameSize.width);
-//    }];
     
     _ownerNameLable.frame = CGRectMake(CGRectGetMaxX(_ownerImage.frame) + 10, CGRectGetMidY(_ownerImage.frame)- _ownerNameLable.bounds.size.height*0.5, _ownerNameLable.bounds.size.width, _ownerNameLable.bounds.size.height);
     
@@ -251,24 +253,6 @@
         make.centerY.equalTo(_ownerNameLable);
         make.right.equalTo(self.contentView).offset(-10);
     }];
-    
-    //    CGSize sz = [Tools sizeWithString:_ownerRoleLabel.text withFont:[UIFont systemFontOfSize:12.f] andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
-    //    _ownerRole.frame = CGRectMake(CGRectGetMaxX(_ownerNameLable.frame) + 10, CGRectGetMidY(_ownerImage.frame)- (sz.height + 8)*0.5, sz.width + 12, sz.height + 4);
-    
-    //    [_ownerRole sizeToFit];
-    //    [_ownerRole mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.centerY.equalTo(_ownerImage);
-    //        make.left.equalTo(_ownerNameLable.mas_right).offset(10);
-    //    }];
-    //
-    //    if (CGRectGetWidth(_ownerRole.frame) != 0) {
-    //        [_ownerRole mas_remakeConstraints:^(MASConstraintMaker *make) {
-    //            make.centerY.equalTo(_ownerImage);
-    //            make.left.equalTo(_ownerNameLable.mas_right).offset(10);
-    //            make.width.equalTo(@(CGRectGetWidth(_ownerRole.frame)+8));
-    //            make.height.equalTo(@(CGRectGetHeight(_ownerRole.frame)+4));
-    //        }];
-    //    }
     
     [_ownerRoleLabel sizeToFit];
     CGFloat name_w = CGRectGetWidth(_ownerNameLable.bounds);
@@ -308,14 +292,14 @@
         make.width.equalTo(self.contentView);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-128);
     }];
-
+    
     [_videoSign mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.contentView).offset(-10.5);
         make.top.equalTo(_mainImage.mas_top).offset(10.5);
         make.width.equalTo(@30);
         make.height.equalTo(@30);
     }];
-
+    
     [_descriptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_mainImage.mas_bottom).offset(14);
         make.left.equalTo(self.contentView.mas_left).offset(10);
@@ -340,32 +324,38 @@
     }];
     //************
     
+    [_crimeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(pushView);
+        make.right.equalTo(self.contentView).offset(-22.f);
+        make.size.mas_equalTo(CGSizeMake(22, 22));
+    }];
+    
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(pushView.mas_bottom).offset(14);
         make.left.equalTo(self.contentView.mas_left).offset(10);
         make.right.equalTo(self.contentView.mas_right).offset(-10);
         make.height.equalTo(@1);
     }];
-
+    
     [_firstImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lineView.mas_bottom).offset(8);
         make.left.equalTo(self.contentView.mas_left).offset(10);
         make.width.equalTo(@28);
         make.height.equalTo(@28);
     }];
-
+    
     [_secondImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_firstImage);
         make.left.equalTo(_firstImage).offset(22);
         make.size.equalTo(_firstImage);
     }];
-
+    
     [_thirdImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_secondImage);
         make.left.equalTo(_secondImage).offset(22);
         make.size.equalTo(_secondImage);
     }];
-
+    
     [self.contentView bringSubviewToFront:_thirdImage];
     [self.contentView bringSubviewToFront:_secondImage];
     [self.contentView bringSubviewToFront:_firstImage];
@@ -387,7 +377,7 @@
         make.left.equalTo(_jionGroup);
         make.size.equalTo(_jionGroup);
     }];
-  
+    
 }
 
 - (void)layoutSubviews {
@@ -467,11 +457,11 @@
         NSLog(@"MonkeyHengLog: %lu === %d, %@", (unsigned long)self.content.chaters.count, self.content.group_chat_count.intValue, self.content.content_post_id);
     }
     self.talkerCount.text = [NSString stringWithFormat:@"%lu人正在圈聊", (unsigned long)(self.content.chaters == nil ? 0 : self.content.chaters.count)];
-
+    
     // 设置头像
     self.ownerImage.image = PNGRESOURCE(@"default_user");// [UIImage imageNamed:defaultHeadPath];
-
-
+    
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:self.content.owner_photo forKey:@"image"];
     [dic setValue:@"img_icon" forKey:@"expect_size"];
@@ -519,7 +509,7 @@
         [args setValue:tag.tag_offset_y forKey:@"offsetY"];
         [args setValue:tag.tag_content forKey:@"tag_text"];
         [args setValue:tag.tag_type forKey:@"tag_type"];
-       
+        
         UIView* view = nil;
         [cmd performWithResult:&args];
         view = (UIView*)args;
@@ -649,7 +639,7 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-#pragma mark -- messages 
+#pragma mark -- messages
 - (id)willDisappear:(id)obj {
     
     NSDictionary* dic = (NSDictionary*)obj;
@@ -660,7 +650,7 @@
 }
 
 - (id)resetContent:(id)obj {
-
+    
     NSDictionary* dic = (NSDictionary*)obj;
     AYHomeCellView* cell = [dic objectForKey:kAYHomeCellCellKey];
     QueryContent* content = [dic objectForKey:kAYHomeCellContentKey];
@@ -683,6 +673,10 @@
     [self resetLikeBtn:cell];
     [self setNeedsLayout];
     return nil;
+}
+
+- (id)queryPostId:(NSString*)postid{
+    return self.content.content_post_id;
 }
 
 - (void)resetLikeBtn:(AYHomeCellView*)cell {
@@ -711,7 +705,7 @@
     NSNumber* push_result = [dic objectForKey:kAYThumbsPushBtnContentResultKey];
     
     cell.content.isPush = push_result;
-
+    
     [self resetPushBtn:cell];
     [self setNeedsLayout];
     return nil;
@@ -735,6 +729,12 @@
     
     pushView = (UIView*)pushed;
     [self.contentView addSubview:pushView];
+}
+
+-(void)crimeBtnClick{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"crimeReport:"];
+    NSString *post_id = self.content.content_post_id;
+    [cmd performWithResult:&post_id];
 }
 
 @end

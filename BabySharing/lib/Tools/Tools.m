@@ -98,7 +98,9 @@
     NSMutableArray *letterArr = [NSMutableArray array];
     for (NSString *value in arr) {
         // 建立关系
-        [letterArr addObject:[self ToPinYinWith:value dic:dic]];
+        if (value && ![value isEqualToString:@""]) {
+            [letterArr addObject:[self ToPinYinWith:value dic:dic]];
+        }
     }
     // 对字母表进行排序
     NSArray *resultArray1 = [letterArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {

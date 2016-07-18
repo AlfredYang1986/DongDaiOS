@@ -7,7 +7,7 @@
 //
 
 #import "AYChatMessageCellView.h"
-#import "GotyeOCMessage.h"
+//#import "GotyeOCMessage.h"
 //#import "LoginModel.h"
 #import "AppDelegate.h"
 #import "RemoteInstance.h"
@@ -23,6 +23,10 @@
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
 #import "AYControllerActionDefines.h"
+
+#import "EMSDK.h"
+#import "EMError.h"
+#import "EMMessage.h"
 
 #define IMG_WIDTH               32
 #define IMG_HEIGHT              IMG_WIDTH
@@ -205,17 +209,18 @@
     }
 }
 
-- (void)setGotyeOCMessage:(GotyeOCMessage*)msg {
+- (void)setEMMessage:(EMMessage*)msg {
+//- (void)setGotyeOCMessage:(GotyeOCMessage*)msg {
     _message = msg;
    
     NSDictionary* user = nil;
     CURRENUSER(user);
     
-    isSenderByOwner = [[user objectForKey:@"user_id"] isEqualToString:_message.sender.name];
-    [self setContent:msg.text];
+    isSenderByOwner = [[user objectForKey:@"user_id"] isEqualToString:_message.from];
+    [self setContent:((EMTextMessageBody*)_message.body).text];
     [self setContentDate:nil];
     
-    sender_user_id = _message.sender.name;
+    sender_user_id = _message.from;
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
@@ -330,7 +335,8 @@
     
     NSDictionary* dic = (NSDictionary*)args;
     AYChatMessageCellView* cell = [dic objectForKey:kAYChatMessageCellCellKey];
-    GotyeOCMessage* m = [dic objectForKey:kAYChatMessageCellContentKey];
+//    GotyeOCMessage* m = [dic objectForKey:kAYChatMessageCellContentKey];
+    EMMessage* m = [dic objectForKey:kAYChatMessageCellContentKey];
     cell.message = m;
     return nil;
 }

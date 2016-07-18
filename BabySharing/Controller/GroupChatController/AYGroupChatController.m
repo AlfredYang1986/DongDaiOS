@@ -22,6 +22,10 @@
 #import "GotyeOCChatTarget.h"
 #import "GotyeOCMessage.h"
 
+#import "EMMessage.h"
+#import "EMConversation.h"
+#import "EMChatroom.h"
+
 #import "AYModelFacade.h"
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
@@ -57,7 +61,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 @implementation AYGroupChatController {
     CGRect keyBoardFrame;
     NSString* owner_id;
-    NSNumber* group_id;
+//    NSNumber* group_id;
+    NSString* group_id;
     NSString* post_id;
     NSString* theme;
     
@@ -309,8 +314,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (id)sendMessage:(id)args {
     NSString* text = (NSString*)args;
     
-    id<AYFacadeBase> f = [self.facades objectForKey:@"XMPP"];
-    id<AYCommand> cmd = [f.commands objectForKey:@"SendMessage"];
+//    id<AYFacadeBase> f = [self.facades objectForKey:@"XMPP"];
+    id<AYFacadeBase> f = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"SendEMMessage"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:text forKey:@"text"];
@@ -320,6 +326,22 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
 //    id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
 //    ((AYChatInputView*)view).inputView.text = @"";
+    return nil;
+}
+
+- (id)EMMessageSendSuccess:(id)args {
+    NSLog(@"send message success");
+    
+    NSDictionary* dic = (NSDictionary*)args;
+    EMMessage* m = (EMMessage*)[dic objectForKey:@"message"];
+//    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
+//    if (m.receiver.id == group_id.longLongValue) {
+    if ([m.conversationId isEqualToString:group_id]) {
+        [current_messages addObject:m];
+    }
+    
+    [self setMessagesToDelegate];
+    [self scrollTableToFoot:YES];
     return nil;
 }
 
@@ -337,6 +359,34 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
+- (id)EMMessageSendFailed:(id)args {
+    NSLog(@"send message failed");
+    [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+    return nil;
+}
+
+- (id)XMPPMessageSendFailed:(id)args {
+    NSLog(@"send message failed");
+    [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+    return nil;
+}
+
+- (id)EMReceiveMessage:(id)args {
+    NSLog(@"receive message success");
+    
+    NSDictionary* dic = (NSDictionary*)args;
+    EMMessage* m = (EMMessage*)[dic objectForKey:@"message"];
+    //    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
+    //    if (m.receiver.id == group_id.longLongValue) {
+    if ([m.conversationId isEqualToString:group_id]) {
+        [current_messages addObject:m];
+    }
+    
+    [self setMessagesToDelegate];
+    [self scrollTableToFoot:YES];
+    return nil;
+}
+
 - (id)XMPPReceiveMessage:(id)args {
     
     NSDictionary* dic = (NSDictionary*)args;
@@ -346,12 +396,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     }
     [self setMessagesToDelegate];
     [self scrollTableToFoot:YES];
-    return nil;
-}
-
-- (id)XMPPMessageSendFailed:(id)args {
-    NSLog(@"send message failed");
-    [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
     return nil;
 }
 
@@ -522,24 +566,44 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         [dic setValue:str forKey:@"theme"];
         [cmd_test performWithResult:&dic];
        
-        id<AYFacadeBase> xmpp = [self.facades objectForKey:@"XMPP"];
-        id<AYCommand> cmd = [xmpp.commands objectForKey:@"JoinGroup"];
+//        id<AYFacadeBase> xmpp = [self.facades objectForKey:@"XMPP"];
+//        id<AYCommand> cmd = [xmpp.commands objectForKey:@"JoinGroup"];
+
+        id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
+        id<AYCommand> cmd = [em.commands objectForKey:@"JoinEMGroup"];
        
         group_id = [result objectForKey:@"group_id"];
         id args = group_id;
         [cmd performWithResult:&args];
+        NSNumber* join_result = (NSNumber*)args;
+        if (join_result.boolValue) {
+            id<AYCommand> cmd = [em.commands objectForKey:@"EMQueryGroupMemberLst"];
+            id args = group_id;
+            [cmd performWithResult:&args];
+            
+        } else {
+            NSLog(@"join group error");
+            return;
+        }
         
         id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
         id<AYCommand> cmd_joiner_count = [view.commands objectForKey:@"setJoinerCount:"];
         id count = join_count;
         [cmd_joiner_count performWithResult:&count];
         
-        id<AYCommand> cmd_query_messages = [xmpp.commands objectForKey:@"QueryMessages"];
+        id<AYCommand> cmd_query_messages = [em.commands objectForKey:@"QueryEMMessages"];
         NSMutableDictionary* args_query_messages = [[NSMutableDictionary alloc]init];
         [args_query_messages setValue:group_id forKey:@"group_id"];
         [cmd_query_messages performWithResult:&args_query_messages];
         current_messages = [args_query_messages mutableCopy];
     }];
+}
+
+- (id)EMGetGroupMemberSuccess:(id)args {
+    join_lst_success = YES;
+    join_lst_result = [args objectForKey:@"result"];
+    dispatch_semaphore_signal(semaphore_join_lst);   
+    return nil;
 }
 
 - (id)XMPPGetGroupMemberSuccess:(id)args {

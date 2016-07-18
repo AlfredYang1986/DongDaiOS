@@ -101,6 +101,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
+
     titleView.text = @"  ";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];

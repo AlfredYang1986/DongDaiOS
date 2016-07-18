@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYCommand.h"
+#import "AYFacade.h"
 #import "AYCommandDefines.h"
 #import "AYViewController.h"
 #import "AYNavigationController.h"
@@ -17,18 +18,31 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 
+#import "EMSDK.h"
+#import "EMError.h"
+
+static NSString* const kAYEMAppKey = @"blackmirror#dongda";
+
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Override point for customization after application launch.
     NSLog(@"项目路径 ======= %@", [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject]);
 
 //    [NSThread sleepForTimeInterval:3.f];
+    
+    EMOptions *options = [EMOptions optionsWithAppkey:kAYEMAppKey];
+    //    options.apnsCertName = @"istore_dev";
+    EMError* error = [[EMClient sharedClient] initializeSDKWithOptions:options];
+    if (error) {
+        NSLog(@"error is : %d", error.code);
+        @throw [[NSException alloc]initWithName:@"error" reason:@"register EM Error" userInfo:nil];
+    }
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
   
@@ -74,10 +88,18 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+  
+    AYFacade* em = DEFAULTFACADE(@"EM");
+    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterBackground"];
+    [cmd performWithResult:nil];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+
+    AYFacade* em = DEFAULTFACADE(@"EM");
+    id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterFront"];
+    [cmd performWithResult:nil];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

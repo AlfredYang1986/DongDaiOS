@@ -155,7 +155,7 @@
     else return result.firstObject;
 }
 
-+ (Targets*)enumTargetWith:(NotificationOwner*)owner andGroupID:(NSNumber*)group_id {
++ (Targets*)enumTargetWith:(NotificationOwner*)owner andGroupID:(NSString*)group_id {
     NSPredicate* pred = [NSPredicate predicateWithFormat:@"group_id=%@ AND target_type=%d", group_id, 1];
     NSArray* result = [owner.chatWith.allObjects filteredArrayUsingPredicate:pred];
     if (result.count != 1) return nil;
@@ -203,7 +203,7 @@
     return target;
 }
 
-+ (void)leaveChatGroupWithOnwerID:(NSString*)owner_id andGroupID:(NSNumber*)group_id inManagedObjectContext:(NSManagedObjectContext*)context {
++ (void)leaveChatGroupWithOnwerID:(NSString*)owner_id andGroupID:(NSString*)group_id inManagedObjectContext:(NSManagedObjectContext*)context {
     NotificationOwner* owner = [self enumNotificationOwnerWithID:owner_id inContext:context];
     
     Targets* target = [self enumTargetWith:owner andGroupID:group_id];
@@ -218,7 +218,7 @@
     NotificationOwner* owner = [self enumNotificationOwnerWithID:owner_id inContext:context];
     
     MessageReceiverType receiver_type = MessageReceiverTypeChatGroup;
-    NSNumber* group_id = [tar objectForKey:@"group_id"];
+    NSString* group_id = [tar objectForKey:@"group_id"];
     
     Targets* target = [self enumTargetWith:owner andGroupID:group_id];
     if (target == nil) {

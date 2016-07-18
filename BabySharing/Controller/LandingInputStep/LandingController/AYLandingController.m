@@ -255,7 +255,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 -(void)pushInputPhoneNo{
-    NSLog(@"push to InputCoder");
     id<AYCommand> des = DEFAULTCONTROLLER(@"InputCoder");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -344,6 +343,39 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
+/**
+ * 跟换 环信
+ */
+- (id)LoginEMSuccess:(id)args {
+    AYFacade* f = LOGINMODEL;
+    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
+    id obj = nil;
+    [cmd performWithResult:&obj];
+    
+    UIViewController* controller = [Tools activityViewController];
+    if (controller == self) {
+        if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
+            NSLog(@"finally login over success");
+            
+            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+            
+            NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+            [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+            [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+            
+            id<AYCommand> cmd_show_module = SHOWMODULE;
+            [cmd_show_module performWithResult:&dic_show_module];
+            
+        } else {
+            NSLog(@"something wrong with login process");
+            @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
+        }
+    }
+    
+    return nil;
+}
+
 - (id)LoginXMPPSuccess:(id)args {
     NSLog(@"Login XMPP success");
     
@@ -379,7 +411,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)LoginSuccess {
     NSLog(@"Login Success");
-    NSLog(@"to do login with XMPP server");
+//    NSLog(@"to do login with XMPP server");
+    NSLog(@"to do login with EM server");
     
     self.landing_status = RemoteControllerStatusLoading;
     
@@ -390,8 +423,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     NSLog(@"current login user is %@", obj);
     
-    AYFacade* xmpp = [self.facades objectForKey:@"XMPP"];
-    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginXMPP"];
+    AYFacade* xmpp = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginEM"];
     NSDictionary* dic = (NSDictionary*)obj;
     NSString* current_user_id = [dic objectForKey:@"user_id"];
     [cmd_login_xmpp performWithResult:&current_user_id];
@@ -413,8 +446,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         NSLog(@"current login user %@", current_login_user);
         
         {
-            AYFacade* f = [self.facades objectForKey:@"XMPP"];
-            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutXMPP"];
+            AYFacade* f = [self.facades objectForKey:@"EM"];
+            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
             [cmd_xmpp_logout performWithResult:nil];
         }
         

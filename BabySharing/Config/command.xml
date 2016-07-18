@@ -61,13 +61,26 @@
     <command type="Module" name="SaveImgLocal" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="LocalImageWithName" factory="AYDefaultModuleFactory" />
-    
+   
+    <!--
     <command type="Module" name="LoginXMPP" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LogoutXMPP" factory="AYDefaultModuleFactory" />
     <command type="Module" name="UnreadMessageCount" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SendMessage" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryMessages" factory="AYDefaultModuleFactory" />
     <command type="Module" name="JoinGroup" factory="AYDefaultModuleFactory" />
+    -->
+   
+    <command type="Module" name="LoginEM" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LogoutEM" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMUnreadMessageCount" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SendEMMessage" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryEMMessages" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="JoinEMGroup" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMQueryGroupMemberLst" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMEnterBackground" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMEnterFront" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMClientInit" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />
@@ -194,4 +207,7 @@
     <command type="Remote" name="UserRecommand" route="users/queryRecommandUsers" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UserWithRoleTag" route="users/queryRecommandUsersWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UserWithScreenName" route="users/queryUsersWithScreenName" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="ExposeUser"        route="expose/user" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ExposeContent"     route="expose/content" factory="AYRemoteCallFactory" />
 </commands>

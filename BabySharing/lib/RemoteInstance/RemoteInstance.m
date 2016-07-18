@@ -73,12 +73,12 @@
     [request setValue:strLength forHTTPHeaderField:@"Content-Length"];
     
     // 4> 设置Content-Type
-    NSString *strContentType = [NSString stringWithFormat:@"text/json"];
+    NSString *strContentType = [NSString stringWithFormat:@"application/json"];
     [request setValue:strContentType forHTTPHeaderField:@"Content-Type"];
     
     // 5> 设置data type
-    NSString *strDatatype = [NSString stringWithFormat:@"json"];
-    [request setValue:strDatatype forHTTPHeaderField:@"dataType"];
+    NSString *strDatatype = [NSString stringWithFormat:@"application/json"];
+    [request setValue:strDatatype forHTTPHeaderField:@"Accept"];
     
     
     // 3> 连接服务器发送请求
