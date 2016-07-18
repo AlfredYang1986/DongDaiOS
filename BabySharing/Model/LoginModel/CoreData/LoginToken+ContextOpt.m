@@ -139,12 +139,17 @@
     request.predicate = [NSPredicate predicateWithFormat:@"user_id = %@", user_id];
     NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
     request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
+    [request setReturnsObjectsAsFaults:NO];
     
     NSError* error = nil;
     NSArray* matches = [context executeFetchRequest:request error:&error];
    
     NSLog(@"dic : %@", dic);
     if (!matches || matches.count > 1) {
+        for (LoginToken* tmp in matches) {
+            NSLog(@"primary tmp %@", tmp);
+            NSLog(@"primary tmp user id %@", tmp.user_id);
+        }
         NSLog(@"error with primary key");
         return nil;
     } else if (matches.count == 1) {
@@ -154,6 +159,7 @@
     } else {
         LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
         [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+        [context save:nil];
         return tmp;
     }
 }

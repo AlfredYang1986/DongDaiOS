@@ -267,8 +267,6 @@
                 id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
                 [show_cmd performWithResult:nil];
             }
-            
-            
         }
     }];
     return nil;
@@ -294,16 +292,18 @@
     NSLog(@"Notify args: %@", args);
     //    NSLog(@"TODO: 进入咚哒");
    
-//    [Tools activityViewController];
-//    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-//    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-//    [dic_pop setValue:[Tools activityViewController] forKey:kAYControllerActionSourceControllerKey];
-//    
-//    NSString* message_name = @"LoginSuccess";
-//    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd = POPTOROOT;
-//    [cmd performWithResult:&dic_pop];
+    UIViewController* cv = [Tools activityViewController];
+    if (cv == self) {
+        NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+        [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+        [dic_pop setValue:[Tools activityViewController] forKey:kAYControllerActionSourceControllerKey];
+        
+        NSString* message_name = @"LoginSuccess";
+        [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = POPTOROOT;
+        [cmd performWithResult:&dic_pop];
+    }
     
     return nil;
 }
