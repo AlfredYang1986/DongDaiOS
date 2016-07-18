@@ -174,8 +174,6 @@
         make.size.mas_equalTo(CGSizeMake(115, 40));
     }];
     
-    
-    
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     

@@ -24,9 +24,9 @@
         <command type="Module"          name="LandingAreaCode" />
         <facade type="DefaultFacade"    name="LandingRemote" notification="true" />
         
-        <view type="FakeNavBar"                 name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />
-        <view type="InputInvateCode"            name="InputInvateCode" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="InputInvateCode" name="InputInvateCode" />
         <model notification="true" />
     </controller>
     
@@ -88,7 +88,8 @@
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
         
-        <facade type="DefaultFacade" name="XMPP" notification="true"/>
+<!--        <facade type="DefaultFacade" name="XMPP" notification="true"/>-->
+        <facade type="DefaultFacade" name="EM" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
