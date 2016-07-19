@@ -1,16 +1,14 @@
 //
-//  AYBabyInfoCellView.m
+//  AYNapBabyAgeCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 12/7/16.
+//  Created by Alfred Yang on 19/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYBabyInfoCellView.h"
+#import "AYNapBabyAgeCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -19,15 +17,17 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
+#import "Tools.h"
 
-@interface AYBabyInfoCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *babyInfoLabel;
+@interface AYNapBabyAgeCellView ()
+@property (weak, nonatomic) IBOutlet UILabel *unSetTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *setedTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ageLabel;
 
 @end
 
-@implementation AYBabyInfoCellView{
+@implementation AYNapBabyAgeCellView {
     NSString *title;
     NSString *content;
 }
@@ -39,8 +39,8 @@
 }
 
 -(void)layoutSubviews{
-    _titleLabel.text = title;
-    _babyInfoLabel.text = content;
+    _setedTitleLabel.hidden = YES;
+    _ageLabel.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -50,7 +50,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"BabyInfoCell", @"BabyInfoCell");
+    id<AYViewBase> cell = VIEW(@"NapBabyAgeCell", @"NapBabyAgeCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

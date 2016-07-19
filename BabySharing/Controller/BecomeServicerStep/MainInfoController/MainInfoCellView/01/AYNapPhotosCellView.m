@@ -1,12 +1,12 @@
 //
-//  AYBabyInfoCellView.m
+//  AYNapPhotosCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 12/7/16.
+//  Created by Alfred Yang on 19/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYBabyInfoCellView.h"
+#import "AYNapPhotosCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
 #import "Tools.h"
@@ -19,15 +19,15 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
 
-@interface AYBabyInfoCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *babyInfoLabel;
+@interface AYNapPhotosCellView ()
+@property (weak, nonatomic) IBOutlet UIImageView *photoImage;
+@property (weak, nonatomic) IBOutlet UIButton *addPhotoBtn;
+@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
 
 @end
 
-@implementation AYBabyInfoCellView{
+@implementation AYNapPhotosCellView {
     NSString *title;
     NSString *content;
 }
@@ -39,8 +39,8 @@
 }
 
 -(void)layoutSubviews{
-    _titleLabel.text = title;
-    _babyInfoLabel.text = content;
+//    _titleLabel.text = title;
+//    _babyInfoLabel.text = content;
 }
 
 @synthesize para = _para;
@@ -50,7 +50,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"BabyInfoCell", @"BabyInfoCell");
+    id<AYViewBase> cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -94,6 +94,10 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
+}
+- (IBAction)addPhotoBtnClick:(id)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"addPhotosAction"];
+    [cmd performWithResult:nil];
 }
 
 - (id)setCellInfo:(id)args {

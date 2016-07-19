@@ -1,16 +1,14 @@
 //
-//  AYBabyInfoCellView.m
+//  AYNapLocationCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 12/7/16.
+//  Created by Alfred Yang on 19/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYBabyInfoCellView.h"
+#import "AYNapLocationCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -19,15 +17,17 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
+#import "Tools.h"
 
-@interface AYBabyInfoCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *babyInfoLabel;
+@interface AYNapLocationCellView ()
+@property (weak, nonatomic) IBOutlet UILabel *unSetLocationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *setedLocationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 
 @end
 
-@implementation AYBabyInfoCellView{
+@implementation AYNapLocationCellView {
     NSString *title;
     NSString *content;
 }
@@ -39,8 +39,8 @@
 }
 
 -(void)layoutSubviews{
-    _titleLabel.text = title;
-    _babyInfoLabel.text = content;
+    _setedLocationLabel.hidden = YES;
+    _locationLabel.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -50,7 +50,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"BabyInfoCell", @"BabyInfoCell");
+    id<AYViewBase> cell = VIEW(@"NapLocationCell", @"NapLocationCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

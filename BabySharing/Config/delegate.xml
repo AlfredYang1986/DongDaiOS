@@ -174,4 +174,12 @@
         <command type="message" message="queryCurrentSelected:" />
         <command type="notify" message="sendDelMessage:" />
     </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="MainInfo" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="sendDelMessage:" />
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="showPicker:" />
+        <command type="notify" message="showPicker2:" />
+    </delegate>
 </delegates>

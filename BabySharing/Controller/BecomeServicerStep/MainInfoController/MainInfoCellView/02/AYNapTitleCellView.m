@@ -1,16 +1,14 @@
 //
-//  AYBabyInfoCellView.m
+//  AYNapTitleCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 12/7/16.
+//  Created by Alfred Yang on 19/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYBabyInfoCellView.h"
+#import "AYNapTitleCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -19,15 +17,17 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
+#import "Tools.h"
 
-@interface AYBabyInfoCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *babyInfoLabel;
+@interface AYNapTitleCellView ()
+@property (weak, nonatomic) IBOutlet UILabel *userInputTitle;
+@property (weak, nonatomic) IBOutlet UIButton *addTitleBtn;
+@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *editBtn;
 
 @end
 
-@implementation AYBabyInfoCellView{
+@implementation AYNapTitleCellView {
     NSString *title;
     NSString *content;
 }
@@ -39,8 +39,10 @@
 }
 
 -(void)layoutSubviews{
-    _titleLabel.text = title;
-    _babyInfoLabel.text = content;
+    //    _titleLabel.text = title;
+    //    _babyInfoLabel.text = content;
+    _userInputTitle.hidden = YES;
+    _editBtn.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -50,7 +52,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"BabyInfoCell", @"BabyInfoCell");
+    id<AYViewBase> cell = VIEW(@"NapTitleCell", @"NapTitleCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -90,6 +92,12 @@
 
 - (NSString*)getViewName {
     return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (IBAction)addTitleBtnClick:(id)sender {
+    
+}
+- (IBAction)editBtnClick:(id)sender {
 }
 
 - (NSString*)getCommandType {

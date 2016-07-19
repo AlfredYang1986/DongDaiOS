@@ -1,16 +1,14 @@
 //
-//  AYBabyInfoCellView.m
+//  AYNapDeviceCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 12/7/16.
+//  Created by Alfred Yang on 19/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYBabyInfoCellView.h"
+#import "AYNapDeviceCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -19,15 +17,16 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
+#import "Tools.h"
 
-@interface AYBabyInfoCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *babyInfoLabel;
+@interface AYNapDeviceCellView ()
+@property (weak, nonatomic) IBOutlet UILabel *unSetDeviceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *setedDeviceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
 
 @end
 
-@implementation AYBabyInfoCellView{
+@implementation AYNapDeviceCellView {
     NSString *title;
     NSString *content;
 }
@@ -39,8 +38,7 @@
 }
 
 -(void)layoutSubviews{
-    _titleLabel.text = title;
-    _babyInfoLabel.text = content;
+    _setedDeviceLabel.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -50,7 +48,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"BabyInfoCell", @"BabyInfoCell");
+    id<AYViewBase> cell = VIEW(@"NapDeviceCell", @"NapDeviceCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

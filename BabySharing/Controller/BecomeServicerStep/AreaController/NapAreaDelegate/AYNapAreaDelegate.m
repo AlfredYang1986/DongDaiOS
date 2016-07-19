@@ -10,17 +10,14 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFactoryManager.h"
 #import "AYProfileHeadCellView.h"
-
 #import "Notifications.h"
-
 #import "AYModelFacade.h"
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
 
-#import "AYProfileOrigCellView.h"
-#import "AYProfileServCellView.h"
+#define COMPLENTWIDTH           [UIScreen mainScreen].bounds.size.width / 3
 
 @implementation AYNapAreaDelegate{
     UIPickerView *picker;
@@ -200,38 +197,34 @@
 }
 
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
-{
-    if (component == 0) {
-        return 80;
-    }
-    else if (component == 1) {
-        return 100;
-    }
-    else {
-        return 115;
-    }
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+//    if (component == 0) {
+//        return 80;
+//    }
+//    else if (component == 1) {
+//        return 100;
+//    }
+//    else {
+//        return 115;
+//    }
+    return COMPLENTWIDTH;
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
     UILabel *myView = nil;
+    myView = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, COMPLENTWIDTH, 30)] ;
     myView.textAlignment = NSTextAlignmentCenter;
     myView.font = [UIFont systemFontOfSize:14];
     myView.backgroundColor = [UIColor clearColor];
     
     if (component == 0) {
-        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 78, 30)] ;
         myView.text = [province objectAtIndex:row];
     }
     else if (component == 1) {
-        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 95, 30)];
         myView.text = [city objectAtIndex:row];
     }
-    else {
-        myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 110, 30)];
-        myView.text = [district objectAtIndex:row];
-    }
+    else myView.text = [district objectAtIndex:row];
     
     return myView;
 }
