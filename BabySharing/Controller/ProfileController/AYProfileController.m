@@ -88,7 +88,6 @@
     UIColor* c_nav = [UIColor clearColor];
     [cmd_nav performWithResult:&c_nav];
     
-
     id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];

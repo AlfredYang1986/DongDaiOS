@@ -144,7 +144,8 @@
         [self infoSetting];             // 个人信息设置
     } else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-            [self regServiceObj];       // 切换服务对象
+//            [self regServiceObj];       // 切换服务对象
+            [self becomeServicer];
         }else if (indexPath.row == 1){  // 心仪的服务
             [self collectService];
         }else {                         // 系统设置
@@ -245,6 +246,17 @@
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:@"single" forKey:kAYControllerChangeArgsKey];
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+-(void)becomeServicer{
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }

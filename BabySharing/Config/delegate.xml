@@ -169,4 +169,9 @@
         <command type="notify" message="sendDelMessage:" />
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
+    
+    <delegate type="PickerViewDelegateAndDatasource" name="NapArea" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="sendDelMessage:" />
+    </delegate>
 </delegates>

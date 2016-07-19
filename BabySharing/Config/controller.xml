@@ -88,7 +88,6 @@
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
         
-<!--        <facade type="DefaultFacade" name="XMPP" notification="true"/>-->
         <facade type="DefaultFacade" name="EM" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
@@ -617,4 +616,14 @@
         <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
     </controller>
     
+    <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="Loading"        name="Loading" />
+        <view type="NapAreaMap"     name="NapAreaMap" />
+        <view type="Picker"         name="Picker" />
+        
+        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
+    </controller>
 </controllers>
