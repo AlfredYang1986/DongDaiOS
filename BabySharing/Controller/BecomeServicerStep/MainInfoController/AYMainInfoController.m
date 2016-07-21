@@ -29,6 +29,7 @@
 @end
 
 @implementation AYMainInfoController
+
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
@@ -38,6 +39,13 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+        NSDictionary *dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (dic_info) {
+            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
+            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
+            [cmd performWithResult:&dic_info];
+        }
         
     }
 }
@@ -52,14 +60,6 @@
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
     UIColor* c_nav = [UIColor clearColor];
     [cmd_nav performWithResult:&c_nav];
-    
-//    id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
-//    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-//    [cmd_right_vis performWithResult:&right_hidden];
-//    
-//    id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
-//    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-//    [cmd_left_vis performWithResult:&left_hidden];
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -136,7 +136,7 @@
 
 #pragma mark -- layout
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44);
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 +1);
     //    view.backgroundColor = [UIColor orangeColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -199,22 +199,79 @@
 - (id)startRemoteCall:(id)obj {
     return nil;
 }
-
+/*************************/
 - (id)addPhotosAction {
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"EditPhotos");
     
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
-    [sheet showInView:self.view];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:@"push" forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     return nil;
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        
-    } else if (buttonIndex == 1) {
-        
+-(id)inputNapTitleAction:(NSString*)args{
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapTitle");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    if (args && ![args isEqualToString:@""]) {
+        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
     }
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
+}
+-(id)inputNapDescAction:(NSString*)args{
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapDesc");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    if (args && ![args isEqualToString:@""]) {
+        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+    }
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
 }
 
+-(id)setNapBabyAges{
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
+}
+
+- (id)setNapCost:(NSDictionary*)args{
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
+}
+/**********************/
 -(id)sendRegMessage{
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     

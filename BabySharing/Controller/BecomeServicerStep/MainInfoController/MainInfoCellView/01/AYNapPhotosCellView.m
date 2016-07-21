@@ -32,6 +32,11 @@
     NSString *content;
 }
 
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -39,14 +44,10 @@
 }
 
 -(void)layoutSubviews{
+    [super layoutSubviews];
 //    _titleLabel.text = title;
 //    _babyInfoLabel.text = content;
 }
-
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
@@ -100,11 +101,12 @@
     [cmd performWithResult:nil];
 }
 
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(UIImage*)args {
+    _photoImage.hidden = NO;
+    _photoImage.image = args;
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _addPhotoBtn.hidden = YES;
+    _subTitleLabel.hidden = YES;
     return nil;
 }
 @end

@@ -36,13 +36,13 @@
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="添加妈的经历描述" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kL-r1-j9X">
-                        <rect key="frame" x="18" y="25" width="117" height="55"/>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kL-r1-j9X">
+                        <rect key="frame" x="20" y="25" width="332" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3T-sR-jDb">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3T-sR-jDb">
                         <rect key="frame" x="162" y="81" width="46" height="30"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <state key="normal" title="编辑">
@@ -54,10 +54,13 @@
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="1kL-r1-j9X" secondAttribute="trailing" constant="20" id="XJd-1H-X5D"/>
                     <constraint firstItem="1ke-PW-xw1" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="ckF-wP-w0F"/>
                     <constraint firstItem="23u-3a-Uuy" firstAttribute="centerX" secondItem="1ke-PW-xw1" secondAttribute="centerX" id="mZ4-J5-yxd"/>
                     <constraint firstItem="23u-3a-Uuy" firstAttribute="top" secondItem="1ke-PW-xw1" secondAttribute="bottom" constant="15" id="teQ-Ef-wzv"/>
                     <constraint firstItem="1ke-PW-xw1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="vBL-kn-oL1"/>
+                    <constraint firstItem="1kL-r1-j9X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="zJQ-np-A2J"/>
+                    <constraint firstItem="1kL-r1-j9X" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="zOX-Z4-V0m"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

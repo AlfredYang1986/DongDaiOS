@@ -39,8 +39,9 @@
 }
 
 -(void)layoutSubviews{
-    _setedTitleLabel.hidden = YES;
-    _ageLabel.hidden = YES;
+    [super layoutSubviews];
+//    _setedTitleLabel.hidden = YES;
+//    _ageLabel.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -96,11 +97,14 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSString*)args {
+    _unSetTitleLabel.hidden = YES;
+    _subTitleLabel.hidden = YES;
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _setedTitleLabel.hidden = NO;
+    _ageLabel.hidden = NO;
+    _ageLabel.text = args;
+    
     return nil;
 }
 @end

@@ -39,8 +39,9 @@
 }
 
 -(void)layoutSubviews{
-    _setedLocationLabel.hidden = YES;
-    _locationLabel.hidden = YES;
+    [super layoutSubviews];
+//    _setedLocationLabel.hidden = YES;
+//    _locationLabel.hidden = YES;
 }
 
 @synthesize para = _para;

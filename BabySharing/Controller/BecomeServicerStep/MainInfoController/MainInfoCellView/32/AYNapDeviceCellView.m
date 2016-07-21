@@ -38,7 +38,8 @@
 }
 
 -(void)layoutSubviews{
-    _setedDeviceLabel.hidden = YES;
+    [super layoutSubviews];
+//    _setedDeviceLabel.hidden = YES;
 }
 
 @synthesize para = _para;

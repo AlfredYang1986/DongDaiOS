@@ -177,9 +177,13 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="MainInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="sendDelMessage:" />
         <command type="message" message="queryCurrentSelected:" />
-        <command type="notify" message="showPicker:" />
-        <command type="notify" message="showPicker2:" />
+        <command type="notify" message="setNapBabyAges" />
+        <command type="notify" message="setNapCost:" />
+    </delegate>
+    
+    <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="sendDelMessage:" />
     </delegate>
 </delegates>

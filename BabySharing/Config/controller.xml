@@ -638,4 +638,37 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="MainInfo" />
     </controller>
+    
+    <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputNapTitle" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputNapDesc" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapAges" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="Picker"         name="Picker" />
+        
+        <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapCost" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+    </controller>
 </controllers>

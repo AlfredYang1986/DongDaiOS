@@ -39,8 +39,9 @@
 }
 
 -(void)layoutSubviews{
-    _setedCostLabel.hidden = YES;
-    _costLabel.hidden = YES;
+    [super layoutSubviews];
+//    _setedCostLabel.hidden = YES;
+//    _costLabel.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -96,11 +97,14 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSString*)args {
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _unSetCostLabel.hidden = YES;
+    _subTitleLabel.hidden = YES;
+    
+    _setedCostLabel.hidden = NO;
+    _costLabel.hidden = NO;
+    _costLabel.text = [NSString stringWithFormat:@"¥ %@ / 小时",args];
     return nil;
 }
 @end

@@ -479,33 +479,40 @@
     
     <view type="NapPhotosCell" name="NapPhotosCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="addPhotosAction" />
     </view>
     
     <view type="NapTitleCell" name="NapTitleCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="inputNapTitleAction:" />
     </view>
     
     <view type="NapDescCell" name="NapDescCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="inputNapDescAction:" />
     </view>
     
     <view type="NapBabyAgeCell" name="NapBabyAgeCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     <view type="NapCostCell" name="NapCostCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     <view type="NapLocationCell" name="NapLocationCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     <view type="NapDeviceCell" name="NapDeviceCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
 </views>

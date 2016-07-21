@@ -27,14 +27,14 @@
                             <constraint firstAttribute="height" constant="20" id="scH-xB-OTL"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="看护价格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obp-v4-hur">
-                        <rect key="frame" x="16" y="29" width="75" height="21"/>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="看护价格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="obp-v4-hur">
+                        <rect key="frame" x="15" y="31" width="56" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="$ 88 / hour" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIz-TB-kyg">
-                        <rect key="frame" x="220" y="29" width="75" height="21"/>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIz-TB-kyg">
+                        <rect key="frame" x="303" y="40" width="0.0" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -49,6 +49,10 @@
                 <constraints>
                     <constraint firstItem="eoc-Jm-iFw" firstAttribute="centerY" secondItem="4tF-zR-Kff" secondAttribute="centerY" id="3xV-km-p1Q"/>
                     <constraint firstAttribute="trailing" secondItem="eoc-Jm-iFw" secondAttribute="trailing" constant="10" id="Ewp-U5-30a"/>
+                    <constraint firstItem="SIz-TB-kyg" firstAttribute="centerY" secondItem="obp-v4-hur" secondAttribute="centerY" id="HCI-Tg-5T9"/>
+                    <constraint firstItem="eoc-Jm-iFw" firstAttribute="leading" secondItem="SIz-TB-kyg" secondAttribute="trailing" constant="10" id="fz0-5a-Ab0"/>
+                    <constraint firstItem="obp-v4-hur" firstAttribute="leading" secondItem="4tF-zR-Kff" secondAttribute="leading" constant="15" id="kgU-X9-CO0"/>
+                    <constraint firstItem="obp-v4-hur" firstAttribute="centerY" secondItem="4tF-zR-Kff" secondAttribute="centerY" id="wkN-PK-9lE"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

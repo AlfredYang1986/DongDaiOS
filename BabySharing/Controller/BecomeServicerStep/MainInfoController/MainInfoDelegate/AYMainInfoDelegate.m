@@ -13,11 +13,21 @@
 #import "AYSelfSettingCellDefines.h"
 
 @interface AYMainInfoDelegate ()
-@property (nonatomic, strong) NSArray* querydata;
+//@property (nonatomic, strong) NSArray* querydata;
 @end
 
 @implementation AYMainInfoDelegate {
+    NSMutableArray *querydata;
     
+    UITableView *infoTableView;
+    
+    UIImage *napPhoto;
+    NSString *napTitle;
+    NSString *napDesc;
+    NSString *napAges;
+    NSDictionary *dic_cost;
+    NSString *napCost;
+    NSString *napAdress;
 }
 
 #pragma mark -- command
@@ -29,6 +39,7 @@
 - (void)postPerform {
 //    origs = @[@"切换为看护妈妈",@"我心仪的服务",@"设置"];
 //    servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
+    querydata = [NSMutableArray array];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -47,11 +58,39 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
+#pragma marlk -- commands
+-(id)changeQueryData:(id)args{
+    NSDictionary *dic = (NSDictionary*)args;
+    
+    NSString *key = [dic objectForKey:@"key"];
+    
+    if ([key isEqualToString:@"nap_cover"]) {
+        napPhoto = [dic objectForKey:@"content"];
+    } else if([key isEqualToString:@"nap_title"]){
+        napTitle = [dic objectForKey:@"content"];
+    } else if([key isEqualToString:@"nap_desc"]){
+        napDesc = [dic objectForKey:@"content"];
+    } else if([key isEqualToString:@"nap_ages"]){
+        napAges = [dic objectForKey:@"content"];
+    } else if([key isEqualToString:@"nap_cost"]){
+        dic_cost = [dic objectForKey:@"content"];
+        napCost = [dic_cost objectForKey:@"cost"];
+    } else if([key isEqualToString:@"nap_adress"]){
+        napAdress = [dic objectForKey:@"content"];
+    } else if([key isEqualToString:@"nap_device"]){
+//        napAges = [dic objectForKey:@"content"];
+    }
+    
+    [infoTableView reloadData];
+    return nil;
+}
+
 #pragma mark -- table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 4;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    infoTableView = tableView;
     if (section == 0) {
         return 3;
     } else if (section == 1){
@@ -66,13 +105,17 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            
             NSString* class_name = @"AYNapPhotosCellView";
             id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
             if (cell == nil) {
                 cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
             }
             cell.controller = self.controller;
+            if (napPhoto) {
+                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+                UIImage *info = napPhoto;
+                [set_cmd performWithResult:&info];
+            }
             
             ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
             return (UITableViewCell*)cell;
@@ -83,6 +126,11 @@
                 cell = VIEW(@"NapTitleCell", @"NapTitleCell");
             }
             cell.controller = self.controller;
+            if (napTitle) {
+                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+                NSString *info = napTitle;
+                [set_cmd performWithResult:&info];
+            }
             
             ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
             return (UITableViewCell*)cell;
@@ -93,7 +141,11 @@
                 cell = VIEW(@"NapDescCell", @"NapDescCell");
             }
             cell.controller = self.controller;
-            
+            if (napDesc) {
+                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+                NSString *info = napDesc;
+                [set_cmd performWithResult:&info];
+            }
             ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
             return (UITableViewCell*)cell;
         }
@@ -105,6 +157,11 @@
             cell = VIEW(@"NapBabyAgeCell", @"NapBabyAgeCell");
         }
         cell.controller = self.controller;
+        if (napAges) {
+            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            NSString *info = napAges;
+            [set_cmd performWithResult:&info];
+        }
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
@@ -116,6 +173,12 @@
             cell = VIEW(@"NapCostCell", @"NapCostCell");
         }
         cell.controller = self.controller;
+        if (napCost) {
+            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            NSString *info = napCost;
+            [set_cmd performWithResult:&info];
+        }
+        
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
@@ -172,59 +235,43 @@
     }
 }
 
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (indexPath.section == 0) {
-//        [self infoSetting];             // 个人信息设置
-//    } else if (indexPath.section == 1){
-//        if (indexPath.row == 0) {
-//            //            [self regServiceObj];       // 切换服务对象
-//            [self becomeServicer];
-//        }else if (indexPath.row == 1){  // 心仪的服务
-//            [self collectService];
-//        }else {                         // 系统设置
-//            [self setting];
-//        }
-//    } else {                            //验证
-//        if (indexPath.row == 0) {
-//            return;
-//        }else if (indexPath.row == 1){
-//            [self confirmSNS];          //验证第三方
-//        }else if (indexPath.row == 2){
-//            [self confirmPhoneNo];      //验证手机号码
-//        }else {
-//            [self confirmRealName];     //验证实名
-//        }
-//    }
-//}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        return;
+    } else if (indexPath.section == 1) {
+        [self setNapBabyAges];
+    } else if (indexPath.section == 2) {                            //验证
+        [self setNapCost];
+    }else {
+        if (indexPath.row == 0) {
+            
+        }else {
+            
+        }
+    }
+}
 
--(void)infoSetting{
-//    AYModelFacade* f = LOGINMODEL;
-//    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-//    
-//    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
-//    [cur setValue:tmp.who.user_id forKey:@"user_id"];
-//    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
-//    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
-//    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
-//    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
-    
+-(void)infoSetting {
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
--(void)regServiceObj{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage"];
+
+-(void)setNapBabyAges {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges"];
     [cmd performWithResult:nil];
 }
--(void)collectService{
-    
+
+-(void)setNapCost{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapCost:"];
+    NSDictionary *dic = [dic_cost mutableCopy];
+    [cmd performWithResult:&dic];
 }
 -(void)setting{
     

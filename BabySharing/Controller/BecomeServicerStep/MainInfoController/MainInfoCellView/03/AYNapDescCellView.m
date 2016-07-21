@@ -39,8 +39,9 @@
 }
 
 -(void)layoutSubviews{
-    _userInputDescLabel.hidden = YES;
-    _editBtn.hidden = YES;
+    [super layoutSubviews];
+//    _userInputDescLabel.hidden = YES;
+//    _editBtn.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -97,16 +98,24 @@
 }
 
 - (IBAction)addDescBtnClick:(id)sender {
-    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapDescAction:"];
+    NSString *str = [_userInputDescLabel.text copy];
+    [cmd performWithResult:&str];
 }
 - (IBAction)editBtnClick:(id)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapDescAction:"];
+    NSString *str = [_userInputDescLabel.text copy];
+    [cmd performWithResult:&str];
 }
 
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSString*)args {
+    _addDescBtn.hidden = YES;
+    _subTitleLabel.hidden = YES;
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _userInputDescLabel.hidden = NO;
+    _userInputDescLabel.text = args;
+    
+    _editBtn.hidden = NO;
     return nil;
 }
 @end

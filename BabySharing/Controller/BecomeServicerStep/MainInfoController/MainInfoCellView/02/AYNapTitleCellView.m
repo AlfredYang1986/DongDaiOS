@@ -39,10 +39,11 @@
 }
 
 -(void)layoutSubviews{
+    [super layoutSubviews];
     //    _titleLabel.text = title;
     //    _babyInfoLabel.text = content;
-    _userInputTitle.hidden = YES;
-    _editBtn.hidden = YES;
+//    _userInputTitle.hidden = YES;
+//    _editBtn.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -95,20 +96,28 @@
 }
 
 - (IBAction)addTitleBtnClick:(id)sender {
-    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapTitleAction:"];
+    NSString *str = [_userInputTitle.text copy];
+    [cmd performWithResult:&str];
 }
 - (IBAction)editBtnClick:(id)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapTitleAction:"];
+    NSString *str = [_userInputTitle.text copy];
+    [cmd performWithResult:&str];
 }
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSString*)args {
+    _addTitleBtn.hidden = YES;
+    _subTitleLabel.hidden = YES;
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _userInputTitle.hidden = NO;
+    _userInputTitle.text = args;
+    
+    _editBtn.hidden = NO;
     return nil;
 }
 @end
