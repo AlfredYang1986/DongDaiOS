@@ -12,6 +12,8 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *confirLabel;
 @property (nonatomic, strong) UIView *bottom_line;
+
+@property (nonatomic, strong) NSDictionary *dic_info;
 @property (nonatomic, assign) BOOL isLast;
 @property (nonatomic, assign) BOOL isFirst;
 @property (nonatomic, assign) BOOL isConfirm;

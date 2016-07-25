@@ -100,7 +100,7 @@
     costTextField.keyboardType = UIKeyboardTypeNumberPad;
     [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(title);
-        make.centerX.equalTo(title).offset(-5);
+        make.centerX.equalTo(title).offset(-10);
         make.size.mas_equalTo(CGSizeMake(60, 30));
     }];
     
@@ -260,7 +260,6 @@
     return nil;
 }
 - (id)rightBtnSelected {
-    
     //整合数据
     NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
     [dic_options setValue:costTextField.text forKey:@"cost"];

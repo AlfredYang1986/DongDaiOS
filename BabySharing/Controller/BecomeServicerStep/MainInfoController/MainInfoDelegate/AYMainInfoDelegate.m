@@ -27,7 +27,10 @@
     NSString *napAges;
     NSDictionary *dic_cost;
     NSString *napCost;
+    NSDictionary *dic_adress;
     NSString *napAdress;
+    NSDictionary *dic_device;
+    NSString *napDevice;
 }
 
 #pragma mark -- command
@@ -76,9 +79,11 @@
         dic_cost = [dic objectForKey:@"content"];
         napCost = [dic_cost objectForKey:@"cost"];
     } else if([key isEqualToString:@"nap_adress"]){
-        napAdress = [dic objectForKey:@"content"];
+        dic_adress = [dic objectForKey:@"content"];
+        napAdress = [NSString stringWithFormat:@"%@%@",[dic_adress objectForKey:@"head"], [dic_adress objectForKey:@"detail"]];
     } else if([key isEqualToString:@"nap_device"]){
-//        napAges = [dic objectForKey:@"content"];
+        dic_device = [dic objectForKey:@"content"];
+        napDevice = [dic_device objectForKey:@"option_custom"];
     }
     
     [infoTableView reloadData];
@@ -179,7 +184,6 @@
             [set_cmd performWithResult:&info];
         }
         
-        
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
     } else {
@@ -190,6 +194,11 @@
                 cell = VIEW(@"NapLocationCell", @"NapLocationCell");
             }
             cell.controller = self.controller;
+            if (napAdress) {
+                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+                NSString *info = napAdress;
+                [set_cmd performWithResult:&info];
+            }
             
             ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
             return (UITableViewCell*)cell;
@@ -200,6 +209,11 @@
                 cell = VIEW(@"NapDeviceCell", @"NapDeviceCell");
             }
             cell.controller = self.controller;
+            if (dic_device) {
+                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+                NSDictionary *info = dic_device;
+                [set_cmd performWithResult:&info];
+            }
             
             ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
             return (UITableViewCell*)cell;
@@ -240,13 +254,13 @@
         return;
     } else if (indexPath.section == 1) {
         [self setNapBabyAges];
-    } else if (indexPath.section == 2) {                            //验证
+    } else if (indexPath.section == 2) {
         [self setNapCost];
     }else {
         if (indexPath.row == 0) {
-            
+            [self setNapAdress];
         }else {
-            
+            [self setNapDevice];
         }
     }
 }
@@ -273,19 +287,15 @@
     NSDictionary *dic = [dic_cost mutableCopy];
     [cmd performWithResult:&dic];
 }
--(void)setting{
-    
+-(void)setNapAdress{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapAdress:"];
+    NSDictionary *dic = [dic_adress mutableCopy];
+    [cmd performWithResult:&dic];
 }
--(void)confirmSNS{
-    
+-(void)setNapDevice{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapDevice:"];
+    NSDictionary *dic = [dic_device mutableCopy];
+    [cmd performWithResult:&dic];
 }
--(void)confirmPhoneNo{
-    
-}
--(void)confirmRealName{
-    
-}
--(void)becomeServicer{
-    
-}
+
 @end

@@ -33,14 +33,14 @@
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="看护孩子年龄阶段" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6qV-hv-sS5">
-                        <rect key="frame" x="16" y="29" width="125" height="21"/>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="看护孩子年龄阶段" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6qV-hv-sS5">
+                        <rect key="frame" x="15" y="31" width="112" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2 - 5sui" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaM-73-KJy">
-                        <rect key="frame" x="224" y="29" width="71" height="21"/>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kaM-73-KJy">
+                        <rect key="frame" x="303" y="40" width="0.0" height="0.0"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -49,6 +49,10 @@
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="qt2-rN-Hjc" secondAttribute="trailing" constant="10" id="AQ8-me-j08"/>
                     <constraint firstItem="qt2-rN-Hjc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="hcG-Vc-NNu"/>
+                    <constraint firstItem="kaM-73-KJy" firstAttribute="centerY" secondItem="6qV-hv-sS5" secondAttribute="centerY" id="maj-bR-MXy"/>
+                    <constraint firstItem="6qV-hv-sS5" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vK5-x6-eBf"/>
+                    <constraint firstItem="qt2-rN-Hjc" firstAttribute="leading" secondItem="kaM-73-KJy" secondAttribute="trailing" constant="10" id="wKH-Kv-J9Y"/>
+                    <constraint firstItem="6qV-hv-sS5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="xb7-0X-Nyw"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

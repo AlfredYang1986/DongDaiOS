@@ -626,5 +626,7 @@ static CGSize AssetGridThumbnailSize;
     }
     return indexPaths;
 }
-
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
+}
 @end

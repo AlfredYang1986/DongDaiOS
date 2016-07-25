@@ -40,6 +40,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    _photoImage.userInteractionEnabled = YES;
+    [_photoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
+    
     [self setUpReuseCell];
 }
 
@@ -96,6 +99,13 @@
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
 }
+
+#pragma mark -- actions
+- (void)editPhoto:(UIGestureRecognizer*)tap{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"addPhotosAction"];
+    [cmd performWithResult:nil];
+}
+
 - (IBAction)addPhotoBtnClick:(id)sender {
     id<AYCommand> cmd = [self.notifies objectForKey:@"addPhotosAction"];
     [cmd performWithResult:nil];

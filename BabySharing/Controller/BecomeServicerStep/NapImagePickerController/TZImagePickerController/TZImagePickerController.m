@@ -65,14 +65,16 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self setNeedsStatusBarAppearanceUpdate];
 //    _originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 //    [UIApplication sharedApplication].statusBarStyle = iOS7Later ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-//    [UIApplication sharedApplication].statusBarStyle = _originStatusBarStyle;
+    
+//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [self hideProgressHUD];
 }
 
@@ -80,11 +82,10 @@
     TZAlbumPickerController *albumPickerVc = [[TZAlbumPickerController alloc] init];
     self = [super initWithRootViewController:albumPickerVc];
     if (self) {
-        self.maxImagesCount = maxImagesCount > 0 ? maxImagesCount : 9; // Default is 9 / 默认最大可选9张图片
+        self.maxImagesCount = maxImagesCount > 0 ? maxImagesCount : 9; // 默认最大可选9张图片
         self.pickerDelegate = delegate;
         self.selectedModels = [NSMutableArray array];
         
-        // Allow user picking original photo and video, you also can set No after this method
         // 默认准许用户选择原图和视频, 你也可以在这个方法后置为NO
         self.allowPickingOriginalPhoto = NO;
         self.allowPickingVideo = NO;
@@ -371,6 +372,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
 @end
 
 

@@ -62,7 +62,13 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-    if (_isFirst) {
+
+}
+
+- (void)setDic_info:(NSDictionary *)dic_info{
+    _dic_info = dic_info;
+    _titleLabel.text = [dic_info objectForKey:@"title"];
+    if (((NSNumber*)[dic_info objectForKey:@"isFirst"]).boolValue) {
         [_titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
             make.centerX.equalTo(self);
@@ -78,7 +84,7 @@
         _confirLabel.textColor = [Tools themeColor];
     }
     
-    if (_isLast) {
+    if (((NSNumber*)[dic_info objectForKey:@"isLast"]).boolValue) {
         _bottom_line.hidden = YES;
     }
 }

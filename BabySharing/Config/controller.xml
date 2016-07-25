@@ -620,7 +620,6 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="FakeNavBar"     name="SetNevigationBarTitle" />
-        <view type="Loading"        name="Loading" />
         <view type="NapAreaMap"     name="NapAreaMap" />
         <view type="Picker"         name="Picker" />
         
@@ -671,4 +670,28 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="FakeNavBar"     name="SetNevigationBarTitle" />
     </controller>
+    
+    <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="NapAdressMap"     name="NapAdressMap" />
+    </controller>
+    
+    <controller type="DefaultController" name="NapLocation" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
+        <view type="Table"      name="Table" />
+        <view type="SearchBar"  name="SearchBar" />
+        <view type="Loading"    name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="NapLocation" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapDevice" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+    </controller>
+    
 </controllers>

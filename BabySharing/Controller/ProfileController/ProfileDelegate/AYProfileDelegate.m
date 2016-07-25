@@ -104,14 +104,18 @@
         if (cell == nil) {
             cell = [[AYProfileServCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
         }
-        cell.isFirst = NO;
-        cell.isLast = NO;
-        cell.titleLabel.text = servs[indexPath.row];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:servs[indexPath.row] forKey:@"title"];
+        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isFirst"];
+        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
         if (indexPath.row == 0) {
-            cell.isFirst = YES;
+            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isFirst"];
         } else if(indexPath.row == 3) {
-            cell.isLast = YES;
+            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
         }
+        cell.dic_info = dic;
+        
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
     };

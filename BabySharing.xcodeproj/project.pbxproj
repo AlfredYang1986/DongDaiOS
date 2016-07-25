@@ -613,6 +613,10 @@
 		70FA8B6A1D3FD66E00EAB1EB /* AYSetNapCostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FA8B691D3FD66E00EAB1EB /* AYSetNapCostController.m */; };
 		70FA8B6D1D406EB700EAB1EB /* OptionOfPlayingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FA8B6C1D406EB700EAB1EB /* OptionOfPlayingView.m */; };
 		70FA8B721D40C25000EAB1EB /* AYSetNapDeviceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FA8B711D40C25000EAB1EB /* AYSetNapDeviceController.m */; };
+		70FA8B781D40F47800EAB1EB /* AYInputNapAdressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FA8B771D40F47800EAB1EB /* AYInputNapAdressController.m */; };
+		70FEFB701D41BDFE0086D6DD /* AYNapAdressMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB6F1D41BDFE0086D6DD /* AYNapAdressMapView.m */; };
+		70FEFB761D4213330086D6DD /* AYNapLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB751D4213330086D6DD /* AYNapLocationController.m */; };
+		70FEFB791D4214E30086D6DD /* AYNapLocationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB781D4214E30086D6DD /* AYNapLocationDelegate.m */; };
 		805218841CCB62B8006EF119 /* AYGroupChatUserInfoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218821CCB62B8006EF119 /* AYGroupChatUserInfoDelegate.m */; };
 		805218871CCB62D1006EF119 /* AYChatGroupInputDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218861CCB62D1006EF119 /* AYChatGroupInputDelegate.m */; };
 		8052188B1CCB7457006EF119 /* AYChatMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052188A1CCB7457006EF119 /* AYChatMessageCellView.m */; };
@@ -1905,6 +1909,14 @@
 		70FA8B6C1D406EB700EAB1EB /* OptionOfPlayingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionOfPlayingView.m; sourceTree = "<group>"; };
 		70FA8B701D40C25000EAB1EB /* AYSetNapDeviceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapDeviceController.h; sourceTree = "<group>"; };
 		70FA8B711D40C25000EAB1EB /* AYSetNapDeviceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapDeviceController.m; sourceTree = "<group>"; };
+		70FA8B761D40F47800EAB1EB /* AYInputNapAdressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInputNapAdressController.h; sourceTree = "<group>"; };
+		70FA8B771D40F47800EAB1EB /* AYInputNapAdressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInputNapAdressController.m; sourceTree = "<group>"; };
+		70FEFB6E1D41BDFE0086D6DD /* AYNapAdressMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapAdressMapView.h; sourceTree = "<group>"; };
+		70FEFB6F1D41BDFE0086D6DD /* AYNapAdressMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapAdressMapView.m; sourceTree = "<group>"; };
+		70FEFB741D4213330086D6DD /* AYNapLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapLocationController.h; sourceTree = "<group>"; };
+		70FEFB751D4213330086D6DD /* AYNapLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapLocationController.m; sourceTree = "<group>"; };
+		70FEFB771D4214E30086D6DD /* AYNapLocationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapLocationDelegate.h; sourceTree = "<group>"; };
+		70FEFB781D4214E30086D6DD /* AYNapLocationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapLocationDelegate.m; sourceTree = "<group>"; };
 		805218811CCB62B8006EF119 /* AYGroupChatUserInfoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGroupChatUserInfoDelegate.h; sourceTree = "<group>"; };
 		805218821CCB62B8006EF119 /* AYGroupChatUserInfoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGroupChatUserInfoDelegate.m; sourceTree = "<group>"; };
 		805218851CCB62D1006EF119 /* AYChatGroupInputDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChatGroupInputDelegate.h; sourceTree = "<group>"; };
@@ -4565,6 +4577,8 @@
 				708F2D061D3F601E000CD492 /* NapImagePickerController */,
 				708F2D381D3FA400000CD492 /* SetNapAgesController */,
 				70FA8B671D3FD64C00EAB1EB /* SetNapCostController */,
+				70FEFB711D4213150086D6DD /* NapLocationController */,
+				70FA8B731D40F45900EAB1EB /* InputNapAdressController */,
 				70FA8B6F1D40C22300EAB1EB /* SetNapDeviceController */,
 				70754A751D3DFD2400D8CAFC /* MainInfoController */,
 				706E2D281D3CC2F7006A05AD /* AreaController */,
@@ -6664,6 +6678,61 @@
 			path = SetNapDeviceController;
 			sourceTree = "<group>";
 		};
+		70FA8B731D40F45900EAB1EB /* InputNapAdressController */ = {
+			isa = PBXGroup;
+			children = (
+				70FA8B741D40F45900EAB1EB /* InputNapAdressDelegate */,
+				70FA8B751D40F45900EAB1EB /* InputNapAdressView */,
+				70FA8B761D40F47800EAB1EB /* AYInputNapAdressController.h */,
+				70FA8B771D40F47800EAB1EB /* AYInputNapAdressController.m */,
+			);
+			path = InputNapAdressController;
+			sourceTree = "<group>";
+		};
+		70FA8B741D40F45900EAB1EB /* InputNapAdressDelegate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = InputNapAdressDelegate;
+			sourceTree = "<group>";
+		};
+		70FA8B751D40F45900EAB1EB /* InputNapAdressView */ = {
+			isa = PBXGroup;
+			children = (
+				70FEFB6E1D41BDFE0086D6DD /* AYNapAdressMapView.h */,
+				70FEFB6F1D41BDFE0086D6DD /* AYNapAdressMapView.m */,
+			);
+			path = InputNapAdressView;
+			sourceTree = "<group>";
+		};
+		70FEFB711D4213150086D6DD /* NapLocationController */ = {
+			isa = PBXGroup;
+			children = (
+				70FEFB721D4213150086D6DD /* NapLocationDelegate */,
+				70FEFB731D4213150086D6DD /* NapLocationView */,
+				70FEFB741D4213330086D6DD /* AYNapLocationController.h */,
+				70FEFB751D4213330086D6DD /* AYNapLocationController.m */,
+			);
+			name = NapLocationController;
+			path = InputNapAdressController/NapLocationController;
+			sourceTree = "<group>";
+		};
+		70FEFB721D4213150086D6DD /* NapLocationDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70FEFB771D4214E30086D6DD /* AYNapLocationDelegate.h */,
+				70FEFB781D4214E30086D6DD /* AYNapLocationDelegate.m */,
+			);
+			path = NapLocationDelegate;
+			sourceTree = "<group>";
+		};
+		70FEFB731D4213150086D6DD /* NapLocationView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NapLocationView;
+			sourceTree = "<group>";
+		};
 		8052187C1CCB62B8006EF119 /* GroupChatDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -7344,6 +7413,7 @@
 				708F2D251D3F601E000CD492 /* TZImageManager.m in Sources */,
 				7039CBDD1CBB84F300BE60C7 /* AYDongDaSegView.m in Sources */,
 				70F96CD91CFD92E7005663C8 /* AYHomeContentDelegate.m in Sources */,
+				70FEFB761D4213330086D6DD /* AYNapLocationController.m in Sources */,
 				7015247B1CBF9AB4005B4C5B /* MJRefreshAutoFooter.m in Sources */,
 				701D8A9C1CA7E06700B5D4C1 /* UserKids.m in Sources */,
 				7027FD1A1CBC0817002756BC /* AYAppSettingDelegate.m in Sources */,
@@ -7498,6 +7568,7 @@
 				708E52901CC544EA008A6023 /* AYStillImageCaptureStopCommand.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				70E9AB701CF3FE960019D33A /* AYNotifyFollowBtnView.m in Sources */,
+				70FA8B781D40F47800EAB1EB /* AYInputNapAdressController.m in Sources */,
 				7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */,
 				70CDF6391CBD033900311841 /* QueryContentChaters+CoreDataProperties.m in Sources */,
 				80D5E7C81CCC88C200A82117 /* AYDownloadMovieFilesCommand.m in Sources */,
@@ -7653,6 +7724,7 @@
 				702B84B91CCA999600CDEB3C /* AYEnterChatGroupCommand.m in Sources */,
 				703291C31CC492B700028DF2 /* AYContatcerInSystemCommand.m in Sources */,
 				7082F1E41D1D4DFA00E64496 /* AYEMEnterBackgroundCommand.m in Sources */,
+				70FEFB701D41BDFE0086D6DD /* AYNapAdressMapView.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */,
 				70D657051D1D3DDE003D1D7D /* AYExposeContentCommand.m in Sources */,
@@ -7756,6 +7828,7 @@
 				8052188B1CCB7457006EF119 /* AYChatMessageCellView.m in Sources */,
 				7039CBCE1CBB77EA00BE60C7 /* AYProfileController.m in Sources */,
 				7002DB1B1CC5EA630013FF2A /* AYAVController.m in Sources */,
+				70FEFB791D4214E30086D6DD /* AYNapLocationDelegate.m in Sources */,
 				700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */,
 				700BE6081CBA75D400A09B3A /* AYQuerySNSProvidersCommand.m in Sources */,
 				70E5A7301CCDD01C00974974 /* AYPersonalSettingController.m in Sources */,

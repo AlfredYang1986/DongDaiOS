@@ -149,7 +149,7 @@
     
     UIButton *nextBtn = [[UIButton alloc]init];
     nextBtn.backgroundColor = [Tools themeColor];
-    [nextBtn setTitle:@"NEXT" forState:UIControlStateNormal];
+    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:nextBtn];
     [self.view bringSubviewToFront:nextBtn];
@@ -217,10 +217,6 @@
 //    [view.layer addSublayer:line];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-//    id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
-//    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-//    [cmd_left_vis performWithResult:&left_hidden];
-    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
@@ -251,11 +247,6 @@
 
 - (id)NapAreaMapLayout:(UIView*)view {
     view.frame = CGRectMake(0, 200, SCREEN_WIDTH, SCREEN_HEIGHT - 200);
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     return nil;
 }
 
@@ -317,7 +308,6 @@
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
         }];
     }
-    
     return nil;
 }
 -(id)didCancelClick {
@@ -326,7 +316,6 @@
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
         }];
     }
-    
     return nil;
 }
 

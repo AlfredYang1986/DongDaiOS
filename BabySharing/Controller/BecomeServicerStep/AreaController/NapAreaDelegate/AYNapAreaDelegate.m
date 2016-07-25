@@ -119,7 +119,6 @@
 #pragma mark- Picker Delegate Methods
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    picker = pickerView;
     if (component == 0) {
         return [province objectAtIndex: row];
     }
@@ -131,9 +130,8 @@
     }
 }
 
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
-{
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    picker = pickerView;
     if (component == 0) {
         selectedProvince = [province objectAtIndex: row];
         NSDictionary *tmp = [NSDictionary dictionaryWithDictionary: [areaDic objectForKey: [NSString stringWithFormat:@"%ld", row]]];
@@ -196,7 +194,6 @@
     
 }
 
-
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
 //    if (component == 0) {
 //        return 80;
@@ -223,8 +220,7 @@
     }
     else if (component == 1) {
         myView.text = [city objectAtIndex:row];
-    }
-    else myView.text = [district objectAtIndex:row];
+    } else myView.text = [district objectAtIndex:row];
     
     return myView;
 }
@@ -248,6 +244,7 @@
     }
     
     NSString *showMsg = [NSString stringWithFormat: @"%@%@%@", provinceStr, cityStr, districtStr];
+    NSLog(@"%@",showMsg);
     return showMsg;
 }
 

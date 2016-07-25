@@ -97,11 +97,13 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSString*)args {
+    _unSetLocationLabel.hidden = YES;
+    _subTitleLabel.hidden = YES;
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _setedLocationLabel.hidden = NO;
+    _locationLabel.hidden = NO;
+    _locationLabel.text = args;
     return nil;
 }
 @end

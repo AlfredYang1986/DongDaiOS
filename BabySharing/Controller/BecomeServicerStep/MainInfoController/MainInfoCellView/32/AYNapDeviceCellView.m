@@ -97,9 +97,10 @@
 
 - (id)setCellInfo:(id)args {
     
-    NSDictionary* dic = (NSDictionary*)args;
-    title = [dic objectForKey:@"title"];
-    content = [dic objectForKey:@"content"];
+    _unSetDeviceLabel.hidden = YES;
+    _subTitleLabel.hidden = YES;
+    
+    _setedDeviceLabel.hidden = NO;
     return nil;
 }
 @end

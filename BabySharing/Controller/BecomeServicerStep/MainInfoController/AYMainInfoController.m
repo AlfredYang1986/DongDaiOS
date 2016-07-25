@@ -39,14 +39,12 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
         NSDictionary *dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_info) {
             id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
             id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
             [cmd performWithResult:&dic_info];
         }
-        
     }
 }
 
@@ -103,6 +101,11 @@
         make.right.equalTo(self.view);
         make.height.mas_equalTo(49);
     }];
+    CALayer *line = [CALayer layer];
+    line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
+    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [tabbar.layer addSublayer:line];
+    
     UIButton *me = [[UIButton alloc]init];
     [tabbar addSubview:me];
     [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
@@ -116,6 +119,7 @@
         make.centerY.equalTo(tabbar);
         make.size.mas_equalTo(CGSizeMake(50, 44));
     }];
+    [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];
@@ -178,6 +182,16 @@
     [titleView sizeToFit];
     titleView.center = CGPointMake(width / 2, 44 / 2 + 20);
     return nil;
+}
+
+#pragma mark -- actions
+- (void)popToRootVC {
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic_pop];
 }
 
 #pragma mark -- notification
@@ -260,6 +274,34 @@
 
 - (id)setNapCost:(NSDictionary*)args{
     id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
+}
+
+- (id)setNapAdress:(NSDictionary*)args{
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"InputNapAdress");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
+}
+
+- (id)setNapDevice:(NSDictionary*)args{
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
     
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

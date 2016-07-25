@@ -515,4 +515,9 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
+    
+    <view type="NapAdressMap" name="NapAdressMap" factory="AYDefaultViewFactory" >
+        <command type="message"     message="queryOnesLocal:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
 </views>
