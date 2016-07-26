@@ -506,18 +506,42 @@
         <command type="notify"      message="didCancelClick" />
     </view>
     <view type="NapLocationCell" name="NapLocationCell" factory="AYDefaultViewFactory" >
-        <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     <view type="NapDeviceCell" name="NapDeviceCell" factory="AYDefaultViewFactory" >
-        <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     
     <view type="NapAdressMap" name="NapAdressMap" factory="AYDefaultViewFactory" >
         <command type="message"     message="queryOnesLocal:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    
+    <view type="OrderCell" name="OrderCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    
+    <view type="OrderHeadCell" name="OrderHeadCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didServiceDetailClick" />
+    </view>
+    <view type="OrderContactCell" name="OrderContactCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    <view type="OrderStateCell" name="OrderStateCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    <view type="OrderPayCell" name="OrderPayCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    <view type="OrderMapCell" name="OrderMapCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
 </views>

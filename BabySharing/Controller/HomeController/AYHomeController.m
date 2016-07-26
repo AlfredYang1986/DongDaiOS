@@ -32,14 +32,12 @@
 
 typedef void(^queryContentFinish)(void);
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
+#define SCREEN_WIDTH                    [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                   [UIScreen mainScreen].bounds.size.height
 
-#define HEADER_MARGIN_TO_SCREEN 10.5
-#define CONTENT_START_POINT     71
-#define PAN_HANDLE_CHECK_POINT  10
-
-#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
+#define HEADER_MARGIN_TO_SCREEN         10.5
+#define CONTENT_START_POINT             71
+#define PAN_HANDLE_CHECK_POINT          10
 
 #define VIEW_BOUNTDS        CGFloat screen_width = [UIScreen mainScreen].bounds.size.width; \
 CGFloat screen_height = [UIScreen mainScreen].bounds.size.height; \
@@ -145,7 +143,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     hello.attributedText = helloString;
     [self.view addSubview:hello];
     [hello mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(30);
+        make.left.equalTo(self.view).offset(20);
         make.top.equalTo(found.mas_bottom).offset(20);
     }];
     UILabel *say = [[UILabel alloc]init];
@@ -155,14 +153,14 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     say.textColor = [UIColor grayColor];
     [self.view addSubview:say];
     [say mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(30);
-        make.right.equalTo(self.view).offset(-30);
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
         make.top.equalTo(hello.mas_bottom).offset(10);
     }];
     
     UIButton *personal = [[UIButton alloc]init];
-    personal.hidden = YES;
-    [personal setTitle:@"一键发布服务信息" forState:UIControlStateNormal];
+//    personal.hidden = YES;
+    [personal setTitle:@"我的订单" forState:UIControlStateNormal];
     personal.backgroundColor = [Tools themeColor];
     [self.view addSubview:personal];
     [personal mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -217,66 +215,20 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 //    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
     
-    
-    
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
 
 -(void)didPushInfo{
-    NSDictionary* obj = nil;
-    CURRENUSER(obj)
-    NSDictionary* args = [obj mutableCopy];
+    AYViewController* des = DEFAULTCONTROLLER(@"OrderList");
     
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy-MM-dd HH:mm"];
-    NSString *startDateString = @"2016-06-15 11:15";
-    NSDate *startDate = [format dateFromString:startDateString];
-    NSTimeInterval start = startDate.timeIntervalSince1970 * 1000;
-    
-    NSString *endDateString = @"2016-06-15 12:15";
-    NSDate *endDate = [format dateFromString:endDateString];
-    NSTimeInterval end = endDate.timeIntervalSince1970 * 1000;
-//    NSDate *ddd = [NSDate dateWithTimeIntervalSinceReferenceDate:end];
-    
-    NSMutableDictionary *offer_date = [[NSMutableDictionary alloc]init];
-    [offer_date setValue:[NSNumber numberWithLong:start] forKey:@"start"];
-    [offer_date setValue:[NSNumber numberWithLong:end] forKey:@"end"];
-    [dic setValue:offer_date forKey:@"offer_date"];
-    
-//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
-//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
-    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.931508 longitude:116.416997];
-    NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-    [location setValue:[NSNumber numberWithFloat:loc.coordinate.latitude] forKey:@"latitude"];
-    [location setValue:[NSNumber numberWithFloat:loc.coordinate.longitude] forKey:@"longtitude"];
-    [dic setValue:location forKey:@"location"];
-    
-    [dic setValue:@"爱购物的时尚妈妈33" forKey:@"title"];
-    [dic setValue:@"description:33一位爱购物的文艺妈妈" forKey:@"description"];
-    [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
-    [dic setValue:[NSNumber numberWithFloat:128] forKey:@"price"];
-    
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushPersonalInfo"];
-    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"上传成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-            
-            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
-            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
-            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-                if (success) {
-                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-                }
-            }];
-        }
-    }];
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- notifies

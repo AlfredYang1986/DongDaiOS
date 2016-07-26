@@ -694,4 +694,31 @@
         <view type="FakeNavBar"     name="SetNevigationBarTitle" />
     </controller>
     
+    <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="Table" name="Table" />
+        <view type="Table2" name="Table2" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="Loading" name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" />
+        <delegate type="TableViewDelegateAndDatasource" name="PastOrder" />
+    </controller>
+    
+    <controller type="DefaultController" name="ReadyOrder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="Table"          name="Table" />
+        <view type="Loading"        name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" />
+    </controller>
 </controllers>

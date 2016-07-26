@@ -104,13 +104,10 @@
         obj = (id)cmd_notify;
         [cmd_delegate performWithResult:&obj];
         
-
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
         NSString* class_name = @"AYProfileHeadCellView";
         [cmd_cell performWithResult:&class_name];
-        
     }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

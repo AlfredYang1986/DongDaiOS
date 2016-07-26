@@ -125,13 +125,36 @@
     }];
     [unCollectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
+    UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
+    bottom_view.backgroundColor = [Tools themeColor];
+    [self.view addSubview:bottom_view];
+    [self.view bringSubviewToFront:bottom_view];
+    
+    CALayer *left = [CALayer layer];
+    left.frame = CGRectMake(SCREEN_WIDTH *0.5 - 1, 0, 1, 44);
+    left.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.25f].CGColor;
+    [bottom_view.layer addSublayer:left];
+    CALayer *right = [CALayer layer];
+    right.frame = CGRectMake(SCREEN_WIDTH *0.5, 0, 1, 44);
+    right.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
+    [bottom_view.layer addSublayer:right];
+    
+    
+    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 44)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
-    [bookBtn setTitle:@"沟通" forState:UIControlStateNormal];
+    [bookBtn setTitle:@"预定" forState:UIControlStateNormal];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:bookBtn];
-    [self.view bringSubviewToFront:bookBtn];
+    [bottom_view addSubview:bookBtn];
+//    [bottom_view bringSubviewToFront:bookBtn];
+    
+    UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 44)];
+    [chatBtn setBackgroundColor:[Tools themeColor]];
+    [chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
+    [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [chatBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [bottom_view addSubview:chatBtn];
+//    [bottom_view bringSubviewToFront:chatBtn];
 }
 
 #pragma mark -- layouts
