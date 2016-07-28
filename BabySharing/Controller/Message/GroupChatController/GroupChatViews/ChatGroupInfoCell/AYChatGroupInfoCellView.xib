@@ -77,7 +77,7 @@
                 <outlet property="online_count_label" destination="Sth-EN-PYK" id="oIh-90-ChT"/>
                 <outlet property="user_list_view" destination="zte-d0-Zks" id="Svl-Qn-iNh"/>
             </connections>
-            <point key="canvasLocation" x="597" y="411.5"/>
+            <point key="canvasLocation" x="494" y="248.5"/>
         </tableViewCell>
     </objects>
 </document>

@@ -21,7 +21,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    UIViewController* controller = CONTROLLER(@"DefaultController", @"Friends");
+    UIViewController* controller = CONTROLLER(@"DefaultController", @"GroupList");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];

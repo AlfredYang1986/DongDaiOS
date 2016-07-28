@@ -530,11 +530,11 @@
     </view>
     <view type="OrderContactCell" name="OrderContactCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="didContactBtnClick:" />
     </view>
     <view type="OrderStateCell" name="OrderStateCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="didQRCodeBtnClick" />
     </view>
     <view type="OrderPayCell" name="OrderPayCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />

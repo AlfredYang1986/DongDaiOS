@@ -90,7 +90,10 @@
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
 }
+
 - (IBAction)didQRCodeBtnClick:(id)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didQRCodeBtnClick"];
+    [cmd performWithResult:nil];
 }
 
 - (id)setCellInfo:(id)args{

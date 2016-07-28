@@ -109,7 +109,7 @@
     [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(countTitleLabel);
         make.right.equalTo(self.view).offset(-18);
-        make.size.mas_equalTo(CGSizeMake(22, 22));
+        make.size.mas_equalTo(CGSizeMake(44, 44));
     }];
     [closeBtn addTarget:self action:@selector(didCloseBtnClick) forControlEvents:UIControlEventTouchUpInside];
     

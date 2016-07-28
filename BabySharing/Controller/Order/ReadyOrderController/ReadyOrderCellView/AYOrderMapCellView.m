@@ -142,7 +142,6 @@
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
         //默认红色小球
         static NSString *ID = @"anno";
-        
         MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
         if (annotationView == nil) {
             annotationView = [[MAAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];

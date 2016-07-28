@@ -132,12 +132,17 @@
     
     UIView* seg = [self.views objectForKey:@"DongDaSeg"];
     [self.navigationController.navigationBar addSubview:seg];
+    
+    UIView* btn = [self.views objectForKey:@"AddFriends"];
+    [self.navigationController.navigationBar addSubview:btn];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     UIView* seg = [self.views objectForKey:@"DongDaSeg"];
     [seg removeFromSuperview];
+    UIView* btn = [self.views objectForKey:@"AddFriends"];
+    [btn removeFromSuperview];
 }
 
 #pragma mark -- layout commands
@@ -145,7 +150,7 @@
     CGFloat offset_x = 0;
     CGFloat offset_y = 10;
     
-    view.frame = CGRectMake(offset_x, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - offset_y - 64 - BOTTOM_BAR_HEIGHT);
+    view.frame = CGRectMake(offset_x, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
@@ -154,35 +159,48 @@
 - (id)Table2Layout:(UIView*)view {
     CGFloat offset_y = 10;
     
-    view.frame = CGRectMake(SCREEN_WIDTH, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - offset_y - 64 - BOTTOM_BAR_HEIGHT);
+    view.frame = CGRectMake(SCREEN_WIDTH, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 
 - (id)DongDaSegLayout:(UIView*)view {
-    {
-        id<AYViewBase> seg = (id<AYViewBase>)view;
-        id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
-        
-        id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
-        NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
-        [dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-        [dic_add_item_0 setValue:@"将至订单" forKey:kAYSegViewTitleKey];
-        [cmd_add_item performWithResult:&dic_add_item_0];
-        
-        NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
-        [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-        [dic_add_item_1 setValue:@"过往订单" forKey:kAYSegViewTitleKey];
-        [cmd_add_item performWithResult:&dic_add_item_1];
-        
-        NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
-        [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
-        [dic_user_info setValue:[NSNumber numberWithFloat:0.2933f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
-        
-        [cmd_info performWithResult:&dic_user_info];
-    }
+    
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 44);
+    
+    id<AYViewBase> seg = (id<AYViewBase>)view;
+    id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
+    
+    id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
+    NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
+    [dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
+    [dic_add_item_0 setValue:@"将至订单" forKey:kAYSegViewTitleKey];
+    [cmd_add_item performWithResult:&dic_add_item_0];
+    
+    NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
+    [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
+    [dic_add_item_1 setValue:@"过往订单" forKey:kAYSegViewTitleKey];
+    [cmd_add_item performWithResult:&dic_add_item_1];
+    
+    NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
+    [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
+    [dic_user_info setValue:[NSNumber numberWithFloat:0.25f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
+    
+    [cmd_info performWithResult:&dic_user_info];
+    
+    return nil;
+}
+
+- (id)AddFriendsLayout:(UIView*)view {
+    
+    view.frame = CGRectMake(0, 0, 50, 50);
+    
+    CALayer* layer = [CALayer layer];
+    layer.contents = (id)IMGRESOURCE(@"bar_left_black").CGImage;
+    layer.frame = CGRectMake(0, 0, 25, 25);
+    layer.position = CGPointMake(25, 25);
+    [view.layer addSublayer:layer];
     
     return nil;
 }
@@ -214,6 +232,16 @@
             }
         }
     }];
+    return nil;
+}
+
+- (id)touchUpInside {
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
     return nil;
 }
 

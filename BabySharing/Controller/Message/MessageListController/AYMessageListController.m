@@ -1,12 +1,12 @@
 //
-//  AYReadyOrderController.m
+//  AYMessageListController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 26/7/16.
+//  Created by Alfred Yang on 27/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYReadyOrderController.h"
+#import "AYMessageListController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -26,14 +26,11 @@
 #import "AYSearchDefines.h"
 
 #import "Tools.h"
-#import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
-#import <AMapSearchKit/AMapSearchKit.h>
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-@implementation AYReadyOrderController{
+@implementation AYMessageListController{
     NSMutableArray *loading_status;
     
 }
@@ -46,7 +43,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        //        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -72,7 +69,7 @@
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
     
-    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ReadyOrder"];
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"MessageList"];
     
     id obj = (id)cmd_recommend;
     [cmd_datasource performWithResult:&obj];
@@ -87,15 +84,6 @@
     id<AYCommand> cmd_nib = [view_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* nib_contact_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_nib performWithResult:&nib_contact_name];
-    
-    NSString* nib_state_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderStateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_nib performWithResult:&nib_state_name];
-    
-    NSString* nib_pay_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_nib performWithResult:&nib_pay_name];
-    
-    NSString* nib_map_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_head performWithResult:&nib_map_name];
     /****************************************/
     
     loading_status = [[NSMutableArray alloc]init];
@@ -129,9 +117,9 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
+    id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
+    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+    [cmd_left_vis performWithResult:&left_hidden];
     
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
@@ -142,7 +130,7 @@
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"待确认订单";
+    titleView.text = @"消息";
     titleView.font = [UIFont systemFontOfSize:16.f];
     titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
     [titleView sizeToFit];
@@ -151,7 +139,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 10);
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 -49);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
@@ -162,13 +150,6 @@
 
 - (id)LoadingLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
-}
-
-- (id)TimeOptionLayout:(UIView*)view {
-    CGFloat margin = 15.f;
-    view.frame = CGRectMake(margin, 64 + 10, SCREEN_WIDTH - margin * 2, view.frame.size.height);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
@@ -202,8 +183,8 @@
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-//    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-//    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+    //    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+    //    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];
@@ -225,12 +206,12 @@
 
 - (id)didContactBtnClick:(id)args {
     AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"GroupList");
+    //    id<AYCommand> des = DEFAULTCONTROLLER(@"GroupList");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+    //    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];

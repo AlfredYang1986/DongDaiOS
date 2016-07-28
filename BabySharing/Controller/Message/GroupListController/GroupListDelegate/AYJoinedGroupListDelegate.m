@@ -45,7 +45,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return querydata.count;
+    return querydata.count == 0 ? 3 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,9 +77,9 @@
     
     if (section == 0) {
         if ([tableView numberOfRowsInSection:section] == 0) {
-            label.text = @"还没有加入过任何圈聊哦:)";
+            label.text = @"暂无消息:)";
         } else {
-            label.text = @"最近关注的";
+            label.text = @"最近关注的:";
         }
     } else {
         label.text = @"猜你喜欢";
@@ -96,14 +96,14 @@
     CALayer* line = [CALayer layer];
     line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
     line.borderWidth = 1.f;
-    line.frame = CGRectMake(10.5, 46 - 1, [UIScreen mainScreen].bounds.size.width - 10.5, 1);
+    line.frame = CGRectMake(10.5, 46 - 1, [UIScreen mainScreen].bounds.size.width - 10.5 * 2, 1);
     [reVal.layer addSublayer:line];
     
     return reVal;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 46;
+    return querydata.count == 0 ? 46 : 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

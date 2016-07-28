@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *themeImg;
 @property (weak, nonatomic) IBOutlet UILabel *chatLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *iconImage;
+
 
 @property (weak, nonatomic, setter=setSession:) Targets* current_session;
 @property (strong, nonatomic) NSString* screen_name;

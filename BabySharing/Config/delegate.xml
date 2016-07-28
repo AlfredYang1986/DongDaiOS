@@ -210,4 +210,8 @@
         <command type="notify" message="sendLocation:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="MessageList" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="sendLocation:" />
+    </delegate>
 </delegates>

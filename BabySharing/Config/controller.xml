@@ -297,12 +297,13 @@
         
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="EM" notification="true" />
 
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="Image" name="Image" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="Table"          name="Table" />
+<!--        <view type="Image" name="Image" />-->
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
@@ -508,7 +509,7 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Loading"        name="Loading" />
         <view type="TimeOption"     name="TimeOption" />
         <view type="Table"          name="Table" />
@@ -519,7 +520,7 @@
     <controller type="DefaultController" name="Fiter" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="FiterScroll"    name="FiterScroll" />
         <!--        <view type="Calendar"       name="Calendar" />-->
     </controller>
@@ -527,7 +528,7 @@
     <controller type="DefaultController" name="Map" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="ShowBoard"      name="ShowBoard" />
         <view type="MapView"        name="MapView" />
     </controller>
@@ -551,7 +552,7 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Loading"        name="Loading" />
         <view type="Table"          name="Table" />
         
@@ -563,7 +564,7 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Loading"        name="Loading" />
         <view type="Table"          name="Table" />
         <view type="Picker"         name="Picker" />
@@ -590,7 +591,7 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         
         <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
     </controller>
@@ -601,7 +602,7 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         
         <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
     </controller>
@@ -611,7 +612,7 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         
         <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
     </controller>
@@ -619,7 +620,7 @@
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="NapAreaMap"     name="NapAreaMap" />
         <view type="Picker"         name="Picker" />
         
@@ -641,25 +642,25 @@
     <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="InputNapTitle" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="InputNapDesc" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="SetNapAges" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Picker"         name="Picker" />
         
         <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" />
@@ -668,13 +669,13 @@
     <controller type="DefaultController" name="SetNapCost" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="NapAdressMap"     name="NapAdressMap" />
     </controller>
     
@@ -691,7 +692,7 @@
     <controller type="DefaultController" name="SetNapDevice" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >
@@ -702,6 +703,7 @@
         <view type="Table" name="Table" />
         <view type="Table2" name="Table2" />
         <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="AddFriends" name="AddFriends" />
         <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" />
@@ -715,10 +717,30 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeNavBar"     name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Table"          name="Table" />
         <view type="Loading"        name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" />
     </controller>
+    
+    <controller type="DefaultController" name="ScanQRCode" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="MessageList" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="Table"          name="Table" />
+        <view type="Loading"        name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="MessageList" />
+    </controller>
+    
 </controllers>

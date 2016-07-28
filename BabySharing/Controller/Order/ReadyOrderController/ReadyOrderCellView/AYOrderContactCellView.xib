@@ -14,40 +14,68 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="149"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="lol" translatesAutoresizingMaskIntoConstraints="NO" id="afz-TC-iPO">
-                        <rect key="frame" x="23" y="19" width="50" height="50"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lol" translatesAutoresizingMaskIntoConstraints="NO" id="afz-TC-iPO">
+                        <rect key="frame" x="20" y="20" width="50" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="50" id="cqe-ZL-ohq"/>
+                            <constraint firstAttribute="height" constant="50" id="miD-JO-t8E"/>
+                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="杨妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dj7-qo-zuI">
-                        <rect key="frame" x="96" y="33" width="42" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="杨妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dj7-qo-zuI">
+                        <rect key="frame" x="90" y="35" width="48" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="188 8888 8888" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1y-WK-lqa">
+                        <rect key="frame" x="258" y="106" width="102" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dj2-Qo-zCG">
-                        <rect key="frame" x="287" y="29" width="67" height="30"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <state key="normal" title="联系妈妈"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYO-06-VzW">
+                        <rect key="frame" x="15" y="90" width="345" height="1"/>
+                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Zm3-Q9-ieq"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="手机号码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Hh-NP-NLA">
+                        <rect key="frame" x="15" y="106" width="56" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dj2-Qo-zCG">
+                        <rect key="frame" x="285" y="30" width="70" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="H4d-wz-ieM"/>
+                            <constraint firstAttribute="width" constant="70" id="Ls1-Gd-cb8"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="联系妈妈">
+                            <color key="titleColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
                         <connections>
                             <action selector="didContactBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="SEG-gm-5ok"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="188 8888 8888" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1y-WK-lqa">
-                        <rect key="frame" x="252" y="108" width="102" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NYO-06-VzW">
-                        <rect key="frame" x="23" y="88" width="331" height="1"/>
-                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="手机号码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Hh-NP-NLA">
-                        <rect key="frame" x="23" y="108" width="56" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="dj7-qo-zuI" firstAttribute="leading" secondItem="afz-TC-iPO" secondAttribute="trailing" constant="20" id="0Xv-sZ-frm"/>
+                    <constraint firstItem="dj7-qo-zuI" firstAttribute="centerY" secondItem="afz-TC-iPO" secondAttribute="centerY" id="1v9-rp-Uhj"/>
+                    <constraint firstItem="h1y-WK-lqa" firstAttribute="centerY" secondItem="9Hh-NP-NLA" secondAttribute="centerY" id="2QV-xQ-q54"/>
+                    <constraint firstItem="afz-TC-iPO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="A2E-Py-fBV"/>
+                    <constraint firstAttribute="trailing" secondItem="dj2-Qo-zCG" secondAttribute="trailing" constant="20" id="BXK-uZ-OiM"/>
+                    <constraint firstItem="afz-TC-iPO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="C7Z-G8-xe6"/>
+                    <constraint firstItem="dj2-Qo-zCG" firstAttribute="centerY" secondItem="afz-TC-iPO" secondAttribute="centerY" id="FfA-iU-aNp"/>
+                    <constraint firstItem="9Hh-NP-NLA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="RfU-zA-HyJ"/>
+                    <constraint firstItem="NYO-06-VzW" firstAttribute="top" secondItem="afz-TC-iPO" secondAttribute="bottom" constant="20" id="Yc8-h5-heo"/>
+                    <constraint firstAttribute="trailing" secondItem="h1y-WK-lqa" secondAttribute="trailing" constant="15" id="eyb-Ps-Ntz"/>
+                    <constraint firstItem="9Hh-NP-NLA" firstAttribute="top" secondItem="NYO-06-VzW" secondAttribute="bottom" constant="15" id="kNl-Yh-GFp"/>
+                    <constraint firstAttribute="trailing" secondItem="NYO-06-VzW" secondAttribute="trailing" constant="15" id="o9l-VN-pMO"/>
+                    <constraint firstItem="NYO-06-VzW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="pRI-Vp-rt5"/>
+                </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="contactBtn" destination="dj2-Qo-zCG" id="hy6-9F-6WX"/>

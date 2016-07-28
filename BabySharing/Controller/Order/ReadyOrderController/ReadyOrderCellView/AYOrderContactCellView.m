@@ -34,6 +34,15 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    _userPhotoImage.layer.cornerRadius = 25.f;
+    _userPhotoImage.clipsToBounds = YES;
+    
+    _contactBtn.layer.cornerRadius = 2.f;
+    _contactBtn.clipsToBounds = YES;
+    _contactBtn.layer.borderColor = [Tools garyColor].CGColor;
+    _contactBtn.layer.borderWidth = 1.f;
+    
     // Initialization code
     [self setUpReuseCell];
 }
@@ -90,7 +99,10 @@
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
 }
+
 - (IBAction)didContactBtnClick:(id)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick:"];
+    [cmd performWithResult:nil];
 }
 
 - (id)setCellInfo:(id)args{
