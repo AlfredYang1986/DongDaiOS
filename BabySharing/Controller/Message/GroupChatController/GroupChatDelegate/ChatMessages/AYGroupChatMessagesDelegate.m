@@ -44,7 +44,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return querydata.count;
+    return querydata.count== 0 ? 2 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -72,13 +72,13 @@
     return (UITableViewCell*)cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id result = [querydata objectAtIndex:indexPath.row];
-    id<AYViewBase> view = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
-    id<AYCommand> cmd = [view.commands objectForKey:@"queryCellHeight:"];
-    [cmd performWithResult:&result];
-    return ((NSNumber*)result).floatValue;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    id result = [querydata objectAtIndex:indexPath.row];
+//    id<AYViewBase> view = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
+//    id<AYCommand> cmd = [view.commands objectForKey:@"queryCellHeight:"];
+//    [cmd performWithResult:&result];
+//    return ((NSNumber*)result).floatValue;
+//}
 
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {

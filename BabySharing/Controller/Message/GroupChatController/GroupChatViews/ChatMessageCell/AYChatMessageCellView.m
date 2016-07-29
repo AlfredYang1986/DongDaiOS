@@ -28,8 +28,9 @@
 #import "EMError.h"
 #import "EMMessage.h"
 
+#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 #define IMG_WIDTH               32
-#define IMG_HEIGHT              IMG_WIDTH
 
 #define MARGIN                  8
 #define MARGIN_BIG              14
@@ -46,14 +47,14 @@
 
 @implementation AYChatMessageCellView {
 //    OBShapedButton* time_label;
-    UITextView* content;
+//    UITextView* content;
     UILabel* time_label;
     UILabel* name_label;
-//    UILabel* content;
+    UILabel* content;
     UIImageView* imgView;
+    UIImageView *bgView;
    
     CALayer* layer;
-    
     BOOL isSenderByOwner;
     
     NSString* sender_user_id;
@@ -82,37 +83,22 @@
         time_label.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
         [self addSubview:time_label];
     }
-   
-    if (name_label == nil) {
-        name_label = [[UILabel alloc]init];
-        name_label.font = [UIFont systemFontOfSize:NAME_FONT_SIZE];
-        name_label.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
-        [self addSubview:name_label];
-    }
     
     if (content == nil) {
 
-        content = [[UITextView alloc]init];
-        content.editable = NO;
+        content = [[UILabel alloc]init];
         [self addSubview:content];
-        content.textColor = [UIColor colorWithWhite:0.2902 alpha:1.f];
-        content.layer.cornerRadius = 5.f;
-        content.clipsToBounds = YES;
-        content.layer.borderColor = [UIColor clearColor].CGColor;
-        content.layer.borderWidth = 1.f;
+        content.text = @"asdfjlkasjlkajsflasjfl";
+        content.textColor = [Tools blackColor];
         content.font = [UIFont systemFontOfSize:CONTENT_FONT_SIZE];
-        content.scrollEnabled = NO;
-
-        layer = [CALayer layer];
-        layer.frame = CGRectMake(0, 0, 7, 14);
-        [self.layer addSublayer:layer];
+        content.numberOfLines = 0;
         
-        [content addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+//        [content addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     }
     
     if (imgView == nil) {
         imgView = [[UIImageView alloc]init];
-        imgView.bounds = CGRectMake(0, 0, IMG_WIDTH, IMG_HEIGHT);
+        imgView.bounds = CGRectMake(0, 0, IMG_WIDTH, IMG_WIDTH);
         imgView.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.3].CGColor;
         imgView.layer.borderWidth = 1.5f;
         imgView.layer.cornerRadius = IMG_WIDTH / 2;
@@ -123,21 +109,30 @@
         UITapGestureRecognizer* gusture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(screenPhotoTaped:)];
         [imgView addGestureRecognizer:gusture];
     }
+    
+    if (bgView == nil) {
+        bgView = [[UIImageView alloc]init];
+        UIImage *bg = [UIImage imageNamed:@"group_chat_input_bg"];
+        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 10, 15) resizingMode:UIImageResizingModeStretch];
+        bgView.image = bg;
+        [self addSubview:bgView];
+        [self sendSubviewToBack:bgView];
+    }
 }
 
 #pragma mark - KVO
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    UITextView *tv = object;
-    
-    CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
-    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
-    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
-}
-
-- (void)dealloc {
-    [content removeObserver:self forKeyPath:@"contentSize"];
-}
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//{
+//    UITextView *tv = object;
+//    
+//    CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
+//    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+//    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+//}
+//
+//- (void)dealloc {
+//    [content removeObserver:self forKeyPath:@"contentSize"];
+//}
 
 - (void)screenPhotoTaped:(UITapGestureRecognizer*)gusture {
     
@@ -154,58 +149,54 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     if (isSenderByOwner) {
         
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        CGFloat img_container = (MARGIN_BIG + IMG_WIDTH + 2 * MARGIN);
-        CGFloat offset_x = width - img_container;
-        CGFloat offset_y = MARGIN_BIG + NAME_MARGIN_TOP;
-        imgView.frame = CGRectMake(width - MARGIN_BIG - IMG_WIDTH, offset_y, IMG_WIDTH, IMG_HEIGHT);
+        [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-10);
+            make.top.equalTo(self).offset(20);
+            make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
+        }];
         
-        name_label.hidden = YES;
+        [content mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(imgView.mas_left).offset(-30);
+            make.top.equalTo(imgView).offset(20);
+            make.width.mas_equalTo(SCREEN_WIDTH * 0.7);
+            make.bottom.equalTo(self).offset(-40);
+        }];
         
-        CGFloat content_width = width - 2 * img_container;
-        UIFont* content_font = [UIFont systemFontOfSize:CONTENT_FONT_SIZE];
-        CGSize content_size = [Tools sizeWithString:content.text withFont:content_font andMaxSize:CGSizeMake(content_width, FLT_MAX)];
-        content.frame = CGRectMake(offset_x - content_size.width - 2 * MARGIN, offset_y, content_size.width + MARGIN * 2, MAX(content_size.height + 2 * MARGIN, IMG_HEIGHT));
-        content.contentSize = CGSizeMake(content_size.width + 16, content_size.height + 2 * MARGIN);
-        content.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.8];
+        [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(content);
+            make.top.equalTo(content.mas_bottom).offset(10);
+        }];
         
-        layer.contents = (id)PNGRESOURCE(@"chat_mine_tri").CGImage;
-        layer.frame = CGRectMake(offset_x - content_size.width - 16 + content_size.width + 16 - 1, offset_y + 10.5, 7, 14);
-        
-        offset_x -= content_size.width + MARGIN;
-
-        [time_label sizeToFit];
-        time_label.center = CGPointMake(offset_x - 6 - TIME_LABEL_MARGIN - time_label.bounds.size.width / 2, offset_y + TIME_LABEL_HEIGHT / 2 - 4);
+        [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -20, -35, -30));
+        }];
         
     } else {
-
-        CGFloat offset_x = MARGIN_BIG;
-        CGFloat offset_y = MARGIN_BIG + NAME_MARGIN_TOP;
-        CGFloat img_container = (MARGIN_BIG + IMG_WIDTH + 2 * MARGIN);
-        imgView.frame = CGRectMake(offset_x, offset_y, IMG_WIDTH, IMG_HEIGHT);
+        [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(10);
+            make.top.equalTo(self).offset(20);
+            make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
+        }];
         
-        offset_x += IMG_WIDTH + 2 * MARGIN;
-
-        [name_label sizeToFit];
-        name_label.center = CGPointMake(offset_x + name_label.bounds.size.width / 2, name_label.bounds.size.height / 2 + NAME_MARGIN_TOP);
+        [content mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(imgView.mas_right).offset(30);
+            make.top.equalTo(imgView).offset(20);
+            make.width.mas_equalTo(SCREEN_WIDTH * 0.7);
+            make.bottom.equalTo(self).offset(-40);
+        }];
         
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        CGFloat content_width = width - 2 * img_container;
-        UIFont* content_font = [UIFont systemFontOfSize:CONTENT_FONT_SIZE];
-        CGSize content_size = [Tools sizeWithString:content.text withFont:content_font andMaxSize:CGSizeMake(content_width, FLT_MAX)];
-        content.frame = CGRectMake(offset_x, offset_y, content_size.width + 2 * MARGIN, MAX(content_size.height + 2 * MARGIN, IMG_HEIGHT));
-        content.contentSize = CGSizeMake(content_size.width + 2 * MARGIN, content_size.height + 2 * MARGIN);
-        content.backgroundColor = [UIColor colorWithRed:0.2745 green:0.8588 blue:0.7922 alpha:0.6];
-
-        layer.contents = (id)PNGRESOURCE(@"chat_other_tri").CGImage;
-        layer.frame = CGRectMake(offset_x - 7, offset_y + 10.5, 7, 14);
+        [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(content);
+            make.top.equalTo(content.mas_bottom).offset(10);
+        }];
         
-        offset_x += content_size.width + MARGIN;
-
-        [time_label sizeToFit];
-        time_label.center = CGPointMake(offset_x + 6 + TIME_LABEL_MARGIN + time_label.bounds.size.width / 2, offset_y + TIME_LABEL_HEIGHT / 2 - 4);
+        [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -30, -35, -20));
+        }];
     }
 }
 
@@ -249,7 +240,9 @@
 }
 
 - (void)setContent:(NSString*)content_text {
-    content.text = content_text;
+    if (content_text) {
+//        content.text = content_text;
+    }
 }
 
 - (void)setContentDate:(NSDate*)date2 {
@@ -270,7 +263,7 @@
     UIFont* content_font = [UIFont systemFontOfSize:CONTENT_FONT_SIZE];
     CGSize content_size = [Tools sizeWithString:content withFont:content_font andMaxSize:CGSizeMake(content_width, FLT_MAX)];
   
-    return (MAX(IMG_HEIGHT, content_size.height + 2 * MARGIN) + MARGIN_BIG + MARGIN_BOTTOM) + NAME_MARGIN_TOP;
+    return (MAX(IMG_WIDTH, content_size.height + 2 * MARGIN) + MARGIN_BIG + MARGIN_BOTTOM) + NAME_MARGIN_TOP;
 }
 
 @synthesize para = _para;

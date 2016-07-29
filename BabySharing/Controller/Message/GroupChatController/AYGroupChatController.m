@@ -41,6 +41,7 @@
 #define INPUT_CONTAINER_HEIGHT  49
 
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 
 #define USER_BTN_WIDTH          40
 #define USER_BTN_HEIGHT         23
@@ -106,9 +107,13 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
+    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
+    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
+    [view_nav addSubview:(UIView*)view_title];
+    
     UIView* table_view = [self.views objectForKey:kAYGroupChatControllerMessageTable];
     [self.view sendSubviewToBack:table_view];
 
@@ -124,26 +129,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     semaphore_owner_info = dispatch_semaphore_create(0);
     semaphore_join_lst = dispatch_semaphore_create(0);
     semaphore_msg_lst = dispatch_semaphore_create(0);
-    
-    {
-        id<AYViewBase> view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-        id<AYDelegateBase> del_user_info = [self.delegates objectForKey:@"GroupChatUserInfo"];
-        
-        id<AYCommand> cmd_delegate = [view_user_info.commands objectForKey:@"registerDelegate:"];
-        id<AYCommand> cmd_datasource = [view_user_info.commands objectForKey:@"registerDatasource:"];
-        
-        id obj = del_user_info;
-        [cmd_delegate performWithResult:&obj];
-        obj = del_user_info;
-        [cmd_datasource performWithResult:&obj];
-       
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        id<AYCommand> view_reg_cell = [view_user_info.commands objectForKey:@"registerCellWithNib:"];
-        [view_reg_cell performWithResult:&class_name];
-        
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYChatGroupInfoCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [view_reg_cell performWithResult:&class_name];
-    }
     
     {
         id<AYViewBase> view_message = [self.views objectForKey:kAYGroupChatControllerMessageTable];
@@ -190,102 +175,122 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- layouts
-- (id)GroupChatHeaderLayout:(UIView*)view {
-    
+- (id)FakeStatusBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    NSNumber* height = nil;
-    id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"querGroupChatViewHeight"];
-    [cmd performWithResult:&height];
+    view.frame = CGRectMake(0, 0, width, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
+- (id)FakeNavBarLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 20, width, 44);
+    view.backgroundColor = [UIColor whiteColor];
     
-    view.frame = CGRectMake(0, 0, width, height.floatValue);
-    view.backgroundColor = [UIColor clearColor];
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    [cmd_left performWithResult:&left];
+    
+    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+    [cmd_right_vis performWithResult:&right_hidden];
+    
+    CALayer *line = [CALayer layer];
+    line.frame = CGRectMake(0, 44 - 0.5, SCREEN_WIDTH, 0.5);
+    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [view.layer addSublayer:line];
+    
+    return nil;
+}
+
+- (id)SetNevigationBarTitleLayout:(UIView*)view {
+    UILabel* titleView = (UILabel*)view;
+    titleView.text = @"沟通";
+    titleView.font = [UIFont systemFontOfSize:16.f];
+    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
+    [titleView sizeToFit];
+    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
+    return nil;
+}
+
+- (id)GroupChatHeaderLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, view.frame.size.height);
+    view.backgroundColor = [UIColor whiteColor];
     
     return nil;
 }
 
 - (id)ImageLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    
-    view.frame = CGRectMake(0, 0, width, height);
+    view.hidden = YES;
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     ((UIImageView*)view).image = PNGRESOURCE(@"group_chat_bg_img");
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
     
+    view.frame = CGRectMake(0, 64+60, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
     view.backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;  // 去除表框
-#define MARGIN_BETWEEN_TABVIEW_2_HEADER         20
-#define MARGIN_BETWEEN_TABVIEW_2_BOTTOM         10
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;  // 去除自带分割线
     
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    NSNumber* header_height = nil;
+    //预设高度
+    ((UITableView*)view).estimatedRowHeight = 90;
+    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     
-    id<AYViewBase> header = [self.views objectForKey:@"GroupChatHeader"];
-    id<AYCommand> cmd = [header.commands objectForKey:@"querGroupChatViewHeight"];
-    [cmd performWithResult:&header_height];
-    
-    view.frame = CGRectMake(0, header_height.floatValue + MARGIN_BETWEEN_TABVIEW_2_HEADER, width, height - header_height.floatValue - INPUT_CONTAINER_HEIGHT - MARGIN_BETWEEN_TABVIEW_2_BOTTOM - MARGIN_BETWEEN_TABVIEW_2_HEADER);
     return nil;
 }
 
 - (id)ChatInputLayout:(UIView*)view {
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    view.frame = CGRectMake(0, height - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-    return nil;
-}
-
-- (id)Table2Layout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    view.frame = CGRectMake(USER_INFO_PANE_MARGIN + width, height - USER_INFO_CONTAINER_HEIGHT, USER_INFO_PANE_WIDTH, USER_INFO_CONTAINER_HEIGHT);
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).scrollEnabled = NO;
-    view.backgroundColor = [UIColor whiteColor];
-    view.layer.cornerRadius = 5.0;
-    view.clipsToBounds = YES;
+    view.frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
     return nil;
 }
 
 - (id)LoadingLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    view.frame = CGRectMake(0, 0, width, height);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     view.hidden = YES;
     view.userInteractionEnabled = NO;
     return nil;
 }
 
 #pragma mark -- notifications
-- (id) didSelectedBackBtn {
+- (id)leftBtnSelected {
     NSLog(@"pop view controller");
     
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic_pop];
+    [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)didChatOrderDetailClick {
+//    AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic];
     return nil;
 }
 
 - (id)didSelectedUserInfoBtn {
    
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-   
     void(^animationBlock)(void) = ^() {
         [UIView animateWithDuration:0.3f animations:^{
             UIView* view_input = [self.views objectForKey:@"ChatInput"];
-            view_input.center = CGPointMake(view_input.center.x - width, view_input.center.y);
+            view_input.center = CGPointMake(view_input.center.x - SCREEN_WIDTH, view_input.center.y);
             UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-            view_user_info.center = CGPointMake(view_user_info.center.x - width, view_user_info.center.y);
+            view_user_info.center = CGPointMake(view_user_info.center.x - SCREEN_WIDTH, view_user_info.center.y);
         }];
     };
     
-    if (self.view.center.y != height / 2) {
+    if (self.view.center.y != SCREEN_HEIGHT / 2) {
         
         id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
         id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
@@ -297,15 +302,13 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (id)hiddenChatGroupInfoPane {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    
     UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-    if (view_user_info.center.x < width) {
+    if (view_user_info.center.x < SCREEN_WIDTH) {
         [UIView animateWithDuration:0.3f animations:^{
             UIView* view_input = [self.views objectForKey:@"ChatInput"];
-            view_input.center = CGPointMake(view_input.center.x + width, view_input.center.y);
+            view_input.center = CGPointMake(view_input.center.x + SCREEN_WIDTH, view_input.center.y);
             UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-            view_user_info.center = CGPointMake(view_user_info.center.x + width, view_user_info.center.y);
+            view_user_info.center = CGPointMake(view_user_info.center.x + SCREEN_WIDTH, view_user_info.center.y);
         }];
     }
     return nil;
@@ -345,27 +348,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
-- (id)XMPPMessageSendSuccess:(id)args {
-    NSLog(@"send message success");
- 
-    NSDictionary* dic = (NSDictionary*)args;
-    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
-    if (m.receiver.id == group_id.longLongValue) {
-        [current_messages addObject:m];
-    }
-    
-    [self setMessagesToDelegate];
-    [self scrollTableToFoot:YES];
-    return nil;
-}
-
 - (id)EMMessageSendFailed:(id)args {
-    NSLog(@"send message failed");
-    [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-    return nil;
-}
-
-- (id)XMPPMessageSendFailed:(id)args {
     NSLog(@"send message failed");
     [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
     return nil;
@@ -384,31 +367,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     [self setMessagesToDelegate];
     [self scrollTableToFoot:YES];
-    return nil;
-}
-
-- (id)XMPPReceiveMessage:(id)args {
-    
-    NSDictionary* dic = (NSDictionary*)args;
-    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
-    if (m.receiver.id == group_id.longLongValue) {
-        [current_messages addObject:m];
-    }
-    [self setMessagesToDelegate];
-    [self scrollTableToFoot:YES];
-    return nil;
-}
-
-- (id)XMPPMessageGetMessageListSuccess:(id)args {
-  
-    current_messages = (NSMutableArray*)args;
-    dispatch_semaphore_signal(semaphore_msg_lst);
-    return nil;
-}
-
-- (id)XMPPMessageGetMessageListFailed:(id)args {
-    NSLog(@"send message failed");
-    [[[UIAlertView alloc]initWithTitle:@"error" message:@"获取消息列表失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
     return nil;
 }
 

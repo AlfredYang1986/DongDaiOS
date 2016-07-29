@@ -85,7 +85,7 @@
     
     didSearchBtn = [[UIButton alloc]initWithFrame:CGRectMake(15, [UIScreen mainScreen].bounds.size.height - 45 - 15, SCREEN_WIDTH - 30, 45)];
     [didSearchBtn setBackgroundColor:[Tools themeColor]];
-    [didSearchBtn setTitle:@"搜索" forState:UIControlStateNormal];
+    [didSearchBtn setTitle:@"确定" forState:UIControlStateNormal];
     didSearchBtn.titleLabel.font = [UIFont systemFontOfSize:20.f];
     [didSearchBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     didSearchBtn.layer.cornerRadius = 4.f;

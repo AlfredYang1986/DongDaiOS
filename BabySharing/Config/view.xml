@@ -223,9 +223,11 @@
     <view type="GroupChatHeader" name="GroupChatHeader" factory="AYDefaultViewFactory" >
         <command type="message" message="setGroupChatViewInfo:" />
         <command type="message" message="querGroupChatViewHeight" />
+        <command type="notify" message="didChatOrderDetailClick" />
     </view>
 
     <view type="ChatInput" name="ChatInput" factory="AYDefaultViewFactory" >
+        <command type="notify" message="sendMessage:" />
         <command type="notify" message="didSelectedBackBtn" />
         <command type="notify" message="didSelectedUserInfoBtn" />
         <command type="message" message="resignFocus" />
@@ -538,9 +540,13 @@
     </view>
     <view type="OrderPayCell" name="OrderPayCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="" />
     </view>
     <view type="OrderMapCell" name="OrderMapCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+    </view>
+    
+    <view type="PayOption" name="PayOption" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>

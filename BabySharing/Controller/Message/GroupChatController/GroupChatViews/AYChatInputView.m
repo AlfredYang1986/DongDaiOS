@@ -9,6 +9,7 @@
 #import "AYChatInputView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
+#import "Tools.h"
 
 #define INPUT_CONTAINER_HEIGHT  49
 
@@ -22,6 +23,9 @@
 #define INPUT_HEIGHT            37
     
 #define INPUT_CONTAINER_HEIGHT  49
+
+#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 
 @interface AYChatInputView () <UITextViewDelegate>
 
@@ -38,55 +42,52 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    self.backgroundColor = [UIColor clearColor];
+    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 44);
+    self.backgroundColor = [UIColor whiteColor];
     
-    UIButton* backBtn = [[UIButton alloc]initWithFrame:CGRectMake(8, (INPUT_CONTAINER_HEIGHT - BACK_BTN_HEIGHT) / 2, BACK_BTN_WIDTH, BACK_BTN_HEIGHT)];
-    backBtn.layer.borderColor = [UIColor blueColor].CGColor;
-    [backBtn addTarget:self action:@selector(backBtnSelected) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setImage:PNGRESOURCE(@"dongda_back") forState:UIControlStateNormal];
-    [self addSubview:backBtn];
+    CALayer *line = [CALayer layer];
+    line.frame = CGRectMake(0, 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
+    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [self.layer addSublayer:line];
+    
+    UIButton* sendBtn = [[UIButton alloc]init];
+    [sendBtn setTitle:@"Send" forState:UIControlStateNormal];
+    sendBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [sendBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [sendBtn addTarget:self action:@selector(didSendMessageBtnClick) forControlEvents:UIControlEventTouchDown];
+    [self addSubview:sendBtn];
+    [sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self).offset(-10);
+        make.centerY.equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(50, 44));
+    }];
     
     inputView = [[UITextView alloc]init];
-    CGFloat input_width = [UIScreen mainScreen].bounds.size.width - 8 - BACK_BTN_WIDTH - BOTTOM_MARGIN - USER_BTN_WIDTH - BOTTOM_MARGIN - 8;
-    inputView.frame = CGRectMake(8 + BACK_BTN_WIDTH + BOTTOM_MARGIN, (INPUT_CONTAINER_HEIGHT - INPUT_HEIGHT) / 2 - 2, input_width, INPUT_HEIGHT);
     inputView.delegate = self;
     inputView.backgroundColor = [UIColor clearColor];
-    inputView.inputView.backgroundColor = [UIColor redColor];
-    inputView.scrollEnabled = NO;
+    inputView.scrollEnabled = YES;
+    inputView.font = [UIFont systemFontOfSize:14.f];
+    inputView.showsVerticalScrollIndicator = NO;
     inputView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     inputView.returnKeyType = UIReturnKeySend;
+    [self addSubview:inputView];
+    [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(5);
+        make.centerY.equalTo(self);
+        make.right.equalTo(sendBtn.mas_left).offset(-10);
+        make.height.mas_equalTo(34);
+    }];
     
     UIImageView* img = [[UIImageView alloc]init];
-    img.image = PNGRESOURCE(@"group_chat_input_bg");
-    img.frame = CGRectMake(0, 0, input_width, INPUT_HEIGHT);
-    [inputView addSubview:img];
-    [inputView sendSubviewToBack:img];
+    UIImage *bg = [UIImage imageNamed:@"group_chat_input_bg"];
+    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+    img.image = bg;
+    [self addSubview:img];
+    [self sendSubviewToBack:img];
+    [img mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(inputView).insets(UIEdgeInsetsMake(-3, 0, -3, 0));
+    }];
     
-    [self addSubview:inputView];
-    
-    UIButton* userBtn = [[UIButton alloc]initWithFrame:CGRectMake(width - USER_BTN_WIDTH - BOTTOM_MARGIN, (INPUT_CONTAINER_HEIGHT - BACK_BTN_HEIGHT) / 2, USER_BTN_WIDTH, USER_BTN_HEIGHT)];
-    [userBtn addTarget:self action:@selector(inputView2UserInfo) forControlEvents:UIControlEventTouchDown];
-    CALayer* layer = [CALayer layer];
-    layer.contents = (id)PNGRESOURCE(@"group_chat_head").CGImage;
-    layer.frame = CGRectMake(0, 0, 16, 16);
-    layer.position = CGPointMake(12, USER_BTN_HEIGHT / 2);
-    [userBtn.layer addSublayer: layer];
-    
-    if (group_count == nil) {
-        group_count = [CATextLayer layer];
-//        group_count.string = [NSString stringWithFormat:@"%d", _joiner_count.intValue];
-        group_count.string = [NSString stringWithFormat:@"%d", 0];
-        group_count.foregroundColor = [UIColor colorWithWhite:0.2902 alpha:1.f].CGColor;
-        group_count.fontSize = 14.f;
-        group_count.contentsScale = 2.f;
-        group_count.alignmentMode = @"center";
-        group_count.frame = CGRectMake(0 + 16 + 8, 0, 30, USER_BTN_HEIGHT);
-        group_count.position = CGPointMake(0 + 16 + 14, USER_BTN_HEIGHT / 2 + 3);
-        [userBtn.layer addSublayer:group_count];
-    }
-    
-    [self addSubview:userBtn];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -111,9 +112,11 @@
     [cmd performWithResult:nil];
 }
 
-- (void)inputView2UserInfo {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedUserInfoBtn"];
-    [cmd performWithResult:nil];
+- (void)didSendMessageBtnClick {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"sendMessage:"];
+    id args = inputView.text;
+    [cmd performWithResult:&args];
+    inputView.text = @"";
 }
 
 - (id)setJoinerCount:(id)args {

@@ -8,6 +8,7 @@
 
 #import "AYGroupChatHeaderView.h"
 #import "AYCommandDefines.h"
+#import "Tools.h"
 
 #define LABEL_MARGIN_TOP    40 //64
 #define LABEL_HEIGHT        32
@@ -16,11 +17,17 @@
 #define PADDING_VER         9
 
 #define MARGIN_HER          2 * PADDING_HER
+#define SELFHEIGHT          60
 
 
 @implementation AYGroupChatHeaderView {
     NSArray* tag_views;
     UILabel* theme_label;
+    
+    UILabel *stateLabel;
+    UIImageView *photoCover;
+    UILabel *titleLabel;
+    UILabel *timeLabel;
 }
 
 @synthesize para = _para;
@@ -33,7 +40,74 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-
+    
+    self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, SELFHEIGHT);
+    self.backgroundColor = [UIColor whiteColor];
+    
+    stateLabel = [[UILabel alloc]init];
+    stateLabel = [Tools setLabelWith:stateLabel andText:@"咨询中" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+    [self addSubview:stateLabel];
+    [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.left.equalTo(self).offset(20);
+    }];
+    
+    UIView *rule = [[UIView alloc]init];
+    rule.backgroundColor = [Tools garyColor];
+    [self addSubview:rule];
+    [rule mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.left.equalTo(stateLabel.mas_right).offset(20);
+        make.size.mas_equalTo(CGSizeMake(1, 30));
+    }];
+    
+    photoCover = [[UIImageView alloc]init];
+    photoCover.image = IMGRESOURCE(@"lol");
+    [self addSubview:photoCover];
+    [photoCover mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.left.equalTo(rule.mas_right).offset(15);
+        make.size.mas_equalTo(CGSizeMake(50, 30));
+    }];
+    
+    titleLabel = [[UILabel alloc]init];
+    titleLabel = [Tools setLabelWith:titleLabel andText:@"服务简介标题" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    [self addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(photoCover);
+        make.left.equalTo(photoCover.mas_right).offset(15);
+    }];
+    
+    timeLabel = [[UILabel alloc]init];
+    timeLabel = [Tools setLabelWith:timeLabel andText:@"12月01日 10:00-12:00" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    [self addSubview:timeLabel];
+    [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(photoCover);
+        make.left.equalTo(titleLabel);
+    }];
+    
+    UIImageView *iconNext = [[UIImageView alloc]init];
+    iconNext.image = IMGRESOURCE(@"chan_group_back");
+    [self addSubview:iconNext];
+    [iconNext mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self).offset(-15);
+        make.centerY.equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(20, 20));
+    }];
+    
+    CALayer *line = [CALayer layer];
+    line.frame = CGRectMake(0, SELFHEIGHT - 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
+    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    [self.layer addSublayer:line];
+    
+    UIView *tapView = [[UIView alloc]init];
+    tapView.backgroundColor = [UIColor clearColor];
+    [self addSubview:tapView];
+    [tapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
+    tapView.userInteractionEnabled = YES;
+    [tapView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChatOrderDetailClick:)]];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -54,11 +128,14 @@
 
 #pragma mark -- messages
 - (id)setGroupChatViewInfo:(id)args {
+//    NSDictionary* dic = (NSDictionary*)args;
+//    
+//    stateLabel.text = [dic objectForKey:@"order_state"];
+//    photoCover.image = [dic objectForKey:@"nap_cover"];
+//    
+//    titleLabel.text = [dic objectForKey:@"nap_title"];
+//    timeLabel.text = [dic objectForKey:@"nap_time"];
     
-    NSDictionary* dic = (NSDictionary*)args;
-    
-    self.theme_label_text = [dic objectForKey:@"theme"];
-    self.theme_tags = [dic objectForKey:@"tags"];
     return nil;
 }
 
@@ -67,6 +144,12 @@
 }
 
 #pragma mark -- functions
+- (void)didChatOrderDetailClick:(UIGestureRecognizer*)tap{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didChatOrderDetailClick"];
+    [cmd performWithResult:nil];
+    
+}
+
 - (void)resizeLabel:(UILabel*)label {
     [label sizeToFit];
     CGSize sz = label.bounds.size;
@@ -116,21 +199,8 @@
 }
 
 - (void)layoutSubviews {
-    CGFloat offset_x = MARGIN_HER;
-    CGFloat offset_y = LABEL_MARGIN_TOP;
-    theme_label.frame = CGRectMake(offset_x, offset_y, theme_label.bounds.size.width, LABEL_HEIGHT);
+    [super layoutSubviews];
     
-    offset_y += LABEL_HEIGHT;
-    
-    for (UILabel* iter in tag_views) {
-        if (offset_x + iter.bounds.size.width > [UIScreen mainScreen].bounds.size.width - 42) {
-            offset_x = MARGIN_HER;
-            offset_y += LABEL_HEIGHT;
-        }
-
-        iter.frame = CGRectMake(offset_x, offset_y, iter.bounds.size.width, LABEL_HEIGHT);
-        offset_x += iter.bounds.size.width;
-    }
 }
 
 - (CGFloat)preferredHeight {

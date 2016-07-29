@@ -303,13 +303,11 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Table"          name="Table" />
-<!--        <view type="Image" name="Image" />-->
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
     
     <controller type="DefaultController" name="Found" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         
         <view type="Table" name="Table" />
@@ -427,20 +425,20 @@
     </controller>
     
     <controller type="DefaultController" name="GroupChat" factory="AYDefaultControllerFactoy" >
-        
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
         <facade type="DefaultFacade" name="Keyboard" notification="true" />
-
-        <view type="Image" name="Image" />
-        <view type="GroupChatHeader" name="GroupChatHeader" />
-        <view type="Table" name="Table" />
-        <view type="ChatInput" name="ChatInput" />
-        <view type="Table2" name="Table2" />
-        <view type="Loading" name="Loading" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="Image"              name="Image" />
+        <view type="GroupChatHeader"    name="GroupChatHeader" />
+        <view type="Table"              name="Table" />
+        <view type="ChatInput"          name="ChatInput" />
+        <view type="Loading"            name="Loading" />
 
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
@@ -466,8 +464,6 @@
     </controller>
     
     <controller type="DefaultController" name="TagContent" factory="AYDefaultControllerFactoy" >
-        
-<!--        <facade type="DefaultFacade" name="XMPP" notification="true" />-->
         <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="TagContentModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
@@ -741,6 +737,19 @@
         <view type="Loading"        name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="MessageList" />
+    </controller>
+    
+    <controller type="DefaultController" name="OrderInfo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="TimeOption"     name="TimeOption" />
+        <view type="PayOption"      name="PayOption" />
+<!--        <view type="Table"          name="Table" />-->
+
+<!--        <delegate type="TableViewDelegateAndDatasource" name="MessageList" />-->
     </controller>
     
 </controllers>
