@@ -21,6 +21,7 @@
 
 - (void)performWithResult:(NSObject**)obj {
     UIViewController* controller = CONTROLLER(@"DefaultController", @"ProfileService");
+//    UIViewController* controller = CONTROLLER(@"DefaultController", @"Profile");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];

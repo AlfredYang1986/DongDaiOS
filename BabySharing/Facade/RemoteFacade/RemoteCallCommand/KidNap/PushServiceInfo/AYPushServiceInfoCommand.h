@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYRemoteCallCommand.h"
 
-@interface AYPushPersonalInfoCommand : AYRemoteCallCommand
+@interface AYPushServiceInfoCommand : AYRemoteCallCommand
 
 @end

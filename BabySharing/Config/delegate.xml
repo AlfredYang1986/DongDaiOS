@@ -149,6 +149,12 @@
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="ProfileService" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="sendRegMessage" />
+        <command type="notify" message="scrollOffsetY:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="BabyInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="sendDelMessage:" />

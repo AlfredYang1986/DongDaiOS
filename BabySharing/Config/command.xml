@@ -92,6 +92,8 @@
     <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
     
     <command type="Module" name="OrderInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MessageServiceInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CalendarServiceInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ProfileServiceInit" factory="AYDefaultModuleFactory" />
     
     <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
@@ -169,7 +171,7 @@
     <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryContentsWithTag" route="tags/queryContentsWithTag" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="PushPersonalInfo"  route="kidnap/push"     factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PushServiceInfo"  route="kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PublishService"    route="kidnap/publish"  factory="AYRemoteCallFactory" />
     <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
     <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />

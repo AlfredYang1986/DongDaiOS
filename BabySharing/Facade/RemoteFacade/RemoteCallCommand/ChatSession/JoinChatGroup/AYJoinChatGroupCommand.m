@@ -10,4 +10,7 @@
 
 @implementation AYJoinChatGroupCommand
 
+- (void)postPerform {
+    NSLog(@"host path is : %@", self.route);
+}
 @end

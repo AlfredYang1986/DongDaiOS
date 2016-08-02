@@ -45,9 +45,6 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="tYr-ZC-WIU">
-                        <rect key="frame" x="359" y="79" width="8" height="8"/>
-                    </imageView>
                 </subviews>
             </tableViewCellContentView>
             <point key="canvasLocation" x="424.5" y="341.5"/>
@@ -55,6 +52,5 @@
     </objects>
     <resources>
         <image name="lol" width="375" height="225"/>
-        <image name="tab_found_selected" width="23" height="23"/>
     </resources>
 </document>

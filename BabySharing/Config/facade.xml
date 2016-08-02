@@ -234,7 +234,7 @@
     </facade>
     
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
-        <command type="Remote" name="PushPersonalInfo" />
+        <command type="Remote" name="PushServiceInfo" />
         <command type="Remote" name="PublishService" />
         <command type="Remote" name="QueryMMWithLocation" />
     </facade>

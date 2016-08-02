@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYPushPersonalInfoCommand.h"
+#import "AYPushServiceInfoCommand.h"
 
-@implementation AYPushPersonalInfoCommand
+@implementation AYPushServiceInfoCommand
 
 - (void)postPerform {
     NSLog(@"host path is : %@", self.route);

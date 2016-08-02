@@ -1,19 +1,18 @@
 //
-//  AYOrderInitCommand.m
+//  AYProfileServiceInitCommand.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 11/7/16.
+//  Created by Alfred Yang on 12/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInitCommand.h"
+#import "AYCalendarServiceInitCommand.h"
 #import "AYCommandDefines.h"
 #import "AYNavigationController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
-#import "AppDelegate.h"
 
-@implementation AYOrderInitCommand
+@implementation AYCalendarServiceInitCommand
 @synthesize para = _para;
 
 - (void)postPerform {
@@ -21,8 +20,7 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-//    UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderService");
-    UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderList");
+    UIViewController* controller = CONTROLLER(@"DefaultController", @"CalendarService");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];

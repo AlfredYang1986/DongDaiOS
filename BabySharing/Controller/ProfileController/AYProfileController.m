@@ -147,7 +147,6 @@
 }
 
 #pragma mark -- notification
-
 - (id)queryIsGridSelected:(id)obj {
     //    NSInteger index = ((NSNumber*)obj).integerValue;
     return [NSNumber numberWithBool:NO];
@@ -192,13 +191,8 @@
 }
 
 -(id)sendRegMessage{
-//    AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
-//    AppDelegate *delegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//    [delegate.window.rootViewController presentViewController:rootContorller animated:YES completion:nil];
-    
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     
-
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -207,7 +201,7 @@
     id<AYCommand> cmd_show_module = SHOWMODULE;
     [cmd_show_module performWithResult:&dic_show_module];
     
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
     return nil;
 }
 #pragma mark -- status

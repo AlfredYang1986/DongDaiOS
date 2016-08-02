@@ -40,7 +40,7 @@
     
     _contactBtn.layer.cornerRadius = 2.f;
     _contactBtn.clipsToBounds = YES;
-    _contactBtn.layer.borderColor = [Tools garyColor].CGColor;
+    _contactBtn.layer.borderColor = [Tools themeColor].CGColor;
     _contactBtn.layer.borderWidth = 1.f;
     
     // Initialization code

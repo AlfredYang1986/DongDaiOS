@@ -571,17 +571,6 @@
         <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker2" />
     </controller>
     
-    <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="OrderInit" />
-        <command type="Module" name="ProfileServiceInit" />
-    </controller>
-    
-    <controller type="DefaultController" name="OrderService" factory="AYDefaultControllerFactoy" >
-    </controller>
-    
-    <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >
-    </controller>
-    
     <controller type="DefaultController" name="ConfirmSNS" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
         
@@ -624,6 +613,7 @@
     </controller>
     
     <controller type="DefaultController" name="MainInfo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
@@ -696,10 +686,11 @@
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Table" name="Table" />
         <view type="Table2" name="Table2" />
         <view type="DongDaSeg" name="DongDaSeg" />
-        <view type="AddFriends" name="AddFriends" />
         <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" />
@@ -750,6 +741,38 @@
 <!--        <view type="Table"          name="Table" />-->
 
 <!--        <delegate type="TableViewDelegateAndDatasource" name="MessageList" />-->
+    </controller>
+    
+    
+    
+    <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="OrderInit" />
+        <command type="Module" name="CalendarServiceInit" />
+        <command type="Module" name="MessageServiceInit" />
+        <command type="Module" name="ProfileServiceInit" />
+    </controller>
+    
+    <controller type="DefaultController" name="OrderService" factory="AYDefaultControllerFactoy" >
+    </controller>
+    
+    <controller type="DefaultController" name="CalendarService" factory="AYDefaultControllerFactoy" >
+    </controller>
+    
+    <controller type="DefaultController" name="MessageService" factory="AYDefaultControllerFactoy" >
+    </controller>
+    
+    <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" />
+        <facade type="DefaultFacade" name="ContentQueryRemote" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
+        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+        
+        <view type="Table" name="Table" />
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />
     </controller>
     
 </controllers>

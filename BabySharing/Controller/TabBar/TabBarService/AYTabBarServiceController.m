@@ -48,15 +48,25 @@
     id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderInit"];
     AYViewController* order = nil;
     [cmd_order_init performWithResult:&order];
-    order.tabBarItem.title = @"Order";
+    order.tabBarItem.title = @"订单";
+    
+    id<AYCommand> cmd_message_init = [self.commands objectForKey:@"MessageServiceInit"];
+    AYViewController* message = nil;
+    [cmd_message_init performWithResult:&message];
+    message.tabBarItem.title = @"消息";
+    
+    id<AYCommand> cmd_calendar_init = [self.commands objectForKey:@"CalendarServiceInit"];
+    AYViewController* calendar = nil;
+    [cmd_calendar_init performWithResult:&calendar];
+    calendar.tabBarItem.title = @"日程";
     
     id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileServiceInit"];
     AYViewController* profile = nil;
     [cmd_profile_init performWithResult:&profile];
-    profile.tabBarItem.title = @"Profile";
+    profile.tabBarItem.title = @"我的";
     
     //    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
-    self.viewControllers = [NSArray arrayWithObjects:order, profile, nil];
+    self.viewControllers = [NSArray arrayWithObjects:order, message, calendar, profile, nil];
     
     self.delegate = self;
     
@@ -64,8 +74,10 @@
     img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
     
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"Order"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"Profile"];
+    [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"订单"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"消息"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"日程"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
         [[UITabBar appearance] setShadowImage:[UIImage new]];

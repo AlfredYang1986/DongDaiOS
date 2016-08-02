@@ -91,7 +91,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
-- (void)viewDidAppear2:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {//todo: 聊天列表
     [super viewDidAppear:animated];
     
     {

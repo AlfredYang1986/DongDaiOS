@@ -118,7 +118,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     Targets* tmp = [querydata objectAtIndex:indexPath.row];
-    
+    NSLog(@"michauxs--%@",tmp);
     AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
@@ -130,6 +130,7 @@
     [dic setValue:tmp.owner_id forKey:@"owner_id"];
     [dic setValue:tmp.post_id forKey:@"post_id"];
     [dic setValue:tmp.group_id forKey:@"group_id"];
+//    [dic setValue:tmp forKey:<#(nonnull NSString *)#>]
     
     [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [_controller performWithResult:&dic_push];

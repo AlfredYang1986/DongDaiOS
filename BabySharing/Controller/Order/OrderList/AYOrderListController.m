@@ -31,6 +31,7 @@
 
 @implementation AYOrderListController {
     CALayer* line_friend_up;
+    BOOL isPush;
 }
 
 #pragma mark -- commands
@@ -39,6 +40,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        isPush = YES;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -60,6 +62,11 @@
     UIView* loading = [self.views objectForKey:@"Loading"];
     loading.hidden = YES;
     [self.view bringSubviewToFront:loading];
+    
+    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
+    id<AYViewBase> view_title = [self.views objectForKey:@"DongDaSeg"];
+    [view_nav addSubview:(UIView*)view_title];
+    [view_nav sendSubviewToBack:(UIView*)view_title];
     
     line_friend_up = [CALayer layer];
     line_friend_up.borderWidth = 1.f;
@@ -104,51 +111,61 @@
         [cmd_hot_cell performWithResult:&class_name];
     }
     
-    UIButton *personal = [[UIButton alloc]init];
-    personal.hidden = YES;
-    [personal setTitle:@"我的订单" forState:UIControlStateNormal];
-    personal.backgroundColor = [Tools themeColor];
-    [self.view addSubview:personal];
-    [personal mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).offset(-60);
-        make.left.equalTo(self.view).offset(20);
-        make.right.equalTo(self.view).offset(-20);
-        make.height.mas_equalTo(44);
-    }];
-    [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
-}
--(void)didPushInfo{
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
-    [self.navigationItem setHidesBackButton:YES];
-    
-    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
-    [self.navigationController.navigationBar addSubview:seg];
-    
-    UIView* btn = [self.views objectForKey:@"AddFriends"];
-    [self.navigationController.navigationBar addSubview:btn];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//    [self.navigationItem setHidesBackButton:YES];
+//    
+//    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
+//    [self.navigationController.navigationBar addSubview:seg];
+//    
+//    UIView* btn = [self.views objectForKey:@"AddFriends"];
+//    [self.navigationController.navigationBar addSubview:btn];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
-    [seg removeFromSuperview];
-    UIView* btn = [self.views objectForKey:@"AddFriends"];
-    [btn removeFromSuperview];
+//    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
+//    [seg removeFromSuperview];
+//    UIView* btn = [self.views objectForKey:@"AddFriends"];
+//    [btn removeFromSuperview];
 }
 
 #pragma mark -- layout commands
+- (id)FakeStatusBarLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 0, width, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
+- (id)FakeNavBarLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 20, width, 44);
+    view.backgroundColor = [UIColor whiteColor];
+    
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    if (isPush) {
+        id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+        UIImage* left = IMGRESOURCE(@"bar_left_black");
+        [cmd_left performWithResult:&left];
+    }else {
+        id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
+        NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+        [cmd_left_vis performWithResult:&left_hidden];
+    }
+    
+    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+    [cmd_right_vis performWithResult:&right_hidden];
+    
+    return nil;
+}
+
 - (id)TableLayout:(UIView*)view {
     CGFloat offset_x = 0;
-    CGFloat offset_y = 10;
+    CGFloat offset_y = 74;
     
     view.frame = CGRectMake(offset_x, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -157,7 +174,7 @@
 }
 
 - (id)Table2Layout:(UIView*)view {
-    CGFloat offset_y = 10;
+    CGFloat offset_y = 74;
     
     view.frame = CGRectMake(SCREEN_WIDTH, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -192,25 +209,24 @@
     return nil;
 }
 
-- (id)AddFriendsLayout:(UIView*)view {
-    
-    view.frame = CGRectMake(0, 0, 50, 50);
-    
-    CALayer* layer = [CALayer layer];
-    layer.contents = (id)IMGRESOURCE(@"bar_left_black").CGImage;
-    layer.frame = CGRectMake(0, 0, 25, 25);
-    layer.position = CGPointMake(25, 25);
-    [view.layer addSublayer:layer];
-    
-    return nil;
-}
-
 - (id)LoadingLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     return nil;
 }
 
 #pragma mark -- notification
+- (id)leftBtnSelected {
+    NSLog(@"pop view controller");
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic];
+    return nil;
+}
+
 - (id)segValueChanged:(id)obj {
     id<AYViewBase> seg = (id<AYViewBase>)obj;
     id<AYCommand> cmd = [seg.commands objectForKey:@"queryCurrentSelectedIndex"];
@@ -218,30 +234,21 @@
     [cmd performWithResult:&index];
     NSLog(@"current index %@", index);
     
-    CGFloat step = 0;
-    if (index.intValue == 0)
-        step = SCREEN_WIDTH;
-    else
-        step = -SCREEN_WIDTH;
-
-    id<AYViewBase> btn = [self.views objectForKey:@"AddFriends"];
-    [UIView animateWithDuration:0.3 animations:^{
-        for (UIView* view in self.views.allValues) {
-            if (view != (UIView*)btn && view != (UIView*)seg) {
-                view.center = CGPointMake(view.center.x + step, view.center.y);
-            }
-        }
-    }];
-    return nil;
-}
-
-- (id)touchUpInside {
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    UIView* table = [self.views objectForKey:@"Table"];
+    UIView* table2 = [self.views objectForKey:@"Table2"];
     
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic_pop];
+    if (index.intValue == 0){
+        [UIView animateWithDuration:0.3 animations:^{
+            table.center = CGPointMake(SCREEN_WIDTH * 0.5, table.center.y);
+            table2.center = CGPointMake(SCREEN_WIDTH * 1.5, table2.center.y);
+        }];
+    } else {
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            table.center = CGPointMake(- SCREEN_WIDTH * 0.5, table.center.y);
+            table2.center = CGPointMake(SCREEN_WIDTH * 0.5, table2.center.y);
+        }];
+    }
     return nil;
 }
 
