@@ -178,7 +178,8 @@
     <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMMWithLocation" route="kidnap/search" factory="AYRemoteCallFactory" />
     <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PushOrder"     route="order/push" factory="AYRemoteCallFactory" />
     
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />

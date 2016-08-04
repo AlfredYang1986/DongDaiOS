@@ -189,7 +189,7 @@
     [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *pl = [placemarks firstObject];
         NSString *address = pl.name;
-        headAdress.text = address;
+        headAdress.text = (!address||[address isEqualToString:@"(null)"]||[address isEqualToString:@""])?@"点击选择区域":address;
     }];
 }
 

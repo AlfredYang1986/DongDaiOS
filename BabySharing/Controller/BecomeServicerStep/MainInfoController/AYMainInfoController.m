@@ -40,11 +40,14 @@
     NSString *areaString;
     
     UIImage *napPhoto;
+    NSArray *napPhotos;
+    
     NSString *napTitle;
     NSString *napDesc;
     NSString *napAges;
     NSDictionary *dic_cost;
     NSString *napCost;
+    long napCostOptions;
     
     NSDictionary *dic_adress;
     NSString *napAdress;
@@ -52,6 +55,7 @@
     
     NSDictionary *dic_device;
     NSString *napDevice;
+    long napDeviceOptons;
 }
 
 #pragma mark --  commands
@@ -65,38 +69,40 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSDictionary *dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_info) {
-            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
-            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
-            [cmd performWithResult:&dic_info];
             
             NSString *key = [dic_info objectForKey:@"key"];
             if ([key isEqualToString:@"nap_cover"]) {
-                napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
-                
+                napPhotos = [dic_info objectForKey:@"content"];
+                napPhoto = [napPhotos objectAtIndex:0];
                 
             } else if([key isEqualToString:@"nap_title"]){
-                napTitle = [dic objectForKey:@"content"];
+                napTitle = [dic_info objectForKey:@"content"];
                 
             } else if([key isEqualToString:@"nap_desc"]){
-                napDesc = [dic objectForKey:@"content"];
+                napDesc = [dic_info objectForKey:@"content"];
                 
             } else if([key isEqualToString:@"nap_ages"]){
-                napAges = [dic objectForKey:@"content"];
+                napAges = [dic_info objectForKey:@"content"];
                 
             } else if([key isEqualToString:@"nap_cost"]){
-                dic_cost = [dic objectForKey:@"content"];
+                dic_cost = [dic_info objectForKey:@"content"];
                 napCost = [dic_cost objectForKey:@"cost"];
+                napCostOptions = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
                 
             } else if([key isEqualToString:@"nap_adress"]){
-                dic_adress = [dic objectForKey:@"content"];
+                dic_adress = [dic_info objectForKey:@"content"];
                 napLoc = [dic_adress objectForKey:@"location"];
                 napAdress = [NSString stringWithFormat:@"%@%@",[dic_adress objectForKey:@"head"], [dic_adress objectForKey:@"detail"]];
                 
             } else if([key isEqualToString:@"nap_device"]){
-                dic_device = [dic objectForKey:@"content"];
+                dic_device = [dic_info objectForKey:@"content"];
                 napDevice = [dic_device objectForKey:@"option_custom"];
-                
+                napDeviceOptons = ((NSNumber*)[dic_device objectForKey:@"option_pow"]).longValue;
             }
+            
+            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
+            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
+            [cmd performWithResult:&dic_info];
         }
     }
 }
@@ -257,8 +263,6 @@
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
     
-    
-//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.931508 longitude:116.416997];
     NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
     [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.latitude] forKey:@"latitude"];
     [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.longitude] forKey:@"longtitude"];
@@ -268,6 +272,9 @@
     [dic setValue:napDesc forKey:@"description"];
     [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
     [dic setValue:[NSNumber numberWithFloat:napCost.floatValue] forKey:@"price"];
+    [dic setValue:[NSNumber numberWithLong:napCostOptions] forKey:@"cans"];
+    [dic setValue:[NSNumber numberWithLong:napDeviceOptons] forKey:@"facility"];
+    NSLog(@"push json:%@",dic);
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
@@ -281,9 +288,14 @@
             AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
             [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
-                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                }else {
+                    [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务发布失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 }
             }];
+        } else {
+            NSLog(@"push error with:%@",result);
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务上传失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
     }];
 }

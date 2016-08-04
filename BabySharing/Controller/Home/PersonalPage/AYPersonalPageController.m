@@ -7,6 +7,7 @@
 //
 
 #import "AYPersonalPageController.h"
+#import "TmpFileStorageModel.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -51,6 +52,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSLog(@"service_info:%@",service_info);
         
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -314,7 +316,18 @@
 }
 
 - (void)didBookBtnClick:(UIButton*)btn{
-    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic];
+    
 }
 
 //

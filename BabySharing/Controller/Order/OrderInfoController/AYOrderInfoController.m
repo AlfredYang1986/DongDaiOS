@@ -7,6 +7,7 @@
 //
 
 #import "AYOrderInfoController.h"
+#import "TmpFileStorageModel.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -37,6 +38,8 @@
     UILabel *orderTitle;
     UILabel *orderOwner;
     UILabel *orderLoc;
+    
+    NSDictionary *service_info;
 }
 
 - (void)postPerform{
@@ -47,7 +50,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        //        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -230,6 +233,34 @@
 #pragma mark -- actions
 -(void)didConfirmBtnClick:(UIButton*)btn {
     
+    NSDictionary* obj = nil;
+    CURRENUSER(obj)
+    NSDictionary* args = [obj mutableCopy];
+    
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
+    
+    id<AYViewBase> view_time =  [self.views objectForKey:@"TimeOption"];
+    NSDictionary *dic_date = nil;
+    id<AYCommand> query_cmd = [view_time.commands objectForKey:@"queryDateStartAndEnd:"];
+    [query_cmd performWithResult:&dic_date];
+    
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_push setValue:[TmpFileStorageModel generateFileName] forKey:@"order_thumbs"];
+    [dic_push setValue:dic_date forKey:@"order_date"];
+    [dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
+    
+    [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务预订成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }else {
+            NSLog(@"push error with:%@",result);
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务预订失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
 }
 
 #pragma mark -- notifies

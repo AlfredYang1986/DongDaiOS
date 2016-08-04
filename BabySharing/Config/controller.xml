@@ -531,6 +531,8 @@
     </controller>
     
     <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="OrderRemote" notification="true" />
+        
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
         <view type="Table"              name="Table" />
@@ -733,6 +735,7 @@
     
     <controller type="DefaultController" name="OrderInfo" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

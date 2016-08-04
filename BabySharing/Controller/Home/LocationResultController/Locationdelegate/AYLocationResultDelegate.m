@@ -21,6 +21,21 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
+@interface AYNOResultCellView : UITableViewCell
+@property (nonatomic, strong) UILabel *titleLabel;
+@end
+@implementation AYNOResultCellView
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        _titleLabel = [[UILabel alloc]init];
+        [self addSubview:_titleLabel];
+    }
+    return self;
+}
+
+@end
+
 @implementation AYLocationResultDelegate{
     NSArray *querydata;
 }

@@ -403,6 +403,7 @@
     
     <view type="TimeOption" name="TimeOption" factory="AYReuseViewFactory" >
         <command type="message"     message="sendFiterArgs:" />
+        <command type="message"     message="queryDateStartAndEnd:" />
         <command type="notify"      message="hiddenBeShowing" />
     </view>
     

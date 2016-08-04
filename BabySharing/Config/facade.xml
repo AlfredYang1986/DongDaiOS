@@ -238,4 +238,10 @@
         <command type="Remote" name="PublishService" />
         <command type="Remote" name="QueryMMWithLocation" />
     </facade>
+    
+    <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PushOrder" />
+        <command type="Remote" name="PublishService" />
+        <command type="Remote" name="QueryMMWithLocation" />
+    </facade>
 </facades>

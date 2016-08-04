@@ -384,6 +384,8 @@
 		7060BDC31CB63387001E4111 /* AYOthersLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7060BDC21CB63387001E4111 /* AYOthersLoginController.m */; };
 		706881641CCF641800D9D715 /* AYProfilePushCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706881621CCF641800D9D715 /* AYProfilePushCellView.m */; };
 		706881651CCF641800D9D715 /* AYProfilePushCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 706881631CCF641800D9D715 /* AYProfilePushCellView.xib */; };
+		7069A31E1D52F87C007821D4 /* AYOrderRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7069A31D1D52F87C007821D4 /* AYOrderRemoteFacade.m */; };
+		7069A3231D52F9A2007821D4 /* AYPushOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7069A3221D52F9A2007821D4 /* AYPushOrderCommand.m */; };
 		706E2D2C1D3CC327006A05AD /* AYNapAreaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E2D2B1D3CC327006A05AD /* AYNapAreaController.m */; };
 		706E2D301D3CC62D006A05AD /* AYNapAreaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E2D2F1D3CC62D006A05AD /* AYNapAreaDelegate.m */; };
 		706E2D321D3CDACC006A05AD /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 706E2D311D3CDACC006A05AD /* area.plist */; };
@@ -1440,6 +1442,10 @@
 		706881611CCF641800D9D715 /* AYProfilePushCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfilePushCellView.h; sourceTree = "<group>"; };
 		706881621CCF641800D9D715 /* AYProfilePushCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfilePushCellView.m; sourceTree = "<group>"; };
 		706881631CCF641800D9D715 /* AYProfilePushCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYProfilePushCellView.xib; sourceTree = "<group>"; };
+		7069A31C1D52F87C007821D4 /* AYOrderRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderRemoteFacade.h; sourceTree = "<group>"; };
+		7069A31D1D52F87C007821D4 /* AYOrderRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderRemoteFacade.m; sourceTree = "<group>"; };
+		7069A3211D52F9A2007821D4 /* AYPushOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushOrderCommand.h; sourceTree = "<group>"; };
+		7069A3221D52F9A2007821D4 /* AYPushOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushOrderCommand.m; sourceTree = "<group>"; };
 		706E2D2A1D3CC327006A05AD /* AYNapAreaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapAreaController.h; sourceTree = "<group>"; };
 		706E2D2B1D3CC327006A05AD /* AYNapAreaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapAreaController.m; sourceTree = "<group>"; };
 		706E2D2E1D3CC62D006A05AD /* AYNapAreaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapAreaDelegate.h; sourceTree = "<group>"; };
@@ -2672,6 +2678,7 @@
 				70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */,
 				700BE5D61CBA6E5800A09B3A /* AYRemoteCallCommand.h */,
 				700BE5D71CBA6E5800A09B3A /* AYRemoteCallCommand.m */,
+				7069A31F1D52F95C007821D4 /* Order */,
 				70A27C011D0EBBC500B131AB /* KidNap */,
 				70D657001D1D3DDE003D1D7D /* expose */,
 				70C4C8D71CF7E45F00F44C36 /* SMSSend */,
@@ -2841,6 +2848,8 @@
 				8086A2541CCE983B006186D4 /* AYUserSearchRemoteFacade.m */,
 				70A27BFE1D0EBA3C00B131AB /* AYKidNapRemoteFacade.h */,
 				70A27BFF1D0EBA3C00B131AB /* AYKidNapRemoteFacade.m */,
+				7069A31C1D52F87C007821D4 /* AYOrderRemoteFacade.h */,
+				7069A31D1D52F87C007821D4 /* AYOrderRemoteFacade.m */,
 				70D657071D1D410F003D1D7D /* AYExposeRemoteFacade.h */,
 				70D657081D1D410F003D1D7D /* AYExposeRemoteFacade.m */,
 			);
@@ -4893,6 +4902,23 @@
 				706881631CCF641800D9D715 /* AYProfilePushCellView.xib */,
 			);
 			path = ProfilePushCell;
+			sourceTree = "<group>";
+		};
+		7069A31F1D52F95C007821D4 /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				7069A3201D52F95C007821D4 /* PushOrder */,
+			);
+			path = Order;
+			sourceTree = "<group>";
+		};
+		7069A3201D52F95C007821D4 /* PushOrder */ = {
+			isa = PBXGroup;
+			children = (
+				7069A3211D52F9A2007821D4 /* AYPushOrderCommand.h */,
+				7069A3221D52F9A2007821D4 /* AYPushOrderCommand.m */,
+			);
+			path = PushOrder;
 			sourceTree = "<group>";
 		};
 		706E2D271D3CC2F7006A05AD /* BecomeServicerStep */ = {
@@ -8003,6 +8029,7 @@
 				701524821CBF9AB4005B4C5B /* MJRefreshAutoStateFooter.m in Sources */,
 				7015242A1CBF4DA0005B4C5B /* AYUserRelationsDelegate.m in Sources */,
 				70B1DC861CC731E80041794A /* AYPlayMovieCommand.m in Sources */,
+				7069A31E1D52F87C007821D4 /* AYOrderRemoteFacade.m in Sources */,
 				703CCDD31CC9E9E500CF4563 /* AYContacterListDelegate.m in Sources */,
 				704697DE1CE047F200DACD8A /* UIView+WebCacheOperation.m in Sources */,
 				8086A25C1CCE98F0006186D4 /* AYUserWithRoleTagCommand.m in Sources */,
@@ -8053,6 +8080,7 @@
 				7059C9A61D45B749004973F3 /* AYOrderListController.m in Sources */,
 				70C4C8DD1CF7E53000F44C36 /* AYSMSSendCommand.m in Sources */,
 				7002DB181CC5EA540013FF2A /* AYCameraController.m in Sources */,
+				7069A3231D52F9A2007821D4 /* AYPushOrderCommand.m in Sources */,
 				703C7DB31D4850BC00292F18 /* AYScanQRPreView.m in Sources */,
 				701D8A5A1CA7B9C200B5D4C1 /* AYSNSWechatFacade.m in Sources */,
 				70F369BA1CC38EA90067B62E /* AYSearchRoleTagWithPreviewsCommand.m in Sources */,
@@ -8334,7 +8362,10 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"SANDBOX=1",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

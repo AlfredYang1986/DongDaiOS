@@ -23,6 +23,9 @@
     
     UILabel *didStarPlanTime;
     UILabel *dateLabel;
+    
+    NSNumber *startNumb;
+    NSNumber *endNumb;
 }
 
 @synthesize para = _para;
@@ -86,7 +89,7 @@
 
 -(id)sendFiterArgs:(NSDictionary*)args{
     
-    NSNumber *startNumb = [args objectForKey:@"plan_time_post"];
+    startNumb = [args objectForKey:@"plan_time_post"];
     NSTimeInterval start = startNumb.doubleValue;
     NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
     NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
@@ -101,7 +104,7 @@
     [formatterTime setDateFormat:@"HH:mm"];
     post_time = [formatterTime stringFromDate:startDate];
     
-    NSNumber *endNumb = [args objectForKey:@"plan_time_get"];
+    endNumb = [args objectForKey:@"plan_time_get"];
     NSTimeInterval end = endNumb.doubleValue;
     NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
     get_time = [formatterTime stringFromDate:endDate];
@@ -148,4 +151,12 @@
     return dateLabel.text;
 }
 
+-(id)queryDateStartAndEnd:(NSDictionary*)args{
+    NSMutableDictionary *dic_date = [[NSMutableDictionary alloc]initWithCapacity:2];
+    
+    [dic_date setValue:startNumb forKey:@"start"];
+    [dic_date setValue:endNumb forKey:@"end"];
+    
+    return dic_date;
+}
 @end
