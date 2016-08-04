@@ -29,6 +29,9 @@
 @implementation AYProfileDelegate{
     NSArray *origs;
     NSArray *servs;
+    
+    CurrentToken *tmp;
+    NSMutableDictionary *user_info;
 }
 
 @synthesize querydata = _querydata;
@@ -42,6 +45,19 @@
 - (void)postPerform {
     origs = @[@"切换为看护妈妈",@"我心仪的服务",@"设置"];
     servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
+    
+    
+    AYModelFacade* f = LOGINMODEL;
+    tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+    
+    user_info = [[NSMutableDictionary alloc]initWithCapacity:5];
+    [user_info setValue:tmp.who.user_id forKey:@"user_id"];
+    [user_info setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [user_info setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [user_info setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [user_info setValue:tmp.who.role_tag forKey:@"role_tag"];
+
+//    NSLog(@"michauxs -- %@",tmp.who);
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -82,8 +98,9 @@
             cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
         }
         cell.controller = self.controller;
-        
-        
+        id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSDictionary *info = user_info;
+        [set_cmd performWithResult:&info];
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
@@ -151,7 +168,7 @@
     } else if (indexPath.section == 1){
         if (indexPath.row == 0) {
 //            [self regServiceObj];       // 切换服务对象
-            [self becomeServicer];
+            [self becomeServicer];      // 成为接单妈妈
         }else if (indexPath.row == 1){  // 心仪的服务
             [self collectService];
         }else {                         // 系统设置
@@ -171,10 +188,8 @@
 }
 
 -(void)infoSetting{
-    AYModelFacade* f = LOGINMODEL;
-    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     
-    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
+    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:5];
     [cur setValue:tmp.who.user_id forKey:@"user_id"];
     [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
     [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];

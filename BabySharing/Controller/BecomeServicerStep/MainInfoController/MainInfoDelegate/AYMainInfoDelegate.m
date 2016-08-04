@@ -31,6 +31,8 @@
     NSString *napAdress;
     NSDictionary *dic_device;
     NSString *napDevice;
+    
+    NSMutableDictionary *push_info_dic;
 }
 
 #pragma mark -- command
@@ -68,22 +70,30 @@
     NSString *key = [dic objectForKey:@"key"];
     
     if ([key isEqualToString:@"nap_cover"]) {
-        napPhoto = [dic objectForKey:@"content"];
+        napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
+        
+        
     } else if([key isEqualToString:@"nap_title"]){
         napTitle = [dic objectForKey:@"content"];
+        
     } else if([key isEqualToString:@"nap_desc"]){
         napDesc = [dic objectForKey:@"content"];
+        
     } else if([key isEqualToString:@"nap_ages"]){
         napAges = [dic objectForKey:@"content"];
+        
     } else if([key isEqualToString:@"nap_cost"]){
         dic_cost = [dic objectForKey:@"content"];
         napCost = [dic_cost objectForKey:@"cost"];
+        
     } else if([key isEqualToString:@"nap_adress"]){
         dic_adress = [dic objectForKey:@"content"];
         napAdress = [NSString stringWithFormat:@"%@%@",[dic_adress objectForKey:@"head"], [dic_adress objectForKey:@"detail"]];
+        
     } else if([key isEqualToString:@"nap_device"]){
         dic_device = [dic objectForKey:@"content"];
         napDevice = [dic_device objectForKey:@"option_custom"];
+        
     }
     
     [infoTableView reloadData];
@@ -278,8 +288,9 @@
 }
 
 -(void)setNapBabyAges {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges"];
-    [cmd performWithResult:nil];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges:"];
+    NSString *info = napAges;
+    [cmd performWithResult:&info];
 }
 
 -(void)setNapCost{

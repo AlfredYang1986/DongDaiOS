@@ -442,12 +442,14 @@
     </view>
     
     <view type="ProfileHeadCell" name="ProfileHeadCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setPersonalInfo:" />
+        <command type="message"     message="setCellInfo:" />
         <command type="notify"      message=":" />
     </view>
     <view type="SelfSetting" name="SelfSetting" factory="AYReuseViewFactory" >
+        <command type="message"     message="setPersonalInfo:" />
         <command type="message"     message="hideKeyboard" />
-        <command type="notify"      message=":" />
+        <command type="notify"      message="screenNameChanged:" />
+        <command type="notify"      message="addressChanged:" />
     </view>
     
     <view type="BabyInfoCell" name="BabyInfoCell" factory="AYReuseViewFactory" >
@@ -548,6 +550,12 @@
     
     <view type="PayOption" name="PayOption" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didCancelClick" />
+    </view>
+    
+    <view type="Schedule" name="Schedule" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="message"     message="dateScrollToCenter:" />
         <command type="notify"      message="didCancelClick" />
     </view>
 </views>

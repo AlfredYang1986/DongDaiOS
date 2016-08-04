@@ -137,6 +137,7 @@
     [super viewWillAppear:animated];
     UIView* view = [self.views objectForKey:@"SearchBar"];
     [view becomeFirstResponder];
+    [self startLocation];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -295,7 +296,7 @@
 }
 
 #pragma mark -- notifies
--(id)startLocation{
+-(void)startLocation{
     
     //授权使用定位服务
     [self.manager requestAlwaysAuthorization];
@@ -308,7 +309,7 @@
         //开始定位
         [self.manager startUpdatingLocation];
     }
-    return nil;
+//    return nil;
 }
 
 //定位成功 调用代理方法

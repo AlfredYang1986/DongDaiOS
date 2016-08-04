@@ -20,6 +20,13 @@
 #import "Tools.h"
 #import <CoreLocation/CoreLocation.h>
 
+#import "AYModelFacade.h"
+
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
@@ -29,7 +36,23 @@
 
 @end
 
-@implementation AYMainInfoController
+@implementation AYMainInfoController {
+    NSString *areaString;
+    
+    UIImage *napPhoto;
+    NSString *napTitle;
+    NSString *napDesc;
+    NSString *napAges;
+    NSDictionary *dic_cost;
+    NSString *napCost;
+    
+    NSDictionary *dic_adress;
+    NSString *napAdress;
+    CLLocation *napLoc;
+    
+    NSDictionary *dic_device;
+    NSString *napDevice;
+}
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -45,6 +68,35 @@
             id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
             id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
             [cmd performWithResult:&dic_info];
+            
+            NSString *key = [dic_info objectForKey:@"key"];
+            if ([key isEqualToString:@"nap_cover"]) {
+                napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
+                
+                
+            } else if([key isEqualToString:@"nap_title"]){
+                napTitle = [dic objectForKey:@"content"];
+                
+            } else if([key isEqualToString:@"nap_desc"]){
+                napDesc = [dic objectForKey:@"content"];
+                
+            } else if([key isEqualToString:@"nap_ages"]){
+                napAges = [dic objectForKey:@"content"];
+                
+            } else if([key isEqualToString:@"nap_cost"]){
+                dic_cost = [dic objectForKey:@"content"];
+                napCost = [dic_cost objectForKey:@"cost"];
+                
+            } else if([key isEqualToString:@"nap_adress"]){
+                dic_adress = [dic objectForKey:@"content"];
+                napLoc = [dic_adress objectForKey:@"location"];
+                napAdress = [NSString stringWithFormat:@"%@%@",[dic_adress objectForKey:@"head"], [dic_adress objectForKey:@"detail"]];
+                
+            } else if([key isEqualToString:@"nap_device"]){
+                dic_device = [dic objectForKey:@"content"];
+                napDevice = [dic_device objectForKey:@"option_custom"];
+                
+            }
         }
     }
 }
@@ -59,6 +111,7 @@
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
     UIColor* c_nav = [UIColor clearColor];
     [cmd_nav performWithResult:&c_nav];
+    
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -204,41 +257,24 @@
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
     
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy-MM-dd HH:mm"];
-    NSString *startDateString = @"2016-06-15 11:15";
-    NSDate *startDate = [format dateFromString:startDateString];
-    NSTimeInterval start = startDate.timeIntervalSince1970 * 1000;
     
-    NSString *endDateString = @"2016-06-15 12:15";
-    NSDate *endDate = [format dateFromString:endDateString];
-    NSTimeInterval end = endDate.timeIntervalSince1970 * 1000;
-    //    NSDate *ddd = [NSDate dateWithTimeIntervalSinceReferenceDate:end];
-    
-    NSMutableDictionary *offer_date = [[NSMutableDictionary alloc]init];
-    [offer_date setValue:[NSNumber numberWithLong:start] forKey:@"start"];
-    [offer_date setValue:[NSNumber numberWithLong:end] forKey:@"end"];
-    [dic setValue:offer_date forKey:@"offer_date"];
-    
-    //    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.901508 longitude:116.406997];
-    //    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.961508 longitude:116.456997];
-    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.931508 longitude:116.416997];
+//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:39.931508 longitude:116.416997];
     NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-    [location setValue:[NSNumber numberWithFloat:loc.coordinate.latitude] forKey:@"latitude"];
-    [location setValue:[NSNumber numberWithFloat:loc.coordinate.longitude] forKey:@"longtitude"];
+    [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.latitude] forKey:@"latitude"];
+    [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.longitude] forKey:@"longtitude"];
     [dic setValue:location forKey:@"location"];
     
-    [dic setValue:@"爱购物的时尚妈妈33" forKey:@"title"];
-    [dic setValue:@"description:33一位爱购物的文艺妈妈" forKey:@"description"];
+    [dic setValue:napTitle forKey:@"title"];
+    [dic setValue:napDesc forKey:@"description"];
     [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
-    [dic setValue:[NSNumber numberWithFloat:128] forKey:@"price"];
+    [dic setValue:[NSNumber numberWithFloat:napCost.floatValue] forKey:@"price"];
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
     [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"上传成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-            
+            //发布服务需两步：1上传 -> 2发布
             NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
             [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
             [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
@@ -317,13 +353,14 @@
     return nil;
 }
 
--(id)setNapBabyAges{
+-(id)setNapBabyAges:(NSString*)args{
     id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

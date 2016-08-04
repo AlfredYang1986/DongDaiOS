@@ -32,7 +32,7 @@
 @implementation AYSetNapAgesController{
     UITextView *inputTitleTextView;
     UILabel *countlabel;
-    NSString *setedTitleString;
+    NSString *setedAgesString;
     
     UIView *picker;
 }
@@ -44,7 +44,7 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSString *str = [dic objectForKey:kAYControllerChangeArgsKey];
         if (str) {
-            setedTitleString = str;
+            setedAgesString = str;
         }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -89,7 +89,10 @@
     }];
     
     countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:@"3岁 -- 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    countlabel = [Tools setLabelWith:countlabel andText:@"3岁 — 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    if (setedAgesString) {
+        countlabel.text = setedAgesString;
+    }
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(h1.mas_bottom).offset(30);
@@ -205,7 +208,7 @@
     [cmd_index performWithResult:&dic];
     
     if (dic) {
-        NSString *ages = [NSString stringWithFormat:@"%@  --  %@",[dic objectForKey:@"from"],[dic objectForKey:@"to"]];
+        NSString *ages = [NSString stringWithFormat:@"%@  —  %@",[dic objectForKey:@"from"],[dic objectForKey:@"to"]];
         countlabel.text = ages;
     }
     

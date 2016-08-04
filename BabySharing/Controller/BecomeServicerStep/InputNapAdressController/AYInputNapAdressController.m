@@ -107,7 +107,7 @@
     
     headAdress = [[UILabel alloc]init];
     [headbg addSubview:headAdress];
-    headAdress = [Tools setLabelWith:headAdress andText:@"正在定位...." andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    headAdress = [Tools setLabelWith:headAdress andText:@"正在定位, 请稍后..." andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
     headAdress.layoutMargins = UIEdgeInsetsMake(15, 0, 0, 0);
     [headAdress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(headbg);
@@ -158,7 +158,7 @@
     customField.leftViewMode = UITextFieldViewModeAlways;
     customField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [customField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headbg.mas_bottom).offset(30);
+        make.top.equalTo(headbg.mas_bottom).offset(20);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 40));
     }];

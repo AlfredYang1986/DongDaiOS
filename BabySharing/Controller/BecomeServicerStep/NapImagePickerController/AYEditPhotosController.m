@@ -405,7 +405,7 @@
     return nil;
 }
 - (id)rightBtnSelected {
-    UIImage *cover = _selectedPhotos[0];
+    NSArray *cover = _selectedPhotos;
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -418,7 +418,6 @@
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
-//    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改的信息已提交$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     return nil;
 }
 @end

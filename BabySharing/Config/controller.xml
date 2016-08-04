@@ -174,8 +174,9 @@
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="Table"              name="Table" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
 
         <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />
@@ -756,6 +757,9 @@
     </controller>
     
     <controller type="DefaultController" name="CalendarService" factory="AYDefaultControllerFactoy" >
+        <view type="Schedule"       name="Schedule" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="MessageService" factory="AYDefaultControllerFactoy" >

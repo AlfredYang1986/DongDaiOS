@@ -19,8 +19,11 @@
 #import "AYRemoteCallDefines.h"
 #import "Tools.h"
 
-#import "AppDelegate.h"
-#import "AYNavigationController.h"
+#import "AYModelFacade.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
 
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
@@ -69,19 +72,24 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
+        NSString *info = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([info isEqualToString:@"infoChanged"]) {
+            id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+            id<AYCommand> refresh = [view_notify.commands objectForKey:@"refresh"];
+            [refresh performWithResult:nil];
+        }
     }
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor clearColor];
+    UIColor* c_nav = [UIColor whiteColor];
     [cmd_nav performWithResult:&c_nav];
     
     id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
@@ -91,6 +99,16 @@
     id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
     NSNumber* left_hidden = [NSNumber numberWithBool:YES];
     [cmd_left_vis performWithResult:&left_hidden];
+    
+    AYModelFacade* f = LOGINMODEL;
+    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [cur setValue:tmp.who.user_id forKey:@"user_id"];
+    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
+    NSLog(@"michauxs -- %@",tmp.who);
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -116,16 +134,22 @@
 }
 
 #pragma mark -- layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
-//    view.backgroundColor = [UIColor orangeColor];
+    view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
 
     return nil;
 }
 
-- (id)FakeNavBarLayout:(UIView*)view{
+- (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);

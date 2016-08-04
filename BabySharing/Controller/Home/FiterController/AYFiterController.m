@@ -118,8 +118,7 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
@@ -132,7 +131,7 @@
     [bar_right_btn setTitle:@"重置" forState:UIControlStateNormal];
     bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     

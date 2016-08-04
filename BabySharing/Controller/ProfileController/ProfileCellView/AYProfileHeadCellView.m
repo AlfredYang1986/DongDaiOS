@@ -104,4 +104,24 @@
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
 }
+
+-(id)setCellInfo:(NSDictionary*)args{
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[args objectForKey:@"screen_photo"] forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            [_user_screen setImage:img];
+        }
+    }];
+    
+    _user_name.text = [args objectForKey:@"screen_name"];
+    _addressLabel.text = [args objectForKey:@"role_tag"];
+    
+    return nil;
+}
 @end

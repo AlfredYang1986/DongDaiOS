@@ -56,7 +56,7 @@
         self.locationlabel.font = [UIFont systemFontOfSize:14.f];
         self.locationlabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.f];
         self.locationlabel.textAlignment = NSTextAlignmentLeft;
-        self.locationlabel.text = @"获取当前位置";
+        self.locationlabel.text = @"正在定位...";
         [self addSubview:self.locationlabel];
         [self.locationlabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.locationIcon.mas_right).offset(10);
@@ -167,20 +167,20 @@
     
     NSMutableDictionary *dic_location = [[NSMutableDictionary alloc]init];
     if (previewDic == nil || previewDic.count == 0) {
-        if (countDidClick == 0) {
-            countDidClick = 1;
-            id<AYCommand> cmd_location = [self.notifies objectForKey:@"startLocation"];
-            [cmd_location performWithResult:nil];
-            return;
-        }else if (countDidClick == 1) {
-            countDidClick = 0;
+//        if (countDidClick == 0) {
+//            countDidClick = 1;
+//            id<AYCommand> cmd_location = [self.notifies objectForKey:@"startLocation"];
+//            [cmd_location performWithResult:nil];
+//            return;
+//        }else if (countDidClick == 1) {
+//            countDidClick = 0;
             if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
                 [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 return;
             }
             [dic_location setValue:auto_locationName forKey:@"location_name"];
             [dic_location setValue:auto_location forKey:@"location"];
-        }
+//        }
         
     }else{
         //        NSDictionary *dic = previewDic[indexPath.row];

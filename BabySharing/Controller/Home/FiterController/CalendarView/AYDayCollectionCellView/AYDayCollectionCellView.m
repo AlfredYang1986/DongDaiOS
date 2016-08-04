@@ -25,9 +25,11 @@
 }
 
 -(void)setGregoiainDay:(NSString *)gregoiainDay{
+    
     _gregoiainDay = gregoiainDay;
     _dayDay = gregoiainDay;
 //    self.gregoiainDaylabel.text = gregoiainDay;
+    
     self.dayDateLabel.text = gregoiainDay;
     self.dayDateLabel.textColor = [Tools blackColor];
     if (self.isGone) {

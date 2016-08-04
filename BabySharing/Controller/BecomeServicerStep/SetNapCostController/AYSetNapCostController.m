@@ -45,7 +45,8 @@
     
     UITextField *customField;
     
-    NSMutableArray *optionsData;
+//    NSMutableArray *optionsData;
+    long notePow;
 }
 
 #pragma mark --  commands
@@ -55,9 +56,10 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            optionsData = [dic_cost objectForKey:@"options"];
+//            optionsData = [dic_cost objectForKey:@"options"];
             setedCostString = [dic_cost objectForKey:@"cost"];
             customString = [dic_cost objectForKey:@"option_custom"];
+            notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -71,9 +73,9 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    if (!optionsData) {
-        optionsData = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
-    }
+//    if (!optionsData) {
+//        optionsData = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
+//    }
     
     id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
@@ -126,7 +128,8 @@
         make.top.equalTo(h2.mas_bottom).offset(10);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
     }];
-    readBookView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:0]).boolValue;
+    readBookView.optionBtn.selected = ((notePow & 1) != 0);
+    
     [readBookView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     playYujiaView = [[OptionOfPlayingView alloc]initWithTitle:@"做瑜伽" andIndex:1];
@@ -136,7 +139,7 @@
         make.top.equalTo(readBookView.mas_bottom).offset(10);
         make.size.equalTo(readBookView);
     }];
-    playYujiaView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:1]).boolValue;
+    playYujiaView.optionBtn.selected = ((notePow & 2) != 0);
     [playYujiaView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     makeCakeView = [[OptionOfPlayingView alloc]initWithTitle:@"做蛋糕" andIndex:2];
@@ -146,7 +149,7 @@
         make.top.equalTo(playYujiaView.mas_bottom).offset(10);
         make.size.equalTo(readBookView);
     }];
-    makeCakeView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:2]).boolValue;
+    makeCakeView.optionBtn.selected = ((notePow & 4) != 0);
     [makeCakeView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     playToyView = [[OptionOfPlayingView alloc]initWithTitle:@"玩玩具" andIndex:3];
@@ -156,7 +159,7 @@
         make.top.equalTo(makeCakeView.mas_bottom).offset(10);
         make.size.equalTo(readBookView);
     }];
-    playToyView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:3]).boolValue;
+    playToyView.optionBtn.selected = ((notePow & 8) != 0);
     [playToyView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     drawingView = [[OptionOfPlayingView alloc]initWithTitle:@"画画" andIndex:4];
@@ -166,7 +169,7 @@
         make.top.equalTo(playToyView.mas_bottom).offset(10);
         make.size.equalTo(readBookView);
     }];
-    drawingView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:4]).boolValue;
+    drawingView.optionBtn.selected = ((notePow & 16) != 0);
     [drawingView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *customTitle = [[UILabel alloc]init];
@@ -243,9 +246,9 @@
 -(void)didOptionBtnClick:(UIButton*)btn{
     btn.selected = !btn.selected;
     if (btn.selected) {
-        [optionsData replaceObjectAtIndex:btn.tag withObject:[NSNumber numberWithBool:YES]];
+        notePow += pow(2, btn.tag);
     }else {
-        [optionsData replaceObjectAtIndex:btn.tag withObject:[NSNumber numberWithBool:NO]];
+        notePow -= pow(2, btn.tag);
     }
 }
 
@@ -263,7 +266,16 @@
     //整合数据
     NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
     [dic_options setValue:costTextField.text forKey:@"cost"];
-    [dic_options setValue:optionsData forKey:@"options"];
+//    [dic_options setValue:optionsData forKey:@"options"];
+    
+//    notePow = 0;
+//    for (int i = 0; i < optionsData.count; ++i) {
+//        if (((NSNumber*)[optionsData objectAtIndex:i]).boolValue) {
+//            notePow += pow(2, i);
+//        }
+//    }
+    
+    [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
     [dic_options setValue:customField.text forKey:@"option_custom"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -280,7 +292,6 @@
     [cmd performWithResult:&dic];
     
     [costTextField resignFirstResponder];
-    //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改的信息已提交$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     return nil;
 }
 

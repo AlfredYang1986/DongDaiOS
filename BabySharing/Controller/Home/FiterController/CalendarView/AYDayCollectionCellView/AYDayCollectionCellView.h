@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *gregoiainDay;
 @property (nonatomic, copy) NSString *dayDay;
 @property (nonatomic, assign) BOOL isGone;
+@property (nonatomic, assign) long timeSpan;
 /** 日 */
 @property (nonatomic, copy) NSString *lunarDay;
 

@@ -224,7 +224,7 @@
 }
 
 - (void)addAlockOptionView{
-//    + CGRectGetHeight(_headerView.frame)
+    
     alockOptionView = [[UIView alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_planDateView.frame), WIDTH, 0)];
     UIButton *save = [[UIButton alloc]initWithFrame:CGRectMake(WIDTH - 50 - 10, 8, 50, 14)];
     [save setBackgroundColor:[UIColor clearColor]];
@@ -309,10 +309,7 @@
     [GetTimeView.layer addSublayer:getTitle];
     
     chooceGetTime = [[UILabel alloc]initWithFrame:CGRectMake(0, 35, SCREEN_WIDTH * 0.5, 25)];
-    chooceGetTime.text = @"00:00";
-    chooceGetTime.font = [UIFont systemFontOfSize:25.f];
-    chooceGetTime.textColor = [Tools themeColor];
-    chooceGetTime.textAlignment = NSTextAlignmentCenter;
+    chooceGetTime = [Tools setLabelWith:chooceGetTime andText:@"00:00" andTextColor:[Tools themeColor] andFontSize:25.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [GetTimeView addSubview:chooceGetTime];
     [GetTimeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChooceGetTime:)]];
 }

@@ -116,7 +116,7 @@
     [areaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectedArea:)]];
     
     areaLabel = [[UILabel alloc]init];
-    areaLabel = [Tools setLabelWith:areaLabel andText:@"北京北京市" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    areaLabel = [Tools setLabelWith:areaLabel andText:@"正在定位" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
     [areaView addSubview:areaLabel];
     [areaLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(areaView);
@@ -195,7 +195,7 @@
         NSString *city = pl.locality;
         NSString *area = pl.subLocality;
         NSString *address = [NSString stringWithFormat:@"%@%@%@",prvince, city, area];
-        areaLabel.text = address;
+        areaLabel.text = (!prvince)?address:@"点击选择区域";
     }];
 }
 
@@ -271,7 +271,7 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:areaLabel.text forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }

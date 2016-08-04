@@ -98,8 +98,6 @@
 
 - (void)selfDidClick:(UITapGestureRecognizer*)tap{
 //    NSLog(@"%@--%@",self.numLabel.text,self.dateString);
-    
-    
     if (self.CellDateBlock) {
         self.CellDateBlock(self);
     }

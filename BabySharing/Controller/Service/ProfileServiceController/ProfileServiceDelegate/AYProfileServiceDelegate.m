@@ -40,7 +40,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    origs = @[@"切换为发单妈妈",@"我的服务",@"设置"];
+    origs = @[@"切换为发单妈妈",@"我发布的服务",@"设置"];
     servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
 }
 

@@ -10,6 +10,6 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 
-@interface AYSelfSettingView : UIView <AYViewBase>
+@interface AYSelfSettingView : UIView <AYViewBase, UITextFieldDelegate>
 
 @end

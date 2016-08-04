@@ -40,6 +40,7 @@
     user_name.placeholder = @"请输入姓名";
     user_name.font = [UIFont systemFontOfSize:14.f];
     user_name.textColor = [Tools blackColor];
+    user_name.delegate = self;
     [user_name mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(nameLabel);
         make.left.equalTo(self).offset(90);
@@ -72,6 +73,7 @@
     address.placeholder = @"请输入地址";
     address.font = [UIFont systemFontOfSize:14.f];
     address.textColor = [Tools blackColor];
+    address.delegate = self;
     [address mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(addressLabel);
         make.left.equalTo(user_name);
@@ -176,6 +178,22 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+#pragma mark -- UITextFiledDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+
+    NSString *text = nil;
+    id<AYCommand> cmd = nil;
+    
+    if (textField == user_name) {
+        cmd = [self.notifies objectForKey:@"screenNameChanged:"];
+        text = user_name.text;
+    } else {
+        cmd = [self.notifies objectForKey:@"addressChanged:"];
+        text = address.text;
+    }
+    [cmd performWithResult:&text];
+}
+
 #pragma mark -- actions
 -(void)bobySet:(UIGestureRecognizer*)tap{
     NSLog(@"BabyInfo view controller");
@@ -191,6 +209,13 @@
 }
 
 #pragma mark -- notifies
+- (id)setPersonalInfo:(NSDictionary*)args {
+    user_name.text = [args objectForKey:@"screen_name"];
+    address.text = [args objectForKey:@"role_tag"];
+    
+    return  nil;
+}
+
 - (id)hideKeyboard {
     if ([user_name isFirstResponder]) {
         [user_name resignFirstResponder];

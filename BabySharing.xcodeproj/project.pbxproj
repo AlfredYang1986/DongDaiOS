@@ -164,7 +164,6 @@
 		701D8A901CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A6B1CA7E06700B5D4C1 /* DetailInfo+CoreDataProperties.m */; };
 		701D8A911CA7E06700B5D4C1 /* DetailInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A6D1CA7E06700B5D4C1 /* DetailInfo.m */; };
 		701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */; };
-		701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A711CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m */; };
 		701D8A941CA7E06700B5D4C1 /* LoginToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A731CA7E06700B5D4C1 /* LoginToken.m */; };
 		701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A751CA7E06700B5D4C1 /* Providers+CoreDataProperties.m */; };
 		701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A771CA7E06700B5D4C1 /* Providers.m */; };
@@ -321,12 +320,14 @@
 		70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE71CA23B0E0093D5DA /* AVFoundation.framework */; };
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
 		704C9DA71D50573F00E84586 /* AYPushServiceInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 704C9DA61D50573F00E84586 /* AYPushServiceInfoCommand.m */; };
+		704C9DAE1D507A2500E84586 /* AYScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 704C9DAD1D507A2500E84586 /* AYScheduleView.m */; };
 		704F08301CC8EC7800A9925D /* AYUploadFileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */; };
 		70501C871D2F4A490050E0C8 /* AYCollectServController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C861D2F4A490050E0C8 /* AYCollectServController.m */; };
 		70501C8F1D2F4E690050E0C8 /* AYCollectServDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C8E1D2F4E690050E0C8 /* AYCollectServDelegate.m */; };
 		70501C931D2F4F140050E0C8 /* AYCollectServCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C911D2F4F140050E0C8 /* AYCollectServCellView.m */; };
 		70501C941D2F4F140050E0C8 /* AYCollectServCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70501C921D2F4F140050E0C8 /* AYCollectServCellView.xib */; };
 		7050C3431D4B03AD000FFAA4 /* AYPayOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7050C3421D4B03AD000FFAA4 /* AYPayOptionView.m */; };
+		7052B91B1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7052B91A1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m */; };
 		7054896C1D348B67007FCDA1 /* AYNavigationServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7054896B1D348B67007FCDA1 /* AYNavigationServiceController.m */; };
 		705489701D349268007FCDA1 /* AYOrderServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7054896F1D349268007FCDA1 /* AYOrderServiceController.m */; };
 		705489741D349449007FCDA1 /* AYProfileServiceInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705489731D349449007FCDA1 /* AYProfileServiceInitCommand.m */; };
@@ -1025,8 +1026,6 @@
 		701D8A6C1CA7E06700B5D4C1 /* DetailInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailInfo.h; sourceTree = "<group>"; };
 		701D8A6D1CA7E06700B5D4C1 /* DetailInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailInfo.m; sourceTree = "<group>"; };
 		701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LoginLocalModel.xcdatamodel; sourceTree = "<group>"; };
-		701D8A701CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
-		701D8A711CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
 		701D8A721CA7E06700B5D4C1 /* LoginToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginToken.h; sourceTree = "<group>"; };
 		701D8A731CA7E06700B5D4C1 /* LoginToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginToken.m; sourceTree = "<group>"; };
 		701D8A741CA7E06700B5D4C1 /* Providers+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Providers+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -1321,6 +1320,8 @@
 		70490DE91CA23B180093D5DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		704C9DA51D50573F00E84586 /* AYPushServiceInfoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushServiceInfoCommand.h; sourceTree = "<group>"; };
 		704C9DA61D50573F00E84586 /* AYPushServiceInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceInfoCommand.m; sourceTree = "<group>"; };
+		704C9DAC1D507A2500E84586 /* AYScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYScheduleView.h; sourceTree = "<group>"; };
+		704C9DAD1D507A2500E84586 /* AYScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYScheduleView.m; sourceTree = "<group>"; };
 		704F082E1CC8EC7800A9925D /* AYUploadFileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUploadFileCommand.h; sourceTree = "<group>"; };
 		704F082F1CC8EC7800A9925D /* AYUploadFileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUploadFileCommand.m; sourceTree = "<group>"; };
 		70501C851D2F4A490050E0C8 /* AYCollectServController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCollectServController.h; sourceTree = "<group>"; };
@@ -1332,6 +1333,8 @@
 		70501C921D2F4F140050E0C8 /* AYCollectServCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYCollectServCellView.xib; sourceTree = "<group>"; };
 		7050C3411D4B03AD000FFAA4 /* AYPayOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPayOptionView.h; sourceTree = "<group>"; };
 		7050C3421D4B03AD000FFAA4 /* AYPayOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPayOptionView.m; sourceTree = "<group>"; };
+		7052B9191D51DA2D00F06951 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
+		7052B91A1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
 		7054896A1D348B67007FCDA1 /* AYNavigationServiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNavigationServiceController.h; sourceTree = "<group>"; };
 		7054896B1D348B67007FCDA1 /* AYNavigationServiceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNavigationServiceController.m; sourceTree = "<group>"; };
 		7054896E1D349268007FCDA1 /* AYOrderServiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderServiceController.h; sourceTree = "<group>"; };
@@ -3384,8 +3387,8 @@
 				701D8A6C1CA7E06700B5D4C1 /* DetailInfo.h */,
 				701D8A6D1CA7E06700B5D4C1 /* DetailInfo.m */,
 				701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */,
-				701D8A701CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.h */,
-				701D8A711CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m */,
+				7052B9191D51DA2D00F06951 /* LoginToken+CoreDataProperties.h */,
+				7052B91A1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m */,
 				701D8A721CA7E06700B5D4C1 /* LoginToken.h */,
 				701D8A731CA7E06700B5D4C1 /* LoginToken.m */,
 				701D8A741CA7E06700B5D4C1 /* Providers+CoreDataProperties.h */,
@@ -4420,6 +4423,15 @@
 			path = PushServiceInfo;
 			sourceTree = "<group>";
 		};
+		704C9DA81D50742D00E84586 /* CalendarServiceView */ = {
+			isa = PBXGroup;
+			children = (
+				704C9DAC1D507A2500E84586 /* AYScheduleView.h */,
+				704C9DAD1D507A2500E84586 /* AYScheduleView.m */,
+			);
+			path = CalendarServiceView;
+			sourceTree = "<group>";
+		};
 		704F082D1CC8EC6C00A9925D /* UploadFile */ = {
 			isa = PBXGroup;
 			children = (
@@ -4559,6 +4571,7 @@
 		705935251D4F43E500E9D52E /* CalendarServiceController */ = {
 			isa = PBXGroup;
 			children = (
+				704C9DA81D50742D00E84586 /* CalendarServiceView */,
 				705935261D4F43E500E9D52E /* AYCalendarServiceController.h */,
 				705935271D4F43E500E9D52E /* AYCalendarServiceController.m */,
 			);
@@ -7767,6 +7780,7 @@
 				70049C351CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m in Sources */,
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				70754AAB1D3E186C00D8CAFC /* AYNapDeviceCellView.m in Sources */,
+				7052B91B1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
 				709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */,
 				7073E8141D215D5600DA4698 /* AYSendMessageCommand.m in Sources */,
@@ -7812,7 +7826,6 @@
 				702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */,
 				70754A7A1D3DFD2400D8CAFC /* AYMainInfoController.m in Sources */,
 				703C7DEB1D48AF3200292F18 /* AYGroupListCellView.m in Sources */,
-				701D8A931CA7E06700B5D4C1 /* LoginToken+CoreDataProperties.m in Sources */,
 				701D8A971CA7E06700B5D4C1 /* RegCurrentToken+CoreDataProperties.m in Sources */,
 				70B1DC761CC705640041794A /* AYGetAllPhonesCommand.m in Sources */,
 				708F2D2D1D3F601E000CD492 /* TZTestCell.m in Sources */,
@@ -7970,6 +7983,7 @@
 				704762F21D2D28DF00538AC0 /* AYProfileHeadCellView.m in Sources */,
 				705E96801D4703C5006CF9E6 /* AYOrderHeadCellView.m in Sources */,
 				8086A2621CCE9914006186D4 /* AYUserWithScreenNameCommand.m in Sources */,
+				704C9DAE1D507A2500E84586 /* AYScheduleView.m in Sources */,
 				701524811CBF9AB4005B4C5B /* MJRefreshAutoNormalFooter.m in Sources */,
 				707E79E11D0673CA00DFC198 /* AYLocationResultController.m in Sources */,
 				70A1A5631D1D4A860063FC7F /* AYLogoutEMCommand.m in Sources */,
@@ -8320,10 +8334,7 @@
 					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"SANDBOX=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

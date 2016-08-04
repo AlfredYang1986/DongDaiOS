@@ -30,6 +30,7 @@
     NSDictionary* change_profile_dic;
     UIImage *changeOwnerImage;
     NSString *changeImageName;
+    BOOL isUserPhotoChanged;
     
     UIImageView *user_photo;
 //    UIButton* btn_save;
@@ -86,6 +87,25 @@
     user_photo.userInteractionEnabled = YES;
     [user_photo addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelfPhotoClick:)]];
     
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[profile_dic objectForKey:@"screen_photo"] forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            [user_photo setImage:img];
+        }
+    }];
+    
+    id<AYViewBase> setting = [self.views objectForKey:@"SelfSetting"];
+    id<AYCommand> set_cmd = [setting.commands objectForKey:@"setPersonalInfo:"];
+    NSDictionary *info = profile_dic;
+    [set_cmd performWithResult:&info];
+    
+    
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
 }
@@ -140,34 +160,49 @@
     return nil;
 }
 
+- (void)popToPreviousWithSave {
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_pop setValue:@"infoChanged" forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
+}
+
 - (id)rightItemBtnClick {
     NSLog(@"save btn clicked");
    
-//    AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
-//    NSMutableDictionary *up_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-//    [up_dic setValue:changeImageName forKey:@"image"];
-//    [up_dic setValue:changeOwnerImage forKey:@"upload_image"];
-//    [up_cmd performWithResult:[up_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-//        NSLog(@"upload result are %d", success);
-//    }];
-//    
-//    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
-//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
-//    
-//    NSDictionary* user = nil;
-//    CURRENUSER(user);
-//    
-//    [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
-//    [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
-//  
-//    [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//        if (success) {
-//            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-//            [self popToPreviousWithoutSave];
-//        } else {
-//            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-//        }
-//    }];
+    if (isUserPhotoChanged) {
+        AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
+        NSMutableDictionary *up_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+        [up_dic setValue:changeImageName forKey:@"image"];
+        [up_dic setValue:changeOwnerImage forKey:@"upload_image"];
+        [up_cmd performWithResult:[up_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            NSLog(@"upload result are %d", success);
+            if (success) {
+                isUserPhotoChanged = NO;
+            }
+        }];
+    }
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
+    [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
+      
+    [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [self popToPreviousWithSave];
+        } else {
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+        }
+    }];
     
     return nil;
 }
@@ -178,37 +213,32 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     changeOwnerImage = image;
     user_photo.image = image;
-    
+    isUserPhotoChanged = YES;
     // get image name
-//    id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
-//    NSString* img_name = nil;
-//    [uuid_cmd performWithResult:&img_name];
-//    changeImageName = img_name;
-//    NSLog(@"new image name is %@", img_name);
-////    [_login_attr setValue:img_name forKey:@"screen_photo"];
-//
-//    // sava image to local
-//    id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:img_name forKey:@"img_name"];
-//    [dic setValue:image forKey:@"image"];
-//    [save_cmd performWithResult:&dic];
-//
-//    id<AYDelegateBase> del = [self.delegates objectForKey:@"SelfSetting"];
-//    id<AYCommand> cmd = [del.commands objectForKey:@"changeScreenPhoto:"];
-//    id args = img_name;
-//    [cmd performWithResult:&args];
-//    
-//    id<AYViewBase> table = [self.views objectForKey:@"Table"];
-//    id<AYCommand> cmd_refresh = [table.commands objectForKey:@"refresh"];
-//    [cmd_refresh performWithResult:nil];
-//    
-//    [change_profile_dic setValue:img_name forKey:@"screen_photo"];
+    id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
+    NSString* img_name = nil;
+    [uuid_cmd performWithResult:&img_name];
+    changeImageName = img_name;
+    NSLog(@"new image name is %@", img_name);
+//    [_login_attr setValue:img_name forKey:@"screen_photo"];
+
+    // sava image to local
+    id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:img_name forKey:@"img_name"];
+    [dic setValue:image forKey:@"image"];
+    [save_cmd performWithResult:&dic];
+    
+    [change_profile_dic setValue:img_name forKey:@"screen_photo"];
 }
 
-- (id)screenNameChanged:(id)args {
-    NSString* screen_name = (NSString*)args;
-    [change_profile_dic setValue:screen_name forKey:@"screen_name"];
+- (id)screenNameChanged:(NSString*)args {
+    [change_profile_dic setValue:args forKey:@"screen_name"];
+    return nil;
+}
+
+- (id)addressChanged:(NSString*)args {
+    [change_profile_dic setValue:args forKey:@"role_tag"];
     return nil;
 }
 
