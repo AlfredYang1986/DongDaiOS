@@ -195,7 +195,7 @@
         NSString *city = pl.locality;
         NSString *area = pl.subLocality;
         NSString *address = [NSString stringWithFormat:@"%@%@%@",prvince, city, area];
-        areaLabel.text = (!prvince)?address:@"点击选择区域";
+        areaLabel.text = (!prvince||[prvince isEqualToString:@"(null)"])?@"点击选择区域":address;
     }];
 }
 

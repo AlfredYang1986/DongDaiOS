@@ -44,7 +44,8 @@
     OptionOfPlayingView *safeFloorView;
     
     UITextField *customField;
-    NSMutableArray *optionsData;
+//    NSMutableArray *optionsData;
+    long notePow;
 }
 
 #pragma mark --  commands
@@ -54,8 +55,9 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            optionsData = [dic_cost objectForKey:@"options"];
+//            optionsData = [dic_cost objectForKey:@"options"];
             customString = [dic_cost objectForKey:@"option_custom"];
+            notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -69,9 +71,9 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    if (!optionsData) {
-        optionsData = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
-    }
+//    if (!optionsData) {
+//        optionsData = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
+//    }
     
     id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
@@ -86,7 +88,7 @@
         make.top.equalTo(self.view).offset(84);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
     }];
-    safeDesktopView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:0]).boolValue;
+    safeDesktopView.optionBtn.selected = ((notePow & 1) != 0);
     [safeDesktopView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     safePlugView = [[OptionOfPlayingView alloc]initWithTitle:@"安全插座" andIndex:1];
@@ -96,7 +98,7 @@
         make.top.equalTo(safeDesktopView.mas_bottom).offset(10);
         make.size.equalTo(safeDesktopView);
     }];
-    safePlugView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:1]).boolValue;
+    safePlugView.optionBtn.selected = ((notePow & 2) != 0);
     [safePlugView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     medPackView = [[OptionOfPlayingView alloc]initWithTitle:@"急救包" andIndex:2];
@@ -106,7 +108,7 @@
         make.top.equalTo(safePlugView.mas_bottom).offset(10);
         make.size.equalTo(safeDesktopView);
     }];
-    medPackView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:2]).boolValue;
+    medPackView.optionBtn.selected = ((notePow & 4) != 0);
     [medPackView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     
@@ -117,7 +119,7 @@
         make.top.equalTo(medPackView.mas_bottom).offset(10);
         make.size.equalTo(safeDesktopView);
     }];
-    noSmokeView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:3]).boolValue;
+    noSmokeView.optionBtn.selected = ((notePow & 8) != 0);
     [noSmokeView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     fenceView = [[OptionOfPlayingView alloc]initWithTitle:@"安全护栏" andIndex:4];
@@ -127,7 +129,7 @@
         make.top.equalTo(noSmokeView.mas_bottom).offset(10);
         make.size.equalTo(safeDesktopView);
     }];
-    fenceView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:4]).boolValue;
+    fenceView.optionBtn.selected = ((notePow & 16) != 0);
     [fenceView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     petView = [[OptionOfPlayingView alloc]initWithTitle:@"宠物" andIndex:5];
@@ -137,7 +139,7 @@
         make.top.equalTo(fenceView.mas_bottom).offset(10);
         make.size.equalTo(safeDesktopView);
     }];
-    petView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:5]).boolValue;
+    petView.optionBtn.selected = ((notePow & 32) != 0);
     [petView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     safeFloorView = [[OptionOfPlayingView alloc]initWithTitle:@"防摔地板" andIndex:6];
@@ -147,7 +149,7 @@
         make.top.equalTo(petView.mas_bottom).offset(10);
         make.size.equalTo(safeDesktopView);
     }];
-    safeFloorView.optionBtn.selected = ((NSNumber*)[optionsData objectAtIndex:6]).boolValue;
+    safeFloorView.optionBtn.selected = ((notePow & 64) != 0);
     [safeFloorView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *customTitle = [[UILabel alloc]init];
@@ -223,9 +225,9 @@
 -(void)didOptionBtnClick:(UIButton*)btn{
     btn.selected = !btn.selected;
     if (btn.selected) {
-        [optionsData replaceObjectAtIndex:btn.tag withObject:[NSNumber numberWithBool:YES]];
+        notePow += pow(2, btn.tag);
     }else {
-        [optionsData replaceObjectAtIndex:btn.tag withObject:[NSNumber numberWithBool:NO]];
+        notePow -= pow(2, btn.tag);
     }
 }
 
@@ -243,7 +245,8 @@
     
     //整合数据
     NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-    [dic_options setValue:optionsData forKey:@"options"];
+//    [dic_options setValue:optionsData forKey:@"options"];
+    [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
     [dic_options setValue:customField.text forKey:@"option_custom"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
