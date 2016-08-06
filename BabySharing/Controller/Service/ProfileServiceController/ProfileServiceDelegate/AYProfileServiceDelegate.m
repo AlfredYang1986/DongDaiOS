@@ -29,6 +29,9 @@
 @implementation AYProfileServiceDelegate{
     NSArray *origs;
     NSArray *servs;
+    
+    CurrentToken *tmp;
+    NSMutableDictionary *user_info;
 }
 
 @synthesize querydata = _querydata;
@@ -42,6 +45,17 @@
 - (void)postPerform {
     origs = @[@"切换为发单妈妈",@"我发布的服务",@"设置"];
     servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
+    
+    AYModelFacade* f = LOGINMODEL;
+    tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+    
+    user_info = [[NSMutableDictionary alloc]initWithCapacity:5];
+    [user_info setValue:tmp.who.user_id forKey:@"user_id"];
+    [user_info setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [user_info setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [user_info setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [user_info setValue:tmp.who.role_tag forKey:@"role_tag"];
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -82,6 +96,9 @@
             cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
         }
         cell.controller = self.controller;
+        id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSDictionary *info = user_info;
+        [set_cmd performWithResult:&info];
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
@@ -168,8 +185,6 @@
 }
 
 -(void)infoSetting{
-    AYModelFacade* f = LOGINMODEL;
-    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     
     NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
     [cur setValue:tmp.who.user_id forKey:@"user_id"];
@@ -199,7 +214,7 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    //            [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[NSNumber numberWithInt:1] forKey:kAYControllerChangeArgsKey]; //0收藏的服务 /1自己发布的服务
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -252,15 +267,5 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
--(void)becomeServicer{
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
+
 @end

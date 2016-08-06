@@ -22,9 +22,10 @@
     UITableView *infoTableView;
     
     UIImage *napPhoto;
+    NSString *napPhotoName;
     NSString *napTitle;
     NSString *napDesc;
-    NSString *napAges;
+    NSDictionary *napAges;
     NSDictionary *dic_cost;
     NSString *napCost;
     NSDictionary *dic_adress;
@@ -95,6 +96,32 @@
         napDevice = [dic_device objectForKey:@"option_custom"];
         
     }
+    [infoTableView reloadData];
+    return nil;
+}
+
+-(id)changeQueryInfo:(NSDictionary*)info {
+    
+    napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
+    napTitle = [info objectForKey:@"title"];
+    napDesc = [info objectForKey:@"description"];
+    napAges = [info objectForKey:@"age_boundary"];
+    napCost = [info objectForKey:@"price"];
+    napAdress = @"Dongda_Note_NOEDIT";
+    
+    {
+        NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
+        [dic_options setValue:[info objectForKey:@"facility"] forKey:@"option_pow"];
+        [dic_options setValue:@"自填" forKey:@"option_custom"];
+        dic_device = dic_options;
+    }
+    
+    {
+        NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
+        [dic_options setValue:[info objectForKey:@"cans"] forKey:@"option_pow"];
+        [dic_options setValue:@"自填" forKey:@"option_custom"];
+        dic_cost = dic_options;
+    }
     
     [infoTableView reloadData];
     return nil;
@@ -126,9 +153,13 @@
                 cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
             }
             cell.controller = self.controller;
-            if (napPhoto) {
+            if (napPhoto){
                 id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
                 UIImage *info = napPhoto;
+                [set_cmd performWithResult:&info];
+            } else if (napPhotoName) {
+                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+                NSString *info = napPhotoName;
                 [set_cmd performWithResult:&info];
             }
             
@@ -174,7 +205,7 @@
         cell.controller = self.controller;
         if (napAges) {
             id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-            NSString *info = napAges;
+            NSDictionary *info = napAges;
             [set_cmd performWithResult:&info];
         }
         
@@ -268,6 +299,9 @@
         [self setNapCost];
     }else {
         if (indexPath.row == 0) {
+            if ([napAdress isEqualToString:@"Dongda_Note_NOEDIT"]) {
+                return;
+            }
             [self setNapAdress];
         }else {
             [self setNapDevice];

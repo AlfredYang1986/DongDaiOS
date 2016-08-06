@@ -225,7 +225,6 @@
     id<AYCommand> cmd_show_module = SHOWMODULE;
     [cmd_show_module performWithResult:&dic_show_module];
     
-//    self.tabBarController.tabBar.hidden = YES;
     return nil;
 }
 #pragma mark -- status

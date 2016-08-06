@@ -201,10 +201,10 @@
         [playItems.layer addSublayer:line04];
         
         for (int i = 0; i < 3; ++i) {
-            CGFloat offsetX = 65 * i;
+            CGFloat offsetX = 85 * i;
             AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithFrame:CGRectMake(offsetX, 25, 50, 55)];
             item.item_icon.image = IMGRESOURCE(@"tab_found");
-            item.item_name.text = @"画画";
+            item.item_name.text = @"选项";
             [playItems addSubview:item];
         }
         
@@ -324,9 +324,9 @@
         UIEdgeInsets titleInsets = UIEdgeInsetsMake(30, -50, -30, 0);
         
         _chatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
+        [_chatBtn setImage:IMGRESOURCE(@"service_calendar") forState:UIControlStateNormal];
         _chatBtn.imageEdgeInsets = iamgeInsets;
-        [_chatBtn setTitle:@"与TA沟通" forState:UIControlStateNormal];
+        [_chatBtn setTitle:@"TA的日程" forState:UIControlStateNormal];
         [_chatBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
         _chatBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
         _chatBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -339,9 +339,9 @@
         }];
         
         _dailyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_dailyBtn setImage:IMGRESOURCE(@"service_calendar") forState:UIControlStateNormal];
+        [_dailyBtn setImage:IMGRESOURCE(@"service_fee") forState:UIControlStateNormal];
         _dailyBtn.imageEdgeInsets = iamgeInsets;
-        [_dailyBtn setTitle:@"TA的日程" forState:UIControlStateNormal];
+        [_dailyBtn setTitle:@"费用说明" forState:UIControlStateNormal];
         [_dailyBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
         _dailyBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
         _dailyBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -349,14 +349,14 @@
         [self addSubview:_dailyBtn];
         [_dailyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_chatBtn);
-            make.right.equalTo(_chatBtn.mas_left).offset(-SCREEN_WIDTH*(60/375));
+            make.right.equalTo(_chatBtn.mas_left).offset(-SCREEN_WIDTH*0.13);
             make.size.equalTo(_chatBtn);
         }];
         
         _costBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_costBtn setImage:IMGRESOURCE(@"service_fee") forState:UIControlStateNormal];
+        [_costBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
         _costBtn.imageEdgeInsets = iamgeInsets;
-        [_costBtn setTitle:@"费用说明" forState:UIControlStateNormal];
+        [_costBtn setTitle:@"退订政策" forState:UIControlStateNormal];
         [_costBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
         _costBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
         _costBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -364,82 +364,66 @@
         [self addSubview:_costBtn];
         [_costBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_chatBtn);
-            make.left.equalTo(_chatBtn.mas_right).offset(SCREEN_WIDTH*(60/375));
+            make.left.equalTo(_chatBtn.mas_right).offset(SCREEN_WIDTH*0.13);
             make.size.equalTo(_chatBtn);
         }];
         
         /*************************/
-        UIView *line07 = [[UIView alloc]init];
-        line07.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f];
-        [self addSubview:line07];
-        [line07 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_chatBtn.mas_bottom).offset(20);
-            make.left.equalTo(_titleLabel);
-            make.size.mas_equalTo(CGSizeMake(WIDTH, 1));
-        }];
-        
-        _TDPolicy = [[UIButton alloc]init];
-        [_TDPolicy setTitle:@"退订政策" forState:UIControlStateNormal];
-        [_TDPolicy setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-        _TDPolicy.titleLabel.font = [UIFont systemFontOfSize:14.f];
-        [self addSubview:_TDPolicy];
-        [_TDPolicy mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(line07.mas_bottom).offset(20);
-            make.left.equalTo(_titleLabel);
-            make.size.mas_equalTo(CGSizeMake(60, 16));
-        }];
-        
     }
     return self;
 }
 
+-(void)setService_info:(NSDictionary *)service_info{
+    _service_info = service_info;
+    self.titleLabel.text = [_service_info objectForKey:@"title"];
+    //        aboutMMIntru.text = [_service_info objectForKey:@"description"];
+    
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paraStyle.alignment = NSTextAlignmentLeft;
+    /** 行高 */
+    paraStyle.lineSpacing = 8;
+    paraStyle.hyphenationFactor = 1.0;
+    paraStyle.firstLineHeadIndent = 0.0;
+    paraStyle.paragraphSpacingBefore = 0.0;
+    paraStyle.headIndent = 0;
+    paraStyle.tailIndent = 0;
+    NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
+    
+    if (_takeOffMore.hidden) {
+        NSString *desc = @"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈.";
+        if (desc.length > 60) {
+            desc = [desc substringToIndex:60];
+            desc = [desc stringByAppendingString:@"..."];
+        }
+        
+        NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
+        aboutMMIntru.attributedText = descAttri;
+        
+    }
+    
+    NSString *contentString = @"关于妈妈关于。妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,";
+    if (contentString.length > 46) {
+        contentString = [contentString substringToIndex:46];
+        contentString = [contentString stringByAppendingString:@"..."];
+    }
+    contextlabel.attributedText = [[NSAttributedString alloc]initWithString:contentString attributes:dic_format];
+    
+    NSDictionary *dic_loc = [_service_info objectForKey:@"location"];
+    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+    [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *pl = [placemarks firstObject];
+        NSLog(@"%@",pl.addressDictionary);
+        _MMAdressLabel.text = [NSString stringWithFormat:@"%@,%@",pl.thoroughfare,pl.subLocality];
+    }];
+
+}
+
 -(void)layoutSubviews{
     [super layoutSubviews];
-    if (_service_info) {
-        self.titleLabel.text = [_service_info objectForKey:@"title"];
-//        aboutMMIntru.text = [_service_info objectForKey:@"description"];
-        
-        NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-        paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
-        paraStyle.alignment = NSTextAlignmentLeft;
-        /** 行高 */
-        paraStyle.lineSpacing = 8;
-        paraStyle.hyphenationFactor = 1.0;
-        paraStyle.firstLineHeadIndent = 0.0;
-        paraStyle.paragraphSpacingBefore = 0.0;
-        paraStyle.headIndent = 0;
-        paraStyle.tailIndent = 0;
-        NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
-        
-        if (_takeOffMore.hidden) {
-            NSString *desc = @"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈.";
-            if (desc.length > 60) {
-                desc = [desc substringToIndex:60];
-                desc = [desc stringByAppendingString:@"..."];
-            }
-            
-            NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
-            aboutMMIntru.attributedText = descAttri;
-            
-        }
-        
-        NSString *contentString = @"关于妈妈关于。妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,";
-        if (contentString.length > 46) {
-            contentString = [contentString substringToIndex:46];
-            contentString = [contentString stringByAppendingString:@"..."];
-        }
-        contextlabel.attributedText = [[NSAttributedString alloc]initWithString:contentString attributes:dic_format];
-        
-        NSDictionary *dic_loc = [_service_info objectForKey:@"location"];
-        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-        [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-            CLPlacemark *pl = [placemarks firstObject];
-            NSLog(@"%@",pl.addressDictionary);
-            _MMAdressLabel.text = [NSString stringWithFormat:@"%@,%@",pl.thoroughfare,pl.subLocality];
-        }];
-    }
+    
 }
 
 

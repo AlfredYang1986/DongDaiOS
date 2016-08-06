@@ -38,6 +38,7 @@
     UIImageView *headImage;
     UILabel *titleLabel;
     
+    NSDictionary *service;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -146,8 +147,27 @@
 }
 
 #pragma mark -- messages
-- (id)setCellInfo:(id)args{
-    //    NSDictionary *dic = (NSDictionary*)args;
+- (id)setCellInfo:(NSDictionary*)dic_args{
+    NSDictionary *args = [dic_args objectForKey:@"service"];
+    
+    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            headImage.image = img;
+        }else{
+            [headImage setImage:IMGRESOURCE(@"lol")];
+        }
+    }];
+    
+    titleLabel.text = [args objectForKey:@"title"];
+//    service = [args objectForKey:@"service"];
     
     return nil;
 }

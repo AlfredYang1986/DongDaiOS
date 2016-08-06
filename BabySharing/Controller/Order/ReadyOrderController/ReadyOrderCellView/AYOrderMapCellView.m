@@ -115,7 +115,12 @@
 }
 
 - (id)setCellInfo:(id)args{
-    loc = (CLLocation*)args;
+    
+    NSDictionary *dic_loc = (NSDictionary*)args;
+    
+    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+    NSNumber *longtitude = [dic_loc objectForKey:@"longtitude"];
+    loc = [[CLLocation alloc]initWithLatitude:latitude.longValue longitude:longtitude.longValue];
     
     if (currentAnno) {
         [orderMapView removeAnnotation:currentAnno];

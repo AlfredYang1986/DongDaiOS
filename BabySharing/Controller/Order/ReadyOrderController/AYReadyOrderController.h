@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYReadyOrderController : AYViewController
+@interface AYReadyOrderController : AYViewController<UIActionSheetDelegate>
 
 @end

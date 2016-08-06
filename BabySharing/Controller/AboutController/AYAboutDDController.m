@@ -95,10 +95,6 @@
     return nil;
 }
 
-- (void)signOutSelected{
-    NSLog(@"AboutButton onClick");
-}
-
 #pragma mark -- notification
 - (id)popToPreviousWithoutSave {
     NSLog(@"pop view controller");

@@ -22,7 +22,7 @@
 #import "AYRemoteCallCommand.h"
 
 @implementation AYReadyOrderDelegate {
-    NSArray *querydata;
+    NSDictionary *querydata;
 }
 
 @synthesize para = _para;
@@ -52,15 +52,19 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(id)array{
-    querydata = (NSArray*)array;
+- (id)changeQueryData:(NSDictionary*)info{
+    querydata = info;
+    
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    return 5;
+    NSNumber *status = [querydata objectForKey:@"status"];
+    if (status.intValue == 0) {
+        return 4;
+    }else return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -77,9 +81,13 @@
         cell.controller = self.controller;
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         
-//        id tmp = [querydata objectAtIndex:indexPath.row];
-//        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//        [cmd performWithResult:&tmp];
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+//        [tmp setValue:[[querydata objectForKey:@"images"] objectAtIndex:0] forKey:@"cover"];
+//        [tmp setValue:[querydata objectForKey:@"title"] forKey:@"title"];
+        [tmp setValue:[querydata objectForKey:@"service"] forKey:@"service"];
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
         
         return (UITableViewCell*)cell;
     } else if (indexPath.section == 1) {
@@ -91,9 +99,9 @@
         cell.controller = self.controller;
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         
-        //        id tmp = [querydata objectAtIndex:indexPath.row];
-        //        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        //        [cmd performWithResult:&tmp];
+        NSString *tmp = [[querydata objectForKey:@"service"] objectForKey:@"owner_id"];
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
         
         return (UITableViewCell*)cell;
     } else if (indexPath.section == 2) {
@@ -105,9 +113,14 @@
         cell.controller = self.controller;
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         
-        //        id tmp = [querydata objectAtIndex:indexPath.row];
-        //        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        //        [cmd performWithResult:&tmp];
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+        [tmp setValue:[[querydata objectForKey:@"service"] objectForKey:@"price"] forKey:@"price"];
+        [tmp setValue:[querydata objectForKey:@"order_date"] forKey:@"order_date"];
+        [tmp setValue:[querydata objectForKey:@"status"] forKey:@"status"];
+        //二维码
+        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
         
         return (UITableViewCell*)cell;
     } else if (indexPath.section == 3) {
@@ -133,9 +146,9 @@
         cell.controller = self.controller;
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         
-        //        id tmp = [querydata objectAtIndex:indexPath.row];
-        //        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        //        [cmd performWithResult:&tmp];
+        id tmp = [[querydata objectForKey:@"service"] objectForKey:@"location"];
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
         
         return (UITableViewCell*)cell;
     }
@@ -160,17 +173,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//    
-////    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-////    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd_show_module = PUSH;
-//    [cmd_show_module performWithResult:&dic];
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
 }
 
 @end

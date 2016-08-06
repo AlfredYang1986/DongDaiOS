@@ -103,7 +103,11 @@
     
     _setedLocationLabel.hidden = NO;
     _locationLabel.hidden = NO;
-    _locationLabel.text = args;
+    if ([args isEqualToString:@"Dongda_Note_NOEDIT"]) {
+        _locationLabel.text = @"地址不可修改";
+        _locationLabel.textColor = [Tools garyColor];
+    } else
+        _locationLabel.text = args;
     return nil;
 }
 @end

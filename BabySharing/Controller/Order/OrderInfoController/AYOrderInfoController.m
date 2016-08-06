@@ -249,7 +249,7 @@
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     [dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic_push setValue:[TmpFileStorageModel generateFileName] forKey:@"order_thumbs"];
+    [dic_push setValue:[[service_info objectForKey:@"images"] objectAtIndex:0] forKey:@"order_thumbs"];
     [dic_push setValue:dic_date forKey:@"order_date"];
     [dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
     

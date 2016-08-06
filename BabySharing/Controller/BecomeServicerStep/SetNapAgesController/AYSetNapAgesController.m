@@ -35,6 +35,9 @@
     NSString *setedAgesString;
     
     UIView *picker;
+    
+    NSNumber *usl;
+    NSNumber *lsl;
 }
 
 #pragma mark --  commands
@@ -148,7 +151,7 @@
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"经历简述";
+    titleView.text = @"看护宝宝年龄段";
     titleView.font = [UIFont systemFontOfSize:16.f];
     titleView.textColor = [Tools blackColor];
     [titleView sizeToFit];
@@ -187,8 +190,12 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
+    NSMutableDictionary *sl_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [sl_dic setValue:usl forKey:@"usl"];
+    [sl_dic setValue:lsl forKey:@"lsl"];
+    
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:countlabel.text forKey:@"content"];
+    [dic_info setValue:sl_dic forKey:@"content"];
     [dic_info setValue:@"nap_ages" forKey:@"key"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
@@ -208,7 +215,9 @@
     [cmd_index performWithResult:&dic];
     
     if (dic) {
-        NSString *ages = [NSString stringWithFormat:@"%@  —  %@",[dic objectForKey:@"from"],[dic objectForKey:@"to"]];
+        usl = ((NSNumber *)[dic objectForKey:@"usl"]);
+        lsl = ((NSNumber *)[dic objectForKey:@"lsl"]);
+        NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁",usl.intValue,lsl.intValue];
         countlabel.text = ages;
     }
     

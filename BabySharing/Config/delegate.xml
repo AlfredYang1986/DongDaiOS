@@ -155,6 +155,10 @@
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="CollectServ" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="BabyInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="sendDelMessage:" />
@@ -184,6 +188,7 @@
     <delegate type="TableViewDelegateAndDatasource" name="MainInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="queryCurrentSelected:" />
+        <command type="message" message="changeQueryInfo:" />
         <command type="notify" message="setNapBabyAges:" />
         <command type="notify" message="setNapCost:" />
         <command type="notify" message="setNapAdress:" />
@@ -204,7 +209,7 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="sendLocation:" />
+        <command type="notify" message="updateReadState:" />
     </delegate>
     <delegate type="TableViewDelegateAndDatasource" name="PastOrder" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />

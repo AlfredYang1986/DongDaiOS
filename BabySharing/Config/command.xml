@@ -171,16 +171,19 @@
     <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryContentsWithTag" route="tags/queryContentsWithTag" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="PushServiceInfo"  route="kidnap/push"     factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PushServiceInfo"   route="kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PublishService"    route="kidnap/publish"  factory="AYRemoteCallFactory" />
-    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PopMyService"      route="kidnap/pop" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateMyService"   route="kidnap/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RevertMyService"   route="kidnap/revert" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMMWithLocation" route="kidnap/search" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="" route="kidnap/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="PushOrder"     route="order/push" factory="AYRemoteCallFactory" />
-    
+    <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOwnOrders"   route="order/query/own" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryApplyOrders"   route="order/query/apply" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateOrderRead"   route="order/update" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

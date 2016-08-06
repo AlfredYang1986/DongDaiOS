@@ -20,6 +20,8 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 
+#import "AYRemoteCallCommand.h"
+
 @interface AYNapPhotosCellView ()
 @property (weak, nonatomic) IBOutlet UIImageView *photoImage;
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoBtn;
@@ -111,10 +113,29 @@
     [cmd performWithResult:nil];
 }
 
-- (id)setCellInfo:(UIImage*)args {
+- (id)setCellInfo:(id)args {
     _photoImage.hidden = NO;
-    _photoImage.image = args;
     
+    if ([args isKindOfClass:[UIImage class]]) {
+        _photoImage.image = (UIImage*)args;
+    } else if ([args isKindOfClass:[NSString class]]) {
+        
+        NSString* photo_name = (NSString*)args;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:photo_name forKey:@"image"];
+        [dic setValue:@"img_local" forKey:@"expect_size"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img != nil) {
+                _photoImage.image = img;
+            }else{
+                [_photoImage setImage:IMGRESOURCE(@"lol")];
+            }
+        }];
+    }
     _addPhotoBtn.hidden = YES;
     _subTitleLabel.hidden = YES;
     return nil;

@@ -167,8 +167,8 @@
         [self infoSetting];             // 个人信息设置
     } else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-//            [self regServiceObj];       // 切换服务对象
-            [self becomeServicer];      // 成为接单妈妈
+            [self regServiceObj];       // 切换服务对象
+//            [self becomeServicer];      // 成为接单妈妈
         }else if (indexPath.row == 1){  // 心仪的服务
             [self collectService];
         }else {                         // 系统设置
@@ -217,19 +217,27 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    //            [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[NSNumber numberWithInt:0] forKey:kAYControllerChangeArgsKey]; //0收藏的服务 /1自己发布的服务
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
 -(void)setting{
     NSLog(@"setting view controller");
+    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [cur setValue:tmp.who.user_id forKey:@"user_id"];
+    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
+    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
+    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
+    
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

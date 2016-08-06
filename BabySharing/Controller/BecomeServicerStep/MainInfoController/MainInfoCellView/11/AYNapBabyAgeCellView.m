@@ -97,13 +97,18 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSString*)args {
+- (id)setCellInfo:(NSDictionary*)args {
     _unSetTitleLabel.hidden = YES;
     _subTitleLabel.hidden = YES;
     
     _setedTitleLabel.hidden = NO;
     _ageLabel.hidden = NO;
-    _ageLabel.text = args;
+//    _ageLabel.text = args;
+    
+    NSNumber *usl = ((NSNumber *)[args objectForKey:@"usl"]);
+    NSNumber *lsl = ((NSNumber *)[args objectForKey:@"lsl"]);
+    NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁",usl.intValue,lsl.intValue];
+    _ageLabel.text = ages;
     
     return nil;
 }

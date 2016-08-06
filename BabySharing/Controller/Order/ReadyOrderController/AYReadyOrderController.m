@@ -30,12 +30,15 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
+#import "AYTabBarServiceController.h"
+
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 @implementation AYReadyOrderController{
     NSMutableArray *loading_status;
     
+    NSDictionary *order_info;
 }
 
 - (void)postPerform{
@@ -46,7 +49,8 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        order_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSLog(@"%@",order_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -79,6 +83,13 @@
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
     
+    id<AYCommand> change_data = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
+    NSDictionary *args = order_info;
+    [change_data performWithResult:&args];
+    
+//    id<AYCommand> refresh_2 = [view_table.commands objectForKey:@"refresh"];
+//    [refresh_2 performWithResult:nil];
+    
     /****************************************/
     id<AYCommand> cmd_head = [view_table.commands objectForKey:@"registerCellWithClass:"];
     NSString* head_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -97,6 +108,26 @@
     NSString* nib_map_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&nib_map_name];
     /****************************************/
+    
+    NSNumber *status = [order_info objectForKey:@"status"];
+    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+    if (status.intValue == 0 && [self.tabBarController isKindOfClass:[des class]]) {
+        
+        UIButton *confirmSerBtn = [[UIButton alloc]init];
+        confirmSerBtn.backgroundColor = [Tools themeColor];
+        [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.view addSubview:confirmSerBtn];
+        [self.view bringSubviewToFront:confirmSerBtn];
+        [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+        }];
+        [confirmSerBtn setTitle:@"接受或者拒绝" forState:UIControlStateNormal];
+        [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchDown];
+        
+    }
+    
     
     loading_status = [[NSMutableArray alloc]init];
     {
@@ -151,7 +182,11 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 10);
+    NSNumber *status = [order_info objectForKey:@"status"];
+    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+    BOOL isNap = (status.intValue == 0 && [self.tabBarController isKindOfClass:[des class]]);
+    
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 10 - (isNap?44:0));
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
@@ -173,8 +208,40 @@
 }
 
 #pragma mark -- actions
--(void)doSearchBtnClick {
+- (void)didComfirmOrRejectBtnClick {
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"接受",@"拒绝", nil];
+    [sheet showInView:self.view];
+}
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderRead"];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+    
+    if (buttonIndex == 0) {
+        [dic setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+        
+    } else if (buttonIndex == 1) {
+        [dic setValue:[NSNumber numberWithInt:3] forKey:@"status"];
+    }
+    
+    [cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            NSString *message = nil;
+            if (buttonIndex == 0)
+                message = @"您已经接受订单，请及时处理!";
+            else if
+                (buttonIndex == 1) message = @"您已经拒绝该订单";
+            
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        } else {
+            NSLog(@"error with:%@",result);
+        }
+    }];
 }
 
 #pragma mark -- notifies
@@ -201,9 +268,7 @@
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-//    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-//    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[[order_info objectForKey:@"service"] copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];

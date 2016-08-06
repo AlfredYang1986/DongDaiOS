@@ -26,6 +26,7 @@
 #import "AYSearchDefines.h"
 
 #import "Tools.h"
+
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
@@ -35,6 +36,9 @@
 
 @implementation AYCollectServController{
     NSMutableArray *loading_status;
+    
+    int serviceType; //0收藏的服务 /1自己发布的服务
+    
 }
 
 - (void)postPerform{
@@ -46,6 +50,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        serviceType = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -67,16 +72,56 @@
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
     
-    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"LocationResult"];
+    id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"CollectServ"];
     
-    id obj = (id)cmd_recommend;
+    id obj = (id)cmd_collect;
     [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_recommend;
+    obj = (id)cmd_collect;
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&nib_search_name];
+    
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    NSDictionary* args = [info mutableCopy];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
+    
+    if (serviceType == 1) {
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+        AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"QueryMyService"];
+        [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                id<AYCommand> cmd_change_data = [cmd_collect.commands objectForKey:@"changeQueryData:"];
+                NSArray *data = [result objectForKey:@"result"];
+                [cmd_change_data performWithResult:&data];
+                
+                id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+                [refresh performWithResult:nil];
+                
+            } else {
+                NSLog(@"push error with:%@",result);
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"error" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }
+    
+    if (serviceType == 1) {
+        UIButton *confirmSerBtn = [[UIButton alloc]init];
+        confirmSerBtn.backgroundColor = [Tools themeColor];
+        [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.view addSubview:confirmSerBtn];
+        [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+        }];
+        [confirmSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
+        [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchDown];
+    }
     
     loading_status = [[NSMutableArray alloc]init];
     {
@@ -140,8 +185,7 @@
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     UILabel* titleView = (UILabel*)view;
-    
-    titleView.text = @"我心仪的服务";
+    titleView.text = (serviceType == 1) ? @"我发布的服务" : @"我心仪的服务";
     titleView.font = [UIFont systemFontOfSize:16.f];
     titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
     [titleView sizeToFit];
@@ -150,7 +194,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 74);
+    view.frame = CGRectMake(0, 64 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 74 - (serviceType == 1?44:0));
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
@@ -165,7 +209,17 @@
 }
 
 #pragma mark -- actions
-
+- (void)conmitMyService {
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {

@@ -55,30 +55,17 @@
     if (cell == nil) {
         cell = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
     }
-    
     cell.controller = self.controller;
     
-    id tmp = [querydata objectAtIndex:indexPath.row];
-    {
-        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:tmp forKey:kAYChatMessageCellContentKey];
-        [dic setValue:cell forKey:kAYChatMessageCellCellKey];
-        
-        [cmd performWithResult:&dic];
-    }
+//    id tmp = [querydata objectAtIndex:indexPath.row];
+//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:tmp forKey:kAYChatMessageCellContentKey];
+//    [dic setValue:cell forKey:kAYChatMessageCellCellKey];
+//    [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    id result = [querydata objectAtIndex:indexPath.row];
-//    id<AYViewBase> view = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
-//    id<AYCommand> cmd = [view.commands objectForKey:@"queryCellHeight:"];
-//    [cmd performWithResult:&result];
-//    return ((NSNumber*)result).floatValue;
-//}
 
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {

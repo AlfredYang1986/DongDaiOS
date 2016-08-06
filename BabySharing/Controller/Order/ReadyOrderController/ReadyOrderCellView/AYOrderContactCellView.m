@@ -105,8 +105,8 @@
     [cmd performWithResult:nil];
 }
 
-- (id)setCellInfo:(id)args{
-    //    NSDictionary *dic = (NSDictionary*)args;
+- (id)setCellInfo:(NSString*)args{
+    _userNameLabel.text = args;
     
     return nil;
 }

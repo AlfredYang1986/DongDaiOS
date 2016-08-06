@@ -48,17 +48,58 @@
 - (NSString*)getViewName {
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
+- (id)changeQueryData:(id)array{
+    querydata = (NSArray*)array;
+    return nil;
+}
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return 4;
-    
+    return querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
-    return nil;
+    if (cell == nil) {
+        cell = VIEW(@"CLResultCell", @"CLResultCell");
+    }
+    cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    id tmp = [querydata objectAtIndex:indexPath.row];
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    [cmd performWithResult:&tmp];
+    
+    return (UITableViewCell*)cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 315;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    
+    id<AYCommand> des = nil;
+    if ([[tmp objectForKey:@"owner_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
+        des = DEFAULTCONTROLLER(@"MainInfo");
+    } else {
+        des = DEFAULTCONTROLLER(@"PersonalPage");
+    }
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic];
 }
 
 @end

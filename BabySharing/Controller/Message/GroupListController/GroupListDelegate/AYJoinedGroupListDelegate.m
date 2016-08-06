@@ -56,14 +56,12 @@
         cell = VIEW(kAYGroupListCellName, kAYGroupListCellName);
     }
     
-    Targets* tmp = [querydata objectAtIndex:indexPath.row];
-   
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:tmp forKey:kAYGroupListCellContentKey];
-    [dic setValue:cell forKey:kAYGroupListCellCellKey];
-    
-    id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
-    [cmd performWithResult:&dic];
+//    Targets* tmp = [querydata objectAtIndex:indexPath.row];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:tmp forKey:kAYGroupListCellContentKey];
+//    [dic setValue:cell forKey:kAYGroupListCellCellKey];
+//    id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
+//    [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;
 }

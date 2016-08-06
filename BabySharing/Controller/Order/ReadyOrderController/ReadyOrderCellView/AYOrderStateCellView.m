@@ -96,8 +96,43 @@
     [cmd performWithResult:nil];
 }
 
-- (id)setCellInfo:(id)args{
-    //    NSDictionary *dic = (NSDictionary*)args;
+- (id)setCellInfo:(NSDictionary*)args{
+    
+    int status = ((NSNumber*)[args objectForKey:@"status"]).intValue;
+    switch (status) {
+        case 0:
+            _stateLabel.text = @"待确认订单";
+            break;
+        case 1:
+            _stateLabel.text = @"已确认订单";
+            break;
+        case 2:
+            _stateLabel.text = @"已完成订单";
+            break;
+        default:
+            break;
+    }
+    
+    /*******************/
+    NSDictionary *order_date = [args objectForKey:@"order_date"];
+    NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
+    NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
+    
+    NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
+    [formatterDay setDateFormat:@"MM月dd日"];
+    NSString *dayStr = [formatterDay stringFromDate:startDate];
+    
+    NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
+    [formatterTime setDateFormat:@"HH:mm"];
+    NSString *startStr = [formatterTime stringFromDate:startDate];
+    NSString *endStr = [formatterTime stringFromDate:endDate];
+    
+    _planTimeLabel.text = [NSString stringWithFormat:@"%@, %@-%@",dayStr,startStr,endStr];
+    
+//    NSString *str = [args objectForKey:@"price"];
+    _planCostLabel.text = [NSString stringWithFormat:@"%f",((NSNumber*)[args objectForKey:@"price"]).floatValue];
     
     return nil;
 }

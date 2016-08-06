@@ -32,6 +32,8 @@
 @implementation AYOrderListController {
     CALayer* line_friend_up;
     BOOL isPush;
+    
+    NSMutableArray *result_status_0;
 }
 
 #pragma mark -- commands
@@ -91,7 +93,6 @@
         id<AYCommand> cmd_cell = [view_future.commands objectForKey:@"registerCellWithNib:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
-        
     }
     
     {
@@ -111,12 +112,80 @@
         [cmd_hot_cell performWithResult:&class_name];
     }
     
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    NSDictionary* args = [info mutableCopy];
+    
+    if (isPush) {
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
+        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+        [dic_query setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
+        
+        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                [self sortResultArray:result];
+            }else {
+                NSLog(@"query orders error: %@",result);
+            }
+        }];
+    } else {
+    
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
+        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+        [dic_query setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
+        
+        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                [self sortResultArray:result];
+            }else {
+                NSLog(@"query orders error: %@",result);
+            }
+        }];
+    }
 }
+
+- (void)sortResultArray:(NSDictionary*)result{
+    NSArray *resultArr = [result objectForKey:@"result"];
+    
+    NSPredicate *pred_2 = [NSPredicate predicateWithFormat:@"SELF.status=%d",2];
+    NSArray *result_status_2 = [resultArr filteredArrayUsingPredicate:pred_2];
+    
+    id<AYDelegateBase> cmd_past = [self.delegates objectForKey:@"PastOrder"];
+    id<AYCommand> changeData_2 = [cmd_past.commands objectForKey:@"changeQueryData:"];
+    [changeData_2 performWithResult:&result_status_2];
+    
+    id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
+    id<AYCommand> refresh_2 = [view_past.commands objectForKey:@"refresh"];
+    [refresh_2 performWithResult:nil];
+    
+    /*****************************/
+    
+    NSPredicate *pred_0 = [NSPredicate predicateWithFormat:@"SELF.status=%d",0];
+    result_status_0 = [NSMutableArray arrayWithArray:[resultArr filteredArrayUsingPredicate:pred_0]];
+    NSPredicate *pred_1 = [NSPredicate predicateWithFormat:@"SELF.status=%d",1];
+    NSArray *result_status_1 = [resultArr filteredArrayUsingPredicate:pred_1];
+    if (result_status_0.count == 0) {
+        result_status_0 = [NSMutableArray arrayWithArray:result_status_1];
+    } else [result_status_0 arrayByAddingObjectsFromArray:result_status_1];
+    
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrder"];
+    id<AYCommand> changeData_0 = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+    NSArray *arr = result_status_0;
+    [changeData_0 performWithResult:&arr];
+    
+    id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+    id<AYCommand> refresh_0 = [view_future.commands objectForKey:@"refresh"];
+    [refresh_0 performWithResult:nil];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 //    [self.navigationItem setHidesBackButton:YES];
-//    
+//
 //    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
 //    [self.navigationController.navigationBar addSubview:seg];
 //    
@@ -167,7 +236,8 @@
     CGFloat offset_x = 0;
     CGFloat offset_y = 74;
     
-    view.frame = CGRectMake(offset_x, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    view.frame = CGRectMake(offset_x, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
+    view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
@@ -176,7 +246,8 @@
 - (id)Table2Layout:(UIView*)view {
     CGFloat offset_y = 74;
     
-    view.frame = CGRectMake(SCREEN_WIDTH, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    view.frame = CGRectMake(SCREEN_WIDTH, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
+    view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
@@ -249,6 +320,35 @@
             table2.center = CGPointMake(SCREEN_WIDTH * 0.5, table2.center.y);
         }];
     }
+    return nil;
+}
+
+- (id)updateReadState:(NSDictionary*)args{
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderRead"];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[args objectForKey:@"is_read"] forKey:@"is_read"];
+    [dic setValue:[args objectForKey:@"order_id"] forKey:@"order_id"];
+    
+    [cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            NSIndexPath *indexPath = [args objectForKey:@"index_path"];
+            [[result_status_0 objectAtIndex:indexPath.section] setValue:[NSNumber numberWithInt:1] forKey:@"is_read"];
+            
+            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrder"];
+            id<AYCommand> changeData_0 = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+            NSArray *arr = result_status_0;
+            [changeData_0 performWithResult:&arr];
+            
+            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+            id<AYCommand> refresh_0 = [view_future.commands objectForKey:@"refresh"];
+            [refresh_0 performWithResult:nil];
+            
+        } else {
+            NSLog(@"error with:%@",result);
+        }
+    }];
     return nil;
 }
 

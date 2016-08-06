@@ -31,7 +31,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    baby_ages = @[@"3岁", @"4岁", @"5岁", @"6岁", @"7岁", @"8岁", @"9岁", @"10岁", @"11岁"];
+    baby_ages = @[@"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -112,9 +112,12 @@
     fromAge = [baby_ages objectAtIndex: fromIndex];
     toAge = [baby_ages objectAtIndex: toIndex];
     
+    NSNumber *usl = [NSNumber numberWithInt:fromAge.intValue];
+    NSNumber *lsl = [NSNumber numberWithInt:toAge.intValue];
+    
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:fromAge forKey:@"from"];
-    [dic setValue:toAge forKey:@"to"];
+    [dic setValue:lsl forKey:@"lsl"];
+    [dic setValue:usl forKey:@"usl"];
     
     return dic;
 }
