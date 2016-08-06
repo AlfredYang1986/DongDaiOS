@@ -17,6 +17,9 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lol" translatesAutoresizingMaskIntoConstraints="NO" id="AGi-wg-VLC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="225" id="zAG-Yr-0Cb"/>
+                        </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="喜欢画画的插画师妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtg-UL-53k">
                         <rect key="frame" x="15" y="240" width="150" height="18"/>
@@ -127,7 +130,7 @@
                 <outlet property="starRangImage" destination="tbi-Hs-8Dm" id="3WY-wD-7O7"/>
                 <outlet property="unLikeBtn" destination="mzu-EL-qRs" id="nGI-qW-0VK"/>
             </connections>
-            <point key="canvasLocation" x="336.5" y="332.5"/>
+            <point key="canvasLocation" x="423.5" y="328.5"/>
         </tableViewCell>
     </objects>
     <resources>

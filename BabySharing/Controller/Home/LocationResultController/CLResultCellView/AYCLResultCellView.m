@@ -130,8 +130,27 @@
 - (id)setCellInfo:(id)args{
     NSDictionary *dic = (NSDictionary*)args;
     cellInfo = dic;
+    
+    NSLog(@"%@",dic);
+    
+    NSString* photo_name = [[dic objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
+    [dic_img setValue:photo_name forKey:@"image"];
+    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            _mainImage.image = img;
+        }else{
+            [_mainImage setImage:IMGRESOURCE(@"lol")];
+        }
+    }];
+    
     NSString *title = [dic objectForKey:@"title"];
-    _descLabel.text = title?title:@"爱画画大使饭店发烧发烧反复说过";
+    _descLabel.text = title;
     
     NSNumber *price = [dic objectForKey:@"price"];
     _costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",price.floatValue];
