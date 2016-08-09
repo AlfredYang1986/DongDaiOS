@@ -58,6 +58,11 @@
     
     _costLabel.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.2f];
     
+    _ownerIconImage.layer.cornerRadius = 20.f;
+    _ownerIconImage.clipsToBounds = YES;
+    _ownerIconImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+    _ownerIconImage.layer.borderWidth = 2.f;
+    
 //    CALayer *line_separator = [CALayer layer];
 //    line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
 //    line_separator.borderWidth = 1.f;
@@ -167,6 +172,30 @@
     }];
     
     _starRangImage.image = IMGRESOURCE(@"star_rang_5");
+    
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:[dic objectForKey:@"owner_id"] forKey:@"user_id"];
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
+            [dic setValue:@"img_icon" forKey:@"expect_size"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                if (img != nil) {
+                    [_ownerIconImage setImage:img];
+                } else
+                    _ownerIconImage.image = IMGRESOURCE(@"lol");
+            }];
+        } else
+            _ownerIconImage.image = IMGRESOURCE(@"lol");
+        
+    }];
     
     return nil;
 }

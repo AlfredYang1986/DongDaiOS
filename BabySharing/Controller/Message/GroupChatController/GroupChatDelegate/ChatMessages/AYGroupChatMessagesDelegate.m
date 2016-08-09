@@ -44,7 +44,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return querydata.count== 0 ? 2 : querydata.count;
+    return querydata.count== 0 ? 0 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -57,12 +57,12 @@
     }
     cell.controller = self.controller;
     
-//    id tmp = [querydata objectAtIndex:indexPath.row];
-//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:tmp forKey:kAYChatMessageCellContentKey];
-//    [dic setValue:cell forKey:kAYChatMessageCellCellKey];
-//    [cmd performWithResult:&dic];
+    id tmp = [querydata objectAtIndex:indexPath.row];
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:tmp forKey:kAYChatMessageCellContentKey];
+    [dic setValue:cell forKey:kAYChatMessageCellCellKey];
+    [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;
 }

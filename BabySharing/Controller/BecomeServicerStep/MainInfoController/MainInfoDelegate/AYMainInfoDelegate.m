@@ -323,7 +323,7 @@
 
 -(void)setNapBabyAges {
     id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges:"];
-    NSString *info = napAges;
+    NSDictionary *info = [napAges mutableCopy];
     [cmd performWithResult:&info];
 }
 

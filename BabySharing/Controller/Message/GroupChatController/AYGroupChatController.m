@@ -35,17 +35,12 @@
 #define BACK_BTN_WIDTH          23
 #define BACK_BTN_HEIGHT         23
 #define BOTTOM_MARGIN           10.5
-
 #define INPUT_HEIGHT            37
-
 #define INPUT_CONTAINER_HEIGHT  49
-
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
-
 #define USER_BTN_WIDTH          40
 #define USER_BTN_HEIGHT         23
-
 
 #define USER_INFO_PANE_HEIGHT               194
 #define USER_INFO_PANE_MARGIN               10.5
@@ -63,19 +58,19 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     CGRect keyBoardFrame;
     NSString* owner_id;
 //    NSNumber* group_id;
-    NSString* group_id;
-    NSString* post_id;
+    NSString* chat_id;
+    NSString* user_id;
     NSString* theme;
     
     dispatch_semaphore_t semaphore_owner_info;
     __block BOOL owner_info_success;
     __block NSDictionary* owner_info_result;
     
-    dispatch_semaphore_t semaphore_join_lst;
-    __block BOOL join_lst_success;
-    __block NSArray* join_lst_result;
-    
-    __block NSNumber* join_count;
+//    dispatch_semaphore_t semaphore_join_lst;
+//    __block BOOL join_lst_success;
+//    __block NSArray* join_lst_result;
+//    
+//    __block NSNumber* join_count;
    
     dispatch_semaphore_t semaphore_msg_lst;
     __block NSMutableArray* current_messages;
@@ -88,10 +83,10 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        
         owner_id = [args objectForKey:@"owner_id"];
-        post_id = [args objectForKey:@"post_id"];
-        theme = [args objectForKey:@"theme"];   // group name
-        group_id = [args objectForKey:@"group_id"];
+        user_id = [args objectForKey:@"user_id"];
+        chat_id = [args objectForKey:@"chat_id"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -127,7 +122,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [self.view bringSubviewToFront:loading];
     
     semaphore_owner_info = dispatch_semaphore_create(0);
-    semaphore_join_lst = dispatch_semaphore_create(0);
+//    semaphore_join_lst = dispatch_semaphore_create(0);
     semaphore_msg_lst = dispatch_semaphore_create(0);
     
     {
@@ -157,9 +152,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         [cmd performWithResult:&obj];
     }
    
-    [self waitForControllerReady];
-    [self queryOwnerInfo];
-    [self enterChatGroup];
+//    [self waitForControllerReady];
+//    [self queryOwnerInfo];
+//    [self enterChatGroup];
+    [self createChat];
+    [self queryEMMessages];
    
     UIView* view_table = [self.views objectForKey:@"Table"];
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
@@ -279,67 +276,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
-- (id)didSelectedUserInfoBtn {
-   
-    void(^animationBlock)(void) = ^() {
-        [UIView animateWithDuration:0.3f animations:^{
-            UIView* view_input = [self.views objectForKey:@"ChatInput"];
-            view_input.center = CGPointMake(view_input.center.x - SCREEN_WIDTH, view_input.center.y);
-            UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-            view_user_info.center = CGPointMake(view_user_info.center.x - SCREEN_WIDTH, view_user_info.center.y);
-        }];
-    };
-    
-    if (self.view.center.y != SCREEN_HEIGHT / 2) {
-        
-        id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
-        id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
-        [cmd performWithResult:nil];
-        [UIView animateWithDuration:0.3f delay:0.3f options:UIViewAnimationOptionCurveEaseInOut animations:animationBlock completion:nil];
-    } else animationBlock();
-    
-    return nil;
-}
-
-- (id)hiddenChatGroupInfoPane {
-    UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-    if (view_user_info.center.x < SCREEN_WIDTH) {
-        [UIView animateWithDuration:0.3f animations:^{
-            UIView* view_input = [self.views objectForKey:@"ChatInput"];
-            view_input.center = CGPointMake(view_input.center.x + SCREEN_WIDTH, view_input.center.y);
-            UIView* view_user_info = [self.views objectForKey:kAYGroupChatControllerUserInfoTable];
-            view_user_info.center = CGPointMake(view_user_info.center.x + SCREEN_WIDTH, view_user_info.center.y);
-        }];
-    }
-    return nil;
-}
-
-- (id)sendMessage:(id)args {
-    NSString* text = (NSString*)args;
-    
-//    id<AYFacadeBase> f = [self.facades objectForKey:@"XMPP"];
-    id<AYFacadeBase> f = [self.facades objectForKey:@"EM"];
-    id<AYCommand> cmd = [f.commands objectForKey:@"SendEMMessage"];
-    
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:text forKey:@"text"];
-    [dic setValue:group_id forKey:@"group_id"];
-    
-    [cmd performWithResult:&dic];
-    
-//    id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
-//    ((AYChatInputView*)view).inputView.text = @"";
-    return nil;
-}
-
 - (id)EMMessageSendSuccess:(id)args {
     NSLog(@"send message success");
     
     NSDictionary* dic = (NSDictionary*)args;
     EMMessage* m = (EMMessage*)[dic objectForKey:@"message"];
-//    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
-//    if (m.receiver.id == group_id.longLongValue) {
-    if ([m.conversationId isEqualToString:group_id]) {
+    if ([m.conversationId isEqualToString:owner_id]) {
         [current_messages addObject:m];
     }
     
@@ -359,9 +301,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     NSDictionary* dic = (NSDictionary*)args;
     EMMessage* m = (EMMessage*)[dic objectForKey:@"message"];
-    //    GotyeOCMessage* m = (GotyeOCMessage*)[dic objectForKey:@"message"];
-    //    if (m.receiver.id == group_id.longLongValue) {
-    if ([m.conversationId isEqualToString:group_id]) {
+    if ([m.conversationId isEqualToString:owner_id]) {
         [current_messages addObject:m];
     }
     
@@ -371,6 +311,20 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- actions
+- (id)sendMessage:(id)args {
+    NSString* text = (NSString*)args;
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [f.commands objectForKey:@"SendEMMessage"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:text forKey:@"text"];
+    [dic setValue:owner_id forKey:@"owner_id"];
+    
+    [cmd performWithResult:&dic];
+    return nil;
+}
+
 - (void)scrollTableToFoot:(BOOL)animated {
     UITableView* queryView = [self.views objectForKey:kAYGroupChatControllerMessageTable];
     
@@ -431,8 +385,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     dispatch_queue_t qw = dispatch_queue_create("query data wait", nil);
     dispatch_async(qw, ^{
         dispatch_semaphore_wait(semaphore_owner_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        dispatch_semaphore_wait(semaphore_join_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-//        dispatch_semaphore_wait(semaphore_msg_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+//        dispatch_semaphore_wait(semaphore_join_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+        dispatch_semaphore_wait(semaphore_msg_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self setInfoDataToDelegate];
@@ -466,9 +420,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:owner_info_result forKey:@"owner"];
-    [dic setValue:join_lst_result forKey:@"joiners"];
-    [dic setValue:join_count forKey:@"count"];
+//    [dic setValue:owner_info_result forKey:@"owner"];
+//    [dic setValue:join_lst_result forKey:@"joiners"];
+//    [dic setValue:join_count forKey:@"count"];
     
     [cmd performWithResult:&dic];
    
@@ -491,85 +445,42 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [self scrollTableToFoot:YES];
 }
 
+#pragma mark -- create chat
+
+- (void)createChat {
+    
+    id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [em.commands objectForKey:@"CreateEMChat"];
+    id conversationID = owner_id;
+    
+    [cmd performWithResult:&conversationID];
+    
+}
+
+- (void)queryEMMessages{
+    id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMMessages"];
+    id brige = owner_id;
+    
+    [cmd performWithResult:&brige];
+    
+    current_messages = [(NSArray*)brige mutableCopy];
+    NSLog(@"michauxs -- %@", current_messages);
+    
+    [self setMessagesToDelegate];
+    
+}
+
 #pragma mark -- enter group chat
-- (void)enterChatGroup {
-    id<AYFacadeBase> f = [self.facades objectForKey:@"ChatSessionRemote"];
-   
-    NSDictionary* user = nil;
-    CURRENUSER(user);
 
-    NSMutableDictionary* dic = [user mutableCopy];
-    [dic setValue:post_id forKey:@"post_id"];
-    [dic setValue:owner_id forKey:@"owner_id"];
-    
-    AYRemoteCallCommand* cmd = nil;
-    if (theme == nil) {
-        cmd = [f.commands objectForKey:@"JoinChatGroup"];
-        [dic setValue:group_id forKey:@"group_id"];
-    } else {
-        cmd = [f.commands objectForKey:@"EnterChatGroup"];
-        [dic setValue:theme forKey:@"group_name"];
-    }
-    
-    
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        join_lst_success = success;
-        join_count = [result objectForKey:@"joiners_count"];
-        theme = [result objectForKey:@"group_name"];
-        
-        NSString* str = theme;
-        id<AYViewBase> header = [self.views objectForKey:@"GroupChatHeader"];
-        id<AYCommand> cmd_test = [header.commands objectForKey:@"setGroupChatViewInfo:"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:str forKey:@"theme"];
-        [cmd_test performWithResult:&dic];
-       
-//        id<AYFacadeBase> xmpp = [self.facades objectForKey:@"XMPP"];
-//        id<AYCommand> cmd = [xmpp.commands objectForKey:@"JoinGroup"];
 
-        id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
-        id<AYCommand> cmd = [em.commands objectForKey:@"JoinEMGroup"];
-       
-        group_id = [result objectForKey:@"group_id"];
-        id args = group_id;
-        [cmd performWithResult:&args];
-        NSNumber* join_result = (NSNumber*)args;
-        if (join_result.boolValue) {
-            id<AYCommand> cmd = [em.commands objectForKey:@"EMQueryGroupMemberLst"];
-            id args = group_id;
-            [cmd performWithResult:&args];
-            
-        } else {
-            NSLog(@"join group error");
-            return;
-        }
-        
-        id<AYViewBase> view = [self.views objectForKey:@"ChatInput"];
-        id<AYCommand> cmd_joiner_count = [view.commands objectForKey:@"setJoinerCount:"];
-        id count = join_count;
-        [cmd_joiner_count performWithResult:&count];
-        
-        id<AYCommand> cmd_query_messages = [em.commands objectForKey:@"QueryEMMessages"];
-        NSMutableDictionary* args_query_messages = [[NSMutableDictionary alloc]init];
-        [args_query_messages setValue:group_id forKey:@"group_id"];
-        [cmd_query_messages performWithResult:&args_query_messages];
-        current_messages = [args_query_messages mutableCopy];
-    }];
-}
+//- (id)EMGetGroupMemberSuccess:(id)args {
+//    join_lst_success = YES;
+//    join_lst_result = [args objectForKey:@"result"];
+//    dispatch_semaphore_signal(semaphore_join_lst);   
+//    return nil;
+//}
 
-- (id)EMGetGroupMemberSuccess:(id)args {
-    join_lst_success = YES;
-    join_lst_result = [args objectForKey:@"result"];
-    dispatch_semaphore_signal(semaphore_join_lst);   
-    return nil;
-}
-
-- (id)XMPPGetGroupMemberSuccess:(id)args {
-    join_lst_success = YES;
-    join_lst_result = [args objectForKey:@"result"];
-    dispatch_semaphore_signal(semaphore_join_lst);
-    return nil;
-}
 
 - (void)GroupChatControllerIsReady {
     UIView* loading = [self.views objectForKey:@"Loading"];
@@ -577,33 +488,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [loading removeFromSuperview];
     id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"stopGif"];
     [cmd performWithResult:nil];
-}
-
-- (id)SamePersonBtnSelected {
-    NSLog(@"push to person setting");
-    
-    AYModelFacade* f = LOGINMODEL;
-    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-    
-    NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [cur setValue:tmp.who.user_id forKey:@"user_id"];
-    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
-    [cur setValue:tmp.who.screen_image forKey:@"screen_photo"];
-    [cur setValue:tmp.who.screen_name forKey:@"screen_name"];
-    [cur setValue:tmp.who.role_tag forKey:@"role_tag"];
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
-    return nil;
 }
 
 @end

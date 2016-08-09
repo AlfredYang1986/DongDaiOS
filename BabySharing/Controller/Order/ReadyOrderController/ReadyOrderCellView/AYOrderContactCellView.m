@@ -106,7 +106,30 @@
 }
 
 - (id)setCellInfo:(NSString*)args{
-    _userNameLabel.text = args;
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:args forKey:@"user_id"];
+    
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        _userNameLabel.text = [result objectForKey:@"screen_name"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
+        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img != nil) {
+                [_userPhotoImage setImage:img];
+            } else
+                _userPhotoImage.image = IMGRESOURCE(@"lol");
+        }];
+        
+    }];
+    
     
     return nil;
 }

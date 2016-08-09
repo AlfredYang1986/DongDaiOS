@@ -61,6 +61,19 @@
 
 - (id)changeQueryData:(NSDictionary*)args{
     querydata = args;
+    
+    NSMutableArray *tmp = [NSMutableArray array];
+    NSArray *images = [querydata objectForKey:@"images"];
+    
+    
+//    NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
+    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
+    for (int i = 0; i < images.count; ++i) {
+        NSString *obj = images[i];
+        obj = [PRE stringByAppendingString:obj];
+        [tmp addObject:obj];
+    }
+    imageNameArr = [tmp copy];
     return nil;
 }
 
@@ -75,7 +88,12 @@
         if (cell == nil) {
             cell = [[AYFouceCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYFouceCellView"];
         }
-        cell.imageNameArr = imageNameArr;
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:imageNameArr forKey:@"images"];
+        [dic setValue:[querydata objectForKey:@"price"] forKey:@"price"];
+//        cell.imageNameArr = imageNameArr;
+        cell.cell_info = dic;
         
         [cell.friendsImage  addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didXFriendImage:)]];
         [cell.popImage      addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPopImage:)]];

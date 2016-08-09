@@ -86,11 +86,10 @@
     
     NSDictionary* info = nil;
     CURRENUSER(info)
-    NSDictionary* args = [info mutableCopy];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[args objectForKey:@"user_id"]  forKey:@"owner_id"];
     
     if (serviceType == 1) {
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[info objectForKey:@"user_id"]  forKey:@"owner_id"];
         id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"QueryMyService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {

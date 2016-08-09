@@ -106,27 +106,53 @@
     
     orderImage = [[UIImageView alloc]init];
     [headView addSubview:orderImage];
-    orderImage.image = IMGRESOURCE(@"lol");
     [orderImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(headView).offset(15);
         make.left.equalTo(headView).offset(15);
         make.size.mas_equalTo(CGSizeMake(115, 65));
     }];
+    NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            orderImage.image = img;
+        }else{
+            orderImage.image = IMGRESOURCE(@"lol");
+        }
+    }];
+    
     
     orderTitle = [[UILabel alloc]init];
-    orderTitle = [Tools setLabelWith:orderTitle andText:@"服务订单简介标题" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+    orderTitle = [Tools setLabelWith:orderTitle andText:[service_info objectForKey:@"title"] andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
     [headView addSubview:orderTitle];
     [orderTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(orderImage);
         make.left.equalTo(orderImage.mas_right).offset(20);
     }];
     
+    
     orderOwner = [[UILabel alloc]init];
-    orderOwner = [Tools setLabelWith:orderOwner andText:@"服务妈妈 杨大婶" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    orderOwner = [Tools setLabelWith:orderOwner andText:@"服务妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
     [headView addSubview:orderOwner];
     [orderOwner mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(orderTitle.mas_bottom).offset(5);
         make.left.equalTo(orderTitle);
+    }];
+    
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:[service_info objectForKey:@"owner_id"] forKey:@"user_id"];
+    
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        orderOwner.text = [NSString stringWithFormat:@"服务妈妈 %@",[result objectForKey:@"screen_name"]];
     }];
     
     orderLoc = [[UILabel alloc]init];

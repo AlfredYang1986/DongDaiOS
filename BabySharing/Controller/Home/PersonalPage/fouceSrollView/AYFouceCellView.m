@@ -26,20 +26,22 @@
 
 @implementation AYFouceCellView{
     SDCycleScrollView *cycleScrollView;
+    UILabel *costLabel;
 }
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
 //        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) shouldInfiniteLoop:YES imageNamesGroup:_imageNameArr];
-        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) delegate:self placeholderImage:nil];
+        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) delegate:self placeholderImage:IMGRESOURCE(@"lol")];
 //        cycleScrollView.delegate = self;
         cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
         cycleScrollView.currentPageDotColor = [Tools themeColor];
         cycleScrollView.pageControlDotSize = CGSizeMake(10, 10);
         [self addSubview:cycleScrollView];
         cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 //不自动滚动
+        cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
         
         _popImage = [[UIImageView alloc]init];
         _popImage.image = IMGRESOURCE(@"bar_left_white");
@@ -74,7 +76,7 @@
         xFriend.hidden = YES;
         _friendsImage.hidden = YES;
         
-        UILabel *costLabel = [[UILabel alloc]init];
+        costLabel = [[UILabel alloc]init];
         costLabel = [Tools setLabelWith:costLabel andText:[NSString stringWithFormat:@"¥ %.1f／小时",80.f] andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:costLabel];
         [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -86,9 +88,21 @@
     return self;
 }
 
+-(void)setCell_info:(NSDictionary *)cell_info {
+    _cell_info = cell_info;
+    cycleScrollView.imageURLStringsGroup = [_cell_info objectForKey:@"images"];
+    costLabel.text = [NSString stringWithFormat:@"¥ %.1f／小时",((NSString*)[_cell_info objectForKey:@"price"]).floatValue];
+}
+
+-(void)setImageNameArr:(NSArray *)imageNameArr{
+    _imageNameArr = imageNameArr;
+    cycleScrollView.imageURLStringsGroup = _imageNameArr;
+}
+
 -(void)layoutSubviews{
     [super layoutSubviews];
-    cycleScrollView.localizationImageNamesGroup = _imageNameArr;
+//    cycleScrollView.localizationImageNamesGroup = _imageNameArr;
+    
 }
 
 @end

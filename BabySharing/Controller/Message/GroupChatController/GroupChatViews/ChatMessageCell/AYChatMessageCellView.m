@@ -162,7 +162,7 @@
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(imgView.mas_left).offset(-30);
             make.top.equalTo(imgView).offset(20);
-            make.width.mas_equalTo(SCREEN_WIDTH * 0.7);
+            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
             make.bottom.equalTo(self).offset(-40);
         }];
         
@@ -185,7 +185,7 @@
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(imgView.mas_right).offset(30);
             make.top.equalTo(imgView).offset(20);
-            make.width.mas_equalTo(SCREEN_WIDTH * 0.7);
+            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
             make.bottom.equalTo(self).offset(-40);
         }];
         
@@ -235,13 +235,13 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             [imgView setImage:img];
-        }else [imgView setImage:PNGRESOURCE(@"default_user")];
+        } else [imgView setImage:PNGRESOURCE(@"default_user")];
     }];
 }
 
 - (void)setContent:(NSString*)content_text {
     if (content_text) {
-//        content.text = content_text;
+        content.text = content_text;
     }
 }
 

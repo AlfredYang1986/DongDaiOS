@@ -154,7 +154,7 @@
     [chatBtn setBackgroundColor:[Tools themeColor]];
     [chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
     [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [chatBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bottom_view addSubview:chatBtn];
 //    [bottom_view bringSubviewToFront:chatBtn];
 }
@@ -324,6 +324,27 @@
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic];
+    
+}
+- (void)didChatBtnClick:(UIButton*)btn{
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"GroupChat");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
+    [dic_chat setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_chat setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+    
+    [dic setValue:dic_chat forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];

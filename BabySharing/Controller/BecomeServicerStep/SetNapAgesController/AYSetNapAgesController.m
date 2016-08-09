@@ -32,7 +32,7 @@
 @implementation AYSetNapAgesController{
     UITextView *inputTitleTextView;
     UILabel *countlabel;
-    NSString *setedAgesString;
+    NSDictionary *setedAgesData;
     
     UIView *picker;
     
@@ -45,9 +45,9 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSString *str = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSDictionary *str = [dic objectForKey:kAYControllerChangeArgsKey];
         if (str) {
-            setedAgesString = str;
+            setedAgesData = str;
         }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -92,9 +92,13 @@
     }];
     
     countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:@"3岁 — 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    if (setedAgesString) {
-        countlabel.text = setedAgesString;
+    countlabel = [Tools setLabelWith:countlabel andText:@"3 — 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    if (setedAgesData) {
+        NSNumber *usl_numb = ((NSNumber *)[setedAgesData objectForKey:@"usl"]);
+        NSNumber *lsl_numb = ((NSNumber *)[setedAgesData objectForKey:@"lsl"]);
+        NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁", usl_numb.intValue, lsl_numb.intValue];
+//        NSString *args01 = [NSString stringWithFormat:@"%d - %d",usl_numb.intValue, lsl_numb.intValue ];
+        countlabel.text = ages;
     }
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {

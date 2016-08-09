@@ -490,7 +490,7 @@
     return nil;
 }
 
--(id)setNapBabyAges:(NSString*)args{
+-(id)setNapBabyAges:(NSDictionary*)args{
     id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];

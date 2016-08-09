@@ -36,6 +36,12 @@
     UILabel *aboutMMDesc;
     UITextView *aboutMMIntruText;
     UILabel *contextlabel;
+    
+    UIView *playItems;
+    UIView *safeDevices;
+    
+    NSArray *options_title_cans;
+    NSArray *options_title_capacity;
 }
 //@synthesize aboutMMIntru = _aboutMMIntru;
 
@@ -49,6 +55,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        
         _titleLabel = [[UILabel alloc]init];
         _titleLabel = [Tools setLabelWith:_titleLabel andText:@"一句话了解妈妈" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:_titleLabel];
@@ -179,7 +186,7 @@
         [familyLabel.layer addSublayer:line03];
         /*************************************/
         
-        UIView *playItems = [[UIView alloc]init];
+        playItems = [[UIView alloc]init];
         [self addSubview:playItems];
         [playItems mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(familyLabel.mas_bottom).offset(0);
@@ -200,13 +207,6 @@
         line04.frame = CGRectMake(0, 99, WIDTH, 1);
         [playItems.layer addSublayer:line04];
         
-        for (int i = 0; i < 3; ++i) {
-            CGFloat offsetX = 85 * i;
-            AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithFrame:CGRectMake(offsetX, 25, 50, 55)];
-            item.item_icon.image = IMGRESOURCE(@"tab_found");
-            item.item_name.text = @"选项";
-            [playItems addSubview:item];
-        }
         
         /*************************************/
         UILabel *contentCount = [[UILabel alloc]init];
@@ -286,7 +286,7 @@
         }];
         /*************************************/
         
-        UIView *safeDevices = [[UIView alloc]init];
+        safeDevices = [[UIView alloc]init];
         [self addSubview:safeDevices];
         [safeDevices mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_showMore.mas_bottom).offset(25);
@@ -310,14 +310,6 @@
         line06.backgroundColor = [UIColor colorWithWhite:0.9f alpha:1.f].CGColor;
         line06.frame = CGRectMake(0, 99, WIDTH, 1);
         [safeDevices.layer addSublayer:line06];
-        
-        for (int i = 0; i < 3; ++i) {
-            CGFloat offsetX = 65 * i;
-            AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithFrame:CGRectMake(offsetX, 25, 50, 55)];
-            item.item_icon.image = IMGRESOURCE(@"tab_found");
-            item.item_name.text = @"画画";
-            [safeDevices addSubview:item];
-        }
         
         /*************************************/
         UIEdgeInsets iamgeInsets = UIEdgeInsetsMake(-10, 6, 10, -6);
@@ -391,7 +383,7 @@
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
     
     if (_takeOffMore.hidden) {
-        NSString *desc = @"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈.";
+        NSString *desc = [_service_info objectForKey:@"description"];
         if (desc.length > 60) {
             desc = [desc substringToIndex:60];
             desc = [desc stringByAppendingString:@"..."];
@@ -402,7 +394,7 @@
         
     }
     
-    NSString *contentString = @"关于妈妈关于。妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,";
+    NSString *contentString = [_service_info objectForKey:@"description"];
     if (contentString.length > 46) {
         contentString = [contentString substringToIndex:46];
         contentString = [contentString stringByAppendingString:@"..."];
@@ -418,12 +410,43 @@
         NSLog(@"%@",pl.addressDictionary);
         _MMAdressLabel.text = [NSString stringWithFormat:@"%@,%@",pl.thoroughfare,pl.subLocality];
     }];
+    
+    options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
+    options_title_capacity = @[@"安全桌角",@"安全插座",@"急救包",@"无烟",@"安全护栏",@"宠物",@"防摔地板"];
+    
+    long options = ((NSNumber*)[_service_info objectForKey:@"cans"]).longValue;
+    CGFloat offsetX = 0;
+    for (int i = 0; i < 4; ++i) {
+        long note_pow = pow(2, i);
+        if ((options & note_pow)) {
+            AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithFrame:CGRectMake(offsetX, 25, 50, 55)];
+            item.item_icon.image = IMGRESOURCE(@"tab_found");
+            item.item_name.text = options_title_cans[i];
+            [playItems addSubview:item];
+            offsetX += 85;
+        }
+    }
+    
+    {
+        long options = ((NSNumber*)[_service_info objectForKey:@"capacity"]).longValue;
+        CGFloat offsetX = 0;
+        for (int i = 0; i < 4; ++i) {
+            long note_pow = pow(2, i);
+            if ((options & note_pow)) {
+                AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithFrame:CGRectMake(offsetX, 25, 50, 55)];
+                item.item_icon.image = IMGRESOURCE(@"tab_found");
+                item.item_name.text = options_title_capacity[i];
+                [safeDevices addSubview:item];
+                offsetX += 85;
+            }
+        }
+    }
 
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    
+
 }
 
 
@@ -433,7 +456,7 @@
     
     _readMore.hidden = YES;
     _takeOffMore.hidden = NO;
-    NSString *desc = @"关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈关于妈妈,关于妈妈关于妈妈关于妈妈.";
+    NSString *desc = [_service_info objectForKey:@"description"];
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paraStyle.alignment = NSTextAlignmentLeft;
