@@ -56,6 +56,7 @@
         cell = VIEW(kAYChatMessageCellName, kAYChatMessageCellName);
     }
     cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     
     id tmp = [querydata objectAtIndex:indexPath.row];
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
@@ -65,6 +66,10 @@
     [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+    return NO;
 }
 
 #pragma mark -- messages

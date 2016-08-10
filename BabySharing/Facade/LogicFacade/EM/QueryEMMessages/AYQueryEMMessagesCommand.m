@@ -14,6 +14,7 @@
 #import "EMSDK.h"
 #import "EMError.h"
 #import "EMConversation.h"
+#import "EMMessageBody.h"
 
 @implementation AYQueryEMMessagesCommand
 @synthesize para = _para;
@@ -24,11 +25,24 @@
 
 - (void)performWithResult:(NSObject**)obj {
     
+//    NSDictionary *info = nil;
+//    CURRENUSER(info)
+//    NSString *user_id = [info objectForKey:@"user_id"];
+    
     NSString *owner_id = (NSString*)*obj;
     EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:owner_id type:EMConversationTypeChat createIfNotExist:YES];
     
-    NSArray *messages = [conversation loadMoreMessagesFromId:owner_id limit:20 direction:0];
+//    NSTimeInterval d = [NSDate date].timeIntervalSince1970;
+    NSArray *messages = [conversation loadMoreMessagesFromId:nil limit:50 direction:EMMessageSearchDirectionUp];
+    
+//    EMMessage *me = [conversation latestMessage];
+//    NSString *str = ((EMTextMessageBody*)me.body).text;
+    
+    NSLog(@"%lu",messages.count);
+    
     *obj = messages;
+    
+    
     //群聊模式：
 //    NSDictionary* dic = (NSDictionary*)*obj;
 //    NSString* group_id = [dic objectForKey:@"group_id"];

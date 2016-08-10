@@ -107,7 +107,7 @@
     
     NSNumber *usl = ((NSNumber *)[args objectForKey:@"usl"]);
     NSNumber *lsl = ((NSNumber *)[args objectForKey:@"lsl"]);
-    NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁",usl.intValue,lsl.intValue];
+    NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁",lsl.intValue,usl.intValue];
     _ageLabel.text = ages;
     
     return nil;

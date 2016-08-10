@@ -83,51 +83,76 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYGroupListCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
     }
+    
+    {
+        UIView* view_loading = [self.views objectForKey:@"Loading"];
+        [self.view bringSubviewToFront:view_loading];
+        view_loading.hidden = YES;
+    }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {//todo: 聊天列表
     [super viewDidAppear:animated];
     
-    {
-        id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
-        id<AYFacadeBase> f_session = [self.facades objectForKey:@"ChatSessionRemote"];
-        AYRemoteCallCommand* cmd = [f_session.commands objectForKey:@"QueryChatGroup"];
-        
-        NSDictionary* obj = nil;
-        CURRENUSER(obj);
-        
-        [cmd performWithResult:[obj copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            if (success) {
-                NSLog(@"query chat group: %@", result);
-                
-                id<AYFacadeBase> f_chat_session = CHATSESSIONMODEL;
-                id<AYCommand> cmd = [f_chat_session.commands objectForKey:@"UpdataChatSession"];
-                
-                id args = [result copy];
-                [cmd performWithResult:&args];
-                
-                id reVal = nil;
-                id<AYCommand> cmd_query = [f_chat_session.commands objectForKey:@"QueryChatSession"];
-                [cmd_query performWithResult:&reVal];
-                
-                id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
-                [cmd_change performWithResult:&reVal];
+    id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMSations"];
+    
+    NSDictionary *info = nil;
+    CURRENUSER(info)
+    
+    id brige = [info objectForKey:@"user_id"];
+    NSLog(@"michauxs -- %@", (NSArray*)brige);
+    
+    [cmd performWithResult:&brige];
+    
+    id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
+    id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+    [cmd_change performWithResult:&brige];
 
-                id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
-                id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
-                [cmd_refresh performWithResult:nil];
-            
-            } else {
-                // TODO: error notify
-            }
-        }];
-    }
+    id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
+    [cmd_refresh performWithResult:nil];
+    
+//    {
+//        id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
+//        id<AYFacadeBase> f_session = [self.facades objectForKey:@"ChatSessionRemote"];
+//        AYRemoteCallCommand* cmd = [f_session.commands objectForKey:@"QueryChatGroup"];
+//        
+//        NSDictionary* obj = nil;
+//        CURRENUSER(obj);
+//        
+//        [cmd performWithResult:[obj copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//            if (success) {
+//                NSLog(@"query chat group: %@", result);
+//                
+//                id<AYFacadeBase> f_chat_session = CHATSESSIONMODEL;
+//                id<AYCommand> cmd = [f_chat_session.commands objectForKey:@"UpdataChatSession"];
+//                
+//                id args = [result copy];
+//                [cmd performWithResult:&args];
+//                
+//                id reVal = nil;
+//                id<AYCommand> cmd_query = [f_chat_session.commands objectForKey:@"QueryChatSession"];
+//                [cmd_query performWithResult:&reVal];
+//                
+//                id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+//                [cmd_change performWithResult:&reVal];
+//
+//                id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+//                id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
+//                [cmd_refresh performWithResult:nil];
+//            
+//            } else {
+//                // TODO: error notify
+//            }
+//        }];
+//    }
 }
 
 #pragma mark -- layouts
@@ -178,4 +203,32 @@
     return nil;
 }
 
+- (id)LoadingLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    return nil;
+}
+
+#pragma mark -- notifies
+- (id)startRemoteCall:(id)obj {
+//    _loading = VIEW(@"Loading", @"Loading");
+//    ((UIView*)_loading).backgroundColor = [UIColor redColor];
+//    ((UIView*)_loading).userInteractionEnabled = NO;
+//    
+//    [self.view addSubview:((UIView*)_loading)];
+    
+    id<AYViewBase> view_loading = [self.views objectForKey:@"Loading"];
+    ((UIView*)view_loading).hidden = NO;
+    id<AYCommand> cmd = [view_loading.commands objectForKey:@"startGif"];
+    [cmd performWithResult:nil];
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+//    [((UIView*)_loading) removeFromSuperview];
+    UIView* view_loading = [self.views objectForKey:@"Loading"];
+    view_loading.hidden = YES;
+//    [view_loading removeFromSuperview];
+    
+    return nil;
+}
 @end

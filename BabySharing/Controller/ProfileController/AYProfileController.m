@@ -95,10 +95,12 @@
     id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
-
-    id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
-    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-    [cmd_left_vis performWithResult:&left_hidden];
+    if (!isPushed) {
+        
+        id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
+        NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+        [cmd_left_vis performWithResult:&left_hidden];
+    }
     
     AYModelFacade* f = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
@@ -151,6 +153,13 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    if (isPushed) {
+        id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+        UIImage* left = IMGRESOURCE(@"bar_left_black");
+        [cmd_left performWithResult:&left];
+    }
+    
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;

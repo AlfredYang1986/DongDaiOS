@@ -11,6 +11,7 @@
 
 @class Targets;
 
+
 @interface AYGroupListCellView : UITableViewCell <AYViewBase>
 //@property (weak, nonatomic) IBOutlet UILabel *numLabel;
 @property (weak, nonatomic) IBOutlet UILabel *themeLabel;

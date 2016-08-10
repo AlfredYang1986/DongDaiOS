@@ -21,6 +21,10 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
+#import "EMConversation.h"
+#import "EMMessage.h"
+#import "EMTextMessageBody.h"
+
 #define BRAGE_WIDTH     25
 #define BRAGE_HEIGHT    BRAGE_WIDTH
 
@@ -120,7 +124,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    _themeImg.layer.borderColor = [UIColor whiteColor].CGColor;
+    _themeImg.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _themeImg.layer.borderWidth = 2.f;
     _themeImg.layer.cornerRadius = 22.5f;
     _themeImg.clipsToBounds = YES;
@@ -206,11 +210,51 @@
 }
 
 - (id)resetContent:(id)args {
-//    NSDictionary* dic = (NSDictionary*)args;
-//    Targets* t = [dic objectForKey:kAYGroupListCellContentKey];
+    NSDictionary* dic = (NSDictionary*)args;
+    
+    EMConversation *sation = [dic objectForKey:kAYGroupListCellContentKey];
 //    AYGroupListCellView* cell = [dic objectForKey:kAYGroupListCellCellKey];
-//    
 //    cell.current_session = t;
+    
+    EMMessage *last_message = sation.latestMessage;
+    
+    NSString *user_id = nil;
+    if (last_message.direction == 0) {
+        user_id = last_message.to;
+        NSLog(@"%@",user_id);
+        
+    } else {
+        user_id = last_message.from;
+        NSLog(@"%@",user_id);
+        
+    }
+    
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:user_id forKey:@"user_id"];
+    
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        _themeLabel.text = [result objectForKey:@"screen_name"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
+        [dic setValue:@"img_icon" forKey:@"expect_size"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img != nil) {
+                [_themeImg setImage:img];
+            } else
+                _themeImg.image = IMGRESOURCE(@"lol");
+        }];
+        
+    }];
+    
+   _chatLabel.text = ((EMTextMessageBody*)last_message.body).text;
+    
     return nil;
 }
 

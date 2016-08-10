@@ -35,7 +35,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂无消息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ic-TK-kse">
-                        <rect key="frame" x="75" y="42" width="52" height="16"/>
+                        <rect key="frame" x="75" y="42" width="242" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -73,6 +73,7 @@
                     <constraint firstItem="5ic-TK-kse" firstAttribute="leading" secondItem="wew-n8-2JF" secondAttribute="leading" id="VfL-6x-cU9"/>
                     <constraint firstAttribute="trailing" secondItem="r2r-sr-JrD" secondAttribute="trailing" constant="15" id="W4Z-aW-7lS"/>
                     <constraint firstItem="6X0-8M-E7O" firstAttribute="top" secondItem="YAU-8v-xzm" secondAttribute="topMargin" id="ZJe-hk-rD8"/>
+                    <constraint firstItem="N9O-LY-cX3" firstAttribute="leading" secondItem="5ic-TK-kse" secondAttribute="trailing" constant="20" id="d7o-9K-Hr2"/>
                     <constraint firstItem="wew-n8-2JF" firstAttribute="leading" secondItem="6X0-8M-E7O" secondAttribute="trailing" constant="15" id="g79-5b-Fgf"/>
                     <constraint firstItem="wew-n8-2JF" firstAttribute="top" secondItem="6X0-8M-E7O" secondAttribute="top" constant="2" id="ggV-pU-WL8"/>
                     <constraint firstItem="5ic-TK-kse" firstAttribute="bottom" secondItem="6X0-8M-E7O" secondAttribute="bottom" constant="-2" id="iON-gm-YJ7"/>

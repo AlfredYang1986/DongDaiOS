@@ -60,7 +60,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
@@ -92,12 +92,11 @@
     }];
     
     countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:@"3 — 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    countlabel = [Tools setLabelWith:countlabel andText:@"0 — 0 岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     if (setedAgesData) {
         NSNumber *usl_numb = ((NSNumber *)[setedAgesData objectForKey:@"usl"]);
         NSNumber *lsl_numb = ((NSNumber *)[setedAgesData objectForKey:@"lsl"]);
-        NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁", usl_numb.intValue, lsl_numb.intValue];
-//        NSString *args01 = [NSString stringWithFormat:@"%d - %d",usl_numb.intValue, lsl_numb.intValue ];
+        NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁", lsl_numb.intValue, usl_numb.intValue];
         countlabel.text = ages;
     }
     [self.view addSubview:countlabel];
@@ -194,13 +193,22 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *sl_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [sl_dic setValue:usl forKey:@"usl"];
-    [sl_dic setValue:lsl forKey:@"lsl"];
-    
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:sl_dic forKey:@"content"];
+    
+    NSMutableDictionary *sl_dic = [[NSMutableDictionary alloc]init];
+    
+    if (usl && lsl) {
+        [sl_dic setValue:usl forKey:@"usl"];
+        [sl_dic setValue:lsl forKey:@"lsl"];
+    } else if(setedAgesData){
+        sl_dic = [setedAgesData mutableCopy];
+    } else {
+        [[[UIAlertView alloc]initWithTitle:@"错误" message:@"设置错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return nil;
+    }
+    
     [dic_info setValue:@"nap_ages" forKey:@"key"];
+    [dic_info setValue:sl_dic forKey:@"content"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     

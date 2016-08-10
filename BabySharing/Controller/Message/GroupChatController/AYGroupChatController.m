@@ -13,7 +13,7 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYUserDisplayDefines.h"
-#import "AYChatGroupInfoCellDefines.h"
+//#import "AYChatGroupInfoCellDefines.h"
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
 #import "AYChatInputView.h"
@@ -58,7 +58,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     CGRect keyBoardFrame;
     NSString* owner_id;
 //    NSNumber* group_id;
-    NSString* chat_id;
+    int chat_state;
     NSString* user_id;
     NSString* theme;
     
@@ -74,6 +74,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
    
     dispatch_semaphore_t semaphore_msg_lst;
     __block NSMutableArray* current_messages;
+    
+    id messageNote;
 }
 
 #pragma mark -- commands
@@ -86,7 +88,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         
         owner_id = [args objectForKey:@"owner_id"];
         user_id = [args objectForKey:@"user_id"];
-        chat_id = [args objectForKey:@"chat_id"];
+        chat_state = ((NSNumber*)[args objectForKey:@"status"]).intValue;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -155,8 +157,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 //    [self waitForControllerReady];
 //    [self queryOwnerInfo];
 //    [self enterChatGroup];
-    [self createChat];
     [self queryEMMessages];
+    
    
     UIView* view_table = [self.views objectForKey:@"Table"];
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
@@ -301,9 +303,10 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     NSDictionary* dic = (NSDictionary*)args;
     EMMessage* m = (EMMessage*)[dic objectForKey:@"message"];
-    if ([m.conversationId isEqualToString:owner_id]) {
+    if ([m.conversationId isEqualToString:owner_id] && messageNote != m) {
         [current_messages addObject:m];
     }
+    messageNote = m;
     
     [self setMessagesToDelegate];
     [self scrollTableToFoot:YES];
@@ -334,8 +337,14 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     if (r<1) return;
     
     NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     
-    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+//    if (queryView.contentSize.height > queryView.frame.size.height)
+//    {
+//        CGPoint offset = CGPointMake(0, queryView.contentSize.height - queryView.frame.size.height);
+//        [queryView setContentOffset:offset animated:animated];
+//    }
+//    [queryView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionBottom animated:animated];
 }
 
 #pragma mark -- get input view height
@@ -454,10 +463,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id conversationID = owner_id;
     
     [cmd performWithResult:&conversationID];
-    
 }
 
-- (void)queryEMMessages{
+- (void)queryEMMessages {
     id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
     id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMMessages"];
     id brige = owner_id;
@@ -467,8 +475,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     current_messages = [(NSArray*)brige mutableCopy];
     NSLog(@"michauxs -- %@", current_messages);
     
-    [self setMessagesToDelegate];
-    
+    if (current_messages.count == 0 && chat_state == 0) {
+        [self createChat];
+    } else {
+        [self setMessagesToDelegate];
+        [self scrollTableToFoot:NO];
+    }
 }
 
 #pragma mark -- enter group chat

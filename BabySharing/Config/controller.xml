@@ -302,8 +302,9 @@
 
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Table"          name="Table" />
+        <view type="Loading"        name="Loading" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
@@ -441,7 +442,7 @@
         <view type="ChatInput"          name="ChatInput" />
         <view type="Loading"            name="Loading" />
 
-        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
+<!--        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />-->
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" />
     </controller>

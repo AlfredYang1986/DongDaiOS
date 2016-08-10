@@ -420,7 +420,9 @@
             }];
         } else {
             NSLog(@"push error with:%@",result);
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务撤销失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务撤销失败,服务已被预订。请查看！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
         }
     }];
 }

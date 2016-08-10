@@ -240,24 +240,27 @@
     
     long temp = 0;
     NSString *result;
-    if (timeInterval < 60 * 60) {
-//        一个小时内
+    if (timeInterval < 60) {
         result = [NSString stringWithFormat:@"刚刚"];
-    } else if((temp = timeInterval / (60 * 60)) < 24){
-//        几个小时内
+    }
+    else if((temp = timeInterval/60) <60){
+        result = [NSString stringWithFormat:@"%ld分前",temp];
+    }
+    
+    else if((temp = temp/60) <24){
         result = [NSString stringWithFormat:@"%ld小时前",temp];
-    } else if((temp = timeInterval / (60 * 60) / 24) < 30){
-//        几天内
+    }
+    
+    else if((temp = temp/24) <30){
         result = [NSString stringWithFormat:@"%ld天前",temp];
-    } else if((temp = timeInterval / (60 * 60) / 24) / 30 < 12){
-//        几月内
+    }
+    
+    else if((temp = temp/30) <12){
         result = [NSString stringWithFormat:@"%ld月前",temp];
-    } else if(timeInterval / (60 * 60) / 24 / 30 / 12 < 12){
-//         几年内
-        temp = timeInterval / (60 * 60) / 24 / 30 / 12;
+    }
+    else{
+        temp = temp/12;
         result = [NSString stringWithFormat:@"%ld年前",temp];
-    } else {
-        return @"";
     }
     NSLog(@"MonkeyHengLog: %@ === %@", [dateFormatter stringFromDate:compareDate], result);
     return result;

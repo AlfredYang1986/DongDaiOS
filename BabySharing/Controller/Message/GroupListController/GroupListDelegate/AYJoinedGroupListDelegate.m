@@ -13,6 +13,8 @@
 #import "AYNotifyDefines.h"
 
 #import "Targets.h"
+#import "EMConversation.h"
+#import "EMMessage.h"
 
 @implementation AYJoinedGroupListDelegate {
     NSArray* querydata;
@@ -45,7 +47,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return querydata.count == 0 ? 3 : querydata.count;
+    return querydata.count == 0 ? 0 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -62,6 +64,13 @@
 //    [dic setValue:cell forKey:kAYGroupListCellCellKey];
 //    id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
 //    [cmd performWithResult:&dic];
+    
+    EMConversation *tmp = [querydata objectAtIndex:indexPath.row];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:tmp forKey:kAYGroupListCellContentKey];
+    [dic setValue:cell forKey:kAYGroupListCellCellKey];
+    id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
+    [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;
 }
@@ -115,8 +124,18 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    Targets* tmp = [querydata objectAtIndex:indexPath.row];
+    EMConversation* tmp = [querydata objectAtIndex:indexPath.row];
     NSLog(@"michauxs--%@",tmp);
+    
+    EMMessage *last_message = tmp.latestMessage;
+    
+    NSString *owner_id = nil;
+    if (last_message.direction == 0) {
+        owner_id = last_message.to;
+    } else {
+        owner_id = last_message.from;
+    }
+    
     AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
@@ -125,10 +144,11 @@
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:tmp.owner_id forKey:@"owner_id"];
-    [dic setValue:tmp.post_id forKey:@"post_id"];
-    [dic setValue:tmp.group_id forKey:@"group_id"];
-//    [dic setValue:tmp forKey:<#(nonnull NSString *)#>]
+    [dic setValue:owner_id forKey:@"owner_id"];
+    [dic setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+    
+//    [dic setValue:tmp.post_id forKey:@"post_id"];
+//    [dic setValue:tmp.group_id forKey:@"group_id"];
     
     [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [_controller performWithResult:&dic_push];

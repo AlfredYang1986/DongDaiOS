@@ -84,7 +84,7 @@
         [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];
     }
     
-//    dongda_tabbar.selectIndex = 1;
+//    dongda_tabbar.selectIndex = 3;
 }
 
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
