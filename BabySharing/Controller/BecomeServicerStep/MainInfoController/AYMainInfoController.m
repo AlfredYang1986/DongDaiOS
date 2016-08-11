@@ -395,7 +395,9 @@
     [dic setValue:napTitle forKey:@"title"];
     [dic setValue:napDesc forKey:@"description"];
     [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
-    [dic setValue:[NSNumber numberWithFloat:napCost.floatValue] forKey:@"price"];
+    if (![napCost isEqualToString:@""] && napCost) {
+        [dic setValue:[NSNumber numberWithFloat:napCost.floatValue] forKey:@"price"];
+    }
     [dic setValue:[NSNumber numberWithLong:napCostOptions] forKey:@"cans"];
     [dic setValue:[NSNumber numberWithLong:napDeviceOptons] forKey:@"facility"];
     NSLog(@"push json:%@",dic);
@@ -408,12 +410,24 @@
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"RevertMyService"];
     [cmd_push performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            //发布服务需两步：1 撤销服务 -> 2更新
+            //发布服务需两步：1 撤销服务 -> 2更新 -> 3再次发布
             [dic setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
             AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
             [cmd_publish performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
-                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                    NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
+                    [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
+                    [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
+                    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
+                    [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+                        if (success) {
+                            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                        }else {
+                            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息已更新发布失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                        }
+                    }];
+                    
                 }else {
                     [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息更新失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 }
@@ -421,7 +435,7 @@
         } else {
             NSLog(@"push error with:%@",result);
             if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务撤销失败,服务已被预订。请查看！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务撤销失败,该服务状态错误！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             }
         }
     }];

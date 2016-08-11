@@ -120,6 +120,7 @@
         NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
         [dic_options setValue:[info objectForKey:@"cans"] forKey:@"option_pow"];
         [dic_options setValue:@"自填" forKey:@"option_custom"];
+        [dic_options setValue:[info objectForKey:@"price"] forKey:@"price"];
         dic_cost = dic_options;
     }
     

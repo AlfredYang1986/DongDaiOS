@@ -35,17 +35,12 @@
     
     NSString *customString;
     
-    OptionOfPlayingView *safeDesktopView;
-    OptionOfPlayingView *safePlugView;
-    OptionOfPlayingView *medPackView;
-    OptionOfPlayingView *noSmokeView;
-    OptionOfPlayingView *fenceView;
-    OptionOfPlayingView *petView;
-    OptionOfPlayingView *safeFloorView;
-    
     UITextField *customField;
 //    NSMutableArray *optionsData;
     long notePow;
+    CGFloat setY;
+    
+    BOOL isShow;
 }
 
 #pragma mark --  commands
@@ -58,6 +53,8 @@
 //            optionsData = [dic_cost objectForKey:@"options"];
             customString = [dic_cost objectForKey:@"option_custom"];
             notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
+            isShow = ((NSNumber*)[dic_cost objectForKey:@"show"]).boolValue;
+            
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -69,94 +66,35 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    if (!optionsData) {
 //        optionsData = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
 //    }
     
-    id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor clearColor];
-    [cmd_nav performWithResult:&c_nav];
+    NSArray *options_title_capacity = @[@"安全桌角",@"安全插座",@"急救包",@"无烟",@"安全护栏",@"宠物",@"防摔地板"];
     
-    
-    safeDesktopView = [[OptionOfPlayingView alloc]initWithTitle:@"安全桌角" andIndex:0];
-    [self.view addSubview:safeDesktopView];
-    [safeDesktopView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(84);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
-    }];
-    safeDesktopView.optionBtn.selected = ((notePow & 1) != 0);
-    [safeDesktopView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    safePlugView = [[OptionOfPlayingView alloc]initWithTitle:@"安全插座" andIndex:1];
-    [self.view addSubview:safePlugView];
-    [safePlugView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(safeDesktopView.mas_bottom).offset(10);
-        make.size.equalTo(safeDesktopView);
-    }];
-    safePlugView.optionBtn.selected = ((notePow & 2) != 0);
-    [safePlugView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    medPackView = [[OptionOfPlayingView alloc]initWithTitle:@"急救包" andIndex:2];
-    [self.view addSubview:medPackView];
-    [medPackView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(safePlugView.mas_bottom).offset(10);
-        make.size.equalTo(safeDesktopView);
-    }];
-    medPackView.optionBtn.selected = ((notePow & 4) != 0);
-    [medPackView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    noSmokeView = [[OptionOfPlayingView alloc]initWithTitle:@"无烟" andIndex:3];
-    [self.view addSubview:noSmokeView];
-    [noSmokeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(medPackView.mas_bottom).offset(10);
-        make.size.equalTo(safeDesktopView);
-    }];
-    noSmokeView.optionBtn.selected = ((notePow & 8) != 0);
-    [noSmokeView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    fenceView = [[OptionOfPlayingView alloc]initWithTitle:@"安全护栏" andIndex:4];
-    [self.view addSubview:fenceView];
-    [fenceView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(noSmokeView.mas_bottom).offset(10);
-        make.size.equalTo(safeDesktopView);
-    }];
-    fenceView.optionBtn.selected = ((notePow & 16) != 0);
-    [fenceView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    petView = [[OptionOfPlayingView alloc]initWithTitle:@"宠物" andIndex:5];
-    [self.view addSubview:petView];
-    [petView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(fenceView.mas_bottom).offset(10);
-        make.size.equalTo(safeDesktopView);
-    }];
-    petView.optionBtn.selected = ((notePow & 32) != 0);
-    [petView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    safeFloorView = [[OptionOfPlayingView alloc]initWithTitle:@"防摔地板" andIndex:6];
-    [self.view addSubview:safeFloorView];
-    [safeFloorView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(petView.mas_bottom).offset(10);
-        make.size.equalTo(safeDesktopView);
-    }];
-    safeFloorView.optionBtn.selected = ((notePow & 64) != 0);
-    [safeFloorView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    for (int i = 0; i < options_title_capacity.count; ++i) {
+        setY = 35 * i;
+        OptionOfPlayingView *optionView = [[OptionOfPlayingView alloc]initWithTitle:[options_title_capacity objectAtIndex:i] andIndex:i];
+        [self.view addSubview:optionView];
+        [optionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view);
+            make.top.equalTo(self.view).offset(84 + setY);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
+        }];
+        optionView.optionBtn.selected = ((notePow & (long)pow(2, i)) != 0);
+        if (isShow) {
+            optionView.optionBtn.userInteractionEnabled = NO;
+        } else
+        [optionView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
     
     UILabel *customTitle = [[UILabel alloc]init];
     [self.view addSubview:customTitle];
     customTitle = [Tools setLabelWith:customTitle andText:@"自填" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
     [customTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(safeFloorView.mas_bottom).offset(10);
+        make.top.equalTo(self.view).offset(84 + setY + 45);
         make.left.equalTo(self.view).offset(20);
     }];
     
@@ -168,12 +106,25 @@
     customField.textColor = [Tools blackColor];
     customField.font = [UIFont systemFontOfSize:14.f];
     customField.backgroundColor = [UIColor whiteColor];
+    customField.layer.cornerRadius = 4.f;
+    customField.clipsToBounds = YES;
+    UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
+    paddingView.backgroundColor= [UIColor clearColor];
+    customField.leftView = paddingView;
+    customField.leftViewMode = UITextFieldViewModeAlways;
+    customField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    if (isShow) {
+        customField.enabled = NO;
+    }
     [customField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(customTitle);
         make.left.equalTo(self.view).offset(80);
-        make.right.equalTo(self.view).offset(-20);
+        make.right.equalTo(self.view).offset(-15);
+        make.height.mas_equalTo(30);
     }];
     
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -189,6 +140,8 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.backgroundColor = [UIColor whiteColor];
+    
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
@@ -199,15 +152,22 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    if (isShow) {
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+        id right = [NSNumber numberWithBool:YES];
+        [cmd_right performWithResult:&right];
+        
+    } else {
     
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+        [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
+        bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+        [cmd_right performWithResult:&bar_right_btn];
+    }
     return nil;
 }
 
@@ -222,6 +182,13 @@
 }
 
 #pragma mark -- actions
+- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
+    NSLog(@"tap esle where");
+    if ([customField isFirstResponder]) {
+        [customField resignFirstResponder];
+    }
+}
+
 -(void)didOptionBtnClick:(UIButton*)btn{
     btn.selected = !btn.selected;
     if (btn.selected) {

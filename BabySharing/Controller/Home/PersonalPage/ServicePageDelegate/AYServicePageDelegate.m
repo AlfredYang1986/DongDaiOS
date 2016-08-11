@@ -116,6 +116,10 @@
         [cell.safePolicy addTarget:self action:@selector(didSafePolicyClick:)   forControlEvents:UIControlEventTouchUpInside];
         [cell.TDPolicy  addTarget:self  action:@selector(didTDPolicyClick:)     forControlEvents:UIControlEventTouchUpInside];
         
+        //cans capacity
+        [cell.morePlayItems addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.moreSafeDevices addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
         return (UITableViewCell*)cell;
     }
     
@@ -152,6 +156,47 @@
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];
+}
+
+//更多项目展示
+- (void)didMoreOptionsBtnClick:(UIButton*)btn{
+    if (btn.tag == 110) {   //cans
+        id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
+        
+        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+            NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+            [dic_info setValue:[querydata objectForKey:@"cans"] forKey:@"option_pow"];
+            [dic_info setValue:[NSString stringWithFormat:@"%@",[querydata objectForKey:@"price"]] forKey:@"cost"];
+            [dic_info setValue:@"自填项" forKey:@"option_custom"];
+            [dic_info setValue:[NSNumber numberWithBool:YES] forKey:@"show"];
+        
+        [dic_push setValue:dic_info forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }else {                 //capacity
+        
+        id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
+        
+        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+            NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+            [dic_info setValue:[querydata objectForKey:@"capacity"] forKey:@"option_pow"];
+            [dic_info setValue:@"自填项" forKey:@"option_custom"];
+            [dic_info setValue:[NSNumber numberWithBool:YES] forKey:@"show"];
+        
+        [dic_push setValue:dic_info forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
 }
 
 //* 1/1/1 *//

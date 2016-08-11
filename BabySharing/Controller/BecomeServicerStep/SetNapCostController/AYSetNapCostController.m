@@ -37,16 +37,12 @@
     NSString *setedCostString;
     NSString *customString;
     
-    OptionOfPlayingView *readBookView;
-    OptionOfPlayingView *playYujiaView;
-    OptionOfPlayingView *makeCakeView;
-    OptionOfPlayingView *playToyView;
-    OptionOfPlayingView *drawingView;
-    
     UITextField *customField;
     
-//    NSMutableArray *optionsData;
     long notePow;
+    CGFloat setY;
+    
+    BOOL isShow;
 }
 
 #pragma mark --  commands
@@ -56,10 +52,11 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-//            optionsData = [dic_cost objectForKey:@"options"];
             setedCostString = [dic_cost objectForKey:@"cost"];
             customString = [dic_cost objectForKey:@"option_custom"];
             notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
+            isShow = ((NSNumber*)[dic_cost objectForKey:@"show"]).boolValue;
+            
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -71,16 +68,8 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    if (!optionsData) {
-//        optionsData = [[NSMutableArray alloc]initWithObjects:[NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], [NSNumber numberWithBool:NO], nil];
-//    }
-    
-    id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor clearColor];
-    [cmd_nav performWithResult:&c_nav];
     
     UILabel *title = [[UILabel alloc]init];
     [self.view addSubview:title];
@@ -100,6 +89,9 @@
     costTextField.textAlignment = NSTextAlignmentCenter;
     costTextField.backgroundColor = [UIColor whiteColor];
     costTextField.keyboardType = UIKeyboardTypeNumberPad;
+    if (isShow) {
+        costTextField.enabled = NO;
+    }
     [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(title);
         make.centerX.equalTo(title).offset(-10);
@@ -121,62 +113,29 @@
         make.top.equalTo(h1.mas_bottom).offset(6);
     }];
     
-    readBookView = [[OptionOfPlayingView alloc]initWithTitle:@"看书" andIndex:0];
-    [self.view addSubview:readBookView];
-    [readBookView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(h2.mas_bottom).offset(10);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
-    }];
-    readBookView.optionBtn.selected = ((notePow & 1) != 0);
+    NSArray *options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
     
-    [readBookView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    playYujiaView = [[OptionOfPlayingView alloc]initWithTitle:@"做瑜伽" andIndex:1];
-    [self.view addSubview:playYujiaView];
-    [playYujiaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(readBookView.mas_bottom).offset(10);
-        make.size.equalTo(readBookView);
-    }];
-    playYujiaView.optionBtn.selected = ((notePow & 2) != 0);
-    [playYujiaView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    makeCakeView = [[OptionOfPlayingView alloc]initWithTitle:@"做蛋糕" andIndex:2];
-    [self.view addSubview:makeCakeView];
-    [makeCakeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(playYujiaView.mas_bottom).offset(10);
-        make.size.equalTo(readBookView);
-    }];
-    makeCakeView.optionBtn.selected = ((notePow & 4) != 0);
-    [makeCakeView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    playToyView = [[OptionOfPlayingView alloc]initWithTitle:@"玩玩具" andIndex:3];
-    [self.view addSubview:playToyView];
-    [playToyView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(makeCakeView.mas_bottom).offset(10);
-        make.size.equalTo(readBookView);
-    }];
-    playToyView.optionBtn.selected = ((notePow & 8) != 0);
-    [playToyView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    drawingView = [[OptionOfPlayingView alloc]initWithTitle:@"画画" andIndex:4];
-    [self.view addSubview:drawingView];
-    [drawingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(playToyView.mas_bottom).offset(10);
-        make.size.equalTo(readBookView);
-    }];
-    drawingView.optionBtn.selected = ((notePow & 16) != 0);
-    [drawingView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    for (int i = 0; i < options_title_cans.count; ++i) {
+        setY = 35 * i;
+        OptionOfPlayingView *optionView = [[OptionOfPlayingView alloc]initWithTitle:[options_title_cans objectAtIndex:i] andIndex:i];
+        [self.view addSubview:optionView];
+        [optionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view);
+            make.top.equalTo(h2.mas_bottom).offset(10 + setY);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
+        }];
+        optionView.optionBtn.selected = ((notePow & (long)pow(2, i)) != 0);
+        if (isShow) {
+            optionView.optionBtn.userInteractionEnabled = NO;
+        } else
+        [optionView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
     
     UILabel *customTitle = [[UILabel alloc]init];
     [self.view addSubview:customTitle];
     customTitle = [Tools setLabelWith:customTitle andText:@"自填" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
     [customTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(drawingView.mas_bottom).offset(10);
+        make.top.equalTo(h2.mas_bottom).offset(10 + setY + 45);
         make.left.equalTo(self.view).offset(20);
     }];
     
@@ -188,17 +147,30 @@
     customField.textColor = [Tools blackColor];
     customField.font = [UIFont systemFontOfSize:14.f];
     customField.backgroundColor = [UIColor whiteColor];
+    customField.layer.cornerRadius = 4.f;
+    customField.clipsToBounds = YES;
+    UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
+    paddingView.backgroundColor= [UIColor clearColor];
+    customField.leftView = paddingView;
+    customField.leftViewMode = UITextFieldViewModeAlways;
+    customField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    if (isShow) {
+        customField.enabled = NO;
+    }
     [customField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(customTitle);
         make.left.equalTo(self.view).offset(80);
-        make.right.equalTo(self.view).offset(-20);
+        make.right.equalTo(self.view).offset(-15);
+        make.height.mas_equalTo(30);
     }];
     
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [costTextField becomeFirstResponder];
+//    [costTextField becomeFirstResponder];
 }
 
 #pragma mark -- layout
@@ -210,6 +182,8 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.backgroundColor = [UIColor whiteColor];
+    
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
@@ -220,14 +194,22 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    if (isShow) {
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+        id right = [NSNumber numberWithBool:YES];
+        [cmd_right performWithResult:&right];
+        
+    } else {
+        
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+        [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
+        bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+        [cmd_right performWithResult:&bar_right_btn];
+    }
     
     return nil;
 }
@@ -243,6 +225,16 @@
 }
 
 #pragma mark -- actions
+- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
+    NSLog(@"tap esle where");
+    if ([customField isFirstResponder]) {
+        [customField resignFirstResponder];
+    }
+    if ([costTextField isFirstResponder]) {
+        [costTextField resignFirstResponder];
+    }
+}
+
 -(void)didOptionBtnClick:(UIButton*)btn{
     btn.selected = !btn.selected;
     if (btn.selected) {
@@ -266,15 +258,6 @@
     //整合数据
     NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
     [dic_options setValue:costTextField.text forKey:@"cost"];
-//    [dic_options setValue:optionsData forKey:@"options"];
-    
-//    notePow = 0;
-//    for (int i = 0; i < optionsData.count; ++i) {
-//        if (((NSNumber*)[optionsData objectAtIndex:i]).boolValue) {
-//            notePow += pow(2, i);
-//        }
-//    }
-    
     [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
     [dic_options setValue:customField.text forKey:@"option_custom"];
     

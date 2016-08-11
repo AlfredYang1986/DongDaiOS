@@ -112,8 +112,8 @@
     fromAge = [baby_ages objectAtIndex: fromIndex];
     toAge = [baby_ages objectAtIndex: toIndex];
     
-    NSNumber *usl = [NSNumber numberWithInt:fromAge.intValue];
-    NSNumber *lsl = [NSNumber numberWithInt:toAge.intValue];
+    NSNumber *lsl = [NSNumber numberWithInt:fromAge.intValue];
+    NSNumber *usl = [NSNumber numberWithInt:toAge.intValue];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:lsl forKey:@"lsl"];

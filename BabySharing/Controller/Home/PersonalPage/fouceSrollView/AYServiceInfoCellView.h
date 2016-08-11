@@ -27,4 +27,8 @@
 @property (nonatomic, strong) UIButton *costBtn;
 @property (nonatomic, strong) UIButton *safePolicy;
 @property (nonatomic, strong) UIButton *TDPolicy;
+
+
+@property (nonatomic, strong) UIButton *morePlayItems;
+@property (nonatomic, strong) UIButton *moreSafeDevices;
 @end

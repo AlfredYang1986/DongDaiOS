@@ -106,7 +106,7 @@
     
     collectionBtn = [[UIButton alloc]init];
     [collectionBtn setImage:IMGRESOURCE(@"service_uncollection") forState:UIControlStateNormal];
-    collectionBtn.hidden = YES;
+    [collectionBtn setImage:IMGRESOURCE(@"service_collection") forState:UIControlStateSelected];
     [self.view addSubview:collectionBtn];
     [self.view bringSubviewToFront:collectionBtn];
     [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -114,18 +114,7 @@
         make.centerY.equalTo(shareBtn);
         make.size.equalTo(shareBtn);
     }];
-    [collectionBtn addTarget:self action:@selector(didUnCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    unCollectionBtn = [[UIButton alloc]init];
-    [unCollectionBtn setImage:IMGRESOURCE(@"service_collection") forState:UIControlStateNormal];
-    [self.view addSubview:unCollectionBtn];
-    [self.view bringSubviewToFront:unCollectionBtn];
-    [unCollectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(shareBtn.mas_left).offset(-20);
-        make.centerY.equalTo(shareBtn);
-        make.size.equalTo(shareBtn);
-    }];
-    [unCollectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
     bottom_view.backgroundColor = [Tools themeColor];
@@ -198,20 +187,11 @@
     }];
     
     bar_like_btn = [[UIButton alloc]init];
-    [bar_like_btn setImage:IMGRESOURCE(@"bar_like_btn") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"bar_unlike_btn") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"bar_like_btn") forState:UIControlStateSelected];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    bar_like_btn.hidden = YES;
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(speart.mas_left).offset(-23);
-        make.centerY.equalTo(bar_share_btn);
-        make.size.mas_equalTo(CGSizeMake(23.5, 20));
-    }];
-    bar_unlike_btn = [[UIButton alloc]init];
-    [bar_unlike_btn setImage:IMGRESOURCE(@"bar_unlike_btn") forState:UIControlStateNormal];
-    [bar_unlike_btn addTarget:self action:@selector(didUnCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:bar_unlike_btn];
-    [bar_unlike_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(speart.mas_left).offset(-23);
         make.centerY.equalTo(bar_share_btn);
         make.size.mas_equalTo(CGSizeMake(23.5, 20));
@@ -278,16 +258,13 @@
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
     if (offset_y > kLIMITEDSHOWNAVBAR) {
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         
-//        ((UINavigationBar*)navBar).hidden = NO;
         [UIView animateWithDuration:0.5 animations:^{
             ((UINavigationBar*)navBar).alpha = 1.f;
         }];
         
     }else {
         
-//        ((UINavigationBar*)navBar).hidden = YES;
         [UIView animateWithDuration:0.5 animations:^{
             ((UINavigationBar*)navBar).alpha = 0;
         }];
@@ -317,6 +294,14 @@
 
 - (void)didBookBtnClick:(UIButton*)btn{
 //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    NSString *user_id = [user objectForKey:@"user_id"];
+    NSString *owner_id = [service_info objectForKey:@"owner_id"];
+    if ([user_id isEqualToString:owner_id]) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return;
+    }
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -330,6 +315,15 @@
     
 }
 - (void)didChatBtnClick:(UIButton*)btn{
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    NSString *user_id = [user objectForKey:@"user_id"];
+    NSString *owner_id = [service_info objectForKey:@"owner_id"];
+    if ([user_id isEqualToString:owner_id]) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return;
+    }
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"GroupChat");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -337,13 +331,10 @@
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSDictionary* user = nil;
-    CURRENUSER(user);
-    
-    NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
-    [dic_chat setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic_chat setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-    [dic setValue:[NSNumber numberWithInt:0] forKey:@"status"];
+        NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
+        [dic_chat setValue:user_id forKey:@"user_id"];
+        [dic_chat setValue:owner_id forKey:@"owner_id"];
+        [dic setValue:[NSNumber numberWithInt:0] forKey:@"status"];
     
     [dic setValue:dic_chat forKey:kAYControllerChangeArgsKey];
     
@@ -356,38 +347,24 @@
 -(void)didShareBtnClick:(UIButton*)btn{
     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"分享 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 }
+
 -(void)didCollectionBtnClick:(UIButton*)btn{
     
-    collectionBtn.hidden = !collectionBtn.hidden;
-    unCollectionBtn.hidden = !unCollectionBtn.hidden;
-    bar_like_btn.hidden = !bar_like_btn.hidden;
-    bar_unlike_btn.hidden = !bar_unlike_btn.hidden;
+    collectionBtn.selected = !collectionBtn.selected;
+    bar_like_btn.selected = !bar_like_btn.selected;
+    if (collectionBtn.selected) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    }else {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"取消收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    }
 }
--(void)didUnCollectionBtnClick:(UIButton*)btn{
-    
-    collectionBtn.hidden = !collectionBtn.hidden;
-    unCollectionBtn.hidden = !unCollectionBtn.hidden;
-    bar_like_btn.hidden = !bar_like_btn.hidden;
-    bar_unlike_btn.hidden = !bar_unlike_btn.hidden;
-}
-
-////bar_btn
-//-(void)didBarUnlikeBtnClick:(UIButton*)btn{
-//    
-//    bar_like_btn.hidden = !bar_like_btn.hidden;
-//    bar_unlike_btn.hidden = !bar_unlike_btn.hidden;
-//}
-//-(void)didBarLikeBtnClick:(UIButton*)btn{
-//    
-//    bar_like_btn.hidden = !bar_like_btn.hidden;
-//    bar_unlike_btn.hidden = !bar_unlike_btn.hidden;
-//}
 
 - (UIStatusBarStyle)preferredStatusBarStyle{
     if (offset_y > kLIMITEDSHOWNAVBAR) {
         return UIStatusBarStyleDefault;
     }else return UIStatusBarStyleLightContent;
 }
+
 //-(BOOL)prefersStatusBarHidden{
 //    return YES;
 //}

@@ -32,6 +32,8 @@
 @end
 
 @implementation AYServiceInfoCellView{
+    
+    UILabel *MMLabel;
     UILabel *aboutMMIntru;
     UILabel *aboutMMDesc;
     UITextView *aboutMMIntruText;
@@ -105,7 +107,7 @@
             make.size.mas_equalTo(CGSizeMake(60, 60));
         }];
         
-        UILabel *MMLabel = [[UILabel alloc]init];
+        MMLabel = [[UILabel alloc]init];
         MMLabel = [Tools setLabelWith:MMLabel andText:@"看护妈妈：" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:MMLabel];
         [MMLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -193,10 +195,12 @@
             make.left.equalTo(_titleLabel);
             make.size.mas_equalTo(CGSizeMake(WIDTH, 100));
         }];
-        UIButton *morePlayItems = [[UIButton alloc]init];
-        [morePlayItems setImage:IMGRESOURCE(@"chan_group_back") forState:UIControlStateNormal];
-        [playItems addSubview:morePlayItems];
-        [morePlayItems mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        _morePlayItems = [[UIButton alloc]init];
+        [_morePlayItems setImage:IMGRESOURCE(@"chan_group_back") forState:UIControlStateNormal];
+        _morePlayItems.tag = 110;
+        [playItems addSubview:_morePlayItems];
+        [_morePlayItems mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(playItems);
             make.right.equalTo(playItems);
             make.size.mas_equalTo(CGSizeMake(22, 22));
@@ -266,7 +270,6 @@
         contextlabel.text = @"";
         contextlabel.textColor = [Tools blackColor];
         contextlabel.font = [UIFont systemFontOfSize:14.f];
-        
         contextlabel.numberOfLines = 2.f;
         [self addSubview:contextlabel];
         [contextlabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -293,10 +296,11 @@
             make.left.equalTo(_titleLabel);
             make.size.mas_equalTo(CGSizeMake(WIDTH, 100));
         }];
-        UIButton *moreSafeDevices = [[UIButton alloc]init];
-        [moreSafeDevices setImage:IMGRESOURCE(@"chan_group_back") forState:UIControlStateNormal];
-        [safeDevices addSubview:moreSafeDevices];
-        [moreSafeDevices mas_makeConstraints:^(MASConstraintMaker *make) {
+        _moreSafeDevices = [[UIButton alloc]init];
+        [_moreSafeDevices setImage:IMGRESOURCE(@"chan_group_back") forState:UIControlStateNormal];
+        _moreSafeDevices.tag = 111;
+        [safeDevices addSubview:_moreSafeDevices];
+        [_moreSafeDevices mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(safeDevices);
             make.right.equalTo(safeDevices);
             make.size.mas_equalTo(CGSizeMake(22, 22));
@@ -368,7 +372,6 @@
 -(void)setService_info:(NSDictionary *)service_info{
     _service_info = service_info;
     self.titleLabel.text = [_service_info objectForKey:@"title"];
-    //        aboutMMIntru.text = [_service_info objectForKey:@"description"];
     
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
@@ -376,10 +379,6 @@
     /** 行高 */
     paraStyle.lineSpacing = 8;
     paraStyle.hyphenationFactor = 1.0;
-    paraStyle.firstLineHeadIndent = 0.0;
-    paraStyle.paragraphSpacingBefore = 0.0;
-    paraStyle.headIndent = 0;
-    paraStyle.tailIndent = 0;
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
     
     if (_takeOffMore.hidden) {
@@ -388,11 +387,33 @@
             desc = [desc substringToIndex:60];
             desc = [desc stringByAppendingString:@"..."];
         }
-        
         NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
         aboutMMIntru.attributedText = descAttri;
-        
     }
+    
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:[_service_info objectForKey:@"owner_id"] forKey:@"user_id"];
+    
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            MMLabel.text = [result objectForKey:@"screen_name"];
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
+            [dic setValue:@"img_icon" forKey:@"expect_size"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                if (img != nil) {
+                    [_photoImageView setImage:img];
+                } else
+                    _photoImageView.image = IMGRESOURCE(@"lol");
+            }];
+        }
+    }];
     
     NSString *contentString = [_service_info objectForKey:@"description"];
     if (contentString.length > 46) {
@@ -463,10 +484,6 @@
     /** 行高 */
     paraStyle.lineSpacing = 8;
     paraStyle.hyphenationFactor = 1.0;
-    paraStyle.firstLineHeadIndent = 0.0;
-    paraStyle.paragraphSpacingBefore = 0.0;
-    paraStyle.headIndent = 0;
-    paraStyle.tailIndent = 0;
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
     NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
     aboutMMIntru.attributedText = descAttri;
@@ -477,6 +494,21 @@
     _readMore.hidden = NO;
     _takeOffMore.hidden = YES;
     aboutMMIntru.numberOfLines = 3.f;
+    NSString *desc = [_service_info objectForKey:@"description"];
+    if (desc.length > 60) {
+        desc = [desc substringToIndex:60];
+        desc = [desc stringByAppendingString:@"..."];
+    }
+    
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paraStyle.alignment = NSTextAlignmentLeft;
+    /** 行高 */
+    paraStyle.lineSpacing = 8;
+    paraStyle.hyphenationFactor = 1.0;
+    NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
+    NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
+    aboutMMIntru.attributedText = descAttri;
 }
 @end
 /********* ********/

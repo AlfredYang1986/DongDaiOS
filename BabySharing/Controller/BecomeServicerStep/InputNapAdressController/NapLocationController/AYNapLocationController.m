@@ -63,7 +63,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
@@ -142,6 +142,7 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 10+64, SCREEN_WIDTH, SCREEN_HEIGHT - 74);
+    view.backgroundColor = [UIColor whiteColor];
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;

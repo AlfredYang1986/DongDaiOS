@@ -88,13 +88,8 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor clearColor];
-    [cmd_nav performWithResult:&c_nav];
     
     UIView *headbg = [[UIView alloc]init];
     [self.view addSubview:headbg];
@@ -202,6 +197,8 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    view.backgroundColor = [UIColor whiteColor];
+    
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
