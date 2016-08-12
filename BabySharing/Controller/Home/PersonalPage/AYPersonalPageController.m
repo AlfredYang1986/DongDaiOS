@@ -201,10 +201,10 @@
     statusBar.backgroundColor = [UIColor whiteColor];
     [view addSubview:statusBar];
     
-    CALayer* line05 = [CALayer layer];
-    line05.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.f].CGColor;
-    line05.frame = CGRectMake(0, 54, SCREEN_WIDTH, 1);
-    [view.layer addSublayer:line05];
+    CALayer* line = [CALayer layer];
+    line.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.f].CGColor;
+    line.frame = CGRectMake(0, 54, SCREEN_WIDTH, 1);
+    [view.layer addSublayer:line];
     return nil;
 }
 

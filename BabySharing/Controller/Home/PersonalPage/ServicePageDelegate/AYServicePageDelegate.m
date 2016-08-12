@@ -62,12 +62,10 @@
 - (id)changeQueryData:(NSDictionary*)args{
     querydata = args;
     
-    NSMutableArray *tmp = [NSMutableArray array];
     NSArray *images = [querydata objectForKey:@"images"];
-    
-    
-//    NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
-    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
+    NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
+//    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
+    NSMutableArray *tmp = [NSMutableArray array];
     for (int i = 0; i < images.count; ++i) {
         NSString *obj = images[i];
         obj = [PRE stringByAppendingString:obj];
@@ -109,6 +107,10 @@
             cell.service_info = querydata;
         }
         
+        //ones profile
+        cell.photoImageView.userInteractionEnabled = YES;
+        [cell.photoImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onesPhotoIconTap:)]];
+        
         [cell.chatBtn   addTarget:self  action:@selector(didChatBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
         [cell.dailyBtn  addTarget:self  action:@selector(didDailyBtnClick:)     forControlEvents:UIControlEventTouchUpInside];
         [cell.showMore  addTarget:self  action:@selector(didShowMoreClick:)     forControlEvents:UIControlEventTouchUpInside];
@@ -146,6 +148,21 @@
 }
 
 #pragma mark -- actions
+- (void)onesPhotoIconTap:(UITapGestureRecognizer*)tap {
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[querydata objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+
+
 -(void)didShowMoreClick:(UIButton*)btn{
     id<AYCommand> des = DEFAULTCONTROLLER(@"ContentList");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

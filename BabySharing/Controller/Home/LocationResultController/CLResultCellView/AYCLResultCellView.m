@@ -63,11 +63,8 @@
     _ownerIconImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _ownerIconImage.layer.borderWidth = 2.f;
     
-//    CALayer *line_separator = [CALayer layer];
-//    line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25f].CGColor;
-//    line_separator.borderWidth = 1.f;
-//    line_separator.frame = CGRectMake(0, 289, self.bounds.size.width, 1);
-//    [self.layer addSublayer:line_separator];
+    _ownerIconImage.userInteractionEnabled = YES;
+    [_ownerIconImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
     
     [self setUpReuseCell];
 }
@@ -85,8 +82,8 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-//    id<AYViewBase> cell = VIEW(@"CLResultCell", @"CLResultCell");
-    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
+    id<AYViewBase> cell = VIEW(@"CLResultCell", @"CLResultCell");
+//    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -201,6 +198,13 @@
 }
 
 #pragma mark -- actions
+- (void)ownerIconTap:(UITapGestureRecognizer*)tap{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"ownerIconTap:"];
+    NSString *info = [cellInfo objectForKey:@"owner_id"];
+    [cmd performWithResult:&info];
+}
+
+
 - (IBAction)didLikeBtnClick:(id)sender {
     
     _likeBtn.hidden = YES;

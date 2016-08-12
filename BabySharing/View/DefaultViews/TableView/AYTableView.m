@@ -19,6 +19,12 @@
 @synthesize notifies = _notiyies;
 
 #pragma mark -- commands
+//- (instancetype)initWithFrame:(CGRect)frame {
+//    self = [super initWithFrame:frame style:UITableViewStyleGrouped];
+//    
+//    return self;
+//}
+
 - (void)postPerform {
     
 }

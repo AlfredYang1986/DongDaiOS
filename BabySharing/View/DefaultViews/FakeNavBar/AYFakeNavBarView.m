@@ -10,6 +10,7 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "Masonry.h"
+#import "Tools.h"
 
 @implementation AYFakeNavBarView {
     UIButton* leftBtn;
@@ -59,6 +60,7 @@
             make.height.equalTo(@30);
         }];
     }
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -80,6 +82,12 @@
 - (void)layoutSubviews {
     leftBtn.center = CGPointMake(leftBtn.center.x, self.frame.size.height / 2);
     rightBtn.center = CGPointMake(rightBtn.center.x, self.frame.size.height / 2);
+    
+    
+    CALayer* line = [CALayer layer];
+    line.frame = CGRectMake(0, self.frame.size.height - 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
+    line.backgroundColor = [Tools garyColor].CGColor;
+    [self.layer addSublayer:line];
 }
 
 #pragma mark -- 
@@ -112,15 +120,15 @@
 - (id)setRightBtnImg:(id)args {
 
     UIImage* img = (UIImage*)args;
-    
     for (CALayer* layer in rightBtn.layer.sublayers) {
         [layer removeFromSuperlayer];
     }
-
-    CALayer * layer = [CALayer layer];
-    layer.contents = (id)img.CGImage;
-    layer.frame = CGRectMake(0, 0, 25, 25);
-    [rightBtn.layer addSublayer:layer];
+    [rightBtn setImage:img forState:UIControlStateNormal];
+//
+//    CALayer * layer = [CALayer layer];
+//    layer.contents = (id)img.CGImage;
+//    layer.frame = CGRectMake(0, 0, 25, 25);
+//    [rightBtn.layer addSublayer:layer];
     return nil;
 }
 

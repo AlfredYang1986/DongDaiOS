@@ -233,14 +233,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 }
 
 #pragma mark -- notifies
-- (id)startRemoteCall:(id)obj {
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    return nil;
-}
-
 - (id)crimeReport:(NSString*)postid{
     notePostId = postid;
     if (!cover) {

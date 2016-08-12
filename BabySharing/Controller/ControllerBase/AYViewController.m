@@ -19,7 +19,11 @@
 #import "AYModel.h"
 #import "AYFactoryManager.h"
 
-@implementation AYViewController
+@implementation AYViewController{
+    int count_loading;
+}
+
+
 @synthesize para = _para;
 
 @synthesize commands = _commands;
@@ -140,19 +144,25 @@
 }
 
 - (id)startRemoteCall:(id)obj {
-    _loading = VIEW(@"Loading", @"Loading");
-    ((UIView*)_loading).backgroundColor = [UIColor redColor];
-    ((UIView*)_loading).userInteractionEnabled = NO;
-    
-    [self.view addSubview:((UIView*)_loading)];
-    
-    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-    [cmd performWithResult:nil];
+    count_loading ++;
+    if (!_loading) {
+        _loading = VIEW(@"Loading", @"Loading");
+        ((UIView*)_loading).backgroundColor = [UIColor redColor];
+        ((UIView*)_loading).userInteractionEnabled = NO;
+        
+        [self.view addSubview:((UIView*)_loading)];
+        
+        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
+        [cmd performWithResult:nil];
+    }
     return nil;
 }
 
 - (id)endRemoteCall:(id)obj {
-    [((UIView*)_loading) removeFromSuperview];
+    count_loading --;
+    if (count_loading == 0) {
+        [((UIView*)_loading) removeFromSuperview];
+    }
     return nil;
 }
 @end

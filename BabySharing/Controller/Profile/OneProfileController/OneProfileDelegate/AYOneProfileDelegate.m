@@ -1,12 +1,12 @@
 //
-//  AYProfileDelegate.m
+//  AYOneProfileDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 6/7/16.
+//  Created by Alfred Yang on 11/8/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYProfileDelegate.h"
+#import "AYOneProfileDelegate.h"
 #import "AYNotificationCellDefines.h"
 #import "AYFactoryManager.h"
 #import "AYProfileHeadCellView.h"
@@ -22,11 +22,11 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-@interface AYProfileDelegate ()
+@interface AYOneProfileDelegate ()
 @property (nonatomic, strong) NSDictionary* querydata;
 @end
 
-@implementation AYProfileDelegate{
+@implementation AYOneProfileDelegate{
     NSArray *origs;
     NSArray *servs;
     
@@ -164,11 +164,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        [self infoSetting];             // 个人信息设置
+        return;
     } else if (indexPath.section == 1){
         if (indexPath.row == 0) {
             [self regServiceObj];       // 切换服务对象
-//            [self becomeServicer];      // 成为接单妈妈
+            //            [self becomeServicer];      // 成为接单妈妈
         }else if (indexPath.row == 1){  // 心仪的服务
             [self collectService];
         }else {                         // 系统设置

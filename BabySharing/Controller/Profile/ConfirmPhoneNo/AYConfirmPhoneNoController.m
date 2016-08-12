@@ -272,11 +272,4 @@
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    return nil;
-}
 @end

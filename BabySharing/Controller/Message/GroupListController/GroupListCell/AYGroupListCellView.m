@@ -218,16 +218,19 @@
     
     EMMessage *last_message = sation.latestMessage;
     
+    if (last_message.isRead) {
+        _iconImage.hidden = YES;
+    } else {
+        _iconImage.hidden = NO;
+    }
+    
     NSString *user_id = nil;
     if (last_message.direction == 0) {
         user_id = last_message.to;
-        NSLog(@"%@",user_id);
-        
     } else {
         user_id = last_message.from;
-        NSLog(@"%@",user_id);
-        
     }
+    NSLog(@"%@",user_id);
     
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
@@ -253,9 +256,16 @@
         
     }];
     
-   _chatLabel.text = ((EMTextMessageBody*)last_message.body).text;
+    _chatLabel.text = ((EMTextMessageBody*)last_message.body).text;
+    
+    [self setContentDate:last_message.timestamp];
     
     return nil;
+}
+
+- (void)setContentDate:(NSTimeInterval)date {
+    NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:date*0.001];
+    _timeLabel.text = [Tools compareCurrentTime:date2];
 }
 
 @end

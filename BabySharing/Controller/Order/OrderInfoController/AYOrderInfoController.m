@@ -322,14 +322,6 @@
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    return nil;
-}
-
 -(BOOL)isActive{
     UIViewController * tmp = [Tools activityViewController];
     return tmp == self;

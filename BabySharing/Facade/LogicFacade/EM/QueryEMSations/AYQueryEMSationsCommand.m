@@ -32,14 +32,12 @@
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
     
     NSMutableArray *tmp = [conversations mutableCopy];
-    for (EMConversation *sation in tmp) {
+    for (EMConversation *sation in conversations) {
         EMMessage *message = sation.latestMessage;
         if (message == nil) {
             [tmp removeObject:sation];
         }
     }
-    
-    
     
 //    NSString *from = message.from;
 //    NSString *to = message.to;

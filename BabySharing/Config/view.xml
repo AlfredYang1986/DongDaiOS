@@ -325,6 +325,17 @@
         <command type="notify" message="queryIsGridSelected:" />
     </view>
     
+    <view type="CLResultCell" name="CLResultCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="message" message="setUpItems:" />
+        <command type="message" message="selectAtIndex:" />
+        <command type="message" message="unSelectAtIndex:" />
+        <command type="message" message="queryCellHeight" />
+        <command type="message" message="queryCurrentGridViewByIndex:" />
+        <command type="notify" message="ownerIconTap:" />
+        <command type="notify" message="queryIsGridSelected:" />
+    </view>
+    
     <view type="UserTableCell" name="UserTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight" />

@@ -77,7 +77,6 @@
     line_friend_up.hidden = YES;
     [self.view.layer addSublayer:line_friend_up];
     
-    
     {
         id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
         id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrder"];
@@ -184,27 +183,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-//    [self.navigationItem setHidesBackButton:YES];
-//
-//    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
-//    [self.navigationController.navigationBar addSubview:seg];
-//    
-//    UIView* btn = [self.views objectForKey:@"AddFriends"];
-//    [self.navigationController.navigationBar addSubview:btn];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-//    UIView* seg = [self.views objectForKey:@"DongDaSeg"];
-//    [seg removeFromSuperview];
-//    UIView* btn = [self.views objectForKey:@"AddFriends"];
-//    [btn removeFromSuperview];
 }
 
 #pragma mark -- layout commands
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -228,15 +215,12 @@
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
-    
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    CGFloat offset_x = 0;
-    CGFloat offset_y = 74;
     
-    view.frame = CGRectMake(offset_x, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
+    view.frame = CGRectMake(0, 74, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -244,9 +228,8 @@
 }
 
 - (id)Table2Layout:(UIView*)view {
-    CGFloat offset_y = 74;
     
-    view.frame = CGRectMake(SCREEN_WIDTH, offset_y, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
+    view.frame = CGRectMake(SCREEN_WIDTH, 74, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -323,7 +306,7 @@
     return nil;
 }
 
-- (id)updateReadState:(NSDictionary*)args{
+- (id)updateReadState:(NSDictionary*)args {
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderRead"];
     
@@ -352,47 +335,6 @@
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-    
-    NSString* method = (NSString*)obj;
-    if ([method containsString:@"QueryMultipleUsers"]
-        || [method containsString:@"QueryFriends"]
-        || [method containsString:@"QueryFollowing"]
-        || [method containsString:@"QueryFollowed"]) {
-        
-        if (![method containsString:@"QueryMultipleUsers"]) {
-            UIView* loading_view = [self.views objectForKey:@"Loading"];
-            loading_view.hidden = YES;
-            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
-        }
-        
-    } else {
-        return [super startRemoteCall:obj];
-    }
-    
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    
-    NSString* method = (NSString*)obj;
-    if ([method containsString:@"QueryMultipleUsers"]
-        || [method containsString:@"QueryFriends"]
-        || [method containsString:@"QueryFollowing"]
-        || [method containsString:@"QueryFollowed"]) {
-        
-        if ([method containsString:@"QueryMultipleUsers"]) {
-            UIView* loading_view = [self.views objectForKey:@"Loading"];
-            loading_view.hidden = YES;
-            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
-        }
-        
-    } else {
-        return [super endRemoteCall:obj];
-    }
-    
-    return nil;
-}
 //michauxs:scrollToHideKeyBoard
 - (id)scrollToHideKeyBoard {
     return nil;

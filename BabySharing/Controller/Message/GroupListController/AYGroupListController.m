@@ -34,6 +34,10 @@
     CALayer *scaleMaskLayer;
     
     UIViewController* homeVC;
+    
+    NSArray *conversations;
+    
+    UIView *view_loading;
 }
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -83,13 +87,6 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYGroupListCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
     }
-    
-    {
-        UIView* view_loading = [self.views objectForKey:@"Loading"];
-        [self.view bringSubviewToFront:view_loading];
-        view_loading.hidden = YES;
-    }
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -100,24 +97,32 @@
 - (void)viewDidAppear:(BOOL)animated {//todo: 聊天列表
     [super viewDidAppear:animated];
     
-    id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
-    id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMSations"];
-    
-    NSDictionary *info = nil;
-    CURRENUSER(info)
-    
-    id brige = [info objectForKey:@"user_id"];
-    NSLog(@"michauxs -- %@", (NSArray*)brige);
-    
-    [cmd performWithResult:&brige];
-    
-    id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
-    id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
-    [cmd_change performWithResult:&brige];
-
-    id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
-    [cmd_refresh performWithResult:nil];
+    if (!conversations) {
+        
+        id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
+        id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMSations"];
+        
+        NSDictionary *info = nil;
+        CURRENUSER(info)
+        
+        id brige = [info objectForKey:@"user_id"];
+        NSLog(@"michauxs -- %@", (NSArray*)brige);
+        
+        conversations = [(NSArray*)brige mutableCopy];
+        //    NSArray *sastions = [(NSArray*)brige copy];
+        
+        [cmd performWithResult:&brige];
+        
+        id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
+        id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+        [cmd_change performWithResult:&brige];
+        
+        id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+        id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
+        [cmd_refresh performWithResult:nil];
+        
+        brige = nil;
+    }
     
 //    {
 //        id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
@@ -178,9 +183,8 @@
     [cmd_right_vis performWithResult:&right_hidden];
     
     CALayer* line = [CALayer layer];
-    line.borderWidth = 1.f;
-    line.borderColor = [Tools garyColor].CGColor;
     line.frame = CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5);
+    line.backgroundColor = [Tools garyColor].CGColor;
     [view.layer addSublayer:line];
     return nil;
 }
@@ -203,32 +207,46 @@
     return nil;
 }
 
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
-}
-
 #pragma mark -- notifies
-- (id)startRemoteCall:(id)obj {
-//    _loading = VIEW(@"Loading", @"Loading");
-//    ((UIView*)_loading).backgroundColor = [UIColor redColor];
-//    ((UIView*)_loading).userInteractionEnabled = NO;
-//    
-//    [self.view addSubview:((UIView*)_loading)];
+- (id)scrollToRefresh{
     
-    id<AYViewBase> view_loading = [self.views objectForKey:@"Loading"];
-    ((UIView*)view_loading).hidden = NO;
-    id<AYCommand> cmd = [view_loading.commands objectForKey:@"startGif"];
-    [cmd performWithResult:nil];
+    id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
+    id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMSations"];
+    
+    NSDictionary *info = nil;
+    CURRENUSER(info)
+    
+    id brige = [info objectForKey:@"user_id"];
+    NSLog(@"michauxs -- %@", (NSArray*)brige);
+    
+    conversations = [(NSArray*)brige mutableCopy];
+    //    NSArray *sastions = [(NSArray*)brige copy];
+    
+    [cmd performWithResult:&brige];
+    
+    id<AYDelegateBase> del = [self.delegates objectForKey:@"JoinedGroupList"];
+    id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
+    [cmd_change performWithResult:&brige];
+    
+    id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
+    [cmd_refresh performWithResult:nil];
+    
     return nil;
 }
 
-- (id)endRemoteCall:(id)obj {
-//    [((UIView*)_loading) removeFromSuperview];
-    UIView* view_loading = [self.views objectForKey:@"Loading"];
-    view_loading.hidden = YES;
+
+//- (id)startRemoteCall:(id)obj {
+//    id<AYViewBase> loading = VIEW(@"Loading", @"Loading");
+//    view_loading = (UIView*)loading;
+//    [self.view addSubview:view_loading];
+//    id<AYCommand> cmd = [loading.commands objectForKey:@"startGif"];
+//    [cmd performWithResult:nil];
+//    return nil;
+//}
+//
+//- (id)endRemoteCall:(id)obj {
 //    [view_loading removeFromSuperview];
-    
-    return nil;
-}
+//    return nil;
+//}
 @end

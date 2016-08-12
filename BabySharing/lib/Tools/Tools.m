@@ -244,7 +244,7 @@
         result = [NSString stringWithFormat:@"刚刚"];
     }
     else if((temp = timeInterval/60) <60){
-        result = [NSString stringWithFormat:@"%ld分前",temp];
+        result = [NSString stringWithFormat:@"%ld分钟前",temp];
     }
     
     else if((temp = temp/60) <24){

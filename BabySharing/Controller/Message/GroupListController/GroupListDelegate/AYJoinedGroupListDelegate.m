@@ -86,7 +86,7 @@
         if ([tableView numberOfRowsInSection:section] == 0) {
             label.text = @"暂无消息:)";
         } else {
-            label.text = @"最近关注的:";
+            label.text = @"近期沟通:";
         }
     } else {
         label.text = @"猜你喜欢";
@@ -110,7 +110,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return querydata.count == 0 ? 46 : 0;
+    return 46;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -126,6 +126,8 @@
     
     EMConversation* tmp = [querydata objectAtIndex:indexPath.row];
     NSLog(@"michauxs--%@",tmp);
+    
+    [tmp markAllMessagesAsRead];
     
     EMMessage *last_message = tmp.latestMessage;
     
@@ -154,9 +156,24 @@
     [_controller performWithResult:&dic_push];
 }
 
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    CGFloat off_y = fabs(scrollView.contentOffset.y);
+//    if (off_y > 20) {
+//        
+//    }
+//}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    CGFloat off_y = fabs(scrollView.contentOffset.y);
+    if (off_y > 30) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToRefresh"];
+        [cmd performWithResult:nil];
+    }
+}
+
 #pragma mark -- messages
 - (id)changeQueryData:(id)args {
-    querydata = (NSArray*)args;
+    querydata = [(NSArray*)args mutableCopy];
     return nil;
 }
 @end

@@ -58,11 +58,6 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor clearColor];
-    [cmd_nav performWithResult:&c_nav];
-    
     inputTitleTextView = [[UITextView alloc]init];
     [self.view addSubview:inputTitleTextView];
     if (setedTitleString) {

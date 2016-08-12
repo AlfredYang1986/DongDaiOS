@@ -70,6 +70,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="addressLabel" destination="9IH-we-kqR" id="epu-dw-g3V"/>
+                <outlet property="allowEditIcon" destination="xr0-z9-YQb" id="aH8-9X-57Q"/>
                 <outlet property="bobyLabel" destination="A6P-0R-HOw" id="RNG-3Y-XBF"/>
                 <outlet property="rigistimeLabel" destination="CpZ-zI-dvb" id="fGk-sZ-Gsb"/>
                 <outlet property="user_name" destination="8m1-Jb-gtl" id="TE8-S9-N0A"/>

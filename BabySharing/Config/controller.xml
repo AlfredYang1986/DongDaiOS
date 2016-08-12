@@ -184,6 +184,22 @@
         <delegate type="TableViewDelegateAndDatasource" name="Profile" />
     </controller>
     
+    <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" />
+        <facade type="DefaultFacade" name="ContentQueryRemote" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
+        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="Table"              name="Table" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="OneProfile" />
+    </controller>
+    
+    
     <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
         
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
@@ -303,7 +319,7 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Table"          name="Table" />
-        <view type="Loading"        name="Loading" />
+<!--        <view type="Loading"        name="Loading" />-->
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />

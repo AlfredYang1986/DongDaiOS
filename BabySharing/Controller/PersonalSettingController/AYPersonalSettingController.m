@@ -69,7 +69,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     change_profile_dic = [[NSMutableDictionary alloc]init];
     
     user_photo = [[UIImageView alloc]init];

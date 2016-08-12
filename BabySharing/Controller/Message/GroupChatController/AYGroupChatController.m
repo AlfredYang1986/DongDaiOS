@@ -199,7 +199,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     line.frame = CGRectMake(0, 44 - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
     [view.layer addSublayer:line];
-    
     return nil;
 }
 
@@ -232,11 +231,10 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     view.frame = CGRectMake(0, 64+60, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;  // 去除自带分割线
-    
+    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
     //预设高度
     ((UITableView*)view).estimatedRowHeight = 90;
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
-    
     return nil;
 }
 
@@ -349,17 +347,17 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 #pragma mark -- get input view height
 - (void)KeyboardShowKeyboard:(id)args {
+    
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
     [UIView animateWithDuration:0.3f animations:^{
-        self.view.center = CGPointMake(self.view.center.x, height / 2 - step.floatValue);
+        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
     }];
 }
 
 - (void)KeyboardHideKeyboard:(id)args {
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    
     [UIView animateWithDuration:0.3f animations:^{
-        self.view.center = CGPointMake(self.view.center.x, height / 2);
+        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2);
     }];
 }
 
@@ -370,24 +368,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- block user interaction
-- (id)startRemoteCall:(id)obj {
-    
-    NSString* method = (NSString*)obj;
-    if (![method isEqualToString:@"AYQueryUserProfileCommand"]) {
-        UIView* loading = [self.views objectForKey:@"Loading"];
-        if (loading.hidden == YES) {
-            loading.hidden = NO;
-            
-            id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"startGif"];
-            [cmd performWithResult:nil];
-        }   
-    }
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    return nil;
-}
 
 #pragma mark -- query user info
 - (void)waitForControllerReady {
@@ -455,7 +435,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- create chat
-
 - (void)createChat {
     
     id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
@@ -468,11 +447,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (void)queryEMMessages {
     id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
     id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMMessages"];
-    id brige = owner_id;
+    id brige_id_message = owner_id;
     
-    [cmd performWithResult:&brige];
+    [cmd performWithResult:&brige_id_message];
     
-    current_messages = [(NSArray*)brige mutableCopy];
+    current_messages = [(NSArray*)brige_id_message mutableCopy];
     NSLog(@"michauxs -- %@", current_messages);
     
     if (current_messages.count == 0 && chat_state == 0) {

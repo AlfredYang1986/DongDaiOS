@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
-#import "Masonry.h"
 
 @interface AYProfileController : AYViewController
 

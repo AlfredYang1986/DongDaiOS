@@ -77,7 +77,7 @@
         _friendsImage.hidden = YES;
         
         costLabel = [[UILabel alloc]init];
-        costLabel = [Tools setLabelWith:costLabel andText:[NSString stringWithFormat:@"¥ %.1f／小时",80.f] andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
+        costLabel = [Tools setLabelWith:costLabel andText:[NSString stringWithFormat:@"¥ %.f／小时",80.f] andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:costLabel];
         [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self);

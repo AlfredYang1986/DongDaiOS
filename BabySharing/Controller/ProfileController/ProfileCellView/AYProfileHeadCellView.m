@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
 @property (weak, nonatomic) IBOutlet UILabel *bobyLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rigistimeLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *allowEditIcon;
 
 @end
 
@@ -121,6 +122,12 @@
     
     _user_name.text = [args objectForKey:@"screen_name"];
     _addressLabel.text = [args objectForKey:@"role_tag"];
+    
+    NSDictionary *info = nil;
+    CURRENUSER(info)
+    if ([[args objectForKey:@"user_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
+        _allowEditIcon.hidden = NO;
+    }else _allowEditIcon.hidden = YES;
     
     return nil;
 }
