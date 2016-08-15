@@ -62,7 +62,6 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-
 }
 
 - (void)setDic_info:(NSDictionary *)dic_info{

@@ -53,7 +53,13 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-    if (_isLast) {
+}
+
+- (void)setDic_info:(NSDictionary *)dic_info{
+    _dic_info = dic_info;
+    
+    _titleLabel.text = [dic_info objectForKey:@"title"];
+    if (((NSNumber*)[dic_info objectForKey:@"isLast"]).boolValue) {
         _bottom_line.hidden = YES;
     }
 }

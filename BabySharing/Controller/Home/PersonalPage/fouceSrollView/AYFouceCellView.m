@@ -91,7 +91,7 @@
 -(void)setCell_info:(NSDictionary *)cell_info {
     _cell_info = cell_info;
     cycleScrollView.imageURLStringsGroup = [_cell_info objectForKey:@"images"];
-    costLabel.text = [NSString stringWithFormat:@"¥ %.1f／小时",((NSString*)[_cell_info objectForKey:@"price"]).floatValue];
+    costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[_cell_info objectForKey:@"price"]).floatValue];
 }
 
 -(void)setImageNameArr:(NSArray *)imageNameArr{

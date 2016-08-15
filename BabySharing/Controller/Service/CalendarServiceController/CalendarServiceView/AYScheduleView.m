@@ -23,31 +23,20 @@
 
 @interface AYScheduleView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property(nonatomic,assign) int year;
-@property(nonatomic,assign) int searchYear;
 @property(nonatomic,assign) int month;
-@property(nonatomic,assign) int searchMonth;
 @property(nonatomic,assign) int day;
-@property(nonatomic,assign) int searchDay;
-@property(nonatomic,assign) int daysOfMonth;
-@property(nonatomic,assign) int searchDaysOfMonth;
 
-@property (nonatomic, assign) CGFloat cellWidth;
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UICollectionView *calendarContentView;
-@property (nonatomic, strong) UIView *planDateView;
-@property (nonatomic, strong) UIView *chilrenNumbView;
-@property (nonatomic, strong) UIButton *moreFilterBtn;
 
-@property(nonatomic,copy) NSMutableArray *registerArr;
+//@property(nonatomic,copy) NSMutableArray *registerArr;
 
 /** 公历某个月的天数 */
 @property (nonatomic, assign) NSInteger monthNumber;
 /** 某天是星期几 */
 @property (nonatomic, assign) NSInteger dayOfWeek;
-
 /** 月日，星期几 */
 @property (nonatomic, strong) NSMutableArray *monthNumberAndWeek;
-
 /** 处理时间的方法 */
 @property (nonatomic, strong) AYCalendarDate *useTime;
 @end
@@ -73,13 +62,14 @@
     UIView *certainView;
     UILabel *certainDate;
     UIButton *resetBtn;
+    
+    NSString *ability_dateString;
+    
+    long noteTest;
 }
 
 @synthesize headerView = _headerView;
 @synthesize calendarContentView = _calendarContentView;
-@synthesize planDateView = _planDateView;
-@synthesize chilrenNumbView = _chilrenNumbView;
-@synthesize moreFilterBtn = _moreFilterBtn;
 
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -91,13 +81,6 @@
         _useTime = [[AYCalendarDate alloc]init];
     }
     return _useTime;
-}
-
--(NSMutableArray*)registerArr{
-    if (!_registerArr) {
-        _registerArr=[[NSMutableArray alloc]init];
-    }
-    return _registerArr;
 }
 
 #pragma mark -- life cycle
@@ -153,10 +136,12 @@
 - (void)didResetBtnClick {
 //    [_calendarContentView deselectItemAtIndexPath:@[] animated:YES];
     for (int i = 0; i < selectedItemArray.count; ++i) {
-        [_calendarContentView deselectItemAtIndexPath:[selectedItemArray objectAtIndex:i] animated:YES];
+        [_calendarContentView deselectItemAtIndexPath:[selectedItemArray objectAtIndex:i] animated:NO];
     }
     
     [selectedItemArray removeAllObjects];
+    [timeSpanArray removeAllObjects];
+    abilityDate.text = @"暂未选择日程";
     tips.hidden = NO;
     dateOptionView.center = CGPointMake(SCREEN_WIDTH * 1.5, dateOptionView.center.y);
     
@@ -277,7 +262,7 @@
     
     tips = [[UILabel alloc]init];
     [self addSubview:tips];
-    tips = [Tools setLabelWith:tips andText:@"点击日起\n选择妈妈可以看护宝宝的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:@"点击日期📅\n选择妈妈可以看护宝宝的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     tips.numberOfLines =2;
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_calendarContentView.mas_bottom).offset(80);
@@ -464,7 +449,7 @@
 
 //设置header的高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return (CGSize){WIDTH, (WIDTH - 30)/7};
+    return (CGSize){WIDTH, (WIDTH - 30) / COLLECTIONROWNUMB};
 }
 
 //cell点击
@@ -478,45 +463,42 @@
     dateOptionView.center = CGPointMake(SCREEN_WIDTH * 0.5, dateOptionView.center.y);
     
     long time_p = cell.timeSpan;
-    NSDate *itemDate = [NSDate dateWithTimeIntervalSince1970:time_p];
-    NSDateFormatter *unformat = [[NSDateFormatter alloc] init];
-    [unformat setDateFormat:@"MM月dd日"];
-    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
-    [unformat setTimeZone:timeZone];
-    NSString *date_string = [unformat stringFromDate:itemDate];
+    NSLog(@"%ld",time_p - noteTest);
+    noteTest = time_p;
+        
+    [selectedItemArray addObject:indexPath];
+    [timeSpanArray addObject:[NSNumber numberWithLong:time_p]];
     
-    if ([selectedItemArray containsObject:indexPath]) {
-        
-        [selectedItemArray removeObject:indexPath];
-        [timeSpanArray removeObject:date_string];
-        if (timeSpanArray.count == 0) {
-            abilityDate.text = @"暂未选择日程";
-            return;
-        }
-        NSString *ability_dateString = [timeSpanArray objectAtIndex:0];
-        for (int i = 1; i < timeSpanArray.count ; ++i) {
-            ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",timeSpanArray[i]]];
-        }
-        abilityDate.text = ability_dateString;
-        
-    } else {
-        
-        [selectedItemArray addObject:indexPath];
-        [timeSpanArray addObject:date_string];
-        
-        NSString *ability_dateString = [timeSpanArray objectAtIndex:0];
-        for (int i = 1; i < timeSpanArray.count ; ++i) {
-            ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",timeSpanArray[i]]];
-        }
-        abilityDate.text = ability_dateString;
+    [self setAbilityDateTextWith:nil];
+    
+}
+
+
+// 反选
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
+    AYDayCollectionCellView * cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (cell.isGone) {
+        return ;
     }
+    
+    long time_p = cell.timeSpan;
+    
+    [selectedItemArray removeObject:indexPath];
+    [timeSpanArray removeObject:[NSNumber numberWithLong:time_p]];
+    if (timeSpanArray.count == 0) {
+        abilityDate.text = @"暂未选择日程";
+        return;
+    }
+    
+    [self setAbilityDateTextWith:nil];
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     AYDayCollectionCellView * cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:indexPath];
     if (cell.isGone) {
         return NO;
-    }else return YES;
+    } else
+        return YES;
 }
 
 - (void)refreshControlWithYear:(NSString *)year month:(NSString *)month day:(NSString *)day {
@@ -539,4 +521,63 @@
     [self refreshControlWithYear:calendar[0] month:calendar2[0] day:calendar2[1]];
     return nil;
 }
+
+-(NSString*)transformTimespanToMouthAndDayWithDate:(NSTimeInterval)timespan{
+    
+    NSDate *itemDate = [NSDate dateWithTimeIntervalSince1970:timespan];
+    NSDateFormatter *unformat = [[NSDateFormatter alloc] init];
+    [unformat setDateFormat:@"MM月dd日"];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [unformat setTimeZone:timeZone];
+    NSString *date_string = [unformat stringFromDate:itemDate];
+    
+    return date_string;
+}
+
+- (void)setAbilityDateTextWith:(NSArray*)array{
+    NSArray *tmpTimeArray = [timeSpanArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSTimeInterval first = ((NSNumber*)obj1).longValue;
+        NSTimeInterval second = ((NSNumber*)obj2).longValue;
+        if (first < second) return  NSOrderedAscending;
+        else if (first > second) return NSOrderedDescending;
+        else return NSOrderedSame;
+    }];
+    
+    if (tmpTimeArray.count <= 4) {
+        
+        ability_dateString = [self transformTimespanToMouthAndDayWithDate:((NSNumber*)[tmpTimeArray objectAtIndex:0]).longValue];
+        for (int i = 1; i < (tmpTimeArray.count > 4 ? 4 : tmpTimeArray.count) ; ++i) {
+            long timeDate = ((NSNumber*)[tmpTimeArray objectAtIndex:i]).longValue;
+            NSString *date_string = [self transformTimespanToMouthAndDayWithDate:timeDate];
+            ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",date_string]];
+        }
+    } else {
+        if ([self isMilitaryWithArray:tmpTimeArray]) {
+            long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
+            NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
+            
+            long last = ((NSNumber*)[tmpTimeArray lastObject]).longValue;
+            NSString *last_string = [self transformTimespanToMouthAndDayWithDate:last];
+            
+            ability_dateString = [NSString stringWithFormat:@"%@ - %@",first_string, last_string];
+            
+        } else ability_dateString = @"多个日期可以提供服务";
+    }
+    
+    abilityDate.text = ability_dateString;
+}
+
+-(BOOL)isMilitaryWithArray:(NSArray*)array{
+    
+    NSTimeInterval conpare = ((NSNumber*)array.firstObject).longValue;
+    for (int i = 1; i < array.count; ++i) {
+        NSTimeInterval conpareB = ((NSNumber*)[array objectAtIndex:i]).longValue;
+        if ((conpareB - conpare) != 86400) {
+            return NO;
+        }
+        conpare = conpareB;
+    }
+    return YES;
+}
+
 @end

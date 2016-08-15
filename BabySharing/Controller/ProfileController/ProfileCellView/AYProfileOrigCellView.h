@@ -12,4 +12,6 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIView *bottom_line;
 @property (nonatomic, assign) BOOL isLast;
+
+@property (nonatomic, strong) NSDictionary *dic_info;
 @end

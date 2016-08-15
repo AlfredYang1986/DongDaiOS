@@ -192,6 +192,22 @@
 }
 
 #pragma mark -- notification
+- (id)leftBtnSelected {
+    NSLog(@"pop view controller");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)rightBtnSelected {
+    
+    return nil;
+}
+
 - (id)queryIsGridSelected:(id)obj {
     //    NSInteger index = ((NSNumber*)obj).integerValue;
     return [NSNumber numberWithBool:NO];

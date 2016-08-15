@@ -412,7 +412,7 @@
         <command type="notify"      message="resetContentSize:" />
     </view>
     
-    <view type="TimeOption" name="TimeOption" factory="AYReuseViewFactory" >
+    <view type="TimeOption" name="TimeOption" factory="AYDefaultViewFactory" >
         <command type="message"     message="sendFiterArgs:" />
         <command type="message"     message="queryDateStartAndEnd:" />
         <command type="notify"      message="hiddenBeShowing" />
