@@ -77,21 +77,20 @@
 
 #pragma mark -- table
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
-    } else if (section == 1){
-        return 3;
-    } else {
-        return 4;
+    } else{
+        return 6;
     }
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        NSString* class_name = @"AYProfileHeadCellView";
+        
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfileHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         if (cell == nil) {
             cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
@@ -101,43 +100,68 @@
         NSDictionary *info = user_info;
         [set_cmd performWithResult:&info];
         
-        
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
         
-    } else if(indexPath.section == 1){
-        AYProfileOrigCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
-        if (cell == nil) {
-            cell = [[AYProfileOrigCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
+    } else {
+        if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3) {
+            NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OneProfileAboutCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = VIEW(@"OneProfileAboutCell", @"OneProfileAboutCell");
+            }
+            cell.controller = self.controller;
+            
+            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            NSMutableDictionary *info = [[NSMutableDictionary alloc]init];
+            if (indexPath.row == 0) {
+                [info setValue:@"关于妈妈" forKey:@"title"];
+                [info setValue:@"dfhdhhgk啊风格的设计开发" forKey:@"sub_title"];
+            } else if (indexPath.row == 1){
+                [info setValue:@"回复率" forKey:@"title"];
+                [info setValue:@"100%" forKey:@"sub_title"];
+            } else{
+                [info setValue:@"已验证的身份" forKey:@"title"];
+                [info setValue:@"single" forKey:@"validate"];
+            }
+            [set_cmd performWithResult:&info];
+            
+            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+            return (UITableViewCell*)cell;
+            
+        } else if (indexPath.row == 2){
+            NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OneProfileContentCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+            if (cell == nil) {
+                cell = VIEW(@"OneProfileContentCell", @"OneProfileContentCell");
+            }
+            cell.controller = self.controller;
+            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            NSMutableDictionary *info = [[NSMutableDictionary alloc]init];
+            
+            [set_cmd performWithResult:&info];
+            
+            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+            return (UITableViewCell*)cell;
+            
+        } else {
+            AYProfileServCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
+            if (cell == nil) {
+                cell = [[AYProfileServCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
+            }
+            NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:servs[indexPath.row -4] forKey:@"title"];
+            [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isFirst"];
+            [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
+            if(indexPath.row == 5) {
+                [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
+            }
+            cell.dic_info = dic;
+            
+            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+            return (UITableViewCell*)cell;
         }
-        cell.isLast = NO;
-        cell.titleLabel.text = origs[indexPath.row];
-        if(indexPath.row == 2) {
-            cell.isLast = YES;
-        }
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
     }
-    else {
-        AYProfileServCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
-        if (cell == nil) {
-            cell = [[AYProfileServCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
-        }
-        
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:servs[indexPath.row] forKey:@"title"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isFirst"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
-        if (indexPath.row == 0) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isFirst"];
-        } else if(indexPath.row == 3) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
-        }
-        cell.dic_info = dic;
-        
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
-    };
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -153,37 +177,33 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     if (indexPath.section == 0) {
         return 115;
-    } else if (indexPath.section == 1){
-        return 70;
     } else {
-        return 60;
+        if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 3) {
+            return 90;
+        }else if (indexPath.row == 2){
+            return 220;
+        }else {
+            return 40;
+        }
+        
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         return;
-    } else if (indexPath.section == 1){
-        if (indexPath.row == 0) {
-            [self regServiceObj];       // 切换服务对象
-            //            [self becomeServicer];      // 成为接单妈妈
-        }else if (indexPath.row == 1){  // 心仪的服务
-            [self collectService];
-        }else {                         // 系统设置
-            [self setting];
-        }
-    } else {                            //验证
-        if (indexPath.row == 0) {
-            return;
-        }else if (indexPath.row == 1){
-            [self confirmSNS];          //验证第三方
-        }else if (indexPath.row == 2){
-            [self confirmPhoneNo];      //验证手机号码
+    } else {
+        if (indexPath.row == 4) {
+//            return;
+        }else if (indexPath.row == 5){
+//            [self confirmSNS];
         }else {
-            [self confirmRealName];     //验证实名
+            return;
         }
+        
     }
 }
 

@@ -108,7 +108,7 @@
 }
 
 - (void)changeImage {
-    [self.themeImg setImage:PNGRESOURCE(@"default_user")];
+    [self.themeImg setImage:IMGRESOURCE(@"default_user")];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

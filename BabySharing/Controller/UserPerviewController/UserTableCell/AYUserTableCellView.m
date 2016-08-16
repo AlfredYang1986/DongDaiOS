@@ -97,7 +97,7 @@
 
 - (void)setUserScreenPhoto:(NSString*)photo_name {
     
-    [_headView setImage:PNGRESOURCE(@"default_user")];
+    [_headView setImage:IMGRESOURCE(@"default_user")];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -202,7 +202,7 @@
 }
 
 - (void)setPhoto:(NSString*)photo_name forView:(UIImageView*)view {
-    [view setImage:PNGRESOURCE(@"default_user")];
+    [view setImage:IMGRESOURCE(@"default_user")];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

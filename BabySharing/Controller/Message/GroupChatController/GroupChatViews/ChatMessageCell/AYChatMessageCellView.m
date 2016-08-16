@@ -131,7 +131,7 @@
 
 - (void)screenPhotoTaped:(UITapGestureRecognizer*)gusture {
     
-    UIViewController* des = DEFAULTCONTROLLER(@"Profile");
+    UIViewController* des = DEFAULTCONTROLLER(@"OneProfile");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -246,10 +246,10 @@
                 UIImage* img = (UIImage*)result;
                 if (img != nil) {
                     [imgView setImage:img];
-                } else [imgView setImage:PNGRESOURCE(@"default_user")];
+                } else [imgView setImage:IMGRESOURCE(@"default_user")];
             }];
         } else {
-            [imgView setImage:PNGRESOURCE(@"default_user")];
+            [imgView setImage:IMGRESOURCE(@"default_user")];
         }
     }];
 }

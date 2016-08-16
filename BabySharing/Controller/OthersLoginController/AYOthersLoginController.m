@@ -214,7 +214,7 @@
         if (img != nil) {
             [cmd performWithResult:&img];
         }else {
-            UIImage *tmp_img = PNGRESOURCE(@"default_user");
+            UIImage *tmp_img = IMGRESOURCE(@"default_user");
             [cmd performWithResult:&tmp_img];
         }
     }];

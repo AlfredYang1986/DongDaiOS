@@ -30,7 +30,7 @@
     self.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.255].CGColor;
     self.layer.borderWidth = 3.f;
     
-    [self setBackgroundImage:PNGRESOURCE(@"default_user") forState:UIControlStateNormal];
+    [self setBackgroundImage:IMGRESOURCE(@"default_user") forState:UIControlStateNormal];
     [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
     
 }

@@ -96,8 +96,14 @@
         [cmd_delegate performWithResult:&obj];
         
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = @"AYProfileHeadCellView";
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfileHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
+        NSString* content_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OneProfileContentCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&content_name];
+        
+        id<AYCommand> cmd_head = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+        NSString* about_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OneProfileAboutCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_head performWithResult:&about_name];
     }
     
     id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];

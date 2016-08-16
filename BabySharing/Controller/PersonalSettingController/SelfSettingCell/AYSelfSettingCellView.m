@@ -162,7 +162,7 @@ static NSString* const kAYSelfSettingCellHideCancelBtn = @"hideCancel";
         return;
     }
 
-    [self.headView setImage:PNGRESOURCE(@"default_user")];
+    [self.headView setImage:IMGRESOURCE(@"default_user")];
    
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];

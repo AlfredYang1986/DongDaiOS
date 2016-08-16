@@ -128,7 +128,7 @@
             if (img != nil) {
                 tmp.image = img;
             }else{
-                [tmp setImage:PNGRESOURCE(@"default_user")];
+                [tmp setImage:IMGRESOURCE(@"default_user")];
             }
         }];
         

@@ -376,9 +376,14 @@
 + (UIColor*)garyColor{
     return [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
 }
++ (UIColor*)garyLineColor{
+    return [UIColor colorWithWhite:0.75 alpha:1.f];
+}
 + (UIColor*)garyBackgroundColor{
     return [UIColor colorWithWhite:0.9490 alpha:1.f];
 }
+
+
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align{
     label.text = text;
     label.textColor = color;

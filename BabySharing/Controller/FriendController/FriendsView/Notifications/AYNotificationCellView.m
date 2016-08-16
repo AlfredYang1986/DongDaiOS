@@ -156,7 +156,7 @@
         if (img != nil) {
            [self.imgView setImage:img];
         }else
-            [self.imgView setImage:PNGRESOURCE(@"default_user")];
+            [self.imgView setImage:IMGRESOURCE(@"default_user")];
     }];
 }
 

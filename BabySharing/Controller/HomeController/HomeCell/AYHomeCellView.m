@@ -433,7 +433,7 @@
                 break;
             }
             UIImageView *imageView = [self.contentView viewWithTag:++indexChater];
-            imageView.image = PNGRESOURCE(@"default_user");
+            imageView.image = IMGRESOURCE(@"default_user");
             imageView.hidden = NO;
             
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -459,7 +459,7 @@
     self.talkerCount.text = [NSString stringWithFormat:@"%lu人正在圈聊", (unsigned long)(self.content.chaters == nil ? 0 : self.content.chaters.count)];
     
     // 设置头像
-    self.ownerImage.image = PNGRESOURCE(@"default_user");// [UIImage imageNamed:defaultHeadPath];
+    self.ownerImage.image = IMGRESOURCE(@"default_user");// [UIImage imageNamed:defaultHeadPath];
     
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

@@ -326,6 +326,9 @@
 		7052B91B1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 7052B91A1D51DA2D00F06951 /* LoginToken+CoreDataProperties.m */; };
 		705361501D5C8971006BB95E /* AYOneProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053614F1D5C8971006BB95E /* AYOneProfileController.m */; };
 		705361531D5C9A53006BB95E /* AYOneProfileDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705361521D5C9A53006BB95E /* AYOneProfileDelegate.m */; };
+		7053F4CC1D62E4B700947F0C /* AYOneProfileContentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */; };
+		7053F4CD1D62E4B700947F0C /* AYOneProfileContentCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */; };
+		7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */; };
 		7054896C1D348B67007FCDA1 /* AYNavigationServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7054896B1D348B67007FCDA1 /* AYNavigationServiceController.m */; };
 		705489701D349268007FCDA1 /* AYOrderServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7054896F1D349268007FCDA1 /* AYOrderServiceController.m */; };
 		705489741D349449007FCDA1 /* AYProfileServiceInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705489731D349449007FCDA1 /* AYProfileServiceInitCommand.m */; };
@@ -1342,6 +1345,11 @@
 		7053614F1D5C8971006BB95E /* AYOneProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileController.m; sourceTree = "<group>"; };
 		705361511D5C9A53006BB95E /* AYOneProfileDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileDelegate.h; sourceTree = "<group>"; };
 		705361521D5C9A53006BB95E /* AYOneProfileDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileDelegate.m; sourceTree = "<group>"; };
+		7053F4C91D62E4B700947F0C /* AYOneProfileContentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileContentCellView.h; sourceTree = "<group>"; };
+		7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileContentCellView.m; sourceTree = "<group>"; };
+		7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOneProfileContentCellView.xib; sourceTree = "<group>"; };
+		7053F4CE1D62E5AF00947F0C /* AYOneProfileAboutCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileAboutCellView.h; sourceTree = "<group>"; };
+		7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileAboutCellView.m; sourceTree = "<group>"; };
 		7054896A1D348B67007FCDA1 /* AYNavigationServiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNavigationServiceController.h; sourceTree = "<group>"; };
 		7054896B1D348B67007FCDA1 /* AYNavigationServiceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNavigationServiceController.m; sourceTree = "<group>"; };
 		7054896E1D349268007FCDA1 /* AYOrderServiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderServiceController.h; sourceTree = "<group>"; };
@@ -4521,6 +4529,11 @@
 		7053614C1D5C8929006BB95E /* OneProfileCellView */ = {
 			isa = PBXGroup;
 			children = (
+				7053F4C91D62E4B700947F0C /* AYOneProfileContentCellView.h */,
+				7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */,
+				7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */,
+				7053F4CE1D62E5AF00947F0C /* AYOneProfileAboutCellView.h */,
+				7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */,
 			);
 			path = OneProfileCellView;
 			sourceTree = "<group>";
@@ -7746,6 +7759,7 @@
 				702E7AB51CA169A40097867E /* font.xml in Resources */,
 				702E7AB11CA166E90097867E /* controller.xml in Resources */,
 				702E7A921CA151770097867E /* icon.png in Resources */,
+				7053F4CD1D62E4B700947F0C /* AYOneProfileContentCellView.xib in Resources */,
 				70754AA71D3E176D00D8CAFC /* AYNapLocationCellView.xib in Resources */,
 				70754A9D1D3E152200D8CAFC /* AYNapBabyAgeCellView.xib in Resources */,
 				708F2D261D3F601E000CD492 /* TZImagePickerController.bundle in Resources */,
@@ -7829,6 +7843,7 @@
 				70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */,
 				70F4287B1CC7B18F00A69977 /* MASViewAttribute.m in Sources */,
 				701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */,
+				7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */,
 				704697D11CE047F200DACD8A /* SDImageCache.m in Sources */,
 				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */,
@@ -8297,6 +8312,7 @@
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,
 				7002DBBC1CC669D20013FF2A /* AYTagRecommendDelegate.m in Sources */,
 				7027FD161CBC0246002756BC /* AYSettingController.m in Sources */,
+				7053F4CC1D62E4B700947F0C /* AYOneProfileContentCellView.m in Sources */,
 				708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
 				702561B51CD351230099F056 /* AYTagEditInitCommand.m in Sources */,

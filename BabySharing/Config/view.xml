@@ -570,4 +570,15 @@
         <command type="message"     message="dateScrollToCenter:" />
         <command type="notify"      message="didCancelClick" />
     </view>
+    
+    <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didServiceDetailClick" />
+    </view>
+    
+    <view type="OneProfileContentCell" name="OneProfileContentCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didServiceDetailClick" />
+    </view>
+    
 </views>
