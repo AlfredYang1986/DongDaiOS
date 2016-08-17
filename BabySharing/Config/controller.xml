@@ -777,9 +777,9 @@
     </controller>
     
     <controller type="DefaultController" name="CalendarService" factory="AYDefaultControllerFactoy" >
-        <view type="Schedule"       name="Schedule" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="Schedule"       name="Schedule" />
     </controller>
     
     <controller type="DefaultController" name="MessageService" factory="AYDefaultControllerFactoy" >

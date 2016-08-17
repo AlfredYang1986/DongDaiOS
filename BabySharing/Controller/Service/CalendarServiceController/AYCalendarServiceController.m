@@ -65,10 +65,19 @@
 }
 
 #pragma mark -- Layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    
     id<AYViewBase> bar = (id<AYViewBase>)view;
+    
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"日程管理";
+    [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
     NSNumber* left_hidden = [NSNumber numberWithBool:YES];
@@ -87,16 +96,6 @@
     line.frame = CGRectMake(0, 44 - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
     [view.layer addSublayer:line];
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"日程管理";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
     return nil;
 }
 

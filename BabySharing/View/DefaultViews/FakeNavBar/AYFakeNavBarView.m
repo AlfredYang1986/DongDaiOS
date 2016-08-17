@@ -83,15 +83,23 @@
     leftBtn.center = CGPointMake(leftBtn.center.x, self.frame.size.height / 2);
     rightBtn.center = CGPointMake(rightBtn.center.x, self.frame.size.height / 2);
     
-    
-    CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(0, self.frame.size.height - 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
-    line.backgroundColor = [Tools garyColor].CGColor;
-    [self.layer addSublayer:line];
+//    CALayer* line = [CALayer layer];
+//    line.frame = CGRectMake(0, self.frame.size.height - 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
+//    line.backgroundColor = [Tools garyLineColor].CGColor;
+//    [self.layer addSublayer:line];
 }
 
 #pragma mark -- 
 - (id)setTitleText:(id)args {
+    
+    NSString *title = (NSString*)args;
+    UILabel* titleView = [[UILabel alloc]init];
+    titleView = [Tools setLabelWith:titleView andText:title andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [self addSubview:titleView];
+    [titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self);
+    }];
     return nil;
 }
 

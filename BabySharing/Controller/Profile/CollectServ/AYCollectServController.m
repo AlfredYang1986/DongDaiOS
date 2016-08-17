@@ -150,8 +150,7 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
