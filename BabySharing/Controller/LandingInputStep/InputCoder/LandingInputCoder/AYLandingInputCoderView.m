@@ -95,13 +95,13 @@
     }];
     
     UIButton *areaBtn = [[UIButton alloc]init];
-    [areaBtn setBackgroundImage:[UIImage imageNamed:@"landing_input_triangle"] forState:UIControlStateNormal];
+    [areaBtn setImage:[UIImage imageNamed:@"landing_input_triangle"] forState:UIControlStateNormal];
     [areaBtn addTarget:self action:@selector(areaBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [countryAreaView addSubview:areaBtn];
     [areaBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(countryAreaView.mas_right).offset(-15);
+        make.right.equalTo(countryAreaView.mas_right).offset(-5);
         make.centerY.equalTo(countryAreaView);
-        make.size.mas_equalTo(CGSizeMake(11, 6));
+        make.size.mas_equalTo(CGSizeMake(38, 38));
     }];
     
     /* 电话号码 */

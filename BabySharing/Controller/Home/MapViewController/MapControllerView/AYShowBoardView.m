@@ -38,21 +38,7 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    CLLocation *loc = [resultAndLoc objectForKey:@"location"];
-    NSArray *fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    self.contentSize = CGSizeMake(268 * fiteResultData.count + 10, 0);
-    for (int i = 0; i < fiteResultData.count; ++i) {
-        CGFloat offset_x = 10 * (i+1) + CellWidth * i;
-        AYShowBoardCellView *cell = [[AYShowBoardCellView alloc]initWithFrame:CGRectMake(offset_x, 0, CellWidth, 107)];
-        cell.backgroundColor = [UIColor whiteColor];
-        cell.location = loc;
-        cell.contentInfo = fiteResultData[i];
-        
-        [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCellClick:)]];
-        [self addSubview:cell];
-    }
 }
 
 #pragma mark -- commands
@@ -83,6 +69,23 @@
 
 -(id)changeResultData:(NSDictionary*)args{
     resultAndLoc = args;
+    
+    CLLocation *loc = [resultAndLoc objectForKey:@"location"];
+    NSArray *fiteResultData = [resultAndLoc objectForKey:@"result_data"];
+    
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.contentSize = CGSizeMake(268 * fiteResultData.count + 10, 0);
+    for (int i = 0; i < fiteResultData.count; ++i) {
+        CGFloat offset_x = 10 * (i+1) + CellWidth * i;
+        AYShowBoardCellView *cell = [[AYShowBoardCellView alloc]initWithFrame:CGRectMake(offset_x, 0, CellWidth, 107)];
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.location = loc;
+        cell.contentInfo = fiteResultData[i];
+        
+        [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCellClick:)]];
+        [self addSubview:cell];
+    }
+    
     return nil;
 }
 

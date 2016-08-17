@@ -10,6 +10,10 @@
 #import "AYCommandDefines.h"
 #import "Tools.h"
 #import "AYAnnonation.h"
+#import "AYFacadeBase.h"
+#import "AYFacade.h"
+#import "AYFactoryManager.h"
+#import "AYRemoteCallCommand.h"
 
 @implementation AYShowBoardCellView{
     
@@ -99,16 +103,39 @@
 
 -(void)layoutSubviews {
     [super layoutSubviews];
-    if (self.contentInfo) {
-        _titleLabel.text = [self.contentInfo objectForKey:@"title"];
-        
-        NSDictionary *dic_loc = [self.contentInfo objectForKey:@"location"];
-        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-        CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-        CLLocationDistance meters = [self.location distanceFromLocation:loc];
-        _distanceLabel.text = [NSString stringWithFormat:@"距离您约%.2fkm",(float)meters * 0.001];
-    }
+
+}
+
+- (void)setContentInfo:(NSDictionary *)contentInfo{
+    _contentInfo = contentInfo;
+    
+    _titleLabel.text = [_contentInfo objectForKey:@"title"];
+    
+    NSString* photo_name = [[_contentInfo objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
+    [dic_img setValue:photo_name forKey:@"image"];
+    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            _imageView.image = img;
+        }else{
+            [_imageView setImage:IMGRESOURCE(@"default_user")];
+        }
+    }];
+    
+    
+    
+//    NSDictionary *dic_loc = [self.contentInfo objectForKey:@"location"];
+//    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+//    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+//    CLLocationDistance meters = [self.location distanceFromLocation:loc];
+//    _distanceLabel.text = [NSString stringWithFormat:@"距离您约%.2fkm",(float)meters * 0.001];
+    
 }
 
 

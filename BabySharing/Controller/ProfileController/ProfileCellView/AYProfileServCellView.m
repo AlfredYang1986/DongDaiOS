@@ -77,10 +77,10 @@
     
     if (_isConfirm) {
         _confirLabel.text = @"已验证";
-        _confirLabel.textColor = [Tools garyColor];
-    }else {
-        _confirLabel.text = @"去验证";
         _confirLabel.textColor = [Tools themeColor];
+    }else {
+        _confirLabel.text = @"未验证";
+        _confirLabel.textColor = [Tools garyColor];
     }
     
     if (((NSNumber*)[dic_info objectForKey:@"isLast"]).boolValue) {

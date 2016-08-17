@@ -116,6 +116,12 @@
 }
 
 #pragma mark -- layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
 //    view.backgroundColor = [UIColor orangeColor];
@@ -127,22 +133,16 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"日程管理";
+    [cmd_title performWithResult:&title];
+    
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
     [view.layer addSublayer:line];
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"我的";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 44 / 2 + 20);
     return nil;
 }
 

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -49,22 +48,12 @@
                             <constraint firstAttribute="height" constant="40" id="Adc-1h-elq"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auy-YH-ceZ">
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auy-YH-ceZ">
                         <rect key="frame" x="325" y="28" width="22" height="19"/>
-                        <state key="normal" image="heart"/>
+                        <state key="normal" image="heart_unlike"/>
+                        <state key="selected" image="heart"/>
                         <connections>
                             <action selector="didLikeBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fBl-LU-Fim"/>
-                        </connections>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mzu-EL-qRs">
-                        <rect key="frame" x="325" y="28" width="22" height="19"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="22" id="7zQ-Zn-MrP"/>
-                            <constraint firstAttribute="height" constant="19" id="XhT-pe-3GB"/>
-                        </constraints>
-                        <state key="normal" image="heart_unlike"/>
-                        <connections>
-                            <action selector="didUnLikeBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="bI0-iJ-Qia"/>
                         </connections>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_rang_1" translatesAutoresizingMaskIntoConstraints="NO" id="tbi-Hs-8Dm">
@@ -94,27 +83,21 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="auy-YH-ceZ" firstAttribute="centerX" secondItem="mzu-EL-qRs" secondAttribute="centerX" id="1Qg-mA-ExA"/>
                     <constraint firstAttribute="trailing" secondItem="oKf-ix-c8B" secondAttribute="trailing" constant="15" id="3mw-z0-OeD"/>
-                    <constraint firstItem="mzu-EL-qRs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="20" id="BAF-cY-a1N"/>
                     <constraint firstAttribute="trailing" secondItem="AGi-wg-VLC" secondAttribute="trailing" id="DwJ-ad-XH3"/>
                     <constraint firstItem="JdM-9Z-X6j" firstAttribute="leading" secondItem="OnD-a0-oh7" secondAttribute="trailing" constant="10" id="HUp-8q-gHU"/>
-                    <constraint firstItem="auy-YH-ceZ" firstAttribute="width" secondItem="mzu-EL-qRs" secondAttribute="width" id="IOG-UQ-R50"/>
                     <constraint firstItem="OnD-a0-oh7" firstAttribute="leading" secondItem="tbi-Hs-8Dm" secondAttribute="trailing" constant="8" id="Inx-jq-5Kz"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="top" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="15" id="Lrc-UF-3W7"/>
                     <constraint firstItem="AGi-wg-VLC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Pmc-O4-bQR"/>
                     <constraint firstItem="tbi-Hs-8Dm" firstAttribute="top" secondItem="vtg-UL-53k" secondAttribute="bottom" constant="10" id="R9l-jk-2GM"/>
-                    <constraint firstItem="auy-YH-ceZ" firstAttribute="centerY" secondItem="mzu-EL-qRs" secondAttribute="centerY" id="Ryj-QC-pJL"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="YeL-Y1-SBk"/>
                     <constraint firstItem="OnD-a0-oh7" firstAttribute="centerY" secondItem="tbi-Hs-8Dm" secondAttribute="centerY" id="dnk-C8-V55"/>
                     <constraint firstItem="AGi-wg-VLC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="gGm-UF-Dam"/>
                     <constraint firstItem="lwB-4Y-nxj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hH3-1X-pbJ"/>
                     <constraint firstItem="JdM-9Z-X6j" firstAttribute="centerY" secondItem="OnD-a0-oh7" secondAttribute="centerY" id="iae-HU-Y8x"/>
                     <constraint firstItem="oKf-ix-c8B" firstAttribute="top" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="15" id="kya-4t-ha5"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="mzu-EL-qRs" secondAttribute="trailing" constant="20" id="n3S-T9-dGN"/>
                     <constraint firstItem="tbi-Hs-8Dm" firstAttribute="leading" secondItem="vtg-UL-53k" secondAttribute="leading" id="oUO-Lr-sZm"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="top" secondItem="lwB-4Y-nxj" secondAttribute="bottom" constant="30" id="ojA-MS-gt5"/>
-                    <constraint firstItem="auy-YH-ceZ" firstAttribute="height" secondItem="mzu-EL-qRs" secondAttribute="height" id="uqf-Aj-m3G"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -128,7 +111,6 @@
                 <outlet property="mainImage" destination="AGi-wg-VLC" id="EXh-Z7-FLC"/>
                 <outlet property="ownerIconImage" destination="oKf-ix-c8B" id="eas-G6-mbg"/>
                 <outlet property="starRangImage" destination="tbi-Hs-8Dm" id="3WY-wD-7O7"/>
-                <outlet property="unLikeBtn" destination="mzu-EL-qRs" id="nGI-qW-0VK"/>
             </connections>
             <point key="canvasLocation" x="423.5" y="328.5"/>
         </tableViewCell>

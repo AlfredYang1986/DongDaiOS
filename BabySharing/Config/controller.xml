@@ -549,6 +549,7 @@
     
     <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"    name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade"    name="KidNapRemote" notification="true" />
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
@@ -792,9 +793,9 @@
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="Table"          name="Table" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
         
         <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />
     </controller>

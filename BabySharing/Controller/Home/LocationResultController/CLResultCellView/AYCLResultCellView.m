@@ -10,7 +10,6 @@
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
 #import "Tools.h"
-
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -21,6 +20,7 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
+#import "AYFacade.h"
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
@@ -29,7 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
 @property (weak, nonatomic) IBOutlet UIImageView *friendIcon;
 @property (weak, nonatomic) IBOutlet UILabel *friendCountLabel;
-@property (weak, nonatomic) IBOutlet UIButton *unLikeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *likeBtn;
 @property (weak, nonatomic) IBOutlet UILabel *costLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descLabel;
@@ -71,7 +70,6 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _unLikeBtn.hidden = YES;
     
 }
 
@@ -132,7 +130,6 @@
 - (id)setCellInfo:(id)args{
     NSDictionary *dic = (NSDictionary*)args;
     cellInfo = dic;
-    
     NSLog(@"%@",dic);
     
     NSString* photo_name = [[dic objectForKey:@"images"] objectAtIndex:0];
@@ -162,9 +159,7 @@
     NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
     CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
     [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        
         CLPlacemark *pl = [placemarks firstObject];
-//        NSLog(@"%@",pl.addressDictionary);
         _adresslabel.text = pl.subLocality;
     }];
     
@@ -207,12 +202,38 @@
 
 - (IBAction)didLikeBtnClick:(id)sender {
     
-    _likeBtn.hidden = YES;
-    _unLikeBtn.hidden = NO;
-}
-- (IBAction)didUnLikeBtnClick:(id)sender {
+    _likeBtn.selected = !_likeBtn.selected;
+    NSDictionary *info = nil;
+    CURRENUSER(info);
     
-    _unLikeBtn.hidden = YES;
-    _likeBtn.hidden = NO;
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic setValue:[cellInfo objectForKey:@"service_id"] forKey:@"service_id"];
+    
+    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"LocationResult");
+    if (_likeBtn.selected) {
+        id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
+        AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
+        [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+//                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            } else {
+                NSLog(@"push error with:%@",result);
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }else {
+        id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
+        AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
+        [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+//                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"取消收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            } else {
+                NSLog(@"push error with:%@",result);
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }
 }
+
 @end

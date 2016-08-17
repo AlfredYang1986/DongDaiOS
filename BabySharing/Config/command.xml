@@ -181,6 +181,10 @@
     <command type="Remote" name="QueryMMWithLocation" route="kidnap/search" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />
     
+    <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />
+    
     <command type="Remote" name="PushOrder"     route="order/push" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOwnOrders"   route="order/query/own" factory="AYRemoteCallFactory" />
