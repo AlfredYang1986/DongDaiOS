@@ -8,6 +8,7 @@
     <command type="ShowModuleUp" name="ShowModuleUp" factory="AYControllerExchangFactory" />
     <command type="PopToRoot" name="PopToRoot" factory="AYControllerExchangFactory" />
     <command type="ReversModule" name="ReversModule" factory="AYControllerExchangFactory" />
+    <command type="ExchangeWindows" name="ExchangeWindows" factory="AYControllerExchangFactory" />
 
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />

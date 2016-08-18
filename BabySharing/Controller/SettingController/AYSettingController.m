@@ -15,6 +15,9 @@
 #import "AYNotifyDefines.h"
 #import "AYFacadeBase.h"
 #import "AYAlbumDefines.h"
+#import "AYRemoteCallCommand.h"
+#import "AYFacade.h"
+#import "AppDelegate.h"
 
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
@@ -106,6 +109,58 @@
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
+    return nil;
+}
+
+- (id)LogoutCurrentUser {
+    NSLog(@"current user logout");
+    //    [_lm signOutCurrentUser];
+    
+    NSDictionary* current_login_user = nil;
+    CURRENUSER(current_login_user);
+    
+    id<AYFacadeBase> f_login_remote = [self.facades objectForKey:@"LandingRemote"];
+    AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
+    [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"login out %@", result);
+        NSLog(@"current login user %@", current_login_user);
+        
+        {
+            AYFacade* f = [self.facades objectForKey:@"EM"];
+            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
+            [cmd_xmpp_logout performWithResult:nil];
+        }
+        
+        {
+            AYFacade* f = LOGINMODEL;
+            id<AYCommand> cmd_sign_out_local = [f.commands objectForKey:@"SignOutLocal"];
+            [cmd_sign_out_local performWithResult:nil];
+        }
+        
+
+        /**
+         * create controller factory
+         */
+        id<AYCommand> cmd = COMMAND(kAYFactoryManagerCommandTypeInit, kAYFactoryManagerCommandTypeInit);
+        AYViewController* controller = nil;
+        [cmd performWithResult:&controller];
+        
+        /**
+         * Navigation Controller
+         */
+        UINavigationController* rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
+        [rootContorller pushViewController:controller animated:NO];
+        
+        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+        //            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:rootContorller forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+        [cmd_show_module performWithResult:&dic_show_module];
+    }];
+    
     return nil;
 }
 

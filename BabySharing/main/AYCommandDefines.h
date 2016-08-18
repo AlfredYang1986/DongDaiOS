@@ -44,6 +44,8 @@ static NSString* const kAYFactoryManagerCommandTypeView = @"View";              
 static NSString* const kAYFactoryManagerCommandTypeViewNotify = @"View Notify"; // 用户View callback Controller
 static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          // 用户model对controller的notify
 
+static NSString* const kAYFactoryManagerCommandWindowChange = @"ExchangeWindows";
+
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
@@ -53,6 +55,8 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
 #define REVERSMODULE            COMMAND(kAYFactoryManagerCommandTypeReversModule, kAYFactoryManagerCommandTypeReversModule)
+
+#define EXCHANGEWINDOWS         COMMAND(kAYFactoryManagerCommandWindowChange, kAYFactoryManagerCommandWindowChange)
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]

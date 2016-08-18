@@ -177,13 +177,16 @@
     AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
     
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+//    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+    [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
     
-    id<AYCommand> cmd_show_module = SHOWMODULE;
-    [cmd_show_module performWithResult:&dic_show_module];
+//    id<AYCommand> cmd_show_module = SHOWMODULE;
+//    [cmd_show_module performWithResult:&dic_show_module];
     
+    id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+    [cmd_show_module performWithResult:&dic_show_module];
 //    self.tabBarController.tabBar.hidden = YES;
     return nil;
 }

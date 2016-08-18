@@ -360,11 +360,15 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
             
             NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+            [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+//            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
             [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
             [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
             
-            id<AYCommand> cmd_show_module = SHOWMODULE;
+//            id<AYCommand> cmd_show_module = SHOWMODULE;
+//            [cmd_show_module performWithResult:&dic_show_module];
+
+            id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
             [cmd_show_module performWithResult:&dic_show_module];
             
         } else {
@@ -465,12 +469,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //        }
         
         void(^handle)(void) = ^(void){
-            if ([Tools activityViewController2].navigationController != self.navigationController)
-                [[Tools activityViewController2] dismissViewControllerAnimated:YES completion:handle];
+            if ([Tools activityViewController].navigationController != self.navigationController)
+                [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
         };
         
 
-        [[Tools activityViewController2] dismissViewControllerAnimated:YES completion:handle];
+        [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
         
         self.landing_status = RemoteControllerStatusReady;
     }];
