@@ -468,7 +468,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //            [tabbar_ser dismissViewControllerAnimated:YES completion:nil];
 //        }
         
-        void(^handle)(void) = ^(void){
+        void (^handle)(void) = ^(void){
             if ([Tools activityViewController].navigationController != self.navigationController)
                 [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
         };

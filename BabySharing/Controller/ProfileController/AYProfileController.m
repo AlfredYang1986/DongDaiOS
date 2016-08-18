@@ -252,8 +252,8 @@
 }
 
 -(id)sendRegMessage{
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    
+//    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
 //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
