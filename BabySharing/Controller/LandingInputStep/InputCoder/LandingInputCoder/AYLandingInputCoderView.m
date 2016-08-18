@@ -17,7 +17,7 @@
 #import "AYRemoteCallCommand.h"
 
 #define TEXT_FIELD_LEFT_PADDING             10
-#define TimeZore                            8
+#define TimeZore                            30
 
 @implementation AYLandingInputCoderView {
     
@@ -46,7 +46,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    seconds = 8;
+//    seconds = TimeZore;
     input_tips = [[UILabel alloc]init];
     input_tips.font = [UIFont systemFontOfSize:15.f];
     input_tips.textColor = [Tools colorWithRED:242 GREEN:242 BLUE:242 ALPHA:1.f];
@@ -339,7 +339,6 @@
 - (void)timerRun:(NSTimer*)sender {
     seconds--;
     if (seconds > 0) {
-//        count_timer.text = [NSString stringWithFormat:@"%lds",(long)seconds];
         [getCodeBtn setTitle:[NSString stringWithFormat:@"%lds",(long)seconds] forState:UIControlStateNormal];
     } else {
         

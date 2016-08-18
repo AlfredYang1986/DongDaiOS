@@ -457,7 +457,21 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             [cmd_sign_out_local performWithResult:nil];
         }
         
-        [[Tools activityViewController] dismissViewControllerAnimated:YES completion:nil];
+//        UIViewController *tmpVC = [Tools activityViewController];
+//        AYViewController* des = DEFAULTCONTROLLER(@"Setting");
+//        if (![tmpVC isKindOfClass:[des class]]) {
+//            AYViewController* tabbar_ser = DEFAULTCONTROLLER(@"TabBarService");
+//            [tabbar_ser dismissViewControllerAnimated:YES completion:nil];
+//        }
+        
+        void(^handle)(void) = ^(void){
+            if ([Tools activityViewController2].navigationController != self.navigationController)
+                [[Tools activityViewController2] dismissViewControllerAnimated:YES completion:handle];
+        };
+        
+
+        [[Tools activityViewController2] dismissViewControllerAnimated:YES completion:handle];
+        
         self.landing_status = RemoteControllerStatusReady;
     }];
     

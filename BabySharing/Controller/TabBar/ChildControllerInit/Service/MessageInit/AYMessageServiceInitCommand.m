@@ -9,6 +9,7 @@
 #import "AYMessageServiceInitCommand.h"
 #import "AYCommandDefines.h"
 #import "AYNavigationController.h"
+#import "AYNavigationServiceController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
 
@@ -23,7 +24,7 @@
 //    UIViewController* controller = CONTROLLER(@"DefaultController", @"MessageService");
     UIViewController* controller = CONTROLLER(@"DefaultController", @"GroupList");
     
-    AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
+    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
     [rootContorller pushViewController:controller animated:NO];
     
     [rootContorller setNavigationBarHidden:YES animated:NO];

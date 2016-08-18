@@ -136,7 +136,7 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"日程管理";
+    NSString *title = @"我的";
     [cmd_title performWithResult:&title];
     
     CALayer *line = [CALayer layer];
@@ -151,24 +151,6 @@
 - (id)queryIsGridSelected:(id)obj {
     //    NSInteger index = ((NSNumber*)obj).integerValue;
     return [NSNumber numberWithBool:NO];
-}
-
-
-- (id)SamePersonBtnSelected {
-    NSLog(@"push to person setting");
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
-    return nil;
 }
 
 - (id)queryTargetID {

@@ -270,9 +270,58 @@
     return [[UIDevice currentDevice].identifierForVendor UUIDString];
 }
 
++ (UIViewController *)activityViewController2 {
+    UIViewController* topVC = nil;
+    UIViewController* appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    topVC = appRootVC;
+        
+    if (topVC.presentedViewController) {
+        topVC = topVC.presentedViewController;
+    }
+    
+    if ([topVC isKindOfClass:[UINavigationController class]]) {
+        topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+    } else if ([topVC isKindOfClass:[UITabBarController class]]) {
+        topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
+        
+        if ([topVC isKindOfClass:[UINavigationController class]]) {
+            
+            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+        }
+    }
+    
+    return topVC;
+}
+
 // 获取当前处于activity状态的view controller
-+ (UIViewController *)activityViewController
-{
++ (UIViewController *)activityViewController {
+    UIViewController* topVC = nil;
+    NSArray *ws = [[[UIApplication sharedApplication].windows reverseObjectEnumerator] allObjects];
+    //    NSArray *ws = [UIApplication sharedApplication].windows;
+    for (UIWindow* w in ws) {
+        UIViewController* appRootVC = w.rootViewController;
+        topVC = appRootVC;
+        
+        if (topVC.presentedViewController) {
+            topVC = topVC.presentedViewController;
+        }
+        
+        if ([topVC isKindOfClass:[UINavigationController class]]) {
+            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+            break;
+        } else if ([topVC isKindOfClass:[UITabBarController class]]) {
+            topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
+            
+            if ([topVC isKindOfClass:[UINavigationController class]]) {
+                
+                topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+                break;
+            }
+        }
+    }
+    
+    return topVC;
+    
 //    UIViewController* activityViewController = nil;
 //    
 //    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
@@ -312,22 +361,11 @@
 //    
 //    return activityViewController;
     
-    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *topVC = appRootVC;
-    if (topVC.presentedViewController) {
-        topVC = topVC.presentedViewController;
-    }
-
-    if ([topVC isKindOfClass:[UINavigationController class]]) {
-        topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
-    } else if ([topVC isKindOfClass:[UITabBarController class]]) {
-        topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
-        if ([topVC isKindOfClass:[UINavigationController class]]) {
-            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
-        }
-    }
+//    NSArray *appRootVC = [UIApplication sharedApplication].windows;
+//    
+//    UIViewController *topVC = appRootVC.firstObject;
     
-    return topVC;
+
 }
 
 //取消searchbar背景色

@@ -22,6 +22,7 @@
 + (NSString *)compareCurrentTime:(NSDate*) compareDate;
 + (NSString*)getDeviceUUID;
 + (UIViewController *)activityViewController;
++ (UIViewController *)activityViewController2;
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 + (CGSize)sizeWithString:(NSString*)str withFont:(UIFont*)font andMaxSize:(CGSize)sz;
 + (UIColor*)themeColor;

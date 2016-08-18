@@ -53,6 +53,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 //    id<AYViewBase> fiter = [self.views objectForKey:@"FiterScroll"];
@@ -73,8 +74,9 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    id<AYViewBase> bar = (id<AYViewBase>)view;
+    view.backgroundColor = [UIColor whiteColor];
     
+    id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
     NSString *title = @"日程管理";
     [cmd_title performWithResult:&title];

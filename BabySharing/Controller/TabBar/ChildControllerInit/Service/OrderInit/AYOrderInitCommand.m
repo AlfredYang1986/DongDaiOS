@@ -9,6 +9,7 @@
 #import "AYOrderInitCommand.h"
 #import "AYCommandDefines.h"
 #import "AYNavigationController.h"
+#import "AYNavigationServiceController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
 #import "AppDelegate.h"
@@ -24,7 +25,7 @@
 //    UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderService");
     UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderList");
     
-    AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
+    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
     [rootContorller pushViewController:controller animated:NO];
     
     [rootContorller setNavigationBarHidden:YES animated:NO];
