@@ -12,6 +12,8 @@
 #import "AYResourceManager.h"
 #import "DongDaTabBar.h"
 #import "AYViewController.h"
+#import "AYCommand.h"
+#import "AYViewBase.h"
 
 #define SHOWALBUM       [self showPostController:@"CameraRollInit"]
 #define SHOWCAMERA      [self showPostController:@"CameraInit"]
@@ -26,6 +28,8 @@
     DongDaTabBar* dongda_tabbar;
     UIImage* img_home_with_no_message;
     UIImage* img_home_with_unread_message;
+    
+    NSString *status;
 }
 
 @synthesize para = _para;
@@ -99,23 +103,23 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
-        switch (index.integerValue) {
-            case 0:
-                SHOWALBUM;
-                break;
-            case 1:
-                SHOWCAMERA;
-                break;
-            case 2:
-                SHOWMOVIE;
-                break;
-                
-            default:
-                @throw [[NSException alloc]initWithName:@"error" reason:@"wrong args" userInfo:nil];
-                break;
-        }
+        status = [dic objectForKey:kAYControllerChangeArgsKey];
+//        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
+//        switch (index.integerValue) {
+//            case 0:
+//                SHOWALBUM;
+//                break;
+//            case 1:
+//                SHOWCAMERA;
+//                break;
+//            case 2:
+//                SHOWMOVIE;
+//                break;
+//                
+//            default:
+//                @throw [[NSException alloc]initWithName:@"error" reason:@"wrong args" userInfo:nil];
+//                break;
+//        }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -143,6 +147,36 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if ([status isEqualToString:@"exchange"]) {
+        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        [self.view addSubview:cover];
+        cover.backgroundColor = [UIColor blackColor];
+        
+        UILabel *tipsLabel = [[UILabel alloc]init];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换成发单妈妈模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        [cover addSubview:tipsLabel];
+        [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(cover).offset(-60);
+            make.centerX.equalTo(cover);
+        }];
+        
+        id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
+        ((UIView*)_loading).backgroundColor = [UIColor redColor];
+        ((UIView*)_loading).userInteractionEnabled = NO;
+        [cover addSubview:((UIView*)_loading)];
+        
+        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
+        [cmd performWithResult:nil];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.5 animations:^{
+                cover.alpha = 0;
+            } completion:^(BOOL finished) {
+                cover.hidden = 0;
+            }];
+        });
+    }
 }
 
 #pragma mark -- tabbar delegate

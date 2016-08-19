@@ -68,12 +68,17 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSString *info = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([info isEqualToString:@"infoChanged"]) {
-            id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-            id<AYCommand> refresh = [view_notify.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
-        }
+        NSDictionary *info = [dic objectForKey:kAYControllerChangeArgsKey];
+        
+        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
+        id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+        NSDictionary *dic = [info copy];
+        [cmd performWithResult:&dic];
+        
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+        [refresh performWithResult:nil];
+        
     }
 }
 
@@ -252,8 +257,8 @@
 }
 
 -(id)sendRegMessage{
-//    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+//    id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
 //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];

@@ -464,7 +464,6 @@
     </controller>
     
     <controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
-
         <command type="Module" name="OpenUIImagePickerCamera" />
         <command type="Module" name="OpenUIImagePickerPicRoll" />
         <command type="Module" name="GernarateImgUUID" />
@@ -477,7 +476,9 @@
         <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />
         <view type="SetNevigationBarRightBtn"   name="SetNevigationBarRightBtn" />
         <view type="SelfSetting"                name="SelfSetting" />
+        <view type="Picker"                     name="Picker" />
         
+        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
     

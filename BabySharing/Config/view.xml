@@ -460,8 +460,10 @@
     <view type="SelfSetting" name="SelfSetting" factory="AYReuseViewFactory" >
         <command type="message"     message="setPersonalInfo:" />
         <command type="message"     message="hideKeyboard" />
+        <command type="message"     message="changeAdrss:" />
         <command type="notify"      message="screenNameChanged:" />
         <command type="notify"      message="addressChanged:" />
+        <command type="notify"      message="showPickerView" />
     </view>
     
     <view type="BabyInfoCell" name="BabyInfoCell" factory="AYReuseViewFactory" >

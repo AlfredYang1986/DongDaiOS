@@ -48,12 +48,20 @@
 //    des.hidesBottomBarWhenPushed = YES;
 //    [source.navigationController pushViewController:des animated:YES];
     
+//    UIWindow *source_window = [UIApplication sharedApplication].keyWindow;
+    
+    
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     AppDelegate* app = [UIApplication sharedApplication].delegate;
     app.window = [[UIWindow alloc] initWithFrame:screenBounds];
-    [app.window makeKeyAndVisible];
+    UIWindow *des_window = app.window;
+    [des_window makeKeyAndVisible];
+    des_window.rootViewController = des;
     
-    app.window.rootViewController = des;
+//    [UIView transitionFromView:source.view toView:des.view duration:0.75f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
+//        
+//    }];
+    
 }
 
 - (NSString*)getCommandType {

@@ -15,7 +15,7 @@
 
 @implementation AYSelfSettingView{
     UITextField *user_name;
-    UITextField *address;
+    UILabel *address;
     UILabel *boby;
     UILabel *registTime;
 }
@@ -66,19 +66,21 @@
         make.left.equalTo(self).offset(15);
     }];
     
-    address = [[UITextField alloc]init];
+    address = [[UILabel alloc]init];
     [self addSubview:address];
-    address.text = @"北京市朝阳区";
-    address.clearButtonMode = UITextFieldViewModeWhileEditing;
-    address.placeholder = @"请输入地址";
+//    address.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    address.placeholder = @"请输入地址";
     address.font = [UIFont systemFontOfSize:14.f];
     address.textColor = [Tools blackColor];
-    address.delegate = self;
+//    address.delegate = self;
     [address mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(addressLabel);
         make.left.equalTo(user_name);
         make.right.equalTo(self);
     }];
+    
+    address.userInteractionEnabled = YES;
+    [address addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap:)]];
     
     UIView *line02 = [[UIView alloc]init];
     [self addSubview:line02];
@@ -208,10 +210,16 @@
     [cmd performWithResult:&dic_push];
 }
 
+- (void)didAddressLabelTap:(UITapGestureRecognizer*)tap{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"showPickerView"];
+    [cmd performWithResult:nil];
+}
+
 #pragma mark -- notifies
 - (id)setPersonalInfo:(NSDictionary*)args {
     user_name.text = [args objectForKey:@"screen_name"];
-    address.text = [args objectForKey:@"role_tag"];
+    NSString *adr = [args objectForKey:@"address"];
+    address.text = adr ? adr : @"点击设置";
     
     return  nil;
 }
@@ -223,6 +231,11 @@
     if ([address isFirstResponder]) {
         [address resignFirstResponder];
     }
+    return nil;
+}
+
+- (id)changeAdrss:(NSString*)args{
+    address.text = args;
     return nil;
 }
 @end

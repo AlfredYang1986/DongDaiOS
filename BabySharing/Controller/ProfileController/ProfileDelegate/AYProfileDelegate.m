@@ -69,7 +69,7 @@
     [user_info setValue:[_querydata objectForKey:@"user_id"] forKey:@"user_id"];
     [user_info setValue:[_querydata objectForKey:@"screen_photo"] forKey:@"screen_photo"];
     [user_info setValue:[_querydata objectForKey:@"screen_name"] forKey:@"screen_name"];
-    [user_info setValue:[_querydata objectForKey:@"role_tag"] forKey:@"role_tag"];
+    [user_info setValue:[_querydata objectForKey:@"address"] forKey:@"address"];
     [user_info setValue:[_querydata objectForKey:@"kids"] forKey:@"kids"];
     
     return nil;

@@ -17,15 +17,17 @@
 #import "Tools.h"
 #import "AYSelfSettingCellView.h"
 
-#define SCREEN_WIDTH                    [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                   [UIScreen mainScreen].bounds.size.height
+#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
+#define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 
 @end
 
 @implementation AYPersonalSettingController {
-    NSDictionary* profile_dic;
+    
+    NSMutableDictionary* profile_dic;
     
     NSDictionary* change_profile_dic;
     UIImage *changeOwnerImage;
@@ -33,7 +35,8 @@
     BOOL isUserPhotoChanged;
     
     UIImageView *user_photo;
-//    UIButton* btn_save;
+
+    UIView *pickerView;
 }
 
 
@@ -43,7 +46,8 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        profile_dic = [dic objectForKey:kAYControllerChangeArgsKey];
+        profile_dic = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSString* role_tag = [dic objectForKey:kAYControllerChangeArgsKey];
         if (change_profile_dic == nil) {
@@ -74,7 +78,7 @@
     
     user_photo = [[UIImageView alloc]init];
     [self.view addSubview:user_photo];
-    user_photo.image = IMGRESOURCE(@"lol");
+    user_photo.image = IMGRESOURCE(@"default_user");
     user_photo.layer.cornerRadius = 50.f;
     user_photo.clipsToBounds = YES;
     user_photo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
@@ -105,6 +109,20 @@
     NSDictionary *info = profile_dic;
     [set_cmd performWithResult:&info];
     
+    {
+        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+        pickerView = (UIView*)view_picker;
+        [self.view bringSubviewToFront:pickerView];
+        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
+        
+        id obj = (id)cmd_recommend;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_recommend;
+        [cmd_delegate performWithResult:&obj];
+    }
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -147,6 +165,12 @@
     return nil;
 }
 
+- (id)PickerLayout:(UIView*)view{
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+    view.backgroundColor = [Tools garyColor];
+    return nil;
+}
+
 #pragma mark -- actions
 - (id)popToPreviousWithoutSave {
     NSLog(@"pop view controller");
@@ -164,7 +188,7 @@
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_pop setValue:@"infoChanged" forKey:kAYControllerChangeArgsKey];
+    [dic_pop setValue:profile_dic forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
@@ -173,6 +197,11 @@
 - (id)rightItemBtnClick {
     NSLog(@"save btn clicked");
    
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+    
+    __block BOOL isUploadUserImageSuccess;
+    
     if (isUserPhotoChanged) {
         AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
         NSMutableDictionary *up_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
@@ -182,28 +211,80 @@
             NSLog(@"upload result are %d", success);
             if (success) {
                 isUserPhotoChanged = NO;
+                dispatch_semaphore_signal(semaphore);
+                isUploadUserImageSuccess = YES;
+            } else {
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"头像上传失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+                dispatch_semaphore_signal(semaphore);
+                isUploadUserImageSuccess = NO;
             }
         }];
     }
     
-    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
+    if (isUploadUserImageSuccess) {
+        
+        NSDictionary* user = nil;
+        CURRENUSER(user);
+        
+        id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
+        [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
+        [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
+        
+        [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            if (success) {
+                [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+                [self popToPreviousWithSave];
+            } else {
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            }
+        }];
+    }
     
-    NSDictionary* user = nil;
-    CURRENUSER(user);
+    return nil;
+}
+
+#pragma mark -- pickerviewDelegate
+- (id)showPickerView {
     
-    [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
-    [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
-      
-    [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-            [self popToPreviousWithSave];
-        } else {
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-        }
-    }];
+    if (pickerView.frame.origin.y == SCREEN_HEIGHT) {
+        [UIView animateWithDuration:0.25 animations:^{
+            pickerView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
+            NSLog(@"%f",pickerView.frame.origin.y);
+        }];
+    }
+    return nil;
+}
+
+-(id)didSaveClick {
     
+    id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"NapArea"];
+    id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
+    NSString *address = nil;
+    [cmd_index performWithResult:&address];
+    
+    if (address) {
+        [change_profile_dic setValue:address forKey:@"address"];
+        [profile_dic setValue:address forKey:@"address"];
+        id<AYViewBase> view_picker = [self.views objectForKey:@"SelfSetting"];
+        id<AYCommand> change = [view_picker.commands objectForKey:@"changeAdrss:"];
+        [change performWithResult:&address];
+    }
+    
+    if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+        }];
+    }
+    return nil;
+}
+-(id)didCancelClick {
+    if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
+        [UIView animateWithDuration:0.25 animations:^{
+            pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+        }];
+    }
     return nil;
 }
 
@@ -230,10 +311,12 @@
     [save_cmd performWithResult:&dic];
     
     [change_profile_dic setValue:img_name forKey:@"screen_photo"];
+    [profile_dic setValue:img_name forKey:@"screen_photo"];
 }
 
 - (id)screenNameChanged:(NSString*)args {
     [change_profile_dic setValue:args forKey:@"screen_name"];
+    [profile_dic setValue:args forKey:@"screen_name"];
     return nil;
 }
 

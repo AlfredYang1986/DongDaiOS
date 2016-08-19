@@ -121,7 +121,7 @@
     }];
     
     _user_name.text = [args objectForKey:@"screen_name"];
-    _addressLabel.text = [args objectForKey:@"role_tag"];
+    _addressLabel.text = [args objectForKey:@"address"];
     
     NSDictionary *info = nil;
     CURRENUSER(info)
