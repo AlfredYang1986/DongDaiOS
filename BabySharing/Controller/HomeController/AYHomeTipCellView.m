@@ -1,0 +1,201 @@
+//
+//  AYHomeTipCellView.m
+//  BabySharing
+//
+//  Created by Alfred Yang on 22/8/16.
+//  Copyright © 2016年 Alfred Yang. All rights reserved.
+//
+
+#import "AYHomeTipCellView.h"
+#import "Tools.h"
+#import "TmpFileStorageModel.h"
+#import "QueryContentItem.h"
+#import "GPUImage.h"
+#import "Define.h"
+#import "PhotoTagEnumDefines.h"
+#import "QueryContentTag.h"
+#import "QueryContentChaters.h"
+#import "QueryContent+ContextOpt.h"
+#import "AppDelegate.h"
+
+#import "AYCommandDefines.h"
+#import "AYResourceManager.h"
+#import "AYViewCommand.h"
+#import "AYFactoryManager.h"
+#import "AYViewNotifyCommand.h"
+#import "AYHomeCellDefines.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "Masonry.h"
+
+#import "AYThumbsAndPushDefines.h"
+
+#import "AYModelFacade.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
+
+@implementation AYHomeTipCellView {
+    
+    UIImageView *headImage;
+    UILabel *titleLabel;
+    
+    NSDictionary *service;
+}
+
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        NSLog(@"init reuse identifier");
+        
+        AYModelFacade* f = LOGINMODEL;
+        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+        NSString *name = tmp.who.screen_name;
+        UILabel *hello = [[UILabel alloc]init];
+        hello.font = [UIFont systemFontOfSize:16.f];
+        hello.textColor = [UIColor blackColor];
+        NSString *subName = [name substringFromIndex:name.length - 1];
+        NSMutableAttributedString *helloString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@，你好",subName]];
+        
+        NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:43.f],NSForegroundColorAttributeName:[Tools themeColor]};
+        [helloString setAttributes:dic range:NSMakeRange(0, subName.length)];
+        hello.attributedText = helloString;
+        [self addSubview:hello];
+        [hello mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(20);
+            make.top.equalTo(self).offset(20+35);
+        }];
+        UILabel *say = [[UILabel alloc]init];
+        say.text = @"找到附近你认同的妈妈，帮你带两个小时孩子";
+        say.font = [UIFont systemFontOfSize:16.f];
+        say.numberOfLines = 0;
+        say.textColor = [UIColor grayColor];
+        [self addSubview:say];
+        [say mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(20);
+            make.right.equalTo(self).offset(-20);
+            make.top.equalTo(hello.mas_bottom).offset(10);
+        }];
+        
+        
+        UIButton *personal = [[UIButton alloc]init];
+        //    personal.hidden = YES;
+        [personal setTitle:@"我的订单" forState:UIControlStateNormal];
+        personal.backgroundColor = [Tools themeColor];
+        [self addSubview:personal];
+        [personal mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.mas_bottom).offset(-20);
+            make.left.equalTo(self).offset(20);
+            make.right.equalTo(self).offset(-20);
+            make.height.mas_equalTo(44);
+        }];
+        [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
+        
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
+
+#pragma mark -- life cycle
+- (void)setUpReuseCell {
+    id<AYViewBase> cell = VIEW(@"HomeTipCell", @"HomeTipCell");
+    
+    NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
+    for (NSString* name in cell.commands.allKeys) {
+        AYViewCommand* cmd = [cell.commands objectForKey:name];
+        AYViewCommand* c = [[AYViewCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_commands setValue:c forKey:name];
+    }
+    self.commands = [arr_commands copy];
+    
+    NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
+    for (NSString* name in cell.notifies.allKeys) {
+        AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
+        AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
+        c.view = self;
+        c.method_name = cmd.method_name;
+        c.need_args = cmd.need_args;
+        [arr_notifies setValue:c forKey:name];
+    }
+    self.notifies = [arr_notifies copy];
+}
+
+#pragma mark -- commands
+- (void)postPerform {
+    
+}
+
+- (void)performWithResult:(NSObject**)obj {
+    
+}
+
+- (NSString*)getViewType {
+    return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+    return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+    return kAYFactoryManagerCatigoryView;
+}
+
+#pragma mark -- actions
+- (void)didServiceDetailClick:(UIGestureRecognizer*)tap{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didServiceDetailClick"];
+    [cmd performWithResult:nil];
+    
+}
+
+-(void)didPushInfo{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didPushInfo"];
+    [cmd performWithResult:nil];
+}
+
+-(void)foundBtnClick{
+    id<AYCommand> cmd = [self.notifies objectForKey:@"foundBtnClick"];
+    [cmd performWithResult:nil];
+}
+
+#pragma mark -- messages
+- (id)setCellInfo:(NSDictionary*)dic_args{
+    NSDictionary *args = [dic_args objectForKey:@"service"];
+    
+    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            headImage.image = img;
+        }else{
+            [headImage setImage:IMGRESOURCE(@"lol")];
+        }
+    }];
+    
+    titleLabel.text = [args objectForKey:@"title"];
+    
+    return nil;
+}
+
+@end

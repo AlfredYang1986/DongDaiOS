@@ -19,7 +19,7 @@
 
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
-#define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
+#define SHOW_OFFSET_Y               SCREEN_HEIGHT - (196+64)
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 
@@ -29,7 +29,7 @@
     
     NSMutableDictionary* profile_dic;
     
-    NSDictionary* change_profile_dic;
+    NSMutableDictionary* change_profile_dic;
     UIImage *changeOwnerImage;
     NSString *changeImageName;
     BOOL isUserPhotoChanged;
@@ -74,6 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools garyBackgroundColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     change_profile_dic = [[NSMutableDictionary alloc]init];
     
     user_photo = [[UIImageView alloc]init];
@@ -280,11 +281,10 @@
     return nil;
 }
 -(id)didCancelClick {
-    if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-        }];
-    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+    }];
     return nil;
 }
 

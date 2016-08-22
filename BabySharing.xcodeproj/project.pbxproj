@@ -103,6 +103,8 @@
 		700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6211CBA7CEB00A09B3A /* DongDaTabBar.m */; };
 		700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */; };
 		700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */; };
+		700DFE4E1D6ACC63007D8CB1 /* AYHomeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700DFE4D1D6ACC63007D8CB1 /* AYHomeDelegate.m */; };
+		700DFE511D6ACC9D007D8CB1 /* AYHomeTipCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700DFE501D6ACC9D007D8CB1 /* AYHomeTipCellView.m */; };
 		70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */; };
 		70120CA71CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9F1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m */; };
 		70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120CA21CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m */; };
@@ -917,6 +919,10 @@
 		700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DongDaTabBarItem.m; sourceTree = "<group>"; };
 		700BE62A1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPreCreateControllerFactoy.h; sourceTree = "<group>"; };
 		700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPreCreateControllerFactoy.m; sourceTree = "<group>"; };
+		700DFE4C1D6ACC63007D8CB1 /* AYHomeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeDelegate.h; sourceTree = "<group>"; };
+		700DFE4D1D6ACC63007D8CB1 /* AYHomeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeDelegate.m; sourceTree = "<group>"; };
+		700DFE4F1D6ACC9D007D8CB1 /* AYHomeTipCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeTipCellView.h; sourceTree = "<group>"; };
+		700DFE501D6ACC9D007D8CB1 /* AYHomeTipCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeTipCellView.m; sourceTree = "<group>"; };
 		70120C9C1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendOwnerQueryPushDataCommand.h; sourceTree = "<group>"; };
 		70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendOwnerQueryPushDataCommand.m; sourceTree = "<group>"; };
 		70120C9E1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOwnerQueryPushModelFacade.h; sourceTree = "<group>"; };
@@ -2944,6 +2950,17 @@
 			path = ChildControllerInit;
 			sourceTree = "<group>";
 		};
+		700DFE4B1D6ACC27007D8CB1 /* NewHomeGroup */ = {
+			isa = PBXGroup;
+			children = (
+				700DFE4C1D6ACC63007D8CB1 /* AYHomeDelegate.h */,
+				700DFE4D1D6ACC63007D8CB1 /* AYHomeDelegate.m */,
+				700DFE4F1D6ACC9D007D8CB1 /* AYHomeTipCellView.h */,
+				700DFE501D6ACC9D007D8CB1 /* AYHomeTipCellView.m */,
+			);
+			name = NewHomeGroup;
+			sourceTree = "<group>";
+		};
 		701152551CCE62200064A79C /* FoundNickCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -3084,6 +3101,7 @@
 			children = (
 				70F96CD11CFD92E7005663C8 /* HomeCell */,
 				70F96CD51CFD92E7005663C8 /* HomeContentDelegate */,
+				700DFE4B1D6ACC27007D8CB1 /* NewHomeGroup */,
 				7015243F1CBF939C005B4C5B /* AYHomeController.h */,
 				701524401CBF939C005B4C5B /* AYHomeController.m */,
 			);
@@ -7869,6 +7887,7 @@
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
 				70F4287A1CC7B18F00A69977 /* MASLayoutConstraint.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
+				700DFE511D6ACC9D007D8CB1 /* AYHomeTipCellView.m in Sources */,
 				703C7DE11D48AF3200292F18 /* AYGroupChatController.m in Sources */,
 				709949B91CC2BB2500078A5B /* AYFoundRoleTagDelegate.m in Sources */,
 				7006932C1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m in Sources */,
@@ -8253,6 +8272,7 @@
 				703291C31CC492B700028DF2 /* AYContatcerInSystemCommand.m in Sources */,
 				7082F1E41D1D4DFA00E64496 /* AYEMEnterBackgroundCommand.m in Sources */,
 				70FEFB701D41BDFE0086D6DD /* AYNapAdressMapView.m in Sources */,
+				700DFE4E1D6ACC63007D8CB1 /* AYHomeDelegate.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */,
 				70D657051D1D3DDE003D1D7D /* AYExposeContentCommand.m in Sources */,

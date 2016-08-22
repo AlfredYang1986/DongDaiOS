@@ -58,12 +58,16 @@
         <command type="message" message="splitWithFriends:" />
         <command type="notify" message="sendInvateSMS:" />
     </delegate>
-
+    
     <delegate type="TableViewDelegateAndDatasource" name="HomeContent" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="setCallBackTableView:" />
         <command type="message" message="likePostItemResult:" />
         <command type="message" message="pushPostItemResult:" />
+    </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="Home" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify"  message="scrollOffsetY:" />
     </delegate>
 
     <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" factory="AYDefaultDelegateFactory" >

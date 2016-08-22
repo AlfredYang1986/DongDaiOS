@@ -145,7 +145,7 @@ static AYFactoryManager* instance = nil;
                 NSString* factoryName = [[arr.lastObject attributeForName:@"factory"] stringValue];
                 Class c = NSClassFromString(factoryName);
                 if (c == nil) {
-                    @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
+                    @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil]; 
                 }
                 Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
                 IMP im = method_getImplementation(m);

@@ -360,6 +360,12 @@
         <command type="notify" message="crimeReport:" />
     </view>
     
+    <view type="HomeTipCell" name="HomeTipCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="resetPush:" />
+        <command type="notify"      message="foundBtnClick" />
+        <command type="notify"      message="didPushInfo" />
+    </view>
+    
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >
         <command type="message" message="queryContentCellHeight" />
         <command type="message" message="resetContent:" />

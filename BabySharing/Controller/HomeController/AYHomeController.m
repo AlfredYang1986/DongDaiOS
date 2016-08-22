@@ -70,6 +70,8 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     UIView *cover;
     NSString *notePostId;
+    
+    UIImageView *coverImg;
 }
 
 @synthesize isPushed = _isPushed;
@@ -106,70 +108,49 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     self.automaticallyAdjustsScrollViewInsets = NO;
 
     
-    UIImageView *coverImg = [[UIImageView alloc]init];
-    coverImg.image = [UIImage imageNamed:@"lol"];
-    coverImg.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:coverImg];
-    [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH));
-    }];
     
-    UIButton *found = [[UIButton alloc]init];
-//    found.layer.cornerRadius = 37.5f;
-//    found.clipsToBounds = YES;
-    found.backgroundColor = [UIColor clearColor];
-    [found setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
-    [found addTarget:self action:@selector(foundBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:found];
-    [found mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(30);
-        make.top.equalTo(coverImg.mas_bottom).offset(-35);
-        make.size.mas_equalTo(CGSizeMake(75, 75));
-    }];
-    
-    AYModelFacade* f = LOGINMODEL;
-    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-    NSString *name = tmp.who.screen_name;
-    UILabel *hello = [[UILabel alloc]init];
-    hello.font = [UIFont systemFontOfSize:16.f];
-    hello.textColor = [UIColor blackColor];
-    NSString *subName = [name substringFromIndex:name.length - 1];
-    NSMutableAttributedString *helloString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@，你好",subName]];
-    
-    NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:43.f],NSForegroundColorAttributeName:[Tools themeColor]};
-    [helloString setAttributes:dic range:NSMakeRange(0, subName.length)];
-    hello.attributedText = helloString;
-    [self.view addSubview:hello];
-    [hello mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(20);
-        make.top.equalTo(found.mas_bottom).offset(20);
-    }];
-    UILabel *say = [[UILabel alloc]init];
-    say.text = @"找到附近你认同的妈妈，帮你带两个小时孩子";
-    say.font = [UIFont systemFontOfSize:16.f];
-    say.numberOfLines = 0;
-    say.textColor = [UIColor grayColor];
-    [self.view addSubview:say];
-    [say mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(20);
-        make.right.equalTo(self.view).offset(-20);
-        make.top.equalTo(hello.mas_bottom).offset(10);
-    }];
-    
-    UIButton *personal = [[UIButton alloc]init];
-//    personal.hidden = YES;
-    [personal setTitle:@"我的订单" forState:UIControlStateNormal];
-    personal.backgroundColor = [Tools themeColor];
-    [self.view addSubview:personal];
-    [personal mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(say.mas_bottom).offset(40);
-        make.left.equalTo(self.view).offset(20);
-        make.right.equalTo(self.view).offset(-20);
-        make.height.mas_equalTo(44);
-    }];
-    [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
+    {
+        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+        UITableView *tableView = (UITableView*)view_notify;
+        coverImg = [[UIImageView alloc]init];
+        coverImg.image = [UIImage imageNamed:@"lol"];
+        coverImg.backgroundColor = [UIColor lightGrayColor];
+        [tableView addSubview:coverImg];
+        [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(tableView).offset(-SCREEN_WIDTH);
+            make.centerX.equalTo(tableView);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH));
+        }];
+        
+        UIButton *found = [[UIButton alloc]init];
+        //    found.layer.cornerRadius = 37.5f;
+        //    found.clipsToBounds = YES;
+        found.backgroundColor = [UIColor clearColor];
+        [found setImage:[UIImage imageNamed:@"home_search"] forState:UIControlStateNormal];
+        [found addTarget:self action:@selector(foundBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [tableView addSubview:found];
+        [tableView bringSubviewToFront:found];
+        [found mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(tableView).offset(30);
+            make.bottom.equalTo(coverImg).offset(35);
+            make.size.mas_equalTo(CGSizeMake(75, 75));
+        }];
+        
+        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Home"];
+        
+        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+        
+        id obj = (id)cmd_notify;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_notify;
+        [cmd_delegate performWithResult:&obj];
+        
+        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeTipCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name];
+    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -179,34 +160,28 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
 }
 
 #pragma mark -- layouts
-- (id)TableLayout:(UIView*)view {
-    
-    return nil;
-}
-
-- (id)ImageLayout:(UIView*)view {
-    
-    return nil;
-}
-
-- (id)LabelLayout:(UIView*)view {
-    return nil;
-}
-
 - (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
-- (id)FakeNavBarLayout:(UIView*)view {
+- (id)TableLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49);
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(SCREEN_WIDTH, 0, 0, 0);
+    
+    ((UITableView*)view).backgroundColor = [UIColor clearColor];
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     return nil;
 }
 
 #pragma mark -- controller actions
--(void)foundBtnClick{
+-(id)foundBtnClick{
     AYViewController* des = DEFAULTCONTROLLER(@"Location");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
@@ -217,11 +192,11 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
+    return nil;
 }
 
--(void)didPushInfo{
+-(id)didPushInfo{
     AYViewController* des = DEFAULTCONTROLLER(@"OrderList");
-    
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -230,9 +205,26 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
+    return nil;
 }
 
 #pragma mark -- notifies
+- (id)scrollOffsetY:(NSNumber*)args {
+    
+    CGFloat offset_y = args.floatValue;
+    CGFloat offsetH = SCREEN_WIDTH + offset_y;
+    if (offsetH < 0) {
+        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+        UITableView *tableView = (UITableView*)view_notify;
+        [coverImg mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(tableView);
+            make.top.equalTo(tableView).offset(-SCREEN_WIDTH + offsetH);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - offsetH, SCREEN_WIDTH - offsetH));
+        }];
+    }
+    return nil;
+}
+
 - (id)crimeReport:(NSString*)postid{
     notePostId = postid;
     if (!cover) {
@@ -264,23 +256,15 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         [cancel setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
         [cancel addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [btnBg addSubview:cancel];
-    }else
-        cover.hidden = NO;
+    }else cover.hidden = NO;
+    
     [UIView animateWithDuration:0.25 animations:^{
-        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) + CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+        self.tabBarController.tabBar.center = CGPointMake(self.tabBarController.tabBar.center.x, self.tabBarController.tabBar.center.y + 49);
     }];
     return nil;
 }
 
 - (void)doCrimeBtnClick{
-    
-    //    id<AYViewBase> view = [self.views objectForKey:@"HomeCell"];
-    //    id<AYCommand> query_cmd = [view.commands objectForKey:@"queryPostId:"];
-    //    NSString *post_id = nil;
-    //    [query_cmd performWithResult:&post_id];
-    //
-    //    id<AYDelegateBase> del = [self.delegates objectForKey:@"HomeContent"];
-    //    id<AYCommand> cmd_ex = [del.commands objectForKey:@"queryPostId:"];
     
     NSMutableDictionary *expose = [[NSMutableDictionary alloc]init];
     [expose setValue:[NSNumber numberWithInt:1] forKey:@"expose_type"];
@@ -298,14 +282,14 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     
     cover.hidden = YES;
     [UIView animateWithDuration:0.25 animations:^{
-        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+        self.tabBarController.tabBar.center = CGPointMake(self.tabBarController.tabBar.center.x, self.tabBarController.tabBar.center.y - 49);
     }];
 }
 
 - (void)cancelBtnClick{
     cover.hidden = YES;
     [UIView animateWithDuration:0.25 animations:^{
-        self.tabBarController.tabBar.frame = CGRectMake(CGRectGetMinX(self.tabBarController.tabBar.frame), CGRectGetMinY(self.tabBarController.tabBar.frame) - CGRectGetHeight(self.tabBarController.tabBar.frame), CGRectGetWidth(self.tabBarController.tabBar.frame), CGRectGetHeight(self.tabBarController.tabBar.frame));
+        self.tabBarController.tabBar.center = CGPointMake(self.tabBarController.tabBar.center.x, self.tabBarController.tabBar.center.y - 49);
     }];
 }
 

@@ -288,12 +288,9 @@
     </controller>
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
-
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-
         <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true" />
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
 
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
@@ -301,13 +298,10 @@
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="Image" name="Image" />
-        <view type="Label" name="Label" />
-        <view type="FakeStatusBar" name="FakeStatusBar" />
+        <view type="Table"          name="Table" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
+        <delegate type="TableViewDelegateAndDatasource" name="Home" />
     </controller>
     
     <controller type="DefaultController" name="GroupList" factory="AYDefaultControllerFactoy" >
