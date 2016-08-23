@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AYViewBase.h"
 
-@interface AYSetNapOptionsCellView : UITableViewCell
+@interface AYSetNapOptionsCellView : UITableViewCell <AYViewBase>
 
 @end

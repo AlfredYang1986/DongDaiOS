@@ -543,6 +543,12 @@
         <command type="notify"      message="didCancelClick" />
     </view>
     
+    <view type="SetNapOptionsCell" name="SetNapOptionsCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didOptionBtnClick:" />
+        <command type="notify"      message="didEditCustom:" />
+    </view>
+    
     <view type="OrderCell" name="OrderCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />

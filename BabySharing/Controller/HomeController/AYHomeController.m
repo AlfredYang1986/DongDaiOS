@@ -106,8 +106,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
-    
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];

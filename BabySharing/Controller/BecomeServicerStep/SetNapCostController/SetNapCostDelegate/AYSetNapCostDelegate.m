@@ -73,11 +73,22 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfileHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     if (cell == nil) {
-        cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
+        cell = VIEW(@"SetNapOptionsCell", @"SetNapOptionsCell");
     }
+    cell.controller = _controller;
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[options objectAtIndex:indexPath.row] forKey:@"title"];
+    [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
+    
+    if (indexPath.row == (options.count - 1)) {
+        [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isCustom"];
+    }
+    id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    [set_cmd performWithResult:&dic];
+    
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
     

@@ -210,6 +210,11 @@
         <command type="notify" message="sendDelMessage:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="queryCurrentSelected:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="NapLocation" factory="AYDefaultDelegateFactory" >
         <command type="message" message="autoLocationData:" />
         <command type="message" message="changeLocationResultData:" />
