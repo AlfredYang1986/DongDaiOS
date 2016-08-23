@@ -101,6 +101,8 @@
 
 #pragma mark -- actions
 - (IBAction)didAllContentBtnClick:(id)sender {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didAllContent"];
+    [cmd performWithResult:nil];
 }
 
 

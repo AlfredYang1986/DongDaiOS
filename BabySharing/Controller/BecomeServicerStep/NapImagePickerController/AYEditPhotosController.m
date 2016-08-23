@@ -193,7 +193,7 @@
     [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
 }
 
-#pragma mark UICollectionView
+#pragma mark -- UICollectionView
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (_selectedPhotos.count == 0) {
         return 1;

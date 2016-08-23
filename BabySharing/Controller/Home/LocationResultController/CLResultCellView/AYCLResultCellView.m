@@ -148,6 +148,11 @@
         }
     }];
     
+    BOOL isLike;
+    if (isLike) {
+        _likeBtn.selected = YES;
+    }
+    
     NSString *title = [dic objectForKey:@"title"];
     _descLabel.text = title;
     
@@ -182,10 +187,10 @@
                 if (img != nil) {
                     [_ownerIconImage setImage:img];
                 } else
-                    _ownerIconImage.image = IMGRESOURCE(@"lol");
+                    _ownerIconImage.image = IMGRESOURCE(@"default_user");
             }];
         } else
-            _ownerIconImage.image = IMGRESOURCE(@"lol");
+            _ownerIconImage.image = IMGRESOURCE(@"default_user");
         
     }];
     

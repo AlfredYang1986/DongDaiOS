@@ -120,8 +120,15 @@
         }
     }];
     
-    _user_name.text = [args objectForKey:@"screen_name"];
-    _addressLabel.text = [args objectForKey:@"address"];
+    NSString *name = [args objectForKey:@"screen_name"];
+    if (name && ![name isEqualToString:@""]) {
+        _user_name.text = name;
+    }
+    
+    NSString *address = [args objectForKey:@"address"];
+    if (address && ![address isEqualToString:@""]) {
+        _addressLabel.text = address;
+    }
     
     NSDictionary *info = nil;
     CURRENUSER(info)

@@ -33,26 +33,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-//        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) shouldInfiniteLoop:YES imageNamesGroup:_imageNameArr];
-        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) delegate:self placeholderImage:IMGRESOURCE(@"lol")];
-//        cycleScrollView.delegate = self;
-        cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
-        cycleScrollView.currentPageDotColor = [Tools themeColor];
-        cycleScrollView.pageControlDotSize = CGSizeMake(10, 10);
-        [self addSubview:cycleScrollView];
-        cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
-        
-        _popImage = [[UIImageView alloc]init];
-        _popImage.image = IMGRESOURCE(@"bar_left_white");
-        [self addSubview:_popImage];
-        [_popImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(18);
-            make.top.equalTo(self).offset(38);
-            make.size.mas_equalTo(CGSizeMake(20, 20));
-        }];
-        _popImage.userInteractionEnabled = YES;
-        
         UILabel *xFriend = [[UILabel alloc]init];
         xFriend = [Tools setLabelWith:xFriend andText:@"0个共同好友" andTextColor:[UIColor whiteColor] andFontSize:12.f andBackgroundColor:[UIColor clearColor] andTextAlignment:0];
         [self addSubview:xFriend];
@@ -76,37 +56,71 @@
         xFriend.hidden = YES;
         _friendsImage.hidden = YES;
         
-        costLabel = [[UILabel alloc]init];
-        costLabel = [Tools setLabelWith:costLabel andText:[NSString stringWithFormat:@"¥ %.f／小时",80.f] andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
-        [self addSubview:costLabel];
-        [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self);
-            make.bottom.equalTo(self).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(125, 35));
-        }];
     }
     return self;
 }
 
 -(void)setCell_info:(NSDictionary *)cell_info {
     _cell_info = cell_info;
-    cycleScrollView.imageURLStringsGroup = [_cell_info objectForKey:@"images"];
+    
+    NSArray *images = [_cell_info objectForKey:@"images"];
+    
+    if ([[images firstObject] isKindOfClass:[NSString class]]) {
+        NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
+        //    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
+        NSMutableArray *tmp = [NSMutableArray array];
+        for (int i = 0; i < images.count; ++i) {
+            NSString *obj = images[i];
+            obj = [PRE stringByAppendingString:obj];
+            [tmp addObject:obj];
+        }
+        
+        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) delegate:self placeholderImage:IMGRESOURCE(@"lol")];
+        cycleScrollView.imageURLStringsGroup = [tmp copy];
+    } else {
+        
+        cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 225) shouldInfiniteLoop:YES imageNamesGroup:[_cell_info objectForKey:@"images"]];
+        cycleScrollView.localizationImageNamesGroup = [_cell_info objectForKey:@"images"];
+        cycleScrollView.delegate = self;
+    }
+    
+    cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
+    cycleScrollView.currentPageDotColor = [Tools themeColor];
+    cycleScrollView.pageControlDotSize = CGSizeMake(10, 10);
+    [self addSubview:cycleScrollView];
+    cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
+    [cycleScrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
+        make.top.equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 225));
+        make.bottom.equalTo(self);
+    }];
+    
+    _popImage = [[UIButton alloc]init];
+    [_popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
+    [self addSubview:_popImage];
+    [_popImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(18);
+        make.top.equalTo(self).offset(25);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
+    }];
+    
+    costLabel = [[UILabel alloc]init];
+    costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
+    [self addSubview:costLabel];
+    [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self);
+        make.bottom.equalTo(self).offset(-15);
+        make.size.mas_equalTo(CGSizeMake(125, 35));
+    }];
+    
     costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[_cell_info objectForKey:@"price"]).floatValue];
-}
-
--(void)setImageNameArr:(NSArray *)imageNameArr{
-    _imageNameArr = imageNameArr;
-    cycleScrollView.imageURLStringsGroup = _imageNameArr;
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-//    cycleScrollView.localizationImageNamesGroup = _imageNameArr;
     
 }
 
 @end
-/********* ********/
-
-
-

@@ -62,16 +62,6 @@
 - (id)changeQueryData:(NSDictionary*)args{
     querydata = args;
     
-    NSArray *images = [querydata objectForKey:@"images"];
-    NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
-//    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
-    NSMutableArray *tmp = [NSMutableArray array];
-    for (int i = 0; i < images.count; ++i) {
-        NSString *obj = images[i];
-        obj = [PRE stringByAppendingString:obj];
-        [tmp addObject:obj];
-    }
-    imageNameArr = [tmp copy];
     return nil;
 }
 
@@ -88,13 +78,12 @@
         }
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:imageNameArr forKey:@"images"];
+        [dic setValue:[querydata objectForKey:@"images"] forKey:@"images"];
         [dic setValue:[querydata objectForKey:@"price"] forKey:@"price"];
-//        cell.imageNameArr = imageNameArr;
         cell.cell_info = dic;
         
         [cell.friendsImage  addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didXFriendImage:)]];
-        [cell.popImage      addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPopImage:)]];
+        [cell.popImage      addTarget:self action:@selector(didPopImage:) forControlEvents:UIControlEventTouchUpInside];
         
         return (UITableViewCell*)cell;
     } else {
@@ -127,13 +116,13 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        return 225;
-    }else {
-        return 1024;
-    }
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.row == 0) {
+//        return 225;
+//    }else {
+//        return 1024;
+//    }
+//}
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
@@ -240,7 +229,7 @@
     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"共同好友" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 }
 
--(void)didPopImage:(UIGestureRecognizer*)tap {
+-(void)didPopImage:(UIButton*)tap {
     id<AYCommand> pop = [self.notifies objectForKey:@"sendPopMessage"];
     [pop performWithResult:nil];
 }

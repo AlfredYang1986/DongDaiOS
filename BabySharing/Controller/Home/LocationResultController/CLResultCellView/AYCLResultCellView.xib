@@ -41,7 +41,7 @@
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="oKf-ix-c8B">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_user" translatesAutoresizingMaskIntoConstraints="NO" id="oKf-ix-c8B">
                         <rect key="frame" x="320" y="240" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="7fN-ZX-ViA"/>
@@ -116,6 +116,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="default_user" width="80" height="80"/>
         <image name="heart" width="22" height="19"/>
         <image name="heart_unlike" width="23" height="20"/>
         <image name="lol" width="375" height="225"/>

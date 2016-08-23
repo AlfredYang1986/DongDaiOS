@@ -332,6 +332,7 @@
             make.top.equalTo(safeDevices.mas_bottom).offset(25);
             make.centerX.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(75, 80));
+            make.bottom.equalTo(self).offset(-20);
         }];
         
         _dailyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -371,7 +372,9 @@
 
 -(void)setService_info:(NSDictionary *)service_info{
     _service_info = service_info;
-    self.titleLabel.text = [_service_info objectForKey:@"title"];
+    
+    NSString *titleStr = [_service_info objectForKey:@"title"];
+    self.titleLabel.text = titleStr ? titleStr : @"标题未设置";
     
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
@@ -383,6 +386,9 @@
     
     if (_takeOffMore.hidden) {
         NSString *desc = [_service_info objectForKey:@"description"];
+        if (!desc) {
+            desc = @"描述未设置";
+        }
         if (desc.length > 60) {
             desc = [desc substringToIndex:60];
             desc = [desc stringByAppendingString:@"..."];
@@ -410,12 +416,15 @@
                 if (img != nil) {
                     [_photoImageView setImage:img];
                 } else
-                    _photoImageView.image = IMGRESOURCE(@"lol");
+                    _photoImageView.image = IMGRESOURCE(@"default_user");
             }];
         }
     }];
     
     NSString *contentString = [_service_info objectForKey:@"description"];
+    if (!contentString) {
+        contentString = @"暂无评论";
+    }
     if (contentString.length > 46) {
         contentString = [contentString substringToIndex:46];
         contentString = [contentString stringByAppendingString:@"..."];
@@ -462,7 +471,7 @@
             }
         }
     }
-
+    /***************************/
 }
 
 -(void)layoutSubviews{
@@ -478,6 +487,9 @@
     _readMore.hidden = YES;
     _takeOffMore.hidden = NO;
     NSString *desc = [_service_info objectForKey:@"description"];
+    if (!desc) {
+        desc = @"描述未设置";
+    }
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
     paraStyle.alignment = NSTextAlignmentLeft;
@@ -495,6 +507,9 @@
     _takeOffMore.hidden = YES;
     aboutMMIntru.numberOfLines = 3.f;
     NSString *desc = [_service_info objectForKey:@"description"];
+    if (!desc) {
+        desc = @"描述未设置";
+    }
     if (desc.length > 60) {
         desc = [desc substringToIndex:60];
         desc = [desc stringByAppendingString:@"..."];

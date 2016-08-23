@@ -364,7 +364,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
             [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
             [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic_show_module setValue:@"enter" forKey:kAYControllerChangeArgsKey];
+            [dic_show_module setValue:[NSNumber numberWithInt:1] forKey:kAYControllerChangeArgsKey];
 //            id<AYCommand> cmd_show_module = SHOWMODULE;
 //            [cmd_show_module performWithResult:&dic_show_module];
 

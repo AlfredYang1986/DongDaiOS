@@ -96,9 +96,9 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>咚哒</string>
-	<key>NSLocationWhenInUseDescription</key>
-	<string>咚哒</string>
+	<string>开启定位可以让咚哒更快捷提供您需要的服务</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>开启定位可以让咚哒更快捷提供您需要的服务</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

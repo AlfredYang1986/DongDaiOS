@@ -11,7 +11,7 @@
 
 @interface AYFouceCellView : UITableViewCell< SDCycleScrollViewDelegate >
 @property (nonatomic, strong) UIImageView *friendsImage;
-@property (nonatomic, strong) UIImageView *popImage;
-@property (nonatomic, strong) NSArray *imageNameArr;
+@property (nonatomic, strong) UIButton *popImage;
+
 @property (nonatomic, strong) NSDictionary *cell_info;
 @end

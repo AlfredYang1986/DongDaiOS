@@ -54,7 +54,6 @@
         service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         NSLog(@"service_info:%@",service_info);
         
-        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -70,7 +69,6 @@
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-    
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServicePage"];
     
     id obj = (id)cmd_recommend;
@@ -78,19 +76,12 @@
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
     
-//    id<AYViewBase> main_scroll = [self.views objectForKey:@"MainScroll"];
-//    id<AYCommand> cmd = [main_scroll.commands objectForKey:@"setPersonalInfo:"];
-//    NSDictionary *dic_info = personal_info;
-//    [cmd performWithResult:&dic_info];
-    
-//    id<AYDelegateBase> delegate = [self.delegates objectForKey:@"ServicePage"];
     id<AYCommand> cmd = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
     NSDictionary *info_dic = [service_info copy];
     [cmd performWithResult:&info_dic];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
-//    ((UINavigationBar*)navBar).hidden = YES;
     ((UINavigationBar*)navBar).alpha = 0;
     
     shareBtn = [[UIButton alloc]init];
@@ -130,14 +121,12 @@
     right.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
     [bottom_view.layer addSublayer:right];
     
-    
     UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 44)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
     [bookBtn setTitle:@"预定" forState:UIControlStateNormal];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bottom_view addSubview:bookBtn];
-//    [bottom_view bringSubviewToFront:bookBtn];
     
     UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 44)];
     [chatBtn setBackgroundColor:[Tools themeColor]];
@@ -145,12 +134,10 @@
     [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bottom_view addSubview:chatBtn];
-//    [bottom_view bringSubviewToFront:chatBtn];
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    
     return nil;
 }
 
@@ -216,7 +203,8 @@
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     view.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
     
-    [self.view sendSubviewToBack:view];
+    ((UITableView*)view).estimatedRowHeight = 300;
+    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }
 

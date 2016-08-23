@@ -29,7 +29,7 @@
     UIImage* img_home_with_no_message;
     UIImage* img_home_with_unread_message;
     
-    NSString *status;
+    int isExchangeModel;
 }
 
 @synthesize para = _para;
@@ -53,6 +53,7 @@
 }
 
 - (void)postPerform {
+    
     id<AYCommand> cmd_home_init = [self.commands objectForKey:@"HomeInit"];
     AYViewController* home = nil;
     [cmd_home_init performWithResult:&home];
@@ -103,7 +104,8 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        status = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSNumber *status = [dic objectForKey:kAYControllerChangeArgsKey];
+        isExchangeModel = status.intValue;
 //        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
 //        switch (index.integerValue) {
 //            case 0:
@@ -148,35 +150,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if ([status isEqualToString:@"exchange"]) {
-        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        [self.view addSubview:cover];
+//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//    BOOL isLogin = [defaults boolForKey:@"isLogin"];
+//    [defaults setBool:NO forKey:@"isLogin"];
+//    [defaults synchronize];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:cover];
+    
+    id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
+    ((UIView*)_loading).backgroundColor = [UIColor redColor];
+    ((UIView*)_loading).userInteractionEnabled = NO;
+    [cover addSubview:((UIView*)_loading)];
+    
+    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
+    [cmd performWithResult:nil];
+    
+    if (isExchangeModel == 2) {
         cover.backgroundColor = [UIColor blackColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
-        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换成发单妈妈模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到发单妈妈模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
         [cover addSubview:tipsLabel];
         [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cover).offset(-60);
             make.centerX.equalTo(cover);
         }];
         
-        id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-        ((UIView*)_loading).backgroundColor = [UIColor redColor];
-        ((UIView*)_loading).userInteractionEnabled = NO;
-        [cover addSubview:((UIView*)_loading)];
-        
-        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-        [cmd performWithResult:nil];
-        
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:0.5 animations:^{
                 cover.alpha = 0;
             } completion:^(BOOL finished) {
-                cover.hidden = 0;
+                [cover removeFromSuperview];
             }];
         });
+    } else if(isExchangeModel == 1){
+        cover.backgroundColor = [UIColor whiteColor];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:1.5 animations:^{
+                cover.alpha = 0;
+            } completion:^(BOOL finished) {
+                [cover removeFromSuperview];
+            }];
+        });
+    } else {
+        [cover removeFromSuperview];
     }
+    isExchangeModel = 0;
 }
 
 #pragma mark -- tabbar delegate

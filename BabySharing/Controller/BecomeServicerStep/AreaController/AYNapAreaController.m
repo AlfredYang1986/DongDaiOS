@@ -88,7 +88,6 @@
     [self.manager requestWhenInUseAuthorization];
     //定位精度
     self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    
     self.manager.delegate = self;
     if ([CLLocationManager locationServicesEnabled]) {
         //开始定位

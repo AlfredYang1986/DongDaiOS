@@ -219,7 +219,7 @@
 - (id)setPersonalInfo:(NSDictionary*)args {
     user_name.text = [args objectForKey:@"screen_name"];
     NSString *adr = [args objectForKey:@"address"];
-    address.text = adr ? adr : @"点击设置";
+    address.text = (adr && ![adr isEqualToString:@""]) ? adr : @"点击设置";
     
     return  nil;
 }

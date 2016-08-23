@@ -156,7 +156,6 @@
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    
     return nil;
 }
 
@@ -223,9 +222,17 @@
     return nil;
 }
 
-- (id)queryTargetID {
-    id result = owner_id;
-    return result;
+- (id)didAllContent {
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ContentList");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+    [cmd_show_module performWithResult:&dic];
+    return nil;
 }
 
 - (id)relationChanged:(id)args {

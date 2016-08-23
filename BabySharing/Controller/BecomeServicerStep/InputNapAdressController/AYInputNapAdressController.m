@@ -115,6 +115,7 @@
     if (!headAdressString) {
         //    [self.manager requestAlwaysAuthorization];
         [self.manager requestWhenInUseAuthorization];
+        
         //定位精度
         self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         self.manager.delegate = self;

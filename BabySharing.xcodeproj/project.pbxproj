@@ -265,6 +265,8 @@
 		703CCDEB1CC9F11D00CF4563 /* AYSearchFriendView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDE91CC9F11D00CF4563 /* AYSearchFriendView.m */; };
 		703CCDEF1CC9F2B100CF4563 /* AYNotificationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */; };
 		703CCDF01CC9F2B100CF4563 /* AYNotificationCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */; };
+		7040692D1D6C483800D60A4C /* AYSetNapCostDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040692C1D6C483800D60A4C /* AYSetNapCostDelegate.m */; };
+		704069311D6C564700D60A4C /* AYSetNapOptionsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 704069301D6C564700D60A4C /* AYSetNapOptionsCellView.m */; };
 		7043362A1CF587C900F9B73B /* default.png in Resources */ = {isa = PBXBuildFile; fileRef = 704336291CF587C900F9B73B /* default.png */; };
 		704336321CF5D88600F9B73B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 704336311CF5D88600F9B73B /* Assets.xcassets */; };
 		704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 704697AF1CE047F200DACD8A /* MKAnnotationView+WebCache.m */; };
@@ -1240,6 +1242,10 @@
 		703CCDED1CC9F2B100CF4563 /* AYNotificationCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNotificationCellView.m; sourceTree = "<group>"; };
 		703CCDEE1CC9F2B100CF4563 /* AYNotificationCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYNotificationCellView.xib; sourceTree = "<group>"; };
 		703CCDF11CC9F96900CF4563 /* AYNotificationCellDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYNotificationCellDefines.h; sourceTree = "<group>"; };
+		7040692B1D6C483800D60A4C /* AYSetNapCostDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapCostDelegate.h; sourceTree = "<group>"; };
+		7040692C1D6C483800D60A4C /* AYSetNapCostDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapCostDelegate.m; sourceTree = "<group>"; };
+		7040692F1D6C564700D60A4C /* AYSetNapOptionsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapOptionsCellView.h; sourceTree = "<group>"; };
+		704069301D6C564700D60A4C /* AYSetNapOptionsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapOptionsCellView.m; sourceTree = "<group>"; };
 		704336291CF587C900F9B73B /* default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = default.png; sourceTree = "<group>"; };
 		704336311CF5D88600F9B73B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		704697AE1CE047F200DACD8A /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -4274,6 +4280,24 @@
 			path = SearchFriends;
 			sourceTree = "<group>";
 		};
+		7040692A1D6C481600D60A4C /* SetNapCostDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7040692B1D6C483800D60A4C /* AYSetNapCostDelegate.h */,
+				7040692C1D6C483800D60A4C /* AYSetNapCostDelegate.m */,
+			);
+			path = SetNapCostDelegate;
+			sourceTree = "<group>";
+		};
+		7040692E1D6C561C00D60A4C /* SetNapCostCellView */ = {
+			isa = PBXGroup;
+			children = (
+				7040692F1D6C564700D60A4C /* AYSetNapOptionsCellView.h */,
+				704069301D6C564700D60A4C /* AYSetNapOptionsCellView.m */,
+			);
+			path = SetNapCostCellView;
+			sourceTree = "<group>";
+		};
 		704697AD1CE047F200DACD8A /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -7215,6 +7239,8 @@
 		70FA8B671D3FD64C00EAB1EB /* SetNapCostController */ = {
 			isa = PBXGroup;
 			children = (
+				7040692E1D6C561C00D60A4C /* SetNapCostCellView */,
+				7040692A1D6C481600D60A4C /* SetNapCostDelegate */,
 				70FA8B6E1D406EBE00EAB1EB /* optionofPlaying */,
 				70FA8B681D3FD66E00EAB1EB /* AYSetNapCostController.h */,
 				70FA8B691D3FD66E00EAB1EB /* AYSetNapCostController.m */,
@@ -8046,6 +8072,7 @@
 				700BE5F01CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.m in Sources */,
 				704762ED1D2D244B00538AC0 /* AYProfileDelegate.m in Sources */,
 				700BE5B41CBA606800A09B3A /* AYShowModuleUpCommand.m in Sources */,
+				7040692D1D6C483800D60A4C /* AYSetNapCostDelegate.m in Sources */,
 				707E79E61D0673CA00DFC198 /* AYLocationResultDelegate.m in Sources */,
 				703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */,
 				700BE5EB1CBA6E5800A09B3A /* AYLandingReqConfirmCodeCommand.m in Sources */,
@@ -8365,6 +8392,7 @@
 				7050C3431D4B03AD000FFAA4 /* AYPayOptionView.m in Sources */,
 				706E2D2C1D3CC327006A05AD /* AYNapAreaController.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
+				704069311D6C564700D60A4C /* AYSetNapOptionsCellView.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,

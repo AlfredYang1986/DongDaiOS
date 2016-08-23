@@ -278,7 +278,6 @@
 }
 
 - (void)conmitMyService {
-    
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 没一个图片是一个上传线程，需要一个semaphores等待上传完成
     for (int index = 0; index < napPhotos.count; ++index) {
         dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
@@ -410,7 +409,7 @@
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"RevertMyService"];
     [cmd_push performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            //发布服务需两步：1 撤销服务 -> 2更新 -> 3再次发布
+            //修改服务需两步：1 撤销服务 -> 2更新 -> 3再次发布
             [dic setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
             AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
             [cmd_publish performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
@@ -453,13 +452,43 @@
 }
 - (id)rightBtnSelected {
     
-    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改的信息已提交$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//    [[[UIAlertView alloc]initWithTitle:@"TIP" message:@"be readying..." delegate:nil cancelButtonTitle:@"cancerl" otherButtonTitles:nil, nil] show ];
+    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+    NSMutableDictionary* dic_args = [[NSMutableDictionary alloc]init];
+    [dic_args setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_args setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_args setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    if (service_info) {
+        [dic_args setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+    } else {
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setObject:napPhotos forKey:@"images"];
+        
+        NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
+        [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.latitude] forKey:@"latitude"];
+        [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.longitude] forKey:@"longtitude"];
+        [dic setValue:location forKey:@"location"];
+        
+        [dic setValue:napTitle forKey:@"title"];
+        [dic setValue:napDesc forKey:@"description"];
+        [dic setValue:[NSNumber numberWithInt:2] forKey:@"capacity"];
+        [dic setValue:[NSNumber numberWithFloat:napCost.floatValue] forKey:@"price"];
+        [dic setValue:[NSNumber numberWithLong:napCostOptions] forKey:@"cans"];
+        [dic setValue:[NSNumber numberWithLong:napDeviceOptons] forKey:@"facility"];
+        [dic setValue:napAdress forKey:@"address"];
+        if (areaString) {
+            [dic setValue:areaString forKey:@"distinct"];
+        }
+        
+        [dic_args setValue:dic forKey:kAYControllerChangeArgsKey];
+    }
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic_args];
+    
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-    return nil;
-}
 /*************************/
 - (id)addPhotosAction {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"EditPhotos");
