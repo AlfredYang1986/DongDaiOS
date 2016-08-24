@@ -27,9 +27,7 @@
 @end
 
 @implementation AYSetNapCostDelegate {
-    NSArray *options;
     
-    NSMutableDictionary *user_info;
 }
 
 @synthesize querydata = _querydata;
@@ -41,7 +39,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    options = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画",@"自填"];
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -60,15 +58,15 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
--(id)changeQueryData:(NSDictionary*)args {
+-(id)queryData:(NSDictionary*)args {
     _querydata = args;
-    
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
+    NSArray *tmp = [_querydata objectForKey:@"title"];
+    return tmp.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,10 +78,12 @@
     }
     cell.controller = _controller;
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[options objectAtIndex:indexPath.row] forKey:@"title"];
+//    [dic setValue:[options objectAtIndex:indexPath.row] forKey:@"title"];
+    [dic setValue:[_querydata copy] forKey:@"options"];
     [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
     
-    if (indexPath.row == (options.count - 1)) {
+    NSArray *tmp = [_querydata objectForKey:@"title"];
+    if (indexPath.row == (tmp.count - 1)) {
         [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isCustom"];
     }
     id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];

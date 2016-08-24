@@ -155,25 +155,32 @@
 - (id)setCellInfo:(NSDictionary*)args {
     
     BOOL isCustom = [args objectForKey:@"isCustom"];
+    NSDictionary *options = [args objectForKey:@"options"];
+    
+    NSInteger index_tag = ((NSNumber*)[args objectForKey:@"index"]).integerValue;
+    
+    BOOL isShow = ((NSNumber*)[options objectForKey:@"isShow"]).boolValue;
     if (isCustom) {
         customField = [[UITextField alloc]init];
         [self addSubview:customField];
-//        if (customString) {
-//            customField.text = customString;
-//        }
+        NSString *customString = [options objectForKey:@"custom"];
+        if (customString) {
+            customField.text = customString;
+        }
         customField.textColor = [Tools blackColor];
         customField.font = [UIFont systemFontOfSize:14.f];
         customField.backgroundColor = [UIColor whiteColor];
         customField.layer.cornerRadius = 4.f;
         customField.clipsToBounds = YES;
+        customField.delegate = self;
         UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
         paddingView.backgroundColor= [UIColor clearColor];
         customField.leftView = paddingView;
         customField.leftViewMode = UITextFieldViewModeAlways;
         customField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//        if (isShow) {
-//            customField.enabled = NO;
-//        }
+        if (isShow) {
+            customField.enabled = NO;
+        }
         [customField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
             make.left.equalTo(self).offset(80);
@@ -184,7 +191,9 @@
     } else {
         optionBtn = [[UIButton alloc]init];
         [self addSubview:optionBtn];
-        
+        if (isShow) {
+            optionBtn.userInteractionEnabled = NO;
+        }
         [optionBtn setImage:[UIImage imageNamed:@"tab_found"] forState:UIControlStateNormal];
         [optionBtn setImage:[UIImage imageNamed:@"tab_found_selected"] forState:UIControlStateSelected];
         [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -194,14 +203,34 @@
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
         
-        NSInteger index_tag = ((NSNumber*)[args objectForKey:@"index"]).integerValue;
         optionBtn.tag = index_tag;
+        
+        NSInteger notePow = ((NSNumber*)[options objectForKey:@"option"]).integerValue;
+        optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
     }
     
-    titleLabel.text = [args objectForKey:@"title"];
+    titleLabel.text = [[options objectForKey:@"title"] objectAtIndex:index_tag];
 //    index = ((NSNumber*)[args objectForKey:@"index"]).intValue;
     
     return nil;
 }
 
+#pragma mark -- UITextFieldDelegate
+//- (void)textFieldDidEndEditing:(UITextField *)textField{
+//    id<AYCommand> cmd_textchange = [self.notifies objectForKey:@"textChange:"];
+//    NSString *text = textField.text;
+//    [cmd_textchange performWithResult:&text];
+//}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    id<AYCommand> cmd_textchange = [self.notifies objectForKey:@"textChange:"];
+    NSString *text = textField.text;
+    text = [text stringByAppendingString:string];
+    [cmd_textchange performWithResult:&text];
+    return YES;
+}
+
+- (id)queryCustom:(NSString*)args {
+    return customField.text;
+}
 @end

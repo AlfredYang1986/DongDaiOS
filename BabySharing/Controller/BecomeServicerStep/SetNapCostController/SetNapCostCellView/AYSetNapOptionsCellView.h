@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYSetNapOptionsCellView : UITableViewCell <AYViewBase>
+@interface AYSetNapOptionsCellView : UITableViewCell <AYViewBase, UITextFieldDelegate>
 
 @end

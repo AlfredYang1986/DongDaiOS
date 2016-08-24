@@ -175,16 +175,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
-//    UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
-//    if (sns_view.hidden) {
-//        
-//        sns_view.hidden = NO;
-//        phoneNoLogin.hidden = NO;
-//        pri_btn.hidden = NO;
-//    }
 }
 
-#pragma mark -- views layouts
+#pragma mark -- Layouts
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
     view.frame = CGRectMake(0, KSCREENH - 108 - 36 - 46, KSCREENW, view.frame.size.height);

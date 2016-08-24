@@ -696,7 +696,9 @@
     <controller type="DefaultController" name="SetNapDevice" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" />
     </controller>
     
     <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >

@@ -283,20 +283,11 @@
         dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
         [semaphores_upload_photos addObject:tmp];
     }
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);              // 用户上传数据库信息
+//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);              // 用户上传数据库信息
     NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
     for (int index = 0; index < napPhotos.count; ++index) {
         [post_image_result addObject:[NSNumber numberWithBool:NO]];
     }
-    
-    dispatch_queue_t qw = dispatch_queue_create("wait thread", nil);
-    dispatch_async(qw, ^{
-        dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // 2.1 最后一步，回到主线程，说明执行完了
-        });
-    });
     
     dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
     dispatch_async(qp, ^{
@@ -310,7 +301,6 @@
             [photo_dic setValue:extent forKey:@"image"];
             [photo_dic setValue:@"img_desc" forKey:@"expect_size"];
             [photo_dic setValue:iter forKey:@"upload_image"];
-            
             AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
             [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 NSLog(@"upload result are %d", success);
@@ -352,13 +342,11 @@
             if (areaString) {
                 [dic setValue:areaString forKey:@"distinct"];
             }
-            NSLog(@"push json:%@",dic);
             
             id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
             AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
             [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
-                    dispatch_semaphore_signal(semaphore);
                     //发布服务需两步：1上传 -> 2发布
                     NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
                     [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
@@ -377,7 +365,7 @@
                 }
             }];
         } else {
-            dispatch_semaphore_signal(semaphore);
+            
         }
     });
     

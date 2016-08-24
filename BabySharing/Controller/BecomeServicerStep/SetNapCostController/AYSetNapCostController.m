@@ -123,22 +123,36 @@
 //        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 1));
 //    }];
     
-    {
-        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
-        
-        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-        
-        id obj = (id)cmd_notify;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_notify;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&class_name];
+    
+    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
+    
+    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
+    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+    
+    id obj = (id)cmd_notify;
+    [cmd_datasource performWithResult:&obj];
+    obj = (id)cmd_notify;
+    [cmd_delegate performWithResult:&obj];
+    
+    id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_cell performWithResult:&class_name];
+    
+    
+    id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    NSArray *options = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画",@"自填"];
+    [dic setValue:options forKey:@"title"];
+    [dic setValue:[NSNumber numberWithBool:isShow] forKey:@"isShow"];
+    if (notePow) {
+        NSNumber *numb = [NSNumber numberWithLong:notePow];
+        [dic setValue:numb forKey:@"option"];
     }
+    if (customString) {
+        [dic setValue:customString forKey:@"custom"];
+    }
+    [cmd_query performWithResult:&dic];
     
 //    NSArray *options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
 //    
@@ -302,7 +316,7 @@
     NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
     [dic_options setValue:costTextField.text forKey:@"cost"];
     [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
-    [dic_options setValue:customField.text forKey:@"option_custom"];
+    [dic_options setValue:customString forKey:@"option_custom"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -321,4 +335,8 @@
     return nil;
 }
 
+-(id)textChange:(NSString*)text {
+    customString = text;
+    return nil;
+}
 @end

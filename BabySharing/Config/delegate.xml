@@ -211,7 +211,7 @@
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
-        <command type="message" message="changeQueryData:" />
+        <command type="message" message="queryData:" />
         <command type="notify" message="queryCurrentSelected:" />
     </delegate>
     
