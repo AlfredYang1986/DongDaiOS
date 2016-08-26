@@ -99,7 +99,6 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-
     titleView.text = @" ";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
@@ -109,9 +108,8 @@
 }
 
 - (id)LandingInputNameLayout:(UIView*)view {
-    NSLog(@"Landing Input View view layout");
-    CGFloat margin = 15;
-    view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 130);
+    CGFloat margin = 20.f;
+    view.frame = CGRectMake(margin, 80, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 
@@ -153,8 +151,8 @@
     NSString* input_name = nil;
     [cmd_coder performWithResult:&input_name];
     
-    if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 16) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"姓名长度应在4-16之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 32) {
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"姓名长度应在4-32个字符之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         return nil;
     }
     

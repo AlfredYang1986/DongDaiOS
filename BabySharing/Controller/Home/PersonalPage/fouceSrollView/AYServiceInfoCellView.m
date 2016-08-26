@@ -332,7 +332,7 @@
             make.top.equalTo(safeDevices.mas_bottom).offset(25);
             make.centerX.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(75, 80));
-            make.bottom.equalTo(self).offset(-20);
+            make.bottom.equalTo(self).offset(-40);
         }];
         
         _dailyBtn = [UIButton buttonWithType:UIButtonTypeCustom];

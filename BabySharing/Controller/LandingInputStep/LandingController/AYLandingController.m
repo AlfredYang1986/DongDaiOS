@@ -15,6 +15,7 @@
 #import "AYRemoteCallCommand.h"
 #import "Tools.h"
 #import "AYRemoteCallDefines.h"
+#import "AYAlertView.h"
 
 typedef NS_ENUM(NSInteger, RegisterResult) {
     RegisterResultSuccess,
@@ -40,7 +41,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     CGFloat diff;
     BOOL isUpAnimation;
     UIButton* pri_btn;
-    UIView *phoneNoLogin;
+    UIButton *phoneNoLogin;
+    UIButton *weChatLogin;
     
     dispatch_semaphore_t wait_for_qq_api;
     dispatch_semaphore_t wait_for_weibo_api;
@@ -88,67 +90,76 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    UINavigationBar *bar= [UINavigationBar appearance];
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    [bar setShadowImage:[Tools imageWithColor:[UIColor colorWithWhite:0.5922 alpha:0.25] size:CGSizeMake(width, 1)]];
-    [bar setBackgroundImage:[Tools imageWithColor:[UIColor whiteColor] size:CGSizeMake(width, 64)] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-    bar.barStyle = UIStatusBarStyleDefault;
-    
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-//    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"launchscreen"]];
-//    UIImage *image = [UIImage fullscreenImageWithName:@"home_bg.png"];
-    self.view.layer.contents = (id)IMGRESOURCE(@"launchscreen").CGImage;
-   
+//    self.view.layer.contents = (id)IMGRESOURCE(@"launchscreen").CGImage;
+    self.view.backgroundColor = [Tools themeColor];
     isUpAnimation = NO;
     
-    UIImageView *title = [[UIImageView alloc]init];
-    title.image = PNGRESOURCE(@"login_logo");
-    [self.view addSubview:title];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(144);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(163, 73));
+    UIImageView *logo = [[UIImageView alloc]init];
+    logo.image = IMGRESOURCE(@"login_logo");
+    [self.view addSubview:logo];
+    [logo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(60);
+        make.left.equalTo(self.view).offset(35);
+        make.size.mas_equalTo(CGSizeMake(55, 55));
     }];
-    title.hidden = YES;
     
-    phoneNoLogin = [[UIView alloc]init];
-    [self.view addSubview:phoneNoLogin];
-//    [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1 alpha:0.9]];
-    phoneNoLogin.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
-    phoneNoLogin.layer.cornerRadius = 2.f;
+    UILabel *welcome = [[UILabel alloc]init];
+    welcome = [Tools setLabelWith:welcome andText:@"欢迎来到咚哒" andTextColor:[UIColor whiteColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    welcome.font = [UIFont boldSystemFontOfSize:24.f];
+    [self.view addSubview:welcome];
+    [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(logo);
+        make.top.equalTo(logo.mas_bottom).offset(10);
+    }];
+    
+    UILabel *welTips = [[UILabel alloc]init];
+    welTips = [Tools setLabelWith:welTips andText:@"为孩子预定贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
+//    welTips.font = [UIFont systemFontOfSize:<#(CGFloat)#> weight:<#(CGFloat)#>]
+    welTips.numberOfLines = 0;
+    [self.view addSubview:welTips];
+    [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(welcome.mas_bottom).offset(10);
+        make.left.equalTo(logo);
+    }];
+    
+    phoneNoLogin = [[UIButton alloc]init];
+    phoneNoLogin.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [phoneNoLogin setTitle:@"手机号登录" forState:UIControlStateNormal];
+    [phoneNoLogin setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [phoneNoLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
+    [phoneNoLogin setImage:IMGRESOURCE(@"phone_icon") forState:UIControlStateNormal];
+    [phoneNoLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -35, 0, 0)];
+    [phoneNoLogin setBackgroundColor:[UIColor colorWithWhite:1.f alpha:1.f]];
+    phoneNoLogin.layer.cornerRadius = 45.f * 0.5;
     phoneNoLogin.clipsToBounds = YES;
-    
+    [self.view addSubview:phoneNoLogin];
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(KSCREENH * 398/667);
-        make.bottom.equalTo(self.view).offset(-226);
+        make.bottom.equalTo(self.view).offset(-200);
         make.centerX.equalTo(self.view);
-        make.left.equalTo(self.view).offset(37.5);
-        make.right.equalTo(self.view).offset(-37.5);
-        make.height.mas_equalTo(40);
+        make.left.equalTo(self.view).offset(35);
+        make.right.equalTo(self.view).offset(-35);
+        make.height.mas_equalTo(45);
     }];
+    [phoneNoLogin addTarget:self action:@selector(pushInputPhoneNo) forControlEvents:UIControlEventTouchUpInside];
     
-    UIImageView *p_login_img = [[UIImageView alloc]init];
-    p_login_img.image = PNGRESOURCE(@"phone_icon");
-    [phoneNoLogin addSubview:p_login_img];
-    [p_login_img mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(phoneNoLogin.mas_centerX).offset(-50);
-        make.centerY.equalTo(phoneNoLogin);
-        make.size.mas_equalTo(CGSizeMake(10, 20));
+    weChatLogin = [[UIButton alloc]init];
+    weChatLogin.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [weChatLogin setTitle:@"微信账号登录" forState:UIControlStateNormal];
+    [weChatLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
+    [weChatLogin setImage:IMGRESOURCE(@"login_wechat") forState:UIControlStateNormal];
+    [weChatLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
+    [weChatLogin setBackgroundColor:[Tools themeColor]];
+    weChatLogin.layer.borderColor = [UIColor whiteColor].CGColor;
+    weChatLogin.layer.borderWidth = 2.f;
+    weChatLogin.layer.cornerRadius = 45.f * 0.5;
+    weChatLogin.clipsToBounds = YES;
+    [self.view addSubview:weChatLogin];
+    [weChatLogin mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(phoneNoLogin.mas_bottom).offset(20);
+        make.centerX.equalTo(phoneNoLogin);
+        make.size.equalTo(phoneNoLogin);
     }];
-    UILabel *p_login_text = [[UILabel alloc]init];
-    p_login_text.text = @"手机号登录";
-    p_login_text.font = [UIFont systemFontOfSize:14.f];
-    p_login_text.textColor = [Tools themeColor];
-    [phoneNoLogin addSubview:p_login_text];
-    [p_login_text mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(phoneNoLogin.mas_centerX).offset(50);
-        make.centerY.equalTo(phoneNoLogin);
-    }];
-    
-    phoneNoLogin.userInteractionEnabled = YES;
-    [phoneNoLogin addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushInputPhoneNo)]];
-    
+    [weChatLogin addTarget:self action:@selector(didWeChatLoginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     /****** *****/
     pri_btn = [[UIButton alloc]init];
@@ -173,7 +184,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
     
 }
 
@@ -237,7 +248,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 -(void)pri_btnDidClick{
     NSLog(@"push to suer privacy");
     id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:UserAgree forKey:kAYControllerActionDestinationControllerKey];
@@ -249,7 +259,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 -(void)pushInputPhoneNo{
     id<AYCommand> des = DEFAULTCONTROLLER(@"InputCoder");
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -259,18 +268,42 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [cmd performWithResult:&dic];
 }
 
+- (void)didWeChatLoginBtnClick{
+    id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+    id<AYCommand> cmd_login = [f.commands objectForKey:@"LoginSNSWithWechat"];
+    [cmd_login performWithResult:nil];
+}
+
+- (void)showAYAlertViewWithTitle:(NSString*)title {
+    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
+    [self.view addSubview:alertView];
+    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.view).offset(10);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:1.f animations:^{
+            alertView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [alertView removeFromSuperview];
+        }];
+    });
+}
+
 #pragma mark -- status
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {
     _landing_status = new_status;
     
-    UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
+//    UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
     UIView* loading_view = [self.views objectForKey:@"Loading"];
     
     switch (_landing_status) {
         case RemoteControllerStatusReady: {
             phoneNoLogin.hidden = NO;
+            weChatLogin.hidden = NO;
             pri_btn.hidden = NO;
-            sns_view.hidden = NO;
+//            sns_view.hidden = NO;
             loading_view.hidden = YES;
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
             [loading_view removeFromSuperview];
@@ -279,8 +312,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         case RemoteControllerStatusPrepare:
         case RemoteControllerStatusLoading: {
             phoneNoLogin.hidden = YES;
+            weChatLogin.hidden = YES;
             pri_btn.hidden = YES;
-            sns_view.hidden = YES;
+//            sns_view.hidden = YES;
             loading_view.hidden = NO;
             [self.view addSubview:loading_view];
             [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
@@ -320,6 +354,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)SNSEndLogin:(id)args {
 //    self.landing_status = RemoteControllerStatusReady;
+    int code = ((NSNumber*)args).intValue;
+    if (code == -2) {
+        [self showAYAlertViewWithTitle:@"授权失败"];
+    } else {
+        [self showAYAlertViewWithTitle:@"授权失败"];
+    }
     return nil;
 }
 

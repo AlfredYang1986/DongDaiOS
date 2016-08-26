@@ -61,6 +61,7 @@ static NSString* const kWechatDescription = @"wechat";
 -(void) onResp:(BaseResp*)resp {
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         SendAuthResp *aresp = (SendAuthResp *)resp;
+        int code = aresp.errCode;
         if (aresp.errCode == 0) {
             [self getWeChatOpenIdWithCode:aresp.code];
         } else {
@@ -68,8 +69,8 @@ static NSString* const kWechatDescription = @"wechat";
             [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
             [notify setValue:kAYNotifyEndLogin forKey:kAYNotifyFunctionKey];
             
-            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-            [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+            [notify setValue:[NSNumber numberWithInt:code] forKey:kAYNotifyArgsKey];
             [self performWithResult:&notify];
         }
     }

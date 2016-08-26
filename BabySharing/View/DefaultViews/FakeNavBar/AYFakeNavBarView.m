@@ -165,6 +165,21 @@
     return nil;
 }
 
+- (id)setRightBtnWithTitle:(id)args {
+    NSString* title = (NSString*)args;
+    [rightBtn removeFromSuperview];
+    
+    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [bar_right_btn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+    [bar_right_btn setTitle:title forState:UIControlStateNormal];
+    bar_right_btn.center = CGPointMake([UIScreen mainScreen].bounds.size.width - 10.5 - bar_right_btn.frame.size.width / 2, self.frame.size.height * 0.5);
+    
+    [bar_right_btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchDown];
+    rightBtn = bar_right_btn;
+    [self addSubview:bar_right_btn];
+    return nil;
+}
+
 - (id)setLeftBtnVisibility:(id)args {
     BOOL bHidden = ((NSNumber*)args).boolValue;
     leftBtn.hidden = bHidden;

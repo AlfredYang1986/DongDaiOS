@@ -9,12 +9,9 @@
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true"/> -->
         <facade type="DefaultFacade" name="EM" notification="true"/>
         
-<!--        <view type="LandingTitle" name="LandingTitle" />-->
-<!--        <view type="LandingInput" name="LandingInput" />-->
-        <view type="LandingSNS" name="LandingSNS" />
+<!--        <view type="LandingSNS" name="LandingSNS" />-->
         <view type="Loading"    name="Loading" />
         
         <model notification="true" />
@@ -24,9 +21,9 @@
         <command type="Module"          name="LandingAreaCode" />
         <facade type="DefaultFacade"    name="LandingRemote" notification="true" />
         
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="InputInvateCode" name="InputInvateCode" />
+        <view type="FakeNavBar"             name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
+        <view type="InputInvateCode"        name="InputInvateCode" />
         <model notification="true" />
     </controller>
     
@@ -43,7 +40,6 @@
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputNo"         name="LandingInputNo" />
         <model notification="true" />
     </controller>
@@ -54,7 +50,6 @@
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputCoder"      name="LandingInputCoder" />
         
         <model notification="true" />
@@ -64,9 +59,9 @@
         <facade type="DefaultFacade"        name="ProfileRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputName"       name="LandingInputName" />
-        
+<!--        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />-->
+
         <model notification="true" />
     </controller>
     

@@ -70,7 +70,7 @@
     }
     
     
-    OBShapedButton* state = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 64 - 44, SCREEN_WIDTH, 44)];
+    OBShapedButton* state = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
     [state setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
     [state setBackgroundColor:[UIColor clearColor]];
     state.titleLabel.font = [UIFont systemFontOfSize:17.f];
@@ -93,7 +93,7 @@
 
 #pragma mark -- layout
 - (id)WebLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - 100);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 40);
     
     NSString *path = [[NSBundle mainBundle]pathForResource:@"privacy" ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile:path];

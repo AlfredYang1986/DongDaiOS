@@ -111,7 +111,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
         UITableView *tableView = (UITableView*)view_notify;
         coverImg = [[UIImageView alloc]init];
-        coverImg.image = [UIImage imageNamed:@"lol"];
+        coverImg.image = [UIImage imageNamed:@"theme_image"];
         coverImg.backgroundColor = [UIColor lightGrayColor];
         [tableView addSubview:coverImg];
         [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {

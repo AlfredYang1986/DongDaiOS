@@ -19,7 +19,7 @@
 
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
-#define SHOW_OFFSET_Y               SCREEN_HEIGHT - (196+64)
+#define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
 
@@ -28,14 +28,13 @@
 @implementation AYPersonalSettingController {
     
     NSMutableDictionary* profile_dic;
-    
     NSMutableDictionary* change_profile_dic;
+    
     UIImage *changeOwnerImage;
     NSString *changeImageName;
     BOOL isUserPhotoChanged;
     
     UIImageView *user_photo;
-
     UIView *pickerView;
 }
 
@@ -86,7 +85,7 @@
     user_photo.layer.borderWidth = 2.f;
     [user_photo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(20);
+        make.top.equalTo(self.view).offset(104);
         make.size.mas_equalTo(CGSizeMake(100, 100));
     }];
     user_photo.userInteractionEnabled = YES;
@@ -160,7 +159,7 @@
 
 - (id)SelfSettingLayout:(UIView*)view {
     CGFloat margin = 20;
-    view.frame = CGRectMake(margin, 150, SCREEN_WIDTH - margin * 2, 200);
+    view.frame = CGRectMake(margin, 214, SCREEN_WIDTH - margin * 2, 200);
     
 //    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
@@ -197,11 +196,13 @@
 
 - (id)rightItemBtnClick {
     NSLog(@"save btn clicked");
-   
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-    
-    __block BOOL isUploadUserImageSuccess;
+//    dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
+//    dispatch_async(qp, ^{
+//        
+//    });
+//    
+//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+//    dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
     
     if (isUserPhotoChanged) {
         AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
@@ -212,37 +213,34 @@
             NSLog(@"upload result are %d", success);
             if (success) {
                 isUserPhotoChanged = NO;
-                dispatch_semaphore_signal(semaphore);
-                isUploadUserImageSuccess = YES;
+//                dispatch_semaphore_signal(semaphore);
+                [self updatePersonalInfo];
             } else {
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"头像上传失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-                dispatch_semaphore_signal(semaphore);
-                isUploadUserImageSuccess = NO;
+//                dispatch_semaphore_signal(semaphore);
             }
         }];
+    }else {
+        [self updatePersonalInfo];
     }
-    
-    if (isUploadUserImageSuccess) {
-        
-        NSDictionary* user = nil;
-        CURRENUSER(user);
-        
-        id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
-        [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
-        [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
-        
-        [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            if (success) {
-                [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-                [self popToPreviousWithSave];
-            } else {
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-            }
-        }];
-    }
-    
     return nil;
+}
+
+- (void)updatePersonalInfo {
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
+    [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
+    [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
+    [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [self popToPreviousWithSave];
+        } else {
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+        }
+    }];
 }
 
 #pragma mark -- pickerviewDelegate
@@ -273,7 +271,6 @@
     }
     
     if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
-        
         [UIView animateWithDuration:0.25 animations:^{
             pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
         }];

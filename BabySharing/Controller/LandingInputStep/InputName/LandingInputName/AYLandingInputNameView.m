@@ -13,6 +13,7 @@
 #import "AYControllerBase.h"
 #import "AYFacadeBase.h"
 #import "Tools.h"
+#import "AYAlertView.h"
 
 #define BASICMARGIN                         8
 
@@ -37,10 +38,8 @@
     
     NSTimer* timer;
     NSInteger seconds;
-    UIButton* clear_btn;
     
     /**/
-    UILabel *input_tips;
     UIView  *inputView;
     UITextField *name_area;
 }
@@ -52,15 +51,12 @@
 
 - (void)postPerform {
     
-    input_tips = [[UILabel alloc]init];
-    input_tips.text = @"你的名字";
-    input_tips.font = [UIFont systemFontOfSize:14.f];
-    input_tips.textColor = [Tools colorWithRED:242 GREEN:242 BLUE:242 ALPHA:1.f];
-    input_tips.textAlignment = NSTextAlignmentLeft;
-    [self addSubview:input_tips];
-    [input_tips mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *tips = [[UILabel alloc]init];
+    tips = [Tools setLabelWith:tips andText:@"还有，您的姓名？" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:22.f andBackgroundColor:nil andTextAlignment:1];
+    [self addSubview:tips];
+    [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
-        make.left.equalTo(self);
+        make.centerX.equalTo(self);
     }];
     
     /* 姓名 */
@@ -70,42 +66,45 @@
     inputView.layer.cornerRadius = 2.f;
     inputView.clipsToBounds = YES;
     [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(input_tips.mas_bottom).offset(15);
+        make.top.equalTo(tips.mas_bottom).offset(30);
         make.left.equalTo(self);
         make.width.equalTo(self);
         make.height.mas_equalTo(40);
     }];
     
-    UILabel *leftView = [[UILabel alloc]init];
-    leftView.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
-    leftView.text = @"姓 名";
-    leftView.font = [UIFont systemFontOfSize:14.f];
-    leftView.textColor = [Tools themeColor];
-    leftView.textAlignment = NSTextAlignmentCenter;
-    [inputView addSubview:leftView];
-    [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputView);
-        make.left.equalTo(inputView);
-        make.size.mas_equalTo(CGSizeMake(96, 40));
-    }];
+    CALayer *rule_layer = [CALayer layer];
+    rule_layer.frame = CGRectMake(15, 13, 1, 14);
+    rule_layer.backgroundColor = [Tools garyLineColor].CGColor;
+    [inputView.layer addSublayer:rule_layer];
+    
+//    UILabel *leftView = [[UILabel alloc]init];
+//    leftView.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
+//    leftView.text = @"姓 名";
+//    leftView.font = [UIFont systemFontOfSize:14.f];
+//    leftView.textColor = [Tools themeColor];
+//    leftView.textAlignment = NSTextAlignmentCenter;
+//    [inputView addSubview:leftView];
+//    [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(inputView);
+//        make.left.equalTo(inputView);
+//        make.size.mas_equalTo(CGSizeMake(96, 40));
+//    }];
     
     name_area = [[UITextField alloc]init];
+    name_area.delegate = self;
     name_area.backgroundColor = [UIColor clearColor];
     name_area.font = [UIFont systemFontOfSize:14.f];
     name_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
     name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(phoneTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    name_area.placeholder = @"输入您的姓名";
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
     [inputView addSubview:name_area];
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(inputView);
         make.top.equalTo(inputView);
-        make.left.equalTo(leftView.mas_right).offset(10);
+        make.left.equalTo(inputView).offset(25);
         make.height.equalTo(inputView);
     }];
-    
-    clear_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, name_area.frame.size.height)];
-    clear_btn.center = CGPointMake(name_area.frame.size.width - 25 / 2, name_area.frame.size.height / 2);
-    [name_area addSubview:clear_btn];
     
 }
 
@@ -127,25 +126,40 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-//    id<AYCommand> cmd = [self.notifies objectForKey:@"queryCurUserName:"];
-//    NSString* numb = nil;
-//    [cmd performWithResult:&numb];
 }
 
 #pragma mark -- handle
-- (void)phoneTextFieldChanged:(UITextField*)tf {
+- (void)nameTextFieldChanged:(UITextField*)tf {
     
-    if (![name_area.text isEqualToString:@""]) {
-        clear_btn.hidden = NO;
-    } else {
-        clear_btn.hidden = YES;
-    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-//    if (textField == confirm_area && confirm_area.text.length >= 4 && ![string isEqualToString:@""]) return NO;
-//    else
+    NSString *tmp = textField.text;
+    if ([Tools bityWithStr:tmp] >= 32){
+        [self showAYAlertViewWithTitle:@"4-32个字符(汉字／大写字母长度为2)，仅限中英文"];
+        return NO;
+    }
+    else {
         return YES;
+    }
+}
+
+
+- (void)showAYAlertViewWithTitle:(NSString*)title {
+    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
+    [self addSubview:alertView];
+    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(inputView.mas_bottom).offset(60);
+        make.centerX.equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:1.f animations:^{
+            alertView.alpha = 0;
+        } completion:^(BOOL finished) {
+            [alertView removeFromSuperview];
+        }];
+    });
 }
 
 #pragma mark -- view commands

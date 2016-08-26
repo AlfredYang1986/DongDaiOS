@@ -91,29 +91,15 @@
     [bar_right_btn setTitle:@"" forState:UIControlStateNormal];
     bar_right_btn.userInteractionEnabled = NO;
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-    
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
     return nil;
 }
 
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UILabel* titleView = (UILabel*)view;
-
-    titleView.text = @"  ";
-    titleView.font = [UIFont systemFontOfSize:18.f];
-    titleView.textColor = [UIColor whiteColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 64 / 2);
-    return nil;
-}
-
 - (id)LandingInputCoderLayout:(UIView*)view {
-    NSLog(@"Landing Input View view layout");
-    CGFloat margin = 15.f;
-    view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 240);
+    CGFloat margin = 20.f;
+    view.frame = CGRectMake(margin, 80, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 
@@ -145,11 +131,10 @@
 }
 
 - (id)rightBtnSelected {
-    NSLog(@"setting view controller");
+    
     id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
     id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
     [cmd performWithResult:nil];
-    
     
     id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
     id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"queryCurCoder:"];
@@ -162,19 +147,11 @@
     [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     [dic_auth setValue:input_coder forKey:@"code"];
     
-//    [self performForView:nil andFacade:@"LandingRemote" andMessage:@"LandingAuthConfirm" andArgs:[dic_auth copy]];
     AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"LandingAuthConfirm"];
     [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         NSMutableDictionary* args = [result mutableCopy];
         NSString* msg = [result objectForKey:@"message"];
-        
-        id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
-        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
-        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        [dic setValue:args forKey:kAYControllerChangeArgsKey];
         
         AYModel* m = MODEL;
         AYFacade* f = [m.facades objectForKey:@"LoginModel"];
@@ -182,21 +159,16 @@
         [cmd performWithResult:&result];
         
         if (success || [msg isEqualToString:@"new user"]) {
-            
+            id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
+            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
+            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+            [dic setValue:args forKey:kAYControllerChangeArgsKey];
             id<AYCommand> cmd_push = PUSH;
             [cmd_push performWithResult:&dic];
-        }else if([msg isEqualToString:@"already login"]){
             
-//            id<AYCommand> Welcome = DEFAULTCONTROLLER(@"Welcome");
-//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-//            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//            [dic setValue:Welcome forKey:kAYControllerActionDestinationControllerKey];
-//            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//            [dic setValue:args forKey:kAYControllerChangeArgsKey];
-//            
-//            id<AYCommand> cmd_push = PUSH;
-//            [cmd_push performWithResult:&dic];
-            
+        } else if([msg isEqualToString:@"already login"]){
             id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
             AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
             [cmd_profile performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -211,9 +183,15 @@
                     [alert show];
                 }
             }];
-        }
-        else{
-            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        } else if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]){
+//            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
+            id<AYCommand> hide_cmd = [input.commands objectForKey:@"showAYAlertVeiw:"];
+            NSString *tmp = @"动态密码输入错误";
+            [hide_cmd performWithResult:&tmp];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"获取动态密码失败，请检查网络是否正常连接" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+            [alert show];
         }
     }];
     
@@ -254,8 +232,9 @@
                 bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
                 [fake_cmd performWithResult:&bar_right_btn];
                 
-                id<AYCommand> hide_cmd = [input.commands objectForKey:@"hideEnterBtnForOldUser"];
+                id<AYCommand> hide_cmd = [input.commands objectForKey:@"hideEnterBtnForNewUser"];
                 [hide_cmd performWithResult:nil];
+                
             } else if (is_reg.intValue == 1) {
                 id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
                 id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
@@ -269,14 +248,6 @@
             }
         }
     }];
-    return nil;
-}
-
-- (id)startRemoteCall:(id)obj {
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
     return nil;
 }
 

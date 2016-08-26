@@ -10,6 +10,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYLandingInputNameView : UIView <AYViewBase>
+@interface AYLandingInputNameView : UIView <AYViewBase, UITextFieldDelegate>
 
 @end

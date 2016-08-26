@@ -23,15 +23,14 @@
 
 #define SCREEN_PHOTO_WIDTH                      100
 
-#define WELCOMEY        SCREEN_HEIGHT * 56/667
-#define TIPSY           WELCOMEY + 44
-#define PHOTOY          TIPSY + 10
+#define WELCOMEY        80
+#define PHOTOY          WELCOMEY + 65
 #define ENTERBTNY       PHOTOY + 151
 
 @interface AYWelcomeController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (nonatomic, strong) NSMutableDictionary* login_attr;
 @property (nonatomic, strong) UIImage *changeImage;
-@property (nonatomic, strong) UITextField *invateCode;
+//@property (nonatomic, strong) UITextField *invateCode;
 @end
 
 @implementation AYWelcomeController {
@@ -47,7 +46,7 @@
 
 @synthesize login_attr = _login_attr;
 @synthesize changeImage = _changeImage;
-@synthesize invateCode = _invateCode;
+//@synthesize invateCode = _invateCode;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -56,13 +55,12 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         isFirst = YES;
-        
     }
 //=======
 //        NSLog(@"init args are : %@", _login_attr);
 //        if (![_login_attr objectForKey:@"role_tag"] || [[_login_attr objectForKey:@"role_tag"]isEqualToString:@""]) {
 //            isFirstSNS = YES;
-//            [_login_attr setValue:@"未设置角色名" forKey:@"role_tag"];
+//            [_login_attr setValue:@"未设置名" forKey:@"role_tag"];
 //        }
 //    } 
 //>>>>>>> Service_version_initial
@@ -95,12 +93,7 @@
     }
     
     UILabel *welcome = [[UILabel alloc]init];
-    welcome.font = [UIFont systemFontOfSize:24.f];
-    welcome.textColor = [UIColor whiteColor];
-    welcome.textAlignment = NSTextAlignmentLeft;
-//    welcome.text = @"欢迎";
-    NSString *user_name = [_login_attr objectForKey:@"screen_name"];
-    welcome.text = [NSString stringWithFormat:@"欢迎，%@",[user_name substringFromIndex:(user_name.length - 1)]];
+    welcome = [Tools setLabelWith:welcome andText:@"最后一步，您的照片？" andTextColor:[UIColor whiteColor] andFontSize:22.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(WELCOMEY);
@@ -110,66 +103,76 @@
     id<AYViewBase> photo_view = [self.views objectForKey:@"UserScreenPhote"];
     UIView *photoView = (UIView*)photo_view;
     
-    _invateCode = [[UITextField alloc]init];
-    [self.view addSubview:_invateCode];
-    _invateCode.layer.cornerRadius = 2.f;
-    _invateCode.clipsToBounds = YES;
-    _invateCode.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-    _invateCode.font = [UIFont systemFontOfSize:14.f];
-    _invateCode.placeholder = @"输入邀请码";
-    _invateCode.textAlignment = NSTextAlignmentCenter;
-    [_invateCode setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    _invateCode.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invateCoderTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-    _invateCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
-    CGRect frame = _invateCode.frame;
-    frame.size.width = 10;
-    UIView *leftview = [[UIView alloc] initWithFrame:frame];
-    _invateCode.leftViewMode = UITextFieldViewModeAlways;
-    _invateCode.leftView = leftview;
-    
-    [_invateCode mas_makeConstraints:^(MASConstraintMaker *make) {
+    NSString *user_name = [_login_attr objectForKey:@"screen_name"];
+    //    welcome.text = [NSString stringWithFormat:@"欢迎，%@",[user_name substringFromIndex:(user_name.length - 1)]];
+    UILabel *nameLabel = [[UILabel alloc]init];
+    nameLabel = [Tools setLabelWith:nameLabel andText:user_name andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(photoView.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
-        make.top.equalTo(photoView.mas_bottom).offset(27);
-        make.size.mas_equalTo(CGSizeMake(230, 40));
     }];
     
-    UILabel *getInvate = [[UILabel alloc]init];
-    [self.view addSubview:getInvate];
-//    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@"如何获取邀请码"];
-//    NSDictionary * dict = @{
-//                            NSFontAttributeName:[UIFont systemFontOfSize:12],
-//                            NSUnderlineStyleAttributeName:@9};
-//    [str setAttributes:dict range:NSMakeRange(0, str.length)];
-    getInvate.text = @"如何获取邀请码";
-    getInvate.font = [UIFont systemFontOfSize:12.f];
-    getInvate.textColor = [UIColor colorWithWhite:1.f alpha:1.f];
-    getInvate.textAlignment = NSTextAlignmentCenter;
-    getInvate.userInteractionEnabled = YES;
-    [getInvate addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(getInvateBtnClick)]];
-    
-    [getInvate mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_invateCode.mas_bottom).offset(10);
-        make.centerX.equalTo(self.view);
-        make.height.mas_equalTo(16);
-    }];
-    CALayer *line_separator = [CALayer layer];
-//    line_separator.borderColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
-//    line_separator.borderWidth = 1.f;
-    line_separator.frame = CGRectMake(0, 15, 12 * 7, 1);
-    line_separator.backgroundColor = [UIColor whiteColor].CGColor;
-    [getInvate.layer addSublayer:line_separator];
+//    _invateCode = [[UITextField alloc]init];
+//    [self.view addSubview:_invateCode];
+//    _invateCode.layer.cornerRadius = 2.f;
+//    _invateCode.clipsToBounds = YES;
+//    _invateCode.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+//    _invateCode.font = [UIFont systemFontOfSize:14.f];
+//    _invateCode.placeholder = @"输入邀请码";
+//    _invateCode.textAlignment = NSTextAlignmentCenter;
+//    [_invateCode setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];//占位符颜色设置
+//    _invateCode.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invateCoderTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+//    _invateCode.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    
+//    CGRect frame = _invateCode.frame;
+//    frame.size.width = 10;
+//    UIView *leftview = [[UIView alloc] initWithFrame:frame];
+//    _invateCode.leftViewMode = UITextFieldViewModeAlways;
+//    _invateCode.leftView = leftview;
+//    
+//    [_invateCode mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(self.view);
+//        make.top.equalTo(photoView.mas_bottom).offset(27);
+//        make.size.mas_equalTo(CGSizeMake(230, 40));
+//    }];
+//    
+//    UILabel *getInvate = [[UILabel alloc]init];
+//    [self.view addSubview:getInvate];
+////    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@"如何获取邀请码"];
+////    NSDictionary * dict = @{
+////                            NSFontAttributeName:[UIFont systemFontOfSize:12],
+////                            NSUnderlineStyleAttributeName:@9};
+////    [str setAttributes:dict range:NSMakeRange(0, str.length)];
+//    getInvate.text = @"如何获取邀请码";
+//    getInvate.font = [UIFont systemFontOfSize:12.f];
+//    getInvate.textColor = [UIColor colorWithWhite:1.f alpha:1.f];
+//    getInvate.textAlignment = NSTextAlignmentCenter;
+//    getInvate.userInteractionEnabled = YES;
+//    [getInvate addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(getInvateBtnClick)]];
+//    
+//    [getInvate mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(_invateCode.mas_bottom).offset(10);
+//        make.centerX.equalTo(self.view);
+//        make.height.mas_equalTo(16);
+//    }];
+//    CALayer *line_separator = [CALayer layer];
+////    line_separator.borderColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
+////    line_separator.borderWidth = 1.f;
+//    line_separator.frame = CGRectMake(0, 15, 12 * 7, 1);
+//    line_separator.backgroundColor = [UIColor whiteColor].CGColor;
+//    [getInvate.layer addSublayer:line_separator];
     
     enterBtn = [[UIButton alloc]init];
     [enterBtn setBackgroundColor:[UIColor clearColor]];
     [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
     [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
-    enterBtn.enabled = NO;
+//    enterBtn.enabled = NO;
     [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:enterBtn];
     [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(getInvate.mas_bottom).offset(30);
+        make.top.equalTo(nameLabel.mas_bottom).offset(60);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(115, 40));
     }];
@@ -205,14 +208,9 @@
     UIImage* left = PNGRESOURCE(@"bar_left_white");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 45, 25)];
-    [bar_right_btn setTitle:@"  " forState:UIControlStateNormal];
-    [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-    bar_right_btn.userInteractionEnabled = NO;
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+    [cmd_right_vis performWithResult:&right_hidden];
     return nil;
 }
 
@@ -332,11 +330,11 @@
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     NSLog(@"tap esle where");
-    if (isFirst) {
-        if ([_invateCode isFirstResponder]) {
-            [_invateCode resignFirstResponder];
-        }
-    }
+//    if (isFirst) {
+//        if ([_invateCode isFirstResponder]) {
+//            [_invateCode resignFirstResponder];
+//        }
+//    }
     if (screenPhotoView.hidden == NO) {
         [UIView animateWithDuration:0.3 animations:^{
             screenPhotoView.alpha = 0;
@@ -387,14 +385,14 @@
 - (void)updateUserProfile {
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     
-    if (!screen_photo || [screen_photo isEqualToString:@""]) {
+//    if (!screen_photo || [screen_photo isEqualToString:@""]) {
 //        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您没有选择用户头像" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 //        return ;
-    }
-    if (![_invateCode.text isEqualToString:@"1111"]) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入有效的邀请码" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        return ;
-    }
+//    }
+//    if (![_invateCode.text isEqualToString:@"1111"]) {
+//        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入有效的邀请码" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//        return ;
+//    }
     //通用参数
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
     [dic_update setValue:[_login_attr objectForKey:@"screen_name"] forKey:@"screen_name"];
@@ -502,11 +500,10 @@
 
 - (id)tapGestureScreenPhoto {
     if (isFirst) {
-        if ([_invateCode isFirstResponder]) {
-            [_invateCode resignFirstResponder];
-        }
+//        if ([_invateCode isFirstResponder]) {
+//            [_invateCode resignFirstResponder];
+//        }
     }
-    
     screenPhotoView.hidden = NO;
     [UIView animateWithDuration:0.3 animations:^{
         screenPhotoView.alpha = 1;
@@ -515,13 +512,13 @@
 }
 
 -(void)invateCoderTextFieldChanged:(NSNotification*)tf{
-    if (tf.object == _invateCode && _invateCode.text.length >= 4) {
-        enterBtn.enabled = YES;
-        _invateCode.text = [_invateCode.text substringToIndex:4];
-    }
-    if (tf.object == _invateCode && _invateCode.text.length < 4) {
-        enterBtn.enabled = NO;
-    }
+//    if (tf.object == _invateCode && _invateCode.text.length >= 4) {
+//        enterBtn.enabled = YES;
+//        _invateCode.text = [_invateCode.text substringToIndex:4];
+//    }
+//    if (tf.object == _invateCode && _invateCode.text.length < 4) {
+//        enterBtn.enabled = NO;
+//    }
 }
 
 - (id)rightBtnSelected {
