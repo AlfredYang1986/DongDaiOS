@@ -25,7 +25,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         _imageView = [[UIImageView alloc]init];
-        _imageView.image = [UIImage imageNamed:@"lol"];
         [self addSubview:_imageView];
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(12.5);
@@ -123,7 +122,7 @@
         if (img != nil) {
             _imageView.image = img;
         }else{
-            [_imageView setImage:IMGRESOURCE(@"default_user")];
+            [_imageView setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     

@@ -94,18 +94,24 @@
     while ((iter = [enumerator nextObject]) != nil) {
         if ([iter isEqualToString:@"auth_token"]) {
             tmp.auth_token = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"phoneNo"]) {
+        }
+        else if ([iter isEqualToString:@"phoneNo"]) {
             tmp.phoneNo = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"screen_name"]) {
+        }
+        else if ([iter isEqualToString:@"screen_name"]) {
 //        } else if ([iter isEqualToString:@"name"]) {
             tmp.screen_name = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"screen_photo"]) {
+        }
+        else if ([iter isEqualToString:@"screen_photo"]) {
             tmp.screen_image = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"connectWith"]) {
+        }
+        else if ([iter isEqualToString:@"connectWith"]) {
             tmp.connectWith = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"role_tag"]) {
+        }
+        else if ([iter isEqualToString:@"role_tag"]) {
             tmp.role_tag = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"user_id"]) {
+        }
+        else if ([iter isEqualToString:@"user_id"]) {
             if (tmp.user_id == nil) {
                 tmp.user_id = [dic objectForKey:iter];
             }

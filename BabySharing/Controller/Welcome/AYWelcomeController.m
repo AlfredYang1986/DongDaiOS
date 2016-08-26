@@ -20,9 +20,7 @@
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
-
 #define SCREEN_PHOTO_WIDTH                      100
-
 #define WELCOMEY        80
 #define PHOTOY          WELCOMEY + 65
 #define ENTERBTNY       PHOTOY + 151
@@ -74,14 +72,13 @@
    
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     if (screen_photo && ![screen_photo isEqualToString:@""]) {
-
-        id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
-        id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:screen_photo forKey:@"image"];
         [dic setValue:@"img_thum" forKey:@"expect_size"];
         
+        id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
         id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
         [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -104,7 +101,6 @@
     UIView *photoView = (UIView*)photo_view;
     
     NSString *user_name = [_login_attr objectForKey:@"screen_name"];
-    //    welcome.text = [NSString stringWithFormat:@"欢迎，%@",[user_name substringFromIndex:(user_name.length - 1)]];
     UILabel *nameLabel = [[UILabel alloc]init];
     nameLabel = [Tools setLabelWith:nameLabel andText:user_name andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
@@ -181,7 +177,6 @@
     [self.view addGestureRecognizer:tap];
     
     [self screenPhotoViewLayout];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -440,7 +435,6 @@
 
 - (id)CurrentLoginUserChanged:(id)args {
     NSLog(@"Notify args: %@", args);
-//    NSLog(@"TODO: 进入咚哒");
     
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
@@ -451,42 +445,10 @@
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic_pop];
-    
-//    AYFacade* f = LOGINMODEL;
-//    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
-//    id obj = nil;
-//    [cmd performWithResult:&obj];
-//    
-//    AYFacade* xmpp = [self.facades objectForKey:@"XMPP"];
-//    id<AYCommand> cmd_login_xmpp = [xmpp.commands objectForKey:@"LoginXMPP"];
-//    NSDictionary* dic = (NSDictionary*)obj;
-//    NSString* current_user_id = [dic objectForKey:@"user_id"];
-//    [cmd_login_xmpp performWithResult:&current_user_id];
     return nil;
 }
 
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
-//    if (isFirst) {
-//        
-//        NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-//        [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-//        [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-//        
-//        id<AYCommand> cmd = POPTOROOT;
-//        [cmd performWithResult:&dic_pop];
-//        
-////        id<AYCommand> destin = DEFAULTCONTROLLER(@"Landing");
-////        NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-////        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-////        [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
-////        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-////        
-////        id<AYCommand> cmd_push = PUSH;
-////        [cmd_push performWithResult:&dic];
-//        
-//        return nil;
-//    } else {
     
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -495,7 +457,6 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
     return nil;
-//    }
 }
 
 - (id)tapGestureScreenPhoto {
@@ -526,7 +487,7 @@
     return nil;
 }
 
-- (BOOL)prefersStatusBarHidden{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 

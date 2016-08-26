@@ -97,6 +97,9 @@ static CGSize AssetGridThumbnailSize;
     [super viewWillAppear:animated];
     [self scrollCollectionViewToBottom];
     // Determine the size of the thumbnails to request from the PHCachingImageManager
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [self prefersStatusBarHidden];
+    [self setNeedsStatusBarAppearanceUpdate];
     
     CGFloat scale = 2.0;
     if ([UIScreen mainScreen].bounds.size.width > 600) {
@@ -106,8 +109,8 @@ static CGSize AssetGridThumbnailSize;
     AssetGridThumbnailSize = CGSizeMake(cellSize.width * scale, cellSize.height * scale);
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -626,7 +629,5 @@ static CGSize AssetGridThumbnailSize;
     }
     return indexPaths;
 }
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleDefault;
-}
+
 @end

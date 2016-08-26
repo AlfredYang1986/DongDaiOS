@@ -125,7 +125,7 @@
             if (img != nil) {
                 [_userPhotoImage setImage:img];
             } else
-                _userPhotoImage.image = IMGRESOURCE(@"lol");
+                _userPhotoImage.image = IMGRESOURCE(@"default_user");
         }];
         
     }];

@@ -61,7 +61,6 @@ static NSString* const kWechatDescription = @"wechat";
 -(void) onResp:(BaseResp*)resp {
     if ([resp isKindOfClass:[SendAuthResp class]]) {
         SendAuthResp *aresp = (SendAuthResp *)resp;
-        int code = aresp.errCode;
         if (aresp.errCode == 0) {
             [self getWeChatOpenIdWithCode:aresp.code];
         } else {
@@ -69,7 +68,7 @@ static NSString* const kWechatDescription = @"wechat";
             [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
             [notify setValue:kAYNotifyEndLogin forKey:kAYNotifyFunctionKey];
             
-//            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+            int code = aresp.errCode;
             [notify setValue:[NSNumber numberWithInt:code] forKey:kAYNotifyArgsKey];
             [self performWithResult:&notify];
         }
@@ -200,7 +199,7 @@ static NSString* const kWechatDescription = @"wechat";
             [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 NSLog(@"upload result are %d", success);
             }];
-
+            
             NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
             [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
             [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];

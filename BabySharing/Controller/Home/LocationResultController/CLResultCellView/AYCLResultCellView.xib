@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="314"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lol" translatesAutoresizingMaskIntoConstraints="NO" id="AGi-wg-VLC">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sample_image" translatesAutoresizingMaskIntoConstraints="NO" id="AGi-wg-VLC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="225" id="zAG-Yr-0Cb"/>
@@ -119,7 +119,7 @@
         <image name="default_user" width="80" height="80"/>
         <image name="heart" width="22" height="19"/>
         <image name="heart_unlike" width="23" height="20"/>
-        <image name="lol" width="375" height="225"/>
+        <image name="sample_image" width="375" height="249"/>
         <image name="star_rang_1" width="90" height="14"/>
         <image name="tab_found_selected" width="23" height="23"/>
     </resources>

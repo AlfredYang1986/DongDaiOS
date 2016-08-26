@@ -217,7 +217,7 @@
     [_chilrenNumbView addSubview:chilrenCountLabel];
     
     UIImageView *plusCountBtn = [[UIImageView alloc]initWithFrame:CGRectMake(WIDTH - 15 - 110, 13, 110, 45)];
-    plusCountBtn.image = [UIImage imageNamed:@"lol"];
+    plusCountBtn.image = [UIImage imageNamed:@"tab_found_selected"];
     [_chilrenNumbView addSubview:plusCountBtn];
     plusCountBtn.userInteractionEnabled = YES;
     [plusCountBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPlusbtnClick:)]];

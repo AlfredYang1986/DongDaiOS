@@ -5078,9 +5078,9 @@
 		706E2D271D3CC2F7006A05AD /* BecomeServicerStep */ = {
 			isa = PBXGroup;
 			children = (
-				708F2D341D3F9162000CD492 /* InputNapDescController */,
-				708F2D2E1D3F6202000CD492 /* InputNapTitleController */,
 				708F2D061D3F601E000CD492 /* NapImagePickerController */,
+				708F2D2E1D3F6202000CD492 /* InputNapTitleController */,
+				708F2D341D3F9162000CD492 /* InputNapDescController */,
 				708F2D381D3FA400000CD492 /* SetNapAgesController */,
 				70FA8B671D3FD64C00EAB1EB /* SetNapCostController */,
 				70FEFB711D4213150086D6DD /* NapLocationController */,

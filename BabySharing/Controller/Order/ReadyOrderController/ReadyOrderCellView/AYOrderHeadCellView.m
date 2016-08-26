@@ -47,7 +47,6 @@
         NSLog(@"init reuse identifier");
         
         headImage = [[UIImageView alloc]init];
-        headImage.image = IMGRESOURCE(@"lol");
         [self addSubview:headImage];
         [headImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self);
@@ -162,7 +161,7 @@
         if (img != nil) {
             headImage.image = img;
         }else{
-            [headImage setImage:IMGRESOURCE(@"lol")];
+            [headImage setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     

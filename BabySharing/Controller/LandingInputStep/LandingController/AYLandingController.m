@@ -114,7 +114,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     UILabel *welTips = [[UILabel alloc]init];
     welTips = [Tools setLabelWith:welTips andText:@"为孩子预定贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
-//    welTips.font = [UIFont systemFontOfSize:<#(CGFloat)#> weight:<#(CGFloat)#>]
     welTips.numberOfLines = 0;
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -185,7 +184,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
 }
 
 #pragma mark -- Layouts
@@ -562,8 +560,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     else {
         [[[UIAlertView alloc] initWithTitle:@"Error" message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil] show];
     }
-        
-    
     return nil;
 }
 
@@ -658,16 +654,15 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
-
-- (id)startRemoteCall:(id)obj {
-    self.landing_status = RemoteControllerStatusLoading;
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    self.landing_status = RemoteControllerStatusReady;
-    return nil;
-}
+//- (id)startRemoteCall:(id)obj {
+//    self.landing_status = RemoteControllerStatusLoading;
+//    return nil;
+//}
+//
+//- (id)endRemoteCall:(id)obj {
+//    self.landing_status = RemoteControllerStatusReady;
+//    return nil;
+//}
 
 - (BOOL)prefersStatusBarHidden{
     return YES;

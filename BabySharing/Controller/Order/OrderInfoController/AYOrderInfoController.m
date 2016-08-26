@@ -123,7 +123,7 @@
         if (img != nil) {
             orderImage.image = img;
         }else{
-            orderImage.image = IMGRESOURCE(@"lol");
+            orderImage.image = IMGRESOURCE(@"sample_image");
         }
     }];
     

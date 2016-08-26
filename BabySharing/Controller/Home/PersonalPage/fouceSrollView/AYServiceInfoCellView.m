@@ -99,7 +99,6 @@
         _photoImageView.backgroundColor = [UIColor orangeColor];
         _photoImageView.layer.cornerRadius = 30.f;
         _photoImageView.clipsToBounds = YES;
-        _photoImageView.image = IMGRESOURCE(@"lol");
         [self addSubview:_photoImageView];
         [_photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_titleLabel);

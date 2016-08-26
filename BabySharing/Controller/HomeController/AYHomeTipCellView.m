@@ -188,7 +188,7 @@
         if (img != nil) {
             headImage.image = img;
         }else{
-            [headImage setImage:IMGRESOURCE(@"lol")];
+            [headImage setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     

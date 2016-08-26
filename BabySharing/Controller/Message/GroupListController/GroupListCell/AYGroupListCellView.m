@@ -251,7 +251,7 @@
             if (img != nil) {
                 [_themeImg setImage:img];
             } else
-                _themeImg.image = IMGRESOURCE(@"lol");
+                _themeImg.image = IMGRESOURCE(@"default_user");
         }];
         
     }];

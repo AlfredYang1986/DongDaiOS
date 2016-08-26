@@ -132,7 +132,7 @@
             if (img != nil) {
                 _photoImage.image = img;
             }else{
-                [_photoImage setImage:IMGRESOURCE(@"lol")];
+                [_photoImage setImage:IMGRESOURCE(@"sample_image")];
             }
         }];
     }

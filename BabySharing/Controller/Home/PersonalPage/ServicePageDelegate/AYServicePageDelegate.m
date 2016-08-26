@@ -28,7 +28,6 @@
 #define WIDTH               SCREEN_WIDTH - 15*2
 
 @implementation AYServicePageDelegate{
-    NSArray *imageNameArr;
     NSDictionary *querydata;
 }
 @synthesize para = _para;
@@ -39,7 +38,6 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     
-    imageNameArr = @[@"lol",@"lol",@"lol"];
 }
 
 - (void)performWithResult:(NSObject**)obj {

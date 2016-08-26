@@ -200,7 +200,6 @@
 //    dispatch_async(qp, ^{
 //        
 //    });
-//    
 //    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
 //    dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
     
@@ -255,7 +254,7 @@
     return nil;
 }
 
--(id)didSaveClick {
+- (id)didSaveClick {
     
     id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"NapArea"];
     id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
@@ -277,7 +276,7 @@
     }
     return nil;
 }
--(id)didCancelClick {
+- (id)didCancelClick {
     
     [UIView animateWithDuration:0.25 animations:^{
         pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);

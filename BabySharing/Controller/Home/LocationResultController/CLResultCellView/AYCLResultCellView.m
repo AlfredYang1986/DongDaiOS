@@ -144,7 +144,7 @@
         if (img != nil) {
             _mainImage.image = img;
         }else{
-            [_mainImage setImage:IMGRESOURCE(@"lol")];
+            [_mainImage setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     

@@ -106,7 +106,7 @@
         if (img != nil) {
             _thumbsImage.image = img;
         }else{
-            [_thumbsImage setImage:IMGRESOURCE(@"lol")];
+            [_thumbsImage setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     

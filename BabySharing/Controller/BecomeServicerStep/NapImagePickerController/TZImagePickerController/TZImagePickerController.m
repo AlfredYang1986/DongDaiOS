@@ -40,17 +40,15 @@
     self.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationBar.translucent = YES;
     [TZImageManager manager].shouldFixOrientation = NO;
-
-    // Default appearance, you can reset these after this method
+    
     // 默认的外观，你可以在这个方法后重置
     self.oKButtonTitleColorNormal   = [UIColor colorWithRed:(83/255.0) green:(179/255.0) blue:(17/255.0) alpha:1.0];
     self.oKButtonTitleColorDisabled = [UIColor colorWithRed:(83/255.0) green:(179/255.0) blue:(17/255.0) alpha:0.5];
     
-        self.navigationBar.barTintColor = [UIColor colorWithRed:(34/255.0) green:(34/255.0)  blue:(34/255.0) alpha:1.0];
-        self.navigationBar.tintColor = [UIColor blackColor];
-        self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationBar.barTintColor = [UIColor colorWithRed:(34/255.0) green:(34/255.0)  blue:(34/255.0) alpha:1.0];
+    self.navigationBar.tintColor = [UIColor blackColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
-        
     UIBarButtonItem *barItem;
     if (iOS9Later) {
         barItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[TZImagePickerController class]]];
@@ -65,15 +63,20 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+//    [self setNeedsStatusBarAppearanceUpdate];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [self prefersStatusBarHidden];
     [self setNeedsStatusBarAppearanceUpdate];
 //    _originStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
-//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
-//    [UIApplication sharedApplication].statusBarStyle = iOS7Later ? UIStatusBarStyleLightContent : UIStatusBarStyleBlackOpaque;
+//    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
 //    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [self hideProgressHUD];
 }
@@ -275,6 +278,7 @@
 
 @end
 
+#pragma mark -- -------------------
 
 @interface TZAlbumPickerController ()<UITableViewDataSource,UITableViewDelegate> {
     UITableView *_tableView;
@@ -287,18 +291,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
     self.navigationItem.title = @"照片";
-    
-    UIColor * color = [Tools blackColor];
-    NSDictionary * dict=[NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
+    NSDictionary * dict = [NSDictionary dictionaryWithObject:[Tools blackColor] forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    
     [self configTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [self prefersStatusBarHidden];
+    [self setNeedsStatusBarAppearanceUpdate];
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
     [imagePickerVc hideProgressHUD];
     if (_albumArr) {
@@ -309,6 +315,10 @@
     } else {
         [self configTableView];
     }
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
 }
 
 - (void)configTableView {
@@ -372,9 +382,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
 @end
 
 

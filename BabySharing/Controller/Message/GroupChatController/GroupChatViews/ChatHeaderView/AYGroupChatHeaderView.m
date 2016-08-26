@@ -62,7 +62,7 @@
     }];
     
     photoCover = [[UIImageView alloc]init];
-    photoCover.image = IMGRESOURCE(@"lol");
+    photoCover.image = IMGRESOURCE(@"sample_image");
     [self addSubview:photoCover];
     [photoCover mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);

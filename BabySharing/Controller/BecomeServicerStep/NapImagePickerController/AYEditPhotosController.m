@@ -305,7 +305,7 @@
     imagePickerVc.allowTakePicture = NO; // 是否显示隐藏拍照按钮
     
     // 2. 在这里设置imagePickerVc的外观
-     imagePickerVc.navigationBar.barTintColor = [UIColor greenColor];
+     imagePickerVc.navigationBar.barTintColor = [UIColor whiteColor];
      imagePickerVc.oKButtonTitleColorDisabled = [UIColor lightGrayColor];
      imagePickerVc.oKButtonTitleColorNormal = [UIColor greenColor];
     

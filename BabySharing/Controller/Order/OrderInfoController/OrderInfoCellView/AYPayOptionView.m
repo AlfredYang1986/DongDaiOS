@@ -107,7 +107,7 @@
         make.height.mas_equalTo(1);
     }];
     
-    UIImageView *payIcon01 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"lol")];
+    UIImageView *payIcon01 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"tab_found_selected")];
     [self addSubview:payIcon01];
     [payIcon01 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line00.mas_bottom).offset(20);
@@ -162,7 +162,7 @@
     [morePayWay addTarget:self action:@selector(showMorePayWay:) forControlEvents:UIControlEventTouchDown];
     /*--------------------------*/
     
-    payIcon02 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"lol")];
+    payIcon02 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"tab_found_selected")];
     [self addSubview:payIcon02];
     [payIcon02 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line01.mas_bottom).offset(20);
