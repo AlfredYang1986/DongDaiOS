@@ -15,7 +15,7 @@
 #import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
-
+#import "AYFactoryManager.h"
 #import "AYAlertView.h"
 
 #define TEXT_FIELD_LEFT_PADDING             10
@@ -269,7 +269,13 @@
         
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
-                [self showAYAlertViewWithTitle:@"手机号码输入错误"];
+                id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
+                id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
+                NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+                [args setValue:self forKey:@"super_view"];
+                [args setValue:@"手机号码输入错误" forKey:@"title"];
+                [args setValue:[NSNumber numberWithFloat:216.f] forKey:@"set_y"];
+                [cmd_add performWithResult:&args];
                 return;
             }
             if (![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {

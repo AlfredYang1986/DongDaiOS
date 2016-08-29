@@ -10,6 +10,7 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "Tools.h"
+#import "AYAlertView.h"
 
 @implementation AYAlertTipView
 @synthesize para = _para;
@@ -44,23 +45,44 @@
     [cmd performWithResult:nil];
 }
 
-- (instancetype)initWithTitle:(NSString *)title andTitleColor:(UIColor *)titleColor{
+- (id)setAlertTipInfo:(NSDictionary*)args {
+    
+    UIView *superView = [args objectForKey:@"super_view"];
+    NSString *title = [args objectForKey:@"title"];
+    NSNumber *set_y = [args objectForKey:@"set_y"];
+    
+    UILabel *titleLabel = [UILabel new];
+    titleLabel = [Tools setLabelWith:titleLabel andText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [titleLabel sizeToFit];
+     CGSize titleSize = titleLabel.frame.size;
+    [self addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(self);
+    }];
+    
+    [superView addSubview:self];
+    [self mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(superView).offset(set_y.floatValue);
+        make.centerX.equalTo(superView);
+        make.size.mas_equalTo(CGSizeMake(titleSize.width+60, 40));
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:1.f animations:^{
+            self.alpha = 0;
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }];
+    });
+    return nil;
+}
+
+- (instancetype)init {
     self = [super init];
     if (self) {
-        //        self.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
         self.layer.cornerRadius = 20.f;
         self.clipsToBounds = YES;
         self.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5];
-        
-        _titleLabel = [UILabel new];
-        _titleLabel = [Tools setLabelWith:_titleLabel andText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-        [_titleLabel sizeToFit];
-        _titleSize = _titleLabel.frame.size;
-        [self addSubview:_titleLabel];
-        [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self);
-            make.centerY.equalTo(self);
-        }];
     }
     return self;
 }

@@ -12,6 +12,10 @@
 #import "AYFacadeBase.h"
 #import "AYFactoryManager.h"
 
+#import "Tools.h"
+#import <objc/runtime.h>
+#import "AYRemoteCallDefines.h"
+
 @implementation AYUploadUserImageCommand
 - (void)postPerform {
     NSLog(@"host path is : %@", self.route);
@@ -47,7 +51,7 @@
     dispatch_queue_t post_queue = dispatch_queue_create("post queue", nil);
     dispatch_async(post_queue, ^(void){
 //        UIImage* img = [TmpFileStorageModel enumImageWithName:args withDownLoadFinishBolck:nil];
-
+        [self beforeAsyncCall];
         [RemoteInstance uploadPicture:[args objectForKey:@"upload_image"] withName:photo toUrl:[NSURL URLWithString:self.route] callBack:^(BOOL successs, NSString *message) {
             if (successs) {
                 NSLog(@"post image success");
@@ -60,7 +64,30 @@
                     block(NO, nil);
                 });
             }
+            [self endAsyncCall];
         }];
     });
+}
+
+- (void)beforeAsyncCall {
+    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
+    UIViewController* cur = [Tools activityViewController];
+    SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
+    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+    if (m) {
+        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+        func(cur, sel, name);
+    }
+}
+
+- (void)endAsyncCall {
+    NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
+    UIViewController* cur = [Tools activityViewController];
+    SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
+    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+    if (m) {
+        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+        func(cur, sel, name);
+    }
 }
 @end

@@ -291,23 +291,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [cmd_login performWithResult:nil];
 }
 
-- (void)showAYAlertViewWithTitle:(NSString*)title {
-    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
-    [self.view addSubview:alertView];
-    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.view).offset(10);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:1.f animations:^{
-            alertView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [alertView removeFromSuperview];
-        }];
-    });
-}
-
 #pragma mark -- status
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {
     _landing_status = new_status;
@@ -373,9 +356,22 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    self.landing_status = RemoteControllerStatusReady;
     int code = ((NSNumber*)args).intValue;
     if (code == -2) {
-        [self showAYAlertViewWithTitle:@"授权失败"];
+        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
+        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
+        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+        [args setValue:self.view forKey:@"super_view"];
+        [args setValue:@"授权失败" forKey:@"title"];
+        [args setValue:[NSNumber numberWithFloat:KSCREENH * 0.5] forKey:@"set_y"];
+        [cmd_add performWithResult:&args];
+        
     } else {
-        [self showAYAlertViewWithTitle:@"授权失败"];
+        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
+        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
+        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+        [args setValue:self.view forKey:@"super_view"];
+        [args setValue:@"授权失败" forKey:@"title"];
+        [args setValue:[NSNumber numberWithFloat:KSCREENH * 0.5] forKey:@"set_y"];
+        [cmd_add performWithResult:&args];
     }
     return nil;
 }

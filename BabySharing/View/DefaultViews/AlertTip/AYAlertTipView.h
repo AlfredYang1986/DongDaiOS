@@ -10,8 +10,5 @@
 #import "AYViewBase.h"
 
 @interface AYAlertTipView : UIView <AYViewBase>
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, assign) CGSize titleSize;
 
-- (instancetype)initWithTitle:(NSString*)title andTitleColor:(UIColor*)titleColor;
 @end
