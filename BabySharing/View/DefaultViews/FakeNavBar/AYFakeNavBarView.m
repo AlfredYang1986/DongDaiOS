@@ -132,7 +132,7 @@
         [layer removeFromSuperlayer];
     }
     [rightBtn setImage:img forState:UIControlStateNormal];
-//
+    
 //    CALayer * layer = [CALayer layer];
 //    layer.contents = (id)img.CGImage;
 //    layer.frame = CGRectMake(0, 0, 25, 25);

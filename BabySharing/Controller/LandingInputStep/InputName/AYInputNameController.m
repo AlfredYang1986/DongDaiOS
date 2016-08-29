@@ -109,7 +109,7 @@
 
 - (id)LandingInputNameLayout:(UIView*)view {
     CGFloat margin = 20.f;
-    view.frame = CGRectMake(margin, 80, SCREEN_WIDTH - margin*2, 320);
+    view.frame = CGRectMake(margin, 83, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 

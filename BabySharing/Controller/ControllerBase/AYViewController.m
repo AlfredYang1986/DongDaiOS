@@ -150,25 +150,12 @@
     UIView *isMark = [self.view viewWithTag:999];
     if (!isMark) {
         _loading = VIEW(@"Loading", @"Loading");
-        ((UIView*)_loading).backgroundColor = [UIColor redColor];
-        ((UIView*)_loading).userInteractionEnabled = NO;
         ((UIView*)_loading).tag = 999;
         [self.view addSubview:((UIView*)_loading)];
         
         id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
         [cmd performWithResult:nil];
     }
-    
-//    _loading = VIEW(@"Loading", @"Loading");
-//    @synchronized (_loading) {
-//        ((UIView*)_loading).backgroundColor = [UIColor redColor];
-//        ((UIView*)_loading).userInteractionEnabled = NO;
-//        ((UIView*)_loading).tag = 999;
-//        [self.view addSubview:((UIView*)_loading)];
-//        
-//        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-//        [cmd performWithResult:nil];
-//    }
     
     return nil;
 }
@@ -178,8 +165,6 @@
     if (count_loading == 0) {
         [((UIView*)_loading) removeFromSuperview];
     }
-    
-//    [((UIView*)_loading) removeFromSuperview];
     
     return nil;
 }

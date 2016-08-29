@@ -163,10 +163,7 @@
     [self.view addSubview:cover];
     
     id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-    ((UIView*)_loading).backgroundColor = [UIColor redColor];
-    ((UIView*)_loading).userInteractionEnabled = NO;
     [cover addSubview:((UIView*)_loading)];
-    
     id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
     [cmd performWithResult:nil];
     

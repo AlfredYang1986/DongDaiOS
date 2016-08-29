@@ -122,15 +122,10 @@
     self.navigationItem.titleView = titleSearch;
     self.navigationItem.hidesBackButton = YES;
     
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 10)];
-    headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
-    [self.view addSubview:headView];
-    
-    CALayer* line2 = [CALayer layer];
-    line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
-    line2.borderWidth = 1.f;
-    line2.frame = CGRectMake(0, 9, SCREEN_WIDTH, 1);
-    [headView.layer addSublayer:line2];
+    CALayer* line = [CALayer layer];
+    line.frame = CGRectMake(0, 64.5, SCREEN_WIDTH, 0.5);
+    line.backgroundColor = [Tools garyLineColor].CGColor;
+    [self.view.layer addSublayer:line];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -146,7 +141,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     UIView* view = [self.views objectForKey:@"SearchBar"];
     [view resignFirstResponder];
 }

@@ -42,6 +42,9 @@
         <command type="message" message="startGif" />
         <command type="message" message="stopGif" />
     </view>
+    <view type="AlertTip" name="AlertTip" factory="AYDefaultViewFactory" >
+        <command type="message" message="startGif" />
+    </view>
     <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" factory="AYDefaultViewFactory" >
         <command type="message" message="changeScreenPhoto:" />
         <command type="message" message="canPhotoBtnClicked:" />

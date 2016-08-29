@@ -98,31 +98,50 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     logo.image = IMGRESOURCE(@"login_logo");
     [self.view addSubview:logo];
     [logo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(60);
-        make.left.equalTo(self.view).offset(35);
-        make.size.mas_equalTo(CGSizeMake(55, 55));
+        make.top.equalTo(self.view).offset(68);
+        make.left.equalTo(self.view).offset(43);
+        make.size.mas_equalTo(CGSizeMake(52, 52)); //46
     }];
+    
+//    UIDevice *device = [UIDevice currentDevice];
+//    NSLog(@"name  %@",device.name);
+//    NSLog(@"model  %@",device.model);
+//    NSLog(@"localizedModel  %@",device.localizedModel);
+//    NSLog(@"systemName  %@",device.systemName);
+//    NSLog(@"systemVersion  %@",device.systemVersion);
     
     UILabel *welcome = [[UILabel alloc]init];
     welcome = [Tools setLabelWith:welcome andText:@"欢迎来到咚哒" andTextColor:[UIColor whiteColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     welcome.font = [UIFont boldSystemFontOfSize:24.f];
+//    welcome.font = [UIFont systemFontOfSize:24.f weight:900];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(logo);
-        make.top.equalTo(logo.mas_bottom).offset(10);
+        make.top.equalTo(self.view).offset(139);
     }];
     
     UILabel *welTips = [[UILabel alloc]init];
     welTips = [Tools setLabelWith:welTips andText:@"为孩子预定贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.2) {
+        welTips.font = [UIFont systemFontOfSize:24.f weight:-0.5];
+    }
     welTips.numberOfLines = 0;
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(welcome.mas_bottom).offset(10);
+        make.top.equalTo(welcome.mas_bottom).offset(17);
         make.left.equalTo(logo);
     }];
     
+    if (KSCREENW < 375) {
+        welcome.font = [UIFont boldSystemFontOfSize:20.5f];
+        welTips.font = [UIFont boldSystemFontOfSize:20.5f];
+        if ([UIDevice currentDevice].systemVersion.floatValue >= 8.2) {
+            welTips.font = [UIFont systemFontOfSize:20.5f weight:-0.5];
+        }
+    }
+    
     phoneNoLogin = [[UIButton alloc]init];
-    phoneNoLogin.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    phoneNoLogin.titleLabel.font = [UIFont systemFontOfSize:15.f];
     [phoneNoLogin setTitle:@"手机号登录" forState:UIControlStateNormal];
     [phoneNoLogin setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
     [phoneNoLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
@@ -135,14 +154,14 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(-200);
         make.centerX.equalTo(self.view);
-        make.left.equalTo(self.view).offset(35);
-        make.right.equalTo(self.view).offset(-35);
+        make.left.equalTo(self.view).offset(43);
+        make.right.equalTo(self.view).offset(-43);
         make.height.mas_equalTo(45);
     }];
     [phoneNoLogin addTarget:self action:@selector(pushInputPhoneNo) forControlEvents:UIControlEventTouchUpInside];
     
     weChatLogin = [[UIButton alloc]init];
-    weChatLogin.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    weChatLogin.titleLabel.font = [UIFont systemFontOfSize:15.f];
     [weChatLogin setTitle:@"微信账号登录" forState:UIControlStateNormal];
     [weChatLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
     [weChatLogin setImage:IMGRESOURCE(@"login_wechat") forState:UIControlStateNormal];
@@ -154,7 +173,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     weChatLogin.clipsToBounds = YES;
     [self.view addSubview:weChatLogin];
     [weChatLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(phoneNoLogin.mas_bottom).offset(20);
+        make.top.equalTo(phoneNoLogin.mas_bottom).offset(22.5);
         make.centerX.equalTo(phoneNoLogin);
         make.size.equalTo(phoneNoLogin);
     }];
@@ -163,14 +182,14 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     /****** *****/
     pri_btn = [[UIButton alloc]init];
     [self.view addSubview:pri_btn];
-    pri_btn.titleLabel.font = [UIFont systemFontOfSize:10.f];
+    pri_btn.titleLabel.font = [UIFont systemFontOfSize:11.f];
     [pri_btn setTitle:@"进入即同意用户协议及隐私条款" forState:UIControlStateNormal];
     [pri_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     pri_btn.clipsToBounds = YES;
     [pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];
     [pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-22);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-24.5);
         make.width.mas_equalTo(170);
         make.height.mas_equalTo(15);
     }];
@@ -425,8 +444,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             NSLog(@"finally login over success");
            
             AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-//            AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-            
             NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
             [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
             [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -492,21 +509,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             [cmd_sign_out_local performWithResult:nil];
         }
         
-//        UIViewController *tmpVC = [Tools activityViewController];
-//        AYViewController* des = DEFAULTCONTROLLER(@"Setting");
-//        if (![tmpVC isKindOfClass:[des class]]) {
-//            AYViewController* tabbar_ser = DEFAULTCONTROLLER(@"TabBarService");
-//            [tabbar_ser dismissViewControllerAnimated:YES completion:nil];
-//        }
-        
         void (^handle)(void) = ^(void){
             if ([Tools activityViewController].navigationController != self.navigationController)
                 [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
         };
         
-
         [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
-        
         self.landing_status = RemoteControllerStatusReady;
     }];
     
@@ -602,19 +610,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                         }
                     }];
                 }
-//                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
-//                }
-//                if (![[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"role_tag"] isEqualToString:@""]) {
-//                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
-//                    
-//                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//                    [dic_push setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-//                    id<AYCommand> cmd = PUSH;
-//                    [cmd performWithResult:&dic_push];
-//                }
             }
                 break;
             case RegisterResultOthersLogin: {
@@ -649,17 +644,18 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)CurrentLoginUserChanged:(id)args {
-    
     [self LoginSuccess];
     return nil;
 }
 
 //- (id)startRemoteCall:(id)obj {
+//    [super startRemoteCall:nil];
 //    self.landing_status = RemoteControllerStatusLoading;
 //    return nil;
 //}
 //
 //- (id)endRemoteCall:(id)obj {
+//    [super endRemoteCall:nil];
 //    self.landing_status = RemoteControllerStatusReady;
 //    return nil;
 //}

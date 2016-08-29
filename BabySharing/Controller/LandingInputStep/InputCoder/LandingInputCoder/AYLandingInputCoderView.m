@@ -52,7 +52,7 @@
 
 - (void)postPerform {
     UILabel *tips = [[UILabel alloc]init];
-    tips = [Tools setLabelWith:tips andText:@"您的手机号码？" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:22.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:@"您的手机号码？" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:24.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
@@ -112,27 +112,24 @@
 //    inputPhoneNoView.layer.cornerRadius = 2.f;
 //    inputPhoneNoView.clipsToBounds = YES;
     [inputPhoneNoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tips.mas_bottom).offset(30);
+        make.top.equalTo(tips.mas_bottom).offset(32);
         make.left.equalTo(self);
         make.right.equalTo(self);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(42);
     }];
     
     CALayer *rule_layer = [CALayer layer];
-    rule_layer.frame = CGRectMake(66, 10, 1, 20);
+    rule_layer.frame = CGRectMake(61, 13, 1, 14);
     rule_layer.backgroundColor = [Tools garyLineColor].CGColor;
     [inputPhoneNoView.layer addSublayer:rule_layer];
     
     UILabel *phoneNo = [[UILabel alloc]init];
-    phoneNo.text = @"+ 86";
-    phoneNo.font = [UIFont systemFontOfSize:14.f];
-    phoneNo.textColor = [Tools garyColor];
-    phoneNo.textAlignment = NSTextAlignmentCenter;
+    phoneNo = [Tools setLabelWith:phoneNo andText:@"+ 86" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [inputPhoneNoView addSubview:phoneNo];
     [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputPhoneNoView);
         make.left.equalTo(inputPhoneNoView);
-        make.size.mas_equalTo(CGSizeMake(65, 40));
+        make.size.mas_equalTo(CGSizeMake(60, 42));
     }];
 
     inputPhoneNo = [[UITextField alloc]init];
@@ -148,7 +145,7 @@
     [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(inputPhoneNoView);
         make.top.equalTo(inputPhoneNoView);
-        make.left.equalTo(phoneNo.mas_right).offset(11);
+        make.left.equalTo(phoneNo.mas_right).offset(16);
         make.height.equalTo(inputPhoneNoView);
     }];
     
@@ -156,13 +153,11 @@
     inputCodeView = [[UIView alloc]init];
     [self addSubview:inputCodeView];
     [inputCodeView setBackgroundColor:[UIColor whiteColor]];
-//    inputCodeView.layer.cornerRadius = 2.f;
-//    inputCodeView.clipsToBounds = YES;
     [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputPhoneNoView.mas_bottom).offset(12);
+        make.top.equalTo(inputPhoneNoView.mas_bottom).offset(16);
         make.left.equalTo(self);
         make.width.equalTo(self);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(42);
     }];
     
     coder_area = [[UITextField alloc]init];
@@ -181,12 +176,13 @@
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:coder_area];
     
+    /* 重新获取coder */
     getCodeBtn = [[UIButton alloc]init];
     [getCodeBtn setTitle:@"获取动态密码" forState:UIControlStateNormal];
     [getCodeBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
     [getCodeBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
     getCodeBtn.enabled = NO;
-    getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
+    getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
     getCodeBtn.layer.cornerRadius = 2.f;
     getCodeBtn.clipsToBounds = YES;
     [getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -194,10 +190,10 @@
     [getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self);
         make.centerY.equalTo(inputCodeView);
-        make.size.mas_equalTo(CGSizeMake(90, 40));
+        make.size.mas_equalTo(CGSizeMake(110, 42));
     }];
     
-    /* 重新获取coder */
+    
     enterBtn = [[UIButton alloc]init];
     [enterBtn setBackgroundColor:[UIColor clearColor]];
     [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
@@ -323,7 +319,7 @@
     getCodeBtn.enabled = NO;
     seconds = TimeZore;
     [getCodeBtn setTitle:[NSString stringWithFormat:@"%lds",(long)seconds] forState:UIControlStateNormal];
-    [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 45, 0, 0)];
+    [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 65, 0, 0)];
     [timer setFireDate:[NSDate distantPast]];
     
     [self showAYAlertViewWithTitle:@"动态密码已发送"];

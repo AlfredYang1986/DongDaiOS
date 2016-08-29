@@ -21,8 +21,8 @@
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 #define SCREEN_PHOTO_WIDTH                      100
-#define WELCOMEY        80
-#define PHOTOY          WELCOMEY + 65
+#define WELCOMEY        83
+#define PHOTOY          145
 #define ENTERBTNY       PHOTOY + 151
 
 @interface AYWelcomeController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -105,7 +105,7 @@
     nameLabel = [Tools setLabelWith:nameLabel andText:user_name andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(photoView.mas_bottom).offset(15);
+        make.top.equalTo(photoView.mas_bottom).offset(16);
         make.centerX.equalTo(self.view);
     }];
     
@@ -168,7 +168,7 @@
     [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:enterBtn];
     [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(nameLabel.mas_bottom).offset(60);
+        make.top.equalTo(nameLabel.mas_bottom).offset(68);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(115, 40));
     }];
@@ -227,7 +227,7 @@
     }];
     
     UIView *options_12 = [[UIView alloc]init];
-    options_12.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
+    options_12.backgroundColor = [UIColor whiteColor];
     options_12.layer.cornerRadius = 2.f;
     options_12.clipsToBounds = YES;
     
@@ -241,7 +241,7 @@
     
     CALayer *line_up = [CALayer layer];
     line_up.borderWidth = 1.f;
-    line_up.borderColor = [Tools colorWithRED:161 GREEN:235 BLUE:224 ALPHA:1.f].CGColor;
+    line_up.borderColor = [Tools themeColor].CGColor;
     line_up.frame = CGRectMake(10, 40, SCREEN_WIDTH - 2*32, 1);
     [options_12.layer addSublayer:line_up];
     
@@ -274,7 +274,7 @@
     }];
     
     UIView *options_3 = [[UIView alloc]init];
-    options_3.backgroundColor = [Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f];
+    options_3.backgroundColor = [UIColor whiteColor];
     options_3.layer.cornerRadius = 2.f;
     options_3.clipsToBounds = YES;
     

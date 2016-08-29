@@ -30,11 +30,18 @@ static NSString* const kWechatAuthState = @"0744";
 }
 
 - (void)performWithResult:(NSObject**)obj {
+    
+    BOOL isWXAppInstalled = [WXApi isWXAppInstalled];
+    if (!isWXAppInstalled) {
+        [[[UIAlertView alloc] initWithTitle:@"通知" message:@"当前手机未安装微信" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return ;
+    }
+    
     SendAuthReq *req = [[SendAuthReq alloc] init];
     req.scope = kWechatUserInfo;
     req.state = kWechatAuthState;
     [WXApi sendReq:req];
-   
+    
     AYFacade* f = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"SNSWechat");
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
     [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];

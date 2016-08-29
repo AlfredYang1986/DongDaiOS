@@ -240,12 +240,6 @@
 
 - (id)PayOptionLayout:(UIView*)view {
     view.frame = CGRectMake(0, 264, SCREEN_WIDTH, SCREEN_HEIGHT - 264);
-    
-//    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-//    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-//    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-//    ((UITableView*)view).scrollEnabled = NO;
-//    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }

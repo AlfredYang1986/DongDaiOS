@@ -63,13 +63,11 @@
     inputView = [[UIView alloc]init];
     [self addSubview:inputView];
     [inputView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
-    inputView.layer.cornerRadius = 2.f;
-    inputView.clipsToBounds = YES;
     [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tips.mas_bottom).offset(30);
+        make.top.equalTo(tips.mas_bottom).offset(32);
         make.left.equalTo(self);
         make.width.equalTo(self);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(42);
     }];
     
     CALayer *rule_layer = [CALayer layer];
@@ -102,7 +100,7 @@
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(inputView);
         make.top.equalTo(inputView);
-        make.left.equalTo(inputView).offset(25);
+        make.left.equalTo(inputView).offset(30);
         make.height.equalTo(inputView);
     }];
     

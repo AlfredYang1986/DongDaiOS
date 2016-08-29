@@ -105,6 +105,7 @@
 		700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */; };
 		700DFE4E1D6ACC63007D8CB1 /* AYHomeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700DFE4D1D6ACC63007D8CB1 /* AYHomeDelegate.m */; };
 		700DFE511D6ACC9D007D8CB1 /* AYHomeTipCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700DFE501D6ACC9D007D8CB1 /* AYHomeTipCellView.m */; };
+		700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F15CE1D73D51600B1CACF /* AYAlertTipView.m */; };
 		70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */; };
 		70120CA71CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9F1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m */; };
 		70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120CA21CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m */; };
@@ -926,6 +927,8 @@
 		700DFE4D1D6ACC63007D8CB1 /* AYHomeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeDelegate.m; sourceTree = "<group>"; };
 		700DFE4F1D6ACC9D007D8CB1 /* AYHomeTipCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeTipCellView.h; sourceTree = "<group>"; };
 		700DFE501D6ACC9D007D8CB1 /* AYHomeTipCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeTipCellView.m; sourceTree = "<group>"; };
+		700F15CD1D73D51600B1CACF /* AYAlertTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlertTipView.h; sourceTree = "<group>"; };
+		700F15CE1D73D51600B1CACF /* AYAlertTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlertTipView.m; sourceTree = "<group>"; };
 		70120C9C1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendOwnerQueryPushDataCommand.h; sourceTree = "<group>"; };
 		70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendOwnerQueryPushDataCommand.m; sourceTree = "<group>"; };
 		70120C9E1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOwnerQueryPushModelFacade.h; sourceTree = "<group>"; };
@@ -2970,6 +2973,15 @@
 			name = NewHomeGroup;
 			sourceTree = "<group>";
 		};
+		700F15CC1D73D4E800B1CACF /* AlertTip */ = {
+			isa = PBXGroup;
+			children = (
+				700F15CD1D73D51600B1CACF /* AYAlertTipView.h */,
+				700F15CE1D73D51600B1CACF /* AYAlertTipView.m */,
+			);
+			path = AlertTip;
+			sourceTree = "<group>";
+		};
 		701152551CCE62200064A79C /* FoundNickCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -3303,6 +3315,7 @@
 		7017F32F1CB74F31002C416E /* DefaultViews */ = {
 			isa = PBXGroup;
 			children = (
+				700F15CC1D73D4E800B1CACF /* AlertTip */,
 				70CDF6091CBCBD8C00311841 /* Album */,
 				70120CAE1CBE4F6F00B169F9 /* Buttons */,
 				7039CBDA1CBB84D200BE60C7 /* DongDaSeg */,
@@ -8371,6 +8384,7 @@
 				70B1DCA11CC7576D0041794A /* AYQueryFilterWithNameCommand.m in Sources */,
 				70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */,
 				704697D61CE047F200DACD8A /* SDWebImageManager.m in Sources */,
+				700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */,
 				706E460C1CFC107A00CC7C53 /* AYInputCoderController.m in Sources */,
 				708F2D271D3F601E000CD492 /* TZImagePickerController.m in Sources */,
 				80D5E7C11CCC7C2000A82117 /* AYPhotoTagView.m in Sources */,

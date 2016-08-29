@@ -42,7 +42,6 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-//    self.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 75);
     
     UILabel *costHead = [[UILabel alloc]init];
     costHead = [Tools setLabelWith:costHead andText:@"价格" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];

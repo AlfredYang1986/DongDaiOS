@@ -23,7 +23,8 @@
 - (void)postPerform {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
-   
+    self.frame = CGRectMake(0, 0, width, height);
+    
     NSURL* url = GIFRESOURCE(@"home_refresh");
     gif = [[UIGifView alloc]initWithCenter:CGPointMake(width / 2, height / 2) fileURL:url andSize:CGSizeMake(30, 30)];
     [self addSubview:gif];

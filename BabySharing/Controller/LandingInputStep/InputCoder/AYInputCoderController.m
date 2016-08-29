@@ -52,14 +52,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools themeColor];
     
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
-//    id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
-//    id<AYCommand> cmd_view = [view.commands objectForKey:@"startConfirmCodeTimer"];
-//    [cmd_view performWithResult:nil];
-    
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
 }
@@ -98,8 +90,8 @@
 }
 
 - (id)LandingInputCoderLayout:(UIView*)view {
-    CGFloat margin = 20.f;
-    view.frame = CGRectMake(margin, 80, SCREEN_WIDTH - margin*2, 320);
+    CGFloat margin = 25.f;
+    view.frame = CGRectMake(margin, 83, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 

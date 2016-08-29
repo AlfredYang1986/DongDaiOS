@@ -87,6 +87,7 @@
 		<string>weibosdk</string>
 		<string>weibosdk2.5</string>
 		<string>iosamap</string>
+        <string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

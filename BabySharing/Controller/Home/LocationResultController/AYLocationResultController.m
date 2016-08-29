@@ -34,7 +34,6 @@
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 @implementation AYLocationResultController{
-    NSMutableArray *loading_status;
     
     CLLocation *loc;
     NSString *location_name;
@@ -127,22 +126,6 @@
         }
     }];
     
-    loading_status = [[NSMutableArray alloc]init];
-    {
-        UIView* view_loading = [self.views objectForKey:@"Loading"];
-        [self.view bringSubviewToFront:view_loading];
-        view_loading.hidden = YES;
-    }
-    
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 10)];
-    headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
-    [self.view addSubview:headView];
-    
-    CALayer* line2 = [CALayer layer];
-    line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
-    line2.borderWidth = 1.f;
-    line2.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
-    [headView.layer addSublayer:line2];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -180,6 +163,10 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
+    CALayer* line = [CALayer layer];
+    line.frame = CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5);
+    line.backgroundColor = [Tools garyLineColor].CGColor;
+    [view.layer addSublayer:line];
     return nil;
 }
 
