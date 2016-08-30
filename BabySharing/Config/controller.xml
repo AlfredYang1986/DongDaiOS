@@ -155,6 +155,7 @@
         <command type="Module" name="HomeInit" />
         <command type="Module" name="FoundInit" />
         <command type="Module" name="FriendsInit" />
+        <command type="Module" name="OrderInit" />
         <command type="Module" name="ProfileInit" />
         <command type="Module" name="PlaceHolderInit" />
         <command type="Module" name="CameraRollInit" />

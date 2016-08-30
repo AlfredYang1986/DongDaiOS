@@ -59,10 +59,10 @@
     [cmd_home_init performWithResult:&home];
     home.tabBarItem.title = @"Home";
     
-    id<AYCommand> cmd_found_init = [self.commands objectForKey:@"FoundInit"];
-    AYViewController* found = nil;
-    [cmd_found_init performWithResult:&found];
-    found.tabBarItem.title = @"Found";
+//    id<AYCommand> cmd_found_init = [self.commands objectForKey:@"FoundInit"];
+//    AYViewController* found = nil;
+//    [cmd_found_init performWithResult:&found];
+//    found.tabBarItem.title = @"Found";
    
 //    id<AYCommand> cmd_post_init = [self.commands objectForKey:@"PlaceHolderInit"];
 //    AYViewController* post = nil;
@@ -73,14 +73,19 @@
     AYViewController* friends = nil;
     [cmd_friends_init performWithResult:&friends];
     friends.tabBarItem.title = @"Friends";
-
+    
+    id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderInit"];
+    AYViewController* order = nil;
+    [cmd_order_init performWithResult:&order];
+    order.tabBarItem.title = @"order";
+    
     id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileInit"];
     AYViewController* profile = nil;
     [cmd_profile_init performWithResult:&profile];
     profile.tabBarItem.title = @"Profile";
     
 //    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
-    self.viewControllers = [NSArray arrayWithObjects:home, found, friends, profile, nil];
+    self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
     
     self.delegate = self;
     
@@ -89,10 +94,10 @@
     
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
     [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"发现"];
-    //    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"订单"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    //    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
         [[UITabBar appearance] setShadowImage:[UIImage new]];
@@ -185,7 +190,7 @@
                 [cover removeFromSuperview];
             }];
         });
-    } else if(isExchangeModel == 1){
+    } else if(isExchangeModel == 1) {
         cover.backgroundColor = [UIColor whiteColor];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

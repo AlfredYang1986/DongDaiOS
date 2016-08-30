@@ -220,10 +220,7 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
--(void)regServiceObj{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage"];
-    [cmd performWithResult:nil];
-}
+
 -(void)collectService{
     AYViewController* des = DEFAULTCONTROLLER(@"CollectServ");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];

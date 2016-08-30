@@ -97,6 +97,7 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSNumber *status = [dic objectForKey:kAYControllerChangeArgsKey];
         isExchangeModel = status.intValue;
+        self.type = status;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -129,13 +130,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (isExchangeModel == 2) {
+    if (isExchangeModel != 0) {
+        NSString *tipString = (isExchangeModel == 1) ? @"转换到服务者模式..." : @"转换到看护家庭模式...";
+        
         UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         [self.view addSubview:cover];
         cover.backgroundColor = [UIColor blackColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
-        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到看护妈妈模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
         [cover addSubview:tipsLabel];
         [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cover).offset(-60);
@@ -143,10 +146,8 @@
         }];
         
         id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-        ((UIView*)_loading).backgroundColor = [UIColor redColor];
         ((UIView*)_loading).userInteractionEnabled = NO;
         [cover addSubview:((UIView*)_loading)];
-        
         id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
         [cmd performWithResult:nil];
         

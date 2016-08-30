@@ -250,21 +250,6 @@
     return nil;
 }
 
--(id)sendRegMessage{
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    
-    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd_show_module = SHOWMODULE;
-    [cmd_show_module performWithResult:&dic_show_module];
-    
-    return nil;
-}
-
-
 #pragma mark -- status
 
 @end

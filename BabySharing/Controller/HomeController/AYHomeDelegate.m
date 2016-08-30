@@ -103,10 +103,6 @@
 }
 
 #pragma mark -- actions
--(void)regServiceObj{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage"];
-    [cmd performWithResult:nil];
-}
 
 
 @end

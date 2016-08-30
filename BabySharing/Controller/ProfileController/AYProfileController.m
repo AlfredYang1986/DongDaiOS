@@ -51,10 +51,10 @@
     NSString* owner_id;
     NSString* screen_name;
     NSDictionary* profile_dic;
-    NSArray* post_content;
-    NSArray* push_content;
     
-    UIView *cover;
+//    NSArray* post_content;
+//    NSArray* push_content;
+    
 }
 
 #pragma mark --  commands
@@ -78,7 +78,6 @@
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
         [refresh performWithResult:nil];
-        
     }
 }
 
@@ -102,7 +101,6 @@
         NSNumber* left_hidden = [NSNumber numberWithBool:YES];
         [cmd_left_vis performWithResult:&left_hidden];
     }
-    
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -256,15 +254,16 @@
     return nil;
 }
 
--(id)sendRegMessage{
+- (id)sendRegMessage:(NSNumber*)type {
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
 //    id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+    
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
 //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-    [dic_show_module setValue:[NSNumber numberWithInt:2] forKey:kAYControllerChangeArgsKey];
+    [dic_show_module setValue:type forKey:kAYControllerChangeArgsKey];
     
 //    id<AYCommand> cmd_show_module = SHOWMODULE;
 //    [cmd_show_module performWithResult:&dic_show_module];

@@ -24,7 +24,8 @@
 //    UIViewController* controller = CONTROLLER(@"DefaultController", @"MessageService");
     UIViewController* controller = CONTROLLER(@"DefaultController", @"GroupList");
     
-    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
+//    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
+    AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
     
     [rootContorller setNavigationBarHidden:YES animated:NO];

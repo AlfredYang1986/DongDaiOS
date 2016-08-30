@@ -23,7 +23,8 @@
 - (void)performWithResult:(NSObject**)obj {
     UIViewController* controller = CONTROLLER(@"DefaultController", @"CalendarService");
     
-    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
+//    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
+    AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
     
     [rootContorller setNavigationBarHidden:YES animated:NO];

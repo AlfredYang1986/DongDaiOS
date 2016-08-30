@@ -14,20 +14,16 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
-#import "AYRemoteCallDefines.h"
-#import "Tools.h"
-#import <CoreLocation/CoreLocation.h>
-
 #import "AYModelFacade.h"
 
+#import "Tools.h"
+#import "TmpFileStorageModel.h"
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
 
-#import "TmpFileStorageModel.h"
+#import <CoreLocation/CoreLocation.h>
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
@@ -43,6 +39,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 @implementation AYMainInfoController {
     NSString *areaString;
+    NSNumber *type;
     
     UIImage *napPhoto;
     NSArray *napPhotos;
@@ -79,18 +76,20 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        id args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args isKindOfClass:[NSDictionary class]]) {
-            
-            service_info = (NSDictionary*)args;
+        NSDictionary *args = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([args objectForKey:@"owner_id"]) {
+            service_info = args;
             
             id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
             id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryInfo:"];
             NSDictionary *dic_info = service_info;
             [cmd performWithResult:&dic_info];
-        } else if ([args isKindOfClass:[NSString class]]){
-            areaString = (NSString*)args;
+            
+        } else if ([args objectForKey:@"type"]) {
+            areaString = [args objectForKey:@"area"];
+            type = [args objectForKey:@"type"];
         }
+        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -150,7 +149,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
     UIColor* c_nav = [UIColor clearColor];
     [cmd_nav performWithResult:&c_nav];
-    
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -637,19 +635,5 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     return nil;
 }
 /**********************/
--(id)sendRegMessage{
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    
-    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd_show_module = SHOWMODULE;
-    [cmd_show_module performWithResult:&dic_show_module];
-    
-    self.tabBarController.tabBar.hidden = YES;
-    return nil;
-}
 
 @end

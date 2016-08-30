@@ -27,8 +27,8 @@
 @end
 
 @implementation AYProfileDelegate{
-    NSArray *origs;
-    NSArray *servs;
+    NSMutableArray *origs;
+    NSArray *confirmData;
     
     NSMutableDictionary *user_info;
 }
@@ -42,8 +42,8 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    origs = @[@"切换为看护妈妈",@"我心仪的服务",@"设置"];
-    servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
+    origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"成为看护家庭", @"我心仪的服务", @"设置", nil];
+    confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -72,6 +72,14 @@
     [user_info setValue:[_querydata objectForKey:@"address"] forKey:@"address"];
     [user_info setValue:[_querydata objectForKey:@"kids"] forKey:@"kids"];
     
+    NSNumber *model = [_querydata objectForKey:@""];
+    if (model.intValue == 1) {
+        [origs replaceObjectAtIndex:0 withObject:@"切换到服务者"];
+    }
+    if (model.intValue == 2) {
+        [origs replaceObjectAtIndex:1 withObject:@"切换到看护家庭"];
+    }
+    
     return nil;
 }
 
@@ -83,7 +91,7 @@
     if (section == 0) {
         return 1;
     } else if (section == 1){
-        return 3;
+        return 4;
     } else {
         return 4;
     }
@@ -100,7 +108,6 @@
         id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
         NSDictionary *info = user_info;
         [set_cmd performWithResult:&info];
-        
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
@@ -128,7 +135,7 @@
         }
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:servs[indexPath.row] forKey:@"title"];
+        [dic setValue:confirmData[indexPath.row] forKey:@"title"];
         [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isFirst"];
         [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
         if (indexPath.row == 0) {
@@ -170,9 +177,12 @@
         [self infoSetting];             // 个人信息设置
     } else if (indexPath.section == 1){
         if (indexPath.row == 0) {
-            [self regServiceObj];       // 切换服务对象
-//            [self becomeServicer];      // 成为接单妈妈
-        }else if (indexPath.row == 1){  // 心仪的服务
+            // 服务者
+            [self servicerOptions];
+        }else if (indexPath.row == 1){
+            // 看护家庭
+            [self napFamilyOptions];
+        }else if (indexPath.row == 2){  // 心仪的服务
             [self collectService];
         }else {                         // 系统设置
             [self setting];
@@ -190,10 +200,9 @@
     }
 }
 
--(void)infoSetting{
-    
+- (void)infoSetting {
+    // 个人设置
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -203,11 +212,44 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
--(void)regServiceObj{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage"];
-    [cmd performWithResult:nil];
+
+- (void)servicerOptions {
+    NSNumber *args = [NSNumber numberWithInt:1];
+    NSNumber *model = [_querydata objectForKey:@""];
+    if (model.intValue == 1) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
+        [cmd performWithResult:&args];
+    }else {
+        id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
 }
--(void)collectService{
+
+- (void)napFamilyOptions {
+    NSNumber *model = [_querydata objectForKey:@""];
+    NSNumber *args = [NSNumber numberWithInt:2];
+    if (model.intValue == 1) {
+        id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
+        [cmd performWithResult:&args];
+    }else {
+        id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
+}
+
+- (void)collectService {
     AYViewController* des = DEFAULTCONTROLLER(@"CollectServ");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -218,8 +260,8 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
--(void)setting{
-    NSLog(@"setting view controller");
+- (void)setting {
+    // NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -264,17 +306,6 @@
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:@"single" forKey:kAYControllerChangeArgsKey];
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
--(void)becomeServicer{
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }

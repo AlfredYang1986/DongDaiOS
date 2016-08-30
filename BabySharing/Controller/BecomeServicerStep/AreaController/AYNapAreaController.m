@@ -43,6 +43,8 @@
     UIView *picker;
     UILabel *areaLabel;
     CLLocation *loc;
+    
+    NSNumber *type;
 }
 
 - (CLLocationManager *)manager{
@@ -67,6 +69,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        type = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -96,7 +99,7 @@
     
     UILabel *title = [[UILabel alloc]init];
     [self.view addSubview:title];
-    title = [Tools setLabelWith:title andText:@"您看护宝宝的区域" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    title = [Tools setLabelWith:title andText:@"您的服务区域" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(94);
         make.centerX.equalTo(self.view);
@@ -264,13 +267,23 @@
 
 - (void)didNextBtnClick:(UIButton*)btn{
 //    MainInfo
+    if ([areaLabel.text isEqualToString:@"正在定位"] || [areaLabel.text isEqualToString:@"点击选择区域"]) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"未选择服务区域" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+        return;
+    }
+    
     id<AYCommand> setting = DEFAULTCONTROLLER(@"MainInfo");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:areaLabel.text forKey:kAYControllerChangeArgsKey];
+    
+    NSMutableDictionary *type_info = [[NSMutableDictionary alloc]init];
+    [type_info setValue:type forKey:@"type"];
+    [type_info setValue:areaLabel.text forKey:@"area"];
+    
+    [dic_push setValue:type_info forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }

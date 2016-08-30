@@ -150,7 +150,7 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="Profile" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="sendRegMessage" />
+        <command type="notify" message="sendRegMessage:" />
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
