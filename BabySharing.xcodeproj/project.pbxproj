@@ -668,6 +668,8 @@
 		70FEFB701D41BDFE0086D6DD /* AYNapAdressMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB6F1D41BDFE0086D6DD /* AYNapAdressMapView.m */; };
 		70FEFB761D4213330086D6DD /* AYNapLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB751D4213330086D6DD /* AYNapLocationController.m */; };
 		70FEFB791D4214E30086D6DD /* AYNapLocationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB781D4214E30086D6DD /* AYNapLocationDelegate.m */; };
+		800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */; };
+		800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */; };
 		8052189B1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */; };
 		805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */; };
 		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
@@ -2063,6 +2065,11 @@
 		70FEFB751D4213330086D6DD /* AYNapLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapLocationController.m; sourceTree = "<group>"; };
 		70FEFB771D4214E30086D6DD /* AYNapLocationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapLocationDelegate.h; sourceTree = "<group>"; };
 		70FEFB781D4214E30086D6DD /* AYNapLocationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapLocationDelegate.m; sourceTree = "<group>"; };
+		800AF3BC1D74295B007C30AE /* AYPayWithWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPayWithWechatCommand.h; sourceTree = "<group>"; };
+		800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPayWithWechatCommand.m; sourceTree = "<group>"; };
+		800AF3C81D7436DF007C30AE /* AYWechatFuncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWechatFuncHelper.h; sourceTree = "<group>"; };
+		800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWechatFuncHelper.m; sourceTree = "<group>"; };
+		800AF3CB1D744237007C30AE /* AYSNSWechatDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYSNSWechatDefines.h; sourceTree = "<group>"; };
 		805218991CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYScreenNameAndPhotoCacheFacade.h; sourceTree = "<group>"; };
 		8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYScreenNameAndPhotoCacheFacade.m; sourceTree = "<group>"; };
 		8052189F1CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
@@ -3419,10 +3426,13 @@
 		701D8A4F1CA7B9C200B5D4C1 /* SNSWechat */ = {
 			isa = PBXGroup;
 			children = (
+				800AF3C71D7436CB007C30AE /* WechatFuncHelper */,
+				800AF3BB1D742916007C30AE /* PayWithWechat */,
 				707FC5021CD8D4F600C0BC37 /* ShareWithWechat */,
 				700BE5C01CBA6DE300A09B3A /* LoginWithWechat */,
 				701D8A501CA7B9C200B5D4C1 /* AYSNSWechatFacade.h */,
 				701D8A511CA7B9C200B5D4C1 /* AYSNSWechatFacade.m */,
+				800AF3CB1D744237007C30AE /* AYSNSWechatDefines.h */,
 			);
 			path = SNSWechat;
 			sourceTree = "<group>";
@@ -7339,6 +7349,24 @@
 			path = NapLocationView;
 			sourceTree = "<group>";
 		};
+		800AF3BB1D742916007C30AE /* PayWithWechat */ = {
+			isa = PBXGroup;
+			children = (
+				800AF3BC1D74295B007C30AE /* AYPayWithWechatCommand.h */,
+				800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */,
+			);
+			path = PayWithWechat;
+			sourceTree = "<group>";
+		};
+		800AF3C71D7436CB007C30AE /* WechatFuncHelper */ = {
+			isa = PBXGroup;
+			children = (
+				800AF3C81D7436DF007C30AE /* AYWechatFuncHelper.h */,
+				800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */,
+			);
+			path = WechatFuncHelper;
+			sourceTree = "<group>";
+		};
 		805218971CCB9C30006EF119 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -8158,6 +8186,7 @@
 				70CDF6391CBD033900311841 /* QueryContentChaters+CoreDataProperties.m in Sources */,
 				80D5E7C81CCC88C200A82117 /* AYDownloadMovieFilesCommand.m in Sources */,
 				705D07F81D35E5AA00CA2182 /* AYPickerView.m in Sources */,
+				800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */,
 				704697D81CE047F200DACD8A /* UIButton+WebCache.m in Sources */,
 				70EAD8271CA673A7007965D2 /* AYViewCommand.m in Sources */,
 				703C7DE31D48AF3200292F18 /* AYChatGroupInputDelegate.m in Sources */,
@@ -8278,6 +8307,7 @@
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
 				80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */,
+				800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */,
 				705D08081D3745AD00CA2182 /* AYConfirmPhoneNoController.m in Sources */,
 				70A27C051D0EBBEE00B131AB /* AYQueryMMWithLocationCommand.m in Sources */,
 				7039CA871CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m in Sources */,

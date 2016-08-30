@@ -8,6 +8,7 @@
     <facade type="DefaultFacade" name="SNSWechat" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWechat" />
         <command type="Remote" name="ShareWithWechat" />
+        <command type="Module" name="PayWithWechat" />
     </facade>
     <facade type="DefaultFacade" name="SNSWeibo" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWeibo" />

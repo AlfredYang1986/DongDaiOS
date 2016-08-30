@@ -63,4 +63,6 @@ static NSString* const kAYNotifyKeyboardShowKeyboard = @"KeyboardShowKeyboard:";
 static NSString* const kAYNotifyKeyboardHideKeyboard = @"KeyboardHideKeyboard:";
 static NSString* const kAYNotifyKeyboardArgsHeightKey = @"KeyboardArgsHeightKey";
 
+static NSString* const kAYNotifyWechatPaySuccess = @"WechatPaySuccess:";
+static NSString* const kAYNotifyWechatPayFailed = @"WechatPayFailed:";
 #endif /* AYNotifyDefines_h */

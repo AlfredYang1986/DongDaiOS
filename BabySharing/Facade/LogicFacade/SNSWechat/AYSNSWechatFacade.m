@@ -72,6 +72,33 @@ static NSString* const kWechatDescription = @"wechat";
             [notify setValue:[NSNumber numberWithInt:code] forKey:kAYNotifyArgsKey];
             [self performWithResult:&notify];
         }
+    } else if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode) {
+            case WXSuccess: {
+                    //服务器端查询支付通知或查询API返回的结果再提示成功
+                    NSLog(@"支付成功");
+                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                    [notify setValue:kAYNotifyWechatPaySuccess forKey:kAYNotifyFunctionKey];
+                    
+                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                    [self performWithResult:&notify];
+                }
+                break;
+            default: {
+                    NSLog(@"支付失败，retcode=%d",resp.errCode);
+                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                    [notify setValue:kAYNotifyWechatPayFailed forKey:kAYNotifyFunctionKey];
+                    
+                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                    [self performWithResult:&notify];
+                }
+                break;
+        }
     }
 }
 
