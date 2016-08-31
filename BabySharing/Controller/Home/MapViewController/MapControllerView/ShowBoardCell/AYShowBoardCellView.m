@@ -60,12 +60,12 @@
         [self addSubview:_starRangImage];
         [_starRangImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_titleLabel);
-            make.top.equalTo(_titleLabel.mas_bottom).offset(10);
+            make.bottom.equalTo(_imageView).offset(0);
             make.size.mas_equalTo(CGSizeMake(90, 14));
         }];
         
         _contentCount = [[UILabel alloc]init];
-        _contentCount.text = @"(0)";
+        _contentCount.text = @"13";
         _contentCount.font = [UIFont systemFontOfSize:14.f];
         _contentCount.textColor = [Tools colorWithRED:155 GREEN:155 BLUE:155 ALPHA:1.f];
         [self addSubview:_contentCount];
@@ -74,26 +74,34 @@
             make.centerY.equalTo(_starRangImage);
         }];
         
-        _iconImage = [[UIImageView alloc]init];
-        _iconImage.image = IMGRESOURCE(@"tab_found_selected");
-        [self addSubview: _iconImage];
-        [_iconImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_titleLabel);
-            make.bottom.equalTo(self).offset(-12.5);
-            make.size.mas_equalTo(CGSizeMake(20, 20));
+        _infoLabel = [[UILabel alloc]init];
+        _infoLabel = [Tools setLabelWith:_infoLabel andText:@"家庭看护" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:_infoLabel];
+        [_infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(_starRangImage.mas_top).offset(-10);
+            make.left.equalTo(_starRangImage);
         }];
         
-        _friendsLabel = [[UILabel alloc]init];
-        _friendsLabel.text = @"0个共同好友";
-        _friendsLabel.font = [UIFont systemFontOfSize:12.f];
-        _friendsLabel.textColor = [UIColor colorWithWhite:0.4f alpha:1.f];
-        [self addSubview:_friendsLabel];
-        [_friendsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_iconImage.mas_right).offset(12.5);
-            make.centerY.equalTo(_iconImage);
-        }];
-        _iconImage.hidden = YES;
-        _friendsLabel.hidden = YES;
+//        _iconImage = [[UIImageView alloc]init];
+//        _iconImage.image = IMGRESOURCE(@"tab_found_selected");
+//        [self addSubview: _iconImage];
+//        [_iconImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(_titleLabel);
+//            make.bottom.equalTo(self).offset(-12.5);
+//            make.size.mas_equalTo(CGSizeMake(20, 20));
+//        }];
+//        
+//        _friendsLabel = [[UILabel alloc]init];
+//        _friendsLabel.text = @"0个共同好友";
+//        _friendsLabel.font = [UIFont systemFontOfSize:12.f];
+//        _friendsLabel.textColor = [UIColor colorWithWhite:0.4f alpha:1.f];
+//        [self addSubview:_friendsLabel];
+//        [_friendsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(_iconImage.mas_right).offset(12.5);
+//            make.centerY.equalTo(_iconImage);
+//        }];
+//        _iconImage.hidden = YES;
+//        _friendsLabel.hidden = YES;
         
         self.userInteractionEnabled = YES;
     }
@@ -105,7 +113,7 @@
 
 }
 
-- (void)setContentInfo:(NSDictionary *)contentInfo{
+- (void)setContentInfo:(NSDictionary *)contentInfo {
     _contentInfo = contentInfo;
     
     _titleLabel.text = [_contentInfo objectForKey:@"title"];
@@ -125,8 +133,6 @@
             [_imageView setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
-    
-    
     
 //    NSDictionary *dic_loc = [self.contentInfo objectForKey:@"location"];
 //    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];

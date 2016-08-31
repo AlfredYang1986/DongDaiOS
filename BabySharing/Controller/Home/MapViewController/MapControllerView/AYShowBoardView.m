@@ -106,7 +106,7 @@
 }
 
 #pragma mark -- scrollview delegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     static CGFloat pre_offset_x = 0;
     CGFloat cur_offset_x = self.contentOffset.x;
     CGFloat slide = pre_offset_x - cur_offset_x;

@@ -54,47 +54,64 @@
     if (self) {
         NSLog(@"init reuse identifier");
         
-        AYModelFacade* f = LOGINMODEL;
-        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-        NSString *name = tmp.who.screen_name;
-        UILabel *hello = [[UILabel alloc]init];
-        hello.font = [UIFont systemFontOfSize:16.f];
-        hello.textColor = [UIColor blackColor];
-        NSString *subName = [name substringFromIndex:name.length - 1];
-        NSMutableAttributedString *helloString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@，你好",subName]];
+//        AYModelFacade* f = LOGINMODEL;
+//        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+//        NSString *name = tmp.who.screen_name;
+        NSDate *nowDate = [NSDate date];
+        NSTimeInterval now = nowDate.timeIntervalSince1970;
+        NSString *on = nil;
+        long onTimeSpan = ((long)now + 86400/3) % 86400;
+        if (onTimeSpan < 86400 * 0.25) {
+            on = @"上午好";
+        } else if (onTimeSpan < 86400 * 0.5) {
+            on = @"下午好";
+        } else {
+            on = @"晚上好";
+        }
+//        NSTimeZone* localzone = [NSTimeZone localTimeZone];
+//        NSTimeZone* GTMzone = [NSTimeZone timeZoneForSecondsFromGMT:0];
         
-        NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:43.f],NSForegroundColorAttributeName:[Tools themeColor]};
-        [helloString setAttributes:dic range:NSMakeRange(0, subName.length)];
-        hello.attributedText = helloString;
+        UILabel *hello = [[UILabel alloc]init];
+        hello = [Tools setLabelWith:hello andText:on andTextColor:[Tools blackColor] andFontSize:22.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        
+        
+//        hello.font = [UIFont systemFontOfSize:16.f];
+//        hello.textColor = [UIColor blackColor];
+//        NSString *subName = [name substringFromIndex:name.length - 1];
+//        NSMutableAttributedString *helloString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@，你好",subName]];
+//        NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:43.f],NSForegroundColorAttributeName:[Tools themeColor]};
+//        [helloString setAttributes:dic range:NSMakeRange(0, subName.length)];
+//        hello.attributedText = helloString;
+        
         [self addSubview:hello];
         [hello mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(20);
-            make.top.equalTo(self).offset(20+35);
+            make.left.equalTo(self).offset(30);
+            make.top.equalTo(self).offset(40+35);
         }];
+        
         UILabel *say = [[UILabel alloc]init];
-        say.text = @"找到附近你认同的妈妈，帮你带两个小时孩子";
+        say.text = @"为您的孩子找个好去处！";
         say.font = [UIFont systemFontOfSize:16.f];
         say.numberOfLines = 0;
         say.textColor = [UIColor grayColor];
         [self addSubview:say];
         [say mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(20);
+            make.left.equalTo(self).offset(30);
             make.right.equalTo(self).offset(-20);
             make.top.equalTo(hello.mas_bottom).offset(10);
         }];
         
-        UIButton *personal = [[UIButton alloc]init];
-        //    personal.hidden = YES;
-        [personal setTitle:@"我的订单" forState:UIControlStateNormal];
-        personal.backgroundColor = [Tools themeColor];
-        [self addSubview:personal];
-        [personal mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_bottom).offset(-20);
-            make.left.equalTo(self).offset(20);
-            make.right.equalTo(self).offset(-20);
-            make.height.mas_equalTo(44);
-        }];
-        [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
+//        UIButton *personal = [[UIButton alloc]init];
+//        [personal setTitle:@"我的订单" forState:UIControlStateNormal];
+//        personal.backgroundColor = [Tools themeColor];
+//        [self addSubview:personal];
+//        [personal mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(self.mas_bottom).offset(-20);
+//            make.left.equalTo(self).offset(20);
+//            make.right.equalTo(self).offset(-20);
+//            make.height.mas_equalTo(44);
+//        }];
+//        [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

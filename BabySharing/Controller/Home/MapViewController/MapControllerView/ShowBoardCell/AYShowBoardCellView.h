@@ -21,12 +21,9 @@
 @property (nonatomic, strong) UILabel *friendsLabel;
 @property (nonatomic, strong) UIImageView *starRangImage;
 @property (nonatomic, strong) UILabel *contentCount;
+
 @property (nonatomic, strong) UIImageView *iconImage;
 
-@property (nonatomic, strong) UIButton *oneStarBtn;
-@property (nonatomic, strong) UIButton *twoStarBtn;
-@property (nonatomic, strong) UIButton *threeStarBtn;
-@property (nonatomic, strong) UIButton *fourStarBtn;
-@property (nonatomic, strong) UIButton *fiveStarBtn;
+@property (nonatomic, strong) UILabel *infoLabel;
 
 @end

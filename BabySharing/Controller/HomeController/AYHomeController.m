@@ -89,7 +89,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         push_content = [args objectForKey:@"content"];
         start_index = [args objectForKey:@"start_index"];
         
-        
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
         NSDictionary* dic_push = [dic copy];
@@ -135,7 +134,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         }];
         
         id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Home"];
-        
         id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
         
@@ -170,11 +168,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49);
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(SCREEN_WIDTH, 0, 0, 0);
-    
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     return nil;
 }
 

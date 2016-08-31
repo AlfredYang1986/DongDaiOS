@@ -23,13 +23,13 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="喜欢画画的插画师妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtg-UL-53k">
                         <rect key="frame" x="15" y="240" width="150" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(13)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OnD-a0-oh7">
                         <rect key="frame" x="113" y="266" width="25" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="tab_found_selected" translatesAutoresizingMaskIntoConstraints="NO" id="z6a-8h-XAa">
@@ -41,6 +41,17 @@
                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jQh-gm-HBs">
+                        <rect key="frame" x="330" y="217" width="20" height="20"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="IQf-73-Y64"/>
+                            <constraint firstAttribute="width" constant="20" id="t2b-xE-tky"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_user" translatesAutoresizingMaskIntoConstraints="NO" id="oKf-ix-c8B">
                         <rect key="frame" x="320" y="240" width="40" height="40"/>
                         <constraints>
@@ -66,7 +77,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朝阳区" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdM-9Z-X6j">
                         <rect key="frame" x="148" y="266" width="42" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¥ 88/小时" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lwB-4Y-nxj">
@@ -83,6 +94,7 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="jQh-gm-HBs" firstAttribute="bottom" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="12" id="0dY-oW-5XA"/>
                     <constraint firstAttribute="trailing" secondItem="oKf-ix-c8B" secondAttribute="trailing" constant="15" id="3mw-z0-OeD"/>
                     <constraint firstAttribute="trailing" secondItem="AGi-wg-VLC" secondAttribute="trailing" id="DwJ-ad-XH3"/>
                     <constraint firstItem="JdM-9Z-X6j" firstAttribute="leading" secondItem="OnD-a0-oh7" secondAttribute="trailing" constant="10" id="HUp-8q-gHU"/>
@@ -98,7 +110,11 @@
                     <constraint firstItem="oKf-ix-c8B" firstAttribute="top" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="15" id="kya-4t-ha5"/>
                     <constraint firstItem="tbi-Hs-8Dm" firstAttribute="leading" secondItem="vtg-UL-53k" secondAttribute="leading" id="oUO-Lr-sZm"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="top" secondItem="lwB-4Y-nxj" secondAttribute="bottom" constant="30" id="ojA-MS-gt5"/>
+                    <constraint firstItem="jQh-gm-HBs" firstAttribute="centerX" secondItem="oKf-ix-c8B" secondAttribute="centerX" id="sa6-8f-iq1"/>
                 </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="5"/>
+                </userDefinedRuntimeAttributes>
             </tableViewCellContentView>
             <connections>
                 <outlet property="adresslabel" destination="JdM-9Z-X6j" id="QLQ-Wr-8Zv"/>
@@ -112,7 +128,7 @@
                 <outlet property="ownerIconImage" destination="oKf-ix-c8B" id="eas-G6-mbg"/>
                 <outlet property="starRangImage" destination="tbi-Hs-8Dm" id="3WY-wD-7O7"/>
             </connections>
-            <point key="canvasLocation" x="423.5" y="328.5"/>
+            <point key="canvasLocation" x="482.5" y="319.5"/>
         </tableViewCell>
     </objects>
     <resources>

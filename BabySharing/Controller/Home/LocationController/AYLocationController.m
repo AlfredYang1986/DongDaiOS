@@ -25,6 +25,7 @@
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
+#import "AYInsetLabel.h"
 #import "Tools.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
@@ -39,11 +40,9 @@
 @end
 
 @implementation AYLocationController{
-    NSMutableArray *loading_status;
     
     CLLocation *loc;
     AMapSearchAPI *search;
-    
     AMapBusLine *aBusMapTip;
 }
 
@@ -86,22 +85,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
     [AMapSearchServices sharedServices].apiKey = @"7d5d988618fd8a707018941f8cd52931";
-    
     //初始化检索对象
     search = [[AMapSearchAPI alloc] init];
     search.delegate = self;
     
-    loading_status = [[NSMutableArray alloc]init];
-    {
-        UIView* view_loading = [self.views objectForKey:@"Loading"];
-        [self.view bringSubviewToFront:view_loading];
-        view_loading.hidden = YES;
-    }
+//    // 带逆地理信息的一次定位（返回坐标和地址信息）
+//    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+//    //   定位超时时间，最低2s，此处设置为10s
+//    self.locationManager.locationTimeout =10;
+//    //   逆地理请求超时时间，最低2s，此处设置为10s
+//    self.locationManager.reGeocodeTimeout = 10;
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -122,10 +120,19 @@
     self.navigationItem.titleView = titleSearch;
     self.navigationItem.hidesBackButton = YES;
     
-    CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(0, 64.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools garyLineColor].CGColor;
-    [self.view.layer addSublayer:line];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
+    h1.text = @"建议搜索";
+    h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    h1.textColor = [Tools blackColor];
+    h1.font = [UIFont systemFontOfSize:14.f];
+    h1.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:h1];
+    [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(69);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 40));
+    }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -147,8 +154,7 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -159,12 +165,12 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 10+64, SCREEN_WIDTH, SCREEN_HEIGHT - 74);
+    view.frame = CGRectMake(0, 110, SCREEN_WIDTH, SCREEN_HEIGHT - 110);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
@@ -181,11 +187,6 @@
     
     id<AYCommand> cmd_apperence = [((id<AYViewBase>)view).commands objectForKey:@"foundSearchBar"];
     [cmd_apperence performWithResult:nil];
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     return nil;
 }
 

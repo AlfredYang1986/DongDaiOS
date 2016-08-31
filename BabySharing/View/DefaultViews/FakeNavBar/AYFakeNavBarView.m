@@ -192,6 +192,14 @@
     return nil;
 }
 
+- (id)setBarBotLine {
+    CALayer* line = [CALayer layer];
+    line.frame = CGRectMake(0, self.frame.size.height - 0.5, self.frame.size.width, 0.5);
+    line.backgroundColor = [Tools garyLineColor].CGColor;
+    [self.layer addSublayer:line];
+    return nil;
+}
+
 #pragma mark -- notify
 - (void)didSelectLeftBtn {
     id<AYCommand> n = [self.notifies objectForKey:@"leftBtnSelected"];
