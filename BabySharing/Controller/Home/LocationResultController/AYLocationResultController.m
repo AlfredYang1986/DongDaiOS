@@ -154,14 +154,28 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnImg:"];
+    UIImage* right = IMGRESOURCE(@"map_icon");
+    [cmd_right performWithResult:&right];
+    
+    UIButton *fiterBtn = [[UIButton alloc]init];
+    [fiterBtn setImage:IMGRESOURCE(@"fiter_icon") forState:UIControlStateNormal];
+    [view addSubview:fiterBtn];
+    [fiterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(view).offset(-50);
+        make.centerY.equalTo(view);
+        make.size.mas_equalTo(CGSizeMake(38, 38));
+    }];
+    [fiterBtn addTarget:self action:@selector(didFiterBtnClick:) forControlEvents:UIControlEventTouchDown];
+    
+//    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+//    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
+//    [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
+//    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
+//    [bar_right_btn sizeToFit];
+//    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+//    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+//    [cmd_right performWithResult:&bar_right_btn];
     
     CALayer* line = [CALayer layer];
     line.frame = CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5);
@@ -206,6 +220,10 @@
 }
 
 #pragma mark -- actions
+- (void)didFiterBtnClick:(UIButton*)btn{
+    
+}
+
 -(id)ownerIconTap:(NSString *)userId{
     
     AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
