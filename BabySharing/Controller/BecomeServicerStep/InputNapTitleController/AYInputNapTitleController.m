@@ -60,9 +60,6 @@
     
     inputTitleTextView = [[UITextView alloc]init];
     [self.view addSubview:inputTitleTextView];
-    if (setedTitleString) {
-        inputTitleTextView.text = setedTitleString;
-    }
     inputTitleTextView.font = [UIFont systemFontOfSize:14.f];
     inputTitleTextView.textColor = [Tools blackColor];
     inputTitleTextView.delegate = self;
@@ -76,10 +73,15 @@
     countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputTitleTextView.mas_bottom).offset(10);
-        make.right.equalTo(self.view).offset(-10);
+        make.bottom.equalTo(inputTitleTextView.mas_bottom).offset(-10);
+        make.right.equalTo(inputTitleTextView).offset(-10);
     }];
     
+    if (setedTitleString) {
+        NSInteger count = setedTitleString.length;
+        inputTitleTextView.text = setedTitleString;
+        countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -109,10 +111,11 @@
     [cmd_left performWithResult:&left];
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [bar_right_btn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
     [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
     bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [bar_right_btn sizeToFit];
+    bar_right_btn.userInteractionEnabled = NO;
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
@@ -133,6 +136,17 @@
 #pragma mark -- UITextDelegate
 - (void)textViewDidChange:(UITextView *)textView{
     NSInteger count = textView.text.length;
+    
+    id<AYViewBase> bar = [self.views objectForKey:@"FakeNavBar"];
+    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
+    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [bar_right_btn sizeToFit];
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+    [cmd_right performWithResult:&bar_right_btn];
+    
     if (count > LIMITNUMB) {
         inputTitleTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }

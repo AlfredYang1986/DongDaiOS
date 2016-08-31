@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wBZ-xa-qoN">
-                        <rect key="frame" x="0.0" y="0.0" width="376" height="222"/>
+                        <rect key="frame" x="0.0" y="0.0" width="376" height="223"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKz-1m-hSY">
                         <rect key="frame" x="138" y="70" width="100" height="25"/>
@@ -24,9 +24,7 @@
                             <constraint firstAttribute="width" constant="100" id="ygA-db-9XN"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="添加图片" image="tab_found_selected">
+                        <state key="normal" title="添加图片">
                             <color key="titleColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
@@ -34,30 +32,21 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加多一张图片多一点点妈妈的信任" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfb-rL-HS7">
-                        <rect key="frame" x="92" y="110" width="192" height="15"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <rect key="frame" x="84" y="110" width="208" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oCs-1s-0ny">
-                        <rect key="frame" x="0.0" y="222" width="376" height="0.0"/>
-                        <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="0.5" id="I0f-j1-XmE"/>
-                        </constraints>
-                    </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="wBZ-xa-qoN" secondAttribute="trailing" id="42d-uG-H5C"/>
                     <constraint firstItem="bfb-rL-HS7" firstAttribute="top" secondItem="CKz-1m-hSY" secondAttribute="bottom" constant="15" id="Bel-5L-eTc"/>
-                    <constraint firstAttribute="trailing" secondItem="oCs-1s-0ny" secondAttribute="trailing" id="GMO-KS-5H7"/>
-                    <constraint firstItem="oCs-1s-0ny" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="KHv-tM-kqr"/>
-                    <constraint firstItem="oCs-1s-0ny" firstAttribute="top" secondItem="wBZ-xa-qoN" secondAttribute="bottom" id="bG1-GH-3gX"/>
-                    <constraint firstAttribute="bottom" secondItem="oCs-1s-0ny" secondAttribute="bottom" constant="1" id="bPQ-i8-fXF"/>
-                    <constraint firstItem="wBZ-xa-qoN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="jO5-aI-t9d"/>
-                    <constraint firstItem="wBZ-xa-qoN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="nVE-UR-mpM"/>
+                    <constraint firstItem="wBZ-xa-qoN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="L11-4X-xUX"/>
                     <constraint firstItem="CKz-1m-hSY" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="70" id="paV-Cr-ve9"/>
+                    <constraint firstAttribute="bottom" secondItem="wBZ-xa-qoN" secondAttribute="bottom" id="php-tt-7CM"/>
+                    <constraint firstItem="wBZ-xa-qoN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="s9x-KP-s5S"/>
                     <constraint firstItem="CKz-1m-hSY" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="tzW-fi-dod"/>
+                    <constraint firstAttribute="trailing" secondItem="wBZ-xa-qoN" secondAttribute="trailing" id="yFH-hV-mk8"/>
                     <constraint firstItem="bfb-rL-HS7" firstAttribute="centerX" secondItem="CKz-1m-hSY" secondAttribute="centerX" id="ypT-PE-s1d"/>
                 </constraints>
             </tableViewCellContentView>
@@ -69,7 +58,4 @@
             <point key="canvasLocation" x="532" y="360"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="tab_found_selected" width="23" height="23"/>
-    </resources>
 </document>

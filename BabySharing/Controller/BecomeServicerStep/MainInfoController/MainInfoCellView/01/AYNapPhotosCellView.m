@@ -45,13 +45,13 @@
     _photoImage.userInteractionEnabled = YES;
     [_photoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
     
+    self.backgroundColor = [Tools garyBackgroundColor];
+    
     [self setUpReuseCell];
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-//    _titleLabel.text = title;
-//    _babyInfoLabel.text = content;
 }
 
 #pragma mark -- life cycle

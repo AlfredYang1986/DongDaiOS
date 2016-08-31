@@ -105,7 +105,7 @@
         [cell.safePolicy addTarget:self action:@selector(didSafePolicyClick:)   forControlEvents:UIControlEventTouchUpInside];
         [cell.TDPolicy  addTarget:self  action:@selector(didTDPolicyClick:)     forControlEvents:UIControlEventTouchUpInside];
         
-        //cans capacity
+        //cans facility
         [cell.morePlayItems addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [cell.moreSafeDevices addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -182,7 +182,7 @@
         
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
-    }else {                 //capacity
+    }else {                 //facility
         
         id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
         
@@ -192,7 +192,7 @@
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
             NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-            [dic_info setValue:[querydata objectForKey:@"capacity"] forKey:@"option_pow"];
+            [dic_info setValue:[querydata objectForKey:@"facility"] forKey:@"option_pow"];
             [dic_info setValue:@"自填项" forKey:@"option_custom"];
             [dic_info setValue:[NSNumber numberWithBool:YES] forKey:@"show"];
         

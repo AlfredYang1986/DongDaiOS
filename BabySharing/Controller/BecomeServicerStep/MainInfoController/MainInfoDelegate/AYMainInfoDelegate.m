@@ -17,7 +17,8 @@
 @end
 
 @implementation AYMainInfoDelegate {
-    NSMutableArray *querydata;
+    NSMutableArray *titles;
+    NSMutableArray *sub_titles;
     
     UITableView *infoTableView;
     
@@ -45,7 +46,16 @@
 - (void)postPerform {
 //    origs = @[@"切换为看护妈妈",@"我心仪的服务",@"设置"];
 //    servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
-    querydata = [NSMutableArray array];
+    
+    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"标题", @"服务孩子年龄", @"服务主题", @"主题服务价格", @"位置", @"场地友好设施", nil];
+    sub_titles = [NSMutableArray arrayWithObjects:
+                  @"添加图片",
+                  @"为您的服务添加一个有趣的标题",
+                  @"您接收孩子服务年龄阶段",
+                  @"添加一个具体的服务类型",
+                  @"添加一个您值得的价格",
+                  @"更准确的访问到您的位置",
+                  @"为孩子提供更友好的场地",  nil];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -81,7 +91,7 @@
         napDesc = [dic objectForKey:@"content"];
         
     } else if([key isEqualToString:@"nap_ages"]){
-        napAges = [dic objectForKey:@"content"];
+        napAges = [dic objectForKey:@"age_boundary"];
         
     } else if([key isEqualToString:@"nap_cost"]){
         dic_cost = [dic objectForKey:@"content"];
@@ -129,184 +139,114 @@
 }
 
 #pragma mark -- table
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     infoTableView = tableView;
-    if (section == 0) {
-        return 3;
-    } else if (section == 1){
-        return 1;
-    } else if (section == 2){
-        return 1;
-    } else {
-        return 2;
-    }
+    return 7;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            NSString* class_name = @"AYNapPhotosCellView";
-            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-            if (cell == nil) {
-                cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
-            }
-            cell.controller = self.controller;
-            if (napPhoto){
-                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-                UIImage *info = napPhoto;
-                [set_cmd performWithResult:&info];
-            } else if (napPhotoName) {
-                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-                NSString *info = napPhotoName;
-                [set_cmd performWithResult:&info];
-            }
-            
-            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-            return (UITableViewCell*)cell;
-        } else if (indexPath.row == 1) {
-            NSString* class_name = @"AYNapTitleCellView";
-            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-            if (cell == nil) {
-                cell = VIEW(@"NapTitleCell", @"NapTitleCell");
-            }
-            cell.controller = self.controller;
-            if (napTitle) {
-                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-                NSString *info = napTitle;
-                [set_cmd performWithResult:&info];
-            }
-            
-            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-            return (UITableViewCell*)cell;
-        } else {
-            NSString* class_name = @"AYNapDescCellView";
-            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-            if (cell == nil) {
-                cell = VIEW(@"NapDescCell", @"NapDescCell");
-            }
-            cell.controller = self.controller;
-            if (napDesc) {
-                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-                NSString *info = napDesc;
-                [set_cmd performWithResult:&info];
-            }
-            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-            return (UITableViewCell*)cell;
+    
+    id<AYViewBase> cell = nil;
+    if (indexPath.row == 0) {
+        NSString* class_name = @"AYNapPhotosCellView";
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
+        }
+        cell.controller = self.controller;
+        if (napPhoto){
+            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            UIImage *info = napPhoto;
+            [set_cmd performWithResult:&info];
+        } else if (napPhotoName) {
+            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            NSString *info = napPhotoName;
+            [set_cmd performWithResult:&info];
         }
         
-    } else if(indexPath.section == 1){
+        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+        return (UITableViewCell*)cell;
+    } else {
         NSString* class_name = @"AYNapBabyAgeCellView";
-        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         if (cell == nil) {
             cell = VIEW(@"NapBabyAgeCell", @"NapBabyAgeCell");
         }
         cell.controller = self.controller;
-        if (napAges) {
-            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-            NSDictionary *info = napAges;
-            [set_cmd performWithResult:&info];
+        
+        NSMutableDictionary *cell_info = [[NSMutableDictionary alloc]init];
+        [cell_info setValue:[titles objectAtIndex:indexPath.row] forKey:@"title"];
+        [cell_info setValue:[sub_titles objectAtIndex:indexPath.row] forKey:@"sub_title"];
+        
+        if (napTitle && indexPath.row == 1) {
+            [cell_info setValue:napTitle forKey:@"args"];
         }
+        if (napAges && indexPath.row == 2) {
+            NSNumber *usl = ((NSNumber *)[napAges objectForKey:@"usl"]);
+            NSNumber *lsl = ((NSNumber *)[napAges objectForKey:@"lsl"]);
+            NSString *ages = [NSString stringWithFormat:@"%d ~ %d 岁",lsl.intValue,usl.intValue];
+            [cell_info setValue:ages forKey:@"args"];
+        }
+        if (dic_cost && indexPath.row == 3) {
+            [cell_info setValue:dic_cost forKey:@"args"];
+        }
+        if (dic_cost && indexPath.row == 4) {
+            [cell_info setValue:dic_cost forKey:@"args"];
+        }
+        if (napAdress && indexPath.row == 5) {
+            [cell_info setValue:napAdress forKey:@"args"];
+        }
+        if (dic_device && indexPath.row == 6) {
+            [cell_info setValue:dic_device forKey:@"args"];
+        }
+        
+        id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [set_cmd performWithResult:&cell_info];
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
-        
-    } else if(indexPath.section == 2){
-        NSString* class_name = @"AYNapCostCellView";
-        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = VIEW(@"NapCostCell", @"NapCostCell");
-        }
-        cell.controller = self.controller;
-        if (napCost) {
-            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-            NSString *info = napCost;
-            [set_cmd performWithResult:&info];
-        }
-        
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
-    } else {
-        if (indexPath.row == 0) {
-            NSString* class_name = @"AYNapLocationCellView";
-            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-            if (cell == nil) {
-                cell = VIEW(@"NapLocationCell", @"NapLocationCell");
-            }
-            cell.controller = self.controller;
-            if (napAdress) {
-                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-                NSString *info = napAdress;
-                [set_cmd performWithResult:&info];
-            }
-            
-            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-            return (UITableViewCell*)cell;
-        } else {
-            NSString* class_name = @"AYNapDeviceCellView";
-            id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-            if (cell == nil) {
-                cell = VIEW(@"NapDeviceCell", @"NapDeviceCell");
-            }
-            cell.controller = self.controller;
-            if (dic_device) {
-                id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-                NSDictionary *info = dic_device;
-                [set_cmd performWithResult:&info];
-            }
-            
-            ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-            return (UITableViewCell*)cell;
-        }
     }
+    
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 0;
-    } else return 10;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.5;
-}
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *line = [[UIView alloc]init];
-    line.backgroundColor = [UIColor lightGrayColor];
-    return line;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    if (section == 0) {
+//        return 0;
+//    } else return 10;
+//}
+
+//-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+//    return 0.5;
+//}
+//-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+//    UIView *line = [[UIView alloc]init];
+//    line.backgroundColor = [UIColor lightGrayColor];
+//    return line;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            return 225;
-        } else {
-            return 120;
-        }
-    } else if (indexPath.section == 1 || indexPath.section == 2){
-        return 82;
+    if (indexPath.row == 0) {
+        return 225;
     } else {
-        return 82;
+        return 64;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
+    if (indexPath.row == 0) {
         return;
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.row == 1){
+        [self setNapTitle];
+    } else if (indexPath.row == 2){
         [self setNapBabyAges];
-    } else if (indexPath.section == 2) {
+    } else if (indexPath.row == 3){
         [self setNapCost];
-    }else {
-        if (indexPath.row == 0) {
-            if ([napAdress isEqualToString:@"Dongda_Note_NOEDIT"]) {
-                return;
-            }
-            [self setNapAdress];
-        }else {
-            [self setNapDevice];
-        }
+    } else if (indexPath.row == 4){
+        [self setNapCost];
+    } else if (indexPath.row == 5){
+        [self setNapAdress];
+    } else {
+        [self setNapDevice];
     }
 }
 
@@ -320,6 +260,12 @@
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
+}
+
+-(void)setNapTitle {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapTitleAction:"];
+    NSString *info = napTitle;
+    [cmd performWithResult:&info];
 }
 
 -(void)setNapBabyAges {

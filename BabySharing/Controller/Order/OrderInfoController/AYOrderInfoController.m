@@ -253,9 +253,8 @@
 #pragma mark -- actions
 -(void)didConfirmBtnClick:(UIButton*)btn {
     
-    NSDictionary* obj = nil;
-    CURRENUSER(obj)
-    NSDictionary* args = [obj mutableCopy];
+    NSDictionary* args = nil;
+    CURRENUSER(args)
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
@@ -264,7 +263,6 @@
     NSDictionary *dic_date = nil;
     id<AYCommand> query_cmd = [view_time.commands objectForKey:@"queryDateStartAndEnd:"];
     [query_cmd performWithResult:&dic_date];
-    
     
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];

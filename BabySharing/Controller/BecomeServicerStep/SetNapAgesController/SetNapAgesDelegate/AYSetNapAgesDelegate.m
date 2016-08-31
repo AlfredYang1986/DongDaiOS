@@ -98,7 +98,7 @@
     else if (component == 2) {
         myView.text = [baby_ages objectAtIndex:row];
     }
-    else myView.text = @"-";
+    else myView.text = @"~";
     
     return myView;
 }

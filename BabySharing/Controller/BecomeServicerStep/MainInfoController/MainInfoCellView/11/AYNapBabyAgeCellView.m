@@ -21,9 +21,7 @@
 
 @interface AYNapBabyAgeCellView ()
 @property (weak, nonatomic) IBOutlet UILabel *unSetTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *setedTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *ageLabel;
 
 @end
 
@@ -34,14 +32,17 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    
+    CALayer *separator = [CALayer layer];
+    separator.frame = CGRectMake(10, 63.5, [UIScreen mainScreen].bounds.size.width - 20, 0.5);
+    separator.backgroundColor = [Tools garyLineColor].CGColor;
+    [self.layer addSublayer:separator];
+    
     [self setUpReuseCell];
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-//    _setedTitleLabel.hidden = YES;
-//    _ageLabel.hidden = YES;
 }
 
 @synthesize para = _para;
@@ -98,18 +99,15 @@
 }
 
 - (id)setCellInfo:(NSDictionary*)args {
-    _unSetTitleLabel.hidden = YES;
-    _subTitleLabel.hidden = YES;
     
-    _setedTitleLabel.hidden = NO;
-    _ageLabel.hidden = NO;
-//    _ageLabel.text = args;
-    
-    NSNumber *usl = ((NSNumber *)[args objectForKey:@"usl"]);
-    NSNumber *lsl = ((NSNumber *)[args objectForKey:@"lsl"]);
-    NSString *ages = [NSString stringWithFormat:@"%d  —  %d 岁",lsl.intValue,usl.intValue];
-    _ageLabel.text = ages;
+    _unSetTitleLabel.text = [args objectForKey:@"title"];
+    _subTitleLabel.text = [args objectForKey:@"sub_title"];
+    NSString *set_sub = [args objectForKey:@"args"];
+    if (set_sub) {
+        _subTitleLabel.text = set_sub;
+    }
     
     return nil;
 }
+
 @end

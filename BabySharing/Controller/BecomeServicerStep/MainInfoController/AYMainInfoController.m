@@ -46,8 +46,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     NSString *napTitle;
     NSString *napDesc;
+    
     NSString *napAges;
     NSDictionary *age_boundary;
+    NSNumber *capacity;
     
     NSDictionary *dic_cost;
     NSString *napCost;
@@ -110,8 +112,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:napDesc forKey:@"description"];
                 
             } else if([key isEqualToString:@"nap_ages"]){
-                age_boundary = [dic_info objectForKey:@"content"];
+                age_boundary = [dic_info objectForKey:@"age_boundary"];
+                capacity = [dic_info objectForKey:@"capacity"];
                 [_service_change_dic setValue:age_boundary forKey:@"age_boundary"];
+                [_service_change_dic setValue:capacity forKey:@"capacity"];
                 
             } else if([key isEqualToString:@"nap_cost"]){
                 dic_cost = [dic_info objectForKey:@"content"];
@@ -129,7 +133,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 dic_device = [dic_info objectForKey:@"content"];
                 napDevice = [dic_device objectForKey:@"option_custom"];
                 napDeviceOptons = ((NSNumber*)[dic_device objectForKey:@"option_pow"]).longValue;
-                [_service_change_dic setValue:[dic_device objectForKey:@"option_pow"] forKey:@"capacity"];
+                [_service_change_dic setValue:[dic_device objectForKey:@"option_pow"] forKey:@"facility"];
             }
             
             id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
@@ -163,24 +167,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [cmd_delegate performWithResult:&obj];
         
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* photoCell = @"AYNapPhotosCellView";
+        NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&photoCell];
-        NSString* titleCell = @"AYNapTitleCellView";
-        [cmd_cell performWithResult:&titleCell];
-        NSString* decsCell = @"AYNapDescCellView";
-        [cmd_cell performWithResult:&decsCell];
         
-        NSString* babyAgeCell = @"AYNapBabyAgeCellView";
+        NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&babyAgeCell];
-        
-        NSString* costCell = @"AYNapCostCellView";
-        [cmd_cell performWithResult:&costCell];
-        
-        NSString* locationCell = @"AYNapLocationCellView";
-        [cmd_cell performWithResult:&locationCell];
-        
-        NSString* deviceCell = @"AYNapDeviceCellView";
-        [cmd_cell performWithResult:&deviceCell];
     }
     
     UIView *tabbar = [[UIView alloc]init];
@@ -555,14 +546,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    if (args && ![args isEqualToString:@""]) {
-        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
-    }
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;
 }
+
 -(id)inputNapDescAction:(NSString*)args{
     id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapDesc");
     
@@ -586,7 +576,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    [dic_args setValue:capacity forKey:@"capacity"];
+    [dic_args setValue:age_boundary forKey:@"age_boundary"];
+    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

@@ -43,7 +43,7 @@
     UIView *safeDevices;
     
     NSArray *options_title_cans;
-    NSArray *options_title_capacity;
+    NSArray *options_title_facility;
 }
 //@synthesize aboutMMIntru = _aboutMMIntru;
 
@@ -441,7 +441,7 @@
     }];
     
     options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
-    options_title_capacity = @[@"安全桌角",@"安全插座",@"急救包",@"无烟",@"安全护栏",@"宠物",@"防摔地板"];
+    options_title_facility = @[@"安全桌角",@"安全插座",@"急救包",@"无烟",@"安全护栏",@"宠物",@"防摔地板"];
     
     long options = ((NSNumber*)[_service_info objectForKey:@"cans"]).longValue;
     CGFloat offsetX = 0;
@@ -457,14 +457,14 @@
     }
     
     {
-        long options = ((NSNumber*)[_service_info objectForKey:@"capacity"]).longValue;
+        long options = ((NSNumber*)[_service_info objectForKey:@"facility"]).longValue;
         CGFloat offsetX = 0;
         for (int i = 0; i < 4; ++i) {
             long note_pow = pow(2, i);
             if ((options & note_pow)) {
                 AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithFrame:CGRectMake(offsetX, 25, 50, 55)];
                 item.item_icon.image = IMGRESOURCE(@"tab_found");
-                item.item_name.text = options_title_capacity[i];
+                item.item_name.text = options_title_facility[i];
                 [safeDevices addSubview:item];
                 offsetX += 85;
             }
