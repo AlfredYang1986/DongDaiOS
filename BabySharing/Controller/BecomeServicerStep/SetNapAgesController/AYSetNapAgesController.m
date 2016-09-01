@@ -19,37 +19,13 @@
 #import "AYRemoteCallDefines.h"
 #import "Tools.h"
 
+#import "AYInsetLabel.h"
+
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
-
-@interface AYInsetLabel : UILabel
-@property (nonatomic, assign) UIEdgeInsets textInsets;
-@end
-
-@implementation AYInsetLabel
-
-- (instancetype)init {
-    if (self = [super init]) {
-        _textInsets = UIEdgeInsetsZero;
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        _textInsets = UIEdgeInsetsZero;
-    }
-    return self;
-}
-
-- (void)drawTextInRect:(CGRect)rect {
-    [super drawTextInRect:UIEdgeInsetsInsetRect(rect, _textInsets)];
-}
-
-@end
 
 @interface AYSetNapAgesController ()<UITextViewDelegate>
 

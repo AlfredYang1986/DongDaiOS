@@ -504,7 +504,6 @@
 <!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
         <view type="Table"      name="Table" />
         <view type="SearchBar"  name="SearchBar" />
-        <view type="Loading"    name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="Location" />
     </controller>
@@ -514,9 +513,6 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
-        <view type="Loading"        name="Loading" />
-        <view type="TimeOption"     name="TimeOption" />
         <view type="Table"          name="Table" />
 
         <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
@@ -527,13 +523,10 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="FiterScroll"    name="FiterScroll" />
-        <!--        <view type="Calendar"       name="Calendar" />-->
     </controller>
     
     <controller type="DefaultController" name="Map" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="ShowBoard"      name="ShowBoard" />
         <view type="MapView"        name="MapView" />
     </controller>

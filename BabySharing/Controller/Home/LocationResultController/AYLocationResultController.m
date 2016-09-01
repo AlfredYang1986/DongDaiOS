@@ -150,6 +150,10 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = location_name;
+    [cmd_title performWithResult:&title];
+    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
@@ -168,45 +172,18 @@
     }];
     [fiterBtn addTarget:self action:@selector(didFiterBtnClick:) forControlEvents:UIControlEventTouchDown];
     
-//    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-//    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-//    [bar_right_btn setTitle:@"地图" forState:UIControlStateNormal];
-//    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
-//    [bar_right_btn sizeToFit];
-//    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-//    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-//    [cmd_right performWithResult:&bar_right_btn];
-    
-    CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools garyLineColor].CGColor;
-    [view.layer addSublayer:line];
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    
-    titleView.text = location_name;
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
+    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+    [cmd_bot performWithResult:nil];
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 + 10 + 10 + 75 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 84 - 85);
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     return nil;
 }
 
@@ -236,6 +213,7 @@
     [cmd performWithResult:&dic_push];
 }
 
+<<<<<<< HEAD
 -(id)ownerIconTap:(NSString *)userId {
     
     AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
@@ -252,10 +230,10 @@
     return nil;
 }
 
+=======
+>>>>>>> origin/DongDa-NewHome
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -283,11 +261,19 @@
     return nil;
 }
 
-- (id)scrollToHideKeyBoard {
-    UIView* view = [self.views objectForKey:@"SearchBar"];
-    if ([view isFirstResponder]) {
-        [view resignFirstResponder];
-    }
+-(id)ownerIconTap:(NSString *)userId{
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:userId forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 

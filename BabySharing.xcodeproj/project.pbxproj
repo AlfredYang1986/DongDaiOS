@@ -615,6 +615,7 @@
 		70EE6E1C1D76BCB800CE6057 /* AYSetNapThemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EE6E151D76BCB800CE6057 /* AYSetNapThemeController.m */; };
 		70EE6E1D1D76BCB800CE6057 /* AYSetNapThemeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EE6E181D76BCB800CE6057 /* AYSetNapThemeCellView.m */; };
 		70EE6E1E1D76BCB800CE6057 /* AYSetNapThemeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EE6E1B1D76BCB800CE6057 /* AYSetNapThemeDelegate.m */; };
+		70EE6E211D76F88600CE6057 /* AYInsetLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EE6E201D76F88600CE6057 /* AYInsetLabel.m */; };
 		70F2A14A1D4A0A73004BAFF7 /* AYOrderInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F2A1491D4A0A73004BAFF7 /* AYOrderInfoController.m */; };
 		70F34D5E1CA5189300CEF7C1 /* AYResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D5D1CA5189300CEF7C1 /* AYResourceManager.m */; };
 		70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F34D671CA5274B00CEF7C1 /* OBShapedButton.m */; };
@@ -1954,6 +1955,8 @@
 		70EE6E181D76BCB800CE6057 /* AYSetNapThemeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapThemeCellView.m; sourceTree = "<group>"; };
 		70EE6E1A1D76BCB800CE6057 /* AYSetNapThemeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapThemeDelegate.h; sourceTree = "<group>"; };
 		70EE6E1B1D76BCB800CE6057 /* AYSetNapThemeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapThemeDelegate.m; sourceTree = "<group>"; };
+		70EE6E1F1D76F88600CE6057 /* AYInsetLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInsetLabel.h; sourceTree = "<group>"; };
+		70EE6E201D76F88600CE6057 /* AYInsetLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInsetLabel.m; sourceTree = "<group>"; };
 		70F2A1481D4A0A73004BAFF7 /* AYOrderInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoController.h; sourceTree = "<group>"; };
 		70F2A1491D4A0A73004BAFF7 /* AYOrderInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoController.m; sourceTree = "<group>"; };
 		70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYViewLayoutDefines.h; sourceTree = "<group>"; };
@@ -6029,6 +6032,8 @@
 		708F2D3A1D3FA400000CD492 /* SetNapAgesView */ = {
 			isa = PBXGroup;
 			children = (
+				70EE6E1F1D76F88600CE6057 /* AYInsetLabel.h */,
+				70EE6E201D76F88600CE6057 /* AYInsetLabel.m */,
 			);
 			path = SetNapAgesView;
 			sourceTree = "<group>";
@@ -8034,6 +8039,7 @@
 				70D657091D1D410F003D1D7D /* AYExposeRemoteFacade.m in Sources */,
 				700693141CC4A3AF00B511FF /* DropDownItem.m in Sources */,
 				70F34D7D1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m in Sources */,
+				70EE6E211D76F88600CE6057 /* AYInsetLabel.m in Sources */,
 				708F2D371D3F917C000CD492 /* AYInputNapDescController.m in Sources */,
 				70FA8B6D1D406EB700EAB1EB /* OptionOfPlayingView.m in Sources */,
 				70CDF6521CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.m in Sources */,

@@ -76,7 +76,7 @@
     }
     
     //rang
-    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
+    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
     currentAnno = [[AYAnnonation alloc]init];
     currentAnno.coordinate = loc.coordinate;
     currentAnno.title = @"定位位置";
