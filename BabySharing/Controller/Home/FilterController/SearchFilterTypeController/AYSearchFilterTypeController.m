@@ -1,12 +1,12 @@
 //
-//  AYSearchFilterController.m
+//  AYSearchFilterTypeController.m
 //  BabySharing
 //
-//  Created by BM on 8/31/16.
+//  Created by BM on 9/1/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYSearchFilterController.h"
+#import "AYSearchFilterTypeController.h"
 
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -24,7 +24,7 @@
 #import "LoginToken+ContextOpt.h"
 
 #import "Tools.h"
-#import "AYSearchFilterCellDefines.h"
+#import "AYSearchFilterTypeCellDefines.h"
 #import "AYCommandDefines.h"
 
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
@@ -33,11 +33,7 @@
 #define STATUS_HEIGHT           20
 #define NAV_HEIGHT              45
 
-#define BOM_BTN_MARGIN          10
-#define BOM_BTN_HEIGHT          45
-#define BOM_BTN_RADIUS          4.f
-
-@implementation AYSearchFilterController
+@implementation AYSearchFilterTypeController
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -60,27 +56,13 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    //    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-
-    /**
-     * 搜索按钮
-     */
-    UIButton* btn = [[UIButton alloc]init];
-    [btn setTitle:@"搜索" forState:UIControlStateNormal];
-   
-    [self.view addSubview:btn];
-    btn.frame = CGRectMake(BOM_BTN_MARGIN, SCREEN_HEIGHT - BOM_BTN_MARGIN - BOM_BTN_HEIGHT, SCREEN_WIDTH - 2 * BOM_BTN_MARGIN, BOM_BTN_HEIGHT);
-    btn.backgroundColor = [UIColor redColor];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn.layer setCornerRadius:BOM_BTN_RADIUS];
-    
-    [btn addTarget:self action:@selector(searchBtnSelected) forControlEvents:UIControlEventTouchUpInside];
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SearchFilter"];
+        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SearchFilterType"];
         
         id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
@@ -91,7 +73,7 @@
         [cmd_delegate performWithResult:&obj];
         
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYSearchFilterCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYSearchFilterTypeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
     }
 }
@@ -104,7 +86,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, STATUS_HEIGHT + NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BOM_BTN_MARGIN * 2 - BOM_BTN_HEIGHT - NAV_HEIGHT - STATUS_HEIGHT);
+    view.frame = CGRectMake(0, STATUS_HEIGHT + NAV_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NAV_HEIGHT - STATUS_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
     [(UITableView*)view setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     return nil;
@@ -113,26 +95,21 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, STATUS_HEIGHT, SCREEN_WIDTH, NAV_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
-
+    
     {
         UIImage* img = IMGRESOURCE(@"content_close");
         id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"setLeftBtnImg:"];
         [cmd performWithResult:&img];
     }
-   
-    {
-        NSString* str = @"重置";
-        id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"setRightBtnWithTitle:"];
-        [cmd performWithResult:&str];
-    }
+    
     return nil;
 }
 
 #pragma mark -- commands
 - (id)leftBtnSelected {
-    id<AYCommand> cmd = REVERSMODULE;
+    id<AYCommand> cmd = POP;
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     [cmd performWithResult:&dic];
     return nil;
@@ -141,39 +118,5 @@
 - (id)rightBtnSelected {
     // TODO : reset search filter conditions
     return nil;
-}
-
-#pragma mark -- notification
-- (id)filterKidAges:(id)args {
-    NSLog(@"kids ages");
-    return nil;
-}
-
-- (id)filterDate:(id)args {
-    NSLog(@"date");
-    return nil;
-}
-
-- (id)filterType:(id)args {
-    AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterType");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)filterPriceRange:(id)args {
-    NSLog(@"price range");
-    return nil;
-}
-
-#pragma mark -- btn handle
-- (void)searchBtnSelected {
-    NSLog(@"search");
 }
 @end

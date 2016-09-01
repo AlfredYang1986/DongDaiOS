@@ -607,4 +607,9 @@
        <command type="notify"     message="filterType:" />
        <command type="notify"     message="filterPriceRange:" />
    </view>
+   
+   <view type="SearchFilterTypeCell" name="SearchFilterTypeCell" factory="AYReuseViewFactory" >
+       <command type="message"    message="setCellInfo:" />
+       <command type="notify"     message="filterKidsAges:" />
+   </view>
 </views>

@@ -1,12 +1,13 @@
 //
-//  AYSearchFilterCellView.m
+//  AYSearchFilterTypeCellView.m
 //  BabySharing
 //
 //  Created by BM on 9/1/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYSearchFilterCellView.h"
+#import "AYSearchFilterTypeCellView.h"
+
 #import "Notifications.h"
 #import "Tools.h"
 
@@ -20,7 +21,7 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
-#import "AYSearchFilterCellDefines.h"
+#import "AYSearchFilterTypeCellDefines.h"
 
 #define LINE_MARGIN                         10.f
 #define LINE_COLOR                          [UIColor redColor]
@@ -31,12 +32,14 @@
 
 #define TITLE_TEXT_COLOR                    [UIColor redColor]
 
-@interface AYSearchFilterCellView ()
+@interface AYSearchFilterTypeCellView ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIButton *controlBtn;
+
 @end
 
-@implementation AYSearchFilterCellView
+@implementation AYSearchFilterTypeCellView
+
+@synthesize titleLabel = _titleLabel;
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -58,7 +61,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYSearchFilterCellName, kAYSearchFilterCellName);
+    id<AYViewBase> cell = VIEW(kAYSearchFilterTypeCellName, kAYSearchFilterTypeCellName);
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -105,10 +108,9 @@
 }
 
 - (id)setCellInfo:(id)args {
-    
     NSDictionary* dic = (NSDictionary*)args;
-    AYSearchFilterCellView* cell = [dic objectForKey:kAYSearchFilterCellCellKey];
-    NSString* title = [dic objectForKey:kAYSearchFilterCellTitleKey];
+    AYSearchFilterTypeCellView* cell = [dic objectForKey:kAYSearchFilterTypeCellCellKey];
+    NSString* title = [dic objectForKey:kAYSearchFilterTypeCellTitleKey];
     cell.titleLabel.text = title;
     cell.titleLabel.textColor = TITLE_TEXT_COLOR;
     [cell.titleLabel sizeToFit];
