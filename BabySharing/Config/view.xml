@@ -480,7 +480,6 @@
     <view type="BabyInfoCell" name="BabyInfoCell" factory="AYReuseViewFactory" >
         <command type="message"     message="hideKeyboard" />
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="" />
     </view>
     
     <view type="Picker" name="Picker" factory="AYDefaultViewFactory" >
@@ -599,5 +598,12 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didAllContent" />
     </view>
-    
+   
+   <view type="SearchFilterCell" name="SearchFilterCell" factory="AYReuseViewFactory" >
+       <command type="message"    message="setCellInfo:" />
+       <command type="notify"     message="filterKidsAges:" />
+       <command type="notify"     message="filterDate:" />
+       <command type="notify"     message="filterType:" />
+       <command type="notify"     message="filterPriceRange:" />
+   </view>
 </views>

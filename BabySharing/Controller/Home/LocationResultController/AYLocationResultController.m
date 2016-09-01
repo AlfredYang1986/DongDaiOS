@@ -220,11 +220,23 @@
 }
 
 #pragma mark -- actions
-- (void)didFiterBtnClick:(UIButton*)btn{
+- (void)didFiterBtnClick:(UIButton*)btn {
+    AYViewController* des = DEFAULTCONTROLLER(@"SearchFilter");
+    UINavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
+    [nav pushViewController:des animated:NO];
+    [des.navigationController setNavigationBarHidden:YES];
+   
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic_push setValue:nav forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic_push setValue:userId forKey:kAYControllerChangeArgsKey];
     
+    id<AYCommand> cmd = SHOWMODULEUP;
+    [cmd performWithResult:&dic_push];
 }
 
--(id)ownerIconTap:(NSString *)userId{
+-(id)ownerIconTap:(NSString *)userId {
     
     AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
     

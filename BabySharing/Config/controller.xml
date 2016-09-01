@@ -795,4 +795,13 @@
         <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />
     </controller>
     
+    <controller type="DefaultController" name="SearchFilter" factory="AYDefaultControllerFactoy" >
+        
+        <view type="Table"          name="Table" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" />
+    </controller>
+    
 </controllers>

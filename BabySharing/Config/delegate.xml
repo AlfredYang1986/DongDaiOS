@@ -241,4 +241,8 @@
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="sendLocation:" />
     </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
 </delegates>

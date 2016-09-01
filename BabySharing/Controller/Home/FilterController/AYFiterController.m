@@ -28,14 +28,14 @@
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-@implementation AYFiterController{
+@implementation AYFiterController {
     NSMutableArray *loading_status;
     UIButton *didSearchBtn;
     
     NSString *dateString;
 }
 
-- (void)postPerform{
+- (void)postPerform {
     
 }
 #pragma mark -- commands
