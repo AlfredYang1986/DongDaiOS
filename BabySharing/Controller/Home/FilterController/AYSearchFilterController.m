@@ -176,7 +176,15 @@
 }
 
 - (id)filterPriceRange:(id)args {
-    NSLog(@"price range");
+    AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterPriceRange");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     return nil;
 }
 

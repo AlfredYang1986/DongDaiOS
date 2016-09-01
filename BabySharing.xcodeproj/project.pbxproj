@@ -659,6 +659,7 @@
 		800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */; };
 		800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */; };
 		80245E291D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */; };
+		80245E2D1D781582008A1C91 /* AYSearchFilterPriceRangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80245E2C1D781582008A1C91 /* AYSearchFilterPriceRangeController.m */; };
 		8052189B1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */; };
 		805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */; };
 		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
@@ -2057,6 +2058,8 @@
 		80245E251D77F9A6008A1C91 /* AYSearchFilterTypeCellDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterTypeCellDefines.h; sourceTree = "<group>"; };
 		80245E271D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterKidsAgesController.h; sourceTree = "<group>"; };
 		80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterKidsAgesController.m; sourceTree = "<group>"; };
+		80245E2B1D781582008A1C91 /* AYSearchFilterPriceRangeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterPriceRangeController.h; sourceTree = "<group>"; };
+		80245E2C1D781582008A1C91 /* AYSearchFilterPriceRangeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterPriceRangeController.m; sourceTree = "<group>"; };
 		805218991CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYScreenNameAndPhotoCacheFacade.h; sourceTree = "<group>"; };
 		8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYScreenNameAndPhotoCacheFacade.m; sourceTree = "<group>"; };
 		8052189F1CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
@@ -7330,6 +7333,15 @@
 			path = SearchFilterKidsAgesController;
 			sourceTree = "<group>";
 		};
+		80245E2A1D781565008A1C91 /* SearchFilterPriceRangeController */ = {
+			isa = PBXGroup;
+			children = (
+				80245E2B1D781582008A1C91 /* AYSearchFilterPriceRangeController.h */,
+				80245E2C1D781582008A1C91 /* AYSearchFilterPriceRangeController.m */,
+			);
+			path = SearchFilterPriceRangeController;
+			sourceTree = "<group>";
+		};
 		805218971CCB9C30006EF119 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -7695,6 +7707,7 @@
 		80FCB6821D76DC0500CEDCEB /* FilterController */ = {
 			isa = PBXGroup;
 			children = (
+				80245E2A1D781565008A1C91 /* SearchFilterPriceRangeController */,
 				80245E261D77FF53008A1C91 /* SearchFilterKidsAgesController */,
 				80FCB6991D76DD3C00CEDCEB /* AYSearchFilterController.h */,
 				80FCB69A1D76DD3C00CEDCEB /* AYSearchFilterController.m */,
@@ -7980,6 +7993,7 @@
 				703CCDEB1CC9F11D00CF4563 /* AYSearchFriendView.m in Sources */,
 				70EC72391D190D6F0012B123 /* SDCycleScrollView.m in Sources */,
 				70A1A55F1D1D4A860063FC7F /* AYEMFacade.m in Sources */,
+				80245E2D1D781582008A1C91 /* AYSearchFilterPriceRangeController.m in Sources */,
 				700693181CC4A3AF00B511FF /* WEBlockingGestureRecognizer.m in Sources */,
 				703CCDBF1CC9D71000CF4563 /* AYQueryNotificationsCommand.m in Sources */,
 				7060BDB41CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m in Sources */,

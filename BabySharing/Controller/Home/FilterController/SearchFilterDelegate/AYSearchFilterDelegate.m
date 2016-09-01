@@ -136,6 +136,9 @@
     } else if (indexPath.row == 0) {
         id<AYCommand> cmd = [cell.notifies objectForKey:@"filterKidsAges:"];
         [cmd performWithResult:&cell];
+    } else if (indexPath.row == 3) {
+        id<AYCommand> cmd = [cell.notifies objectForKey:@"filterPriceRange:"];
+        [cmd performWithResult:&cell];
     }
 }
 @end

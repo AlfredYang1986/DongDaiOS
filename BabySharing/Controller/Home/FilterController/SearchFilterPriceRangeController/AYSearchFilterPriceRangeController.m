@@ -1,12 +1,12 @@
 //
-//  AYSearchFilterKidsAgesController.m
+//  AYSearchFilterPriceRangController.m
 //  BabySharing
 //
 //  Created by BM on 9/1/16.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
-#import "AYSearchFilterKidsAgesController.h"
+#import "AYSearchFilterPriceRangeController.h"
 
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -26,20 +26,22 @@
 #import "Tools.h"
 #import "AYCommandDefines.h"
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
+#define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                       [UIScreen mainScreen].bounds.size.height
 
-#define STATUS_HEIGHT           20
-#define NAV_HEIGHT              45
+#define STATUS_HEIGHT                       20
+#define NAV_HEIGHT                          45
 
-#define TEXT_COLOR              [UIColor redColor]
+#define TEXT_COLOR                          [UIColor redColor]
+#define LINE_COLOR                          [UIColor redColor]
 
-#define CONTROLLER_MARGIN       10.f
+#define CONTROLLER_MARGIN                   10.f
+
+#define TEXT_FIELD_MARGIN_BETWEEN           40.f
 
 #define FIELD_HEIGHT                        80
 
-@implementation AYSearchFilterKidsAgesController
-
+@implementation AYSearchFilterPriceRangeController
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -64,39 +66,50 @@
     //    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-   
+    
     UILabel* title = [[UILabel alloc]init];
-    title.text = @"您的孩子年龄";
+    title.text = @"您期望的价格?";
     title.font = [UIFont systemFontOfSize:30.f];
     title.textColor = TEXT_COLOR;
     [title sizeToFit];
     title.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, title.frame.size.height);
     
     [self.view addSubview:title];
-  
-    NSString* str = @"为了筛选更准确的信息，我们会向您咨询一次孩子年龄";
-    UIFont* font = [UIFont systemFontOfSize:14.f];
-    CGSize sz = [Tools sizeWithString:str withFont:font andMaxSize:CGSizeMake(SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, FLT_MAX)];
     
-    UILabel* des = [[UILabel alloc]init];
-    des.text = str;
-    des.font = font;
-    des.textColor = TEXT_COLOR;
-    des.lineBreakMode = UILineBreakModeWordWrap;
-    des.numberOfLines = 0;
-    des.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 2 + title.frame.size.height, sz.width, sz.height);
-    
-    [self.view addSubview:des];
+    {
+        UITextField* field = [[UITextField alloc]init];
+        field.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 2 + title.frame.size.height, SCREEN_WIDTH / 2 - 2 * CONTROLLER_MARGIN - TEXT_FIELD_MARGIN_BETWEEN / 2, FIELD_HEIGHT);
+        field.textAlignment = NSTextAlignmentCenter;
+        field.placeholder = @"最低价格";
+        
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0.0f, field.frame.size.height - 1, field.frame.size.width, 1.0f);
+        bottomBorder.backgroundColor = LINE_COLOR.CGColor;
+        [field.layer addSublayer:bottomBorder];
+        [self.view addSubview:field];
+    }
    
-    UITextField* field = [[UITextField alloc]init];
-    field.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 4 + title.frame.size.height + sz.height, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, FIELD_HEIGHT);
-    field.textAlignment = NSTextAlignmentCenter;
+    {
+        UITextField* field = [[UITextField alloc]init];
+        field.frame = CGRectMake(CONTROLLER_MARGIN + SCREEN_WIDTH / 2 + TEXT_FIELD_MARGIN_BETWEEN / 2, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 2 + title.frame.size.height, SCREEN_WIDTH / 2 - 2 * CONTROLLER_MARGIN - TEXT_FIELD_MARGIN_BETWEEN / 2, FIELD_HEIGHT);
+        field.textAlignment = NSTextAlignmentCenter;
+        field.placeholder = @"最高价格";
+        
+        CALayer *bottomBorder = [CALayer layer];
+        bottomBorder.frame = CGRectMake(0.0f, field.frame.size.height - 1, field.frame.size.width, 1.0f);
+        bottomBorder.backgroundColor = LINE_COLOR.CGColor;
+        [field.layer addSublayer:bottomBorder];
+        [self.view addSubview:field];
+    }
     
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(0.0f, field.frame.size.height - 1, field.frame.size.width, 1.0f);
-    bottomBorder.backgroundColor = [UIColor redColor].CGColor;
-    [field.layer addSublayer:bottomBorder];
-    [self.view addSubview:field];
+    {
+        CALayer* line = [CALayer layer];
+        line.frame = CGRectMake(0, 0, 20, 1);
+        line.position = CGPointMake(SCREEN_WIDTH / 2, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 2 + title.frame.size.height + FIELD_HEIGHT / 2);
+        line.borderWidth = 1.f;
+        line.borderColor = LINE_COLOR.CGColor;
+        [self.view.layer addSublayer:line];
+    }
 }
 
 #pragma mark -- layouts

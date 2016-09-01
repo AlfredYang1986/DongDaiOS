@@ -811,4 +811,8 @@
        <view type="FakeStatusBar"  name="FakeStatusBar" />
    </controller>
    
+   <controller type="DefaultController" name="SearchFilterPriceRange" factory="AYDefaultControllerFactoy" >
+       <view type="FakeNavBar"     name="FakeNavBar" />
+       <view type="FakeStatusBar"  name="FakeStatusBar" />
+   </controller>
 </controllers>
