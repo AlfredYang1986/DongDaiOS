@@ -65,11 +65,11 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-        return 2;
+    return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 1) {
         AYFouceCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYFouceCellView"];
         if (cell == nil) {
             cell = [[AYFouceCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYFouceCellView"];
@@ -163,7 +163,7 @@
 }
 
 //更多项目展示
-- (void)didMoreOptionsBtnClick:(UIButton*)btn{
+- (void)didMoreOptionsBtnClick:(UIButton*)btn {
     if (btn.tag == 110) {   //cans
         id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
         

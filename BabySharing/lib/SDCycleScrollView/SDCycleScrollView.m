@@ -247,7 +247,7 @@ NSString * const ID = @"cycleCell";
     }
 }
 
--(void)setAutoScroll:(BOOL)autoScroll{
+- (void)setAutoScroll:(BOOL)autoScroll {
     _autoScroll = autoScroll;
     
     [self invalidateTimer];
@@ -460,7 +460,7 @@ NSString * const ID = @"cycleCell";
     
     _flowLayout.itemSize = self.frame.size;
     
-    _mainView.frame = self.bounds;
+    _mainView.frame = self.frame;
     if (_mainView.contentOffset.x == 0 &&  _totalItemsCount) {
         int targetIndex = 0;
         if (self.infiniteLoop) {

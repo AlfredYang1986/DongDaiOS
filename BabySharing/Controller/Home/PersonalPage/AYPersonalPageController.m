@@ -23,20 +23,19 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
-
 #import "Tools.h"
+#import "SDCycleScrollView.h"
 
 #define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT       [UIScreen mainScreen].bounds.size.height
-#define kLIMITEDSHOWNAVBAR  175
+#define kLIMITEDSHOWNAVBAR  (-50)
+#define kFlexibleHeight     225
 
-@interface AYPersonalPageController ()
+@interface AYPersonalPageController ()<SDCycleScrollViewDelegate>
 
 @end
 
-@implementation AYPersonalPageController{
+@implementation AYPersonalPageController {
     NSDictionary *service_info;
     UIButton *shareBtn;
     UIButton *collectionBtn;
@@ -45,6 +44,9 @@
     
     UIButton *bar_unlike_btn;
     UIButton *bar_like_btn;
+    
+    UIView *flexibleView;
+    SDCycleScrollView *cycleScrollView;
 }
 - (void)performWithResult:(NSObject**)obj {
     
@@ -75,6 +77,71 @@
     [cmd_datasource performWithResult:&obj];
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
+    
+    {
+        UITableView *tableView = (UITableView*)view_table;
+        flexibleView = [[UIView alloc]init];
+        [tableView addSubview:flexibleView];
+        [flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(tableView).offset(-kFlexibleHeight);
+            make.centerX.equalTo(tableView);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
+        }];
+        
+        NSArray *images = [service_info objectForKey:@"images"];
+        
+        if ([[images firstObject] isKindOfClass:[NSString class]]) {
+            NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
+            //    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
+            NSMutableArray *tmp = [NSMutableArray array];
+            for (int i = 0; i < images.count; ++i) {
+                NSString *obj = images[i];
+                obj = [PRE stringByAppendingString:obj];
+                [tmp addObject:obj];
+            }
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) delegate:self placeholderImage:IMGRESOURCE(@"sample_image")];
+            cycleScrollView.imageURLStringsGroup = [tmp copy];
+        } else {
+            
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) shouldInfiniteLoop:YES imageNamesGroup:[service_info objectForKey:@"images"]];
+            cycleScrollView.localizationImageNamesGroup = [service_info objectForKey:@"images"];
+            cycleScrollView.delegate = self;
+        }
+        
+        cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
+        cycleScrollView.currentPageDotColor = [Tools themeColor];
+        cycleScrollView.pageControlDotSize = CGSizeMake(10, 10);
+        [flexibleView addSubview:cycleScrollView];
+        cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
+        [cycleScrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(flexibleView);
+//            make.top.equalTo(flexibleView);
+//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 225));
+//            make.bottom.equalTo(self);
+            make.edges.equalTo(flexibleView);
+        }];
+        
+        UIButton *popImage = [[UIButton alloc]init];
+        [popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
+        [flexibleView addSubview:popImage];
+        [popImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(flexibleView).offset(18);
+            make.top.equalTo(flexibleView).offset(25);
+            make.size.mas_equalTo(CGSizeMake(30, 30));
+        }];
+        [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel *costLabel = [[UILabel alloc]init];
+        costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
+        [flexibleView addSubview:costLabel];
+        [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(flexibleView);
+            make.bottom.equalTo(flexibleView).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(125, 35));
+        }];
+        costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[service_info objectForKey:@"price"]).floatValue];
+    }
     
     id<AYCommand> cmd = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
     NSDictionary *info_dic = [service_info copy];
@@ -198,6 +265,7 @@
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44);
     
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -207,19 +275,6 @@
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }
-
-//- (id)FouceScrollLayout:(UIView*)view {
-//    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 225);
-//    
-//    [self.view sendSubviewToBack:view];
-//    return nil;
-//}
-//
-//- (id)MainScrollLayout:(UIView*)view {
-//    CGFloat margin = 15.f;
-//    view.frame = CGRectMake(margin, 225, SCREEN_WIDTH - margin*2, SCREEN_HEIGHT - 225 - 44);
-//    return nil;
-//}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
@@ -240,7 +295,7 @@
 
 -(id)scrollOffsetY:(NSNumber*)y {
     offset_y = y.floatValue;
-    [self prefersStatusBarHidden];
+//    [self prefersStatusBarHidden];
     [self setNeedsStatusBarAppearanceUpdate];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
@@ -252,15 +307,25 @@
         }];
         
     }else {
-        
         [UIView animateWithDuration:0.5 animations:^{
             ((UINavigationBar*)navBar).alpha = 0;
         }];
     }
     
+//    CGFloat offsetH = kFlexibleHeight + offset_y;
+//    if (offsetH < 0) {
+//        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+//        UITableView *tableView = (UITableView*)view_notify;
+//        [flexibleView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(tableView);
+//            make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
+//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - (SCREEN_WIDTH * offsetH / 225), kFlexibleHeight - offsetH));
+//        }];
+//    }
+    
     [shareBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view).offset(-20);
-        make.centerY.equalTo(self.view.mas_top).offset(225 - offset_y);
+        make.centerY.equalTo(self.view.mas_top).offset(- offset_y);
         make.size.mas_equalTo(CGSizeMake(52, 52));
     }];
 //    [collectionBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -271,7 +336,7 @@
     return nil;
 }
 #pragma mark -- actions
-- (void)didPOPClick{
+- (void)didPOPClick {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];

@@ -33,28 +33,28 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *xFriend = [[UILabel alloc]init];
-        xFriend = [Tools setLabelWith:xFriend andText:@"0个共同好友" andTextColor:[UIColor whiteColor] andFontSize:12.f andBackgroundColor:[UIColor clearColor] andTextAlignment:0];
-        [self addSubview:xFriend];
-        [xFriend mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-18);
-            make.top.equalTo(self).offset(39);
-        }];
-        
-        _friendsImage = [[UIImageView alloc]init];
-        [_friendsImage setBackgroundColor:[UIColor orangeColor]];
-        _friendsImage.layer.cornerRadius = 14.f;
-        _friendsImage.clipsToBounds = YES;
-        [self addSubview:_friendsImage];
-        [_friendsImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(xFriend.mas_left).offset(-12.5);
-            make.centerY.equalTo(xFriend);
-            make.size.mas_equalTo(CGSizeMake(28, 28));
-        }];
-        _friendsImage.userInteractionEnabled = YES;
-        
-        xFriend.hidden = YES;
-        _friendsImage.hidden = YES;
+//        UILabel *xFriend = [[UILabel alloc]init];
+//        xFriend = [Tools setLabelWith:xFriend andText:@"0个共同好友" andTextColor:[UIColor whiteColor] andFontSize:12.f andBackgroundColor:[UIColor clearColor] andTextAlignment:0];
+//        [self addSubview:xFriend];
+//        [xFriend mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(self).offset(-18);
+//            make.top.equalTo(self).offset(39);
+//        }];
+//        
+//        _friendsImage = [[UIImageView alloc]init];
+//        [_friendsImage setBackgroundColor:[UIColor orangeColor]];
+//        _friendsImage.layer.cornerRadius = 14.f;
+//        _friendsImage.clipsToBounds = YES;
+//        [self addSubview:_friendsImage];
+//        [_friendsImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(xFriend.mas_left).offset(-12.5);
+//            make.centerY.equalTo(xFriend);
+//            make.size.mas_equalTo(CGSizeMake(28, 28));
+//        }];
+//        _friendsImage.userInteractionEnabled = YES;
+//        
+//        xFriend.hidden = YES;
+//        _friendsImage.hidden = YES;
         
     }
     return self;
