@@ -806,4 +806,9 @@
        <delegate type="TableViewDelegateAndDatasource" name="SearchFilterType" />
    </controller>
    
+   <controller type="DefaultController" name="SearchFilterKidsAges" factory="AYDefaultControllerFactoy" >
+       <view type="FakeNavBar"     name="FakeNavBar" />
+       <view type="FakeStatusBar"  name="FakeStatusBar" />
+   </controller>
+   
 </controllers>

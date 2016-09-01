@@ -133,6 +133,9 @@
     if (indexPath.row == 2) {
         id<AYCommand> cmd = [cell.notifies objectForKey:@"filterType:"];
         [cmd performWithResult:&cell];
+    } else if (indexPath.row == 0) {
+        id<AYCommand> cmd = [cell.notifies objectForKey:@"filterKidsAges:"];
+        [cmd performWithResult:&cell];
     }
 }
 @end

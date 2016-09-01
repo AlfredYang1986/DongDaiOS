@@ -658,6 +658,7 @@
 		70FEFB791D4214E30086D6DD /* AYNapLocationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FEFB781D4214E30086D6DD /* AYNapLocationDelegate.m */; };
 		800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */; };
 		800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */; };
+		80245E291D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */; };
 		8052189B1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */; };
 		805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */; };
 		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
@@ -2054,6 +2055,8 @@
 		800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWechatFuncHelper.m; sourceTree = "<group>"; };
 		800AF3CB1D744237007C30AE /* AYSNSWechatDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYSNSWechatDefines.h; sourceTree = "<group>"; };
 		80245E251D77F9A6008A1C91 /* AYSearchFilterTypeCellDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterTypeCellDefines.h; sourceTree = "<group>"; };
+		80245E271D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterKidsAgesController.h; sourceTree = "<group>"; };
+		80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterKidsAgesController.m; sourceTree = "<group>"; };
 		805218991CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYScreenNameAndPhotoCacheFacade.h; sourceTree = "<group>"; };
 		8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYScreenNameAndPhotoCacheFacade.m; sourceTree = "<group>"; };
 		8052189F1CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
@@ -7318,6 +7321,15 @@
 			path = WechatFuncHelper;
 			sourceTree = "<group>";
 		};
+		80245E261D77FF53008A1C91 /* SearchFilterKidsAgesController */ = {
+			isa = PBXGroup;
+			children = (
+				80245E271D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.h */,
+				80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */,
+			);
+			path = SearchFilterKidsAgesController;
+			sourceTree = "<group>";
+		};
 		805218971CCB9C30006EF119 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -7683,9 +7695,10 @@
 		80FCB6821D76DC0500CEDCEB /* FilterController */ = {
 			isa = PBXGroup;
 			children = (
-				80FCB6BD1D77EDC400CEDCEB /* SearchFilterTypeController */,
+				80245E261D77FF53008A1C91 /* SearchFilterKidsAgesController */,
 				80FCB6991D76DD3C00CEDCEB /* AYSearchFilterController.h */,
 				80FCB69A1D76DD3C00CEDCEB /* AYSearchFilterController.m */,
+				80FCB6BD1D77EDC400CEDCEB /* SearchFilterTypeController */,
 				80FCB6B31D77CB3E00CEDCEB /* SearchFilterCell */,
 				80FCB6AF1D77B52B00CEDCEB /* SearchFilterDelegate */,
 				80FCB69C1D76F5A500CEDCEB /* CalendarView */,
@@ -8344,6 +8357,7 @@
 				70EC72341D190D6F0012B123 /* TAAbstractDotView.m in Sources */,
 				708F2D401D3FA7BD000CD492 /* AYSetNapAgesDelegate.m in Sources */,
 				7015248E1CBF9AB4005B4C5B /* UIScrollView+MJRefresh.m in Sources */,
+				80245E291D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m in Sources */,
 				70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */,
 				70B820971CAA5802001EEAF2 /* SGGridMenu.m in Sources */,
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,

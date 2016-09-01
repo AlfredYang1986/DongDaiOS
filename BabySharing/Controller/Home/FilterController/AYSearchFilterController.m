@@ -144,8 +144,16 @@
 }
 
 #pragma mark -- notification
-- (id)filterKidAges:(id)args {
-    NSLog(@"kids ages");
+- (id)filterKidsAges:(id)args {
+    AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterKidsAges");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     return nil;
 }
 
