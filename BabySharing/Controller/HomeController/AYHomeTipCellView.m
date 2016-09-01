@@ -60,7 +60,7 @@
         NSDate *nowDate = [NSDate date];
         NSTimeInterval now = nowDate.timeIntervalSince1970;
         NSString *on = nil;
-        long onTimeSpan = ((long)now + 86400/3) % 86400;
+        long onTimeSpan = ((long)now /*+ 86400/3*/) % 86400;
         if (onTimeSpan < 86400 * 0.25) {
             on = @"上午好";
         } else if (onTimeSpan < 86400 * 0.5) {

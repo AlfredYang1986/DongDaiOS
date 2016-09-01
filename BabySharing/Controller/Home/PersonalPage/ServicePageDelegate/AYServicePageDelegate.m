@@ -85,42 +85,54 @@
         
         return (UITableViewCell*)cell;
     } else {
-        AYServiceInfoCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYServiceInfoCellView"];
+        
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
         if (cell == nil) {
-            cell = [[AYServiceInfoCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYServiceInfoCellView"];
+            cell = VIEW(@"ServicePageCell", @"ServicePageCell");
         }
+        cell.controller = self.controller;
         
-        if (querydata) {
-            cell.service_info = querydata;
-        }
+        id tmp = querydata;
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
         
-        //ones profile
-        cell.photoImageView.userInteractionEnabled = YES;
-        [cell.photoImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onesPhotoIconTap:)]];
-        
-        [cell.chatBtn   addTarget:self  action:@selector(didChatBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
-        [cell.dailyBtn  addTarget:self  action:@selector(didDailyBtnClick:)     forControlEvents:UIControlEventTouchUpInside];
-        [cell.showMore  addTarget:self  action:@selector(didShowMoreClick:)     forControlEvents:UIControlEventTouchUpInside];
-        [cell.costBtn   addTarget:self  action:@selector(didCostBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
-        [cell.safePolicy addTarget:self action:@selector(didSafePolicyClick:)   forControlEvents:UIControlEventTouchUpInside];
-        [cell.TDPolicy  addTarget:self  action:@selector(didTDPolicyClick:)     forControlEvents:UIControlEventTouchUpInside];
-        
-        //cans facility
-        [cell.morePlayItems addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.moreSafeDevices addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        
+        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
+//        AYServiceInfoCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYServiceInfoCellView"];
+//        if (cell == nil) {
+//            cell = [[AYServiceInfoCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYServiceInfoCellView"];
+//        }
+//        
+//        if (querydata) {
+//            cell.service_info = querydata;
+//        }
+//        
+//        //ones profile
+//        cell.photoImageView.userInteractionEnabled = YES;
+//        [cell.photoImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onesPhotoIconTap:)]];
+//        
+//        [cell.chatBtn   addTarget:self  action:@selector(didChatBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
+//        [cell.dailyBtn  addTarget:self  action:@selector(didDailyBtnClick:)     forControlEvents:UIControlEventTouchUpInside];
+//        [cell.showMore  addTarget:self  action:@selector(didShowMoreClick:)     forControlEvents:UIControlEventTouchUpInside];
+//        [cell.costBtn   addTarget:self  action:@selector(didCostBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
+//        [cell.safePolicy addTarget:self action:@selector(didSafePolicyClick:)   forControlEvents:UIControlEventTouchUpInside];
+//        [cell.TDPolicy  addTarget:self  action:@selector(didTDPolicyClick:)     forControlEvents:UIControlEventTouchUpInside];
+//        
+//        //cans facility
+//        [cell.morePlayItems addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.moreSafeDevices addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        return (UITableViewCell*)cell;
     }
     
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row == 0) {
-//        return 225;
-//    }else {
-//        return 1024;
-//    }
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 895;
+    
+}
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;

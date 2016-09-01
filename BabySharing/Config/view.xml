@@ -460,10 +460,20 @@
         <command type="message"     message="setPersonalInfo:" />
         <command type="notify"      message=":" />
     </view>
+    <view type="ServicePageCell" name="ServicePageCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="reLoad" />
+        <command type="notify"      message="showCansOrFacility:" />
+    </view>
     
     <view type="ContentListCell" name="ContentListCell" factory="AYReuseViewFactory" >
         <command type="message"     message="resetContent:" />
     </view>
+    
+    <view type="ContentListCell" name="FacilityCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+    </view>
+    
     
     <view type="ProfileHeadCell" name="ProfileHeadCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />

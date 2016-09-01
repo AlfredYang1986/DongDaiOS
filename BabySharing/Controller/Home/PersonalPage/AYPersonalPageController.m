@@ -78,6 +78,10 @@
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
     
+    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
+    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_search performWithResult:&nib_search_name];
+    
     {
         UITableView *tableView = (UITableView*)view_table;
         flexibleView = [[UIView alloc]init];
@@ -115,10 +119,6 @@
         cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
         [cycleScrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(flexibleView);
-//            make.top.equalTo(flexibleView);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 225));
-//            make.bottom.equalTo(self);
             make.edges.equalTo(flexibleView);
         }];
         
@@ -126,7 +126,7 @@
         [popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
         [flexibleView addSubview:popImage];
         [popImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(flexibleView).offset(18);
+            make.left.equalTo(flexibleView).offset(12);
             make.top.equalTo(flexibleView).offset(25);
             make.size.mas_equalTo(CGSizeMake(30, 30));
         }];
@@ -271,8 +271,8 @@
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     view.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
     
-    ((UITableView*)view).estimatedRowHeight = 300;
-    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
+//    ((UITableView*)view).estimatedRowHeight = 300;
+//    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }
 
@@ -333,6 +333,20 @@
 //        make.centerY.equalTo(shareBtn);
 //        make.size.equalTo(shareBtn);
 //    }];
+    return nil;
+}
+
+- (id)showCansOrFacility:(NSNumber*)args {
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"Facility");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+    [cmd_show_module performWithResult:&dic];
     return nil;
 }
 #pragma mark -- actions

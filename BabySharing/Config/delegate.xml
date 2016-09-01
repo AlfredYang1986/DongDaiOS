@@ -137,6 +137,10 @@
         <command type="message" message="changeQueryData:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="Facility" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="ContentList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="QueryData:" />
     </delegate>
