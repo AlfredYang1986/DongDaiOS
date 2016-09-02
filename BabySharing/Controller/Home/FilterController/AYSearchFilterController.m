@@ -167,17 +167,20 @@
 }
 
 - (id)filterDate:(id)args {
-    NSLog(@"date");
+    UIView* table = [self.views objectForKey:@"Table"];
+    UIView* cell = (UIView*)args;
+    CGFloat height = cell.layer.frame.origin.y + cell.layer.frame.size.height + table.frame.origin.y;
+    
     AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterDate");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:kAYControllerActionPushSplitValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[NSNumber numberWithFloat:height] forKey:kAYControllerSplitHeightKey];
     
-    id<AYCommand> cmd = PUSH;
+    id<AYCommand> cmd = PUSHSPLIT;
     [cmd performWithResult:&dic_push];
-    return nil;
     return nil;
 }
 

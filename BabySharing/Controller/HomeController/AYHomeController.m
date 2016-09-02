@@ -15,7 +15,6 @@
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
-#import "AYHomeCellDefines.h"
 #import "AYThumbsAndPushDefines.h"
 
 #import "Tools.h"
@@ -143,9 +142,37 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         [cmd_delegate performWithResult:&obj];
         
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeTipCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&class_name];
+        NSString* class_name_tip = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeTipCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name_tip];
+        
+        NSString* class_name_his = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name_his];
+        
+        NSString* class_name_lik = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeLikesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&class_name_lik];
+        
+        NSDictionary* info = nil;
+        CURRENUSER(info)
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+        
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+        AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"AllCollectService"];
+        [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                id<AYCommand> cmd_change_data = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+                NSArray *data = [result objectForKey:@"result"];
+                [cmd_change_data performWithResult:&data];
+                
+                id<AYCommand> refresh = [view_notify.commands objectForKey:@"refresh"];
+                [refresh performWithResult:nil];
+            } else {
+                NSLog(@"push error with:%@",result);
+                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
     }
+    
 
 }
 

@@ -1,12 +1,12 @@
 //
-//  AYOneProfileAboutCellView.m
+//  AYHomeLikesCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 16/8/16.
+//  Created by Alfred Yang on 2/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOneProfileAboutCellView.h"
+#import "AYHomeLikesCellView.h"
 #import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
@@ -23,16 +23,24 @@
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
+#import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "Masonry.h"
 
 #import "AYThumbsAndPushDefines.h"
 
-#import "InsetsLabel.h"
-#import "OBShapedButton.h"
+#import "AYModelFacade.h"
+#import "LoginToken.h"
+#import "LoginToken+ContextOpt.h"
+#import "CurrentToken.h"
+#import "CurrentToken+ContextOpt.h"
 
-@implementation AYOneProfileAboutCellView {
+@interface AYHomeLikesCellView ()
+
+@end
+
+@implementation AYHomeLikesCellView {
     
     UIImageView *headImage;
     UILabel *titleLabel;
@@ -40,10 +48,28 @@
     NSDictionary *service;
 }
 
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSLog(@"init reuse identifier");
+        
+        CALayer *separtor = [CALayer layer];
+        separtor.frame = CGRectMake(15, 0, 40, 0.5);
+        separtor.backgroundColor = [Tools garyLineColor].CGColor;
+        [self.layer addSublayer:separtor];
+        
+        UILabel *title = [[UILabel alloc]init];
+        title = [Tools setLabelWith:title andText:@"我心仪的服务" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:title];
+        [title mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.top.equalTo(self).offset(15);
+        }];
+        
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -55,14 +81,9 @@
     [super layoutSubviews];
 }
 
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
-
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"OneProfileAboutCell", @"OneProfileAboutCell");
+    id<AYViewBase> cell = VIEW(@"HomeLikesCell", @"HomeLikesCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -117,40 +138,26 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args{
-    NSString *single = [dic_args objectForKey:@"validate"];
-    if (single) {
-        UILabel *title = [[UILabel alloc]init];
-        title = [Tools setLabelWith:title andText:@"已验证的身份" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:title];
-        [title mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(15);
-            make.centerY.equalTo(self);
-        }];
-        
-    } else {
-        NSString *title = [dic_args objectForKey:@"title"];
-        NSString *sub_title = [dic_args objectForKey:@"sub_title"];
-        
-        titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:title andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(15);
-            make.top.equalTo(self).offset(20);
-        }];
-        
-        UILabel *subTitle = [[UILabel alloc]init];
-        subTitle = [Tools setLabelWith:subTitle andText:sub_title andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:subTitle];
-        [subTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(titleLabel);
-            make.top.equalTo(titleLabel.mas_bottom).offset(20);
-        }];
-    }
+    NSDictionary *args = [dic_args objectForKey:@"service"];
     
-    UIView *line = [[UIView alloc]initWithFrame:CGRectMake(10, 89.5, [UIScreen mainScreen].bounds.size.width, 0.5)];
-    line.backgroundColor = [Tools garyLineColor];
-    [self addSubview:line];
+    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            headImage.image = img;
+        }else{
+            [headImage setImage:IMGRESOURCE(@"sample_image")];
+        }
+    }];
+    
+    titleLabel.text = [args objectForKey:@"title"];
+    
     return nil;
 }
 

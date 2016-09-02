@@ -13,5 +13,6 @@ static NSString* const kAYSearchFilterCellName                      = @"SearchFi
 
 static NSString* const kAYSearchFilterCellCellKey                   = @"kAYSearchFilterCellCellKey";
 static NSString* const kAYSearchFilterCellTitleKey                  = @"kAYSearchFilterCellTitleKey";
+static NSString* const kAYSearchFilterCellSubTitleKey               = @"kAYSearchFilterCellSubTitleKey";
 
 #endif /* AYSearchFilterCellDefines_h */

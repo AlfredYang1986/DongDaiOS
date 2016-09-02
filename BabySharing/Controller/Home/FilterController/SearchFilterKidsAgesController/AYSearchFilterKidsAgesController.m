@@ -84,7 +84,6 @@
     des.text = str;
     des.font = font;
     des.textColor = TEXT_COLOR;
-    des.lineBreakMode = UILineBreakModeWordWrap;
     des.numberOfLines = 0;
     des.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 2 + title.frame.size.height, sz.width, sz.height);
     

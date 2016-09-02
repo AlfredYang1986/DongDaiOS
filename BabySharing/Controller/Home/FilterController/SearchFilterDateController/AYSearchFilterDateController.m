@@ -55,10 +55,10 @@
 
 @implementation AYSearchFilterDateController {
     UILabel *dateLabel;
-    
     NSString *currentDate;
-    
     NSTimeInterval dateDataNote;
+    
+    id dic_split_value;
 }
 
 - (AYCalendarDate*)useTime {
@@ -74,12 +74,10 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        dic_split_value = [dic objectForKey:kAYControllerSplitValueKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
-        NSDictionary* dic_push = [dic copy];
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
@@ -210,22 +208,24 @@
 - (void)saveBtnSelected {
     
     if (dateDataNote != 0) {
+        id<AYCommand> cmd = POPSPLIT;
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+        [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
         [dic setValue:[NSNumber numberWithDouble:dateDataNote] forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd = POP;
+        [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
+//        id<AYCommand> cmd = POP;
         [cmd performWithResult:&dic];
     }
 }
 
 #pragma mark -- commands
 - (id)leftBtnSelected {
-    id<AYCommand> cmd = POP;
+    id<AYCommand> cmd = POPSPLIT;
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
     [cmd performWithResult:&dic];
     return nil;
 }

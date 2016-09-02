@@ -112,6 +112,10 @@
     cell.titleLabel.text = title;
     cell.titleLabel.textColor = [Tools garyColor];
     [cell.titleLabel sizeToFit];
+    
+    NSString *sub_title = [dic objectForKey:kAYSearchFilterCellSubTitleKey];
+    cell.addSign.text = sub_title;
+    
     return nil;
 }
 @end

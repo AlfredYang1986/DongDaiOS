@@ -27,6 +27,7 @@
 
 @implementation AYSearchFilterDelegate {
     NSArray* title_arr;
+    NSMutableArray *sub_title_arr;
 }
 
 //@synthesize querydata = _querydata;
@@ -39,6 +40,7 @@
 
 - (void)postPerform {
     title_arr = @[@"您孩子的年龄", @"日期", @"类型", @"您期望的价格范围"];
+    sub_title_arr = [NSMutableArray arrayWithObjects:@"添加", @"添加", @"添加", @"添加", nil];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -55,6 +57,11 @@
 
 - (NSString*)getViewName {
     return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (id)changeQueryData:(id)args {
+    
+    return nil;
 }
 
 #pragma mark -- table
@@ -77,6 +84,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:cell forKey:kAYSearchFilterCellCellKey];
     [dic setValue:[title_arr objectAtIndex:indexPath.row] forKey:kAYSearchFilterCellTitleKey];
+    [dic setValue:[sub_title_arr objectAtIndex:indexPath.row] forKey:kAYSearchFilterCellSubTitleKey];
     [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;

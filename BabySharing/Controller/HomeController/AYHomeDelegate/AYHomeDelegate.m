@@ -30,11 +30,7 @@
 @end
 
 @implementation AYHomeDelegate{
-    NSArray *origs;
-    NSArray *servs;
-    
-    CurrentToken *tmp;
-    NSMutableDictionary *user_info;
+    NSArray *collectData;
 }
 
 @synthesize querydata = _querydata;
@@ -65,25 +61,57 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
+- (id)changeQueryData:(id)args {
+    collectData = (NSArray*)args;
+    return nil;
+}
+
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeTipCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = VIEW(@"HomeTipCell", @"HomeTipCell");
+    id<AYViewBase> cell;
+    if (indexPath.row == 0) {
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeTipCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+        
+    } else if (indexPath.row == 1) {
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[collectData copy] forKey:@"collect_data"];
+        [cmd performWithResult:&dic];
+    } else {
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeLikesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+        
     }
+    
+    
+    
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return SCREEN_HEIGHT - SCREEN_WIDTH - 49;
+    if (indexPath.row == 0) {
+        
+        return SCREEN_HEIGHT - SCREEN_WIDTH - 49;
+    } else if (indexPath.row == 1) {
+        
+        return 235;
+    } else {
+        
+        return 435;
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -372,6 +372,16 @@
         <command type="notify"      message="didPushInfo" />
     </view>
     
+    <view type="HomeHistoryCell" name="HomeHistoryCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="foundBtnClick:" />
+    </view>
+    
+    <view type="HomeLikesCell" name="HomeLikesCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="foundBtnClick:" />
+    </view>
+    
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >
         <command type="message" message="queryContentCellHeight" />
         <command type="message" message="resetContent:" />
