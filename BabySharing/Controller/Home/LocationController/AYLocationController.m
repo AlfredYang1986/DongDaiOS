@@ -326,7 +326,7 @@
     [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
         
         CLPlacemark *pl = [placemarks firstObject];
-        NSString *name = pl.name;
+        NSString *name = pl.locality;
         
         id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
         id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];

@@ -121,7 +121,7 @@
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
         [dic setValue:origs[indexPath.row] forKey:@"title"];
         [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
-        if(indexPath.row == 2) {
+        if(indexPath.row == origs.count - 1) {
             [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
         }
         cell.dic_info = dic;

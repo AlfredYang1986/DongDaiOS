@@ -22,17 +22,17 @@
 #import "AYRemoteCallCommand.h"
 #import "AYSearchFilterCellDefines.h"
 
-#define LINE_MARGIN                         10.f
-#define LINE_COLOR                          [UIColor redColor]
+#define LINE_MARGIN                         15.f
 
 #define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
 
-#define SEARCH_FILTER_CELL_HEIGHT           60.f
+#define SEARCH_FILTER_CELL_HEIGHT           90.f
 
 #define TITLE_TEXT_COLOR                    [UIColor redColor]
 
 @interface AYSearchFilterCellView ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addSign;
 @property (weak, nonatomic) IBOutlet UIButton *controlBtn;
 @end
 
@@ -43,10 +43,10 @@
     // Initialization code
     [self setUpReuseCell];
     
-    
+    _addSign.textColor = [Tools themeColor];
     CALayer* line = [CALayer layer];
     line.frame = CGRectMake(LINE_MARGIN, SEARCH_FILTER_CELL_HEIGHT - 1, SCREEN_WIDTH - 2 * LINE_MARGIN, 1);
-    line.borderColor = LINE_COLOR.CGColor;
+    line.borderColor = [Tools garyLineColor].CGColor;
     line.borderWidth = 1.f;
     [self.layer addSublayer:line];
 }
@@ -110,7 +110,7 @@
     AYSearchFilterCellView* cell = [dic objectForKey:kAYSearchFilterCellCellKey];
     NSString* title = [dic objectForKey:kAYSearchFilterCellTitleKey];
     cell.titleLabel.text = title;
-    cell.titleLabel.textColor = TITLE_TEXT_COLOR;
+    cell.titleLabel.textColor = [Tools garyColor];
     [cell.titleLabel sizeToFit];
     return nil;
 }

@@ -10,16 +10,16 @@
 #import "Tools.h"
 #import "AYSearchFilterCellDefines.h"
 
-#define SECTION_HEAD_FONT_SIZE              30.f
+#define SECTION_HEAD_FONT_SIZE              24.f
 #define SECTION_TEXT_LEFT_MARGIN            10.f
 #define SECTION_HEAD_HEIGHT                 50.f
 
 #define LINE_MARGIN                         10.f
-#define LINE_COLOR                          [UIColor redColor]
+#define LINE_COLOR                          [Tools garyLineColor]
 
 #define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
 
-#define SEARCH_FILTER_CELL_HEIGHT           60.f
+#define SEARCH_FILTER_CELL_HEIGHT           90.f
 
 @interface AYSearchFilterDelegate ()
 //@property (nonatomic, strong) NSDictionary* querydata;
@@ -72,6 +72,7 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
     cell.controller = self.controller;
     
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:cell forKey:kAYSearchFilterCellCellKey];
@@ -110,7 +111,7 @@
         header_text.fontSize = SECTION_HEAD_FONT_SIZE;
         CGSize sz = [Tools sizeWithString:@"筛选" withFont:font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
         header_text.frame = CGRectMake(SECTION_TEXT_LEFT_MARGIN, (SECTION_HEAD_HEIGHT - sz.height) / 2 - 2, sz.width, sz.height + 4);
-        header_text.foregroundColor = [UIColor redColor].CGColor;
+        header_text.foregroundColor = [Tools blackColor].CGColor;
         [header.layer addSublayer:header_text];
         
         /**
@@ -139,6 +140,8 @@
     } else if (indexPath.row == 3) {
         id<AYCommand> cmd = [cell.notifies objectForKey:@"filterPriceRange:"];
         [cmd performWithResult:&cell];
+    } else {
+        
     }
 }
 @end

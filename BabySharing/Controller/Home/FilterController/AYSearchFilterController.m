@@ -72,7 +72,7 @@
    
     [self.view addSubview:btn];
     btn.frame = CGRectMake(BOM_BTN_MARGIN, SCREEN_HEIGHT - BOM_BTN_MARGIN - BOM_BTN_HEIGHT, SCREEN_WIDTH - 2 * BOM_BTN_MARGIN, BOM_BTN_HEIGHT);
-    btn.backgroundColor = [UIColor redColor];
+    btn.backgroundColor = [Tools themeColor];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn.layer setCornerRadius:BOM_BTN_RADIUS];
     
@@ -121,9 +121,13 @@
     }
    
     {
-        NSString* str = @"重置";
-        id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"setRightBtnWithTitle:"];
-        [cmd performWithResult:&str];
+        id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"setRightBtnWithBtn:"];
+        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+        [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        [bar_right_btn setTitle:@"重置" forState:UIControlStateNormal];
+        [bar_right_btn sizeToFit];
+        bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+        [cmd performWithResult:&bar_right_btn];
     }
     return nil;
 }

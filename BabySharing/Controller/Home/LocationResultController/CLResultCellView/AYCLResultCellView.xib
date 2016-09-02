@@ -42,7 +42,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jQh-gm-HBs">
-                        <rect key="frame" x="330" y="217" width="20" height="20"/>
+                        <rect key="frame" x="330" y="220" width="20" height="20"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="IQf-73-Y64"/>
@@ -94,7 +94,7 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="jQh-gm-HBs" firstAttribute="bottom" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="12" id="0dY-oW-5XA"/>
+                    <constraint firstItem="jQh-gm-HBs" firstAttribute="bottom" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="15" id="0dY-oW-5XA"/>
                     <constraint firstAttribute="trailing" secondItem="oKf-ix-c8B" secondAttribute="trailing" constant="15" id="3mw-z0-OeD"/>
                     <constraint firstAttribute="trailing" secondItem="AGi-wg-VLC" secondAttribute="trailing" id="DwJ-ad-XH3"/>
                     <constraint firstItem="JdM-9Z-X6j" firstAttribute="leading" secondItem="OnD-a0-oh7" secondAttribute="trailing" constant="10" id="HUp-8q-gHU"/>

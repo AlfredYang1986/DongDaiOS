@@ -290,7 +290,7 @@
     [maMapView setCenterCoordinate:location.coordinate animated:YES];
     
     options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
-    options_title_facility = @[@"安全桌角",@"安全插座",@"急救包",@"无烟",@"安全护栏",@"宠物",@"防摔地板"];
+    options_title_facility = @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"];
     
     long options = ((NSNumber*)[service_info objectForKey:@"cans"]).longValue;
     for (int i = 0; i < options_title_cans.count; ++i) {
@@ -309,7 +309,8 @@
             long note_pow = pow(2, i);
             if ((options & note_pow)) {
                 AYPlayItemsView *item = [[AYPlayItemsView alloc]init];
-                item.item_icon.image = IMGRESOURCE(@"tab_found");
+                NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
+                item.item_icon.image = IMGRESOURCE(imageName);
                 item.item_name.text = options_title_facility[i];
                 [self addSubview:item];
                 [item mas_makeConstraints:^(MASConstraintMaker *make) {
