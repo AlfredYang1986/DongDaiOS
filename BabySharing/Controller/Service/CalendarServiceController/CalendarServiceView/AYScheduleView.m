@@ -350,7 +350,7 @@
 //    }];
 }
 
-#pragma mark <UICollectionViewDataSource>
+#pragma mark -- UICollectionViewDataSource
 -(void)refreshScrollPositionCurrentDate {
     NSDate *Date = [[NSDate alloc]init];
     NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
@@ -435,7 +435,6 @@
                 make.left.equalTo(headerView).offset(13);
             }];
         }
-        
         CALayer *spearter = [CALayer layer];
         spearter.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f].CGColor;
         spearter.frame = CGRectMake(0, 8, WIDTH - 30, 1);

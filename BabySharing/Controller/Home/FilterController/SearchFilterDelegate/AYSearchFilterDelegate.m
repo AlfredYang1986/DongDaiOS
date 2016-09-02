@@ -141,7 +141,8 @@
         id<AYCommand> cmd = [cell.notifies objectForKey:@"filterPriceRange:"];
         [cmd performWithResult:&cell];
     } else {
-        
+        id<AYCommand> cmd = [cell.notifies objectForKey:@"filterDate:"];
+        [cmd performWithResult:&cell];
     }
 }
 @end
