@@ -9,6 +9,6 @@
 #import "AYViewController.h"
 #import "AYViewBase.h"
 
-@interface AYFiterController : AYViewController
+@interface AYSearchFilterDateController : AYViewController
 
 @end
