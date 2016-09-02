@@ -149,14 +149,19 @@
 
 #pragma mark -- notification
 - (id)filterKidsAges:(id)args {
+    UIView* table = [self.views objectForKey:@"Table"];
+    UIView* cell = (UIView*)args;
+    CGFloat height = cell.layer.frame.origin.y + cell.layer.frame.size.height + table.frame.origin.y;
+
     AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterKidsAges");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:kAYControllerActionPushSplitValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[NSNumber numberWithFloat:height] forKey:kAYControllerSplitHeightKey];
     
-    id<AYCommand> cmd = PUSH;
+    id<AYCommand> cmd = PUSHSPLIT;
     [cmd performWithResult:&dic_push];
     return nil;
 }
@@ -167,27 +172,37 @@
 }
 
 - (id)filterType:(id)args {
+    UIView* table = [self.views objectForKey:@"Table"];
+    UIView* cell = (UIView*)args;
+    CGFloat height = cell.layer.frame.origin.y + cell.layer.frame.size.height + table.frame.origin.y;
+    
     AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterType");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:kAYControllerActionPushSplitValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[NSNumber numberWithFloat:height] forKey:kAYControllerSplitHeightKey];
     
-    id<AYCommand> cmd = PUSH;
+    id<AYCommand> cmd = PUSHSPLIT;
     [cmd performWithResult:&dic_push];
     return nil;
 }
 
 - (id)filterPriceRange:(id)args {
+    UIView* table = [self.views objectForKey:@"Table"];
+    UIView* cell = (UIView*)args;
+    CGFloat height = cell.layer.frame.origin.y + cell.layer.frame.size.height + table.frame.origin.y;
+
     AYViewController* des = DEFAULTCONTROLLER(@"SearchFilterPriceRange");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:kAYControllerActionPushSplitValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[NSNumber numberWithFloat:height] forKey:kAYControllerSplitHeightKey];
     
-    id<AYCommand> cmd = PUSH;
+    id<AYCommand> cmd = PUSHSPLIT;
     [cmd performWithResult:&dic_push];
     return nil;
 }

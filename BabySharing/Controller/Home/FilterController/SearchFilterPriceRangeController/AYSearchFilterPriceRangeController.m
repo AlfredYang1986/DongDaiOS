@@ -41,13 +41,16 @@
 
 #define FIELD_HEIGHT                        80
 
-@implementation AYSearchFilterPriceRangeController
+@implementation AYSearchFilterPriceRangeController {
+    id dic_split_value;
+}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        dic_split_value = [dic objectForKey:kAYControllerSplitValueKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -134,10 +137,11 @@
 
 #pragma mark -- commands
 - (id)leftBtnSelected {
-    id<AYCommand> cmd = POP;
+    id<AYCommand> cmd = POPSPLIT;
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
     [cmd performWithResult:&dic];
     return nil;
 }

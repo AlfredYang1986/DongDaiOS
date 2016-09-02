@@ -15,6 +15,8 @@ static NSString* const kAYControllerActionInitValue = @"controller init";
 static NSString* const kAYControllerActionPopBackValue = @"controller pop back";
 static NSString* const kAYControllerActionPushValue = @"controller push";
 static NSString* const kAYControllerActionPopValue = @"controller pop";
+static NSString* const kAYControllerActionPushSplitValue = @"controller push split";
+static NSString* const kAYControllerActionPopSplitValue = @"controller pop split";
 static NSString* const kAYControllerActionPopToRootValue = @"controller pop to root";
 static NSString* const kAYControllerActionShowModuleValue = @"controller show model";
 static NSString* const kAYControllerActionShowModuleUpValue = @"controller show model up";
@@ -28,6 +30,11 @@ static NSString* const kAYControllerActionSourceControllerKey = @"srouce control
 
 static NSString* const kAYControllerIndentifierKey = @"controller identifier";      // 类型由source controller自行确定
 
-static NSString* const kAYControllerChangeArgsKey = @"controller exchange args";      
+static NSString* const kAYControllerChangeArgsKey = @"controller exchange args";
+
+static NSString* const kAYControllerSplitValueKey  = @"controller split Value key";
+static NSString* const kAYControllerSplitHeightKey = @"controller split height key";
+static NSString* const kAYControllerSplitTopImgKey = @"controller split top img";
+static NSString* const kAYControllerSplitBtmImgKey = @"controller split btm img";
 
 #endif /* AYControllerAcitionDefines_h */

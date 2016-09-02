@@ -683,6 +683,8 @@
 		8086A25F1CCE9901006186D4 /* AYUserRecommandCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A25E1CCE9901006186D4 /* AYUserRecommandCommand.m */; };
 		8086A2621CCE9914006186D4 /* AYUserWithScreenNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A2611CCE9914006186D4 /* AYUserWithScreenNameCommand.m */; };
 		809597071D65DC0800CBB732 /* AYExchangeWindowsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 809597061D65DC0800CBB732 /* AYExchangeWindowsCommand.m */; };
+		80BB1ECA1D793BA600B1E17A /* AYPushSplitAnimationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80BB1EC91D793BA600B1E17A /* AYPushSplitAnimationCommand.m */; };
+		80BB1ECD1D79538000B1E17A /* AYPopSplitAnimationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80BB1ECC1D79538000B1E17A /* AYPopSplitAnimationCommand.m */; };
 		80C829C91CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829C81CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m */; };
 		80C829CE1CDD7248007B1077 /* AYThumbsUpBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829CD1CDD7248007B1077 /* AYThumbsUpBtnView.m */; };
 		80C829D11CDD7256007B1077 /* AYPushNormalBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D01CDD7256007B1077 /* AYPushNormalBtnView.m */; };
@@ -2110,6 +2112,10 @@
 		8086A2611CCE9914006186D4 /* AYUserWithScreenNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserWithScreenNameCommand.m; sourceTree = "<group>"; };
 		809597051D65DC0800CBB732 /* AYExchangeWindowsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYExchangeWindowsCommand.h; sourceTree = "<group>"; };
 		809597061D65DC0800CBB732 /* AYExchangeWindowsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYExchangeWindowsCommand.m; sourceTree = "<group>"; };
+		80BB1EC81D793BA600B1E17A /* AYPushSplitAnimationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushSplitAnimationCommand.h; sourceTree = "<group>"; };
+		80BB1EC91D793BA600B1E17A /* AYPushSplitAnimationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushSplitAnimationCommand.m; sourceTree = "<group>"; };
+		80BB1ECB1D79538000B1E17A /* AYPopSplitAnimationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPopSplitAnimationCommand.h; sourceTree = "<group>"; };
+		80BB1ECC1D79538000B1E17A /* AYPopSplitAnimationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPopSplitAnimationCommand.m; sourceTree = "<group>"; };
 		80C829C71CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYThumbsAndPushBtnBaseView.h; sourceTree = "<group>"; };
 		80C829C81CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYThumbsAndPushBtnBaseView.m; sourceTree = "<group>"; };
 		80C829CC1CDD7248007B1077 /* AYThumbsUpBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYThumbsUpBtnView.h; sourceTree = "<group>"; };
@@ -4883,6 +4889,10 @@
 				700693351CC4F78E00B511FF /* AYReversModuleCommand.m */,
 				809597051D65DC0800CBB732 /* AYExchangeWindowsCommand.h */,
 				809597061D65DC0800CBB732 /* AYExchangeWindowsCommand.m */,
+				80BB1EC81D793BA600B1E17A /* AYPushSplitAnimationCommand.h */,
+				80BB1EC91D793BA600B1E17A /* AYPushSplitAnimationCommand.m */,
+				80BB1ECB1D79538000B1E17A /* AYPopSplitAnimationCommand.h */,
+				80BB1ECC1D79538000B1E17A /* AYPopSplitAnimationCommand.m */,
 			);
 			path = ControllerExchangeCommand;
 			sourceTree = "<group>";
@@ -7762,10 +7772,10 @@
 		80FCB6821D76DC0500CEDCEB /* FilterController */ = {
 			isa = PBXGroup;
 			children = (
-				80245E2A1D781565008A1C91 /* SearchFilterPriceRangeController */,
-				80245E261D77FF53008A1C91 /* SearchFilterKidsAgesController */,
 				80FCB6991D76DD3C00CEDCEB /* AYSearchFilterController.h */,
 				80FCB69A1D76DD3C00CEDCEB /* AYSearchFilterController.m */,
+				80245E2A1D781565008A1C91 /* SearchFilterPriceRangeController */,
+				80245E261D77FF53008A1C91 /* SearchFilterKidsAgesController */,
 				80FCB6BD1D77EDC400CEDCEB /* SearchFilterTypeController */,
 				80FCB6B31D77CB3E00CEDCEB /* SearchFilterCell */,
 				80FCB6AF1D77B52B00CEDCEB /* SearchFilterDelegate */,
@@ -8287,6 +8297,7 @@
 				70A27C001D0EBA3C00B131AB /* AYKidNapRemoteFacade.m in Sources */,
 				701524881CBF9AB4005B4C5B /* MJRefreshGifHeader.m in Sources */,
 				70A27BFC1D0EA2CB00B131AB /* AYContentListCellView.m in Sources */,
+				80BB1ECD1D79538000B1E17A /* AYPopSplitAnimationCommand.m in Sources */,
 				7082F1E71D1D4E0D00E64496 /* AYEMEnterFrontCommand.m in Sources */,
 				70120CAD1CBE4A9D00B169F9 /* AYFriendsController.m in Sources */,
 				707E7A161D07B42200DFC198 /* AYMapController.m in Sources */,
@@ -8447,6 +8458,7 @@
 				704697DE1CE047F200DACD8A /* UIView+WebCacheOperation.m in Sources */,
 				8086A25C1CCE98F0006186D4 /* AYUserWithRoleTagCommand.m in Sources */,
 				700692F81CC49C1A00B511FF /* AYPlaceHolderInitCommand.m in Sources */,
+				80BB1ECA1D793BA600B1E17A /* AYPushSplitAnimationCommand.m in Sources */,
 				70B1DCC01CC786670041794A /* AYPublishContainerView.m in Sources */,
 				7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */,
 				700692EA1CC49A2C00B511FF /* AYProfileInitCommand.m in Sources */,

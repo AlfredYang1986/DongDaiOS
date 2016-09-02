@@ -29,6 +29,8 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
+static NSString* const kAYFactoryManagerCommandTypePushSplit = @"PushSplitAnimation";
+static NSString* const kAYFactoryManagerCommandTypePopSplit = @"PopSplitAnimation";
 static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
 static NSString* const kAYFactoryManagerCommandTypePopToRoot = @"PopToRoot";
 static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
@@ -55,6 +57,8 @@ static NSString* const kAYFactoryManagerCommandWindowChange = @"ExchangeWindows"
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
 #define REVERSMODULE            COMMAND(kAYFactoryManagerCommandTypeReversModule, kAYFactoryManagerCommandTypeReversModule)
+#define PUSHSPLIT               COMMAND(kAYFactoryManagerCommandTypePushSplit, kAYFactoryManagerCommandTypePushSplit)
+#define POPSPLIT                COMMAND(kAYFactoryManagerCommandTypePopSplit, kAYFactoryManagerCommandTypePopSplit)
 
 #define EXCHANGEWINDOWS         COMMAND(kAYFactoryManagerCommandWindowChange, kAYFactoryManagerCommandWindowChange)
 

@@ -32,4 +32,8 @@
 + (UIColor*)garyBackgroundColor;
 
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
+
+
++ (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;
++ (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg;
 @end
