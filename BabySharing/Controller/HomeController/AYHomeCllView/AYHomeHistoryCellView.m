@@ -16,7 +16,7 @@
 #import "QueryContentTag.h"
 #import "QueryContentChaters.h"
 #import "QueryContent+ContextOpt.h"
-#import "AppDelegate.h"
+#import "AYControllerActionDefines.h"
 
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
@@ -139,13 +139,17 @@
     
 }
 
-#pragma mark -- messages
+#pragma mark -- notifies
 - (id)setCellInfo:(id)args{
     
     queryData = [(NSDictionary*)args objectForKey:@"collect_data"];
     
     AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
 //    UICollectionViewLayout *layout = [[UICollectionViewLayout alloc]init];
+    layout.minimumLineSpacing = 10;
+    layout.minimumInteritemSpacing = 0;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    layout.itemSize = CGSizeMake((width - 30 - 10)/2, 160);
     
     showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -153,24 +157,20 @@
     showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
     
     [showCollectionView registerClass:[AYHomeHistoryItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class])];
-    [showCollectionView setBackgroundColor:[UIColor brownColor]];
+    [showCollectionView setBackgroundColor:[UIColor clearColor]];
     showCollectionView.delegate = self;
     showCollectionView.dataSource = self;
     [self addSubview:showCollectionView];
     [showCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self).insets(UIEdgeInsetsMake(60, 0, 0, 0));
+        make.edges.equalTo(self).insets(UIEdgeInsetsMake(50, 15, 10, 15));
     }];
     
     return nil;
 }
 
 #pragma mark -- uicollectionviewDelegate
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;
+    return queryData.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -180,6 +180,20 @@
     cell.itemInfo = [queryData objectAtIndex:indexPath.row];
     
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *tmp = [queryData objectAtIndex:indexPath.row];
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic];
 }
 
 @end

@@ -289,7 +289,7 @@
     //center
     [maMapView setCenterCoordinate:location.coordinate animated:YES];
     
-    options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
+    options_title_cans = @[@"绘本",@"儿童瑜伽",@"音乐",@"舞蹈",@"情商训练"];
     options_title_facility = @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"];
     
     long options = ((NSNumber*)[service_info objectForKey:@"cans"]).longValue;

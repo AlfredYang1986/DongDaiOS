@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AYHorizontalLayout : UICollectionViewLayout
+@interface AYHorizontalLayout : UICollectionViewFlowLayout <UICollectionViewDelegateFlowLayout>
 
-@property (nonatomic, assign) int scrollDirection;
+//@property (nonatomic, assign) int scrollDirection;
 
 @end

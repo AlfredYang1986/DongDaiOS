@@ -12,11 +12,6 @@
 #import "QueryContentItem.h"
 #import "GPUImage.h"
 #import "Define.h"
-#import "PhotoTagEnumDefines.h"
-#import "QueryContentTag.h"
-#import "QueryContentChaters.h"
-#import "QueryContent+ContextOpt.h"
-#import "AppDelegate.h"
 
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
@@ -28,24 +23,18 @@
 #import "AYRemoteCallCommand.h"
 #import "Masonry.h"
 
-#import "AYThumbsAndPushDefines.h"
+#import "AYControllerActionDefines.h"
 
-#import "AYModelFacade.h"
-#import "LoginToken.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
+#import "AYHomeHistoryItem.h"
 
-@interface AYHomeLikesCellView ()
+@interface AYHomeLikesCellView ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end
 
 @implementation AYHomeLikesCellView {
+    UICollectionView *showCollectionView;
     
-    UIImageView *headImage;
-    UILabel *titleLabel;
-    
-    NSDictionary *service;
+    NSArray *queryData;
 }
 
 @synthesize para = _para;
@@ -136,29 +125,66 @@
     
 }
 
-#pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args{
-    NSDictionary *args = [dic_args objectForKey:@"service"];
+#pragma mark -- notifies
+- (id)setCellInfo:(id)args{
     
-    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    queryData = [(NSDictionary*)args objectForKey:@"collect_data"];
     
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            headImage.image = img;
-        }else{
-            [headImage setImage:IMGRESOURCE(@"sample_image")];
-        }
+//    AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+    layout.minimumLineSpacing = 5;
+    layout.minimumInteritemSpacing = 5;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    layout.itemSize = CGSizeMake((width - 30 - 10)/2, 160);
+    
+    showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+    showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    showCollectionView.showsHorizontalScrollIndicator = NO;
+    showCollectionView.showsVerticalScrollIndicator = NO;
+    showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
+    
+    [showCollectionView registerClass:[AYHomeHistoryItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class])];
+    [showCollectionView setBackgroundColor:[UIColor clearColor]];
+    showCollectionView.delegate = self;
+    showCollectionView.dataSource = self;
+    [self addSubview:showCollectionView];
+    [showCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self).insets(UIEdgeInsetsMake(50, 15, 10, 15));
     }];
     
-    titleLabel.text = [args objectForKey:@"title"];
-    
     return nil;
+}
+
+#pragma mark -- uicollectionviewDelegate
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return queryData.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    AYHomeHistoryItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class]) forIndexPath:indexPath];
+    
+    cell.itemInfo = [queryData objectAtIndex:indexPath.row];
+    
+    return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *tmp = [queryData objectAtIndex:indexPath.row];
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = PUSH;
+    [cmd_show_module performWithResult:&dic];
 }
 
 @end

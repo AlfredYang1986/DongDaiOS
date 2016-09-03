@@ -87,7 +87,10 @@
     } else {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeLikesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-        
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:[collectData copy] forKey:@"collect_data"];
+        [cmd performWithResult:&dic];
     }
     
     
@@ -117,6 +120,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     return;
 }
+
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
     CGFloat offset = scrollView.contentOffset.y;
