@@ -37,11 +37,37 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    years = [NSArray arrayWithObjects:@"2008年",@"2009年",@"2010年",@"2011年",@"2012年",@"2013年",@"2014年",@"2015年",@"2016年", nil];
+    NSDate *date = [NSDate date];
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy-MM-dd"];
+    NSString *dateString = [format stringFromDate:date];
+    NSString *dateArr = [dateString componentsSeparatedByString:@"-"].firstObject;
+    CGFloat lastest = dateArr.floatValue;
+    CGFloat limit = 20;
+    NSMutableArray *tmp_year = [NSMutableArray array];
     
-    mouths = [NSArray arrayWithObjects:@"1月",@"2月",@"3月",@"4月",@"5月",@"6月",@"7月",@"8月",@"9月",@"10月", @"11月", @"12月", nil];
+    for (int i = 0; i< limit; ++i) {
+        int year = lastest - (limit - i);
+        NSString *yearStr = [NSString stringWithFormat:@"%d年",year];
+        [tmp_year addObject:yearStr];
+    }
+    years = [tmp_year copy];
     
-    days = [NSArray arrayWithObjects:@"1日",@"2日",@"3日",@"4日",@"5日",@"6日",@"7日",@"8日",@"9日",@"10日",@"11日",@"12日",@"13日",@"14日",@"15日",@"16日",@"17日",@"18日",@"19日",@"20日",@"21日",@"22日",@"23日",@"24日",@"25日",@"26日",@"27日",@"28日",@"29日",@"30日",@"31日", nil];
+    NSMutableArray *tmp_mouth = [NSMutableArray array];
+    for (int i = 0; i < 12*5; ++i) {
+        int mouth = i % 12 + 1;
+        NSString *mouthStr = [NSString stringWithFormat:@"%d月", mouth];
+        [tmp_mouth addObject:mouthStr];
+    }
+    mouths = [tmp_mouth copy];
+    
+    NSMutableArray *tmp_day = [NSMutableArray array];
+    for (int i = 0; i < 31*3; ++i) {
+        int day = i % 31 + 1;
+        NSString *dayStr = [NSString stringWithFormat:@"%d日", day];
+        [tmp_day addObject:dayStr];
+    }
+    days = [tmp_day copy];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -61,7 +87,6 @@
 }
 
 #pragma mark- Picker Data Source Methods
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     picker = pickerView;
     return 3;
@@ -80,9 +105,7 @@
     }
 }
 
-
 #pragma mark- Picker Delegate Methods
-
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (component == 0) {
         return [years objectAtIndex: row];
