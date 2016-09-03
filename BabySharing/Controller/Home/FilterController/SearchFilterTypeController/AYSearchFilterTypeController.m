@@ -35,6 +35,7 @@
 
 @implementation AYSearchFilterTypeController {
     id dic_split_value;
+    long notePow;
 }
 
 #pragma mark -- commands
@@ -79,6 +80,19 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYSearchFilterTypeCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
     }
+    
+    /**
+     * 保存按钮
+     */
+    UIButton* btn = [[UIButton alloc]init];
+    [btn setTitle:@"保存" forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+    btn.frame = CGRectMake(10, SCREEN_HEIGHT - 10 - 45, SCREEN_WIDTH - 2 * 10, 45);
+    btn.backgroundColor = [Tools themeColor];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn.layer setCornerRadius:4.f];
+    
+    [btn addTarget:self action:@selector(saveBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark -- layouts
@@ -108,6 +122,19 @@
     return nil;
 }
 
+#pragma mark -- actions
+- (void)saveBtnSelected {
+    
+    id<AYCommand> cmd = POPSPLIT;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[NSNumber numberWithLong:notePow] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
+    
+    [cmd performWithResult:&dic];
+}
+
 #pragma mark -- commands
 - (id)leftBtnSelected {
     id<AYCommand> cmd = POPSPLIT;
@@ -121,6 +148,16 @@
 
 - (id)rightBtnSelected {
     // TODO : reset search filter conditions
+    return nil;
+}
+
+-(id)didOptionBtnClick:(UIButton*)btn{
+    btn.selected = !btn.selected;
+    if (btn.selected) {
+        notePow += pow(2, btn.tag);
+    }else {
+        notePow -= pow(2, btn.tag);
+    }
     return nil;
 }
 @end

@@ -253,4 +253,12 @@
     <delegate type="TableViewDelegateAndDatasource" name="SearchFilterType" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
+    <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterKidsAges" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="sendDelMessage:" />
+    </delegate>
+    <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterPriceRange" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="sendDelMessage:" />
+    </delegate>
 </delegates>

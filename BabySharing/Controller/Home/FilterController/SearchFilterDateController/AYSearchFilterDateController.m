@@ -180,7 +180,6 @@
     btn.backgroundColor = [Tools themeColor];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn.layer setCornerRadius:4.f];
-    
     [btn addTarget:self action:@selector(saveBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -192,7 +191,7 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, STATUS_HEIGHT + 10, SCREEN_WIDTH, NAV_HEIGHT);
+    view.frame = CGRectMake(0, STATUS_HEIGHT, SCREEN_WIDTH, NAV_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
     
     {
@@ -214,7 +213,7 @@
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
         [dic setValue:[NSNumber numberWithDouble:dateDataNote] forKey:kAYControllerChangeArgsKey];
         [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
-//        id<AYCommand> cmd = POP;
+        
         [cmd performWithResult:&dic];
     }
 }

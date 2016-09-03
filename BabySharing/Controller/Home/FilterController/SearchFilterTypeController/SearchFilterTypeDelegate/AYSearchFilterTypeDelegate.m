@@ -11,12 +11,12 @@
 #import "Tools.h"
 #import "AYSearchFilterTypeCellDefines.h"
 
-#define SECTION_HEAD_FONT_SIZE              30.f
+#define SECTION_HEAD_FONT_SIZE              24.f
 #define SECTION_TEXT_LEFT_MARGIN            10.f
 #define SECTION_HEAD_HEIGHT                 50.f
 
 #define LINE_MARGIN                         10.f
-#define LINE_COLOR                          [UIColor redColor]
+#define LINE_COLOR                          [Tools blackColor]
 
 #define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
 
@@ -35,7 +35,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    title_arr = @[@"看户家庭", @"绘本", @"儿童瑜伽", @"音乐", @"舞蹈", @"情商训练"];
+    title_arr = @[@"绘本", @"儿童瑜伽", @"音乐", @"舞蹈", @"情商训练"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -72,6 +72,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:cell forKey:kAYSearchFilterTypeCellCellKey];
     [dic setValue:[title_arr objectAtIndex:indexPath.row] forKey:kAYSearchFilterTypeCellTitleKey];
+    [dic setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"tag_index"];
     [cmd performWithResult:&dic];
     
     return (UITableViewCell*)cell;
@@ -106,7 +107,7 @@
         header_text.fontSize = SECTION_HEAD_FONT_SIZE;
         CGSize sz = [Tools sizeWithString:@"服务类型" withFont:font andMaxSize:CGSizeMake(FLT_MAX, FLT_MAX)];
         header_text.frame = CGRectMake(SECTION_TEXT_LEFT_MARGIN, (SECTION_HEAD_HEIGHT - sz.height) / 2 - 2, sz.width, sz.height + 4);
-        header_text.foregroundColor = [UIColor redColor].CGColor;
+        header_text.foregroundColor = [Tools blackColor].CGColor;
         [header.layer addSublayer:header_text];
         
         /**

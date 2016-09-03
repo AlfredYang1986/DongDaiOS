@@ -629,6 +629,7 @@
    </view>
    
    <view type="SearchFilterTypeCell" name="SearchFilterTypeCell" factory="AYReuseViewFactory" >
-       <command type="message"    message="setCellInfo:" />
+       <command type="message"      message="setCellInfo:" />
+       <command type="notify"       message="didOptionBtnClick:" />
    </view>
 </views>

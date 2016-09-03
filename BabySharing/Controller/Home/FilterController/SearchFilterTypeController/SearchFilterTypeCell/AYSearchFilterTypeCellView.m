@@ -24,16 +24,17 @@
 #import "AYSearchFilterTypeCellDefines.h"
 
 #define LINE_MARGIN                         10.f
-#define LINE_COLOR                          [UIColor redColor]
+#define LINE_COLOR                          [Tools garyLineColor]
 
 #define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
 
 #define SEARCH_FILTER_CELL_HEIGHT           60.f
 
-#define TITLE_TEXT_COLOR                    [UIColor redColor]
+#define TITLE_TEXT_COLOR                    [Tools garyColor]
 
 @interface AYSearchFilterTypeCellView ()
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIButton *isSeletced;
 
 @end
 
@@ -46,6 +47,8 @@
     // Initialization code
     [self setUpReuseCell];
     
+    [_isSeletced setImage:IMGRESOURCE(@"tab_found") forState:UIControlStateNormal];
+    [_isSeletced setImage:IMGRESOURCE(@"tab_found_selected") forState:UIControlStateSelected];
     
     CALayer* line = [CALayer layer];
     line.frame = CGRectMake(LINE_MARGIN, SEARCH_FILTER_CELL_HEIGHT - 1, SCREEN_WIDTH - 2 * LINE_MARGIN, 1);
@@ -107,6 +110,14 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+#pragma mark -- actins
+- (IBAction)didSelectedBtnClick:(id)sender {
+//    _isSeletced.selected = !_isSeletced.selected;
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didOptionBtnClick:"];
+    [cmd performWithResult:&sender];
+}
+
+
 - (id)setCellInfo:(id)args {
     NSDictionary* dic = (NSDictionary*)args;
     AYSearchFilterTypeCellView* cell = [dic objectForKey:kAYSearchFilterTypeCellCellKey];
@@ -114,6 +125,10 @@
     cell.titleLabel.text = title;
     cell.titleLabel.textColor = TITLE_TEXT_COLOR;
     [cell.titleLabel sizeToFit];
+    
+    NSInteger index = ((NSNumber*)[dic objectForKey:@"tag_index"]).integerValue;
+    cell.isSeletced.tag = index;
+    
     return nil;
 }
 @end

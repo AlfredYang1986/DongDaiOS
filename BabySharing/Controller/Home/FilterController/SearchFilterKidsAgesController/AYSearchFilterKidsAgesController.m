@@ -27,11 +27,11 @@
 
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
-
+#define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
 #define STATUS_HEIGHT           20
 #define NAV_HEIGHT              45
 
-#define TEXT_COLOR              [UIColor redColor]
+#define TEXT_COLOR              [Tools blackColor]
 
 #define CONTROLLER_MARGIN       10.f
 
@@ -39,6 +39,10 @@
 
 @implementation AYSearchFilterKidsAgesController {
     id dic_split_value;
+    
+    UILabel *setAgeslabel;
+    
+    UIView *picker;
 }
 
 #pragma mark -- commands
@@ -69,7 +73,7 @@
    
     UILabel* title = [[UILabel alloc]init];
     title.text = @"您的孩子年龄";
-    title.font = [UIFont systemFontOfSize:30.f];
+    title.font = [UIFont systemFontOfSize:24.f];
     title.textColor = TEXT_COLOR;
     [title sizeToFit];
     title.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, title.frame.size.height);
@@ -89,15 +93,53 @@
     
     [self.view addSubview:des];
    
-    UITextField* field = [[UITextField alloc]init];
-    field.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 4 + title.frame.size.height + sz.height, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, FIELD_HEIGHT);
-    field.textAlignment = NSTextAlignmentCenter;
+//    UITextField* field = [[UITextField alloc]init];
+//    field.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 4 + title.frame.size.height + sz.height, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, FIELD_HEIGHT);
+//    field.textAlignment = NSTextAlignmentCenter;
+    
+    setAgeslabel = [[UILabel alloc]init];
+    setAgeslabel = [Tools setLabelWith:setAgeslabel andText:@"点击筛选年龄阶段" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:setAgeslabel];
+    [setAgeslabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.view).offset(175);
+    }];
+    
+    setAgeslabel.userInteractionEnabled = YES;
+    [setAgeslabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNapBabyAgesClick:)]];
     
     CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(0.0f, field.frame.size.height - 1, field.frame.size.width, 1.0f);
-    bottomBorder.backgroundColor = [UIColor redColor].CGColor;
-    [field.layer addSublayer:bottomBorder];
-    [self.view addSubview:field];
+    bottomBorder.frame = CGRectMake(15.f, 225, SCREEN_WIDTH - 30, 1.0f);
+    bottomBorder.backgroundColor = [Tools themeColor].CGColor;
+    [self.view.layer addSublayer:bottomBorder];
+    
+    /**
+     * 保存按钮
+     */
+    UIButton* btn = [[UIButton alloc]init];
+    [btn setTitle:@"保存" forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+    btn.frame = CGRectMake(10, SCREEN_HEIGHT - 10 - 45, SCREEN_WIDTH - 2 * 10, 45);
+    btn.backgroundColor = [Tools themeColor];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn.layer setCornerRadius:4.f];
+    [btn addTarget:self action:@selector(saveBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+    
+    {
+        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+        picker = (UIView*)view_picker;
+        [self.view bringSubviewToFront:picker];
+        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"SearchFilterKidsAges"];
+        
+        id obj = (id)cmd_recommend;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_recommend;
+        [cmd_delegate performWithResult:&obj];
+    }
+    
 }
 
 #pragma mark -- layouts
@@ -120,6 +162,33 @@
     return nil;
 }
 
+- (id)PickerLayout:(UIView*)view{
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+    view.backgroundColor = [Tools garyColor];
+    return nil;
+}
+
+#pragma mark -- actions
+- (void)saveBtnSelected {
+    
+    id<AYCommand> cmd = POPSPLIT;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:setAgeslabel.text forKey:kAYControllerChangeArgsKey];
+    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
+    
+    [cmd performWithResult:&dic];
+    
+}
+
+-(void)setNapBabyAgesClick:(UIGestureRecognizer*)tap{
+    if (picker.frame.origin.y == SCREEN_HEIGHT) {
+        [UIView animateWithDuration:0.25 animations:^{
+            picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
+        }];
+    }
+}
 #pragma mark -- commands
 - (id)leftBtnSelected {
     id<AYCommand> cmd = POPSPLIT;
@@ -133,6 +202,34 @@
 
 - (id)rightBtnSelected {
     // TODO : reset search filter conditions
+    return nil;
+}
+
+-(id)didSaveClick {
+    id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"SearchFilterKidsAges"];
+    id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
+    NSString *args = nil;
+    [cmd_index performWithResult:&args];
+    if (args) {
+        setAgeslabel.text = args;
+    }
+    
+    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+        }];
+    }
+    
+    return nil;
+}
+-(id)didCancelClick {
+    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
+        [UIView animateWithDuration:0.25 animations:^{
+            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+        }];
+    }
+    
     return nil;
 }
 @end

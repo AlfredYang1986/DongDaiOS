@@ -815,6 +815,9 @@
    <controller type="DefaultController" name="SearchFilterKidsAges" factory="AYDefaultControllerFactoy" >
        <view type="FakeNavBar"     name="FakeNavBar" />
        <view type="FakeStatusBar"  name="FakeStatusBar" />
+       <view type="Picker"                     name="Picker" />
+       
+       <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterKidsAges" />
    </controller>
    
    <controller type="DefaultController" name="SearchFilterDate" factory="AYDefaultControllerFactoy" >
@@ -825,5 +828,8 @@
    <controller type="DefaultController" name="SearchFilterPriceRange" factory="AYDefaultControllerFactoy" >
        <view type="FakeNavBar"     name="FakeNavBar" />
        <view type="FakeStatusBar"  name="FakeStatusBar" />
+       <view type="Picker"          name="Picker" />
+       
+       <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterPriceRange" />
    </controller>
 </controllers>

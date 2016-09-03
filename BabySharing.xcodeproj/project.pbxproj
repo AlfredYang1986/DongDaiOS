@@ -182,6 +182,8 @@
 		701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A8D1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m */; };
 		701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */; };
 		701E7A0C1D0D42BA0037AD3B /* AYPersonalPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E7A0B1D0D42BA0037AD3B /* AYPersonalPageController.m */; };
+		702349DD1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702349DC1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m */; };
+		702349E01D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702349DF1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m */; };
 		702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E01CAA282400CC51D0 /* AYPopCommand.m */; };
 		702459E81CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E51CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.m */; };
 		702459E91CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E71CAA2A2E00CC51D0 /* AYSetNevigationBarTitleView.m */; };
@@ -1099,6 +1101,10 @@
 		701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYModelFacade.m; sourceTree = "<group>"; };
 		701E7A0A1D0D42BA0037AD3B /* AYPersonalPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPersonalPageController.h; sourceTree = "<group>"; };
 		701E7A0B1D0D42BA0037AD3B /* AYPersonalPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalPageController.m; sourceTree = "<group>"; };
+		702349DB1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterKidsAgesDelegate.h; sourceTree = "<group>"; };
+		702349DC1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterKidsAgesDelegate.m; sourceTree = "<group>"; };
+		702349DE1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterPriceRangeDelegate.h; sourceTree = "<group>"; };
+		702349DF1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterPriceRangeDelegate.m; sourceTree = "<group>"; };
 		702459DF1CAA282400CC51D0 /* AYPopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPopCommand.h; sourceTree = "<group>"; };
 		702459E01CAA282400CC51D0 /* AYPopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPopCommand.m; sourceTree = "<group>"; };
 		702459E41CAA2A2E00CC51D0 /* AYSetNevigationBarLeftBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNevigationBarLeftBtnView.h; sourceTree = "<group>"; };
@@ -3571,6 +3577,24 @@
 				70A4891E1D1A3AA000D2AA56 /* AYFouceCellView.m */,
 			);
 			path = fouceSrollView;
+			sourceTree = "<group>";
+		};
+		702349D91D7AD7AC00AF40C2 /* SearchFilterKidsAgesDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				702349DB1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.h */,
+				702349DC1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m */,
+			);
+			path = SearchFilterKidsAgesDelegate;
+			sourceTree = "<group>";
+		};
+		702349DA1D7AD7B700AF40C2 /* SearchFilterPriceRangeDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				702349DE1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.h */,
+				702349DF1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m */,
+			);
+			path = SearchFilterPriceRangeDelegate;
 			sourceTree = "<group>";
 		};
 		702459E21CAA2A2E00CC51D0 /* CommonViewPart */ = {
@@ -7431,6 +7455,7 @@
 		80245E261D77FF53008A1C91 /* SearchFilterKidsAgesController */ = {
 			isa = PBXGroup;
 			children = (
+				702349D91D7AD7AC00AF40C2 /* SearchFilterKidsAgesDelegate */,
 				80245E271D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.h */,
 				80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */,
 			);
@@ -7440,6 +7465,7 @@
 		80245E2A1D781565008A1C91 /* SearchFilterPriceRangeController */ = {
 			isa = PBXGroup;
 			children = (
+				702349DA1D7AD7B700AF40C2 /* SearchFilterPriceRangeDelegate */,
 				80245E2B1D781582008A1C91 /* AYSearchFilterPriceRangeController.h */,
 				80245E2C1D781582008A1C91 /* AYSearchFilterPriceRangeController.m */,
 			);
@@ -8545,6 +8571,7 @@
 				709949B61CC2BB0F00078A5B /* AYFoundTagsDelegate.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
+				702349E01D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m in Sources */,
 				7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */,
 				80C829C91CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m in Sources */,
 				70F3699F1CC361930067B62E /* AYQueryAllRoleTagsCommand.m in Sources */,
@@ -8605,6 +8632,7 @@
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
 				7073E8101D215D5600DA4698 /* AYJoinGroupCommand.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,
+				702349DD1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m in Sources */,
 				700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */,
 				7002DB831CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m in Sources */,
 				7025105F1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.m in Sources */,
