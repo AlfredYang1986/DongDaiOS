@@ -7,7 +7,6 @@
 //
 
 #import "AYOneProfileAboutCellView.h"
-#import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
 #import "GPUImage.h"
@@ -25,7 +24,6 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "Masonry.h"
 
 #import "AYThumbsAndPushDefines.h"
 

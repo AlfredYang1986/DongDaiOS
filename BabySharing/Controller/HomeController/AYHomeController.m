@@ -17,10 +17,8 @@
 #import "AYRemoteCallDefines.h"
 #import "AYThumbsAndPushDefines.h"
 
-#import "Tools.h"
 #import "MJRefresh.h"
 #import "QueryContent.h"
-#import "Masonry.h"
 
 #import "AYModelFacade.h"
 #import "LoginToken.h"

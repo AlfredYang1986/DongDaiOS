@@ -1,0 +1,18 @@
+//
+//  BabySharing-Prefix.pch
+//  BabySharing
+//
+//  Created by Alfred Yang on 5/9/16.
+//  Copyright © 2016年 Alfred Yang. All rights reserved.
+//
+
+#ifndef BabySharing_Prefix_pch
+#define BabySharing_Prefix_pch
+
+#import "Tools.h"
+#import "Masonry.h"
+
+#define kAY_service_options_title_cans              @[@"绘本",@"儿童瑜伽",@"音乐",@"舞蹈",@"情商训练"]
+#define kAY_service_options_title_facilities        @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"]
+
+#endif /* BabySharing_Prefix_pch */

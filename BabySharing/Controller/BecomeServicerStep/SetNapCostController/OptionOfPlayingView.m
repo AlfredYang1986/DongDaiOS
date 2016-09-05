@@ -7,8 +7,6 @@
 //
 
 #import "OptionOfPlayingView.h"
-#import "Tools.h"
-#import "Masonry.h"
 #import "AYSetNapCostController.h"
 
 @implementation OptionOfPlayingView

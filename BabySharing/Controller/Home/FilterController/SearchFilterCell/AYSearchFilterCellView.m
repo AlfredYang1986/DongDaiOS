@@ -45,7 +45,7 @@
     
     _addSign.textColor = [Tools themeColor];
     CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(LINE_MARGIN, SEARCH_FILTER_CELL_HEIGHT - 1, SCREEN_WIDTH - 2 * LINE_MARGIN, 1);
+    line.frame = CGRectMake(LINE_MARGIN, SEARCH_FILTER_CELL_HEIGHT - 0.5, SCREEN_WIDTH - 2 * LINE_MARGIN, 0.5);
     line.borderColor = [Tools garyLineColor].CGColor;
     line.borderWidth = 1.f;
     [self.layer addSublayer:line];
@@ -110,7 +110,7 @@
     AYSearchFilterCellView* cell = [dic objectForKey:kAYSearchFilterCellCellKey];
     NSString* title = [dic objectForKey:kAYSearchFilterCellTitleKey];
     cell.titleLabel.text = title;
-    cell.titleLabel.textColor = [Tools garyColor];
+    cell.titleLabel.textColor = [Tools blackColor];
     [cell.titleLabel sizeToFit];
     
     NSString *sub_title = [dic objectForKey:kAYSearchFilterCellSubTitleKey];

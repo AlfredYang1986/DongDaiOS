@@ -211,7 +211,12 @@
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        [dic setValue:[NSNumber numberWithDouble:dateDataNote] forKey:kAYControllerChangeArgsKey];
+        
+        NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+        [dic_args setValue:[NSNumber numberWithDouble:dateDataNote] forKey:@"filter_date"];
+        
+        [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
+        
         [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
         
         [cmd performWithResult:&dic];
@@ -230,17 +235,17 @@
 }
 
 #pragma mark -- UICollectionViewDataSource
--(void)refreshScrollPositionCurrentDate {
+- (void)refreshScrollPositionCurrentDate {
     NSDate *Date = [[NSDate alloc]init];
     NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
     [self refreshControlWithYear:calendar[0] month:calendar[1] day:calendar[2]];
 }
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return (2101-[_useTime getYear]) * 12 - [_useTime getMonth];
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     //每个月的第一天
     NSString *strYear = [NSString stringWithFormat:@"%ld", section / 12 + [_useTime getYear]];
     NSString *strMonth = [NSString stringWithFormat:@"%ld", section % 12 + 1];
@@ -248,7 +253,7 @@
     
     return [self.useTime timeFewWeekInMonth:dateStr] * 7;
 }
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     AYDayCollectionCellView *cell = (AYDayCollectionCellView *)[collectionView dequeueReusableCellWithReuseIdentifier:@"AYDayCollectionCellView" forIndexPath:indexPath];
     
     //每个月的第一天

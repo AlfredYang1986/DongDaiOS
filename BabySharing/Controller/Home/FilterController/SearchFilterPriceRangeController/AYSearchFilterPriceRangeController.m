@@ -137,7 +137,7 @@
     [self.view addSubview:lslLabel];
     [lslLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(rangeSign);
-        make.right.equalTo(rangeSign.mas_left).offset(-50);
+        make.right.equalTo(rangeSign.mas_left).offset(-40);
     }];
     
     uslLabel = [[UILabel alloc]init];
@@ -145,13 +145,13 @@
     [self.view addSubview:uslLabel];
     [uslLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(rangeSign);
-        make.left.equalTo(rangeSign.mas_right).offset(50);
+        make.left.equalTo(rangeSign.mas_right).offset(40);
     }];
     
     uslLabel.userInteractionEnabled = YES;
-    [uslLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNapBabyAgesClick:)]];
+    [uslLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setFilterPriceClick:)]];
     lslLabel.userInteractionEnabled = YES;
-    [lslLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNapBabyAgesClick:)]];
+    [lslLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setFilterPriceClick:)]];
     
     /**
      * 保存按钮
@@ -209,7 +209,7 @@
 }
 
 #pragma mark -- actions
--(void)setNapBabyAgesClick:(UIGestureRecognizer*)tap{
+- (void)setFilterPriceClick:(UIGestureRecognizer*)tap {
     if (picker.frame.origin.y == SCREEN_HEIGHT) {
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
@@ -225,7 +225,7 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *sl_dic = [[NSMutableDictionary alloc]init];
-    if (usl && lsl) {
+    if (usl && lsl && usl >= lsl) {
         [sl_dic setValue:usl forKey:@"usl"];
         [sl_dic setValue:lsl forKey:@"lsl"];
     } else {

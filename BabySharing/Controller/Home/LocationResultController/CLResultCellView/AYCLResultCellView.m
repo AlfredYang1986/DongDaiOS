@@ -55,7 +55,7 @@
     [super awakeFromNib];
     // Initialization code
     
-    _costLabel.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.2f];
+    _costLabel.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.6f];
     
     _ownerIconImage.layer.cornerRadius = 20.f;
     _ownerIconImage.clipsToBounds = YES;

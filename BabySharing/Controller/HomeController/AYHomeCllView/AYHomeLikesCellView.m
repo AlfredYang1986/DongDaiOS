@@ -21,11 +21,11 @@
 #import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "Masonry.h"
 
 #import "AYControllerActionDefines.h"
 
 #import "AYHomeHistoryItem.h"
+#import "AYHomeLikesItem.h"
 
 @interface AYHomeLikesCellView ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -53,10 +53,33 @@
         
         UILabel *title = [[UILabel alloc]init];
         title = [Tools setLabelWith:title andText:@"我心仪的服务" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        title.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.f];
         [self addSubview:title];
         [title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.top.equalTo(self).offset(15);
+        }];
+        
+        //    AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+        layout.minimumLineSpacing = 5;
+        layout.minimumInteritemSpacing = 5;
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        layout.itemSize = CGSizeMake((width - 30 - 10)/2, 180);
+        
+        showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        showCollectionView.showsHorizontalScrollIndicator = NO;
+        showCollectionView.showsVerticalScrollIndicator = NO;
+        showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
+        
+        [showCollectionView registerClass:[AYHomeLikesItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeLikesItem class])];
+        [showCollectionView setBackgroundColor:[UIColor clearColor]];
+        showCollectionView.delegate = self;
+        showCollectionView.dataSource = self;
+        [self addSubview:showCollectionView];
+        [showCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self).insets(UIEdgeInsetsMake(50, 15, 10, 15));
         }];
         
         if (reuseIdentifier != nil) {
@@ -130,28 +153,6 @@
     
     queryData = [(NSDictionary*)args objectForKey:@"collect_data"];
     
-//    AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-    layout.minimumLineSpacing = 5;
-    layout.minimumInteritemSpacing = 5;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    layout.itemSize = CGSizeMake((width - 30 - 10)/2, 160);
-    
-    showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    showCollectionView.showsHorizontalScrollIndicator = NO;
-    showCollectionView.showsVerticalScrollIndicator = NO;
-    showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
-    
-    [showCollectionView registerClass:[AYHomeHistoryItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class])];
-    [showCollectionView setBackgroundColor:[UIColor clearColor]];
-    showCollectionView.delegate = self;
-    showCollectionView.dataSource = self;
-    [self addSubview:showCollectionView];
-    [showCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self).insets(UIEdgeInsetsMake(50, 15, 10, 15));
-    }];
-    
     return nil;
 }
 
@@ -166,7 +167,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    AYHomeHistoryItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class]) forIndexPath:indexPath];
+    AYHomeLikesItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([AYHomeLikesItem class]) forIndexPath:indexPath];
     
     cell.itemInfo = [queryData objectAtIndex:indexPath.row];
     

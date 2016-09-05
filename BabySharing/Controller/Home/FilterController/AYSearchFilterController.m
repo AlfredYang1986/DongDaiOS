@@ -45,7 +45,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        id args = [dic objectForKey:kAYControllerChangeArgsKey];
+//        id args = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -56,6 +56,13 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         id args = [dic objectForKey:kAYControllerChangeArgsKey];
         
+        id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"SearchFilter"];
+        id<AYCommand> cmd_change_data = [cmd_delegate.commands objectForKey:@"changeQueryData:"];
+        [cmd_change_data performWithResult:&args];
+        
+        id<AYViewBase> table = [self.views objectForKey:@"Table"];
+        id<AYCommand> refresh = [table.commands objectForKey:@"refresh"];
+        [refresh performWithResult:nil];
     }
 }
 
@@ -127,6 +134,7 @@
         UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
         [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
         [bar_right_btn setTitle:@"重置" forState:UIControlStateNormal];
+        bar_right_btn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
         [bar_right_btn sizeToFit];
         bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
         [cmd performWithResult:&bar_right_btn];

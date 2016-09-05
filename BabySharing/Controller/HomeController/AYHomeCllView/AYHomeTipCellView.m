@@ -7,7 +7,6 @@
 //
 
 #import "AYHomeTipCellView.h"
-#import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
 #import "GPUImage.h"
@@ -26,7 +25,6 @@
 #import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "Masonry.h"
 
 #import "AYThumbsAndPushDefines.h"
 
@@ -72,9 +70,9 @@
 //        NSTimeZone* GTMzone = [NSTimeZone timeZoneForSecondsFromGMT:0];
         
         UILabel *hello = [[UILabel alloc]init];
-        hello = [Tools setLabelWith:hello andText:on andTextColor:[Tools blackColor] andFontSize:22.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        
-        
+        hello = [Tools setLabelWith:hello andText:on andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//        hello.font = [UIFont systemFontOfSize:30.f weight:-0.5];
+        hello.font = [UIFont fontWithName:@"STHeitiSC-Light" size:30];
 //        hello.font = [UIFont systemFontOfSize:16.f];
 //        hello.textColor = [UIColor blackColor];
 //        NSString *subName = [name substringFromIndex:name.length - 1];
@@ -85,18 +83,18 @@
         
         [self addSubview:hello];
         [hello mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(30);
-            make.top.equalTo(self).offset(40+35);
+            make.left.equalTo(self).offset(15);
+            make.top.equalTo(self).offset(35+35);
         }];
         
         UILabel *say = [[UILabel alloc]init];
-        say.text = @"为您的孩子找个好去处！";
-        say.font = [UIFont systemFontOfSize:16.f];
+        say.text = @"为您的孩子找个好去处";
+        say.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.f];
         say.numberOfLines = 0;
-        say.textColor = [UIColor grayColor];
+        say.textColor = [Tools blackColor];
         [self addSubview:say];
         [say mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(30);
+            make.left.equalTo(hello);
             make.right.equalTo(self).offset(-20);
             make.top.equalTo(hello.mas_bottom).offset(10);
         }];

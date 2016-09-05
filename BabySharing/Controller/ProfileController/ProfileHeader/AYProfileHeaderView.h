@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
-#import "Masonry.h"
 
 @interface AYProfileHeaderView : UIView <AYViewBase>
 

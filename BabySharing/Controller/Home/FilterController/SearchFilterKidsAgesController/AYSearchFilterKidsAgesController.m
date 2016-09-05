@@ -41,6 +41,7 @@
     id dic_split_value;
     
     UILabel *setAgeslabel;
+    NSTimeInterval dob;
     
     UIView *picker;
 }
@@ -152,17 +153,15 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, STATUS_HEIGHT, SCREEN_WIDTH, NAV_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
-    
     {
         UIImage* img = IMGRESOURCE(@"content_close");
         id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"setLeftBtnImg:"];
         [cmd performWithResult:&img];
     }
-    
     return nil;
 }
 
-- (id)PickerLayout:(UIView*)view{
+- (id)PickerLayout:(UIView*)view {
     view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
     view.backgroundColor = [Tools garyColor];
     
@@ -176,14 +175,16 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:setAgeslabel.text forKey:kAYControllerChangeArgsKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    [dic_args setValue:[NSNumber numberWithDouble:dob] forKey:@"dob"];
+    [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
     [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
-    
     [cmd performWithResult:&dic];
-    
 }
 
--(void)setNapBabyAgesClick:(UIGestureRecognizer*)tap{
+- (void)setNapBabyAgesClick:(UIGestureRecognizer*)tap {
     if (picker.frame.origin.y == SCREEN_HEIGHT) {
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
@@ -198,6 +199,7 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
     [cmd performWithResult:&dic];
+    
     return nil;
 }
 
@@ -206,25 +208,37 @@
     return nil;
 }
 
--(id)didSaveClick {
+- (id)didSaveClick {
     id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"SearchFilterKidsAges"];
     id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
     NSString *args = nil;
     [cmd_index performWithResult:&args];
-    if (args) {
-        setAgeslabel.text = args;
-    }
     
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy年MM月dd日"];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [format setTimeZone:timeZone];
+    NSDate *filterDate = [format dateFromString:args];
+    
+    dob = filterDate.timeIntervalSince1970;
+    NSTimeInterval now = [NSDate date].timeIntervalSince1970;
+    NSTimeInterval howLong = now - dob;
+    
+    long years = (long)howLong / (86400 * 365);
+    long mouths = (long)howLong % (86400 * 365) / (86400 * 30);
+    NSString *agesStr = [NSString stringWithFormat:@"%ld岁%ld个月",years,mouths];
+    
+    if (agesStr) {
+        setAgeslabel.text = agesStr;
+    }
     if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-        
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
         }];
     }
-    
     return nil;
 }
--(id)didCancelClick {
+- (id)didCancelClick {
     if (picker.frame.origin.y == SHOW_OFFSET_Y) {
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);

@@ -9,7 +9,6 @@
 #import "AYServicePageCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -271,7 +270,7 @@
     [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *pl = [placemarks firstObject];
         NSLog(@"%@",pl.addressDictionary);
-        _ownerAddress.text = [NSString stringWithFormat:@"%@,%@",pl.thoroughfare,pl.subLocality];
+        _ownerAddress.text = [NSString stringWithFormat:@"%@, %@",pl.locality,pl.subLocality];
     }];
     
     if (currentAnno) {
@@ -289,14 +288,14 @@
     //center
     [maMapView setCenterCoordinate:location.coordinate animated:YES];
     
-    options_title_cans = @[@"绘本",@"儿童瑜伽",@"音乐",@"舞蹈",@"情商训练"];
-    options_title_facility = @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"];
+    options_title_cans = kAY_service_options_title_cans;
+    options_title_facility = kAY_service_options_title_facilities;
     
     long options = ((NSNumber*)[service_info objectForKey:@"cans"]).longValue;
     for (int i = 0; i < options_title_cans.count; ++i) {
         long note_pow = pow(2, i);
         if ((options & note_pow)) {
-            _cansLabel.text = [NSString stringWithFormat:@"[ %@ ]",options_title_cans[i]];
+            _cansLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
             break;
         }
     }

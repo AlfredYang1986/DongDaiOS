@@ -133,7 +133,7 @@
         [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *costLabel = [[UILabel alloc]init];
-        costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:1.f alpha:0.2f] andTextAlignment:NSTextAlignmentCenter];
+        costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
         [flexibleView addSubview:costLabel];
         [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(flexibleView);
@@ -174,30 +174,32 @@
     }];
     [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
+    UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50, SCREEN_WIDTH, 50)];
     bottom_view.backgroundColor = [Tools themeColor];
     [self.view addSubview:bottom_view];
     [self.view bringSubviewToFront:bottom_view];
     
     CALayer *left = [CALayer layer];
-    left.frame = CGRectMake(SCREEN_WIDTH *0.5 - 1, 0, 1, 44);
-    left.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.25f].CGColor;
+    left.frame = CGRectMake(SCREEN_WIDTH *0.5, 11, 1, 28);
+    left.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
     [bottom_view.layer addSublayer:left];
-    CALayer *right = [CALayer layer];
-    right.frame = CGRectMake(SCREEN_WIDTH *0.5, 0, 1, 44);
-    right.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
-    [bottom_view.layer addSublayer:right];
+//    CALayer *right = [CALayer layer];
+//    right.frame = CGRectMake(SCREEN_WIDTH *0.5, 0, 1, 44);
+//    right.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
+//    [bottom_view.layer addSublayer:right];
     
-    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 44)];
+    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 50)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
-    [bookBtn setTitle:@"预定" forState:UIControlStateNormal];
+    [bookBtn setTitle:@"申请预定" forState:UIControlStateNormal];
+    bookBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bottom_view addSubview:bookBtn];
     
-    UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 44)];
+    UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 50)];
     [chatBtn setBackgroundColor:[Tools themeColor]];
     [chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
+    chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
     [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [bottom_view addSubview:chatBtn];

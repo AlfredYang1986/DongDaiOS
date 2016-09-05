@@ -58,10 +58,13 @@
         btmTmp.frame = CGRectMake(0, height, SCREEN_WIDTH, SCREEN_HEIGHT - height);
         
     } completion:^(BOOL finished) {
-        [source.navigationController popViewControllerAnimated:NO];
-        [source.navigationController popViewControllerAnimated:YES];
+//        [source.navigationController popViewControllerAnimated:YES];
+        UINavigationController * nav = source.navigationController;
         
-        AYViewController* des = source.navigationController.viewControllers.lastObject;
+        [source.navigationController popViewControllerAnimated:NO];
+        
+        AYViewController* des = nav.viewControllers.lastObject;
+        
         id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
         if (tmp != nil) {
             NSMutableDictionary* dic_back =[[NSMutableDictionary alloc]init];

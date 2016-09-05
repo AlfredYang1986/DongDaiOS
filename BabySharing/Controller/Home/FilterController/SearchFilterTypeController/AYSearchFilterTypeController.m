@@ -129,7 +129,11 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithLong:notePow] forKey:kAYControllerChangeArgsKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    [dic_args setValue:[NSNumber numberWithDouble:notePow] forKey:@"service_type"];
+    [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
     [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
     
     [cmd performWithResult:&dic];

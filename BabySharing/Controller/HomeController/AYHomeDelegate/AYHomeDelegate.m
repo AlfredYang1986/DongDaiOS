@@ -93,8 +93,6 @@
         [cmd performWithResult:&dic];
     }
     
-    
-    
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
@@ -103,7 +101,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         
-        return SCREEN_HEIGHT - SCREEN_WIDTH - 49;
+        return 193;
     } else if (indexPath.row == 1) {
         
         return 235;
@@ -117,11 +115,11 @@
     return NO;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     return;
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
     CGFloat offset = scrollView.contentOffset.y;
     NSNumber *offset_y = [NSNumber numberWithFloat:offset];

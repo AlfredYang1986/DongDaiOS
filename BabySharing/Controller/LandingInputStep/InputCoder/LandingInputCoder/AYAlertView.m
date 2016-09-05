@@ -8,7 +8,6 @@
 
 #import "AYAlertView.h"
 #import "Tools.h"
-#import "Masonry.h"
 
 @implementation AYAlertView
 

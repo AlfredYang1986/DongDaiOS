@@ -35,7 +35,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    title_arr = @[@"绘本", @"儿童瑜伽", @"音乐", @"舞蹈", @"情商训练"];
+    title_arr = kAY_service_options_title_cans;
 }
 
 - (void)performWithResult:(NSObject**)obj {

@@ -9,8 +9,6 @@
 #import "AYFakeNavBarView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
-#import "Masonry.h"
-#import "Tools.h"
 
 @implementation AYFakeNavBarView {
     UIButton* leftBtn;
@@ -26,7 +24,7 @@
     {
         UIButton* barBtn = [[UIButton alloc]init];
         CALayer * layer = [CALayer layer];
-        layer.contents = (id)PNGRESOURCE(@"dongda_back").CGImage;
+        layer.contents = (id)IMGRESOURCE(@"bar_left_black").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);
         [barBtn.layer addSublayer:layer];
         [barBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchDown];
@@ -99,6 +97,7 @@
     [titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.centerY.equalTo(self);
+        make.width.mas_lessThanOrEqualTo([UIScreen mainScreen].bounds.size.width - 180);
     }];
     return nil;
 }

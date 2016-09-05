@@ -7,7 +7,6 @@
 //
 
 #import "AYHomeHistoryCellView.h"
-#import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
 #import "GPUImage.h"
@@ -26,7 +25,6 @@
 #import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "Masonry.h"
 
 #import "AYThumbsAndPushDefines.h"
 
@@ -67,10 +65,31 @@
         
         UILabel *title = [[UILabel alloc]init];
         title = [Tools setLabelWith:title andText:@"最近浏览过的服务" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        title.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.f];
         [self addSubview:title];
         [title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.top.equalTo(self).offset(15);
+        }];
+        
+        AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+        //    UICollectionViewLayout *layout = [[UICollectionViewLayout alloc]init];
+        layout.minimumLineSpacing = 10;
+        layout.minimumInteritemSpacing = 0;
+//        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        layout.itemSize = CGSizeMake(155, 160);
+        
+        showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
+        showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        showCollectionView.showsHorizontalScrollIndicator = NO;
+        showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
+        [showCollectionView registerClass:[AYHomeHistoryItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class])];
+        [showCollectionView setBackgroundColor:[UIColor clearColor]];
+        showCollectionView.delegate = self;
+        showCollectionView.dataSource = self;
+        [self addSubview:showCollectionView];
+        [showCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self).insets(UIEdgeInsetsMake(50, 15, 10, 0));
         }];
         
         if (reuseIdentifier != nil) {
@@ -143,27 +162,7 @@
 - (id)setCellInfo:(id)args{
     
     queryData = [(NSDictionary*)args objectForKey:@"collect_data"];
-    
-    AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
-//    UICollectionViewLayout *layout = [[UICollectionViewLayout alloc]init];
-    layout.minimumLineSpacing = 10;
-    layout.minimumInteritemSpacing = 0;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    layout.itemSize = CGSizeMake((width - 30 - 10)/2, 160);
-    
-    showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    showCollectionView.showsHorizontalScrollIndicator = NO;
-    showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
-    
-    [showCollectionView registerClass:[AYHomeHistoryItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeHistoryItem class])];
-    [showCollectionView setBackgroundColor:[UIColor clearColor]];
-    showCollectionView.delegate = self;
-    showCollectionView.dataSource = self;
-    [self addSubview:showCollectionView];
-    [showCollectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self).insets(UIEdgeInsetsMake(50, 15, 10, 15));
-    }];
+    [showCollectionView reloadData];
     
     return nil;
 }

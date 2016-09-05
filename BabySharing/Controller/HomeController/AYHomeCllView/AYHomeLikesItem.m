@@ -1,12 +1,12 @@
 //
-//  AYHomeHistoryItem.m
+//  AYHomeLikesItem.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 2/9/16.
+//  Created by Alfred Yang on 5/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHomeHistoryItem.h"
+#import "AYHomeLikesItem.h"
 #import "AYResourceManager.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -14,7 +14,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYHomeHistoryItem {
+@implementation AYHomeLikesItem {
     UIImageView *mainImageView;
     UILabel *titleLabel;
     UIImageView *star_rang_icon;
@@ -40,15 +40,16 @@
 }
 
 - (void)initialize {
-    self.layer.doubleSided = NO;
+//    self.layer.doubleSided = NO;
+    self.backgroundColor = [Tools garyBackgroundColor];
     
     mainImageView = [[UIImageView alloc]init];
     mainImageView.backgroundColor = [Tools garyBackgroundColor];
     [self addSubview:mainImageView];
     [mainImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.left.equalTo(self);
-        make.width.equalTo(self);
+        make.top.equalTo(self).offset(7.5);
+        make.left.equalTo(self).offset(7.5);
+        make.right.equalTo(self).offset(-7.5);
         make.height.mas_equalTo(92);
     }];
     

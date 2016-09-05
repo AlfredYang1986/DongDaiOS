@@ -33,7 +33,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-    options_title_facility = @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"];
+    options_title_facility = kAY_service_options_title_facilities;
 }
 
 - (void)performWithResult:(NSObject**)obj {

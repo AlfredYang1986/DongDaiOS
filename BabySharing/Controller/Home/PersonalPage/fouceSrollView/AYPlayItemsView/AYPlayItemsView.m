@@ -35,7 +35,8 @@
         }];
         
         _item_name = [[UILabel alloc]init];
-        _item_name = [Tools setLabelWith:_item_name andText:nil andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _item_name = [Tools setLabelWith:_item_name andText:nil andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _item_name.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.f];
         [self addSubview:_item_name];
         [_item_name mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_item_icon.mas_bottom).offset(7);
