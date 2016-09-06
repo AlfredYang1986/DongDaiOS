@@ -24,6 +24,7 @@
 
 #import "AYControllerActionDefines.h"
 
+#import "AYHorizontalLayout.h"
 #import "AYHomeHistoryItem.h"
 #import "AYHomeLikesItem.h"
 
@@ -60,12 +61,13 @@
             make.top.equalTo(self).offset(15);
         }];
         
-        //    AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+        AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+//        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.minimumLineSpacing = 5;
         layout.minimumInteritemSpacing = 5;
         CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        layout.itemSize = CGSizeMake((width - 30 - 10)/2, 180);
+//        layout.itemSize = CGSizeMake((width - 30 - 10)/2, 180);
+        layout.itemSize = CGSizeMake((width - 30), 370);
         
         showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

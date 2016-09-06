@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7000CCE71D7E65F300DA98F2 /* AYHomeLikesItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */; };
 		7001310B1CA44057006003C8 /* view.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7001310A1CA44057006003C8 /* view.xml */; };
 		7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */; };
 		7002DB181CC5EA540013FF2A /* AYCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB161CC5EA540013FF2A /* AYCameraController.m */; };
@@ -740,6 +741,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7000CCE51D7E65F300DA98F2 /* AYHomeLikesItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeLikesItemCell.h; sourceTree = "<group>"; };
+		7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeLikesItemCell.m; sourceTree = "<group>"; };
 		7001310A1CA44057006003C8 /* view.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = view.xml; sourceTree = "<group>"; };
 		7001310D1CA446CA006003C8 /* AYDefaultViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDefaultViewFactory.h; sourceTree = "<group>"; };
 		7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultViewFactory.m; sourceTree = "<group>"; };
@@ -6803,6 +6806,8 @@
 				70D175D81D79713300D9C7D9 /* AYHomeLikesCellView.m */,
 				700B756D1D7D456E00F139C4 /* AYHomeLikesItem.h */,
 				700B756E1D7D456E00F139C4 /* AYHomeLikesItem.m */,
+				7000CCE51D7E65F300DA98F2 /* AYHomeLikesItemCell.h */,
+				7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */,
 			);
 			path = AYHomeCllView;
 			sourceTree = "<group>";
@@ -8486,6 +8491,7 @@
 				8086A24A1CCE8834006186D4 /* AYUserTablePreviewDelegate.m in Sources */,
 				705B4A3C1D644AD3006273E7 /* AYAllCollectServiceCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
+				7000CCE71D7E65F300DA98F2 /* AYHomeLikesItemCell.m in Sources */,
 				80D5E7C41CCC7C2000A82117 /* WKFRadarView.m in Sources */,
 				708F2D2A1D3F601E000CD492 /* TZPhotoPreviewController.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
