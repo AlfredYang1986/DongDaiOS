@@ -214,10 +214,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     }];
     if (service_info) {
         [confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchDown];
+        [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
     } else{
         [confirmSerBtn setTitle:@"提交我的服务" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchDown];
+        [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
     }
 }
 
@@ -326,11 +326,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
     dispatch_async(qp, ^{
         
-        // 4. 等待图片进程全部处理完成
-        for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        }
-        
         NSMutableArray* arr_items = [[NSMutableArray alloc]init];
         for (int index = 0; index < napPhotos.count; ++index) {
             UIImage* iter = [napPhotos objectAtIndex:index];
@@ -347,6 +342,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
             }];
             [arr_items addObject:extent];
+        }
+        
+        // 4. 等待图片进程全部处理完成
+        for (dispatch_semaphore_t iter in semaphores_upload_photos) {
+            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         }
         
         NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
@@ -433,10 +433,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
                 dispatch_async(qp, ^{
-                    // 4. 等待图片进程全部处理完成
-                    for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-                        dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-                    }
                     
                     NSMutableArray* arr_items = [[NSMutableArray alloc]init];
                     for (int index = 0; index < napPhotos.count; ++index) {
@@ -454,6 +450,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                             dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
                         }];
                         [arr_items addObject:extent];
+                    }
+                    
+                    // 4. 等待图片进程全部处理完成
+                    for (dispatch_semaphore_t iter in semaphores_upload_photos) {
+                        dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
                     }
                     
                     NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];

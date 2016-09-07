@@ -17,32 +17,32 @@
 #import "AYHomeLikesItemCell.h"
 
 @implementation AYHomeLikesItem {
-    UIImageView *mainImageView;
-    UILabel *titleLabel;
-    UIImageView *star_rang_icon;
-    UILabel *contentCountlabel;
-    
-    UILabel *psLabel;
+//    UIImageView *mainImageView;
+//    UILabel *titleLabel;
+//    UIImageView *star_rang_icon;
+//    UILabel *contentCountlabel;
+//    
+//    UILabel *psLabel;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (instancetype)init{
-    self = [super init];
-    if (self) {
-        [self initialize];
-    }
-    return self;
-}
+//- (instancetype)initWithFrame:(CGRect)frame {
+//    self = [super initWithFrame:frame];
+//    if (self) {
+//        [self initialize];
+//    }
+//    return self;
+//}
+//
+//- (instancetype)init{
+//    self = [super init];
+//    if (self) {
+//        [self initialize];
+//    }
+//    return self;
+//}
 
 - (void)initialize {
-    
+    self.layer.doubleSided = NO;
 //    self.backgroundColor = [Tools garyBackgroundColor];
 //    
 //    mainImageView = [[UIImageView alloc]init];
@@ -90,40 +90,65 @@
 //    }];
 }
 
-- (void)setItemInfo:(NSDictionary *)itemInfo {
+- (void)setItemInfo:(NSArray *)itemInfo {
     _itemInfo = itemInfo;
     
-    NSString* photo_name = [[_itemInfo objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    CGFloat margin = 12.f;
     
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            mainImageView.image = img;
-        }else{
-            
+    for (int i = 0; i < _itemInfo.count; ++i) {
+        AYHomeLikesItemCell *cell = [[AYHomeLikesItemCell alloc]init];
+        [self addSubview:cell];
+        if (i%2 == 0) {
+            [cell mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self).offset(0);
+                make.top.equalTo(self).offset(i/2*170 + margin);
+                make.size.mas_equalTo(CGSizeMake(155, 160));
+            }];
+        } else {
+            [cell mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self).offset(175);
+                make.top.equalTo(self).offset(i/2*170 + margin);
+                make.size.mas_equalTo(CGSizeMake(155, 160));
+            }];
         }
-    }];
-    
-    NSString *title = [_itemInfo objectForKey:@"title"];
-    titleLabel.text = title;
-    
-    contentCountlabel.text = @"12";
-    
-    NSArray *options_title_cans = kAY_service_options_title_cans;
-    long options = ((NSNumber*)[_itemInfo objectForKey:@"cans"]).longValue;
-    for (int i = 0; i < options_title_cans.count; ++i) {
-        long note_pow = pow(2, i);
-        if ((options & note_pow)) {
-            NSString *psInfo = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-            psLabel.text = psInfo;
-            break;
-        }
+        cell.cellInfo = [itemInfo objectAtIndex:i];
+        
+        cell.touchupinself = ^(NSDictionary* service_info){
+            _didTouchUpInServiceCell(service_info);
+        };
     }
+    
+//    NSString* photo_name = [[_itemInfo objectForKey:@"images"] objectAtIndex:0];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:photo_name forKey:@"image"];
+//    [dic setValue:@"img_thum" forKey:@"expect_size"];
+//    
+//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        UIImage* img = (UIImage*)result;
+//        if (img != nil) {
+//            mainImageView.image = img;
+//        }else{
+//            
+//        }
+//    }];
+//    
+//    NSString *title = [_itemInfo objectForKey:@"title"];
+//    titleLabel.text = title;
+//    
+//    contentCountlabel.text = @"12";
+//    
+//    NSArray *options_title_cans = kAY_service_options_title_cans;
+//    long options = ((NSNumber*)[_itemInfo objectForKey:@"cans"]).longValue;
+//    for (int i = 0; i < options_title_cans.count; ++i) {
+//        long note_pow = pow(2, i);
+//        if ((options & note_pow)) {
+//            NSString *psInfo = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+//            psLabel.text = psInfo;
+//            break;
+//        }
+//    }
 }
 
 @end

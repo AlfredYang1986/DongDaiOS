@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void(^touchUpInSubCell)(NSDictionary*);
 
 @interface AYHomeLikesItem : UICollectionViewCell
-@property (nonatomic, strong) NSDictionary *itemInfo;
+
+@property (nonatomic, strong) NSArray *itemInfo;
+
+@property (nonatomic, strong) touchUpInSubCell didTouchUpInServiceCell;
+
 @end

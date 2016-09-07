@@ -133,7 +133,8 @@
         [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
         
         UILabel *costLabel = [[UILabel alloc]init];
-        costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
+        costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:[UIFont systemFontSize] andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
+        costLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:16.f];
         [flexibleView addSubview:costLabel];
         [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(flexibleView);

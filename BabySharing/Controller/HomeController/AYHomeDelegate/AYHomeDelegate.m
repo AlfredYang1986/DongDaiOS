@@ -26,14 +26,12 @@
 #define SCREEN_HEIGHT                   [UIScreen mainScreen].bounds.size.height
 
 @interface AYHomeDelegate ()
-@property (nonatomic, strong) NSArray* querydata;
+
 @end
 
 @implementation AYHomeDelegate{
     NSArray *collectData;
 }
-
-@synthesize querydata = _querydata;
 
 #pragma mark -- command
 @synthesize para = _para;
@@ -94,6 +92,7 @@
     }
     
     cell.controller = self.controller;
+    ((UITableViewCell*)cell).clipsToBounds = YES;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
@@ -103,11 +102,18 @@
         
         return 193;
     } else if (indexPath.row == 1) {
-        
-        return 235;
+        if (collectData.count == 0) {
+            return 0.001;
+        } else
+            return 235;
     } else {
-        
-        return 435;
+        if (collectData.count == 0) {
+            return 0.001;
+        }
+        if (collectData.count == 1 || collectData.count == 2) {
+            return 240;
+        } else
+            return 435;
     }
 }
 

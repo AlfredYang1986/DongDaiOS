@@ -64,7 +64,6 @@
     
     star_rang_icon = [[UIImageView alloc]init];
     [self addSubview:star_rang_icon];
-    star_rang_icon.image = IMGRESOURCE(@"star_rang_5");
     [star_rang_icon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(5);
         make.left.equalTo(titleLabel);
@@ -86,6 +85,53 @@
         make.centerY.equalTo(star_rang_icon);
         make.left.equalTo(contentCountlabel.mas_right).offset(5);
     }];
+    
+    self.userInteractionEnabled = YES;
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchUpInside)]];
+}
+
+#pragma mark -- actions
+- (void)touchUpInside {
+    _touchupinself(_cellInfo);
+}
+
+#pragma mark -- notifies
+-(void)setCellInfo:(NSDictionary *)cellInfo {
+    _cellInfo = cellInfo;
+    
+    NSString* photo_name = [[_cellInfo objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            mainImageView.image = img;
+        }else{
+            
+        }
+    }];
+    
+    NSString *title = [_cellInfo objectForKey:@"title"];
+    titleLabel.text = title;
+    
+    star_rang_icon.image = IMGRESOURCE(@"star_rang_5");
+    contentCountlabel.text = @"12";
+    
+    NSArray *options_title_cans = kAY_service_options_title_cans;
+    long options = ((NSNumber*)[_cellInfo objectForKey:@"cans"]).longValue;
+    for (int i = 0; i < options_title_cans.count; ++i) {
+        long note_pow = pow(2, i);
+        if ((options & note_pow)) {
+            NSString *psInfo = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+            psLabel.text = psInfo;
+            break;
+        }
+    }
+    
 }
 
 @end

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^touchUpInSelf)(NSDictionary*);
+
 @interface AYHomeLikesItemCell : UIView
+
+@property (nonatomic, strong) NSDictionary *cellInfo;
+@property (nonatomic, strong) touchUpInSelf touchupinself;
 
 @end

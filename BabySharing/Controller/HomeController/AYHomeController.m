@@ -116,6 +116,13 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH));
         }];
         
+//        tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+//            //Call this Block When enter the refresh status automatically
+//        }];
+        // Set the callback（Once you enter the refresh status，then call the action of target，that is call [self loadMoreData]）
+//        tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        
         UIButton *found = [[UIButton alloc]init];
         //    found.layer.cornerRadius = 37.5f;
         //    found.clipsToBounds = YES;
@@ -149,6 +156,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
         NSString* class_name_lik = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeLikesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name_lik];
         
+        /**
+         *  query collect service
+         */
         NSDictionary* info = nil;
         CURRENUSER(info)
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
@@ -196,6 +206,7 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     return nil;
 }
 
@@ -227,11 +238,40 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     return nil;
 }
 
+#pragma mark -- actions
+- (void)loadMoreData {
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+    
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"AllCollectService"];
+    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Home"];
+            id<AYCommand> cmd_change_data = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+            NSArray *data = [result objectForKey:@"result"];
+            [cmd_change_data performWithResult:&data];
+            
+            id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+            id<AYCommand> refresh = [view_notify.commands objectForKey:@"refresh"];
+            [refresh performWithResult:nil];
+        } else {
+            NSLog(@"push error with:%@",result);
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+        [((UITableView*)view_notify).mj_footer endRefreshing];
+    }];
+}
+
 #pragma mark -- notifies
 - (id)scrollOffsetY:(NSNumber*)args {
-    
     CGFloat offset_y = args.floatValue;
     CGFloat offsetH = SCREEN_WIDTH + offset_y;
+    
     if (offsetH < 0) {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
         UITableView *tableView = (UITableView*)view_notify;

@@ -80,6 +80,9 @@
     _readMoreLabel.userInteractionEnabled = YES;
     [_readMoreLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didReadMoreClick)]];
     
+    _ownerPhoto.userInteractionEnabled = YES;
+    [_ownerPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
+    
     _cansBtn.hidden = YES;
     
     maMapView = [[MAMapView alloc]init];
@@ -150,13 +153,35 @@
 }
 
 #pragma mark -- actions
+- (void)didOwnerPhotoClick {
+    AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
+}
+
 - (void)didReadMoreClick {
     NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-    paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
-    paraStyle.alignment = NSTextAlignmentLeft;
     /** 行高 */
     paraStyle.lineSpacing = 8;
     paraStyle.hyphenationFactor = 1.0;
+    paraStyle.alignment = NSTextAlignmentLeft;
+    paraStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    /**
+     *  NSLineBreakByWordWrapping = 0,     	// Wrap at word boundaries, default
+     NSLineBreakByCharWrapping,		// Wrap at character boundaries
+     NSLineBreakByClipping,		// Simply clip
+     NSLineBreakByTruncatingHead,	// Truncate at head of line: "...wxyz"
+     NSLineBreakByTruncatingTail,	// Truncate at tail of line: "abcd..."
+     NSLineBreakByTruncatingMiddle	// Truncate middle of line:  "ab...yz"
+     */
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
     
     NSString *desc = [service_info objectForKey:@"description"];

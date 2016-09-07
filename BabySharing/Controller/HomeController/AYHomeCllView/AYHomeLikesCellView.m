@@ -36,6 +36,8 @@
     UICollectionView *showCollectionView;
     
     NSArray *queryData;
+    
+    NSNumber *cellHeight;
 }
 
 @synthesize para = _para;
@@ -61,13 +63,14 @@
             make.top.equalTo(self).offset(15);
         }];
         
+//        CGFloat width = [UIScreen mainScreen].bounds.size.width;
         AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+//        layout.itemSize = CGSizeMake((width - 30), 370);
+//        layout.itemSize = CGSizeMake((width - 30), self.bounds.size.height);
 //        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+//        layout.itemSize = CGSizeMake((width - 30 - 10)/2, 180);
         layout.minimumLineSpacing = 5;
         layout.minimumInteritemSpacing = 5;
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-//        layout.itemSize = CGSizeMake((width - 30 - 10)/2, 180);
-        layout.itemSize = CGSizeMake((width - 30), 370);
         
         showCollectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
         showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -144,17 +147,16 @@
 }
 
 #pragma mark -- actions
-- (void)didServiceDetailClick:(UIGestureRecognizer*)tap{
+- (void)didServiceDetailClick:(UIGestureRecognizer*)tap {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didServiceDetailClick"];
     [cmd performWithResult:nil];
-    
 }
 
 #pragma mark -- notifies
-- (id)setCellInfo:(id)args{
+- (id)setCellInfo:(id)args {
     
     queryData = [(NSDictionary*)args objectForKey:@"collect_data"];
-    
+    [showCollectionView reloadData];
     return nil;
 }
 
@@ -164,16 +166,38 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return queryData.count;
+    return queryData.count/4 + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     AYHomeLikesItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([AYHomeLikesItem class]) forIndexPath:indexPath];
     
-    cell.itemInfo = [queryData objectAtIndex:indexPath.row];
+    NSMutableArray *tmp = [NSMutableArray array];
+    for (int i = 0; i < 4; ++i) {
+        NSInteger limit_index = indexPath.row + i;
+        if (limit_index < queryData.count) {
+            [tmp addObject:[queryData objectAtIndex:limit_index]];
+        }
+    }
+    cell.itemInfo = [tmp copy];
     
+    cell.didTouchUpInServiceCell = ^(NSDictionary *service_info) {
+        id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd_show_module = PUSH;
+        [cmd_show_module performWithResult:&dic];
+    };
     return cell;
+}
+
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -188,6 +212,11 @@
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];
+}
+
+- (CGSize)collectionView:(nonnull UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    return CGSizeMake((width - 30), collectionView.bounds.size.height);
 }
 
 @end
