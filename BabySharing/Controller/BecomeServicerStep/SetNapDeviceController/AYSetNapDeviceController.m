@@ -48,12 +48,10 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (dic_cost) {
-//            optionsData = [dic_cost objectForKey:@"options"];
-            customString = [dic_cost objectForKey:@"option_custom"];
-            notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
-            isShow = ((NSNumber*)[dic_cost objectForKey:@"show"]).boolValue;
+        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (dic_facility) {
+            customString = [dic_facility objectForKey:@"option_custom"];
+            notePow = ((NSNumber*)[dic_facility objectForKey:@"facility"]).longValue;
             
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -88,69 +86,18 @@
     
     id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSArray *options = @[@"安全桌角",@"安全插座",@"急救包",@"无烟",@"安全护栏",@"宠物",@"防摔地板",@"自填"];
-    [dic setValue:options forKey:@"title"];
     [dic setValue:[NSNumber numberWithBool:isShow] forKey:@"isShow"];
     if (notePow) {
         NSNumber *numb = [NSNumber numberWithLong:notePow];
-        [dic setValue:numb forKey:@"option"];
+        [dic setValue:numb forKey:@"options"];
     }
     if (customString) {
         [dic setValue:customString forKey:@"custom"];
     }
     [cmd_query performWithResult:&dic];
     
-//    for (int i = 0; i < options_title_facility.count; ++i) {
-//        setY = 35 * i;
-//        OptionOfPlayingView *optionView = [[OptionOfPlayingView alloc]initWithTitle:[options_title_facility objectAtIndex:i] andIndex:i];
-//        [self.view addSubview:optionView];
-//        [optionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.view);
-//            make.top.equalTo(self.view).offset(84 + setY);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
-//        }];
-//        optionView.optionBtn.selected = ((notePow & (long)pow(2, i)) != 0);
-//        if (isShow) {
-//            optionView.optionBtn.userInteractionEnabled = NO;
-//        } else
-//        [optionView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    
-//    UILabel *customTitle = [[UILabel alloc]init];
-//    [self.view addSubview:customTitle];
-//    customTitle = [Tools setLabelWith:customTitle andText:@"自填" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-//    [customTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(84 + setY + 45);
-//        make.left.equalTo(self.view).offset(20);
-//    }];
-//    
-//    customField = [[UITextField alloc]init];
-//    [self.view addSubview:customField];
-//    if (customString) {
-//        customField.text = customString;
-//    }
-//    customField.textColor = [Tools blackColor];
-//    customField.font = [UIFont systemFontOfSize:14.f];
-//    customField.backgroundColor = [UIColor whiteColor];
-//    customField.layer.cornerRadius = 4.f;
-//    customField.clipsToBounds = YES;
-//    UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
-//    paddingView.backgroundColor= [UIColor clearColor];
-//    customField.leftView = paddingView;
-//    customField.leftViewMode = UITextFieldViewModeAlways;
-//    customField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    if (isShow) {
-//        customField.enabled = NO;
-//    }
-//    [customField mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(customTitle);
-//        make.left.equalTo(self.view).offset(80);
-//        make.right.equalTo(self.view).offset(-15);
-//        make.height.mas_equalTo(30);
-//    }];
-    
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
-    [self.view addGestureRecognizer:tap];
+//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
+//    [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -188,7 +135,6 @@
         [cmd_right performWithResult:&right];
         
     } else {
-    
         UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
         [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
         [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
@@ -202,8 +148,10 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    CGFloat margin = 20.f;
+    view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
     
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -214,9 +162,9 @@
 #pragma mark -- actions
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     NSLog(@"tap esle where");
-    if ([customField isFirstResponder]) {
-        [customField resignFirstResponder];
-    }
+//    if ([customField isFirstResponder]) {
+//        [customField resignFirstResponder];
+//    }
 }
 
 -(id)didOptionBtnClick:(UIButton*)btn{
@@ -242,17 +190,13 @@
 - (id)rightBtnSelected {
     
     //整合数据
-    NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-//    [dic_options setValue:optionsData forKey:@"options"];
-    [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
-    [dic_options setValue:customString forKey:@"option_custom"];
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:dic_options forKey:@"content"];
+    [dic_info setValue:[NSNumber numberWithLong:notePow] forKey:@"facility"];
+    [dic_info setValue:customString forKey:@"option_custom"];
     [dic_info setValue:@"nap_device" forKey:@"key"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
@@ -260,9 +204,9 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
-    if ([customField isFirstResponder]) {
-        [customField resignFirstResponder];
-    }
+//    if ([customField isFirstResponder]) {
+//        [customField resignFirstResponder];
+//    }
     return nil;
 }
 

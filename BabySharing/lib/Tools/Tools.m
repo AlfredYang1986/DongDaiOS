@@ -426,7 +426,7 @@
     label.text = text;
     label.textColor = color;
     label.textAlignment = align;
-    label.font = [UIFont systemFontOfSize:font];
+    label.font = [UIFont fontWithName:@"STHeitiSC-Light" size:font];
     if (backgroundColor) {
         label.backgroundColor = backgroundColor;
     }else label.backgroundColor = [UIColor clearColor];

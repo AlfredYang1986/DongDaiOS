@@ -55,6 +55,15 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
             });
         } else {
             NSLog(@"环信: 注册失败");
+//            NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+//            [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+//            [notify setValue:kAYNotifyLoginEMFailedForSlowNetwork forKey:kAYNotifyFunctionKey];
+//            
+//            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+//            [args setValue:current_user_id forKey:@"user_id"];
+//            
+//            [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//            [((AYFacade*)EMCLIENT) performWithResult:&notify];
         }
     });
 }

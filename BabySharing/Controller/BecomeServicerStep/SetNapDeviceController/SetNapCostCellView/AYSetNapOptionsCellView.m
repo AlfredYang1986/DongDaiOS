@@ -53,7 +53,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         NSLog(@"init reuse identifier");
-        self.backgroundColor = [Tools garyBackgroundColor];
+        self.backgroundColor = [UIColor whiteColor];
         
         titleLabel = [[UILabel alloc]init];
         titleLabel = [Tools setLabelWith:titleLabel andText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
@@ -62,6 +62,22 @@
             make.left.equalTo(self).offset(20);
             make.centerY.equalTo(self);
         }];
+        
+        optionBtn = [[UIButton alloc]init];
+        [self addSubview:optionBtn];
+        [optionBtn setImage:[UIImage imageNamed:@"tab_found"] forState:UIControlStateNormal];
+        [optionBtn setImage:[UIImage imageNamed:@"tab_found_selected"] forState:UIControlStateSelected];
+        [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.right.equalTo(self).offset(-20);
+            make.size.mas_equalTo(CGSizeMake(25, 25));
+        }];
+        
+        CALayer *btm_line = [[CALayer alloc]init];
+        btm_line.frame = CGRectMake(2, 44.5, self.bounds.size.width - 4, 0.5);
+        btm_line.backgroundColor = [Tools garyLineColor].CGColor;
+        [self.layer addSublayer:btm_line];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -123,27 +139,7 @@
 }
 
 #pragma mark -- actions
-- (void)didServiceDetailClick:(UIGestureRecognizer*)tap{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didServiceDetailClick"];
-    [cmd performWithResult:nil];
-    
-}
-
--(void)didPushInfo{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didPushInfo"];
-    [cmd performWithResult:nil];
-}
-
--(void)foundBtnClick{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"foundBtnClick"];
-    [cmd performWithResult:nil];
-}
-
 -(void)didOptionBtnClick:(UIButton*)btn {
-//    btn.selected = !btn.selected;
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:[NSNumber numberWithInteger:btn.tag] forKey:@"index"];
-//    [dic setValue:[NSNumber numberWithBool:btn.selected] forKey:@"isSelected"];
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"didOptionBtnClick:"];
     [cmd performWithResult:&btn];
@@ -152,67 +148,68 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)args {
     
-    BOOL isCustom = [args objectForKey:@"isCustom"];
-    NSDictionary *options = [args objectForKey:@"options"];
+    NSNumber *options = [args objectForKey:@"options"];
     
     NSInteger index_tag = ((NSNumber*)[args objectForKey:@"index"]).integerValue;
+    optionBtn.tag = index_tag;
     
-    BOOL isShow = ((NSNumber*)[options objectForKey:@"isShow"]).boolValue;
-    if (isCustom) {
-        customField = [[UITextField alloc]init];
-        [self addSubview:customField];
-        NSString *customString = [options objectForKey:@"custom"];
-        if (customString) {
-            customField.text = customString;
-        }
-        customField.textColor = [Tools blackColor];
-        customField.font = [UIFont systemFontOfSize:14.f];
-        customField.backgroundColor = [UIColor whiteColor];
-        customField.layer.cornerRadius = 4.f;
-        customField.clipsToBounds = YES;
-        customField.delegate = self;
-        UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
-        paddingView.backgroundColor= [UIColor clearColor];
-        customField.leftView = paddingView;
-        customField.leftViewMode = UITextFieldViewModeAlways;
-        customField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        if (isShow) {
-            customField.enabled = NO;
-        }
-        [customField mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.left.equalTo(self).offset(80);
-            make.right.equalTo(self).offset(-15);
-            make.height.mas_equalTo(30);
-        }];
-        
-    } else {
-        optionBtn = [[UIButton alloc]init];
-        [self addSubview:optionBtn];
-        if (isShow) {
-            optionBtn.userInteractionEnabled = NO;
-        }
-        [optionBtn setImage:[UIImage imageNamed:@"tab_found"] forState:UIControlStateNormal];
-        [optionBtn setImage:[UIImage imageNamed:@"tab_found_selected"] forState:UIControlStateSelected];
-        [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-20);
-            make.size.mas_equalTo(CGSizeMake(15, 15));
-        }];
-        
-        optionBtn.tag = index_tag;
-        
-        NSInteger notePow = ((NSNumber*)[options objectForKey:@"option"]).integerValue;
-        optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
-    }
+    NSInteger notePow = options.integerValue;
+    optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
     
-    titleLabel.text = [[options objectForKey:@"title"] objectAtIndex:index_tag];
-//    index = ((NSNumber*)[args objectForKey:@"index"]).intValue;
+    titleLabel.text = [args objectForKey:@"title"];
     
     return nil;
 }
 
+//- (id)setCellInfo:(NSDictionary*)args {
+//    
+//    BOOL isCustom = [args objectForKey:@"isCustom"];
+//    NSDictionary *options = [args objectForKey:@"options"];
+//    
+//    NSInteger index_tag = ((NSNumber*)[args objectForKey:@"index"]).integerValue;
+//    
+//    BOOL isShow = ((NSNumber*)[options objectForKey:@"isShow"]).boolValue;
+//    if (isCustom) {
+//        customField = [[UITextField alloc]init];
+//        [self addSubview:customField];
+//        NSString *customString = [options objectForKey:@"custom"];
+//        if (customString) {
+//            customField.text = customString;
+//        }
+//        customField.textColor = [Tools blackColor];
+//        customField.font = [UIFont systemFontOfSize:14.f];
+//        customField.backgroundColor = [UIColor whiteColor];
+//        customField.layer.cornerRadius = 4.f;
+//        customField.clipsToBounds = YES;
+//        customField.delegate = self;
+//        UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
+//        paddingView.backgroundColor= [UIColor clearColor];
+//        customField.leftView = paddingView;
+//        customField.leftViewMode = UITextFieldViewModeAlways;
+//        customField.clearButtonMode = UITextFieldViewModeWhileEditing;
+//        if (isShow) {
+//            customField.enabled = NO;
+//        }
+//        [customField mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self);
+//            make.left.equalTo(self).offset(80);
+//            make.right.equalTo(self).offset(-15);
+//            make.height.mas_equalTo(30);
+//        }];
+//        
+//    } else {
+//        
+//        if (isShow) {
+//            optionBtn.userInteractionEnabled = NO;
+//        }
+//        optionBtn.tag = index_tag;
+//        NSInteger notePow = ((NSNumber*)[options objectForKey:@"option"]).integerValue;
+//        optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
+//    }
+//    titleLabel.text = [[options objectForKey:@"title"] objectAtIndex:index_tag];
+//    
+//    return nil;
+//}
 #pragma mark -- UITextFieldDelegate
 //- (void)textFieldDidEndEditing:(UITextField *)textField{
 //    id<AYCommand> cmd_textchange = [self.notifies objectForKey:@"textChange:"];

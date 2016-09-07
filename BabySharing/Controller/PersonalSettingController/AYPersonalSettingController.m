@@ -130,30 +130,65 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 #pragma mark -- layouts
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    ((UILabel*)view).text = @"个人资料";
-    self.navigationItem.titleView = view;
+//- (id)SetNevigationBarTitleLayout:(UIView*)view {
+//    ((UILabel*)view).text = @"个人资料";
+//    self.navigationItem.titleView = view;
+//    return nil;
+//}
+//
+//- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+//    return nil;
+//}
+//
+//- (id)SetNevigationBarRightBtnLayout:(UIView*)view {
+//    NSString* str = @"保存";
+//    id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"changeTextBtn:"];
+//    [cmd performWithResult:&str];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+//    return nil;
+//}
+- (id)FakeStatusBarLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 0, width, 20);
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
-- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-    return nil;
-}
-
-- (id)SetNevigationBarRightBtnLayout:(UIView*)view {
-    NSString* str = @"保存";
-    id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"changeTextBtn:"];
-    [cmd performWithResult:&str];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+- (id)FakeNavBarLayout:(UIView*)view {
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    view.frame = CGRectMake(0, 20, width, 44);
+    view.backgroundColor = [UIColor whiteColor];
+    
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"个人资料";
+    [cmd_title performWithResult:&title];
+    
+    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    [cmd_left performWithResult:&left];
+    
+    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
+    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [bar_right_btn sizeToFit];
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+    [cmd_right performWithResult:&bar_right_btn];
+    
+    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+    [cmd_bot performWithResult:nil];
+    
     return nil;
 }
 
@@ -172,7 +207,7 @@
 }
 
 #pragma mark -- actions
-- (id)popToPreviousWithoutSave {
+- (id)leftBtnSelected {
     NSLog(@"pop view controller");
     
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
@@ -194,7 +229,7 @@
     [cmd performWithResult:&dic_pop];
 }
 
-- (id)rightItemBtnClick {
+- (id)rightBtnSelected {
     NSLog(@"save btn clicked");
 //    dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
 //    dispatch_async(qp, ^{

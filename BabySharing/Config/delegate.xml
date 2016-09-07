@@ -203,16 +203,23 @@
         <command type="message" message="changeQueryData:" />
         <command type="message" message="queryCurrentSelected:" />
         <command type="message" message="changeQueryInfo:" />
-        <command type="notify" message="inputNapTitleAction:" />
-        <command type="notify" message="setNapBabyAges:" />
-        <command type="notify" message="setNapCost:" />
-        <command type="notify" message="setNapAdress:" />
-        <command type="notify" message="setNapDevice:" />
+        
+        <command type="notify" message="inputNapTitleAction" />
+        <command type="notify" message="setNapBabyAges" />
+        <command type="notify" message="setNapTheme" />
+        <command type="notify" message="setNapCost" />
+        <command type="notify" message="setNapAdress" />
+        <command type="notify" message="setNapDevice" />
     </delegate>
     
     <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
         <command type="notify" message="sendDelMessage:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryData:" />
+        <command type="notify" message="queryCurrentSelected:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >

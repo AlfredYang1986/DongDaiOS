@@ -29,6 +29,7 @@
     gif = [[UIGifView alloc]initWithCenter:CGPointMake(width / 2, height / 2) fileURL:url andSize:CGSizeMake(30, 30)];
     [self addSubview:gif];
     
+    self.backgroundColor = [UIColor clearColor];
     self.userInteractionEnabled = NO;
 }
 

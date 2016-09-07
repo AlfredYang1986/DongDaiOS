@@ -27,7 +27,7 @@
 @end
 
 @implementation AYSetNapThemeDelegate {
-    
+    NSArray *options_title_cats;
 }
 
 @synthesize querydata = _querydata;
@@ -39,7 +39,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
+    options_title_cats = kAY_service_options_title_cans;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -64,27 +64,34 @@
 }
 
 #pragma mark -- table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *tmp = [_querydata objectForKey:@"title"];
-    return tmp.count;
+    if (section == 0) {
+        
+        return options_title_cats.count;
+    } else
+        return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = VIEW(@"SetNapOptionsCell", @"SetNapOptionsCell");
-    }
     cell.controller = _controller;
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:[options objectAtIndex:indexPath.row] forKey:@"title"];
-    [dic setValue:[_querydata copy] forKey:@"options"];
-    [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
     
-    NSArray *tmp = [_querydata objectForKey:@"title"];
-    if (indexPath.row == (tmp.count - 1)) {
-        [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isCustom"];
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[_querydata objectForKey:@"isShow"] forKey:@"isShow"];
+    if (indexPath.section == 0) {
+        [dic setValue:[options_title_cats objectAtIndex:indexPath.row] forKey:@"title"];
+        [dic setValue:[_querydata objectForKey:@"nap_theme"] forKey:@"nap_theme"];
+        [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
+    } else {
+        NSString *allowLeaveStr = @"可以提供看护";
+        [dic setValue:allowLeaveStr forKey:@"title"];
+        [dic setValue:[_querydata objectForKey:@"allow_leave"] forKey:@"isAllowLeaveOption"];
     }
     id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [set_cmd performWithResult:&dic];
@@ -103,15 +110,17 @@
     return NO;
 }
 
--(void)becomeServicer{
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        return 20.f;
+    } else
+        return 0.001f;
 }
+
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *marginView = [[UIView alloc]init];
+    marginView.backgroundColor = [Tools garyBackgroundColor];
+    return marginView;
+}
+
 @end

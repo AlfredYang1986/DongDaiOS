@@ -33,6 +33,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    _unSetTitleLabel.font = kAYFontLight(14.f);
+    _subTitleLabel.font = kAYFontLight(12.f);
+    _subTitleLabel.textColor = [Tools garyColor];
+    
     CALayer *separator = [CALayer layer];
     separator.frame = CGRectMake(10, 63.5, [UIScreen mainScreen].bounds.size.width - 20, 0.5);
     separator.backgroundColor = [Tools garyLineColor].CGColor;

@@ -27,12 +27,15 @@
     NSString *napTitle;
     NSString *napDesc;
     NSDictionary *napAges;
-    NSDictionary *dic_cost;
+    
+    NSNumber *napThemeNote;
+    
     NSString *napCost;
-    NSDictionary *dic_adress;
+    
     NSString *napAdress;
-    NSDictionary *dic_device;
-    NSString *napDevice;
+    
+//    NSDictionary *dic_device;
+    NSNumber *napDeviceNote;
     
     NSMutableDictionary *push_info_dic;
 }
@@ -85,7 +88,7 @@
         
         
     } else if([key isEqualToString:@"nap_title"]){
-        napTitle = [dic objectForKey:@"content"];
+        napTitle = [dic objectForKey:@"title"];
         
     } else if([key isEqualToString:@"nap_desc"]){
         napDesc = [dic objectForKey:@"content"];
@@ -94,18 +97,18 @@
         napAges = [dic objectForKey:@"age_boundary"];
         
     } else if([key isEqualToString:@"nap_cost"]){
-        dic_cost = [dic objectForKey:@"content"];
-        napCost = [dic_cost objectForKey:@"cost"];
+        napCost = [dic objectForKey:@"price"];
         
     } else if([key isEqualToString:@"nap_adress"]){
-        dic_adress = [dic objectForKey:@"content"];
-        napAdress = [NSString stringWithFormat:@"%@%@",[dic_adress objectForKey:@"head"], [dic_adress objectForKey:@"detail"]];
+        napAdress = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"address"], [dic objectForKey:@"adjust_address"]];
         
     } else if([key isEqualToString:@"nap_device"]){
-        dic_device = [dic objectForKey:@"content"];
-        napDevice = [dic_device objectForKey:@"option_custom"];
+        napDeviceNote = [dic objectForKey:@"facility"];
         
+    } else if ([key isEqualToString:@"nap_theme"]) {
+        napThemeNote = [dic objectForKey:@"cans"];
     }
+    
     [infoTableView reloadData];
     return nil;
 }
@@ -123,7 +126,7 @@
         NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
         [dic_options setValue:[info objectForKey:@"facility"] forKey:@"option_pow"];
         [dic_options setValue:@"自填" forKey:@"option_custom"];
-        dic_device = dic_options;
+//        dic_device = dic_options;
     }
     
     {
@@ -131,7 +134,7 @@
         [dic_options setValue:[info objectForKey:@"cans"] forKey:@"option_pow"];
         [dic_options setValue:@"自填" forKey:@"option_custom"];
         [dic_options setValue:[info objectForKey:@"price"] forKey:@"price"];
-        dic_cost = dic_options;
+//        dic_cost = dic_options;
     }
     
     [infoTableView reloadData];
@@ -187,17 +190,44 @@
             NSString *ages = [NSString stringWithFormat:@"%d ~ %d 岁",lsl.intValue,usl.intValue];
             [cell_info setValue:ages forKey:@"args"];
         }
-        if (dic_cost && indexPath.row == 3) {
-            [cell_info setValue:dic_cost forKey:@"args"];
+        if (napThemeNote && indexPath.row == 3) {
+            NSArray *options_title_cans = kAY_service_options_title_cans;
+            NSString *theme = @"服务主题";
+            long options = napThemeNote.longValue;
+            for (int i = 0; i < options_title_cans.count; ++i) {
+                long note_pow = pow(2, i);
+                if ((options & note_pow)) {
+                    theme = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+                    break;
+                }
+            }
+            [cell_info setValue:theme forKey:@"args"];
         }
-        if (dic_cost && indexPath.row == 4) {
-            [cell_info setValue:dic_cost forKey:@"args"];
+        if (napCost && indexPath.row == 4) {
+            NSString *price = [NSString stringWithFormat:@"￥ %@/小时",napCost];
+            [cell_info setValue:price forKey:@"args"];
         }
         if (napAdress && indexPath.row == 5) {
             [cell_info setValue:napAdress forKey:@"args"];
         }
-        if (dic_device && indexPath.row == 6) {
-            [cell_info setValue:dic_device forKey:@"args"];
+        if (napDeviceNote && indexPath.row == 6) {
+            NSArray *options_title_facilities = kAY_service_options_title_facilities;
+            NSString *device = @"";
+            long options = napDeviceNote.longValue;
+            int noteCount = 0;
+            for (int i = 0; i < options_title_facilities.count; ++i) {
+                long note_pow = pow(2, i);
+                if ((options & note_pow)) {
+                    device = [[device stringByAppendingString:@"、"] stringByAppendingString:options_title_facilities[i]];
+                    noteCount ++;
+                    if (noteCount == 3) {
+                        device = [device stringByAppendingString:@"等"];
+                        break;
+                    }
+                }
+            }
+            device = [device substringFromIndex:1];
+            [cell_info setValue:device forKey:@"args"];
         }
         
         id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
@@ -240,7 +270,7 @@
     } else if (indexPath.row == 2){
         [self setNapBabyAges];
     } else if (indexPath.row == 3){
-        [self setNapCost];
+        [self setNapTheme];         //服务主题
     } else if (indexPath.row == 4){
         [self setNapCost];
     } else if (indexPath.row == 5){
@@ -250,44 +280,36 @@
     }
 }
 
--(void)infoSetting {
-    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+
+#pragma mark -- notifies set service info
+- (void)setNapTitle {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapTitleAction"];
+    [cmd performWithResult:nil];
 }
 
--(void)setNapTitle {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapTitleAction:"];
-    NSString *info = napTitle;
-    [cmd performWithResult:&info];
+- (void)setNapBabyAges {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges"];
+    [cmd performWithResult:nil];
 }
 
--(void)setNapBabyAges {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges:"];
-    NSDictionary *info = [napAges mutableCopy];
-    [cmd performWithResult:&info];
+- (void)setNapTheme {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapTheme"];
+    [cmd performWithResult:nil];
 }
 
--(void)setNapCost{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapCost:"];
-    NSDictionary *dic = [dic_cost mutableCopy];
-    [cmd performWithResult:&dic];
+- (void)setNapCost {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapCost"];
+    [cmd performWithResult:nil];
 }
--(void)setNapAdress{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapAdress:"];
-    NSDictionary *dic = [dic_adress mutableCopy];
-    [cmd performWithResult:&dic];
+
+- (void)setNapAdress {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapAdress"];
+    [cmd performWithResult:nil];
 }
--(void)setNapDevice{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapDevice:"];
-    NSDictionary *dic = [dic_device mutableCopy];
-    [cmd performWithResult:&dic];
+
+- (void)setNapDevice {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapDevice"];
+    [cmd performWithResult:nil];
 }
 
 @end

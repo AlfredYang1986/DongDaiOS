@@ -26,7 +26,7 @@
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define LIMITNUMB                   228
-#define kTableFrameY                218
+#define kTableFrameY                64
 
 @interface AYSetNapThemeController ()<UITextViewDelegate>
 
@@ -34,16 +34,12 @@
 
 @implementation AYSetNapThemeController {
     
-    UITextField *costTextField;
-    NSString *setedCostString;
-    NSString *customString;
-    
-    UITextField *customField;
-    
+    BOOL isAllowLeave;
     long notePow;
-    CGFloat setY;
-    
     BOOL isShow;
+    
+    CGFloat setY;
+    UIButton *tmpNoteBtn;
 }
 
 #pragma mark --  commands
@@ -53,9 +49,9 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            setedCostString = [dic_cost objectForKey:@"cost"];
-            customString = [dic_cost objectForKey:@"option_custom"];
-            notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
+            isAllowLeave = ((NSNumber*)[dic_cost objectForKey:@"allow_leave"]).boolValue;
+            notePow = ((NSNumber*)[dic_cost objectForKey:@"cans"]).longValue;
+            
             isShow = ((NSNumber*)[dic_cost objectForKey:@"show"]).boolValue;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -71,60 +67,8 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UILabel *title = [[UILabel alloc]init];
-    [self.view addSubview:title];
-    title = [Tools setLabelWith:title andText:@"看护价格                    人民币/小时" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(104);
-        make.centerX.equalTo(self.view);
-    }];
-    
-    costTextField = [[UITextField alloc]init];
-    [self.view addSubview:costTextField];
-    if (setedCostString) {
-        costTextField.text = setedCostString;
-    }else costTextField.text = @"100";
-    costTextField.textColor = [Tools themeColor];
-    costTextField.font = [UIFont systemFontOfSize:14.f];
-    costTextField.textAlignment = NSTextAlignmentCenter;
-    costTextField.backgroundColor = [UIColor whiteColor];
-    costTextField.keyboardType = UIKeyboardTypeNumberPad;
-    if (isShow) {
-        costTextField.enabled = NO;
-    }
-    [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(title);
-        make.centerX.equalTo(title).offset(-10);
-        make.size.mas_equalTo(CGSizeMake(60, 30));
-    }];
-    
-    UILabel *h1 = [[UILabel alloc]init];
-    h1 = [Tools setLabelWith:h1 andText:@"我能带宝宝干什么？" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-    [self.view addSubview:h1];
-    [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(title.mas_bottom).offset(30);
-    }];
-    UILabel *h2 = [[UILabel alloc]init];
-    h2 = [Tools setLabelWith:h2 andText:@"可以提高妈妈看护的价值哦！" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-    [self.view addSubview:h2];
-    [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(h1.mas_bottom).offset(6);
-    }];
-    
-//    UIView *line = [[UIView alloc]init];
-//    line.backgroundColor = [Tools garyLineColor];
-//    [self.view addSubview:line];
-//    [line mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(h2.mas_bottom).offset(25);
-//        make.centerX.equalTo(self.view);
-//        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 1));
-//    }];
-    
-    
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapTheme"];
     
     id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
@@ -135,74 +79,19 @@
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_cell performWithResult:&class_name];
-    
     
     id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSArray *options = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画",@"自填"];
-    [dic setValue:options forKey:@"title"];
+    [dic setValue:[NSNumber numberWithBool:isAllowLeave] forKey:@"allow_leave"];
     [dic setValue:[NSNumber numberWithBool:isShow] forKey:@"isShow"];
     if (notePow) {
         NSNumber *numb = [NSNumber numberWithLong:notePow];
-        [dic setValue:numb forKey:@"option"];
+        [dic setValue:numb forKey:@"nap_theme"];
     }
-    if (customString) {
-        [dic setValue:customString forKey:@"custom"];
-    }
-    [cmd_query performWithResult:&dic];
     
-//    NSArray *options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
-//    
-//    for (int i = 0; i < options_title_cans.count; ++i) {
-//        setY = 35 * i;
-//        OptionOfPlayingView *optionView = [[OptionOfPlayingView alloc]initWithTitle:[options_title_cans objectAtIndex:i] andIndex:i];
-//        [self.view addSubview:optionView];
-//        [optionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.view);
-//            make.top.equalTo(h2.mas_bottom).offset(10 + setY);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
-//        }];
-//        optionView.optionBtn.selected = ((notePow & (long)pow(2, i)) != 0);
-//        if (isShow) {
-//            optionView.optionBtn.userInteractionEnabled = NO;
-//        } else
-//        [optionView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    
-//    UILabel *customTitle = [[UILabel alloc]init];
-//    [self.view addSubview:customTitle];
-//    customTitle = [Tools setLabelWith:customTitle andText:@"自填" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-//    [customTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(h2.mas_bottom).offset(10 + setY + 45);
-//        make.left.equalTo(self.view).offset(20);
-//    }];
-//    
-//    customField = [[UITextField alloc]init];
-//    [self.view addSubview:customField];
-//    if (customString) {
-//        customField.text = customString;
-//    }
-//    customField.textColor = [Tools blackColor];
-//    customField.font = [UIFont systemFontOfSize:14.f];
-//    customField.backgroundColor = [UIColor whiteColor];
-//    customField.layer.cornerRadius = 4.f;
-//    customField.clipsToBounds = YES;
-//    UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
-//    paddingView.backgroundColor= [UIColor clearColor];
-//    customField.leftView = paddingView;
-//    customField.leftViewMode = UITextFieldViewModeAlways;
-//    customField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    if (isShow) {
-//        customField.enabled = NO;
-//    }
-//    [customField mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(customTitle);
-//        make.left.equalTo(self.view).offset(80);
-//        make.right.equalTo(self.view).offset(-15);
-//        make.height.mas_equalTo(30);
-//    }];
+    [cmd_query performWithResult:&dic];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -257,8 +146,9 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, kTableFrameY, SCREEN_WIDTH, SCREEN_HEIGHT - kTableFrameY);
-    
+    CGFloat margin = 20.f;
+    view.frame = CGRectMake(margin, kTableFrameY, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - kTableFrameY);
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -268,35 +158,7 @@
 
 #pragma mark -- actions
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
-    NSLog(@"tap esle where");
-    if ([customField isFirstResponder]) {
-        [customField resignFirstResponder];
-    }
-    if ([costTextField isFirstResponder]) {
-        [costTextField resignFirstResponder];
-    }
-}
 
-//-(id)didOptionBtnClick:(NSDictionary*)args{
-//    
-//    int index = ((NSNumber*)[args objectForKey:@"index"]).intValue;
-//    BOOL isSelected = ((NSNumber*)[args objectForKey:@"isSelected"]).boolValue;
-//    if (isSelected) {
-//        notePow += pow(2, index);
-//    }else {
-//        notePow -= pow(2, index);
-//    }
-//    return nil;
-//}
-
--(id)didOptionBtnClick:(UIButton*)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        notePow += pow(2, btn.tag);
-    }else {
-        notePow -= pow(2, btn.tag);
-    }
-    return nil;
 }
 
 #pragma mark -- notification
@@ -312,30 +174,50 @@
 
 - (id)rightBtnSelected {
     //整合数据
-    NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-    [dic_options setValue:costTextField.text forKey:@"cost"];
-    [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
-    [dic_options setValue:customString forKey:@"option_custom"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:dic_options forKey:@"content"];
-    [dic_info setValue:@"nap_cost" forKey:@"key"];
-    
-    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+    NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
+    [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"cans"];
+    [dic_options setValue:[NSNumber numberWithBool:isAllowLeave] forKey:@"allow_leave"];
+    [dic_options setValue:@"nap_theme" forKey:@"key"];
+    [dic setValue:dic_options forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
-    [costTextField resignFirstResponder];
+    return nil;
+}
+
+- (id)didSetNoteBtn:(UIButton*)btn {
+    tmpNoteBtn = btn;
+    return nil;
+}
+
+- (id)didOptionBtnClick:(UIButton*)btn {
+    
+    btn.selected = !btn.selected;
+    if (btn.tag != 99) {
+        if (btn.selected) {
+            notePow = pow(2, btn.tag);
+        }else {
+            notePow = 0;
+        }
+        
+        if (tmpNoteBtn) {
+            tmpNoteBtn.selected = NO;
+        }
+        tmpNoteBtn = tmpNoteBtn==btn?nil:btn;
+        
+    } else isAllowLeave = !isAllowLeave;
+    
     return nil;
 }
 
 -(id)textChange:(NSString*)text {
-    customString = text;
+    
     return nil;
 }
 @end

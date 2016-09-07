@@ -42,7 +42,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"成为看护家庭", @"我心仪的服务", @"设置", nil];
+    origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
     confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
 }
 
@@ -91,9 +91,9 @@
     if (section == 0) {
         return 1;
     } else if (section == 1){
-        return 4;
+        return origs.count;
     } else {
-        return 4;
+        return confirmData.count;
     }
 }
 
@@ -179,14 +179,14 @@
         if (indexPath.row == 0) {
             // 服务者
             [self servicerOptions];
-        }else if (indexPath.row == 1){
+        }else if (indexPath.row == 999){
             // 看护家庭
             [self napFamilyOptions];
-        }else if (indexPath.row == 2){  // 心仪的服务
+        }else if (indexPath.row == 1){  // 心仪的服务
             [self collectService];
-        }else {                         // 系统设置
+        }else                           // 系统设置
             [self setting];
-        }
+        
     } else {                            //验证
         if (indexPath.row == 0) {
             return;

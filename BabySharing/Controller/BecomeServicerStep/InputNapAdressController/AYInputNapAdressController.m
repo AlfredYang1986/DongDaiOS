@@ -64,8 +64,8 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            headAdressString = [dic_cost objectForKey:@"head"];
-            customString = [dic_cost objectForKey:@"detail"];
+            headAdressString = [dic_cost objectForKey:@"address"];
+            customString = [dic_cost objectForKey:@"adjust_address"];
             loc = [dic_cost objectForKey:@"location"];
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -266,17 +266,15 @@
 - (id)rightBtnSelected {
     
     //整合数据
-    NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-    [dic_options setValue:loc forKey:@"location"];
-    [dic_options setValue:headAdress.text forKey:@"head"];
-    [dic_options setValue:customField.text forKey:@"detail"];
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:dic_options forKey:@"content"];
+    
+    [dic_info setValue:loc forKey:@"location"];
+    [dic_info setValue:headAdress.text forKey:@"address"];
+    [dic_info setValue:customField.text forKey:@"adjust_address"];
     [dic_info setValue:@"nap_adress" forKey:@"key"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];

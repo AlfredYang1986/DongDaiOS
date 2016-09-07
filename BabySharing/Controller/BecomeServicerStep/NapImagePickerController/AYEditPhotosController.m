@@ -53,10 +53,13 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSString *action = [dic objectForKey:@"controller exchange args"];
-        if ([action isEqualToString:@"push"]) {
-            isBePush = YES;
+        NSArray *setedPhotos = [dic objectForKey:kAYControllerChangeArgsKey];
+        id item = [setedPhotos firstObject];
+        if ([item isKindOfClass:[UIImage class]]) {
+            _selectedPhotos = [NSMutableArray arrayWithArray:setedPhotos];
+            _selectedAssets = [NSMutableArray arrayWithArray:setedPhotos];
         }
+        isBePush = YES;
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -127,13 +130,19 @@
     [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [_collectionView reloadData];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (isBePush) {
+    if (!isBePush) {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
         [sheet showInView:self.view];
-        isBePush = NO;
+        isBePush = YES;
     }
+    [_collectionView reloadData];
 }
 
 #pragma mark -- layouts

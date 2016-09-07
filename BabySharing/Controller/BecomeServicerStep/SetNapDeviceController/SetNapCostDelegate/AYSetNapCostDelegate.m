@@ -27,7 +27,7 @@
 @end
 
 @implementation AYSetNapCostDelegate {
-    
+    NSArray *options_title_facilities;
 }
 
 @synthesize querydata = _querydata;
@@ -39,7 +39,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
+    options_title_facilities = kAY_service_options_title_facilities;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -65,27 +65,21 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *tmp = [_querydata objectForKey:@"title"];
-    return tmp.count;
+    
+    return options_title_facilities.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = VIEW(@"SetNapOptionsCell", @"SetNapOptionsCell");
-    }
+    
     cell.controller = _controller;
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:[options objectAtIndex:indexPath.row] forKey:@"title"];
-    [dic setValue:[_querydata copy] forKey:@"options"];
+    [dic setValue:[options_title_facilities objectAtIndex:indexPath.row] forKey:@"title"];
+    [dic setValue:[_querydata objectForKey:@"options"] forKey:@"options"];
     [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
     
-    NSArray *tmp = [_querydata objectForKey:@"title"];
-    if (indexPath.row == (tmp.count - 1)) {
-        [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isCustom"];
-    }
     id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [set_cmd performWithResult:&dic];
     

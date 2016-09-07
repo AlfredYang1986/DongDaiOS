@@ -571,6 +571,7 @@
     <view type="SetNapOptionsCell" name="SetNapOptionsCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didOptionBtnClick:" />
+        <command type="notify"      message="didSetNoteBtn:" />
         <command type="notify"      message="textChange:" />
     </view>
     

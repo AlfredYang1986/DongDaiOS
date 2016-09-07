@@ -20,6 +20,7 @@
 #import "Tools.h"
 
 #import "OptionOfPlayingView.h"
+#import "AYInsetLabel.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
@@ -36,14 +37,12 @@
     
     UITextField *costTextField;
     NSString *setedCostString;
-    NSString *customString;
     
-    UITextField *customField;
+    NSInteger least_hours;
     
-    long notePow;
     CGFloat setY;
     
-    BOOL isShow;
+    UIButton *plusBtn;
 }
 
 #pragma mark --  commands
@@ -53,10 +52,8 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            setedCostString = [dic_cost objectForKey:@"cost"];
-            customString = [dic_cost objectForKey:@"option_custom"];
-            notePow = ((NSNumber*)[dic_cost objectForKey:@"option_pow"]).longValue;
-            isShow = ((NSNumber*)[dic_cost objectForKey:@"show"]).boolValue;
+            setedCostString = [dic_cost objectForKey:@"price"];
+            least_hours = ((NSNumber*)[dic_cost objectForKey:@"least_hours"]).integerValue;
             
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -72,138 +69,92 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UILabel *title = [[UILabel alloc]init];
-    [self.view addSubview:title];
-    title = [Tools setLabelWith:title andText:@"看护价格                    人民币/小时" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(104);
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
+    h1.text = @"每小时价格";
+    h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    h1.textColor = [Tools blackColor];
+    h1.font = kAYFontLight(14.f);
+    h1.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:h1];
+    [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(124);
         make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
     }];
     
     costTextField = [[UITextField alloc]init];
     [self.view addSubview:costTextField];
+    costTextField.font = kAYFontLight(14.f);
+    costTextField.textColor = [Tools blackColor];
+    costTextField.textAlignment = NSTextAlignmentRight;
+//    costTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(h1).insets(UIEdgeInsetsMake(0, 115, 0, 40));
+    }];
     if (setedCostString) {
         costTextField.text = setedCostString;
-    }else costTextField.text = @"100";
-    costTextField.textColor = [Tools themeColor];
-    costTextField.font = [UIFont systemFontOfSize:14.f];
-    costTextField.textAlignment = NSTextAlignmentCenter;
-    costTextField.backgroundColor = [UIColor whiteColor];
-    costTextField.keyboardType = UIKeyboardTypeNumberPad;
-    if (isShow) {
-        costTextField.enabled = NO;
     }
-    [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(title);
-        make.centerX.equalTo(title).offset(-10);
-        make.size.mas_equalTo(CGSizeMake(60, 30));
+    
+    UILabel *RMBSign = [[UILabel alloc]init];
+    RMBSign = [Tools setLabelWith:RMBSign andText:@"元" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:RMBSign];
+    [RMBSign mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(h1);
+        make.right.equalTo(h1).offset(-15);
     }];
     
-    UILabel *h1 = [[UILabel alloc]init];
-    h1 = [Tools setLabelWith:h1 andText:@"我能带宝宝干什么？" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-    [self.view addSubview:h1];
-    [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(title.mas_bottom).offset(30);
-    }];
-    UILabel *h2 = [[UILabel alloc]init];
-    h2 = [Tools setLabelWith:h2 andText:@"可以提高妈妈看护的价值哦！" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-    [self.view addSubview:h2];
-    [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(h1.mas_bottom).offset(6);
+    AYInsetLabel *h3 = [[AYInsetLabel alloc]init];
+    h3.text = @"最少预定时长";
+    h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    h3.textColor = [Tools blackColor];
+    h3.font = kAYFontLight(14.f);
+    h3.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:h3];
+    [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(h1.mas_bottom).offset(15);
+        make.centerX.equalTo(h1);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
     }];
     
-//    UIView *line = [[UIView alloc]init];
-//    line.backgroundColor = [Tools garyLineColor];
-//    [self.view addSubview:line];
-//    [line mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(h2.mas_bottom).offset(25);
-//        make.centerX.equalTo(self.view);
-//        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 1));
-//    }];
+    /***************************************/
+    UILabel *iconLael = [[UILabel alloc]init];
+    iconLael = [Tools setLabelWith:iconLael andText:@"小时" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [self.view addSubview:iconLael];
+    [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(h3);
+        make.right.equalTo(h3).offset(-15);
+    }];
     
+    plusBtn = [[UIButton alloc]init];
+    if (least_hours) {
+        [plusBtn setTitle:[NSString stringWithFormat:@"%ld",least_hours] forState:UIControlStateNormal];
+    } else
+        [plusBtn setTitle:@"0" forState:UIControlStateNormal];
+    plusBtn.titleLabel.font = kAYFontLight(12.f);
+    [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    plusBtn.layer.borderColor = [Tools themeColor].CGColor;
+    plusBtn.layer.borderWidth = 1.f;
+    [self.view addSubview:plusBtn];
+    [plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(iconLael);
+        make.right.equalTo(iconLael.mas_left).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(24, 24));
+    }];
+    [plusBtn addTarget:self action:@selector(didPlusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
-    
-    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-    
-    id obj = (id)cmd_notify;
-    [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_notify;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_cell performWithResult:&class_name];
-    
-    
-    id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSArray *options = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画",@"自填"];
-    [dic setValue:options forKey:@"title"];
-    [dic setValue:[NSNumber numberWithBool:isShow] forKey:@"isShow"];
-    if (notePow) {
-        NSNumber *numb = [NSNumber numberWithLong:notePow];
-        [dic setValue:numb forKey:@"option"];
-    }
-    if (customString) {
-        [dic setValue:customString forKey:@"custom"];
-    }
-    [cmd_query performWithResult:&dic];
-    
-//    NSArray *options_title_cans = @[@"看书",@"做瑜伽",@"做蛋糕",@"玩玩具",@"画画"];
-//    
-//    for (int i = 0; i < options_title_cans.count; ++i) {
-//        setY = 35 * i;
-//        OptionOfPlayingView *optionView = [[OptionOfPlayingView alloc]initWithTitle:[options_title_cans objectAtIndex:i] andIndex:i];
-//        [self.view addSubview:optionView];
-//        [optionView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(self.view);
-//            make.top.equalTo(h2.mas_bottom).offset(10 + setY);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 25));
-//        }];
-//        optionView.optionBtn.selected = ((notePow & (long)pow(2, i)) != 0);
-//        if (isShow) {
-//            optionView.optionBtn.userInteractionEnabled = NO;
-//        } else
-//        [optionView.optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    
-//    UILabel *customTitle = [[UILabel alloc]init];
-//    [self.view addSubview:customTitle];
-//    customTitle = [Tools setLabelWith:customTitle andText:@"自填" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-//    [customTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(h2.mas_bottom).offset(10 + setY + 45);
-//        make.left.equalTo(self.view).offset(20);
-//    }];
-//    
-//    customField = [[UITextField alloc]init];
-//    [self.view addSubview:customField];
-//    if (customString) {
-//        customField.text = customString;
-//    }
-//    customField.textColor = [Tools blackColor];
-//    customField.font = [UIFont systemFontOfSize:14.f];
-//    customField.backgroundColor = [UIColor whiteColor];
-//    customField.layer.cornerRadius = 4.f;
-//    customField.clipsToBounds = YES;
-//    UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
-//    paddingView.backgroundColor= [UIColor clearColor];
-//    customField.leftView = paddingView;
-//    customField.leftViewMode = UITextFieldViewModeAlways;
-//    customField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    if (isShow) {
-//        customField.enabled = NO;
-//    }
-//    [customField mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(customTitle);
-//        make.left.equalTo(self.view).offset(80);
-//        make.right.equalTo(self.view).offset(-15);
-//        make.height.mas_equalTo(30);
-//    }];
+    UIButton *minusBtn = [[UIButton alloc]init];
+    CALayer *minusLayer = [CALayer layer];
+    minusLayer.frame = CGRectMake(0, 0, 12, 1);
+    minusLayer.position = CGPointMake(12, 12);
+    minusLayer.backgroundColor = [Tools themeColor].CGColor;
+    [minusBtn.layer addSublayer:minusLayer];
+    [self.view addSubview:minusBtn];
+    [minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(plusBtn);
+        make.right.equalTo(plusBtn.mas_left).offset(-10);
+        make.size.equalTo(plusBtn);
+    }];
+    [minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -211,7 +162,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    [costTextField becomeFirstResponder];
+    [costTextField becomeFirstResponder];
 }
 
 #pragma mark -- layout
@@ -234,12 +185,6 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    if (isShow) {
-        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-        id right = [NSNumber numberWithBool:YES];
-        [cmd_right performWithResult:&right];
-        
-    } else {
         UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
         [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
         [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
@@ -248,7 +193,7 @@
         bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
         id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
         [cmd_right performWithResult:&bar_right_btn];
-    }
+    
     
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
@@ -268,11 +213,32 @@
 }
 
 #pragma mark -- actions
+- (void)didPlusBtnClick:(UIButton*)btn {
+    if (least_hours == 8) {
+        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
+        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
+        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+        [args setValue:self.view forKey:@"super_view"];
+        [args setValue:@"每个服务暂只支持同时容纳8个孩子" forKey:@"title"];
+        [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
+        [cmd_add performWithResult:&args];
+        return;
+    }
+    least_hours ++;
+    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",least_hours] forState:UIControlStateNormal];
+}
+
+- (void)didMinusBtnClick:(UIButton*)btn {
+    if (least_hours == 0) {
+        return;
+    }
+    least_hours --;
+    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",least_hours] forState:UIControlStateNormal];
+}
+
+
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     NSLog(@"tap esle where");
-    if ([customField isFirstResponder]) {
-        [customField resignFirstResponder];
-    }
     if ([costTextField isFirstResponder]) {
         [costTextField resignFirstResponder];
     }
@@ -290,15 +256,15 @@
 //    return nil;
 //}
 
--(id)didOptionBtnClick:(UIButton*)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        notePow += pow(2, btn.tag);
-    }else {
-        notePow -= pow(2, btn.tag);
-    }
-    return nil;
-}
+//-(id)didOptionBtnClick:(UIButton*)btn{
+//    btn.selected = !btn.selected;
+//    if (btn.selected) {
+//        notePow += pow(2, btn.tag);
+//    }else {
+//        notePow -= pow(2, btn.tag);
+//    }
+//    return nil;
+//}
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
@@ -313,17 +279,13 @@
 
 - (id)rightBtnSelected {
     //整合数据
-    NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-    [dic_options setValue:costTextField.text forKey:@"cost"];
-    [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"option_pow"];
-    [dic_options setValue:customString forKey:@"option_custom"];
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:dic_options forKey:@"content"];
+    [dic_info setValue:costTextField.text forKey:@"price"];
+    [dic_info setValue:[NSNumber numberWithInteger:least_hours] forKey:@"least_hours"];
     [dic_info setValue:@"nap_cost" forKey:@"key"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
@@ -335,8 +297,4 @@
     return nil;
 }
 
--(id)textChange:(NSString*)text {
-    customString = text;
-    return nil;
-}
 @end
