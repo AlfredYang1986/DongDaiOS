@@ -14,6 +14,8 @@
 @property (nonatomic, strong) UIButton *deleteBtn;
 @property (nonatomic, assign) NSInteger row;
 
+@property (nonatomic, assign) BOOL isPlusIcon;
+
 - (UIView *)snapshotView;
 
 @end

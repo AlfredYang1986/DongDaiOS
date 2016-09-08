@@ -30,14 +30,13 @@
 #define FAKE_BAR_HEIGHT             44
 #define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
+#define kMaxImagesCount             9
 
 @interface AYEditPhotosController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate> {
+    
     NSMutableArray *_selectedPhotos;
     NSMutableArray *_selectedAssets;
     BOOL _isSelectOriginalPhoto;
-
-    CGFloat _itemWH;
-    CGFloat _margin;
     LxGridViewFlowLayout *_layout;
 }
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -57,7 +56,7 @@
         id item = [setedPhotos firstObject];
         if ([item isKindOfClass:[UIImage class]]) {
             _selectedPhotos = [NSMutableArray arrayWithArray:setedPhotos];
-            _selectedAssets = [NSMutableArray arrayWithArray:setedPhotos];
+//            _selectedAssets = [NSMutableArray arrayWithArray:setedPhotos];
         }
         isBePush = YES;
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -92,42 +91,14 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
-    _selectedPhotos = [NSMutableArray array];
-    _selectedAssets = [NSMutableArray array];
+    if (!_selectedAssets) {
+        _selectedAssets = [NSMutableArray array];
+    }
+    if (!_selectedPhotos) {
+        _selectedPhotos = [NSMutableArray array];
+    }
     [self configCollectionView];
     
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
-    UIView *tabbar = [[UIView alloc]init];
-    tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
-    [self.view addSubview:tabbar];
-    [tabbar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.height.mas_equalTo(49);
-    }];
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [tabbar.layer addSublayer:line];
-    
-    UIButton *me = [[UIButton alloc]init];
-    [tabbar addSubview:me];
-    [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
-    me.imageEdgeInsets = UIEdgeInsetsMake(-5, 10, 5, -10);
-    [me setTitle:@"我的" forState:UIControlStateNormal];
-    [me setTitleColor:[UIColor colorWithWhite:0.6078 alpha:1.f] forState:UIControlStateNormal];
-    me.titleLabel.font = [UIFont systemFontOfSize:9.f];
-    me.titleEdgeInsets = UIEdgeInsetsMake(15, -12, -15, 12);
-    [me mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(tabbar).offset(-20);
-        make.centerY.equalTo(tabbar);
-        make.size.mas_equalTo(CGSizeMake(50, 44));
-    }];
-    [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -158,6 +129,11 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
+    
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"图片展示";
+    [cmd_title performWithResult:&title];
+    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
@@ -171,52 +147,56 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
+    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+    [cmd_bot performWithResult:nil];
     
-    titleView.text = @"图片展示";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
     return nil;
 }
 
+
+#pragma mark -- actions
 - (void)configCollectionView {
+    
     _layout = [[LxGridViewFlowLayout alloc] init];
-    _margin = 2;
-    _itemWH = (SCREEN_WIDTH - _margin * 2) / 3;
-    _layout.itemSize = CGSizeMake(_itemWH, _itemWH);
-    _layout.minimumInteritemSpacing = _margin;
-    _layout.minimumLineSpacing = _margin;
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49) collectionViewLayout:_layout];
+    
+    CGFloat margin = 2;
+    _layout.minimumInteritemSpacing = margin;
+    _layout.minimumLineSpacing = margin;
+    
+    if (_selectedPhotos.count == 0) {
+        _layout.itemCount = 2;
+    } else _layout.itemCount = _selectedPhotos.count;
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:_layout];
     CGFloat rgb = 244 / 255.0;
     _collectionView.backgroundColor = [UIColor colorWithRed:rgb green:rgb blue:rgb alpha:1.0];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     [self.view addSubview:_collectionView];
     [_collectionView registerClass:[TZTestCell class] forCellWithReuseIdentifier:@"TZTestCell"];
-    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
+//    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
 }
 
 #pragma mark -- UICollectionView
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (_selectedPhotos.count == 0) {
-        return 1;
-    }else return _selectedPhotos.count;
+        return 2;
+    }else return _selectedPhotos.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     TZTestCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZTestCell" forIndexPath:indexPath];
     if (_selectedPhotos.count == 0) {
-        cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
-        cell.deleteBtn.hidden = YES;
+        if (indexPath.row == 1) {
+            cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
+            cell.deleteBtn.hidden = YES;
+        } else {
+            cell.imageView.image = nil;
+            cell.deleteBtn.hidden = YES;
+        }
     } else {
-        if (indexPath.row+1 <= _selectedPhotos.count -1) {
-            cell.imageView.image = _selectedPhotos[indexPath.row + 1];
+        if (indexPath.row < _selectedPhotos.count) {
+            cell.imageView.image = _selectedPhotos[indexPath.row];
             cell.deleteBtn.hidden = NO;
         } else {
             cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
@@ -230,51 +210,50 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == _selectedPhotos.count -1 || _selectedPhotos.count == 0) {
+    if (indexPath.row == _selectedPhotos.count || _selectedPhotos.count == 0) {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
         [sheet showInView:self.view];
     }
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSetCoverAtIndexPath:(NSIndexPath *)indexPath{
-    [_selectedPhotos exchangeObjectAtIndex:indexPath.item+1 withObjectAtIndex:0];
+- (void)collectionView:(UICollectionView *)collectionView didSetCoverAtIndexPath:(NSIndexPath *)indexPath {
+    [_selectedPhotos exchangeObjectAtIndex:indexPath.item withObjectAtIndex:0];
     [_collectionView reloadData];
 }
 
-- (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)sourceIndexPath willMoveToIndexPath:(NSIndexPath *)destinationIndexPath
-{
-    UIImage *dataDict = _selectedPhotos[sourceIndexPath.item +1];
-    [_selectedPhotos removeObjectAtIndex:sourceIndexPath.item+1];
-    [_selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item+1];
+- (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)sourceIndexPath willMoveToIndexPath:(NSIndexPath *)destinationIndexPath {
+    UIImage *dataDict = _selectedPhotos[sourceIndexPath.item];
+    [_selectedPhotos removeObjectAtIndex:sourceIndexPath.item];
+    [_selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item];
 }
+
 //header
--(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"AYDayCollectionHeader" forIndexPath:indexPath];
-//        headerView.backgroundColor = [UIColor orangeColor];
-        [headerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-        UIImageView *imageview = [[UIImageView alloc]init];
-        [headerView addSubview:imageview];
-        imageview.frame = CGRectMake(0, 0, 375, 225);
-        imageview.backgroundColor = [UIColor lightGrayColor];
-        imageview.contentMode = UIViewContentModeScaleAspectFit;
-        if (_selectedPhotos.count != 0) {
-            imageview.image = _selectedPhotos[0];
-//            imageview.image.renderingMode
-        }
-        return headerView;
-    }
-    return nil;
-}
-//设置header的高度
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return (CGSize){0, 229};
-}
+//-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+//    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+//        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"AYDayCollectionHeader" forIndexPath:indexPath];
+////        headerView.backgroundColor = [UIColor orangeColor];
+//        [headerView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//        UIImageView *imageview = [[UIImageView alloc]init];
+//        [headerView addSubview:imageview];
+//        imageview.frame = CGRectMake(0, 0, 375, 225);
+//        imageview.backgroundColor = [UIColor lightGrayColor];
+//        imageview.contentMode = UIViewContentModeScaleAspectFit;
+//        if (_selectedPhotos.count != 0) {
+//            imageview.image = _selectedPhotos[0];
+////            imageview.image.renderingMode
+//        }
+//        return headerView;
+//    }
+//    return nil;
+//}
+////设置header的高度
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+//    return (CGSize){0, 229};
+//}
 
 //footer
 //- (UIView *)
 #pragma mark - UIActionSheetDelegate
-
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) { // take photo / 去拍照
         [self takePhoto];
@@ -282,6 +261,7 @@
         [self pushImagePickerController];
     }
 }
+
 #pragma mark - UIImagePickerController
 - (void)takePhoto {
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
@@ -304,14 +284,14 @@
 }
 #pragma mark - TZImagePickerController
 - (void)pushImagePickerController {
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
     
     //四类个性化设置，这些参数都可以不传，此时会走默认设置
     imagePickerVc.isSelectOriginalPhoto = _isSelectOriginalPhoto;
     
     // 1.如果你需要将拍照按钮放在外面，不要传这个参数
     imagePickerVc.selectedAssets = _selectedAssets; // optional, 可选的
-    imagePickerVc.allowTakePicture = NO; // 是否显示隐藏拍照按钮
+    imagePickerVc.allowTakePicture = NO; // 是否显示拍照按钮
     
     // 2. 在这里设置imagePickerVc的外观
      imagePickerVc.navigationBar.barTintColor = [UIColor whiteColor];
@@ -330,16 +310,24 @@
 
 #pragma mark Click Event
 - (void)deleteBtnClik:(UIButton *)sender {
-    [_selectedPhotos removeObjectAtIndex:sender.tag+1];
-    [_selectedAssets removeObjectAtIndex:sender.tag+1];
-    _layout.itemCount = _selectedPhotos.count-1;
+    [_selectedPhotos removeObjectAtIndex:sender.tag];
+    [_selectedAssets removeObjectAtIndex:sender.tag];
     
-    [_collectionView performBatchUpdates:^{
-        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag inSection:0];
-        [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
-    } completion:^(BOOL finished) {
+    NSInteger numbCount = _selectedPhotos.count;
+    if (numbCount == 0) {
+        _layout.itemCount = 2;
         [_collectionView reloadData];
-    }];
+        
+    } else {
+        _layout.itemCount = numbCount;
+        
+        [_collectionView performBatchUpdates:^{
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:sender.tag inSection:0];
+            [_collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        } completion:^(BOOL finished) {
+            [_collectionView reloadData];
+        }];
+    }
 }
 
 #pragma mark TZImagePickerControllerDelegate
@@ -354,19 +342,22 @@
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     if ([type isEqualToString:@"public.image"]) {
         
-        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:9 delegate:self];
+        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
         
         [tzImagePickerVc showProgressHUD];
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
         // 保存图片，获取到asset
         [[TZImageManager manager] savePhotoWithImage:image completion:^{
+//            [tzImagePickerVc hideProgressHUD];
+//            [_selectedPhotos addObject:image];
+//            [_collectionView reloadData];
             [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
+                
                 [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
                     [tzImagePickerVc hideProgressHUD];
-                    
 //                    TZAssetModel *assetModel = [models firstObject];
                     TZAssetModel *assetModel = [models lastObject];
-
                     [_selectedAssets addObject:assetModel.asset];
                     [_selectedPhotos addObject:image];
                     [_collectionView reloadData];
@@ -381,7 +372,7 @@
     _selectedPhotos = [NSMutableArray arrayWithArray:photos];
     _selectedAssets = [NSMutableArray arrayWithArray:assets];
     _isSelectOriginalPhoto = isSelectOriginalPhoto;
-    _layout.itemCount = _selectedPhotos.count-1;
+    _layout.itemCount = _selectedPhotos.count;
     [_collectionView reloadData];
 }
 
@@ -389,19 +380,28 @@
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset {
     _selectedPhotos = [NSMutableArray arrayWithArray:@[coverImage]];
     _selectedAssets = [NSMutableArray arrayWithArray:@[asset]];
-    _layout.itemCount = _selectedPhotos.count-1;
+    _layout.itemCount = _selectedPhotos.count;
     [_collectionView reloadData];
 }
 
-#pragma mark -- actions
-- (void)popToRootVC {
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+#pragma mark -- collectionViewDelegate
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<AYCommand> cmd = POPTOROOT;
-    [cmd performWithResult:&dic_pop];
+    CGFloat margin = 2;
+    CGFloat itemWH = (SCREEN_WIDTH - margin * 3) / 3;
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    if (indexPath.row == 0) {
+        return CGSizeMake(width, 225);
+        
+    }
+//    else if (indexPath.row == 1 && (_selectedPhotos.count == 0 || _selectedPhotos.count == 1)) {
+//        return CGSizeMake(width, itemWH);
+//    }
+    else {
+        return CGSizeMake(itemWH, itemWH);
+    }
 }
+
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {

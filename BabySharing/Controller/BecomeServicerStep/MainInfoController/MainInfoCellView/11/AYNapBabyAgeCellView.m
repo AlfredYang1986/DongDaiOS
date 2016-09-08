@@ -35,7 +35,7 @@
     
     _unSetTitleLabel.font = kAYFontLight(14.f);
     _subTitleLabel.font = kAYFontLight(12.f);
-    _subTitleLabel.textColor = [Tools garyColor];
+    _subTitleLabel.textColor = [Tools blackColor];
     
     CALayer *separator = [CALayer layer];
     separator.frame = CGRectMake(10, 63.5, [UIScreen mainScreen].bounds.size.width - 20, 0.5);

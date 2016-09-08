@@ -14,26 +14,40 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [Tools garyBackgroundColor];
         _imageView = [[UIImageView alloc] init];
         _imageView.backgroundColor = [UIColor colorWithWhite:1.000 alpha:0.500];
-        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        if(_isPlusIcon) {
+            _imageView.contentMode = UIViewContentModeTopRight;
+        } else
+            _imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:_imageView];
         self.clipsToBounds = YES;
+        [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self);
+            make.top.equalTo(self);
+            if (!_isPlusIcon) {
+                make.size.equalTo(self);
+            }
+        }];
         
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_deleteBtn setImage:[UIImage imageNamed:@"photo_delete"] forState:UIControlStateNormal];
-        _deleteBtn.frame = CGRectMake(self.tz_width - 36, 0, 36, 36);
         _deleteBtn.imageEdgeInsets = UIEdgeInsetsMake(-10, 0, 0, -10);
         _deleteBtn.alpha = 0.6;
         [self addSubview:_deleteBtn];
+        [_deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self);
+            make.top.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(36, 36));
+        }];
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    _imageView.frame = self.bounds;
 }
 
 - (void)setRow:(NSInteger)row {

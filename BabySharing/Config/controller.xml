@@ -642,7 +642,6 @@
     <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="InputNapTitle" factory="AYDefaultControllerFactoy" >

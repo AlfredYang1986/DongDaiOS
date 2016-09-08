@@ -62,34 +62,29 @@ static CGFloat TZScreenScale;
 /// Get Album 获得相册/相册数组
 - (void)getCameraRollAlbum:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(TZAlbumModel *))completion{
     __block TZAlbumModel *model;
-    if (iOS8Later) {
+    
         PHFetchOptions *option = [[PHFetchOptions alloc] init];
-        if (!allowPickingVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-        if (!allowPickingImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",
-                                                    PHAssetMediaTypeVideo];
+        if (!allowPickingVideo)
+            option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+        if (!allowPickingImage)
+            option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
+        
         // option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
         option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
         
         PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
+        
         for (PHAssetCollection *collection in smartAlbums) {
-            if ([collection.localizedTitle isEqualToString:@"Camera Roll"] || [collection.localizedTitle isEqualToString:@"相机胶卷"] ||  [collection.localizedTitle isEqualToString:@"所有照片"]) {
+            NSString *title = collection.localizedTitle;
+            if ([title isEqualToString:@"Camera Roll"] || [title isEqualToString:@"相机胶卷"] ||  [title isEqualToString:@"所有照片"] || [title isEqualToString:@"All Photos"]) {
                 PHFetchResult *fetchResult = [PHAsset fetchAssetsInAssetCollection:collection options:option];
                 model = [self modelWithResult:fetchResult name:collection.localizedTitle];
-                if (completion) completion(model);
+                if (completion)
+                    completion(model);
                 break;
             }
         }
-    } else {
-        [self.assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-            if ([group numberOfAssets] < 1) return;
-            NSString *name = [group valueForProperty:ALAssetsGroupPropertyName];
-            if ([name isEqualToString:@"Camera Roll"] || [name isEqualToString:@"相机胶卷"] || [name isEqualToString:@"所有照片"]) {
-                model = [self modelWithResult:group name:name];
-                if (completion) completion(model);
-                *stop = YES;
-            }
-        } failureBlock:nil];
-    }
+    
 }
 
 - (void)getAllAlbums:(BOOL)allowPickingVideo allowPickingImage:(BOOL)allowPickingImage completion:(void (^)(NSArray<TZAlbumModel *> *))completion{
@@ -173,7 +168,8 @@ static CGFloat TZScreenScale;
             timeLength = [self getNewTimeFromDurationSecond:timeLength.integerValue];
             [photoArr addObject:[TZAssetModel modelWithAsset:asset type:type timeLength:timeLength]];
         }];
-        if (completion) completion(photoArr);
+        if (completion)
+            completion(photoArr);
     } else if ([result isKindOfClass:[ALAssetsGroup class]]) {
         ALAssetsGroup *group = (ALAssetsGroup *)result;
         if (allowPickingImage && allowPickingVideo) {
@@ -528,26 +524,14 @@ static CGFloat TZScreenScale;
 
 /// Judge is a assets array contain the asset 判断一个assets数组是否包含这个asset
 - (BOOL)isAssetsArray:(NSArray *)assets containAsset:(id)asset {
-    if (iOS8Later) {
+    
         return [assets containsObject:asset];
-    } else {
-        NSMutableArray *selectedAssetUrls = [NSMutableArray array];
-        for (ALAsset *asset_item in assets) {
-            [selectedAssetUrls addObject:[asset_item valueForProperty:ALAssetPropertyURLs]];
-        }
-        return [selectedAssetUrls containsObject:[asset valueForProperty:ALAssetPropertyURLs]];
-    }
 }
 
 - (NSString *)getAssetIdentifier:(id)asset {
-    if (iOS8Later) {
+    
         PHAsset *phAsset = (PHAsset *)asset;
         return phAsset.localIdentifier;
-    } else {
-        ALAsset *alAsset = (ALAsset *)asset;
-        NSURL *assetUrl = [alAsset valueForProperty:ALAssetPropertyAssetURL];
-        return assetUrl.absoluteString;
-    }
 }
 
 #pragma mark - Private Method

@@ -71,6 +71,16 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
     [self addObserver:self forKeyPath:@stringify(collectionView) options:NSKeyValueObservingOptionNew context:nil];
 }
 
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    
+//    UICollectionViewLayoutAttributes* currentItemAttributes = [[super layoutAttributesForItemAtIndexPath:indexPath] copy];
+//    
+//    
+//    
+//    return currentItemAttributes;
+//}
+
+
 - (void)addGestureRecognizers{
     self.collectionView.userInteractionEnabled = YES;
     
@@ -134,11 +144,36 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
     return layoutAttributesForElementsInRect;
 }
 
+//- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+//    NSArray *originalAttributes = [super layoutAttributesForElementsInRect:rect];
+//    
+//    NSMutableArray *updatedAttributes = [NSMutableArray arrayWithArray:originalAttributes];
+//    
+//    for (UICollectionViewLayoutAttributes *attributes in originalAttributes) {
+//        if (!attributes.representedElementKind) {
+//            NSUInteger index = [updatedAttributes indexOfObject:attributes];
+//            updatedAttributes[index] = [self layoutAttributesForItemAtIndexPath:attributes.indexPath];
+//        }
+//    }
+//    return updatedAttributes;
+//}
+
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewLayoutAttributes * layoutAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
+    
     if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
         layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
     }
+    
+//    if (self.itemCount == 2) {
+//        if (indexPath.row == 1) {
+//            
+//            CGRect frame = layoutAttributes.frame;
+//            frame.origin.x = 0;
+//            layoutAttributes.frame = frame;
+//        }
+//    }
+    
     return layoutAttributes;
 }
 
@@ -158,6 +193,13 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
             break;
         case UIGestureRecognizerStateBegan:
         {
+            NSIndexPath * sourceIndexPath = _movingItemIndexPath;
+            NSIndexPath * destinationIndexPath = [self.collectionView indexPathForItemAtPoint:_beingMovedPromptView.center];
+            
+            if (sourceIndexPath.item >= self.itemCount || destinationIndexPath.item >= self.itemCount) {
+                return;
+            }
+            
             if (_displayLink == nil) {
                 _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkTriggered:)];
                 _displayLink.frameInterval = 6;
@@ -178,9 +220,9 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
             
             UICollectionViewCell *sourceCollectionViewCell = [self.collectionView cellForItemAtIndexPath:_movingItemIndexPath];
             TZTestCell *sourceCell = (TZTestCell *)sourceCollectionViewCell;
-//            if (sourceCell.deleteBtn) {
-//                return;
-//            }
+            if (sourceCell.deleteBtn.hidden) {
+                return;
+            }
             
             _beingMovedPromptView = [[UIView alloc]initWithFrame:CGRectOffset(sourceCollectionViewCell.frame, -10, -10)];
             _beingMovedPromptView.tz_width += 20;
@@ -298,17 +340,18 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
             NSIndexPath * destinationIndexPath = [self.collectionView indexPathForItemAtPoint:_beingMovedPromptView.center];
             
             if (sourceIndexPath.item >= self.itemCount || destinationIndexPath.item >= self.itemCount) {
+                NSLog(@"%ld -- %ld -- %ld",sourceIndexPath.item,self.itemCount,destinationIndexPath.item);
                 return;
             }
             /**/
-            if (_beingMovedPromptView.frame.origin.y <= 108) {
-                if ([self.dataSource respondsToSelector:@selector(collectionView:didSetCoverAtIndexPath:)]) {
-                    [self.dataSource collectionView:self.collectionView didSetCoverAtIndexPath:sourceIndexPath];
-                }
-                _panGestureRecognizer.enabled = NO;
-                [_beingMovedPromptView removeFromSuperview];
-                return;
-            }
+//            if (_beingMovedPromptView.frame.origin.y <= 108) {
+//                if ([self.dataSource respondsToSelector:@selector(collectionView:didSetCoverAtIndexPath:)]) {
+//                    [self.dataSource collectionView:self.collectionView didSetCoverAtIndexPath:sourceIndexPath];
+//                }
+//                _panGestureRecognizer.enabled = NO;
+//                [_beingMovedPromptView removeFromSuperview];
+//                return;
+//            }
             /**/
             if ((destinationIndexPath == nil) || [destinationIndexPath isEqual:sourceIndexPath]) {
                 return;
