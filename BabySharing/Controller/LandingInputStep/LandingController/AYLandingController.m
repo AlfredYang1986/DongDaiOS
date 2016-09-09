@@ -111,9 +111,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    NSLog(@"systemVersion  %@",device.systemVersion);
     
     UILabel *welcome = [[UILabel alloc]init];
-    welcome = [Tools setLabelWith:welcome andText:@"欢迎来到咚哒" andTextColor:[UIColor whiteColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
-    welcome.font = [UIFont boldSystemFontOfSize:24.f];
-//    welcome.font = [UIFont systemFontOfSize:24.f weight:900];
+    welcome = [Tools setLabelWith:welcome andText:@"欢迎来到咚哒" andTextColor:[UIColor whiteColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(logo);
@@ -122,9 +120,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     UILabel *welTips = [[UILabel alloc]init];
     welTips = [Tools setLabelWith:welTips andText:@"为孩子预定贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 8.2) {
-        welTips.font = [UIFont systemFontOfSize:24.f weight:-0.5];
-    }
     welTips.numberOfLines = 0;
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,10 +129,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     if (KSCREENW < 375) {
         welcome.font = [UIFont boldSystemFontOfSize:20.5f];
-        welTips.font = [UIFont boldSystemFontOfSize:20.5f];
-        if ([UIDevice currentDevice].systemVersion.floatValue >= 8.2) {
-            welTips.font = [UIFont systemFontOfSize:20.5f weight:-0.5];
-        }
+        welTips.font = kAYFontLight(20.5f);
     }
     
     phoneNoLogin = [[UIButton alloc]init];

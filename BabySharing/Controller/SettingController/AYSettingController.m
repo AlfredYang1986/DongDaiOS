@@ -136,7 +136,6 @@
             id<AYCommand> cmd_sign_out_local = [f.commands objectForKey:@"SignOutLocal"];
             [cmd_sign_out_local performWithResult:nil];
         }
-        
 
         /**
          * create controller factory

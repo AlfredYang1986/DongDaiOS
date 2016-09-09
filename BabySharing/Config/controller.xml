@@ -197,6 +197,7 @@
     
     
     <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
@@ -439,9 +440,8 @@
         <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
         <facade type="DefaultFacade" name="Keyboard" notification="true" />
         
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
         <view type="Image"              name="Image" />
         <view type="GroupChatHeader"    name="GroupChatHeader" />
         <view type="Table"              name="Table" />
@@ -459,7 +459,7 @@
         <command type="Module" name="GernarateImgUUID" />
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
-       
+        
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
 
 <!--        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />-->

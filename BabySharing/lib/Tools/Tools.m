@@ -422,18 +422,23 @@
 }
 
 
-+ (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align{
++ (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
+    
     label.text = text;
     label.textColor = color;
     label.textAlignment = align;
+    
     if (font < 0) {
         label.font = [UIFont systemFontOfSize:-font];
+    } else if (font > 100.f) {
+        label.font = [UIFont boldSystemFontOfSize:(font - 100)];
     } else {
-        label.font = [UIFont fontWithName:@"STHeitiSC-Light" size:font];
+        label.font = kAYFontLight(font);
     }
+    
     if (backgroundColor) {
         label.backgroundColor = backgroundColor;
-    }else label.backgroundColor = [UIColor clearColor];
+    } else label.backgroundColor = [UIColor clearColor];
     
     return label;
 }

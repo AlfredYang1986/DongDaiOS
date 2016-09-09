@@ -16,6 +16,8 @@
 
 @property (nonatomic, assign) BOOL isPlusIcon;
 
+@property (nonatomic, strong) NSDictionary *cellInfo;
+
 - (UIView *)snapshotView;
 
 @end

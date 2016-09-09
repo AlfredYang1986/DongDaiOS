@@ -14,15 +14,15 @@ NSString *const MJRefreshKeyPathPanState = @"state";
 
 NSString *const MJRefreshHeaderLastUpdatedTimeKey = @"MJRefreshHeaderLastUpdatedTimeKey";
 
-NSString *const MJRefreshHeaderIdleText = @"下拉可以刷新";
-NSString *const MJRefreshHeaderPullingText = @"松开立即刷新";
+NSString *const MJRefreshHeaderIdleText = @"下拉刷新";
+NSString *const MJRefreshHeaderPullingText = @"松开刷新";
 NSString *const MJRefreshHeaderRefreshingText = @"正在刷新数据中...";
 
 NSString *const MJRefreshAutoFooterIdleText = @"点击或上拉加载更多";
 NSString *const MJRefreshAutoFooterRefreshingText = @"正在加载数据...";
 NSString *const MJRefreshAutoFooterNoMoreDataText = @"已经全部加载完毕";
 
-NSString *const MJRefreshBackFooterIdleText = @"上拉可以加载更多";
-NSString *const MJRefreshBackFooterPullingText = @"松开立即加载更多";
+NSString *const MJRefreshBackFooterIdleText = @"上拉加载更多";
+NSString *const MJRefreshBackFooterPullingText = @"松开加载更多";
 NSString *const MJRefreshBackFooterRefreshingText = @"正在加载数据...";
 NSString *const MJRefreshBackFooterNoMoreDataText = @"已经全部加载完毕";

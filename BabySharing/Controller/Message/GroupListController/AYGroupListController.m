@@ -15,6 +15,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYGroupListCellDefines.h"
+#import "MJRefresh.h"
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
@@ -86,7 +87,15 @@
         id<AYCommand> cmd_cell = [view_content.commands objectForKey:@"registerCellWithNib:"];
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYGroupListCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&class_name];
+        
+        UITableView *tableView = (UITableView*)view_content;
+//        tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+        
+        tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+        // Enter the refresh status immediately
+        [tableView.mj_header beginRefreshing];
     }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -207,9 +216,8 @@
     return nil;
 }
 
-#pragma mark -- notifies
-- (id)scrollToRefresh{
-    
+#pragma mark -- actions
+- (void)loadNewData {
     id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
     id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMSations"];
     
@@ -220,7 +228,6 @@
     NSLog(@"michauxs -- %@", (NSArray*)brige);
     
     conversations = [(NSArray*)brige mutableCopy];
-    //    NSArray *sastions = [(NSArray*)brige copy];
     
     [cmd performWithResult:&brige];
     
@@ -231,6 +238,14 @@
     id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
+    
+    [((UITableView*)view_content).mj_header endRefreshing];
+}
+
+#pragma mark -- notifies
+- (id)scrollToRefresh{
+    
+    
     
     return nil;
 }

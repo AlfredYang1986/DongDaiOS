@@ -163,9 +163,7 @@
     _layout.minimumInteritemSpacing = margin;
     _layout.minimumLineSpacing = margin;
     
-    if (_selectedPhotos.count == 0) {
-        _layout.itemCount = 2;
-    } else _layout.itemCount = _selectedPhotos.count;
+    _layout.itemCount = _selectedPhotos.count;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:_layout];
     CGFloat rgb = 244 / 255.0;
@@ -186,25 +184,46 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     TZTestCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZTestCell" forIndexPath:indexPath];
+    
+    NSMutableDictionary *dic_cell_info = [[NSMutableDictionary alloc]init];
+    [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
+    [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_plus_sign"];
     if (_selectedPhotos.count == 0) {
         if (indexPath.row == 1) {
-            cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
-            cell.deleteBtn.hidden = YES;
+//            cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
+//            cell.deleteBtn.hidden = YES;
+            
+            [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
+            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
+            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_plus_sign"];
+            
         } else {
-            cell.imageView.image = nil;
-            cell.deleteBtn.hidden = YES;
+//            cell.imageView.image = nil;
+//            cell.deleteBtn.hidden = YES;
+            
+            [dic_cell_info setValue:[UIImage imageNamed:@""] forKey:@"image"];
+            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
+            
         }
     } else {
         if (indexPath.row < _selectedPhotos.count) {
-            cell.imageView.image = _selectedPhotos[indexPath.row];
-            cell.deleteBtn.hidden = NO;
+//            cell.imageView.image = _selectedPhotos[indexPath.row];
+//            cell.deleteBtn.hidden = NO;
+            
+            [dic_cell_info setValue:_selectedPhotos[indexPath.row] forKey:@"image"];
+            [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
         } else {
-            cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
-            cell.deleteBtn.hidden = YES;
+            
+            [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
+            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
+            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_plus_sign"];
         }
     }
     
-    cell.deleteBtn.tag = indexPath.row;
+    [dic_cell_info setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"tag_index"];
+    
+    cell.cellInfo = dic_cell_info;
+//    cell.deleteBtn.tag = indexPath.row;
     [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
@@ -315,7 +334,7 @@
     
     NSInteger numbCount = _selectedPhotos.count;
     if (numbCount == 0) {
-        _layout.itemCount = 2;
+        
         [_collectionView reloadData];
         
     } else {

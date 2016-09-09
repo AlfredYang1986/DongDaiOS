@@ -55,7 +55,9 @@ static NSString* const kAYGroupChatControllerMessageTable = @"Table";
 static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 @implementation AYGroupChatController {
-    CGRect keyBoardFrame;
+//    CGRect keyBoardFrame;
+//    int count;
+    
     NSString* owner_id;
 //    NSNumber* group_id;
     int chat_state;
@@ -106,6 +108,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [super viewDidLoad];
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
+//    count = 0;
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
@@ -187,6 +190,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
+    
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"沟通";
+    [cmd_title performWithResult:&title];
+    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
@@ -195,20 +203,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, 44 - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"沟通";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
+    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+    [cmd_bot performWithResult:nil];
+    
     return nil;
 }
 
@@ -349,16 +346,32 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (void)KeyboardShowKeyboard:(id)args {
     
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+    
+    UIView *inputView = [self.views objectForKey:@"ChatInput"];
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    
     [UIView animateWithDuration:0.3f animations:^{
-        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
+        
+//        inputView.center = CGPointMake(inputView.center.x, inputView.center.y - step.floatValue);
+//        table_view.center = CGPointMake(table_view.center.x, table_view.center.y - step.floatValue);
+        
+        ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT - step.floatValue, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
+        ((UIView*)view_table).frame = CGRectMake(0, 64 + 60 - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
+        
+//        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
     }];
 }
 
 - (void)KeyboardHideKeyboard:(id)args {
+    id<AYViewBase> inputView = [self.views objectForKey:@"ChatInput"];
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     
     [UIView animateWithDuration:0.3f animations:^{
-        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2);
+//        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2);
+        ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
+        ((UIView*)view_table).frame = CGRectMake(0, 64+60, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
     }];
+    
 }
 
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {

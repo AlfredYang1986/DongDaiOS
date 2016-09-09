@@ -140,7 +140,14 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
         if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
             layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
         }
+        
+//        if (!layoutAttributes.representedElementKind) {
+//            NSUInteger index = [updatedAttributes indexOfObject:attributes];
+//            updatedAttributes[index] = [self layoutAttributesForItemAtIndexPath:attributes.indexPath];
+//        }
+        
     }
+    
     return layoutAttributesForElementsInRect;
 }
 
@@ -158,14 +165,14 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
 //    return updatedAttributes;
 //}
 
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewLayoutAttributes * layoutAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
     
     if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
         layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
     }
     
-//    if (self.itemCount == 2) {
+//    if (self.itemCount == 0 || self.itemCount == 1) {
 //        if (indexPath.row == 1) {
 //            
 //            CGRect frame = layoutAttributes.frame;

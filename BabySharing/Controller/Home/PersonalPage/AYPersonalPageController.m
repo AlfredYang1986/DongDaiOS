@@ -54,7 +54,6 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         service_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        NSLog(@"service_info:%@",service_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
