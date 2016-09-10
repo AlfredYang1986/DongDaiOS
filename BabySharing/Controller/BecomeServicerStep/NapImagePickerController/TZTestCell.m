@@ -14,11 +14,10 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+        
         self.backgroundColor = [Tools garyBackgroundColor];
         _imageView = [[UIImageView alloc] init];
-        _imageView.backgroundColor = [UIColor colorWithWhite:1.000 alpha:0.500];
-        
-        
+//        _imageView.backgroundColor = [Tools garyBackgroundColor];
         [self addSubview:_imageView];
         self.clipsToBounds = YES;
         
@@ -49,28 +48,23 @@
 - (void)setCellInfo:(NSDictionary *)cellInfo {
     _cellInfo = cellInfo;
     
-    BOOL isplus = ((NSNumber*)[cellInfo objectForKey:@"is_plus_sign"]).boolValue;
-    if(isplus) {
-        _imageView.contentMode = UIViewContentModeTopLeft;
+    BOOL isFirst = ((NSNumber*)[cellInfo objectForKey:@"is_first"]).boolValue;
+    if(isFirst) {
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
     } else
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
     
+    /**/
     [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self);
         make.top.equalTo(self);
-        if (isplus) {
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width,self.bounds.size.height));
-        } else {
-            make.size.equalTo(self);
-        }
+        make.size.equalTo(self);
     }];
     
     UIImage *image = [cellInfo objectForKey:@"image"];
     _imageView.image = image;
-    
     BOOL isHidden = ((NSNumber*)[cellInfo objectForKey:@"is_hidden"]).boolValue;
     _deleteBtn.hidden = isHidden;
-    
     NSInteger tag_index = ((NSNumber*)[cellInfo objectForKey:@"tag_index"]).integerValue;
     _deleteBtn.tag = tag_index;
 }

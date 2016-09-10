@@ -14,6 +14,7 @@
 #import <Photos/Photos.h>
 #import "LxGridViewFlowLayout.h"
 #import "TZImageManager.h"
+//#import "UICollectionViewLeftAlignedLayout.h"
 
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -157,6 +158,10 @@
 #pragma mark -- actions
 - (void)configCollectionView {
     
+//    UICollectionViewLeftAlignedLayout *layout = [[UICollectionViewLeftAlignedLayout alloc]init];
+//    layout.minimumLineSpacing = 2  ;
+//    layout.minimumInteritemSpacing = 2;
+    
     _layout = [[LxGridViewFlowLayout alloc] init];
     
     CGFloat margin = 2;
@@ -179,7 +184,8 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (_selectedPhotos.count == 0) {
         return 2;
-    }else return _selectedPhotos.count + 1;
+    } else
+        return _selectedPhotos.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -187,7 +193,8 @@
     
     NSMutableDictionary *dic_cell_info = [[NSMutableDictionary alloc]init];
     [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
-    [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_plus_sign"];
+    [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_first"];
+    
     if (_selectedPhotos.count == 0) {
         if (indexPath.row == 1) {
 //            cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
@@ -195,8 +202,6 @@
             
             [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
-            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_plus_sign"];
-            
         } else {
 //            cell.imageView.image = nil;
 //            cell.deleteBtn.hidden = YES;
@@ -216,7 +221,10 @@
             
             [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
-            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_plus_sign"];
+        }
+        
+        if (indexPath.row == 0) {
+            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_first"];
         }
     }
     
@@ -244,6 +252,7 @@
     UIImage *dataDict = _selectedPhotos[sourceIndexPath.item];
     [_selectedPhotos removeObjectAtIndex:sourceIndexPath.item];
     [_selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item];
+    [_collectionView reloadData];
 }
 
 //header
@@ -350,7 +359,7 @@
 }
 
 #pragma mark TZImagePickerControllerDelegate
-/// 用户点击了取消
+// 用户点击了取消
 - (void)imagePickerControllerDidCancel:(TZImagePickerController *)picker {
      NSLog(@"cancel");
     [picker dismissViewControllerAnimated:YES completion:nil];

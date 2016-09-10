@@ -132,38 +132,40 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
 }
 
 #pragma mark - override UICollectionViewLayout methods
-- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect{
-    NSArray * layoutAttributesForElementsInRect = [super layoutAttributesForElementsInRect:rect];
-    
-    for (UICollectionViewLayoutAttributes * layoutAttributes in layoutAttributesForElementsInRect) {
-        
-        if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
-            layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
-        }
-        
-//        if (!layoutAttributes.representedElementKind) {
-//            NSUInteger index = [updatedAttributes indexOfObject:attributes];
-//            updatedAttributes[index] = [self layoutAttributesForItemAtIndexPath:attributes.indexPath];
-//        }
-        
-    }
-    
-    return layoutAttributesForElementsInRect;
-}
-
-//- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-//    NSArray *originalAttributes = [super layoutAttributesForElementsInRect:rect];
+//- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect{
+//    NSArray * layoutAttributesForElementsInRect = [super layoutAttributesForElementsInRect:rect];
 //    
-//    NSMutableArray *updatedAttributes = [NSMutableArray arrayWithArray:originalAttributes];
-//    
-//    for (UICollectionViewLayoutAttributes *attributes in originalAttributes) {
-//        if (!attributes.representedElementKind) {
-//            NSUInteger index = [updatedAttributes indexOfObject:attributes];
-//            updatedAttributes[index] = [self layoutAttributesForItemAtIndexPath:attributes.indexPath];
+//    for (UICollectionViewLayoutAttributes * layoutAttributes in layoutAttributesForElementsInRect) {
+//        
+//        if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
+//            layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
 //        }
 //    }
-//    return updatedAttributes;
+//    
+//    return layoutAttributesForElementsInRect;
 //}
+//
+//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
+//    UICollectionViewLayoutAttributes * layoutAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
+//    if (layoutAttributes.representedElementCategory == UICollectionElementCategoryCell) {
+//        layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
+//    }
+//    return layoutAttributes;
+//}
+
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
+    NSArray *originalAttributes = [super layoutAttributesForElementsInRect:rect];
+    
+    NSMutableArray *updatedAttributes = [NSMutableArray arrayWithArray:originalAttributes];
+    
+    for (UICollectionViewLayoutAttributes *attributes in originalAttributes) {
+        if (!attributes.representedElementKind) {
+            NSUInteger index = [updatedAttributes indexOfObject:attributes];
+            updatedAttributes[index] = [self layoutAttributesForItemAtIndexPath:attributes.indexPath];
+        }
+    }
+    return updatedAttributes;
+}
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewLayoutAttributes * layoutAttributes = [super layoutAttributesForItemAtIndexPath:indexPath];
@@ -172,14 +174,13 @@ CG_INLINE CGPoint CGPointOffset(CGPoint point, CGFloat dx, CGFloat dy)
         layoutAttributes.hidden = [layoutAttributes.indexPath isEqual:_movingItemIndexPath];
     }
     
-//    if (self.itemCount == 0 || self.itemCount == 1) {
-//        if (indexPath.row == 1) {
-//            
-//            CGRect frame = layoutAttributes.frame;
-//            frame.origin.x = 0;
-//            layoutAttributes.frame = frame;
-//        }
-//    }
+    if (self.itemCount == 0 || self.itemCount == 1) {
+        if (indexPath.row == 1) {
+            CGRect frame = layoutAttributes.frame;
+            frame.origin.x = 0;
+            layoutAttributes.frame = frame;
+        }
+    }
     
     return layoutAttributes;
 }
