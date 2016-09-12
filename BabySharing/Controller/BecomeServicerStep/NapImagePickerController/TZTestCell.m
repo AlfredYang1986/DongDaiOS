@@ -48,10 +48,10 @@
 - (void)setCellInfo:(NSDictionary *)cellInfo {
     _cellInfo = cellInfo;
     
-    BOOL isFirst = ((NSNumber*)[cellInfo objectForKey:@"is_first"]).boolValue;
-    if(isFirst) {
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
-    } else
+//    BOOL isFirst = ((NSNumber*)[cellInfo objectForKey:@"is_first"]).boolValue;
+//    if(isFirst) {
+//        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    } else
         _imageView.contentMode = UIViewContentModeScaleAspectFill;
     
     /**/

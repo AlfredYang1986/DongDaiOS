@@ -112,7 +112,6 @@
     NSNumber *status = [order_info objectForKey:@"status"];
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     if (status.intValue == 0 && [self.tabBarController isKindOfClass:[des class]]) {
-        
         UIButton *confirmSerBtn = [[UIButton alloc]init];
         confirmSerBtn.backgroundColor = [Tools themeColor];
         [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -127,7 +126,6 @@
         [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchDown];
         
     }
-    
     
     loading_status = [[NSMutableArray alloc]init];
     {

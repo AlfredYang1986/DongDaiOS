@@ -421,7 +421,9 @@
     return [UIColor colorWithWhite:0.9490 alpha:1.f];
 }
 
-
+/**
+ *  设置label的 text color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
+*/
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
     
     label.text = text;

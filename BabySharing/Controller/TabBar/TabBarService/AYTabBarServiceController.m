@@ -145,11 +145,11 @@
             make.centerX.equalTo(cover);
         }];
         
-        id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-        ((UIView*)_loading).userInteractionEnabled = NO;
-        [cover addSubview:((UIView*)_loading)];
-        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-        [cmd performWithResult:nil];
+//        id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
+//        ((UIView*)_loading).userInteractionEnabled = NO;
+//        [cover addSubview:((UIView*)_loading)];
+//        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
+//        [cmd performWithResult:nil];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:0.5 animations:^{

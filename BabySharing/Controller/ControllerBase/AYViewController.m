@@ -19,6 +19,8 @@
 #import "AYModel.h"
 #import "AYFactoryManager.h"
 
+#import "MBProgressHUD.h"
+
 @implementation AYViewController{
     int count_loading;
 }
@@ -146,24 +148,51 @@
 }
 
 - (id)startRemoteCall:(id)obj {
-    count_loading ++;
-    UIView *isMark = [self.view viewWithTag:999];
-    if (!isMark) {
-        _loading = VIEW(@"Loading", @"Loading");
-        ((UIView*)_loading).tag = 999;
-        [self.view addSubview:((UIView*)_loading)];
-        
-        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-        [cmd performWithResult:nil];
-    }
+//    count_loading ++;
+//    
+////        _loading = VIEW(@"Loading", @"Loading");
+//    id<AYViewBase> loading = [self.views objectForKey:@"Loading"];
+//    if (!loading) {
+//        @throw [[NSException alloc]initWithName:@"configs no loadingView " reason:@"configs no loadingView " userInfo:nil];
+//    }
+//    ((UIView*)_loading).tag = -9999;
+//    [self.view addSubview:((UIView*)loading)];
+//    
+//    id<AYCommand> cmd = [loading.commands objectForKey:@"startGif"];
+//    [cmd performWithResult:nil];
+//    
     
+    
+    
+    if (count_loading == 0) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        });
+    }
+    count_loading++;
     return nil;
 }
 
 - (id)endRemoteCall:(id)obj {
+//    count_loading --;
+//    if (count_loading == 0) {
+//        
+//        id<AYViewBase> loading = [self.views objectForKey:@"Loading"];
+//        if (!loading) {
+//            @throw [[NSException alloc]initWithName:@"configs no loadingView " reason:@"configs no loadingView " userInfo:nil];
+//        }
+//        id<AYCommand> cmd = [loading.commands objectForKey:@"stopGif"];
+//        [cmd performWithResult:nil];
+//        [((UIView*)_loading) removeFromSuperview];
+//    }
+    
     count_loading --;
     if (count_loading == 0) {
-        [((UIView*)_loading) removeFromSuperview];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
     }
     
     return nil;

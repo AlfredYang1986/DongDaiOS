@@ -167,10 +167,10 @@
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview:cover];
     
-    id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-    [cover addSubview:((UIView*)_loading)];
-    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-    [cmd performWithResult:nil];
+//    id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
+//    [cover addSubview:((UIView*)_loading)];
+//    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
+//    [cmd performWithResult:nil];
     
     if (isExchangeModel == 2) {
         cover.backgroundColor = [UIColor blackColor];
@@ -187,6 +187,8 @@
             [UIView animateWithDuration:0.5 animations:^{
                 cover.alpha = 0;
             } completion:^(BOOL finished) {
+//                id<AYCommand> cmd = [_loading.commands objectForKey:@"stopGif"];
+//                [cmd performWithResult:nil];
                 [cover removeFromSuperview];
             }];
         });

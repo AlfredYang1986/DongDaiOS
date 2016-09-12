@@ -50,6 +50,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     NSDictionary *service_info;
     
+    UIButton *confirmSerBtn;
 }
 
 
@@ -195,7 +196,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     }];
     [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *confirmSerBtn = [[UIButton alloc]init];
+    confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];
     [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:confirmSerBtn];
@@ -304,6 +305,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (void)conmitMyService {
+    confirmSerBtn.enabled = NO;
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 没一个图片是一个上传线程，需要一个semaphores等待上传完成
     for (int index = 0; index < napPhotos.count; ++index) {
         dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
@@ -374,9 +376,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     NSLog(@"push error with:%@",result);
                     [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务上传失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 }
+                confirmSerBtn.enabled = YES;
             }];
         } else {
-            
+            confirmSerBtn.enabled = YES;
         }
     });
     

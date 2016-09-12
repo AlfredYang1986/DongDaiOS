@@ -206,6 +206,12 @@
     return nil;
 }
 
+- (id)LoadingLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    view.hidden = YES;
+    return nil;
+}
+
 #pragma mark -- actions
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");
@@ -254,6 +260,9 @@
 //                dispatch_semaphore_signal(semaphore);
             }
         }];
+        
+        
+        
     }else {
         [self updatePersonalInfo];
     }
@@ -279,7 +288,6 @@
 
 #pragma mark -- pickerviewDelegate
 - (id)showPickerView {
-    
     if (pickerView.frame.origin.y == SCREEN_HEIGHT) {
         [UIView animateWithDuration:0.25 animations:^{
             pickerView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);

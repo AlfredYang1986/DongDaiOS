@@ -249,10 +249,19 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)sourceIndexPath willMoveToIndexPath:(NSIndexPath *)destinationIndexPath {
-    UIImage *dataDict = _selectedPhotos[sourceIndexPath.item];
-    [_selectedPhotos removeObjectAtIndex:sourceIndexPath.item];
-    [_selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item];
-    [_collectionView reloadData];
+    
+    
+    
+    [_collectionView performBatchUpdates:^{
+        UIImage *dataDict = _selectedPhotos[sourceIndexPath.item];
+        [_selectedPhotos removeObjectAtIndex:sourceIndexPath.item];
+        [_selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item];
+        
+    } completion:^(BOOL finished) {
+        [_collectionView reloadData];
+    }];
+    
+//    [_collectionView reloadData];
 }
 
 //header

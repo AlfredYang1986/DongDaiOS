@@ -197,6 +197,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
+
 #pragma mark -- Layouts
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
@@ -345,7 +346,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)SNSEndLogin:(id)args {
-//    self.landing_status = RemoteControllerStatusReady;
+    self.landing_status = RemoteControllerStatusReady;
     int code = ((NSNumber*)args).intValue;
     if (code == -2) {
         id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
@@ -389,6 +390,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
     id obj = nil;
     [cmd performWithResult:&obj];
+    
+    self.landing_status = RemoteControllerStatusReady;
     
     UIViewController* controller = [Tools activityViewController];
     if (controller == self) {
@@ -636,17 +639,17 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     return nil;
 }
 
-//- (id)startRemoteCall:(id)obj {
-//    [super startRemoteCall:nil];
-//    self.landing_status = RemoteControllerStatusLoading;
-//    return nil;
-//}
-//
-//- (id)endRemoteCall:(id)obj {
-//    [super endRemoteCall:nil];
-//    self.landing_status = RemoteControllerStatusReady;
-//    return nil;
-//}
+- (id)startRemoteCall:(id)obj {
+    [super startRemoteCall:nil];
+    self.landing_status = RemoteControllerStatusLoading;
+    return nil;
+}
+
+- (id)endRemoteCall:(id)obj {
+    [super endRemoteCall:nil];
+    self.landing_status = RemoteControllerStatusReady;
+    return nil;
+}
 
 - (BOOL)prefersStatusBarHidden{
     return YES;

@@ -210,6 +210,12 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
     return nil;
 }
 
+- (id)LoadingLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    view.hidden = YES;
+    return nil;
+}
+
 #pragma mark -- controller actions
 -(id)foundBtnClick{
     AYViewController* des = DEFAULTCONTROLLER(@"Location");

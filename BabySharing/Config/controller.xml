@@ -173,6 +173,7 @@
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="Table"              name="Table" />
         <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Loading"            name="Loading" />
         <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
 
         <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />
@@ -297,6 +298,7 @@
        
         <view type="Table"          name="Table" />
         <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
     </controller>
@@ -470,6 +472,7 @@
         <view type="FakeNavBar"         name="FakeNavBar" />
         <view type="SelfSetting"        name="SelfSetting" />
         <view type="Picker"             name="Picker" />
+        <view type="Loading" name="Loading" />
         
         <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
@@ -488,6 +491,7 @@
         <view type="Image"          name="Image" />
         <view type="Label"          name="Label" />
         <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="Loading"        name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>
@@ -761,12 +765,12 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
-        <view type="TimeOption"     name="TimeOption" />
-        <view type="PayOption"      name="PayOption" />
-<!--        <view type="Table"          name="Table" />-->
+<!--        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />-->
+<!--        <view type="TimeOption"     name="TimeOption" />-->
+<!--        <view type="PayOption"      name="PayOption" />-->
+        <view type="Table"          name="Table" />
 
-<!--        <delegate type="TableViewDelegateAndDatasource" name="MessageList" />-->
+        <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" />
     </controller>
     
     

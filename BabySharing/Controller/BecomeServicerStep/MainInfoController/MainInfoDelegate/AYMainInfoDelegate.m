@@ -120,7 +120,7 @@
     napDesc = [info objectForKey:@"description"];
     napAges = [info objectForKey:@"age_boundary"];
     napCost = [info objectForKey:@"price"];
-    napAdress = @"Dongda_Note_NOEDIT";
+    napAdress = [NSString stringWithFormat:@"%@%@",[info objectForKey:@"address"], [info objectForKey:@"adjust_address"]];
     
     {
         NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];

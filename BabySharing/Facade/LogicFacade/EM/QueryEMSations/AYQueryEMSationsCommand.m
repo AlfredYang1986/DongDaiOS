@@ -28,7 +28,6 @@
     NSString *owner_id = (NSString*)*obj;
     [[EMClient sharedClient].chatManager getConversation:owner_id type:EMConversationTypeChat createIfNotExist:YES];
     
-    
     NSArray *conversations = [[EMClient sharedClient].chatManager getAllConversations];
     
     NSMutableArray *tmp = [conversations mutableCopy];

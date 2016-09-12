@@ -42,7 +42,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+    origs = [NSMutableArray arrayWithObjects:@"切换到服务者", @"我心仪的服务", @"设置", nil];
     confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
 }
 
@@ -215,11 +215,12 @@
 
 - (void)servicerOptions {
     NSNumber *args = [NSNumber numberWithInt:1];
-    NSNumber *model = [_querydata objectForKey:@""];
+//    NSNumber *model = [_querydata objectForKey:@""];
+    NSNumber *model = [NSNumber numberWithInt:1];
     if (model.intValue == 1) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
         [cmd performWithResult:&args];
-    }else {
+    } else {
         id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
         NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
