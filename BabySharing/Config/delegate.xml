@@ -250,7 +250,16 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="message" message="setOrderDate:" />
+        <command type="message" message="setOrderTimes:" />
+        <command type="message" message="TransfromExpend" />
         <command type="notify" message="sendLocation:" />
+    </delegate>
+    
+    <delegate type="PickerViewDelegateAndDatasource" name="OrderTimes" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="message" message="scrollToCenter" />
+        <command type="notify" message="sendDelMessage:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="MessageList" factory="AYDefaultDelegateFactory" >

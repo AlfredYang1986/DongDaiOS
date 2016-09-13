@@ -6,17 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderPayWayCellView.h"
-#import "TmpFileStorageModel.h"
-#import "QueryContentItem.h"
-#import "GPUImage.h"
-#import "Define.h"
-#import "PhotoTagEnumDefines.h"
-#import "QueryContentTag.h"
-#import "QueryContentChaters.h"
-#import "QueryContent+ContextOpt.h"
-#import "AppDelegate.h"
-
+#import "AYOrderInfoPayWayCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -26,15 +16,21 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#import "AYThumbsAndPushDefines.h"
+#import "TmpFileStorageModel.h"
+#import "QueryContentItem.h"
+#import "Define.h"
+#import "QueryContentTag.h"
+#import "QueryContentChaters.h"
+#import "QueryContent+ContextOpt.h"
 
+#import "AYThumbsAndPushDefines.h"
 #import "InsetsLabel.h"
 #import "OBShapedButton.h"
 
-@implementation AYOrderPayWayCellView {
+@implementation AYOrderInfoPayWayCellView {
     
-    UIImageView *headImage;
-    UILabel *titleLabel;
+//    UILabel *titleLabel;
+//    UIImageView *payWayIcon;
     
     NSDictionary *service;
 }
@@ -42,35 +38,46 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSLog(@"init reuse identifier");
         
-        headImage = [[UIImageView alloc]init];
-        [self addSubview:headImage];
-        [headImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 225));
-        }];
-        
-        titleLabel = [[UILabel alloc]init];
+        UILabel *titleLabel = [[UILabel alloc]init];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(headImage.mas_bottom);
+            make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(15);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 15, 60));
         }];
-        titleLabel.userInteractionEnabled = YES;
-        [titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceDetailClick:)]];
         
-        UIImageView *icon = [[UIImageView alloc]init];
-        icon.image = IMGRESOURCE(@"chan_group_back");
-        [self addSubview:icon];
-        [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(titleLabel).offset(-10);
-            make.centerY.equalTo(titleLabel);
-            make.size.mas_equalTo(CGSizeMake(18, 18));
+        UIImageView *payWayIcon = [UIImageView new];
+        payWayIcon.image = IMGRESOURCE(@"tab_found_selected");
+        [self addSubview:payWayIcon];
+        [payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(titleLabel.mas_bottom).offset(20);
+            make.left.equalTo(titleLabel);
+            make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
+        
+        UILabel *payWayLabel = [UILabel new];
+        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:payWayLabel];
+        [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(payWayIcon);
+            make.left.equalTo(payWayIcon.mas_right).offset(15);
+        }];
+        
+        UIImageView *signView = [UIImageView new];
+        signView.image = IMGRESOURCE(@"tab_found_selected");
+        [self addSubview:signView];
+        [signView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(payWayIcon);
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(10, 10));
+        }];
+        
+        
+        CALayer *line_separator = [CALayer layer];
+        line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+        line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+        [self.layer addSublayer:line_separator];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -144,27 +151,7 @@
 }
 
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args{
-    NSDictionary *args = [dic_args objectForKey:@"service"];
-    
-    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
-    
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            headImage.image = img;
-        }else{
-            [headImage setImage:IMGRESOURCE(@"sample_image")];
-        }
-    }];
-    
-    titleLabel.text = [args objectForKey:@"title"];
-    //    service = [args objectForKey:@"service"];
+- (id)setCellInfo:(NSDictionary*)dic_args {
     
     return nil;
 }

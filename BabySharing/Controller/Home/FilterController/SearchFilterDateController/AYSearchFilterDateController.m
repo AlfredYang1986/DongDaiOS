@@ -59,6 +59,8 @@
     NSTimeInterval dateDataNote;
     
     id dic_split_value;
+    
+    BOOL isOrderSetDate;
 }
 
 - (AYCalendarDate*)useTime {
@@ -75,6 +77,10 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         dic_split_value = [dic objectForKey:kAYControllerSplitValueKey];
+        NSString *compare = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([compare isEqualToString:@"order_set_date"]) {
+            isOrderSetDate = YES;
+        }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -206,17 +212,24 @@
 #pragma mark -- actions
 - (void)saveBtnSelected {
     
-    if (dateDataNote != 0) {
+    if (isOrderSetDate) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+        [dic_args setValue:[NSNumber numberWithDouble:dateDataNote] forKey:@"order_date"];
+        [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
+        id<AYCommand> cmd = POP;
+        [cmd performWithResult:&dic];
+    } else {
+        
         id<AYCommand> cmd = POPSPLIT;
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        
         NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
         [dic_args setValue:[NSNumber numberWithDouble:dateDataNote] forKey:@"filter_date"];
-        
         [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
-        
         [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
         
         [cmd performWithResult:&dic];
@@ -225,12 +238,23 @@
 
 #pragma mark -- commands
 - (id)leftBtnSelected {
-    id<AYCommand> cmd = POPSPLIT;
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
-    [cmd performWithResult:&dic];
+    
+    if (isOrderSetDate) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        id<AYCommand> cmd = POP;
+        [cmd performWithResult:&dic];
+    } else {
+        id<AYCommand> cmd = POPSPLIT;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
+        [cmd performWithResult:&dic];
+    }
+    
     return nil;
 }
 

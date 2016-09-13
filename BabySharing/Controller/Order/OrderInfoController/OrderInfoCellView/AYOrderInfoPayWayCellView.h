@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYOrderPayWayCellView : UITableViewCell <AYViewBase>
+@interface AYOrderInfoPayWayCellView : UITableViewCell <AYViewBase>
 
 @end

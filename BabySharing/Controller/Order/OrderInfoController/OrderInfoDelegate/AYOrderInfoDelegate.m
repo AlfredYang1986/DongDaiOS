@@ -23,6 +23,12 @@
 
 @implementation AYOrderInfoDelegate {
     NSDictionary *querydata;
+    
+    BOOL isSetedDate;
+    BOOL isExpend;
+    
+    NSNumber *setedDate;
+    NSDictionary *setedTimes;
 }
 
 @synthesize para = _para;
@@ -58,6 +64,16 @@
     return nil;
 }
 
+- (id)setOrderDate:(id)args {
+    setedDate = (NSNumber*)args;
+    return nil;
+}
+
+- (id)TransfromExpend {
+    isExpend = !isExpend;
+    return nil;
+}
+
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 4;
@@ -66,66 +82,63 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     id<AYViewBase> cell;
     
-    if (indexPath.section == 0) {
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    if (indexPath.row == 0) {
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-//        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-//        //        [tmp setValue:[[querydata objectForKey:@"images"] objectAtIndex:0] forKey:@"cover"];
-//        //        [tmp setValue:[querydata objectForKey:@"title"] forKey:@"title"];
-//        [tmp setValue:[querydata objectForKey:@"service"] forKey:@"service"];
-//        
-//        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//        [cmd performWithResult:&tmp];
-    } else if (indexPath.section == 1) {
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSDictionary *tmp = [querydata copy];
+        [cmd performWithResult:&tmp];
+        
+    } else if (indexPath.row == 1) {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoDateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-//        NSString *tmp = [[querydata objectForKey:@"service"] objectForKey:@"owner_id"];
-//        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//        [cmd performWithResult:&tmp];
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+        if (setedDate) {
+            [tmp setValue:setedDate forKey:@"order_date"];
+        }
+        if (setedTimes) {
+            [tmp setValue:setedTimes forKey:@"order_times"];
+        }
         
-    } else if (indexPath.section == 2) {
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
+        
+    } else if (indexPath.row == 2) {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-//        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-//        [tmp setValue:[[querydata objectForKey:@"service"] objectForKey:@"price"] forKey:@"price"];
-//        [tmp setValue:[querydata objectForKey:@"order_date"] forKey:@"order_date"];
-//        [tmp setValue:[querydata objectForKey:@"status"] forKey:@"status"];
-//        //二维码
-//        
-//        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//        [cmd performWithResult:&tmp];
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSDictionary *tmp = [querydata copy];
+        [cmd performWithResult:&tmp];
+        
     } else {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoPayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        //        id tmp = [querydata objectAtIndex:indexPath.row];
-        //        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        //        [cmd performWithResult:&tmp];
     }
     
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+    ((UITableViewCell*)cell).clipsToBounds = YES;
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 280;
-    } else if (indexPath.section == 1) {
-        return 150;
-    } else if (indexPath.section == 2) {
-        return 150;
-    } else if(indexPath.section == 3) {
-        return 100;
-    }else
-        return 270;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 10.f;
+    if (indexPath.row == 0) {
+        return 110.f;
+    } else if (indexPath.row == 1) {
+        
+        return setedDate?95.f:85.f;
+        
+    } else if (indexPath.row == 2) {
+        
+        return isExpend?220.f:90.f;
+        
+    } else {
+        return 100.f;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

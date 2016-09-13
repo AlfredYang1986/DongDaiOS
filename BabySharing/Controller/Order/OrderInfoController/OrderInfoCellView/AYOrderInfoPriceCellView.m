@@ -33,44 +33,101 @@
 
 @implementation AYOrderInfoPriceCellView {
     
-    UIImageView *headImage;
-    UILabel *titleLabel;
+    UILabel *priceLabel;
     
-    NSDictionary *service;
+    UILabel *themeTitleLabel;
+    UILabel *themePriceLabel;
+    
+    UILabel *isLeaveTitleLabel;
+    UILabel *isLeavePriceLabel;
+    
+    UIButton *isShowDetail;
+    
+    NSDictionary *servicePrice;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSLog(@"init reuse identifier");
         
-        headImage = [[UIImageView alloc]init];
-        [self addSubview:headImage];
-        [headImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 225));
-        }];
-        
-        titleLabel = [[UILabel alloc]init];
+        UILabel *titleLabel = [[UILabel alloc]init];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"价格" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(headImage.mas_bottom);
+            make.top.equalTo(self).offset(25);
             make.left.equalTo(self).offset(15);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 15, 60));
         }];
-        titleLabel.userInteractionEnabled = YES;
-        [titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceDetailClick:)]];
         
-        UIImageView *icon = [[UIImageView alloc]init];
-        icon.image = IMGRESOURCE(@"chan_group_back");
-        [self addSubview:icon];
-        [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(titleLabel).offset(-10);
+        priceLabel = [[UILabel alloc]init];
+        priceLabel = [Tools setLabelWith:priceLabel andText:@"￥ 000" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        [self addSubview:priceLabel];
+        [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(titleLabel);
-            make.size.mas_equalTo(CGSizeMake(18, 18));
+            make.right.equalTo(self).offset(-15);
         }];
+        
+        themeTitleLabel = [[UILabel alloc]init];
+        themeTitleLabel = [Tools setLabelWith:themeTitleLabel andText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:themeTitleLabel];
+        [themeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(titleLabel.mas_bottom).offset(45);
+            make.left.equalTo(titleLabel);
+        }];
+        
+        themePriceLabel = [[UILabel alloc]init];
+        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥ 00 * 0 Hour" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:themePriceLabel];
+        [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(themeTitleLabel);
+            make.right.equalTo(priceLabel);
+        }];
+        
+        UIView *sperator = [[UIView alloc]init];
+        sperator.backgroundColor = [Tools garyLineColor];
+        [self addSubview:sperator];
+        [sperator mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(themeTitleLabel.mas_bottom).offset(20);
+            make.left.equalTo(self).offset(10);
+            make.right.equalTo(self).offset(-10);
+            make.height.mas_equalTo(0.5f);
+        }];
+        
+        isLeaveTitleLabel = [[UILabel alloc]init];
+        isLeaveTitleLabel = [Tools setLabelWith:isLeaveTitleLabel andText:@"看顾" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        [self addSubview:isLeaveTitleLabel];
+        [isLeaveTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(sperator.mas_bottom).offset(20);
+            make.left.equalTo(titleLabel);
+        }];
+        
+        isLeavePriceLabel = [[UILabel alloc]init];
+        isLeavePriceLabel = [Tools setLabelWith:isLeavePriceLabel andText:@"￥ 00" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        [self addSubview:isLeavePriceLabel];
+        [isLeavePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(isLeaveTitleLabel);
+            make.right.equalTo(priceLabel);
+        }];
+        
+        isShowDetail = [[UIButton alloc]init];
+        [isShowDetail setTitle:@"查看详情" forState:UIControlStateNormal];
+        [isShowDetail setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        isShowDetail.titleLabel.font = kAYFontLight(12.f);
+        isShowDetail.titleLabel.textAlignment = NSTextAlignmentRight;
+        [isShowDetail sizeToFit];
+        [self addSubview:isShowDetail];
+        [isShowDetail mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self).offset(-15);
+            make.right.equalTo(priceLabel);
+            make.size.mas_equalTo(CGSizeMake(isShowDetail.bounds.size.width, isShowDetail.bounds.size.height));
+        }];
+        [isShowDetail addTarget:self action:@selector(didShowDetailClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        
+        CALayer *line_separator = [CALayer layer];
+        line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+        line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+        [self.layer addSublayer:line_separator];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -143,28 +200,42 @@
     
 }
 
+- (void)didShowDetailClick:(UIButton*)btn {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didShowDetailClick"];
+    [cmd performWithResult:nil];
+    
+    NSString *title = btn.titleLabel.text;
+    if ([title isEqualToString:@"查看详情"]) {
+//        [btn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
+        [btn setTitle:@"收起" forState:UIControlStateNormal];
+        NSString *tmp = btn.titleLabel.text;
+        NSLog(@"%@",tmp);
+        
+    } else if([title isEqualToString:@"收起"]){
+//        [btn setImage:nil forState:UIControlStateNormal];
+        [btn setTitle:@"查看详情" forState:UIControlStateNormal];
+        
+    }
+}
+
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args{
-    NSDictionary *args = [dic_args objectForKey:@"service"];
+    NSLog(@"%@",dic_args)
+    ;
+    CGFloat sumPrice = 0;
     
-    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
+    if (isLeave) {
+        isLeavePriceLabel.text = @"￥40";
+        sumPrice += 40;
+    }
     
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            headImage.image = img;
-        }else{
-            [headImage setImage:IMGRESOURCE(@"sample_image")];
-        }
-    }];
+    NSNumber *unit_price = [dic_args objectForKey:@"price"];
+    NSNumber *least_hours = [dic_args objectForKey:@"least_hours"];
+    themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d小时",unit_price.floatValue,least_hours.intValue];
     
-    titleLabel.text = [args objectForKey:@"title"];
-    //    service = [args objectForKey:@"service"];
+    sumPrice = sumPrice + unit_price.floatValue * least_hours.intValue;
+    priceLabel.text = [NSString stringWithFormat:@"￥%.f",sumPrice];
     
     return nil;
 }

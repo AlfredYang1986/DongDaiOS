@@ -55,11 +55,29 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-//        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-//        id<AYViewBase> view = [self.views objectForKey:@"TimeOption"];
-//        id<AYCommand> cmd = [view.commands objectForKey:@"sendFiterArgs:"];
-//        NSDictionary *dic = [args copy];
-//        [cmd performWithResult:&dic];
+        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+        
+        if ([args objectForKey:@"order_date"]) {
+            id date = [args objectForKey:@"order_date"];
+            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderInfo"];
+            id<AYCommand> cmd_date = [cmd_recommend.commands objectForKey:@"setOrderDate:"];
+            [cmd_date performWithResult:&date];
+            
+            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
+            [cmd_refresh performWithResult:nil];
+        }
+        if ([args objectForKey:@"order_times"]) {
+            id times = [args objectForKey:@"order_times"];
+            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderInfo"];
+            id<AYCommand> cmd_times = [cmd_recommend.commands objectForKey:@"setOrderTimes:"];
+            [cmd_times performWithResult:&times];
+            
+            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
+            [cmd_refresh performWithResult:nil];
+        }
+        
     }
 }
 
@@ -90,6 +108,10 @@
     
     NSString* payway_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoPayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&payway_class];
+    
+    id<AYCommand> change_data = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
+    NSDictionary *tmp = [service_info copy];
+    [change_data performWithResult:&tmp];
     
 //    id<AYCommand> cmd_nib = [view_table.commands objectForKey:@"registerCellWithNib:"];
 //    NSString* nib_contact_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -257,6 +279,52 @@
 -(BOOL)isActive{
     UIViewController * tmp = [Tools activityViewController];
     return tmp == self;
+}
+
+/**
+ *  date
+ */
+- (id)didEditDate {
+    id<AYCommand> des = DEFAULTCONTROLLER(@"SearchFilterDate");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:@"order_set_date" forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_push = PUSH;
+    [cmd_push performWithResult:&dic];
+    return nil;
+}
+
+- (id)didEditTimes {
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderTimes");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:@"order_set_times" forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_push = PUSH;
+    [cmd_push performWithResult:&dic];
+    
+    return nil;
+}
+/**
+ *  price
+ */
+- (id)didShowDetailClick {
+    UITableView *table_view = [self.views objectForKey:@"Table"];
+    
+    id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"OrderInfo"];
+    id<AYCommand> cmd_animation = [cmd_delegate.commands objectForKey:@"TransfromExpend"];
+    [cmd_animation performWithResult:nil];
+    
+    [table_view beginUpdates];
+    [table_view endUpdates];
+    
+    return nil;
 }
 
 - (id)WechatPaySuccess:(id)args {

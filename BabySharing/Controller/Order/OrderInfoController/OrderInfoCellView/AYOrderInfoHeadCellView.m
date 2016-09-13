@@ -56,7 +56,7 @@
         }];
         
         ownerNameLabel = [[UILabel alloc]init];
-        ownerNameLabel = [Tools setLabelWith:ownerNameLabel andText:nil andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        ownerNameLabel = [Tools setLabelWith:ownerNameLabel andText:@"服务者：服务妈妈" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:ownerNameLabel];
         [ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(20);
@@ -71,6 +71,7 @@
         ownerPhoto.layer.cornerRadius = kOwnerPhotoWH * 0.5;
         ownerPhoto.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
         ownerPhoto.layer.borderWidth = 2.f;
+        ownerPhoto.clipsToBounds = YES;
         [self addSubview:ownerPhoto];
         [ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);

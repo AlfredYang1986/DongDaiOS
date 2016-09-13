@@ -33,44 +33,89 @@
 
 @implementation AYOrderInfoDateCellView {
     
-    UIImageView *headImage;
-    UILabel *titleLabel;
+    UILabel *dateLabel;
+    UIButton *editDateBtn;
     
-    NSDictionary *service;
+    UIView *setTimeView;
+    UILabel *fromeLabel;
+    UILabel *toLabel;
+    
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSLog(@"init reuse identifier");
         
-        headImage = [[UIImageView alloc]init];
-        [self addSubview:headImage];
-        [headImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 225));
+        CALayer *line_separator = [CALayer layer];
+        line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+        line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+        [self.layer addSublayer:line_separator];
+        
+        
+        dateLabel = [[UILabel alloc]init];
+        [self addSubview:dateLabel];
+        dateLabel = [Tools setLabelWith:dateLabel andText:@"服务时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        
+        editDateBtn = [[UIButton alloc]init];
+        [editDateBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        editDateBtn.titleLabel.font = kAYFontLight(14.f);
+        [self addSubview:editDateBtn];
+        [editDateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(dateLabel);
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(40, 16));
+        }];
+        [editDateBtn addTarget:self action:@selector(didEditBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        setTimeView = [[UIView alloc]init];
+        [self addSubview:setTimeView];
+        [setTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self);
+            make.right.equalTo(self);
+            make.bottom.equalTo(self);
+            make.height.mas_equalTo(50);
+        }];
+        setTimeView.userInteractionEnabled = YES;
+        [setTimeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didEditTimes)]];
+        
+        CALayer *shpear = [CALayer layer];
+        shpear.backgroundColor = [Tools themeColor].CGColor;
+        shpear.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width * 0.5, 50);
+        [setTimeView.layer addSublayer:shpear];
+        
+        CGFloat offsetX = [UIScreen mainScreen].bounds.size.width * 0.25;
+        UILabel *fromTitleLabel = [UILabel new];
+        fromTitleLabel = [Tools setLabelWith:fromTitleLabel andText:@"开始时间" andTextColor:[UIColor whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [setTimeView addSubview:fromTitleLabel];
+        [fromTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(setTimeView).offset(5);
+            make.centerX.equalTo(setTimeView).offset(-offsetX);
         }];
         
-        titleLabel = [[UILabel alloc]init];
-        [self addSubview:titleLabel];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(headImage.mas_bottom);
-            make.left.equalTo(self).offset(15);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 15, 60));
+        fromeLabel = [UILabel new];
+        fromeLabel = [Tools setLabelWith:fromeLabel andText:@"10:00" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [setTimeView addSubview:fromeLabel];
+        [fromeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(fromTitleLabel);
+            make.top.equalTo(fromTitleLabel.mas_bottom).offset(0);
         }];
-        titleLabel.userInteractionEnabled = YES;
-        [titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceDetailClick:)]];
         
-        UIImageView *icon = [[UIImageView alloc]init];
-        icon.image = IMGRESOURCE(@"chan_group_back");
-        [self addSubview:icon];
-        [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(titleLabel).offset(-10);
-            make.centerY.equalTo(titleLabel);
-            make.size.mas_equalTo(CGSizeMake(18, 18));
+        UILabel *endTitleLabel = [UILabel new];
+        endTitleLabel = [Tools setLabelWith:endTitleLabel andText:@"结束时间" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [setTimeView addSubview:endTitleLabel];
+        [endTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(setTimeView).offset(5);
+            make.centerX.equalTo(setTimeView).offset(offsetX);
         }];
+        
+        toLabel = [UILabel new];
+        toLabel = [Tools setLabelWith:toLabel andText:@"12:00" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [setTimeView addSubview:toLabel];
+        [toLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(endTitleLabel);
+            make.centerY.equalTo(fromeLabel);
+        }];
+        
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -143,28 +188,54 @@
     
 }
 
+- (void)didEditBtnClick:(UIButton*)btn {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didEditDate"];
+    [cmd performWithResult:nil];
+    
+}
+
+- (void)didEditTimes {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didEditTimes"];
+    [cmd performWithResult:nil];
+    
+}
+
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args{
-    NSDictionary *args = [dic_args objectForKey:@"service"];
+- (id)setCellInfo:(NSDictionary*)dic_args {
     
-    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+//    BOOL isSetedDate = ((NSNumber*)[dic_args objectForKey:@"be_setedDate"]).boolValue;
     
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            headImage.image = img;
-        }else{
-            [headImage setImage:IMGRESOURCE(@"sample_image")];
-        }
-    }];
     
-    titleLabel.text = [args objectForKey:@"title"];
-    //    service = [args objectForKey:@"service"];
+    
+    NSNumber *date = [dic_args objectForKey:@"order_date"];
+    if (date) {
+        
+        [dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self).offset(15);
+            make.left.equalTo(self).offset(15);
+        }];
+        
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"yyyy年MM月dd日, EEEE"];
+        NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+        [format setTimeZone:timeZone];
+        NSDate *today = [NSDate dateWithTimeIntervalSince1970:date.doubleValue];
+        NSString *dateStr = [format stringFromDate:today];
+        dateLabel.text = dateStr;
+        
+        [editDateBtn setTitle:@"编辑" forState:UIControlStateNormal];
+        setTimeView.hidden = NO;
+        
+    } else {
+        
+        [dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.left.equalTo(self).offset(15);
+        }];
+        
+        [editDateBtn setTitle:@"添加" forState:UIControlStateNormal];
+        setTimeView.hidden = YES;
+    }
     
     return nil;
 }

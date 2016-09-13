@@ -23,6 +23,7 @@
 - (void)postPerform {
     self.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 192);
     self.clipsToBounds = YES;
+    self.backgroundColor = [UIColor whiteColor];
     
     UIButton *save = [[UIButton alloc]init];
     [self addSubview:save];

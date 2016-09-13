@@ -1,12 +1,12 @@
 //
-//  AYSearchFilterKidsAgesController.m
+//  AYOrderTimesController.m
 //  BabySharing
 //
-//  Created by BM on 9/1/16.
-//  Copyright © 2016 Alfred Yang. All rights reserved.
+//  Created by Alfred Yang on 13/9/16.
+//  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSearchFilterKidsAgesController.h"
+#import "AYOrderTimesController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -16,14 +16,14 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
+#import "AYCommandDefines.h"
 
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "Tools.h"
-#import "AYCommandDefines.h"
+#import "OrderTimesOptionView.h"
 
 #define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
@@ -37,11 +37,15 @@
 
 #define FIELD_HEIGHT                        80
 
-@implementation AYSearchFilterKidsAgesController {
-    id dic_split_value;
+@implementation AYOrderTimesController {
     
     UILabel *setAgeslabel;
     NSTimeInterval dob;
+    
+    OrderTimesOptionView *startView;
+    OrderTimesOptionView *endView;
+    
+    NSMutableDictionary *dic_times;
     
     UIView *picker;
 }
@@ -52,13 +56,9 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        dic_split_value = [dic objectForKey:kAYControllerSplitValueKey];
+//        dic_split_value = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        
-        NSDictionary* dic_push = [dic copy];
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
@@ -70,48 +70,36 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-   
-    UILabel* title = [[UILabel alloc]init];
-    title.text = @"您的孩子年龄";
-    title.font = [UIFont systemFontOfSize:24.f];
-    title.textColor = TEXT_COLOR;
-    [title sizeToFit];
-    title.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, title.frame.size.height);
     
-    [self.view addSubview:title];
-  
-    NSString* str = @"为了筛选更准确的信息，我们会向您咨询一次孩子年龄";
-    UIFont* font = [UIFont systemFontOfSize:14.f];
-    CGSize sz = [Tools sizeWithString:str withFont:font andMaxSize:CGSizeMake(SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, FLT_MAX)];
+    if (!dic_times) {
+        dic_times = [[NSMutableDictionary alloc]initWithCapacity:2];
+    }
     
-    UILabel* des = [[UILabel alloc]init];
-    des.text = str;
-    des.font = font;
-    des.textColor = TEXT_COLOR;
-    des.numberOfLines = 0;
-    des.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 2 + title.frame.size.height, sz.width, sz.height);
-    
-    [self.view addSubview:des];
-   
-//    UITextField* field = [[UITextField alloc]init];
-//    field.frame = CGRectMake(CONTROLLER_MARGIN, STATUS_HEIGHT + NAV_HEIGHT + CONTROLLER_MARGIN * 4 + title.frame.size.height + sz.height, SCREEN_WIDTH - 2 * CONTROLLER_MARGIN, FIELD_HEIGHT);
-//    field.textAlignment = NSTextAlignmentCenter;
-    
-    setAgeslabel = [[UILabel alloc]init];
-    setAgeslabel = [Tools setLabelWith:setAgeslabel andText:@"点击筛选年龄阶段" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [self.view addSubview:setAgeslabel];
-    [setAgeslabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(175);
+    startView = [[OrderTimesOptionView alloc]initWithTitle:@"开始时间"];
+    [self.view addSubview:startView];
+    [startView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(100);
+        make.left.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH * 0.5, 75));
     }];
+    startView.userInteractionEnabled = YES;
+    [startView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetStartTime)]];
+    startView.states = 1;
     
-    setAgeslabel.userInteractionEnabled = YES;
-    [setAgeslabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNapBabyAgesClick:)]];
+    startView.timeLabel.text = @"10:00";
     
-    CALayer *bottomBorder = [CALayer layer];
-    bottomBorder.frame = CGRectMake(15.f, 225, SCREEN_WIDTH - 30, 1.0f);
-    bottomBorder.backgroundColor = [Tools themeColor].CGColor;
-    [self.view.layer addSublayer:bottomBorder];
+    endView = [[OrderTimesOptionView alloc]initWithTitle:@"结束时间"];
+    [self.view addSubview:endView];
+    [endView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(startView);
+        make.right.equalTo(self.view);
+        make.size.equalTo(startView);
+    }];
+    endView.userInteractionEnabled = YES;
+    [endView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetEndTime)]];
+    endView.states = 0;
+    
+    endView.timeLabel.text = @"12:00";
     
     /**
      * 保存按钮
@@ -132,7 +120,7 @@
         id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
         
-        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"SearchFilterKidsAges"];
+        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderTimes"];
         
         id obj = (id)cmd_recommend;
         [cmd_datasource performWithResult:&obj];
@@ -170,20 +158,36 @@
 #pragma mark -- actions
 - (void)saveBtnSelected {
     
-    id<AYCommand> cmd = POPSPLIT;
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[NSNumber numberWithDouble:dob] forKey:@"dob"];
-    [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
+    id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
 }
 
-- (void)setNapBabyAgesClick:(UIGestureRecognizer*)tap {
+- (void)didSetStartTime {
+    endView.states = 0;
+    startView.states = 1;
+    
+    endView.userInteractionEnabled = NO;
+    [self showPickerView];
+}
+- (void)didSetEndTime {
+    endView.states = 1;
+    startView.states = 0;
+    
+    startView.userInteractionEnabled = NO;
+    [self showPickerView];
+}
+
+- (void)showPickerView {
+    
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderTimes"];
+    id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenter"];
+    [cmd_scroll_center performWithResult:nil];
+    
     if (picker.frame.origin.y == SCREEN_HEIGHT) {
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
@@ -192,49 +196,35 @@
 }
 #pragma mark -- commands
 - (id)leftBtnSelected {
-    id<AYCommand> cmd = POPSPLIT;
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopSplitValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:dic_split_value forKey:kAYControllerSplitValueKey];
+    
+    id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
     return nil;
 }
 
 - (id)rightBtnSelected {
-    // TODO : reset search filter conditions
     return nil;
 }
 
 - (id)didSaveClick {
-    id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"SearchFilterKidsAges"];
+    id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"OrderTimes"];
     id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
     NSString *args = nil;
     [cmd_index performWithResult:&args];
     
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy年MM月dd日"];
-    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
-    [format setTimeZone:timeZone];
-    NSDate *filterDate = [format dateFromString:args];
-    
-    dob = filterDate.timeIntervalSince1970;
-    NSTimeInterval now = [NSDate date].timeIntervalSince1970;
-    NSTimeInterval howLong = now - dob;
-    
-    long years = (long)howLong / (86400 * 365);
-    long mouths = (long)howLong % (86400 * 365) / (86400 * 30);
-    NSString *agesStr = [NSString stringWithFormat:@"%ld岁%ld个月",years,mouths];
-    
-    if (agesStr) {
-        setAgeslabel.text = agesStr;
+    if (startView.userInteractionEnabled) {
+        startView.timeLabel.text = args;
     }
-    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-        }];
+    if (endView.userInteractionEnabled) {
+        endView.timeLabel.text = args;
     }
+    
+    [self didCancelClick];
     return nil;
 }
 - (id)didCancelClick {
@@ -243,7 +233,7 @@
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
         }];
     }
-    
+    startView.userInteractionEnabled = endView.userInteractionEnabled = YES;
     return nil;
 }
 @end

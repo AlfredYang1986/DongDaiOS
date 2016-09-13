@@ -613,17 +613,18 @@
     
     <view type="OrderInfoDateCell" name="OrderInfoDateCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="didEditDate" />
+        <command type="notify"      message="didEditTimes" />
     </view>
     
     <view type="OrderInfoPriceCell" name="OrderInfoPriceCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="didShowDetailClick" />
     </view>
     
     <view type="OrderInfoPayWayCell" name="OrderInfoPayWayCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="didShowDetailClick" />
     </view>
     
     <view type="Schedule" name="Schedule" factory="AYDefaultViewFactory" >
