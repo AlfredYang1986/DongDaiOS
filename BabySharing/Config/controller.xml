@@ -732,7 +732,6 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Table"          name="Table" />
         <view type="Loading"        name="Loading" />
         

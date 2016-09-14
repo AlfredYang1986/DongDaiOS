@@ -587,6 +587,9 @@
 		70D228231D893ED500EF4211 /* AYPastOrderDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2281C1D893ED500EF4211 /* AYPastOrderDelegate.m */; };
 		70D228241D893ED500EF4211 /* AYOrderCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2281F1D893ED500EF4211 /* AYOrderCellView.m */; };
 		70D228251D893ED500EF4211 /* AYOrderCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70D228201D893ED500EF4211 /* AYOrderCellView.xib */; };
+		70D2282C1D895AFC00EF4211 /* AYOrderDateCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2282A1D895AFC00EF4211 /* AYOrderDateCellView.m */; };
+		70D2282D1D895AFC00EF4211 /* AYOrderDateCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70D2282B1D895AFC00EF4211 /* AYOrderDateCellView.xib */; };
+		70D228301D896B3300EF4211 /* AYOrderPriceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D2282F1D896B3300EF4211 /* AYOrderPriceCellView.m */; };
 		70D46B641CEEB14A0093D50F /* InsetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D46B631CEEB14A0093D50F /* InsetsLabel.m */; };
 		70D48DF71D87C9E90039C741 /* AYOrderInfoPayWayCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D48DF61D87C9E90039C741 /* AYOrderInfoPayWayCellView.m */; };
 		70D48DFC1D87FD600039C741 /* AYOrderTimesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D48DFB1D87FD600039C741 /* AYOrderTimesController.m */; };
@@ -1928,6 +1931,11 @@
 		70D2281E1D893ED500EF4211 /* AYOrderCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCellView.h; sourceTree = "<group>"; };
 		70D2281F1D893ED500EF4211 /* AYOrderCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderCellView.m; sourceTree = "<group>"; };
 		70D228201D893ED500EF4211 /* AYOrderCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOrderCellView.xib; sourceTree = "<group>"; };
+		70D228291D895AFC00EF4211 /* AYOrderDateCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderDateCellView.h; sourceTree = "<group>"; };
+		70D2282A1D895AFC00EF4211 /* AYOrderDateCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderDateCellView.m; sourceTree = "<group>"; };
+		70D2282B1D895AFC00EF4211 /* AYOrderDateCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOrderDateCellView.xib; sourceTree = "<group>"; };
+		70D2282E1D896B3300EF4211 /* AYOrderPriceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderPriceCellView.h; sourceTree = "<group>"; };
+		70D2282F1D896B3300EF4211 /* AYOrderPriceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderPriceCellView.m; sourceTree = "<group>"; };
 		70D46B621CEEB14A0093D50F /* InsetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InsetsLabel.h; sourceTree = "<group>"; };
 		70D46B631CEEB14A0093D50F /* InsetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InsetsLabel.m; sourceTree = "<group>"; };
 		70D48DF51D87C9E90039C741 /* AYOrderInfoPayWayCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoPayWayCellView.h; sourceTree = "<group>"; };
@@ -4962,6 +4970,11 @@
 				705E96811D470E47006CF9E6 /* AYOrderContactCellView.h */,
 				705E96821D470E47006CF9E6 /* AYOrderContactCellView.m */,
 				705E96831D470E47006CF9E6 /* AYOrderContactCellView.xib */,
+				70D228291D895AFC00EF4211 /* AYOrderDateCellView.h */,
+				70D2282A1D895AFC00EF4211 /* AYOrderDateCellView.m */,
+				70D2282B1D895AFC00EF4211 /* AYOrderDateCellView.xib */,
+				70D2282E1D896B3300EF4211 /* AYOrderPriceCellView.h */,
+				70D2282F1D896B3300EF4211 /* AYOrderPriceCellView.m */,
 				705E96861D470E88006CF9E6 /* AYOrderStateCellView.h */,
 				705E96871D470E88006CF9E6 /* AYOrderStateCellView.m */,
 				705E96881D470E88006CF9E6 /* AYOrderStateCellView.xib */,
@@ -8114,6 +8127,7 @@
 				70D5BC731D77E3960046B4BC /* AYServicePageCellView.xib in Resources */,
 				703CCDF01CC9F2B100CF4563 /* AYNotificationCellView.xib in Resources */,
 				705E968A1D470E88006CF9E6 /* AYOrderStateCellView.xib in Resources */,
+				70D2282D1D895AFC00EF4211 /* AYOrderDateCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8157,6 +8171,7 @@
 				70EC72391D190D6F0012B123 /* SDCycleScrollView.m in Sources */,
 				70A1A55F1D1D4A860063FC7F /* AYEMFacade.m in Sources */,
 				80245E2D1D781582008A1C91 /* AYSearchFilterPriceRangeController.m in Sources */,
+				70D2282C1D895AFC00EF4211 /* AYOrderDateCellView.m in Sources */,
 				700693181CC4A3AF00B511FF /* WEBlockingGestureRecognizer.m in Sources */,
 				703CCDBF1CC9D71000CF4563 /* AYQueryNotificationsCommand.m in Sources */,
 				7060BDB41CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m in Sources */,
@@ -8267,6 +8282,7 @@
 				705E969A1D470F37006CF9E6 /* AYReadyOrderDelegate.m in Sources */,
 				701524371CBF60E6005B4C5B /* AYUserDisplayView.m in Sources */,
 				705B84551CC6A4D60057D442 /* AYTagEntryView.m in Sources */,
+				70D228301D896B3300EF4211 /* AYOrderPriceCellView.m in Sources */,
 				705489741D349449007FCDA1 /* AYProfileServiceInitCommand.m in Sources */,
 				706E46121CFC107A00CC7C53 /* AYLandingInputRoleView.m in Sources */,
 				70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */,

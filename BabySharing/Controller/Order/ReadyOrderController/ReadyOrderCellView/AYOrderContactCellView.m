@@ -35,13 +35,18 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    CALayer *line_separator = [CALayer layer];
+    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+    line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+    [self.layer addSublayer:line_separator];
+    
     _userPhotoImage.layer.cornerRadius = 25.f;
     _userPhotoImage.clipsToBounds = YES;
     
-    _contactBtn.layer.cornerRadius = 2.f;
-    _contactBtn.clipsToBounds = YES;
-    _contactBtn.layer.borderColor = [Tools themeColor].CGColor;
-    _contactBtn.layer.borderWidth = 1.f;
+//    _contactBtn.layer.cornerRadius = 2.f;
+//    _contactBtn.clipsToBounds = YES;
+//    _contactBtn.layer.borderColor = [Tools themeColor].CGColor;
+//    _contactBtn.layer.borderWidth = 1.f;
     
     // Initialization code
     [self setUpReuseCell];
@@ -101,11 +106,11 @@
 }
 
 - (IBAction)didContactBtnClick:(id)sender {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick:"];
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick"];
     [cmd performWithResult:nil];
 }
 
-- (id)setCellInfo:(NSString*)args{
+- (id)setCellInfo:(NSString*)args {
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
     

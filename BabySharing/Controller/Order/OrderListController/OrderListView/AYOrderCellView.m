@@ -142,7 +142,7 @@
     NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
     
     NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
-    [formatterDay setDateFormat:@"MM月dd日"];
+    [formatterDay setDateFormat:@"MM月dd日 EEEE"];
     NSString *dayStr = [formatterDay stringFromDate:startDate];
     
     NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
@@ -150,7 +150,7 @@
     NSString *startStr = [formatterTime stringFromDate:startDate];
     NSString *endStr = [formatterTime stringFromDate:endDate];
     
-    _orderDateLabel.text = [NSString stringWithFormat:@"%@, %@-%@",dayStr,startStr,endStr];
+    _orderDateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@",dayStr,startStr,endStr];
     
     NSNumber *isRead = [args objectForKey:@"is_read"];
     if (isRead.intValue == 0) {

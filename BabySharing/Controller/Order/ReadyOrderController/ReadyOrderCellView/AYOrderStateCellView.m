@@ -35,6 +35,12 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    CALayer *line_separator = [CALayer layer];
+    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+    line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+    [self.layer addSublayer:line_separator];
+    
     [self setUpReuseCell];
 }
 

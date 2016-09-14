@@ -1,44 +1,44 @@
 //
-//  AYOrderPayCellView.m
+//  AYOrderDateCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 26/7/16.
+//  Created by Alfred Yang on 14/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderPayCellView.h"
-#import "TmpFileStorageModel.h"
-#import "Notifications.h"
-#import "Tools.h"
-
-#import "AYViewController.h"
+#import "AYOrderDateCellView.h"
 #import "AYCommandDefines.h"
-#import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
+#import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@interface AYOrderPayCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *payForLabel;
-@property (weak, nonatomic) IBOutlet UILabel *costLabel;
+#import "AYThumbsAndPushDefines.h"
+
+@interface AYOrderDateCellView ()
+@property (weak, nonatomic) IBOutlet UILabel *orderDateLabel;
+@property (weak, nonatomic) IBOutlet UILabel *startLabel;
+@property (weak, nonatomic) IBOutlet UILabel *endLabel;
 
 @end
 
-@implementation AYOrderPayCellView
-
+@implementation AYOrderDateCellView
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
     
     CALayer *line_separator = [CALayer layer];
     line_separator.backgroundColor = [Tools garyLineColor].CGColor;
     line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
     [self.layer addSublayer:line_separator];
     
+    //    _contactBtn.layer.cornerRadius = 2.f;
+    //    _contactBtn.clipsToBounds = YES;
+    //    _contactBtn.layer.borderColor = [Tools themeColor].CGColor;
+    //    _contactBtn.layer.borderWidth = 1.f;
+    
+    // Initialization code
     [self setUpReuseCell];
 }
 
@@ -49,7 +49,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"OrderPayCell", @"OrderPayCell");
+    id<AYViewBase> cell = VIEW(@"OrderDateCell", @"OrderDateCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -95,8 +95,37 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(id)args{
-    //    NSDictionary *dic = (NSDictionary*)args;
+- (id)setCellInfo:(NSDictionary*)dic_args {
+    
+    NSDictionary *args = [dic_args objectForKey:@"order_date"];
+    
+    double start = ((NSNumber*)[args objectForKey:@"start"]).doubleValue;
+    double end = ((NSNumber*)[args objectForKey:@"end"]).doubleValue;
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy年MM月dd日, EEEE"];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [format setTimeZone:timeZone];
+    NSDate *today = [NSDate dateWithTimeIntervalSince1970:end];
+    NSString *dateStr = [format stringFromDate:today];
+    _orderDateLabel.text = dateStr;
+    
+    NSDateFormatter *formatTimes = [[NSDateFormatter alloc] init];
+    [formatTimes setDateFormat:@"HH:mm"];
+    [formatTimes setTimeZone:timeZone];
+    
+    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:start];
+    NSString *startStr = [formatTimes stringFromDate:startTime];
+    _startLabel.text = startStr;
+    
+    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:end];
+    NSString *endStr = [formatTimes stringFromDate:endTime];
+    _endLabel.text = endStr;
+    
+//        NSDictionary *times = [dic_args objectForKey:@"order_times"];
+//        NSString *start = [times objectForKey:@"start"];
+//        NSString *end = [times objectForKey:@"end"];
+    
     
     return nil;
 }

@@ -11,7 +11,7 @@
 
 #define DEFAULT_MARGIN_HER          30
 #define ITEM_WIDTH                  71
-#define ITEM_HEIGHT                 44
+#define ITEM_HEIGHT                 54
 #define ITME_LAYER_LINE_HEIGHT      4
 
 @implementation SearchSegItem {

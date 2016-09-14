@@ -32,8 +32,7 @@
 #import "OBShapedButton.h"
 
 @implementation AYOrderHeadCellView {
-    
-    UIImageView *headImage;
+    UILabel *orderNo_;
     UILabel *titleLabel;
     
     NSDictionary *service;
@@ -44,33 +43,33 @@
     if (self) {
         NSLog(@"init reuse identifier");
         
-        headImage = [[UIImageView alloc]init];
-        [self addSubview:headImage];
-        [headImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 225));
+        orderNo_ = [[UILabel alloc]init];
+        [self addSubview:orderNo_];
+        orderNo_ = [Tools setLabelWith:orderNo_ andText:@"ASDASDASDASDASFDFS" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        [orderNo_ mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self).offset(20);
+            make.left.equalTo(self).offset(15);
         }];
         
         titleLabel = [[UILabel alloc]init];
         [self addSubview:titleLabel];
         titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(headImage.mas_bottom);
-            make.left.equalTo(self).offset(15);
-            make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 15, 60));
+            make.top.equalTo(orderNo_.mas_bottom).offset(20);
+            make.left.equalTo(orderNo_);
         }];
-        titleLabel.userInteractionEnabled = YES;
-        [titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceDetailClick:)]];
         
         UIImageView *icon = [[UIImageView alloc]init];
         icon.image = IMGRESOURCE(@"chan_group_back");
         [self addSubview:icon];
         [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(titleLabel).offset(-10);
+            make.right.equalTo(self).offset(-15);
             make.centerY.equalTo(titleLabel);
             make.size.mas_equalTo(CGSizeMake(18, 18));
         }];
+        
+        self.userInteractionEnabled = YES;
+        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceDetailClick:)]];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -147,24 +146,7 @@
 - (id)setCellInfo:(NSDictionary*)dic_args{
     NSDictionary *args = [dic_args objectForKey:@"service"];
     
-    NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
-    
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            headImage.image = img;
-        }else{
-            [headImage setImage:IMGRESOURCE(@"sample_image")];
-        }
-    }];
-    
     titleLabel.text = [args objectForKey:@"title"];
-//    service = [args objectForKey:@"service"];
     
     return nil;
 }

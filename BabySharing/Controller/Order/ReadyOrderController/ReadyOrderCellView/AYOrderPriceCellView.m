@@ -1,12 +1,12 @@
 //
-//  AYOrderInfoPriceCellView.m
+//  AYOrderPriceCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 12/9/16.
+//  Created by Alfred Yang on 14/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInfoPriceCellView.h"
+#import "AYOrderPriceCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -16,7 +16,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYOrderInfoPriceCellView {
+@implementation AYOrderPriceCellView {
     
     UILabel *priceLabel;
     
@@ -132,7 +132,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"OrderInfoPriceCell", @"OrderInfoPriceCell");
+    id<AYViewBase> cell = VIEW(@"OrderPriceCell", @"OrderPriceCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -179,25 +179,19 @@
 }
 
 #pragma mark -- actions
-- (void)didServiceDetailClick:(UIGestureRecognizer*)tap{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didServiceDetailClick"];
-    [cmd performWithResult:nil];
-    
-}
-
 - (void)didShowDetailClick:(UIButton*)btn {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didShowDetailClick"];
     [cmd performWithResult:nil];
     
     NSString *title = btn.titleLabel.text;
     if ([title isEqualToString:@"查看详情"]) {
-//        [btn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
+        //        [btn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
         [btn setTitle:@"收起" forState:UIControlStateNormal];
         NSString *tmp = btn.titleLabel.text;
         NSLog(@"%@",tmp);
         
     } else if([title isEqualToString:@"收起"]){
-//        [btn setImage:nil forState:UIControlStateNormal];
+        //        [btn setImage:nil forState:UIControlStateNormal];
         [btn setTitle:@"查看详情" forState:UIControlStateNormal];
         
     }
@@ -206,8 +200,9 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)args {
     
-    NSDictionary *dic_args = [args objectForKey:@"service_info"];
-    NSDictionary *setedTimes = [args objectForKey:@"order_times"];
+    
+    NSDictionary *dic_args = [args objectForKey:@"service"];
+    NSNumber *unit_price = [dic_args objectForKey:@"price"];            //单价
     
     CGFloat sumPrice = 0;
     
@@ -217,28 +212,29 @@
         sumPrice += 40;
     }
     
-    NSNumber *unit_price = [dic_args objectForKey:@"price"];            //单价
+    NSDictionary *dic_times = [args objectForKey:@"order_date"];
+    double start = ((NSNumber*)[dic_times objectForKey:@"start"]).doubleValue;
+    double end = ((NSNumber*)[dic_times objectForKey:@"end"]).doubleValue;
     
-    if (setedTimes) {
-        
-        NSString *start = [setedTimes objectForKey:@"start"];
-        NSString *end = [setedTimes objectForKey:@"end"];
-        int startClock = [start substringToIndex:2].intValue;
-        int endClock = [end substringToIndex:2].intValue;
-        
-        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d小时",unit_price.floatValue,(endClock - startClock)];
-        
-        sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
-        priceLabel.text = [NSString stringWithFormat:@"￥%.f",sumPrice];
-        
-    } else {
-        
-        NSNumber *least_hours = [dic_args objectForKey:@"least_hours"];
-        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d+小时",unit_price.floatValue,least_hours.intValue];
-        
-        sumPrice = sumPrice + unit_price.floatValue * least_hours.intValue;
-        priceLabel.text = [NSString stringWithFormat:@"￥%.f+",sumPrice];
-    }
+    NSDateFormatter *formatTimes = [[NSDateFormatter alloc] init];
+    [formatTimes setDateFormat:@"HH:mm"];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [formatTimes setTimeZone:timeZone];
+    
+    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:start];
+    NSString *startStr = [formatTimes stringFromDate:startTime];
+    
+    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:end];
+    NSString *endStr = [formatTimes stringFromDate:endTime];
+    
+    
+    int startClock = [startStr substringToIndex:2].intValue;
+    int endClock = [endStr substringToIndex:2].intValue;
+    
+    themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d小时",unit_price.floatValue,(endClock - startClock)];
+    
+    sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
+    priceLabel.text = [NSString stringWithFormat:@"￥%.f",sumPrice];
     
     return nil;
 }

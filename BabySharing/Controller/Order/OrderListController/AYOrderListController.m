@@ -22,7 +22,8 @@
 #define SCREEN_WIDTH                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                   [UIScreen mainScreen].bounds.size.height
 
-#define SEGAMENT_HEGHT              46
+#define kFakeNavBarH                54
+#define kTableViewY                 74
 
 #define SEARCH_BAR_MARGIN_BOT       -2
 
@@ -30,7 +31,7 @@
 #define BOTTOM_BAR_HEIGHT           49
 
 @implementation AYOrderListController {
-    CALayer* line_friend_up;
+    
     BOOL isPush;
     
     NSMutableArray *result_status_0;
@@ -66,16 +67,9 @@
     [self.view bringSubviewToFront:loading];
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"DongDaSeg"];
-    [view_nav addSubview:(UIView*)view_title];
-    [view_nav sendSubviewToBack:(UIView*)view_title];
-    
-    line_friend_up = [CALayer layer];
-    line_friend_up.borderWidth = 1.f;
-    line_friend_up.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.18].CGColor;
-    line_friend_up.frame = CGRectMake(0, 74 + SEARCH_BAR_MARGIN_BOT + SEGAMENT_HEGHT + SEGAMENT_MARGIN_BOTTOM, SCREEN_WIDTH, 1);
-    line_friend_up.hidden = YES;
-    [self.view.layer addSublayer:line_friend_up];
+    id<AYViewBase> view_reg = [self.views objectForKey:@"DongDaSeg"];
+    [view_nav addSubview:(UIView*)view_reg];
+    [view_nav bringSubviewToFront:(UIView*)view_reg];
     
     {
         id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
@@ -198,7 +192,7 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, width, kFakeNavBarH);
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
@@ -215,12 +209,18 @@
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
+    
+    CALayer *separtor = [CALayer layer];
+    separtor.frame = CGRectMake(0, kFakeNavBarH - 4, SCREEN_WIDTH, 4);
+    separtor.backgroundColor = [Tools garyLineColor].CGColor;
+    [view.layer addSublayer:separtor];
+    
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 74, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
+    view.frame = CGRectMake(0, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - 69 - (isPush?0:49));
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -229,7 +229,7 @@
 
 - (id)Table2Layout:(UIView*)view {
     
-    view.frame = CGRectMake(SCREEN_WIDTH, 74, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isPush?0:49));
+    view.frame = CGRectMake(SCREEN_WIDTH, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - 69 - (isPush?0:49));
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -238,7 +238,7 @@
 
 - (id)DongDaSegLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 44);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 54);
     
     id<AYViewBase> seg = (id<AYViewBase>)view;
     id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];

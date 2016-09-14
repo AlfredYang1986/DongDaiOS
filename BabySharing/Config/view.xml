@@ -587,7 +587,15 @@
     </view>
     <view type="OrderContactCell" name="OrderContactCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didContactBtnClick:" />
+        <command type="notify"      message="didContactBtnClick" />
+    </view>
+    <view type="OrderDateCell" name="OrderDateCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message=":" />
+    </view>
+    <view type="OrderPriceCell" name="OrderPriceCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didShowDetailClick" />
     </view>
     <view type="OrderStateCell" name="OrderStateCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
