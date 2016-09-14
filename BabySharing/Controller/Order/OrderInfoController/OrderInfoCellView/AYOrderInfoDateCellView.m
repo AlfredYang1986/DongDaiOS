@@ -226,6 +226,16 @@
         [editDateBtn setTitle:@"编辑" forState:UIControlStateNormal];
         setTimeView.hidden = NO;
         
+        NSDictionary *times = [dic_args objectForKey:@"order_times"];
+        NSString *start = [times objectForKey:@"start"];
+        NSString *end = [times objectForKey:@"end"];
+        if (start) {
+            fromeLabel.text = start;
+        }
+        if (end) {
+            toLabel.text = end;
+        }
+        
     } else {
         
         [dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {

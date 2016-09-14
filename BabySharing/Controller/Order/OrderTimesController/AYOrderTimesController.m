@@ -39,13 +39,10 @@
 
 @implementation AYOrderTimesController {
     
-    UILabel *setAgeslabel;
-    NSTimeInterval dob;
-    
     OrderTimesOptionView *startView;
     OrderTimesOptionView *endView;
     
-    NSMutableDictionary *dic_times;
+    NSDictionary *setedTimes;
     
     UIView *picker;
 }
@@ -56,7 +53,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        dic_split_value = [dic objectForKey:kAYControllerChangeArgsKey];
+        setedTimes = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -71,9 +68,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    if (!dic_times) {
-        dic_times = [[NSMutableDictionary alloc]initWithCapacity:2];
-    }
     
     startView = [[OrderTimesOptionView alloc]initWithTitle:@"开始时间"];
     [self.view addSubview:startView];
@@ -86,7 +80,8 @@
     [startView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetStartTime)]];
     startView.states = 1;
     
-    startView.timeLabel.text = @"10:00";
+    NSString *start = [setedTimes objectForKey:@"start"];
+    startView.timeLabel.text = start ? start : @"10:00";
     
     endView = [[OrderTimesOptionView alloc]initWithTitle:@"结束时间"];
     [self.view addSubview:endView];
@@ -99,19 +94,21 @@
     [endView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetEndTime)]];
     endView.states = 0;
     
-    endView.timeLabel.text = @"12:00";
+    NSString *end = [setedTimes objectForKey:@"end"];
+    endView.timeLabel.text = end ? end : @"12:00";
+    
     
     /**
      * 保存按钮
      */
-    UIButton* btn = [[UIButton alloc]init];
-    [btn setTitle:@"保存" forState:UIControlStateNormal];
-    [self.view addSubview:btn];
-    btn.frame = CGRectMake(10, SCREEN_HEIGHT - 10 - 45, SCREEN_WIDTH - 2 * 10, 45);
-    btn.backgroundColor = [Tools themeColor];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn.layer setCornerRadius:4.f];
-    [btn addTarget:self action:@selector(saveBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton* btn = [[UIButton alloc]init];
+//    [btn setTitle:@"保存" forState:UIControlStateNormal];
+//    [self.view addSubview:btn];
+//    btn.frame = CGRectMake(10, SCREEN_HEIGHT - 10 - 45, SCREEN_WIDTH - 2 * 10, 45);
+//    btn.backgroundColor = [Tools themeColor];
+//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [btn.layer setCornerRadius:4.f];
+//    [btn addTarget:self action:@selector(saveBtnSelected) forControlEvents:UIControlEventTouchUpInside];
     
     {
         id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
@@ -140,11 +137,14 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, STATUS_HEIGHT, SCREEN_WIDTH, NAV_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    
     {
         UIImage* img = IMGRESOURCE(@"content_close");
-        id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"setLeftBtnImg:"];
+        id<AYCommand> cmd = [bar.commands objectForKey:@"setLeftBtnImg:"];
         [cmd performWithResult:&img];
     }
+    
     return nil;
 }
 
@@ -208,6 +208,20 @@
 }
 
 - (id)rightBtnSelected {
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [dic_args setValue:startView.timeLabel.text forKey:@"start"];
+    [dic_args setValue:endView.timeLabel.text forKey:@"end"];
+    
+    [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic];
+    
     return nil;
 }
 
@@ -225,6 +239,17 @@
     }
     
     [self didCancelClick];
+    
+    id<AYViewBase> bar = [self.views objectForKey:@"FakeNavBar"];
+    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
+    bar_right_btn.titleLabel.font = kAYFontLight(16.f);
+    [bar_right_btn sizeToFit];
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, NAV_HEIGHT / 2);
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+    [cmd_right performWithResult:&bar_right_btn];
+    
     return nil;
 }
 - (id)didCancelClick {

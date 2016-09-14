@@ -137,7 +137,7 @@
 //}
 
 #pragma mark -- messages
-- (id)queryCurrentSelected:(id)args{
+- (id)queryCurrentSelected:(id)args {
     NSInteger provinceIndex = [picker selectedRowInComponent: 0];
     NSInteger cityIndex = [picker selectedRowInComponent: 1];
     

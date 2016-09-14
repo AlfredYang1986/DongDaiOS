@@ -66,6 +66,17 @@
 
 - (id)setOrderDate:(id)args {
     setedDate = (NSNumber*)args;
+    if (!setedTimes) {
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+        [tmp setValue:@"10:00" forKey:@"start"];
+        [tmp setValue:@"12:00" forKey:@"end"];
+        setedTimes = [tmp copy];
+    }
+    return nil;
+}
+
+- (id)setOrderTimes:(NSDictionary*)args {
+    setedTimes = args;
     return nil;
 }
 
@@ -110,7 +121,12 @@
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
         id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        NSDictionary *tmp = [querydata copy];
+        
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+        [tmp setValue:[querydata copy] forKey:@"service_info"];
+        if (setedTimes) {
+            [tmp setValue:setedTimes forKey:@"order_times"];
+        }
         [cmd performWithResult:&tmp];
         
     } else {

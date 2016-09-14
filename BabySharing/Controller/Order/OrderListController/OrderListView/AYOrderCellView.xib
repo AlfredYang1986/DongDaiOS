@@ -86,7 +86,7 @@
                 <outlet property="thumbsImage" destination="9Mx-pg-mfx" id="KPg-08-d5I"/>
                 <outlet property="titleLabel" destination="Fio-b2-Ttb" id="1Z5-u9-SP5"/>
             </connections>
-            <point key="canvasLocation" x="457.5" y="355.5"/>
+            <point key="canvasLocation" x="497.5" y="318.5"/>
         </tableViewCell>
     </objects>
     <resources>
