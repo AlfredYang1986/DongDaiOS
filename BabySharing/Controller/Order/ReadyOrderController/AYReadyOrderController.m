@@ -31,6 +31,7 @@
 #import <AMapSearchKit/AMapSearchKit.h>
 
 #import "AYTabBarServiceController.h"
+#import "AYNavigationController.h"
 
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
@@ -50,7 +51,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         order_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        NSLog(@"%@",order_info);
+//        NSLog(@"%@",order_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -114,9 +115,9 @@
     [cmd_nib performWithResult:&nib_pay_name];
     /****************************************/
     
-    NSNumber *status = [order_info objectForKey:@"status"];
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    if (status.intValue == 0 && [self.tabBarController isKindOfClass:[des class]]) {
+    if ([self.tabBarController isKindOfClass:[des class]]) {
+        NSNumber *status = [order_info objectForKey:@"status"];
         UIButton *confirmSerBtn = [[UIButton alloc]init];
         confirmSerBtn.backgroundColor = [Tools themeColor];
         [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -127,10 +128,19 @@
             make.centerX.equalTo(self.view);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
         }];
-        [confirmSerBtn setTitle:@"接受或者拒绝" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchDown];
+        if (status.intValue == 0) {
+            
+            [confirmSerBtn setTitle:@"接受或者拒绝" forState:UIControlStateNormal];
+            [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchDown];
+        } else if (status.intValue == 1) {
+            
+            [confirmSerBtn setTitle:@"订单完成" forState:UIControlStateNormal];
+            [confirmSerBtn addTarget:self action:@selector(didFinishBtnClick) forControlEvents:UIControlEventTouchDown];
+        }
         
     }
+    
+    
     
     loading_status = [[NSMutableArray alloc]init];
     {
@@ -184,9 +194,9 @@
 - (id)TableLayout:(UIView*)view {
     NSNumber *status = [order_info objectForKey:@"status"];
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isNap = (status.intValue == 0 && [self.tabBarController isKindOfClass:[des class]]);
+    BOOL isNap = ((status.intValue == 0 || status.intValue == 1) && [self.tabBarController isKindOfClass:[des class]]);
     
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 + 10 - (isNap?44:0));
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isNap?44:0));
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
@@ -200,24 +210,43 @@
     return nil;
 }
 
-- (id)TimeOptionLayout:(UIView*)view {
-    CGFloat margin = 15.f;
-    view.frame = CGRectMake(margin, 64 + 10, SCREEN_WIDTH - margin * 2, view.frame.size.height);
-    view.backgroundColor = [UIColor whiteColor];
-    return nil;
-}
 
 #pragma mark -- actions
+- (void)loadNewData {
+    
+}
+
 - (void)didComfirmOrRejectBtnClick {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"接受",@"拒绝", nil];
-    [sheet showInView:self.view];
+//    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"接受",@"拒绝", nil];
+//    [sheet showInView:self.view];
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"AcceptOrReject");
+//    UINavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
+    AYNavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
+    
+//    [nav pushViewController:des animated:NO];
+    [des.navigationController setNavigationBarHidden:YES];
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic_push setValue:nav forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:order_info forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = SHOWMODULEUP;
+    [cmd performWithResult:&dic_push];
+    
+}
+
+- (void)didFinishBtnClick {
+    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"完成暂未实现" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 }
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderRead"];
+    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderInfo"];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
@@ -227,7 +256,8 @@
         
     } else if (buttonIndex == 1) {
         [dic setValue:[NSNumber numberWithInt:3] forKey:@"status"];
-    }
+    } else
+        return;
     
     [cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
@@ -315,6 +345,19 @@
     
     NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
     [dic_chat setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    NSString *user_id = [info objectForKey:@"user_id"];
+    NSString *order_user_id = [order_info objectForKey:@"user_id"];
+    NSString *order_owner_id = [order_info objectForKey:@"owner_id"];
+    
+    if ([user_id isEqualToString:order_owner_id]) {     //我发的服务
+        [dic_chat setValue:order_user_id forKey:@"owner_id"];
+    } else {
+        [dic_chat setValue:order_owner_id forKey:@"owner_id"];
+    }
+    
     [dic setValue:dic_chat forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;

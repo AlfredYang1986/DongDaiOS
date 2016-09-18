@@ -99,13 +99,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        
         return 193;
+        
     } else if (indexPath.row == 1) {
         if (collectData.count == 0) {
             return 0.001;
         } else
             return 235;
+        
     } else {
         if (collectData.count == 0) {
             return 0.001;

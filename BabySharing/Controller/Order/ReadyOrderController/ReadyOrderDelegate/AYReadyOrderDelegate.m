@@ -94,8 +94,9 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        NSString *tmp = [[querydata objectForKey:@"service"] objectForKey:@"owner_id"];
+//        NSString *tmp = [[querydata objectForKey:@"service"] objectForKey:@"owner_id"];
         id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        NSDictionary *tmp = [querydata copy];
         [cmd performWithResult:&tmp];
         
     } else if (indexPath.row == 2) {
@@ -138,6 +139,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (indexPath.row == 0) {
         return 110.f;
     } else if (indexPath.row == 1) {
@@ -151,20 +153,15 @@
     } else if (indexPath.row == 4) {
         return 100.f;
     } else if (indexPath.row == 5) {
-        int status = ((NSNumber*)[querydata objectForKey:@"status"]).intValue;
-        return status == 0 ? 0.001 : 70.f;
+//        int status = ((NSNumber*)[querydata objectForKey:@"status"]).intValue;
+//        return status == 0 ? 0.001 : 70.f;
+        return 0.001;
+        
     } else {
         return 220.f;
     }
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-//    return 10.f;
-//}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-}
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
     return NO;

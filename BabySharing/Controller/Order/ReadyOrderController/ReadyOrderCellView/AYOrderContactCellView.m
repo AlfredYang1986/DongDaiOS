@@ -110,12 +110,25 @@
     [cmd performWithResult:nil];
 }
 
-- (id)setCellInfo:(NSString*)args {
+- (id)setCellInfo:(NSDictionary*)args {
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    
+    NSString *user_id = [info objectForKey:@"user_id"];
+    NSString *order_user_id = [args objectForKey:@"user_id"];
+    NSString *order_owner_id = [args objectForKey:@"owner_id"];
+    
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
     
     NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:args forKey:@"user_id"];
+    
+    if ([user_id isEqualToString:order_owner_id]) {     //我发的服务
+        [dic_owner_id setValue:order_user_id forKey:@"user_id"];
+    } else {
+        [dic_owner_id setValue:order_owner_id forKey:@"user_id"];
+    }
     
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         _userNameLabel.text = [result objectForKey:@"screen_name"];
@@ -132,7 +145,6 @@
             } else
                 _userPhotoImage.image = IMGRESOURCE(@"default_user");
         }];
-        
     }];
     
     

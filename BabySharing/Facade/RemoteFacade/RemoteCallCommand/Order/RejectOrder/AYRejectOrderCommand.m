@@ -1,14 +1,15 @@
 //
-//  AYUpdateOrderReadCommand.m
+//  AYRejectOrderCommand.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 5/8/16.
+//  Created by Alfred Yang on 18/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYUpdateOrderReadCommand.h"
+#import "AYRejectOrderCommand.h"
 
-@implementation AYUpdateOrderReadCommand
+@implementation AYRejectOrderCommand
+
 - (void)postPerform {
     NSLog(@"host path is : %@", self.route);
 }

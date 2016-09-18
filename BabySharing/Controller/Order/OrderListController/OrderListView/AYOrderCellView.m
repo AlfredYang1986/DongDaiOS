@@ -126,7 +126,16 @@
             _statusLabel.text = @"已确认订单";
             break;
         case 2:
+            _statusLabel.text = @"已支付订单";
+            break;
+        case 9:
             _statusLabel.text = @"已完成订单";
+            break;
+        case -1:
+            _statusLabel.text = @"未支付订单";
+            break;
+        case -9:
+            _statusLabel.text = @"已拒绝订单";
             break;
         default:
             break;

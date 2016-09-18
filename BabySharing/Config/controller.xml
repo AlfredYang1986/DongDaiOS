@@ -738,6 +738,24 @@
         <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" />
     </controller>
     
+    <controller type="DefaultController" name="AcceptOrReject" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="RejectOrder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
     <controller type="DefaultController" name="ScanQRCode" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

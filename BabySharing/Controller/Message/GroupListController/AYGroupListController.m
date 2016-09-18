@@ -93,7 +93,7 @@
         
         tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
         // Enter the refresh status immediately
-        [tableView.mj_header beginRefreshing];
+//        [tableView.mj_header beginRefreshing];
     }
     
 }

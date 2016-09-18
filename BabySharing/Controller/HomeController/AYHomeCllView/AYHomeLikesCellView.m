@@ -166,7 +166,16 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return queryData.count/4 + 1;
+//    return queryData.count/4 + 1;
+    
+//    if (queryData.count < 4) {
+//        return 1;
+//    } else return queryData.count * 0.25;
+    
+    BOOL isB = queryData.count % 4 > 0;
+    if (isB) {
+        return queryData.count * 0.25 + 1;
+    } else return queryData.count * 0.25;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
