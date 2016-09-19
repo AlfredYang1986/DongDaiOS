@@ -48,6 +48,7 @@
     UIView *flexibleView;
     SDCycleScrollView *cycleScrollView;
 }
+
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
@@ -102,7 +103,8 @@
                 obj = [PRE stringByAppendingString:obj];
                 [tmp addObject:obj];
             }
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) delegate:self placeholderImage:IMGRESOURCE(@"sample_image")];
+            
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) delegate:self placeholderImage:IMGRESOURCE(@"placeholder_image")];
             cycleScrollView.imageURLStringsGroup = [tmp copy];
         } else {
             

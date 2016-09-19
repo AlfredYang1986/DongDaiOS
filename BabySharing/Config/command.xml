@@ -11,6 +11,8 @@
     <command type="PopToRoot" name="PopToRoot" factory="AYControllerExchangFactory" />
     <command type="ReversModule" name="ReversModule" factory="AYControllerExchangFactory" />
     <command type="ExchangeWindows" name="ExchangeWindows" factory="AYControllerExchangFactory" />
+    <command type="PushFromBot" name="PushFromBot" factory="AYControllerExchangFactory" />
+    <command type="PopFromBot" name="PopFromBot" factory="AYControllerExchangFactory" />
 
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />

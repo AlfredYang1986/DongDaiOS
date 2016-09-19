@@ -1,12 +1,12 @@
 //
-//  AYAcceptOrRejectController.m
+//  AYConfirmOrderController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 18/9/16.
+//  Created by Alfred Yang on 19/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYAcceptOrRejectController.h"
+#import "AYConfirmOrderController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -23,7 +23,7 @@
 #define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
-@implementation AYAcceptOrRejectController {
+@implementation AYConfirmOrderController {
     
     NSDictionary *order_info;
     
@@ -39,7 +39,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         order_info = [dic objectForKey:kAYControllerChangeArgsKey];
-//        NSLog(@"%@",order_info);
+        //        NSLog(@"%@",order_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -84,35 +84,20 @@
         make.centerX.equalTo(self.view);
     }];
     
-    UIButton *acceptBtn = [[UIButton alloc]init];
-    [self.view addSubview:acceptBtn];
-    acceptBtn.backgroundColor = [Tools themeColor];
-    [acceptBtn setTitle:@"接受" forState:UIControlStateNormal];
-    acceptBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [acceptBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [acceptBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIButton *confirmBtn = [[UIButton alloc]init];
+    [self.view addSubview:confirmBtn];
+    confirmBtn.backgroundColor = [Tools themeColor];
+    [confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+    confirmBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(order_detail.mas_bottom).offset(45);
-        make.centerX.equalTo(self.view).offset(SCREEN_WIDTH * 0.25);
+        make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(145, 44));
     }];
-    [acceptBtn addTarget:self action:@selector(didAcceptBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [confirmBtn addTarget:self action:@selector(didConfirmBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *rejectBtn = [[UIButton alloc]init];
-    [self.view addSubview:rejectBtn];
-    rejectBtn.backgroundColor = [Tools blackColor];
-    [rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
-    rejectBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [rejectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    rejectBtn.layer.borderWidth = 1.f;
-    rejectBtn.layer.borderColor = [UIColor whiteColor].CGColor;
-    [rejectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(order_detail.mas_bottom).offset(45);
-        make.centerX.equalTo(self.view).offset(-SCREEN_WIDTH * 0.25);
-        make.size.mas_equalTo(CGSizeMake(145, 44));
-    }];
-    [rejectBtn addTarget:self action:@selector(didRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    NSDictionary *dic_args = [order_info objectForKey:@"service"];
+    NSDictionary *dic_args = [order_info objectForKey:@"service_info"];
     NSNumber *unit_price = [dic_args objectForKey:@"price"];            //单价
     
     CGFloat sumPrice = 0;
@@ -122,9 +107,7 @@
         sumPrice += 40;
     }
     
-    NSDictionary *dic_times = [order_info objectForKey:@"order_date"];
-    double start = ((NSNumber*)[dic_times objectForKey:@"start"]).doubleValue;
-    double end = ((NSNumber*)[dic_times objectForKey:@"end"]).doubleValue;
+    double start = ((NSNumber*)[order_info objectForKey:@"order_date"]).doubleValue;
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy年MM月dd日, EEEE"];
@@ -133,23 +116,14 @@
     NSDate *today = [NSDate dateWithTimeIntervalSince1970:start];
     NSString *order_dateStr = [format stringFromDate:today];
     
-    NSDateFormatter *formatTimes = [[NSDateFormatter alloc] init];
-    [formatTimes setDateFormat:@"HH:mm"];
-//    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
-    [formatTimes setTimeZone:timeZone];
-    
-    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:start];
-    NSString *startStr = [formatTimes stringFromDate:startTime];
-    
-    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:end];
-    NSString *endStr = [formatTimes stringFromDate:endTime];
-    
+    NSDictionary *setedTimes = [order_info objectForKey:@"order_times"];
+    NSString *startStr = [setedTimes objectForKey:@"start"];
+    NSString *endStr = [setedTimes objectForKey:@"end"];
     
     int startClock = [startStr substringToIndex:2].intValue;
     int endClock = [endStr substringToIndex:2].intValue;
     
-    
-    sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
+    sumPrice += unit_price.floatValue * (endClock - startClock);
     
     NSString *detailStr = [NSString stringWithFormat:@"%@ %@-%@\n费用：￥%.f | 支付方式：微信",order_dateStr,startStr,endStr,sumPrice];
     order_detail.text = detailStr;
@@ -177,9 +151,9 @@
     view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-//    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-//    NSString *title = @"待确认订单";
-//    [cmd_title performWithResult:&title];
+    //    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    //    NSString *title = @"待确认订单";
+    //    [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_white");
@@ -189,66 +163,106 @@
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-//    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-//    [cmd_bot performWithResult:nil];
+    //    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+    //    [cmd_bot performWithResult:nil];
     
     return nil;
 }
 
 #pragma mark -- actions
-- (void)didAcceptBtnClick {
+- (void)didConfirmBtnClick:(UIButton*)btn {
+    
+    NSDictionary* args = nil;
+    CURRENUSER(args)
+    
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderInfo"];
+    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
     
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+    /**
+     yyyyMMdd + HH:mm -> timeSpan
+     */
     
-    [dic setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+    NSDictionary *service_info = [order_info objectForKey:@"service_info"];
+    NSNumber *order_date = [order_info objectForKey:@"order_date"];
+    if (!order_date) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您还没有预订时间" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+        return;
+    }
     
-    [cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        NSString *message = nil;
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:@"yyyy年MM月dd日"];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [format setTimeZone:timeZone];
+    NSDate *today = [NSDate dateWithTimeIntervalSince1970:order_date.doubleValue];
+    NSString *dateStr = [format stringFromDate:today];
+    
+    NSDictionary *setedTimes = [order_info objectForKey:@"order_times"];
+    NSString *start = [setedTimes objectForKey:@"start"];
+    NSString *end = [setedTimes objectForKey:@"end"];
+    
+    /**
+     *  最小时长限制
+     */
+    int startClock = [start substringToIndex:2].intValue;
+    int endClock = [end substringToIndex:2].intValue;
+    
+    NSString *dateStartStr = [dateStr stringByAppendingString:start];
+    NSString *dateEndStr = [dateStr stringByAppendingString:end];
+    
+    NSDateFormatter *format2 = [[NSDateFormatter alloc] init];
+    [format2 setDateFormat:@"yyyy年MM月dd日HH:mm"];
+    [format2 setTimeZone:timeZone];
+    NSDate *date_start = [format2 dateFromString:dateStartStr];
+    NSDate *date_end = [format2 dateFromString:dateEndStr];
+    
+    NSTimeInterval startSpan = date_start.timeIntervalSince1970;
+    NSTimeInterval endSpan = date_end.timeIntervalSince1970;
+    
+    NSMutableDictionary *dic_date = [[NSMutableDictionary alloc]init];
+    [dic_date setValue:[NSNumber numberWithDouble:startSpan] forKey:@"start"];
+    [dic_date setValue:[NSNumber numberWithDouble:endSpan] forKey:@"end"];
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_push setValue:[[service_info objectForKey:@"images"] objectAtIndex:0] forKey:@"order_thumbs"];
+    [dic_push setValue:dic_date forKey:@"order_date"];
+    [dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
+    
+    CGFloat sumPrice = 0;
+    BOOL isLeave = ((NSNumber*)[service_info objectForKey:@"allow_leave"]).boolValue;
+    if (isLeave) {
+        sumPrice += 40;
+    }
+    NSNumber *unit_price = [service_info objectForKey:@"price"];
+    sumPrice += unit_price.floatValue * (endClock - startClock);
+    
+    [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
+    
+    [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            message = @"您已经接受订单，请及时处理!";
-            [self popToRoot];
-        } else {
-            message = @"接受订单失败!请检查网络是否正常连接";
-            NSLog(@"error with:%@",result);
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务预订成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            // 支付
+            id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+            AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
+            
+            NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+            [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+            
+            [cmd performWithResult:&pay];
+            
+        }else {
+            NSLog(@"push error with:%@",result);
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务预订失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        
+        [self popToRoot];
+        
     }];
 }
 
-- (void)didRejectBtnClick {
-//    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-//    AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
-//    
-//    NSDictionary* info = nil;
-//    CURRENUSER(info)
-//    
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-//    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-//    [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
-//    
-//    [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
-//        if (success) {
-//            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"have done rejected" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//        } else {
-//            
-//        }
-//    }];
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"RejectOrder");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[order_info objectForKey:@"order_id"] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = PUSHFROMBOT;
-    [cmd_show_module performWithResult:&dic];
-}
-
 - (void)popToRoot {
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -259,6 +273,7 @@
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -266,14 +281,6 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     return nil;
-    
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    
-//    id<AYCommand> cmd = REVERSMODULE;
-//    [cmd performWithResult:&dic];
-//    return nil;
 }
 
 @end

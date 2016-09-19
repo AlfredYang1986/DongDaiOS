@@ -47,11 +47,15 @@ static NSString* const kAYFactoryManagerCommandTypeViewNotify = @"View Notify"; 
 static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          // 用户model对controller的notify
 
 static NSString* const kAYFactoryManagerCommandWindowChange = @"ExchangeWindows";
+static NSString* const kAYFactoryManagerCommandTypePushFromBot = @"PushFromBot";
+static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
+#define PUSHFROMBOT             COMMAND(kAYFactoryManagerCommandTypePushFromBot, kAYFactoryManagerCommandTypePushFromBot)
+#define POPFROMBOT              COMMAND(kAYFactoryManagerCommandTypePopFromBot, kAYFactoryManagerCommandTypePopFromBot)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
 #define POPTOROOT               COMMAND(kAYFactoryManagerCommandTypePopToRoot, kAYFactoryManagerCommandTypePopToRoot)
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)

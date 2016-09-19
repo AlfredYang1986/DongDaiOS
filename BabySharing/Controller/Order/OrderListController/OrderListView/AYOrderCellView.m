@@ -138,6 +138,7 @@
             _statusLabel.text = @"已拒绝订单";
             break;
         default:
+            _statusLabel.text = @"异次元订单";
             break;
     }
     
@@ -161,19 +162,19 @@
     
     _orderDateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@",dayStr,startStr,endStr];
     
-    NSNumber *isRead = [args objectForKey:@"is_read"];
-    if (isRead.intValue == 0) {
-        UIView *icon = [[UIView alloc]init];
-        icon.backgroundColor = [Tools themeColor];
-        icon.layer.cornerRadius = 4.f;
-        icon.clipsToBounds = YES;
-        [self addSubview:icon];
-        [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(_thumbsImage);
-            make.right.equalTo(self).offset(-25);
-            make.size.mas_equalTo(CGSizeMake(8, 8));
-        }];
-    }
+//    NSNumber *isRead = [args objectForKey:@"is_read"];
+//    if (isRead.intValue == 0) {
+//        UIView *icon = [[UIView alloc]init];
+//        icon.backgroundColor = [Tools themeColor];
+//        icon.layer.cornerRadius = 4.f;
+//        icon.clipsToBounds = YES;
+//        [self addSubview:icon];
+//        [icon mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(_thumbsImage);
+//            make.right.equalTo(self).offset(-25);
+//            make.size.mas_equalTo(CGSizeMake(8, 8));
+//        }];
+//    }
     
     return nil;
 }

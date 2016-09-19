@@ -205,7 +205,7 @@
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             [[[UIAlertView alloc]initWithTitle:@"提示" message:@"have done rejected" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//            [self popToRoot];
+            [self popToRoot];
         } else {
             
         }

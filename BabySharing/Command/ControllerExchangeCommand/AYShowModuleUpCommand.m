@@ -33,7 +33,7 @@
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
     if (tmp != nil) {
         id tmp_dst = nil;
-        if ([dst isKindOfClass:[UINavigationController class]]) 
+        if ([dst isKindOfClass:[UINavigationController class]])
             tmp_dst = ((UINavigationController*)dst).topViewController;
         else
             tmp_dst = dst;

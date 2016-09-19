@@ -632,5 +632,8 @@ NSString * const ID = @"cycleCell";
     }
 }
 
+- (CGSize)collectionView:(nonnull UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height);
+}
 
 @end

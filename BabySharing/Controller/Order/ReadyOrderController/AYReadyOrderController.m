@@ -220,21 +220,31 @@
 //    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"接受",@"拒绝", nil];
 //    [sheet showInView:self.view];
     
-    AYViewController* des = DEFAULTCONTROLLER(@"AcceptOrReject");
-//    UINavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
-    AYNavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
-    
+//    AYViewController* des = DEFAULTCONTROLLER(@"AcceptOrReject");
+////    UINavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
+//    AYNavigationController * nav = CONTROLLER(@"DefaultController", @"Navigation");
+//    
 //    [nav pushViewController:des animated:NO];
-    [des.navigationController setNavigationBarHidden:YES];
+//    [des.navigationController setNavigationBarHidden:YES];
+//    
+//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//    [dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+//    [dic_push setValue:nav forKey:kAYControllerActionDestinationControllerKey];
+//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic_push setValue:order_info forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd = SHOWMODULEUP;
+//    [cmd performWithResult:&dic_push];
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-    [dic_push setValue:nav forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:order_info forKey:kAYControllerChangeArgsKey];
+    id<AYCommand> des = DEFAULTCONTROLLER(@"AcceptOrReject");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:order_info forKey:kAYControllerChangeArgsKey];
     
-    id<AYCommand> cmd = SHOWMODULEUP;
-    [cmd performWithResult:&dic_push];
+    id<AYCommand> cmd_show_module = PUSHFROMBOT;
+    [cmd_show_module performWithResult:&dic];
     
 }
 
@@ -276,8 +286,6 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
-    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -297,7 +305,6 @@
  */
 - (id)didShowDetailClick {
     UITableView *table_view = [self.views objectForKey:@"Table"];
-    
     id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"ReadyOrder"];
     id<AYCommand> cmd_animation = [cmd_delegate.commands objectForKey:@"TransfromExpend"];
     [cmd_animation performWithResult:nil];

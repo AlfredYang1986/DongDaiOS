@@ -725,6 +725,14 @@
         <delegate type="TableViewDelegateAndDatasource" name="PastOrder" />
     </controller>
     
+    <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
     <controller type="DefaultController" name="ReadyOrder" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />

@@ -56,23 +56,37 @@
 //        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
 //        NSString *name = tmp.who.screen_name;
         NSDate *nowDate = [NSDate date];
-        NSTimeInterval now = nowDate.timeIntervalSince1970;
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+        [format setDateFormat:@"HH"];
+        NSTimeZone* localzone = [NSTimeZone defaultTimeZone];
+        [format setTimeZone:localzone];
+        NSString *dateStr = [format stringFromDate:nowDate];
+        
         NSString *on = nil;
-        long onTimeSpan = ((long)now /*+ 86400/3*/) % 86400;
-        if (onTimeSpan < 86400 * 0.25) {
+        int timeSpan = dateStr.intValue;
+        if (timeSpan >= 6 && timeSpan < 12) {
             on = @"上午好";
-        } else if (onTimeSpan < 86400 * 0.5) {
+        } else if (timeSpan >= 12 && timeSpan < 18) {
             on = @"下午好";
-        } else {
+        } else if((timeSpan >= 18 && timeSpan < 24) || (timeSpan >= 0 && timeSpan < 6)){
             on = @"晚上好";
+        } else {
+            on = @"获取系统时间错误";
         }
-//        NSTimeZone* localzone = [NSTimeZone localTimeZone];
-//        NSTimeZone* GTMzone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+        
+//        long onTimeSpan = ((long)now /*+ 86400/3*/) % 86400;
+//        if (onTimeSpan < 86400 * 0.25) {
+//            on = @"上午好";
+//        } else if (onTimeSpan < 86400 * 0.5) {
+//            on = @"下午好";
+//        } else {
+//            on = @"晚上好";
+//        }
         
         UILabel *hello = [[UILabel alloc]init];
         hello = [Tools setLabelWith:hello andText:on andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 //        hello.font = [UIFont systemFontOfSize:30.f weight:-0.5];
-        hello.font = [UIFont fontWithName:@"STHeitiSC-Light" size:30];
+        hello.font = kAYFontLight(30.f);
 //        hello.font = [UIFont systemFontOfSize:16.f];
 //        hello.textColor = [UIColor blackColor];
 //        NSString *subName = [name substringFromIndex:name.length - 1];
@@ -89,7 +103,7 @@
         
         UILabel *say = [[UILabel alloc]init];
         say.text = @"为您的孩子找个好去处";
-        say.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.f];
+        say.font = kAYFontLight(24.f);
         say.numberOfLines = 0;
         say.textColor = [Tools blackColor];
         [self addSubview:say];
