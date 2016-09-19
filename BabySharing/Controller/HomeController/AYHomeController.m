@@ -29,8 +29,6 @@
 
 typedef void(^queryContentFinish)(void);
 
-#define SCREEN_WIDTH                    [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                   [UIScreen mainScreen].bounds.size.height
 
 #define HEADER_MARGIN_TO_SCREEN         10.5
 #define CONTENT_START_POINT             71

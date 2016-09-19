@@ -64,7 +64,7 @@
         return nil;
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    return [UIScreen mainScreen].bounds.size.width;
+    return SCREEN_WIDTH;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {

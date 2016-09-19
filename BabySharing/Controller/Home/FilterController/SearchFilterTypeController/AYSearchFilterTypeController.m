@@ -23,12 +23,8 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "Tools.h"
 #import "AYSearchFilterTypeCellDefines.h"
 #import "AYCommandDefines.h"
-
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 
 #define STATUS_HEIGHT           20
 #define NAV_HEIGHT              45

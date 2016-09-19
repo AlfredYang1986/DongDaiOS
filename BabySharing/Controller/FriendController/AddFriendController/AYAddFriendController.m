@@ -37,7 +37,6 @@
 
 #import "QQApiInterfaceObject.h"
 #import "QQApiInterface.h"
-#import "Tools.h"
 
 // weibo sdk
 #import "WBHttpRequest+WeiboUser.h"
@@ -49,9 +48,6 @@
 #import "WXApiObject.h"
 #import "WXApi.h"
 
-
-#define kSCREENW [UIScreen mainScreen].bounds.size.width
-#define kSCREENH [UIScreen mainScreen].bounds.size.height
 
 #define SEARCH_BAR_HEIGHT           0 //44
 #define SEGAMENT_HEGHT              46
@@ -233,7 +229,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         
         NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
         [dic_user_info setValue:[NSNumber numberWithInt:-1] forKey:kAYSegViewCurrentSelectKey];
-        [dic_user_info setValue:[NSNumber numberWithFloat:0.0933f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
+        [dic_user_info setValue:[NSNumber numberWithFloat:0.0933f * SCREEN_WIDTH] forKey:kAYSegViewMarginBetweenKey];
         
         [cmd_info performWithResult:&dic_user_info];
     }

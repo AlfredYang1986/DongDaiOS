@@ -14,11 +14,8 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYSelfSettingCellDefines.h"
-#import "Tools.h"
 #import "AYSelfSettingCellView.h"
 
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 
 @interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>

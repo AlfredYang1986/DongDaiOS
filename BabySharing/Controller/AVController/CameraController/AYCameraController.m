@@ -61,8 +61,7 @@
     UIView* view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:view_title];
     
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width;
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + SCREEN_WIDTH;
     CGFloat last_height = [UIScreen mainScreen].bounds.size.height - height;
     take_btn = [[OBShapedButton alloc] init];
     [take_btn setBackgroundImage: PNGRESOURCE(@"post_take_btn") forState:UIControlStateNormal];
@@ -172,8 +171,8 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, FAKE_NAVIGATION_BAR_HEIGHT);
+    
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, FAKE_NAVIGATION_BAR_HEIGHT);
     view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     
     {
@@ -186,7 +185,7 @@
         [bar_right_btn setTitleColor:[UIColor colorWithRed:0.3126 green:0.7529 blue:0.6941 alpha:1.f] forState:UIControlStateNormal];
         [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
         [bar_right_btn sizeToFit];
-        bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
+        bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
         
         id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
         [cmd_right performWithResult:&bar_right_btn];

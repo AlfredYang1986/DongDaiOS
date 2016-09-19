@@ -22,13 +22,10 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "Tools.h"
 #import "AYCommandDefines.h"
 #import "AYDayCollectionCellView.h"
 #import "AYCalendarDate.h"
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 #define kCalendarWidth          (SCREEN_WIDTH - 30)
 #define COLLECTIONROWNUMB       7
 

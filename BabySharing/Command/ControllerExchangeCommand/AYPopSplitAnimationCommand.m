@@ -11,8 +11,6 @@
 #import "AYControllerActionDefines.h"
 #import "AYViewController.h"
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 
 @implementation AYPopSplitAnimationCommand
 

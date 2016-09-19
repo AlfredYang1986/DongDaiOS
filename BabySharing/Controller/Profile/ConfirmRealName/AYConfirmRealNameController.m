@@ -17,9 +17,6 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "Tools.h"
-#define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                       [UIScreen mainScreen].bounds.size.height
 
 @interface AYConfirmRealNameController ()
 

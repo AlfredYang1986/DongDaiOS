@@ -10,9 +10,7 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFactoryManager.h"
 #import "AYProfileHeadCellView.h"
-
 #import "Notifications.h"
-
 #import "AYModelFacade.h"
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
@@ -22,8 +20,6 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-#define SCREEN_WIDTH                    [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                   [UIScreen mainScreen].bounds.size.height
 
 @interface AYHomeDelegate ()
 

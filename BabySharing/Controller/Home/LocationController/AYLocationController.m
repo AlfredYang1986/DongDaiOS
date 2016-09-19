@@ -26,13 +26,10 @@
 #import "AYSearchDefines.h"
 
 #import "AYInsetLabel.h"
-#import "Tools.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 @interface AYLocationController ()<UISearchBarDelegate, CLLocationManagerDelegate, AMapSearchDelegate>
 @property (nonatomic, strong) CLLocationManager  *manager;

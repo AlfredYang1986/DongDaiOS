@@ -37,8 +37,6 @@
 #define BOTTOM_MARGIN           10.5
 #define INPUT_HEIGHT            37
 #define INPUT_CONTAINER_HEIGHT  49
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 #define USER_BTN_WIDTH          40
 #define USER_BTN_HEIGHT         23
 

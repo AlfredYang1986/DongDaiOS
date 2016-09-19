@@ -17,7 +17,6 @@
 #import "AYDongDaSegDefines.h"
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
-#import "Tools.h"
 
 #import "AYModelFacade.h"
 #import "LoginToken.h"
@@ -27,8 +26,6 @@
 
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 
 #define QUERY_VIEW_MARGIN_LEFT      10.5
 #define QUERY_VIEW_MARGIN_RIGHT     QUERY_VIEW_MARGIN_LEFT
@@ -175,10 +172,12 @@
         [cmd_left performWithResult:&left];
     }
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+//    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+//    NSString *title = @"沟通";
+//    [cmd_title performWithResult:&title];
+    
+    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+    [cmd_bot performWithResult:nil];
     return nil;
 }
 

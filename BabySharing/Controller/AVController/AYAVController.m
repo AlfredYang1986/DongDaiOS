@@ -60,39 +60,39 @@
 #define FUNCTION_BAR_BTN_HEIGHT     25
 #define FUNCTION_BAR_BTN_MARGIN     8
 - (id)FunctionBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + width;
-    view.frame = CGRectMake(0, height - FUNCTION_BAR_HEIGHT + 44, width, FUNCTION_BAR_HEIGHT);
+    
+    CGFloat height = FAKE_NAVIGATION_BAR_HEIGHT + SCREEN_WIDTH;
+    view.frame = CGRectMake(0, height - FUNCTION_BAR_HEIGHT + 44, SCREEN_WIDTH, FUNCTION_BAR_HEIGHT);
 //    view.backgroundColor = [UIColor colorWithWhite:0.1098 alpha:1.f];
     view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, FAKE_NAVIGATION_BAR_HEIGHT);
+    
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, FAKE_NAVIGATION_BAR_HEIGHT);
     view.backgroundColor = [UIColor colorWithRed:0.1373 green:0.1216 blue:0.1255 alpha:1.f];
     
     return nil;
 }
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    
     UILabel* titleView = (UILabel*)view;
     titleView.text = @"拍照";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
+    titleView.center = CGPointMake(SCREEN_WIDTH / 2, FAKE_NAVIGATION_BAR_HEIGHT / 2);
     return nil;
 }
 
 #define SEG_BTN_MARGIN_BETWEEN          45
 #define SEG_HEIGHT                      44
 - (id)DongDaSegLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    
     CGFloat screen_height = [UIScreen mainScreen].bounds.size.height;
-    view.frame = CGRectMake(0, screen_height - SEG_HEIGHT, width, SEG_HEIGHT);
+    view.frame = CGRectMake(0, screen_height - SEG_HEIGHT, SCREEN_WIDTH, SEG_HEIGHT);
 //    view.backgroundColor = [UIColor blackColor];
     
     id<AYViewBase> seg = (id<AYViewBase>)view;

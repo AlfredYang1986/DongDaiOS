@@ -23,8 +23,6 @@
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define LIMITNUMB                   228
 #define kTableFrameY                64
 

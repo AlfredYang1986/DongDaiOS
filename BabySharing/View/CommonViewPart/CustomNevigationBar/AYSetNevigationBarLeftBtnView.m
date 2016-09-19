@@ -13,10 +13,8 @@
 #import "AYResourceManager.h"
 #import "AYControllerBase.h"
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define FAKE_BAR_HEIGHT         44
 #define STATUS_BAR_HEIGHT       20
-
 #define BACK_BTN_LEFT_MARGIN    16 + 10
 
 @implementation AYSetNevigationBarLeftBtnView

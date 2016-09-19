@@ -8,7 +8,6 @@
 
 #import "AYInputNameController.h"
 #import "AYViewBase.h"
-#import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYCommandDefines.h"
@@ -17,9 +16,6 @@
 #import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
 #import "TmpFileStorageModel.h"
-
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 
 @interface AYInputNameController () <UINavigationControllerDelegate>

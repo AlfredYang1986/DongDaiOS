@@ -17,14 +17,11 @@
 #import "AYDongDaSegDefines.h"
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
-#import "Tools.h"
 
 #import "AYInsetLabel.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 
 @interface AYSetNapAgesController ()<UITextViewDelegate>

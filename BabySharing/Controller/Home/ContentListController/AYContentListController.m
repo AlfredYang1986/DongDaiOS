@@ -18,10 +18,7 @@
 #import "AYModelFacade.h"
 
 #import "AYSearchDefines.h"
-#import "Tools.h"
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 #define HEADVIEWHEIGHT                          95
 
 @interface AYContentListController ()

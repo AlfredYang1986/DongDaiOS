@@ -1,14 +1,16 @@
 //
-//  AYSearchFilterCellView.m
+//  AYCollectServCellView.m
 //  BabySharing
 //
-//  Created by BM on 9/1/16.
-//  Copyright © 2016 Alfred Yang. All rights reserved.
+//  Created by Alfred Yang on 8/7/16.
+//  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSearchFilterCellView.h"
+#import "AYMyServiceCellView.h"
+#import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "AYViewController.h"
+#import "Tools.h"
+
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -18,34 +20,23 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
-#import "AYSearchFilterCellDefines.h"
 
-#define LINE_MARGIN                         15.f
+#import "QueryContent.h"
+#import "QueryContentItem.h"
 
+@implementation AYMyServiceCellView
 
-#define SEARCH_FILTER_CELL_HEIGHT           90.f
-
-#define TITLE_TEXT_COLOR                    [UIColor redColor]
-
-@interface AYSearchFilterCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *addSign;
-@property (weak, nonatomic) IBOutlet UIButton *controlBtn;
-@end
-
-@implementation AYSearchFilterCellView
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
-    [self setUpReuseCell];
     
-    _addSign.textColor = [Tools themeColor];
-    CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(LINE_MARGIN, SEARCH_FILTER_CELL_HEIGHT - 0.5, SCREEN_WIDTH - 2 * LINE_MARGIN, 0.5);
-    line.borderColor = [Tools garyLineColor].CGColor;
-    line.borderWidth = 1.f;
-    [self.layer addSublayer:line];
+    
+    [self setUpReuseCell];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+    
 }
 
 @synthesize para = _para;
@@ -55,7 +46,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYSearchFilterCellName, kAYSearchFilterCellName);
+    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -101,18 +92,4 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(id)args {
-    
-    NSDictionary* dic = (NSDictionary*)args;
-    AYSearchFilterCellView* cell = [dic objectForKey:kAYSearchFilterCellCellKey];
-    NSString* title = [dic objectForKey:kAYSearchFilterCellTitleKey];
-    cell.titleLabel.text = title;
-    cell.titleLabel.textColor = [Tools blackColor];
-    [cell.titleLabel sizeToFit];
-    
-    NSString *sub_title = [dic objectForKey:kAYSearchFilterCellSubTitleKey];
-    cell.addSign.text = sub_title;
-    
-    return nil;
-}
 @end

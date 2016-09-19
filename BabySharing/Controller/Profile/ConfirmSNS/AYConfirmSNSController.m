@@ -18,9 +18,6 @@
 #import "AYModelFacade.h"
 #import "AYModel.h"
 
-#import "Tools.h"
-#define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                       [UIScreen mainScreen].bounds.size.height
 
 @interface AYConfirmSNSController ()
 

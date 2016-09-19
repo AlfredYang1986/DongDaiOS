@@ -9,13 +9,11 @@
 #import "AYFiterScrollView.h"
 #import "AYCommandDefines.h"
 #import "AYCalendarCellView.h"
-#import "Tools.h"
 
 #import "AYCalendarDate.h"
 #import "AYDayCollectionCellView.h"
 
-#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT       [UIScreen mainScreen].bounds.size.height
+
 #define WIDTH               (self.frame.size.width - 30)
 #define HEIGHT              self.frame.size.height
 #define MARGIN              10.f

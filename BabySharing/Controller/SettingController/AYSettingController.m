@@ -19,9 +19,6 @@
 #import "AYFacade.h"
 #import "AppDelegate.h"
 
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
-
 @implementation AYSettingController
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {

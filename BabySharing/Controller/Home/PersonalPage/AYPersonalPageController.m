@@ -23,11 +23,8 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "Tools.h"
 #import "SDCycleScrollView.h"
 
-#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT       [UIScreen mainScreen].bounds.size.height
 #define kLIMITEDSHOWNAVBAR  (-50)
 #define kFlexibleHeight     225
 

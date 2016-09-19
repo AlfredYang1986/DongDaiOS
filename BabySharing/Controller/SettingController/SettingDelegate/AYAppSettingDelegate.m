@@ -42,7 +42,7 @@
         CALayer* line = [CALayer layer];
         line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.20].CGColor;
         line.borderWidth = 1.f;
-        line.frame = CGRectMake(8, 68 - 1, [UIScreen mainScreen].bounds.size.width - 16, 1);
+        line.frame = CGRectMake(8, 68 - 1, SCREEN_WIDTH - 16, 1);
         [self.layer addSublayer:line];
     }
     return self;

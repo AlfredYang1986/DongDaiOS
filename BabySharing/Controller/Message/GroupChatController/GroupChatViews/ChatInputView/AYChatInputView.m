@@ -24,8 +24,6 @@
     
 #define INPUT_CONTAINER_HEIGHT  49
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 
 @interface AYChatInputView () <UITextViewDelegate>
 

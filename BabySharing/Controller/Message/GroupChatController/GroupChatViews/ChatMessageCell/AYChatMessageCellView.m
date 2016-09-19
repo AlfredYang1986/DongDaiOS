@@ -28,8 +28,6 @@
 #import "EMError.h"
 #import "EMMessage.h"
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 #define IMG_WIDTH               32
 
 #define MARGIN                  8

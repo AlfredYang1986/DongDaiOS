@@ -7,10 +7,7 @@
 //
 
 #import "AYSearchFilterTypeCellView.h"
-
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -25,11 +22,7 @@
 
 #define LINE_MARGIN                         10.f
 #define LINE_COLOR                          [Tools garyLineColor]
-
-#define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
-
 #define SEARCH_FILTER_CELL_HEIGHT           60.f
-
 #define TITLE_TEXT_COLOR                    [Tools garyColor]
 
 @interface AYSearchFilterTypeCellView ()

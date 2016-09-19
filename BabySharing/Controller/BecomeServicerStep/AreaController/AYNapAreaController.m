@@ -22,14 +22,11 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "Tools.h"
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 #define FAKE_BAR_HEIGHT             44
 

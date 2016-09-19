@@ -9,13 +9,10 @@
 #import "AYShowBoardView.h"
 #import "AYCommandDefines.h"
 #import "AYShowBoardCellView.h"
-#import "Tools.h"
 #import "AYControllerActionDefines.h"
 #import "AYFactoryManager.h"
 #import <MapKit/MapKit.h>
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 #define CellWidth   258
 
 @implementation AYShowBoardView{

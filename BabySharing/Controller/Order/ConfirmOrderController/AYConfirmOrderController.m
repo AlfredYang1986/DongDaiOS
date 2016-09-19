@@ -20,8 +20,6 @@
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 @implementation AYConfirmOrderController {
     

@@ -17,8 +17,6 @@
 #import "AYGroupListCellDefines.h"
 #import "MJRefresh.h"
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 #define TABLE_VIEW_TOP_MARGIN   64
 
 @implementation AYGroupListController {

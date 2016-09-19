@@ -16,7 +16,6 @@
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
 
-#import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
@@ -27,8 +26,6 @@
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 
 typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 

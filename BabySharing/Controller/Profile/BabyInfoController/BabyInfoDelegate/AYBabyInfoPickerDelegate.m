@@ -103,7 +103,7 @@
         return days[row];
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    return [UIScreen mainScreen].bounds.size.width / 3 - 20;
+    return SCREEN_WIDTH / 3 - 20;
 }
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if(component == 0){

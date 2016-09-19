@@ -25,7 +25,6 @@
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
-#import "Tools.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
@@ -33,8 +32,6 @@
 #import "AYTabBarServiceController.h"
 #import "AYNavigationController.h"
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 @implementation AYReadyOrderController{
     NSMutableArray *loading_status;

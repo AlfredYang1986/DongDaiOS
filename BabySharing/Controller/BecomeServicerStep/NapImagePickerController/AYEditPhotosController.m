@@ -25,12 +25,9 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-#import "Tools.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 #define kMaxImagesCount             9
 
 @interface AYEditPhotosController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate> {

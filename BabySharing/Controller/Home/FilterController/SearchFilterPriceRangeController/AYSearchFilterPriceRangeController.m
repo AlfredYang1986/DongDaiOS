@@ -23,11 +23,8 @@
 #import "LoginToken.h"
 #import "LoginToken+ContextOpt.h"
 
-#import "Tools.h"
 #import "AYCommandDefines.h"
 
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT           [UIScreen mainScreen].bounds.size.height
 #define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
 
 #define STATUS_HEIGHT                       20

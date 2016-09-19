@@ -9,8 +9,6 @@
 #import "AYServicePageDelegate.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -24,7 +22,6 @@
 #import "AYServiceInfoCellView.h"
 #import "AYFouceCellView.h"
 
-#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
 #define WIDTH               SCREEN_WIDTH - 15*2
 
 @implementation AYServicePageDelegate{

@@ -8,7 +8,6 @@
 
 #import "AYWelcomeController.h"
 #import "AYViewBase.h"
-#import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYCommandDefines.h"
@@ -18,8 +17,6 @@
 #import "OBShapedButton.h"
 
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 #define SCREEN_PHOTO_WIDTH                      100
 #define WELCOMEY        83
 #define PHOTOY          145

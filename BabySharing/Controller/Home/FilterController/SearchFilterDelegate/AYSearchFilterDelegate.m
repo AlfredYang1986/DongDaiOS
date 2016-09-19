@@ -7,7 +7,6 @@
 //
 
 #import "AYSearchFilterDelegate.h"
-#import "Tools.h"
 #import "AYSearchFilterCellDefines.h"
 
 #define SECTION_HEAD_FONT_SIZE              24.f
@@ -17,7 +16,6 @@
 #define LINE_MARGIN                         10.f
 #define LINE_COLOR                          [Tools garyLineColor]
 
-#define SCREEN_WIDTH                        [UIScreen mainScreen].bounds.size.width
 
 #define SEARCH_FILTER_CELL_HEIGHT           90.f
 

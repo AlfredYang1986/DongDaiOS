@@ -82,7 +82,6 @@
     [super viewDidLoad];
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define FAKE_BAR_HEIGHT         44
 #define STATUS_BAR_HEIGHT       20
     

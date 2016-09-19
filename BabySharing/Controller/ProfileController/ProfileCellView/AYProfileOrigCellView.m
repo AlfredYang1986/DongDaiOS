@@ -9,7 +9,6 @@
 #import "AYProfileOrigCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
 
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -21,7 +20,6 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
 #define WIDTH               SCREEN_WIDTH - 15*2
 
 @implementation AYProfileOrigCellView
