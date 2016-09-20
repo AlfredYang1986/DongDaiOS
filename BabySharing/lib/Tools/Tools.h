@@ -27,11 +27,13 @@
 + (CGSize)sizeWithString:(NSString*)str withFont:(UIFont*)font andMaxSize:(CGSize)sz;
 + (UIColor*)themeColor;
 + (UIColor*)blackColor;
++ (UIColor*)whiteColor;
 + (UIColor*)garyColor;
 + (UIColor*)garyLineColor;
 + (UIColor*)garyBackgroundColor;
 
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
++ (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;

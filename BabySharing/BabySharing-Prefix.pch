@@ -12,6 +12,7 @@
 #import "Tools.h"
 #import "Masonry.h"
 #import "MJRefresh.h"
+#import "AYCommandsCommand.h"
 
 #define SCREEN_WIDTH                                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                               [UIScreen mainScreen].bounds.size.height

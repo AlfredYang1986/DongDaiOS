@@ -173,6 +173,10 @@
         <command type="message" message="changeQueryData:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="MyService" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="BabyInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="sendDelMessage:" />

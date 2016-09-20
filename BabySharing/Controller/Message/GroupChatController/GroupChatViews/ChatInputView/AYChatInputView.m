@@ -52,7 +52,7 @@
     [sendBtn setTitle:@"Send" forState:UIControlStateNormal];
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
     [sendBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [sendBtn addTarget:self action:@selector(didSendMessageBtnClick) forControlEvents:UIControlEventTouchDown];
+    [sendBtn addTarget:self action:@selector(didSendMessageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:sendBtn];
     [sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-10);

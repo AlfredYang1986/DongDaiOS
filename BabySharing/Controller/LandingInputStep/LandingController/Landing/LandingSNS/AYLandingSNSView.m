@@ -73,7 +73,7 @@
     UIButton* wechat_btn = [[UIButton alloc]init];
     [self addSubview:wechat_btn];
     [wechat_btn setBackgroundImage:PNGRESOURCE(@"wechat_icon") forState:UIControlStateNormal];
-    [wechat_btn addTarget:self action:@selector(wechatBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    [wechat_btn addTarget:self action:@selector(wechatBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     wechat_btn.backgroundColor = [UIColor clearColor];
     wechat_btn.clipsToBounds = YES;
     [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -86,7 +86,7 @@
     
     UIButton* qq_btn = [[UIButton alloc]init];
     [qq_btn setBackgroundImage:PNGRESOURCE(@"qq_icon") forState:UIControlStateNormal];
-    [qq_btn addTarget:self action:@selector(qqBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    [qq_btn addTarget:self action:@selector(qqBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     qq_btn.backgroundColor = [UIColor clearColor];
     [self addSubview:qq_btn];
     [qq_btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -97,7 +97,7 @@
     
     UIButton* weibo_btn = [[UIButton alloc]init];
     [weibo_btn setBackgroundImage:PNGRESOURCE(@"weibo_icon") forState:UIControlStateNormal];
-    [weibo_btn addTarget:self action:@selector(weiboBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    [weibo_btn addTarget:self action:@selector(weiboBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     weibo_btn.backgroundColor = [UIColor clearColor];
     [self addSubview:weibo_btn];
     [weibo_btn mas_makeConstraints:^(MASConstraintMaker *make) {

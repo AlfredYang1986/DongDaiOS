@@ -254,13 +254,13 @@
     return nil;
 }
 
--(id)sendDelMessage:(NSNumber*)args{
+- (id)sendDelMessage:(NSNumber*)args {
     NSInteger index = args.integerValue;
     [querydate removeObjectAtIndex:index];
     return nil;
 }
 
--(id)showPicker:(NSNumber*)args{
+- (id)showPicker:(NSNumber*)args {
     if (picker2.frame.origin.y == SHOW_OFFSET_Y) {
         [UIView animateWithDuration:0.25 animations:^{
             picker2.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
@@ -277,7 +277,8 @@
     
     return nil;
 }
--(id)showPicker2:(NSNumber*)args{
+
+- (id)showPicker2:(NSNumber*)args {
     if (picker.frame.origin.y == SHOW_OFFSET_Y) {
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
@@ -286,7 +287,7 @@
                 picker2.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
             }];
         }];
-    }else{
+    } else {
         [UIView animateWithDuration:0.25 animations:^{
             picker2.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
         }];
@@ -344,7 +345,7 @@
     
     return nil;
 }
--(id)didCancelClick {
+- (id)didCancelClick {
     if (picker.frame.origin.y == SHOW_OFFSET_Y) {
         [UIView animateWithDuration:0.25 animations:^{
             picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);

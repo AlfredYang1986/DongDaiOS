@@ -59,10 +59,15 @@
     [cmd_message_init performWithResult:&message];
     message.tabBarItem.title = @"消息";
     
-    id<AYCommand> cmd_calendar_init = [self.commands objectForKey:@"CalendarServiceInit"];
-    AYViewController* calendar = nil;
-    [cmd_calendar_init performWithResult:&calendar];
-    calendar.tabBarItem.title = @"日程";
+//    id<AYCommand> cmd_calendar_init = [self.commands objectForKey:@"CalendarServiceInit"];
+//    AYViewController* calendar = nil;
+//    [cmd_calendar_init performWithResult:&calendar];
+//    calendar.tabBarItem.title = @"日程";
+    
+    id<AYCommand> cmd_service_init = [self.commands objectForKey:@"MyServiceInit"];
+    AYViewController* service = nil;
+    [cmd_service_init performWithResult:&service];
+    service.tabBarItem.title = @"日程";
     
     id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileServiceInit"];
     AYViewController* profile = nil;
@@ -70,7 +75,7 @@
     profile.tabBarItem.title = @"我的";
     
     //    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
-    self.viewControllers = [NSArray arrayWithObjects:order, message, calendar, profile, nil];
+    self.viewControllers = [NSArray arrayWithObjects:order, message, service, profile, nil];
     
     self.delegate = self;
     
@@ -80,7 +85,7 @@
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
     [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"订单"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"消息"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"日程"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"服务"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
@@ -130,36 +135,30 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if (isExchangeModel != 0) {
-        NSString *tipString = (isExchangeModel == 1) ? @"转换到服务者模式..." : @"转换到看护家庭模式...";
-        
-        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        [self.view addSubview:cover];
-        cover.backgroundColor = [UIColor blackColor];
-        
-        UILabel *tipsLabel = [[UILabel alloc]init];
-        tipsLabel = [Tools setLabelWith:tipsLabel andText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-        [cover addSubview:tipsLabel];
-        [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(cover).offset(-60);
-            make.centerX.equalTo(cover);
-        }];
-        
-//        id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-//        ((UIView*)_loading).userInteractionEnabled = NO;
-//        [cover addSubview:((UIView*)_loading)];
-//        id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-//        [cmd performWithResult:nil];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.5 animations:^{
-                cover.alpha = 0;
-            } completion:^(BOOL finished) {
-                [cover removeFromSuperview];
-            }];
-        });
-    }
-    isExchangeModel = 0;
+//    if (isExchangeModel != 0) {
+//        NSString *tipString = (isExchangeModel == 1) ? @"转换到服务者模式..." : @"转换到看护家庭模式...";
+//        
+//        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+//        [self.view addSubview:cover];
+//        cover.backgroundColor = [UIColor blackColor];
+//        
+//        UILabel *tipsLabel = [[UILabel alloc]init];
+//        tipsLabel = [Tools setLabelWith:tipsLabel andText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+//        [cover addSubview:tipsLabel];
+//        [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(cover).offset(-60);
+//            make.centerX.equalTo(cover);
+//        }];
+//        
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [UIView animateWithDuration:0.5 animations:^{
+//                cover.alpha = 0;
+//            } completion:^(BOOL finished) {
+//                [cover removeFromSuperview];
+//            }];
+//        });
+//    }
+//    isExchangeModel = 0;
 }
 
 #pragma mark -- tabbar delegate

@@ -102,6 +102,7 @@
     
     <command type="Module" name="OrderInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MessageServiceInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MyServiceInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="CalendarServiceInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ProfileServiceInit" factory="AYDefaultModuleFactory" />
     

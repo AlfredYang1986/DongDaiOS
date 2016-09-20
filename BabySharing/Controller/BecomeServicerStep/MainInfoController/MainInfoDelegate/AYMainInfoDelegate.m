@@ -20,8 +20,6 @@
     NSMutableArray *titles;
     NSMutableArray *sub_titles;
     
-    UITableView *infoTableView;
-    
     UIImage *napPhoto;
     NSString *napPhotoName;
     NSString *napTitle;
@@ -109,7 +107,6 @@
         napThemeNote = [dic objectForKey:@"cans"];
     }
     
-    [infoTableView reloadData];
     return nil;
 }
 
@@ -121,6 +118,8 @@
     napAges = [info objectForKey:@"age_boundary"];
     napCost = [info objectForKey:@"price"];
     napAdress = [NSString stringWithFormat:@"%@%@",[info objectForKey:@"address"], [info objectForKey:@"adjust_address"]];
+    napDeviceNote = [info objectForKey:@"facility"];
+    napThemeNote = [info objectForKey:@"cans"];
     
     {
         NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
@@ -137,13 +136,12 @@
 //        dic_cost = dic_options;
     }
     
-    [infoTableView reloadData];
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    infoTableView = tableView;
+    
     return 7;
 }
 

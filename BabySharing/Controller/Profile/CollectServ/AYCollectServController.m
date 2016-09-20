@@ -112,7 +112,7 @@
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
         }];
         [confirmSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchDown];
+        [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
         
     } else {
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];

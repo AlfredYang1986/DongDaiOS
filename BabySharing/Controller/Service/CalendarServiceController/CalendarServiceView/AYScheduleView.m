@@ -73,7 +73,7 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
--(AYCalendarDate*)useTime{
+- (AYCalendarDate*)useTime {
     if (!_useTime) {
         _useTime = [[AYCalendarDate alloc]init];
     }
@@ -222,13 +222,13 @@
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(i*labelWidth + 15, 0, labelWidth, 30)];
         label.text = [titleArr objectAtIndex:i];
         label.textAlignment = 1;
-        label.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
+        label.textColor = [Tools blackColor];
         label.font = [UIFont systemFontOfSize:14.f];
         [_headerView addSubview:label];
     }
     CALayer *line_separator = [CALayer layer];
-    line_separator.frame = CGRectMake(0, 29, WIDTH, 1);
-    line_separator.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    line_separator.frame = CGRectMake(0, 29.5, WIDTH, 0.5);
+    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
     [_headerView.layer addSublayer:line_separator];
     
     /******************/
@@ -238,7 +238,7 @@
     layout.minimumLineSpacing = 0;
     layout.minimumInteritemSpacing = 0;
     
-    _calendarContentView = [[UICollectionView alloc]initWithFrame:CGRectMake(30, 40, WIDTH - 30, (WIDTH - 30)/7*COLLECTIONROWNUMB) collectionViewLayout:layout];
+    _calendarContentView = [[UICollectionView alloc]initWithFrame:CGRectMake(30, 30, WIDTH - 30, (WIDTH - 30)/7*COLLECTIONROWNUMB) collectionViewLayout:layout];
     _calendarContentView.backgroundColor = [UIColor clearColor];
     [self addSubview:_calendarContentView];
     _calendarContentView.delegate = self;
@@ -253,7 +253,7 @@
     [self refreshScrollPositionCurrentDate];
     
     CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, (WIDTH - 30)/7*COLLECTIONROWNUMB + 40, SCREEN_WIDTH, 0.5);
+    line.frame = CGRectMake(0, (WIDTH - 30)/7*COLLECTIONROWNUMB + 30, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
     [self.layer addSublayer:line];
     
@@ -366,7 +366,7 @@
     
     return [self.useTime timeFewWeekInMonth:dateStr] * 7;
 }
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     AYDayCollectionCellView *cell = (AYDayCollectionCellView *)[collectionView dequeueReusableCellWithReuseIdentifier:@"AYDayCollectionCellView" forIndexPath:indexPath];
     
     //每个月的第一天
@@ -402,7 +402,7 @@
         cell.chineseCalendar = [self.useTime timeChineseCalendarWithString:dateStr];
         
         CGFloat wh = (WIDTH - 30)/7;
-        UIView *selectBgView = [[UIView alloc] initWithFrame:CGRectMake(9, 0, wh, wh)];
+        UIView *selectBgView = [[UIView alloc] init];
         selectBgView.backgroundColor = [Tools themeColor];
         selectBgView.layer.cornerRadius = wh / 2;
         selectBgView.clipsToBounds = YES;
@@ -410,13 +410,14 @@
     }
     return cell;
 }
+
 //获得据section／cell的完整日期
--(NSString *)getDateStrForSection:(NSInteger)section day:(NSInteger)day{
+- (NSString *)getDateStrForSection:(NSInteger)section day:(NSInteger)day {
     return [NSString stringWithFormat:@"%ld-%ld-%ld", section/12 + [_useTime getYear], section%12 + 1, day];
 }
 
 //header
--(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"AYDayCollectionHeader" forIndexPath:indexPath];
         
@@ -434,7 +435,7 @@
         }
         CALayer *spearter = [CALayer layer];
         spearter.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f].CGColor;
-        spearter.frame = CGRectMake(0, 8, WIDTH - 30, 1);
+        spearter.frame = CGRectMake(0, 8.5, WIDTH - 30, 0.5);
         [headerView.layer addSublayer:spearter];
         //设置属性
         label.text = [NSString stringWithFormat:@"%ld月 %ld年", indexPath.section % 12 + 1, indexPath.section/12 + [_useTime getYear]];
@@ -454,6 +455,20 @@
     if (cell.isGone) {
         return ;
     }
+    
+//    NSIndexPath *pre_indexPath = [NSIndexPath indexPathForRow:indexPath.row - 1 inSection:indexPath.section];
+//    AYDayCollectionCellView * pre_cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:pre_indexPath];
+//    if (pre_cell.isSelected) {
+//        
+//        CGFloat wh = (WIDTH - 30)/7;
+//        UIView *selectBgView = [[UIView alloc] init];
+//        selectBgView.backgroundColor = [Tools garyLineColor];
+//        selectBgView.layer.cornerRadius = wh / 2;
+//        selectBgView.clipsToBounds = YES;
+//        cell.selectedBackgroundView = selectBgView;
+//        
+////        pre_cell.selectedBackgroundView = selectBgView;
+//    }
     
     tips.hidden = YES;
     dateOptionView.center = CGPointMake(SCREEN_WIDTH * 0.5, dateOptionView.center.y);
@@ -539,7 +554,42 @@
         else return NSOrderedSame;
     }];
     
-    if (tmpTimeArray.count <= 4) {
+//    if (tmpTimeArray.count <= 4) {
+//        ability_dateString = [self transformTimespanToMouthAndDayWithDate:((NSNumber*)[tmpTimeArray objectAtIndex:0]).longValue];
+//        for (int i = 1; i < (tmpTimeArray.count > 4 ? 4 : tmpTimeArray.count) ; ++i) {
+//            long timeDate = ((NSNumber*)[tmpTimeArray objectAtIndex:i]).longValue;
+//            NSString *date_string = [self transformTimespanToMouthAndDayWithDate:timeDate];
+//            ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",date_string]];
+//        }
+//    } else {
+//        if ([self isMilitaryWithArray:tmpTimeArray]) {
+//            long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
+//            NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
+//            
+//            long last = ((NSNumber*)[tmpTimeArray lastObject]).longValue;
+//            NSString *last_string = [self transformTimespanToMouthAndDayWithDate:last];
+//            
+//            ability_dateString = [NSString stringWithFormat:@"%@ - %@",first_string, last_string];
+//            
+//        } else ability_dateString = @"多个日期可以提供服务";
+//    }
+    
+    if (tmpTimeArray.count == 1) {
+        long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
+        NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
+        
+        ability_dateString = [NSString stringWithFormat:@"%@",first_string];
+        
+    } else if ([self isMilitaryWithArray:tmpTimeArray]) {
+        long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
+        NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
+        
+        long last = ((NSNumber*)[tmpTimeArray lastObject]).longValue;
+        NSString *last_string = [self transformTimespanToMouthAndDayWithDate:last];
+        
+        ability_dateString = [NSString stringWithFormat:@"%@ - %@",first_string, last_string];
+        
+    } else if (tmpTimeArray.count <= 4) {
         
         ability_dateString = [self transformTimespanToMouthAndDayWithDate:((NSNumber*)[tmpTimeArray objectAtIndex:0]).longValue];
         for (int i = 1; i < (tmpTimeArray.count > 4 ? 4 : tmpTimeArray.count) ; ++i) {
@@ -547,23 +597,12 @@
             NSString *date_string = [self transformTimespanToMouthAndDayWithDate:timeDate];
             ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",date_string]];
         }
-    } else {
-        if ([self isMilitaryWithArray:tmpTimeArray]) {
-            long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
-            NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
-            
-            long last = ((NSNumber*)[tmpTimeArray lastObject]).longValue;
-            NSString *last_string = [self transformTimespanToMouthAndDayWithDate:last];
-            
-            ability_dateString = [NSString stringWithFormat:@"%@ - %@",first_string, last_string];
-            
-        } else ability_dateString = @"多个日期可以提供服务";
-    }
+    } else ability_dateString = @"多个日期可以提供服务";
     
     abilityDate.text = ability_dateString;
 }
 
--(BOOL)isMilitaryWithArray:(NSArray*)array{
+- (BOOL)isMilitaryWithArray:(NSArray*)array {
     
     NSTimeInterval conpare = ((NSNumber*)array.firstObject).longValue;
     for (int i = 1; i < array.count; ++i) {

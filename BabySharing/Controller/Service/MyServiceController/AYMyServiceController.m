@@ -67,7 +67,7 @@
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MyServiceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&nib_search_name];
     
     
@@ -80,30 +80,30 @@
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"QueryMyService"];
     [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            id<AYCommand> cmd_change_data = [cmd_collect.commands objectForKey:@"changeQueryData:"];
-            NSArray *data = [result objectForKey:@"result"];
-            [cmd_change_data performWithResult:&data];
             
-            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
+            NSArray *data = [result objectForKey:@"result"];
+            kAYDelegatesSendMessage(@"MyService", @"changeQueryData:", &data)
+            
+            kAYViewsSendMessage(@"Table", @"refresh", nil)
             
         } else {
             NSLog(@"push error with:%@",result);
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            kAYUIAlertView(@"错误", @"请检查网络链接是否正常");
         }
     }];
     
-    UIButton *confirmSerBtn = [[UIButton alloc]init];
-    confirmSerBtn.backgroundColor = [Tools themeColor];
-    [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:confirmSerBtn];
-    [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
+    UIButton *pushNewSerBtn = [[UIButton alloc]init];
+    pushNewSerBtn.backgroundColor = [Tools themeColor];
+    [pushNewSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.view addSubview:pushNewSerBtn];
+    [pushNewSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).offset(-49);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
     }];
-    [confirmSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
-    [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchDown];
+    [pushNewSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
+    [pushNewSerBtn addTarget:self action:@selector(didPushNewSerBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -126,28 +126,22 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
+    NSString *title = @"我的服务";
+    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
     
-    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"我的";
-    [cmd_title performWithResult:&title];
-    
-    id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
     NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-    [cmd_left_vis performWithResult:&left_hidden];
+    kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnVisibility:", &left_hidden);
     
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
+    kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
     
-    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-    [cmd_bot performWithResult:nil];
+    kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);
     
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 74 - 44);
+    view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 - 49);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;
@@ -156,13 +150,8 @@
     return nil;
 }
 
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
-}
-
 #pragma mark -- actions
-- (void)conmitMyService {
+- (void)didPushNewSerBtnClick {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -176,7 +165,6 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -184,6 +172,22 @@
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)didManagerBtnClick:(id)args {
+    
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"CalendarService");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 

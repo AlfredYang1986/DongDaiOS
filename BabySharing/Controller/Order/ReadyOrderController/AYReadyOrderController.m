@@ -128,11 +128,11 @@
         if (status.intValue == 0) {
             
             [confirmSerBtn setTitle:@"接受或者拒绝" forState:UIControlStateNormal];
-            [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchDown];
+            [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
         } else if (status.intValue == 1) {
             
             [confirmSerBtn setTitle:@"订单完成" forState:UIControlStateNormal];
-            [confirmSerBtn addTarget:self action:@selector(didFinishBtnClick) forControlEvents:UIControlEventTouchDown];
+            [confirmSerBtn addTarget:self action:@selector(didFinishBtnClick) forControlEvents:UIControlEventTouchUpInside];
         }
         
     }

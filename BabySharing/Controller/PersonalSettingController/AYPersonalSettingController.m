@@ -275,10 +275,10 @@
     [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
     [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
             [self popToPreviousWithSave];
         } else {
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         }
     }];
 }
@@ -288,7 +288,7 @@
     if (pickerView.frame.origin.y == SCREEN_HEIGHT) {
         [UIView animateWithDuration:0.25 animations:^{
             pickerView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
-            NSLog(@"%f",pickerView.frame.origin.y);
+//            NSLog(@"%f",pickerView.frame.origin.y);
         }];
     }
     return nil;
@@ -309,18 +309,18 @@
         [change performWithResult:&address];
     }
     
-    if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-        }];
-    }
+//    if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
+//        [UIView animateWithDuration:0.25 animations:^{
+//            pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+//        }];
+//    }
     return nil;
 }
 - (id)didCancelClick {
+//    [UIView animateWithDuration:0.25 animations:^{
+//        pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+//    }];
     
-    [UIView animateWithDuration:0.25 animations:^{
-        pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-    }];
     return nil;
 }
 

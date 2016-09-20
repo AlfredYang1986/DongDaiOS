@@ -31,7 +31,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 @interface AYMainInfoController () <UIActionSheetDelegate>
 @property (nonatomic, strong) NSMutableDictionary *service_change_dic;
-
+@property (nonatomic, strong) NSMutableArray *noteAllArgs;
 @end
 
 @implementation AYMainInfoController {
@@ -48,6 +48,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSDictionary *service_info;
     
     UIButton *confirmSerBtn;
+    
 }
 
 
@@ -59,11 +60,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         NSDictionary *args = [dic objectForKey:kAYControllerChangeArgsKey];
         if ([args objectForKey:@"owner_id"]) {
             service_info = args;
-            
-            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
-            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryInfo:"];
-            NSDictionary *dic_info = service_info;
-            [cmd performWithResult:&dic_info];
             
         } else if ([args objectForKey:@"type"]) {
             areaString = [args objectForKey:@"area"];
@@ -77,34 +73,45 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         if (dic_info) {
             
             NSString *key = [dic_info objectForKey:@"key"];
-            if ([key isEqualToString:@"nap_cover"]) {
+            if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
                 
-            } else if([key isEqualToString:@"nap_title"]){
+                [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
+                
+            } else if([key isEqualToString:@"nap_title"]){  //1
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
                 
-            } else if([key isEqualToString:@"nap_desc"]) {
-                napDesc = [dic_info objectForKey:@"content"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
-                
-            } else if([key isEqualToString:@"nap_ages"]){
+                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+            }
+//            else if([key isEqualToString:@"nap_desc"]) {
+//                napDesc = [dic_info objectForKey:@"content"];
+//                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
+//                
+//            }
+            else if([key isEqualToString:@"nap_ages"]){     //2
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
                 
-            } else if([key isEqualToString:@"nap_theme"]){
+                [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
+                
+            } else if([key isEqualToString:@"nap_theme"]){  //3
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"cans"] forKey:@"cans"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
                 
-            } else if([key isEqualToString:@"nap_cost"]){
+                [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                
+            } else if([key isEqualToString:@"nap_cost"]){   //4
                 
                 NSString *price = [dic_info objectForKey:@"price"];
                 [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:@"price"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"least_hours"] forKey:@"least_hours"];
                 
-            } else if([key isEqualToString:@"nap_adress"]){
+                [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
+                
+            } else if([key isEqualToString:@"nap_adress"]){     //5
                 
                 CLLocation *napLoc = [dic_info objectForKey:@"location"];
                 NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
@@ -118,16 +125,38 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:address forKey:@"address"];
                 [_service_change_dic setValue:adjust_address forKey:@"adjust_address"];
                 
-            } else if([key isEqualToString:@"nap_device"]){
+                [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
+                
+            } else if([key isEqualToString:@"nap_device"]){     //6
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"facility"] forKey:@"facility"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
+                
+                [_noteAllArgs replaceObjectAtIndex:6 withObject:[NSNumber numberWithBool:YES]];
             }
             
-            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
-            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
-            [cmd performWithResult:&dic_info];
+            [self isAllArgsReady];
+            
+//            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
+//            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
+//            [cmd performWithResult:&dic_info];
+            
+            kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
+            kAYViewsSendMessage(@"Table", @"refresh", nil)
         }
+    }
+}
+
+- (void)isAllArgsReady {
+    
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
+    NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
+    
+    if (isAllResady.count == 0 && !service_info) {
+        confirmSerBtn.hidden = NO;
+        
+        UIView *view = [self.views objectForKey:@"Table"];
+        view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 + 1);
     }
 }
 
@@ -138,6 +167,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     _service_change_dic = [[NSMutableDictionary alloc]init];
+    _noteAllArgs = [[NSMutableArray alloc]init];
+    for (int i = 0; i < 7; ++i) {
+        [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
+    }
     
     id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
@@ -162,6 +195,18 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&babyAgeCell];
+    }
+    
+//    id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
+//    id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryInfo:"];
+//    [cmd performWithResult:&dic_info];
+    
+    if (service_info) {
+        
+        NSDictionary *dic_info = [service_info copy];
+        kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
+        
+        kAYViewsSendMessage(@"Table", @"refresh", nil)
     }
     
     UIView *tabbar = [[UIView alloc]init];
@@ -208,6 +253,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     } else{
         [confirmSerBtn setTitle:@"提交我的服务" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
+        confirmSerBtn.hidden = YES;
     }
 }
 
@@ -218,7 +264,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 #pragma mark -- layout
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 +1);
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 + 1);
     //    view.backgroundColor = [UIColor orangeColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -302,8 +348,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (void)conmitMyService {
-    confirmSerBtn.enabled = NO;
-    NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 没一个图片是一个上传线程，需要一个semaphores等待上传完成
+//    confirmSerBtn.enabled = NO;
+    NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
     for (int index = 0; index < napPhotos.count; ++index) {
         dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
         [semaphores_upload_photos addObject:tmp];
@@ -373,10 +419,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     NSLog(@"push error with:%@",result);
                     [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务上传失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 }
-                confirmSerBtn.enabled = YES;
+//                confirmSerBtn.enabled = YES;
             }];
         } else {
-            confirmSerBtn.enabled = YES;
+//            confirmSerBtn.enabled = YES;
         }
     });
     
@@ -398,7 +444,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             
             [_service_change_dic setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
             if (napPhotos.count != 0) {
-                NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 没一个图片是一个上传线程，需要一个semaphores等待上传完成
+                NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
                 for (int index = 0; index < napPhotos.count; ++index) {
                     dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
                     [semaphores_upload_photos addObject:tmp];
@@ -517,14 +563,17 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[_service_change_dic objectForKey:@"title"] forKey:kAYControllerChangeArgsKey];
+    if ([_service_change_dic objectForKey:@"title"]) {
+        [dic_push setValue:[_service_change_dic objectForKey:@"title"] forKey:kAYControllerChangeArgsKey];
+    } else
+        [dic_push setValue:[service_info objectForKey:@"title"] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;
 }
 
--(id)inputNapDescAction:(NSString*)args{
+- (id)inputNapDescAction:(NSString*)args {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapDesc");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -540,7 +589,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     return nil;
 }
 
--(id)setNapBabyAges {
+- (id)setNapBabyAges {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -549,8 +598,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[_service_change_dic objectForKey:@"capacity"] forKey:@"capacity"];
-    [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    if ([_service_change_dic objectForKey:@"capacity"]) {
+        [dic_args setValue:[_service_change_dic objectForKey:@"capacity"] forKey:@"capacity"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    } else {
+        [dic_args setValue:[service_info objectForKey:@"capacity"] forKey:@"capacity"];
+        [dic_args setValue:[service_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    }
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
@@ -566,9 +620,19 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
+//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"allow_leave"] forKey:@"allow_leave"];
+//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];
-    [dic_args setValue:[_service_change_dic objectForKey:@"allow_leave"] forKey:@"allow_leave"];
+    if ([_service_change_dic objectForKey:@"cans"]) {
+        [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    } else {
+        [dic_args setValue:[service_info objectForKey:@"cans"] forKey:@"cans"];
+        [dic_args setValue:[service_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
+    }
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
@@ -584,9 +648,19 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
+//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"price"] forKey:@"price"];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"least_hours"] forKey:@"least_hours"];
+//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[_service_change_dic objectForKey:@"price"] forKey:@"price"];
-    [dic_args setValue:[_service_change_dic objectForKey:@"least_hours"] forKey:@"least_hours"];
+    if ([_service_change_dic objectForKey:@"price"]) {
+        [dic_args setValue:[_service_change_dic objectForKey:@"price"] forKey:@"price"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    } else {
+        [dic_args setValue:[service_info objectForKey:@"price"] forKey:@"price"];
+        [dic_args setValue:[service_info objectForKey:@"least_hours"] forKey:@"least_hours"];
+    }
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
@@ -602,9 +676,19 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
+//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"address"] forKey:@"address"];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[_service_change_dic objectForKey:@"address"] forKey:@"address"];
-    [dic_args setValue:[_service_change_dic objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+    if ([_service_change_dic objectForKey:@"address"]) {
+        [dic_args setValue:[_service_change_dic objectForKey:@"address"] forKey:@"address"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    } else {
+        [dic_args setValue:[service_info objectForKey:@"address"] forKey:@"address"];
+        [dic_args setValue:[service_info objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+    }
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
@@ -620,9 +704,19 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
+//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"facility"] forKey:@"facility"];
+//    [dic_args setValue:[_service_change_dic objectForKey:@"option_custom"] forKey:@"option_custom"];
+//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[_service_change_dic objectForKey:@"facility"] forKey:@"facility"];
-    [dic_args setValue:[_service_change_dic objectForKey:@"option_custom"] forKey:@"option_custom"];
+    if ([_service_change_dic objectForKey:@"facility"]) {
+        [dic_args setValue:[_service_change_dic objectForKey:@"facility"] forKey:@"facility"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"option_custom"] forKey:@"option_custom"];
+    } else {
+        [dic_args setValue:[service_info objectForKey:@"facility"] forKey:@"facility"];
+        [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
+    }
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;

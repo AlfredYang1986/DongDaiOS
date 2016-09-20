@@ -181,11 +181,15 @@
 }
 
 - (void)setNapBabyAgesClick:(UIGestureRecognizer*)tap {
-    if (picker.frame.origin.y == SCREEN_HEIGHT) {
-        [UIView animateWithDuration:0.25 animations:^{
-            picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
-        }];
-    }
+//    if (picker.frame.origin.y == SCREEN_HEIGHT) {
+//        [UIView animateWithDuration:0.25 animations:^{
+//            picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
+//        }];
+//    }
+    
+    id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+    id<AYCommand> cmd_show = [view_picker.commands objectForKey:@"showPickerView"];
+    [cmd_show performWithResult:nil];
 }
 #pragma mark -- commands
 - (id)leftBtnSelected {
@@ -227,19 +231,19 @@
     if (agesStr) {
         setAgeslabel.text = agesStr;
     }
-    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-        }];
-    }
+//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
+//        [UIView animateWithDuration:0.25 animations:^{
+//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+//        }];
+//    }
     return nil;
 }
 - (id)didCancelClick {
-    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-        }];
-    }
+//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
+//        [UIView animateWithDuration:0.25 animations:^{
+//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+//        }];
+//    }
     
     return nil;
 }

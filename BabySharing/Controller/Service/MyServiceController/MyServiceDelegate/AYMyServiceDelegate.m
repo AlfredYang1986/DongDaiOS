@@ -59,24 +59,22 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MyServiceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
-    if (cell == nil) {
-        cell = VIEW(@"CLResultCell", @"CLResultCell");
-    }
+    id tmp = [querydata objectAtIndex:indexPath.row];
+//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+//    [cmd performWithResult:&tmp];
+    
+    kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+    
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    id tmp = [querydata objectAtIndex:indexPath.row];
-    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-    [cmd performWithResult:&tmp];
-    
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 315;
+    return 285;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

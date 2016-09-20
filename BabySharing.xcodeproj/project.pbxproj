@@ -562,6 +562,7 @@
 		70C5642C1D8FD99D00DA9581 /* AYMyServiceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C564261D8FD99D00DA9581 /* AYMyServiceDelegate.m */; };
 		70C5642D1D8FD99D00DA9581 /* AYMyServiceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C564291D8FD99D00DA9581 /* AYMyServiceCellView.m */; };
 		70C5642E1D8FD99D00DA9581 /* AYMyServiceCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70C5642A1D8FD99D00DA9581 /* AYMyServiceCellView.xib */; };
+		70C564321D8FEBC000DA9581 /* AYMyServiceInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C564311D8FEBC000DA9581 /* AYMyServiceInitCommand.m */; };
 		70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */; };
 		70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */; };
 		70CDF60E1CBCBD8C00311841 /* AlbumGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF60B1CBCBD8C00311841 /* AlbumGridCell.m */; };
@@ -1896,6 +1897,8 @@
 		70C564281D8FD99D00DA9581 /* AYMyServiceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMyServiceCellView.h; sourceTree = "<group>"; };
 		70C564291D8FD99D00DA9581 /* AYMyServiceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMyServiceCellView.m; sourceTree = "<group>"; };
 		70C5642A1D8FD99D00DA9581 /* AYMyServiceCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYMyServiceCellView.xib; sourceTree = "<group>"; };
+		70C564301D8FEBC000DA9581 /* AYMyServiceInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMyServiceInitCommand.h; sourceTree = "<group>"; };
+		70C564311D8FEBC000DA9581 /* AYMyServiceInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMyServiceInitCommand.m; sourceTree = "<group>"; };
 		70CDF5FE1CBC9DCE00311841 /* AYAuthSignOutCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthSignOutCommand.h; sourceTree = "<group>"; };
 		70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAuthSignOutCommand.m; sourceTree = "<group>"; };
 		70CDF6061CBCA4E500311841 /* AYSignOutLocalCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSignOutLocalCommand.h; sourceTree = "<group>"; };
@@ -1935,6 +1938,7 @@
 		70CDF64E1CBD0F0E00311841 /* AYRefrashOwnerQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRefrashOwnerQueryDataCommand.m; sourceTree = "<group>"; };
 		70CDF6501CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendOwnerQueryDataCommand.h; sourceTree = "<group>"; };
 		70CDF6511CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendOwnerQueryDataCommand.m; sourceTree = "<group>"; };
+		70CF980F1D90E45C00AC0435 /* AYCommandsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommandsCommand.h; sourceTree = "<group>"; };
 		70D175B51D791ABD00D9C7D9 /* AYSearchFilterDateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterDateController.h; sourceTree = "<group>"; };
 		70D175B61D791ABD00D9C7D9 /* AYSearchFilterDateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterDateController.m; sourceTree = "<group>"; };
 		70D175B81D791ABD00D9C7D9 /* AYCalendarCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCalendarCellView.h; sourceTree = "<group>"; };
@@ -3952,6 +3956,7 @@
 				70F34D5B1CA50CEB00CEF7C1 /* AYViewLayoutDefines.h */,
 				701D8A5F1CA7CC0A00B5D4C1 /* AYRemoteCallDefines.h */,
 				705C45181CA8F60B00921799 /* AYControllerActionDefines.h */,
+				70CF980F1D90E45C00AC0435 /* AYCommandsCommand.h */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -6417,6 +6422,7 @@
 		70A3D0EC1D339B3200201B72 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				70C5642F1D8FEB9B00DA9581 /* MyServiceInit */,
 				70E5A2FF1D659F1A00D2C987 /* OrderInit */,
 				70A3D0ED1D339B3200201B72 /* CalendarInit */,
 				70A3D0EE1D339B3200201B72 /* MessageInit */,
@@ -6766,6 +6772,15 @@
 				70C5642A1D8FD99D00DA9581 /* AYMyServiceCellView.xib */,
 			);
 			path = MyServiceView;
+			sourceTree = "<group>";
+		};
+		70C5642F1D8FEB9B00DA9581 /* MyServiceInit */ = {
+			isa = PBXGroup;
+			children = (
+				70C564301D8FEBC000DA9581 /* AYMyServiceInitCommand.h */,
+				70C564311D8FEBC000DA9581 /* AYMyServiceInitCommand.m */,
+			);
+			path = MyServiceInit;
 			sourceTree = "<group>";
 		};
 		70CDF5FD1CBC9DBB00311841 /* AuthSignOut */ = {
@@ -8341,6 +8356,7 @@
 				703CCDBF1CC9D71000CF4563 /* AYQueryNotificationsCommand.m in Sources */,
 				7060BDB41CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m in Sources */,
 				70F68DAF1CBE4938005524BA /* AYUserAgreeDelegate.m in Sources */,
+				70C564321D8FEBC000DA9581 /* AYMyServiceInitCommand.m in Sources */,
 				70CDF63C1CBD033900311841 /* QueryLikes.m in Sources */,
 				704697DC1CE047F200DACD8A /* UIImageView+HighlightedWebCache.m in Sources */,
 				70AC5BAC1CC8C6B600E2568F /* AYPostPushContentCommand.m in Sources */,

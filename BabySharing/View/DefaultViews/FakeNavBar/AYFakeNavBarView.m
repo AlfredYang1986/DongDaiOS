@@ -27,7 +27,7 @@
         layer.contents = (id)IMGRESOURCE(@"bar_left_black").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);
         [barBtn.layer addSublayer:layer];
-        [barBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchDown];
+        [barBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];
         leftBtn = barBtn;
         [self addSubview:barBtn];
         
@@ -46,7 +46,7 @@
         layer.contents = (id)PNGRESOURCE(@"profile_setting_dark").CGImage;
         layer.frame = CGRectMake(0, 0, 25, 25);
         [barBtn.layer addSublayer:layer];
-        [barBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchDown];
+        [barBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
         rightBtn = barBtn;
         [self addSubview:barBtn];
         
@@ -143,7 +143,7 @@
     UIButton* btn = (UIButton*)args;
     
     [leftBtn removeFromSuperview];
-    [btn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchDown];
+    [btn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];
     leftBtn = btn;
     [self addSubview:btn];
     
@@ -157,7 +157,7 @@
     
     //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
     //    btn.frame = CGRectMake(width - 15 - 30, 10, 30, 25);
-    [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchDown];
+    [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     rightBtn = btn;
     [self addSubview:btn];
     
@@ -174,7 +174,7 @@
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake([UIScreen mainScreen].bounds.size.width - 10.5 - bar_right_btn.frame.size.width / 2, self.frame.size.height * 0.5);
     
-    [bar_right_btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchDown];
+    [bar_right_btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     rightBtn = bar_right_btn;
     [self addSubview:bar_right_btn];
     return nil;

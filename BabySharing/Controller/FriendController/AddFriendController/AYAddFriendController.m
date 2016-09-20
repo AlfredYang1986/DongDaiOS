@@ -115,23 +115,23 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
     
-    UIView* headView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kSCREENW, 10)];
+    UIView* headView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
     headView1.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView1];
     
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 138, kSCREENW, 5)];
+    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 138, SCREEN_WIDTH, 5)];
     headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView];
     
     CALayer* line1 = [CALayer layer];
     line1.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
     line1.borderWidth = 1.f;
-    line1.frame = CGRectMake(0, 0, kSCREENW, 1);
+    line1.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line1];
     CALayer* line2 = [CALayer layer];
     line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
     line2.borderWidth = 1.f;
-    line2.frame = CGRectMake(0, 4, kSCREENW, 1);
+    line2.frame = CGRectMake(0, 4, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line2];
     
 }
@@ -161,7 +161,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 #pragma mark -- layout commands
 - (id)SearchBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake( 20, 20,  kSCREENW - 40, 30);
+    view.frame = CGRectMake( 20, 20,  SCREEN_WIDTH - 40, 30);
     
     id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"registerDelegate:"];
     id del = self;
@@ -193,14 +193,14 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 
 - (id)Table2Layout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 143, kSCREENW, kSCREENH - 133 - 64 - 10);
+    view.frame = CGRectMake(0, 143, SCREEN_WIDTH, SCREEN_HEIGHT - 133 - 64 - 10);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
 
 - (id)DongDaSegLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 58, kSCREENW, 80);
+    view.frame = CGRectMake(0, 58, SCREEN_WIDTH, 80);
     {
         id<AYViewBase> seg = (id<AYViewBase>)view;
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];

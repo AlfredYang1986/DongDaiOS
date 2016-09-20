@@ -24,12 +24,28 @@
 #import "QueryContent.h"
 #import "QueryContentItem.h"
 
-@implementation AYMyServiceCellView
+@interface AYMyServiceCellView ()
+@property (weak, nonatomic) IBOutlet UIImageView *mainImage;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *ownerIconImage;
+@end
+
+@implementation AYMyServiceCellView {
+    
+    NSDictionary *service_info;
+}
 
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    _ownerIconImage.layer.cornerRadius = 20.f;
+    _ownerIconImage.clipsToBounds = YES;
+    _ownerIconImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+    _ownerIconImage.layer.borderWidth = 2.f;
+    
+//    _ownerIconImage.userInteractionEnabled = YES;
+//    [_ownerIconImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
     
     [self setUpReuseCell];
 }
@@ -46,7 +62,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
+    id<AYViewBase> cell = VIEW(@"MyServiceCell", @"MyServiceCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -90,6 +106,67 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
+}
+
+
+#pragma mark -- actions
+- (void)ownerIconTap:(UITapGestureRecognizer*)tap {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"ownerIconTap:"];
+    NSString *info = [service_info objectForKey:@"owner_id"];
+    [cmd performWithResult:&info];
+}
+
+- (IBAction)didManagerBtnClick:(id)sender {
+    
+    NSDictionary *args = [service_info copy];
+    kAYViewSendNotify(self, @"didManagerBtnClick:", &args)
+    
+}
+
+
+- (id)setCellInfo:(id)args {
+    service_info = (NSDictionary*)args;
+//    service_info = dic;
+//    NSLog(@"%@",dic);
+    
+    NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
+    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
+    [dic_img setValue:photo_name forKey:@"image"];
+    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            _mainImage.image = img;
+        }
+    }];
+    
+    NSString *title = [service_info objectForKey:@"title"];
+    _titleLabel.text = title;
+    
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:[service_info objectForKey:@"owner_id"] forKey:@"user_id"];
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
+            [dic setValue:@"img_icon" forKey:@"expect_size"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                if (img != nil) {
+                    [_ownerIconImage setImage:img];
+                }
+            }];
+        }
+    }];
+    
+    return nil;
 }
 
 @end

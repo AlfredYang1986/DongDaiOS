@@ -573,6 +573,16 @@
         <delegate type="TableViewDelegateAndDatasource" name="CollectServ" />
     </controller>
     
+    <controller type="DefaultController" name="MyService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="MyService" />
+    </controller>
+    
     <controller type="DefaultController" name="BabyInfo" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
         
@@ -808,6 +818,7 @@
     
     <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="OrderInit" />
+        <command type="Module" name="MyServiceInit" />
         <command type="Module" name="CalendarServiceInit" />
         <command type="Module" name="MessageServiceInit" />
         <command type="Module" name="ProfileServiceInit" />

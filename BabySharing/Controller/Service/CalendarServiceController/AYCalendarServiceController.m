@@ -22,14 +22,22 @@
 
 @interface AYCalendarServiceController ()
 
+
 @end
 
-@implementation AYCalendarServiceController
+@implementation AYCalendarServiceController {
+    
+    NSDictionary *service_info;
+}
+
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -42,7 +50,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [Tools garyBackgroundColor];
+    self.view.backgroundColor = [Tools whiteColor];
     
     
 }
@@ -79,23 +87,16 @@
     NSString *title = @"日程管理";
     [cmd_title performWithResult:&title];
     
-    id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
-    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-    [cmd_left_vis performWithResult:&left_hidden];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg", &left)
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"发布服务" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    UIButton* bar_right_btn = [[UIButton alloc]init];
+    bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, 44 - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+    kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
+    
     return nil;
 }
 

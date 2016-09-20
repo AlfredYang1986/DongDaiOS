@@ -89,7 +89,8 @@
         make.edges.equalTo(h1).insets(UIEdgeInsetsMake(0, 115, 0, 40));
     }];
     if (setedCostString) {
-        costTextField.text = setedCostString;
+        NSString *price = [NSString stringWithFormat:@"%@",setedCostString];
+        costTextField.text = price;
     }
     
     UILabel *RMBSign = [[UILabel alloc]init];

@@ -158,7 +158,7 @@
         make.size.mas_equalTo(CGSizeMake(120, 30));
     }];
     morePayWay.hidden = NO;
-    [morePayWay addTarget:self action:@selector(showMorePayWay:) forControlEvents:UIControlEventTouchDown];
+    [morePayWay addTarget:self action:@selector(showMorePayWay:) forControlEvents:UIControlEventTouchUpInside];
     /*--------------------------*/
     
     payIcon02 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"tab_found_selected")];

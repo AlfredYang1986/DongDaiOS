@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="104"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lol" translatesAutoresizingMaskIntoConstraints="NO" id="afz-TC-iPO">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_user" translatesAutoresizingMaskIntoConstraints="NO" id="afz-TC-iPO">
                         <rect key="frame" x="15" y="27" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="lPH-gx-Gy5"/>
@@ -56,6 +56,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="lol" width="375" height="225"/>
+        <image name="default_user" width="80" height="80"/>
     </resources>
 </document>

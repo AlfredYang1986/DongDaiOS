@@ -405,19 +405,24 @@
 }
 
 
-+ (UIColor*)themeColor{
++ (UIColor*)themeColor {
     return [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];
 }
-+ (UIColor*)blackColor{
++ (UIColor*)blackColor {
     return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1.0];
 }
-+ (UIColor*)garyColor{
+
++ (UIColor*)whiteColor {
+    return [UIColor whiteColor];
+}
+
++ (UIColor*)garyColor {
     return [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
 }
-+ (UIColor*)garyLineColor{
++ (UIColor*)garyLineColor {
     return [UIColor colorWithWhite:0.75 alpha:1.f];
 }
-+ (UIColor*)garyBackgroundColor{
++ (UIColor*)garyBackgroundColor {
     return [UIColor colorWithWhite:0.9490 alpha:1.f];
 }
 
@@ -443,6 +448,30 @@
     } else label.backgroundColor = [UIColor clearColor];
     
     return label;
+}
+
+/**
+ *  设置btn的 title color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
+ */
++ (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
+    
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:TitleColor forState:UIControlStateNormal];
+    
+    if (font < 0) {
+        btn.titleLabel.font = [UIFont systemFontOfSize:-font];
+    } else if (font > 100.f) {
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 100)];
+    } else {
+        btn.titleLabel.font = kAYFontLight(font);
+    }
+    
+    if (backgroundColor) {
+        btn.backgroundColor = backgroundColor;
+    } else
+        btn.backgroundColor = [UIColor whiteColor];
+    
+    return btn;
 }
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view {

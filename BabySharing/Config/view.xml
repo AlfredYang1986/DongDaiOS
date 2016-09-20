@@ -343,6 +343,11 @@
         <command type="notify" message="queryIsGridSelected:" />
     </view>
     
+    <view type="MyServiceCell" name="MyServiceCell" factory="AYReuseViewFactory" >
+        <command type="message" message="setCellInfo:" />
+        <command type="notify" message="didManagerBtnClick:" />
+    </view>
+    
     <view type="UserTableCell" name="UserTableCell" factory="AYReuseViewFactory" >
         <command type="message" message="setCellInfo:" />
         <command type="message" message="queryCellHeight" />
@@ -508,7 +513,7 @@
         <command type="message" message="refresh" />
         <command type="message" message="registerDatasource:" />
         <command type="message" message="registerDelegate:" />
-        <command type="message" message="scrollToPostion:" />
+        <command type="message" message="showPickerView" />
         <command type="notify"      message="didSaveClick" />
         <command type="notify"      message="didCancelClick" />
     </view>
@@ -516,7 +521,7 @@
         <command type="message" message="refresh" />
         <command type="message" message="registerDatasource:" />
         <command type="message" message="registerDelegate:" />
-        <command type="message" message="scrollToPostion:" />
+        <command type="message" message="showPickerView" />
         <command type="notify"      message="didSaveClick" />
         <command type="notify"      message="didCancelClick" />
     </view>

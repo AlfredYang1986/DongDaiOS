@@ -11,7 +11,9 @@
 #import "AYResourceManager.h"
 #import "AYFactoryManager.h"
 #import "AYHomeCellDefines.h"
-#import "Tools.h"
+
+#define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
+#define kSelfHeight             196
 
 @implementation AYPickerView
 @synthesize para = _para;
@@ -21,7 +23,7 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    self.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 192);
+    self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, kSelfHeight);
     self.clipsToBounds = YES;
     self.backgroundColor = [UIColor whiteColor];
     
@@ -49,7 +51,7 @@
     }];
     [cancel addTarget:self action:@selector(didCancelClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    _pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 30, [UIScreen mainScreen].bounds.size.width, 162)];
+    _pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, kSelfHeight - 30)];
     [self addSubview:_pickerView];
     
 }
@@ -75,12 +77,25 @@
     
 }
 
--(void)didSaveClick:(UIButton*)btn{
+- (void)didSaveClick:(UIButton*)btn {
+    if (self.frame.origin.y == SHOW_OFFSET_Y) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kSelfHeight);
+        }];
+    }
+    
     id<AYCommand> save = [self.notifies objectForKey:@"didSaveClick"];
     [save performWithResult:nil];
 }
 
--(void)didCancelClick:(UIButton*)btn{
+- (void)didCancelClick:(UIButton*)btn {
+    
+    if (self.frame.origin.y == SHOW_OFFSET_Y) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kSelfHeight);
+        }];
+    }
+    
     id<AYCommand> cancel = [self.notifies objectForKey:@"didCancelClick"];
     [cancel performWithResult:nil];
 }
@@ -97,6 +112,16 @@
     _pickerView.delegate = d;
     return nil;
 }
+
+- (id)showPickerView {
+    if (self.frame.origin.y == SCREEN_HEIGHT) {
+        [UIView animateWithDuration:0.25 animations:^{
+            self.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kSelfHeight);
+        }];
+    }
+    return nil;
+}
+
 @end
 
 @implementation AYPicker2View

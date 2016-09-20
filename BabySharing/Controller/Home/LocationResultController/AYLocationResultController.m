@@ -167,7 +167,7 @@
         make.centerY.equalTo(view);
         make.size.mas_equalTo(CGSizeMake(38, 38));
     }];
-    [fiterBtn addTarget:self action:@selector(didFiterBtnClick:) forControlEvents:UIControlEventTouchDown];
+    [fiterBtn addTarget:self action:@selector(didFiterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
     [cmd_bot performWithResult:nil];
