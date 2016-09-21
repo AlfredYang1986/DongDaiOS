@@ -1,15 +1,14 @@
 //
-//  AYNapPhotosCellView.m
+//  AYNapBabyAgeCellView.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 19/7/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYNapPhotosCellView.h"
+#import "AYNapEditInfoCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -18,33 +17,30 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
+#import "Tools.h"
 
-#import "AYRemoteCallCommand.h"
-
-@interface AYNapPhotosCellView ()
-@property (weak, nonatomic) IBOutlet UIImageView *photoImage;
-@property (weak, nonatomic) IBOutlet UIButton *addPhotoBtn;
+@interface AYNapEditInfoCellView ()
+@property (weak, nonatomic) IBOutlet UILabel *unSetTitleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
 
 @end
 
-@implementation AYNapPhotosCellView {
+@implementation AYNapEditInfoCellView {
     NSString *title;
     NSString *content;
 }
 
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
-
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
-    _photoImage.userInteractionEnabled = YES;
-    [_photoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
     
-    self.backgroundColor = [Tools garyBackgroundColor];
+    _unSetTitleLabel.font = kAYFontLight(14.f);
+    _subTitleLabel.font = kAYFontLight(12.f);
+    _subTitleLabel.textColor = [Tools blackColor];
+    
+    CALayer *separator = [CALayer layer];
+    separator.frame = CGRectMake(10, 63.5, [UIScreen mainScreen].bounds.size.width - 20, 0.5);
+    separator.backgroundColor = [Tools garyLineColor].CGColor;
+    [self.layer addSublayer:separator];
     
     [self setUpReuseCell];
 }
@@ -53,9 +49,14 @@
     [super layoutSubviews];
 }
 
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
+    id<AYViewBase> cell = VIEW(@"NapEditInfoCell", @"NapEditInfoCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -101,42 +102,16 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-#pragma mark -- actions
-- (void)editPhoto:(UIGestureRecognizer*)tap{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"addPhotosAction"];
-    [cmd performWithResult:nil];
-}
-
-- (IBAction)addPhotoBtnClick:(id)sender {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"addPhotosAction"];
-    [cmd performWithResult:nil];
-}
-
-- (id)setCellInfo:(id)args {
-    _photoImage.hidden = NO;
+- (id)setCellInfo:(NSDictionary*)args {
     
-    if ([args isKindOfClass:[UIImage class]]) {
-        _photoImage.image = (UIImage*)args;
-    } else if ([args isKindOfClass:[NSString class]]) {
-        
-        NSString* photo_name = (NSString*)args;
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:photo_name forKey:@"image"];
-        [dic setValue:@"img_local" forKey:@"expect_size"];
-        
-        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            UIImage* img = (UIImage*)result;
-            if (img != nil) {
-                _photoImage.image = img;
-            }else{
-                [_photoImage setImage:IMGRESOURCE(@"sample_image")];
-            }
-        }];
-    }
-    _addPhotoBtn.hidden = YES;
-    _subTitleLabel.hidden = YES;
+    _unSetTitleLabel.text = [args objectForKey:@"title"];
+    _subTitleLabel.text = [args objectForKey:@"sub_title"];
+//    NSString *set_sub = [args objectForKey:@"args"];
+//    if (set_sub) {
+//        _subTitleLabel.text = set_sub;
+//    }
+    
     return nil;
 }
+
 @end

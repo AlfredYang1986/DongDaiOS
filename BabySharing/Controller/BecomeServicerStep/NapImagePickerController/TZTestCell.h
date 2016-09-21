@@ -6,6 +6,8 @@
 //  Copyright © 2016年 谭真. All rights reserved.
 //
 
+typedef void(^loadImageFinish)(UIImage*);
+
 #import <UIKit/UIKit.h>
 
 @interface TZTestCell : UICollectionViewCell
@@ -17,6 +19,7 @@
 @property (nonatomic, assign) BOOL isPlusIcon;
 
 @property (nonatomic, strong) NSDictionary *cellInfo;
+@property (nonatomic, strong) loadImageFinish imageBlock;
 
 - (UIView *)snapshotView;
 

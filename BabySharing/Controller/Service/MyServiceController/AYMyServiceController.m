@@ -71,6 +71,8 @@
     [cmd_search performWithResult:&nib_search_name];
     
     
+    ((UITableView*)view_table).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadRefreshData)];
+    
     NSDictionary* info = nil;
     CURRENUSER(info)
     
@@ -83,12 +85,9 @@
             
             NSArray *data = [result objectForKey:@"result"];
             kAYDelegatesSendMessage(@"MyService", @"changeQueryData:", &data)
-            
             kAYViewsSendMessage(@"Table", @"refresh", nil)
             
         } else {
-            NSLog(@"push error with:%@",result);
-//            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             kAYUIAlertView(@"错误", @"请检查网络链接是否正常");
         }
     }];
@@ -151,6 +150,33 @@
 }
 
 #pragma mark -- actions
+- (void)loadRefreshData {
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[info objectForKey:@"user_id"]  forKey:@"owner_id"];
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"QueryMyService"];
+    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            
+            NSArray *data = [result objectForKey:@"result"];
+            kAYDelegatesSendMessage(@"MyService", @"changeQueryData:", &data)
+            kAYViewsSendMessage(@"Table", @"refresh", nil)
+            
+        } else {
+            kAYUIAlertView(@"错误", @"请检查网络链接是否正常");
+        }
+        
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        [((UITableView*)view_table).mj_header endRefreshing];
+    }];
+    
+}
+
+
 - (void)didPushNewSerBtnClick {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
     

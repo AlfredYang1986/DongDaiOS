@@ -36,6 +36,8 @@
     NSMutableArray *_selectedAssets;
     BOOL _isSelectOriginalPhoto;
     LxGridViewFlowLayout *_layout;
+    
+    NSArray *servicePhotoNames;
 }
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIImagePickerController *imagePickerVc;
@@ -50,12 +52,17 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSArray *setedPhotos = [dic objectForKey:kAYControllerChangeArgsKey];
-        id item = [setedPhotos firstObject];
+        NSArray *items = [dic objectForKey:kAYControllerChangeArgsKey];
+        id item = [items firstObject];
         if ([item isKindOfClass:[UIImage class]]) {
-            _selectedPhotos = [NSMutableArray arrayWithArray:setedPhotos];
+            _selectedPhotos = [NSMutableArray arrayWithArray:items];
 //            _selectedAssets = [NSMutableArray arrayWithArray:setedPhotos];
         }
+        
+        if ([item isKindOfClass:[NSString class]]) {
+            servicePhotoNames = [NSArray arrayWithArray:items];
+        }
+        
         isBePush = YES;
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -101,7 +108,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [_collectionView reloadData];
+//    [_collectionView reloadData];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -179,10 +186,15 @@
 
 #pragma mark -- UICollectionView
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (_selectedPhotos.count == 0) {
+    if (_selectedPhotos.count == 0 && servicePhotoNames.count == 0) {
         return 2;
-    } else
-        return _selectedPhotos.count + 1;
+    }
+//    else if (_selectedPhotos.count == 0 && servicePhotoNames.count != 0) {
+//        
+//        return servicePhotoNames.count + 1;
+//    }
+    else
+        return _selectedPhotos.count + servicePhotoNames.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -192,42 +204,62 @@
     [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
     [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_first"];
     
-    if (_selectedPhotos.count == 0) {
+    if (_selectedPhotos.count == 0 && servicePhotoNames.count == 0) {
         if (indexPath.row == 1) {
-//            cell.imageView.image = [UIImage imageNamed:@"AlbumAddBtn.png"];
-//            cell.deleteBtn.hidden = YES;
-            
             [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
         } else {
-//            cell.imageView.image = nil;
-//            cell.deleteBtn.hidden = YES;
-            
             [dic_cell_info setValue:[UIImage imageNamed:@""] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
             
         }
-    } else {
-        if (indexPath.row < _selectedPhotos.count) {
-//            cell.imageView.image = _selectedPhotos[indexPath.row];
-//            cell.deleteBtn.hidden = NO;
-            
-            [dic_cell_info setValue:_selectedPhotos[indexPath.row] forKey:@"image"];
-            [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
-        } else {
+    }
+//    else if (_selectedPhotos.count == 0 && servicePhotoNames.count != 0) {
+//        if (indexPath.row == servicePhotoNames.count) {
+//            
+//            [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
+//            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
+//        } else {
+//            
+//            [dic_cell_info setValue:servicePhotoNames[indexPath.row] forKey:@"image"];
+//            [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
+//        }
+//    }
+    else {
+        
+        if (indexPath.row == _selectedPhotos.count + servicePhotoNames.count) {
             
             [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
-        }
-        
-        if (indexPath.row == 0) {
-            [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_first"];
+        } else {
+            
+            if (indexPath.row + 1 <= servicePhotoNames.count) {
+                [dic_cell_info setValue:servicePhotoNames[indexPath.row] forKey:@"image"];
+                [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
+                
+            } else {
+                
+                [dic_cell_info setValue:_selectedPhotos[indexPath.row - servicePhotoNames.count] forKey:@"image"];
+                [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
+            }
         }
     }
     
-    [dic_cell_info setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"tag_index"];
+    if (indexPath.row == 0) {
+        [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_first"];
+    }
     
+    [dic_cell_info setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"tag_index"];
     cell.cellInfo = dic_cell_info;
+    
+    cell.imageBlock = ^(UIImage* img){
+        @synchronized(self) {
+            
+//            [_selectedPhotos addObject:img];
+            
+        }//解锁
+    };
+    
 //    cell.deleteBtn.tag = indexPath.row;
     [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
@@ -246,8 +278,6 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)sourceIndexPath willMoveToIndexPath:(NSIndexPath *)destinationIndexPath {
-    
-    
     
     [_collectionView performBatchUpdates:^{
         UIImage *dataDict = _selectedPhotos[sourceIndexPath.item];

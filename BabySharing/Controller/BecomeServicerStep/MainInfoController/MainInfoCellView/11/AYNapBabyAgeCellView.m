@@ -106,10 +106,10 @@
     
     _unSetTitleLabel.text = [args objectForKey:@"title"];
     _subTitleLabel.text = [args objectForKey:@"sub_title"];
-    NSString *set_sub = [args objectForKey:@"args"];
-    if (set_sub) {
-        _subTitleLabel.text = set_sub;
-    }
+//    NSString *set_sub = [args objectForKey:@"args"];
+//    if (set_sub) {
+//        _subTitleLabel.text = set_sub;
+//    }
     
     return nil;
 }

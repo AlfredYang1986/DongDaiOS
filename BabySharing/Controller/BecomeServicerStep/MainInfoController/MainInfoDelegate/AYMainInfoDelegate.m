@@ -35,7 +35,7 @@
 //    NSDictionary *dic_device;
     NSNumber *napDeviceNote;
     
-    NSMutableDictionary *push_info_dic;
+    BOOL isEditModel;
 }
 
 #pragma mark -- command
@@ -47,8 +47,6 @@
 - (void)postPerform {
 //    origs = @[@"切换为看护妈妈",@"我心仪的服务",@"设置"];
 //    servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
-    
-    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"标题", @"服务孩子年龄", @"服务主题", @"主题服务价格", @"位置", @"场地友好设施", nil];
     sub_titles = [NSMutableArray arrayWithObjects:
                   @"添加图片",
                   @"为您的服务添加一个有趣的标题",
@@ -57,6 +55,7 @@
                   @"添加一个您值得的价格",
                   @"更准确的访问到您的位置",
                   @"为孩子提供更友好的场地",  nil];
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -77,13 +76,16 @@
 
 #pragma marlk -- commands
 -(id)changeQueryData:(id)args{
+    
+    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"标题", @"服务孩子年龄", @"服务主题", @"主题服务价格", @"位置", @"场地友好设施", nil];
+    
+    
     NSDictionary *dic = (NSDictionary*)args;
     
     NSString *key = [dic objectForKey:@"key"];
     
     if ([key isEqualToString:@"nap_cover"]) {
         napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
-        
         
     } else if([key isEqualToString:@"nap_title"]){
         napTitle = [dic objectForKey:@"title"];
@@ -110,7 +112,17 @@
     return nil;
 }
 
--(id)changeQueryInfo:(NSDictionary*)info {
+- (id)changeQueryInfo:(NSDictionary*)info {
+    
+    isEditModel = YES;
+    titles = [NSMutableArray arrayWithObjects:
+                  @"编辑图片",
+                  @"编辑标题",
+                  @"编辑孩子服务年龄阶段",
+                  @"编辑服务主题",
+                  @"编辑价格",
+                  @"编辑位置",
+                  @"编辑场地友好设施",  nil];
     
     napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
     napTitle = [info objectForKey:@"title"];
@@ -151,10 +163,7 @@
     if (indexPath.row == 0) {
         NSString* class_name = @"AYNapPhotosCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = VIEW(@"NapPhotosCell", @"NapPhotosCell");
-        }
-        cell.controller = self.controller;
+        
         if (napPhoto){
             id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
             UIImage *info = napPhoto;
@@ -165,28 +174,24 @@
             [set_cmd performWithResult:&info];
         }
         
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
     } else {
-        NSString* class_name = @"AYNapBabyAgeCellView";
+        
+        NSString* class_name = isEditModel? @"AYNapEditInfoCellView" : @"AYNapBabyAgeCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = VIEW(@"NapBabyAgeCell", @"NapBabyAgeCell");
-        }
-        cell.controller = self.controller;
+        
         
         NSMutableDictionary *cell_info = [[NSMutableDictionary alloc]init];
         [cell_info setValue:[titles objectAtIndex:indexPath.row] forKey:@"title"];
         [cell_info setValue:[sub_titles objectAtIndex:indexPath.row] forKey:@"sub_title"];
         
         if (napTitle && indexPath.row == 1) {
-            [cell_info setValue:napTitle forKey:@"args"];
+            [cell_info setValue:napTitle forKey:@"sub_title"];
         }
         if (napAges && indexPath.row == 2) {
             NSNumber *usl = ((NSNumber *)[napAges objectForKey:@"usl"]);
             NSNumber *lsl = ((NSNumber *)[napAges objectForKey:@"lsl"]);
             NSString *ages = [NSString stringWithFormat:@"%d ~ %d 岁",lsl.intValue,usl.intValue];
-            [cell_info setValue:ages forKey:@"args"];
+            [cell_info setValue:ages forKey:@"sub_title"];
         }
         if (napThemeNote && indexPath.row == 3) {
             NSArray *options_title_cans = kAY_service_options_title_cans;
@@ -199,14 +204,14 @@
                     break;
                 }
             }
-            [cell_info setValue:theme forKey:@"args"];
+            [cell_info setValue:theme forKey:@"sub_title"];
         }
         if (napCost && indexPath.row == 4) {
             NSString *price = [NSString stringWithFormat:@"￥ %@/小时",napCost];
-            [cell_info setValue:price forKey:@"args"];
+            [cell_info setValue:price forKey:@"sub_title"];
         }
         if (napAdress && indexPath.row == 5) {
-            [cell_info setValue:napAdress forKey:@"args"];
+            [cell_info setValue:napAdress forKey:@"sub_title"];
         }
         if (napDeviceNote && indexPath.row == 6) {
             NSArray *options_title_facilities = kAY_service_options_title_facilities;
@@ -225,16 +230,17 @@
                 }
             }
             device = [device substringFromIndex:1];
-            [cell_info setValue:device forKey:@"args"];
+            [cell_info setValue:device forKey:@"sub_title"];
         }
         
         id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
         [set_cmd performWithResult:&cell_info];
         
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
     }
     
+    cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+    return (UITableViewCell*)cell;
 }
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

@@ -27,6 +27,9 @@
 
 - (void)postPerform {
     
+    self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
 }
 
 - (void)performWithResult:(NSObject**)obj {

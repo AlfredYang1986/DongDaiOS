@@ -75,13 +75,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             NSString *key = [dic_info objectForKey:@"key"];
             if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
-                
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
                 
             } else if([key isEqualToString:@"nap_title"]){  //1
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
-                
                 [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
             }
 //            else if([key isEqualToString:@"nap_desc"]) {
@@ -149,15 +147,24 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 - (void)isAllArgsReady {
     
-    NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-    NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
-    
-    if (isAllResady.count == 0 && !service_info) {
-        confirmSerBtn.hidden = NO;
+    if (!service_info) {
         
+        NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
+        NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
+        
+        if (isAllResady.count == 0 ) {
+            confirmSerBtn.hidden = NO;
+            
+            UIView *view = [self.views objectForKey:@"Table"];
+            view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 + 1);
+        }
+    } else {
+        
+        confirmSerBtn.hidden = NO;
         UIView *view = [self.views objectForKey:@"Table"];
-        view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 + 1);
+        view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 + 1);
     }
+    
 }
 
 #pragma mark -- life cycle
@@ -167,93 +174,95 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     _service_change_dic = [[NSMutableDictionary alloc]init];
-    _noteAllArgs = [[NSMutableArray alloc]init];
-    for (int i = 0; i < 7; ++i) {
-        [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
+    
+    if (!service_info) {
+        _noteAllArgs = [[NSMutableArray alloc]init];
+        for (int i = 0; i < 7; ++i) {
+            [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
+        }
     }
     
-    id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor clearColor];
-    [cmd_nav performWithResult:&c_nav];
     
-    {
-        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
-        
-        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-        
-        id obj = (id)cmd_notify;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_notify;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&photoCell];
-        
-        NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&babyAgeCell];
-    }
+    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
     
-//    id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
-//    id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryInfo:"];
-//    [cmd performWithResult:&dic_info];
+    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
+    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
     
-    if (service_info) {
-        
-        NSDictionary *dic_info = [service_info copy];
-        kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
-        
-        kAYViewsSendMessage(@"Table", @"refresh", nil)
-    }
+    id obj = (id)cmd_notify;
+    [cmd_datasource performWithResult:&obj];
+    obj = (id)cmd_notify;
+    [cmd_delegate performWithResult:&obj];
     
-    UIView *tabbar = [[UIView alloc]init];
-    tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
-    [self.view addSubview:tabbar];
-    [tabbar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.height.mas_equalTo(49);
-    }];
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [tabbar.layer addSublayer:line];
+    id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
+    NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_cell performWithResult:&photoCell];
     
-    UIButton *me = [[UIButton alloc]init];
-    [tabbar addSubview:me];
-    [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
-    me.imageEdgeInsets = UIEdgeInsetsMake(-5, 10, 5, -10);
-    [me setTitle:@"我的" forState:UIControlStateNormal];
-    [me setTitleColor:[UIColor colorWithWhite:0.6078 alpha:1.f] forState:UIControlStateNormal];
-    me.titleLabel.font = [UIFont systemFontOfSize:9.f];
-    me.titleEdgeInsets = UIEdgeInsetsMake(15, -12, -15, 12);
-    [me mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(tabbar).offset(-20);
-        make.centerY.equalTo(tabbar);
-        make.size.mas_equalTo(CGSizeMake(50, 44));
-    }];
-    [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
     
     confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];
     [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:confirmSerBtn];
-    [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(tabbar.mas_top);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
-    }];
+    confirmSerBtn.hidden = YES;
+    
     if (service_info) {
+        
+        NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&editCell];
+        
+        NSDictionary *dic_info = [service_info copy];
+        kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
+        kAYViewsSendMessage(@"Table", @"refresh", nil)
+        
+        [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+        }];
         [confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
-    } else{
+        
+    } else {
+        
+        NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        [cmd_cell performWithResult:&babyAgeCell];
+        
+        UIView *tabbar = [[UIView alloc]init];
+        tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+        [self.view addSubview:tabbar];
+        [tabbar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+            make.left.equalTo(self.view);
+            make.right.equalTo(self.view);
+            make.height.mas_equalTo(49);
+        }];
+        CALayer *line = [CALayer layer];
+        line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
+        line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+        [tabbar.layer addSublayer:line];
+        
+        UIButton *me = [[UIButton alloc]init];
+        [tabbar addSubview:me];
+        [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
+        me.imageEdgeInsets = UIEdgeInsetsMake(-5, 10, 5, -10);
+        [me setTitle:@"我的" forState:UIControlStateNormal];
+        [me setTitleColor:[UIColor colorWithWhite:0.6078 alpha:1.f] forState:UIControlStateNormal];
+        me.titleLabel.font = [UIFont systemFontOfSize:9.f];
+        me.titleEdgeInsets = UIEdgeInsetsMake(15, -12, -15, 12);
+        [me mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(tabbar).offset(-20);
+            make.centerY.equalTo(tabbar);
+            make.size.mas_equalTo(CGSizeMake(50, 44));
+        }];
+        [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
+        
+        [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(tabbar.mas_top);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+        }];
         [confirmSerBtn setTitle:@"提交我的服务" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
-        confirmSerBtn.hidden = YES;
     }
 }
 
@@ -264,47 +273,36 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 #pragma mark -- layout
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 + 1);
-    //    view.backgroundColor = [UIColor orangeColor];
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     
+    CGFloat h = 0;
+    if (!service_info) {
+        h = 49;
+    }
+    
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - h + 1);
+    
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+    view.backgroundColor = [UIColor whiteColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    NSString *title = @"添加看护服务";
+    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
+    
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
+    kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"预览" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    UIButton* bar_right_btn = [[UIButton alloc]init];
+    bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"预览" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn);
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
+    kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);
     
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"添加看护服务";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 44 / 2 + 20);
     return nil;
 }
 
@@ -540,23 +538,22 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (id)addPhotosAction {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"EditPhotos");
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    if (service_info) {
-        
-    } else {
-        
-        [dic_push setValue:napPhotos forKey:kAYControllerChangeArgsKey];
-    }
+    
+    if (napPhotos.count != 0) {
+        [dic_push setValue:[napPhotos copy] forKey:kAYControllerChangeArgsKey];
+    } else
+        [dic_push setValue:[service_info objectForKey:@"images"] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;
 }
 
--(id)inputNapTitleAction {
+- (id)inputNapTitleAction {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapTitle");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];

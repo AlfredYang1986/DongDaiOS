@@ -9,6 +9,14 @@
 #import "TZTestCell.h"
 #import "UIView+Layout.h"
 
+#import "AYRemoteCallCommand.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "AYViewCommand.h"
+#import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
+
 @implementation TZTestCell
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -61,8 +69,29 @@
         make.size.equalTo(self);
     }];
     
-    UIImage *image = [cellInfo objectForKey:@"image"];
-    _imageView.image = image;
+    id image = [cellInfo objectForKey:@"image"];
+    if ([image isKindOfClass:[UIImage class]]) {
+        _imageView.image = image;
+        
+    } else if ([image isKindOfClass:[NSString class]]) {
+        
+        NSString* photo_name = image;
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:photo_name forKey:@"image"];
+        [dic setValue:@"img_local" forKey:@"expect_size"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img != nil) {
+                _imageView.image = img;
+                self.imageBlock(img);
+            }
+        }];
+    }
+    
+    
     BOOL isHidden = ((NSNumber*)[cellInfo objectForKey:@"is_hidden"]).boolValue;
     _deleteBtn.hidden = isHidden;
     NSInteger tag_index = ((NSNumber*)[cellInfo objectForKey:@"tag_index"]).integerValue;
