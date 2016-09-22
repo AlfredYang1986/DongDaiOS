@@ -70,7 +70,7 @@
     }];
     
     id image = [cellInfo objectForKey:@"image"];
-    if ([image isKindOfClass:[UIImage class]]) {
+    if ([image isKindOfClass:[UIImage class]] || !image) {
         _imageView.image = image;
         
     } else if ([image isKindOfClass:[NSString class]]) {
@@ -85,8 +85,11 @@
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             UIImage* img = (UIImage*)result;
             if (img != nil) {
-                _imageView.image = img;
-                self.imageBlock(img);
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    
+                    _imageView.image = img;
+//                    self.imageBlock(img);
+                });
             }
         }];
     }

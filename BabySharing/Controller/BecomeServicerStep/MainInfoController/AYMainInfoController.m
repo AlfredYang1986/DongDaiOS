@@ -48,6 +48,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSDictionary *service_info;
     
     UIButton *confirmSerBtn;
+    NSMutableDictionary* dic_push_photos;
     
 }
 
@@ -538,18 +539,73 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (id)addPhotosAction {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"EditPhotos");
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    dic_push_photos = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [dic_push_photos setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push_photos setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push_photos setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     if (napPhotos.count != 0) {
-        [dic_push setValue:[napPhotos copy] forKey:kAYControllerChangeArgsKey];
-    } else
-        [dic_push setValue:[service_info objectForKey:@"images"] forKey:kAYControllerChangeArgsKey];
+        [dic_push_photos setValue:[napPhotos copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        NSDictionary *tmp = [dic_push_photos copy];
+        [cmd performWithResult:&tmp];
+        
+    } else if(service_info) {
+        
+        UIView *HUBView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        HUBView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.25f];
+        [self.view addSubview:HUBView];
+        CALayer *hubLayer = [[CALayer alloc]init];
+        hubLayer.frame = CGRectMake(0, 0, 200, 80);
+        hubLayer.position = CGPointMake(SCREEN_WIDTH * 0.5, SCREEN_HEIGHT * 0.5);
+        hubLayer.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.5f].CGColor;
+        hubLayer.cornerRadius = 10.f;
+        [HUBView.layer addSublayer:hubLayer];
+        
+        UILabel *tips = [[UILabel alloc]init];
+        tips = [Tools setLabelWith:tips andText:@"正在准备图片..." andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+        [HUBView addSubview:tips];
+        [tips mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(HUBView);
+            make.centerY.equalTo(HUBView);
+        }];
+        
+        NSMutableArray *tmp = [[NSMutableArray alloc]init];
+        NSArray *namesArr = [service_info objectForKey:@"images"];
+        
+        for (int i = 0; i < namesArr.count; ++i) {
+            NSString* photo_name = namesArr[i];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:photo_name forKey:@"image"];
+            [dic setValue:@"img_local" forKey:@"expect_size"];
+            
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                if (img != nil) {
+                    [tmp addObject:img];
+                    if (tmp.count == namesArr.count) {
+                        [dic_push_photos setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+                        
+                        [HUBView removeFromSuperview];
+                        id<AYCommand> cmd = PUSH;
+                        NSDictionary *tmp = [dic_push_photos copy];
+                        [cmd performWithResult:&tmp];
+                    }
+                }
+            }];
+        }
+        
+    } else {
+        
+        id<AYCommand> cmd = PUSH;
+        NSDictionary *tmp = [dic_push_photos copy];
+        [cmd performWithResult:&tmp];
+    }
     
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    
     return nil;
 }
 

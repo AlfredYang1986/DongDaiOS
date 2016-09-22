@@ -85,7 +85,7 @@
     TZAlbumPickerController *albumPickerVc = [[TZAlbumPickerController alloc] init];
     self = [super initWithRootViewController:albumPickerVc];
     if (self) {
-        self.maxImagesCount = maxImagesCount > 0 ? maxImagesCount : 9; // 默认最大可选9张图片
+        self.maxImagesCount = maxImagesCount >= 0 ? maxImagesCount : 9; // 默认最大可选9张图片
         self.pickerDelegate = delegate;
         self.selectedModels = [NSMutableArray array];
         

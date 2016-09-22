@@ -414,7 +414,9 @@ static CGSize AssetGridThumbnailSize;
     _originalPhotoButton.enabled = imagePickerVc.selectedModels.count > 0;
     _originalPhotoButton.selected = (_isSelectOriginalPhoto && _originalPhotoButton.enabled);
     _originalPhotoLable.hidden = (!_originalPhotoButton.isSelected);
-    if (_isSelectOriginalPhoto) [self getSelectedPhotoBytes];
+    
+    if (_isSelectOriginalPhoto)
+        [self getSelectedPhotoBytes];
 }
 
 - (void)pushPhotoPrevireViewController:(TZPhotoPreviewController *)photoPreviewVc {

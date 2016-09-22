@@ -469,7 +469,7 @@
     if (backgroundColor) {
         btn.backgroundColor = backgroundColor;
     } else
-        btn.backgroundColor = [UIColor whiteColor];
+        btn.backgroundColor = [UIColor clearColor];
     
     return btn;
 }
