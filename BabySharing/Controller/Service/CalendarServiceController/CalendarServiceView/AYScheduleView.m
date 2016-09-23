@@ -45,7 +45,6 @@
     NSString *currentDate;
     
     AYCalendarCellView *tmp;
-    CGFloat sumHeight;
     
     UILabel *tips;
     
@@ -83,7 +82,6 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, 0);
-    sumHeight = 140;
     
     selectedItemArray = [[NSMutableArray alloc]init];
     timeSpanArray = [[NSMutableArray alloc]init];
@@ -259,7 +257,7 @@
     
     tips = [[UILabel alloc]init];
     [self addSubview:tips];
-    tips = [Tools setLabelWith:tips andText:@"点击日期📅\n选择妈妈可以看护宝宝的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:@"点击选择📅\n如果您有暂时无法提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     tips.numberOfLines =2;
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_calendarContentView.mas_bottom).offset(80);

@@ -47,6 +47,8 @@
 - (void)postPerform {
 //    origs = @[@"切换为看护妈妈",@"我心仪的服务",@"设置"];
 //    servs = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
+    
+    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"标题", @"服务孩子年龄", @"服务主题", @"主题服务价格", @"位置", @"场地友好设施", nil];
     sub_titles = [NSMutableArray arrayWithObjects:
                   @"添加图片",
                   @"为您的服务添加一个有趣的标题",
@@ -77,8 +79,7 @@
 #pragma marlk -- commands
 -(id)changeQueryData:(id)args{
     
-    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"标题", @"服务孩子年龄", @"服务主题", @"主题服务价格", @"位置", @"场地友好设施", nil];
-    
+    isEditModel = NO;
     
     NSDictionary *dic = (NSDictionary*)args;
     

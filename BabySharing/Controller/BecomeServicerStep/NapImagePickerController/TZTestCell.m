@@ -85,15 +85,14 @@
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             UIImage* img = (UIImage*)result;
             if (img != nil) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    
-                    _imageView.image = img;
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                    
+//                });
+                _imageView.image = img;
 //                    self.imageBlock(img);
-                });
             }
         }];
     }
-    
     
     BOOL isHidden = ((NSNumber*)[cellInfo objectForKey:@"is_hidden"]).boolValue;
     _deleteBtn.hidden = isHidden;
