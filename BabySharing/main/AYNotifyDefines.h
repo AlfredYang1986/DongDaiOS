@@ -66,4 +66,7 @@ static NSString* const kAYNotifyKeyboardArgsHeightKey = @"KeyboardArgsHeightKey"
 
 static NSString* const kAYNotifyWechatPaySuccess = @"WechatPaySuccess:";
 static NSString* const kAYNotifyWechatPayFailed = @"WechatPayFailed:";
+
+static NSString* const kAYNotifyOrderAccomplished = @"OrderAccomplished:";
+
 #endif /* AYNotifyDefines_h */

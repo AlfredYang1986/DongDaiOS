@@ -364,12 +364,12 @@
 //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     NSDictionary* user = nil;
     CURRENUSER(user);
-    NSString *user_id = [user objectForKey:@"user_id"];
-    NSString *owner_id = [service_info objectForKey:@"owner_id"];
-    if ([user_id isEqualToString:owner_id]) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        return;
-    }
+//    NSString *user_id = [user objectForKey:@"user_id"];
+//    NSString *owner_id = [service_info objectForKey:@"owner_id"];
+//    if ([user_id isEqualToString:owner_id]) {
+//        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//        return;
+//    }
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

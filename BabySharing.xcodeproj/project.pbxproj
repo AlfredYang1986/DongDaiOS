@@ -563,6 +563,8 @@
 		70C5642D1D8FD99D00DA9581 /* AYMyServiceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C564291D8FD99D00DA9581 /* AYMyServiceCellView.m */; };
 		70C5642E1D8FD99D00DA9581 /* AYMyServiceCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70C5642A1D8FD99D00DA9581 /* AYMyServiceCellView.xib */; };
 		70C564321D8FEBC000DA9581 /* AYMyServiceInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C564311D8FEBC000DA9581 /* AYMyServiceInitCommand.m */; };
+		70CB71491D97B0F300C83985 /* AYAccomplishOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB71481D97B0F300C83985 /* AYAccomplishOrderCommand.m */; };
+		70CB714F1D97D33B00C83985 /* AYCommentServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB714E1D97D33B00C83985 /* AYCommentServiceController.m */; };
 		70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */; };
 		70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF6071CBCA4E500311841 /* AYSignOutLocalCommand.m */; };
 		70CDF60E1CBCBD8C00311841 /* AlbumGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF60B1CBCBD8C00311841 /* AlbumGridCell.m */; };
@@ -1901,6 +1903,10 @@
 		70C5642A1D8FD99D00DA9581 /* AYMyServiceCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYMyServiceCellView.xib; sourceTree = "<group>"; };
 		70C564301D8FEBC000DA9581 /* AYMyServiceInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMyServiceInitCommand.h; sourceTree = "<group>"; };
 		70C564311D8FEBC000DA9581 /* AYMyServiceInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMyServiceInitCommand.m; sourceTree = "<group>"; };
+		70CB71471D97B0F300C83985 /* AYAccomplishOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAccomplishOrderCommand.h; sourceTree = "<group>"; };
+		70CB71481D97B0F300C83985 /* AYAccomplishOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAccomplishOrderCommand.m; sourceTree = "<group>"; };
+		70CB714D1D97D33B00C83985 /* AYCommentServiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceController.h; sourceTree = "<group>"; };
+		70CB714E1D97D33B00C83985 /* AYCommentServiceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCommentServiceController.m; sourceTree = "<group>"; };
 		70CDF5FE1CBC9DCE00311841 /* AYAuthSignOutCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthSignOutCommand.h; sourceTree = "<group>"; };
 		70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAuthSignOutCommand.m; sourceTree = "<group>"; };
 		70CDF6061CBCA4E500311841 /* AYSignOutLocalCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSignOutLocalCommand.h; sourceTree = "<group>"; };
@@ -4846,6 +4852,7 @@
 		7059C9A01D45B712004973F3 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				70CB714A1D97D31F00C83985 /* CommentServiceController */,
 				70E77CE81D8E930F00C882DD /* RejectOrderController */,
 				70E77CDC1D8E754100C882DD /* AcceptOrReject */,
 				70C5641C1D8FC9C200DA9581 /* ConfirmOrderController */,
@@ -5186,6 +5193,7 @@
 		7069A31F1D52F95C007821D4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				70CB71461D97B0F300C83985 /* AccomplishOrder */,
 				70E77CE41D8E839700C882DD /* RejectOrder */,
 				707ABD0C1D55CEC70042332A /* QueryApplyOrders */,
 				707ABD0D1D55CEC70042332A /* QueryOwnOrders */,
@@ -6787,6 +6795,40 @@
 				70C564311D8FEBC000DA9581 /* AYMyServiceInitCommand.m */,
 			);
 			path = MyServiceInit;
+			sourceTree = "<group>";
+		};
+		70CB71461D97B0F300C83985 /* AccomplishOrder */ = {
+			isa = PBXGroup;
+			children = (
+				70CB71471D97B0F300C83985 /* AYAccomplishOrderCommand.h */,
+				70CB71481D97B0F300C83985 /* AYAccomplishOrderCommand.m */,
+			);
+			path = AccomplishOrder;
+			sourceTree = "<group>";
+		};
+		70CB714A1D97D31F00C83985 /* CommentServiceController */ = {
+			isa = PBXGroup;
+			children = (
+				70CB714B1D97D31F00C83985 /* CommentServiceDelegate */,
+				70CB714C1D97D31F00C83985 /* CommentServiceView */,
+				70CB714D1D97D33B00C83985 /* AYCommentServiceController.h */,
+				70CB714E1D97D33B00C83985 /* AYCommentServiceController.m */,
+			);
+			path = CommentServiceController;
+			sourceTree = "<group>";
+		};
+		70CB714B1D97D31F00C83985 /* CommentServiceDelegate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CommentServiceDelegate;
+			sourceTree = "<group>";
+		};
+		70CB714C1D97D31F00C83985 /* CommentServiceView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CommentServiceView;
 			sourceTree = "<group>";
 		};
 		70CDF5FD1CBC9DBB00311841 /* AuthSignOut */ = {
@@ -8876,6 +8918,7 @@
 				708F2D281D3F601E000CD492 /* TZPhotoPickerController.m in Sources */,
 				708F2D2C1D3F601E000CD492 /* UIView+Layout.m in Sources */,
 				70A489261D1A682A00D2AA56 /* AYPlayItemsView.m in Sources */,
+				70CB714F1D97D33B00C83985 /* AYCommentServiceController.m in Sources */,
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				706942CF1D59C35100D0BBB4 /* AYGroupChatHeaderView.m in Sources */,
 				70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */,
@@ -8985,6 +9028,7 @@
 				70120CA71CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m in Sources */,
 				702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */,
 				702E7AAE1CA1622C0097867E /* AYFactoryManager.m in Sources */,
+				70CB71491D97B0F300C83985 /* AYAccomplishOrderCommand.m in Sources */,
 				701524991CBFA62E005B4C5B /* AYEnumHomeQueryDataCommand.m in Sources */,
 				707B4D431CA81E7600F6256E /* AYChangeRegUserCommand.m in Sources */,
 				70F2A14A1D4A0A73004BAFF7 /* AYOrderInfoController.m in Sources */,

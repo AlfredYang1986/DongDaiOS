@@ -43,25 +43,10 @@
     NSMutableArray *timeSpanArray;
     
     NSString *currentDate;
-    
     AYCalendarCellView *tmp;
     
     UILabel *tips;
-    
-    UIView *dateOptionView;
-    UIButton *cancelBtn;
-    UIButton *certainBtn;
-    UIView *spearLine;
-    UILabel *abilityDate;
-    UILabel *abilityTips;
-    
-    UIView *certainView;
-    UILabel *certainDate;
-    UIButton *resetBtn;
-    
-    NSString *ability_dateString;
-    
-    long noteTest;
+//    long noteTest;
 }
 
 @synthesize headerView = _headerView;
@@ -111,44 +96,41 @@
 }
 
 #pragma mark -- Tools
+#pragma mark -- layout
 -(void)layoutSubviews{
     [super layoutSubviews];
     
 }
 
-#pragma mark -- layout
 
 #pragma mark -- actions
-- (void)didCertainBtnClick {
-    cancelBtn.hidden = certainBtn.hidden = spearLine.hidden = YES;
-    
-    abilityDate.center = CGPointMake(abilityDate.center.x, abilityDate.center.y - 40);
-    abilityTips.center = CGPointMake(abilityTips.center.x, abilityTips.center.y - 40);
-    resetBtn.center = CGPointMake(resetBtn.center.x, resetBtn.center.y - 40);
-    resetBtn.hidden = NO;
-}
+//- (void)didCertainBtnClick {
+//    
+//    abilityDate.center = CGPointMake(abilityDate.center.x, abilityDate.center.y - 40);
+//    abilityTips.center = CGPointMake(abilityTips.center.x, abilityTips.center.y - 40);
+//    resetBtn.center = CGPointMake(resetBtn.center.x, resetBtn.center.y - 40);
+//    resetBtn.hidden = NO;
+//}
 
-- (void)didResetBtnClick {
-//    [_calendarContentView deselectItemAtIndexPath:@[] animated:YES];
-    for (int i = 0; i < selectedItemArray.count; ++i) {
-        [_calendarContentView deselectItemAtIndexPath:[selectedItemArray objectAtIndex:i] animated:NO];
-    }
-    
-    [selectedItemArray removeAllObjects];
-    [timeSpanArray removeAllObjects];
-    abilityDate.text = @"暂未选择日程";
-    tips.hidden = NO;
-    dateOptionView.center = CGPointMake(SCREEN_WIDTH * 1.5, dateOptionView.center.y);
-    
-    cancelBtn.hidden = certainBtn.hidden = spearLine.hidden = NO;
-    
-    abilityDate.center = CGPointMake(abilityDate.center.x, abilityDate.center.y + 40);
-    abilityTips.center = CGPointMake(abilityTips.center.x, abilityTips.center.y + 40);
-    resetBtn.center = CGPointMake(resetBtn.center.x, resetBtn.center.y + 40);
-    resetBtn.hidden = YES;
-}
+//- (void)didResetBtnClick {
+////    [_calendarContentView deselectItemAtIndexPath:@[] animated:YES];
+//    for (int i = 0; i < selectedItemArray.count; ++i) {
+//        [_calendarContentView deselectItemAtIndexPath:[selectedItemArray objectAtIndex:i] animated:NO];
+//    }
+//    
+//    [selectedItemArray removeAllObjects];
+//    [timeSpanArray removeAllObjects];
+//    abilityDate.text = @"暂未选择日程";
+//    tips.hidden = NO;
+//    dateOptionView.center = CGPointMake(SCREEN_WIDTH * 1.5, dateOptionView.center.y);
+//    
+//    abilityDate.center = CGPointMake(abilityDate.center.x, abilityDate.center.y + 40);
+//    abilityTips.center = CGPointMake(abilityTips.center.x, abilityTips.center.y + 40);
+//    resetBtn.center = CGPointMake(resetBtn.center.x, resetBtn.center.y + 40);
+//    resetBtn.hidden = YES;
+//}
 
--(void)getClickDate:(AYCalendarCellView*)view{
+- (void)getClickDate:(AYCalendarCellView*)view {
     if (tmp) {
         tmp.backgroundColor = [UIColor clearColor];
         if ([tmp.numLabel.text isEqualToString:[NSString stringWithFormat:@"%d",self.day]]) {
@@ -203,9 +185,9 @@
     return nil;
 }
 
--(id)resetFiterArgs{
+- (id)queryUnavluableDate:(NSArray*)args {
     
-    return nil;
+    return [timeSpanArray copy];
 }
 
 #pragma mark -- scrollView delegate
@@ -252,111 +234,32 @@
     
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, (WIDTH - 30)/7*COLLECTIONROWNUMB + 30, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    line.backgroundColor = [Tools garyLineColor].CGColor;
     [self.layer addSublayer:line];
     
     tips = [[UILabel alloc]init];
     [self addSubview:tips];
     tips = [Tools setLabelWith:tips andText:@"点击选择📅\n如果您有暂时无法提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    tips.numberOfLines =2;
+    tips.numberOfLines = 0;
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_calendarContentView.mas_bottom).offset(80);
         make.centerX.equalTo(self);
     }];
     
-    dateOptionView = [[UIView alloc]init];
-    [self addSubview:dateOptionView];
-    [dateOptionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_calendarContentView.mas_bottom).offset(0);
-        make.centerX.equalTo(self).offset(SCREEN_WIDTH);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT - (WIDTH - 30)/7*COLLECTIONROWNUMB - 40 - 49));
-    }];
-    cancelBtn = [[UIButton alloc]init];
-    [dateOptionView addSubview:cancelBtn];
-    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [cancelBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
-    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(dateOptionView).offset(10);
-        make.top.equalTo(dateOptionView).offset(10);
-        make.size.mas_equalTo(CGSizeMake(40, 20));
-    }];
-    certainBtn = [[UIButton alloc]init];
-    [dateOptionView addSubview:certainBtn];
-    [certainBtn setTitle:@"确认" forState:UIControlStateNormal];
-    [certainBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    certainBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(dateOptionView).offset(-10);
-        make.centerY.equalTo(cancelBtn);
-        make.size.equalTo(cancelBtn);
-    }];
-    [certainBtn addTarget:self action:@selector(didCertainBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    spearLine = [[UIView alloc]init];
-    spearLine.backgroundColor = [Tools garyColor];
-    [dateOptionView addSubview:spearLine];
-    [spearLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cancelBtn.mas_bottom).offset(10);
-        make.centerX.equalTo(dateOptionView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
-    }];
-    
-    abilityDate = [[UILabel alloc]init];
-    abilityDate = [Tools setLabelWith:abilityDate andText:@"暂未选择日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    abilityDate.numberOfLines = 0;
-    [dateOptionView addSubview:abilityDate];
-    [abilityDate mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(dateOptionView).offset(90);
-        make.centerX.equalTo(dateOptionView);
-        make.left.equalTo(dateOptionView).offset(25);
-        make.right.equalTo(dateOptionView).offset(-25);
-    }];
-    
-    abilityTips = [[UILabel alloc]init];
-    [dateOptionView addSubview:abilityTips];
-    abilityTips = [Tools setLabelWith:abilityTips andText:@"可提供服务" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    [abilityTips mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(abilityDate.mas_bottom).offset(20);
-        make.centerX.equalTo(dateOptionView);
-    }];
-    
-    resetBtn = [[UIButton alloc]init];
-    [dateOptionView addSubview:resetBtn];
-    [resetBtn setTitle:@"重置日程" forState:UIControlStateNormal];
-    [resetBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    resetBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [resetBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(abilityTips.mas_bottom).offset(20);
-        make.centerX.equalTo(dateOptionView);
-        make.size.mas_equalTo(CGSizeMake(80, 20));
-    }];
-    resetBtn.hidden = YES;
-    [resetBtn addTarget:self action:@selector(didResetBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    /**************************************/
-//    certainView = [[UIView alloc]init];
-//    [self addSubview:certainView];
-//    [certainView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(dateOptionView);
-//        make.centerX.equalTo(self).offset(SCREEN_WIDTH);
-//        make.size.equalTo(dateOptionView);
-//    }];
 }
 
 #pragma mark -- UICollectionViewDataSource
--(void)refreshScrollPositionCurrentDate {
+- (void)refreshScrollPositionCurrentDate {
     NSDate *Date = [[NSDate alloc]init];
     NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
     [self refreshControlWithYear:calendar[0] month:calendar[1] day:calendar[2]];
 }
 
--(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return (2101-[_useTime getYear]) * 12 - [_useTime getMonth];
 }
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     //每个月的第一天
     NSString *strYear = [NSString stringWithFormat:@"%ld", section / 12 + [_useTime getYear]];
     NSString *strMonth = [NSString stringWithFormat:@"%ld", section % 12 + 1];
@@ -415,7 +318,7 @@
 }
 
 //header
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"AYDayCollectionHeader" forIndexPath:indexPath];
         
@@ -443,12 +346,12 @@
 }
 
 //设置header的高度
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     return (CGSize){WIDTH, (WIDTH - 30) / COLLECTIONROWNUMB};
 }
 
 //cell点击
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     AYDayCollectionCellView * cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:indexPath];
     if (cell.isGone) {
         return ;
@@ -468,13 +371,7 @@
 ////        pre_cell.selectedBackgroundView = selectBgView;
 //    }
     
-    tips.hidden = YES;
-    dateOptionView.center = CGPointMake(SCREEN_WIDTH * 0.5, dateOptionView.center.y);
-    
     long time_p = cell.timeSpan;
-    NSLog(@"%ld",time_p - noteTest);
-    noteTest = time_p;
-        
     [selectedItemArray addObject:indexPath];
     [timeSpanArray addObject:[NSNumber numberWithLong:time_p]];
     
@@ -482,20 +379,18 @@
     
 }
 
-
 // 反选
--(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     AYDayCollectionCellView * cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:indexPath];
     if (cell.isGone) {
         return ;
     }
     
     long time_p = cell.timeSpan;
-    
     [selectedItemArray removeObject:indexPath];
     [timeSpanArray removeObject:[NSNumber numberWithLong:time_p]];
     if (timeSpanArray.count == 0) {
-        abilityDate.text = @"暂未选择日程";
+        tips.text = @"点击选择📅\n如果您有暂时无法提供服务的时间";
         return;
     }
     
@@ -523,7 +418,7 @@
     [_calendarContentView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
 }
 
--(id)dateScrollToCenter:(NSString*)str{
+- (id)dateScrollToCenter:(NSString*)str {
     str = [str substringToIndex:10];
     NSArray *calendar = [str componentsSeparatedByString:@"年"];
     NSArray *calendar2 = [calendar[1] componentsSeparatedByString:@"月"];
@@ -531,7 +426,7 @@
     return nil;
 }
 
--(NSString*)transformTimespanToMouthAndDayWithDate:(NSTimeInterval)timespan{
+- (NSString*)transformTimespanToMouthAndDayWithDate:(NSTimeInterval)timespan {
     
     NSDate *itemDate = [NSDate dateWithTimeIntervalSince1970:timespan];
     NSDateFormatter *unformat = [[NSDateFormatter alloc] init];
@@ -543,7 +438,7 @@
     return date_string;
 }
 
-- (void)setAbilityDateTextWith:(NSArray*)array{
+- (void)setAbilityDateTextWith:(NSArray*)array {
     NSArray *tmpTimeArray = [timeSpanArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         NSTimeInterval first = ((NSNumber*)obj1).longValue;
         NSTimeInterval second = ((NSNumber*)obj2).longValue;
@@ -552,26 +447,7 @@
         else return NSOrderedSame;
     }];
     
-//    if (tmpTimeArray.count <= 4) {
-//        ability_dateString = [self transformTimespanToMouthAndDayWithDate:((NSNumber*)[tmpTimeArray objectAtIndex:0]).longValue];
-//        for (int i = 1; i < (tmpTimeArray.count > 4 ? 4 : tmpTimeArray.count) ; ++i) {
-//            long timeDate = ((NSNumber*)[tmpTimeArray objectAtIndex:i]).longValue;
-//            NSString *date_string = [self transformTimespanToMouthAndDayWithDate:timeDate];
-//            ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",date_string]];
-//        }
-//    } else {
-//        if ([self isMilitaryWithArray:tmpTimeArray]) {
-//            long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
-//            NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
-//            
-//            long last = ((NSNumber*)[tmpTimeArray lastObject]).longValue;
-//            NSString *last_string = [self transformTimespanToMouthAndDayWithDate:last];
-//            
-//            ability_dateString = [NSString stringWithFormat:@"%@ - %@",first_string, last_string];
-//            
-//        } else ability_dateString = @"多个日期可以提供服务";
-//    }
-    
+    NSString *ability_dateString;
     if (tmpTimeArray.count == 1) {
         long first = ((NSNumber*)[tmpTimeArray firstObject]).longValue;
         NSString *first_string = [self transformTimespanToMouthAndDayWithDate:first];
@@ -595,9 +471,9 @@
             NSString *date_string = [self transformTimespanToMouthAndDayWithDate:timeDate];
             ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",date_string]];
         }
-    } else ability_dateString = @"多个日期可以提供服务";
+    } else ability_dateString = @"多个日期";
     
-    abilityDate.text = ability_dateString;
+    tips.text = [ability_dateString stringByAppendingString:@"\n暂时无法提供服务"];
 }
 
 - (BOOL)isMilitaryWithArray:(NSArray*)array {

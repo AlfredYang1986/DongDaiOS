@@ -257,5 +257,6 @@
         <command type="Remote" name="QueryApplyOrders" />
         <command type="Remote" name="UpdateOrderInfo" />
         <command type="Remote" name="RejectOrder" />
+        <command type="Remote" name="AccomplishOrder" />
     </facade>
 </facades>

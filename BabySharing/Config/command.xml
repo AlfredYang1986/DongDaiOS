@@ -199,6 +199,7 @@
     <command type="Remote" name="QueryApplyOrders"   route="order/query/apply" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateOrderInfo"   route="order/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RejectOrder"   route="order/reject" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AccomplishOrder"   route="order/accomplish" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

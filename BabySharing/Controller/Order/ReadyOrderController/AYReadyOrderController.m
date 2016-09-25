@@ -247,6 +247,37 @@
 
 - (void)didFinishBtnClick {
     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"完成暂未实现" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"AccomplishOrder"];
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+    [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+//    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];
+    
+    [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"have done rejected" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            [self popToRoot];
+        } else {
+            
+        }
+    }];
+    
+}
+
+- (void)popToRoot {
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic];
 }
 
 #pragma mark - UIActionSheetDelegate

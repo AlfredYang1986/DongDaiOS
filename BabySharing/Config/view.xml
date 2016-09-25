@@ -645,6 +645,7 @@
     <view type="Schedule" name="Schedule" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="message"     message="dateScrollToCenter:" />
+        <command type="message"     message="queryUnavluableDate:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     

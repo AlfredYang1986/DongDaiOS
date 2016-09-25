@@ -39,5 +39,10 @@ typedef NS_ENUM(NSInteger, NotificationActionType) {
     NotificationActionTypeUnlike,
     NotificationActionTypeUnpush,
     NotificationActionTypeMessage, // may not use
+    
+    NotificationActionTypeOrderPushed        = 10,
+    NotificationActionTypeOrderAccecpted,
+    NotificationActionTypeOrderRejected,
+    NotificationActionTypeOrderAccomplished,
 };
 #endif

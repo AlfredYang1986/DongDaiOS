@@ -27,7 +27,7 @@
 #import "AYSearchDefines.h"
 
 
-@implementation AYOrderInfoController{
+@implementation AYOrderInfoController {
     
     NSDictionary *service_info;
     NSDictionary *setedTimes;

@@ -222,6 +222,7 @@
     
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
     [dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
     [dic_push setValue:[[service_info objectForKey:@"images"] objectAtIndex:0] forKey:@"order_thumbs"];
     [dic_push setValue:dic_date forKey:@"order_date"];
@@ -239,7 +240,8 @@
     
     [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务预订成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            kAYUIAlertView(@"提示", @"服务预订成功");
+            
             // 支付
             id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
             AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
@@ -249,12 +251,11 @@
             
             [cmd performWithResult:&pay];
             
-        }else {
-            NSLog(@"push error with:%@",result);
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务预订失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            [self popToRoot];
+        } else {
+//            NSLog(@"push error with:%@",result);
+            kAYUIAlertView(@"错误", @"服务预订失败");
         }
-        
-        [self popToRoot];
         
     }];
 }

@@ -197,4 +197,24 @@
     
     return nil;
 }
+
+- (id)OrderAccomplished:(id)args {
+    
+//    AYViewController *rootVC = self.navigationController.viewControllers.firstObject;
+    
+    UIViewController *activeVC = [Tools activityViewController];
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"CommentService");
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic setValue:activeVC forKey:kAYControllerActionSourceControllerKey];
+    //    [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+    [cmd_show_module performWithResult:&dic];
+    
+    return nil;
+}
+
 @end

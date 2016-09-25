@@ -119,9 +119,16 @@
 }
 
 - (id)rightBtnSelected {
-//    id<AYViewBase> view = [self.views objectForKey:@"FiterScroll"];
-//    id<AYCommand> cmd = [view.commands objectForKey:@"resetFiterArgs"];
-//    [cmd performWithResult:nil];
+    
+    NSArray *unavluableDateArr = nil;
+    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavluableDateArr)
+    
+    NSMutableArray *tmp = [NSMutableArray array];
+    for (int i = 0; i < unavluableDateArr.count; ++i) {
+        NSNumber *timeSpan = unavluableDateArr[i];
+        [tmp addObject:[NSNumber numberWithLong:(timeSpan.longValue * 1000)]];
+    }
+    
     return nil;
 }
 
