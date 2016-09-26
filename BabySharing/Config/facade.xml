@@ -251,11 +251,13 @@
     </facade>
     
     <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >
-        <command type="Remote" name="PushOrder" />
         <command type="Remote" name="QueryOrders" />
         <command type="Remote" name="QueryOwnOrders" />
         <command type="Remote" name="QueryApplyOrders" />
         <command type="Remote" name="UpdateOrderInfo" />
+        
+        <command type="Remote" name="PushOrder" />
+        <command type="Remote" name="AcceptOrder" />
         <command type="Remote" name="RejectOrder" />
         <command type="Remote" name="AccomplishOrder" />
     </facade>

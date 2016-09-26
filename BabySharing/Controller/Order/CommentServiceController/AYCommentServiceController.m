@@ -20,20 +20,19 @@
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
-#define LIMITNUMB                   88
+#define kTableViewY                   270
 
-@interface AYCommentServiceController () <UITextViewDelegate>
+@interface AYCommentServiceController ()
 
 @end
 
 @implementation AYCommentServiceController {
     
-    NSString *order_id;
+    NSDictionary *notify_args;
+    NSMutableArray *service_rangs;
     
-    UITextView *seasonOfTextView;
-    UILabel *placeholderLabel;
-    
-    UILabel *countLabel;
+    UIImageView *userPhoto;
+    UILabel *nameLabel;
 }
 
 - (void)postPerform{
@@ -45,7 +44,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        order_id = [dic objectForKey:kAYControllerChangeArgsKey];
+        notify_args = [dic objectForKey:kAYControllerChangeArgsKey];
         //        NSLog(@"%@",order_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -64,74 +63,110 @@
     self.view.backgroundColor = [Tools blackColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    service_rangs = [NSMutableArray array];
+    for (int i = 0; i < 3; ++i) {
+        [service_rangs addObject:[NSNumber numberWithInt:0]];
+    }
     
     UILabel *tipsLabel = [UILabel new];
-    tipsLabel = [Tools setLabelWith:tipsLabel andText:@"确认拒绝订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    tipsLabel = [Tools setLabelWith:tipsLabel andText:@"请评价您体验的服务" andTextColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(150);
+        make.top.equalTo(self.view).offset(90);
         make.centerX.equalTo(self.view);
     }];
     
-    UIView *seprator = [UIView new];
-    seprator.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:seprator];
-    [seprator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tipsLabel.mas_bottom).offset(10);
+    userPhoto = [[UIImageView alloc]init];
+    userPhoto.image = IMGRESOURCE(@"default_user");
+    userPhoto.layer.cornerRadius = 35.f;
+    userPhoto.clipsToBounds = YES;
+    userPhoto.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
+    userPhoto.layer.borderWidth = 2.f;
+    [self.view addSubview:userPhoto];
+    [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(tipsLabel.mas_bottom).offset(25);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 1));
+        make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
     
-    seasonOfTextView = [[UITextView alloc]init];
-    [self.view addSubview:seasonOfTextView];
-    seasonOfTextView.scrollEnabled = NO;
-    seasonOfTextView.showsHorizontalScrollIndicator = NO;
-    seasonOfTextView.font = kAYFontLight(14.f);
-    seasonOfTextView.textColor = [Tools blackColor];
-    seasonOfTextView.contentInset = UIEdgeInsetsMake(10.0f, 10.0f, 10.0f, 10.0f);
-    seasonOfTextView.delegate = self;
-    [seasonOfTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    
+    nameLabel = [[UILabel alloc]init];
+    nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools whiteColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [self.view addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(userPhoto.mas_bottom).offset(25);
         make.centerX.equalTo(self.view);
-        make.top.equalTo(seprator.mas_bottom).offset(15);
-        make.width.equalTo(seprator);
-        make.height.mas_equalTo(120);
     }];
     
-    placeholderLabel = [[UILabel alloc]init];
-    placeholderLabel = [Tools setLabelWith:placeholderLabel andText:@"您拒绝的理由？" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [self.view addSubview:placeholderLabel];
-    [placeholderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(seasonOfTextView).offset(7);
-        make.left.equalTo(seasonOfTextView).offset(7);
-    }];
+//    UILabel *countLabel = [[UILabel alloc]init];
+//    countLabel = [Tools setLabelWith:countLabel andText:@"服务主题" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//    [self.view addSubview:countLabel];
+//    [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(nameLabel.mas_bottom).offset(10);
+//        make.centerX.equalTo(self.view);
+//    }];
     
-    countLabel = [[UILabel alloc]init];
-    countLabel = [Tools setLabelWith:countLabel andText:@"还可以输入88个字符" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-    [self.view addSubview:countLabel];
-    [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(seasonOfTextView).offset(-10);
-        make.right.equalTo(seasonOfTextView).offset(-10);
-    }];
     
-    UIButton *rejectBtn = [[UIButton alloc]init];
-    [self.view addSubview:rejectBtn];
-    rejectBtn.backgroundColor = [Tools themeColor];
-    [rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
-    rejectBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [rejectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    //    rejectBtn.layer.borderWidth = 1.f;
-    //    rejectBtn.layer.borderColor = [UIColor whiteColor].CGColor;
-    [rejectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(seasonOfTextView.mas_bottom).offset(15);
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+    
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"CommentService"];
+    
+    id obj = (id)cmd_recommend;
+    [cmd_datasource performWithResult:&obj];
+    obj = (id)cmd_recommend;
+    [cmd_delegate performWithResult:&obj];
+    
+    id<AYCommand> cmd_clsss = [view_table.commands objectForKey:@"registerCellWithClass:"];
+    NSString* head_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServQualityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_clsss performWithResult:&head_name];
+    /****************************************/
+    
+    UIButton *botBtn = [[UIButton alloc]init];
+    [self.view addSubview:botBtn];
+    botBtn.backgroundColor = [Tools themeColor];
+    [botBtn setTitle:@"提交" forState:UIControlStateNormal];
+    botBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    [botBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [botBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).offset(-20);
         make.centerX.equalTo(self.view);
-        make.width.equalTo(seprator);
+        make.width.mas_equalTo(SCREEN_WIDTH - 30);
         make.height.mas_equalTo(44);
     }];
-    [rejectBtn addTarget:self action:@selector(didConfirmRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [botBtn addTarget:self action:@selector(didBotBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:[notify_args objectForKey:@"sender_id"] forKey:@"user_id"];
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSString *photo_name = [result objectForKey:@"screen_photo"];
+            
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:photo_name forKey:@"image"];
+            [dic setValue:@"img_icon" forKey:@"expect_size"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                if (img != nil) {
+                    [userPhoto setImage:img];
+                }
+            }];
+            
+            NSString *user_name = [result objectForKey:@"screen_name"];
+            nameLabel.text = user_name;
+        }
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -147,15 +182,10 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 54);
     view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    //    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    //    NSString *title = @"待确认订单";
-    //    [cmd_title performWithResult:&title];
-    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_white");
     [cmd_left performWithResult:&left];
@@ -164,31 +194,26 @@
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-    //    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-    //    [cmd_bot performWithResult:nil];
-    
+    return nil;
+}
+
+- (id)TableLayout:(UIView*)view {
+    view.frame = CGRectMake(0, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - kTableViewY - 100);
+    view.backgroundColor = [Tools blackColor];
     return nil;
 }
 
 #pragma mark -- textViewDelegate
-//- (BOOL)text
 
-- (void)textViewDidChange:(UITextView *)textView {
-    long length = textView.text.length;
-    if (length != 0) {
-        placeholderLabel.hidden = YES;
-    } else placeholderLabel.hidden = NO;
-    
-    if (length > LIMITNUMB) {
-        textView.text = [textView.text substringToIndex:LIMITNUMB];
-    }
-    
-    countLabel.text = [NSString stringWithFormat:@"还可以输入个%lu字符", LIMITNUMB - textView.text.length];
-    
-}
 
 #pragma mark -- actions
-- (void)didConfirmRejectBtnClick {
+- (void)didBotBtnClick {
+    
+    if ([service_rangs containsObject:[NSNumber numberWithInt:0]]) {
+        kAYUIAlertView(@"提示", @"评价未完成");
+        return;
+    }
+    
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
     
@@ -197,26 +222,17 @@
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
     [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic setValue:order_id forKey:@"order_id"];
-    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];
+//    [dic setValue:order_id forKey:@"order_id"];
+//    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"have done rejected" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-            [self popToRoot];
+            kAYUIAlertView(@"提示", @"评论已成功发布");
+            [self leftBtnSelected];
         } else {
             
         }
     }];
-}
-
-- (void)popToRoot {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POPTOROOT;
-    [cmd performWithResult:&dic];
 }
 
 #pragma mark -- notification
@@ -227,6 +243,16 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     id<AYCommand> cmd = REVERSMODULE;
     [cmd performWithResult:&dic];
+    
+    return nil;
+}
+
+- (id)didSetServiceRang:(NSDictionary*)args {
+    
+    NSNumber *index_tag = [args objectForKey:@"index_tag"];
+    NSNumber *star_rang = [args objectForKey:@"star_rang"];
+    
+    [service_rangs replaceObjectAtIndex:index_tag.intValue withObject:star_rang];
     
     return nil;
 }

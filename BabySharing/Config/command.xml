@@ -193,12 +193,14 @@
     <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="PushOrder"     route="order/push" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOwnOrders"   route="order/query/own" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryApplyOrders"   route="order/query/apply" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateOrderInfo"   route="order/update" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="RejectOrder"   route="order/reject" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PushOrder"         route="order/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AcceptOrder"       route="order/accept" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RejectOrder"       route="order/reject" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AccomplishOrder"   route="order/accomplish" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />

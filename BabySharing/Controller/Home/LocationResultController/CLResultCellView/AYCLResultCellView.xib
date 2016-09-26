@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="314"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AGi-wg-VLC">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_image" translatesAutoresizingMaskIntoConstraints="NO" id="AGi-wg-VLC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="225"/>
                         <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -78,7 +78,7 @@ MTMQA
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="I" translatesAutoresizingMaskIntoConstraints="NO" id="wSp-Qe-A2P">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="triangle" translatesAutoresizingMaskIntoConstraints="NO" id="wSp-Qe-A2P">
                         <rect key="frame" x="331" y="219" width="18" height="6"/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="star_rang_1" translatesAutoresizingMaskIntoConstraints="NO" id="tbi-Hs-8Dm">
@@ -128,11 +128,12 @@ MTMQA
         </tableViewCell>
     </objects>
     <resources>
-        <image name="I" width="23" height="23"/>
         <image name="default_user" width="80" height="80"/>
         <image name="heart" width="22" height="19"/>
         <image name="heart_unlike" width="23" height="20"/>
-        <image name="star_rang_1" width="90" height="14"/>
+        <image name="placeholder_image" width="375" height="225"/>
+        <image name="star_rang_1" width="96" height="15"/>
         <image name="tab_found_selected" width="23" height="23"/>
+        <image name="triangle" width="18" height="6"/>
     </resources>
 </document>

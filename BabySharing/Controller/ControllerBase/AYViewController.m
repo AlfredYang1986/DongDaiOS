@@ -166,7 +166,6 @@
     
     if (count_loading == 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         });
     }
@@ -190,7 +189,6 @@
     count_loading --;
     if (count_loading == 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     }
@@ -200,8 +198,6 @@
 
 - (id)OrderAccomplished:(id)args {
     
-//    AYViewController *rootVC = self.navigationController.viewControllers.firstObject;
-    
     UIViewController *activeVC = [Tools activityViewController];
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"CommentService");
@@ -209,7 +205,7 @@
     [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:activeVC forKey:kAYControllerActionSourceControllerKey];
-    //    [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];

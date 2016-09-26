@@ -253,6 +253,11 @@
         <command type="notify" message="sendLocation:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="CommentService" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="sendLocation:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="setOrderDate:" />

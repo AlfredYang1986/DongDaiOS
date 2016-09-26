@@ -1,12 +1,12 @@
 //
-//  AYContentListDelegate.m
+//  AYCommentServiceDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 13/6/16.
+//  Created by Alfred Yang on 26/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYContentListDelegate.h"
+#import "AYCommentServiceDelegate.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
 #import "AYCommandDefines.h"
@@ -19,8 +19,9 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYContentListDelegate{
+@implementation AYCommentServiceDelegate {
     NSArray *querydata;
+    NSArray *titleArr;
 }
 
 @synthesize para = _para;
@@ -30,7 +31,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-    
+    titleArr = [NSArray arrayWithObjects:@"服务满意度", @"沟通及时度", @"场地整洁性", nil];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -50,7 +51,7 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(NSArray*)array{
+- (id)changeQueryData:(NSArray*)array {
     querydata = array;
     return nil;
 }
@@ -58,37 +59,32 @@
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     //    return querydata.count;
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ContentListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServQualityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
-    if (cell == nil) {
-        cell = VIEW(@"ContentListCell", @"ContentListCell");
-    }
-    
-    cell.controller = self.controller;
-    
-    
-    id tmp = [querydata objectAtIndex:indexPath.row];
-    
+    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+    [tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
+    [tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"index"];
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [cmd performWithResult:&tmp];
     
+    cell.controller = self.controller;
     return (UITableViewCell*)cell;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return 150;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 65.f;
+}
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
 }
 
--(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 

@@ -36,6 +36,11 @@
         if (message == nil) {
             [tmp removeObject:sation];
         }
+        
+        NSString *master = sation.conversationId;
+        if ([master isEqualToString:@"dongda_master"]) {
+            [tmp removeObject:sation];
+        }
     }
     
 //    NSString *from = message.from;

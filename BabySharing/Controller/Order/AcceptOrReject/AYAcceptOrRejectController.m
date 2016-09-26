@@ -196,12 +196,12 @@
 #pragma mark -- actions
 - (void)didAcceptBtnClick {
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateOrderInfo"];
+    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"AcceptOrder"];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
     [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
-    
-    [dic setValue:[NSNumber numberWithInt:1] forKey:@"status"];
+    [dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
     
     [cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         NSString *message = nil;
@@ -209,7 +209,7 @@
             message = @"您已经接受订单，请及时处理!";
             [self popToRoot];
         } else {
-            message = @"接受订单失败!请检查网络是否正常连接";
+            message = @"接受订单失败!\n请检查网络是否正常连接";
             NSLog(@"error with:%@",result);
         }
         [[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
@@ -240,7 +240,7 @@
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[order_info objectForKey:@"order_id"] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[order_info copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSHFROMBOT;
     [cmd_show_module performWithResult:&dic];

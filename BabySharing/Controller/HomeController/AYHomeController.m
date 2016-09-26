@@ -114,11 +114,6 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, SCREEN_WIDTH));
         }];
         
-//        tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//            //Call this Block When enter the refresh status automatically
-//        }];
-        // Set the callback（Once you enter the refresh status，then call the action of target，that is call [self loadMoreData]）
-//        tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
         tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
         
         UIButton *found = [[UIButton alloc]init];
@@ -200,11 +195,9 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49);
+    
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(SCREEN_WIDTH, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     return nil;
 }
 
@@ -215,21 +208,30 @@ CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
 }
 
 #pragma mark -- controller actions
--(id)foundBtnClick{
-    AYViewController* des = DEFAULTCONTROLLER(@"Location");
+- (id)foundBtnClick {
     
+//    id<AYCommand> des = DEFAULTCONTROLLER(@"CommentService");
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+//    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    //    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd_show_module = SHOWMODULEUP;
+//    [cmd_show_module performWithResult:&dic];
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"Location");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:cur forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;
 }
 
--(id)didPushInfo{
+- (id)didPushInfo {
     AYViewController* des = DEFAULTCONTROLLER(@"OrderList");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

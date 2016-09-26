@@ -79,7 +79,7 @@
 #pragma marlk -- commands
 -(id)changeQueryData:(id)args{
     
-    isEditModel = NO;
+//    isEditModel = NO;
     
     NSDictionary *dic = (NSDictionary*)args;
     

@@ -642,6 +642,11 @@
         <command type="notify"      message="didShowDetailClick" />
     </view>
     
+    <view type="ServQualityCell" name="ServQualityCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didSetServiceRang:" />
+    </view>
+    
     <view type="Schedule" name="Schedule" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="message"     message="dateScrollToCenter:" />

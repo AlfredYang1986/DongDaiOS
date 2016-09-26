@@ -51,5 +51,15 @@
 #pragma mark -- 系统提示弹框
 #define kAYUIAlertView(TITLE,MESSAGE)               [[[UIAlertView alloc]initWithTitle:TITLE message:MESSAGE delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show]
 
+#pragma mark -- popToRoot
+#define kAYPopToRootVC                              {\
+                                                        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];\
+                                                        [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];\
+                                                        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];\
+                                                        \
+                                                        id<AYCommand> cmd = POPTOROOT;\
+                                                        [cmd performWithResult:&dic];\
+                                                    }
+
 
 #endif /* AYCommandsCommand_h */

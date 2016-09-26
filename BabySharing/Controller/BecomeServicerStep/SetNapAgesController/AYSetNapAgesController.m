@@ -158,9 +158,10 @@
     }];
     
     plusBtn = [[UIButton alloc]init];
-    if (countChild) {
-        [plusBtn setTitle:[NSString stringWithFormat:@"%ld",countChild] forState:UIControlStateNormal];
-    } else [plusBtn setTitle:@"0" forState:UIControlStateNormal];
+    if (!countChild || countChild == 0) {
+        countChild = 1;
+    }
+    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",countChild] forState:UIControlStateNormal];
     plusBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
     [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
     plusBtn.layer.borderColor = [Tools themeColor].CGColor;
@@ -264,7 +265,7 @@
 }
 
 - (void)didMinusBtnClick:(UIButton*)btn {
-    if (countChild == 0) {
+    if (countChild == 1) {
         return;
     }
     countChild --;

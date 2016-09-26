@@ -125,14 +125,14 @@
             switch (type) {
                 case NotificationActionTypeOrderPushed:
                 {
-                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-                    [notify setValue:kAYNotifyOrderAccomplished forKey:kAYNotifyFunctionKey];
-                    
-                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-                    [args setValue:dic forKey:@"notify_info"];
-                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-                    [self performWithResult:&notify];
+//                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+//                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+//                    [notify setValue:kAYNotifyOrderAccomplished forKey:kAYNotifyFunctionKey];
+//                    
+//                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+//                    [args setValue:dic forKey:@"notify_info"];
+//                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//                    [self performWithResult:&notify];
                 }
                     break;
                     
@@ -164,7 +164,6 @@
                 default:
                     break;
             }
-            
 //            if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
 //            
 //            } else {
@@ -178,7 +177,7 @@
 //            message.isRead = YES;
         }
     }
-  
+    
     /**
      * for message
      */
@@ -195,6 +194,10 @@
         [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
         [self performWithResult:&notify];
     }
+    
+    EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:@"dongda_master" type:EMConversationTypeChat createIfNotExist:YES];
+    [conversation markAllMessagesAsRead];
+    [[EMClient sharedClient].chatManager deleteConversation:@"dongda_master" deleteMessages:YES];
 }
 
 /*!

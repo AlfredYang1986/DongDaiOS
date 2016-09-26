@@ -28,7 +28,7 @@
 
 @implementation AYRejectOrderController {
     
-    NSString *order_id;
+    NSDictionary *order_info;
     
     UITextView *seasonOfTextView;
     UILabel *placeholderLabel;
@@ -45,7 +45,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        order_id = [dic objectForKey:kAYControllerChangeArgsKey];
+        order_info = [dic objectForKey:kAYControllerChangeArgsKey];
         //        NSLog(@"%@",order_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -192,18 +192,16 @@
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
     
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic setValue:order_id forKey:@"order_id"];
-    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];
+    [dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+    [dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+    [dic setValue:seasonOfTextView.text forKey:@"further_message"];
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"have done rejected" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-            [self popToRoot];
+            kAYUIAlertView(@"提示", @"已拒绝此订单");
+            kAYPopToRootVC
         } else {
             
         }
