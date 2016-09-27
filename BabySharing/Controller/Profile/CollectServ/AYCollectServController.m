@@ -56,7 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
@@ -207,10 +207,6 @@
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 74 - (serviceType == 1?44:0));
     
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
     return nil;
 }
 

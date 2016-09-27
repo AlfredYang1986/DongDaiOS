@@ -1,12 +1,12 @@
 //
-//  AYProfileOrigCellView.m
+//  AYPersonalDescCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 7/7/16.
+//  Created by Alfred Yang on 27/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYProfileOrigCellView.h"
+#import "AYPersonalDescCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
 
@@ -22,8 +22,9 @@
 
 #define WIDTH               SCREEN_WIDTH - 15*2
 
-@implementation AYProfileOrigCellView {
+@implementation AYPersonalDescCellView {
     UILabel *titleLabel;
+    UILabel *descLabel;
 }
 
 @synthesize para = _para;
@@ -36,17 +37,26 @@
     if (self) {
         
         titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"关于我" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.left.equalTo(self).offset(20);
+            make.top.equalTo(self).offset(10);
+            make.left.equalTo(self).offset(15);
         }];
         
-        CALayer *separtor = [CALayer layer];
-        separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
-        separtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:separtor];
+        descLabel = [[UILabel alloc]init];
+        descLabel = [Tools setLabelWith:descLabel andText:@"暂无描述!" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        descLabel.numberOfLines = 0;
+        [self addSubview:descLabel];
+        [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(titleLabel.mas_bottom).offset(12.5);
+            make.left.equalTo(titleLabel);
+        }];
+        
+//        CALayer *separtor = [CALayer layer];
+//        separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
+//        separtor.backgroundColor = [Tools garyLineColor].CGColor;
+//        [self.layer addSublayer:separtor];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -62,7 +72,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ProfileOrigCell", @"ProfileOrigCell");
+    id<AYViewBase> cell = VIEW(@"PersonalDescCell", @"PersonalDescCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -127,8 +137,19 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
     
-//    titleLabel.text = [args objectForKey:@"title"];
-    titleLabel.text = (NSString*)args;
+    NSDictionary *info = nil;
+    CURRENUSER(info);
+    NSString *user_id = [args objectForKey:@"user_id"];
+    
+    if (![user_id isEqualToString:[info objectForKey:@"user_id"]]) {
+        NSString *nameStr = [args objectForKey:@"screen_name"];
+        titleLabel.text = [NSString stringWithFormat:@"关于%@",nameStr];
+    }
+    
+    NSString *descStr = [args objectForKey:@"personal_description"];
+    if (descStr && ![descStr isEqualToString:@""]) {
+        descLabel.text = descStr;
+    }
     
     return nil;
 }

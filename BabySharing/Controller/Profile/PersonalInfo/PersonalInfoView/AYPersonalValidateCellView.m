@@ -1,15 +1,14 @@
 //
-//  AYProfileOrigCellView.m
+//  AYPersonalValidateCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 7/7/16.
+//  Created by Alfred Yang on 27/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYProfileOrigCellView.h"
+#import "AYPersonalValidateCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -22,8 +21,9 @@
 
 #define WIDTH               SCREEN_WIDTH - 15*2
 
-@implementation AYProfileOrigCellView {
+@implementation AYPersonalValidateCellView {
     UILabel *titleLabel;
+    UIImageView *checkedIcon;
 }
 
 @synthesize para = _para;
@@ -43,8 +43,17 @@
             make.left.equalTo(self).offset(20);
         }];
         
+        checkedIcon = [[UIImageView alloc]init];
+        checkedIcon.image = IMGRESOURCE(@"checked_icon");
+        [self addSubview:checkedIcon];
+        [checkedIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(15, 15));
+        }];
+        
         CALayer *separtor = [CALayer layer];
-        separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
+        separtor.frame = CGRectMake(15, 63.5, SCREEN_WIDTH - 30, 0.5);
         separtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:separtor];
         
@@ -62,7 +71,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ProfileOrigCell", @"ProfileOrigCell");
+    id<AYViewBase> cell = VIEW(@"PersonalValidateCell", @"PersonalValidateCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -127,8 +136,10 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
     
-//    titleLabel.text = [args objectForKey:@"title"];
-    titleLabel.text = (NSString*)args;
+    titleLabel.text = [args objectForKey:@"title"];
+    
+    NSNumber *isFirst = [args objectForKey:@"is_first"];
+    checkedIcon.hidden = isFirst.boolValue;
     
     return nil;
 }

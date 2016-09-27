@@ -49,6 +49,7 @@
 }
 
 - (void)postPerform {
+    
     id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderInit"];
     AYViewController* order = nil;
     [cmd_order_init performWithResult:&order];
@@ -83,9 +84,10 @@
     img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
     
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"订单"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"消息"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"服务"];
+    dongda_tabbar.backgroundColor = [Tools blackColor];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"订单"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"服务"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {

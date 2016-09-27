@@ -186,6 +186,11 @@
 }
 - (id)rightBtnSelected {
     
+    if (notePow == 0) {
+        kAYUIAlertView(@"提示", @"您还没有添加友好设施");
+        return nil;
+    }
+    
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];

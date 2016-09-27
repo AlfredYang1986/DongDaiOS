@@ -298,7 +298,7 @@
     } else if(setedAgesData){
         sl_dic = [setedAgesData mutableCopy];
     } else {
-        [[[UIAlertView alloc]initWithTitle:@"错误" message:@"设置错误" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        kAYUIAlertView(@"提示", @"您还没有设置孩子年龄阶段");
         return nil;
     }
     

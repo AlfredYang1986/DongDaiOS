@@ -217,7 +217,7 @@
         id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
         NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
         [args setValue:self.view forKey:@"super_view"];
-        [args setValue:@"每个服务暂只支持同时容纳8个孩子" forKey:@"title"];
+        [args setValue:@"最少预定时长最多暂支持8个小时" forKey:@"title"];
         [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
         [cmd_add performWithResult:&args];
         return;

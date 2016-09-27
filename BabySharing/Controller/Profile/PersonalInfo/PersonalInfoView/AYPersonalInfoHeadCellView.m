@@ -1,15 +1,14 @@
 //
-//  AYProfileOrigCellView.m
+//  AYPersonalInfoHeadCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 7/7/16.
+//  Created by Alfred Yang on 27/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYProfileOrigCellView.h"
+#import "AYPersonalInfoHeadCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -20,10 +19,13 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-#define WIDTH               SCREEN_WIDTH - 15*2
 
-@implementation AYProfileOrigCellView {
-    UILabel *titleLabel;
+@implementation AYPersonalInfoHeadCellView {
+    
+    UIImageView *userImageView;
+    UILabel *nameLabel;
+    
+    UILabel *registTimeLabel;
 }
 
 @synthesize para = _para;
@@ -35,16 +37,34 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.left.equalTo(self).offset(20);
+        userImageView = [UIImageView new];
+        userImageView.image = IMGRESOURCE(@"default_image");
+        userImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self addSubview:userImageView];
+        [userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.centerX.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
+        }];
+        
+        nameLabel = [[UILabel alloc]init];
+        nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:nameLabel];
+        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.top.equalTo(userImageView.mas_bottom).offset(15);
+        }];
+        
+        registTimeLabel = [[UILabel alloc]init];
+        registTimeLabel = [Tools setLabelWith:registTimeLabel andText:@"注册时间：2015年7月" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:registTimeLabel];
+        [registTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.top.equalTo(nameLabel.mas_bottom).offset(25);
         }];
         
         CALayer *separtor = [CALayer layer];
-        separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
+        separtor.frame = CGRectMake(0, 349.5f, SCREEN_WIDTH, 0.5);
         separtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:separtor];
         
@@ -62,7 +82,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ProfileOrigCell", @"ProfileOrigCell");
+    id<AYViewBase> cell = VIEW(@"PersonalInfoHeadCell", @"PersonalInfoHeadCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -127,8 +147,29 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
     
-//    titleLabel.text = [args objectForKey:@"title"];
-    titleLabel.text = (NSString*)args;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    NSString* photo_name = [args objectForKey:@"screen_photo"];
+    [dic setValue:photo_name forKey:@"image"];
+    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        UIImage* img = (UIImage*)result;
+        if (img != nil) {
+            userImageView.image = img;
+        }
+    }];
+    
+    nameLabel.text = [args objectForKey:@"screen_name"];
+    
+//    NSNumber *date = ;
+    double date = ((NSNumber*)[args objectForKey:@"date"]).doubleValue;
+    NSDateFormatter *format = [Tools creatDateFormatterWithString:@"yyyy年MM月"];
+    NSDate *registDate = [NSDate dateWithTimeIntervalSince1970:date * 0.001];
+    NSString *dateStr = [format stringFromDate:registDate];
+    
+    registTimeLabel.text = [NSString stringWithFormat:@"注册时间：%@",dateStr];
     
     return nil;
 }

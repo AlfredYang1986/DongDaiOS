@@ -233,7 +233,6 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];

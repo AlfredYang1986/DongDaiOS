@@ -44,8 +44,7 @@
 @end
 
 @implementation AYProfileController {
-    BOOL isPushed;
-    NSString* owner_id;
+    
     NSString* screen_name;
     NSDictionary* profile_dic;
     
@@ -59,8 +58,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        owner_id = [dic objectForKey:kAYControllerChangeArgsKey];
-        isPushed = YES;
+        
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -81,23 +79,8 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
+    self.view.backgroundColor = [Tools whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    id<AYViewBase> nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYCommand> cmd_nav = [nav.commands objectForKey:@"setBackGroundColor:"];
-    UIColor* c_nav = [UIColor whiteColor];
-    [cmd_nav performWithResult:&c_nav];
-    
-    id<AYCommand> cmd_right_vis = [nav.commands objectForKey:@"setRightBtnVisibility:"];
-    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
-    if (!isPushed) {
-        
-        id<AYCommand> cmd_left_vis = [nav.commands objectForKey:@"setLeftBtnVisibility:"];
-        NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-        [cmd_left_vis performWithResult:&left_hidden];
-    }
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -112,8 +95,17 @@
         [cmd_delegate performWithResult:&obj];
         
         id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = @"AYProfileHeadCellView";
-        [cmd_cell performWithResult:&class_name];
+        NSString* nib_name = @"AYProfileHeadCellView";
+        [cmd_cell performWithResult:&nib_name];
+        
+        id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+        NSString* class_name = @"AYProfileOrigCellView";
+        [cmd_class performWithResult:&class_name];
+        
+        AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+        BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
+        NSNumber *args = [NSNumber numberWithBool:isNap];
+        kAYDelegatesSendMessage(@"Profile", @"changeModel:", &args)
     }
     
     id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
@@ -122,11 +114,7 @@
     CURRENUSER(user);
     
     NSMutableDictionary* dic = [user mutableCopy];
-    if (owner_id) {
-        [dic setValue:owner_id forKey:@"owner_user_id"];
-    } else {
-        [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
-    }
+    [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
@@ -154,48 +142,31 @@
     return nil;
 }
 
-- (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
-    view.backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-//    ((UITableView*)view).style = UITableViewStyleGrouped;
-    return nil;
-}
-
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    if (isPushed) {
-        id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-        UIImage* left = IMGRESOURCE(@"bar_left_black");
-        [cmd_left performWithResult:&left];
-    }
     
-//    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-//    NSString *title = @"沟通";
-//    [cmd_title performWithResult:&title];
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
+    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+    [cmd_left_vis performWithResult:&left_hidden];
+    
+    NSString *title = @"我的";
+    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
+    
+    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+    [cmd_right_vis performWithResult:&right_hidden];
     
     id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
     [cmd_bot performWithResult:nil];
     return nil;
 }
 
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"我的";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 44 / 2 + 20);
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    view.hidden = YES;
+- (id)TableLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - kTabBarH);
+    view.backgroundColor = [UIColor clearColor];
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+    //    ((UITableView*)view).style = UITableViewStyleGrouped;
     return nil;
 }
 
@@ -214,6 +185,14 @@
 - (id)rightBtnSelected {
     
     return nil;
+}
+
+- (id)queryModel:(id)args {
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+    BOOL isNap = [self.tabBarController isKindOfClass:[des class]];
+    args = [NSNumber numberWithBool:isNap];
+    return args;
 }
 
 - (id)queryIsGridSelected:(id)obj {
@@ -239,11 +218,6 @@
     return nil;
 }
 
-- (id)queryTargetID {
-    id result = owner_id;
-    return result;
-}
-
 - (id)relationChanged:(id)args {
     NSNumber* new_relations = (NSNumber*)args;
     NSLog(@"new relations %@", new_relations);
@@ -257,22 +231,32 @@
 
 
 - (id)sendRegMessage:(NSNumber*)type {
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
     
+    AYViewController* compare = DEFAULTCONTROLLER(@"TabBar");
+    BOOL isNap = ![self.tabBarController isKindOfClass:[compare class]];
+    AYViewController *des;
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-//    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-    [dic_show_module setValue:type forKey:kAYControllerChangeArgsKey];
     
-//    id<AYCommand> cmd_show_module = SHOWMODULE;
-//    [cmd_show_module performWithResult:&dic_show_module];
-
+    if (isNap) {
+        des = compare;
+        //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+        [dic_show_module setValue:type forKey:kAYControllerChangeArgsKey];
+        
+    } else {
+        des = DEFAULTCONTROLLER(@"TabBarService");
+        //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+        [dic_show_module setValue:[NSNumber numberWithInt:2] forKey:kAYControllerChangeArgsKey];
+        
+    }
+    
     id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
     [cmd_show_module performWithResult:&dic_show_module];
-    
     return nil;
 }
 #pragma mark -- status

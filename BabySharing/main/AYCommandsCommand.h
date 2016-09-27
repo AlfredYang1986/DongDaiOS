@@ -9,6 +9,8 @@
 #ifndef AYCommandsCommand_h
 #define AYCommandsCommand_h
 
+//#define kAYFakeNavBarView                           @"FakeNavBar"
+
 #pragma mark -- VC中的views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\
                                                                 id<AYViewBase> kAYView = [self.views objectForKey:VIEW];\

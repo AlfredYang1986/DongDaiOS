@@ -39,7 +39,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    _user_screen.layer.cornerRadius = 40.f;
+    _user_screen.layer.cornerRadius = 30.f;
     _user_screen.clipsToBounds = YES;
     _user_screen.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _user_screen.layer.borderWidth = 2.f;
@@ -125,16 +125,16 @@
         _user_name.text = name;
     }
     
-    NSString *address = [args objectForKey:@"address"];
-    if (address && ![address isEqualToString:@""]) {
-        _addressLabel.text = address;
-    }
-    
-    NSDictionary *info = nil;
-    CURRENUSER(info)
-    if ([[args objectForKey:@"user_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
-        _allowEditIcon.hidden = NO;
-    }else _allowEditIcon.hidden = YES;
+//    NSString *address = [args objectForKey:@"address"];
+//    if (address && ![address isEqualToString:@""]) {
+//        _addressLabel.text = address;
+//    }
+//    
+//    NSDictionary *info = nil;
+//    CURRENUSER(info)
+//    if ([[args objectForKey:@"user_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
+//        _allowEditIcon.hidden = NO;
+//    }else _allowEditIcon.hidden = YES;
     
     return nil;
 }

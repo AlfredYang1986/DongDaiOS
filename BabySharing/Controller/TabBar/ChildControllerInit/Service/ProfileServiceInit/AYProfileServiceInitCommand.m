@@ -21,8 +21,8 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    UIViewController* controller = CONTROLLER(@"DefaultController", @"ProfileService");
-//    UIViewController* controller = CONTROLLER(@"DefaultController", @"Profile");
+//    UIViewController* controller = CONTROLLER(@"DefaultController", @"ProfileService");
+    UIViewController* controller = CONTROLLER(@"DefaultController", @"Profile");
     
 //    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");

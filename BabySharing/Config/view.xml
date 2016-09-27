@@ -495,6 +495,27 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message=":" />
     </view>
+    
+    <view type="ProfileOrigCell" name="ProfileOrigCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message=":" />
+    </view>
+    
+    <view type="PersonalInfoHeadCell" name="PersonalInfoHeadCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message=":" />
+    </view>
+    <view type="PersonalDescCell" name="PersonalDescCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message=":" />
+    </view>
+    <view type="PersonalValidateCell" name="PersonalValidateCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message=":" />
+    </view>
+    
+    
+    
     <view type="SelfSetting" name="SelfSetting" factory="AYReuseViewFactory" >
         <command type="message"     message="setPersonalInfo:" />
         <command type="message"     message="hideKeyboard" />

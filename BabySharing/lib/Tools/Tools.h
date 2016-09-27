@@ -32,9 +32,12 @@
 + (UIColor*)garyLineColor;
 + (UIColor*)garyBackgroundColor;
 
+#pragma mark -- UI
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 + (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 
+#pragma mark -- NSTime
++ (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter;
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;
 + (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg;

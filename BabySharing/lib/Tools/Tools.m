@@ -426,6 +426,7 @@
     return [UIColor colorWithWhite:0.9490 alpha:1.f];
 }
 
+#pragma mark -- UI
 /**
  *  设置label的 text color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
 */
@@ -472,6 +473,16 @@
         btn.backgroundColor = [UIColor clearColor];
     
     return btn;
+}
+
+#pragma mark -- NSTime
++ (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter {
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:formatter];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [format setTimeZone:timeZone];
+    return format;
 }
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view {

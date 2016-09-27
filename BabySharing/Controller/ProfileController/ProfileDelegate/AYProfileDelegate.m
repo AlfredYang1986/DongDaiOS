@@ -30,7 +30,8 @@
     NSMutableArray *origs;
     NSArray *confirmData;
     
-    NSMutableDictionary *user_info;
+    BOOL isNapModel;
+    BOOL is_service_provider;
 }
 
 @synthesize querydata = _querydata;
@@ -42,7 +43,17 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    origs = [NSMutableArray arrayWithObjects:@"切换到服务者", @"我心仪的服务", @"设置", nil];
+    
+//    NSNumber *model = nil;
+//    kAYDelegateSendNotify(self, @"queryModel:", &model)
+//    id<AYCommand> kAYCommand = [self.notifies objectForKey:@"queryModel:"];
+//    [kAYCommand performWithResult:&model];
+    
+//    AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+//    AYViewController* mVC = DEFAULTCONTROLLER(@"Home");
+//    isNapModel = [mVC.tabBarController isKindOfClass:[des class]];
+    
+    
     confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
 }
 
@@ -62,18 +73,22 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
+- (id)changeModel:(NSNumber*)args {
+    
+    isNapModel = args.boolValue;
+    if (isNapModel) {
+        origs = [NSMutableArray arrayWithObjects:@"切换到被服务者", @"我发布的服务", @"设置", nil];
+    } else
+        origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+    return nil;
+}
+
 -(id)changeQueryData:(NSDictionary*)args {
     _querydata = args;
     
-    user_info = [[NSMutableDictionary alloc]init];
-    [user_info setValue:[_querydata objectForKey:@"user_id"] forKey:@"user_id"];
-    [user_info setValue:[_querydata objectForKey:@"screen_photo"] forKey:@"screen_photo"];
-    [user_info setValue:[_querydata objectForKey:@"screen_name"] forKey:@"screen_name"];
-    [user_info setValue:[_querydata objectForKey:@"address"] forKey:@"address"];
-    [user_info setValue:[_querydata objectForKey:@"kids"] forKey:@"kids"];
-    
-    NSNumber *model = [_querydata objectForKey:@""];
+    NSNumber *model = [_querydata objectForKey:@"is_service_provider"];
     if (model.intValue == 1) {
+        is_service_provider = YES;
         [origs replaceObjectAtIndex:0 withObject:@"切换到服务者"];
     }
     if (model.intValue == 2) {
@@ -84,149 +99,114 @@
 }
 
 #pragma mark -- table
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    } else if (section == 1){
-        return origs.count;
-    } else {
-        return confirmData.count;
-    }
+    
+    return origs.count + 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    
+    id<AYViewBase> cell;
+    if (indexPath.row == 0) {
         NSString* class_name = @"AYProfileHeadCellView";
-        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
-        }
-        cell.controller = self.controller;
-        id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        NSDictionary *info = user_info;
-        [set_cmd performWithResult:&info];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSDictionary *info = [_querydata copy];
+        kAYViewSendMessage(cell, @"setCellInfo:", &info)
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
         
-    } else if(indexPath.section == 1){
-        AYProfileOrigCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
-        if (cell == nil) {
-            cell = [[AYProfileOrigCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
-        }
+    } else {
         
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:origs[indexPath.row] forKey:@"title"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
-        if(indexPath.row == origs.count - 1) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
-        }
-        cell.dic_info = dic;
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
+        NSString *class_name = @"AYProfileOrigCellView";
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSString *title = origs[indexPath.row - 1];
+        kAYViewSendMessage(cell, @"setCellInfo:", &title)
     }
-    else {
-        AYProfileServCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
-        if (cell == nil) {
-            cell = [[AYProfileServCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
-        }
-        
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:confirmData[indexPath.row] forKey:@"title"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isFirst"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
-        if (indexPath.row == 0) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isFirst"];
-        } else if(indexPath.row == 3) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
-        }
-        cell.dic_info = dic;
-        
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
-    };
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 10;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.5;
-}
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *line = [[UIView alloc]init];
-    line.backgroundColor = [UIColor lightGrayColor];
-    return line;
+    cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+    return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        return 115;
-    } else if (indexPath.section == 1){
-        return 70;
+    if (indexPath.row == 0) {
+        return 120;
     } else {
-        return 60;
+        return 80;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        [self infoSetting];             // 个人信息设置
-    } else if (indexPath.section == 1){
-        if (indexPath.row == 0) {
-            // 服务者
-            [self servicerOptions];
-        }else if (indexPath.row == 999){
-            // 看护家庭
-            [self napFamilyOptions];
-        }else if (indexPath.row == 1){  // 心仪的服务
-            [self collectService];
-        }else                           // 系统设置
-            [self setting];
-        
-    } else {                            //验证
-        if (indexPath.row == 0) {
-            return;
-        }else if (indexPath.row == 1){
-            [self confirmSNS];          //验证第三方
-        }else if (indexPath.row == 2){
-            [self confirmPhoneNo];      //验证手机号码
-        }else {
-            [self confirmRealName];     //验证实名
-        }
-    }
+//    if (indexPath.section == 0) {
+//        [self infoSetting];             // 个人信息设置
+//    } else if (indexPath.section == 1){
+//        if (indexPath.row == 0) {
+//            // 服务者
+//            [self servicerOptions];
+//        }else if (indexPath.row == 999){
+//            // 看护家庭
+//            [self napFamilyOptions];
+//        }else if (indexPath.row == 1){  // 心仪的服务
+//            [self collectService];
+//        }else                           // 系统设置
+//            [self setting];
+//        
+//    } else {                            // 验证
+//        if (indexPath.row == 0) {
+//            return;
+//        }else if (indexPath.row == 1){
+//            [self confirmSNS];          // 验证第三方
+//        }else if (indexPath.row == 2){
+//            [self confirmPhoneNo];      // 验证手机号码
+//        }else {
+//            [self confirmRealName];     // 验证实名
+//        }
+//    }
+    if (indexPath.row == 0) {
+        [self showPersonalInfo];
+    } else if(indexPath.row == 1) {
+        [self servicerOptions];
+    } else if (indexPath.row == 2) {
+        [self collectService];
+    } else
+        [self setting];
+    
 }
 
-- (void)infoSetting {
-    // 个人设置
-    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+- (void)showPersonalInfo {
+    // 个人信息
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalInfo");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[user_info copy] forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[_querydata copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
 
 - (void)servicerOptions {
-    NSNumber *args = [NSNumber numberWithInt:1];
+    
 //    NSNumber *model = [_querydata objectForKey:@""];
-    NSNumber *model = [NSNumber numberWithInt:1];
-    if (model.intValue == 1) {
+//    NSNumber *model = [NSNumber numberWithInt:1];
+    
+    if (is_service_provider) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
+        NSNumber *args = [NSNumber numberWithInt:1];
         [cmd performWithResult:&args];
+        
     } else {
+        
         id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
         NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+        [dic_push setValue:[NSNumber numberWithInt:1] forKey:kAYControllerChangeArgsKey];
+        
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
     }
@@ -269,7 +249,7 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[user_info copy] forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[_querydata copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

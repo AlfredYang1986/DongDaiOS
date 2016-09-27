@@ -146,7 +146,6 @@
     int startClock = [startStr substringToIndex:2].intValue;
     int endClock = [endStr substringToIndex:2].intValue;
     
-    
     sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
     
     NSString *detailStr = [NSString stringWithFormat:@"%@ %@-%@\n费用：￥%.f | 支付方式：微信",order_dateStr,startStr,endStr,sumPrice];
@@ -202,6 +201,7 @@
     [dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
     [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
     [dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+    [dic setValue:[order_info objectForKey:@"service_id"] forKey:@"service_id"];
     
     [cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         NSString *message = nil;

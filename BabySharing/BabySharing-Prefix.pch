@@ -16,6 +16,8 @@
 
 #define SCREEN_WIDTH                                [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                               [UIScreen mainScreen].bounds.size.height
+#define kTabBarH                                    49
+#define kStatusAndNavBarH                           64
 
 #define kAY_service_options_title_cans              @[@"绘本",@"儿童瑜伽",@"音乐",@"舞蹈",@"情商训练"]
 #define kAY_service_options_title_facilities        @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"]

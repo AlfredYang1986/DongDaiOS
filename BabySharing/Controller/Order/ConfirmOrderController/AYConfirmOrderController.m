@@ -217,8 +217,8 @@
     NSTimeInterval endSpan = date_end.timeIntervalSince1970;
     
     NSMutableDictionary *dic_date = [[NSMutableDictionary alloc]init];
-    [dic_date setValue:[NSNumber numberWithDouble:startSpan] forKey:@"start"];
-    [dic_date setValue:[NSNumber numberWithDouble:endSpan] forKey:@"end"];
+    [dic_date setValue:[NSNumber numberWithDouble:startSpan*1000] forKey:@"start"];
+    [dic_date setValue:[NSNumber numberWithDouble:endSpan*1000] forKey:@"end"];
     
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
@@ -253,7 +253,6 @@
             
             [self popToRoot];
         } else {
-//            NSLog(@"push error with:%@",result);
             kAYUIAlertView(@"错误", @"服务预订失败");
         }
         

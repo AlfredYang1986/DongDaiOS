@@ -101,7 +101,7 @@
                 [tmp addObject:obj];
             }
             
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) delegate:self placeholderImage:IMGRESOURCE(@"placeholder_image")];
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) delegate:self placeholderImage:IMGRESOURCE(@"default_image")];
             cycleScrollView.imageURLStringsGroup = [tmp copy];
         } else {
             

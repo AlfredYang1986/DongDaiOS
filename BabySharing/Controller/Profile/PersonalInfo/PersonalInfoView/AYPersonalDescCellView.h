@@ -1,14 +1,14 @@
 //
-//  AYProfileOrigCellView.h
+//  AYPersonalDescCellView.h
 //  BabySharing
 //
-//  Created by Alfred Yang on 7/7/16.
+//  Created by Alfred Yang on 27/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYProfileOrigCellView : UITableViewCell  <AYViewBase>
+@interface AYPersonalDescCellView : UITableViewCell  <AYViewBase>
 
 @end

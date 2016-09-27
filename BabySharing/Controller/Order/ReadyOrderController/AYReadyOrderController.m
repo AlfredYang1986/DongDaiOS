@@ -258,6 +258,7 @@
     [dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
     [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
     [dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+    [dic setValue:[order_info objectForKey:@"service_id"] forKey:@"service_id"];
 //    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];further_message
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {

@@ -154,8 +154,18 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="Profile" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="message" message="changeModel:" />
         <command type="notify" message="sendRegMessage:" />
         <command type="notify" message="scrollOffsetY:" />
+        <command type="notify" message="queryModel:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="message" message="changeModel:" />
+        <command type="notify" message="sendRegMessage:" />
+        <command type="notify" message="scrollOffsetY:" />
+        <command type="notify" message="queryModel:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="OneProfile" factory="AYDefaultDelegateFactory" >

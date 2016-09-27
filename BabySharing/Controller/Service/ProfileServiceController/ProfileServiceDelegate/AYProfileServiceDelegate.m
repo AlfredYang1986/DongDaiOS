@@ -89,55 +89,29 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
+    
+    id<AYViewBase> cell;
+    if (indexPath.row == 0) {
         NSString* class_name = @"AYProfileHeadCellView";
-        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        if (cell == nil) {
-            cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
-        }
-        cell.controller = self.controller;
-        id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        NSDictionary *info = user_info;
-        [set_cmd performWithResult:&info];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSDictionary *info = [user_info copy];
+        kAYViewSendMessage(cell, @"setCellInfo:", &info)
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
         
-    } else if(indexPath.section == 1){
-        AYProfileOrigCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
-        if (cell == nil) {
-            cell = [[AYProfileOrigCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
-        }
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:origs[indexPath.row] forKey:@"title"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
-        if(indexPath.row == 2) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
-        }
-        cell.dic_info = dic;
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
+    } else {
+        
+        NSString *class_name = @"AYProfileOrigCellView";
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSString *title = origs[indexPath.row + 1];
+        kAYViewSendMessage(cell, @"setCellInfo:", &title)
     }
-    else {
-        AYProfileServCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYProfileOrigCellView"];
-        if (cell == nil) {
-            cell = [[AYProfileServCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYProfileOrigCellView"];
-        }
-        
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:servs[indexPath.row] forKey:@"title"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isFirst"];
-        [dic setValue:[NSNumber numberWithBool:NO] forKey:@"isLast"];
-        if (indexPath.row == 0) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isFirst"];
-        } else if(indexPath.row == 3) {
-            [dic setValue:[NSNumber numberWithBool:YES] forKey:@"isLast"];
-        }
-        cell.dic_info = dic;
-        
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
-    };
+    cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+    return (UITableViewCell*)cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
