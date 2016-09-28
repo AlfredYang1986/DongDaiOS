@@ -36,8 +36,6 @@
     NSTimer* timer;
     NSInteger seconds;
     
-    UIView *inputCodeView;
-    
     UITextField *coder_area;
     UITextField *inputPhoneNo;
     UILabel *count_timer;
@@ -68,91 +66,81 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     
     UILabel *title = [[UILabel alloc]init];
-    title = [Tools setLabelWith:title andText:@"确认电话号码" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+    title = [Tools setLabelWith:title andText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(160);
+        make.top.equalTo(self.view).offset(100);
         make.centerX.equalTo(self.view);
     }];
     
     UILabel *descLabel = [[UILabel alloc]init];
-    descLabel = [Tools setLabelWith:descLabel andText:@"请输入您的电话号码\n进行二次安全认证" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    descLabel = [Tools setLabelWith:descLabel andText:@"手机验证让您可以及时和每一位妈妈沟通" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     descLabel.numberOfLines = 2;
     [self.view addSubview:descLabel];
     [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(title.mas_bottom).offset(20);
+        make.top.equalTo(title.mas_bottom).offset(15);
         make.centerX.equalTo(title);
     }];
     
     /* 电话号码 */
-    UIView *inputPhoneNoView = [[UIView alloc]init];
-    [self.view addSubview:inputPhoneNoView];
-    [inputPhoneNoView setBackgroundColor:[UIColor whiteColor]];
-    [inputPhoneNoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(descLabel.mas_bottom).offset(32);
-        make.left.equalTo(self);
-        make.right.equalTo(self);
-        make.height.mas_equalTo(42);
-    }];
-    
-    CALayer *rule_layer = [CALayer layer];
-    rule_layer.frame = CGRectMake(61, 13, 1, 14);
-    rule_layer.backgroundColor = [Tools garyLineColor].CGColor;
-    [inputPhoneNoView.layer addSublayer:rule_layer];
-    
-    UILabel *phoneNo = [[UILabel alloc]init];
-    phoneNo = [Tools setLabelWith:phoneNo andText:@"+ 86" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [inputPhoneNoView addSubview:phoneNo];
-    [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputPhoneNoView);
-        make.left.equalTo(inputPhoneNoView);
-        make.size.mas_equalTo(CGSizeMake(60, 42));
+    UIView *confirmPhoneView = [UIView new];
+    [self.view addSubview:confirmPhoneView];
+    confirmPhoneView.backgroundColor = [UIColor clearColor];
+    [confirmPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(descLabel.mas_bottom).offset(50);
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.height.mas_equalTo(90);
     }];
     
     inputPhoneNo = [[UITextField alloc]init];
     inputPhoneNo.delegate = self;
-    inputPhoneNo.backgroundColor = [UIColor clearColor];
+    inputPhoneNo.backgroundColor = [UIColor whiteColor];
     inputPhoneNo.font = [UIFont systemFontOfSize:14.f];
     inputPhoneNo.textColor = [Tools blackColor];
     inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
     inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
     inputPhoneNo.placeholder = @"输入手机号码";
+    UIView *padingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 15, 1)];
+    inputPhoneNo.leftView = padingView;
+    inputPhoneNo.leftViewMode = UITextFieldViewModeAlways;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
-    [inputPhoneNoView addSubview:inputPhoneNo];
+    [confirmPhoneView addSubview:inputPhoneNo];
     [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(inputPhoneNoView);
-        make.top.equalTo(inputPhoneNoView);
-        make.left.equalTo(phoneNo.mas_right).offset(16);
-        make.height.equalTo(inputPhoneNoView);
+        make.top.equalTo(confirmPhoneView);
+        make.left.equalTo(confirmPhoneView);
+        make.right.equalTo(confirmPhoneView);
+        make.height.mas_equalTo(40);
     }];
     
     /* 验证码 */
-    inputCodeView = [[UIView alloc]init];
-    [self.view addSubview:inputCodeView];
+    UIView *inputCodeView = [[UIView alloc]init];
+    [confirmPhoneView addSubview:inputCodeView];
     [inputCodeView setBackgroundColor:[UIColor whiteColor]];
     [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputPhoneNoView.mas_bottom).offset(16);
-        make.left.equalTo(self);
-        make.width.equalTo(self);
-        make.height.mas_equalTo(42);
+        make.bottom.equalTo(confirmPhoneView);
+        make.left.equalTo(confirmPhoneView);
+        make.right.equalTo(confirmPhoneView);
+        make.height.mas_equalTo(40);
     }];
-    
+
     coder_area = [[UITextField alloc]init];
     coder_area.backgroundColor = [UIColor clearColor];
     coder_area.font = [UIFont systemFontOfSize:14.f];
-    coder_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
+    coder_area.textColor = [Tools blackColor];
     //    coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     coder_area.keyboardType = UIKeyboardTypeNumberPad;
     coder_area.placeholder = @"输入动态密码";
     [inputCodeView addSubview:coder_area];
     [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(inputCodeView).offset(-150);
         make.top.equalTo(inputCodeView);
         make.left.equalTo(inputCodeView).offset(15);
+        make.right.equalTo(inputCodeView).offset(-150);
         make.height.equalTo(inputCodeView);
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:coder_area];
@@ -164,12 +152,10 @@
     [getCodeBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
     getCodeBtn.enabled = NO;
     getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    getCodeBtn.layer.cornerRadius = 2.f;
-    getCodeBtn.clipsToBounds = YES;
     [getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [inputCodeView addSubview:getCodeBtn];
     [getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self);
+        make.right.equalTo(inputCodeView);
         make.centerY.equalTo(inputCodeView);
         make.size.mas_equalTo(CGSizeMake(110, 42));
     }];
@@ -195,13 +181,13 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
+    view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -220,15 +206,15 @@
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     
-    if ([phoneTextField isFirstResponder]) {
-        [phoneTextField resignFirstResponder];
+    if ([inputPhoneNo isFirstResponder]) {
+        [inputPhoneNo resignFirstResponder];
     }
-    if ([coderTextField isFirstResponder]) {
-        [coderTextField resignFirstResponder];
+    if ([coder_area isFirstResponder]) {
+        [coder_area resignFirstResponder];
     }
 }
 
--(void)didReqConfirmBtnClick:(UIButton*)btn {
+- (void)didReqConfirmBtnClick:(UIButton*)btn {
     
     if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{9}$"] evaluateWithObject:phoneTextField.text]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您输入了错误的电话号码" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
@@ -344,11 +330,8 @@
     }
 }
 
--(void)areaBtnClick{
-    [[[UIAlertView alloc] initWithTitle:@"提示" message:@"目前只支持中国地区电话号码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-}
-
--(void)getcodeBtnClick{
+- (void)getcodeBtnClick {
+    
     if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您输入了错误的电话号码" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
         [alert show];

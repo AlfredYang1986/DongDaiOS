@@ -193,7 +193,7 @@
 //    NSNumber *model = [_querydata objectForKey:@""];
 //    NSNumber *model = [NSNumber numberWithInt:1];
     
-    if (!is_service_provider) {     //michauxs 临时数据
+    if (is_service_provider) {     // //michauxs 临时数据
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
         NSNumber *args = [NSNumber numberWithInt:1];
         [cmd performWithResult:&args];
@@ -210,8 +210,8 @@
             des = DEFAULTCONTROLLER(@"ConfirmRealName");
 //            des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
         } else {
-//            des = DEFAULTCONTROLLER(@"NapArea");
-            des = DEFAULTCONTROLLER(@"ConfirmFinish");
+            des = DEFAULTCONTROLLER(@"NapArea");
+//            des = DEFAULTCONTROLLER(@"ConfirmFinish");
         }
         
         NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
