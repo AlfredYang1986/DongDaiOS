@@ -10,7 +10,6 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "RemoteInstance.h"
-#import "Tools.h"
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>

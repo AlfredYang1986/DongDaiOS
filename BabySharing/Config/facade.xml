@@ -135,6 +135,15 @@
         <command type="Remote" name="QueryMultipleUsers" />
     </facade>
     
+    <facade type="DefaultFacade" name="AuthRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PushRealName" />
+        <command type="Remote" name="ApproveRealName" />
+        <command type="Remote" name="RejectRealName" />
+        
+        <command type="Remote" name="RequireCode" />
+        <command type="Remote" name="CheckCode" />
+    </facade>
+    
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UploadUserImage" />
         <command type="Remote" name="UploadFile" />

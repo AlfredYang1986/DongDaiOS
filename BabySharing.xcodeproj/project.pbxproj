@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700047481D9B9960000AE1C9 /* AYPersonalDescController.m */; };
+		7000474C1D9BB66D000AE1C9 /* AYAuthRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000474B1D9BB66D000AE1C9 /* AYAuthRemoteFacade.m */; };
+		700047501D9BB7A9000AE1C9 /* AYPushRealNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000474F1D9BB7A9000AE1C9 /* AYPushRealNameCommand.m */; };
+		700047541D9BD764000AE1C9 /* AYConfirmFinishController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700047531D9BD764000AE1C9 /* AYConfirmFinishController.m */; };
+		7000475E1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000475D1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.m */; };
+		700047611D9BDF98000AE1C9 /* AYRejectRealNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700047601D9BDF98000AE1C9 /* AYRejectRealNameCommand.m */; };
+		700047641D9BDFAE000AE1C9 /* AYRequireCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700047631D9BDFAE000AE1C9 /* AYRequireCodeCommand.m */; };
+		700047671D9BDFC4000AE1C9 /* AYCheckCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700047661D9BDFC4000AE1C9 /* AYCheckCodeCommand.m */; };
 		7000CCE71D7E65F300DA98F2 /* AYHomeLikesItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */; };
 		7000CD191D7E8A5200DA98F2 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCEB1D7E8A5200DA98F2 /* MJRefreshAutoFooter.m */; };
 		7000CD1A1D7E8A5200DA98F2 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCED1D7E8A5200DA98F2 /* MJRefreshBackFooter.m */; };
@@ -780,6 +787,20 @@
 /* Begin PBXFileReference section */
 		700047471D9B9960000AE1C9 /* AYPersonalDescController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPersonalDescController.h; sourceTree = "<group>"; };
 		700047481D9B9960000AE1C9 /* AYPersonalDescController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalDescController.m; sourceTree = "<group>"; };
+		7000474A1D9BB66D000AE1C9 /* AYAuthRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthRemoteFacade.h; sourceTree = "<group>"; };
+		7000474B1D9BB66D000AE1C9 /* AYAuthRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAuthRemoteFacade.m; sourceTree = "<group>"; };
+		7000474E1D9BB7A9000AE1C9 /* AYPushRealNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushRealNameCommand.h; sourceTree = "<group>"; };
+		7000474F1D9BB7A9000AE1C9 /* AYPushRealNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushRealNameCommand.m; sourceTree = "<group>"; };
+		700047521D9BD764000AE1C9 /* AYConfirmFinishController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmFinishController.h; sourceTree = "<group>"; };
+		700047531D9BD764000AE1C9 /* AYConfirmFinishController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmFinishController.m; sourceTree = "<group>"; };
+		7000475C1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYApproveRealNameCommand.h; sourceTree = "<group>"; };
+		7000475D1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYApproveRealNameCommand.m; sourceTree = "<group>"; };
+		7000475F1D9BDF98000AE1C9 /* AYRejectRealNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRejectRealNameCommand.h; sourceTree = "<group>"; };
+		700047601D9BDF98000AE1C9 /* AYRejectRealNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRejectRealNameCommand.m; sourceTree = "<group>"; };
+		700047621D9BDFAE000AE1C9 /* AYRequireCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRequireCodeCommand.h; sourceTree = "<group>"; };
+		700047631D9BDFAE000AE1C9 /* AYRequireCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRequireCodeCommand.m; sourceTree = "<group>"; };
+		700047651D9BDFC4000AE1C9 /* AYCheckCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCheckCodeCommand.h; sourceTree = "<group>"; };
+		700047661D9BDFC4000AE1C9 /* AYCheckCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCheckCodeCommand.m; sourceTree = "<group>"; };
 		7000CCE51D7E65F300DA98F2 /* AYHomeLikesItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeLikesItemCell.h; sourceTree = "<group>"; };
 		7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeLikesItemCell.m; sourceTree = "<group>"; };
 		7000CCEA1D7E8A5200DA98F2 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
@@ -2380,6 +2401,60 @@
 			path = PersonalDesc;
 			sourceTree = "<group>";
 		};
+		7000474D1D9BB78F000AE1C9 /* PushRealName */ = {
+			isa = PBXGroup;
+			children = (
+				7000474E1D9BB7A9000AE1C9 /* AYPushRealNameCommand.h */,
+				7000474F1D9BB7A9000AE1C9 /* AYPushRealNameCommand.m */,
+			);
+			path = PushRealName;
+			sourceTree = "<group>";
+		};
+		700047511D9BD74B000AE1C9 /* ConfirmFinish */ = {
+			isa = PBXGroup;
+			children = (
+				700047521D9BD764000AE1C9 /* AYConfirmFinishController.h */,
+				700047531D9BD764000AE1C9 /* AYConfirmFinishController.m */,
+			);
+			path = ConfirmFinish;
+			sourceTree = "<group>";
+		};
+		700047551D9BDF12000AE1C9 /* ApproveRealName */ = {
+			isa = PBXGroup;
+			children = (
+				7000475C1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.h */,
+				7000475D1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.m */,
+			);
+			path = ApproveRealName;
+			sourceTree = "<group>";
+		};
+		700047561D9BDF12000AE1C9 /* CheckCode */ = {
+			isa = PBXGroup;
+			children = (
+				700047651D9BDFC4000AE1C9 /* AYCheckCodeCommand.h */,
+				700047661D9BDFC4000AE1C9 /* AYCheckCodeCommand.m */,
+			);
+			path = CheckCode;
+			sourceTree = "<group>";
+		};
+		700047571D9BDF12000AE1C9 /* RejectRealName */ = {
+			isa = PBXGroup;
+			children = (
+				7000475F1D9BDF98000AE1C9 /* AYRejectRealNameCommand.h */,
+				700047601D9BDF98000AE1C9 /* AYRejectRealNameCommand.m */,
+			);
+			path = RejectRealName;
+			sourceTree = "<group>";
+		};
+		700047581D9BDF12000AE1C9 /* RequireCode */ = {
+			isa = PBXGroup;
+			children = (
+				700047621D9BDFAE000AE1C9 /* AYRequireCodeCommand.h */,
+				700047631D9BDFAE000AE1C9 /* AYRequireCodeCommand.m */,
+			);
+			path = RequireCode;
+			sourceTree = "<group>";
+		};
 		7000CCE81D7E8A5200DA98F2 /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -3031,6 +3106,11 @@
 		700BE5C91CBA6E5800A09B3A /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				700047551D9BDF12000AE1C9 /* ApproveRealName */,
+				700047561D9BDF12000AE1C9 /* CheckCode */,
+				700047571D9BDF12000AE1C9 /* RejectRealName */,
+				700047581D9BDF12000AE1C9 /* RequireCode */,
+				7000474D1D9BB78F000AE1C9 /* PushRealName */,
 				70CDF5FD1CBC9DBB00311841 /* AuthSignOut */,
 				700BE5CA1CBA6E5800A09B3A /* AuthWithSNS */,
 				700BE5CD1CBA6E5800A09B3A /* CreateTmpUserWithPhone */,
@@ -3184,6 +3264,8 @@
 				7069A31D1D52F87C007821D4 /* AYOrderRemoteFacade.m */,
 				70D657071D1D410F003D1D7D /* AYExposeRemoteFacade.h */,
 				70D657081D1D410F003D1D7D /* AYExposeRemoteFacade.m */,
+				7000474A1D9BB66D000AE1C9 /* AYAuthRemoteFacade.h */,
+				7000474B1D9BB66D000AE1C9 /* AYAuthRemoteFacade.m */,
 			);
 			path = Facades;
 			sourceTree = "<group>";
@@ -4686,6 +4768,7 @@
 			isa = PBXGroup;
 			children = (
 				7053614B1D5C8929006BB95E /* OneProfileController */,
+				700047511D9BD74B000AE1C9 /* ConfirmFinish */,
 				705D07FF1D372C1800CA2182 /* ConfirmPhoneNo */,
 				705D08001D372C1800CA2182 /* ConfirmRealName */,
 				705D08011D372C1800CA2182 /* ConfirmSNS */,
@@ -8453,6 +8536,7 @@
 				701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */,
 				705C45201CA8FEBE00921799 /* AYPushCommand.m in Sources */,
 				70AC5BA21CC8C63300E2568F /* AYPostRemoteFacade.m in Sources */,
+				7000475E1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.m in Sources */,
 				700692E91CC49A2C00B511FF /* AYHomeInitCommand.m in Sources */,
 				701524411CBF939C005B4C5B /* AYHomeController.m in Sources */,
 				70D5BC761D77ED450046B4BC /* AYServiceInfoCellView.m in Sources */,
@@ -8486,6 +8570,7 @@
 				7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */,
 				704697D11CE047F200DACD8A /* SDImageCache.m in Sources */,
 				7000CD1C1D7E8A5200DA98F2 /* MJRefreshFooter.m in Sources */,
+				700047611D9BDF98000AE1C9 /* AYRejectRealNameCommand.m in Sources */,
 				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */,
 				700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */,
@@ -8615,6 +8700,7 @@
 				700BE5EE1CBA6E5800A09B3A /* AYUploadUserImageCommand.m in Sources */,
 				707E79DE1D0673CA00DFC198 /* AYLocationController.m in Sources */,
 				80FCB6C41D77F06F00CEDCEB /* AYSearchFilterTypeDelegate.m in Sources */,
+				700047541D9BD764000AE1C9 /* AYConfirmFinishController.m in Sources */,
 				80D5E7C01CCC7C2000A82117 /* PhotoTagTariangleLayer2.m in Sources */,
 				70D48DF71D87C9E90039C741 /* AYOrderInfoPayWayCellView.m in Sources */,
 				7002DB471CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.m in Sources */,
@@ -8699,6 +8785,7 @@
 				7000CD2D1D7E8A5200DA98F2 /* UIView+MJExtension.m in Sources */,
 				705EC8701CE472D90008D5EA /* AYSearchFriendDelegate.m in Sources */,
 				703CCDDD1CC9EAE600CF4563 /* AYAddFriendController.m in Sources */,
+				7000474C1D9BB66D000AE1C9 /* AYAuthRemoteFacade.m in Sources */,
 				70D5BC7C1D7829330046B4BC /* AYFacilityController.m in Sources */,
 				7002DB431CC600170013FF2A /* AYMovieRecordViewCommand.m in Sources */,
 				708F2D291D3F601E000CD492 /* TZPhotoPreviewCell.m in Sources */,
@@ -8815,6 +8902,7 @@
 				701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */,
 				70A4891F1D1A3AA000D2AA56 /* AYFouceCellView.m in Sources */,
 				704697D51CE047F200DACD8A /* SDWebImageDownloaderOperation.m in Sources */,
+				700047671D9BDFC4000AE1C9 /* AYCheckCodeCommand.m in Sources */,
 				7002DB881CC64C9D0013FF2A /* ImageFilterFactory.m in Sources */,
 				7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */,
 				704697D41CE047F200DACD8A /* SDWebImageDownloader.m in Sources */,
@@ -8990,11 +9078,13 @@
 				706E460C1CFC107A00CC7C53 /* AYInputCoderController.m in Sources */,
 				708F2D271D3F601E000CD492 /* TZImagePickerController.m in Sources */,
 				80D5E7C11CCC7C2000A82117 /* AYPhotoTagView.m in Sources */,
+				700047501D9BB7A9000AE1C9 /* AYPushRealNameCommand.m in Sources */,
 				70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */,
 				80D5E7C31CCC7C2000A82117 /* PhotoTagTariangleLayer.m in Sources */,
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,
 				707FC50C1CD8D5E400C0BC37 /* AYShareWithQQCommand.m in Sources */,
 				70A27BF81D0EA29200B131AB /* AYContentListDelegate.m in Sources */,
+				700047641D9BDFAE000AE1C9 /* AYRequireCodeCommand.m in Sources */,
 				705B84561CC6A4D60057D442 /* AYTagPreviewView.m in Sources */,
 				70754A9C1D3E152200D8CAFC /* AYNapBabyAgeCellView.m in Sources */,
 				7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */,

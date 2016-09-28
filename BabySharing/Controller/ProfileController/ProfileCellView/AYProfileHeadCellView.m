@@ -28,9 +28,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *user_screen;
 @property (weak, nonatomic) IBOutlet UILabel *user_name;
 @property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-@property (weak, nonatomic) IBOutlet UILabel *bobyLabel;
-@property (weak, nonatomic) IBOutlet UILabel *rigistimeLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *allowEditIcon;
+//@property (weak, nonatomic) IBOutlet UILabel *bobyLabel;
+//@property (weak, nonatomic) IBOutlet UILabel *rigistimeLabel;
+//@property (weak, nonatomic) IBOutlet UIImageView *allowEditIcon;
 
 @end
 

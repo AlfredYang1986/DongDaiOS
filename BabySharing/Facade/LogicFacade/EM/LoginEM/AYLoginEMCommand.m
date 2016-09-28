@@ -31,7 +31,7 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         EMError *error = [[EMClient sharedClient] registerWithUsername:current_user_id password:kAYEMDongdaCommonPassword];
-        NSLog(@"michauxs -- :%@",error);
+//        NSLog(@"michauxs -- :%@",error);
         if (error == nil || error.code == EMErrorUserAlreadyExist) {
             error = [[EMClient sharedClient] loginWithUsername:current_user_id password:kAYEMDongdaCommonPassword];
             dispatch_async(dispatch_get_main_queue(), ^{

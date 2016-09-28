@@ -31,7 +31,7 @@
     /**/
     UILabel *inputArea;
     
-    UIView *inputPhoneNoView;
+
     UIView *inputCodeView;
     
     UITextField *coder_area;
@@ -106,7 +106,7 @@
 //    }];
     
     /* 电话号码 */
-    inputPhoneNoView = [[UIView alloc]init];
+    UIView *inputPhoneNoView = [[UIView alloc]init];
     [self addSubview:inputPhoneNoView];
     [inputPhoneNoView setBackgroundColor:[UIColor whiteColor]];
 //    inputPhoneNoView.layer.cornerRadius = 2.f;

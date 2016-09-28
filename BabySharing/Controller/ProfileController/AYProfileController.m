@@ -63,16 +63,40 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSDictionary *info = [dic objectForKey:kAYControllerChangeArgsKey];
-        
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-        id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-        NSDictionary *dic = [info copy];
-        [cmd performWithResult:&dic];
-        
-        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-        id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-        [refresh performWithResult:nil];
+//        NSDictionary *info = [dic objectForKey:kAYControllerChangeArgsKey];
+//        
+//        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
+//        id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+//        NSDictionary *dic = [info copy];
+//        [cmd performWithResult:&dic];
+//        
+//        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+//        id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+//        [refresh performWithResult:nil];
+//
+        NSNumber *info = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (info.boolValue) {
+            id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
+            AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
+            NSDictionary* user = nil;
+            CURRENUSER(user);
+            
+            NSMutableDictionary* dic = [user mutableCopy];
+            [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
+            
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                if (success) {
+                    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
+                    id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+                    NSDictionary *dic = [result copy];
+                    [cmd performWithResult:&dic];
+                    
+                    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+                    id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+                    [refresh performWithResult:nil];
+                }
+            }];
+        }
     }
 }
 
@@ -120,6 +144,7 @@
         if (success) {
             id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
             id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+            
             NSDictionary *dic = [result copy];
             [cmd performWithResult:&dic];
             
@@ -202,10 +227,8 @@
 
 
 - (id)SamePersonBtnSelected {
-    NSLog(@"push to person setting");
     
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -214,7 +237,6 @@
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
-    
     return nil;
 }
 
@@ -228,7 +250,6 @@
     
     return nil;
 }
-
 
 - (id)sendRegMessage:(NSNumber*)type {
     

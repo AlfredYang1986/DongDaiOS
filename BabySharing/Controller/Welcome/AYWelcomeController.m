@@ -74,13 +74,14 @@
         [dic setValue:screen_photo forKey:@"image"];
         [dic setValue:@"img_thum" forKey:@"expect_size"];
         
-        id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
-        id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
         id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
         [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             UIImage* image = (UIImage*)result;
             if (image != nil) {
+                
+                id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
+                id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
                 [cmd performWithResult:&image];
             }
         }];

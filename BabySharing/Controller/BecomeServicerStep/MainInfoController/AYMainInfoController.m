@@ -338,12 +338,14 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (void)popToRootVC {
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
-    [cmd performWithResult:&dic_pop];
+    [cmd performWithResult:&dic];
 }
 
 - (void)conmitMyService {

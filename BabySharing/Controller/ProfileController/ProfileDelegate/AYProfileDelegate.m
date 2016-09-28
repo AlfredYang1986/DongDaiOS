@@ -193,17 +193,30 @@
 //    NSNumber *model = [_querydata objectForKey:@""];
 //    NSNumber *model = [NSNumber numberWithInt:1];
     
-    if (is_service_provider) {
+    if (!is_service_provider) {     //michauxs 临时数据
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
         NSNumber *args = [NSNumber numberWithInt:1];
         [cmd performWithResult:&args];
         
     } else {
+        NSNumber *is_has_phone = [_querydata objectForKey:@"has_phone"];
+        NSNumber *is_real_name = [_querydata objectForKey:@"is_real_name_cert"];
+        id<AYCommand> des;
         
-        id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
+        if (!is_has_phone.boolValue ) {
+            des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
+            
+        } else if (!is_real_name.boolValue) {
+            des = DEFAULTCONTROLLER(@"ConfirmRealName");
+//            des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
+        } else {
+//            des = DEFAULTCONTROLLER(@"NapArea");
+            des = DEFAULTCONTROLLER(@"ConfirmFinish");
+        }
+        
         NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         [dic_push setValue:[NSNumber numberWithInt:1] forKey:kAYControllerChangeArgsKey];
         
@@ -212,23 +225,23 @@
     }
 }
 
-- (void)napFamilyOptions {
-    NSNumber *model = [_querydata objectForKey:@""];
-    NSNumber *args = [NSNumber numberWithInt:2];
-    if (model.intValue == 1) {
-        id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
-        [cmd performWithResult:&args];
-    }else {
-        id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
-    }
-}
+//- (void)napFamilyOptions {
+//    NSNumber *model = [_querydata objectForKey:@""];
+//    NSNumber *args = [NSNumber numberWithInt:2];
+//    if (model.intValue == 1) {
+//        id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
+//        [cmd performWithResult:&args];
+//    } else {
+//        id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
+//        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+//        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//        [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+//        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
+//        id<AYCommand> cmd = PUSH;
+//        [cmd performWithResult:&dic_push];
+//    }
+//}
 
 - (void)collectService {
     AYViewController* des = DEFAULTCONTROLLER(@"CollectServ");
@@ -256,11 +269,11 @@
 }
 
 -(void)confirmSNS{
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"ConfirmSNS");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmSNS");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:@"single" forKey:kAYControllerChangeArgsKey];
     
@@ -269,22 +282,22 @@
     
 }
 -(void)confirmPhoneNo{
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:@"single" forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
 -(void)confirmRealName{
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"ConfirmRealName");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmRealName");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:@"single" forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = PUSH;

@@ -108,9 +108,6 @@
     nameTextField.font = kAYFontLight(14.f);
     nameTextField.textColor = [Tools garyColor];
     nameTextField.placeholder = @"请输入姓名";
-//    UIView *paddingView = [UIView new];
-//    paddingView.bounds = CGRectMake(0, 0, 10, 1);
-//    nameTextField.leftView = paddingView;
     nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [self.view addSubview:nameTextField];
     [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -272,7 +269,7 @@
 }
 
 - (id)rightBtnSelected {
-    NSLog(@"save btn clicked");
+    
 //    dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
 //    dispatch_async(qp, ^{
 //        

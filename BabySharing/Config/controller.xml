@@ -622,24 +622,27 @@
     </controller>
     
     <controller type="DefaultController" name="ConfirmPhoneNo" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade"        name="LandingRemote" notification="true" />
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
     </controller>
     
     <controller type="DefaultController" name="ConfirmRealName" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmFinish" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
     </controller>
     
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
