@@ -48,7 +48,9 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
+        NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+        kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
+        kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     }
 }
 
@@ -100,10 +102,10 @@
     view.backgroundColor = [UIColor whiteColor];
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
     NSString *title = @"我的";
-    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     NSDictionary* info = nil;
     CURRENUSER(info)
@@ -112,17 +114,17 @@
     if ([user_id isEqualToString:[info objectForKey:@"user_id"]]) {
         
         UIButton* bar_right_btn = [[UIButton alloc]init];
-        bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"编辑" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"编辑" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
         [bar_right_btn sizeToFit];
         bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-        kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
+        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     } else {
         
         NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-        kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &left_hidden)
+        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &left_hidden)
     }
     
-    kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil)
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -164,6 +166,15 @@
 
 - (id)rightBtnSelected {
     
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[personal_info copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     return nil;
 }
 

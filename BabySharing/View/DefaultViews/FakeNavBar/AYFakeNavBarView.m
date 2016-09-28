@@ -59,6 +59,7 @@
         }];
     }
     
+    self.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)performWithResult:(NSObject**)obj {

@@ -43,6 +43,7 @@
     _user_screen.clipsToBounds = YES;
     _user_screen.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _user_screen.layer.borderWidth = 2.f;
+    _user_screen.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     [self setUpReuseCell];
 }

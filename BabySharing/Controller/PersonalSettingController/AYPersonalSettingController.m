@@ -32,7 +32,9 @@
     BOOL isUserPhotoChanged;
     
     UIImageView *user_photo;
-    UIView *pickerView;
+    UITextField *nameTextField;
+    UILabel *descLabel;
+//    UIView *pickerView;
 }
 
 
@@ -45,24 +47,10 @@
         profile_dic = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSString* role_tag = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (change_profile_dic == nil) {
-            change_profile_dic = [[NSMutableDictionary alloc]init];
-        }
-        [change_profile_dic setValue:role_tag forKey:@"role_tag"];
-        
-        NSMutableDictionary* dic = [profile_dic mutableCopy];
-        
-        for (NSString* key in change_profile_dic.allKeys) {
-            [dic setValue:[change_profile_dic objectForKey:key] forKey:key];
-        }
-        
-        id<AYDelegateBase> delegate = [self.delegates objectForKey:@"SelfSetting"];
-        id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
-        [cmd performWithResult:&dic];
-        id<AYViewBase> table = [self.views objectForKey:@"Table"];
-        id<AYCommand> cmd_refresh = [table.commands objectForKey:@"refresh"];
-        [cmd_refresh performWithResult:nil];
+        NSString* personal_desc = [dic objectForKey:kAYControllerChangeArgsKey];
+        descLabel.text = personal_desc;
+        [change_profile_dic setValue:personal_desc forKey:@"personal_description"];
+        [profile_dic setValue:personal_desc forKey:@"personal_description"];
     }
 }
 
@@ -75,18 +63,26 @@
     
     user_photo = [[UIImageView alloc]init];
     [self.view addSubview:user_photo];
-    user_photo.image = IMGRESOURCE(@"default_user");
-    user_photo.layer.cornerRadius = 50.f;
-    user_photo.clipsToBounds = YES;
-    user_photo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
-    user_photo.layer.borderWidth = 2.f;
+    user_photo.image = IMGRESOURCE(@"default_image");
+//    user_photo.layer.cornerRadius = 50.f;
+//    user_photo.clipsToBounds = YES;
+//    user_photo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
+//    user_photo.layer.borderWidth = 2.f;
     [user_photo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(104);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.top.equalTo(self.view).offset(64);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
     }];
-    user_photo.userInteractionEnabled = YES;
-    [user_photo addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelfPhotoClick:)]];
+    
+    UIButton *cameraBtn = [UIButton new];
+    [cameraBtn setImage:IMGRESOURCE(@"camera") forState:UIControlStateNormal];
+    [self.view addSubview:cameraBtn];
+    [cameraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(user_photo).offset(-15);
+        make.bottom.equalTo(user_photo).offset(-15);
+        make.size.mas_equalTo(CGSizeMake(69, 69));
+    }];
+    [cameraBtn addTarget:self action:@selector(didSelfPhotoClick) forControlEvents:UIControlEventTouchUpInside];
     
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
@@ -101,25 +97,83 @@
         }
     }];
     
-    id<AYViewBase> setting = [self.views objectForKey:@"SelfSetting"];
-    id<AYCommand> set_cmd = [setting.commands objectForKey:@"setPersonalInfo:"];
-    NSDictionary *info = profile_dic;
-    [set_cmd performWithResult:&info];
+    UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    [self.view addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(user_photo.mas_bottom).offset(20);
+        make.left.equalTo(self.view).offset(20);
+    }];
     
-    {
-        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-        pickerView = (UIView*)view_picker;
-        [self.view bringSubviewToFront:pickerView];
-        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
-        
-        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
-        
-        id obj = (id)cmd_recommend;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_recommend;
-        [cmd_delegate performWithResult:&obj];
-    }
+    nameTextField = [[UITextField alloc]init];
+    nameTextField.font = kAYFontLight(14.f);
+    nameTextField.textColor = [Tools garyColor];
+    nameTextField.placeholder = @"请输入姓名";
+//    UIView *paddingView = [UIView new];
+//    paddingView.bounds = CGRectMake(0, 0, 10, 1);
+//    nameTextField.leftView = paddingView;
+    nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [self.view addSubview:nameTextField];
+    [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.top.equalTo(nameLabel.mas_bottom).offset(15);
+    }];
+    NSString *nameStr = [profile_dic objectForKey:@"screen_name"];
+    nameTextField.text = nameStr;
+    
+    UIView *separtor = [UIView new];
+    separtor.backgroundColor = [Tools garyLineColor];
+    [self.view addSubview:separtor];
+    [separtor mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(nameTextField.mas_bottom).offset(20);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 1));
+    }];
+    
+    UILabel *descTitleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    [self.view addSubview:descTitleLabel];
+    [descTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(separtor.mas_bottom).offset(20);
+        make.left.equalTo(nameLabel);
+    }];
+    
+    descLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    descLabel.numberOfLines = 0;
+    [self.view addSubview:descLabel];
+    [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(descTitleLabel.mas_bottom).offset(15);
+        make.left.equalTo(nameLabel);
+        make.right.equalTo(self.view).offset(-20);
+    }];
+    
+    NSString *descStr = [profile_dic objectForKey:@"personal_description"];
+    if (descStr && ![descStr isEqualToString:@""]) {
+        descLabel.text = descStr;
+    } else
+        descLabel.text = @"描述一下自己的经历";
+    
+    descLabel.userInteractionEnabled = YES;
+    [descLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didDescLabelTap:)]];
+    
+//    id<AYViewBase> setting = [self.views objectForKey:@"SelfSetting"];
+//    id<AYCommand> set_cmd = [setting.commands objectForKey:@"setPersonalInfo:"];
+//    NSDictionary *info = profile_dic;
+//    [set_cmd performWithResult:&info];
+    
+//    {
+//        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+//        pickerView = (UIView*)view_picker;
+//        [self.view bringSubviewToFront:pickerView];
+//        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+//        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+//        
+//        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
+//        
+//        id obj = (id)cmd_recommend;
+//        [cmd_datasource performWithResult:&obj];
+//        obj = (id)cmd_recommend;
+//        [cmd_delegate performWithResult:&obj];
+//    }
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -135,65 +189,35 @@
 }
 
 #pragma mark -- layouts
-//- (id)SetNevigationBarTitleLayout:(UIView*)view {
-//    ((UILabel*)view).text = @"个人资料";
-//    self.navigationItem.titleView = view;
-//    return nil;
-//}
-//
-//- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-//    return nil;
-//}
-//
-//- (id)SetNevigationBarRightBtnLayout:(UIView*)view {
-//    NSString* str = @"保存";
-//    id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"changeTextBtn:"];
-//    [cmd performWithResult:&str];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-//    return nil;
-//}
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
     NSString *title = @"个人资料";
-    [cmd_title performWithResult:&title];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
-    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-    [cmd_bot performWithResult:nil];
-    
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 - (id)SelfSettingLayout:(UIView*)view {
     CGFloat margin = 20;
     view.frame = CGRectMake(margin, 214, SCREEN_WIDTH - margin * 2, 200);
-    
-//    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
 
@@ -210,8 +234,33 @@
 }
 
 #pragma mark -- actions
+- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
+    
+    if ([nameTextField isFirstResponder]) {
+        [nameTextField resignFirstResponder];
+    }
+//    id<AYViewBase> view = [self.views objectForKey:@"SelfSetting"];
+//    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
+//    [cmd performWithResult:nil];
+}
+
+- (void)didDescLabelTap:(UITapGestureRecognizer*)gusture {
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"PersonalDesc");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    if (![descLabel.text isEqualToString:@"描述一下自己的经历"]) {
+        [dic_push setValue:descLabel.text forKey:kAYControllerChangeArgsKey];
+    }
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
     
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -220,16 +269,6 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
     return nil;
-}
-
-- (void)popToPreviousWithSave {
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_pop setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic_pop];
 }
 
 - (id)rightBtnSelected {
@@ -258,9 +297,7 @@
             }
         }];
         
-        
-        
-    }else {
+    } else {
         [self updatePersonalInfo];
     }
     return nil;
@@ -273,6 +310,7 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
     [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
     [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
+    [change_profile_dic setValue:nameTextField.text forKey:@"screen_name"];
     [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
             [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
@@ -283,14 +321,22 @@
     }];
 }
 
+- (void)popToPreviousWithSave {
+    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [profile_dic setValue:nameTextField.text forKey:@"screen_name"];
+    [dic_pop setValue:[profile_dic copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic_pop];
+}
+
 #pragma mark -- pickerviewDelegate
 - (id)showPickerView {
-    if (pickerView.frame.origin.y == SCREEN_HEIGHT) {
-        [UIView animateWithDuration:0.25 animations:^{
-            pickerView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
-//            NSLog(@"%f",pickerView.frame.origin.y);
-        }];
-    }
+    
+    kAYViewsSendMessage(@"Picker", @"showPickerView", nil)
     return nil;
 }
 
@@ -317,9 +363,6 @@
     return nil;
 }
 - (id)didCancelClick {
-//    [UIView animateWithDuration:0.25 animations:^{
-//        pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//    }];
     
     return nil;
 }
@@ -370,14 +413,7 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
-    NSLog(@"tap esle where");
-    id<AYViewBase> view = [self.views objectForKey:@"SelfSetting"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
-    [cmd performWithResult:nil];
-}
-
--(void)didSelfPhotoClick:(UIGestureRecognizer*)tap{
+-(void)didSelfPhotoClick {
     [self tapElseWhere:nil];
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
     [sheet showInView:self.view];

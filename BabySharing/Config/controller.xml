@@ -193,6 +193,11 @@
         <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" />
     </controller>
     
+    <controller type="DefaultController" name="PersonalDesc" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
     <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" />
@@ -476,15 +481,10 @@
         
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
 
-<!--        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />-->
-<!--        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />-->
-<!--        <view type="SetNevigationBarRightBtn"   name="SetNevigationBarRightBtn" />-->
-
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
-        <view type="SelfSetting"        name="SelfSetting" />
+<!--        <view type="SelfSetting"        name="SelfSetting" />-->
         <view type="Picker"             name="Picker" />
-        <view type="Loading" name="Loading" />
         
         <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
@@ -680,6 +680,7 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
+    
     
     <controller type="DefaultController" name="SetNapAges" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />

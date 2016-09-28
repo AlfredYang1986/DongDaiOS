@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700047481D9B9960000AE1C9 /* AYPersonalDescController.m */; };
 		7000CCE71D7E65F300DA98F2 /* AYHomeLikesItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */; };
 		7000CD191D7E8A5200DA98F2 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCEB1D7E8A5200DA98F2 /* MJRefreshAutoFooter.m */; };
 		7000CD1A1D7E8A5200DA98F2 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CCED1D7E8A5200DA98F2 /* MJRefreshBackFooter.m */; };
@@ -777,6 +778,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		700047471D9B9960000AE1C9 /* AYPersonalDescController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPersonalDescController.h; sourceTree = "<group>"; };
+		700047481D9B9960000AE1C9 /* AYPersonalDescController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalDescController.m; sourceTree = "<group>"; };
 		7000CCE51D7E65F300DA98F2 /* AYHomeLikesItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeLikesItemCell.h; sourceTree = "<group>"; };
 		7000CCE61D7E65F300DA98F2 /* AYHomeLikesItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeLikesItemCell.m; sourceTree = "<group>"; };
 		7000CCEA1D7E8A5200DA98F2 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
@@ -2368,6 +2371,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		700047461D9B9960000AE1C9 /* PersonalDesc */ = {
+			isa = PBXGroup;
+			children = (
+				700047471D9B9960000AE1C9 /* AYPersonalDescController.h */,
+				700047481D9B9960000AE1C9 /* AYPersonalDescController.m */,
+			);
+			path = PersonalDesc;
+			sourceTree = "<group>";
+		};
 		7000CCE81D7E8A5200DA98F2 /* MJRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -4678,9 +4690,10 @@
 				705D08001D372C1800CA2182 /* ConfirmRealName */,
 				705D08011D372C1800CA2182 /* ConfirmSNS */,
 				705489791D34DA9F007FCDA1 /* BabyInfoController */,
-				7027FD131CBC0238002756BC /* SettingController */,
+				700047461D9B9960000AE1C9 /* PersonalDesc */,
 				70E5A72D1CCDD00800974974 /* PersonalSettingController */,
 				70C69FF01D9A49450069E4EE /* PersonalInfo */,
+				7027FD131CBC0238002756BC /* SettingController */,
 				70501C841D2F4A070050E0C8 /* CollectServ */,
 			);
 			path = Profile;
@@ -8475,6 +8488,7 @@
 				7000CD1C1D7E8A5200DA98F2 /* MJRefreshFooter.m in Sources */,
 				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */,
+				700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */,
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
 				70F4287A1CC7B18F00A69977 /* MASLayoutConstraint.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,

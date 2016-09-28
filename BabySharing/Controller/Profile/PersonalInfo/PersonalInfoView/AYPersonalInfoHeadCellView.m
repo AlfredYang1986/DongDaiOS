@@ -52,7 +52,7 @@
         [self addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.top.equalTo(userImageView.mas_bottom).offset(15);
+            make.top.equalTo(userImageView.mas_bottom).offset(20);
         }];
         
         registTimeLabel = [[UILabel alloc]init];
@@ -60,7 +60,7 @@
         [self addSubview:registTimeLabel];
         [registTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.top.equalTo(nameLabel.mas_bottom).offset(25);
+            make.top.equalTo(nameLabel.mas_bottom).offset(20);
         }];
         
         CALayer *separtor = [CALayer layer];

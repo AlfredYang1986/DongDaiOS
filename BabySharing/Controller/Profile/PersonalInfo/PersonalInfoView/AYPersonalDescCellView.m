@@ -45,12 +45,13 @@
         }];
         
         descLabel = [[UILabel alloc]init];
-        descLabel = [Tools setLabelWith:descLabel andText:@"暂无描述!" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        descLabel = [Tools setLabelWith:descLabel andText:@"暂无描述!" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         descLabel.numberOfLines = 0;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(12.5);
             make.left.equalTo(titleLabel);
+            make.right.equalTo(self).offset(-15);
         }];
         
 //        CALayer *separtor = [CALayer layer];
