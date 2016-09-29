@@ -145,7 +145,10 @@
     id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    NSDictionary *user_info = nil;
+    CURRENUSER(user_info)
+    
+    NSMutableDictionary* dic = [user_info mutableCopy];
     [dic setValue:[service_info objectForKey:@"owner_id"]  forKey:@"owner_user_id"];
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {

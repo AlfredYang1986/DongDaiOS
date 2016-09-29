@@ -41,8 +41,9 @@
     
     confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
     
-    AYModelFacade* f = LOGINMODEL;
-    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
+//    AYModelFacade* f = LOGINMODEL;
+//    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+    
 }
 
 - (void)performWithResult:(NSObject**)obj {

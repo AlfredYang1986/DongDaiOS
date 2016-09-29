@@ -551,7 +551,7 @@
     
     <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"    name="OrderRemote" notification="true" />
-        <facade type="DefaultFacade"    name="KidNapRemote" notification="true" />
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />

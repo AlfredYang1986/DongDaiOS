@@ -2242,7 +2242,6 @@
 		805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
 		805218A51CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
 		805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
-		805C34481D9D30410011F705 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
 		805C344B1D9D42720011F705 /* AYServiceConsumerFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceConsumerFaceView.h; sourceTree = "<group>"; };
 		805C344C1D9D42720011F705 /* AYServiceConsumerFaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceConsumerFaceView.m; sourceTree = "<group>"; };
 		8086A2131CCE5B75006186D4 /* AYTagContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagContentController.h; sourceTree = "<group>"; };
@@ -8462,7 +8461,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = AA47RE58D2;
+						DevelopmentTeam = V6843SSXWV;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
