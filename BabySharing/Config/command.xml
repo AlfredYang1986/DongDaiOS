@@ -29,6 +29,7 @@
     <command type="Module" name="ChangeRegUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryRegUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryCurrentLoginUser" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryCurrentUserProfile" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeCurrentLoginUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QuerySNSProviders" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeSNSProviders" factory="AYDefaultModuleFactory" />
