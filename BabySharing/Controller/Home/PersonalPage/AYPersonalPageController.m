@@ -361,27 +361,37 @@
 }
 
 - (void)didBookBtnClick:(UIButton*)btn{
-//    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务正在准备'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    /**
+     * 1. cannot order owner service
+     */
     NSDictionary* user = nil;
-    CURRENUSER(user);
-//    NSString *user_id = [user objectForKey:@"user_id"];
-//    NSString *owner_id = [service_info objectForKey:@"owner_id"];
-//    if ([user_id isEqualToString:owner_id]) {
-//        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//        return;
-//    }
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = PUSH;
-    [cmd_show_module performWithResult:&dic];
-    
+    CURRENPROFILE(user);
+    NSString *user_id = [user objectForKey:@"user_id"];
+    NSString *owner_id = [service_info objectForKey:@"owner_id"];
+    if ([user_id isEqualToString:owner_id]) {
+        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        return;
+    }
+   
+    /**
+     * 2. check profile has_phone, if not, go confirmNoConsumer
+     */
+    if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
+        id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd_show_module = PUSH;
+        [cmd_show_module performWithResult:&dic];
+
+    } else {
+        
+    }
 }
+
 - (void)didChatBtnClick:(UIButton*)btn{
     NSDictionary* user = nil;
     CURRENUSER(user);

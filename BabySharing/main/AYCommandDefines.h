@@ -116,5 +116,10 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
                                         [cmd performWithResult:&USER]; \
                                     } while(0);
 
+#define CURRENPROFILE(P)            do { \
+                                        id<AYFacadeBase> f_login_model = LOGINMODEL; \
+                                        id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"]; \
+                                        [cmd performWithResult:&P]; \
+                                    } while(0);
 
 #endif /* AYCommandDefines_h */
