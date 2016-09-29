@@ -111,6 +111,21 @@
         else if ([iter isEqualToString:@"role_tag"]) {
             tmp.role_tag = [dic objectForKey:iter];
         }
+        else if ([iter isEqualToString:@"is_real_name_cert"]) {
+            tmp.is_real_name_cert = [dic objectForKey:@"is_real_name_cert"];
+        }
+        else if ([iter isEqualToString:@"contact_no"]) {
+            tmp.contact_no = [dic objectForKey:@"contact_no"];
+        }
+        else if ([iter isEqualToString:@"personal_description"]) {
+            tmp.personal_description = [dic objectForKey:@"personal_description"];
+        }
+        else if ([iter isEqualToString:@"date"]) {
+            tmp.date = [dic objectForKey:@"date"];
+        }
+        else if ([iter isEqualToString:@"is_service_provider"]) {
+            tmp.is_service_provider = [dic objectForKey:@"is_service_provider"];
+        }
         else if ([iter isEqualToString:@"user_id"]) {
             if (tmp.user_id == nil) {
                 tmp.user_id = [dic objectForKey:iter];

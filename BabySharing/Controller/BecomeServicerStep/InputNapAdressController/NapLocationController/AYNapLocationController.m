@@ -19,7 +19,7 @@
 
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 
 #import "AYDongDaSegDefines.h"

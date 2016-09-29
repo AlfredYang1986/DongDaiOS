@@ -7,7 +7,7 @@
 //
 
 #import "RegCurrentToken.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 
 @implementation RegCurrentToken
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 
 @interface LoginToken (ContextOpt)
 

@@ -280,6 +280,7 @@
 - (void)awakeFromNib {
     // Initialization code
     NSLog(@"awake from nib");
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

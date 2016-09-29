@@ -18,7 +18,7 @@
 #import "AYModelFacade.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 
 @implementation AYUserPerviewController {

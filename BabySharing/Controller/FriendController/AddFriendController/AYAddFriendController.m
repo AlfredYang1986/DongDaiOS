@@ -30,7 +30,7 @@
 #import <Contacts/CNContactStore.h>
 #import <Contacts/CNContactFetchRequest.h>
 
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"

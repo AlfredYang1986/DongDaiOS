@@ -21,7 +21,7 @@
 #import "QueryContent.h"
 
 #import "AYModelFacade.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"

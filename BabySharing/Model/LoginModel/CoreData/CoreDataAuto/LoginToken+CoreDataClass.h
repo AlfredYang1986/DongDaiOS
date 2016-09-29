@@ -1,8 +1,8 @@
 //
-//  LoginToken.h
+//  LoginToken+CoreDataClass.h
 //  BabySharing
 //
-//  Created by Alfred Yang on 3/26/16.
+//  Created by BM on 29/09/2016.
 //  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
@@ -14,8 +14,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginToken : NSManagedObject
-
-// Insert code here to declare functionality of your managed object subclass
 
 @end
 
