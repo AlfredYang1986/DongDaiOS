@@ -92,17 +92,17 @@
         }
     }];
     
-    UIButton *pushNewSerBtn = [[UIButton alloc]init];
-    pushNewSerBtn.backgroundColor = [Tools themeColor];
-    [pushNewSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:pushNewSerBtn];
-    [pushNewSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(-49);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
-    }];
-    [pushNewSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
-    [pushNewSerBtn addTarget:self action:@selector(didPushNewSerBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIButton *pushNewSerBtn = [[UIButton alloc]init];
+//    pushNewSerBtn.backgroundColor = [Tools themeColor];
+//    [pushNewSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [self.view addSubview:pushNewSerBtn];
+//    [pushNewSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(self.view).offset(-49);
+//        make.centerX.equalTo(self.view);
+//        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+//    }];
+//    [pushNewSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
+//    [pushNewSerBtn addTarget:self action:@selector(didPushNewSerBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -140,7 +140,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 - 49);
+    view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;

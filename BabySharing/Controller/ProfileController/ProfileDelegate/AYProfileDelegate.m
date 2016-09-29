@@ -40,6 +40,9 @@
 - (void)postPerform {
     
     confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
+    
+    AYModelFacade* f = LOGINMODEL;
+    CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -62,7 +65,7 @@
     
     isNapModel = args.boolValue;
     if (isNapModel) {
-        origs = [NSMutableArray arrayWithObjects:@"切换到被服务者", @"我发布的服务", @"设置", nil];
+        origs = [NSMutableArray arrayWithObjects:@"切换到被服务者", @"发布服务", @"设置", nil];
     } else
         origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
     return nil;
@@ -76,6 +79,7 @@
         is_service_provider = YES;
         if (isNapModel) {
             [origs replaceObjectAtIndex:0 withObject:@"切换到被服务者"];
+            [origs replaceObjectAtIndex:1 withObject:@"发布服务"];
         } else {
             [origs replaceObjectAtIndex:0 withObject:@"切换到服务者"];
         }
@@ -155,10 +159,14 @@
 //    }
     if (indexPath.row == 0) {
         [self showPersonalInfo];
+        
     } else if(indexPath.row == 1) {
         [self servicerOptions];
+        
     } else if (indexPath.row == 2) {
-        [self collectService];
+        
+        isNapModel? [self pushNewService] : [self collectService];
+        
     } else
         [self setting];
     
@@ -233,6 +241,7 @@
 //}
 
 - (void)collectService {
+    
     AYViewController* des = DEFAULTCONTROLLER(@"CollectServ");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -243,6 +252,21 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
+
+- (void)pushNewService {
+    
+    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[NSNumber numberWithInt:1] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+
 - (void)setting {
     // NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");

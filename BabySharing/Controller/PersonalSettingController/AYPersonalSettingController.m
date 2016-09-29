@@ -68,6 +68,8 @@
 //    user_photo.clipsToBounds = YES;
 //    user_photo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
 //    user_photo.layer.borderWidth = 2.f;
+    user_photo.contentMode = UIViewContentModeScaleAspectFill;
+    user_photo.clipsToBounds = YES;
     [user_photo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.top.equalTo(self.view).offset(64);
@@ -89,7 +91,7 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[profile_dic objectForKey:@"screen_photo"] forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    [dic setValue:@"img_local" forKey:@"expect_size"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         UIImage* img = (UIImage*)result;
         if (img != nil) {
@@ -320,14 +322,22 @@
 
 - (void)popToPreviousWithSave {
     
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [profile_dic setValue:nameTextField.text forKey:@"screen_name"];
-    [dic_pop setValue:[profile_dic copy] forKey:kAYControllerChangeArgsKey];
+//    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+//    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+//    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [profile_dic setValue:nameTextField.text forKey:@"screen_name"];
+//    [dic_pop setValue:[profile_dic copy] forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd = POP;
+//    [cmd performWithResult:&dic_pop];
     
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic_pop];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic];
 }
 
 #pragma mark -- pickerviewDelegate
