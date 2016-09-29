@@ -165,7 +165,7 @@
                 NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
                 [args setValue:self forKey:@"super_view"];
                 [args setValue:@"手机号码输入错误" forKey:@"title"];
-                [args setValue:[NSNumber numberWithFloat:216.f] forKey:@"set_y"];
+                [args setValue:[NSNumber numberWithFloat:166.f] forKey:@"set_y"];
                 [cmd_add performWithResult:&args];
                 return;
             }

@@ -151,7 +151,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     NSString* photo_name = [args objectForKey:@"screen_photo"];
     [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+    [dic setValue:@"img_local" forKey:@"expect_size"];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];

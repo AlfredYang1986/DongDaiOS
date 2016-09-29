@@ -142,9 +142,28 @@
         costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[service_info objectForKey:@"price"]).floatValue];
     }
     
-    id<AYCommand> cmd = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
-    NSDictionary *info_dic = [service_info copy];
-    [cmd performWithResult:&info_dic];
+    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
+    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:[service_info objectForKey:@"owner_id"]  forKey:@"owner_user_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
+            id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+            
+            NSMutableDictionary *tmp = [service_info mutableCopy];
+            [tmp setValue:[result objectForKey:@"personal_description"] forKey:@"description"];
+            
+            NSDictionary *dic = [tmp copy];
+            [cmd performWithResult:&dic];
+            
+            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+            [refresh performWithResult:nil];
+        }
+    }];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
@@ -267,9 +286,7 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
+    
     view.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
     
 //    ((UITableView*)view).estimatedRowHeight = 300;
