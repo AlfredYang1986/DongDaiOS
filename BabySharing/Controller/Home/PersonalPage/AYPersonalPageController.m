@@ -405,7 +405,15 @@
         [cmd_show_module performWithResult:&dic];
 
     } else {
+        id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNoConsumer");
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
         
+        id<AYCommand> cmd_show_module = PUSH;
+        [cmd_show_module performWithResult:&dic];
     }
 }
 

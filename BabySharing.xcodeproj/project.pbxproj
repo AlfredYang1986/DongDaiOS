@@ -720,6 +720,7 @@
 		805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */; };
 		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
 		805218A71CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */; };
+		805C344D1D9D42720011F705 /* AYServiceConsumerFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 805C344C1D9D42720011F705 /* AYServiceConsumerFaceView.m */; };
 		8086A2151CCE5B75006186D4 /* AYTagContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A2141CCE5B75006186D4 /* AYTagContentController.m */; };
 		8086A2231CCE6176006186D4 /* AYQueryContentsWithTagCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A21C1CCE6176006186D4 /* AYQueryContentsWithTagCommand.m */; };
 		8086A2241CCE6176006186D4 /* AYQueryHomeContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A21F1CCE6176006186D4 /* AYQueryHomeContentCommand.m */; };
@@ -2241,6 +2242,9 @@
 		805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
 		805218A51CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
 		805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
+		805C34481D9D30410011F705 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
+		805C344B1D9D42720011F705 /* AYServiceConsumerFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceConsumerFaceView.h; sourceTree = "<group>"; };
+		805C344C1D9D42720011F705 /* AYServiceConsumerFaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceConsumerFaceView.m; sourceTree = "<group>"; };
 		8086A2131CCE5B75006186D4 /* AYTagContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagContentController.h; sourceTree = "<group>"; };
 		8086A2141CCE5B75006186D4 /* AYTagContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagContentController.m; sourceTree = "<group>"; };
 		8086A21B1CCE6176006186D4 /* AYQueryContentsWithTagCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryContentsWithTagCommand.h; sourceTree = "<group>"; };
@@ -7939,6 +7943,8 @@
 			children = (
 				8048C0021D9D02860026436E /* AYPhoneCheckInputView.h */,
 				8048C0031D9D02860026436E /* AYPhoneCheckInputView.m */,
+				805C344B1D9D42720011F705 /* AYServiceConsumerFaceView.h */,
+				805C344C1D9D42720011F705 /* AYServiceConsumerFaceView.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -8456,7 +8462,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = AA47RE58D2;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -9125,6 +9131,7 @@
 				70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */,
 				80D5E7C31CCC7C2000A82117 /* PhotoTagTariangleLayer.m in Sources */,
 				700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */,
+				805C344D1D9D42720011F705 /* AYServiceConsumerFaceView.m in Sources */,
 				707FC50C1CD8D5E400C0BC37 /* AYShareWithQQCommand.m in Sources */,
 				70A27BF81D0EA29200B131AB /* AYContentListDelegate.m in Sources */,
 				700047641D9BDFAE000AE1C9 /* AYRequireCodeCommand.m in Sources */,
