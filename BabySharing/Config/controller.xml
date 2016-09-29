@@ -206,9 +206,8 @@
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
-        <view type="Table"              name="Table" />
         <view type="FakeNavBar"         name="FakeNavBar" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
+        <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="OneProfile" />
     </controller>

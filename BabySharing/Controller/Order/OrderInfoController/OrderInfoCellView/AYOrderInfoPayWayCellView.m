@@ -48,7 +48,7 @@
         }];
         
         UIImageView *payWayIcon = [UIImageView new];
-        payWayIcon.image = IMGRESOURCE(@"tab_found_selected");
+        payWayIcon.image = IMGRESOURCE(@"wechat");
         [self addSubview:payWayIcon];
         [payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(20);

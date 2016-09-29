@@ -16,6 +16,7 @@ static NSString* const kAYTableView =                       @"Table";
 
 static NSString* const kAYNavBarSetTitleMessage =               @"setTitleText:";
 static NSString* const kAYNavBarSetLeftBtnImgMessage =          @"setLeftBtnImg:";
+static NSString* const kAYNavBarSetRightBtnImgMessage =         @"setRightBtnImg:";
 static NSString* const kAYNavBarSetRightBtnWithBtnMessage =     @"setRightBtnWithBtn:";
 static NSString* const kAYNavBarSetLeftBtnVisibilityMessage =   @"setLeftBtnVisibility:";
 static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVisibility:";

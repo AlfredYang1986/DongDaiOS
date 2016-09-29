@@ -99,8 +99,8 @@
     
     NSDictionary *args = [dic_args objectForKey:@"order_date"];
     
-    double start = ((NSNumber*)[args objectForKey:@"start"]).doubleValue;
-    double end = ((NSNumber*)[args objectForKey:@"end"]).doubleValue;
+    double start = ((NSNumber*)[args objectForKey:@"start"]).doubleValue * 0.001;
+    double end = ((NSNumber*)[args objectForKey:@"end"]).doubleValue * 0.001;
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy年MM月dd日, EEEE"];

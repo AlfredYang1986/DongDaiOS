@@ -39,17 +39,23 @@
 #pragma mark -- text view delegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
         
-        //        GotyeOCRoom* room = [GotyeOCRoom roomWithId:_group_id.longLongValue];
+        if ([textView.text isEqualToString:@""]) {
+            
+        } else {
+            id<AYCommand> cmd = [self.notifies objectForKey:@"sendMessage:"];
+            id args = textView.text;
+            [cmd performWithResult:&args];
+            textView.text = @"";
+            
+            [textView resignFirstResponder];
+        }
+        
+//        GotyeOCRoom* room = [GotyeOCRoom roomWithId:_group_id.longLongValue];
 //        GotyeOCGroup* group = [GotyeOCGroup groupWithId:_group_id.longLongValue];
 //        GotyeOCMessage* m = [GotyeOCMessage createTextMessage:group text:textView.text];
 //        [GotyeOCAPI sendMessage:m];
         
-        id<AYCommand> cmd = [self.notifies objectForKey:@"sendMessage:"];
-        id args = textView.text;
-        [cmd performWithResult:&args];
-        textView.text = @"";
         return NO; //这里返回NO，就代表return键值失效，即页面上按下return，不会出现换行，如果为yes，则输入页面会换行
     }
     

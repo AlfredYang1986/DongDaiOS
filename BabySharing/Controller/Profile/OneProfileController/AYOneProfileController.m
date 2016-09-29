@@ -17,12 +17,7 @@
 #import "AYDongDaSegDefines.h"
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
-
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
@@ -39,17 +34,10 @@
 
 #define SEG_CTR_HEIGHT              49
 
-@interface AYOneProfileController ()
-@property (nonatomic, setter=setCurrentStatus:) RemoteControllerStatus status;
-@end
 
 @implementation AYOneProfileController {
-    BOOL isPushed;
+    
     NSString* owner_id;
-    NSString* screen_name;
-    NSDictionary* profile_dic;
-    NSArray* post_content;
-    NSArray* push_content;
     
     UIView *cover;
 }
@@ -60,17 +48,11 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         owner_id = [dic objectForKey:kAYControllerChangeArgsKey];
-        isPushed = YES;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSString *info = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([info isEqualToString:@"infoChanged"]) {
-            id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-            id<AYCommand> refresh = [view_notify.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
-        }
+        
     }
 }
 
@@ -80,28 +62,22 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    {
-        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"OneProfile"];
-        
-        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-        
-        id obj = (id)cmd_notify;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_notify;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ProfileHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&class_name];
-        NSString* content_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OneProfileContentCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&content_name];
-        
-        id<AYCommand> cmd_head = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-        NSString* about_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OneProfileAboutCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_head performWithResult:&about_name];
-    }
+    id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"OneProfile"];
+    id obj = (id)cmd_collect;
+    kAYViewsSendMessage(@"Table", @"registerDatasource:", &obj)
+    
+    obj = (id)cmd_collect;
+    kAYViewsSendMessage(@"Table", @"registerDelegate:", &obj)
+    
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalInfoHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, @"registerCellWithClass:", &class_name)
+    
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(@"Table", @"registerCellWithClass:", &class_name)
+    
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalValidateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(@"Table", @"registerCellWithClass:", &class_name)
+    
     
     id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
@@ -110,28 +86,15 @@
     
     NSMutableDictionary* dic = [user mutableCopy];
     [dic setValue:owner_id forKey:@"owner_user_id"];
-    
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"OneProfile"];
-            id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-            NSDictionary *dic = [result copy];
-            [cmd performWithResult:&dic];
             
-            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
+            NSDictionary *tmp = [result copy];
+            kAYDelegatesSendMessage(@"OneProfile", @"changeQueryData:", &tmp)
+            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
-            id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-            id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
             NSString *title = [result objectForKey:@"screen_name"];
-            [cmd_title performWithResult:&title];
-            
-            UILabel* titleView = (UILabel*)view_title;
-            titleView.font = [UIFont systemFontOfSize:16.f];
-            titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-            [titleView sizeToFit];
-            titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
         }
     }];
 }
@@ -151,8 +114,6 @@
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     view.backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     return nil;
 }
 
@@ -160,29 +121,16 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    NSString *title = @"看护妈妈";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnImg:"];
     UIImage *right = IMGRESOURCE(@"tips_off_black");
-    [cmd_right performWithResult:&right];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"看护妈妈";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -200,23 +148,32 @@
 
 - (id)rightBtnSelected {
     
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"举报该用户", nil];
+    [sheet showInView:self.view];
+    
     return nil;
 }
 
-- (id)SamePersonBtnSelected {
-    NSLog(@"push to person setting");
-    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
-    return nil;
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        
+        NSMutableDictionary *expose = [[NSMutableDictionary alloc]init];
+        [expose setValue:[NSNumber numberWithInt:0] forKey:@"expose_type"];
+        [expose setValue:owner_id forKey:@"user_id"];
+        
+        id<AYFacadeBase> expose_remote = [self.facades objectForKey:@"ExposeRemote"];
+        AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeUser"];
+        [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
+            if (success) {
+                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"我们将尽快审查您举报的用户！\n感谢您的监督和支持！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }else {
+                [[[UIAlertView alloc] initWithTitle:@"通知" message:@"举报发生未知错误，请检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    } else  {
+        
+    }
 }
 
 - (id)didAllContent {

@@ -91,9 +91,7 @@
                     NSDictionary *dic = [result copy];
                     [cmd performWithResult:&dic];
                     
-                    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-                    id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-                    [refresh performWithResult:nil];
+                    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
                 }
             }];
         }

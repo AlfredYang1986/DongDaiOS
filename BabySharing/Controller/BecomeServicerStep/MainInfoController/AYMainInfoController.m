@@ -311,6 +311,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (void)uploadImages:(NSArray*)images andResult:(asynUploadImages)block {
     
 }
+
 - (void)updateService {
     NSDictionary* args = nil;
     CURRENUSER(args)
@@ -327,11 +328,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 if (success) {
                     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 }else {
-                    [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息已更新发布失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                    kAYUIAlertView(@"错误", @"服务信息已更新发布失败");
                 }
             }];
-            
-        }else {
+        } else {
             [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息更新失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
     }];
@@ -412,6 +412,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                         if (success) {
                             [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                            [self popToRootVC];
                         }else {
                             [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务发布失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                         }

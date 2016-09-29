@@ -105,8 +105,6 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             _thumbsImage.image = img;
-        }else{
-            [_thumbsImage setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     
@@ -148,8 +146,8 @@
     NSDictionary *order_date = [args objectForKey:@"order_date"];
     NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
     NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
-    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
+    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
+    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
     
     NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
     [formatterDay setDateFormat:@"MM月dd日 EEEE"];

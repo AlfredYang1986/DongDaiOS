@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYOneProfileController : AYViewController
+@interface AYOneProfileController : AYViewController <UIActionSheetDelegate>
 
 @end

@@ -86,7 +86,7 @@
         }];
         
         isLeavePriceLabel = [[UILabel alloc]init];
-        isLeavePriceLabel = [Tools setLabelWith:isLeavePriceLabel andText:@"￥ 00" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        isLeavePriceLabel = [Tools setLabelWith:isLeavePriceLabel andText:@"服务不提供看护" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
         [self addSubview:isLeavePriceLabel];
         [isLeavePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(isLeaveTitleLabel);
@@ -190,7 +190,7 @@
         NSString *tmp = btn.titleLabel.text;
         NSLog(@"%@",tmp);
         
-    } else if([title isEqualToString:@"收起"]){
+    } else if([title isEqualToString:@"收起"]) {
         //        [btn setImage:nil forState:UIControlStateNormal];
         [btn setTitle:@"查看详情" forState:UIControlStateNormal];
         
@@ -207,14 +207,15 @@
     CGFloat sumPrice = 0;
     
     BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
+    
     if (isLeave) {
         isLeavePriceLabel.text = @"￥40";
         sumPrice += 40;
     }
     
     NSDictionary *dic_times = [args objectForKey:@"order_date"];
-    double start = ((NSNumber*)[dic_times objectForKey:@"start"]).doubleValue;
-    double end = ((NSNumber*)[dic_times objectForKey:@"end"]).doubleValue;
+    double start = ((NSNumber*)[dic_times objectForKey:@"start"]).doubleValue * 0.001;
+    double end = ((NSNumber*)[dic_times objectForKey:@"end"]).doubleValue * 0.001;
     
     NSDateFormatter *formatTimes = [[NSDateFormatter alloc] init];
     [formatTimes setDateFormat:@"HH:mm"];

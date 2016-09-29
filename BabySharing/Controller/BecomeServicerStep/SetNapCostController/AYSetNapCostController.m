@@ -84,6 +84,7 @@
     costTextField.font = kAYFontLight(14.f);
     costTextField.textColor = [Tools blackColor];
     costTextField.textAlignment = NSTextAlignmentRight;
+    costTextField.keyboardType = UIKeyboardTypeNumberPad;
 //    costTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(h1).insets(UIEdgeInsetsMake(0, 115, 0, 40));

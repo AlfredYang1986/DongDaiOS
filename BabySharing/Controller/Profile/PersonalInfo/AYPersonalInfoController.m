@@ -16,12 +16,6 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
@@ -140,17 +134,6 @@
 }
 
 #pragma mark -- actions
-- (void)conmitMyService {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    //    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {

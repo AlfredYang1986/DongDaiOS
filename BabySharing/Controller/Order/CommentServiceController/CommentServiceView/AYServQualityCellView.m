@@ -55,24 +55,24 @@
         
         self.backgroundColor = [Tools blackColor];
         
+        titleLabel = [UILabel new];
+        titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        [self addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.centerY.equalTo(self);
+        }];
+        
         starRangImage = [UIImageView new];
         starRangImage.image = IMGRESOURCE(@"star_rang_0");
         [self addSubview: starRangImage];
         [starRangImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(15);
+            make.right.equalTo(self).offset(-15);
             make.centerY.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(90, 14));
         }];
         starRangImage.userInteractionEnabled = YES;
         [starRangImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetStarRangTap:)]];
-        
-        titleLabel = [UILabel new];
-        titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-15);
-            make.centerY.equalTo(self);
-        }];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

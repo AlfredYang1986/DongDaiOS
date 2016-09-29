@@ -31,7 +31,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-    titleArr = [NSArray arrayWithObjects:@"服务满意度", @"沟通及时度", @"场地整洁性", nil];
+    titleArr = [NSArray arrayWithObjects:@"描述准确性", @"服务准时性", @"沟通及时性", @"服务专业性", @"场地整洁性", @"服务性价比", nil];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -58,8 +58,8 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    //    return querydata.count;
-    return 3;
+    
+    return titleArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,7 +77,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 65.f;
+    return 45.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -164,7 +164,6 @@
     
     nameLabel.text = [args objectForKey:@"screen_name"];
     
-//    NSNumber *date = ;
     double date = ((NSNumber*)[args objectForKey:@"date"]).doubleValue;
     NSDateFormatter *format = [Tools creatDateFormatterWithString:@"yyyy年MM月"];
     NSDate *registDate = [NSDate dateWithTimeIntervalSince1970:date * 0.001];

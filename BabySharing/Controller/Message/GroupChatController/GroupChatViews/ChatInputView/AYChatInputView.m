@@ -111,6 +111,10 @@
 }
 
 - (void)didSendMessageBtnClick {
+    
+    if ([inputView.text isEqualToString:@""]) {
+        return;
+    }
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendMessage:"];
     id args = inputView.text;
     [cmd performWithResult:&args];
