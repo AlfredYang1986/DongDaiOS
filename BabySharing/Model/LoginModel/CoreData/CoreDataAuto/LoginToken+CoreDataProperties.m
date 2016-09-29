@@ -2,16 +2,17 @@
 //  LoginToken+CoreDataProperties.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 29/9/16.
-//  Copyright © 2016年 Alfred Yang. All rights reserved.
-//
-//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
-//  to delete and recreate this implementation file for your updated model.
+//  Created by BM on 29/09/2016.
+//  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
 #import "LoginToken+CoreDataProperties.h"
 
 @implementation LoginToken (CoreDataProperties)
+
++ (NSFetchRequest<LoginToken *> *)fetchRequest {
+	return [[NSFetchRequest alloc] initWithEntityName:@"LoginToken"];
+}
 
 @dynamic address;
 @dynamic auth_token;
@@ -25,6 +26,7 @@
 @dynamic screen_image;
 @dynamic screen_name;
 @dynamic user_id;
+@dynamic has_phone;
 @dynamic connectWith;
 @dynamic detailInfo;
 @dynamic logined;

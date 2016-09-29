@@ -87,6 +87,7 @@
     [reVal setValue:user.personal_description forKey:@"personal_description"];
     [reVal setValue:user.date forKey:@"date"];
     [reVal setValue:user.contact_no forKey:@"contact_no"];
+    [reVal setValue:user.has_phone forKey:@"has_phone"];
     
     return [reVal copy];
 }
@@ -131,6 +132,10 @@
         else if ([iter isEqualToString:@"is_service_provider"]) {
             tmp.is_service_provider = [dic objectForKey:@"is_service_provider"];
         }
+        else if ([iter isEqualToString:@"has_phone"]) {
+            tmp.has_phone = [dic objectForKey:@"has_phone"];
+        }
+        
         else if ([iter isEqualToString:@"user_id"]) {
             if (tmp.user_id == nil) {
                 tmp.user_id = [dic objectForKey:iter];

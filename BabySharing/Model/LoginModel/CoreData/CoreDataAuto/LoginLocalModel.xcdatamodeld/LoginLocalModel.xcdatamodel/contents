@@ -19,6 +19,7 @@
         <attribute name="auth_token" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contact_no" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="has_phone" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="is_real_name_cert" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="is_service_provider" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="personal_description" optional="YES" attributeType="String" syncable="YES"/>
@@ -60,7 +61,7 @@
     <elements>
         <element name="CurrentToken" positionX="-470" positionY="-49" width="128" height="88"/>
         <element name="DetailInfo" positionX="34" positionY="-513" width="128" height="148"/>
-        <element name="LoginToken" positionX="-252" positionY="-522" width="128" height="283"/>
+        <element name="LoginToken" positionX="-252" positionY="-522" width="128" height="298"/>
         <element name="Providers" positionX="-486" positionY="-585" width="128" height="133"/>
         <element name="RegCurrentToken" positionX="-54" positionY="-135" width="128" height="88"/>
         <element name="RegTmpToken" positionX="-596" positionY="-306" width="128" height="73"/>

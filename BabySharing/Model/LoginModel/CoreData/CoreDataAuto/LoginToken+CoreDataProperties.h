@@ -2,31 +2,32 @@
 //  LoginToken+CoreDataProperties.h
 //  BabySharing
 //
-//  Created by Alfred Yang on 29/9/16.
-//  Copyright © 2016年 Alfred Yang. All rights reserved.
-//
-//  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
-//  to delete and recreate this implementation file for your updated model.
+//  Created by BM on 29/09/2016.
+//  Copyright © 2016 Alfred Yang. All rights reserved.
 //
 
 #import "LoginToken+CoreDataClass.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LoginToken (CoreDataProperties)
 
-@property (nullable, nonatomic, retain) NSString *address;
-@property (nullable, nonatomic, retain) NSString *auth_token;
-@property (nullable, nonatomic, retain) NSString *contact_no;
-@property (nullable, nonatomic, retain) NSNumber *date;
-@property (nullable, nonatomic, retain) NSNumber *is_real_name_cert;
-@property (nullable, nonatomic, retain) NSNumber *is_service_provider;
-@property (nullable, nonatomic, retain) NSString *personal_description;
-@property (nullable, nonatomic, retain) NSString *phoneNo;
-@property (nullable, nonatomic, retain) NSString *role_tag;
-@property (nullable, nonatomic, retain) NSString *screen_image;
-@property (nullable, nonatomic, retain) NSString *screen_name;
-@property (nullable, nonatomic, retain) NSString *user_id;
++ (NSFetchRequest<LoginToken *> *)fetchRequest;
+
+@property (nullable, nonatomic, copy) NSString *address;
+@property (nullable, nonatomic, copy) NSString *auth_token;
+@property (nullable, nonatomic, copy) NSString *contact_no;
+@property (nullable, nonatomic, copy) NSNumber *date;
+@property (nullable, nonatomic, copy) NSNumber *is_real_name_cert;
+@property (nullable, nonatomic, copy) NSNumber *is_service_provider;
+@property (nullable, nonatomic, copy) NSString *personal_description;
+@property (nullable, nonatomic, copy) NSString *phoneNo;
+@property (nullable, nonatomic, copy) NSString *role_tag;
+@property (nullable, nonatomic, copy) NSString *screen_image;
+@property (nullable, nonatomic, copy) NSString *screen_name;
+@property (nullable, nonatomic, copy) NSString *user_id;
+@property (nullable, nonatomic, copy) NSNumber *has_phone;
 @property (nullable, nonatomic, retain) NSSet<Providers *> *connectWith;
 @property (nullable, nonatomic, retain) DetailInfo *detailInfo;
 @property (nullable, nonatomic, retain) CurrentToken *logined;
