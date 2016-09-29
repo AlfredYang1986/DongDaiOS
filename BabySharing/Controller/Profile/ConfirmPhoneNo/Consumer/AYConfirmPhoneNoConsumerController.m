@@ -28,6 +28,7 @@
 
 @implementation AYConfirmPhoneNoConsumerController {
     NSString* reg_token;
+    NSDictionary* service_info;
 }
 
 #pragma mark -- commands
@@ -42,6 +43,7 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
