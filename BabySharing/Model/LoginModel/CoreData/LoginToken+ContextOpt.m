@@ -82,6 +82,11 @@
     [reVal setValue:user.screen_name forKey:@"screen_name"];
     [reVal setValue:user.screen_image forKey:@"screen_photo"];
     [reVal setValue:user.role_tag forKey:@"role_tag"];
+    [reVal setValue:user.is_service_provider forKey:@"is_service_provider"];
+    [reVal setValue:user.is_real_name_cert forKey:@"is_real_name_cert"];
+    [reVal setValue:user.personal_description forKey:@"personal_description"];
+    [reVal setValue:user.date forKey:@"date"];
+    [reVal setValue:user.contact_no forKey:@"contact_no"];
     
     return [reVal copy];
 }
