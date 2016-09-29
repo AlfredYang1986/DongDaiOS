@@ -189,7 +189,7 @@
     UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 50)];
     UIButton *addBtn = [[UIButton alloc]init];
     [headView addSubview:addBtn];
-    [addBtn setImage:IMGRESOURCE(@"tab_found") forState:UIControlStateNormal];
+    [addBtn setImage:IMGRESOURCE(@"icon_pick") forState:UIControlStateNormal];
     [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(headView).offset(-15);
         make.centerY.equalTo(headView);

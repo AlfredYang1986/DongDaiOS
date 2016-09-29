@@ -66,8 +66,8 @@
         
         optionBtn = [[UIButton alloc]init];
         [self addSubview:optionBtn];
-        [optionBtn setImage:[UIImage imageNamed:@"tab_found"] forState:UIControlStateNormal];
-        [optionBtn setImage:[UIImage imageNamed:@"tab_found_selected"] forState:UIControlStateSelected];
+        [optionBtn setImage:[UIImage imageNamed:@"icon_pick"] forState:UIControlStateNormal];
+        [optionBtn setImage:[UIImage imageNamed:@"icon_pick_selected"] forState:UIControlStateSelected];
         [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);

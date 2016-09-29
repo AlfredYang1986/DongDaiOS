@@ -65,7 +65,7 @@
         }];
         
         UIImageView *signView = [UIImageView new];
-        signView.image = IMGRESOURCE(@"tab_found_selected");
+        signView.image = IMGRESOURCE(@"icon_pick_selected");
         [self addSubview:signView];
         [signView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);

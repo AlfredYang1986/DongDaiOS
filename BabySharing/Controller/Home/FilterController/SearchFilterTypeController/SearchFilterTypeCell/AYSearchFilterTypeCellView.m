@@ -40,8 +40,8 @@
     // Initialization code
     [self setUpReuseCell];
     
-    [_isSeletced setImage:IMGRESOURCE(@"tab_found") forState:UIControlStateNormal];
-    [_isSeletced setImage:IMGRESOURCE(@"tab_found_selected") forState:UIControlStateSelected];
+    [_isSeletced setImage:IMGRESOURCE(@"icon_pick") forState:UIControlStateNormal];
+    [_isSeletced setImage:IMGRESOURCE(@"icon_pick_selected") forState:UIControlStateSelected];
     
     CALayer* line = [CALayer layer];
     line.frame = CGRectMake(LINE_MARGIN, SEARCH_FILTER_CELL_HEIGHT - 1, SCREEN_WIDTH - 2 * LINE_MARGIN, 1);

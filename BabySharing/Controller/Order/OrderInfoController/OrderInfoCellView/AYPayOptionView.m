@@ -106,7 +106,7 @@
         make.height.mas_equalTo(1);
     }];
     
-    UIImageView *payIcon01 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"tab_found_selected")];
+    UIImageView *payIcon01 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"icon_pick_selected")];
     [self addSubview:payIcon01];
     [payIcon01 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line00.mas_bottom).offset(20);
@@ -124,8 +124,8 @@
     
     selectedpay01 = [[UIButton alloc]init];
     [self addSubview:selectedpay01];
-    [selectedpay01 setImage:IMGRESOURCE(@"tab_found") forState:UIControlStateNormal];
-    [selectedpay01 setImage:IMGRESOURCE(@"tab_found_selected") forState:UIControlStateSelected];
+    [selectedpay01 setImage:IMGRESOURCE(@"icon_pick") forState:UIControlStateNormal];
+    [selectedpay01 setImage:IMGRESOURCE(@"icon_pick_selected") forState:UIControlStateSelected];
     [selectedpay01 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(payIcon01);
         make.right.equalTo(self).offset(-25);
@@ -161,7 +161,7 @@
     [morePayWay addTarget:self action:@selector(showMorePayWay:) forControlEvents:UIControlEventTouchUpInside];
     /*--------------------------*/
     
-    payIcon02 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"tab_found_selected")];
+    payIcon02 = [[UIImageView alloc]initWithImage:IMGRESOURCE(@"icon_pick_selected")];
     [self addSubview:payIcon02];
     [payIcon02 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line01.mas_bottom).offset(20);
@@ -179,8 +179,8 @@
     
     selectedPay02 = [[UIButton alloc]init];
     [self addSubview:selectedPay02];
-    [selectedPay02 setImage:IMGRESOURCE(@"tab_found") forState:UIControlStateNormal];
-    [selectedPay02 setImage:IMGRESOURCE(@"tab_found_selected") forState:UIControlStateSelected];
+    [selectedPay02 setImage:IMGRESOURCE(@"icon_pick") forState:UIControlStateNormal];
+    [selectedPay02 setImage:IMGRESOURCE(@"icon_pick_selected") forState:UIControlStateSelected];
     [selectedPay02 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(payIcon02);
         make.right.equalTo(line01);

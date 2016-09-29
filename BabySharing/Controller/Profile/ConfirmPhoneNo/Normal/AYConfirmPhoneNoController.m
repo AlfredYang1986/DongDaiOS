@@ -73,7 +73,7 @@
         make.centerX.equalTo(title);
     }];
    
-    UIView* view = [self.views objectForKey:@""];
+    UIView* view = [self.views objectForKey:@"PhoneCheckInput"];
     view.backgroundColor = [UIColor clearColor];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(descLabel.mas_bottom).offset(50);
