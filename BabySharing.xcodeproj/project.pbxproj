@@ -357,7 +357,6 @@
 		705D07FB1D35EDC500CA2182 /* AYBabyInfoPickerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D07FA1D35EDC500CA2182 /* AYBabyInfoPickerDelegate.m */; };
 		705D07FE1D36181100CA2182 /* AYBabyInfoPicker2Delegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D07FD1D36181100CA2182 /* AYBabyInfoPicker2Delegate.m */; };
 		705D08041D372C9200CA2182 /* AYConfirmRealNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D08031D372C9200CA2182 /* AYConfirmRealNameController.m */; };
-		705D08081D3745AD00CA2182 /* AYConfirmPhoneNoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D08071D3745AD00CA2182 /* AYConfirmPhoneNoController.m */; };
 		705D080B1D37685000CA2182 /* AYConfirmSNSController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D080A1D37685000CA2182 /* AYConfirmSNSController.m */; };
 		705E96801D4703C5006CF9E6 /* AYOrderHeadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705E967F1D4703C5006CF9E6 /* AYOrderHeadCellView.m */; };
 		705E96841D470E47006CF9E6 /* AYOrderContactCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705E96821D470E47006CF9E6 /* AYOrderContactCellView.m */; };
@@ -713,8 +712,10 @@
 		80245E291D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */; };
 		80245E2D1D781582008A1C91 /* AYSearchFilterPriceRangeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80245E2C1D781582008A1C91 /* AYSearchFilterPriceRangeController.m */; };
 		8048BFEA1D9CC4B90026436E /* LoginToken+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048BFE71D9CC4B90026436E /* LoginToken+CoreDataClass.m */; };
-		8048BFF51D9CEA000026436E /* AYConfirmPhoneNoConsumerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048BFF41D9CEA000026436E /* AYConfirmPhoneNoConsumerController.m */; };
 		8048BFF81D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048BFF71D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.m */; };
+		8048C0001D9D01F20026436E /* AYConfirmPhoneNoConsumerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048BFFC1D9D01F20026436E /* AYConfirmPhoneNoConsumerController.m */; };
+		8048C0011D9D01F20026436E /* AYConfirmPhoneNoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048BFFF1D9D01F20026436E /* AYConfirmPhoneNoController.m */; };
+		8048C0041D9D02860026436E /* AYPhoneCheckInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048C0031D9D02860026436E /* AYPhoneCheckInputView.m */; };
 		8052189B1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */; };
 		805218A11CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A01CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.m */; };
 		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
@@ -1480,8 +1481,6 @@
 		705D07FD1D36181100CA2182 /* AYBabyInfoPicker2Delegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBabyInfoPicker2Delegate.m; sourceTree = "<group>"; };
 		705D08021D372C9200CA2182 /* AYConfirmRealNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmRealNameController.h; sourceTree = "<group>"; };
 		705D08031D372C9200CA2182 /* AYConfirmRealNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmRealNameController.m; sourceTree = "<group>"; };
-		705D08061D3745AD00CA2182 /* AYConfirmPhoneNoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmPhoneNoController.h; sourceTree = "<group>"; };
-		705D08071D3745AD00CA2182 /* AYConfirmPhoneNoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmPhoneNoController.m; sourceTree = "<group>"; };
 		705D08091D37685000CA2182 /* AYConfirmSNSController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmSNSController.h; sourceTree = "<group>"; };
 		705D080A1D37685000CA2182 /* AYConfirmSNSController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmSNSController.m; sourceTree = "<group>"; };
 		705E967E1D4703C5006CF9E6 /* AYOrderHeadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderHeadCellView.h; sourceTree = "<group>"; };
@@ -2225,11 +2224,14 @@
 		80245E2C1D781582008A1C91 /* AYSearchFilterPriceRangeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterPriceRangeController.m; sourceTree = "<group>"; };
 		8048BFE61D9CC4B90026436E /* LoginToken+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataClass.h"; sourceTree = "<group>"; };
 		8048BFE71D9CC4B90026436E /* LoginToken+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataClass.m"; sourceTree = "<group>"; };
-		8048BFF01D9CCD2A0026436E /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
-		8048BFF31D9CEA000026436E /* AYConfirmPhoneNoConsumerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmPhoneNoConsumerController.h; sourceTree = "<group>"; };
-		8048BFF41D9CEA000026436E /* AYConfirmPhoneNoConsumerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmPhoneNoConsumerController.m; sourceTree = "<group>"; };
 		8048BFF61D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryCurrentUserProfileCommand.h; sourceTree = "<group>"; };
 		8048BFF71D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryCurrentUserProfileCommand.m; sourceTree = "<group>"; };
+		8048BFFB1D9D01F20026436E /* AYConfirmPhoneNoConsumerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmPhoneNoConsumerController.h; sourceTree = "<group>"; };
+		8048BFFC1D9D01F20026436E /* AYConfirmPhoneNoConsumerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmPhoneNoConsumerController.m; sourceTree = "<group>"; };
+		8048BFFE1D9D01F20026436E /* AYConfirmPhoneNoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYConfirmPhoneNoController.h; sourceTree = "<group>"; };
+		8048BFFF1D9D01F20026436E /* AYConfirmPhoneNoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYConfirmPhoneNoController.m; sourceTree = "<group>"; };
+		8048C0021D9D02860026436E /* AYPhoneCheckInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPhoneCheckInputView.h; sourceTree = "<group>"; };
+		8048C0031D9D02860026436E /* AYPhoneCheckInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPhoneCheckInputView.m; sourceTree = "<group>"; };
 		805218991CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYScreenNameAndPhotoCacheFacade.h; sourceTree = "<group>"; };
 		8052189A1CCB9C4F006EF119 /* AYScreenNameAndPhotoCacheFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYScreenNameAndPhotoCacheFacade.m; sourceTree = "<group>"; };
 		8052189F1CCB9D2D006EF119 /* AYPushScreenNameAndPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushScreenNameAndPhotoCommand.h; sourceTree = "<group>"; };
@@ -4778,7 +4780,6 @@
 				70501C841D2F4A070050E0C8 /* CollectServ */,
 				700047511D9BD74B000AE1C9 /* ConfirmFinish */,
 				705D07FF1D372C1800CA2182 /* ConfirmPhoneNo */,
-				8048BFF21D9CE97F0026436E /* ConfirmPhoneNoConsumer */,
 				705D08001D372C1800CA2182 /* ConfirmRealName */,
 				705D08011D372C1800CA2182 /* ConfirmSNS */,
 				7053614B1D5C8929006BB95E /* OneProfileController */,
@@ -5085,8 +5086,9 @@
 		705D07FF1D372C1800CA2182 /* ConfirmPhoneNo */ = {
 			isa = PBXGroup;
 			children = (
-				705D08061D3745AD00CA2182 /* AYConfirmPhoneNoController.h */,
-				705D08071D3745AD00CA2182 /* AYConfirmPhoneNoController.m */,
+				8048BFF91D9D01F20026436E /* Common */,
+				8048BFFA1D9D01F20026436E /* Consumer */,
+				8048BFFD1D9D01F20026436E /* Normal */,
 			);
 			path = ConfirmPhoneNo;
 			sourceTree = "<group>";
@@ -7930,13 +7932,31 @@
 			path = SearchFilterPriceRangeController;
 			sourceTree = "<group>";
 		};
-		8048BFF21D9CE97F0026436E /* ConfirmPhoneNoConsumer */ = {
+		8048BFF91D9D01F20026436E /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8048BFF31D9CEA000026436E /* AYConfirmPhoneNoConsumerController.h */,
-				8048BFF41D9CEA000026436E /* AYConfirmPhoneNoConsumerController.m */,
+				8048C0021D9D02860026436E /* AYPhoneCheckInputView.h */,
+				8048C0031D9D02860026436E /* AYPhoneCheckInputView.m */,
 			);
-			path = ConfirmPhoneNoConsumer;
+			path = Common;
+			sourceTree = "<group>";
+		};
+		8048BFFA1D9D01F20026436E /* Consumer */ = {
+			isa = PBXGroup;
+			children = (
+				8048BFFB1D9D01F20026436E /* AYConfirmPhoneNoConsumerController.h */,
+				8048BFFC1D9D01F20026436E /* AYConfirmPhoneNoConsumerController.m */,
+			);
+			path = Consumer;
+			sourceTree = "<group>";
+		};
+		8048BFFD1D9D01F20026436E /* Normal */ = {
+			isa = PBXGroup;
+			children = (
+				8048BFFE1D9D01F20026436E /* AYConfirmPhoneNoController.h */,
+				8048BFFF1D9D01F20026436E /* AYConfirmPhoneNoController.m */,
+			);
+			path = Normal;
 			sourceTree = "<group>";
 		};
 		805218971CCB9C30006EF119 /* Cache */ = {
@@ -8434,7 +8454,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = AA47RE58D2;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -8823,7 +8843,6 @@
 				70A27BFC1D0EA2CB00B131AB /* AYContentListCellView.m in Sources */,
 				80BB1ECD1D79538000B1E17A /* AYPopSplitAnimationCommand.m in Sources */,
 				7082F1E71D1D4E0D00E64496 /* AYEMEnterFrontCommand.m in Sources */,
-				8048BFF51D9CEA000026436E /* AYConfirmPhoneNoConsumerController.m in Sources */,
 				70D228211D893ED500EF4211 /* AYOrderListController.m in Sources */,
 				70120CAD1CBE4A9D00B169F9 /* AYFriendsController.m in Sources */,
 				707E7A161D07B42200DFC198 /* AYMapController.m in Sources */,
@@ -8978,7 +8997,6 @@
 				701D8A8F1CA7E06700B5D4C1 /* CurrentToken.m in Sources */,
 				80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */,
 				800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */,
-				705D08081D3745AD00CA2182 /* AYConfirmPhoneNoController.m in Sources */,
 				70A27C051D0EBBEE00B131AB /* AYQueryMMWithLocationCommand.m in Sources */,
 				7039CA871CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m in Sources */,
 				7015242A1CBF4DA0005B4C5B /* AYUserRelationsDelegate.m in Sources */,
@@ -8998,6 +9016,7 @@
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				70C6A0011D9A4F100069E4EE /* AYPersonalDescCellView.m in Sources */,
 				7000CCE71D7E65F300DA98F2 /* AYHomeLikesItemCell.m in Sources */,
+				8048C0041D9D02860026436E /* AYPhoneCheckInputView.m in Sources */,
 				80D5E7C41CCC7C2000A82117 /* WKFRadarView.m in Sources */,
 				708F2D2A1D3F601E000CD492 /* TZPhotoPreviewController.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
@@ -9050,6 +9069,7 @@
 				70120CB11CBE4F7C00B169F9 /* AYButtonView.m in Sources */,
 				701E7A0C1D0D42BA0037AD3B /* AYPersonalPageController.m in Sources */,
 				700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */,
+				8048C0011D9D01F20026436E /* AYConfirmPhoneNoController.m in Sources */,
 				705E96931D470EC6006CF9E6 /* AYOrderMapCellView.m in Sources */,
 				70D175C91D791ABD00D9C7D9 /* AYFiterScrollView.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,
@@ -9085,6 +9105,7 @@
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				706942CF1D59C35100D0BBB4 /* AYGroupChatHeaderView.m in Sources */,
 				70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */,
+				8048C0001D9D01F20026436E /* AYConfirmPhoneNoConsumerController.m in Sources */,
 				704697DD1CE047F200DACD8A /* UIImageView+WebCache.m in Sources */,
 				70CDF63B1CBD033900311841 /* QueryContentTag.m in Sources */,
 				70A1A5601D1D4A860063FC7F /* AYEMUnreadMessageCountCommand.m in Sources */,

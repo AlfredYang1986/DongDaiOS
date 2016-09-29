@@ -697,4 +697,16 @@
        <command type="message"      message="setCellInfo:" />
        <command type="notify"       message="didOptionBtnClick:" />
    </view>
+   
+   <view type="PhoneCheckInput" name="PhoneCheckInput" factory="AYDefaultViewFactory" >
+       <command type="message"      message="invalidateTimer" />
+       <command type="message"      message="startTimer" />
+       <command type="message"      message="endTimer" />
+       <command type="message"      message="resignFocus" />
+       <command type="message"      message="queryPhoneInput:" />
+       <command type="message"      message="queryCodeInput:" />
+       <command type="message"      message="resetCodeInput" />
+       <command type="message"      message="setCodeBtnTitle" />
+       <command type="notify"       message="requeryForCode" />
+   </view>
 </views>
