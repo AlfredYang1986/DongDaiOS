@@ -60,28 +60,21 @@
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
-    
-    UILabel *title = [[UILabel alloc]init];
-    title = [Tools setLabelWith:title andText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-    [self.view addSubview:title];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(100);
-        make.centerX.equalTo(self.view);
-    }];
-    
-    UILabel *descLabel = [[UILabel alloc]init];
-    descLabel = [Tools setLabelWith:descLabel andText:@"手机验证让您可以及时和每一位妈妈沟通" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    descLabel.numberOfLines = 2;
-    [self.view addSubview:descLabel];
-    [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(title.mas_bottom).offset(15);
-        make.centerX.equalTo(title);
-    }];
-    
-    UIView* view = [self.views objectForKey:@"PhoneCheckInput"];
+  
+  
+    UIView* view = [self.views objectForKey:@"ServiceConsumerFace"];
     view.backgroundColor = [UIColor clearColor];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(descLabel.mas_bottom).offset(50);
+        make.top.equalTo(self.view.mas_bottom).offset(10);
+        make.left.equalTo(self.view).offset(20);
+        make.right.equalTo(self.view).offset(-20);
+        make.height.mas_equalTo(90);
+    }];
+    
+    UIView* inpu_view = [self.views objectForKey:@"PhoneCheckInput"];
+    inpu_view.backgroundColor = [UIColor clearColor];
+    [inpu_view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(view.mas_bottom).offset(50);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(90);
@@ -119,6 +112,10 @@
 }
 
 - (id)PhoneCheckInputLayout:(UIView*)view {
+    return nil;
+}
+
+- (id)ServiceConsumerFaceLayout:(UIView*)view {
     return nil;
 }
 

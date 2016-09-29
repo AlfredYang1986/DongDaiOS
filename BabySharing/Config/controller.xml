@@ -636,6 +636,7 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="PhoneCheckInput" name="PhoneCheckInput" />
+        <view type="ServiceConsumerFace" name="ServiceConsumerFace" />
     </controller>
     
     <controller type="DefaultController" name="ConfirmRealName" factory="AYDefaultControllerFactoy" >

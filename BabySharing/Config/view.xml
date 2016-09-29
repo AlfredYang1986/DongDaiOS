@@ -709,4 +709,11 @@
        <command type="message"      message="setCodeBtnTitle" />
        <command type="notify"       message="requeryForCode" />
    </view>
+   
+   <view type="ServiceConsumerFace" name="ServiceConsumerFace" factory="AYDefaultViewFactory" >
+       <command type="message"      message="lhsImage:" />
+       <command type="message"      message="rhsImage:" />
+       <command type="message"      message="resetTitle:" />
+       <command type="message"      message="queryHintHight" />
+   </view>
 </views>
