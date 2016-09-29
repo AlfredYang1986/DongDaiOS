@@ -35,7 +35,7 @@
     
     [self wxs_pushViewController:viewController makeTransition:^(WXSTransitionProperty *transition) {
         transition.animationType = animationType;
-        transition.animationTime = 0.5;
+        transition.animationTime = 0.25;
     }];
 }
 

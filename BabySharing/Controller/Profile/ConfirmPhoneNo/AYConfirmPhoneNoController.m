@@ -214,33 +214,6 @@
     }
 }
 
-- (void)didReqConfirmBtnClick:(UIButton*)btn {
-    
-    if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{9}$"] evaluateWithObject:phoneTextField.text]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您输入了错误的电话号码" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
-    
-    NSMutableDictionary* dic_coder = [[NSMutableDictionary alloc]init];
-    [dic_coder setValue:phoneTextField.text forKey:@"phoneNo"];
-    AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
-    AYRemoteCallCommand* cmd_coder = [f.commands objectForKey:@"LandingReqConfirmCode"];
-    [cmd_coder performWithResult:dic_coder andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            AYModel* m = MODEL;
-            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
-            [cmd performWithResult:&result];
-            reg_token = [result objectForKey:@"reg_token"];
-            
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"验证码已发送，请稍等$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        }else{
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"网络错误，请重新获取" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        }
-    }];
-}
-
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -254,23 +227,40 @@
 
 - (id)rightBtnSelected {
     
-    if (![phoneTextField.text isEqualToString:@""] && ![coderTextField.text isEqualToString:@""]) {
-        NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
-        [dic_auth setValue:phoneTextField.text forKey:@"phoneNo"];
-        [dic_auth setValue:reg_token forKey:@"reg_token"];
-        [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
-        [dic_auth setValue:coderTextField.text forKey:@"code"];
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"CheckCode"];
+    
+    NSMutableDictionary *dic_check = [[NSMutableDictionary alloc]initWithCapacity:1];
+    [dic_check setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_check setValue:reg_token forKey:@"reg_token"];
+    [dic_check setValue:coder_area.text forKey:@"code"];
+    [dic_check setValue:[Tools getDeviceUUID] forKey:@"uuid"];
+    NSString *tmp = inputPhoneNo.text;
+    tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [dic_check setValue:tmp forKey:@"phoneNo"];
+    
+    [cmd performWithResult:[dic_check copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         
-        AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
-        AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"LandingAuthConfirm"];
-        [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-            if (success) {
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您的手机号码已成功验证 Y＊_＊Y" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-            } else
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"验证码错误！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        }];
         
-    } else [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请输入手机号码或验证码！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        
+        if (success) {
+            
+            AYViewController* des = DEFAULTCONTROLLER(@"ConfirmRealName");
+            NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+            [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+            [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+            [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+            [dic_push setValue:[NSNumber numberWithInt:0] forKey:kAYControllerChangeArgsKey];
+            
+            id<AYCommand> cmd = PUSH;
+            [cmd performWithResult:&dic_push];
+            
+        } else {
+            kAYUIAlertView(@"错误", @"请检查验证码并重试");
+        }
+    }];
     return nil;
 }
 
@@ -278,25 +268,16 @@
 
 #pragma mark -- ################
 
-- (void)phoneTextFieldChanged:(NSNotification *)tf {
-    
-    if (tf.object == inputPhoneNo && inputPhoneNo.text.length == kPhoneNoLimit && ![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {
-        getCodeBtn.enabled = YES;
-    }
-    if (tf.object == inputPhoneNo && [inputPhoneNo.text isEqualToString:@""]) {
-        getCodeBtn.enabled = NO;
-    }
-}
-
 - (void)textFieldTextDidChange:(NSNotification*)tf {
     if (tf.object == coder_area ) {
         if ( coder_area.text.length == 4) {
             
         } else {
-            [self hideEnterBtn];
-            //            enterBtn.enabled = NO;
+            
+            
         }
-    } else if (tf.object == inputPhoneNo) {
+    }
+    else if (tf.object == inputPhoneNo) {
         
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
@@ -337,30 +318,46 @@
         [alert show];
         return;
     }
-    coder_area.text = @"";
-    [self hideEnterBtn];
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"RequireCode"];
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]initWithCapacity:1];
+    
+    NSString *tmp = inputPhoneNo.text;
+    tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [dic_push setValue:tmp forKey:@"phoneNo"];
+    
+    [cmd performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            reg_token = [result objectForKey:@"reg_token"];
+            
+            getCodeBtn.enabled = NO;
+            seconds = TimeZore;
+            [getCodeBtn setTitle:[NSString stringWithFormat:@"%lds",(long)seconds] forState:UIControlStateNormal];
+            [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 65, 0, 0)];
+            [timer setFireDate:[NSDate distantPast]];
+            
+            id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
+            id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
+            NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+            [args setValue:self.view forKey:@"super_view"];
+            [args setValue:@"动态密码已发送" forKey:@"title"];
+            [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
+            [cmd_add performWithResult:&args];
+            
+        } else {
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"网络错误，请重新获取" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        }
+    }];
+    
+    if (![coder_area.text isEqualToString:@""]) {
+        coder_area.text = @"";
+    }
     
 }
 
-#pragma mark -- handle
-- (id)startConfirmCodeTimer {
-    getCodeBtn.enabled = NO;
-    seconds = TimeZore;
-    [getCodeBtn setTitle:[NSString stringWithFormat:@"%lds",(long)seconds] forState:UIControlStateNormal];
-    [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 65, 0, 0)];
-    [timer setFireDate:[NSDate distantPast]];
-    
-    id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-    id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-    NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-    [args setValue:self.view forKey:@"super_view"];
-    [args setValue:@"动态密码已发送" forKey:@"title"];
-    [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
-    [cmd_add performWithResult:&args];
-    
-    return nil;
-}
-
+#pragma mark -- timer handle
 - (void)timerRun:(NSTimer*)sender {
     seconds--;
     if (seconds > 0) {
@@ -377,14 +374,6 @@
 }
 
 #pragma mark -- actions
--(void)hideEnterBtn{
-    if (!enterBtn.hidden) {
-        [UIView animateWithDuration:0 animations:^{
-            enterBtn.alpha = 0;
-        } completion:^(BOOL finished) {
-            enterBtn.hidden = YES;
-        }];
-    }
-}
+
 
 @end

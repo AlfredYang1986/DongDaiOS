@@ -10,17 +10,12 @@
 #import "AYNotificationCellDefines.h"
 #import "AYFactoryManager.h"
 #import "AYProfileHeadCellView.h"
-
 #import "Notifications.h"
-
 #import "AYModelFacade.h"
 #import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
-
-#import "AYProfileOrigCellView.h"
-#import "AYProfileServCellView.h"
 
 @interface AYProfileDelegate ()
 @property (nonatomic, strong) NSDictionary* querydata;
@@ -43,16 +38,6 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
-//    NSNumber *model = nil;
-//    kAYDelegateSendNotify(self, @"queryModel:", &model)
-//    id<AYCommand> kAYCommand = [self.notifies objectForKey:@"queryModel:"];
-//    [kAYCommand performWithResult:&model];
-    
-//    AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-//    AYViewController* mVC = DEFAULTCONTROLLER(@"Home");
-//    isNapModel = [mVC.tabBarController isKindOfClass:[des class]];
-    
     
     confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
 }
@@ -89,7 +74,11 @@
     NSNumber *model = [_querydata objectForKey:@"is_service_provider"];
     if (model.intValue == 1) {
         is_service_provider = YES;
-        [origs replaceObjectAtIndex:0 withObject:@"切换到服务者"];
+        if (isNapModel) {
+            [origs replaceObjectAtIndex:0 withObject:@"切换到被服务者"];
+        } else {
+            [origs replaceObjectAtIndex:0 withObject:@"切换到服务者"];
+        }
     }
     if (model.intValue == 2) {
         [origs replaceObjectAtIndex:1 withObject:@"切换到看护家庭"];

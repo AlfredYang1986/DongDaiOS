@@ -165,12 +165,11 @@
     <command type="Remote" name="AuthSignOut" route="login/signout" factory="AYRemoteCallFactory" />
     <command type="Remote" name="ContatcerInSystem" route="login/userLstInSystem" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="PushRealName" route="auth/realname/push" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="ApproveRealName" route="auth/realname/approve" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="RejectRealName" route="auth/realname/reject" factory="AYRemoteCallFactory" />
-    
-    <command type="Remote" name="RequireCode" route="auth/code/require" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="CheckCode" route="auth/code/check" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PushRealName"      route="auth/realname/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ApproveRealName"   route="auth/realname/approve" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RejectRealName"    route="auth/realname/reject" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RequireCode"       route="auth/code/require" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="CheckCode"         route="auth/code/check" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />
