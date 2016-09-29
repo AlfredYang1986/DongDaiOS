@@ -525,7 +525,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [dic_args setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
     } else {
         
-        [_service_change_dic setObject:napPhotos forKey:@"images"];
+        if (napPhotos.count == 0) {
+            kAYUIAlertView(@"提示", @"预览服务需要先添加图片");
+            return nil;
+        }
+        
+        [_service_change_dic setValue:napPhotos forKey:@"images"];
         if (areaString) {
             [_service_change_dic setValue:areaString forKey:@"distinct"];
         }

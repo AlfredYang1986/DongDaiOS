@@ -17,11 +17,6 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
 #import <AMapSearchKit/AMapSearchKit.h>
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
@@ -284,12 +279,21 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    
+//    id<AYCommand> cmd = POP;
+//    [cmd performWithResult:&dic];
     
-    id<AYCommand> cmd = POP;
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+    
     return nil;
 }
 - (id)rightBtnSelected {

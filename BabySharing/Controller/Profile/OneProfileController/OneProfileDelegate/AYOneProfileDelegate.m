@@ -232,6 +232,12 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
+
+- (void)pushNewService {
+    
+    
+}
+
 -(void)setting{
     NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");

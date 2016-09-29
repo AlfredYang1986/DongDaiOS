@@ -183,12 +183,11 @@
         
     }];
     
-    
     return nil;
 }
 
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
-    NSLog(@"tap esle where");
+    
     if ([nameTextField isFirstResponder]) {
         [nameTextField resignFirstResponder];
     }

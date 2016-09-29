@@ -40,6 +40,7 @@
         userImageView = [UIImageView new];
         userImageView.image = IMGRESOURCE(@"default_image");
         userImageView.contentMode = UIViewContentModeScaleAspectFill;
+        userImageView.clipsToBounds = YES;
         [self addSubview:userImageView];
         [userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self);
