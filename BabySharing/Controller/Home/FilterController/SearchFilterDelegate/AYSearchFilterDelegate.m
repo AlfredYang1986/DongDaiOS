@@ -88,11 +88,15 @@
         for (int i = 0; i < options_title_cans.count; ++i) {
             long note_pow = pow(2, i);
             if ((options & note_pow)) {
-                serviceTypeStr = [[serviceTypeStr stringByAppendingString:@"、"] stringByAppendingString:options_title_cans[i]];
+                if ([serviceTypeStr isEqualToString:@""]) {
+                    serviceTypeStr = options_title_cans[i];
+                } else {
+                    serviceTypeStr = [[serviceTypeStr stringByAppendingString:@"、"] stringByAppendingString:options_title_cans[i]];
+                }
 //                serviceTypeStr = [NSString stringWithFormat:@"%@ ",options_title_cans[i]];
                 noteCount ++;
                 if (noteCount == 2) {
-                    serviceTypeStr = [serviceTypeStr substringFromIndex:1];
+//                    serviceTypeStr = [serviceTypeStr substringFromIndex:1];
                     serviceTypeStr = [serviceTypeStr stringByAppendingString:@"等"];
                     break;
                 }
@@ -201,5 +205,12 @@
         id<AYCommand> cmd = [cell.notifies objectForKey:@"filterDate:"];
         [cmd performWithResult:&cell];
     }
+}
+
+- (id)resetQueryData:(id)args {
+    UITableView* view = (UITableView*)args;
+    sub_title_arr = [NSMutableArray arrayWithObjects:@"添加", @"添加", @"添加", @"添加", nil];
+    [view reloadData];
+    return nil;
 }
 @end

@@ -19,6 +19,9 @@
 
 #define COMPLENTWIDTH           [UIScreen mainScreen].bounds.size.width / 3
 
+#define MAX_SERVICED_KID_AGE    12
+#define MIN_SERVICED_KID_AGE    3
+
 @implementation AYSearchFilterKidsAgesDelegate {
     UIPickerView *picker;
     UIButton *button;
@@ -43,10 +46,10 @@
     NSString *dateString = [format stringFromDate:date];
     NSString *dateArr = [dateString componentsSeparatedByString:@"-"].firstObject;
     CGFloat lastest = dateArr.floatValue;
-    CGFloat limit = 20;
+    CGFloat limit = MAX_SERVICED_KID_AGE;
     NSMutableArray *tmp_year = [NSMutableArray array];
     
-    for (int i = 0; i< limit; ++i) {
+    for (int i = MIN_SERVICED_KID_AGE; i< limit; ++i) {
         int year = lastest - (limit - i);
         NSString *yearStr = [NSString stringWithFormat:@"%d年",year];
         [tmp_year addObject:yearStr];

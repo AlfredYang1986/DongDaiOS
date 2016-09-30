@@ -228,6 +228,10 @@
     [cmd performWithResult:&dic_push];
 }
 
+- (id)ownerIconTap:(id)args {
+    return nil;
+}
+
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");
