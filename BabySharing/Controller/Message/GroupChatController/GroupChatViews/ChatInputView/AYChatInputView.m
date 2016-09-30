@@ -119,6 +119,8 @@
     id args = inputView.text;
     [cmd performWithResult:&args];
     inputView.text = @"";
+    
+    [inputView resignFirstResponder];
 }
 
 - (id)setJoinerCount:(id)args {

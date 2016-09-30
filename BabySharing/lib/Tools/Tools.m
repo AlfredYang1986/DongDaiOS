@@ -389,7 +389,8 @@
     if (str) {
         NSLayoutManager* m = [[NSLayoutManager alloc]init];
         NSTextStorage* st = [[NSTextStorage alloc]initWithString:str];
-        NSTextContainer* con = [[NSTextContainer alloc]initWithSize:CGSizeMake(FLT_MAX, FLT_MAX)];
+//        NSTextContainer* con = [[NSTextContainer alloc]initWithSize:CGSizeMake(FLT_MAX, FLT_MAX)];
+        NSTextContainer* con = [[NSTextContainer alloc]initWithSize:sz];
         
         [m addTextContainer:con];
         [st addLayoutManager:m];

@@ -101,7 +101,8 @@
         imgView.clipsToBounds = YES;
         [self addSubview:imgView];
         
-        imgView.userInteractionEnabled = YES;
+//        imgView.userInteractionEnabled = YES;
+        imgView.userInteractionEnabled = NO;
         UITapGestureRecognizer* gusture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(screenPhotoTaped:)];
         [imgView addGestureRecognizer:gusture];
     }

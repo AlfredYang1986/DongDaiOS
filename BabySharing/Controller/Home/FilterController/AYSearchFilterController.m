@@ -150,6 +150,10 @@
 
 - (id)rightBtnSelected {
     // TODO : reset search filter conditions
+    id<AYViewBase> view = [self.views objectForKey:@"Table"];
+    id<AYViewBase> delegate = [self.delegates objectForKey:@"SearchFilter"];
+    id<AYCommand> cmd = [delegate.commands objectForKey:@"resetQueryData:"];
+    [cmd performWithResult:&view];
     return nil;
 }
 
