@@ -41,7 +41,7 @@
 @synthesize screen_name = _screen_name;
 
 + (CGFloat)preferredHeight {
-    return 79;
+    return 90;
 }
 
 - (void)setSession:(Targets *)current_session {
@@ -137,11 +137,6 @@
 //    [brage setTitle:@"10" forState:UIControlStateNormal];
 //    brage.titleLabel.font = [UIFont systemFontOfSize:12.f];
 //    [self addSubview:brage];
-    
-    _themeLabel.textColor = [UIColor colorWithWhite:0.3059 alpha:1.f];
-    _themeLabel.font = [UIFont boldSystemFontOfSize:14.f];
-    _chatLabel.textColor = [UIColor colorWithWhite:0.6078 alpha:1.f];
-    _timeLabel.textColor = [UIColor colorWithWhite:0.6078 alpha:1.f];
     
     [self setUpReuseCell];
 }

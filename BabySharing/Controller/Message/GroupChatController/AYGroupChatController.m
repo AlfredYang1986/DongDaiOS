@@ -108,10 +108,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    count = 0;
     
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
     UIView* table_view = [self.views objectForKey:kAYGroupChatControllerMessageTable];
     [self.view sendSubviewToBack:table_view];
 
@@ -223,10 +219,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 64+60, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
     view.backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;  // 去除自带分割线
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
     //预设高度
     ((UITableView*)view).estimatedRowHeight = 90;
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;

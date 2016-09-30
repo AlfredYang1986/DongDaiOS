@@ -97,7 +97,7 @@
         
         titleView = [[UILabel alloc]init];
         titleView.tag = 999;
-        titleView = [Tools setLabelWith:titleView andText:title andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        titleView = [Tools setLabelWith:titleView andText:title andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:titleView];
         [titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);

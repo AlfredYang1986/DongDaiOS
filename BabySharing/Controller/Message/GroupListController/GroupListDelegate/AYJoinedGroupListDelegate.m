@@ -79,38 +79,28 @@
     
     UIView* reVal = [[UIView alloc]init];
     reVal.backgroundColor = [UIColor whiteColor];
+    reVal.clipsToBounds = YES;
     
-    UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
-    
-    if (section == 0) {
-        if ([tableView numberOfRowsInSection:section] == 0) {
-            label.text = @"暂无消息:)";
-        } else {
-            label.text = @"近期沟通:";
-        }
-    } else {
-        label.text = @"猜你喜欢";
-    }
-    
-    label.textColor = [UIColor colorWithWhite:0.3509 alpha:1.f];
-    label.textAlignment = NSTextAlignmentLeft;
-    label.font = [UIFont boldSystemFontOfSize:12.f];
-    [label sizeToFit];
+    UILabel* label = [Tools creatUILabelWithText:@"您还没有收到任何消息" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [reVal addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(reVal).offset(20);
+        make.centerY.equalTo(reVal).offset(-20);
+    }];
     
-    label.center = CGPointMake(10.5f + label.frame.size.width / 2, 46 / 2);
-    
-    CALayer* line = [CALayer layer];
-    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
-    line.borderWidth = 1.f;
-    line.frame = CGRectMake(10.5, 46 - 1, [UIScreen mainScreen].bounds.size.width - 10.5 * 2, 1);
-    [reVal.layer addSublayer:line];
-    
+//    CALayer* line = [CALayer layer];
+//    line.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
+//    line.borderWidth = 1.f;
+//    line.frame = CGRectMake(10.5, 46 - 1, [UIScreen mainScreen].bounds.size.width - 10.5 * 2, 1);
+//    [reVal.layer addSublayer:line];
     return reVal;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 46;
+    if (querydata.count == 0) {
+        return 90;
+    } else
+        return 0.001;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

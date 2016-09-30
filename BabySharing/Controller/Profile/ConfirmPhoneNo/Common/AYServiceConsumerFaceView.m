@@ -27,31 +27,61 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    title = [[UILabel alloc]init];
-    title.text = @"准备好预定XX的服务";
-    [title sizeToFit];
-    [title setCenter:CGPointMake(SCREEN_WIDTH / 2, 10)];
+    title = [Tools creatUILabelWithText:@"准备预订服务需先验证手机" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self addSubview:title];
+    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.centerX.equalTo(self);
+    }];
+    
     
     lhs = [[UIImageView alloc]init];
-    lhs.frame = CGRectMake(0, 0, 50, 50);
-    lhs.center = CGPointMake(20, 50);
+    lhs.layer.borderWidth = 2.f;
+    lhs.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+    lhs.layer.cornerRadius = 75 * 0.5;
+    lhs.clipsToBounds = YES;
+    lhs.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [self addSubview:lhs];
+    [lhs mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self).offset(-90);
+        make.top.equalTo(title.mas_bottom).offset(30);
+        make.size.mas_equalTo(CGSizeMake(75, 75));
+    }];
     
     rhs = [[UIImageView alloc]init];
-    rhs.frame = CGRectMake(0, 0, 50, 50);
-    rhs.center = CGPointMake(SCREEN_WIDTH / 2 + 100, 50);
+    rhs.layer.borderWidth = 2.f;
+    rhs.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+    rhs.layer.cornerRadius = 75 * 0.5;
+    rhs.clipsToBounds = YES;
+    rhs.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [self addSubview:rhs];
+    [rhs mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self).offset(90);
+        make.centerY.equalTo(lhs);
+        make.size.equalTo(lhs);
+    }];
     
     logo = [[UIImageView alloc]init];
-    logo.frame = CGRectMake(0, 0, 50, 50);
-    logo.center = CGPointMake(SCREEN_WIDTH / 2, 50);
+//    logo.layer.borderWidth = 2.f;
+//    logo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+//    logo.layer.cornerRadius = 24;
+//    logo.clipsToBounds = YES;
+//    logo.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    logo.image = IMGRESOURCE(@"contact_user_logo");
     [self addSubview:logo];
+    [logo mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.centerY.equalTo(lhs);
+        make.size.mas_equalTo(CGSizeMake(48, 48));
+    }];
     
-    des = [[UILabel alloc]init];
-    des.text = @"balabalabala";
-    [des sizeToFit];
+    des = [Tools creatUILabelWithText:@"我们要求每一位妈妈在预订服务前验证手机号码\n您只需要验证一次" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    des.numberOfLines = 0;
     [self addSubview:des];
+    [des mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(lhs.mas_bottom).offset(30);
+        make.centerX.equalTo(self);
+    }];
 }
 
 - (void)performWithResult:(NSObject**)obj {

@@ -101,7 +101,7 @@
         imgView.clipsToBounds = YES;
         [self addSubview:imgView];
         
-        imgView.userInteractionEnabled = YES;
+        imgView.userInteractionEnabled = NO;
         UITapGestureRecognizer* gusture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(screenPhotoTaped:)];
         [imgView addGestureRecognizer:gusture];
     }
@@ -168,7 +168,7 @@
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
-        content.textColor = [UIColor whiteColor];
+        content.textColor = time_label.textColor = [UIColor whiteColor];
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(imgView.mas_left).offset(-30);
             make.top.equalTo(imgView).offset(20);
@@ -200,7 +200,7 @@
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
-        content.textColor = [Tools blackColor];
+        content.textColor = time_label.textColor = [Tools blackColor];
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(imgView.mas_right).offset(30);
             make.top.equalTo(imgView).offset(20);

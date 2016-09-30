@@ -227,12 +227,12 @@
     id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
     NSMutableDictionary* dic_add_item_0 = [[NSMutableDictionary alloc]init];
     [dic_add_item_0 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-    [dic_add_item_0 setValue:@"将至订单" forKey:kAYSegViewTitleKey];
+    [dic_add_item_0 setValue:@"将至日程" forKey:kAYSegViewTitleKey];
     [cmd_add_item performWithResult:&dic_add_item_0];
     
     NSMutableDictionary* dic_add_item_1 = [[NSMutableDictionary alloc]init];
     [dic_add_item_1 setValue:[NSNumber numberWithInt:AYSegViewItemTypeTitle] forKey:kAYSegViewItemTypeKey];
-    [dic_add_item_1 setValue:@"过往订单" forKey:kAYSegViewTitleKey];
+    [dic_add_item_1 setValue:@"过往日程" forKey:kAYSegViewTitleKey];
     [cmd_add_item performWithResult:&dic_add_item_1];
     
     NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];

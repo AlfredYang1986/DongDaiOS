@@ -41,7 +41,7 @@
 #pragma mark -- commands
 - (void)postPerform {
     
-    self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, SELFHEIGHT);
+    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SELFHEIGHT);
     self.backgroundColor = [UIColor whiteColor];
     
     stateLabel = [[UILabel alloc]init];

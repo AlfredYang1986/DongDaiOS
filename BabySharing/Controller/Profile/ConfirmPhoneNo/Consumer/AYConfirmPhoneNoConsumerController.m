@@ -69,13 +69,13 @@
         make.top.equalTo(self.view.mas_top).offset(64);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
-        make.height.mas_equalTo(90);
+        make.height.mas_equalTo(200);
     }];
     
     UIView* inpu_view = [self.views objectForKey:@"PhoneCheckInput"];
     inpu_view.backgroundColor = [UIColor clearColor];
     [inpu_view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(view.mas_bottom).offset(50);
+        make.top.equalTo(view.mas_bottom).offset(40);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(90);
@@ -176,10 +176,12 @@
 }
 
 - (id)PhoneCheckInputLayout:(UIView*)view {
+    
     return nil;
 }
 
 - (id)ServiceConsumerFaceLayout:(UIView*)view {
+//    view.frame = CGRectMake(0, 100, SCREEN_WIDTH, 210);
     return nil;
 }
 

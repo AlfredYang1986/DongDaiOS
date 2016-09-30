@@ -63,11 +63,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
-   
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = NO;
     
@@ -180,6 +175,9 @@
     view.frame = CGRectMake(0, 20, width, 44);
     view.backgroundColor = [UIColor whiteColor];
     
+    NSString *title = @"消息";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
     NSNumber* left_hidden = [NSNumber numberWithBool:YES];
@@ -193,16 +191,6 @@
     line.frame = CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5);
     line.backgroundColor = [Tools garyColor].CGColor;
     [view.layer addSublayer:line];
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"消息";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
     return nil;
 }
 
