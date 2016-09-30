@@ -211,7 +211,7 @@
     
     UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 50)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
-    [bookBtn setTitle:@"申请预定" forState:UIControlStateNormal];
+    [bookBtn setTitle:@"申请预订" forState:UIControlStateNormal];
     bookBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
     [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -474,7 +474,7 @@
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
@@ -485,7 +485,7 @@
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"取消收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];

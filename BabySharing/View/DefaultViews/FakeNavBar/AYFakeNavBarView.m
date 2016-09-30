@@ -120,15 +120,20 @@
 - (id)setLeftBtnImg:(id)args {
     
     UIImage* img = (UIImage*)args;
-    
     for (CALayer* layer in leftBtn.layer.sublayers) {
         [layer removeFromSuperlayer];
     }
-
-    CALayer * layer = [CALayer layer];
-    layer.contents = (id)img.CGImage;
-    layer.frame = CGRectMake(0, 0, 25, 25);
-    [leftBtn.layer addSublayer:layer];
+    [leftBtn setImage:img forState:UIControlStateNormal];
+    
+    
+//    for (CALayer* layer in leftBtn.layer.sublayers) {
+//        [layer removeFromSuperlayer];
+//    }
+//
+//    CALayer * layer = [CALayer layer];
+//    layer.contents = (id)img.CGImage;
+//    layer.frame = CGRectMake(0, 0, 25, 25);
+//    [leftBtn.layer addSublayer:layer];
     return nil;
 }
 

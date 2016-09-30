@@ -94,6 +94,7 @@
     _itemInfo = itemInfo;
     
     CGFloat margin = 12.f;
+    CGFloat cellWidth = (SCREEN_WIDTH - 40) * 0.5;
     
     for (int i = 0; i < _itemInfo.count; ++i) {
         AYHomeLikesItemCell *cell = [[AYHomeLikesItemCell alloc]init];
@@ -102,13 +103,13 @@
             [cell mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self).offset(0);
                 make.top.equalTo(self).offset(i/2*170 + margin);
-                make.size.mas_equalTo(CGSizeMake(155, 160));
+                make.size.mas_equalTo(CGSizeMake(cellWidth, 160));
             }];
         } else {
             [cell mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(175);
+                make.left.equalTo(self).offset(cellWidth + 10);
                 make.top.equalTo(self).offset(i/2*170 + margin);
-                make.size.mas_equalTo(CGSizeMake(155, 160));
+                make.size.mas_equalTo(CGSizeMake(cellWidth, 160));
             }];
         }
         cell.cellInfo = [itemInfo objectAtIndex:i];

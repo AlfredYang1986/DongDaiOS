@@ -148,10 +148,10 @@
         }
     }];
     
-    BOOL isLike;
+    BOOL isLike = ((NSNumber*)[dic objectForKey:@"is_heart"]).boolValue;
     if (isLike) {
         _likeBtn.selected = YES;
-    }
+    } else _likeBtn.selected = NO;
     
     NSString *title = [dic objectForKey:@"title"];
     _descLabel.text = title;
@@ -221,7 +221,6 @@
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 
             } else {
                 NSLog(@"push error with:%@",result);
@@ -233,7 +232,7 @@
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"取消收藏该服务 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];

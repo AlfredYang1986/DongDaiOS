@@ -80,6 +80,8 @@
     NSDictionary *dic_show = [resultAndLoc mutableCopy];
     [cmd performWithResult:&dic_show];
     
+    [self.view bringSubviewToFront:(UIView*)show];
+    
     id<AYViewBase> map = [self.views objectForKey:@"MapView"];
     id<AYCommand> cmd_map = [map.commands objectForKey:@"changeResultData:"];
     NSDictionary *dic_map = [resultAndLoc mutableCopy];
