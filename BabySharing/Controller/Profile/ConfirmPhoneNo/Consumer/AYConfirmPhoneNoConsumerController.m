@@ -41,6 +41,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
@@ -65,7 +66,7 @@
     UIView* view = [self.views objectForKey:@"ServiceConsumerFace"];
     view.backgroundColor = [UIColor clearColor];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).offset(10);
+        make.top.equalTo(self.view.mas_top).offset(64);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(90);
@@ -79,6 +80,69 @@
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(90);
     }];
+    
+    
+    {
+        NSDictionary* user = nil;
+        CURRENPROFILE(user);
+        NSString* photo_name = [user objectForKey:@"screen_photo"];
+       
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:photo_name forKey:@"image"];
+        [dic setValue:@"img_thum" forKey:@"expect_size"];
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            UIImage* img = (UIImage*)result;
+            if (img == nil) {
+                img = IMGRESOURCE(@"default_user");
+            }
+           
+            id<AYViewBase> face_view = [self.views objectForKey:@"ServiceConsumerFace"];
+            id<AYCommand> cmd = [face_view.commands objectForKey:@"lhsImage:"];
+            [cmd performWithResult:&img];
+        }];
+    }
+    
+    {
+        NSString* owner_id = [service_info objectForKey:@"owner_id"];
+        
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"ProfileRemote"];
+        AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
+        
+        NSDictionary* user = nil;
+        CURRENUSER(user);
+        
+        NSMutableDictionary* dic = [user mutableCopy];
+        [dic setValue:owner_id  forKey:@"owner_user_id"];
+        
+        void (^queryScreenPhoto)(BOOL, NSDictionary*) = ^(BOOL success, NSDictionary* result) {
+            UIImage* img = (UIImage*)result;
+            if (img == nil) {
+                img = IMGRESOURCE(@"default_user");
+            }
+            
+            id<AYViewBase> face_view = [self.views objectForKey:@"ServiceConsumerFace"];
+            id<AYCommand> cmd = [face_view.commands objectForKey:@"rhsImage:"];
+            [cmd performWithResult:&img];
+        };
+        
+        void (^queryProfileCallback)(BOOL, NSDictionary*) = ^(BOOL success, NSDictionary* result) {
+            if (success) {
+                NSString* photo_name = [result objectForKey:@"screen_photo"];
+
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:photo_name forKey:@"image"];
+                [dic setValue:@"img_thum" forKey:@"expect_size"];
+                
+                id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+                AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+                [cmd performWithResult:[dic copy] andFinishBlack:queryScreenPhoto];
+            }
+        };
+        [cmd performWithResult:[dic copy] andFinishBlack:queryProfileCallback];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

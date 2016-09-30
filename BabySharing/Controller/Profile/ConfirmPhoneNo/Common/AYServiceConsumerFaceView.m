@@ -40,7 +40,7 @@
     
     rhs = [[UIImageView alloc]init];
     rhs.frame = CGRectMake(0, 0, 50, 50);
-    rhs.center = CGPointMake(20, 50);
+    rhs.center = CGPointMake(SCREEN_WIDTH / 2 + 100, 50);
     [self addSubview:rhs];
     
     logo = [[UIImageView alloc]init];

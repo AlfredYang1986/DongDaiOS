@@ -631,6 +631,7 @@
     
     <controller type="DefaultController" name="ConfirmPhoneNoConsumer" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
