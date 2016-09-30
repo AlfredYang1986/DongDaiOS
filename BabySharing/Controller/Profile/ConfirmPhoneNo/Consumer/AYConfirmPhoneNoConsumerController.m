@@ -234,6 +234,18 @@
     
     [cmd performWithResult:[dic_check copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
+            
+            {
+                id<AYFacadeBase> facade = LOGINMODEL;
+                id<AYCommand> cmd = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+                
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                [dic setValue:tmp forKey:@"contact_no"];
+                [dic setValue:[NSNumber numberWithInt:1] forKey:@"has_phone"];
+                
+                [cmd performWithResult:&dic];
+            }
+            
             AYViewController* des = DEFAULTCONTROLLER(@"ConfirmRealName");
             NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
             [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

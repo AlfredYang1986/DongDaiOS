@@ -35,6 +35,7 @@
     <command type="Module" name="ChangeSNSProviders" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SignOutLocal" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SaveScreenPhoto" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="UpdateLocalCurrentUserProfile" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="RefrashOwnerQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="AppendOwnerQueryData" factory="AYDefaultModuleFactory" />

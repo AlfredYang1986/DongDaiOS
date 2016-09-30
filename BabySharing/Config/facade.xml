@@ -75,6 +75,7 @@
         <command type="Module" name="QueryCurrentLoginUser" />
         <command type="Module" name="QueryCurrentUserProfile" />
         <command type="Module" name="ChangeCurrentLoginUser" />
+        <command type="Module" name="UpdateLocalCurrentUserProfile" />
 
         <command type="Module" name="QuerySNSProviders" />
         <command type="Module" name="ChangeSNSProviders" />

@@ -721,6 +721,7 @@
 		805218A41CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A31CCBA097006EF119 /* AYReleaseScreenNameAndPhotoCommand.m */; };
 		805218A71CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */; };
 		805C344D1D9D42720011F705 /* AYServiceConsumerFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 805C344C1D9D42720011F705 /* AYServiceConsumerFaceView.m */; };
+		80802E5A1D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80802E591D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.m */; };
 		8086A2151CCE5B75006186D4 /* AYTagContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A2141CCE5B75006186D4 /* AYTagContentController.m */; };
 		8086A2231CCE6176006186D4 /* AYQueryContentsWithTagCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A21C1CCE6176006186D4 /* AYQueryContentsWithTagCommand.m */; };
 		8086A2241CCE6176006186D4 /* AYQueryHomeContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 8086A21F1CCE6176006186D4 /* AYQueryHomeContentCommand.m */; };
@@ -2244,6 +2245,8 @@
 		805218A61CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryScreenNameAndPhotoCommand.m; sourceTree = "<group>"; };
 		805C344B1D9D42720011F705 /* AYServiceConsumerFaceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceConsumerFaceView.h; sourceTree = "<group>"; };
 		805C344C1D9D42720011F705 /* AYServiceConsumerFaceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceConsumerFaceView.m; sourceTree = "<group>"; };
+		80802E581D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateLocalCurrentUserProfileCommand.h; sourceTree = "<group>"; };
+		80802E591D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateLocalCurrentUserProfileCommand.m; sourceTree = "<group>"; };
 		8086A2131CCE5B75006186D4 /* AYTagContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagContentController.h; sourceTree = "<group>"; };
 		8086A2141CCE5B75006186D4 /* AYTagContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagContentController.m; sourceTree = "<group>"; };
 		8086A21B1CCE6176006186D4 /* AYQueryContentsWithTagCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryContentsWithTagCommand.h; sourceTree = "<group>"; };
@@ -7478,6 +7481,8 @@
 				70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */,
 				8048BFF61D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.h */,
 				8048BFF71D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.m */,
+				80802E581D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.h */,
+				80802E591D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.m */,
 			);
 			path = CurrentUser;
 			sourceTree = "<group>";
@@ -8461,7 +8466,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = AA47RE58D2;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -9216,6 +9221,7 @@
 				70EE6E1C1D76BCB800CE6057 /* AYSetNapThemeController.m in Sources */,
 				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
 				70CDF61A1CBCC3AF00311841 /* AYContentQueryRemoteFacade.m in Sources */,
+				80802E5A1D9EA54C006A4F3D /* AYUpdateLocalCurrentUserProfileCommand.m in Sources */,
 				7002DB281CC5F9300013FF2A /* ProgressLayer.m in Sources */,
 				7025109F1CC0F5AB00DADF2B /* NotificationOwner.m in Sources */,
 				70E9AB7E1CF401DB0019D33A /* AYNotifyUnFollowBtnView.m in Sources */,
