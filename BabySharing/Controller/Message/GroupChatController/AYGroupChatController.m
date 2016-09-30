@@ -335,7 +335,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- get input view height
-- (void)KeyboardShowKeyboard:(id)args {
+- (id)KeyboardShowKeyboard:(id)args {
     
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
     
@@ -352,9 +352,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         
 //        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
     }];
+    
+    return nil;
 }
 
-- (void)KeyboardHideKeyboard:(id)args {
+- (id)KeyboardHideKeyboard:(id)args {
     id<AYViewBase> inputView = [self.views objectForKey:@"ChatInput"];
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     
@@ -364,6 +366,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         ((UIView*)view_table).frame = CGRectMake(0, 64+60, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
     }];
     
+    return nil;
 }
 
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
@@ -485,5 +488,4 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYCommand> cmd = [((id<AYViewBase>)loading).commands objectForKey:@"stopGif"];
     [cmd performWithResult:nil];
 }
-
 @end
