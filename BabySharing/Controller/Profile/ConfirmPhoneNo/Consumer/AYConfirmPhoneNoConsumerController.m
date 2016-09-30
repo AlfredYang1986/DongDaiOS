@@ -213,7 +213,7 @@
     NSString* code = @"";
     {
         id<AYViewBase> view = [self.views objectForKey:@"PhoneCheckInput"];
-        id<AYCommand> cmd = [view.commands objectForKey:@"queryPhoneInput:"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"queryCodeInput:"];
         [cmd performWithResult:&code];
     }
     
