@@ -40,16 +40,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSNumber *type;
     
     NSArray *napPhotos;
-    
     NSString *napDesc;
-    
     NSString *napAges;
-    
     NSDictionary *service_info;
     
     UIButton *confirmSerBtn;
     NSMutableDictionary* dic_push_photos;
-    
 }
 
 
@@ -71,8 +67,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSDictionary *dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        
         if (dic_info) {
-            
             NSString *key = [dic_info objectForKey:@"key"];
             if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
@@ -114,8 +110,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 CLLocation *napLoc = [dic_info objectForKey:@"location"];
                 NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-                [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.latitude] forKey:@"latitude"];
-                [location setValue:[NSNumber numberWithFloat:napLoc.coordinate.longitude] forKey:@"longtitude"];
+                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.latitude] forKey:@"latitude"];
+                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.longitude] forKey:@"longtitude"];
                 
                 NSString *address = [dic_info objectForKey:@"address"];
                 NSString *adjust_address = [dic_info objectForKey:@"adjust_address"];
@@ -745,10 +741,18 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     if ([_service_change_dic objectForKey:@"address"]) {
         [dic_args setValue:[_service_change_dic objectForKey:@"address"] forKey:@"address"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+        
+        NSDictionary *loc_dic = [_service_change_dic objectForKey:@"location"];
+        CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:@"latitude"]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:@"longtitude"]).doubleValue];
+        [dic_args setValue:napLoc forKey:@"location"];
+        
     } else {
         [dic_args setValue:[service_info objectForKey:@"address"] forKey:@"address"];
         [dic_args setValue:[service_info objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+        NSDictionary *loc_dic = [service_info objectForKey:@"location"];
+        CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:@"latitude"]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:@"longtitude"]).doubleValue];
+        [dic_args setValue:napLoc forKey:@"location"];
     }
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     

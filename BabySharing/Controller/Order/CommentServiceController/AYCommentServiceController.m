@@ -21,6 +21,7 @@
 #import "AYSearchDefines.h"
 
 #define kTableViewY                   270
+#define kServiceXDNumb                6
 
 @interface AYCommentServiceController ()
 
@@ -60,11 +61,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools blackColor];
+    self.view.backgroundColor = [Tools darkBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     service_rangs = [NSMutableArray array];
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < kServiceXDNumb; ++i) {
         [service_rangs addObject:[NSNumber numberWithInt:0]];
     }
     

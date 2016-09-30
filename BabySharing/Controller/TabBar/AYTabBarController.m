@@ -95,7 +95,7 @@
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
     [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"订单"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     //    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
     

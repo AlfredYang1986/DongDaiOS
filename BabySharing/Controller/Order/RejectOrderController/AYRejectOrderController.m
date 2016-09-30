@@ -61,7 +61,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools blackColor];
+    self.view.backgroundColor = [Tools darkBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     

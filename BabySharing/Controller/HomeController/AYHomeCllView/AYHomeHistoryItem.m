@@ -84,7 +84,7 @@
     [psLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(star_rang_icon);
         make.left.equalTo(contentCountlabel.mas_right).offset(5);
-        make.right.equalTo(self);
+        make.right.lessThanOrEqualTo(mainImageView);
     }];
 }
 
@@ -111,7 +111,7 @@
     titleLabel.text = title;
     
 //    star_rang_icon.image = IMGRESOURCE(@"star_rang_5");
-    contentCountlabel.text = @"12";
+//    contentCountlabel.text = @"12";
     
     NSArray *options_title_cans = kAY_service_options_title_cans;
     long options = ((NSNumber*)[_itemInfo objectForKey:@"cans"]).longValue;

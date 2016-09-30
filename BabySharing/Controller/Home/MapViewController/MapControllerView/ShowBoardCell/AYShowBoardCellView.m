@@ -25,6 +25,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _imageView = [[UIImageView alloc]init];
+        _imageView.image = IMGRESOURCE(@"default_image");
         [self addSubview:_imageView];
         [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(12.5);
@@ -56,7 +57,7 @@
         }];
         
         _starRangImage = [[UIImageView alloc]init];
-        _starRangImage.image = IMGRESOURCE(@"star_rang_1");
+        _starRangImage.image = IMGRESOURCE(@"star_rang_5");
         [self addSubview:_starRangImage];
         [_starRangImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_titleLabel);
@@ -73,6 +74,7 @@
             make.left.equalTo(_starRangImage.mas_right).offset(10);
             make.centerY.equalTo(_starRangImage);
         }];
+        _contentCount.hidden = YES;
         
         _infoLabel = [[UILabel alloc]init];
         _infoLabel = [Tools setLabelWith:_infoLabel andText:@"家庭看护" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -129,8 +131,6 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             _imageView.image = img;
-        }else{
-            [_imageView setImage:IMGRESOURCE(@"sample_image")];
         }
     }];
     

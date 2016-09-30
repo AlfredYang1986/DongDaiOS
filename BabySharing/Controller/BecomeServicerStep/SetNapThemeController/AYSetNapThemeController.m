@@ -179,7 +179,7 @@
     
     NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
     [dic_options setValue:[NSNumber numberWithLong:notePow] forKey:@"cans"];
-    [dic_options setValue:[NSNumber numberWithBool:isAllowLeave] forKey:@"allow_leave"];
+    [dic_options setValue:[NSNumber numberWithInt:isAllowLeave] forKey:@"allow_leave"];
     [dic_options setValue:@"nap_theme" forKey:@"key"];
     [dic setValue:dic_options forKey:kAYControllerChangeArgsKey];
     

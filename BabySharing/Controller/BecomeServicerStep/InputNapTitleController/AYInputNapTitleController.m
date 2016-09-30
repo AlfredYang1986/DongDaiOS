@@ -20,7 +20,7 @@
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define LIMITNUMB                   28
+#define LIMITNUMB                   14
 
 @interface AYInputNapTitleController ()<UITextViewDelegate>
 

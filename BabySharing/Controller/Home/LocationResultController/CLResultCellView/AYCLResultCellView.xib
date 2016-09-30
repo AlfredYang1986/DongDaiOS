@@ -27,11 +27,8 @@
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OnD-a0-oh7">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OnD-a0-oh7">
                         <rect key="frame" x="115" y="271" width="15" height="17"/>
-                        <string key="text" base64-UTF8="YES">
-MTMQA
-</string>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -52,16 +49,8 @@ MTMQA
                             <constraint firstAttribute="height" constant="40" id="Adc-1h-elq"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auy-YH-ceZ">
-                        <rect key="frame" x="325" y="28" width="22" height="19"/>
-                        <state key="normal" image="heart_unlike"/>
-                        <state key="selected" image="heart"/>
-                        <connections>
-                            <action selector="didLikeBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fBl-LU-Fim"/>
-                        </connections>
-                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="朝阳区" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdM-9Z-X6j">
-                        <rect key="frame" x="140" y="271" width="42" height="17"/>
+                        <rect key="frame" x="125" y="271" width="42" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -88,13 +77,27 @@ MTMQA
                             <constraint firstAttribute="height" constant="14" id="pgd-U3-P7X"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="auy-YH-ceZ">
+                        <rect key="frame" x="320" y="15" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="8Sq-Nr-h1L"/>
+                            <constraint firstAttribute="height" constant="40" id="He6-hw-GTy"/>
+                        </constraints>
+                        <state key="normal" image="heart_unlike"/>
+                        <state key="selected" image="heart"/>
+                        <connections>
+                            <action selector="didLikeBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fBl-LU-Fim"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="oKf-ix-c8B" secondAttribute="trailing" constant="15" id="3mw-z0-OeD"/>
                     <constraint firstAttribute="trailing" secondItem="AGi-wg-VLC" secondAttribute="trailing" id="DwJ-ad-XH3"/>
                     <constraint firstItem="JdM-9Z-X6j" firstAttribute="leading" secondItem="OnD-a0-oh7" secondAttribute="trailing" constant="10" id="HUp-8q-gHU"/>
                     <constraint firstItem="OnD-a0-oh7" firstAttribute="leading" secondItem="tbi-Hs-8Dm" secondAttribute="trailing" constant="10" id="Inx-jq-5Kz"/>
+                    <constraint firstItem="auy-YH-ceZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="JVJ-60-Bpt"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="top" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="15" id="Lrc-UF-3W7"/>
+                    <constraint firstItem="auy-YH-ceZ" firstAttribute="centerX" secondItem="oKf-ix-c8B" secondAttribute="centerX" id="O6X-vk-vMw"/>
                     <constraint firstItem="AGi-wg-VLC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Pmc-O4-bQR"/>
                     <constraint firstItem="tbi-Hs-8Dm" firstAttribute="top" secondItem="vtg-UL-53k" secondAttribute="bottom" constant="10" id="R9l-jk-2GM"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="YeL-Y1-SBk"/>
@@ -131,9 +134,9 @@ MTMQA
         <image name="default_image" width="375" height="225"/>
         <image name="default_user" width="80" height="80"/>
         <image name="heart" width="22" height="19"/>
-        <image name="heart_unlike" width="23" height="20"/>
+        <image name="heart_unlike" width="28" height="28"/>
         <image name="star_rang_1" width="96" height="15"/>
-        <image name="tab_found_selected" width="23" height="23"/>
+        <image name="tab_found_selected" width="22" height="22"/>
         <image name="triangle" width="18" height="6"/>
     </resources>
 </document>

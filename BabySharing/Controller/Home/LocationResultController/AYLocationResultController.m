@@ -119,7 +119,7 @@
             [refresh performWithResult:nil];
             
         } else {
-            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"搜索附近失败，请查看是否开启定位并检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"搜索失败" message:@"请查看是否开启定位并检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
     }];
     
@@ -168,6 +168,7 @@
         make.size.mas_equalTo(CGSizeMake(38, 38));
     }];
     [fiterBtn addTarget:self action:@selector(didFiterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    fiterBtn.hidden = YES;
     
     id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
     [cmd_bot performWithResult:nil];

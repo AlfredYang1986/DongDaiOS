@@ -31,6 +31,7 @@
 + (UIColor*)garyColor;
 + (UIColor*)garyLineColor;
 + (UIColor*)garyBackgroundColor;
++ (UIColor*)darkBackgroundColor;
 
 #pragma mark -- UI
 + (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;

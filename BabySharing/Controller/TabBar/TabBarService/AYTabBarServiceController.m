@@ -85,10 +85,10 @@
     
     dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
     dongda_tabbar.backgroundColor = [Tools blackColor];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"订单"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order_white") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message_white") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
     [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"服务"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile_white") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
         [[UITabBar appearance] setShadowImage:[UIImage new]];

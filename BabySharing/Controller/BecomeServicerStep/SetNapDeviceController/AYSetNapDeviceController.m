@@ -150,9 +150,6 @@
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     return nil;
 }
 

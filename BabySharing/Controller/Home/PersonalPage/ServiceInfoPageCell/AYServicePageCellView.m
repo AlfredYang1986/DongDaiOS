@@ -25,6 +25,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
+//#import "AMapLocationManager.h"
 #import "AYAnnonation.h"
 
 #import "AYPlayItemsView.h"
@@ -50,6 +51,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *readMoreSpaceConst;
 
 @property (nonatomic, strong) CLGeocoder *gecoder;
+//@property (nonatomic, strong) AMapLocationManager *locationManager;
 
 @end
 
@@ -97,6 +99,14 @@
     [AMapSearchServices sharedServices].apiKey = @"7d5d988618fd8a707018941f8cd52931";
     
     [self setUpReuseCell];
+    
+    
+//    self.locationManager = [[AMapLocationManager alloc] init];
+//    [self.locationManager setDelegate:self];
+//    [self.locationManager setDesiredAccuracy:kCLLocationAccuracyHundredMeters];
+//    [self.locationManager setLocationTimeout:6];
+//    [self.locationManager setReGeocodeTimeout:3];
+    
 }
 
 @synthesize para = _para;
@@ -289,29 +299,32 @@
     }];
     
     NSDictionary *dic_loc = [service_info objectForKey:@"location"];
-    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-    [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        CLPlacemark *pl = [placemarks firstObject];
-        NSLog(@"%@",pl.addressDictionary);
-        _ownerAddress.text = [NSString stringWithFormat:@"%@, %@",pl.locality,pl.subLocality];
-    }];
-    
-    if (currentAnno) {
-        [maMapView removeAnnotation:currentAnno];
-        NSLog(@"remove current_anno");
+    if (dic_loc) {
+        
+        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+        [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+            CLPlacemark *pl = [placemarks firstObject];
+            NSLog(@"%@",pl.addressDictionary);
+            _ownerAddress.text = [NSString stringWithFormat:@"%@, %@",pl.locality,pl.subLocality];
+        }];
+        
+        if (currentAnno) {
+            [maMapView removeAnnotation:currentAnno];
+            NSLog(@"remove current_anno");
+        }
+        //rang
+        maMapView.visibleMapRect = MAMapRectMake(location.coordinate.latitude - 3000, location.coordinate.longitude - 5000, 6000, 10000);
+        currentAnno = [[AYAnnonation alloc]init];
+        currentAnno.coordinate = location.coordinate;
+        currentAnno.title = @"定位位置";
+        currentAnno.imageName = @"location_self";
+        [maMapView addAnnotation:currentAnno];
+        NSLog(@"add current_anno");
+        //center
+        [maMapView setCenterCoordinate:location.coordinate animated:YES];
     }
-    //rang
-    maMapView.visibleMapRect = MAMapRectMake(location.coordinate.latitude - 3000, location.coordinate.longitude - 5000, 6000, 10000);
-    currentAnno = [[AYAnnonation alloc]init];
-    currentAnno.coordinate = location.coordinate;
-    currentAnno.title = @"定位位置";
-    currentAnno.imageName = @"location_self";
-    [maMapView addAnnotation:currentAnno];
-    NSLog(@"add current_anno");
-    //center
-    [maMapView setCenterCoordinate:location.coordinate animated:YES];
     
     options_title_cans = kAY_service_options_title_cans;
     options_title_facility = kAY_service_options_title_facilities;
@@ -329,21 +342,26 @@
         long options = ((NSNumber*)[service_info objectForKey:@"facility"]).longValue;
         CGFloat offsetX = 15;
         int noteCount = 0;
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < options_title_facility.count; ++i) {
+            
             long note_pow = pow(2, i);
             if ((options & note_pow)) {
-                AYPlayItemsView *item = [[AYPlayItemsView alloc]init];
-                NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-                item.item_icon.image = IMGRESOURCE(imageName);
-                item.item_name.text = options_title_facility[i];
-                [self addSubview:item];
-                [item mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.mas_equalTo(self).offset(offsetX);
-                    make.centerY.equalTo(_facalityBtn);
-                    make.size.mas_equalTo(CGSizeMake(50, 55));
-                }];
-                offsetX += 85;
+                if (noteCount < 3) {
+                    
+                    AYPlayItemsView *item = [[AYPlayItemsView alloc]init];
+                    NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
+                    item.item_icon.image = IMGRESOURCE(imageName);
+                    item.item_name.text = options_title_facility[i];
+                    [self addSubview:item];
+                    [item mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.left.mas_equalTo(self).offset(offsetX);
+                        make.centerY.equalTo(_facalityBtn);
+                        make.size.mas_equalTo(CGSizeMake(50, 55));
+                    }];
+                    offsetX += 80;
+                }
                 noteCount ++;
+                
             }
         }
         [_facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
