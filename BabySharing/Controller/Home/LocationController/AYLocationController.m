@@ -180,7 +180,7 @@
     [cmd performWithResult:&del];
     
     id<AYCommand> cmd_place_hold = [((id<AYViewBase>)view).commands objectForKey:@"changeSearchBarPlaceHolder:"];
-    id place_holder = @"安排孩子们去哪里";
+    id place_holder = @"想安排孩子们去哪里";
     [cmd_place_hold performWithResult:&place_holder];
     
     id<AYCommand> cmd_apperence = [((id<AYViewBase>)view).commands objectForKey:@"foundSearchBar"];

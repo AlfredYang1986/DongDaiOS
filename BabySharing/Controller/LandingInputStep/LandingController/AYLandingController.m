@@ -119,7 +119,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     }];
     
     UILabel *welTips = [[UILabel alloc]init];
-    welTips = [Tools setLabelWith:welTips andText:@"为孩子预定贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
+    welTips = [Tools setLabelWith:welTips andText:@"为孩子预订贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
     welTips.numberOfLines = 0;
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -182,7 +182,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [pri_btn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
         make.bottom.equalTo(self.view.mas_bottom).offset(-24.5);
-        make.width.mas_equalTo(170);
+        make.width.mas_equalTo(SCREEN_WIDTH - 30);
         make.height.mas_equalTo(15);
     }];
 }
