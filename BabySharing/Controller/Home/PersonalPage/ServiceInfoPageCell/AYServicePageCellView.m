@@ -238,11 +238,11 @@
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
     NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:@"lsl"]);
-    NSString *ages = [NSString stringWithFormat:@"%d~%d岁",lsl.intValue,usl.intValue];
-    _ageBoungaryLabel.text = [NSString stringWithFormat:@"适合%@孩子",ages];
+    NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
+    _ageBoungaryLabel.text = [NSString stringWithFormat:@"%@",ages];
     
     NSNumber *capacity = [service_info objectForKey:@"capacity"];
-    _capacityLabel.text = [NSString stringWithFormat:@"可容纳%d个孩子",capacity.intValue];
+    _capacityLabel.text = [NSString stringWithFormat:@"%d个孩子",capacity.intValue];
     
     NSNumber *allow = [service_info objectForKey:@"allow_leave"];
     BOOL isAllow = allow.boolValue;

@@ -30,7 +30,6 @@
 @end
 
 @implementation AYCollectServController{
-    NSMutableArray *loading_status;
     
     int serviceType; //0收藏的服务 /1自己发布的服务
     
@@ -134,23 +133,6 @@
             }
         }];
     }
-    
-    loading_status = [[NSMutableArray alloc]init];
-    {
-        UIView* view_loading = [self.views objectForKey:@"Loading"];
-        [self.view bringSubviewToFront:view_loading];
-        view_loading.hidden = YES;
-    }
-    
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, 10)];
-    headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
-    [self.view addSubview:headView];
-    
-    CALayer* line2 = [CALayer layer];
-    line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
-    line2.borderWidth = 1.f;
-    line2.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
-    [headView.layer addSublayer:line2];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -169,9 +151,11 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
+    
+    NSString *title = (serviceType == 1) ? @"我发布的服务" : @"我心仪的服务";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -182,36 +166,12 @@
     NSNumber* left_hidden = [NSNumber numberWithBool:YES];
     [cmd_left_vis performWithResult:&left_hidden];
     
-//    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-//    [bar_right_btn setTitleColor:[UIColor colorWithWhite:0.4 alpha:1.f] forState:UIControlStateNormal];
-//    [bar_right_btn setTitle:@"  " forState:UIControlStateNormal];
-//    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
-//    [bar_right_btn sizeToFit];
-//    bar_right_btn.center = CGPointMake(width - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-//    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-//    [cmd_right performWithResult:&bar_right_btn];
-    
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = (serviceType == 1) ? @"我发布的服务" : @"我心仪的服务";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 + 10, SCREEN_WIDTH, SCREEN_HEIGHT - 74 - (serviceType == 1?44:0));
-    
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (serviceType == 1?44:0));
     return nil;
 }
 

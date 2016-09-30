@@ -36,7 +36,7 @@
     if (self) {
         
         UILabel *titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"价格" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"价格" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(25);
@@ -52,7 +52,7 @@
         }];
         
         themeTitleLabel = [[UILabel alloc]init];
-        themeTitleLabel = [Tools setLabelWith:themeTitleLabel andText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themeTitleLabel = [Tools setLabelWith:themeTitleLabel andText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themeTitleLabel];
         [themeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(45);
@@ -60,50 +60,50 @@
         }];
         
         themePriceLabel = [[UILabel alloc]init];
-        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥ 00 * 0 Hour" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥00 * 0Hour" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themePriceLabel];
         [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(themeTitleLabel);
             make.right.equalTo(priceLabel);
         }];
         
-        UIView *sperator = [[UIView alloc]init];
-        sperator.backgroundColor = [Tools garyLineColor];
-        [self addSubview:sperator];
-        [sperator mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(themeTitleLabel.mas_bottom).offset(20);
-            make.left.equalTo(self).offset(10);
-            make.right.equalTo(self).offset(-10);
-            make.height.mas_equalTo(0.5f);
-        }];
-        
-        isLeaveTitleLabel = [[UILabel alloc]init];
-        isLeaveTitleLabel = [Tools setLabelWith:isLeaveTitleLabel andText:@"看顾" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-        [self addSubview:isLeaveTitleLabel];
-        [isLeaveTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(sperator.mas_bottom).offset(20);
-            make.left.equalTo(titleLabel);
-        }];
-        
-        isLeavePriceLabel = [[UILabel alloc]init];
-        isLeavePriceLabel = [Tools setLabelWith:isLeavePriceLabel andText:@"￥ 00" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-        [self addSubview:isLeavePriceLabel];
-        [isLeavePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(isLeaveTitleLabel);
-            make.right.equalTo(priceLabel);
-        }];
+//        UIView *sperator = [[UIView alloc]init];
+//        sperator.backgroundColor = [Tools garyLineColor];
+//        [self addSubview:sperator];
+//        [sperator mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(themeTitleLabel.mas_bottom).offset(20);
+//            make.left.equalTo(self).offset(10);
+//            make.right.equalTo(self).offset(-10);
+//            make.height.mas_equalTo(0.5f);
+//        }];
+//        
+//        isLeaveTitleLabel = [[UILabel alloc]init];
+//        isLeaveTitleLabel = [Tools setLabelWith:isLeaveTitleLabel andText:@"看顾" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+//        [self addSubview:isLeaveTitleLabel];
+//        [isLeaveTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(sperator.mas_bottom).offset(20);
+//            make.left.equalTo(titleLabel);
+//        }];
+//        
+//        isLeavePriceLabel = [[UILabel alloc]init];
+//        isLeavePriceLabel = [Tools setLabelWith:isLeavePriceLabel andText:@"不提供看护" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+//        [self addSubview:isLeavePriceLabel];
+//        [isLeavePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(isLeaveTitleLabel);
+//            make.right.equalTo(priceLabel);
+//        }];
         
         isShowDetail = [[UIButton alloc]init];
         [isShowDetail setTitle:@"查看详情" forState:UIControlStateNormal];
         [isShowDetail setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-        isShowDetail.titleLabel.font = kAYFontLight(12.f);
+        isShowDetail.titleLabel.font = kAYFontLight(14.f);
         isShowDetail.titleLabel.textAlignment = NSTextAlignmentRight;
         [isShowDetail sizeToFit];
         [self addSubview:isShowDetail];
         [isShowDetail mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self).offset(-15);
+            make.bottom.equalTo(self).offset(-3);
             make.right.equalTo(priceLabel);
-            make.size.mas_equalTo(CGSizeMake(isShowDetail.bounds.size.width, isShowDetail.bounds.size.height));
+            make.size.mas_equalTo(CGSizeMake(isShowDetail.bounds.size.width, isShowDetail.bounds.size.height - 4));
         }];
         [isShowDetail addTarget:self action:@selector(didShowDetailClick:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -211,11 +211,11 @@
     
     CGFloat sumPrice = 0;
     
-    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
-    if (isLeave) {
-        isLeavePriceLabel.text = @"￥40";
-        sumPrice += 40;
-    }
+//    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
+//    if (isLeave) {
+//        isLeavePriceLabel.text = @"￥40";
+//        sumPrice += 40;
+//    }
     
     NSNumber *unit_price = [dic_args objectForKey:@"price"];            //单价
     

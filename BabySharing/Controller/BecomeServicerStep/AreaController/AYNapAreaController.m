@@ -89,20 +89,20 @@
         [self.manager startUpdatingLocation];
     }
     
-    UILabel *title = [[UILabel alloc]init];
-    [self.view addSubview:title];
-    title = [Tools setLabelWith:title andText:@"您的服务区域" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(94);
-        make.centerX.equalTo(self.view);
-    }];
+//    UILabel *title = [[UILabel alloc]init];
+//    [self.view addSubview:title];
+//    title = [Tools setLabelWith:title andText:@"您的服务区域" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+//    [title mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(94);
+//        make.centerX.equalTo(self.view);
+//    }];
     
     CGFloat margin = 30.f;
     UIView *areaView = [[UIView alloc]init];
     [self.view addSubview:areaView];
     areaView.backgroundColor = [UIColor whiteColor];
     [areaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(title.mas_bottom).offset(20);
+        make.top.equalTo(self.view).offset(114);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - margin*2, 30));
     }];
@@ -210,6 +210,9 @@
 //    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
 //    [view.layer addSublayer:line];
     
+    NSString *title = @"服务区域";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -219,17 +222,6 @@
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    
-    titleView.text = @"位置";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [UIColor colorWithWhite:0.4 alpha:1.f];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2);
     return nil;
 }
 

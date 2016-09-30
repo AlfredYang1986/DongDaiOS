@@ -43,11 +43,11 @@
         
         dateLabel = [[UILabel alloc]init];
         [self addSubview:dateLabel];
-        dateLabel = [Tools setLabelWith:dateLabel andText:@"服务时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        dateLabel = [Tools setLabelWith:dateLabel andText:@"服务时间" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
         
         editDateBtn = [[UIButton alloc]init];
         [editDateBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-        editDateBtn.titleLabel.font = kAYFontLight(14.f);
+        editDateBtn.titleLabel.font = kAYFontLight(17.f);
         [self addSubview:editDateBtn];
         [editDateBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(dateLabel);

@@ -43,7 +43,7 @@
     lhs.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [self addSubview:lhs];
     [lhs mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self).offset(-90);
+        make.centerX.equalTo(self).offset(-50);
         make.top.equalTo(title.mas_bottom).offset(30);
         make.size.mas_equalTo(CGSizeMake(75, 75));
     }];
@@ -56,7 +56,7 @@
     rhs.layer.rasterizationScale = [UIScreen mainScreen].scale;
     [self addSubview:rhs];
     [rhs mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self).offset(90);
+        make.centerX.equalTo(self).offset(50);
         make.centerY.equalTo(lhs);
         make.size.equalTo(lhs);
     }];

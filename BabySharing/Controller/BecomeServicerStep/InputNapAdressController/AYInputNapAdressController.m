@@ -204,6 +204,10 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"具体位置";
+    [cmd_title performWithResult:&title];
+    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
@@ -217,16 +221,6 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"设置具体地址";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
     return nil;
 }
 

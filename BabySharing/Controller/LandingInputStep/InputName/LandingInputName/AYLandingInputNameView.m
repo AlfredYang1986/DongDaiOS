@@ -52,7 +52,7 @@
 - (void)postPerform {
     
     UILabel *tips = [[UILabel alloc]init];
-    tips = [Tools setLabelWith:tips andText:@"还有，您的姓名？" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:22.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:@"还有，您的姓名" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:22.f andBackgroundColor:nil andTextAlignment:1];
     [self addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
@@ -94,7 +94,7 @@
     name_area.font = [UIFont systemFontOfSize:14.f];
     name_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
     name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    name_area.placeholder = @"输入您的姓名";
+    name_area.placeholder = @"填写您的真实姓名或昵称";
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
     [inputView addSubview:name_area];
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {

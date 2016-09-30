@@ -22,13 +22,13 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="让您的宝宝找到更合适的伙伴" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZr-Rr-NdH">
-                        <rect key="frame" x="15" y="12" width="221" height="21"/>
+                        <rect key="frame" x="15" y="10" width="284" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="看护孩子年龄阶段" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWd-sK-Dno">
-                        <rect key="frame" x="15" y="41" width="112" height="17"/>
+                        <rect key="frame" x="15" y="36" width="112" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -36,11 +36,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="qt2-rN-Hjc" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8CZ-xD-bp7"/>
+                    <constraint firstItem="qt2-rN-Hjc" firstAttribute="leading" secondItem="BZr-Rr-NdH" secondAttribute="trailing" constant="15" id="93m-CM-ZQO"/>
                     <constraint firstAttribute="trailing" secondItem="qt2-rN-Hjc" secondAttribute="trailing" constant="10" id="J3x-zo-ewi"/>
-                    <constraint firstItem="CWd-sK-Dno" firstAttribute="top" secondItem="BZr-Rr-NdH" secondAttribute="bottom" constant="8" id="M1j-Xt-7BV"/>
+                    <constraint firstItem="CWd-sK-Dno" firstAttribute="top" secondItem="BZr-Rr-NdH" secondAttribute="bottom" constant="5" id="M1j-Xt-7BV"/>
                     <constraint firstItem="BZr-Rr-NdH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="cbz-Zb-VPy"/>
                     <constraint firstItem="CWd-sK-Dno" firstAttribute="leading" secondItem="BZr-Rr-NdH" secondAttribute="leading" id="fZf-tt-yfb"/>
-                    <constraint firstItem="BZr-Rr-NdH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="vYA-0T-0hl"/>
+                    <constraint firstItem="BZr-Rr-NdH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="vYA-0T-0hl"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

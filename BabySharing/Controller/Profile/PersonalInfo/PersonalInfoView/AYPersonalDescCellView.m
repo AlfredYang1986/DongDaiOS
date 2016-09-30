@@ -37,7 +37,7 @@
     if (self) {
         
         titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"关于我" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"关于我" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(10);
@@ -45,11 +45,11 @@
         }];
         
         descLabel = [[UILabel alloc]init];
-        descLabel = [Tools setLabelWith:descLabel andText:@"暂无描述!" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        descLabel = [Tools setLabelWith:descLabel andText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         descLabel.numberOfLines = 0;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.mas_bottom).offset(12.5);
+            make.top.equalTo(titleLabel.mas_bottom).offset(10);
             make.left.equalTo(titleLabel);
             make.right.equalTo(self).offset(-15);
         }];

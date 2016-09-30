@@ -98,7 +98,7 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    NSString *title = @"我的";
+    NSString *title = @"个人资料";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     NSDictionary* info = nil;

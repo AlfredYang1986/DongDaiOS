@@ -221,6 +221,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
     } else {
         
+        
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&babyAgeCell];
         
@@ -286,7 +287,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
     
-    NSString *title = @"添加看护服务";
+    NSString *title = @"主题看顾服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");

@@ -49,17 +49,17 @@
         
         titleLabel = [[UILabel alloc]init];
         [self addSubview:titleLabel];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:0];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(15);
         }];
         
         ownerNameLabel = [[UILabel alloc]init];
-        ownerNameLabel = [Tools setLabelWith:ownerNameLabel andText:@"服务者：服务妈妈" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        ownerNameLabel = [Tools setLabelWith:ownerNameLabel andText:@"服务妈妈" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:ownerNameLabel];
         [ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.mas_bottom).offset(20);
+            make.top.equalTo(titleLabel.mas_bottom).offset(17);
             make.left.equalTo(titleLabel);
         }];
         
@@ -68,13 +68,14 @@
          */
         
         ownerPhoto = [[UIImageView alloc]init];
+        ownerPhoto.image = IMGRESOURCE(@"default_user");
         ownerPhoto.layer.cornerRadius = kOwnerPhotoWH * 0.5;
         ownerPhoto.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
         ownerPhoto.layer.borderWidth = 2.f;
         ownerPhoto.clipsToBounds = YES;
         [self addSubview:ownerPhoto];
         [ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
+            make.bottom.equalTo(ownerNameLabel);
             make.right.equalTo(self).offset(-15);
             make.size.mas_equalTo(CGSizeMake(kOwnerPhotoWH, kOwnerPhotoWH));
         }];
@@ -164,7 +165,7 @@
         if (success) {
             
             NSString *user_name = [result objectForKey:@"screen_name"];
-            ownerNameLabel.text = [NSString stringWithFormat:@"服务者：%@",user_name];
+            ownerNameLabel.text = [NSString stringWithFormat:@"%@",user_name];
             
             NSString *photo_name = [result objectForKey:@"screen_photo"];
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
@@ -176,8 +177,8 @@
                 UIImage* img = (UIImage*)result;
                 if (img != nil) {
                     [ownerPhoto setImage:img];
-                } else
-                    ownerPhoto.image = IMGRESOURCE(@"default_user");
+                }
+                    
             }];
         } else {
             ownerPhoto.image = IMGRESOURCE(@"default_user");

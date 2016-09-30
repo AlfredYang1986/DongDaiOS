@@ -34,7 +34,7 @@
     [super awakeFromNib];
     
     _unSetTitleLabel.font = kAYFontLight(14.f);
-    _subTitleLabel.font = kAYFontLight(12.f);
+    _subTitleLabel.font = kAYFontLight(17.f);
     _subTitleLabel.textColor = [Tools blackColor];
     
     CALayer *separator = [CALayer layer];

@@ -111,7 +111,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    NSLog(@"systemVersion  %@",device.systemVersion);
     
     UILabel *welcome = [[UILabel alloc]init];
-    welcome = [Tools setLabelWith:welcome andText:@"欢迎来到咚哒" andTextColor:[UIColor whiteColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:0];
+    welcome = [Tools setLabelWith:welcome andText:@"欢迎来到 咚哒" andTextColor:[UIColor whiteColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(logo);
@@ -154,7 +154,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     
     weChatLogin = [[UIButton alloc]init];
     weChatLogin.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    [weChatLogin setTitle:@"微信账号登录" forState:UIControlStateNormal];
+    [weChatLogin setTitle:@"微信帐号登录" forState:UIControlStateNormal];
     [weChatLogin setTitleEdgeInsets:UIEdgeInsetsMake(0, 30, 0, 0)];
     [weChatLogin setImage:IMGRESOURCE(@"login_wechat") forState:UIControlStateNormal];
     [weChatLogin setImageEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
@@ -175,7 +175,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     pri_btn = [[UIButton alloc]init];
     [self.view addSubview:pri_btn];
     pri_btn.titleLabel.font = [UIFont systemFontOfSize:11.f];
-    [pri_btn setTitle:@"进入即同意用户协议及隐私条款" forState:UIControlStateNormal];
+    [pri_btn setTitle:@"登录即代表我同意用户 服务条款 及 隐私协议" forState:UIControlStateNormal];
     [pri_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     pri_btn.clipsToBounds = YES;
     [pri_btn addTarget:self action:@selector(pri_btnDidClick) forControlEvents:UIControlEventTouchUpInside];

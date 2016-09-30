@@ -84,7 +84,7 @@
     h1.text = @"想要服务的孩子的年龄阶段";
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     h1.textColor = [Tools blackColor];
-    h1.font = [UIFont systemFontOfSize:14.f];
+    h1.font = kAYFontLight(14.f);
     h1.backgroundColor = [UIColor whiteColor];
 //    h1 = [Tools setLabelWith:(UILabel*)h1 andText:@"想要服务的孩子的年龄阶段" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[UIColor whiteColor] andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:h1];
@@ -119,10 +119,10 @@
 //    }];
     
     AYInsetLabel *h2 = [[AYInsetLabel alloc]init];
-    h2.text = @"此年龄阶段可容纳孩子数量";
+    h2.text = @"此年龄阶段可接纳孩子数量";
     h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     h2.textColor = [Tools blackColor];
-    h2.font = [UIFont systemFontOfSize:14.f];
+    h2.font = kAYFontLight(14.f);
     h2.backgroundColor = [UIColor whiteColor];
 //    UILabel *h2 = [[UILabel alloc]init];
 //    h2 = [Tools setLabelWith:h2 andText:@"此年龄阶段可容纳孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[UIColor whiteColor] andTextAlignment:NSTextAlignmentLeft];
@@ -137,7 +137,7 @@
     h3.text = @"孩子数量";
     h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     h3.textColor = [Tools blackColor];
-    h3.font = [UIFont systemFontOfSize:14.f];
+    h3.font = kAYFontLight(14.f);
     h3.backgroundColor = [UIColor whiteColor];
 //    UILabel *h3 = [[UILabel alloc]init];
 //    h3 = [Tools setLabelWith:h3 andText:@"孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[UIColor whiteColor] andTextAlignment:NSTextAlignmentLeft];
@@ -207,7 +207,7 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"服务孩子年龄";
+    NSString *title = @"孩子年龄";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];

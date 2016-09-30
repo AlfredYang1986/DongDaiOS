@@ -44,6 +44,7 @@
     _photoImage.userInteractionEnabled = YES;
     [_photoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
     
+//    _subTitleLabel.text = @"高质量的图片\n可以更好的展现您的服务或场地";
     self.backgroundColor = [Tools garyBackgroundColor];
     
     [self setUpReuseCell];

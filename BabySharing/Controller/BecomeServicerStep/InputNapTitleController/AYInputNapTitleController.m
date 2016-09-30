@@ -20,7 +20,7 @@
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define LIMITNUMB                   14
+#define LIMITNUMB                   16
 
 @interface AYInputNapTitleController ()<UITextViewDelegate>
 
@@ -97,10 +97,9 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+    NSString *title = @"标题";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -121,12 +120,12 @@
 }
 
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"服务标题";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
+//    UILabel* titleView = (UILabel*)view;
+//    titleView.text = @"服务标题";
+//    titleView.font = [UIFont systemFontOfSize:16.f];
+//    titleView.textColor = [Tools blackColor];
+//    [titleView sizeToFit];
+//    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
     return nil;
 }
 

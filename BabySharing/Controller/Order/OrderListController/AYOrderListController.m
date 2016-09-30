@@ -191,9 +191,14 @@
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
+    CALayer *line = [CALayer layer];
+    line.frame = CGRectMake(0, kFakeNavBarH - 4.5, SCREEN_WIDTH, 0.5);
+    line.backgroundColor = [Tools garyLineColor].CGColor;
+    [view.layer addSublayer:line];
+    
     CALayer *separtor = [CALayer layer];
     separtor.frame = CGRectMake(0, kFakeNavBarH - 4, SCREEN_WIDTH, 4);
-    separtor.backgroundColor = [Tools garyLineColor].CGColor;
+    separtor.backgroundColor = [Tools garyBackgroundColor].CGColor;
     [view.layer addSublayer:separtor];
     
     return nil;
@@ -237,7 +242,7 @@
     
     NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
     [dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
-    [dic_user_info setValue:[NSNumber numberWithFloat:0.25f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
+    [dic_user_info setValue:[NSNumber numberWithFloat:0.f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
     
     [cmd_info performWithResult:&dic_user_info];
     

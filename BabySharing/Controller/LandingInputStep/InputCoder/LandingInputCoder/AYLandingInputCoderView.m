@@ -139,7 +139,7 @@
     inputPhoneNo.textColor = [Tools blackColor];
     inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
     inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
-    inputPhoneNo.placeholder = @"输入手机号码";
+    inputPhoneNo.placeholder = @"输入您的手机号码";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
     [inputPhoneNoView addSubview:inputPhoneNo];
     [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {

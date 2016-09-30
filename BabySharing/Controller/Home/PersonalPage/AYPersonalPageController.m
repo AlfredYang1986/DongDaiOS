@@ -396,8 +396,8 @@
     /**
      * 2. check profile has_phone, if not, go confirmNoConsumer
      */
-//    if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
-    if (0) {
+    if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
+//    if (0) {
         id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

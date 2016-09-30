@@ -105,7 +105,12 @@
     if (indexPath.section == 0) {
         return 350;
     } else if (indexPath.section == 1) {
-        return 115;
+        
+        NSString *descStr = [querydata objectForKey:@"personal_description"];
+        if (!descStr || [descStr isEqualToString:@""]) {
+            return 0.001;
+        } else
+            return 135;
     } else {
         if (indexPath.row == 0) {
             return 64;

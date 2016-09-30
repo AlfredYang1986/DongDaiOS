@@ -44,7 +44,7 @@
         service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-        service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
+//        service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
@@ -234,12 +234,12 @@
     
     [cmd performWithResult:[dic_check copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            AYViewController* des = DEFAULTCONTROLLER(@"ConfirmRealName");
+            AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
             NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
             [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
             [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
             [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic_push setValue:[NSNumber numberWithInt:0] forKey:kAYControllerChangeArgsKey];
+            [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
             
             id<AYCommand> cmd = PUSH;
             [cmd performWithResult:&dic_push];
@@ -290,7 +290,7 @@
             NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
             [args setValue:self.view forKey:@"super_view"];
             [args setValue:@"动态密码已发送" forKey:@"title"];
-            [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
+            [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5 + 50] forKey:@"set_y"];
             [cmd_add performWithResult:&args];
             
         } else {

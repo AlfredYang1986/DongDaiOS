@@ -150,7 +150,7 @@
         
     } else if (indexPath.row == 2) {
         
-        return isExpend?220.f:90.f;
+        return isExpend?150.f:90.f;
         
     } else {
         return 100.f;

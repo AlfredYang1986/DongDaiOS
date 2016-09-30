@@ -119,7 +119,7 @@
     [self.view addSubview:aplyBtn];
     [self.view bringSubviewToFront:aplyBtn];
     aplyBtn.backgroundColor = [Tools themeColor];
-    [aplyBtn setTitle:@"申请预定" forState:UIControlStateNormal];
+    [aplyBtn setTitle:@"申请预订" forState:UIControlStateNormal];
     aplyBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [aplyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [aplyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,7 +153,7 @@
     id<AYViewBase> bar = (id<AYViewBase>)view;
     
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"订单详情";
+    NSString *title = @"服务详情";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];

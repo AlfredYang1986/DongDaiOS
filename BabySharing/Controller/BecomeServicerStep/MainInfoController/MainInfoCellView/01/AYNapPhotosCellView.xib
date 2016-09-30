@@ -14,16 +14,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="376" height="223"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wBZ-xa-qoN">
-                        <rect key="frame" x="0.0" y="0.0" width="376" height="223"/>
-                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CKz-1m-hSY">
                         <rect key="frame" x="138" y="70" width="100" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="EyY-Sc-5mo"/>
                             <constraint firstAttribute="width" constant="100" id="ygA-db-9XN"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                         <state key="normal" title="添加图片">
                             <color key="titleColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
@@ -31,12 +28,15 @@
                             <action selector="addPhotoBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="L1y-8b-2pT"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="添加多一张图片多一点点妈妈的信任" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfb-rL-HS7">
-                        <rect key="frame" x="84" y="110" width="208" height="16"/>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="更好的展现您的服务或场地" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bfb-rL-HS7">
+                        <rect key="frame" x="104" y="110" width="168" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wBZ-xa-qoN">
+                        <rect key="frame" x="0.0" y="0.0" width="376" height="223"/>
+                    </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>

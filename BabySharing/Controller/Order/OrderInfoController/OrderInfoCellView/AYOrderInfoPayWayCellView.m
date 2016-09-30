@@ -40,7 +40,7 @@
     if (self) {
         
         UILabel *titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
@@ -57,7 +57,7 @@
         }];
         
         UILabel *payWayLabel = [UILabel new];
-        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:payWayLabel];
         [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);
@@ -65,12 +65,12 @@
         }];
         
         UIImageView *signView = [UIImageView new];
-        signView.image = IMGRESOURCE(@"icon_pick_selected");
+        signView.image = IMGRESOURCE(@"checked_icon");
         [self addSubview:signView];
         [signView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);
             make.right.equalTo(self).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(10, 10));
+            make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
         }];
         
         

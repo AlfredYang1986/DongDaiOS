@@ -576,8 +576,6 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
-        <view type="Loading"        name="Loading" />
         <view type="Table"          name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="CollectServ" />
@@ -658,7 +656,6 @@
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="NapAreaMap"     name="NapAreaMap" />
         <view type="Picker"         name="Picker" />
         
@@ -685,7 +682,6 @@
     <controller type="DefaultController" name="InputNapTitle" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="InputNapDesc" factory="AYDefaultControllerFactoy" >
@@ -693,7 +689,6 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
-    
     
     <controller type="DefaultController" name="SetNapAges" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -722,7 +717,6 @@
     <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="NapAdressMap"     name="NapAdressMap" />
     </controller>
     

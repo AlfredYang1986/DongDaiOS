@@ -49,7 +49,7 @@
         }];
         
         nameLabel = [[UILabel alloc]init];
-        nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
@@ -61,7 +61,7 @@
         [self addSubview:registTimeLabel];
         [registTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.top.equalTo(nameLabel.mas_bottom).offset(20);
+            make.top.equalTo(nameLabel.mas_bottom).offset(17);
         }];
         
         CALayer *separtor = [CALayer layer];

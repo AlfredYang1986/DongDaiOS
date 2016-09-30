@@ -79,12 +79,12 @@
 //    }
     
     UILabel* label = [[UILabel alloc]init];
-    label.font = [UIFont systemFontOfSize:20.f];
+    label.font = kAYFontLight(20.f);
     label.tag = -1;
     [self addSubview:label];
     
     UILabel* label1 = [[UILabel alloc]init];
-    label1.font = [UIFont systemFontOfSize:11.f];
+    label1.font = kAYFontLight(11.f);
     label1.tag = -2;
     [self addSubview:label1];
     

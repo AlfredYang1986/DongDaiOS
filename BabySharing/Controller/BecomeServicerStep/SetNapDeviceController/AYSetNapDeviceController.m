@@ -119,7 +119,7 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"场地友好设施";
+    NSString *title = @"场地友好性及设施";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];

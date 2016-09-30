@@ -105,7 +105,7 @@
     if (indexPath.section == 0) {
         return 350;
     } else if (indexPath.section == 1) {
-        return 115;
+        return 135;
     } else {
         if (indexPath.row == 0) {
             return 64;

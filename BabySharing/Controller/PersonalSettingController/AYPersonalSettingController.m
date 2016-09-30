@@ -107,7 +107,7 @@
         }
     }];
     
-    UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(user_photo.mas_bottom).offset(20);
@@ -139,7 +139,7 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 1));
     }];
     
-    UILabel *descTitleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *descTitleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [mainView addSubview:descTitleLabel];
     [descTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(separtor.mas_bottom).offset(20);
@@ -210,7 +210,7 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
-    NSString *title = @"个人资料";
+    NSString *title = @"编辑个人资料";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
