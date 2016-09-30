@@ -84,6 +84,7 @@
     [psLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(star_rang_icon);
         make.left.equalTo(contentCountlabel.mas_right).offset(5);
+        make.right.equalTo(self);
     }];
     
     self.userInteractionEnabled = YES;
