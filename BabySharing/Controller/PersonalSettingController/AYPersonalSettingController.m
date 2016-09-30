@@ -61,24 +61,32 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     change_profile_dic = [[NSMutableDictionary alloc]init];
     
+    UIScrollView *mainView = [[UIScrollView alloc]init];
+    mainView.contentSize = CGSizeMake(0, 555.f);
+    mainView.showsVerticalScrollIndicator = NO;
+    mainView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:mainView];
+    [mainView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(64);
+        make.centerX.equalTo(self.view);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.bottom.equalTo(self.view);
+    }];
+    
     user_photo = [[UIImageView alloc]init];
-    [self.view addSubview:user_photo];
+    [mainView addSubview:user_photo];
     user_photo.image = IMGRESOURCE(@"default_image");
-//    user_photo.layer.cornerRadius = 50.f;
-//    user_photo.clipsToBounds = YES;
-//    user_photo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
-//    user_photo.layer.borderWidth = 2.f;
     user_photo.contentMode = UIViewContentModeScaleAspectFill;
     user_photo.clipsToBounds = YES;
     [user_photo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(64);
+        make.left.equalTo(mainView);
+        make.top.equalTo(mainView).offset(0);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
     }];
     
     UIButton *cameraBtn = [UIButton new];
     [cameraBtn setImage:IMGRESOURCE(@"camera") forState:UIControlStateNormal];
-    [self.view addSubview:cameraBtn];
+    [mainView addSubview:cameraBtn];
     [cameraBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(user_photo).offset(-15);
         make.bottom.equalTo(user_photo).offset(-15);
@@ -100,10 +108,10 @@
     }];
     
     UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [self.view addSubview:nameLabel];
+    [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(user_photo.mas_bottom).offset(20);
-        make.left.equalTo(self.view).offset(20);
+        make.left.equalTo(mainView).offset(20);
     }];
     
     nameTextField = [[UITextField alloc]init];
@@ -111,10 +119,11 @@
     nameTextField.textColor = [Tools garyColor];
     nameTextField.placeholder = @"请输入姓名";
     nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    [self.view addSubview:nameTextField];
+    [mainView addSubview:nameTextField];
     [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view).offset(20);
-        make.right.equalTo(self.view).offset(-20);
+        make.left.equalTo(mainView).offset(20);
+//        make.right.equalTo(mainView).offset(-20);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.top.equalTo(nameLabel.mas_bottom).offset(15);
     }];
     NSString *nameStr = [profile_dic objectForKey:@"screen_name"];
@@ -122,15 +131,16 @@
     
     UIView *separtor = [UIView new];
     separtor.backgroundColor = [Tools garyLineColor];
-    [self.view addSubview:separtor];
+    [mainView addSubview:separtor];
     [separtor mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(nameTextField.mas_bottom).offset(20);
-        make.centerX.equalTo(self.view);
+//        make.centerX.equalTo(mainView);
+        make.left.equalTo(mainView).offset(15);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 1));
     }];
     
     UILabel *descTitleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [self.view addSubview:descTitleLabel];
+    [mainView addSubview:descTitleLabel];
     [descTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(separtor.mas_bottom).offset(20);
         make.left.equalTo(nameLabel);
@@ -138,11 +148,12 @@
     
     descLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
     descLabel.numberOfLines = 0;
-    [self.view addSubview:descLabel];
+    [mainView addSubview:descLabel];
     [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(descTitleLabel.mas_bottom).offset(15);
         make.left.equalTo(nameLabel);
-        make.right.equalTo(self.view).offset(-20);
+//        make.right.equalTo(mainView).offset(-20);
+        make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH - 40);
     }];
     
     NSString *descStr = [profile_dic objectForKey:@"personal_description"];

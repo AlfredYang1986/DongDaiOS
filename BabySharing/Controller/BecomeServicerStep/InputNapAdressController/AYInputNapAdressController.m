@@ -120,7 +120,7 @@
             //开始定位
             [self.manager startUpdatingLocation];
         }
-    }else {
+    } else {
         headAdress.text = headAdressString;
         id<AYViewBase> map = [self.views objectForKey:@"NapAdressMap"];
         id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
@@ -262,13 +262,17 @@
 }
 - (id)rightBtnSelected {
     
+    if ([headAdress.text isEqualToString:@"正在定位, 请稍后..."] || [headAdress.text isEqualToString:@"点击选择区域"] || [customField.text isEqualToString:@""]) {
+        kAYUIAlertView(@"提示", @"请完成具体地址设置");
+        return nil;
+    }
+    
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    
     [dic_info setValue:loc forKey:@"location"];
     [dic_info setValue:headAdress.text forKey:@"address"];
     [dic_info setValue:customField.text forKey:@"adjust_address"];
