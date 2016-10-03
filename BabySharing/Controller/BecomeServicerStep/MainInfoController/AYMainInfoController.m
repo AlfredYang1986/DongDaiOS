@@ -127,14 +127,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:[dic_info objectForKey:@"facility"] forKey:@"facility"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
                 
-                [_noteAllArgs replaceObjectAtIndex:6 withObject:[NSNumber numberWithBool:YES]];
+//                [_noteAllArgs replaceObjectAtIndex:6 withObject:[NSNumber numberWithBool:YES]];
             }
             
             [self isAllArgsReady];
-            
-//            id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MainInfo"];
-//            id<AYCommand> cmd = [delegate.commands objectForKey:@"changeQueryData:"];
-//            [cmd performWithResult:&dic_info];
             
             kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
             kAYViewsSendMessage(@"Table", @"refresh", nil)
@@ -174,7 +170,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     if (!service_info) {
         _noteAllArgs = [[NSMutableArray alloc]init];
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < 6; ++i) {
             [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
         }
     }
