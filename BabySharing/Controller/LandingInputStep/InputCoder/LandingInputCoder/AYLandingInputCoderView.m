@@ -19,7 +19,7 @@
 #import "AYAlertView.h"
 
 #define TEXT_FIELD_LEFT_PADDING             10
-#define TimeZore                            5
+#define TimeZore                            30
 #define kPhoneNoLimit                       13
 
 @implementation AYLandingInputCoderView {

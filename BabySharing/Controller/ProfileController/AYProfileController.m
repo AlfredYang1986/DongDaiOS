@@ -15,7 +15,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
+#import "AYProfileDefines.h"
 #import "AYRemoteCallDefines.h"
 
 #import "AYModelFacade.h"
@@ -76,24 +76,18 @@
 //
         NSNumber *info = [dic objectForKey:kAYControllerChangeArgsKey];
         if (info.boolValue) {
-            id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
-            AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
-            NSDictionary* user = nil;
-            CURRENUSER(user);
             
-            NSMutableDictionary* dic = [user mutableCopy];
-            [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
+            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+            BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
             
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                if (success) {
-                    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-                    id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-                    NSDictionary *dic = [result copy];
-                    [cmd performWithResult:&dic];
-                    
-                    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-                }
-            }];
+            NSDictionary *user_info = nil;
+            CURRENPROFILE(user_info)
+            
+            NSMutableDictionary *tmp = [user_info mutableCopy];
+            [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
+            kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
+            
+            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
         }
     }
 }
@@ -126,31 +120,38 @@
         
         AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
         BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
-        NSNumber *args = [NSNumber numberWithBool:isNap];
-        kAYDelegatesSendMessage(@"Profile", @"changeModel:", &args)
+//        NSNumber *args = [NSNumber numberWithBool:isNap];
+//        kAYDelegatesSendMessage(@"Profile", @"changeModel:", &args)
+        
+        NSDictionary *user_info = nil;
+        CURRENPROFILE(user_info)
+        
+        NSMutableDictionary *tmp = [user_info mutableCopy];
+        [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
+        kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
     }
     
-    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
-    NSDictionary* user = nil;
-    CURRENUSER(user);
+//    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
+//    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
+//    NSDictionary* user = nil;
+//    CURRENUSER(user);
+//    
+//    NSMutableDictionary* dic = [user mutableCopy];
+//    [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
     
-    NSMutableDictionary* dic = [user mutableCopy];
-    [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
-    
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-            id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-            
-            NSDictionary *dic = [result copy];
-            [cmd performWithResult:&dic];
-            
-            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
-        }
-    }];
+//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        if (success) {
+//            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
+//            id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+//            
+//            NSDictionary *dic = [result copy];
+//            [cmd performWithResult:&dic];
+//            
+//            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+//            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+//            [refresh performWithResult:nil];
+//        }
+//    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -195,7 +196,7 @@
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -210,49 +211,49 @@
     return nil;
 }
 
-- (id)queryModel:(id)args {
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isNap = [self.tabBarController isKindOfClass:[des class]];
-    args = [NSNumber numberWithBool:isNap];
-    return args;
-}
+//- (id)queryModel:(id)args {
+//    
+//    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+//    BOOL isNap = [self.tabBarController isKindOfClass:[des class]];
+//    args = [NSNumber numberWithBool:isNap];
+//    return args;
+//}
 
-- (id)queryIsGridSelected:(id)obj {
-    //    NSInteger index = ((NSNumber*)obj).integerValue;
-    return [NSNumber numberWithBool:NO];
-}
+//- (id)queryIsGridSelected:(id)obj {
+//    //    NSInteger index = ((NSNumber*)obj).integerValue;
+//    return [NSNumber numberWithBool:NO];
+//}
 
-
-- (id)SamePersonBtnSelected {
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)relationChanged:(id)args {
-    NSNumber* new_relations = (NSNumber*)args;
-    NSLog(@"new relations %@", new_relations);
-    
-    id<AYViewBase> view_header = [self.views objectForKey:@"ProfileHeader"];
-    id<AYCommand> cmd = [view_header.commands objectForKey:@"changeRelations:"];
-    [cmd performWithResult:&new_relations];
-    
-    return nil;
-}
+//- (id)SamePersonBtnSelected {
+//    
+//    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
+//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd = PUSH;
+//    [cmd performWithResult:&dic_push];
+//    return nil;
+//}
+//
+//- (id)relationChanged:(id)args {
+//    NSNumber* new_relations = (NSNumber*)args;
+//    NSLog(@"new relations %@", new_relations);
+//    
+//    id<AYViewBase> view_header = [self.views objectForKey:@"ProfileHeader"];
+//    id<AYCommand> cmd = [view_header.commands objectForKey:@"changeRelations:"];
+//    [cmd performWithResult:&new_relations];
+//    
+//    return nil;
+//}
 
 - (id)sendRegMessage:(NSNumber*)type {
     
     AYViewController* compare = DEFAULTCONTROLLER(@"TabBar");
     BOOL isNap = ![self.tabBarController isKindOfClass:[compare class]];
+    
     AYViewController *des;
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     
@@ -262,7 +263,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:type forKey:kAYControllerChangeArgsKey];
+        [dic_show_module setValue:[NSNumber numberWithInteger:ProfileModelServiceToCommon] forKey:kAYControllerChangeArgsKey];
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
@@ -270,7 +271,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInt:2] forKey:kAYControllerChangeArgsKey];
+        [dic_show_module setValue:[NSNumber numberWithInteger:ProfileModelServicePersonal] forKey:kAYControllerChangeArgsKey];
         
     }
     

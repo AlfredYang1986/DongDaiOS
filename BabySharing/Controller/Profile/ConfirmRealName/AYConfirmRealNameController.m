@@ -169,7 +169,21 @@
         if (success) {
             
 //            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您的信息已提交，请耐心等待$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            /**
+             *  save to coredata
+             */
+            id<AYFacadeBase> facade = LOGINMODEL;
+            id<AYCommand> cmd_profle = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
             
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:tmp forKey:@"contact_no"];
+            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_real_name_cert"];
+            
+            [cmd_profle performWithResult:&dic];
+            
+            /**
+             *  go on
+             */
             AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
             NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
             [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

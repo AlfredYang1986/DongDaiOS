@@ -159,7 +159,7 @@
             id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
             AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
             [cmd_profile performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                NSLog(@"Update user detail remote result: %@", result);
+                
                 if (success) {
                     AYModel* m = MODEL;
                     AYFacade* f = [m.facades objectForKey:@"LoginModel"];
@@ -210,25 +210,19 @@
             id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
             NSNumber *is_reg = [result objectForKey:@"is_reg"];
             if (is_reg.intValue == 0) {
-                id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
-                id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
-                UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-                [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
+                
+                UIButton *bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:nil];
                 [bar_right_btn sizeToFit];
                 bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-                [fake_cmd performWithResult:&bar_right_btn];
+                kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
                 
                 id<AYCommand> hide_cmd = [input.commands objectForKey:@"hideEnterBtnForNewUser"];
                 [hide_cmd performWithResult:nil];
                 
             } else if (is_reg.intValue == 1) {
-                id<AYViewBase> nav_bar = [self.views objectForKey:@"FakeNavBar"];
-                id<AYCommand> fake_cmd = [nav_bar.commands objectForKey:@"setRightBtnWithBtn:"];
-                UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, 25, 25)];
-                [bar_right_btn setTitle:@" " forState:UIControlStateNormal];
-                bar_right_btn.userInteractionEnabled = NO;
-                [fake_cmd performWithResult:&bar_right_btn];
+                
+                NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+                kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
                 
                 id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
                 [show_cmd performWithResult:nil];

@@ -137,30 +137,36 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    if (isExchangeModel != 0) {
-//        NSString *tipString = (isExchangeModel == 1) ? @"转换到服务者模式..." : @"转换到看护家庭模式...";
-//        
-//        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-//        [self.view addSubview:cover];
-//        cover.backgroundColor = [UIColor blackColor];
-//        
-//        UILabel *tipsLabel = [[UILabel alloc]init];
-//        tipsLabel = [Tools setLabelWith:tipsLabel andText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
-//        [cover addSubview:tipsLabel];
-//        [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.equalTo(cover).offset(-60);
-//            make.centerX.equalTo(cover);
-//        }];
-//        
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [UIView animateWithDuration:0.5 animations:^{
-//                cover.alpha = 0;
-//            } completion:^(BOOL finished) {
-//                [cover removeFromSuperview];
-//            }];
-//        });
-//    }
-//    isExchangeModel = 0;
+    if (isExchangeModel != 0) {
+        NSString *tipString ;
+        
+        if (isExchangeModel == 2) {
+            tipString = @"转换到服务者模式...";
+        } else if (isExchangeModel == 3) {
+            tipString = @"转换到看护家庭模式...";
+        }
+        
+        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+        [self.view addSubview:cover];
+        cover.backgroundColor = [UIColor blackColor];
+        
+        UILabel *tipsLabel = [[UILabel alloc]init];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        [cover addSubview:tipsLabel];
+        [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(cover).offset(-60);
+            make.centerX.equalTo(cover);
+        }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.5 animations:^{
+                cover.alpha = 0;
+            } completion:^(BOOL finished) {
+                [cover removeFromSuperview];
+            }];
+        });
+    }
+    isExchangeModel = 0;
 }
 
 #pragma mark -- tabbar delegate

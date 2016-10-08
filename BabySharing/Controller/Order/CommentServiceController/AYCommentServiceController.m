@@ -90,14 +90,39 @@
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
     
-    
-    
     nameLabel = [[UILabel alloc]init];
     nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools whiteColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(userPhoto.mas_bottom).offset(25);
         make.centerX.equalTo(self.view);
+    }];
+    
+    
+    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+    [dic_owner_id setValue:[notify_args objectForKey:@"sender_id"] forKey:@"user_id"];
+    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSString *photo_name = [result objectForKey:@"screen_photo"];
+            
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:photo_name forKey:@"image"];
+            [dic setValue:@"img_icon" forKey:@"expect_size"];
+            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                UIImage* img = (UIImage*)result;
+                if (img != nil) {
+                    [userPhoto setImage:img];
+                }
+            }];
+            
+            NSString *user_name = [result objectForKey:@"screen_name"];
+            nameLabel.text = user_name;
+        }
     }];
     
 //    UILabel *countLabel = [[UILabel alloc]init];
@@ -143,31 +168,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
-    
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:[notify_args objectForKey:@"sender_id"] forKey:@"user_id"];
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            NSString *photo_name = [result objectForKey:@"screen_photo"];
-            
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:photo_name forKey:@"image"];
-            [dic setValue:@"img_icon" forKey:@"expect_size"];
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                UIImage* img = (UIImage*)result;
-                if (img != nil) {
-                    [userPhoto setImage:img];
-                }
-            }];
-            
-            NSString *user_name = [result objectForKey:@"screen_name"];
-            nameLabel.text = user_name;
-        }
-    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -200,7 +200,7 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - kTableViewY - 100);
-    view.backgroundColor = [Tools blackColor];
+    view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 

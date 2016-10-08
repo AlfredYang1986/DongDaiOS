@@ -172,11 +172,11 @@
 //    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
 //    [cmd performWithResult:nil];
     
-    if (isExchangeModel == 2) {
+    if (isExchangeModel == 4) {
         cover.backgroundColor = [UIColor blackColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
-        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到发单妈妈模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到被服务者模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
         [cover addSubview:tipsLabel];
         [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cover).offset(-60);

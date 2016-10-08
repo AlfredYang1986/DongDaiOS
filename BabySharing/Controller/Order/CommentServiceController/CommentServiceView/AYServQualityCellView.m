@@ -53,7 +53,7 @@
     if (self) {
 //        NSLog(@"init reuse identifier");
         
-        self.backgroundColor = [Tools blackColor];
+        self.backgroundColor = [UIColor clearColor];
         
         titleLabel = [UILabel new];
         titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];

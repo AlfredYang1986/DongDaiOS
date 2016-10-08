@@ -18,10 +18,6 @@
 
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 
-@interface AYPersonalSettingController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
-
-@end
-
 @implementation AYPersonalSettingController {
     
     NSMutableDictionary* profile_dic;
@@ -118,6 +114,7 @@
     nameTextField.font = kAYFontLight(14.f);
     nameTextField.textColor = [Tools garyColor];
     nameTextField.placeholder = @"请输入姓名";
+    nameTextField.delegate = self;
     nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [mainView addSubview:nameTextField];
     [nameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -244,6 +241,13 @@
 }
 
 #pragma mark -- actions
+
+-(void)didSelfPhotoClick {
+    [self tapElseWhere:nil];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
+    [sheet showInView:self.view];
+}
+
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     
     if ([nameTextField isFirstResponder]) {
@@ -323,6 +327,24 @@
     [change_profile_dic setValue:nameTextField.text forKey:@"screen_name"];
     [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
+            
+            id<AYFacadeBase> facade = LOGINMODEL;
+            id<AYCommand> cmd_profle = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+            
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:[result objectForKey:@"screen_name"] forKey:@"screen_name"];
+            
+//            NSString *screen_photo = [result objectForKey:@"screen_photo"];
+            if ([result objectForKey:@"screen_photo"]) {
+                [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"screen_photo"];
+            }
+//            NSString *personal_description = [result objectForKey:@"personal_description"];
+            if ([result objectForKey:@"personal_description"]) {
+                [dic setValue:[result objectForKey:@"personal_description"] forKey:@"personal_description"];
+            }
+            
+            [cmd_profle performWithResult:&dic];
+            
             [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
             [self popToPreviousWithSave];
         } else {
@@ -385,7 +407,25 @@
     return nil;
 }
 
-#pragma mark -- UIImagePickerControllerDelegate
+#pragma mark -- notifies
+- (id)screenNameChanged:(NSString*)args {
+    [change_profile_dic setValue:args forKey:@"screen_name"];
+    [profile_dic setValue:args forKey:@"screen_name"];
+    return nil;
+}
+
+- (id)addressChanged:(NSString*)args {
+    [change_profile_dic setValue:args forKey:@"role_tag"];
+    return nil;
+}
+
+- (id)scrollToHideKeyBoard {
+    return nil;
+}
+
+
+
+#pragma mark -- UIImagePickerControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
     
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -411,31 +451,11 @@
     [profile_dic setValue:img_name forKey:@"screen_photo"];
 }
 
-- (id)screenNameChanged:(NSString*)args {
-    [change_profile_dic setValue:args forKey:@"screen_name"];
-    [profile_dic setValue:args forKey:@"screen_name"];
-    return nil;
-}
-
-- (id)addressChanged:(NSString*)args {
-    [change_profile_dic setValue:args forKey:@"role_tag"];
-    return nil;
-}
-
-- (id)scrollToHideKeyBoard {
-    return nil;
-}
-
 //用户取消拍照
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)didSelfPhotoClick {
-    [self tapElseWhere:nil];
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
-    [sheet showInView:self.view];
-}
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -447,4 +467,18 @@
         [self performForView:nil andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
     }
 }
+
+//nameTextFiled
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSString *tmp = textField.text;
+    NSInteger len = [Tools bityWithStr:tmp];
+    
+    if (len > 32) {
+        kAYUIAlertView(@"提示", @"姓名长度应在4-32个字符之间\n(汉字／大写字母长度为2)");
+        return NO;
+    } else
+        return YES;
+}
+
 @end

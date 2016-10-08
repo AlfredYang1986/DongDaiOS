@@ -128,7 +128,7 @@
     [format setDateFormat:@"yyyy年MM月dd日, EEEE"];
     NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
     [format setTimeZone:timeZone];
-    NSDate *today = [NSDate dateWithTimeIntervalSince1970:start];
+    NSDate *today = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
     NSString *order_dateStr = [format stringFromDate:today];
     
     NSDateFormatter *formatTimes = [[NSDateFormatter alloc] init];
@@ -136,10 +136,10 @@
 //    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
     [formatTimes setTimeZone:timeZone];
     
-    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:start];
+    NSDate *startTime = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
     NSString *startStr = [formatTimes stringFromDate:startTime];
     
-    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:end];
+    NSDate *endTime = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
     NSString *endStr = [formatTimes stringFromDate:endTime];
     
     
@@ -250,6 +250,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];

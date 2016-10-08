@@ -348,7 +348,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 //        table_view.center = CGPointMake(table_view.center.x, table_view.center.y - step.floatValue);
         
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT - step.floatValue, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-        ((UIView*)view_table).frame = CGRectMake(0, 64 + 60 - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - INPUT_CONTAINER_HEIGHT);
         
 //        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
     }];
@@ -363,7 +363,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [UIView animateWithDuration:0.3f animations:^{
 //        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2);
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-        ((UIView*)view_table).frame = CGRectMake(0, 64+60, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60 - 44);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - INPUT_CONTAINER_HEIGHT);
     }];
     
     return nil;

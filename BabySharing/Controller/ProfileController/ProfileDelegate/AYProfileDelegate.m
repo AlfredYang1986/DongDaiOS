@@ -22,11 +22,9 @@
 @end
 
 @implementation AYProfileDelegate{
-    NSMutableArray *origs;
-    NSArray *confirmData;
+    NSArray *origs;
+//    NSArray *confirmData;
     
-    BOOL isNapModel;
-    BOOL is_service_provider;
 }
 
 @synthesize querydata = _querydata;
@@ -39,10 +37,7 @@
 
 - (void)postPerform {
     
-    confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
-    
-//    AYModelFacade* f = LOGINMODEL;
-//    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+//    confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
     
 }
 
@@ -64,30 +59,31 @@
 
 - (id)changeModel:(NSNumber*)args {
     
-    isNapModel = args.boolValue;
-    if (isNapModel) {
-        origs = [NSMutableArray arrayWithObjects:@"切换到被服务者", @"发布服务", @"设置", nil];
-    } else
-        origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+//    isNapModel = args.boolValue;
+//    if (isNapModel) {
+//        origs = [NSMutableArray arrayWithObjects:@"切换到被服务者", @"发布服务", @"设置", nil];
+//    } else
+//        origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
     return nil;
 }
 
 -(id)changeQueryData:(NSDictionary*)args {
     _querydata = args;
     
-    NSNumber *model = [_querydata objectForKey:@"is_service_provider"];
-    if (model.intValue == 1) {
-        is_service_provider = YES;
-        if (isNapModel) {
-            [origs replaceObjectAtIndex:0 withObject:@"切换到被服务者"];
-            [origs replaceObjectAtIndex:1 withObject:@"发布服务"];
-        } else {
-            [origs replaceObjectAtIndex:0 withObject:@"切换到服务者"];
+    NSMutableArray *tmp = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+    NSNumber *type = [_querydata objectForKey:@"is_service_provider"];
+    
+    if (type.boolValue) {
+        [tmp replaceObjectAtIndex:0 withObject:@"切换到服务者"];
+        
+        NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
+        if (is_nap.boolValue) {
+            [tmp replaceObjectAtIndex:0 withObject:@"切换到被服务者"];
+            [tmp replaceObjectAtIndex:1 withObject:@"发布服务"];
         }
     }
-    if (model.intValue == 2) {
-        [origs replaceObjectAtIndex:1 withObject:@"切换到看护家庭"];
-    }
+    
+    origs = [tmp copy];
     
     return nil;
 }
@@ -165,11 +161,11 @@
         [self servicerOptions];
         
     } else if (indexPath.row == 2) {
-        
-        isNapModel? [self pushNewService] : [self collectService];
+        NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
+        is_nap.boolValue? [self pushNewService] : [self collectService];
         
     } else
-        [self setting];
+        [self appSetting];
     
 }
 
@@ -188,10 +184,9 @@
 
 - (void)servicerOptions {
     
-//    NSNumber *model = [_querydata objectForKey:@""];
-//    NSNumber *model = [NSNumber numberWithInt:1];
+    NSNumber *model = [_querydata objectForKey:@"is_service_provider"];
     
-    if (is_service_provider) {     // //michauxs 临时数据
+    if (model.boolValue) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
         NSNumber *args = [NSNumber numberWithInt:1];
         [cmd performWithResult:&args];
@@ -268,7 +263,7 @@
     [cmd performWithResult:&dic_push];
 }
 
-- (void)setting {
+- (void)appSetting {
     // NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
     

@@ -1893,6 +1893,7 @@
 		70C2DF651D24CE3B00A9F217 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcurl.a; sourceTree = "<group>"; };
 		70C2DF661D24CE3B00A9F217 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		70C2DF671D24CE3B00A9F217 /* libHyphenateFullSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libHyphenateFullSDK.a; sourceTree = "<group>"; };
+		70C313C61DA8A78E003350E4 /* AYProfileDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfileDefines.h; sourceTree = "<group>"; };
 		70C4C8DB1CF7E53000F44C36 /* AYSMSSendCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSMSSendCommand.h; sourceTree = "<group>"; };
 		70C4C8DC1CF7E53000F44C36 /* AYSMSSendCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSMSSendCommand.m; sourceTree = "<group>"; };
 		70C564031D8FB60000DA9581 /* UINavigationController+WXSTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+WXSTransition.h"; sourceTree = "<group>"; };
@@ -4604,6 +4605,7 @@
 			children = (
 				704762EB1D2D244B00538AC0 /* AYProfileDelegate.h */,
 				704762EC1D2D244B00538AC0 /* AYProfileDelegate.m */,
+				70C313C61DA8A78E003350E4 /* AYProfileDefines.h */,
 			);
 			path = ProfileDelegate;
 			sourceTree = "<group>";
@@ -8467,6 +8469,7 @@
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = V6843SSXWV;
+						ProvisioningStyle = Automatic;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -9382,8 +9385,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yuan Yang (2X5VX27Y79)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Yuan Yang (2X5VX27Y79)";
-				DEVELOPMENT_TEAM = AA47RE58D2;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = V6843SSXWV;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -9419,6 +9422,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -9429,7 +9433,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Yuan Yang (V6843SSXWV)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Yuan Yang (V6843SSXWV)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = AA47RE58D2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;

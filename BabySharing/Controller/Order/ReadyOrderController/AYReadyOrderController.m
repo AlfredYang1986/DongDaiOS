@@ -263,8 +263,9 @@
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            kAYUIAlertView(@"提示", @"have done acomplished");
-            kAYPopToRootVC
+            kAYUIAlertView(@"提示", @"订单已完成");
+//            kAYPopToRootVC
+            [self popToRoot];
         } else {
             
         }
@@ -276,6 +277,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
