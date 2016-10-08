@@ -45,7 +45,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        notify_args = [dic objectForKey:kAYControllerChangeArgsKey];
+        notify_args = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"notify_info"];
         //        NSLog(@"%@",order_info);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {

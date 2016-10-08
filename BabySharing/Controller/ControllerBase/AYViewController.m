@@ -166,7 +166,7 @@
     
     if (count_loading == 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [MBProgressHUD showHUDAddedTo:self.tabBarController.view animated:YES];
         });
     }
     count_loading++;
@@ -189,7 +189,7 @@
     count_loading --;
     if (count_loading == 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
         });
     }
     
