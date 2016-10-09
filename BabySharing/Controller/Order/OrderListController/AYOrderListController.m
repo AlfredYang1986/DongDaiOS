@@ -51,12 +51,10 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSNumber *info = [dic objectForKey:kAYControllerChangeArgsKey];
         if (info.boolValue) {
-            
-            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
-            ((UITableView*)view_future).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-            [((UITableView*)view_future).mj_header beginRefreshing];
-//            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
-//            ((UITableView*)view_past).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+            [self loadOrderData];
+//            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+//            ((UITableView*)view_future).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+//            [((UITableView*)view_future).mj_header beginRefreshing];
         }
     }
 }

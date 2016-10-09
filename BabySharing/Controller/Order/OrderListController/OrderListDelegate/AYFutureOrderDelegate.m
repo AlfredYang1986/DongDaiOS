@@ -109,7 +109,6 @@
         [cmd performWithResult:&dic_update];
     }
     
-    
     id<AYCommand> des = DEFAULTCONTROLLER(@"ReadyOrder");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

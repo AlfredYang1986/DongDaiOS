@@ -23,6 +23,8 @@
 
 @implementation AYViewController{
     int count_loading;
+    int time_count;
+    NSTimer *timer_loding;
 }
 
 
@@ -162,11 +164,13 @@
 //    [cmd performWithResult:nil];
 //    
     
-    
-    
+    time_count = 30;            //star a new remote, so reset time count to 30
     if (count_loading == 0) {
+        time_count = 30;
+        timer_loding = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
+        [timer_loding fire];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD showHUDAddedTo:self.tabBarController.view animated:YES];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         });
     }
     count_loading++;
@@ -188,12 +192,23 @@
     
     count_loading --;
     if (count_loading == 0) {
+        [timer_loding invalidate];
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         });
     }
     
     return nil;
+}
+
+- (void)timerRun {
+    time_count -- ;
+    if (time_count == 0) {
+        [timer_loding invalidate];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        });
+    }
 }
 
 - (id)OrderAccomplished:(id)args {
