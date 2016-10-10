@@ -9,7 +9,6 @@
 #import "AYCLResultCellView.h"
 #import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -62,7 +61,8 @@
     
     _ownerIconImage.layer.cornerRadius = 20.f;
     _ownerIconImage.clipsToBounds = YES;
-    _ownerIconImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+    _ownerIconImage.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    _ownerIconImage.layer.borderColor = [Tools borderAlphaColor].CGColor;
     _ownerIconImage.layer.borderWidth = 2.f;
     
     _ownerIconImage.userInteractionEnabled = YES;

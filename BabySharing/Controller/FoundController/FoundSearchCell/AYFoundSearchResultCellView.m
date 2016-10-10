@@ -54,6 +54,7 @@
 @synthesize nextIcon = _nextIcon;
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _nextIcon.image = PNGRESOURCE(@"found_more_friend_arror");
     

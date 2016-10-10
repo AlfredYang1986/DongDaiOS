@@ -19,6 +19,7 @@
 @implementation AYDayCollectionCellView
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _dayDateLabel.textColor = [Tools blackColor];
     self.backgroundColor = [UIColor clearColor];

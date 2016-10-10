@@ -8,6 +8,7 @@
 
 #import "UINavigationController+WXSTransition.h"
 #import <objc/runtime.h>
+#import "UIViewController+WXSTransitionProperty.h"
 @implementation UINavigationController (WXSTransition)
 
 
@@ -48,18 +49,16 @@
     viewController.wxs_addTransitionFlag = YES;
     viewController.wxs_callBackTransition = transitionBlock ? transitionBlock : nil;
     [self pushViewController:viewController animated:YES];
-    
 }
 
 - (UIViewController *)wxs_popViewControllerAnimated:(BOOL)animated {
-    
+
     if (self.viewControllers.lastObject.wxs_delegateFlag) {
         self.delegate = self.viewControllers.lastObject;
         if (self.wxs_tempNavDelegate) {
             self.delegate = self.wxs_tempNavDelegate;
         }
     }
-    
     return [self wxs_popViewControllerAnimated:animated];
     
 }

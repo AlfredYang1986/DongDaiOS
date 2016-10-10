@@ -422,13 +422,17 @@
 }
 
 + (UIColor*)garyColor {
-    return [UIColor colorWithRed:155.0/255.0 green:155.0/255.0 blue:155.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:155.f / 255.f green:155.f / 255.f blue:155.f / 255.f alpha:1.f];
 }
 + (UIColor*)garyLineColor {
-    return [UIColor colorWithWhite:0.75 alpha:1.f];
+    return [UIColor colorWithWhite:0.75f alpha:1.f];
 }
 + (UIColor*)garyBackgroundColor {
-    return [UIColor colorWithWhite:0.9490 alpha:1.f];
+    return [UIColor colorWithWhite:0.9490f alpha:1.f];
+}
+
++ (UIColor*)borderAlphaColor {
+    return [UIColor colorWithWhite:1.f alpha:0.25f];
 }
 
 #pragma mark -- UI

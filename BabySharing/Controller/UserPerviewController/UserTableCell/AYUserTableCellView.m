@@ -61,6 +61,7 @@
 @synthesize userInfoContainer = _userInfoContainer;
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     CALayer* layer = [CALayer layer];
     layer.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;

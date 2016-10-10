@@ -81,16 +81,18 @@ typedef NS_ENUM(NSInteger,WXSTransitionAnimationType){
     WXSTransitionAnimationTypeBrickCloseVertical, 
     WXSTransitionAnimationTypeBrickCloseHorizontal,
     
+    WXSTransitionAnimationTypeInsideThenPush,
     
     WXSTransitionAnimationTypeFragmentShowFromRight,
     WXSTransitionAnimationTypeFragmentShowFromLeft,
     WXSTransitionAnimationTypeFragmentShowFromTop,
     WXSTransitionAnimationTypeFragmentShowFromBottom,
     
-    WXSTransitionAnimationTypeFragmentHide,
-//    WXSTransitionAnimationTypeFragmentHideFromLeft,
-//    WXSTransitionAnimationTypeFragmentHideFromTop,
-//    WXSTransitionAnimationTypeFragmentHideFromBottom,
+    WXSTransitionAnimationTypeFragmentHideFromRight,
+    WXSTransitionAnimationTypeFragmentHideFromLeft,
+    WXSTransitionAnimationTypeFragmentHideFromTop,
+    WXSTransitionAnimationTypeFragmentHideFromBottom,
+    
 };
 
 typedef NS_ENUM(NSInteger,WXSTransitionType){
@@ -109,7 +111,6 @@ typedef NS_ENUM(NSInteger,WXSGestureType){
     WXSGestureTypePanRight,
     WXSGestureTypePanUp,
     WXSGestureTypePanDown,
-//    WXSGestureTypeTap,
     
 };
 //系统动画类型
@@ -130,13 +131,9 @@ typedef NS_ENUM(NSInteger,WXSTransitionSysAnimationType){
     WXSTransitionSysAnimationTypeCurlDown,                   //下翻页
     WXSTransitionSysAnimationTypeCurlUp,                     //上翻页
     WXSTransitionSysAnimationTypeFlipFromLeft,               //左翻转
-    WXSTransitionSysAnimationTypeFlipFromRight, //右翻转
-    
+    WXSTransitionSysAnimationTypeFlipFromRight,              //右翻转
     
 };
-
-
-
 
 
 

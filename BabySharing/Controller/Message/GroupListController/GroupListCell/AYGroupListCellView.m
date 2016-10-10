@@ -123,6 +123,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _themeImg.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _themeImg.layer.borderWidth = 2.f;

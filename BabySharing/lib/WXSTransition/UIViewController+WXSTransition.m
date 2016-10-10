@@ -2,17 +2,8 @@
 
 #import "UIViewController+WXSTransition.h"
 #import <objc/runtime.h>
+#import "UIViewController+WXSTransitionProperty.h"
 
-static NSString *wxs_animationTypeKey = @"animationTypeKey";
-static NSString *wxs_targetViewKey = @"TargetViewKey";
-static NSString *wxs_startViewKey = @"startViewKey";
-static NSString *wxs_callBackTransitionKey = @"CallBackTransitionKey";
-static NSString *wxs_fromVCInteraciveTransitionKey = @"fromVCInteraciveTransitionKey";
-static NSString *wxs_toVCInteraciveTransitionKey = @"ToVCInteraciveTransitionKey";
-static NSString *wxs_delegateFlagKey = @"wxs_DelegateFlagKey";
-static NSString *wxs_addTransitionFlagKey = @"wxs_addTransitionFlagKey";
-static NSString *wxs_transitioningDelegateKey = @"wxs_transitioningDelegateKey";
-static NSString *wxs_tempNavDelegateKey = @"wxs_tempNavDelegateKey";
 
 
 
@@ -20,9 +11,8 @@ UINavigationControllerOperation _operation;
 WXSPercentDrivenInteractiveTransition *_interactive;
 WXSTransitionManager *_transtion;
 
+
 @implementation UIViewController (WXSTransition)
-
-
 #pragma mark Hook
 
 + (void)load {
@@ -67,7 +57,6 @@ WXSTransitionManager *_transtion;
     }
     viewControllerToPresent.wxs_addTransitionFlag = YES;
     viewControllerToPresent.transitioningDelegate = viewControllerToPresent;
-    viewControllerToPresent.wxs_animationType = WXSTransitionAnimationTypeDefault;
     viewControllerToPresent.wxs_callBackTransition = transitionBlock ? transitionBlock : nil;
     [self presentViewController:viewControllerToPresent animated:YES completion:completion];
     
@@ -80,83 +69,10 @@ WXSTransitionManager *_transtion;
             self.transitioningDelegate = self.wxs_transitioningDelegate;
         }
     }
-    
-    
-    
     [self wxs_dismissViewControllerAnimated:flag completion:completion];
 }
 
-#pragma mark Property
 
-//----- wxs_animationType
-- (void)setWxs_animationType:(WXSTransitionAnimationType)wxs_animationType {
-    objc_setAssociatedObject(self, &wxs_animationTypeKey, @(wxs_animationType), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (WXSTransitionAnimationType)wxs_animationType {
-    NSInteger type = [objc_getAssociatedObject(self, &wxs_animationTypeKey) integerValue];
-    return (WXSTransitionAnimationType)type;
-}
-
-////----- wxs_targetView
-//
-//- (void)setWxs_targetView:(UIView *)wxs_targetView {
-//    objc_setAssociatedObject(self, &wxs_targetViewKey, wxs_targetView, OBJC_ASSOCIATION_RETAIN);
-//}
-//-(UIView *)wxs_targetView{
-//    return objc_getAssociatedObject(self, &wxs_targetViewKey);
-//}
-//
-////----- startView
-//- (void)setWxs_startView:(UIView *)wxs_startView {
-//    objc_setAssociatedObject(self, &wxs_startViewKey, wxs_startView, OBJC_ASSOCIATION_RETAIN);
-//}
-//
-//- (UIView *)wxs_startView {
-//    return objc_getAssociatedObject(self, &wxs_startViewKey);
-//}
-
-
-//----- CallBackTransition
-- (void)setWxs_callBackTransition:(WXSTransitionBlock)wxs_callBackTransition {
-    objc_setAssociatedObject(self, &wxs_callBackTransitionKey, wxs_callBackTransition, OBJC_ASSOCIATION_COPY);
-}
-- (WXSTransitionBlock)wxs_callBackTransition {
-    return objc_getAssociatedObject(self, &wxs_callBackTransitionKey);
-}
-
-//----- wxs_DelegateFlag
-- (void)setWxs_delegateFlag:(BOOL)wxs_delegateFlag {
-    objc_setAssociatedObject(self, &wxs_delegateFlagKey, @(wxs_delegateFlag), OBJC_ASSOCIATION_ASSIGN);
-}
--(BOOL)wxs_delegateFlag {
-    return [objc_getAssociatedObject(self, &wxs_delegateFlagKey) integerValue] == 0 ?  NO : YES;
-}
-
-
-//----- wxs_addTransitionFlag
-- (void)setWxs_addTransitionFlag:(BOOL)wxs_addTransitionFlag {
-    objc_setAssociatedObject(self, &wxs_addTransitionFlagKey, @(wxs_addTransitionFlag), OBJC_ASSOCIATION_ASSIGN);
-}
-- (BOOL)wxs_addTransitionFlag {
-    return [objc_getAssociatedObject(self, &wxs_addTransitionFlagKey) integerValue] == 0 ?  NO : YES;
-}
-
-//----- Wxs_transitioningDelega
-- (void)setWxs_transitioningDelegate:(id)wxs_transitioningDelegate {
-    objc_setAssociatedObject(self, &wxs_transitioningDelegateKey, wxs_transitioningDelegate, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (id)wxs_transitioningDelegate {
-    return objc_getAssociatedObject(self, &wxs_transitioningDelegateKey);
-}
-//----- wxs_tempNavDelegate
-- (void)setWxs_tempNavDelegate:(id)wxs_tempNavDelegate {
-    objc_setAssociatedObject(self, &wxs_tempNavDelegateKey, wxs_tempNavDelegate, OBJC_ASSOCIATION_ASSIGN);
-}
-- (id)wxs_tempNavDelegate {
-    return objc_getAssociatedObject(self, &wxs_tempNavDelegateKey);
-}
 
 
 #pragma mark Delegate
@@ -164,11 +80,10 @@ WXSTransitionManager *_transtion;
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
     
     if (!self.wxs_addTransitionFlag) {
-        return nil;
+        return nil;//dimiss directly
     }
     
     !_transtion ? _transtion = [[WXSTransitionManager alloc] init] : nil ;
-    _transtion.animationType = [self wxs_animationType];
     WXSTransitionProperty *make = [[WXSTransitionProperty alloc] init];
     self.wxs_callBackTransition ? self.wxs_callBackTransition(make) : nil;
     _transtion = [WXSTransitionManager copyPropertyFromObjcet:make toObjcet:_transtion];
@@ -179,11 +94,10 @@ WXSTransitionManager *_transtion;
 -(id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
     
     if (!self.wxs_addTransitionFlag) {
-        return nil;
+        return nil;//present directly
     }
     
     !_transtion ? _transtion = [[WXSTransitionManager alloc] init] : nil ;
-    _transtion.animationType = [self wxs_animationType];
     WXSTransitionProperty *make = [[WXSTransitionProperty alloc] init];
     self.wxs_callBackTransition ? self.wxs_callBackTransition(make) : nil;
     _transtion = [WXSTransitionManager copyPropertyFromObjcet:make toObjcet:_transtion];
@@ -209,11 +123,9 @@ WXSTransitionManager *_transtion;
 -(id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC{
     
     if (!self.wxs_addTransitionFlag) {
-        
         return nil;
     }
     !_transtion ? _transtion = [[WXSTransitionManager alloc] init] : nil ;
-    _transtion.animationType = [self wxs_animationType];
     WXSTransitionProperty *make = [[WXSTransitionProperty alloc] init];
     self.wxs_callBackTransition ? self.wxs_callBackTransition(make) : nil;
     _transtion = [WXSTransitionManager copyPropertyFromObjcet:make toObjcet:_transtion];
@@ -254,7 +166,7 @@ WXSTransitionManager *_transtion;
     }else{
         return _interactive.isInteractive ? _interactive : nil ;
     }
-    
+
 }
 
 
