@@ -92,8 +92,10 @@
         NSArray *images = [service_info objectForKey:@"images"];
         
         if ([[images firstObject] isKindOfClass:[NSString class]]) {
-            NSString *PRE = @"http://www.altlys.com:9000/query/downloadFile/";
-            //    NSString *PRE = @"http://192.168.3.60:9000/query/downloadFile/";
+            
+            id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
+            NSString *PRE = cmd_load.route;
             NSMutableArray *tmp = [NSMutableArray array];
             for (int i = 0; i < images.count; ++i) {
                 NSString *obj = images[i];
@@ -457,9 +459,6 @@
 
 -(void)didCollectionBtnClick:(UIButton*)btn{
     
-    collectionBtn.selected = !collectionBtn.selected;
-    bar_like_btn.selected = !bar_like_btn.selected;
-    
     NSDictionary *info = nil;
     CURRENUSER(info);
     
@@ -467,14 +466,15 @@
     [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
     [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     
-    if (collectionBtn.selected) {
-        
+    if (!collectionBtn.selected) {
         
         id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
+                collectionBtn.selected = YES;
+                bar_like_btn.selected = YES;
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
@@ -486,6 +486,8 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
+                collectionBtn.selected = NO;
+                bar_like_btn.selected = NO;
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];

@@ -138,7 +138,7 @@
     NSString* photo_name = [[dic objectForKey:@"images"] objectAtIndex:0];
     NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
     [dic_img setValue:photo_name forKey:@"image"];
-    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+    [dic_img setValue:@"img_desc" forKey:@"expect_size"];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
@@ -208,7 +208,6 @@
 
 - (IBAction)didLikeBtnClick:(id)sender {
     
-    _likeBtn.selected = !_likeBtn.selected;
     NSDictionary *info = nil;
     CURRENUSER(info);
     
@@ -217,12 +216,13 @@
     [dic setValue:[cellInfo objectForKey:@"service_id"] forKey:@"service_id"];
     
     id<AYControllerBase> controller = DEFAULTCONTROLLER(@"LocationResult");
-    if (_likeBtn.selected) {
+    if (!_likeBtn.selected) {
         id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
+                _likeBtn.selected = YES;
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
@@ -234,6 +234,7 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
+                _likeBtn.selected = NO;
             } else {
                 NSLog(@"push error with:%@",result);
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
