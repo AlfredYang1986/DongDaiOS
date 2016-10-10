@@ -120,7 +120,7 @@
     
     NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
     NSNumber *longtitude = [dic_loc objectForKey:@"longtitude"];
-    loc = [[CLLocation alloc]initWithLatitude:latitude.longValue longitude:longtitude.longValue];
+    loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
     
     if (currentAnno) {
         [orderMapView removeAnnotation:currentAnno];
@@ -128,13 +128,14 @@
     }
     
     //rang
-    orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
+//    orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
     currentAnno = [[AYAnnonation alloc]init];
     currentAnno.coordinate = loc.coordinate;
     currentAnno.title = @"定位位置";
     currentAnno.imageName = @"location_self";
     currentAnno.index = 9999;
     [orderMapView addAnnotation:currentAnno];
+    [orderMapView showAnnotations:@[currentAnno] animated:NO];
     NSLog(@"add current_anno");
     
     //center

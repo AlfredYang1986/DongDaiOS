@@ -122,13 +122,15 @@
     }
     
     //rang
-    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
+//    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
     currentAnno = [[AYAnnonation alloc]init];
     currentAnno.coordinate = loc.coordinate;
     currentAnno.title = @"定位位置";
     currentAnno.imageName = @"location_self";
     currentAnno.index = 9999;
     [self addAnnotation:currentAnno];
+    [self showAnnotations:@[currentAnno] animated:NO];
+    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
     NSLog(@"add current_anno");
     
     //center

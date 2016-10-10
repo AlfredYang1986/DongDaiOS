@@ -30,7 +30,9 @@
 
 @end
 
-@implementation AYOrderContactCellView
+@implementation AYOrderContactCellView {
+    NSString *ones_id;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -42,11 +44,14 @@
     
     _userPhotoImage.layer.cornerRadius = 25.f;
     _userPhotoImage.clipsToBounds = YES;
+    _userPhotoImage.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    _userPhotoImage.userInteractionEnabled = YES;
+    [_userPhotoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPhotoTap)]];
     
-//    _contactBtn.layer.cornerRadius = 2.f;
-//    _contactBtn.clipsToBounds = YES;
-//    _contactBtn.layer.borderColor = [Tools themeColor].CGColor;
-//    _contactBtn.layer.borderWidth = 1.f;
+    _contactBtn.layer.cornerRadius = 2.f;
+    _contactBtn.clipsToBounds = YES;
+    _contactBtn.layer.borderColor = [Tools themeColor].CGColor;
+    _contactBtn.layer.borderWidth = 1.f;
     
     // Initialization code
     [self setUpReuseCell];
@@ -105,6 +110,19 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+#pragma mark -- actions
+- (void)userPhotoTap {
+    UIViewController* des = DEFAULTCONTROLLER(@"OneProfile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:ones_id forKey:kAYControllerChangeArgsKey];
+    
+    [_controller performWithResult:&dic_push];
+}
+
 - (IBAction)didContactBtnClick:(id)sender {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick"];
     [cmd performWithResult:nil];
@@ -124,10 +142,12 @@
     
     NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
     
-    if ([user_id isEqualToString:order_owner_id]) {     //我发的服务
+    if ([user_id isEqualToString:order_owner_id]) {     //我发的服务 ->要看到对方的头像  ->即发单妈妈
         [dic_owner_id setValue:order_user_id forKey:@"user_id"];
+        ones_id = order_user_id;
     } else {
         [dic_owner_id setValue:order_owner_id forKey:@"user_id"];
+        ones_id = order_owner_id;
     }
     
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {

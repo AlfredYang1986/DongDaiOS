@@ -48,12 +48,14 @@
 //            }];
 //        }
 //    }];
+    
+    [self beforeAsyncCall];
+    
     dispatch_queue_t post_queue = dispatch_queue_create("post queue", nil);
     dispatch_async(post_queue, ^(void){
 //        UIImage* img = [TmpFileStorageModel enumImageWithName:args withDownLoadFinishBolck:nil];
-        [self beforeAsyncCall];
         [RemoteInstance uploadPicture:[args objectForKey:@"upload_image"] withName:photo toUrl:[NSURL URLWithString:self.route] callBack:^(BOOL successs, NSString *message) {
-            [self endAsyncCall];
+            
             if (successs) {
                 NSLog(@"post image success");
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -65,6 +67,9 @@
                     block(NO, nil);
                 });
             }
+            
+            [self endAsyncCall];
+            
         }];
     });
 }

@@ -56,8 +56,6 @@
 @end
 
 @implementation AYServicePageCellView {
-    NSArray *options_title_cans;
-    NSArray *options_title_facility;
     
     NSDictionary *service_info;
     
@@ -94,7 +92,8 @@
     }];
     maMapView.delegate = self;
     maMapView.scrollEnabled = NO;
-//    maMapView.zoomEnabled = NO;
+    maMapView.zoomEnabled = NO;
+//    [maMapView metersPerPointForZoomLevel:10.f];
     //配置用户Key
     [AMapSearchServices sharedServices].apiKey = @"7d5d988618fd8a707018941f8cd52931";
     
@@ -115,6 +114,7 @@
 @synthesize notifies = _notiyies;
 
 #pragma mark -- life cycle
+
 - (void)setUpReuseCell {
     id<AYViewBase> cell = VIEW(@"ServicePageCell", @"ServicePageCell");
     
@@ -315,19 +315,22 @@
             NSLog(@"remove current_anno");
         }
         //rang
-        maMapView.visibleMapRect = MAMapRectMake(location.coordinate.latitude - 3000, location.coordinate.longitude - 5000, 6000, 10000);
+//        maMapView.visibleMapRect = MAMapRectMake(location.coordinate.latitude - 30000, location.coordinate.longitude - 50000, 60000, 100000);
         currentAnno = [[AYAnnonation alloc]init];
         currentAnno.coordinate = location.coordinate;
         currentAnno.title = @"定位位置";
         currentAnno.imageName = @"location_self";
         [maMapView addAnnotation:currentAnno];
+        [maMapView showAnnotations:@[currentAnno] animated:NO];
+//        maMapView.region = MACoordinateRegionMake(CLLocationCoordinate2DMake(latitude.doubleValue, longitude.doubleValue), MACoordinateSpanMake(latitude.doubleValue, longitude.doubleValue));
+        [maMapView regionThatFits:MACoordinateRegionMake(CLLocationCoordinate2DMake(latitude.doubleValue, longitude.doubleValue), MACoordinateSpanMake(latitude.doubleValue, longitude.doubleValue))];
         NSLog(@"add current_anno");
         //center
         [maMapView setCenterCoordinate:location.coordinate animated:YES];
     }
     
-    options_title_cans = kAY_service_options_title_cans;
-    options_title_facility = kAY_service_options_title_facilities;
+    NSArray *options_title_cans = kAY_service_options_title_cans;
+    NSArray *options_title_facility = kAY_service_options_title_facilities;
     
     long options = ((NSNumber*)[service_info objectForKey:@"cans"]).longValue;
     for (int i = 0; i < options_title_cans.count; ++i) {

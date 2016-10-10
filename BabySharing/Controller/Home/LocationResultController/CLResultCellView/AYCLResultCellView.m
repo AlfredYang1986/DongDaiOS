@@ -55,6 +55,9 @@
     [super awakeFromNib];
     // Initialization code
     
+    _mainImage.contentMode = UIViewContentModeScaleAspectFill;
+    _mainImage.clipsToBounds = YES;
+    
     _costLabel.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.6f];
     
     _ownerIconImage.layer.cornerRadius = 20.f;
@@ -186,11 +189,9 @@
                 UIImage* img = (UIImage*)result;
                 if (img != nil) {
                     [_ownerIconImage setImage:img];
-                } else
-                    _ownerIconImage.image = IMGRESOURCE(@"default_user");
+                }
             }];
-        } else
-            _ownerIconImage.image = IMGRESOURCE(@"default_user");
+        }
         
     }];
     

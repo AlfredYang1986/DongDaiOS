@@ -43,10 +43,7 @@
 //            make.right.equalTo(self).offset(-10);
 //        }];
         
-        _titleLabel = [[UILabel alloc]init];
-        _titleLabel.text = @"一句话了解妈妈";
-        _titleLabel.font = [UIFont systemFontOfSize:13.f];
-        _titleLabel.textColor = [UIColor colorWithWhite:0.2f alpha:1.f];
+        _titleLabel = [Tools creatUILabelWithText:@"一句话了解妈妈" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.top.equalTo(_starRangImage.mas_bottom).offset(10);
@@ -65,16 +62,16 @@
             make.size.mas_equalTo(CGSizeMake(90, 14));
         }];
         
-        _contentCount = [[UILabel alloc]init];
-        _contentCount.text = @"13";
-        _contentCount.font = [UIFont systemFontOfSize:14.f];
-        _contentCount.textColor = [Tools colorWithRED:155 GREEN:155 BLUE:155 ALPHA:1.f];
-        [self addSubview:_contentCount];
-        [_contentCount mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_starRangImage.mas_right).offset(10);
-            make.centerY.equalTo(_starRangImage);
-        }];
-        _contentCount.hidden = YES;
+//        _contentCount = [[UILabel alloc]init];
+//        _contentCount.text = @"13";
+//        _contentCount.font = [UIFont systemFontOfSize:14.f];
+//        _contentCount.textColor = [Tools colorWithRED:155 GREEN:155 BLUE:155 ALPHA:1.f];
+//        [self addSubview:_contentCount];
+//        [_contentCount mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(_starRangImage.mas_right).offset(10);
+//            make.centerY.equalTo(_starRangImage);
+//        }];
+//        _contentCount.hidden = YES;
         
         _infoLabel = [[UILabel alloc]init];
         _infoLabel = [Tools setLabelWith:_infoLabel andText:@"家庭看护" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -133,6 +130,17 @@
             _imageView.image = img;
         }
     }];
+    
+    NSArray *options_title_cans = kAY_service_options_title_cans;
+    
+    long options = ((NSNumber*)[contentInfo objectForKey:@"cans"]).longValue;
+    for (int i = 0; i < options_title_cans.count; ++i) {
+        long note_pow = pow(2, i);
+        if ((options & note_pow)) {
+            _infoLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+            break;
+        }
+    }
     
 //    NSDictionary *dic_loc = [self.contentInfo objectForKey:@"location"];
 //    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];

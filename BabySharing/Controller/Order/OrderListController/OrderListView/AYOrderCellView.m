@@ -36,6 +36,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    _thumbsImage.contentMode = UIViewContentModeScaleAspectFill;
+    _thumbsImage.clipsToBounds = YES;
+    
     [self setUpReuseCell];
 }
 
@@ -92,9 +96,9 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSDictionary*)args{
+- (id)setCellInfo:(NSDictionary*)args {
     
-    NSString* photo_name = [args objectForKey:@"order_thumbs"];
+    NSString* photo_name = [[[args objectForKey:@"service"] objectForKey:@"images"] firstObject];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:photo_name forKey:@"image"];
     [dic setValue:@"img_thum" forKey:@"expect_size"];
