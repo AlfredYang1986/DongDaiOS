@@ -228,7 +228,7 @@
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             }
         }];
-    }else {
+    } else {
         id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
