@@ -32,10 +32,8 @@
     indexNumb = 0;
 }
 
-- (void)layoutSubviews{
+- (void)layoutSubviews {
     [super layoutSubviews];
-    
-    
 }
 
 #pragma mark -- commands
@@ -57,14 +55,14 @@
 
 -(id)changeOffsetX:(NSNumber*)index {
     if (index.floatValue == 0) {
-        [self setContentOffset:CGPointMake(0, 0) animated:YES];
+        [self setContentOffset:CGPointMake(0, 0) animated:NO];
     } else
-        [self setContentOffset:CGPointMake(CellWidth * index.floatValue - (self.frame.size.width - CellWidth)*0.5, 0) animated:YES];
+        [self setContentOffset:CGPointMake(CellWidth * index.floatValue - (self.frame.size.width - CellWidth)*0.5, 0) animated:NO];
     
     return nil;
 }
 
--(id)changeResultData:(NSDictionary*)args{
+-(id)changeResultData:(NSDictionary*)args {
     resultAndLoc = args;
     
     CLLocation *loc = [resultAndLoc objectForKey:@"location"];
@@ -87,8 +85,8 @@
 }
 
 #pragma mark -- actions
-- (void)didCellClick:(UIGestureRecognizer*)tap{
-    NSLog(@" cell did clik");
+- (void)didCellClick:(UIGestureRecognizer*)tap {
+    
     UIView *view = tap.view;
     AYShowBoardCellView *cell = (AYShowBoardCellView*)view;
     id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");

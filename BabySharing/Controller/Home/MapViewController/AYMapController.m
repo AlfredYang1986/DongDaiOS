@@ -152,7 +152,7 @@
     return resultAndLoc;
 }
 
--(id)sendChangeOffsetMessage:(NSNumber*)index{
+-(id)sendChangeOffsetMessage:(NSNumber*)index {
     id<AYViewBase> view = [self.views objectForKey:@"ShowBoard"];
     id<AYCommand> cmd = [view.commands objectForKey:@"changeOffsetX:"];
     [cmd performWithResult:&index];

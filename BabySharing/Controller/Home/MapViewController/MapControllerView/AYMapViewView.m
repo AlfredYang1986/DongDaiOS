@@ -34,7 +34,9 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.delegate = self;
+//    self.zoomLevel = 0.5;
     annoArray = [[NSMutableArray alloc]init];
+    
 //    self.userTrackingMode = MKUserTrackingModeFollow;
 //    self.userTrackingMode = MKUserTrackingModeNone;
 //    self.centerCoordinate = self.userLocation.location.coordinate;
@@ -44,52 +46,6 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    
-    if (annoArray.count != 0) {
-        [self removeAnnotations:annoArray];
-        NSLog(@"remove arr");
-    }
-    if (currentAnno) {
-        [self removeAnnotation:currentAnno];
-        NSLog(@"remove current_anno");
-    }
-    
-    CLLocation *loc = [resultAndLoc objectForKey:@"location"];
-    fiteResultData = [resultAndLoc objectForKey:@"result_data"];
-    
-    for (int i = 0; i < fiteResultData.count; ++i) {
-        NSDictionary *info = fiteResultData[i];
-        
-        NSDictionary *dic_loc = [info objectForKey:@"location"];
-        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-        
-        AYAnnonation *anno = [[AYAnnonation alloc]init];
-        anno.coordinate = location.coordinate;
-        anno.title = @"谁知道哪！";
-        anno.imageName = @"position_small";
-        anno.index = i + 200;
-        [self addAnnotation:anno];
-        NSLog(@"add anno");
-        [annoArray addObject:anno];
-    }
-    
-    //rang
-//    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
-    currentAnno = [[AYAnnonation alloc]init];
-    currentAnno.coordinate = loc.coordinate;
-    currentAnno.title = @"定位位置";
-    currentAnno.imageName = @"location_self";
-    currentAnno.index = 9999;
-    [self addAnnotation:currentAnno];
-    [self showAnnotations:@[currentAnno] animated:NO];
-    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-    NSLog(@"add current_anno");
-//    [annoArray addObject:anno];
-//    currentAnno = anno;
-    //center
-    [self setCenterCoordinate:loc.coordinate animated:NO];
     
 }
 
@@ -110,50 +66,52 @@
     return kAYFactoryManagerCatigoryView;
 }
 
--(id)changeAnnoView:(NSNumber*)index{
-    NSLog(@"sunfei -- %@",index);
+-(id)changeResultData:(NSDictionary*)args {
+    resultAndLoc = args;
     
-    NSDictionary *info = fiteResultData[index.integerValue];
-    
-    NSDictionary *dic_loc = [info objectForKey:@"location"];
-    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-    [self setCenterCoordinate:location.coordinate animated:YES];
-    
-    for (NSObject *sub in self.subviews) {
-        NSLog(@"%@",sub);
-        if ([sub isKindOfClass:[UIView class]]) {
-            for (NSObject *sub_2 in ((UIView*)sub).subviews) {
-                NSLog(@"%@--%@",sub,sub_2);
-//                if ([sub_2 isKindOfClass:[MAMapScrollView class]]) { //MAMapScrollView
-//                    for (NSObject *sub_3 in ((UIScrollView*)sub_2).subviews) {
-//                        NSLog(@"\n====%@",sub_3);
-//                    }
-//                }
-            }
-        }
-//        if (sub.tag == 200 + index.integerValue) {
-//            
-//        }
+    if (annoArray.count != 0) {
+        [self removeAnnotations:annoArray];
+    }
+    if (currentAnno) {
+        [self removeAnnotation:currentAnno];
     }
     
-//    AYAnnonation *anno = [[AYAnnonation alloc]init];
-//    anno.coordinate = location.coordinate;
-//    anno.title = @"谁知道哪！";
-//    anno.imageName = @"position_small";
-//    anno.index = index.integerValue;
+    CLLocation *loc = [resultAndLoc objectForKey:@"location"];
+    fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
-//    [self addAnnotation:anno];
-//    NSLog(@"replace anno");
-//    [annoArray addObject:anno];
+    for (int i = 0; i < fiteResultData.count; ++i) {
+        NSDictionary *info = fiteResultData[i];
+        
+        NSDictionary *dic_loc = [info objectForKey:@"location"];
+        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+        
+        AYAnnonation *anno = [[AYAnnonation alloc]init];
+        anno.coordinate = location.coordinate;
+        anno.title = @"谁知道哪！";
+        anno.imageName = @"position_small";
+        anno.index = i;
+        [self addAnnotation:anno];
+        [annoArray addObject:anno];
+    }
+    
+    //rang
+    //    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
+    currentAnno = [[AYAnnonation alloc]init];
+    currentAnno.coordinate = loc.coordinate;
+    currentAnno.title = @"定位位置";
+    currentAnno.imageName = @"location_self";
+    currentAnno.index = 9999;
+    [self addAnnotation:currentAnno];
+    [self showAnnotations:@[currentAnno] animated:NO];
+//    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
+    
+    [self setCenterCoordinate:loc.coordinate animated:NO];
+    
     return nil;
 }
 
--(id)changeResultData:(NSDictionary*)args{
-    resultAndLoc = args;
-    return nil;
-}
 #pragma mark -- MKMapViewDelegate
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
@@ -167,7 +125,7 @@
         //设置属性 指定图片
         AYAnnonation *anno = (AYAnnonation *) annotation;
         annotationView.image = [UIImage imageNamed:anno.imageName];
-        annotationView.tag = anno.index;
+//        annotationView.tag = anno.index;
         //展示详情界面
         annotationView.canShowCallout = NO;
         return annotationView;
@@ -197,8 +155,61 @@
     [self setCenterCoordinate:anno.coordinate animated:YES];
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
-    NSNumber *index = [NSNumber numberWithFloat:(anno.index-200)];
+    NSNumber *index = [NSNumber numberWithFloat:(anno.index)];
     [cmd performWithResult:&index];
+}
+
+-(id)changeAnnoView:(NSNumber*)index{
+    
+    if (index.longValue >= fiteResultData.count) {
+        return nil;
+    }
+    
+    NSDictionary *info = fiteResultData[index.longValue];
+    
+    NSDictionary *dic_loc = [info objectForKey:@"location"];
+    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
+    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+    [self setCenterCoordinate:location.coordinate animated:YES];
+    
+    AYAnnonation *noteAnno;
+    for ( AYAnnonation *one in annoArray) {
+        if (one.index == index.longValue) {
+            noteAnno = one;
+            break;
+        }
+    }
+    
+    MAAnnotationView *view = [self viewForAnnotation:noteAnno];
+    if (tmp && tmp == view) {
+        return nil;
+    }
+    if (tmp && tmp != view) {
+        tmp.image = nil;
+        tmp.image = [UIImage imageNamed:@"position_small"];
+    }
+    view.image = nil;
+    view.image = [UIImage imageNamed:@"position_big"];
+    tmp = view;
+//    [self setCenterCoordinate:noteAnno.coordinate animated:YES];
+    
+//    AYAnnonation *t = noteAnno;
+//    [self removeAnnotation:noteAnno];
+//    
+//    t.imageName = @"position_big";
+//    [self addAnnotation:t];
+//    
+//    [annoArray replaceObjectAtIndex:[annoArray indexOfObject:noteAnno] withObject:t];
+//    
+//    MAAnnotationView *annoView = [[MAAnnotationView alloc]initWithAnnotation:t reuseIdentifier:@"anno"];
+//    if (tmp && tmp != annoView) {
+//        tmp.image = nil;
+//        tmp.image = [UIImage imageNamed:@"position_small"];
+//    }
+//    tmp = annoView;
+    
+    return nil;
 }
 
 @end

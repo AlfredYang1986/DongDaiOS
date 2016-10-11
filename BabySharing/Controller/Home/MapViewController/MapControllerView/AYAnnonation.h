@@ -21,5 +21,5 @@
 @property (nonatomic, copy) NSString *subtitle;
 @property (nonatomic, strong) NSString *icon;
 @property (nonatomic, strong) NSString *imageName;
-@property (nonatomic, assign) CGFloat index;
+@property (nonatomic, assign) long index;
 @end
