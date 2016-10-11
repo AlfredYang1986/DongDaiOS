@@ -278,7 +278,7 @@
     
     <delegate type="PickerViewDelegateAndDatasource" name="OrderTimes" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
-        <command type="message" message="scrollToCenter" />
+        <command type="message" message="scrollToCenterWithOffset:" />
         <command type="notify" message="sendDelMessage:" />
     </delegate>
     

@@ -291,7 +291,6 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-    
     view.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
     
 //    ((UITableView*)view).estimatedRowHeight = 300;

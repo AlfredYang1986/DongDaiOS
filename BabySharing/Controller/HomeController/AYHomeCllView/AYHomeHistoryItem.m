@@ -44,6 +44,8 @@
     
     mainImageView = [[UIImageView alloc]init];
     mainImageView.backgroundColor = [Tools garyBackgroundColor];
+    mainImageView.contentMode = UIViewContentModeScaleAspectFill;
+    mainImageView.clipsToBounds = YES;
     [self addSubview:mainImageView];
     [mainImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);

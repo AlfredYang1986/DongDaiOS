@@ -13,7 +13,9 @@
 //default views and views'messages  define
 static NSString* const kAYFakeNavBarView =                  @"FakeNavBar";
 static NSString* const kAYTableView =                       @"Table";
+static NSString* const kAYPickerView =                       @"Picker";
 
+//FakeNavBar
 static NSString* const kAYNavBarSetTitleMessage =               @"setTitleText:";
 static NSString* const kAYNavBarSetLeftBtnImgMessage =          @"setLeftBtnImg:";
 static NSString* const kAYNavBarSetRightBtnImgMessage =         @"setRightBtnImg:";
@@ -22,12 +24,15 @@ static NSString* const kAYNavBarSetLeftBtnVisibilityMessage =   @"setLeftBtnVisi
 static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVisibility:";
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
 
-
+//Table
 static NSString* const kAYTableRegisterDatasourceMessage =      @"registerDatasource:";
 static NSString* const kAYTableRegisterDelegateMessage =        @"registerDelegate:";
 static NSString* const kAYTableRegisterCellWithClassMessage =   @"registerCellWithClass:";
 static NSString* const kAYTableRegisterCellWithNibMessage =     @"registerCellWithNib:";
 static NSString* const kAYTableRefreshMessage =                 @"refresh";
+
+//Picker
+static NSString* const kAYPickerShowViewMessage =                 @"showPickerView";
 
 #pragma mark -- VC中的views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\

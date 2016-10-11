@@ -24,9 +24,10 @@
 
 #define WIDTH               SCREEN_WIDTH - 15*2
 
-@implementation AYServicePageDelegate{
+@implementation AYServicePageDelegate {
     NSDictionary *querydata;
 }
+
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
@@ -66,6 +67,7 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (indexPath.row == 1) {
         AYFouceCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYFouceCellView"];
         if (cell == nil) {
@@ -86,49 +88,32 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        if (cell == nil) {
-            cell = VIEW(@"ServicePageCell", @"ServicePageCell");
-        }
-        cell.controller = self.controller;
-        
         id tmp = querydata;
         id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
         [cmd performWithResult:&tmp];
         
+        cell.controller = self.controller;
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
         return (UITableViewCell*)cell;
-//        AYServiceInfoCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYServiceInfoCellView"];
-//        if (cell == nil) {
-//            cell = [[AYServiceInfoCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYServiceInfoCellView"];
-//        }
-//        
-//        if (querydata) {
-//            cell.service_info = querydata;
-//        }
-//        
-//        //ones profile
-//        cell.photoImageView.userInteractionEnabled = YES;
-//        [cell.photoImageView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onesPhotoIconTap:)]];
-//        
-//        [cell.chatBtn   addTarget:self  action:@selector(didChatBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
-//        [cell.dailyBtn  addTarget:self  action:@selector(didDailyBtnClick:)     forControlEvents:UIControlEventTouchUpInside];
-//        [cell.showMore  addTarget:self  action:@selector(didShowMoreClick:)     forControlEvents:UIControlEventTouchUpInside];
-//        [cell.costBtn   addTarget:self  action:@selector(didCostBtnClick:)      forControlEvents:UIControlEventTouchUpInside];
-//        [cell.safePolicy addTarget:self action:@selector(didSafePolicyClick:)   forControlEvents:UIControlEventTouchUpInside];
-//        [cell.TDPolicy  addTarget:self  action:@selector(didTDPolicyClick:)     forControlEvents:UIControlEventTouchUpInside];
-//        
-//        //cans facility
-//        [cell.morePlayItems addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [cell.moreSafeDevices addTarget:self action:@selector(didMoreOptionsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//        return (UITableViewCell*)cell;
     }
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 940;
+    CGFloat returnHeight = 940.f;
     
+    long options = ((NSNumber*)[querydata objectForKey:@"facility"]).longValue;
+    if (options == 0) {
+        returnHeight -= 90;
+    }
+    
+    NSString *descStr = [querydata objectForKey:@"description"];
+    if (!descStr || [descStr isEqualToString:@""]) {
+        returnHeight -= 100;
+    }
+    
+    return returnHeight;
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {

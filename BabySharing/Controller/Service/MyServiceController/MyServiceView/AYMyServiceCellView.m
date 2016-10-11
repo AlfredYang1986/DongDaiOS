@@ -44,6 +44,9 @@
     _ownerIconImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _ownerIconImage.layer.borderWidth = 2.f;
     
+    _mainImage.contentMode = UIViewContentModeScaleAspectFill;
+    _mainImage.clipsToBounds = YES;
+    
 //    _ownerIconImage.userInteractionEnabled = YES;
 //    [_ownerIconImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
     

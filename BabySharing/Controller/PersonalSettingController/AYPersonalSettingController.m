@@ -395,11 +395,6 @@
         [change performWithResult:&address];
     }
     
-//    if (pickerView.frame.origin.y == SHOW_OFFSET_Y) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            pickerView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//        }];
-//    }
     return nil;
 }
 - (id)didCancelClick {

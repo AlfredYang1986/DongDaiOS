@@ -78,11 +78,8 @@
 }
 
 - (void)didSaveClick:(UIButton*)btn {
-    if (self.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kSelfHeight);
-        }];
-    }
+    
+    [self hidePickerView];
     
     id<AYCommand> save = [self.notifies objectForKey:@"didSaveClick"];
     [save performWithResult:nil];
@@ -90,11 +87,7 @@
 
 - (void)didCancelClick:(UIButton*)btn {
     
-    if (self.frame.origin.y == SHOW_OFFSET_Y) {
-        [UIView animateWithDuration:0.25 animations:^{
-            self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kSelfHeight);
-        }];
-    }
+    [self hidePickerView];
     
     id<AYCommand> cancel = [self.notifies objectForKey:@"didCancelClick"];
     [cancel performWithResult:nil];
@@ -114,11 +107,20 @@
 }
 
 - (id)showPickerView {
-    if (self.frame.origin.y == SCREEN_HEIGHT) {
-        [UIView animateWithDuration:0.25 animations:^{
-            self.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kSelfHeight);
-        }];
-    }
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kSelfHeight);
+    }];
+    
+    return nil;
+}
+
+- (id)hidePickerView {
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kSelfHeight);
+    }];
+    
     return nil;
 }
 

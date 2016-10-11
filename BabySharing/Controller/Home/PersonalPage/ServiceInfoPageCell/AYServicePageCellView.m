@@ -49,6 +49,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *calendarBtn;
 @property (weak, nonatomic) IBOutlet UIButton *costBtn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *readMoreSpaceConst;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *facilitiesConstraintHeight;
 
 @property (nonatomic, strong) CLGeocoder *gecoder;
 //@property (nonatomic, strong) AMapLocationManager *locationManager;
@@ -367,7 +368,15 @@
                 
             }
         }
-        [_facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
+        
+        if (noteCount == 0) {
+            _facilitiesConstraintHeight.constant = 0;
+            _facalityBtn.hidden = YES;
+        } else {
+            _facilitiesConstraintHeight.constant = 90;
+            _facalityBtn.hidden = NO;
+            [_facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
+        }
     }
     return nil;
 }

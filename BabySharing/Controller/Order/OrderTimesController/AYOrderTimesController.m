@@ -170,27 +170,23 @@
     startView.states = 1;
     
     endView.userInteractionEnabled = NO;
-    [self showPickerView];
+    [self showPickerViewWithTime:startView.timeLabel.text];
 }
 - (void)didSetEndTime {
     endView.states = 1;
     startView.states = 0;
     
     startView.userInteractionEnabled = NO;
-    [self showPickerView];
+    [self showPickerViewWithTime:endView.timeLabel.text];
 }
 
-- (void)showPickerView {
+- (void)showPickerViewWithTime:(NSString*)time {
     
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderTimes"];
-    id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenter"];
-    [cmd_scroll_center performWithResult:nil];
+    id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
+    NSNumber *offset = [NSNumber numberWithInt: [[time substringToIndex:2] intValue]];
+    [cmd_scroll_center performWithResult:&offset];
     
-//    if (picker.frame.origin.y == SCREEN_HEIGHT) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
-//        }];
-//    }
     id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
     id<AYCommand> cmd_show = [view_picker.commands objectForKey:@"showPickerView"];
     [cmd_show performWithResult:nil];

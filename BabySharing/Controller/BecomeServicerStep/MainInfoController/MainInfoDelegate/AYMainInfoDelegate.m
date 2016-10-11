@@ -214,7 +214,7 @@
         if (napAdress && indexPath.row == 5) {
             [cell_info setValue:napAdress forKey:@"sub_title"];
         }
-        if (napDeviceNote && indexPath.row == 6) {
+        if (napDeviceNote.longValue != 0 && indexPath.row == 6) {
             NSArray *options_title_facilities = kAY_service_options_title_facilities;
             NSString *device = @"";
             long options = napDeviceNote.longValue;

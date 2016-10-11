@@ -69,11 +69,11 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
-- (id)scrollToCenter {
+- (id)scrollToCenterWithOffset:(NSNumber*)offset {
     
     for (int i = 0; i < 3; i++) {
         if (i == 0) {
-            [picker selectRow:hours.count/2 inComponent:i animated:NO];
+            [picker selectRow:hours.count/2 + offset.intValue inComponent:i animated:NO];
         } else if(i == 2)
             [picker selectRow:mins.count/2 inComponent:i animated:NO];
     }
