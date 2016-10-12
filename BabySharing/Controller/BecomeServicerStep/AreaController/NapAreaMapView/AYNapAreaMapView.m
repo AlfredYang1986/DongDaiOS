@@ -85,32 +85,8 @@
     } else {
         //采用系统默认蓝色大头针
         return nil;
-        
     }
 }
-
-//- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {//MKAnnotation
-//    AYAnnonation *anno = view.annotation;
-//    if (anno.index == 9999) {
-//        return;
-//    }
-//    
-//    if (tmp && tmp == view) {
-//        return;
-//    }
-//    if (tmp && tmp != view) {
-//        tmp.image = nil;
-//        tmp.image = [UIImage imageNamed:@"position_small"];
-//    }
-//    view.image = nil;
-//    view.image = [UIImage imageNamed:@"position_big"];
-//    tmp = view;
-//    [self setCenterCoordinate:anno.coordinate animated:YES];
-//    
-//    id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
-//    NSNumber *index = [NSNumber numberWithFloat:(anno.index-200)];
-//    [cmd performWithResult:&index];
-//}
 
 - (id)queryOnesLocal:(id)args{
     

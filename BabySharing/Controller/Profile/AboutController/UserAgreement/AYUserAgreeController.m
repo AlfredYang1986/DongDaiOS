@@ -47,25 +47,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    {
-        id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-        id<AYCommand> cmd_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
-        NSString* title = @"咚哒用户协议";
-        [cmd_title performWithResult:&title];
-    }
-    
-    {
-        id<AYViewBase> web_view = [self.views objectForKey:@"Web"];
-        id<AYCommand> cmd_delegate = [web_view.commands objectForKey:@"registerDelegate:"];
-//
-        id<AYDelegateBase> cmd_user_agreement = [self.delegates objectForKey:@"UserAgree"];
-//
-        id obj = (id)cmd_user_agreement;
-        [cmd_delegate performWithResult:&obj];
-        
-    }
-    
-    
     OBShapedButton* state = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
     [state setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
     [state setBackgroundColor:[UIColor clearColor]];
@@ -77,19 +58,33 @@
     [self.view addSubview:state];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
 #pragma mark -- layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
+- (id)FakeNavBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.backgroundColor = [UIColor whiteColor];
+    
+    NSString *title = @"咚哒用户协议";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+    
+    UIImage *right = IMGRESOURCE(@"tips_off_black");
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
+    
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+    return nil;
+}
+
 - (id)WebLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 40);
+    
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kStatusAndNavBarH);
     
     NSString *path = [[NSBundle mainBundle]pathForResource:@"privacy" ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile:path];
@@ -104,35 +99,19 @@
     return nil;
 }
 
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    self.navigationItem.titleView = view;
-    return nil;
-}
-
-- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-    return nil;
-}
-
-- (id)SetNevigationBarRightBtnLayout:(UIView*)view {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-    return nil;
-}
-
 #pragma mark -- notification
-- (id)popToPreviousWithoutSave {
+- (id)leftBtnSelected {
     NSLog(@"pop view controller");
-    
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic_pop];
+    [cmd performWithResult:&dic];
     return nil;
 }
 
-- (id)rightItemBtnClick {
+- (id)rightBtnSelected {
     NSLog(@"controller alter...");
     [SGActionView showSheetWithTitle:@"" itemTitles:@[@"发送协议", @"以邮件的形式发送", @"复制全文", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
         switch (index) {

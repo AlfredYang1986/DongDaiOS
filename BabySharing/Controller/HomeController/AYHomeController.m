@@ -34,13 +34,13 @@ typedef void(^queryContentFinish)(void);
 #define CONTENT_START_POINT             71
 #define PAN_HANDLE_CHECK_POINT          10
 
-#define VIEW_BOUNTDS        CGFloat screen_width = [UIScreen mainScreen].bounds.size.width; \
-CGFloat screen_height = [UIScreen mainScreen].bounds.size.height; \
-CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
-
-#define QUERY_VIEW_START    CGRectMake(HEADER_MARGIN_TO_SCREEN, -44, rc.size.width - 2 * HEADER_MARGIN_TO_SCREEN, rc.size.height)
-#define QUERY_VIEW_SCROLL   CGRectMake(HEADER_MARGIN_TO_SCREEN, 0, rc.size.width - 2 * HEADER_MARGIN_TO_SCREEN, rc.size.height)
-#define QUERY_VIEW_END      CGRectMake(-rc.size.width, -44, rc.size.width, rc.size.height)
+//#define VIEW_BOUNTDS        CGFloat screen_width = [UIScreen mainScreen].bounds.size.width; \
+//CGFloat screen_height = [UIScreen mainScreen].bounds.size.height; \
+//CGRect rc = CGRectMake(0, 0, screen_width, screen_height);
+//
+//#define QUERY_VIEW_START    CGRectMake(HEADER_MARGIN_TO_SCREEN, -44, rc.size.width - 2 * HEADER_MARGIN_TO_SCREEN, rc.size.height)
+//#define QUERY_VIEW_SCROLL   CGRectMake(HEADER_MARGIN_TO_SCREEN, 0, rc.size.width - 2 * HEADER_MARGIN_TO_SCREEN, rc.size.height)
+//#define QUERY_VIEW_END      CGRectMake(-rc.size.width, -44, rc.size.width, rc.size.height)
 
 #define BACK_TO_TOP_TIME    3.0
 #define SHADOW_WIDTH 4

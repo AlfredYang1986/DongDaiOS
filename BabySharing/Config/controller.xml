@@ -219,36 +219,31 @@
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         
-        <view type="Table" name="Table" />
-        
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="AppSetting" />
     </controller>
     
     <controller type="DefaultController" name="AboutDD" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         
-        <view type="Table" name="Table" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="AboutDongda" />
     </controller>
     
     <controller type="DefaultController" name="UserAgree" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="SendRemote" notification="true" />
         
-        <view type="Web" name="Web" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Web"                name="Web" />
         
-        <delegate type="NavItemBarBtnDelegate" name="UserAgree" />
     </controller>
     
     <controller type="DefaultController" name="Friends" factory="AYDefaultControllerFactoy" >
@@ -320,7 +315,6 @@
     </controller>
     
     <controller type="DefaultController" name="GroupList" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true" />

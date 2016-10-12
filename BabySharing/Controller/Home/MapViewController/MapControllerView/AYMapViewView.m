@@ -34,6 +34,7 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.delegate = self;
+    [self setZoomLevel:120.1];
 //    self.zoomLevel = 0.5;
     annoArray = [[NSMutableArray alloc]init];
     
@@ -90,7 +91,7 @@
         AYAnnonation *anno = [[AYAnnonation alloc]init];
         anno.coordinate = location.coordinate;
         anno.title = @"谁知道哪！";
-        anno.imageName = @"position_small";
+        anno.imageName = @"position_normal";
         anno.index = i;
         [self addAnnotation:anno];
         [annoArray addObject:anno];
@@ -104,7 +105,7 @@
     currentAnno.imageName = @"location_self";
     currentAnno.index = 9999;
     [self addAnnotation:currentAnno];
-    [self showAnnotations:@[currentAnno] animated:NO];
+//    [self showAnnotations:@[currentAnno] animated:NO];
 //    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
     
     [self setCenterCoordinate:loc.coordinate animated:NO];
@@ -117,7 +118,6 @@
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
         //默认红色小球
         static NSString *ID = @"anno";
-        
         MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
         if (annotationView == nil) {
             annotationView = [[MAAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];
@@ -125,17 +125,17 @@
         //设置属性 指定图片
         AYAnnonation *anno = (AYAnnonation *) annotation;
         annotationView.image = [UIImage imageNamed:anno.imageName];
-//        annotationView.tag = anno.index;
+        
         //展示详情界面
         annotationView.canShowCallout = NO;
         return annotationView;
     } else {
         //采用系统默认蓝色大头针
         return nil;
-        
     }
 }
 
+#pragma mark -- mapView delegate
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {//MKAnnotation
     AYAnnonation *anno = view.annotation;
     if (anno.index == 9999) {
@@ -147,16 +147,17 @@
     }
     if (tmp && tmp != view) {
         tmp.image = nil;
-        tmp.image = [UIImage imageNamed:@"position_small"];
+        tmp.image = [UIImage imageNamed:@"position_normal"];
     }
     view.image = nil;
-    view.image = [UIImage imageNamed:@"position_big"];
+    view.image = [UIImage imageNamed:@"position_focus"];
     tmp = view;
     [self setCenterCoordinate:anno.coordinate animated:YES];
     
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
     NSNumber *index = [NSNumber numberWithFloat:(anno.index)];
     [cmd performWithResult:&index];
+    
 }
 
 -(id)changeAnnoView:(NSNumber*)index{
@@ -173,43 +174,28 @@
     CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
     [self setCenterCoordinate:location.coordinate animated:YES];
     
-    AYAnnonation *noteAnno;
     for ( AYAnnonation *one in annoArray) {
         if (one.index == index.longValue) {
-            noteAnno = one;
+            
+            MAAnnotationView *change_view = [self viewForAnnotation:one];
+            if (tmp && tmp == change_view) {
+                return nil;
+            }
+            if (tmp && tmp != change_view) {
+                tmp.image = nil;
+                tmp.image = [UIImage imageNamed:@"position_normal"];
+            }
+            change_view.image = nil;
+            change_view.image = [UIImage imageNamed:@"position_focus"];
+            tmp = change_view;
             break;
         }
     }
     
-    MAAnnotationView *view = [self viewForAnnotation:noteAnno];
-    if (tmp && tmp == view) {
-        return nil;
-    }
-    if (tmp && tmp != view) {
-        tmp.image = nil;
-        tmp.image = [UIImage imageNamed:@"position_small"];
-    }
-    view.image = nil;
-    view.image = [UIImage imageNamed:@"position_big"];
-    tmp = view;
-//    [self setCenterCoordinate:noteAnno.coordinate animated:YES];
-    
-//    AYAnnonation *t = noteAnno;
-//    [self removeAnnotation:noteAnno];
-//    
-//    t.imageName = @"position_big";
-//    [self addAnnotation:t];
-//    
-//    [annoArray replaceObjectAtIndex:[annoArray indexOfObject:noteAnno] withObject:t];
-//    
-//    MAAnnotationView *annoView = [[MAAnnotationView alloc]initWithAnnotation:t reuseIdentifier:@"anno"];
-//    if (tmp && tmp != annoView) {
-//        tmp.image = nil;
-//        tmp.image = [UIImage imageNamed:@"position_small"];
-//    }
-//    tmp = annoView;
-    
     return nil;
 }
 
+- (void)dealloc {
+    [self clearDisk];
+}
 @end

@@ -99,21 +99,18 @@
 
 #pragma mark -- life cycle
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return 1;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     AYAboutDongdaCell * cell = [tableView dequeueReusableCellWithIdentifier:@"default"];
-    
     if (cell == nil) {
         cell = [[AYAboutDongdaCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"default"];
     }
-    if(indexPath.row == 0){
-        cell.userInteractionEnabled = NO;
-        
-    }else if (indexPath.row == 1){
     
-        cell.label.text = title[indexPath.row - 1];
+    if (indexPath.row == 0){
+    
+        cell.label.text = title[indexPath.row];
         [cell.label sizeToFit];
         cell.label.frame = CGRectMake(20, (44 - CGRectGetHeight(cell.label.frame)) / 2, cell.label.frame.size.width, cell.label.frame.size.height);
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -126,22 +123,16 @@
     }
     
     return cell;
-
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0){
-        return 320;
-    }else
-        return 44;
+    return 44;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.row == 1){
-        
-        NSLog(@"aboutdongda view controller");
+    if(indexPath.row == 0) {
         
         id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
         
@@ -162,7 +153,5 @@
 + (CGFloat)preferredHeightWithTags:(NSArray*)arr {
     return PREFERRED_HEIGHT;
 }
-
-
 
 @end

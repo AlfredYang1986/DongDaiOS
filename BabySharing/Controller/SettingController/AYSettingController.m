@@ -39,20 +39,8 @@
 }
 
 #pragma mark -- life cycle
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    {
-        id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-        id<AYCommand> cmd_view_title = [view_title.commands objectForKey:@"changeNevigationBarTitle:"];
-        NSString* title = @"设置";
-        [cmd_view_title performWithResult:&title];
-    }
     
     {
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
@@ -68,44 +56,53 @@
         
     }
     
-    OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 64 - 49, SCREEN_WIDTH - 2 * 17.5, 44)];
+    OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 49, SCREEN_WIDTH - 2 * 17.5, 44)];
     [logout_btn setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
     logout_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [logout_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [logout_btn setTitle:@"退出登录" forState:UIControlStateNormal];
     [logout_btn addTarget:self action:@selector(signOutSelected) forControlEvents:UIControlEventTouchUpInside];
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    [(UIView*)view_table addSubview:logout_btn];
+    [self.view addSubview:logout_btn];
 }
 
 #pragma mark -- layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    view.backgroundColor = [UIColor whiteColor];
+    return nil;
+}
+
+- (id)FakeNavBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+    view.backgroundColor = [UIColor whiteColor];
+    
+    NSString *title = @"设置";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+    
+    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+    
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+    return nil;
+}
+
 - (id)TableLayout:(UIView*)view {
-    view.frame = self.view.bounds;
-    ((UITableView*)view).scrollEnabled = NO;
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    self.navigationItem.titleView = view;
-    return nil;
-}
-
-- (id)SetNevigationBarLeftBtnLayout:(UIView*)view {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
     return nil;
 }
 
 #pragma mark -- notification
-- (id)popToPreviousWithoutSave {
+- (id)leftBtnSelected {
     NSLog(@"pop view controller");
-    
-    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic_pop];
+    [cmd performWithResult:&dic];
     return nil;
 }
 

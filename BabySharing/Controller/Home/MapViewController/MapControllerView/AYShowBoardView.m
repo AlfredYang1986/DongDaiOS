@@ -107,27 +107,25 @@
     CGFloat slide = pre_offset_x - cur_offset_x;
     pre_offset_x = cur_offset_x;
     
-    id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeAnnoMessage:"];
     if (slide < 0) {
         if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) > indexNumb) {
             indexNumb = (int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth);
-            
-            NSNumber *index = [NSNumber numberWithFloat:indexNumb];
-            [cmd performWithResult:&index];
-            NSLog(@"%d",indexNumb);
         }
         
     } else if (slide > 0){
-        if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) < indexNumb-1) {
+        if ((int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) < indexNumb - 1) {
             indexNumb = (int)((self.contentOffset.x + (self.frame.size.width - CellWidth)*0.5) / CellWidth) + 1;
-            
-            NSNumber *index = [NSNumber numberWithFloat:indexNumb];
-            [cmd performWithResult:&index];
-            NSLog(@"%d",indexNumb);
         }
+        
     } else {
         
     }
+    
+    id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeAnnoMessage:"];
+    NSNumber *index = [NSNumber numberWithInt:indexNumb];
+    [cmd performWithResult:&index];
+    NSLog(@"%d",indexNumb);
+    
     if (self.contentOffset.x == 0) {
         indexNumb = 0;
         
