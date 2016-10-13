@@ -48,6 +48,7 @@
     NSString* screen_name;
     NSDictionary* profile_dic;
     
+    id backArgs;
 //    NSArray* post_content;
 //    NSArray* push_content;
     
@@ -63,31 +64,20 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-//        NSDictionary *info = [dic objectForKey:kAYControllerChangeArgsKey];
-//        
-//        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-//        id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-//        NSDictionary *dic = [info copy];
-//        [cmd performWithResult:&dic];
-//        
-//        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-//        id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-//        [refresh performWithResult:nil];
-//
-        NSNumber *info = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (info.boolValue) {
-            
-            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-            BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
+        
+        backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (backArgs) {
             
             NSDictionary *user_info = nil;
             CURRENPROFILE(user_info)
             
+            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+            BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
             NSMutableDictionary *tmp = [user_info mutableCopy];
             [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
             kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
-            
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+            
         }
     }
 }
@@ -157,6 +147,21 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if ([backArgs isKindOfClass:[NSString class]]) {
+        NSString *title = (NSString*)backArgs;
+        id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+        
+        NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+        [dic_alert setValue:title forKey:@"title"];
+        [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+        [cmd_alert performWithResult:&dic_alert];
+    }
 }
 
 #pragma mark -- layout

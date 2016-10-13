@@ -81,6 +81,8 @@
     _readMoreLabel.userInteractionEnabled = YES;
     [_readMoreLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didReadMoreClick)]];
     
+    _ownerPhoto.contentMode = UIViewContentModeScaleAspectFill;
+    _ownerPhoto.clipsToBounds = YES;
     _ownerPhoto.userInteractionEnabled = YES;
     [_ownerPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
     

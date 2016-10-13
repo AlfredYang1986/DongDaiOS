@@ -165,6 +165,7 @@
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
+        <facade type="DefaultFacade" name="Alert" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />
@@ -659,9 +660,7 @@
     
     <controller type="DefaultController" name="MainInfo" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade" name="ContentQueryRemote" />
-        <facade type="DefaultFacade" name="OwnerQueryModel" />
-        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+        <facade type="DefaultFacade" name="Alert" notification="true" />
         
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Table" name="Table" />

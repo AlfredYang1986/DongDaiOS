@@ -83,7 +83,9 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
     
-    [btmAlertView removeFromSuperview];
+//    [btmAlertView removeFromSuperview];
+    
+    [self didBtmAlertViewCloseBtnClick];
 }
 
 - (void)dealloc {
@@ -228,9 +230,18 @@
         [btmAlertView removeFromSuperview];
     }
     
+    UIViewController *activeVC = [Tools activityViewController];
+    UIViewController *rootVC = activeVC.tabBarController;
+    if (!rootVC) {
+        rootVC = activeVC.navigationController;
+    }
+    
+//    UIViewController *currentVC = activeVC.tabBarController;
+    
     btmAlertView = [[UIView alloc]init];
     btmAlertView.backgroundColor = [Tools whiteColor];
-    [self.view addSubview:btmAlertView];
+    [rootVC.view addSubview:btmAlertView];
+    [rootVC.view bringSubviewToFront:btmAlertView];
     
     CALayer *topLine = [CALayer layer];
     topLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
@@ -283,20 +294,22 @@
             break;
         case BtmAlertViewTypeWitnBtn:
         {
-            [titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(btmAlertView).offset(15);
+            [titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(btmAlertView).offset(8);
                 make.left.equalTo(btmAlertView).offset(15);
+                make.right.equalTo(closeBtn.mas_left).offset(-10);
             }];
             
-            NSString *btnTitleStr = [alert_info objectForKey:@"btn_title"];
+            NSString *btnTitleStr = @"确认";
             UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil];
+            otherBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
             [otherBtn addTarget:self action:@selector(didOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [btmAlertView addSubview:otherBtn];
             [otherBtn sizeToFit];
             [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(titleLabel);
                 make.top.equalTo(titleLabel.mas_bottom).offset(10);
-                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width, otherBtn.bounds.size.width));
+                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 30, otherBtn.bounds.size.width));
             }];
             
         }
@@ -312,15 +325,17 @@
 - (void)didBtmAlertViewCloseBtnClick {
     NSLog(@"didBtmAlertViewCloseBtnClick");
     if (btmAlertView.frame.origin.y == SCREEN_HEIGHT - btmAlertViewH) {
-        
         [UIView animateWithDuration:0.25 animations:^{
             btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
+        } completion:^(BOOL finished) {
+            [btmAlertView removeFromSuperview];
         }];
     }
 }
 
 - (void)didOtherBtnClick {
     NSLog(@"didOtherBtnClick");
+    [self didBtmAlertViewCloseBtnClick];
     
 }
 

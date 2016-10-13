@@ -250,6 +250,7 @@
     <facade type ="DefaultFacade" name="Alert" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="ShowAlert" />
         <command type="Module" name="HideAlert" />
+        <command type="Module" name="OtherBtnClick" />
     </facade>
     
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >

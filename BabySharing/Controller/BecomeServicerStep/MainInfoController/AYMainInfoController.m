@@ -74,7 +74,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 napPhotos = [dic_info objectForKey:@"content"];
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
                 
-            } else if([key isEqualToString:@"nap_title"]){  //1
+            } else if([key isEqualToString:@"nap_title"]) {  //1
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
                 [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
@@ -146,8 +146,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
         
         if (isAllResady.count == 0 ) {
-            confirmSerBtn.hidden = NO;
             
+            confirmSerBtn.hidden = NO;
             UIView *view = [self.views objectForKey:@"Table"];
             view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 + 1);
         }
@@ -190,7 +190,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
     NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_cell performWithResult:&photoCell];
-    
     
     confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];
@@ -248,7 +247,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             make.centerY.equalTo(tabbar);
             make.size.mas_equalTo(CGSizeMake(50, 44));
         }];
-        [me addTarget:self action:@selector(popToRootVC) forControlEvents:UIControlEventTouchUpInside];
+        [me addTarget:self action:@selector(didMeBtnClick) forControlEvents:UIControlEventTouchUpInside];
         
         [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(tabbar.mas_top);
@@ -268,13 +267,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 #pragma mark -- layout
 - (id)TableLayout:(UIView*)view {
     
-    CGFloat h = 0;
-    if (!service_info) {
-        h = 49;
-    }
-    
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - h + 1);
-    
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44-(service_info?49:0) + 1);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -305,52 +298,51 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
 }
 
-- (void)updateService {
-    NSDictionary* args = nil;
-    CURRENUSER(args)
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
-    [cmd_publish performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            //3.重新发布
-            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
-            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
-            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-                if (success) {
-                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-                }else {
-                    kAYUIAlertView(@"错误", @"服务信息已更新发布失败");
-                }
-            }];
-        } else {
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息更新失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        }
-    }];
-}
-
-- (void)popToRootVC {
+- (void)popToRootVCWithTip:(NSString*)tip {
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:tip forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+    
 }
 
+#pragma mark -- alert actions
+- (void)didMeBtnClick {
+    
+    NSString *title = [NSString stringWithFormat:@"您确认放弃发布当前服务吗？"];
+    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+    
+    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+    [dic_alert setValue:title forKey:@"title"];
+    [dic_alert setValue:[NSNumber numberWithInt:3] forKey:@"type"];
+    [cmd_alert performWithResult:&dic_alert];
+}
+
+- (void)didOtherBtnClick {
+    NSLog(@"didOtherBtnClick");
+    
+    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
+    [cmd_alert performWithResult:nil];
+    
+    [self popToRootVCWithTip:nil];
+}
+
+#pragma mark -- 提交/更新服务
 - (void)conmitMyService {
-//    confirmSerBtn.enabled = NO;
+    
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
+    NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
+    
     for (int index = 0; index < napPhotos.count; ++index) {
+        
         dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
         [semaphores_upload_photos addObject:tmp];
-    }
-//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);              // 用户上传数据库信息
-    NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
-    for (int index = 0; index < napPhotos.count; ++index) {
         [post_image_result addObject:[NSNumber numberWithBool:NO]];
     }
     
@@ -358,14 +350,16 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     dispatch_async(qp, ^{
         
         NSMutableArray* arr_items = [[NSMutableArray alloc]init];
+        
         for (int index = 0; index < napPhotos.count; ++index) {
+            
             UIImage* iter = [napPhotos objectAtIndex:index];
             NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
             
             NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
             [photo_dic setValue:extent forKey:@"image"];
-            [photo_dic setValue:@"img_desc" forKey:@"expect_size"];
             [photo_dic setValue:iter forKey:@"upload_image"];
+            
             AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
             [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 NSLog(@"upload result are %d", success);
@@ -373,9 +367,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
             }];
             [arr_items addObject:extent];
+//            dispatch_semaphore_wait([semaphores_upload_photos objectAtIndex:index], dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         }
         
-        // 4. 等待图片进程全部处理完成
+        // 4. 等待图片进程全部处理完成：每一个阻塞线程等待一个图片的上传结果
         for (dispatch_semaphore_t iter in semaphores_upload_photos) {
             dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
         }
@@ -404,8 +399,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
                     [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                         if (success) {
-                            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-                            [self popToRootVC];
+//                            kAYUIAlertView(@"提示", @"服务发布成功");
+                            NSString *tip = @"服务发布成功";
+                            [self popToRootVCWithTip:tip];
                         }else {
                             [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务发布失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                         }
@@ -414,10 +410,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     NSLog(@"push error with:%@",result);
                     [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务上传失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                 }
-//                confirmSerBtn.enabled = YES;
             }];
         } else {
-//            confirmSerBtn.enabled = YES;
+            kAYUIAlertView(@"图片上传失败", @"请改善网络环境并重试");
         }
     });
     
@@ -492,6 +487,35 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
                 [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务撤销失败,该服务状态错误！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             }
+        }
+    }];
+}
+
+- (void)updateService {
+    NSDictionary* args = nil;
+    CURRENUSER(args)
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
+    [cmd_publish performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            //3.重新发布
+            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
+            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
+            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
+            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
+            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+                if (success) {
+                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                    
+                    confirmSerBtn.hidden = YES;
+                    UIView *view = [self.views objectForKey:@"Table"];
+                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44-(service_info?49:0) + 1);
+                } else {
+                    kAYUIAlertView(@"错误", @"服务信息已更新发布失败");
+                }
+            }];
+        } else {
+            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息更新失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
     }];
 }

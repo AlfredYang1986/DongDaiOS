@@ -112,6 +112,7 @@
     
     <command type="Module" name="ShowAlert" factory="AYDefaultModuleFactory" />
     <command type="Module" name="HideAlert" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="OtherBtnClick" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryAlbumNameWithAlbum" factory="AYDefaultModuleFactory" />

@@ -17,6 +17,8 @@ typedef enum : int {
     BtmAlertViewTypeHideWithAction,
     BtmAlertViewTypeHideWithTimer,
     BtmAlertViewTypeWitnBtn,
+    BtmAlertViewTypeWitnMask,
+    BtmAlertViewTypeWitnBtnAndMask,
 } BtmAlertViewType;
 
 
