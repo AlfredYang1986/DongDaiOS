@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AYCommandDefines.h"
+#import "AYNotifyDefines.h"
 
 //typedef void(^performFinishBlock)(BOOL, NSDictionary*);
 

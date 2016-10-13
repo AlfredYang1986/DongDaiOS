@@ -53,8 +53,6 @@ static NSString* const kAYGroupChatControllerMessageTable = @"Table";
 static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 @implementation AYGroupChatController {
-//    CGRect keyBoardFrame;
-//    int count;
     
     NSString* owner_id;
 //    NSNumber* group_id;

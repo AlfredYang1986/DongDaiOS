@@ -7,9 +7,8 @@
 //
 
 #import "AYLandingInputCoderView.h"
-#import "AYCommandDefines.h"
-#import "OBShapedButton.h"
 #import "AYResourceManager.h"
+#import "AYCommandDefines.h"
 #import "AYControllerBase.h"
 #import "AYFacadeBase.h"
 #import "Tools.h"
@@ -26,22 +25,17 @@
     
     NSTimer* timer;
     NSInteger seconds;
-    UIButton* clear_btn;
     
     /**/
     UILabel *inputArea;
     
-
     UIView *inputCodeView;
-    
     UITextField *coder_area;
     UITextField *inputPhoneNo;
-    UILabel *count_timer;
     
     UIButton *getCodeBtn;
     UIButton *enterBtn;
     
-//    AYAlertView *alertView;
     BOOL isNewUser;
 }
 
@@ -166,6 +160,7 @@
     coder_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
 //    coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     coder_area.keyboardType = UIKeyboardTypeNumberPad;
+    coder_area.delegate = self;
     coder_area.placeholder = @"输入动态密码";
     [inputCodeView addSubview:coder_area];
     [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -246,36 +241,31 @@
     [_controller performForView:self andFacade:nil andMessage:@"LandingAreaCode" andArgs:nil];
 }
 
-- (void)phoneTextFieldChanged:(NSNotification *)tf {
-
-    if (tf.object == inputPhoneNo && inputPhoneNo.text.length == kPhoneNoLimit && ![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {
-        getCodeBtn.enabled = YES;
-    }
-    if (tf.object == inputPhoneNo && [inputPhoneNo.text isEqualToString:@""]) {
-        getCodeBtn.enabled = NO;
-    }
-}
-
 - (void)textFieldTextDidChange:(NSNotification*)tf {
     if (tf.object == coder_area ) {
         if ( coder_area.text.length == 4) {
             [self showEnterBtn];
-//            enterBtn.enabled = YES;
         } else {
             [self hideEnterBtn];
-//            enterBtn.enabled = NO;
         }
-    } else if (tf.object == inputPhoneNo) {
+    }
+    else if (tf.object == inputPhoneNo) {
         
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
-                id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-                id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-                NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-                [args setValue:self forKey:@"super_view"];
-                [args setValue:@"手机号码输入错误" forKey:@"title"];
-                [args setValue:[NSNumber numberWithFloat:216.f] forKey:@"set_y"];
-                [cmd_add performWithResult:&args];
+                
+                [inputPhoneNo resignFirstResponder];
+                
+                id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
+                id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+                
+                NSString *title = @"手机号码输入错误";
+                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+                [dic_alert setValue:title forKey:@"title"];
+                [dic_alert setValue:[NSNumber numberWithInt:1] forKey:@"type"];
+                [cmd_alert performWithResult:&dic_alert];
+                
                 return;
             }
             if (![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {
@@ -287,16 +277,26 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    if (textField == inputPhoneNo && inputPhoneNo.text.length >= kPhoneNoLimit && ![string isEqualToString:@""]){
-        return NO;
-    } else {
-        NSString *tmp = inputPhoneNo.text;
-        if ((tmp.length == 3 || tmp.length == 8) && ![string isEqualToString:@""]) {
-            tmp = [tmp stringByAppendingString:@" "];
-            inputPhoneNo.text = tmp;
+    if (textField == inputPhoneNo) {
+        if ( inputPhoneNo.text.length >= kPhoneNoLimit && ![string isEqualToString:@""]){
+            return NO;
+        } else {
+            NSString *tmp = inputPhoneNo.text;
+            if ((tmp.length == 3 || tmp.length == 8) && ![string isEqualToString:@""]) {
+                tmp = [tmp stringByAppendingString:@" "];
+                inputPhoneNo.text = tmp;
+            }
+            return YES;
         }
-        return YES;
-    }
+    } else return YES;
+    
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
+    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
+    [cmd_alert performWithResult:nil];
 }
 
 -(void)areaBtnClick{
@@ -329,7 +329,17 @@
     [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 65, 0, 0)];
     [timer setFireDate:[NSDate distantPast]];
     
-    [self showAYAlertViewWithTitle:@"动态密码已发送"];
+    [self hideKeyboard];
+    
+    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
+    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+    
+    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+    [dic_alert setValue:@"动态密码已发送" forKey:@"title"];
+    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+    [cmd_alert performWithResult:&dic_alert];
+    
     return nil;
 }
 
@@ -399,12 +409,12 @@
     return nil;
 }
 
--(id)showEnterBtnForOldUser{
+-(id)showEnterBtnForOldUser {
     isNewUser = NO;
     return nil;
 }
 
--(id)hideEnterBtnForNewUser{
+-(id)hideEnterBtnForNewUser {
     isNewUser = YES;
     return nil;
 }

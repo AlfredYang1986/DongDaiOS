@@ -72,7 +72,7 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
-        NSDictionary* dic_push = [dic copy];
+        NSDictionary* dic_push = [dic objectForKey:kAYControllerChangeArgsKey];
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
         
@@ -87,7 +87,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
-    [AMapSearchServices sharedServices].apiKey = @"7d5d988618fd8a707018941f8cd52931";
+    [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
     //初始化检索对象
     search = [[AMapSearchAPI alloc] init];
     search.delegate = self;
@@ -200,6 +200,13 @@
     [cmd performWithResult:&dic_pop];
 }
 
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    
+    
+    return YES;
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
     if (searchText.length == 0) return;
@@ -216,45 +223,27 @@
 {
 //    [self.tips setArray:response.tips];
     
-    id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
-    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
-
-    id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeLocationResultData:"];
-    
     NSArray* tmp = response.tips;
-//    NSMutableArray *arr = [[NSMutableArray alloc]init];
-//    for (AMapTip *tip in tmp) {
-//        if (tip.uid != nil && tip.location != nil) /* 可以直接在地图打点  */
-//        {
-//            CLLocation *location = [[CLLocation alloc]initWithLatitude:tip.location.latitude longitude:tip.location.longitude];
-//            NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//            [dic setValue:tip.name forKey:@"location_name"];
-//            [dic setValue:location forKey:@"location"];
-//            [arr addObject:dic];
-//        }
-//        else if (tip.uid != nil && tip.location == nil)/* 公交路线，显示出来*/
-//        {
-//            AMapBusLineIDSearchRequest *request = [[AMapBusLineIDSearchRequest alloc] init];
-//            request.city                        = @"北京";
-//            request.uid                         = tip.uid;
-//            request.requireExtension            = YES;
-//            [search AMapBusLineIDSearch:request];
-//            
-//            if (aBusMapTip) {
-//                CLLocation *location = [[CLLocation alloc]initWithLatitude:aBusMapTip.location.latitude longitude:aBusMapTip.location.latitude];NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//                [dic setValue:aBusMapTip.name forKey:@"location_name"];
-//                [dic setValue:location forKey:@"location"];
-//                [arr addObject:dic];
-//            }
-//        }
-//        else if(tip.uid == nil && tip.location == nil)/* 品牌名，进行POI关键字搜索 */
-//        {
-//            
-//        }
-//    }
     
+    if (tmp.count == 0) {
+        
+        [self scrollToHideKeyBoard];
+        
+        NSString *title = [NSString stringWithFormat:@"暂时没有符合您要求的搜索"];
+        id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+        
+        NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+        [dic_alert setValue:title forKey:@"title"];
+        [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+        [cmd_alert performWithResult:&dic_alert];
+    }
+    
+    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
+    id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeLocationResultData:"];
     [cmd performWithResult:&tmp];
-
+    
+    id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
 }

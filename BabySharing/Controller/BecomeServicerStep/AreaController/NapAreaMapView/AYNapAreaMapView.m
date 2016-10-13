@@ -35,7 +35,7 @@
     self.scrollEnabled = NO;
     self.zoomEnabled = NO;
     //配置用户Key
-    [AMapSearchServices sharedServices].apiKey = @"7d5d988618fd8a707018941f8cd52931";
+    [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
 }
 
 - (void)layoutSubviews{

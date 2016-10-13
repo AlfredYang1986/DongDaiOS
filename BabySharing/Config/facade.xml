@@ -247,6 +247,11 @@
     <facade type ="DefaultFacade" name="Keyboard" factory="AYDefaultFacadeFactory" >
     </facade>
     
+    <facade type ="DefaultFacade" name="Alert" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="ShowAlert" />
+        <command type="Module" name="HideAlert" />
+    </facade>
+    
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="PushServiceInfo" />
         <command type="Remote" name="PublishService" />

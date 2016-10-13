@@ -21,10 +21,14 @@
 
 #import "MBProgressHUD.h"
 
+#define btmAlertViewH                   80
+
 @implementation AYViewController{
     int count_loading;
     int time_count;
     NSTimer *timer_loding;
+    
+    UIView *btmAlertView;
 }
 
 
@@ -67,6 +71,19 @@
     for (id<AYDelegateBase> delegate in self.delegates.allValues) {
         delegate.controller = self;
     }
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    if (timer_loding) {
+        [timer_loding invalidate];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    });
+    
+    [btmAlertView removeFromSuperview];
 }
 
 - (void)dealloc {
@@ -150,23 +167,9 @@
 }
 
 - (id)startRemoteCall:(id)obj {
-//    count_loading ++;
-//    
-////        _loading = VIEW(@"Loading", @"Loading");
-//    id<AYViewBase> loading = [self.views objectForKey:@"Loading"];
-//    if (!loading) {
-//        @throw [[NSException alloc]initWithName:@"configs no loadingView " reason:@"configs no loadingView " userInfo:nil];
-//    }
-//    ((UIView*)_loading).tag = -9999;
-//    [self.view addSubview:((UIView*)loading)];
-//    
-//    id<AYCommand> cmd = [loading.commands objectForKey:@"startGif"];
-//    [cmd performWithResult:nil];
-//    
     
     time_count = 30;            //star a new remote, so reset time count to 30
     if (count_loading == 0) {
-        time_count = 30;
         timer_loding = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
         [timer_loding fire];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -178,17 +181,6 @@
 }
 
 - (id)endRemoteCall:(id)obj {
-//    count_loading --;
-//    if (count_loading == 0) {
-//        
-//        id<AYViewBase> loading = [self.views objectForKey:@"Loading"];
-//        if (!loading) {
-//            @throw [[NSException alloc]initWithName:@"configs no loadingView " reason:@"configs no loadingView " userInfo:nil];
-//        }
-//        id<AYCommand> cmd = [loading.commands objectForKey:@"stopGif"];
-//        [cmd performWithResult:nil];
-//        [((UIView*)_loading) removeFromSuperview];
-//    }
     
     count_loading --;
     if (count_loading == 0) {
@@ -211,6 +203,7 @@
     }
 }
 
+#pragma mark -- order
 - (id)OrderAccomplished:(id)args {
     
     UIViewController *activeVC = [Tools activityViewController];
@@ -225,6 +218,115 @@
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];
     
+    return nil;
+}
+
+#pragma mark -- btm alert
+- (id)ShowBtmAlert:(id)args {
+    
+    if (btmAlertView) {
+        [btmAlertView removeFromSuperview];
+    }
+    
+    btmAlertView = [[UIView alloc]init];
+    btmAlertView.backgroundColor = [Tools whiteColor];
+    [self.view addSubview:btmAlertView];
+    
+    CALayer *topLine = [CALayer layer];
+    topLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
+    topLine.backgroundColor = [Tools garyLineColor].CGColor;
+    [btmAlertView.layer addSublayer:topLine];
+    
+    btmAlertView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, btmAlertViewH);
+    [UIView animateWithDuration:0.25 animations:^{
+        btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y - btmAlertViewH);
+    }];
+    
+    UIButton *closeBtn = [UIButton new];
+    [closeBtn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(didBtmAlertViewCloseBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [btmAlertView addSubview:closeBtn];
+    [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(btmAlertView).offset(-5);
+        make.centerY.equalTo(btmAlertView);
+        make.size.mas_equalTo(CGSizeMake(49, 49));
+    }];
+    
+    NSDictionary *alert_info = [(NSDictionary*)args objectForKey:@"notify_info"];
+    int type_alert = ((NSNumber*)[alert_info objectForKey:@"type"]).intValue;
+    
+    NSString *titleStr = [alert_info objectForKey:@"title"];
+    UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    titleLabel.numberOfLines = 0;
+    [btmAlertView addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(btmAlertView);
+        make.left.equalTo(btmAlertView).offset(15);
+        make.right.equalTo(closeBtn.mas_left).offset(-10);
+    }];
+    
+    switch (type_alert) {
+        case BtmAlertViewTypeCommon:
+        case BtmAlertViewTypeHideWithAction:
+        {
+            
+        }
+            break;
+        case BtmAlertViewTypeHideWithTimer:
+        {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [UIView animateWithDuration:0.25 animations:^{
+                    btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
+                }];
+            });
+        }
+            break;
+        case BtmAlertViewTypeWitnBtn:
+        {
+            [titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(btmAlertView).offset(15);
+                make.left.equalTo(btmAlertView).offset(15);
+            }];
+            
+            NSString *btnTitleStr = [alert_info objectForKey:@"btn_title"];
+            UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil];
+            [otherBtn addTarget:self action:@selector(didOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [btmAlertView addSubview:otherBtn];
+            [otherBtn sizeToFit];
+            [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(titleLabel);
+                make.top.equalTo(titleLabel.mas_bottom).offset(10);
+                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width, otherBtn.bounds.size.width));
+            }];
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return nil;
+}
+
+- (void)didBtmAlertViewCloseBtnClick {
+    NSLog(@"didBtmAlertViewCloseBtnClick");
+    if (btmAlertView.frame.origin.y == SCREEN_HEIGHT - btmAlertViewH) {
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
+        }];
+    }
+}
+
+- (void)didOtherBtnClick {
+    NSLog(@"didOtherBtnClick");
+    
+}
+
+- (id)HideBtmAlert {
+    
+    [self didBtmAlertViewCloseBtnClick];
     return nil;
 }
 

@@ -36,7 +36,6 @@
     
     <controller type="DefaultController" name="InputPhoneNo" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="LandingAreaCode" />
-        
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
@@ -48,6 +47,7 @@
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="Alert" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="LandingInputCoder"      name="LandingInputCoder" />
@@ -57,10 +57,10 @@
     
     <controller type="DefaultController"    name="InputName" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"        name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="Alert" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="LandingInputName"       name="LandingInputName" />
-<!--        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />-->
 
         <model notification="true" />
     </controller>
@@ -475,7 +475,6 @@
 
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
-<!--        <view type="SelfSetting"        name="SelfSetting" />-->
         <view type="Picker"             name="Picker" />
         
         <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
@@ -511,10 +510,11 @@
     </controller>
     
     <controller type="DefaultController" name="Location" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="Alert" notification="true" />
+        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
-<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
-        <view type="Table"      name="Table" />
         <view type="SearchBar"  name="SearchBar" />
+        <view type="Table"      name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="Location" />
     </controller>

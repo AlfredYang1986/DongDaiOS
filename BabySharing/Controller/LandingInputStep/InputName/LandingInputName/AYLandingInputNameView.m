@@ -8,12 +8,11 @@
 
 #import "AYLandingInputNameView.h"
 #import "AYCommandDefines.h"
-#import "OBShapedButton.h"
+#import "AYControllerBase.h"
 #import "AYResourceManager.h"
 #import "AYControllerBase.h"
 #import "AYFacadeBase.h"
-#import "Tools.h"
-#import "AYAlertView.h"
+#import "AYFactoryManager.h"
 
 #define BASICMARGIN                         8
 
@@ -133,8 +132,20 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *tmp = textField.text;
-    if ([Tools bityWithStr:tmp] >= 32){
-        [self showAYAlertViewWithTitle:@"4-32个字符(汉字／大写字母长度为2)，仅限中英文"];
+    if ([Tools bityWithStr:tmp] >= 16 && ![string isEqualToString:@""]){
+        
+        [name_area resignFirstResponder];
+        
+        NSString *title = @"4-16个字符(汉字／大写字母长度为2)\n*仅限中英文";
+        id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
+        id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+        
+        NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+        [dic_alert setValue:title forKey:@"title"];
+        [dic_alert setValue:[NSNumber numberWithInt:1] forKey:@"type"];
+        [cmd_alert performWithResult:&dic_alert];
+        
         return NO;
     }
     else {
@@ -142,22 +153,11 @@
     }
 }
 
-
-- (void)showAYAlertViewWithTitle:(NSString*)title {
-    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
-    [self addSubview:alertView];
-    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputView.mas_bottom).offset(60);
-        make.centerX.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:1.f animations:^{
-            alertView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [alertView removeFromSuperview];
-        }];
-    });
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
+    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
+    [cmd_alert performWithResult:nil];
 }
 
 #pragma mark -- view commands

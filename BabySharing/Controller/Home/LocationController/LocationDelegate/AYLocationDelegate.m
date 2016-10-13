@@ -10,8 +10,7 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
-
-#import "Tools.h"
+#import "AYFacadeBase.h"
 #import "AYSearchDefines.h"
 #import "AYFoundSearchResultCellDefines.h"
 
@@ -39,18 +38,6 @@
             make.centerY.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(17, 17));
         }];
-//        self.titleLabel = [[UILabel alloc]init];
-//        self.titleLabel.font = [UIFont systemFontOfSize:14.f];
-//        self.titleLabel.textColor = [UIColor colorWithWhite:0.2 alpha:1.f];
-//        self.titleLabel.textAlignment = NSTextAlignmentLeft;
-//        self.titleLabel.text = @"获取当前位置";
-//        [self addSubview:self.titleLabel];
-//        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-////            make.top.equalTo(self).offset(18);
-////            make.left.equalTo(self).offset(20);
-//            make.left.equalTo(self.locationIcon.mas_right).offset(10);
-//            make.centerY.equalTo(self);
-//        }];
         
         self.locationlabel = [[UILabel alloc]init];
         self.locationlabel.font = [UIFont systemFontOfSize:14.f];
@@ -165,25 +152,34 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSMutableDictionary *dic_location = [[NSMutableDictionary alloc]init];
+    
     if (previewDic == nil || previewDic.count == 0) {
-//        if (countDidClick == 0) {
-//            countDidClick = 1;
-//            id<AYCommand> cmd_location = [self.notifies objectForKey:@"startLocation"];
-//            [cmd_location performWithResult:nil];
-//            return;
-//        }else if (countDidClick == 1) {
-//            countDidClick = 0;
-            if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"正在定位，请稍等..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-                return;
-            }
-            [dic_location setValue:auto_locationName forKey:@"location_name"];
-            [dic_location setValue:auto_location forKey:@"location"];
-//        }
+        if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请稍等,正在定位..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            return;
+        }
         
-    }else{
-        //        NSDictionary *dic = previewDic[indexPath.row];
-        //        CLLocation *loc = [dic objectForKey:@"location"];
+        if (![auto_locationName isEqualToString:@"北京市"] && ![auto_locationName isEqualToString:@"Beijing"]) {
+            id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToHideKeyBoard"];
+            [cmd performWithResult:nil];
+            
+            NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京地区. 我们正在努力达到\n%@",auto_locationName];
+            id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Location");
+            id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+            id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+            
+            NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+            [dic_alert setValue:title forKey:@"title"];
+            [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+            [cmd_alert performWithResult:&dic_alert];
+            return;
+        }
+        
+        [dic_location setValue:auto_locationName forKey:@"location_name"];
+        [dic_location setValue:auto_location forKey:@"location"];
+        
+    } else {
+        
         AMapTip *tip = previewDic[indexPath.row];
         [dic_location setValue:tip.name forKey:@"location_name"];
         [dic_location setValue:tip.district forKey:@"district"];

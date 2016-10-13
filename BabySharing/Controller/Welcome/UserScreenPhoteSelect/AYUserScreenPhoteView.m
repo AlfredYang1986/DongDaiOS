@@ -24,6 +24,7 @@
     
     self.layer.cornerRadius = 100 / 2;
     self.clipsToBounds = YES;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
     self.tag = -110;
     self.backgroundColor = [UIColor clearColor];
     
@@ -31,6 +32,8 @@
     self.layer.borderWidth = 3.f;
     
     [self setBackgroundImage:IMGRESOURCE(@"default_user") forState:UIControlStateNormal];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+//    self.imageView.clipsToBounds = YES;
     [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
     
 }
