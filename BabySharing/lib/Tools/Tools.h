@@ -40,6 +40,9 @@
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 
+#pragma mark -- AYBtmAlert
+- (void)AYShowBtmAlertWithArgs:(NSDictionary*)args;
+
 #pragma mark -- NSTime
 + (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter;
 

@@ -29,4 +29,5 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 
+
 #endif /* BabySharing_Prefix_pch */

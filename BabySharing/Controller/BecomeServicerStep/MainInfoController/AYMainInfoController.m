@@ -333,7 +333,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (void)didMeBtnClick {
     
     NSString *title = [NSString stringWithFormat:@"您确认放弃发布当前服务吗？"];
-    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+//    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
     id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
     
     NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
@@ -345,12 +346,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (void)BtmAlertOtherBtnClick {
     NSLog(@"didOtherBtnClick");
     
-//    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
-//    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
-//    [cmd_alert performWithResult:nil];
-    
     [super BtmAlertOtherBtnClick];
-    
     [self popToRootVCWithTip:nil];
 }
 
@@ -433,7 +429,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                             
                             NSString *tip = @"服务发布成功";
                             [self popToRootVCWithTip:tip];
-                        }else {
+                        } else {
                             kAYUIAlertView(@"错误", @"服务发布失败");
                         }
                     }];
@@ -540,10 +536,17 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //                    kAYUIAlertView(@"提示", @"服务信息已更新");
                     confirmSerBtn.hidden = YES;
                     UIView *view = [self.views objectForKey:@"Table"];
-                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 - (service_info?49:0) + 1);
+                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
                     
-                    NSString *tip = @"服务信息已更新";
-                    [self popToRootVCWithTip:tip];
+                    NSString *title = @"服务信息已更新";
+//                    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+                    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
+                    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+                    
+                    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+                    [dic_alert setValue:title forKey:@"title"];
+                    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+                    [cmd_alert performWithResult:&dic_alert];
                     
                 } else {
                     kAYUIAlertView(@"错误", @"服务信息已更新发布失败");

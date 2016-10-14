@@ -61,8 +61,7 @@
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
-  
-  
+    
     UIView* view = [self.views objectForKey:@"ServiceConsumerFace"];
     view.backgroundColor = [UIColor clearColor];
     [view mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -298,13 +297,8 @@
                 [cmd performWithResult:nil];
             }
             
-            id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-            id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-            NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-            [args setValue:self.view forKey:@"super_view"];
-            [args setValue:@"动态密码已发送" forKey:@"title"];
-            [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5 + 50] forKey:@"set_y"];
-            [cmd_add performWithResult:&args];
+            NSString *title = @"动态密码已发送";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             
         } else {
             [[[UIAlertView alloc]initWithTitle:@"错误" message:@"网络错误，请重新获取" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];

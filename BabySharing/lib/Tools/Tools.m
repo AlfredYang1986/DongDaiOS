@@ -424,9 +424,11 @@
 + (UIColor*)garyColor {
     return [UIColor colorWithRed:155.f / 255.f green:155.f / 255.f blue:155.f / 255.f alpha:1.f];
 }
+
 + (UIColor*)garyLineColor {
     return [UIColor colorWithWhite:0.75f alpha:1.f];
 }
+
 + (UIColor*)garyBackgroundColor {
     return [UIColor colorWithWhite:0.9490f alpha:1.f];
 }
@@ -526,6 +528,18 @@
         btn.backgroundColor = [UIColor clearColor];
     
     return btn;
+}
+
+#pragma mark -- AYBtmAlert
+- (void)AYShowBtmAlertWithArgs:(NSDictionary*)args {
+//    NSString *title = @"mesage";
+//    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
+//    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+//    
+//    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+//    [dic_alert setValue:title forKey:@"title"];
+//    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+//    [cmd_alert performWithResult:&dic_alert];
 }
 
 #pragma mark -- NSTime

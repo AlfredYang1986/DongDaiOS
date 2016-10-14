@@ -121,21 +121,27 @@
     } else if ([args isKindOfClass:[NSString class]]) {
         
         NSString* photo_name = (NSString*)args;
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:photo_name forKey:@"image"];
-        [dic setValue:@"img_local" forKey:@"expect_size"];
+//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//        [dic setValue:photo_name forKey:@"image"];
+//        [dic setValue:@"img_local" forKey:@"expect_size"];
+//        
+//        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//            UIImage* img = (UIImage*)result;
+//            if (img != nil) {
+//                _photoImage.image = img;
+//            }
+//        }];
         
         id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            UIImage* img = (UIImage*)result;
-            if (img != nil) {
-                _photoImage.image = img;
-            }else{
-                [_photoImage setImage:IMGRESOURCE(@"sample_image")];
-            }
-        }];
+        NSString *pre = cmd.route;
+        [_photoImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                      placeholderImage:IMGRESOURCE(@"default_image")];
+        
     }
+    
     _addPhotoBtn.hidden = YES;
     _subTitleLabel.hidden = YES;
     return nil;

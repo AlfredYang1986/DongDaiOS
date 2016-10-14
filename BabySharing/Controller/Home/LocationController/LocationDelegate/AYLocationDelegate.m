@@ -164,8 +164,9 @@
             [cmd performWithResult:nil];
             
             NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京地区. 我们正在努力达到\n%@",auto_locationName];
-            id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Location");
-            id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+//            id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Location");
+//            id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+            id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
             id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
             
             NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];

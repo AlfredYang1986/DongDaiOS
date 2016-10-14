@@ -137,8 +137,9 @@
         [name_area resignFirstResponder];
         
         NSString *title = @"4-16个字符(汉字／大写字母长度为2)\n*仅限中英文";
-        id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
-        id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+//        id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
+//        id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+        id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
         id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
         
         NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
@@ -154,8 +155,9 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
-    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+//    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
+//    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
     id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
     [cmd_alert performWithResult:nil];
 }

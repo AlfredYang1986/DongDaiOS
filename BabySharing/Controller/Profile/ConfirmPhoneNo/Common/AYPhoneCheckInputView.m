@@ -87,6 +87,7 @@
     }];
     
     coder_area = [[UITextField alloc]init];
+    coder_area.delegate = self;
     coder_area.backgroundColor = [UIColor clearColor];
     coder_area.font = [UIFont systemFontOfSize:14.f];
     coder_area.textColor = [Tools blackColor];
@@ -157,37 +158,42 @@
         }
     }
     else if (tf.object == inputPhoneNo) {
-        
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
-                id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-                id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-                NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-                [args setValue:self forKey:@"super_view"];
-                [args setValue:@"手机号码输入错误" forKey:@"title"];
-                [args setValue:[NSNumber numberWithFloat:166.f] forKey:@"set_y"];
-                [cmd_add performWithResult:&args];
+                
+                [inputPhoneNo resignFirstResponder];
+                NSString *title = @"您输入了错误的电话号码";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
                 return;
             }
-            if (![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {
+            if (seconds == TimeZore || seconds == 0) {
                 getCodeBtn.enabled = YES;
             }
-        } else getCodeBtn.enabled = NO;
+        } else
+            getCodeBtn.enabled = NO;
     }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
-    if (textField == inputPhoneNo && inputPhoneNo.text.length >= kPhoneNoLimit && ![string isEqualToString:@""]){
-        return NO;
-    } else {
-        NSString *tmp = inputPhoneNo.text;
-        if ((tmp.length == 3 || tmp.length == 8) && ![string isEqualToString:@""]) {
-            tmp = [tmp stringByAppendingString:@" "];
-            inputPhoneNo.text = tmp;
+    if (textField == inputPhoneNo) {
+        if ( inputPhoneNo.text.length >= kPhoneNoLimit && ![string isEqualToString:@""]){
+            return NO;
+        } else {
+            NSString *tmp = inputPhoneNo.text;
+            if ((tmp.length == 3 || tmp.length == 8) && ![string isEqualToString:@""]) {
+                tmp = [tmp stringByAppendingString:@" "];
+                inputPhoneNo.text = tmp;
+            }
+            return YES;
         }
+    } else {
         return YES;
     }
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    AYHideBtmAlertView
 }
 
 - (void)getcodeBtnClick {
@@ -212,7 +218,7 @@
         [timer setFireDate:[NSDate distantFuture]];
         [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
         [getCodeBtn setTitle:@"重获动态密码" forState:UIControlStateNormal];
-        if (inputPhoneNo.text.length >= 10) {
+        if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             getCodeBtn.enabled = YES;
         }
     }

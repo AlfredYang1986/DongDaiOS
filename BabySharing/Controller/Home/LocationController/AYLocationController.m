@@ -209,7 +209,15 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    if (searchText.length == 0) return;
+    if (searchText.length == 0) {
+        id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"Location"];
+        id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeLocationResultData:"];
+        NSArray* tmp = [NSArray array];
+        [cmd performWithResult:&tmp];
+        
+        kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+        return;
+    };
     
     AMapInputTipsSearchRequest *tips = [[AMapInputTipsSearchRequest alloc] init];
     tips.keywords = searchText;
@@ -230,7 +238,8 @@
         [self scrollToHideKeyBoard];
         
         NSString *title = [NSString stringWithFormat:@"暂时没有符合您要求的搜索"];
-        id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+//        id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+        id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
         id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
         
         NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];

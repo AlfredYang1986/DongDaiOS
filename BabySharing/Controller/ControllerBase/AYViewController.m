@@ -231,19 +231,10 @@
         [btmAlertView removeFromSuperview];
     }
     
-//    UIViewController *activeVC = [Tools activityViewController];
-    UIViewController *rootVC = self.tabBarController;
-    if (!rootVC) {
-        rootVC = self.navigationController;
-    }
-    
-//    UIViewController *currentVC = activeVC.tabBarController;
-    
     btmAlertView = [[UIView alloc]init];
     btmAlertView.backgroundColor = [Tools whiteColor];
-//    [rootVC.view addSubview:btmAlertView];
-//    [rootVC.view bringSubviewToFront:btmAlertView];
     
+    //添加view到window
     [[UIApplication sharedApplication].keyWindow addSubview:btmAlertView];
     
     CALayer *topLine = [CALayer layer];
@@ -270,7 +261,7 @@
     int type_alert = ((NSNumber*)[alert_info objectForKey:@"type"]).intValue;
     
     NSString *titleStr = [alert_info objectForKey:@"title"];
-    UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     titleLabel.numberOfLines = 0;
     [btmAlertView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -298,6 +289,10 @@
         case BtmAlertViewTypeWitnBtn:
         {
             
+            UIViewController *rootVC = self.tabBarController;
+            if (!rootVC) {
+                rootVC = self.navigationController;
+            }
             maskView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
             maskView.backgroundColor = [Tools borderAlphaColor];
             [rootVC.view addSubview:maskView];

@@ -255,23 +255,15 @@
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
                 
                 [inputPhoneNo resignFirstResponder];
-                
-                id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
-                id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
-                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-                
                 NSString *title = @"手机号码输入错误";
-                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-                [dic_alert setValue:title forKey:@"title"];
-                [dic_alert setValue:[NSNumber numberWithInt:1] forKey:@"type"];
-                [cmd_alert performWithResult:&dic_alert];
-                
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
                 return;
             }
-            if (![inputPhoneNo.text isEqualToString:@""] && (seconds == TimeZore || seconds == 0)) {
+            if (seconds == TimeZore || seconds == 0) {
                 getCodeBtn.enabled = YES;
             }
-        } else getCodeBtn.enabled = NO;
+        } else
+            getCodeBtn.enabled = NO;
     }
 }
 
@@ -293,10 +285,8 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
-    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
-    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
-    [cmd_alert performWithResult:nil];
+    
+    AYHideBtmAlertView
 }
 
 -(void)areaBtnClick{
@@ -331,8 +321,9 @@
     
     [self hideKeyboard];
     
-    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
-    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+//    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
+//    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
+    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
     id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
     
     NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];

@@ -47,7 +47,6 @@
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
-        <facade type="DefaultFacade" name="Alert" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="LandingInputCoder"      name="LandingInputCoder" />
@@ -57,7 +56,6 @@
     
     <controller type="DefaultController"    name="InputName" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"        name="ProfileRemote" notification="true" />
-        <facade type="DefaultFacade" name="Alert" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="LandingInputName"       name="LandingInputName" />
@@ -164,17 +162,14 @@
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
-        <facade type="DefaultFacade" name="Alert" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
-<!--        <view type="FakeStatusBar"      name="FakeStatusBar" />-->
-<!--        <view type="FakeNavBar"         name="FakeNavBar" />-->
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
 <!--        <view type="Loading"            name="Loading" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
         <view type="Table"              name="Table" />
 
 <!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />-->
@@ -188,8 +183,8 @@
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
-        <view type="Table"              name="Table" />
         <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" />
     </controller>
@@ -200,7 +195,7 @@
     </controller>
     
     <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
+        <facade type="DefaultFacade" name="ExposeRemote" />
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />
@@ -212,7 +207,6 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="OneProfile" />
     </controller>
-    
     
     <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="EM" notification="true" />
@@ -299,7 +293,6 @@
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true" />
 
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
@@ -511,8 +504,6 @@
     </controller>
     
     <controller type="DefaultController" name="Location" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="Alert" notification="true" />
-        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="SearchBar"  name="SearchBar" />
         <view type="Table"      name="Table" />
@@ -579,7 +570,6 @@
     
     <controller type="DefaultController" name="MyService" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade" name="Alert" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
@@ -661,8 +651,7 @@
     
     <controller type="DefaultController" name="MainInfo" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade" name="Alert" notification="true" />
-        
+
         <view type="FakeNavBar" name="FakeNavBar" />
         <view type="Table" name="Table" />
         
@@ -863,7 +852,6 @@
     </controller>
     
     <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />

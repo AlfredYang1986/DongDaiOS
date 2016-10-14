@@ -193,7 +193,8 @@
             [cmd performWithResult:&dic_push];
             
         } else {
-            kAYUIAlertView(@"错误", @"请检查验证码并重试");
+            NSString *title = @"验证码输入错误\n请检查验证码并重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
     return nil;
@@ -233,13 +234,8 @@
                 [cmd performWithResult:nil];
             }
             
-            id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-            id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-            NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-            [args setValue:self.view forKey:@"super_view"];
-            [args setValue:@"动态密码已发送" forKey:@"title"];
-            [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
-            [cmd_add performWithResult:&args];
+            NSString *title = @"动态密码已发送";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             
         } else {
             [[[UIAlertView alloc]initWithTitle:@"错误" message:@"网络错误，请重新获取" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];

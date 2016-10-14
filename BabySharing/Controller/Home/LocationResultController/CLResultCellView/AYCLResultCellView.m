@@ -134,7 +134,6 @@
 - (id)setCellInfo:(id)args{
     NSDictionary *dic = (NSDictionary*)args;
     cellInfo = dic;
-    NSLog(@"%@",dic);
     
     NSString* photo_name = [[dic objectForKey:@"images"] objectAtIndex:0];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");

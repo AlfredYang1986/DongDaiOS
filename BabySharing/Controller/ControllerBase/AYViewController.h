@@ -12,16 +12,6 @@
 #import "AYResourceManager.h"
 #import "Tools.h"
 
-typedef enum : int {
-    BtmAlertViewTypeCommon,
-    BtmAlertViewTypeHideWithAction,
-    BtmAlertViewTypeHideWithTimer,
-    BtmAlertViewTypeWitnBtn,
-    BtmAlertViewTypeWitnMask,
-    BtmAlertViewTypeWitnBtnAndMask,
-} BtmAlertViewType;
-
-
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
 @property (nonatomic, weak) id<AYViewBase> loading;

@@ -76,6 +76,32 @@ static NSString* const kAYPickerShowViewMessage =                 @"showPickerVi
 #pragma mark -- 系统提示弹框
 #define kAYUIAlertView(TITLE,MESSAGE)               [[[UIAlertView alloc]initWithTitle:TITLE message:MESSAGE delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show]
 
+#pragma mark -- AYBtmAlert
+//BtmAlertViewType
+typedef enum : int {
+    BtmAlertViewTypeCommon,
+    BtmAlertViewTypeHideWithAction,
+    BtmAlertViewTypeHideWithTimer,
+    BtmAlertViewTypeWitnBtn,
+    BtmAlertViewTypeWitnMask,
+    BtmAlertViewTypeWitnBtnAndMask,
+} BtmAlertViewType;
+
+#define AYShowBtmAlertView(TITLE,TYPE)          {\
+                                                                        id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");\
+                                                                        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];\
+                                                                        NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];\
+                                                                        [dic_alert setValue:TITLE forKey:@"title"];\
+                                                                        [dic_alert setValue:[NSNumber numberWithInt:TYPE] forKey:@"type"];\
+                                                                        [cmd_alert performWithResult:&dic_alert];\
+                                                                        }
+
+#define AYHideBtmAlertView                              {\
+                                                                        id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");\
+                                                                        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];\
+                                                                        [cmd_alert performWithResult:nil];\
+                                                                        }
+
 #pragma mark -- popToRoot
 #define kAYPopToRootVC                              {\
                                                         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];\

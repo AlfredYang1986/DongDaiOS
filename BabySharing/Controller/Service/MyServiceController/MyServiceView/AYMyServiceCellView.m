@@ -130,8 +130,6 @@
 
 - (id)setCellInfo:(id)args {
     service_info = (NSDictionary*)args;
-//    service_info = dic;
-//    NSLog(@"%@",dic);
     
 //    NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
 //    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
@@ -154,7 +152,6 @@
     NSString *pre = cmd.route;
     [_mainImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                   placeholderImage:IMGRESOURCE(@"default_image")];
-    
     
     NSString *title = [service_info objectForKey:@"title"];
     _titleLabel.text = title;
@@ -182,7 +179,7 @@
             //下载/缓存 全部交给sdwebimage
             NSString *screen_photo = [result objectForKey:@"screen_photo"];
             [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
-                          placeholderImage:IMGRESOURCE(@"default_image")];
+                          placeholderImage:IMGRESOURCE(@"default_user")];
             
         }
     }];

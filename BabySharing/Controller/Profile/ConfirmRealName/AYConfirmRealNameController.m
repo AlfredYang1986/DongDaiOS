@@ -151,7 +151,8 @@
 - (id)rightBtnSelected {
     
     if ([nameTextField.text isEqualToString:@""] || [coderTextField.text isEqualToString:@""]) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请完善个人信息！" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        NSString *title = @"请完善个人信息！";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
     
@@ -189,7 +190,9 @@
             [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
             [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
             [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic_push setValue:[NSNumber numberWithInt:0] forKey:kAYControllerChangeArgsKey];
+            
+            NSString *tip = @"您的信息已成功提交";
+            [dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
             
             id<AYCommand> cmd = PUSH;
             [cmd performWithResult:&dic_push];
