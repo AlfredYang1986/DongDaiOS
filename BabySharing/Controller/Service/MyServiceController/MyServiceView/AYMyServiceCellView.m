@@ -40,9 +40,10 @@
     [super awakeFromNib];
     
     _ownerIconImage.layer.cornerRadius = 20.f;
-    _ownerIconImage.clipsToBounds = YES;
+    _ownerIconImage.layer.rasterizationScale = [UIScreen mainScreen].scale;
     _ownerIconImage.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _ownerIconImage.layer.borderWidth = 2.f;
+    _ownerIconImage.clipsToBounds = YES;
     
     _mainImage.contentMode = UIViewContentModeScaleAspectFill;
     _mainImage.clipsToBounds = YES;
@@ -132,19 +133,28 @@
 //    service_info = dic;
 //    NSLog(@"%@",dic);
     
-    NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
-    [dic_img setValue:photo_name forKey:@"image"];
-    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+//    NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
+//    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
+//    [dic_img setValue:photo_name forKey:@"image"];
+//    [dic_img setValue:@"img_desc" forKey:@"expect_size"];
+//    
+//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        UIImage* img = (UIImage*)result;
+//        if (img != nil) {
+//            _mainImage.image = img;
+//        }
+//    }];
     
+    //下载/缓存 全部交给sdwebimage
+    NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            _mainImage.image = img;
-        }
-    }];
+    NSString *pre = cmd.route;
+    [_mainImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                  placeholderImage:IMGRESOURCE(@"default_image")];
+    
     
     NSString *title = [service_info objectForKey:@"title"];
     _titleLabel.text = title;
@@ -155,17 +165,25 @@
     [dic_owner_id setValue:[service_info objectForKey:@"owner_id"] forKey:@"user_id"];
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
-            [dic setValue:@"img_icon" forKey:@"expect_size"];
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                UIImage* img = (UIImage*)result;
-                if (img != nil) {
-                    [_ownerIconImage setImage:img];
-                }
-            }];
+            
+//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//            
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
+//            [dic setValue:@"img_icon" forKey:@"expect_size"];
+//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//                UIImage* img = (UIImage*)result;
+//                if (img != nil) {
+//                    [_ownerIconImage setImage:img];
+//                }
+//            }];
+            
+            //下载/缓存 全部交给sdwebimage
+            NSString *screen_photo = [result objectForKey:@"screen_photo"];
+            [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+                          placeholderImage:IMGRESOURCE(@"default_image")];
+            
         }
     }];
     

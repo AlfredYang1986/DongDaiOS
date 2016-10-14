@@ -22,12 +22,9 @@
     AYAlertFacade* alert_facade = FACADE(kAYFactoryManagerCommandTypeDefaultFacade, @"Alert");
     
     NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
     [notify setValue:@"ShowBtmAlert:" forKey:kAYNotifyFunctionKey];
+    [notify setValue:[((NSDictionary*)*obj) copy] forKey:kAYNotifyArgsKey];
     
-    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-    [args setValue:((NSDictionary*)*obj) forKey:@"notify_info"];
-    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
     [alert_facade performWithResult:&notify];
 }
 

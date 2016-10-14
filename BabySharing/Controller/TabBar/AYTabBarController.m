@@ -164,6 +164,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+//    [self.tabBar.delegate tabBar:self.tabBar didSelectItem:[self.tabBar.items objectAtIndex:3]];
+    
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview:cover];
     

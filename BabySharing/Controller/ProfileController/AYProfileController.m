@@ -48,7 +48,7 @@
     NSString* screen_name;
     NSDictionary* profile_dic;
     
-    id backArgs;
+//    id backArgs;
 //    NSArray* post_content;
 //    NSArray* push_content;
     
@@ -65,7 +65,7 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
-        backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+        id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
         if (backArgs) {
             
             NSDictionary *user_info = nil;
@@ -77,6 +77,18 @@
             [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
             kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+            
+            if ([backArgs isKindOfClass:[NSString class]]) {
+                
+                NSString *title = (NSString*)backArgs;
+                id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+                
+                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+                [dic_alert setValue:title forKey:@"title"];
+                [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+                [cmd_alert performWithResult:&dic_alert];
+            }
             
         }
     }
@@ -152,16 +164,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    if ([backArgs isKindOfClass:[NSString class]]) {
-        NSString *title = (NSString*)backArgs;
-        id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
-        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-        
-        NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-        [dic_alert setValue:title forKey:@"title"];
-        [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-        [cmd_alert performWithResult:&dic_alert];
-    }
+    
 }
 
 #pragma mark -- layout

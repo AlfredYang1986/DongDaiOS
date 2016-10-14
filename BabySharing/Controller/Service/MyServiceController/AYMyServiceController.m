@@ -47,12 +47,30 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
+        id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (backArgs) {
+            
+            [self syncQueryData];
+            
+            if ([backArgs isKindOfClass:[NSString class]]) {
+                
+                NSString *title = (NSString*)backArgs;
+                id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+                
+                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+                [dic_alert setValue:title forKey:@"title"];
+                [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+                [cmd_alert performWithResult:&dic_alert];
+            }
+            //backargs if end
+        }
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
@@ -70,8 +88,12 @@
     NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MyServiceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&nib_search_name];
     
-    
     ((UITableView*)view_table).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadRefreshData)];
+    
+    [self syncQueryData];
+}
+
+- (void)syncQueryData {
     
     NSDictionary* info = nil;
     CURRENUSER(info)
@@ -85,25 +107,12 @@
             
             NSArray *data = [result objectForKey:@"result"];
             kAYDelegatesSendMessage(@"MyService", @"changeQueryData:", &data)
-            kAYViewsSendMessage(@"Table", @"refresh", nil)
+            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
         } else {
             kAYUIAlertView(@"错误", @"请检查网络链接是否正常");
         }
     }];
-    
-//    UIButton *pushNewSerBtn = [[UIButton alloc]init];
-//    pushNewSerBtn.backgroundColor = [Tools themeColor];
-//    [pushNewSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [self.view addSubview:pushNewSerBtn];
-//    [pushNewSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(self.view).offset(-49);
-//        make.centerX.equalTo(self.view);
-//        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
-//    }];
-//    [pushNewSerBtn setTitle:@"发布新服务" forState:UIControlStateNormal];
-//    [pushNewSerBtn addTarget:self action:@selector(didPushNewSerBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -135,16 +144,11 @@
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);
-    
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
-    
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
     return nil;
 }

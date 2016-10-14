@@ -28,6 +28,7 @@
     int time_count;
     NSTimer *timer_loding;
     
+    UIView *maskView;
     UIView *btmAlertView;
 }
 
@@ -230,18 +231,20 @@
         [btmAlertView removeFromSuperview];
     }
     
-    UIViewController *activeVC = [Tools activityViewController];
-    UIViewController *rootVC = activeVC.tabBarController;
+//    UIViewController *activeVC = [Tools activityViewController];
+    UIViewController *rootVC = self.tabBarController;
     if (!rootVC) {
-        rootVC = activeVC.navigationController;
+        rootVC = self.navigationController;
     }
     
 //    UIViewController *currentVC = activeVC.tabBarController;
     
     btmAlertView = [[UIView alloc]init];
     btmAlertView.backgroundColor = [Tools whiteColor];
-    [rootVC.view addSubview:btmAlertView];
-    [rootVC.view bringSubviewToFront:btmAlertView];
+//    [rootVC.view addSubview:btmAlertView];
+//    [rootVC.view bringSubviewToFront:btmAlertView];
+    
+    [[UIApplication sharedApplication].keyWindow addSubview:btmAlertView];
     
     CALayer *topLine = [CALayer layer];
     topLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
@@ -263,7 +266,7 @@
         make.size.mas_equalTo(CGSizeMake(49, 49));
     }];
     
-    NSDictionary *alert_info = [(NSDictionary*)args objectForKey:@"notify_info"];
+    NSDictionary *alert_info = (NSDictionary*)args;
     int type_alert = ((NSNumber*)[alert_info objectForKey:@"type"]).intValue;
     
     NSString *titleStr = [alert_info objectForKey:@"title"];
@@ -294,6 +297,12 @@
             break;
         case BtmAlertViewTypeWitnBtn:
         {
+            
+            maskView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+            maskView.backgroundColor = [Tools borderAlphaColor];
+            [rootVC.view addSubview:maskView];
+//            [rootVC.view bringSubviewToFront:btmAlertView];
+            
             [titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(btmAlertView).offset(8);
                 make.left.equalTo(btmAlertView).offset(15);
@@ -303,7 +312,7 @@
             NSString *btnTitleStr = @"确认";
             UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil];
             otherBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-            [otherBtn addTarget:self action:@selector(didOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [otherBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [btmAlertView addSubview:otherBtn];
             [otherBtn sizeToFit];
             [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -327,19 +336,21 @@
     if (btmAlertView.frame.origin.y == SCREEN_HEIGHT - btmAlertViewH) {
         [UIView animateWithDuration:0.25 animations:^{
             btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
+            maskView.alpha = 0;
         } completion:^(BOOL finished) {
             [btmAlertView removeFromSuperview];
+            [maskView removeFromSuperview];
         }];
     }
 }
 
-- (void)didOtherBtnClick {
+- (void)BtmAlertOtherBtnClick {
     NSLog(@"didOtherBtnClick");
     [self didBtmAlertViewCloseBtnClick];
     
 }
 
-- (id)HideBtmAlert {
+- (id)HideBtmAlert:(id)args {
     
     [self didBtmAlertViewCloseBtnClick];
     return nil;

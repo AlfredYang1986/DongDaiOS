@@ -27,12 +27,16 @@
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 
-typedef void(^asynUploadImages)(BOOL, NSDictionary*);
+#define becomeNapNormalModelFitHeight               (64+49 - 1)
+#define becomeNapAllreadyModelFitHeight               (64+49 + 44 - 1)
 
-@interface AYMainInfoController () <UIActionSheetDelegate>
-@property (nonatomic, strong) NSMutableDictionary *service_change_dic;
-@property (nonatomic, strong) NSMutableArray *noteAllArgs;
-@end
+#define servInfoNormalModelFitHeight                           (64 - 1)
+#define servInfoChangedModelFitHeight                           (64+44 - 1)
+
+#define napPushServNormalModelFitHeight               (64 - 1)
+#define napPushServAllreadyModelFitHeight               (64+44 - 1)
+
+typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 @implementation AYMainInfoController {
     
@@ -46,6 +50,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     UIButton *confirmSerBtn;
     NSMutableDictionary* dic_push_photos;
+    
+    BOOL isNapModel;
 }
 
 
@@ -149,13 +155,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             
             confirmSerBtn.hidden = NO;
             UIView *view = [self.views objectForKey:@"Table"];
-            view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - 44 + 1);
+            view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - (isNapModel?napPushServAllreadyModelFitHeight:becomeNapAllreadyModelFitHeight));
         }
     } else {
         
         confirmSerBtn.hidden = NO;
         UIView *view = [self.views objectForKey:@"Table"];
-        view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 + 1);
+        view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoChangedModelFitHeight);
     }
     
 }
@@ -216,58 +222,71 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
     } else {
         
+        AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+        isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
         
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&babyAgeCell];
         
-        UIView *tabbar = [[UIView alloc]init];
-        tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
-        [self.view addSubview:tabbar];
-        [tabbar mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view);
-            make.left.equalTo(self.view);
-            make.right.equalTo(self.view);
-            make.height.mas_equalTo(49);
-        }];
-        CALayer *line = [CALayer layer];
-        line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
-        line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-        [tabbar.layer addSublayer:line];
-        
-        UIButton *me = [[UIButton alloc]init];
-        [tabbar addSubview:me];
-        [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
-        me.imageEdgeInsets = UIEdgeInsetsMake(-5, 10, 5, -10);
-        [me setTitle:@"我的" forState:UIControlStateNormal];
-        [me setTitleColor:[UIColor colorWithWhite:0.6078 alpha:1.f] forState:UIControlStateNormal];
-        me.titleLabel.font = [UIFont systemFontOfSize:9.f];
-        me.titleEdgeInsets = UIEdgeInsetsMake(15, -12, -15, 12);
-        [me mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(tabbar).offset(-20);
-            make.centerY.equalTo(tabbar);
-            make.size.mas_equalTo(CGSizeMake(50, 44));
-        }];
-        [me addTarget:self action:@selector(didMeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        
         [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(tabbar.mas_top);
+            make.bottom.equalTo(self.view).offset((isNapModel?0:-49));
             make.centerX.equalTo(self.view);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
         }];
         [confirmSerBtn setTitle:@"提交我的服务" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        if (!isNapModel) {
+            
+            UIView *tabbar = [[UIView alloc]init];
+            tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+            [self.view addSubview:tabbar];
+            [tabbar mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.bottom.equalTo(self.view);
+                make.left.equalTo(self.view);
+                make.right.equalTo(self.view);
+                make.height.mas_equalTo(49);
+            }];
+            CALayer *line = [CALayer layer];
+            line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
+            line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+            [tabbar.layer addSublayer:line];
+            
+            UIButton *me = [[UIButton alloc]init];
+            [tabbar addSubview:me];
+            [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
+            me.imageEdgeInsets = UIEdgeInsetsMake(-5, 10, 5, -10);
+            [me setTitle:@"我的" forState:UIControlStateNormal];
+            [me setTitleColor:[UIColor colorWithWhite:0.6078 alpha:1.f] forState:UIControlStateNormal];
+            me.titleLabel.font = [UIFont systemFontOfSize:9.f];
+            me.titleEdgeInsets = UIEdgeInsetsMake(15, -12, -15, 12);
+            [me mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(tabbar).offset(-20);
+                make.centerY.equalTo(tabbar);
+                make.size.mas_equalTo(CGSizeMake(50, 44));
+            }];
+            [me addTarget:self action:@selector(didMeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 #pragma mark -- layout
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44-(service_info?49:0) + 1);
+    CGFloat fit_height = 0;
+    if (service_info) {
+        fit_height = servInfoNormalModelFitHeight;
+    } else {
+        fit_height = isNapModel?napPushServNormalModelFitHeight:becomeNapNormalModelFitHeight;
+    }
+    
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - fit_height);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -323,12 +342,14 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [cmd_alert performWithResult:&dic_alert];
 }
 
-- (void)didOtherBtnClick {
+- (void)BtmAlertOtherBtnClick {
     NSLog(@"didOtherBtnClick");
     
-    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
-    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
-    [cmd_alert performWithResult:nil];
+//    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+//    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"HideAlert"];
+//    [cmd_alert performWithResult:nil];
+    
+    [super BtmAlertOtherBtnClick];
     
     [self popToRootVCWithTip:nil];
 }
@@ -400,10 +421,20 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                         if (success) {
 //                            kAYUIAlertView(@"提示", @"服务发布成功");
+                            
+                            /**
+                             *  change profile info in coredata
+                             */
+                            id<AYFacadeBase> facade = LOGINMODEL;
+                            id<AYCommand> cmd_profle = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+                            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+                            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_service_provider"];
+                            [cmd_profle performWithResult:&dic];
+                            
                             NSString *tip = @"服务发布成功";
                             [self popToRootVCWithTip:tip];
                         }else {
-                            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务发布失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                            kAYUIAlertView(@"错误", @"服务发布失败");
                         }
                     }];
                 } else {
@@ -485,7 +516,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         } else {
             NSLog(@"push error with:%@",result);
             if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务撤销失败,该服务状态错误！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                kAYUIAlertView(@"错误", @"服务撤销失败,该服务状态错误");
             }
         }
     }];
@@ -505,11 +536,15 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
             [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
-                    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"服务信息已更新发布成功" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
                     
+//                    kAYUIAlertView(@"提示", @"服务信息已更新");
                     confirmSerBtn.hidden = YES;
                     UIView *view = [self.views objectForKey:@"Table"];
-                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44-(service_info?49:0) + 1);
+                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 - (service_info?49:0) + 1);
+                    
+                    NSString *tip = @"服务信息已更新";
+                    [self popToRootVCWithTip:tip];
+                    
                 } else {
                     kAYUIAlertView(@"错误", @"服务信息已更新发布失败");
                 }

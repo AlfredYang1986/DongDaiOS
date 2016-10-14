@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-@interface AYMainInfoController : AYViewController
+@interface AYMainInfoController : AYViewController <UIActionSheetDelegate>
+@property (nonatomic, strong) NSMutableDictionary *service_change_dic;
+@property (nonatomic, strong) NSMutableArray *noteAllArgs;
 
 @end

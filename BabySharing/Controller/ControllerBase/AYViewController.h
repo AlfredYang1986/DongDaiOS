@@ -27,6 +27,7 @@ typedef enum : int {
 @property (nonatomic, weak) id<AYViewBase> loading;
 
 - (void)clearController;
+- (void)BtmAlertOtherBtnClick;
 @end
 
 #import "AYControllerActionDefines.h"
