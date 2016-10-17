@@ -49,13 +49,20 @@
         [cmd performWithResult:&dic_push];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSNumber *info = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (info.boolValue) {
+        
+        id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (backArgs) {
+            
             [self loadOrderData];
-//            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
-//            ((UITableView*)view_future).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-//            [((UITableView*)view_future).mj_header beginRefreshing];
+            
+            if ([backArgs isKindOfClass:[NSString class]]) {
+                
+                NSString *title = (NSString*)backArgs;
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            }
+            
         }
+        
     }
 }
 

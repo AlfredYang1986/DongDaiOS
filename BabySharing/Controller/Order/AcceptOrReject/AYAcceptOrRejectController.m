@@ -24,7 +24,6 @@
 @implementation AYAcceptOrRejectController {
     
     NSDictionary *order_info;
-    
 }
 
 - (void)postPerform{
@@ -54,7 +53,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools darkBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
     
     UILabel *tipsLabel = [UILabel new];
     tipsLabel = [Tools setLabelWith:tipsLabel andText:@"确认接受订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
@@ -171,7 +169,7 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 54);
-    view.backgroundColor = [UIColor clearColor];
+    view.backgroundColor = [Tools whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
 //    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
@@ -207,12 +205,12 @@
         NSString *message = nil;
         if (success) {
             message = @"您已经接受订单，请及时处理!";
-            [self popToRoot];
+            [self popToRootVCWithTip:message];
         } else {
             message = @"接受订单失败!\n请检查网络是否正常连接";
             NSLog(@"error with:%@",result);
+            [[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     }];
 }
 
@@ -246,14 +244,16 @@
     [cmd_show_module performWithResult:&dic];
 }
 
-- (void)popToRoot {
+- (void)popToRootVCWithTip:(NSString*)tip {
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:tip forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+    
 }
 
 #pragma mark -- notification

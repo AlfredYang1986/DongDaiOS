@@ -17,11 +17,6 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
@@ -125,6 +120,7 @@
             make.centerX.equalTo(self.view);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
         }];
+        
         if (status.intValue == 0) {
             
             [confirmSerBtn setTitle:@"接受或者拒绝" forState:UIControlStateNormal];

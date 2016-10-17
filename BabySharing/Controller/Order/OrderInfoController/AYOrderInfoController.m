@@ -18,14 +18,8 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
-
 
 @implementation AYOrderInfoController {
     
@@ -184,7 +178,11 @@
 - (void)didAplyBtnClick:(UIButton*)btn {
     
     if (!order_date) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您还没有预订时间" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+//        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您还没有预订时间" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+        
+        NSString *title = @"您还没有预订时间";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
+        
         return;
     }
     
@@ -214,8 +212,11 @@
      */
     int startClock = [start substringToIndex:2].intValue;
     int endClock = [end substringToIndex:2].intValue;
-    if (endClock - startClock < ((NSNumber*)[service_info objectForKey:@"least_hours"]).intValue) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您没有预订足够的时间" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+    int least = ((NSNumber*)[service_info objectForKey:@"least_hours"]).intValue;
+    if (endClock - startClock < least) {
+        
+        NSString *title = [NSString stringWithFormat:@"您没有预定足够的时长:\n%d小时",least];
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     
@@ -273,6 +274,8 @@
  */
 - (id)didEditDate {
     
+    AYHideBtmAlertView
+    
     id<AYCommand> des = DEFAULTCONTROLLER(@"SearchFilterDate");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -292,7 +295,11 @@
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:setedTimes forKey:kAYControllerChangeArgsKey];
+    
+    NSMutableDictionary *dic_times = [[NSMutableDictionary alloc]init];
+    [dic_times setValue:[setedTimes copy] forKey:@"order_times"];
+    [dic_times setValue:[service_info objectForKey:@"least_hours"] forKey:@"least_hours"];
+    [dic setValue:dic_times forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_push = PUSH;
     [cmd_push performWithResult:&dic];

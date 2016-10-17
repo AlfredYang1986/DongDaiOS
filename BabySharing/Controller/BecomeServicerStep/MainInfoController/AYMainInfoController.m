@@ -545,7 +545,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     
                     NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
                     [dic_alert setValue:title forKey:@"title"];
-                    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+                    [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
                     [cmd_alert performWithResult:&dic_alert];
                     
                 } else {

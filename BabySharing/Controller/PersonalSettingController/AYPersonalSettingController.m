@@ -345,8 +345,9 @@
             
             [cmd_profle performWithResult:&dic];
             
-            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-            [self popToPreviousWithSave];
+//            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            NSString *title = @"保存已修改";
+            [self popToRootVCWithTip:title];
         } else {
             [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         }
@@ -371,6 +372,18 @@
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+}
+
+- (void)popToRootVCWithTip:(NSString*)tip {
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:tip forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POPTOROOT;
+    [cmd performWithResult:&dic];
+    
 }
 
 #pragma mark -- pickerviewDelegate

@@ -201,22 +201,25 @@
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            kAYUIAlertView(@"提示", @"已拒绝此订单");
-            [self popToRoot];
+//            kAYUIAlertView(@"提示", @"已拒绝此订单");
+            NSString *title = @"已拒绝日程";
+            [self popToRootVCWithTip:title];
         } else {
             
         }
     }];
 }
 
-- (void)popToRoot {
+- (void)popToRootVCWithTip:(NSString*)tip {
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:tip forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+    
 }
 
 #pragma mark -- notification

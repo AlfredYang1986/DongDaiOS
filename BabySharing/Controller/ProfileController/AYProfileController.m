@@ -81,14 +81,7 @@
             if ([backArgs isKindOfClass:[NSString class]]) {
                 
                 NSString *title = (NSString*)backArgs;
-//                id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
-                id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-                
-                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-                [dic_alert setValue:title forKey:@"title"];
-                [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-                [cmd_alert performWithResult:&dic_alert];
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
             
         }
@@ -133,28 +126,6 @@
         [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
         kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
     }
-    
-//    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
-//    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
-//    NSDictionary* user = nil;
-//    CURRENUSER(user);
-//    
-//    NSMutableDictionary* dic = [user mutableCopy];
-//    [dic setValue:[user objectForKey:@"user_id"]  forKey:@"owner_user_id"];
-    
-//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//        if (success) {
-//            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-//            id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-//            
-//            NSDictionary *dic = [result copy];
-//            [cmd performWithResult:&dic];
-//            
-//            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-//            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-//            [refresh performWithResult:nil];
-//        }
-//    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -183,15 +154,15 @@
     NSNumber* left_hidden = [NSNumber numberWithBool:YES];
     [cmd_left_vis performWithResult:&left_hidden];
     
-    NSString *title = @"我的";
-    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
+//    NSString *title = @"我的";
+//    kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
     
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-    [cmd_bot performWithResult:nil];
+//    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
+//    [cmd_bot performWithResult:nil];
     return nil;
 }
 

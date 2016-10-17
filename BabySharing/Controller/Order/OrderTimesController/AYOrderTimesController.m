@@ -40,7 +40,7 @@
     OrderTimesOptionView *startView;
     OrderTimesOptionView *endView;
     
-    NSDictionary *setedTimes;
+    NSDictionary *dic_times;
     
     UIView *picker;
 }
@@ -51,7 +51,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        setedTimes = [dic objectForKey:kAYControllerChangeArgsKey];
+        dic_times = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -78,6 +78,7 @@
     [startView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetStartTime)]];
     startView.states = 1;
     
+    NSDictionary *setedTimes = [dic_times objectForKey:@"order_times"];
     NSString *start = [setedTimes objectForKey:@"start"];
     startView.timeLabel.text = start ? start : @"10:00";
     
@@ -191,6 +192,7 @@
     id<AYCommand> cmd_show = [view_picker.commands objectForKey:@"showPickerView"];
     [cmd_show performWithResult:nil];
 }
+
 #pragma mark -- commands
 - (id)leftBtnSelected {
     
@@ -205,6 +207,16 @@
 }
 
 - (id)rightBtnSelected {
+    
+    int startClock = [startView.timeLabel.text substringToIndex:2].intValue;
+    int endClock = [endView.timeLabel.text substringToIndex:2].intValue;
+    int least = ((NSNumber*)[dic_times objectForKey:@"least_hours"]).intValue;
+    if (endClock - startClock < least) {
+        
+        NSString *title = [NSString stringWithFormat:@"您没有预定足够的时长:\n%d小时",least];
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return nil;
+    }
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
