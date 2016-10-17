@@ -540,6 +540,7 @@
 		70AC5BB01CC8C6DD00E2568F /* AYPostContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BAF1CC8C6DD00E2568F /* AYPostContentCommand.m */; };
 		70AC5BB31CC8C84600E2568F /* AYPostPhotosCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */; };
 		70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */; };
+		70B01F7D1DB4D64300731809 /* AYPushCommentsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B01F7C1DB4D64300731809 /* AYPushCommentsCommand.m */; };
 		70B1DC761CC705640041794A /* AYGetAllPhonesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */; };
 		70B1DC791CC706760041794A /* AYMoviePlayerFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC781CC706760041794A /* AYMoviePlayerFacade.m */; };
 		70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC7C1CC70D220041794A /* AYMovieCoverImagesCommand.m */; };
@@ -1896,6 +1897,8 @@
 		70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPhotosCommand.m; sourceTree = "<group>"; };
 		70AC5BB51CC8E32C00E2568F /* AYPostMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostMovieCommand.h; sourceTree = "<group>"; };
 		70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostMovieCommand.m; sourceTree = "<group>"; };
+		70B01F7B1DB4D64300731809 /* AYPushCommentsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushCommentsCommand.h; sourceTree = "<group>"; };
+		70B01F7C1DB4D64300731809 /* AYPushCommentsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushCommentsCommand.m; sourceTree = "<group>"; };
 		70B1DC741CC705640041794A /* AYGetAllPhonesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGetAllPhonesCommand.h; sourceTree = "<group>"; };
 		70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGetAllPhonesCommand.m; sourceTree = "<group>"; };
 		70B1DC771CC706760041794A /* AYMoviePlayerFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMoviePlayerFacade.h; sourceTree = "<group>"; };
@@ -5466,6 +5469,7 @@
 		7069A31F1D52F95C007821D4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				70B01F7A1DB4D61C00731809 /* PushComments */,
 				70FE54E41D98F8200077A3E9 /* AcceptOrder */,
 				70CB71461D97B0F300C83985 /* AccomplishOrder */,
 				70E77CE41D8E839700C882DD /* RejectOrder */,
@@ -6743,6 +6747,15 @@
 				70AC5BAA1CC8C6B600E2568F /* AYPostUnlikeContentCommand.m */,
 			);
 			path = WithExistingContent;
+			sourceTree = "<group>";
+		};
+		70B01F7A1DB4D61C00731809 /* PushComments */ = {
+			isa = PBXGroup;
+			children = (
+				70B01F7B1DB4D64300731809 /* AYPushCommentsCommand.h */,
+				70B01F7C1DB4D64300731809 /* AYPushCommentsCommand.m */,
+			);
+			path = PushComments;
 			sourceTree = "<group>";
 		};
 		70B1DC731CC705640041794A /* ContacterFacade */ = {
@@ -9378,6 +9391,7 @@
 				7002DB8C1CC64EDA0013FF2A /* AYSceneFilterCommand.m in Sources */,
 				702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */,
 				70F57E951D86D2DB003D493E /* AYOrderInfoDateCellView.m in Sources */,
+				70B01F7D1DB4D64300731809 /* AYPushCommentsCommand.m in Sources */,
 				706E2D361D3CE142006A05AD /* AYNapAreaMapView.m in Sources */,
 				70A1A5621D1D4A860063FC7F /* AYLoginEMCommand.m in Sources */,
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,

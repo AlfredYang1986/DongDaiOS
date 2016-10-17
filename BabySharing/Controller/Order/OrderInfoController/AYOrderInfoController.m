@@ -201,7 +201,6 @@
         [tmp setValue:@"12:00" forKey:@"end"];
         setedTimes = [tmp copy];
     }
-    
     [dic_order_info setValue:[setedTimes copy] forKey:@"order_times"];      //times
     
     NSString *start = [setedTimes objectForKey:@"start"];

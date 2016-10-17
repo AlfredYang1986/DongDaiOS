@@ -242,26 +242,22 @@
 }
 
 - (void)didFinishBtnClick {
-//    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"完成暂未实现" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"AccomplishOrder"];
-    
-//    NSDictionary* info = nil;
-//    CURRENUSER(info)
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
     [dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
     [dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
     [dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
     [dic setValue:[order_info objectForKey:@"service_id"] forKey:@"service_id"];
-//    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];further_message
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             kAYUIAlertView(@"提示", @"订单已完成");
 //            kAYPopToRootVC
-            [self popToRoot];
+            NSString *title = @"订单已完成";
+            [self popToRootVCWithTip:title];
         } else {
             
         }
@@ -269,14 +265,16 @@
     
 }
 
-- (void)popToRoot {
+- (void)popToRootVCWithTip:(NSString*)tip {
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:tip forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+    
 }
 
 #pragma mark - UIActionSheetDelegate

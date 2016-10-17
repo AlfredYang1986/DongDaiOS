@@ -187,13 +187,15 @@
     view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
-    [cmd_left performWithResult:&left];
+//    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+//    UIImage* left = IMGRESOURCE(@"bar_left_white");
+//    [cmd_left performWithResult:&left];
     
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
+    
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &right_hidden)
     
     return nil;
 }
@@ -211,24 +213,26 @@
 - (void)didBotBtnClick {
     
     if ([service_rangs containsObject:[NSNumber numberWithInt:0]]) {
-        kAYUIAlertView(@"提示", @"评价未完成");
+//        kAYUIAlertView(@"提示", @"评价未完成");
+        NSString *title = @"评价未完成";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
+    AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"PushComments"];
     
-    NSDictionary* info = nil;
-    CURRENUSER(info)
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:6];
+    [dic setValue:[notify_args objectForKey:@"receiver_id"] forKey:@"user_id"];
+    [dic setValue:[notify_args objectForKey:@"sender_id"] forKey:@"owner_id"];
+    [dic setValue:[notify_args objectForKey:@"order_id"] forKey:@"order_id"];
+    [dic setValue:[notify_args objectForKey:@"service_id"] forKey:@"service_id"];
+    [dic setValue:[service_rangs copy] forKey:@"points"];
+    [dic setValue:@"'" forKey:@"content"];
     
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-//    [dic setValue:order_id forKey:@"order_id"];
-//    [dic setValue:seasonOfTextView.text forKey:@"season_reject"];
-    
-    [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
+    [cmd_reject performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            kAYUIAlertView(@"提示", @"评论已成功发布");
+//            kAYUIAlertView(@"提示", @"评论已成功发布");
             [self leftBtnSelected];
         } else {
             
@@ -239,11 +243,16 @@
 #pragma mark -- notification
 - (id)leftBtnSelected {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    id<AYCommand> cmd = REVERSMODULE;
-    [cmd performWithResult:&dic];
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *title = @"评论已完成";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+    }];
+    
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    id<AYCommand> cmd = REVERSMODULE;
+//    [cmd performWithResult:&dic];
     
     return nil;
 }

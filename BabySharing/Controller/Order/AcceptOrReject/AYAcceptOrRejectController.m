@@ -169,7 +169,7 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 54);
-    view.backgroundColor = [Tools whiteColor];
+    view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
 //    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];

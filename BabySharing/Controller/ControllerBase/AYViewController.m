@@ -220,7 +220,6 @@
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];
-    
     return nil;
 }
 

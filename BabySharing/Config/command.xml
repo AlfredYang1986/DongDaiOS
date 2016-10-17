@@ -215,7 +215,10 @@
     <command type="Remote" name="AcceptOrder"       route="order/accept" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RejectOrder"       route="order/reject" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AccomplishOrder"   route="order/accomplish" factory="AYRemoteCallFactory" />
-
+    
+    <command type="Remote" name="PushComments"   route="order/comments/push" factory="AYRemoteCallFactory" />
+    
+    
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />
     
