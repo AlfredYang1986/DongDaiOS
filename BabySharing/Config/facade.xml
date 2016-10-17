@@ -7,6 +7,7 @@
     </facade>
     <facade type="DefaultFacade" name="SNSWechat" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWechat" />
+        <command type="Module" name="IsInstalledWechat" />
         <command type="Remote" name="ShareWithWechat" />
         <command type="Module" name="PayWithWechat" />
     </facade>

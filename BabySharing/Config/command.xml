@@ -16,6 +16,7 @@
 
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="IsInstalledWechat" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LandingAreaCode" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="ShareWithQQ" factory="AYDefaultModuleFactory" />

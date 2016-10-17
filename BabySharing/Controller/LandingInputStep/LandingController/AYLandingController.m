@@ -43,6 +43,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     UIButton* pri_btn;
     UIButton *phoneNoLogin;
     UIButton *weChatLogin;
+    BOOL isWXInstall;
     
     dispatch_semaphore_t wait_for_qq_api;
     dispatch_semaphore_t wait_for_weibo_api;
@@ -171,6 +172,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     }];
     [weChatLogin addTarget:self action:@selector(didWeChatLoginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
+    id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+    id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+    NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+    [cmd_login performWithResult:&IsInstalledWechat];
+    isWXInstall = IsInstalledWechat.boolValue;
+    weChatLogin.hidden = !isWXInstall;
+    
     /****** *****/
     pri_btn = [[UIButton alloc]init];
     [self.view addSubview:pri_btn];
@@ -294,7 +302,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     switch (_landing_status) {
         case RemoteControllerStatusReady: {
             phoneNoLogin.hidden = NO;
-            weChatLogin.hidden = NO;
+//            weChatLogin.hidden = NO;
+            weChatLogin.hidden = !isWXInstall;
             pri_btn.hidden = NO;
 //            sns_view.hidden = NO;
             loading_view.hidden = YES;

@@ -191,6 +191,7 @@
 		701D8AA11CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A8D1CA7E06700B5D4C1 /* RegTmpToken+ContextOpt.m */; };
 		701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */; };
 		701E7A0C1D0D42BA0037AD3B /* AYPersonalPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E7A0B1D0D42BA0037AD3B /* AYPersonalPageController.m */; };
+		7021B4A31DB480E8004420E0 /* AYIsInstalledWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7021B4A21DB480E8004420E0 /* AYIsInstalledWechatCommand.m */; };
 		702349DD1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702349DC1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m */; };
 		702349E01D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702349DF1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m */; };
 		7023A92F1D8002AB009F6814 /* AYSetNapOptionsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7023A92B1D8002AB009F6814 /* AYSetNapOptionsCellView.m */; };
@@ -1178,6 +1179,8 @@
 		701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYModelFacade.m; sourceTree = "<group>"; };
 		701E7A0A1D0D42BA0037AD3B /* AYPersonalPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPersonalPageController.h; sourceTree = "<group>"; };
 		701E7A0B1D0D42BA0037AD3B /* AYPersonalPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalPageController.m; sourceTree = "<group>"; };
+		7021B4A11DB480E8004420E0 /* AYIsInstalledWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYIsInstalledWechatCommand.h; sourceTree = "<group>"; };
+		7021B4A21DB480E8004420E0 /* AYIsInstalledWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYIsInstalledWechatCommand.m; sourceTree = "<group>"; };
 		702349DB1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterKidsAgesDelegate.h; sourceTree = "<group>"; };
 		702349DC1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFilterKidsAgesDelegate.m; sourceTree = "<group>"; };
 		702349DE1D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFilterPriceRangeDelegate.h; sourceTree = "<group>"; };
@@ -3719,6 +3722,7 @@
 		701D8A4F1CA7B9C200B5D4C1 /* SNSWechat */ = {
 			isa = PBXGroup;
 			children = (
+				7021B4A01DB480E8004420E0 /* IsInstalledWechat */,
 				800AF3C71D7436CB007C30AE /* WechatFuncHelper */,
 				800AF3BB1D742916007C30AE /* PayWithWechat */,
 				707FC5021CD8D4F600C0BC37 /* ShareWithWechat */,
@@ -3834,6 +3838,15 @@
 				70A4891E1D1A3AA000D2AA56 /* AYFouceCellView.m */,
 			);
 			path = fouceSrollView;
+			sourceTree = "<group>";
+		};
+		7021B4A01DB480E8004420E0 /* IsInstalledWechat */ = {
+			isa = PBXGroup;
+			children = (
+				7021B4A11DB480E8004420E0 /* AYIsInstalledWechatCommand.h */,
+				7021B4A21DB480E8004420E0 /* AYIsInstalledWechatCommand.m */,
+			);
+			path = IsInstalledWechat;
 			sourceTree = "<group>";
 		};
 		702349D91D7AD7AC00AF40C2 /* SearchFilterKidsAgesDelegate */ = {
@@ -8977,6 +8990,7 @@
 				706E46221CFC204100CC7C53 /* AYGetInvateCodeController.m in Sources */,
 				70C5642B1D8FD99D00DA9581 /* AYMyServiceController.m in Sources */,
 				708E52901CC544EA008A6023 /* AYStillImageCaptureStopCommand.m in Sources */,
+				7021B4A31DB480E8004420E0 /* AYIsInstalledWechatCommand.m in Sources */,
 				705B4A381D644AA4006273E7 /* AYUnCollectServiceCommand.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
 				70E9AB701CF3FE960019D33A /* AYNotifyFollowBtnView.m in Sources */,
