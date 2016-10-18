@@ -425,6 +425,10 @@
     return [UIColor colorWithRed:155.f / 255.f green:155.f / 255.f blue:155.f / 255.f alpha:1.f];
 }
 
++ (UIColor*)lightGreyColor {
+    return [UIColor colorWithRed:192.f / 255.f green:192.f / 255.f blue:192.f / 255.f alpha:1.f];
+}
+
 + (UIColor*)garyLineColor {
     return [UIColor colorWithWhite:0.75f alpha:1.f];
 }

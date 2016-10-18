@@ -25,7 +25,7 @@
     self.backgroundColor = [UIColor clearColor];
 }
 
--(void)setGregoiainDay:(NSString *)gregoiainDay{
+-(void)setGregoiainDay:(NSString *)gregoiainDay {
     
     _gregoiainDay = gregoiainDay;
     _dayDay = gregoiainDay;
@@ -34,7 +34,7 @@
     self.dayDateLabel.text = gregoiainDay;
     self.dayDateLabel.textColor = [Tools blackColor];
     if (self.isGone) {
-        self.dayDateLabel.textColor = [Tools garyColor];
+        self.dayDateLabel.textColor = [Tools lightGreyColor];
     }
 }
 
@@ -50,7 +50,9 @@
         NSArray *arrayOfViews = [[NSBundle mainBundle] loadNibNamed:@"AYDayCollectionCellView" owner:self options:nil];
         
         // 如果路径不存在，return nil
-        if(arrayOfViews.count < 1){return nil;}
+        if(arrayOfViews.count < 1){
+            return nil;
+        }
         // 如果xib中view不属于UICollectionViewCell类，return nil
         if(![[arrayOfViews objectAtIndex:0] isKindOfClass:[UICollectionViewCell class]]){
             return nil;

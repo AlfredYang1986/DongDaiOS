@@ -91,7 +91,16 @@ typedef void(^queryContentFinish)(void);
         [cmd performWithResult:&dic_push];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
+        id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (backArgs) {
+            
+            if ([backArgs isKindOfClass:[NSString class]]) {
+                
+                NSString *title = (NSString*)backArgs;
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            }
+            
+        }
     }
 }
 

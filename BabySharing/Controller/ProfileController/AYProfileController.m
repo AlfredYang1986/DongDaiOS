@@ -15,7 +15,6 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYDongDaSegDefines.h"
-#import "AYProfileDefines.h"
 #import "AYRemoteCallDefines.h"
 
 #import "AYModelFacade.h"
@@ -99,10 +98,10 @@
         id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
         
         id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-        
         id obj = (id)cmd_notify;
         [cmd_datasource performWithResult:&obj];
+        
+        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
         obj = (id)cmd_notify;
         [cmd_delegate performWithResult:&obj];
         
@@ -116,8 +115,6 @@
         
         AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
         BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
-//        NSNumber *args = [NSNumber numberWithBool:isNap];
-//        kAYDelegatesSendMessage(@"Profile", @"changeModel:", &args)
         
         NSDictionary *user_info = nil;
         CURRENPROFILE(user_info)
@@ -243,7 +240,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInteger:ProfileModelServiceToCommon] forKey:kAYControllerChangeArgsKey];
+        [dic_show_module setValue:[NSNumber numberWithInteger:ModelExchangeTypeNapToCommon] forKey:kAYControllerChangeArgsKey];
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
@@ -251,7 +248,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInteger:ProfileModelServicePersonal] forKey:kAYControllerChangeArgsKey];
+        [dic_show_module setValue:[NSNumber numberWithInteger:ModelExchangeTypeCommonToNapPersonal] forKey:kAYControllerChangeArgsKey];
         
     }
     

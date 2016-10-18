@@ -186,16 +186,14 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 54);
     view.backgroundColor = [UIColor clearColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-//    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+//    id<AYViewBase> bar = (id<AYViewBase>)view;
 //    UIImage* left = IMGRESOURCE(@"bar_left_white");
-//    [cmd_left performWithResult:&left];
     
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+    NSNumber* left_hidden = [NSNumber numberWithBool:YES];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &left_hidden)
+    
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
-    
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &right_hidden)
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
     
     return nil;
 }
@@ -228,7 +226,7 @@
     [dic setValue:[notify_args objectForKey:@"order_id"] forKey:@"order_id"];
     [dic setValue:[notify_args objectForKey:@"service_id"] forKey:@"service_id"];
     [dic setValue:[service_rangs copy] forKey:@"points"];
-    [dic setValue:@"'" forKey:@"content"];
+    [dic setValue:@" " forKey:@"content"];
     
     [cmd_reject performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {

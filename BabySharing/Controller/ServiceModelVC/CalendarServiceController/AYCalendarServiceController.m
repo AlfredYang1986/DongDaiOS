@@ -84,11 +84,11 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"日程管理";
+    NSString *title = @"时间管理";
     [cmd_title performWithResult:&title];
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg", &left)
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
     UIButton* bar_right_btn = [[UIButton alloc]init];
     bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
@@ -96,13 +96,11 @@
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
-    
     return nil;
 }
 
 - (id)ScheduleLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64 +10, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 -10);
-    
     return nil;
 }
 

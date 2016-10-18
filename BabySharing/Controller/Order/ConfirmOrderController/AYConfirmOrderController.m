@@ -240,7 +240,7 @@
     
     [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            kAYUIAlertView(@"提示", @"服务预订成功");
+//            kAYUIAlertView(@"提示", @"服务预订成功");
             
             // 支付
             id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
@@ -251,7 +251,9 @@
             
             [cmd performWithResult:&pay];
             
-            [self popToRoot];
+            NSString *title = @"服务预订成功";
+            [self popToRootVCWithTip:title];
+            
         } else {
             kAYUIAlertView(@"错误", @"服务预订失败");
         }
@@ -259,14 +261,16 @@
     }];
 }
 
-- (void)popToRoot {
+- (void)popToRootVCWithTip:(NSString*)tip {
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:tip forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
+    
 }
 
 #pragma mark -- notification

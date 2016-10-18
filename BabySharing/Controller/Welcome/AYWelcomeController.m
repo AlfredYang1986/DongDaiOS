@@ -36,7 +36,6 @@
     
     BOOL isFirst;
     BOOL isFirstPhone;
-    UIView *screenPhotoView;
 }
 
 @synthesize login_attr = _login_attr;
@@ -174,7 +173,7 @@
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     
-    [self screenPhotoViewLayout];
+//    [self screenPhotoViewLayout];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -212,129 +211,9 @@
     return nil;
 }
 
--(void)screenPhotoViewLayout{
-    
-    screenPhotoView = [[UIView alloc]init];
-    screenPhotoView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:screenPhotoView];
-    [screenPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-30);
-        make.width.mas_equalTo(SCREEN_WIDTH - 2*22);
-        make.height.mas_equalTo(130);
-    }];
-    
-    UIView *options_12 = [[UIView alloc]init];
-    options_12.backgroundColor = [UIColor whiteColor];
-    options_12.layer.cornerRadius = 2.f;
-    options_12.clipsToBounds = YES;
-    
-    [screenPhotoView addSubview:options_12];
-    [options_12 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(screenPhotoView);
-        make.right.equalTo(screenPhotoView);
-        make.top.equalTo(screenPhotoView);
-        make.height.mas_equalTo(80);
-    }];
-    
-    CALayer *line_up = [CALayer layer];
-    line_up.borderWidth = 1.f;
-    line_up.borderColor = [Tools themeColor].CGColor;
-    line_up.frame = CGRectMake(10, 40, SCREEN_WIDTH - 2*32, 1);
-    [options_12.layer addSublayer:line_up];
-    
-    UIButton *album = [[UIButton alloc]init];
-    [album setBackgroundColor:[UIColor clearColor]];
-    [album setTitle:@"相册" forState:UIControlStateNormal];
-    [album setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
-    album.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [album addTarget:self action:@selector(albumBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [options_12 addSubview:album];
-    [album mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(options_12);
-        make.left.equalTo(options_12);
-        make.width.equalTo(options_12);
-        make.height.equalTo(@(39));
-    }];
-    
-    UIButton *takePhoto = [[UIButton alloc]init];
-    [takePhoto setBackgroundColor:[UIColor clearColor]];
-    [takePhoto setTitle:@"拍照" forState:UIControlStateNormal];
-    [takePhoto setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
-    takePhoto.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [takePhoto addTarget:self action:@selector(takePhotoBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [options_12 addSubview:takePhoto];
-    [takePhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(options_12);
-        make.left.equalTo(options_12);
-        make.width.equalTo(options_12);
-        make.height.equalTo(@(39));
-    }];
-    
-    UIView *options_3 = [[UIView alloc]init];
-    options_3.backgroundColor = [UIColor whiteColor];
-    options_3.layer.cornerRadius = 2.f;
-    options_3.clipsToBounds = YES;
-    
-    [screenPhotoView addSubview:options_3];
-    [options_3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(screenPhotoView);
-        make.right.equalTo(screenPhotoView);
-        make.bottom.equalTo(screenPhotoView);
-        make.height.mas_equalTo(40);
-    }];
-    
-    UIButton *cancel = [[UIButton alloc]init];
-    [cancel setBackgroundColor:[UIColor clearColor]];
-    [cancel setTitle:@"取消" forState:UIControlStateNormal];
-    [cancel setTitleColor:[UIColor colorWithWhite:0.2 alpha:1.f] forState:UIControlStateNormal];
-    cancel.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [cancel addTarget:self action:@selector(cancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [options_3 addSubview:cancel];
-    [cancel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.mas_equalTo(options_3).mas_offset(UIEdgeInsetsMake(0,0,0,0));
-        make.edges.equalTo(options_3);
-    }];
-    
-    screenPhotoView.alpha = 0;
-    screenPhotoView.hidden = YES;
-}
-
--(void)albumBtnClick {
-    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"albumBtnClicked"];
-    [cmd performWithResult:nil];
-}
-
--(void)takePhotoBtnClick {
-    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"takePhotoBtnClicked"];
-    [cmd performWithResult:nil];
-}
-
--(void)cancelBtnClick {
-    [UIView animateWithDuration:0.3 animations:^{
-        screenPhotoView.alpha = 0;
-    } completion:^(BOOL finished) {
-        screenPhotoView.hidden = YES;
-    }];
-    
-}
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
     NSLog(@"tap esle where");
-//    if (isFirst) {
-//        if ([_invateCode isFirstResponder]) {
-//            [_invateCode resignFirstResponder];
-//        }
-//    }
-    if (screenPhotoView.hidden == NO) {
-        [UIView animateWithDuration:0.3 animations:^{
-            screenPhotoView.alpha = 0;
-        } completion:^(BOOL finished) {
-            screenPhotoView.hidden = YES;
-        }];
-    }
 }
 
 -(void)getInvateBtnClick{
@@ -350,8 +229,7 @@
 
 #pragma mark -- UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
-    screenPhotoView.alpha = 0;
-    screenPhotoView.hidden = YES;
+    
     isChangeImg = YES;
     [picker dismissViewControllerAnimated:YES completion:nil];
     _changeImage = image;
@@ -458,16 +336,26 @@
 }
 
 - (id)tapGestureScreenPhoto {
-    if (isFirst) {
-//        if ([_invateCode isFirstResponder]) {
-//            [_invateCode resignFirstResponder];
-//        }
-    }
-    screenPhotoView.hidden = NO;
-    [UIView animateWithDuration:0.3 animations:^{
-        screenPhotoView.alpha = 1;
-    }];
+    
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
+    [sheet showInView:self.view];
     return nil;
+}
+
+#pragma mark - UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
+    id<AYCommand> cmd;
+    
+    if (buttonIndex == 0) { // take photo / 去拍照
+        cmd = OpenCamera;
+    } else if (buttonIndex == 1) {
+        cmd = OpenImagePickerVC;
+    } else {
+        
+    }
+    
+    [cmd performWithResult:nil];
 }
 
 -(void)invateCoderTextFieldChanged:(NSNotification*)tf{

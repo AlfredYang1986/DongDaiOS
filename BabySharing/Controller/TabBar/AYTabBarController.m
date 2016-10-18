@@ -14,6 +14,7 @@
 #import "AYViewController.h"
 #import "AYCommand.h"
 #import "AYViewBase.h"
+#import "DongDaTabBarItem.h"
 
 #define SHOWALBUM       [self showPostController:@"CameraRollInit"]
 #define SHOWCAMERA      [self showPostController:@"CameraInit"]
@@ -155,16 +156,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    BOOL isLogin = [defaults boolForKey:@"isLogin"];
-//    [defaults setBool:NO forKey:@"isLogin"];
-//    [defaults synchronize];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-//    [self.tabBar.delegate tabBar:self.tabBar didSelectItem:[self.tabBar.items objectAtIndex:3]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelCommon] forKey:@"dongda_app_model"];
+    [defaults synchronize];
     
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview:cover];
@@ -174,8 +173,8 @@
 //    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
 //    [cmd performWithResult:nil];
     
-    if (isExchangeModel == 4) {
-        cover.backgroundColor = [UIColor blackColor];
+    if (isExchangeModel == ModelExchangeTypeNapToCommon) {
+        cover.backgroundColor = [Tools darkBackgroundColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
         tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到被服务者模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
@@ -194,7 +193,7 @@
                 [cover removeFromSuperview];
             }];
         });
-    } else if(isExchangeModel == 1) {
+    } else if(isExchangeModel == ModelExchangeTypeUnloginToAllModel) {
         cover.backgroundColor = [UIColor whiteColor];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

@@ -407,7 +407,24 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
             NSLog(@"finally login over success");
             
-            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            NSNumber *model = [defaults objectForKey:@"dongda_app_model"];
+            AYViewController* des;
+            switch (model.intValue) {
+                case DongDaAppModelUnLogin:
+                case DongDaAppModelCommon:
+                {
+                    des = DEFAULTCONTROLLER(@"TabBar");
+                }
+                    break;
+                case DongDaAppModelNapPersonal:
+                {
+                    des = DEFAULTCONTROLLER(@"TabBarService");
+                }
+                    break;
+                default:
+                    break;
+            }
             
             NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
             [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];

@@ -148,22 +148,13 @@
     [cmd_coder performWithResult:&input_name];
     
     if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 32) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"姓名长度应在4-32个字符之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
     
     [_dic_userinfo setValue:@"未设置角色名" forKey:@"role_tag"];
     [_dic_userinfo setValue:input_name forKey:@"screen_name"];
-    
-//    id<AYCommand> destin = DEFAULTCONTROLLER(@"InputRole");
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic setValue:_dic_userinfo forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd_push = PUSH;
-//    [cmd_push performWithResult:&dic];
     
     id<AYCommand> destin = DEFAULTCONTROLLER(@"Welcome");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];

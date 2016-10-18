@@ -47,14 +47,13 @@
     
 //    des.hidesBottomBarWhenPushed = YES;
 //    [source.navigationController pushViewController:des animated:YES];
-    
 //    UIWindow *source_window = [UIApplication sharedApplication].keyWindow;
     
     
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    AppDelegate* app = [UIApplication sharedApplication].delegate;
-    app.window = [[UIWindow alloc] initWithFrame:screenBounds];
-    UIWindow *des_window = app.window;
+//    AppDelegate* app = [UIApplication sharedApplication].delegate;
+    [UIApplication sharedApplication].delegate.window = [[UIWindow alloc] initWithFrame:screenBounds];
+    UIWindow *des_window = [UIApplication sharedApplication].delegate.window;
     [des_window makeKeyAndVisible];
     des_window.rootViewController = des;
     

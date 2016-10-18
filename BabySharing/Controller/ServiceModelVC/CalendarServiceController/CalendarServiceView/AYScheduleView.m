@@ -190,6 +190,11 @@
     return [timeSpanArray copy];
 }
 
+- (id)changeQueryData:(id)args {
+    
+    return nil;
+}
+
 #pragma mark -- scrollView delegate
 
 - (void)addCollectionView{
@@ -200,16 +205,9 @@
     CGFloat labelWidth = (WIDTH - 30)/7;
     for (int i = 0; i<7; i++) {
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(i*labelWidth + 15, 0, labelWidth, 30)];
-        label.text = [titleArr objectAtIndex:i];
-        label.textAlignment = 1;
-        label.textColor = [Tools blackColor];
-        label.font = [UIFont systemFontOfSize:14.f];
+        label = [Tools setLabelWith:label andText:[titleArr objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [_headerView addSubview:label];
     }
-    CALayer *line_separator = [CALayer layer];
-    line_separator.frame = CGRectMake(0, 29.5, WIDTH, 0.5);
-    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
-    [_headerView.layer addSublayer:line_separator];
     
     /******************/
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -226,6 +224,11 @@
     _calendarContentView.allowsMultipleSelection = YES;
     _calendarContentView.showsVerticalScrollIndicator = NO;
     
+    CALayer *line_separator = [CALayer layer];
+    line_separator.frame = CGRectMake(0, 29.5, SCREEN_WIDTH, 0.5);
+    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+    [self.layer addSublayer:line_separator];
+    
     [_calendarContentView registerClass:[AYDayCollectionCellView class] forCellWithReuseIdentifier:@"AYDayCollectionCellView"];
     //注册头部
     [_calendarContentView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
@@ -239,7 +242,7 @@
     
     tips = [[UILabel alloc]init];
     [self addSubview:tips];
-    tips = [Tools setLabelWith:tips andText:@"点击选择📅\n如果您有暂时无法提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:@"点击日期\n选择您无法提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     tips.numberOfLines = 0;
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_calendarContentView.mas_bottom).offset(80);
@@ -267,6 +270,7 @@
     
     return [self.useTime timeFewWeekInMonth:dateStr] * 7;
 }
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     AYDayCollectionCellView *cell = (AYDayCollectionCellView *)[collectionView dequeueReusableCellWithReuseIdentifier:@"AYDayCollectionCellView" forIndexPath:indexPath];
     
@@ -302,11 +306,13 @@
         cell.gregoiainCalendar = dateStr;
         cell.chineseCalendar = [self.useTime timeChineseCalendarWithString:dateStr];
         
-        CGFloat wh = (WIDTH - 30)/7;
+//        CGFloat wh = (WIDTH - 30)/7 - 10;
         UIView *selectBgView = [[UIView alloc] init];
-        selectBgView.backgroundColor = [Tools themeColor];
-        selectBgView.layer.cornerRadius = wh / 2;
-        selectBgView.clipsToBounds = YES;
+//        selectBgView.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"unavilable_bg")];
+        selectBgView.layer.contents = (id)IMGRESOURCE(@"unavilable_bg").CGImage;
+//        selectBgView.layer.cornerRadius = wh / 2;
+//        selectBgView.clipsToBounds = YES;
+//        selectBgView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         cell.selectedBackgroundView = selectBgView;
     }
     return cell;
@@ -322,24 +328,24 @@
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"AYDayCollectionHeader" forIndexPath:indexPath];
         
-        UILabel *label = [headerView viewWithTag:11];
+        UILabel *label = [headerView viewWithTag:119];
         if (label == nil) {
             //添加日期
-            label = [[UILabel alloc] init];
-            label.tag = 11;
-            label.textColor = [Tools themeColor];
+            label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+            label.tag = 119;
             [headerView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.bottom.equalTo(headerView);
+//                make.bottom.equalTo(headerView);
+                make.centerY.equalTo(headerView);
                 make.left.equalTo(headerView).offset(13);
             }];
         }
-        CALayer *spearter = [CALayer layer];
-        spearter.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f].CGColor;
-        spearter.frame = CGRectMake(0, 8.5, WIDTH - 30, 0.5);
-        [headerView.layer addSublayer:spearter];
+//        CALayer *spearter = [CALayer layer];
+//        spearter.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.f].CGColor;
+//        spearter.frame = CGRectMake(0, 8.5, WIDTH - 30, 0.5);
+//        [headerView.layer addSublayer:spearter];
         //设置属性
-        label.text = [NSString stringWithFormat:@"%ld月 %ld年", indexPath.section % 12 + 1, indexPath.section/12 + [_useTime getYear]];
+        label.text = [NSString stringWithFormat:@"%ld年 %.2ld月", indexPath.section/12 + [_useTime getYear], indexPath.section % 12 + 1];
         return headerView;
     }
     return nil;
@@ -373,7 +379,7 @@
     
     long time_p = cell.timeSpan;
     [selectedItemArray addObject:indexPath];
-    [timeSpanArray addObject:[NSNumber numberWithLong:time_p]];
+    [timeSpanArray addObject:[NSNumber numberWithDouble:time_p]];
     
     [self setAbilityDateTextWith:nil];
     
@@ -388,9 +394,9 @@
     
     long time_p = cell.timeSpan;
     [selectedItemArray removeObject:indexPath];
-    [timeSpanArray removeObject:[NSNumber numberWithLong:time_p]];
+    [timeSpanArray removeObject:[NSNumber numberWithDouble:time_p]];
     if (timeSpanArray.count == 0) {
-        tips.text = @"点击选择📅\n如果您有暂时无法提供服务的时间";
+        tips.text = @"点击日期\n选择您无法提供服务的时间";
         return;
     }
     
@@ -473,7 +479,7 @@
         }
     } else ability_dateString = @"多个日期";
     
-    tips.text = [ability_dateString stringByAppendingString:@"\n暂时无法提供服务"];
+    tips.text = [ability_dateString stringByAppendingString:@"\n暂无法提供服务"];
 }
 
 - (BOOL)isMilitaryWithArray:(NSArray*)array {

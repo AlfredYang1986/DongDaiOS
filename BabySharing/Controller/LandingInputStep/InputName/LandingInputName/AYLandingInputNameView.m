@@ -132,11 +132,11 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *tmp = textField.text;
-    if ([Tools bityWithStr:tmp] >= 16 && ![string isEqualToString:@""]){
+    if ([Tools bityWithStr:tmp] >= 32 && ![string isEqualToString:@""]){
         
         [name_area resignFirstResponder];
         
-        NSString *title = @"4-16个字符(汉字／大写字母长度为2)\n*仅限中英文";
+        NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
 //        id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
 //        id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
         id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");

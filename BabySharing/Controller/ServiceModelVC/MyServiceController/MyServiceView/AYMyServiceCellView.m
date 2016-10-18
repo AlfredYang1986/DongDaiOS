@@ -26,6 +26,7 @@
 
 @interface AYMyServiceCellView ()
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
+@property (weak, nonatomic) IBOutlet UIButton *manageBtn;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ownerIconImage;
 @end
@@ -47,6 +48,10 @@
     
     _mainImage.contentMode = UIViewContentModeScaleAspectFill;
     _mainImage.clipsToBounds = YES;
+    
+    _manageBtn.layer.cornerRadius = 4.f;
+    _manageBtn.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    _manageBtn.clipsToBounds = YES;
     
 //    _ownerIconImage.userInteractionEnabled = YES;
 //    [_ownerIconImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];

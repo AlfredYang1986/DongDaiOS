@@ -14,6 +14,7 @@
 #import "AYViewController.h"
 #import "AYCommand.h"
 #import "AYViewBase.h"
+#import "DongDaTabBarItem.h"
 
 @interface AYTabBarServiceController () <UITabBarDelegate, UITabBarControllerDelegate>
 
@@ -137,18 +138,27 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.selectedIndex = 3;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[dongda_tabbar viewWithTag:3];
+    [dongda_tabbar itemSelected:btn];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelNapPersonal] forKey:@"dongda_app_model"];
+    [defaults synchronize];
+    
     if (isExchangeModel != 0) {
         NSString *tipString ;
         
-        if (isExchangeModel == 2) {
+        if (isExchangeModel == ModelExchangeTypeCommonToNapPersonal) {
             tipString = @"转换到服务者模式...";
-        } else if (isExchangeModel == 3) {
+        } else if (isExchangeModel == ModelExchangeTypeCommonToNapFamily) {
             tipString = @"转换到看护家庭模式...";
         }
         
         UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         [self.view addSubview:cover];
-        cover.backgroundColor = [UIColor blackColor];
+        cover.backgroundColor = [Tools darkBackgroundColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
         tipsLabel = [Tools setLabelWith:tipsLabel andText:tipString andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
