@@ -22,9 +22,8 @@
 
 
 @implementation AYConfirmOrderController {
-    
     NSDictionary *order_info;
-    
+    NSString* order_id;
 }
 
 - (void)postPerform{
@@ -237,7 +236,7 @@
     }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
     sumPrice += unit_price.floatValue * (endClock - startClock);
-    sumPrice += 1;
+    sumPrice = 1;
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
@@ -252,9 +251,8 @@
             [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
             
             [cmd performWithResult:&pay];
-            
-            // NSString *title = @"服务预订成功";
-            // [self popToRootVCWithTip:title];
+           
+            order_id = [result objectForKey:@"order_id"];
             
         } else {
             
@@ -288,4 +286,30 @@
     return nil;
 }
 
+
+- (id)WechatPaySuccess:(id)args {
+    // 支付成功
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:@"order_id" forKey:@"order_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSString *title = @"服务预订成功";
+            [self popToRootVCWithTip:title];
+        } else {
+            NSString *title = @"服务预订支付失败";
+            [self popToRootVCWithTip:title];
+        }
+    }];
+    return nil;
+}
+
+- (id)WechatPayFailed:(id)args {
+    NSString *title = @"服务预订支付失败";
+    [self popToRootVCWithTip:title];
+    return nil;
+}
 @end

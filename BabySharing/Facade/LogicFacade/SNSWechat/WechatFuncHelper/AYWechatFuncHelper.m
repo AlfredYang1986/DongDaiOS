@@ -8,6 +8,7 @@
 
 #import "AYWechatFuncHelper.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "AYSNSWechatDefines.h"
 
 @implementation AYWechatFuncHelper
 
@@ -19,7 +20,7 @@
     //sort by values
     NSString* str = @"";
     
-    NSArray * keys = [args keysSortedByValueUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
+    NSArray * keys = [[args allKeys] sortedArrayUsingComparator: ^NSComparisonResult(id obj1, id obj2) {
                           //return [obj2 compare:obj1]; //descending
                           return [obj1 compare:obj2]; //ascending
                       }];
@@ -32,7 +33,7 @@
             str = [[str stringByAppendingString:@"&"] stringByAppendingString:[self combineKey:iter andValue:v]];
     }
     
-    str = [self md5:str];
+    str = [self md5:[[str stringByAppendingString:@"&"] stringByAppendingString:[@"key=" stringByAppendingString:AYDONGDAPARTNERKEY]]];
     
     return str;
 }

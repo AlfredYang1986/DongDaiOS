@@ -320,11 +320,4 @@
     return nil;
 }
 
-- (id)WechatPaySuccess:(id)args {
-    return nil;
-}
-
-- (id)WechatPayFailed:(id)args {
-    return nil;
-}
 @end
