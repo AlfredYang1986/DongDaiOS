@@ -19,6 +19,7 @@
 #import "TmpFileStorageModel.h"
 
 static NSString* const kWechatID = @"wx66d179d99c9ba7d6";
+static NSString* const kWechatSecret = @"469c1beed3ecaa3a836767a5999beeb1";
 static NSString* const kWechatDescription = @"wechat";
 
 @interface AYSNSWechatFacade () <WXApiDelegate>

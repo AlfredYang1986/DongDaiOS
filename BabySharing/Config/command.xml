@@ -215,6 +215,8 @@
     <command type="Remote" name="AcceptOrder"       route="order/accept" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RejectOrder"       route="order/reject" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AccomplishOrder"   route="order/accomplish" factory="AYRemoteCallFactory" />
+
+    <command type="Remote" name="PayOrder"   route="order/pay" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="PushComments"   route="order/comments/push" factory="AYRemoteCallFactory" />
     

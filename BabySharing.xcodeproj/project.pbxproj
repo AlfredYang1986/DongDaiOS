@@ -754,6 +754,7 @@
 		809597071D65DC0800CBB732 /* AYExchangeWindowsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 809597061D65DC0800CBB732 /* AYExchangeWindowsCommand.m */; };
 		80BB1ECA1D793BA600B1E17A /* AYPushSplitAnimationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80BB1EC91D793BA600B1E17A /* AYPushSplitAnimationCommand.m */; };
 		80BB1ECD1D79538000B1E17A /* AYPopSplitAnimationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80BB1ECC1D79538000B1E17A /* AYPopSplitAnimationCommand.m */; };
+		80C589121DB776E900BCC8E9 /* AYPayOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C589111DB776E900BCC8E9 /* AYPayOrderCommand.m */; };
 		80C829C91CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829C81CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m */; };
 		80C829CE1CDD7248007B1077 /* AYThumbsUpBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829CD1CDD7248007B1077 /* AYThumbsUpBtnView.m */; };
 		80C829D11CDD7256007B1077 /* AYPushNormalBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D01CDD7256007B1077 /* AYPushNormalBtnView.m */; };
@@ -2327,6 +2328,8 @@
 		80BB1EC91D793BA600B1E17A /* AYPushSplitAnimationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushSplitAnimationCommand.m; sourceTree = "<group>"; };
 		80BB1ECB1D79538000B1E17A /* AYPopSplitAnimationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPopSplitAnimationCommand.h; sourceTree = "<group>"; };
 		80BB1ECC1D79538000B1E17A /* AYPopSplitAnimationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPopSplitAnimationCommand.m; sourceTree = "<group>"; };
+		80C589101DB776E900BCC8E9 /* AYPayOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPayOrderCommand.h; sourceTree = "<group>"; };
+		80C589111DB776E900BCC8E9 /* AYPayOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPayOrderCommand.m; sourceTree = "<group>"; };
 		80C829C71CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYThumbsAndPushBtnBaseView.h; sourceTree = "<group>"; };
 		80C829C81CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYThumbsAndPushBtnBaseView.m; sourceTree = "<group>"; };
 		80C829CC1CDD7248007B1077 /* AYThumbsUpBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYThumbsUpBtnView.h; sourceTree = "<group>"; };
@@ -5495,6 +5498,7 @@
 		7069A31F1D52F95C007821D4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				80C5890F1DB776CA00BCC8E9 /* PayOrder */,
 				70B01F7A1DB4D61C00731809 /* PushComments */,
 				70FE54E41D98F8200077A3E9 /* AcceptOrder */,
 				70CB71461D97B0F300C83985 /* AccomplishOrder */,
@@ -8260,6 +8264,15 @@
 			path = UserWithScreenName;
 			sourceTree = "<group>";
 		};
+		80C5890F1DB776CA00BCC8E9 /* PayOrder */ = {
+			isa = PBXGroup;
+			children = (
+				80C589101DB776E900BCC8E9 /* AYPayOrderCommand.h */,
+				80C589111DB776E900BCC8E9 /* AYPayOrderCommand.m */,
+			);
+			path = PayOrder;
+			sourceTree = "<group>";
+		};
 		80C829C61CDD702E007B1077 /* ThumbsAndPushBtn */ = {
 			isa = PBXGroup;
 			children = (
@@ -8595,7 +8608,7 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
+						DevelopmentTeam = AA47RE58D2;
 						ProvisioningStyle = Automatic;
 					};
 					702E7A5A1CA14A490097867E = {
@@ -9145,6 +9158,7 @@
 				80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */,
 				800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */,
 				70A27C051D0EBBEE00B131AB /* AYQueryMMWithLocationCommand.m in Sources */,
+				80C589121DB776E900BCC8E9 /* AYPayOrderCommand.m in Sources */,
 				7039CA871CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m in Sources */,
 				7015242A1CBF4DA0005B4C5B /* AYUserRelationsDelegate.m in Sources */,
 				70B1DC861CC731E80041794A /* AYPlayMovieCommand.m in Sources */,
@@ -9464,6 +9478,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					"SANDBOX=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -9529,7 +9544,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yuan Yang (2X5VX27Y79)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = V6843SSXWV;
+				DEVELOPMENT_TEAM = AA47RE58D2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -9565,7 +9580,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -9580,7 +9595,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Yuan Yang (V6843SSXWV)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = V6843SSXWV;
+				DEVELOPMENT_TEAM = AA47RE58D2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -9612,7 +9627,7 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

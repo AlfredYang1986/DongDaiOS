@@ -279,6 +279,8 @@
         <command type="Remote" name="RejectOrder" />
         <command type="Remote" name="AccomplishOrder" />
         
+        <command type="Remote" name="PayOrder" />
+       
         <command type="Remote" name="PushComments" />
     </facade>
 </facades>

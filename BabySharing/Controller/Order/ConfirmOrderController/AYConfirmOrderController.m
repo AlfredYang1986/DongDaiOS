@@ -235,13 +235,14 @@
     }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
     sumPrice += unit_price.floatValue * (endClock - startClock);
+    sumPrice += 1;
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
     [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
 //            kAYUIAlertView(@"提示", @"服务预订成功");
-            
+           
             // 支付
             id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
             AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
@@ -251,13 +252,12 @@
             
             [cmd performWithResult:&pay];
             
-            NSString *title = @"服务预订成功";
-            [self popToRootVCWithTip:title];
+            // NSString *title = @"服务预订成功";
+            // [self popToRootVCWithTip:title];
             
         } else {
             kAYUIAlertView(@"错误", @"服务预订失败");
         }
-        
     }];
 }
 
