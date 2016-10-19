@@ -186,6 +186,7 @@
     } else if (matches.count == 1) {
         LoginToken *tmp = [matches lastObject];
         [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+        [context save:nil];
         return tmp;
     } else {
         LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
@@ -231,7 +232,8 @@
     } else if (matches.count == 1) {
         LoginToken* tmp = [matches lastObject];
         [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
-        //        [context save:&error];
+//        [context save:&error];
+        [context save:nil];
         return YES;
     } else {
         NSLog(@"nothing need to be delected");
