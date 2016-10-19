@@ -166,9 +166,11 @@
         AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeUser"];
         [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
             if (success) {
-                [[[UIAlertView alloc] initWithTitle:@"提示" message:@"我们将尽快审查您举报的用户！\n感谢您的监督和支持！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
+                NSString *title = @"我们将尽快审查您举报的用户！\n感谢您的监督和支持！";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }else {
-                [[[UIAlertView alloc] initWithTitle:@"提示" message:@"举报发生未知错误，请检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
             }
         }];
     } else  {

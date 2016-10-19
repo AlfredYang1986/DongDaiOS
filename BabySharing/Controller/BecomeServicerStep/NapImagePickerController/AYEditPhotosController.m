@@ -239,7 +239,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == _selectedPhotos.count || _selectedPhotos.count == 0) {
         if (_selectedPhotos.count >= 9) {
-            kAYUIAlertView(@"提示", @"您无法再添加更多的照片了");
+            NSString *title = @"您无法再添加更多的照片了";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             return;
         }
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];

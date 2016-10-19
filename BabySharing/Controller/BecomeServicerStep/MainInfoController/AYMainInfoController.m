@@ -416,8 +416,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
                     [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                         if (success) {
-//                            kAYUIAlertView(@"提示", @"服务发布成功");
-                            
                             /**
                              *  change profile info in coredata
                              */
@@ -430,16 +428,20 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                             NSString *tip = @"服务发布成功";
                             [self popToRootVCWithTip:tip];
                         } else {
-                            kAYUIAlertView(@"错误", @"服务发布失败");
+                            
+                            NSString *title = @"服务发布失败";
+                            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                         }
                     }];
                 } else {
                     NSLog(@"push error with:%@",result);
-                    [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务上传失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                    NSString *title = @"服务上传失败";
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 }
             }];
         } else {
-            kAYUIAlertView(@"图片上传失败", @"请改善网络环境并重试");
+            NSString *title = @"图片上传失败,请改善网络环境并重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     });
     
@@ -512,7 +514,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         } else {
             NSLog(@"push error with:%@",result);
             if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
-                kAYUIAlertView(@"错误", @"服务撤销失败,该服务状态错误");
+                
+                NSString *title = @"服务撤销失败,该服务状态错误";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }
     }];
@@ -533,7 +537,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
                     
-//                    kAYUIAlertView(@"提示", @"服务信息已更新");
                     confirmSerBtn.hidden = YES;
                     UIView *view = [self.views objectForKey:@"Table"];
                     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
@@ -549,11 +552,15 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     [cmd_alert performWithResult:&dic_alert];
                     
                 } else {
-                    kAYUIAlertView(@"错误", @"服务信息已更新发布失败");
+                    
+                    NSString *title = @"服务信息已更新,发布失败";
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 }
             }];
         } else {
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"服务信息更新失败" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            
+            NSString *title = @"服务信息更新失败";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
 }
@@ -582,7 +589,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     } else {
         
         if (napPhotos.count == 0) {
-            kAYUIAlertView(@"提示", @"预览服务需要先添加图片");
+            NSString *title = @"预览服务需要先添加图片";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             return nil;
         }
         

@@ -162,7 +162,7 @@
     [cmd performWithResult:&dic];
     
     [inputTitleTextView resignFirstResponder];
-    //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改的信息已提交$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    
     return nil;
 }
 

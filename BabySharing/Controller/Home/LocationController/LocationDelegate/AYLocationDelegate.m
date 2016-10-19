@@ -155,7 +155,9 @@
     
     if (previewDic == nil || previewDic.count == 0) {
         if (!auto_locationName || [auto_locationName isEqualToString:@""]) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请稍等,正在定位..." delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            
+            NSString *title = @"请稍等,正在定位...";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             return;
         }
         
@@ -190,7 +192,9 @@
         [dic_location setValue:loc forKey:@"location"];
         
         if (tip.uid != nil && tip.location == nil) {
-            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"公交线路暂无法定位" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            
+            NSString *title = @"公交线路暂无法定位";
+            AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
             return;
         }
     }

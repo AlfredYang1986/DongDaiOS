@@ -227,7 +227,7 @@
 - (id)ShowBtmAlert:(id)args {
     
     if (btmAlertView) {
-        [btmAlertView removeFromSuperview];
+        [self didBtmAlertViewCloseBtnClick];
     }
     
     btmAlertView = [[UIView alloc]init];

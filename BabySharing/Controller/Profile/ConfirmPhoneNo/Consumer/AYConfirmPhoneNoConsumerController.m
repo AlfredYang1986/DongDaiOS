@@ -257,7 +257,9 @@
             [cmd performWithResult:&dic_push];
             
         } else {
-            kAYUIAlertView(@"错误", @"请检查验证码并重试");
+            
+            NSString *title = @"验证码错误，请重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
     return nil;
@@ -301,7 +303,9 @@
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             
         } else {
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"网络错误，请重新获取" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            
+            NSString *title = @"请改善网络环境并重新获取";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
     

@@ -390,7 +390,9 @@
     NSString *user_id = [user objectForKey:@"user_id"];
     NSString *owner_id = [service_info objectForKey:@"owner_id"];
     if ([user_id isEqualToString:owner_id]) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        
+        NSString *title = @"该服务是您自己发布";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
    
@@ -429,7 +431,8 @@
     NSString *user_id = [user objectForKey:@"user_id"];
     NSString *owner_id = [service_info objectForKey:@"owner_id"];
     if ([user_id isEqualToString:owner_id]) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"该服务是您自己发布'~_~'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        NSString *title = @"该服务是您自己发布";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     
@@ -453,7 +456,8 @@
 
 //
 -(void)didShareBtnClick:(UIButton*)btn{
-    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"分享 '＊_＊y'" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    NSString *title = @"暂不支持该功能";
+    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 }
 
 -(void)didCollectionBtnClick:(UIButton*)btn{

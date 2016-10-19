@@ -211,7 +211,6 @@
 - (void)didBotBtnClick {
     
     if ([service_rangs containsObject:[NSNumber numberWithInt:0]]) {
-//        kAYUIAlertView(@"提示", @"评价未完成");
         NSString *title = @"评价未完成";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;

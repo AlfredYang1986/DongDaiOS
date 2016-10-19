@@ -97,7 +97,9 @@
                 
             } else {
                 NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请改善网络环境并重试" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+//                NSString *title = @"请改善网络环境并重试";
+//                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
         
@@ -129,7 +131,9 @@
                 [refresh performWithResult:nil];
             } else {
                 NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请改善网络环境并重试" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                //                NSString *title = @"请改善网络环境并重试";
+                //                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }
