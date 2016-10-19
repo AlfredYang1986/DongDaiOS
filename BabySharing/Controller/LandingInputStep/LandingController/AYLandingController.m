@@ -26,8 +26,6 @@ typedef NS_ENUM(NSInteger, RegisterResult) {
 static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult";
 
 #define LOGO_TOP_MARGIN 144
-#define KSCREENW                    [UIScreen mainScreen].bounds.size.width
-#define KSCREENH                    [UIScreen mainScreen].bounds.size.height
 #define INPUT_VIEW_TOP_MARGIN       ([UIScreen mainScreen].bounds.size.height / 6.0)
 #define INPUT_VIEW_START_POINT      (title.frame.origin.y + title.frame.size.height + INPUT_VIEW_TOP_MARGIN)
 
@@ -128,7 +126,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         make.left.equalTo(logo);
     }];
     
-    if (KSCREENW < 375) {
+    if (SCREEN_WIDTH < 375) {
         welcome.font = [UIFont boldSystemFontOfSize:20.5f];
         welTips.font = kAYFontLight(20.5f);
     }
@@ -209,13 +207,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 #pragma mark -- Layouts
 - (id)LandingSNSLayout:(UIView*)view {
     NSLog(@"Landing SNS View view layout");
-    view.frame = CGRectMake(0, KSCREENH - 108 - 36 - 46, KSCREENW, view.frame.size.height);
+    view.frame = CGRectMake(0, SCREEN_HEIGHT - 108 - 36 - 46, SCREEN_WIDTH, view.frame.size.height);
     return nil;
 }
 
 - (id)LoadingLayout:(UIView*)view {
     NSLog(@"Landing Loading View view layout");
-    view.frame = CGRectMake(0, 0, KSCREENW, KSCREENH);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     return nil;
 }
 
@@ -363,7 +361,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
         [args setValue:self.view forKey:@"super_view"];
         [args setValue:@"授权失败" forKey:@"title"];
-        [args setValue:[NSNumber numberWithFloat:KSCREENH * 0.5] forKey:@"set_y"];
+        [args setValue:[NSNumber numberWithFloat:SCREEN_WIDTH * 0.5] forKey:@"set_y"];
         [cmd_add performWithResult:&args];
         
     } else {
@@ -372,7 +370,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
         NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
         [args setValue:self.view forKey:@"super_view"];
         [args setValue:@"授权失败" forKey:@"title"];
-        [args setValue:[NSNumber numberWithFloat:KSCREENH * 0.5] forKey:@"set_y"];
+        [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
         [cmd_add performWithResult:&args];
     }
     return nil;
@@ -438,37 +436,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
             [cmd_show_module performWithResult:&dic_show_module];
             
-        } else {
-            NSLog(@"something wrong with login process");
-            @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];
-        }
-    }
-    
-    return nil;
-}
-
-- (id)LoginXMPPSuccess:(id)args {
-    NSLog(@"Login XMPP success");
-    
-    AYFacade* f = LOGINMODEL;
-    id<AYCommand> cmd = [f.commands objectForKey:@"QueryCurrentLoginUser"];
-    id obj = nil;
-    [cmd performWithResult:&obj];
-    
-    UIViewController* controller = [Tools activityViewController];
-    if (controller == self) {
-        if ([[((NSDictionary*)args) objectForKey:@"user_id"] isEqualToString:[((NSDictionary*)obj) objectForKey:@"user_id"]]) {
-            NSLog(@"finally login over success");
-           
-            AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-            NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
-            [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-            [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-       
-            id<AYCommand> cmd_show_module = SHOWMODULE;
-            [cmd_show_module performWithResult:&dic_show_module];
-        
         } else {
             NSLog(@"something wrong with login process");
             @throw [[NSException alloc]initWithName:@"error" reason:@"something wrong with login process" userInfo:nil];

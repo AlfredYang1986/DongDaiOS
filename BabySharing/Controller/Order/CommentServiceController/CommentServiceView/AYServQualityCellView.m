@@ -143,24 +143,24 @@
     
     if (tapOffSetX > 0 && tapOffSetX < 15) {
         starRangImage.image = IMGRESOURCE(@"star_rang_1");
-        rang_note = 1;
+        rang_note = 1.0;
     } else if (tapOffSetX > 20 && tapOffSetX < 35) {
         starRangImage.image = IMGRESOURCE(@"star_rang_2");
-        rang_note = 2;
+        rang_note = 2.0;
     } else if (tapOffSetX > 40 && tapOffSetX < 55) {
         starRangImage.image = IMGRESOURCE(@"star_rang_3");
-        rang_note = 3;
+        rang_note = 3.0;
     } else if (tapOffSetX > 60 && tapOffSetX < 75) {
         starRangImage.image = IMGRESOURCE(@"star_rang_4");
-        rang_note = 4;
+        rang_note = 4.0;
     } else {
         starRangImage.image = IMGRESOURCE(@"star_rang_5");
-        rang_note = 5;
+        rang_note = 5.0;
     }
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:index_tag forKey:@"index_tag"];
-    [dic setValue:[NSNumber numberWithInt:rang_note] forKey:@"star_rang"];
+    [dic setValue:[NSNumber numberWithFloat:rang_note] forKey:@"star_rang"];
     kAYViewSendNotify(self, @"didSetServiceRang:", &dic)
 }
 

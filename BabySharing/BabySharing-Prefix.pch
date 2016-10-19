@@ -47,5 +47,10 @@ typedef enum : NSUInteger {
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 
+#ifndef __OPTIMIZE__
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
 
 #endif /* BabySharing_Prefix_pch */

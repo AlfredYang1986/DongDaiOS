@@ -66,7 +66,7 @@
     
     service_rangs = [NSMutableArray array];
     for (int i = 0; i < kServiceXDNumb; ++i) {
-        [service_rangs addObject:[NSNumber numberWithInt:0]];
+        [service_rangs addObject:[NSNumber numberWithFloat:0]];
     }
     
     UILabel *tipsLabel = [UILabel new];
@@ -218,7 +218,7 @@
     }
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"PushComments"];
+    AYRemoteCallCommand *cmd_comment = [facade.commands objectForKey:@"PushComments"];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:6];
     [dic setValue:[notify_args objectForKey:@"receiver_id"] forKey:@"user_id"];
@@ -228,9 +228,8 @@
     [dic setValue:[service_rangs copy] forKey:@"points"];
     [dic setValue:@" " forKey:@"content"];
     
-    [cmd_reject performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+    [cmd_comment performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-//            kAYUIAlertView(@"提示", @"评论已成功发布");
             [self leftBtnSelected];
         } else {
             

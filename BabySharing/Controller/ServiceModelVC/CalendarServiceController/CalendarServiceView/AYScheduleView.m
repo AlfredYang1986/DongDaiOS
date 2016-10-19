@@ -242,7 +242,7 @@
     
     tips = [[UILabel alloc]init];
     [self addSubview:tips];
-    tips = [Tools setLabelWith:tips andText:@"点击日期\n选择您无法提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:@"点击日期\n选择您不可以提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     tips.numberOfLines = 0;
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_calendarContentView.mas_bottom).offset(80);
@@ -396,7 +396,7 @@
     [selectedItemArray removeObject:indexPath];
     [timeSpanArray removeObject:[NSNumber numberWithDouble:time_p]];
     if (timeSpanArray.count == 0) {
-        tips.text = @"点击日期\n选择您无法提供服务的时间";
+        tips.text = @"点击日期\n选择您不可以提供服务的时间";
         return;
     }
     
