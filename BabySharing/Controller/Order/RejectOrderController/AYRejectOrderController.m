@@ -201,7 +201,7 @@
     
     [cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-//            kAYUIAlertView(@"提示", @"已拒绝此订单");
+            
             NSString *title = @"已拒绝日程";
             [self popToRootVCWithTip:title];
         } else {

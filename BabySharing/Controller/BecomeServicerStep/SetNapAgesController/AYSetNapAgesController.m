@@ -298,7 +298,8 @@
     } else if(setedAgesData){
         sl_dic = [setedAgesData mutableCopy];
     } else {
-        kAYUIAlertView(@"提示", @"您还没有设置孩子年龄阶段");
+        NSString *title = @"您还没有设置孩子年龄阶段";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
     
@@ -312,7 +313,6 @@
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
-    //    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改的信息已提交$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     return nil;
 }
 

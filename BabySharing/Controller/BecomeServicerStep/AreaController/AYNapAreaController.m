@@ -249,7 +249,9 @@
 - (void)didNextBtnClick:(UIButton*)btn{
 //    MainInfo
     if ([areaLabel.text isEqualToString:@"正在定位"] || [areaLabel.text isEqualToString:@"点击选择区域"]) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"未选择服务区域" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+        
+        NSString *title = @"未选择服务区域";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     
@@ -290,7 +292,6 @@
 }
 - (id)rightBtnSelected {
     
-//    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改的信息已提交$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
     return nil;
 }
 

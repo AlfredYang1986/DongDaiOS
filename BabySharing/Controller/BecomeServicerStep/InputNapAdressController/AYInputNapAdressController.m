@@ -257,7 +257,9 @@
 - (id)rightBtnSelected {
     
     if ([headAdress.text isEqualToString:@"正在定位, 请稍后..."] || [headAdress.text isEqualToString:@"点击选择区域"] || [customField.text isEqualToString:@""]) {
-        kAYUIAlertView(@"提示", @"请完成具体地址设置");
+        
+        NSString *title = @"请完成具体地址设置";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
     

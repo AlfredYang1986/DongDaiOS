@@ -306,8 +306,9 @@
 //                dispatch_semaphore_signal(semaphore);
                 [self updatePersonalInfo];
             } else {
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"头像上传失败，请重试" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil]show];
-//                dispatch_semaphore_signal(semaphore);
+                
+                NSString *title = @"头像上传失败,请重试";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
         
@@ -345,11 +346,12 @@
             
             [cmd_profle performWithResult:&dic];
             
-//            [[[UIAlertView alloc]initWithTitle:@"个人设置" message:@"保存用户信息成功" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
             NSString *title = @"保存已修改";
             [self popToRootVCWithTip:title];
         } else {
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"保存用户信息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+            
+            NSString *title = @"保存用户信息失败";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
 }
@@ -477,13 +479,14 @@
 }
 
 //nameTextFiled
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *tmp = textField.text;
     NSInteger len = [Tools bityWithStr:tmp];
     
     if (len > 32) {
-        kAYUIAlertView(@"提示", @"姓名长度应在4-32个字符之间\n(汉字／大写字母长度为2)");
+        [textField resignFirstResponder];
+        NSString *title = @"姓名长度应在4-32个字符之间\n*汉字／大写字母长度为2";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return NO;
     } else
         return YES;

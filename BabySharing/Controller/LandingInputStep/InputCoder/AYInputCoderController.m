@@ -166,19 +166,24 @@
                     id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
                     [cmd performWithResult:&result];
                 } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登录失败，请检查网络是否正常连接" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
-                    [alert show];
+                    
+                    NSString *title = @"登录失败，请检查网络是否正常连接";
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 }
             }];
         } else if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]){
-//            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"验证码错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
-            id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
-            id<AYCommand> hide_cmd = [input.commands objectForKey:@"showAYAlertVeiw:"];
-            NSString *tmp = @"动态密码输入错误";
-            [hide_cmd performWithResult:&tmp];
+            
+//            id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
+//            id<AYCommand> hide_cmd = [input.commands objectForKey:@"showAYAlertVeiw:"];
+//            NSString *tmp = @"动态密码输入错误";
+//            [hide_cmd performWithResult:&tmp];
+            
+            NSString *title = @"动态密码错误,请重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            
         } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"获取动态密码失败，请检查网络是否正常连接" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
-            [alert show];
+            NSString *title = @"获取动态密码失败，请检查网络是否正常连接";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
     

@@ -169,7 +169,6 @@
     [cmd performWithResult:dic_push andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
-//            [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您的信息已提交，请耐心等待$.$" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
             /**
              *  save to coredata
              */

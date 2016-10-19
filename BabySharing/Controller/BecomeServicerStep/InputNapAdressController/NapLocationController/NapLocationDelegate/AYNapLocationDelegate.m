@@ -10,8 +10,7 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
-
-#import "Tools.h"
+#import "AYFacadeBase.h"
 #import "AYSearchDefines.h"
 #import "AYFoundSearchResultCellDefines.h"
 
@@ -99,7 +98,8 @@
     [dic_location setValue:loc forKey:@"location"];
     
     if (tip.uid != nil && tip.location == nil) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"公交线路暂无法定位" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+        NSString *title = @"公交线路暂无法定位";
+        AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
         return;
     }
     

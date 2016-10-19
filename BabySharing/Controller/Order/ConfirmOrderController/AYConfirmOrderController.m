@@ -183,7 +183,9 @@
     NSDictionary *service_info = [order_info objectForKey:@"service_info"];
     NSNumber *order_date = [order_info objectForKey:@"order_date"];
     if (!order_date) {
-        [[[UIAlertView alloc]initWithTitle:@"提示" message:@"您还没有预订时间" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil] show];
+        
+        NSString *title = @"您还没有预订时间";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     
@@ -240,7 +242,6 @@
     
     [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-//            kAYUIAlertView(@"提示", @"服务预订成功");
             
             // 支付
             id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
@@ -255,7 +256,9 @@
             [self popToRootVCWithTip:title];
             
         } else {
-            kAYUIAlertView(@"错误", @"服务预订失败");
+            
+            NSString *title = @"服务预订失败\n请改善网络环境并重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
         
     }];

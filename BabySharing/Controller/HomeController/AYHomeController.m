@@ -348,7 +348,9 @@ typedef void(^queryContentFinish)(void);
     AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeContent"];
     [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            [[[UIAlertView alloc] initWithTitle:@"通知" message:@"我们将尽快处理您举报的内容！感谢您的监督和支持！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            
+            NSString *title = @"我们将尽快处理您举报的内容！\n感谢您的监督和支持！";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }else {
             [[[UIAlertView alloc] initWithTitle:@"通知" message:@"举报发生未知错误，请检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
         }

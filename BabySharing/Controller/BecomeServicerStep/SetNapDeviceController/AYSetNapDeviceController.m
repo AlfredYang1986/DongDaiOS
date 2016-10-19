@@ -184,7 +184,9 @@
 - (id)rightBtnSelected {
     
     if (notePow == 0) {
-        kAYUIAlertView(@"提示", @"您还没有添加友好设施");
+        
+        NSString *title = @"您还没有添加友好设施";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
     
