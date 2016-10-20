@@ -99,18 +99,25 @@
 - (id)setCellInfo:(NSDictionary*)args {
     
     NSString* photo_name = [[[args objectForKey:@"service"] objectForKey:@"images"] firstObject];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:photo_name forKey:@"image"];
+//    [dic setValue:@"img_thum" forKey:@"expect_size"];
+//    
+//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        UIImage* img = (UIImage*)result;
+//        if (img != nil) {
+//            _thumbsImage.image = img;
+//        }
+//    }];
     
+//    NSString* photo_name = [result objectForKey:@"screen_photo"];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            _thumbsImage.image = img;
-        }
-    }];
+    NSString *pre = cmd.route;
+    [_thumbsImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+               placeholderImage:IMGRESOURCE(@"default_image")];
     
     NSTimeInterval book = ((NSNumber*)[args objectForKey:@"date"]).longValue * 0.001;
     NSDate *bookDate = [NSDate dateWithTimeIntervalSince1970:book];

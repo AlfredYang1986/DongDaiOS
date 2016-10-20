@@ -106,19 +106,26 @@
     [dic_owner_id setValue:[notify_args objectForKey:@"sender_id"] forKey:@"user_id"];
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            NSString *photo_name = [result objectForKey:@"screen_photo"];
+//            NSString *photo_name = [result objectForKey:@"screen_photo"];
+//            
+//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:photo_name forKey:@"image"];
+//            [dic setValue:@"img_icon" forKey:@"expect_size"];
+//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//                UIImage* img = (UIImage*)result;
+//                if (img != nil) {
+//                    [userPhoto setImage:img];
+//                }
+//            }];
             
+            NSString* photo_name = [result objectForKey:@"screen_photo"];
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:photo_name forKey:@"image"];
-            [dic setValue:@"img_icon" forKey:@"expect_size"];
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                UIImage* img = (UIImage*)result;
-                if (img != nil) {
-                    [userPhoto setImage:img];
-                }
-            }];
+            NSString *pre = cmd.route;
+            [userPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                       placeholderImage:IMGRESOURCE(@"default_user")];
             
             NSString *user_name = [result objectForKey:@"screen_name"];
             nameLabel.text = user_name;

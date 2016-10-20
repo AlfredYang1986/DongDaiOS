@@ -118,18 +118,25 @@
     _titleLabel.text = [_contentInfo objectForKey:@"title"];
     
     NSString* photo_name = [[_contentInfo objectForKey:@"images"] objectAtIndex:0];
-    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
-    [dic_img setValue:photo_name forKey:@"image"];
-    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+//    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
+//    [dic_img setValue:photo_name forKey:@"image"];
+//    [dic_img setValue:@"img_thum" forKey:@"expect_size"];
+//    
+//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        UIImage* img = (UIImage*)result;
+//        if (img != nil) {
+//            _imageView.image = img;
+//        }
+//    }];
     
+//    NSString* photo_name = [result objectForKey:@"screen_photo"];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            _imageView.image = img;
-        }
-    }];
+    NSString *pre = cmd.route;
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+               placeholderImage:IMGRESOURCE(@"default_user")];
     
     NSArray *options_title_cans = kAY_service_options_title_cans;
     

@@ -165,21 +165,28 @@
         if (success) {
             
             NSString *user_name = [result objectForKey:@"screen_name"];
-            ownerNameLabel.text = [NSString stringWithFormat:@"%@",user_name];
+//            ownerNameLabel.text = [NSString stringWithFormat:@"%@",user_name];
+//            
+//            NSString *photo_name = [result objectForKey:@"screen_photo"];
+//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:photo_name forKey:@"image"];
+//            [dic setValue:@"img_icon" forKey:@"expect_size"];
+//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//                UIImage* img = (UIImage*)result;
+//                if (img != nil) {
+//                    [ownerPhoto setImage:img];
+//                }
+//            }];
             
-            NSString *photo_name = [result objectForKey:@"screen_photo"];
+//            NSString* photo_name = [result objectForKey:@"screen_photo"];
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:photo_name forKey:@"image"];
-            [dic setValue:@"img_icon" forKey:@"expect_size"];
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                UIImage* img = (UIImage*)result;
-                if (img != nil) {
-                    [ownerPhoto setImage:img];
-                }
-                    
-            }];
+            NSString *pre = cmd.route;
+            [ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:user_name]]
+                       placeholderImage:IMGRESOURCE(@"default_user")];
+            
         } else {
             ownerPhoto.image = IMGRESOURCE(@"default_user");
         }

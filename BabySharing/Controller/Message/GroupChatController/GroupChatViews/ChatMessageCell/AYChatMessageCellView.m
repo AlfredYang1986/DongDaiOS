@@ -233,22 +233,31 @@
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            NSLog(@"%@",result);
-            NSString *photo_name = [result objectForKey:@"screen_photo"];
+//            NSLog(@"%@",result);
+//            NSString *photo_name = [result objectForKey:@"screen_photo"];
+//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:photo_name forKey:@"image"];
+//            [dic setValue:@"img_icon" forKey:@"expect_size"];
+//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//                UIImage* img = (UIImage*)result;
+//                if (img != nil) {
+//                    [imgView setImage:img];
+//                } else [imgView setImage:IMGRESOURCE(@"default_user")];
+//            }];
+            
+            NSString* photo_name = [result objectForKey:@"screen_photo"];
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:photo_name forKey:@"image"];
-            [dic setValue:@"img_icon" forKey:@"expect_size"];
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                UIImage* img = (UIImage*)result;
-                if (img != nil) {
-                    [imgView setImage:img];
-                } else [imgView setImage:IMGRESOURCE(@"default_user")];
-            }];
+            NSString *pre = cmd.route;
+            [imgView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                       placeholderImage:IMGRESOURCE(@"default_user")];
+            
         } else {
             [imgView setImage:IMGRESOURCE(@"default_user")];
         }
+
     }];
 }
 
