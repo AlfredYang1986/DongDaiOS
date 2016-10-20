@@ -288,12 +288,21 @@
 
 
 - (id)WechatPaySuccess:(id)args {
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user)
+    
     // 支付成功
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:@"order_id" forKey:@"order_id"];
+    [dic setValue:order_id forKey:@"order_id"];
+
+    NSDictionary *service_info = [order_info objectForKey:@"service_info"];
+    [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+    [dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {

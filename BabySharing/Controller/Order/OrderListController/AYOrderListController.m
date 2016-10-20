@@ -146,7 +146,7 @@
     
     /*****************************/
     
-    NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",0];
+    NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",2];
     NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",1];
     NSArray *result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
     NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
