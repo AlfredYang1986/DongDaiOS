@@ -568,7 +568,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 NSString* role_name = [dic_info objectForKey:@"role_tag"];
                 if ([role_name isEqualToString:@""] || !role_name) {
                     
-                    [dic_info setValue:@" " forKey:@"role_tag"];
+                    [dic_info setValue:@"未设置角色名" forKey:@"role_tag"];
                     AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
                     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
                     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
