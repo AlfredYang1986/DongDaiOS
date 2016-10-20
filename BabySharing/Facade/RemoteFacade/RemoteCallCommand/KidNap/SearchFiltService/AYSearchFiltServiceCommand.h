@@ -6,9 +6,8 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "AYRemoteCallQueryCommand.h"
 
-@interface AYQueryMMWithLocationCommand : AYRemoteCallCommand
+@interface AYSearchFiltServiceCommand : AYRemoteCallCommand
 
 @end

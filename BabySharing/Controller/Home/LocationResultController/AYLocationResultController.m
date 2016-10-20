@@ -95,8 +95,14 @@
     NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_search performWithResult:&nib_search_name];
     
+    ((UITableView*)view_table).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    
+    [self loadNewData];
+}
+
+- (void)loadNewData {
     id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"QueryMMWithLocation"];
+    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
     NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
@@ -115,14 +121,17 @@
             id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
             [cmd performWithResult:&arr];
             
-            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
+            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
         } else {
-            [[[UIAlertView alloc] initWithTitle:@"搜索失败" message:@"请查看是否开启定位并检查网络是否正常连接！" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            NSString *title = @"请改善网络环境并重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
+        
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        [((UITableView*)view_table).mj_header endRefreshing];
+        
     }];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

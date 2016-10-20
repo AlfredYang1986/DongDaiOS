@@ -107,9 +107,9 @@
     [cmd_nib performWithResult:&nib_pay_name];
     /****************************************/
     
+    NSNumber *status = [order_info objectForKey:@"status"];
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
     if ([self.tabBarController isKindOfClass:[des class]]) {
-        NSNumber *status = [order_info objectForKey:@"status"];
         UIButton *confirmSerBtn = [[UIButton alloc]init];
         confirmSerBtn.backgroundColor = [Tools themeColor];
         [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -121,19 +121,44 @@
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
         }];
         
-        if (status.intValue == 0) {
+        if (status.intValue == OrderStatusPaid) {
             
             [confirmSerBtn setTitle:@"接受或者拒绝" forState:UIControlStateNormal];
             [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        } else if (status.intValue == 1) {
+        } else if (status.intValue == OrderStatusConfirm) {
             
             [confirmSerBtn setTitle:@"订单完成" forState:UIControlStateNormal];
             [confirmSerBtn addTarget:self action:@selector(didFinishBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        }
+        } else
+            confirmSerBtn.hidden = YES;
         
     }
     
-    
+    NSString *title;
+    switch (status.intValue) {
+        case OrderStatusReady:
+            title = @"待确认订单";
+            break;
+        case OrderStatusConfirm:
+            title = @"已确认订单";
+            break;
+        case OrderStatusPaid:
+            title = @"已支付订单";
+            break;
+        case OrderStatusDone:
+            title = @"已完成订单";
+            break;
+        case OrderStatusUnpaid:
+            title = @"未支付订单";
+            break;
+        case OrderStatusReject:
+            title = @"已拒绝订单";
+            break;
+        default:
+            title = @"异次元订单";
+            break;
+    }
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     loading_status = [[NSMutableArray alloc]init];
     {
@@ -167,7 +192,7 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"待确认订单";
+    NSString *title = @"订单状态";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -187,9 +212,9 @@
 - (id)TableLayout:(UIView*)view {
     NSNumber *status = [order_info objectForKey:@"status"];
     AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isNap = ((status.intValue == 0 || status.intValue == 1) && [self.tabBarController isKindOfClass:[des class]]);
+    BOOL isNapAndDone = ((status.intValue == OrderStatusPaid || status.intValue == OrderStatusConfirm) && [self.tabBarController isKindOfClass:[des class]]);
     
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isNap?44:0));
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - (isNapAndDone?44:0));
     
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsHorizontalScrollIndicator = NO;

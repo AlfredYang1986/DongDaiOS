@@ -19,7 +19,7 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-#import "AYServiceInfoCellView.h"
+//#import "AYServiceInfoCellView.h"
 #import "AYFouceCellView.h"
 
 #define WIDTH               SCREEN_WIDTH - 15*2

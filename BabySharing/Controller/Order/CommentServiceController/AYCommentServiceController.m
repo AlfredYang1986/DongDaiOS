@@ -66,7 +66,7 @@
     
     service_rangs = [NSMutableArray array];
     for (int i = 0; i < kServiceXDNumb; ++i) {
-        [service_rangs addObject:[NSNumber numberWithFloat:0]];
+        [service_rangs addObject:[NSNumber numberWithFloat:5]];
     }
     
     UILabel *tipsLabel = [UILabel new];

@@ -257,7 +257,7 @@
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="PushServiceInfo" />
         <command type="Remote" name="PublishService" />
-        <command type="Remote" name="QueryMMWithLocation" />
+        <command type="Remote" name="SearchFiltService" />
         <command type="Remote" name="QueryMyService" />
         <command type="Remote" name="RevertMyService" />
         <command type="Remote" name="UpdateMyService" />

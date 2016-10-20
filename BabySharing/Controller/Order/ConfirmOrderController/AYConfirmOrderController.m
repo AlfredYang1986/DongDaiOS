@@ -20,6 +20,8 @@
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
+#import "DongDaTabBarItem.h"
+#import "AYTabBarController.h"
 
 @implementation AYConfirmOrderController {
     NSDictionary *order_info;
@@ -308,6 +310,15 @@
         if (success) {
             NSString *title = @"服务预订成功";
             [self popToRootVCWithTip:title];
+            
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                self.tabBarController.selectedIndex = 2;
+////                id<AYControllerBase> tabBarController =
+//                AYTabBarController* des = DEFAULTCONTROLLER(@"TabBar");
+//                DongDaTabBarItem* btn = (DongDaTabBarItem*)[des.dongda_tabbar viewWithTag:2];
+//                [des.dongda_tabbar itemSelected:btn];
+//            });
+            
         } else {
             NSString *title = @"服务预订支付失败";
             [self popToRootVCWithTip:title];

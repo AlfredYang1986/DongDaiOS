@@ -64,7 +64,7 @@
         }];
         
         starRangImage = [UIImageView new];
-        starRangImage.image = IMGRESOURCE(@"star_rang_0");
+        starRangImage.image = IMGRESOURCE(@"star_rang_5");
         [self addSubview: starRangImage];
         [starRangImage mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-15);
@@ -139,23 +139,23 @@
     
     CGPoint tapPoint = [tap locationInView:starRangImage];
     CGFloat tapOffSetX = tapPoint.x;
-    int rang_note = 0;
+    CGFloat rang_note = 0;
     
     if (tapOffSetX > 0 && tapOffSetX < 15) {
         starRangImage.image = IMGRESOURCE(@"star_rang_1");
-        rang_note = 1.0;
+        rang_note = 1.f;
     } else if (tapOffSetX > 20 && tapOffSetX < 35) {
         starRangImage.image = IMGRESOURCE(@"star_rang_2");
-        rang_note = 2.0;
+        rang_note = 2.f;
     } else if (tapOffSetX > 40 && tapOffSetX < 55) {
         starRangImage.image = IMGRESOURCE(@"star_rang_3");
-        rang_note = 3.0;
+        rang_note = 3.f;
     } else if (tapOffSetX > 60 && tapOffSetX < 75) {
         starRangImage.image = IMGRESOURCE(@"star_rang_4");
-        rang_note = 4.0;
+        rang_note = 4.f;
     } else {
         starRangImage.image = IMGRESOURCE(@"star_rang_5");
-        rang_note = 5.0;
+        rang_note = 5.f;
     }
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];

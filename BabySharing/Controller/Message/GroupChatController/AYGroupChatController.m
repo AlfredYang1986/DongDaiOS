@@ -154,10 +154,27 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 //    [self enterChatGroup];
     [self queryEMMessages];
     
-   
     UIView* view_table = [self.views objectForKey:@"Table"];
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [view_table addGestureRecognizer:tap];
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+//    BOOL isOwner = [[user objectForKey:@"user_id"] isEqualToString:owner_id];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:owner_id forKey:@"user_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSString* user_name = [result objectForKey:@"screen_name"];
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &user_name)
+        }
+    }];
+    
 }
 
 - (void)clearController {
@@ -170,19 +187,16 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
     NSString *title = @"沟通";
     [cmd_title performWithResult:&title];

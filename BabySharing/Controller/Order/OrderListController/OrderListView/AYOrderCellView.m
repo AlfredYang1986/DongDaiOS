@@ -126,24 +126,24 @@
     NSString *bookStr = [formatterBookDay stringFromDate:bookDate];
     _dateLabel.text = bookStr;
     
-    int status = ((NSNumber*)[args objectForKey:@"status"]).intValue;
-    switch (status) {
-        case 0:
+    int OrderStatus = ((NSNumber*)[args objectForKey:@"status"]).intValue;
+    switch (OrderStatus) {
+        case OrderStatusReady:
             _statusLabel.text = @"待确认订单";
             break;
-        case 1:
+        case OrderStatusConfirm:
             _statusLabel.text = @"已确认订单";
             break;
-        case 2:
+        case OrderStatusPaid:
             _statusLabel.text = @"已支付订单";
             break;
-        case 9:
+        case OrderStatusDone:
             _statusLabel.text = @"已完成订单";
             break;
-        case -1:
+        case OrderStatusUnpaid:
             _statusLabel.text = @"未支付订单";
             break;
-        case -9:
+        case OrderStatusReject:
             _statusLabel.text = @"已拒绝订单";
             break;
         default:

@@ -126,8 +126,8 @@
     
     NSArray *resultArr = [result objectForKey:@"result"];
     
-    NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",9];
-    NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",-9];
+    NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
+    NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
     NSArray *result_status_done = [resultArr filteredArrayUsingPredicate:pred_done];
     NSArray *result_status_reject = [resultArr filteredArrayUsingPredicate:pred_reject];
     
@@ -146,8 +146,8 @@
     
     /*****************************/
     
-    NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",2];
-    NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",1];
+    NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
+    NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
     NSArray *result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
     NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
     

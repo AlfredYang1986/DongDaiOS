@@ -286,7 +286,7 @@
     
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-//            _ownerName.text = [result objectForKey:@"screen_name"];
+            _ownerName.text = [result objectForKey:@"screen_name"];
 //            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 //            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 //            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

@@ -93,15 +93,18 @@
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[profile_dic objectForKey:@"screen_photo"] forKey:@"image"];
-    [dic setValue:@"img_local" forKey:@"expect_size"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            [user_photo setImage:img];
-        }
-    }];
+    NSString *pre = cmd.route;
+    [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_image")];
+    
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:[profile_dic objectForKey:@"screen_photo"] forKey:@"image"];
+//    [dic setValue:@"img_local" forKey:@"expect_size"];
+//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        UIImage* img = (UIImage*)result;
+//        if (img != nil) {
+//            [user_photo setImage:img];
+//        }
+//    }];
     
     UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
@@ -287,13 +290,6 @@
 
 - (id)rightBtnSelected {
     
-//    dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
-//    dispatch_async(qp, ^{
-//        
-//    });
-//    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-//    dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-    
     if (isUserPhotoChanged) {
         AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
         NSMutableDictionary *up_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
@@ -343,7 +339,6 @@
             if ([result objectForKey:@"personal_description"]) {
                 [dic setValue:[result objectForKey:@"personal_description"] forKey:@"personal_description"];
             }
-            
             [cmd_profle performWithResult:&dic];
             
             NSString *title = @"保存已修改";
@@ -480,10 +475,11 @@
 
 //nameTextFiled
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
     NSString *tmp = textField.text;
     NSInteger len = [Tools bityWithStr:tmp];
     
-    if (len > 32) {
+    if (len > 32 && ![string isEqualToString:@""]) {
         [textField resignFirstResponder];
         NSString *title = @"姓名长度应在4-32个字符之间\n*汉字／大写字母长度为2";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

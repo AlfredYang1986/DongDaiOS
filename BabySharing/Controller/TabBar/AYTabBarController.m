@@ -7,14 +7,7 @@
 //
 
 #import "AYTabBarController.h"
-#import "AYCommandDefines.h"
-#import "AYFactoryManager.h"
-#import "AYResourceManager.h"
-#import "DongDaTabBar.h"
-#import "AYViewController.h"
-#import "AYCommand.h"
-#import "AYViewBase.h"
-#import "DongDaTabBarItem.h"
+
 
 #define SHOWALBUM       [self showPostController:@"CameraRollInit"]
 #define SHOWCAMERA      [self showPostController:@"CameraInit"]
@@ -26,7 +19,7 @@
 
 @implementation AYTabBarController {
 
-    DongDaTabBar* dongda_tabbar;
+    
     UIImage* img_home_with_no_message;
     UIImage* img_home_with_unread_message;
     
@@ -93,11 +86,11 @@
     img_home_with_no_message = IMGRESOURCE(@"tab_home");
     img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
     
-    dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
+    [_dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     //    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
@@ -168,11 +161,6 @@
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview:cover];
     
-//    id<AYViewBase> _loading = VIEW(@"Loading", @"Loading");
-//    [cover addSubview:((UIView*)_loading)];
-//    id<AYCommand> cmd = [_loading.commands objectForKey:@"startGif"];
-//    [cmd performWithResult:nil];
-    
     if (isExchangeModel == ModelExchangeTypeNapToCommon) {
         cover.backgroundColor = [Tools darkBackgroundColor];
         
@@ -188,8 +176,6 @@
             [UIView animateWithDuration:0.5 animations:^{
                 cover.alpha = 0;
             } completion:^(BOOL finished) {
-//                id<AYCommand> cmd = [_loading.commands objectForKey:@"stopGif"];
-//                [cmd performWithResult:nil];
                 [cover removeFromSuperview];
             }];
         });

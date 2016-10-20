@@ -6,9 +6,9 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYQueryMMWithLocationCommand.h"
+#import "AYSearchFiltServiceCommand.h"
 
-@implementation AYQueryMMWithLocationCommand
+@implementation AYSearchFiltServiceCommand
 
 - (void)postPerform {
     NSLog(@"host path is : %@", self.route);

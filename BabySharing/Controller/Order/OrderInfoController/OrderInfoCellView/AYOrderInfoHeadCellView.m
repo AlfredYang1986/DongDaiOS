@@ -165,9 +165,9 @@
         if (success) {
             
             NSString *user_name = [result objectForKey:@"screen_name"];
-//            ownerNameLabel.text = [NSString stringWithFormat:@"%@",user_name];
-//            
-//            NSString *photo_name = [result objectForKey:@"screen_photo"];
+            ownerNameLabel.text = [NSString stringWithFormat:@"%@",user_name];
+//
+            NSString *photo_name = [result objectForKey:@"screen_photo"];
 //            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 //            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 //            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -179,12 +179,11 @@
 //                    [ownerPhoto setImage:img];
 //                }
 //            }];
-            
 //            NSString* photo_name = [result objectForKey:@"screen_photo"];
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
             NSString *pre = cmd.route;
-            [ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:user_name]]
+            [ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                        placeholderImage:IMGRESOURCE(@"default_user")];
             
         } else {
