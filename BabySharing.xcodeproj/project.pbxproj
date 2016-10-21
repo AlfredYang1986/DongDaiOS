@@ -71,9 +71,7 @@
 		7002DBB11CC6685E0013FF2A /* AYSearchBarDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB01CC6685E0013FF2A /* AYSearchBarDelegate.m */; };
 		7002DBBB1CC669D20013FF2A /* AYTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */; };
 		7002DBBC1CC669D20013FF2A /* AYTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */; };
-		7003D9391CFE7DC2001CD17C /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7003D9381CFE7DC2001CD17C /* MAMapKit.framework */; };
 		7003D93D1CFE7F9A001CD17C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7003D93C1CFE7F9A001CD17C /* libc++.tbd */; };
-		7003D9451CFED7D6001CD17C /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7003D9441CFED7D6001CD17C /* AMapSearchKit.framework */; };
 		7003FBC51CED4B4700230B20 /* AYWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003FBBD1CED4B4700230B20 /* AYWelcomeController.m */; };
 		7003FBC71CED4B4700230B20 /* AYUserScreenPhoteView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7003FBC41CED4B4700230B20 /* AYUserScreenPhoteView.m */; };
 		70049C311CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */; };
@@ -368,6 +366,8 @@
 		705489821D34DD0C007FCDA1 /* AYBabyInfoCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705489801D34DD0C007FCDA1 /* AYBabyInfoCellView.m */; };
 		705489831D34DD0C007FCDA1 /* AYBabyInfoCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 705489811D34DD0C007FCDA1 /* AYBabyInfoCellView.xib */; };
 		705489861D34DFB7007FCDA1 /* AYBabyInfoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705489851D34DFB7007FCDA1 /* AYBabyInfoDelegate.m */; };
+		7058216D1DB9F80800CFE6DD /* AMapSearchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7058216B1DB9F80800CFE6DD /* AMapSearchKit.framework */; };
+		7058216E1DB9F80800CFE6DD /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7058216C1DB9F80800CFE6DD /* MAMapKit.framework */; };
 		7059352F1D4F44CB00E9D52E /* AYCalendarServiceInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7059352E1D4F44CB00E9D52E /* AYCalendarServiceInitCommand.m */; };
 		705935321D4F44D500E9D52E /* AYMessageServiceInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705935311D4F44D500E9D52E /* AYMessageServiceInitCommand.m */; };
 		705B4A341D644A7F006273E7 /* AYCollectServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705B4A331D644A7F006273E7 /* AYCollectServiceCommand.m */; };
@@ -934,9 +934,7 @@
 		7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagAddDelegate.m; sourceTree = "<group>"; };
 		7002DBB91CC669D20013FF2A /* AYTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagRecommendDelegate.h; sourceTree = "<group>"; };
 		7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagRecommendDelegate.m; sourceTree = "<group>"; };
-		7003D9381CFE7DC2001CD17C /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
 		7003D93C1CFE7F9A001CD17C /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		7003D9441CFED7D6001CD17C /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMapSearchKit.framework; path = "../../高德/AMapSearchKit.framework"; sourceTree = "<group>"; };
 		7003FBBC1CED4B4700230B20 /* AYWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWelcomeController.h; sourceTree = "<group>"; };
 		7003FBBD1CED4B4700230B20 /* AYWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWelcomeController.m; sourceTree = "<group>"; };
 		7003FBC31CED4B4700230B20 /* AYUserScreenPhoteView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserScreenPhoteView.h; sourceTree = "<group>"; };
@@ -1520,6 +1518,8 @@
 		705489811D34DD0C007FCDA1 /* AYBabyInfoCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYBabyInfoCellView.xib; sourceTree = "<group>"; };
 		705489841D34DFB7007FCDA1 /* AYBabyInfoDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBabyInfoDelegate.h; sourceTree = "<group>"; };
 		705489851D34DFB7007FCDA1 /* AYBabyInfoDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBabyInfoDelegate.m; sourceTree = "<group>"; };
+		7058216B1DB9F80800CFE6DD /* AMapSearchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AMapSearchKit.framework; path = BabySharing/lib/AMapSearchKit.framework; sourceTree = "<group>"; };
+		7058216C1DB9F80800CFE6DD /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MAMapKit.framework; path = BabySharing/lib/MAMapKit.framework; sourceTree = "<group>"; };
 		7059352D1D4F44CB00E9D52E /* AYCalendarServiceInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCalendarServiceInitCommand.h; sourceTree = "<group>"; };
 		7059352E1D4F44CB00E9D52E /* AYCalendarServiceInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCalendarServiceInitCommand.m; sourceTree = "<group>"; };
 		705935301D4F44D500E9D52E /* AYMessageServiceInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMessageServiceInitCommand.h; sourceTree = "<group>"; };
@@ -2397,16 +2397,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7003D9451CFED7D6001CD17C /* AMapSearchKit.framework in Frameworks */,
 				70490DCC1CA23A6E0093D5DA /* CoreLocation.framework in Frameworks */,
 				7003D93D1CFE7F9A001CD17C /* libc++.tbd in Frameworks */,
-				7003D9391CFE7DC2001CD17C /* MAMapKit.framework in Frameworks */,
 				709962F31CE06CCA005CADD6 /* MapKit.framework in Frameworks */,
 				70490DDA1CA23ABD0093D5DA /* ImageIO.framework in Frameworks */,
 				708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */,
 				708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */,
 				80E249511CD31C0700277130 /* libGPUImage.a in Frameworks */,
 				708235BD1CA2422800658531 /* libz.tbd in Frameworks */,
+				7058216D1DB9F80800CFE6DD /* AMapSearchKit.framework in Frameworks */,
 				708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */,
 				708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */,
 				708235E31CA2746A00658531 /* libgotyeapi_c++11.a in Frameworks */,
@@ -2422,6 +2421,7 @@
 				70490DDC1CA23AC70093D5DA /* SystemConfiguration.framework in Frameworks */,
 				70490DD81CA23AB40093D5DA /* CoreGraphics.framework in Frameworks */,
 				70490DD61CA23AAB0093D5DA /* CFNetwork.framework in Frameworks */,
+				7058216E1DB9F80800CFE6DD /* MAMapKit.framework in Frameworks */,
 				70490DD41CA23AA00093D5DA /* Security.framework in Frameworks */,
 				70490DD21CA23A970093D5DA /* MobileCoreServices.framework in Frameworks */,
 				70490DD01CA23A890093D5DA /* AssetsLibrary.framework in Frameworks */,
@@ -4925,36 +4925,36 @@
 		70490DEB1CA23B590093D5DA /* Framework */ = {
 			isa = PBXGroup;
 			children = (
-				7003D9441CFED7D6001CD17C /* AMapSearchKit.framework */,
-				7003D93C1CFE7F9A001CD17C /* libc++.tbd */,
-				7003D9381CFE7DC2001CD17C /* MAMapKit.framework */,
-				708235E61CA2756000658531 /* libstdc++.6.0.9.tbd */,
-				708235E41CA274FC00658531 /* libz.1.2.5.tbd */,
-				708235BC1CA2422800658531 /* libz.tbd */,
-				708235BA1CA2421B00658531 /* libstdc++.tbd */,
-				708235B81CA2420A00658531 /* libsqlite3.tbd */,
-				708235B61CA241F800658531 /* libiconv.tbd */,
+				70490DC91CA23A640093D5DA /* AddressBook.framework */,
+				7058216B1DB9F80800CFE6DD /* AMapSearchKit.framework */,
+				70490DCF1CA23A890093D5DA /* AssetsLibrary.framework */,
+				70490DC51CA23A4F0093D5DA /* AudioToolbox.framework */,
+				70490DE71CA23B0E0093D5DA /* AVFoundation.framework */,
+				70490DD51CA23AAB0093D5DA /* CFNetwork.framework */,
+				70490DC31CA23A430093D5DA /* Contacts.framework */,
+				70490DD71CA23AB40093D5DA /* CoreGraphics.framework */,
+				70490DCB1CA23A6E0093D5DA /* CoreLocation.framework */,
+				70490DDD1CA23ADF0093D5DA /* CoreMedia.framework */,
+				70490DC71CA23A5B0093D5DA /* CoreTelephony.framework */,
+				70490DDF1CA23AEA0093D5DA /* CoreVideo.framework */,
+				70490DE51CA23B090093D5DA /* Foundation.framework */,
+				70490DD91CA23ABD0093D5DA /* ImageIO.framework */,
+				7058216C1DB9F80800CFE6DD /* MAMapKit.framework */,
 				709962F21CE06CCA005CADD6 /* MapKit.framework */,
 				70490DE91CA23B180093D5DA /* MediaPlayer.framework */,
-				70490DE71CA23B0E0093D5DA /* AVFoundation.framework */,
-				70490DE51CA23B090093D5DA /* Foundation.framework */,
-				70490DE31CA23B000093D5DA /* QuartzCore.framework */,
-				70490DE11CA23AF70093D5DA /* OpenGLES.framework */,
-				70490DDF1CA23AEA0093D5DA /* CoreVideo.framework */,
-				70490DDD1CA23ADF0093D5DA /* CoreMedia.framework */,
-				70490DDB1CA23AC70093D5DA /* SystemConfiguration.framework */,
-				70490DD91CA23ABD0093D5DA /* ImageIO.framework */,
-				70490DD71CA23AB40093D5DA /* CoreGraphics.framework */,
-				70490DD51CA23AAB0093D5DA /* CFNetwork.framework */,
-				70490DD31CA23AA00093D5DA /* Security.framework */,
 				70490DD11CA23A970093D5DA /* MobileCoreServices.framework */,
-				70490DCF1CA23A890093D5DA /* AssetsLibrary.framework */,
+				70490DE11CA23AF70093D5DA /* OpenGLES.framework */,
+				70490DE31CA23B000093D5DA /* QuartzCore.framework */,
+				70490DD31CA23AA00093D5DA /* Security.framework */,
+				70490DDB1CA23AC70093D5DA /* SystemConfiguration.framework */,
 				70490DCD1CA23A790093D5DA /* UIKit.framework */,
-				70490DCB1CA23A6E0093D5DA /* CoreLocation.framework */,
-				70490DC91CA23A640093D5DA /* AddressBook.framework */,
-				70490DC71CA23A5B0093D5DA /* CoreTelephony.framework */,
-				70490DC51CA23A4F0093D5DA /* AudioToolbox.framework */,
-				70490DC31CA23A430093D5DA /* Contacts.framework */,
+				7003D93C1CFE7F9A001CD17C /* libc++.tbd */,
+				708235B61CA241F800658531 /* libiconv.tbd */,
+				708235B81CA2420A00658531 /* libsqlite3.tbd */,
+				708235E61CA2756000658531 /* libstdc++.6.0.9.tbd */,
+				708235BA1CA2421B00658531 /* libstdc++.tbd */,
+				708235E41CA274FC00658531 /* libz.1.2.5.tbd */,
+				708235BC1CA2422800658531 /* libz.tbd */,
 			);
 			name = Framework;
 			sourceTree = "<group>";
@@ -9546,6 +9546,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/BabySharing/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -9597,6 +9598,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK",
 					"$(PROJECT_DIR)/BabySharing/lib/libGPUImage",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/BabySharing/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				HEADER_SEARCH_PATHS = (
