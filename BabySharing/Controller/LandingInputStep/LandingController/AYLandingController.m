@@ -406,7 +406,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             NSLog(@"finally login over success");
             
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            NSNumber *model = [defaults objectForKey:@"dongda_app_model"];
+            NSNumber *model = [defaults objectForKey:@"dongda_app_mode"];
             AYViewController* des;
             switch (model.intValue) {
                 case DongDaAppModelUnLogin:

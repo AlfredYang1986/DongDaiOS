@@ -155,7 +155,7 @@
     [super viewWillAppear:animated];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelCommon] forKey:@"dongda_app_model"];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelCommon] forKey:@"dongda_app_mode"];
     [defaults synchronize];
     
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];

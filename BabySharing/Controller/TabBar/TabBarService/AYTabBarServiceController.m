@@ -133,7 +133,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -144,7 +143,7 @@
     [dongda_tabbar itemSelected:btn];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelNapPersonal] forKey:@"dongda_app_model"];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelNapPersonal] forKey:@"dongda_app_mode"];
     [defaults synchronize];
     
     if (isExchangeModel != 0) {
