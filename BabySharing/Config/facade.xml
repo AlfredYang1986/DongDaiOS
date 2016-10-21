@@ -7,7 +7,9 @@
     </facade>
     <facade type="DefaultFacade" name="SNSWechat" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWechat" />
+        <command type="Module" name="IsInstalledWechat" />
         <command type="Remote" name="ShareWithWechat" />
+        <command type="Module" name="PayWithWechat" />
     </facade>
     <facade type="DefaultFacade" name="SNSWeibo" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithWeibo" />
@@ -72,7 +74,9 @@
         <command type="Module" name="QueryRegUser" />
 
         <command type="Module" name="QueryCurrentLoginUser" />
+        <command type="Module" name="QueryCurrentUserProfile" />
         <command type="Module" name="ChangeCurrentLoginUser" />
+        <command type="Module" name="UpdateLocalCurrentUserProfile" />
 
         <command type="Module" name="QuerySNSProviders" />
         <command type="Module" name="ChangeSNSProviders" />
@@ -132,6 +136,15 @@
         <command type="Remote" name="UpdateUserDetail" />
         <command type="Remote" name="QueryUserProfile" />
         <command type="Remote" name="QueryMultipleUsers" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="AuthRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PushRealName" />
+        <command type="Remote" name="ApproveRealName" />
+        <command type="Remote" name="RejectRealName" />
+        
+        <command type="Remote" name="RequireCode" />
+        <command type="Remote" name="CheckCode" />
     </facade>
     
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
@@ -213,7 +226,9 @@
         <command type="Module" name="EMUnreadMessageCount" />
         <command type="Module" name="SendEMMessage" />
         <command type="Module" name="QueryEMMessages" />
+        <command type="Module" name="QueryEMSations" />
         <command type="Module" name="JoinEMGroup" />
+        <command type="Module" name="CreateEMChat" />
         <command type="Module" name="EMQueryGroupMemberLst" />
         <command type="Module" name="EMEnterBackground" />
         <command type="Module" name="EMEnterFront" />
@@ -231,5 +246,41 @@
     </facade>
     
     <facade type ="DefaultFacade" name="Keyboard" factory="AYDefaultFacadeFactory" >
+    </facade>
+    
+    <facade type ="DefaultFacade" name="Alert" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="ShowAlert" />
+        <command type="Module" name="HideAlert" />
+        <command type="Module" name="OtherBtnClick" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="PushServiceInfo" />
+        <command type="Remote" name="PublishService" />
+        <command type="Remote" name="SearchFiltService" />
+        <command type="Remote" name="QueryMyService" />
+        <command type="Remote" name="RevertMyService" />
+        <command type="Remote" name="UpdateMyService" />
+        <command type="Remote" name="PopMyService" />
+        
+        <command type="Remote" name="CollectService" />
+        <command type="Remote" name="UnCollectService" />
+        <command type="Remote" name="AllCollectService" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >
+        <command type="Remote" name="QueryOrders" />
+        <command type="Remote" name="QueryOwnOrders" />
+        <command type="Remote" name="QueryApplyOrders" />
+        <command type="Remote" name="UpdateOrderInfo" />
+        
+        <command type="Remote" name="PushOrder" />
+        <command type="Remote" name="AcceptOrder" />
+        <command type="Remote" name="RejectOrder" />
+        <command type="Remote" name="AccomplishOrder" />
+        
+        <command type="Remote" name="PayOrder" />
+       
+        <command type="Remote" name="PushComments" />
     </facade>
 </facades>

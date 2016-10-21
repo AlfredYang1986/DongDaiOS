@@ -8,7 +8,6 @@
 
 #import "AYInputRoleController.h"
 #import "AYViewBase.h"
-#import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYCommandDefines.h"
@@ -16,10 +15,6 @@
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
-
-
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 
 @interface AYInputRoleController () <UINavigationControllerDelegate>

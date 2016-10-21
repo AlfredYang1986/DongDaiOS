@@ -120,3 +120,7 @@ BabySharing/lib/libQQSDK
 BabySharing/lib/HyphenateFullSDK/lib
 BabySharing.xcodeproj/project.xcworkspace
 BabySharing.xcodeproj/xcuserdata
+BabySharing/lib/HyphenateFullSDK/lib
+
+.DS_Store
+*.swp

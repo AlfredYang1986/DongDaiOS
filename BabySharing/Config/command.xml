@@ -4,29 +4,39 @@
     <command type="AlertView" name="AlertView" factory="AYMessageCommandFactory" />
     <command type="Push" name="Push" factory="AYControllerExchangFactory" />
     <command type="Pop" name="Pop" factory="AYControllerExchangFactory" />
+    <command type="PushSplitAnimation" name="PushSplitAnimation" factory="AYControllerExchangFactory" />
+    <command type="PopSplitAnimation" name="PopSplitAnimation" factory="AYControllerExchangFactory" />
     <command type="ShowModule" name="ShowModule" factory="AYControllerExchangFactory" />
     <command type="ShowModuleUp" name="ShowModuleUp" factory="AYControllerExchangFactory" />
     <command type="PopToRoot" name="PopToRoot" factory="AYControllerExchangFactory" />
     <command type="ReversModule" name="ReversModule" factory="AYControllerExchangFactory" />
+    <command type="ExchangeWindows" name="ExchangeWindows" factory="AYControllerExchangFactory" />
+    <command type="PushFromBot" name="PushFromBot" factory="AYControllerExchangFactory" />
+    <command type="PopFromBot" name="PopFromBot" factory="AYControllerExchangFactory" />
 
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="IsInstalledWechat" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWeibo" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LandingAreaCode" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="ShareWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="ShareWithWechat" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="ShareWithWeibo" factory="AYDefaultModuleFactory" />
 
+    <command type="Module" name="PayWithWechat" factory="AYDefaultModuleFactory" />
+
     <command type="Module" name="QueryTmpUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeTmpUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeRegUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryRegUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryCurrentLoginUser" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryCurrentUserProfile" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeCurrentLoginUser" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QuerySNSProviders" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ChangeSNSProviders" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SignOutLocal" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SaveScreenPhoto" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="UpdateLocalCurrentUserProfile" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="RefrashOwnerQueryData" factory="AYDefaultModuleFactory" />
     <command type="Module" name="AppendOwnerQueryData" factory="AYDefaultModuleFactory" />
@@ -71,16 +81,18 @@
     <command type="Module" name="JoinGroup" factory="AYDefaultModuleFactory" />
     -->
    
-    <command type="Module" name="LoginEM" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="LogoutEM" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMUnreadMessageCount" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="SendEMMessage" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="QueryEMMessages" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="JoinEMGroup" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LoginEM"               factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LogoutEM"              factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMUnreadMessageCount"  factory="AYDefaultModuleFactory" />
+    <command type="Module" name="SendEMMessage"         factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryEMMessages"       factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryEMSations"        factory="AYDefaultModuleFactory" />
+    <command type="Module" name="JoinEMGroup"           factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CreateEMChat"          factory="AYDefaultModuleFactory" />
     <command type="Module" name="EMQueryGroupMemberLst" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMEnterBackground" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMEnterFront" factory="AYDefaultModuleFactory" />
-    <command type="Module" name="EMClientInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMEnterBackground"     factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMEnterFront"          factory="AYDefaultModuleFactory" />
+    <command type="Module" name="EMClientInit"          factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="HomeInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="FoundInit" factory="AYDefaultModuleFactory" />
@@ -91,7 +103,17 @@
     <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
     
+    <command type="Module" name="OrderInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MessageServiceInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="MyServiceInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="CalendarServiceInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ProfileServiceInit" factory="AYDefaultModuleFactory" />
+    
     <command type="Module" name="GetAllPhones" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="ShowAlert" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="HideAlert" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="OtherBtnClick" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="EnumAlbumName" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryAlbumNameWithAlbum" factory="AYDefaultModuleFactory" />
@@ -149,7 +171,13 @@
     <command type="Remote" name="AuthWithSNS" route="login/authWithThird" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AuthSignOut" route="login/signout" factory="AYRemoteCallFactory" />
     <command type="Remote" name="ContatcerInSystem" route="login/userLstInSystem" factory="AYRemoteCallFactory" />
-
+    
+    <command type="Remote" name="PushRealName"      route="auth/realname/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ApproveRealName"   route="auth/realname/approve" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RejectRealName"    route="auth/realname/reject" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RequireCode"       route="auth/code/require" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="CheckCode"         route="auth/code/check" factory="AYRemoteCallFactory" />
+    
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMultipleUsers" route="profile/multipleUserProfile" factory="AYRemoteCallFactory" />
@@ -165,7 +193,34 @@
     <command type="Remote" name="SearchTagWithPreviews" route="tags/queryFoundSearchTagData" factory="AYRemoteCallFactory" />
     <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryContentsWithTag" route="tags/queryContentsWithTag" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PushServiceInfo"   route="kidnap/push"     factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PublishService"    route="kidnap/publish"  factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PopMyService"      route="kidnap/pop" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateMyService"   route="kidnap/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RevertMyService"   route="kidnap/revert" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="SearchFiltService" route="kidnap/search" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOwnOrders"   route="order/query/own" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryApplyOrders"   route="order/query/apply" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateOrderInfo"   route="order/update" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PushOrder"         route="order/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AcceptOrder"       route="order/accept" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="RejectOrder"       route="order/reject" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="AccomplishOrder"   route="order/accomplish" factory="AYRemoteCallFactory" />
 
+    <command type="Remote" name="PayOrder"   route="order/pay" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="PushComments"   route="order/comments/push" factory="AYRemoteCallFactory" />
+    
+    
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />
     

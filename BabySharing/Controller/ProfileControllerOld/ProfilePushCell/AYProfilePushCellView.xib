@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="83" id="KGk-i7-Jjw" customClass="AYProfilePushCellView">
+            <rect key="frame" x="0.0" y="0.0" width="424" height="83"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="424" height="82"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-76.png" translatesAutoresizingMaskIntoConstraints="NO" id="idI-X3-nNT">
+                        <rect key="frame" x="10" y="0.0" width="70" height="70"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="70" id="Db0-Tm-EhJ"/>
+                            <constraint firstAttribute="width" constant="70" id="IQo-CO-cdL"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="来自" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AQC-cy-wKT">
+                        <rect key="frame" x="90" y="55" width="24" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.53725490196078429" green="0.53725490196078429" blue="0.53725490196078429" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="别人家的女朋友" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kqr-kJ-n06">
+                        <rect key="frame" x="124" y="55" width="84" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.24313725490196078" green="0.83529411764705885" blue="0.74509803921568629" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4分钟前" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RAW-XO-nUE">
+                        <rect key="frame" x="370" y="5" width="44" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.22352941176470589" green="0.22352941176470589" blue="0.22352941176470589" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bRg-Bd-ltO">
+                        <rect key="frame" x="90" y="0.0" width="140" height="20"/>
+                        <attributedString key="attributedText">
+                            <fragment content="心情分享！！！！！！">
+                                <attributes>
+                                    <color key="NSColor" red="0.22352941176470589" green="0.22352941176470589" blue="0.22352941176470589" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" size="14" name="PingFangSC-Regular"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="18" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="RAW-XO-nUE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="7t6-RF-QvM"/>
+                    <constraint firstItem="kqr-kJ-n06" firstAttribute="leading" secondItem="AQC-cy-wKT" secondAttribute="trailing" constant="10" id="8gR-pC-fiM"/>
+                    <constraint firstItem="AQC-cy-wKT" firstAttribute="leading" secondItem="bRg-Bd-ltO" secondAttribute="leading" id="B1z-6B-nzP"/>
+                    <constraint firstItem="idI-X3-nNT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="F82-LF-q4U"/>
+                    <constraint firstItem="AQC-cy-wKT" firstAttribute="bottom" secondItem="idI-X3-nNT" secondAttribute="bottom" id="FCG-Io-xuH"/>
+                    <constraint firstAttribute="trailing" secondItem="RAW-XO-nUE" secondAttribute="trailing" constant="10" id="LKy-Ji-4yX"/>
+                    <constraint firstItem="kqr-kJ-n06" firstAttribute="centerY" secondItem="AQC-cy-wKT" secondAttribute="centerY" id="XbG-oL-ABt"/>
+                    <constraint firstItem="bRg-Bd-ltO" firstAttribute="leading" secondItem="idI-X3-nNT" secondAttribute="trailing" constant="10" id="XtE-ok-dYu"/>
+                    <constraint firstItem="RAW-XO-nUE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="bRg-Bd-ltO" secondAttribute="trailing" constant="40" id="f9y-M6-Zzi"/>
+                    <constraint firstItem="idI-X3-nNT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="hXe-0y-PB4"/>
+                    <constraint firstItem="bRg-Bd-ltO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="lcA-0r-NHV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="descLabel" destination="bRg-Bd-ltO" id="e11-YN-TfG"/>
+                <outlet property="fromLabel" destination="kqr-kJ-n06" id="sQj-6X-5ao"/>
+                <outlet property="fromTitle" destination="AQC-cy-wKT" id="z7r-Ng-i8e"/>
+                <outlet property="photoImage" destination="idI-X3-nNT" id="yFG-lN-dKI"/>
+                <outlet property="timeLabel" destination="RAW-XO-nUE" id="Nmo-qo-5hY"/>
+            </connections>
+            <point key="canvasLocation" x="182" y="193.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon-76.png" width="76" height="76"/>
+    </resources>
+</document>

@@ -23,7 +23,7 @@
 #import "AYModelFacade.h"
 #import "AYQueryModelDefines.h"
 
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
@@ -46,7 +46,6 @@
     AYModelFacade* fl = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:fl.doc.managedObjectContext];
     NSString* user_id = tmp.who.user_id;
-    NSLog(@"sunfei -- %@",user_id);
     Providers* cur = [Providers enumProvideInContext:fl.doc.managedObjectContext ByName:@"weibo" andCurrentUserID:user_id];
     
     PostPreViewType type =  ((NSNumber*)[args objectForKey:@"publishType"]).intValue;

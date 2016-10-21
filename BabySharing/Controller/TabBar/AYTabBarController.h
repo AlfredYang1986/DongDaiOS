@@ -8,7 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "AYControllerBase.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "DongDaTabBar.h"
+#import "AYViewController.h"
+#import "AYCommand.h"
+#import "AYViewBase.h"
+#import "DongDaTabBarItem.h"
 
 @interface AYTabBarController : UITabBarController <AYControllerBase>
+
+@property (nonatomic, strong) DongDaTabBar* dongda_tabbar;
 
 @end

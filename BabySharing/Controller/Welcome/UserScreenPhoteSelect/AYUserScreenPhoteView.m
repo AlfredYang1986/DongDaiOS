@@ -21,18 +21,16 @@
 
 - (void)postPerform {
     
-    
-    self.layer.cornerRadius = 114 / 2;
+    self.layer.cornerRadius = 100 / 2;
     self.clipsToBounds = YES;
-    self.tag = -110;
-    self.backgroundColor = [UIColor clearColor];
-    
-    self.layer.borderColor = [UIColor colorWithWhite:1 alpha:0.255].CGColor;
+    self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    self.layer.borderColor = [Tools borderAlphaColor].CGColor;
     self.layer.borderWidth = 3.f;
     
-    [self setBackgroundImage:PNGRESOURCE(@"default_user") forState:UIControlStateNormal];
-    [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
-    
+    self.userInteractionEnabled = YES;
+    self.image = IMGRESOURCE(@"default_user");
+    self.contentMode = UIViewContentModeScaleAspectFill;
+    [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectImgBtn)]];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -53,18 +51,18 @@
 
 - (id)changeScreenPhoto:(id)obj {
     UIImage* img = (UIImage*)obj;
-    [self setBackgroundImage:img forState:UIControlStateNormal];
+    self.image = img;
     return nil;
 }
 
 - (id)canPhotoBtnClicked:(id)obj {
-    BOOL b = ((NSNumber*)obj).boolValue;
-    if (!b) {
-        self.enabled = NO;
-        [self removeTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
-    }
+//    BOOL b = ((NSNumber*)obj).boolValue;
+//    if (!b) {
+//        self.enabled = NO;
+//        [self removeTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
+//    } else {
+//        [self addTarget:self action:@selector(didSelectImgBtn) forControlEvents:UIControlEventTouchUpInside];
+//    }
     return nil;
 }
 

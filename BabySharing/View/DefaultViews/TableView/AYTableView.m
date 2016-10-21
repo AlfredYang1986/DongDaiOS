@@ -19,8 +19,17 @@
 @synthesize notifies = _notiyies;
 
 #pragma mark -- commands
+//- (instancetype)initWithFrame:(CGRect)frame {
+//    self = [super initWithFrame:frame style:UITableViewStyleGrouped];
+//    
+//    return self;
+//}
+
 - (void)postPerform {
     
+    self.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -96,6 +105,7 @@
     [self setContentOffset:CGPointMake(0, row * result.floatValue)];
     return nil;
 }
+
 @end
 
 @implementation AYTable2View

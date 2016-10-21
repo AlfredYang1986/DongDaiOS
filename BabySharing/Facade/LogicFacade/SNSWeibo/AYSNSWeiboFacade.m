@@ -123,10 +123,10 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
                 [dic_result setValue:@"weibo" forKey:@"provide_name"];
                 [dic_result setValue:weibo_user_id forKey:@"provide_user_id"];
                 [dic_result setValue:weibo_token forKey:@"provide_token"];
-                [dic_result setValue:screen_name forKey:@"provide_screen_name"];//michauxs:微博第三方登录
+                [dic_result setValue:screen_name forKey:@"provide_screen_name"];
                 [dic_result setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
                 
-                id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
+                id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];//michauxs:增加多个第三方
                 [cmd_provider performWithResult:&dic_result];
                 
                 NSString* screen_photo = [result objectForKey:@"screen_photo"];
@@ -215,9 +215,9 @@ static NSString* const kAYWeiboRegisterID = @"1584832986";
         if (response.statusCode == 0) { // success
             [self loginSuccessWithWeiboAsUser:[(WBAuthorizeResponse *)response userID] withToken:[(WBAuthorizeResponse *)response accessToken]];
         } else {
-            NSString *title = @"weibo auth error";
+            NSString *title = @"错误";
             
-            NSString *message = [NSString stringWithFormat: @"some thing wrong, and error code is %ld", (long)response.statusCode];
+            NSString *message = [NSString stringWithFormat: @"微博验证失败，错误 %ld", (long)response.statusCode];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                             message:message
                                                            delegate:nil

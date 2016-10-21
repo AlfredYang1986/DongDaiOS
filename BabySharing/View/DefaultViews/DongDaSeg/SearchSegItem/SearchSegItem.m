@@ -10,8 +10,8 @@
 #import "Define.h"
 
 #define DEFAULT_MARGIN_HER          30
-#define ITEM_WIDTH                  71
-#define ITEM_HEIGHT                 44
+#define ITEM_WIDTH                  (SCREEN_WIDTH * 0.5)
+#define ITEM_HEIGHT                 54
 #define ITME_LAYER_LINE_HEIGHT      4
 
 @implementation SearchSegItem {
@@ -73,10 +73,11 @@
     [self addSubview:label];
     
     layer = [CALayer layer];
-    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-    UIImage* img = [UIImage imageNamed:[resourceBundle pathForResource:@"dongda_seg_selected" ofType:@"png"]];
-   
+//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
+//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
+//    UIImage* img = [UIImage imageNamed:[resourceBundle pathForResource:@"dongda_seg_selected" ofType:@"png"]];
+    UIImage* img = [UIImage imageNamed:@"dongda_seg_selected"];
+    
     layer.contents = (id)img.CGImage;
     layer.frame = CGRectMake(0, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, ITEM_WIDTH, ITME_LAYER_LINE_HEIGHT);
     [self.layer addSublayer:layer];

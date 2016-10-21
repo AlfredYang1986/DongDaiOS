@@ -31,7 +31,7 @@
         tmp.provider_token = provider_token;
         tmp.provider_name = provider_name;
         tmp.provider_screen_name = provider_screen_name;
-//        [context save:nil];
+        [context save:nil];
         return tmp;
     } else {
         Providers* tmp =[NSEntityDescription insertNewObjectForEntityForName:@"Providers" inManagedObjectContext:context];
@@ -39,7 +39,7 @@
         tmp.provider_token = provider_token;
         tmp.provider_name = provider_name;
         tmp.provider_screen_name = provider_screen_name;
-//        [context save:nil];
+        [context save:nil];
         return tmp;
     }
 }

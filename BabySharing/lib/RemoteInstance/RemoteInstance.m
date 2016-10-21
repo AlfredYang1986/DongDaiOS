@@ -264,6 +264,7 @@
 }
 
 + (void)uploadPicture:(UIImage*)image withName:(NSString*)filename toUrl:(NSURL*)url callBack:(blockUploadCallback)callback {
+    
     //分界线的标识符
     NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
     //根据url初始化request
@@ -279,14 +280,78 @@
     //得到图片的data
 //    NSData* data = UIImagePNGRepresentation(image);
     
-    NSData * imageData = UIImageJPEGRepresentation(image,1);
+    
+    //重绘图片
+    UIImage *newImage;
+    
+//    if (image.size.width > 750) {
+//        
+//        CGFloat imageWidth = image.size.width;
+//        CGFloat imageHeight = image.size.height;
+//        CGFloat minusHeight = 750*imageHeight / imageWidth;
+//        
+//        UIGraphicsBeginImageContextWithOptions(CGSizeMake(750,  minusHeight), YES , 0);
+////        CGContextRef context = UIGraphicsGetCurrentContext();
+//        //  定区
+//        CGRect rect = CGRectMake(0, 0, 750, minusHeight);
+//        
+//        // 在区内画出image原图
+//        [image drawInRect:rect];
+//        
+//        //从上下文中获取图片
+//        newImage = UIGraphicsGetImageFromCurrentImageContext();
+//        
+//        NSData * imageData2 = UIImageJPEGRepresentation(newImage,1);
+//        NSLog(@"%lu", imageData2.length);
+//        
+//        // 使用了beginImgacontext需要关闭上下文 并从上下文栈中移除
+//        UIGraphicsEndImageContext();
+//        
+//    } else {
+//        newImage = image;
+//    }
+    
+    CGSize expectSize = CGSizeMake(750, 450);
+    
+    float imageWidth = image.size.width;
+    float imageHeight = image.size.height;
+    
+    float widthScale = imageWidth / expectSize.width;
+    float heightScale = imageHeight / expectSize.height;
+    
+    // 创建一个bitmap的context
+    CGFloat scaling;
+    CGSize adjustSize;
+    
+    if (widthScale > heightScale) {
+        
+        scaling = heightScale;
+        adjustSize = CGSizeMake(imageWidth / scaling,  expectSize.height);
+        
+    } else {
+        
+        scaling = widthScale;
+        adjustSize = CGSizeMake(expectSize.width, imageHeight / scaling);
+        
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(adjustSize, YES , 0);
+    [image drawInRect:CGRectMake(0, 0, adjustSize.width, adjustSize.height)];
+    
+    //从上下文中获取图片
+    newImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 使用了beginImgacontext需要关闭上下文 并从上下文栈中移除
+    UIGraphicsEndImageContext();
+    
+    NSData * imageData = UIImageJPEGRepresentation(newImage,1);
     CGFloat length = [imageData length] / 1024;
+    NSLog(@"%lf" , length);
     NSData* data;
     if (length > 200) {
-       data = UIImageJPEGRepresentation(image, 200.0 / [imageData length]/1024.0);
+       data = UIImageJPEGRepresentation(newImage, 200.0 / length);
     } else {
 //        CGFloat kCompressQuality = 0.3;
-        data = UIImageJPEGRepresentation(image, 1.0);
+        data = UIImageJPEGRepresentation(newImage, 1.0);
     }
     
     //http body的字符串

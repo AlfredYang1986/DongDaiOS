@@ -61,14 +61,14 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
    
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat img_height = width;
+    
+    CGFloat img_height = SCREEN_WIDTH;
 
     isMainContentViewShown = YES;
     current_index = 0;
     contentLayer = [CALayer layer];
     
-    mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, width, img_height)];
+    mainContentView = [[UIImageView alloc]initWithFrame:CGRectMake(0, FAKE_NAVIGATION_BAR_HEIGHT, SCREEN_WIDTH, img_height)];
     mainContentView.backgroundColor = [UIColor clearColor];
     mainContentView.userInteractionEnabled = YES;
     mainContentView.clipsToBounds = YES;

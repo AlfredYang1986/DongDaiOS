@@ -74,6 +74,7 @@
 }
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _user_screen_photo.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
     _user_screen_photo.layer.borderWidth = 1.5f;
@@ -122,7 +123,7 @@
 
 - (void)setUserScreenPhoto:(NSString*)photo_name {
    
-    [_user_screen_photo setImage:PNGRESOURCE(@"default_user")];
+    [_user_screen_photo setImage:IMGRESOURCE(@"default_user")];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

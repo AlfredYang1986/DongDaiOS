@@ -10,12 +10,14 @@
 #import <UIKit/UIKit.h>
 #import "AYControllerBase.h"
 #import "AYResourceManager.h"
+#import "Tools.h"
 
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
 @property (nonatomic, weak) id<AYViewBase> loading;
 
 - (void)clearController;
+- (void)BtmAlertOtherBtnClick;
 @end
 
 #import "AYControllerActionDefines.h"

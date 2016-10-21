@@ -45,7 +45,7 @@
         _marign_between = 1.f;
     }
     
-    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width - _margin_left - _margin_right - _marign_between * (views_count + 1);
+    CGFloat screen_width = SCREEN_WIDTH - _margin_left - _margin_right - _marign_between * (views_count + 1);
     CGFloat step_width = screen_width / views_count;
     CGFloat height = step_width;
     
@@ -104,7 +104,7 @@
     if (image_view == nil) {
         image_view = [[NSMutableArray alloc]initWithCapacity:views_count];
     }
-    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width - _margin_left - _margin_right;
+    CGFloat screen_width = SCREEN_WIDTH - _margin_left - _margin_right;
     CGFloat step_width = screen_width / views_count;
     //      CGFloat height = rc.size.height;
     CGFloat height = [AYAlbumTableCellView prefferCellHeight];
@@ -280,6 +280,7 @@
 - (void)awakeFromNib {
     // Initialization code
     NSLog(@"awake from nib");
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -287,13 +288,13 @@
 }
 
 + (CGFloat)prefferCellHeight {
-    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat screen_width = SCREEN_WIDTH;
 //    return 96;
     return screen_width / 3;
 }
 
 + (CGFloat)prefferCellHeightWithMarginLeft:(CGFloat)left Right:(CGFloat)right Margin:(CGFloat)margin {
-    CGFloat screen_width = [UIScreen mainScreen].bounds.size.width - left - right - (3 + 1) * margin;
+    CGFloat screen_width = SCREEN_WIDTH - left - right - (3 + 1) * margin;
     return screen_width / 3 + margin;
 }
 

@@ -13,7 +13,7 @@
 
 #import "Providers.h"
 #import "Providers+ContextOpt.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 
 @implementation AYChangeSNSProvidersCommand

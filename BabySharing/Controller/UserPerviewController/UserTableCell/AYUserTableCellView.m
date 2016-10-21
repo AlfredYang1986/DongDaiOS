@@ -22,7 +22,7 @@
 #import "AYModelFacade.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 
 #define HEADER_CONTAINER    80
@@ -61,6 +61,7 @@
 @synthesize userInfoContainer = _userInfoContainer;
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     CALayer* layer = [CALayer layer];
     layer.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
@@ -97,7 +98,7 @@
 
 - (void)setUserScreenPhoto:(NSString*)photo_name {
     
-    [_headView setImage:PNGRESOURCE(@"default_user")];
+    [_headView setImage:IMGRESOURCE(@"default_user")];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -202,7 +203,7 @@
 }
 
 - (void)setPhoto:(NSString*)photo_name forView:(UIImageView*)view {
-    [view setImage:PNGRESOURCE(@"default_user")];
+    [view setImage:IMGRESOURCE(@"default_user")];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

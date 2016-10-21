@@ -19,6 +19,7 @@
 #import "TmpFileStorageModel.h"
 
 static NSString* const kWechatID = @"wx66d179d99c9ba7d6";
+static NSString* const kWechatSecret = @"469c1beed3ecaa3a836767a5999beeb1";
 static NSString* const kWechatDescription = @"wechat";
 
 @interface AYSNSWechatFacade () <WXApiDelegate>
@@ -68,9 +69,36 @@ static NSString* const kWechatDescription = @"wechat";
             [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
             [notify setValue:kAYNotifyEndLogin forKey:kAYNotifyFunctionKey];
             
-            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-            [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+            int code = aresp.errCode;
+            [notify setValue:[NSNumber numberWithInt:code] forKey:kAYNotifyArgsKey];
             [self performWithResult:&notify];
+        }
+    } else if ([resp isKindOfClass:[PayResp class]]){
+        PayResp*response=(PayResp*)resp;
+        switch(response.errCode) {
+            case WXSuccess: {
+                    //服务器端查询支付通知或查询API返回的结果再提示成功
+                    NSLog(@"支付成功");
+                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                    [notify setValue:kAYNotifyWechatPaySuccess forKey:kAYNotifyFunctionKey];
+                    
+                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                    [self performWithResult:&notify];
+                }
+                break;
+            default: {
+                    NSLog(@"支付失败，retcode=%d",resp.errCode);
+                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                    [notify setValue:kAYNotifyWechatPayFailed forKey:kAYNotifyFunctionKey];
+                    
+                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                    [self performWithResult:&notify];
+                }
+                break;
         }
     }
 }
@@ -199,7 +227,7 @@ static NSString* const kWechatDescription = @"wechat";
             [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
                 NSLog(@"upload result are %d", success);
             }];
-
+            
             NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
             [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
             [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];

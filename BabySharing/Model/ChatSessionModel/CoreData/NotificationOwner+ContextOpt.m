@@ -218,7 +218,7 @@
     NotificationOwner* owner = [self enumNotificationOwnerWithID:owner_id inContext:context];
     
     MessageReceiverType receiver_type = MessageReceiverTypeChatGroup;
-    NSString* group_id = [tar objectForKey:@"group_id"];
+    NSString* group_id = [NSString stringWithFormat:@"%@",[tar objectForKey:@"group_id"]];    //michauxs:group_id
     
     Targets* target = [self enumTargetWith:owner andGroupID:group_id];
     if (target == nil) {

@@ -32,10 +32,17 @@
     
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
     if (tmp != nil) {
+        id tmp_dst = nil;
+        if ([dst isKindOfClass:[UINavigationController class]])
+            tmp_dst = ((UINavigationController*)dst).topViewController;
+        else
+            tmp_dst = dst;
+        
         NSMutableDictionary* dic_init =[[NSMutableDictionary alloc]init];
         [dic_init setValue:kAYControllerActionInitValue forKey:kAYControllerActionKey];
         [dic_init setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
-        [dst performWithResult:&dic_init];
+        [tmp_dst performWithResult:&dic_init];
+        
     }
     
 //    [UIView transitionFromView:src.view toView:dst.view duration:0.8f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {

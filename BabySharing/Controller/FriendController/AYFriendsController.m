@@ -445,47 +445,6 @@ static NSString* const kAYFriendsControllerAddFriendsValue = @"AddFriends";
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-   
-    NSString* method = (NSString*)obj;
-    if ([method containsString:@"QueryMultipleUsers"]
-        || [method containsString:@"QueryFriends"]
-        || [method containsString:@"QueryFollowing"]
-        || [method containsString:@"QueryFollowed"]) {
-  
-        if (![method containsString:@"QueryMultipleUsers"]) {
-            UIView* loading_view = [self.views objectForKey:@"Loading"];
-            loading_view.hidden = YES;
-            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
-        }
-        
-    } else {
-        return [super startRemoteCall:obj];
-    }
-    
-    return nil;
-}
-
-- (id)endRemoteCall:(id)obj {
-    
-    NSString* method = (NSString*)obj;
-    if ([method containsString:@"QueryMultipleUsers"]
-        || [method containsString:@"QueryFriends"]
-        || [method containsString:@"QueryFollowing"]
-        || [method containsString:@"QueryFollowed"]) {
-       
-        if ([method containsString:@"QueryMultipleUsers"]) {
-            UIView* loading_view = [self.views objectForKey:@"Loading"];
-            loading_view.hidden = YES;
-            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
-        }
-        
-    } else {
-        return [super endRemoteCall:obj];
-    }
-    
-    return nil;
-}
 //michauxs:scrollToHideKeyBoard
 - (id)scrollToHideKeyBoard {
     return nil;

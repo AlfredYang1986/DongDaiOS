@@ -54,9 +54,6 @@ void getFrameInfo(CFURLRef url, NSMutableArray *frames, NSMutableArray *delayTim
     CGFloat _totalTime;         // seconds
     CGFloat _width;
     CGFloat _height;
-    CGFloat _timeCount;
-    NSTimer *_timer;
-    BOOL _isRemoveGif;
     CAKeyframeAnimation *animation;
 }
 
@@ -118,37 +115,19 @@ void getFrameInfo(CFURLRef url, NSMutableArray *frames, NSMutableArray *delayTim
     animation.repeatCount = 100;
     
     [self.layer addAnimation:animation forKey:@"gifAnimation"];
-    
-    _isRemoveGif = NO;
-    _timeCount = 0;
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeGoes) userInfo:nil repeats:YES];
-    [_timer fire];
 //    [self.layer addObserver:self forKeyPath:@"gifAnimation" options:NSKeyValueObservingOptionNew context:nil];
 }
 
--(void)timeGoes{
-    _timeCount++ ;
-    if (_isRemoveGif) {
-        [_timer invalidate];
-    }
-    else if (_timeCount >= 30) {
-        [[[UIAlertView alloc] initWithTitle:@"错误" message:@"请检查网络是否正常连接" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-        [_timer invalidate];
-        [self stopGif];
-    }
-}
 
 - (void)stopGif
 {
     [self.layer removeAllAnimations];
-    _isRemoveGif = YES;
 }
 
 // remove contents when animation end
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     self.layer.contents = nil;
-    _isRemoveGif = YES;
 }
 
 // Only override drawRect: if you perform custom drawing.

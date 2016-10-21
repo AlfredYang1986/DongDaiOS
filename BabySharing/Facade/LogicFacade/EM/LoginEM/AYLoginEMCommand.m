@@ -31,10 +31,11 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         EMError *error = [[EMClient sharedClient] registerWithUsername:current_user_id password:kAYEMDongdaCommonPassword];
+//        NSLog(@"michauxs -- :%@",error);
         if (error == nil || error.code == EMErrorUserAlreadyExist) {
             error = [[EMClient sharedClient] loginWithUsername:current_user_id password:kAYEMDongdaCommonPassword];
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (error == nil) {
+                if (error == nil || error.code == EMErrorUserAlreadyLogin) {
                     NSLog(@"环信: 登陆成功");
                     [[EMClient sharedClient].options setIsAutoLogin:YES];
                     [[EMClient sharedClient] dataMigrationTo3];
@@ -54,6 +55,15 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
             });
         } else {
             NSLog(@"环信: 注册失败");
+//            NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+//            [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+//            [notify setValue:kAYNotifyLoginEMFailedForSlowNetwork forKey:kAYNotifyFunctionKey];
+//            
+//            NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+//            [args setValue:current_user_id forKey:@"user_id"];
+//            
+//            [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//            [((AYFacade*)EMCLIENT) performWithResult:&notify];
         }
     });
 }

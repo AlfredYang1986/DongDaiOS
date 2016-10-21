@@ -61,8 +61,8 @@
     if (self) {
         self.tag = -99;
 //        self.theme = Light;
-        self.font_color = [UIColor grayColor];
-        self.select_font_color = [UIColor colorWithRed:0.2745f green:0.8588 blue:0.7922 alpha:1.f];
+        self.font_color = [Tools blackColor];
+        self.select_font_color = [Tools themeColor];
     }
     return self;
 }
@@ -72,8 +72,8 @@
     if (self) {
         self.tag = -99;
 //        self.theme = Light;
-        self.font_color = [UIColor grayColor];
-        self.select_font_color = [UIColor colorWithRed:0.2745f green:0.8588 blue:0.7922 alpha:1.f];
+        self.font_color = [Tools blackColor];
+        self.select_font_color = [Tools themeColor];
     }
     return self;
 }
@@ -91,8 +91,8 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         self.tag = -99;
-        self.font_color = [UIColor grayColor];
-        self.select_font_color = [UIColor colorWithRed:0.2745f green:0.8588 blue:0.7922 alpha:1.f];
+        self.font_color = [Tools blackColor];
+        self.select_font_color = [Tools themeColor];
     }
     return self;
 }

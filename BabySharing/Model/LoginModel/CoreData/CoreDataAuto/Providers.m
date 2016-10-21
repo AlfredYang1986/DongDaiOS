@@ -7,7 +7,7 @@
 //
 
 #import "Providers.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 
 @implementation Providers
 

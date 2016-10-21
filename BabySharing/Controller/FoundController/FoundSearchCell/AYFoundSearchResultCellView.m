@@ -54,6 +54,7 @@
 @synthesize nextIcon = _nextIcon;
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
     _nextIcon.image = PNGRESOURCE(@"found_more_friend_arror");
     
@@ -128,7 +129,7 @@
             if (img != nil) {
                 tmp.image = img;
             }else{
-                [tmp setImage:PNGRESOURCE(@"default_user")];
+                [tmp setImage:IMGRESOURCE(@"default_user")];
             }
         }];
         

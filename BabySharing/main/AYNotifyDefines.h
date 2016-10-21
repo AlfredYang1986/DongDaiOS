@@ -33,6 +33,7 @@ static NSString* const kAYNotifySNSLoginSuccess = @"SNSLoginSuccess:";
 static NSString* const kAYCurrentLoginUserChanged = @"CurrentLoginUserChanged:";
 //static NSString* const kAYNotifyLoginXMPPSuccess = @"LoginXMPPSuccess:";
 static NSString* const kAYNotifyLoginEMSuccess = @"LoginEMSuccess:";
+static NSString* const kAYNotifyLoginEMFailedForSlowNetwork = @"LoginEMFailedForSlowNetwork:";
 
 static NSString* const kAYNotifyStartLogin = @"SNSStartLogin:";
 static NSString* const kAYNotifyEndLogin = @"SNSEndLogin:";
@@ -62,5 +63,10 @@ static NSString* const kAYNotifyEMMessageGetMessageListFailed = @"EMMessageGetMe
 static NSString* const kAYNotifyKeyboardShowKeyboard = @"KeyboardShowKeyboard:";
 static NSString* const kAYNotifyKeyboardHideKeyboard = @"KeyboardHideKeyboard:";
 static NSString* const kAYNotifyKeyboardArgsHeightKey = @"KeyboardArgsHeightKey";
+
+static NSString* const kAYNotifyWechatPaySuccess = @"WechatPaySuccess:";
+static NSString* const kAYNotifyWechatPayFailed = @"WechatPayFailed:";
+
+static NSString* const kAYNotifyOrderAccomplished = @"OrderAccomplished:";
 
 #endif /* AYNotifyDefines_h */

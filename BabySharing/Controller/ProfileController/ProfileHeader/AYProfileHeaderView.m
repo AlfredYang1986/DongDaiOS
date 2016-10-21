@@ -43,8 +43,6 @@
 #define LOCATION_ICON_WIDTH                     11
 #define LOCATION_ICON_HEIGHT                    LOCATION_ICON_WIDTH
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 #define MARGIN_LEFT                 10.5
 #define MARGIN_REGIT                10.5
@@ -119,7 +117,7 @@
         UIImage* img = (UIImage*)result;
         if (img != nil) {
             imgView.image = img;
-        }
+        } else imgView.image = IMGRESOURCE(@"default_user");
     }];
     
     return nil;

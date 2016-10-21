@@ -1,0 +1,65 @@
+//
+//  BabySharing-Prefix.pch
+//  BabySharing
+//
+//  Created by Alfred Yang on 5/9/16.
+//  Copyright © 2016年 Alfred Yang. All rights reserved.
+//
+
+#ifndef BabySharing_Prefix_pch
+#define BabySharing_Prefix_pch
+
+#import "Tools.h"
+#import "Masonry.h"
+#import "MJRefresh.h"
+#import "UIImageView+WebCache.h"
+#import "SDImageCache.h"
+#import "SDWebImageManager.h"
+#import "AYCommandsCommand.h"
+
+static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8cd52931";
+
+#define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
+#define kTabBarH                                              49
+#define kStatusAndNavBarH                               64
+
+//orderStatus
+typedef enum : int {
+    OrderStatusReject = -9,
+    OrderStatusUnpaid = -1,
+    OrderStatusReady = 0,
+    OrderStatusConfirm = 1,
+    OrderStatusPaid = 2,
+    OrderStatusDone = 9,
+} OrderStatus;
+
+//DongDaAppModel
+typedef enum : int {
+    DongDaAppModelUnLogin = 0,
+    DongDaAppModelCommon = 1,
+    DongDaAppModelNapPersonal,
+    DongDaAppModelNapFamily,
+} DongDaAppModel;
+
+//ModelExchangeType
+typedef enum : int {
+    ModelExchangeTypeDissVC = 0,
+    ModelExchangeTypeUnloginToAllModel = 1,
+    ModelExchangeTypeCommonToNapPersonal = 2,
+    ModelExchangeTypeCommonToNapFamily = 3,
+    ModelExchangeTypeNapToCommon = 4,
+} ModelExchangeType;
+
+#define kAY_service_options_title_cans              @[@"创意绘本",@"DIY手工",@"互动英语",@"少儿体育",@"儿童瑜伽",@"自然科学"]
+#define kAY_service_options_title_facilities        @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"]
+
+#define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
+
+#ifndef __OPTIMIZE__
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
+
+#endif /* BabySharing_Prefix_pch */

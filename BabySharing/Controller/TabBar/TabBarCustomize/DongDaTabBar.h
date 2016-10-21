@@ -19,6 +19,7 @@
 - (void)addMidItemWithImg:(UIImage*)image;
 - (void)addItemWithImg:(UIImage*)image andSelectedImg:(UIImage*)selectedImg;
 - (void)addItemWithImg:(UIImage*)image andSelectedImg:(UIImage*)selectedImg andTitle:(NSString*)title;
+- (void)itemSelected:(UIButton*)sender;
 
 - (void)changeItemImage:(UIImage*)img andIndex:(NSInteger)index;
 @end

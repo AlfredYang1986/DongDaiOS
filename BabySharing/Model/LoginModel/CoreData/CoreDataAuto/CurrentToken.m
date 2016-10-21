@@ -7,7 +7,7 @@
 //
 
 #import "CurrentToken.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 
 @implementation CurrentToken
 

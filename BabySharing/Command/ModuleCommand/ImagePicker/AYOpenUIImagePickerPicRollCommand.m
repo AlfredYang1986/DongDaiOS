@@ -20,8 +20,9 @@
 
 - (void)performWithResult:(NSObject**)obj {
     
-    NSDictionary* dic = (NSDictionary*)*obj;
-    UIViewController* controller = [dic objectForKey:kAYControllerActionSourceControllerKey];
+//    NSDictionary* dic = (NSDictionary*)*obj;
+//    UIViewController* controller = [dic objectForKey:kAYControllerActionSourceControllerKey];
+    UIViewController* controller = [Tools activityViewController];
     
     UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {

@@ -8,7 +8,6 @@
 
 #import "AYInputNameController.h"
 #import "AYViewBase.h"
-#import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYCommandDefines.h"
@@ -17,9 +16,6 @@
 #import "AYRemoteCallCommand.h"
 #import "OBShapedButton.h"
 #import "TmpFileStorageModel.h"
-
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 
 @interface AYInputNameController () <UINavigationControllerDelegate>
@@ -86,7 +82,7 @@
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
     [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"完成" forState:UIControlStateNormal];
+    [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
     
@@ -99,7 +95,7 @@
 - (id)SetNevigationBarTitleLayout:(UIView*)view {
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     UILabel* titleView = (UILabel*)view;
-    titleView.text = @"2/2";
+    titleView.text = @" ";
     titleView.font = [UIFont systemFontOfSize:18.f];
     titleView.textColor = [UIColor whiteColor];
     [titleView sizeToFit];
@@ -108,9 +104,8 @@
 }
 
 - (id)LandingInputNameLayout:(UIView*)view {
-    NSLog(@"Landing Input View view layout");
-    CGFloat margin = 22;
-    view.frame = CGRectMake(margin, 102, SCREEN_WIDTH - margin*2, 130);
+    CGFloat margin = 20.f;
+    view.frame = CGRectMake(margin, 83, SCREEN_WIDTH - margin*2, 320);
     return nil;
 }
 
@@ -152,23 +147,14 @@
     NSString* input_name = nil;
     [cmd_coder performWithResult:&input_name];
     
-    if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 16) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"姓名长度应在4-16之间(汉字／大写字母长度为2)" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+    if ([Tools bityWithStr:input_name] < 4 || [Tools bityWithStr:input_name] > 32) {
+        NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
     
     [_dic_userinfo setValue:@"未设置角色名" forKey:@"role_tag"];
     [_dic_userinfo setValue:input_name forKey:@"screen_name"];
-    
-//    id<AYCommand> destin = DEFAULTCONTROLLER(@"InputRole");
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
-//    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic setValue:_dic_userinfo forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd_push = PUSH;
-//    [cmd_push performWithResult:&dic];
     
     id<AYCommand> destin = DEFAULTCONTROLLER(@"Welcome");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];

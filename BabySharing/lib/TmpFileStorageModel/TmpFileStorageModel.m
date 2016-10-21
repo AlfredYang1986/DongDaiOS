@@ -216,13 +216,13 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
                         block(YES, imageIcon);
                     }
                 }
-                else if([sizeType isEqualToString:@"img_thum"]){
+                else if([sizeType isEqualToString:@"img_thum"]) {
                     [[SDImageCache sharedImageCache] storeImage:imageThum forKey:[name stringByAppendingString:sizeType] toDisk:NO];
                     if (block) {
                         block(YES, imageThum);
                     }
                 }
-                else if([sizeType isEqualToString:@"img_desc"]){
+                else if([sizeType isEqualToString:@"img_desc"]) {
                     [[SDImageCache sharedImageCache] storeImage:imageDesc forKey:[name stringByAppendingString:sizeType] toDisk:NO];
                     if (block) {
                         block(YES, imageDesc);

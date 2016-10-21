@@ -25,7 +25,9 @@
 
 @end
 
-@implementation AYEMFacade
+@implementation AYEMFacade {
+    id dongda_note;
+}
 
 @synthesize para = _para;
 
@@ -101,7 +103,11 @@
  @brief 接收到一条及以上非cmd消息
  */
 - (void)didReceiveMessages:(NSArray *)aMessages {
-  
+    
+    if (dongda_note == aMessages) {
+        return;
+    }
+    dongda_note = aMessages;
     /**
      * for notification
      */
@@ -113,20 +119,65 @@
             NSLog(@"message is : %@", ((EMTextMessageBody*)message.body).text);
             
             NSDictionary* dic = [RemoteInstance searchDataFromData:[((EMTextMessageBody*)message.body).text dataUsingEncoding:NSUTF8StringEncoding]];
-            if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
             
-            } else {
-                
-                id<AYFacadeBase> f = CHATSESSIONMODEL;
-                id<AYCommand> cmd = [f.commands objectForKey:@"PushNotification"];
-                id args = dic;
-                [cmd performWithResult:&args];
+            NotificationActionType type = ((NSNumber*)[dic objectForKey:@"type"]).intValue;
+            
+            switch (type) {
+                case NotificationActionTypeOrderPushed:
+                {
+//                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+//                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+//                    [notify setValue:kAYNotifyOrderAccomplished forKey:kAYNotifyFunctionKey];
+//                    
+//                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+//                    [args setValue:dic forKey:@"notify_info"];
+//                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+//                    [self performWithResult:&notify];
+                }
+                    break;
+                    
+                case NotificationActionTypeOrderAccecpted:
+                {
+                    
+                }
+                    break;
+                    
+                case NotificationActionTypeOrderRejected:
+                {
+                    
+                }
+                    break;
+                    
+                case NotificationActionTypeOrderAccomplished:
+                {
+                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                    [notify setValue:kAYNotifyOrderAccomplished forKey:kAYNotifyFunctionKey];
+                    
+                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                    [args setValue:dic forKey:@"notify_info"];
+                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                    [self performWithResult:&notify];
+                }
+                    break;
+                    
+                default:
+                    break;
             }
-            
-            message.isRead = YES;
+//            if (((NSNumber*)[dic objectForKey:@"type"]).intValue == NotificationActionTypeLoginOnOtherDevice) {
+//            
+//            } else {
+//                
+//                id<AYFacadeBase> f = CHATSESSIONMODEL;
+//                id<AYCommand> cmd = [f.commands objectForKey:@"PushNotification"];
+//                id args = dic;
+//                [cmd performWithResult:&args];
+//            }
+//            
+//            message.isRead = YES;
         }
     }
-  
+    
     /**
      * for message
      */
@@ -143,6 +194,10 @@
         [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
         [self performWithResult:&notify];
     }
+    
+    EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:@"dongda_master" type:EMConversationTypeChat createIfNotExist:YES];
+    [conversation markAllMessagesAsRead];
+    [[EMClient sharedClient].chatManager deleteConversation:@"dongda_master" deleteMessages:YES];
 }
 
 /*!

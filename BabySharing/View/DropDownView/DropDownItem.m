@@ -20,6 +20,7 @@
 @synthesize group = _group;
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     // Initialization code
 }
 

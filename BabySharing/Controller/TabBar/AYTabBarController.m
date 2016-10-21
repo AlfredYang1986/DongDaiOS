@@ -7,11 +7,7 @@
 //
 
 #import "AYTabBarController.h"
-#import "AYCommandDefines.h"
-#import "AYFactoryManager.h"
-#import "AYResourceManager.h"
-#import "DongDaTabBar.h"
-#import "AYViewController.h"
+
 
 #define SHOWALBUM       [self showPostController:@"CameraRollInit"]
 #define SHOWCAMERA      [self showPostController:@"CameraInit"]
@@ -23,9 +19,11 @@
 
 @implementation AYTabBarController {
 
-    DongDaTabBar* dongda_tabbar;
+    
     UIImage* img_home_with_no_message;
     UIImage* img_home_with_unread_message;
+    
+    int isExchangeModel;
 }
 
 @synthesize para = _para;
@@ -49,44 +47,51 @@
 }
 
 - (void)postPerform {
+    
     id<AYCommand> cmd_home_init = [self.commands objectForKey:@"HomeInit"];
     AYViewController* home = nil;
     [cmd_home_init performWithResult:&home];
     home.tabBarItem.title = @"Home";
     
-    id<AYCommand> cmd_found_init = [self.commands objectForKey:@"FoundInit"];
-    AYViewController* found = nil;
-    [cmd_found_init performWithResult:&found];
-    found.tabBarItem.title = @"Found";
+//    id<AYCommand> cmd_found_init = [self.commands objectForKey:@"FoundInit"];
+//    AYViewController* found = nil;
+//    [cmd_found_init performWithResult:&found];
+//    found.tabBarItem.title = @"Found";
    
-    id<AYCommand> cmd_post_init = [self.commands objectForKey:@"PlaceHolderInit"];
-    AYViewController* post = nil;
-    [cmd_post_init performWithResult:&post];
-    post.tabBarItem.title = @"Post";
+//    id<AYCommand> cmd_post_init = [self.commands objectForKey:@"PlaceHolderInit"];
+//    AYViewController* post = nil;
+//    [cmd_post_init performWithResult:&post];
+//    post.tabBarItem.title = @"Post";
 
     id<AYCommand> cmd_friends_init = [self.commands objectForKey:@"FriendsInit"];
     AYViewController* friends = nil;
     [cmd_friends_init performWithResult:&friends];
     friends.tabBarItem.title = @"Friends";
-
+    
+    id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderInit"];
+    AYViewController* order = nil;
+    [cmd_order_init performWithResult:&order];
+    order.tabBarItem.title = @"order";
+    
     id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileInit"];
     AYViewController* profile = nil;
     [cmd_profile_init performWithResult:&profile];
     profile.tabBarItem.title = @"Profile";
     
-    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
+//    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
+    self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
     
     self.delegate = self;
     
-    img_home_with_no_message = PNGRESOURCE(@"tab_home");
-    img_home_with_unread_message = PNGRESOURCE(@"tab_home_unread");
+    img_home_with_no_message = IMGRESOURCE(@"tab_home");
+    img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
     
-    dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    [dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:PNGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
-    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_found") andSelectedImg:PNGRESOURCE(@"tab_found_selected") andTitle:@"发现"];
-    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
-    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_friends") andSelectedImg:PNGRESOURCE(@"tab_friends_selected") andTitle:@"好友"];
-    [dongda_tabbar addItemWithImg:PNGRESOURCE(@"tab_profile") andSelectedImg:PNGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
+    [_dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    //    [dongda_tabbar addMidItemWithImg:PNGRESOURCE(@"tab_publish")];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
         [[UITabBar appearance] setShadowImage:[UIImage new]];
@@ -98,23 +103,24 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
-        switch (index.integerValue) {
-            case 0:
-                SHOWALBUM;
-                break;
-            case 1:
-                SHOWCAMERA;
-                break;
-            case 2:
-                SHOWMOVIE;
-                break;
-                
-            default:
-                @throw [[NSException alloc]initWithName:@"error" reason:@"wrong args" userInfo:nil];
-                break;
-        }
+        NSNumber *status = [dic objectForKey:kAYControllerChangeArgsKey];
+        isExchangeModel = status.intValue;
+//        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
+//        switch (index.integerValue) {
+//            case 0:
+//                SHOWALBUM;
+//                break;
+//            case 1:
+//                SHOWCAMERA;
+//                break;
+//            case 2:
+//                SHOWMOVIE;
+//                break;
+//                
+//            default:
+//                @throw [[NSException alloc]initWithName:@"error" reason:@"wrong args" userInfo:nil];
+//                break;
+//        }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -142,6 +148,51 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelCommon] forKey:@"dongda_app_mode"];
+    [defaults synchronize];
+    
+    UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:cover];
+    
+    if (isExchangeModel == ModelExchangeTypeNapToCommon) {
+        cover.backgroundColor = [Tools darkBackgroundColor];
+        
+        UILabel *tipsLabel = [[UILabel alloc]init];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到被服务者模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        [cover addSubview:tipsLabel];
+        [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(cover).offset(-60);
+            make.centerX.equalTo(cover);
+        }];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.5 animations:^{
+                cover.alpha = 0;
+            } completion:^(BOOL finished) {
+                [cover removeFromSuperview];
+            }];
+        });
+    } else if(isExchangeModel == ModelExchangeTypeUnloginToAllModel) {
+        cover.backgroundColor = [UIColor whiteColor];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:1.5 animations:^{
+                cover.alpha = 0;
+            } completion:^(BOOL finished) {
+                [cover removeFromSuperview];
+            }];
+        });
+    } else {
+        [cover removeFromSuperview];
+    }
+    isExchangeModel = 0;
 }
 
 #pragma mark -- tabbar delegate
@@ -149,7 +200,6 @@
     NSLog(@"select tab %@", item.title);
     
     if ([item.title isEqualToString:@"Post"]) {
-//        SHOWALBUM;
         SHOWCAMERA;
         
     } else {

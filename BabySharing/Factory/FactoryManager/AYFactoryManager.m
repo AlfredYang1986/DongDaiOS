@@ -117,7 +117,8 @@ static AYFactoryManager* instance = nil;
 #ifdef SANDBOX
     NSArray* arr = [doc_remote nodesForXPath:@"//sandbox" error:nil];
 #else
-    NSArray* arr = [doc_remote nodesForXPath:@"//remote" error:nil];
+    NSArray* arr = [doc_remote nodesForXPath:@"//sandbox" error:nil];
+//    NSArray* arr = [doc_remote nodesForXPath:@"//remote" error:nil];
 #endif
     if (arr.count == 1) {
         host_route = [[arr.lastObject attributeForName:@"host"] stringValue];
@@ -145,7 +146,7 @@ static AYFactoryManager* instance = nil;
                 NSString* factoryName = [[arr.lastObject attributeForName:@"factory"] stringValue];
                 Class c = NSClassFromString(factoryName);
                 if (c == nil) {
-                    @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
+                    @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil]; 
                 }
                 Method m = class_getClassMethod(c, @selector(factoryInstance));//获取类方法
                 IMP im = method_getImplementation(m);

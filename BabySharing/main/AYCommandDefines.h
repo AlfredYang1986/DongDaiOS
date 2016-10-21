@@ -29,6 +29,8 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
+static NSString* const kAYFactoryManagerCommandTypePushSplit = @"PushSplitAnimation";
+static NSString* const kAYFactoryManagerCommandTypePopSplit = @"PopSplitAnimation";
 static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
 static NSString* const kAYFactoryManagerCommandTypePopToRoot = @"PopToRoot";
 static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
@@ -44,15 +46,26 @@ static NSString* const kAYFactoryManagerCommandTypeView = @"View";              
 static NSString* const kAYFactoryManagerCommandTypeViewNotify = @"View Notify"; // 用户View callback Controller
 static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          // 用户model对controller的notify
 
+static NSString* const kAYFactoryManagerCommandWindowChange = @"ExchangeWindows";
+static NSString* const kAYFactoryManagerCommandTypePushFromBot = @"PushFromBot";
+static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
+
 #define COMMAND(TYPE, NAME)     [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryCommand type:TYPE name:NAME]
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
+#define PUSHFROMBOT             COMMAND(kAYFactoryManagerCommandTypePushFromBot, kAYFactoryManagerCommandTypePushFromBot)
+#define POPFROMBOT              COMMAND(kAYFactoryManagerCommandTypePopFromBot, kAYFactoryManagerCommandTypePopFromBot)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
 #define POPTOROOT               COMMAND(kAYFactoryManagerCommandTypePopToRoot, kAYFactoryManagerCommandTypePopToRoot)
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)
 #define REVERSMODULE            COMMAND(kAYFactoryManagerCommandTypeReversModule, kAYFactoryManagerCommandTypeReversModule)
+#define PUSHSPLIT               COMMAND(kAYFactoryManagerCommandTypePushSplit, kAYFactoryManagerCommandTypePushSplit)
+#define POPSPLIT                COMMAND(kAYFactoryManagerCommandTypePopSplit, kAYFactoryManagerCommandTypePopSplit)
+#define EXCHANGEWINDOWS         COMMAND(kAYFactoryManagerCommandWindowChange, kAYFactoryManagerCommandWindowChange)
+#define OpenCamera                COMMAND(@"OpenUIImagePickerCamera", @"OpenUIImagePickerCamera")
+#define OpenImagePickerVC                COMMAND(@"OpenUIImagePickerPicRoll", @"OpenUIImagePickerPicRoll")
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]
@@ -83,6 +96,7 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
 
 #define PNGRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumResourceImageWithName:NAME andExtension:@"png"])
 #define GIFRESOURCE(NAME)       ([[AYResourceManager sharedInstance] enumGIFResourceURLWithName:NAME])
+#define IMGRESOURCE(NAME)       [UIImage imageNamed:NAME]
 
 
 #ifdef DEBUG
@@ -103,5 +117,10 @@ static NSString* const kAYFactoryManagerCommandTypeNotify = @"Notify";          
                                         [cmd performWithResult:&USER]; \
                                     } while(0);
 
+#define CURRENPROFILE(P)            do { \
+                                        id<AYFacadeBase> f_login_model = LOGINMODEL; \
+                                        id<AYCommand> cmd = [f_login_model.commands objectForKey:@"QueryCurrentUserProfile"]; \
+                                        [cmd performWithResult:&P]; \
+                                    } while(0);
 
 #endif /* AYCommandDefines_h */

@@ -10,11 +10,12 @@
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "RemoteInstance.h"
-#import "Tools.h"
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>
 #import "AYRemoteCallDefines.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 @implementation AYRemoteCallCommand
 
@@ -30,6 +31,9 @@
 }
 
 - (void)beforeAsyncCall {
+    if ([self isDownloadUserFilesOrQueryUserProfile]) {
+        return;
+    }
     NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
     UIViewController* cur = [Tools activityViewController];
     SEL sel = NSSelectorFromString(kAYRemoteCallStartFuncName);
@@ -41,6 +45,9 @@
 }
 
 - (void)endAsyncCall {
+    if ([self isDownloadUserFilesOrQueryUserProfile]) {
+        return;
+    }
     NSString* name = [NSString stringWithUTF8String:object_getClassName(self)];
     UIViewController* cur = [Tools activityViewController];
     SEL sel = NSSelectorFromString(kAYRemoteCallEndFuncName);
@@ -53,8 +60,9 @@
 
 - (void)performWithResult:(NSDictionary*)args andFinishBlack:(asynCommandFinishBlock)block {
     NSLog(@"request confirm code from sever: %@", args);
-
+    
     [self beforeAsyncCall];
+    
     dispatch_queue_t rq = dispatch_queue_create("remote call", nil);
     dispatch_async(rq, ^{
         NSError * error = nil;
@@ -80,5 +88,30 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCommandTypeRemote;
+}
+
+- (BOOL)isDownloadUserFilesOrQueryUserProfile {
+    
+    //    profile/userProfile           QueryUserProfile            ProfileRemote
+    //    query/downloadFile/       DownloadUserFiles           FileRemote
+    
+    NSString *tmpRoute = self.route;
+    
+    id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
+    NSString *load_route = cmd_load.route;
+    
+    id<AYFacadeBase> f_profile = DEFAULTFACADE(@"ProfileRemote");
+    AYRemoteCallCommand* cmd_profile = [f_profile.commands objectForKey:@"QueryUserProfile"];
+    NSString *profile_route = cmd_profile.route;
+    
+//    NSLog(@"%@",tmpRoute);
+//    NSLog(@"%@",load_route);
+//    NSLog(@"%@",profile_route);
+    
+    if ([tmpRoute isEqualToString:load_route] || [tmpRoute isEqualToString:profile_route]) {
+        return YES;
+    } else return NO;
+    
 }
 @end

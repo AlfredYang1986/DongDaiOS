@@ -16,7 +16,7 @@
 #import "WBHttpRequest+WeiboUser.h"
 #import "WBHttpRequest+WeiboShare.h"
 
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
@@ -70,7 +70,7 @@
     UIImage * wechat_image_click = PNGRESOURCE(@"friendShip_select");
     [wechat_btn setBackgroundImage:wechat_image forState:UIControlStateNormal];
     [wechat_btn setBackgroundImage:wechat_image_click forState:UIControlStateSelected];
-    [wechat_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    [wechat_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     wechat_btn.backgroundColor = [UIColor clearColor];
 //    wechat_btn.center = CGPointMake(width / 2 , BOTTON_BAR_HEIGHT * 2 / 3);
     [wechat_btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -87,7 +87,7 @@
     UIImage * qq_image_click = PNGRESOURCE(@"login_qq_clicked");
     [qq_btn setBackgroundImage:qq_image forState:UIControlStateNormal];
     [qq_btn setBackgroundImage:qq_image_click forState:UIControlStateSelected];
-    [qq_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    [qq_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     qq_btn.backgroundColor = [UIColor clearColor];
 //    qq_btn.center = CGPointMake(width / 2 / 2, BOTTON_BAR_HEIGHT * 2 / 3);
     [qq_btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,7 +104,7 @@
     UIImage * weibo_image_click = PNGRESOURCE(@"login_weibo_clicked");
     [weibo_btn setBackgroundImage:weibo_image forState:UIControlStateNormal];
     [weibo_btn setBackgroundImage:weibo_image_click forState:UIControlStateSelected];
-    [weibo_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchDown];
+    [weibo_btn addTarget:self action:@selector(SNSBtnSelected:) forControlEvents:UIControlEventTouchUpInside];
     weibo_btn.backgroundColor = [UIColor clearColor];
 //    weibo_btn.center = CGPointMake(width * 0.75, BOTTON_BAR_HEIGHT * 2 / 3);
     [weibo_btn mas_makeConstraints:^(MASConstraintMaker *make) {

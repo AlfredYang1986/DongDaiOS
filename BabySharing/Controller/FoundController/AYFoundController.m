@@ -19,7 +19,6 @@
 #import "AYFoundSearchResultCellDefines.h"
 
 #define STATUS_HEIGHT       20
-#define SCREEN_WIDTH        [UIScreen mainScreen].bounds.size.width
 
 #define SEARCH_BOUNDS       CGFloat search_height = 44; \
 CGRect rc_search = CGRectMake(0, 0, SCREEN_WIDTH, search_height);

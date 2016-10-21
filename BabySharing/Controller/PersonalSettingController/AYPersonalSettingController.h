@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-@interface AYPersonalSettingController : AYViewController
+@interface AYPersonalSettingController : AYViewController <UIImagePickerControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate>
 
 @end

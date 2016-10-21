@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="122" id="KGk-i7-Jjw" customClass="AYNapDescCellView">
+            <rect key="frame" x="0.0" y="0.0" width="372" height="122"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="372" height="121"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1ke-PW-xw1">
+                        <rect key="frame" x="106" y="25" width="160" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="04J-Bx-mOy"/>
+                            <constraint firstAttribute="width" constant="160" id="3qC-eA-9dI"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="添加妈妈描述" image="tab_found_selected">
+                            <color key="titleColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="addDescBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hdZ-GL-raO"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="为您的经历做一个简单的描述" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="23u-3a-Uuy">
+                        <rect key="frame" x="108" y="65" width="156" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kL-r1-j9X">
+                        <rect key="frame" x="20" y="25" width="332" height="0.0"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v3T-sR-jDb">
+                        <rect key="frame" x="162" y="81" width="46" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <state key="normal" title="编辑">
+                            <color key="titleColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="editBtnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="YmH-kI-xyG"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="1kL-r1-j9X" secondAttribute="trailing" constant="20" id="XJd-1H-X5D"/>
+                    <constraint firstItem="1ke-PW-xw1" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="ckF-wP-w0F"/>
+                    <constraint firstItem="23u-3a-Uuy" firstAttribute="centerX" secondItem="1ke-PW-xw1" secondAttribute="centerX" id="mZ4-J5-yxd"/>
+                    <constraint firstItem="23u-3a-Uuy" firstAttribute="top" secondItem="1ke-PW-xw1" secondAttribute="bottom" constant="15" id="teQ-Ef-wzv"/>
+                    <constraint firstItem="1ke-PW-xw1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="vBL-kn-oL1"/>
+                    <constraint firstItem="1kL-r1-j9X" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="zJQ-np-A2J"/>
+                    <constraint firstItem="1kL-r1-j9X" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="zOX-Z4-V0m"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addDescBtn" destination="1ke-PW-xw1" id="1Na-um-MJ1"/>
+                <outlet property="editBtn" destination="v3T-sR-jDb" id="wQL-dp-TOH"/>
+                <outlet property="subTitleLabel" destination="23u-3a-Uuy" id="HxV-T5-1Qh"/>
+                <outlet property="userInputDescLabel" destination="1kL-r1-j9X" id="I8I-7Q-6qC"/>
+            </connections>
+            <point key="canvasLocation" x="516" y="381"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="tab_found_selected" width="23" height="23"/>
+    </resources>
+</document>

@@ -14,7 +14,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
@@ -89,7 +89,7 @@
     
     AYModelFacade* fl = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:fl.doc.managedObjectContext];
-    NSLog(@"sunfei -- %@",tmp);
+    
     NSString* photo_name = tmp.who.screen_image;
 //    NSString* photo_name = @"AE37CA0F-A5AF-43AD-B8FA-8B7D1B17B9D1";
     NSString* screen_name = tmp.who.screen_name;

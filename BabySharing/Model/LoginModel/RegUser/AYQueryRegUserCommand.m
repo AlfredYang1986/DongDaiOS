@@ -13,7 +13,7 @@
 
 #import "RegTmpToken.h"
 #import "RegTmpToken+ContextOpt.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "RegCurrentToken.h"
 #import "RegCurrentToken+ContextOpt.h"

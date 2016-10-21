@@ -30,14 +30,13 @@
 #import <Contacts/CNContactStore.h>
 #import <Contacts/CNContactFetchRequest.h>
 
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
 
 #import "QQApiInterfaceObject.h"
 #import "QQApiInterface.h"
-#import "Tools.h"
 
 // weibo sdk
 #import "WBHttpRequest+WeiboUser.h"
@@ -49,9 +48,6 @@
 #import "WXApiObject.h"
 #import "WXApi.h"
 
-
-#define kSCREENW [UIScreen mainScreen].bounds.size.width
-#define kSCREENH [UIScreen mainScreen].bounds.size.height
 
 #define SEARCH_BAR_HEIGHT           0 //44
 #define SEGAMENT_HEGHT              46
@@ -114,39 +110,28 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         [cmd_view_title performWithResult:&title];
     }
     
-//    id<AYViewBase> view_friend = [self.views objectForKey:@"Table2"];
-//    id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"ContacterList"];
-//    
-//    id<AYCommand> cmd_datasource = [view_friend.commands objectForKey:@"registerDatasource:"];
-//    id<AYCommand> cmd_delegate = [view_friend.commands objectForKey:@"registerDelegate:"];
-//    
-//    id obj = (id)cmd_relations;
-//    [cmd_datasource performWithResult:&obj];
-//    obj = (id)cmd_relations;
-//    [cmd_delegate performWithResult:&obj];
-    
     id<AYViewBase> view_contacter_table = [self.views objectForKey:@"Table2"];
     id<AYCommand> cmd_hot_cell = [view_contacter_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:kAYUserDisplayTableCellName] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_hot_cell performWithResult:&class_name];
     
-    UIView* headView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kSCREENW, 10)];
+    UIView* headView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 10)];
     headView1.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView1];
     
-    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 138, kSCREENW, 5)];
+    UIView* headView = [[UIView alloc]initWithFrame:CGRectMake(0, 138, SCREEN_WIDTH, 5)];
     headView.backgroundColor = [UIColor colorWithWhite:0.94 alpha:1.f];
     [self.view addSubview:headView];
     
     CALayer* line1 = [CALayer layer];
     line1.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
     line1.borderWidth = 1.f;
-    line1.frame = CGRectMake(0, 0, kSCREENW, 1);
+    line1.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line1];
     CALayer* line2 = [CALayer layer];
     line2.borderColor = [UIColor colorWithWhite:0.6922 alpha:0.10].CGColor;
     line2.borderWidth = 1.f;
-    line2.frame = CGRectMake(0, 4, kSCREENW, 1);
+    line2.frame = CGRectMake(0, 4, SCREEN_WIDTH, 1);
     [headView.layer addSublayer:line2];
     
 }
@@ -176,7 +161,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 #pragma mark -- layout commands
 - (id)SearchBarLayout:(UIView*)view {
     
-    view.frame = CGRectMake( 20, 20,  kSCREENW - 40, 30);
+    view.frame = CGRectMake( 20, 20,  SCREEN_WIDTH - 40, 30);
     
     id<AYCommand> cmd = [((id<AYViewBase>)view).commands objectForKey:@"registerDelegate:"];
     id del = self;
@@ -185,10 +170,6 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
     id<AYCommand> cmd_place_hold = [((id<AYViewBase>)view).commands objectForKey:@"changeSearchBarPlaceHolder:"];
     id place_holder = @"搜索昵称";
     [cmd_place_hold performWithResult:&place_holder];
-    
-//    UITextField *searchField = [view valueForKey:@"_searchField"];
-//    searchField.textColor = [UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f];
-//    [searchField setValue:[UIColor colorWithRed:74/255 green:74/255 blue:74/255 alpha:1.f] forKeyPath:@"_placeholderLabel.textColor"];
     
     id<AYCommand> cmd_apperence = [((id<AYViewBase>)view).commands objectForKey:@"foundTitleSearchBar"];
     [cmd_apperence performWithResult:nil];
@@ -212,14 +193,14 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
 
 - (id)Table2Layout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 143, kSCREENW, kSCREENH - 133 - 64 - 10);
+    view.frame = CGRectMake(0, 143, SCREEN_WIDTH, SCREEN_HEIGHT - 133 - 64 - 10);
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     return nil;
 }
 
 - (id)DongDaSegLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 58, kSCREENW, 80);
+    view.frame = CGRectMake(0, 58, SCREEN_WIDTH, 80);
     {
         id<AYViewBase> seg = (id<AYViewBase>)view;
         id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -248,7 +229,7 @@ typedef NS_ENUM(NSInteger, ShareResouseTyoe) {
         
         NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
         [dic_user_info setValue:[NSNumber numberWithInt:-1] forKey:kAYSegViewCurrentSelectKey];
-        [dic_user_info setValue:[NSNumber numberWithFloat:0.0933f * [UIScreen mainScreen].bounds.size.width] forKey:kAYSegViewMarginBetweenKey];
+        [dic_user_info setValue:[NSNumber numberWithFloat:0.0933f * SCREEN_WIDTH] forKey:kAYSegViewMarginBetweenKey];
         
         [cmd_info performWithResult:&dic_user_info];
     }

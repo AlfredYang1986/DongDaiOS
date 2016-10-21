@@ -7,7 +7,7 @@
 //
 
 #import "DetailInfo.h"
-#import "LoginToken.h"
+#import "LoginToken+CoreDataClass.h"
 #import "UserKids.h"
 
 @implementation DetailInfo

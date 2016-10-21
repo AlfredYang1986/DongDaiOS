@@ -240,24 +240,27 @@
     
     long temp = 0;
     NSString *result;
-    if (timeInterval < 60 * 60) {
-//        一个小时内
+    if (timeInterval < 60) {
         result = [NSString stringWithFormat:@"刚刚"];
-    } else if((temp = timeInterval / (60 * 60)) < 24){
-//        几个小时内
+    }
+    else if((temp = timeInterval/60) <60){
+        result = [NSString stringWithFormat:@"%ld分钟前",temp];
+    }
+    
+    else if((temp = temp/60) <24){
         result = [NSString stringWithFormat:@"%ld小时前",temp];
-    } else if((temp = timeInterval / (60 * 60) / 24) < 30){
-//        几天内
+    }
+    
+    else if((temp = temp/24) <30){
         result = [NSString stringWithFormat:@"%ld天前",temp];
-    } else if((temp = timeInterval / (60 * 60) / 24) / 30 < 12){
-//        几月内
+    }
+    
+    else if((temp = temp/30) <12){
         result = [NSString stringWithFormat:@"%ld月前",temp];
-    } else if(timeInterval / (60 * 60) / 24 / 30 / 12 < 12){
-//         几年内
-        temp = timeInterval / (60 * 60) / 24 / 30 / 12;
+    }
+    else{
+        temp = temp/12;
         result = [NSString stringWithFormat:@"%ld年前",temp];
-    } else {
-        return @"";
     }
     NSLog(@"MonkeyHengLog: %@ === %@", [dateFormatter stringFromDate:compareDate], result);
     return result;
@@ -267,9 +270,58 @@
     return [[UIDevice currentDevice].identifierForVendor UUIDString];
 }
 
++ (UIViewController *)activityViewController2 {
+    UIViewController* topVC = nil;
+    UIViewController* appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    topVC = appRootVC;
+        
+    if (topVC.presentedViewController) {
+        topVC = topVC.presentedViewController;
+    }
+    
+    if ([topVC isKindOfClass:[UINavigationController class]]) {
+        topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+    } else if ([topVC isKindOfClass:[UITabBarController class]]) {
+        topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
+        
+        if ([topVC isKindOfClass:[UINavigationController class]]) {
+            
+            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+        }
+    }
+    
+    return topVC;
+}
+
 // 获取当前处于activity状态的view controller
-+ (UIViewController *)activityViewController
-{
++ (UIViewController *)activityViewController {
+    UIViewController* topVC = nil;
+    NSArray *ws = [[[UIApplication sharedApplication].windows reverseObjectEnumerator] allObjects];
+    //    NSArray *ws = [UIApplication sharedApplication].windows;
+    for (UIWindow* w in ws) {
+        UIViewController* appRootVC = w.rootViewController;
+        topVC = appRootVC;
+        
+        if (topVC.presentedViewController) {
+            topVC = topVC.presentedViewController;
+        }
+        
+        if ([topVC isKindOfClass:[UINavigationController class]]) {
+            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+            break;
+        } else if ([topVC isKindOfClass:[UITabBarController class]]) {
+            topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
+            
+            if ([topVC isKindOfClass:[UINavigationController class]]) {
+                
+                topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
+                break;
+            }
+        }
+    }
+    
+    return topVC;
+    
 //    UIViewController* activityViewController = nil;
 //    
 //    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
@@ -309,22 +361,11 @@
 //    
 //    return activityViewController;
     
-    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-    UIViewController *topVC = appRootVC;
-    if (topVC.presentedViewController) {
-        topVC = topVC.presentedViewController;
-    }
-
-    if ([topVC isKindOfClass:[UINavigationController class]]) {
-        topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
-    } else if ([topVC isKindOfClass:[UITabBarController class]]) {
-        topVC = [((UITabBarController*)topVC).viewControllers objectAtIndex:((UITabBarController*)topVC).selectedIndex];
-        if ([topVC isKindOfClass:[UINavigationController class]]) {
-            topVC = ((UINavigationController*)topVC).viewControllers.lastObject;
-        }
-    }
+//    NSArray *appRootVC = [UIApplication sharedApplication].windows;
+//    
+//    UIViewController *topVC = appRootVC.firstObject;
     
-    return topVC;
+
 }
 
 //取消searchbar背景色
@@ -348,7 +389,8 @@
     if (str) {
         NSLayoutManager* m = [[NSLayoutManager alloc]init];
         NSTextStorage* st = [[NSTextStorage alloc]initWithString:str];
-        NSTextContainer* con = [[NSTextContainer alloc]initWithSize:CGSizeMake(FLT_MAX, FLT_MAX)];
+//        NSTextContainer* con = [[NSTextContainer alloc]initWithSize:CGSizeMake(FLT_MAX, FLT_MAX)];
+        NSTextContainer* con = [[NSTextContainer alloc]initWithSize:sz];
         
         [m addTextContainer:con];
         [st addLayoutManager:m];
@@ -364,7 +406,206 @@
 }
 
 
-+ (UIColor*)themeColor{
++ (UIColor*)themeColor {
     return [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];
+}
++ (UIColor*)blackColor {
+    return [UIColor colorWithRed:74.0/255.0 green:74.0/255.0 blue:74.0/255.0 alpha:1.0];
+}
+
++ (UIColor*)darkBackgroundColor {
+    return [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:42.0/255.0 alpha:1.0];
+}
+
++ (UIColor*)whiteColor {
+    return [UIColor whiteColor];
+}
+
++ (UIColor*)garyColor {
+    return [UIColor colorWithRed:155.f / 255.f green:155.f / 255.f blue:155.f / 255.f alpha:1.f];
+}
+
++ (UIColor*)lightGreyColor {
+    return [UIColor colorWithRed:192.f / 255.f green:192.f / 255.f blue:192.f / 255.f alpha:1.f];
+}
+
++ (UIColor*)garyLineColor {
+    return [UIColor colorWithWhite:0.75f alpha:1.f];
+}
+
++ (UIColor*)garyBackgroundColor {
+    return [UIColor colorWithWhite:0.9490f alpha:1.f];
+}
+
++ (UIColor*)borderAlphaColor {
+    return [UIColor colorWithWhite:1.f alpha:0.25f];
+}
+
+#pragma mark -- UI
+/**
+ *  设置label的 text color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
+*/
++ (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
+    
+    label.text = text;
+    label.textColor = color;
+    label.textAlignment = align;
+    
+    if (font < 0) {
+        label.font = [UIFont systemFontOfSize:-font];
+    } else if (font > 100.f) {
+        label.font = [UIFont boldSystemFontOfSize:(font - 100)];
+    } else {
+        label.font = kAYFontLight(font);
+    }
+    
+    if (backgroundColor) {
+        label.backgroundColor = backgroundColor;
+    } else label.backgroundColor = [UIColor clearColor];
+    
+    return label;
+}
+
++ (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
+    
+    UILabel *label = [UILabel new];
+    label.text = text;
+    label.textColor = color;
+    label.textAlignment = align;
+    
+    if (font < 0) {
+        label.font = [UIFont systemFontOfSize:-font];
+    } else if (font > 100.f) {
+        label.font = [UIFont boldSystemFontOfSize:(font - 100)];
+    } else {
+        label.font = kAYFontLight(font);
+    }
+    
+    if (backgroundColor) {
+        label.backgroundColor = backgroundColor;
+    } else label.backgroundColor = [UIColor clearColor];
+    
+    return label;
+}
+
+/**
+ *  设置btn的 title color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
+ */
++ (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
+    
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:TitleColor forState:UIControlStateNormal];
+    
+    if (font < 0) {
+        btn.titleLabel.font = [UIFont systemFontOfSize:-font];
+    } else if (font > 100.f) {
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 100)];
+    } else {
+        btn.titleLabel.font = kAYFontLight(font);
+    }
+    
+    if (backgroundColor) {
+        btn.backgroundColor = backgroundColor;
+    } else
+        btn.backgroundColor = [UIColor clearColor];
+    
+    return btn;
+}
+
++ (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
+    
+    UIButton *btn = [UIButton new];
+    [btn setTitle:title forState:UIControlStateNormal];
+    [btn setTitleColor:TitleColor forState:UIControlStateNormal];
+    
+    if (font < 0) {
+        btn.titleLabel.font = [UIFont systemFontOfSize:-font];
+    } else if (font > 100.f) {
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 100)];
+    } else {
+        btn.titleLabel.font = kAYFontLight(font);
+    }
+    
+    if (backgroundColor) {
+        btn.backgroundColor = backgroundColor;
+    } else
+        btn.backgroundColor = [UIColor clearColor];
+    
+    return btn;
+}
+
+#pragma mark -- AYBtmAlert
+- (void)AYShowBtmAlertWithArgs:(NSDictionary*)args {
+//    NSString *title = @"mesage";
+//    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
+//    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+//    
+//    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+//    [dic_alert setValue:title forKey:@"title"];
+//    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
+//    [cmd_alert performWithResult:&dic_alert];
+}
+
+#pragma mark -- NSTime
++ (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter {
+    
+    NSDateFormatter *format = [[NSDateFormatter alloc] init];
+    [format setDateFormat:formatter];
+    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
+    [format setTimeZone:timeZone];
+    return format;
+}
+
++ (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view {
+    CGSize imageSize = CGSizeZero;
+    
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    if (UIInterfaceOrientationIsPortrait(orientation)) {
+        imageSize = [UIScreen mainScreen].bounds.size;
+    } else {
+        imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        CGContextSaveGState(context);
+        CGContextTranslateCTM(context, window.center.x, window.center.y);
+        CGContextConcatCTM(context, window.transform);
+        CGContextTranslateCTM(context, -window.bounds.size.width * window.layer.anchorPoint.x, -window.bounds.size.height * window.layer.anchorPoint.y);
+        if (orientation == UIInterfaceOrientationLandscapeLeft) {
+            CGContextRotateCTM(context, M_PI_2);
+            CGContextTranslateCTM(context, 0, -imageSize.width);
+        } else if (orientation == UIInterfaceOrientationLandscapeRight) {
+            CGContextRotateCTM(context, -M_PI_2);
+            CGContextTranslateCTM(context, -imageSize.height, 0);
+        } else if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
+            CGContextRotateCTM(context, M_PI);
+            CGContextTranslateCTM(context, -imageSize.width, -imageSize.height);
+        }
+        if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
+        } else {
+            [window.layer renderInContext:context];
+        }
+        CGContextRestoreGState(context);
+    }
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
++ (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg {
+    CGFloat sf = [UIScreen mainScreen].scale;
+    CGFloat imgWidth = image.size.width * sf;
+    CGFloat imgheight = image.size.height * sf;
+    height *= sf;
+    CGRect topImgFrame = CGRectMake(0, 0, imgWidth, height);
+    CGRect btmImgFrame = CGRectMake(0, height, imgWidth, imgheight - height);
+    CGImageRef top =CGImageCreateWithImageInRect(image.CGImage, topImgFrame);
+    CGImageRef btm =CGImageCreateWithImageInRect(image.CGImage, btmImgFrame);
+    *pImg = [UIImage imageWithCGImage:btm];
+    return [UIImage imageWithCGImage:top];
 }
 @end

@@ -82,6 +82,12 @@
     [reVal setValue:user.screen_name forKey:@"screen_name"];
     [reVal setValue:user.screen_image forKey:@"screen_photo"];
     [reVal setValue:user.role_tag forKey:@"role_tag"];
+    [reVal setValue:user.is_service_provider forKey:@"is_service_provider"];
+    [reVal setValue:user.is_real_name_cert forKey:@"is_real_name_cert"];
+    [reVal setValue:user.personal_description forKey:@"personal_description"];
+    [reVal setValue:user.date forKey:@"date"];
+    [reVal setValue:user.contact_no forKey:@"contact_no"];
+    [reVal setValue:user.has_phone forKey:@"has_phone"];
     
     return [reVal copy];
 }
@@ -94,18 +100,43 @@
     while ((iter = [enumerator nextObject]) != nil) {
         if ([iter isEqualToString:@"auth_token"]) {
             tmp.auth_token = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"phoneNo"]) {
+        }
+        else if ([iter isEqualToString:@"phoneNo"]) {
             tmp.phoneNo = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"screen_name"]) {
+        }
+        else if ([iter isEqualToString:@"screen_name"]) {
 //        } else if ([iter isEqualToString:@"name"]) {
             tmp.screen_name = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"screen_photo"]) {
+        }
+        else if ([iter isEqualToString:@"screen_photo"]) {
             tmp.screen_image = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"connectWith"]) {
+        }
+        else if ([iter isEqualToString:@"connectWith"]) {
             tmp.connectWith = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"role_tag"]) {
+        }
+        else if ([iter isEqualToString:@"role_tag"]) {
             tmp.role_tag = [dic objectForKey:iter];
-        } else if ([iter isEqualToString:@"user_id"]) {
+        }
+        else if ([iter isEqualToString:@"is_real_name_cert"]) {
+            tmp.is_real_name_cert = [dic objectForKey:@"is_real_name_cert"];
+        }
+        else if ([iter isEqualToString:@"contact_no"]) {
+            tmp.contact_no = [dic objectForKey:@"contact_no"];
+        }
+        else if ([iter isEqualToString:@"personal_description"]) {
+            tmp.personal_description = [dic objectForKey:@"personal_description"];
+        }
+        else if ([iter isEqualToString:@"date"]) {
+            tmp.date = [dic objectForKey:@"date"];
+        }
+        else if ([iter isEqualToString:@"is_service_provider"]) {
+            tmp.is_service_provider = [dic objectForKey:@"is_service_provider"];
+        }
+        else if ([iter isEqualToString:@"has_phone"]) {
+            tmp.has_phone = [dic objectForKey:@"has_phone"];
+        }
+        
+        else if ([iter isEqualToString:@"user_id"]) {
             if (tmp.user_id == nil) {
                 tmp.user_id = [dic objectForKey:iter];
             }
@@ -119,26 +150,48 @@
 
 + (LoginToken *)createTokenInContext:(NSManagedObjectContext*)context withUserID:(NSString*)user_id andAttrs:(NSDictionary*)dic {
     
+    /*
+    NSManagedObjectContext（托管对象上下文）：数据库
+    NSEntityDescription（实体描述）：表
+    NSFetchRequest（请求）：命令集
+    NSPredicate（谓词）：查询语句
+     
+    在书中给出的例子中的一些语句可以用数据库的常用操作来理解
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];           //指定一个“数据库”
+    NSEntityDescription *entityDescription = [[NSEntityDescription alloc] entityForName:@"Line" inManagedObjectContext:context];                                            //指定一个“表”，Line即是“表名”，context即这个“表”所在的“数据库”
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];                        //创建一个空“命令”
+    [request setEntity:entityDescription];                                          //给这个“命令”指定一个目标“表”
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(linenum = %d)",i];      //创建一个“查询”，寻找linenum=i的行
+    [request setPredicate:pred];                                                    //赋予“命令”具体的内容，即实现一个“查询”
+    NSArray *objects = [context executeFetchRequest:request error:&error];          //执行“命令”，获得“结果”objects
+    */
+    
     NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"LoginToken"];
     request.predicate = [NSPredicate predicateWithFormat:@"user_id = %@", user_id];
     NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
-    
     request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
+    [request setReturnsObjectsAsFaults:NO];
     
     NSError* error = nil;
     NSArray* matches = [context executeFetchRequest:request error:&error];
    
     NSLog(@"dic : %@", dic);
     if (!matches || matches.count > 1) {
+        for (LoginToken* tmp in matches) {
+            NSLog(@"primary tmp %@", tmp);
+            NSLog(@"primary tmp user id %@", tmp.user_id);
+        }
         NSLog(@"error with primary key");
         return nil;
     } else if (matches.count == 1) {
         LoginToken *tmp = [matches lastObject];
         [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+        [context save:nil];
         return tmp;
     } else {
         LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
         [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+        [context save:nil];
         return tmp;
     }
 }
@@ -179,7 +232,8 @@
     } else if (matches.count == 1) {
         LoginToken* tmp = [matches lastObject];
         [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
-        //        [context save:&error];
+//        [context save:&error];
+        [context save:nil];
         return YES;
     } else {
         NSLog(@"nothing need to be delected");

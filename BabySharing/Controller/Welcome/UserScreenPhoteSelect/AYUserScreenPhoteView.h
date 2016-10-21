@@ -10,6 +10,6 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 
-@interface AYUserScreenPhoteView : UIButton <AYViewBase>
+@interface AYUserScreenPhoteView : UIImageView <AYViewBase>
 
 @end

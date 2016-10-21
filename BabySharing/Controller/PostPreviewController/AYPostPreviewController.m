@@ -20,8 +20,6 @@
 #define FAKE_NAVIGATION_BAR_HEIGHT      64
 #define FUNC_BAR_HEIGHT                 47
 
-#define SCREEN_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT                           [UIScreen mainScreen].bounds.size.height
 
 @interface AYPostPreviewController ()
 @property (nonatomic, weak) UIView* edit_tag_view;

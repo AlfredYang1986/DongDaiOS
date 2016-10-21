@@ -16,13 +16,9 @@
 #import "AYFacadeBase.h"
 #import "SGActionView.h"
 #import "RemoteInstance.h"
-#import "Tools.h"
 #import "AYModel.h"
 #import "AYRemoteCallCommand.h"
 
-
-#define SCREEN_WIDTH                [UIScreen mainScreen].bounds.size.width
-#define SCREEN_HEIGHT               [UIScreen mainScreen].bounds.size.height
 
 @interface AYGetInvateCodeController ()
 

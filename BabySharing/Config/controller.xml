@@ -1,5 +1,6 @@
 <controllers>
     <controller type="DefaultController" name="Navigation" factory="AYDefaultControllerFactoy" />
+    <controller type="DefaultController" name="NavigationService" factory="AYDefaultControllerFactoy" />
     
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
@@ -7,42 +8,37 @@
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true"/> -->
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true"/>
         
-<!--        <view type="LandingTitle" name="LandingTitle" />-->
-<!--        <view type="LandingInput" name="LandingInput" />-->
-        <view type="LandingSNS" name="LandingSNS" />
+<!--        <view type="LandingSNS" name="LandingSNS" />-->
         <view type="Loading"    name="Loading" />
         
         <model notification="true" />
     </controller>
     
     <controller type="DefaultController" name="InputInvateCode" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="LandingAreaCode" />
-        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        <command type="Module"          name="LandingAreaCode" />
+        <facade type="DefaultFacade"    name="LandingRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
         <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
-        <view type="InputInvateCode"         name="InputInvateCode" />
+        <view type="InputInvateCode"        name="InputInvateCode" />
         <model notification="true" />
     </controller>
     
     <controller type="DefaultController" name="GetInvateCode" factory="AYDefaultControllerFactoy" >
         <view type="Web" name="Web" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
-        
+        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />
+        <view type="SetNevigationBarRightBtn"   name="SetNevigationBarRightBtn" />
     </controller>
     
     <controller type="DefaultController" name="InputPhoneNo" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="LandingAreaCode" />
-        
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputNo"         name="LandingInputNo" />
         <model notification="true" />
     </controller>
@@ -50,9 +46,9 @@
     <controller type="DefaultController" name="InputCoder" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputCoder"      name="LandingInputCoder" />
         
         <model notification="true" />
@@ -62,9 +58,8 @@
         <facade type="DefaultFacade"        name="ProfileRemote" notification="true" />
         
         <view type="FakeNavBar"             name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"  name="SetNevigationBarTitle" />
         <view type="LandingInputName"       name="LandingInputName" />
-        
+
         <model notification="true" />
     </controller>
     
@@ -86,6 +81,7 @@
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
         
+        <facade type="DefaultFacade" name="EM" notification="true"/>
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
@@ -157,6 +153,7 @@
         <command type="Module" name="HomeInit" />
         <command type="Module" name="FoundInit" />
         <command type="Module" name="FriendsInit" />
+        <command type="Module" name="OrderInit" />
         <command type="Module" name="ProfileInit" />
         <command type="Module" name="PlaceHolderInit" />
         <command type="Module" name="CameraRollInit" />
@@ -165,58 +162,83 @@
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="ContentQueryRemote" />
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+<!--        <view type="Loading"            name="Loading" />-->
+        <view type="Table"              name="Table" />
 
-        <view type="Table" name="Table" />
-        <view type="ProfileHeader" name="ProfileHeader" />
-        <view type="DongDaSeg" name="DongDaSeg" />
-        <view type="Image" name="Image" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="Loading" name="Loading" />
-
-        <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />
-        <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" />
+<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePublish" />-->
+<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfilePush" />-->
+        <delegate type="TableViewDelegateAndDatasource" name="Profile" />
     </controller>
     
-    <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
-        
+    <controller type="DefaultController" name="PersonalInfo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
-        <view type="Table" name="Table" />
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
         
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <delegate type="TableViewDelegateAndDatasource" name="PersonalInfo" />
+    </controller>
+    
+    <controller type="DefaultController" name="PersonalDesc" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ExposeRemote" />
+        <facade type="DefaultFacade" name="ProfileRemote" />
+        <facade type="DefaultFacade" name="ContentQueryRemote" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
+        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="OneProfile" />
+    </controller>
+    
+    <controller type="DefaultController" name="Setting" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="EM" notification="true" />
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="LoginModel" notification="true"/>
+        <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="AppSetting" />
     </controller>
     
     <controller type="DefaultController" name="AboutDD" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         
-        <view type="Table" name="Table" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"              name="Table" />
         
         <delegate type="TableViewDelegateAndDatasource" name="AboutDongda" />
     </controller>
     
     <controller type="DefaultController" name="UserAgree" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="SendRemote" notification="true" />
         
-        <view type="Web" name="Web" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Web"                name="Web" />
         
-        <delegate type="NavItemBarBtnDelegate" name="UserAgree" />
     </controller>
     
     <controller type="DefaultController" name="Friends" factory="AYDefaultControllerFactoy" >
@@ -270,41 +292,36 @@
     </controller>
     
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
-        
-        <facade type="DefaultFacade" name="ExposeRemote" notification="true" />
+        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true" />
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
+
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="Image" name="Image" />
-        <view type="Label" name="Label" />
-        <view type="FakeStatusBar" name="FakeStatusBar" />
+        <view type="Table"          name="Table" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="Loading" name="Loading" />
         
-        <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
+        <delegate type="TableViewDelegateAndDatasource" name="Home" />
     </controller>
-
+    
     <controller type="DefaultController" name="GroupList" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="EM" notification="true" />
 
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="Image" name="Image" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+<!--        <view type="Loading"        name="Loading" />-->
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
     
     <controller type="DefaultController" name="Found" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         
         <view type="Table" name="Table" />
@@ -422,47 +439,43 @@
     </controller>
     
     <controller type="DefaultController" name="GroupChat" factory="AYDefaultControllerFactoy" >
-        
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
         <facade type="DefaultFacade" name="ScreenNameAndPhotoCache" notification="true" />
         <facade type="DefaultFacade" name="Keyboard" notification="true" />
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Image"              name="Image" />
+<!--        <view type="GroupChatHeader"    name="GroupChatHeader" />-->
+        <view type="Table"              name="Table" />
+        <view type="ChatInput"          name="ChatInput" />
+<!--        <view type="Loading"            name="Loading" />-->
 
-        <view type="Image" name="Image" />
-        <view type="GroupChatHeader" name="GroupChatHeader" />
-        <view type="Table" name="Table" />
-        <view type="ChatInput" name="ChatInput" />
-        <view type="Table2" name="Table2" />
-        <view type="Loading" name="Loading" />
-
-        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />
+<!--        <delegate type="TableViewDelegateAndDatasource" name="GroupChatUserInfo" />-->
         <delegate type="TextViewDelegate" name="ChatGroupInput" />
         <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" />
     </controller>
     
     <controller type="DefaultController" name="PersonalSetting" factory="AYDefaultControllerFactoy" >
-
         <command type="Module" name="OpenUIImagePickerCamera" />
         <command type="Module" name="OpenUIImagePickerPicRoll" />
         <command type="Module" name="GernarateImgUUID" />
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
-       
+        
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
 
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
-        <view type="SetNevigationBarRightBtn" name="SetNevigationBarRightBtn" />
-        <view type="Table" name="Table" />
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Picker"             name="Picker" />
         
+        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
     
     <controller type="DefaultController" name="TagContent" factory="AYDefaultControllerFactoy" >
-        
-<!--        <facade type="DefaultFacade" name="XMPP" notification="true" />-->
         <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="TagContentModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
@@ -470,23 +483,424 @@
         <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         
-        <view type="Table" name="Table" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-        <view type="Image" name="Image" />
-        <view type="Label" name="Label" />
-        <view type="FakeStatusBar" name="FakeStatusBar" />
+        <view type="Table"          name="Table" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Image"          name="Image" />
+        <view type="Label"          name="Label" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="Loading"        name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />
     </controller>
     
     <controller type="DefaultController" name="UserPerview" factory="AYDefaultControllerFactoy" >
-        
         <facade type="DefaultFacade" name="UserSearchRemote" notification="true" />
         
-        <view type="Table" name="Table" />
-        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />
-        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />
+        <view type="Table"                      name="Table" />
+        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />
+        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />
         
         <delegate type="TableViewDelegateAndDatasource" name="UserTablePreview" />
     </controller>
+    
+    <controller type="DefaultController" name="Location" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="SearchBar"  name="SearchBar" />
+        <view type="Table"      name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="Location" />
+    </controller>
+    
+    <controller type="DefaultController" name="LocationResult" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
+    </controller>
+    
+    <controller type="DefaultController" name="Fiter" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="FiterScroll"    name="FiterScroll" />
+    </controller>
+    
+    <controller type="DefaultController" name="Map" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="ShowBoard"      name="ShowBoard" />
+        <view type="MapView"        name="MapView" />
+    </controller>
+    
+    <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="KidNapRemote" notification="true" />
+        <facade type="DefaultFacade"    name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"      name="FakeStatusBar" />
+        <view type="FakeNavBar"         name="FakeNavBar" />
+        <view type="Table"              name="Table" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="ServicePage" />
+    </controller>
+    
+    <controller type="DefaultController" name="Facility" factory="AYDefaultControllerFactoy" >
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="Facility" />
+    </controller>
+    
+    <controller type="DefaultController" name="ContentList" factory="AYDefaultControllerFactoy" >
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="ContentList" />
+    </controller>
+    
+    <controller type="DefaultController" name="CollectServ" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="CollectServ" />
+    </controller>
+    
+    <controller type="DefaultController" name="MyService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="MyService" />
+    </controller>
+    
+    <controller type="DefaultController" name="BabyInfo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="Loading"        name="Loading" />
+        <view type="Table"          name="Table" />
+        <view type="Picker"         name="Picker" />
+        <view type="Picker2"        name="Picker2" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="BabyInfo" />
+        <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker" />
+        <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker2" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmSNS" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmPhoneNo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="PhoneCheckInput" name="PhoneCheckInput" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmPhoneNoConsumer" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="PhoneCheckInput" name="PhoneCheckInput" />
+        <view type="ServiceConsumerFace" name="ServiceConsumerFace" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmRealName" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmFinish" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
+        <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="NapAreaMap"     name="NapAreaMap" />
+        <view type="Picker"         name="Picker" />
+        
+        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
+    </controller>
+    
+    <controller type="DefaultController" name="MainInfo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+
+        <view type="FakeNavBar" name="FakeNavBar" />
+        <view type="Table" name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="MainInfo" />
+    </controller>
+    
+    <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputNapTitle" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputNapDesc" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapAges" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Picker"         name="Picker" />
+        
+        <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapTheme" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapCost" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" />
+    </controller>
+    
+    <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="NapAdressMap"     name="NapAdressMap" />
+    </controller>
+    
+    <controller type="DefaultController" name="NapLocation" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
+        <view type="Table"      name="Table" />
+        <view type="SearchBar"  name="SearchBar" />
+        <view type="Loading"    name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="NapLocation" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetNapDevice" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" />
+    </controller>
+    
+    <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table" name="Table" />
+        <view type="Table2" name="Table2" />
+        <view type="DongDaSeg" name="DongDaSeg" />
+        <view type="Loading" name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" />
+        <delegate type="TableViewDelegateAndDatasource" name="PastOrder" />
+    </controller>
+    
+    <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="SNSWechat" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="ReadyOrder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        <view type="Loading"        name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" />
+    </controller>
+    
+    <controller type="DefaultController" name="AcceptOrReject" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="RejectOrder" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="CommentService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="CommentService" />
+    </controller>
+    
+    <controller type="DefaultController" name="ScanQRCode" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+    </controller>
+    
+    <controller type="DefaultController" name="MessageList" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
+        <view type="Table"          name="Table" />
+        <view type="Loading"        name="Loading" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="MessageList" />
+    </controller>
+    
+    <controller type="DefaultController" name="OrderInfo" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="FileRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+<!--        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />-->
+<!--        <view type="TimeOption"     name="TimeOption" />-->
+<!--        <view type="PayOption"      name="PayOption" />-->
+        <view type="Table"          name="Table" />
+
+        <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" />
+    </controller>
+    
+    <controller type="DefaultController" name="OrderTimes" factory="AYDefaultControllerFactoy" >
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="Picker"         name="Picker" />
+        
+        <delegate type="PickerViewDelegateAndDatasource" name="OrderTimes" />
+    </controller>
+    
+    <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="OrderInit" />
+        <command type="Module" name="MyServiceInit" />
+        <command type="Module" name="CalendarServiceInit" />
+        <command type="Module" name="MessageServiceInit" />
+        <command type="Module" name="ProfileServiceInit" />
+    </controller>
+    
+    <controller type="DefaultController" name="OrderService" factory="AYDefaultControllerFactoy" >
+    </controller>
+    
+    <controller type="DefaultController" name="CalendarService" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Schedule"       name="Schedule" />
+    </controller>
+    
+    <controller type="DefaultController" name="MessageService" factory="AYDefaultControllerFactoy" >
+    </controller>
+    
+    <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="ProfileRemote" />
+        <facade type="DefaultFacade" name="ContentQueryRemote" />
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
+        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+        
+        <view type="Table"          name="Table" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />
+    </controller>
+    
+    <controller type="DefaultController" name="SearchFilter" factory="AYDefaultControllerFactoy" >
+        
+        <view type="Table"          name="Table" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" />
+    </controller>
+   
+   <controller type="DefaultController" name="SearchFilterType" factory="AYDefaultControllerFactoy" >
+       
+       <view type="Table"          name="Table" />
+       <view type="FakeNavBar"     name="FakeNavBar" />
+       <view type="FakeStatusBar"  name="FakeStatusBar" />
+       
+       <delegate type="TableViewDelegateAndDatasource" name="SearchFilterType" />
+   </controller>
+   
+   <controller type="DefaultController" name="SearchFilterKidsAges" factory="AYDefaultControllerFactoy" >
+       <view type="FakeNavBar"     name="FakeNavBar" />
+       <view type="FakeStatusBar"  name="FakeStatusBar" />
+       <view type="Picker"                     name="Picker" />
+       
+       <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterKidsAges" />
+   </controller>
+   
+   <controller type="DefaultController" name="SearchFilterDate" factory="AYDefaultControllerFactoy" >
+       <view type="FakeNavBar"     name="FakeNavBar" />
+       <view type="FakeStatusBar"  name="FakeStatusBar" />
+   </controller>
+   
+   <controller type="DefaultController" name="SearchFilterPriceRange" factory="AYDefaultControllerFactoy" >
+       <view type="FakeNavBar"     name="FakeNavBar" />
+       <view type="FakeStatusBar"  name="FakeStatusBar" />
+       <view type="Picker"          name="Picker" />
+       
+       <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterPriceRange" />
+   </controller>
 </controllers>

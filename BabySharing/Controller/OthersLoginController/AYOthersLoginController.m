@@ -82,7 +82,6 @@
     [super viewDidLoad];
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     
-#define SCREEN_WIDTH            [UIScreen mainScreen].bounds.size.width
 #define FAKE_BAR_HEIGHT         44
 #define STATUS_BAR_HEIGHT       20
     
@@ -99,7 +98,7 @@
     [barBtn.layer addSublayer:layer_btn];
     barBtn.center = CGPointMake(BACK_BTN_LEFT_MARGIN + barBtn.frame.size.width / 2, STATUS_BAR_HEIGHT + FAKE_BAR_HEIGHT / 2);
     
-    [barBtn addTarget:self action:@selector(didPopViewController) forControlEvents:UIControlEventTouchDown];
+    [barBtn addTarget:self action:@selector(didPopViewController) forControlEvents:UIControlEventTouchUpInside];
     [_fakeBar addSubview:barBtn];
     
     UILabel* qa = [[UILabel alloc]init];
@@ -213,6 +212,9 @@
         id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
         if (img != nil) {
             [cmd performWithResult:&img];
+        }else {
+            UIImage *tmp_img = IMGRESOURCE(@"default_user");
+            [cmd performWithResult:&tmp_img];
         }
     }];
     
