@@ -7,20 +7,14 @@
 //
 
 #import "AYProfileHeadCellView.h"
-#import "TmpFileStorageModel.h"
-#import "Notifications.h"
-#import "Tools.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
-
 #import "QueryContent.h"
 #import "QueryContentItem.h"
 
@@ -61,7 +55,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
+    id<AYViewBase> cell = VIEW(@"ProfileHeadCell", @"ProfileHeadCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

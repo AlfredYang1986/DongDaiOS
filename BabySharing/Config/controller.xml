@@ -151,14 +151,24 @@
     
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="HomeInit" />
-        <command type="Module" name="FoundInit" />
-        <command type="Module" name="FriendsInit" />
+        <command type="Module" name="MessageInit" />
         <command type="Module" name="OrderInit" />
         <command type="Module" name="ProfileInit" />
-        <command type="Module" name="PlaceHolderInit" />
-        <command type="Module" name="CameraRollInit" />
-        <command type="Module" name="CameraInit" />
-        <command type="Module" name="MovieInit" />
+        
+<!--        <command type="Module" name="FoundInit" />-->
+<!--        <command type="Module" name="FriendsInit" />-->
+<!--        <command type="Module" name="PlaceHolderInit" />-->
+<!--        <command type="Module" name="CameraRollInit" />-->
+<!--        <command type="Module" name="CameraInit" />-->
+<!--        <command type="Module" name="MovieInit" />-->
+    </controller>
+    
+    <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
+        <command type="Module" name="OrderInit" />
+        <command type="Module" name="MyServiceInit" />
+        <command type="Module" name="CalendarServiceInit" />
+        <command type="Module" name="MessageInit" />
+        <command type="Module" name="ProfileInit" />
     </controller>
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
@@ -447,7 +457,7 @@
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
-        <view type="Image"              name="Image" />
+<!--        <view type="Image"              name="Image" />-->
 <!--        <view type="GroupChatHeader"    name="GroupChatHeader" />-->
         <view type="Table"              name="Table" />
         <view type="ChatInput"          name="ChatInput" />
@@ -832,14 +842,6 @@
         <delegate type="PickerViewDelegateAndDatasource" name="OrderTimes" />
     </controller>
     
-    <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="OrderInit" />
-        <command type="Module" name="MyServiceInit" />
-        <command type="Module" name="CalendarServiceInit" />
-        <command type="Module" name="MessageServiceInit" />
-        <command type="Module" name="ProfileServiceInit" />
-    </controller>
-    
     <controller type="DefaultController" name="OrderService" factory="AYDefaultControllerFactoy" >
     </controller>
     
@@ -849,7 +851,7 @@
         <view type="Schedule"       name="Schedule" />
     </controller>
     
-    <controller type="DefaultController" name="MessageService" factory="AYDefaultControllerFactoy" >
+    <controller type="DefaultController" name="Message" factory="AYDefaultControllerFactoy" >
     </controller>
     
     <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >

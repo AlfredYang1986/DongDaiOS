@@ -70,7 +70,7 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = PNGRESOURCE(@"bar_left_white");
+    UIImage* left = IMGRESOURCE(@"bar_left_white");
     [cmd_left performWithResult:&left];
     
     UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];

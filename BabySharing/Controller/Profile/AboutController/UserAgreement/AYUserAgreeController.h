@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-@interface AYUserAgreeController : AYViewController
+@interface AYUserAgreeController : AYViewController <UIWebViewDelegate>
 
 
 @end

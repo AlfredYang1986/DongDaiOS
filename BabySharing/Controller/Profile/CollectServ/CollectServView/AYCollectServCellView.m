@@ -16,7 +16,6 @@
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
@@ -46,7 +45,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(kAYNotificationCellName, kAYNotificationCellName);
+    id<AYViewBase> cell = VIEW(@"CollectServCell", @"CollectServCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

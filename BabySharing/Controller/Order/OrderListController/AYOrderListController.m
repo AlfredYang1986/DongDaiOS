@@ -10,15 +10,12 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-#import "OBShapedButton.h"
 #import "AYResourceManager.h"
 #import "AYNotifyDefines.h"
 #import "AYDongDaSegDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYUserDisplayDefines.h"
-#import "AYNotificationCellDefines.h"
-
 
 #define kFakeNavBarH                54
 #define kTableViewY                 74

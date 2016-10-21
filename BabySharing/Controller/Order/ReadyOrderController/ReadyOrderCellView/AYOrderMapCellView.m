@@ -7,17 +7,13 @@
 //
 
 #import "AYOrderMapCellView.h"
-#import "TmpFileStorageModel.h"
 #import "Notifications.h"
-#import "Tools.h"
-
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"

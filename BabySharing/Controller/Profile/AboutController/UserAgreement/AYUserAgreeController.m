@@ -10,19 +10,11 @@
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-#import "OBShapedButton.h"
 #import "AYResourceManager.h"
-#import "AYNotifyDefines.h"
-#import "AYFacadeBase.h"
 #import "SGActionView.h"
-#import "RemoteInstance.h"
 #import "AYModel.h"
 #import "AYRemoteCallCommand.h"
-
-
-@interface AYUserAgreeController ()
-
-@end
+#import "MBProgressHUD.h"
 
 @implementation AYUserAgreeController
 
@@ -47,15 +39,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    OBShapedButton* state = [[OBShapedButton alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44)];
-    [state setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
-    [state setBackgroundColor:[UIColor clearColor]];
-    state.titleLabel.font = [UIFont systemFontOfSize:17.f];
-    [state setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [state setTitle:@"登陆即表示同意用户协议" forState:UIControlStateNormal];
-    state.userInteractionEnabled = NO;
+    UIWebView *Web = [self.views objectForKey:@"Web"];
+    Web.delegate = self;
     
+    UIButton *state = [Tools creatUIButtonWithTitle:@"登陆即表示同意用户协议" andTitleColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
+    state.layer.cornerRadius = 4.f;
+    state.clipsToBounds = YES;
+    state.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    state.userInteractionEnabled = NO;
     [self.view addSubview:state];
+    [state mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(4);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 48));
+    }];
 }
 
 #pragma mark -- layout
@@ -86,17 +83,32 @@
     
     view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kStatusAndNavBarH);
     
-    NSString *path = [[NSBundle mainBundle]pathForResource:@"privacy" ofType:@"html"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"privacy" ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile:path];
     NSURL* url = [NSURL fileURLWithPath:path];
-    //    NSURLRequest* request = [NSURLRequest requestWithURL:url] ;
-    //    [webView loadRequest:request];
     [(UIWebView*)view loadData:data MIMEType:@"text/html" textEncodingName:@"UTF-8" baseURL:url];
     
+//    NSURLRequest* request = [NSURLRequest requestWithURL:url] ;
+//    [webView loadRequest:request];
 //    [((UIWebView*)view) setOpaque:NO];
     [((UIWebView*)view) setBackgroundColor:[UIColor whiteColor]];
     [self.view addSubview:((UIWebView*)view)];
     return nil;
+}
+
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [super startRemoteCall:nil];
+}
+
+#pragma mark -- webdelegate
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [super endRemoteCall:nil];
 }
 
 #pragma mark -- notification
@@ -158,8 +170,10 @@
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"Update user detail remote result: %@", result);
             if (success) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"success" message:@"咚哒用户协议已发送至您的邮箱" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [alert show];
+                
+                NSString *title = @"文件已发送至您的邮箱";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                
             } else {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"网络错误" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
                 [alert show];

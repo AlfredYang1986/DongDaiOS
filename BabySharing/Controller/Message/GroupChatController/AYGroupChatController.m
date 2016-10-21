@@ -222,13 +222,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     return nil;
 }
 
-- (id)ImageLayout:(UIView*)view {
-    view.hidden = YES;
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    ((UIImageView*)view).image = PNGRESOURCE(@"group_chat_bg_img");
-    return nil;
-}
-
 - (id)TableLayout:(UIView*)view {
     
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);

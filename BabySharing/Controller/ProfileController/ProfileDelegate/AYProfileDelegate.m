@@ -7,15 +7,9 @@
 //
 
 #import "AYProfileDelegate.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFactoryManager.h"
-#import "AYProfileHeadCellView.h"
 #import "Notifications.h"
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 @interface AYProfileDelegate ()
 @property (nonatomic, strong) NSDictionary* querydata;

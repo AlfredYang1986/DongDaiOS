@@ -14,7 +14,6 @@
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"

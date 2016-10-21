@@ -7,18 +7,14 @@
 //
 
 #import "AYPersonalInfoHeadCellView.h"
-#import "TmpFileStorageModel.h"
-#import "Notifications.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
-
 
 @implementation AYPersonalInfoHeadCellView {
     

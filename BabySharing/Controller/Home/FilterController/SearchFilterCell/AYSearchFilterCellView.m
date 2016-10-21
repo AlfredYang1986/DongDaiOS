@@ -7,24 +7,19 @@
 //
 
 #import "AYSearchFilterCellView.h"
-#import "Notifications.h"
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 #import "AYSearchFilterCellDefines.h"
 
 #define LINE_MARGIN                         15.f
-
-
 #define SEARCH_FILTER_CELL_HEIGHT           90.f
-
 #define TITLE_TEXT_COLOR                    [UIColor redColor]
 
 @interface AYSearchFilterCellView ()

@@ -18,6 +18,9 @@
 
 - (void)clearController;
 - (void)BtmAlertOtherBtnClick;
+
+- (id)startRemoteCall:(id)obj;
+- (id)endRemoteCall:(id)ob;
 @end
 
 #import "AYControllerActionDefines.h"

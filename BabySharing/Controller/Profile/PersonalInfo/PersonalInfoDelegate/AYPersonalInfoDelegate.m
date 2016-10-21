@@ -7,10 +7,7 @@
 //
 
 #import "AYPersonalInfoDelegate.h"
-#import "AYNotificationCellDefines.h"
 #import "AYFactoryManager.h"
-#import "AYProfileHeadCellView.h"
-#import "Notifications.h"
 #import "AYModelFacade.h"
 
 @implementation AYPersonalInfoDelegate {

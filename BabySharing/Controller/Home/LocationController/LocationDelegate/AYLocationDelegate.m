@@ -12,7 +12,6 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYSearchDefines.h"
-#import "AYFoundSearchResultCellDefines.h"
 
 #import <AMapSearchKit/AMapSearchKit.h>
 
