@@ -19,9 +19,7 @@
 
 #define kFakeNavBarH                54
 #define kTableViewY                 74
-
 #define SEARCH_BAR_MARGIN_BOT       -2
-
 #define SEGAMENT_MARGIN_BOTTOM      10.5
 #define BOTTOM_BAR_HEIGHT           49
 
@@ -50,7 +48,7 @@
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
         if (backArgs) {
             
-            [self loadOrderData];
+            [self loadNewData];
             
             if ([backArgs isKindOfClass:[NSString class]]) {
                 
@@ -66,7 +64,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     UIView* loading = [self.views objectForKey:@"Loading"];
@@ -116,7 +114,7 @@
         ((UITableView*)view_past).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     }
     
-    [self loadOrderData];
+    [self loadNewData];
 }
 
 - (void)sortResultArray:(NSDictionary*)result {
@@ -317,45 +315,6 @@
     
 }
 
-- (void)loadOrderData {
-    
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
-    //    NSNumber *status = [order_info objectForKey:@"status"];
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isNap = [self.tabBarController isKindOfClass:[des class]];
-    
-    if (isNap) {
-        
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
-        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-        
-        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-            if (success) {
-                [self sortResultArray:result];
-            }else {
-                NSLog(@"query orders error: %@",result);
-            }
-        }];
-    } else {
-        
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
-        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-        
-        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-            if (success) {
-                [self sortResultArray:result];
-            }else {
-                NSLog(@"query orders error: %@",result);
-            }
-        }];
-    }
-}
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
