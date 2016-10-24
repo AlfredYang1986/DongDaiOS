@@ -105,7 +105,6 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSNumber *status = [dic objectForKey:kAYControllerChangeArgsKey];
         isExchangeModel = status.intValue;
-        self.type = status;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -133,6 +132,8 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.mode = DongDaAppModeNapPersonal;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -143,7 +144,7 @@
     [dongda_tabbar itemSelected:btn];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelNapPersonal] forKey:@"dongda_app_mode"];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
     [defaults synchronize];
     
     if (isExchangeModel != 0) {

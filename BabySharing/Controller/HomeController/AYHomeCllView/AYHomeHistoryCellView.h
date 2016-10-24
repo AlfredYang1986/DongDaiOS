@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYHomeHistoryCellView : UITableViewCell <AYViewBase>
+@interface AYHomeHistoryCellView : UITableViewCell <AYViewBase, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end

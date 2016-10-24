@@ -742,10 +742,11 @@
         <view type="Table" name="Table" />
         <view type="Table2" name="Table2" />
         <view type="DongDaSeg" name="DongDaSeg" />
-        <view type="Loading" name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" />
         <delegate type="TableViewDelegateAndDatasource" name="PastOrder" />
+        <delegate type="TableViewDelegateAndDatasource" name="FutureOrderSer" />
+        <delegate type="TableViewDelegateAndDatasource" name="PastOrderSer" />
     </controller>
     
     <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >
@@ -765,7 +766,6 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Table"          name="Table" />
-        <view type="Loading"        name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" />
     </controller>
@@ -814,7 +814,6 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
         <view type="Table"          name="Table" />
-        <view type="Loading"        name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="MessageList" />
     </controller>

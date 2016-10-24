@@ -20,5 +20,6 @@
 @interface AYTabBarController : UITabBarController <AYControllerBase>
 
 @property (nonatomic, strong) DongDaTabBar* dongda_tabbar;
+@property (nonatomic, assign) DongDaAppMode mode;
 
 @end

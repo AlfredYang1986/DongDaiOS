@@ -148,14 +148,14 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.mode = DongDaAppModeCommon;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:[NSNumber numberWithInt:DongDaAppModelCommon] forKey:@"dongda_app_mode"];
+    [defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:@"dongda_app_mode"];
     [defaults synchronize];
     
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];

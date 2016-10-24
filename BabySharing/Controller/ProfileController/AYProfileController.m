@@ -127,12 +127,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
+//    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     
 }
 
@@ -187,44 +186,6 @@
     
     return nil;
 }
-
-//- (id)queryModel:(id)args {
-//    
-//    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-//    BOOL isNap = [self.tabBarController isKindOfClass:[des class]];
-//    args = [NSNumber numberWithBool:isNap];
-//    return args;
-//}
-
-//- (id)queryIsGridSelected:(id)obj {
-//    //    NSInteger index = ((NSNumber*)obj).integerValue;
-//    return [NSNumber numberWithBool:NO];
-//}
-
-//- (id)SamePersonBtnSelected {
-//    
-//    AYViewController* des = DEFAULTCONTROLLER(@"PersonalSetting");
-//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:profile_dic forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd = PUSH;
-//    [cmd performWithResult:&dic_push];
-//    return nil;
-//}
-//
-//- (id)relationChanged:(id)args {
-//    NSNumber* new_relations = (NSNumber*)args;
-//    NSLog(@"new relations %@", new_relations);
-//    
-//    id<AYViewBase> view_header = [self.views objectForKey:@"ProfileHeader"];
-//    id<AYCommand> cmd = [view_header.commands objectForKey:@"changeRelations:"];
-//    [cmd performWithResult:&new_relations];
-//    
-//    return nil;
-//}
 
 - (id)sendRegMessage:(NSNumber*)type {
     

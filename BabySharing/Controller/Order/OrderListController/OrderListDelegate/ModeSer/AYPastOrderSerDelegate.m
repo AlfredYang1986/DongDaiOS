@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYPastOrderDelegate.h"
+#import "AYPastOrderSerDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -16,7 +16,7 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYPastOrderDelegate {
+@implementation AYPastOrderSerDelegate {
     NSArray *querydata;
 }
 
@@ -53,17 +53,12 @@
 }
 
 #pragma mark -- table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return querydata.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
-
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SerOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -76,15 +71,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 285;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 5;
+    return 100;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *tmp = [querydata objectAtIndex:indexPath.section];
+    NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"ReadyOrder");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

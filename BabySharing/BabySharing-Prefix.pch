@@ -34,13 +34,13 @@ typedef enum : int {
     OrderStatusDone = 9,
 } OrderStatus;
 
-//DongDaAppModel
+//DongDaAppMode
 typedef enum : int {
-    DongDaAppModelUnLogin = 0,
-    DongDaAppModelCommon = 1,
-    DongDaAppModelNapPersonal,
-    DongDaAppModelNapFamily,
-} DongDaAppModel;
+    DongDaAppModeUnLogin = 0,
+    DongDaAppModeCommon = 1,
+    DongDaAppModeNapPersonal,
+    DongDaAppModeNapFamily,
+} DongDaAppMode;
 
 //ModelExchangeType
 typedef enum : int {

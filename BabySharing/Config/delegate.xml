@@ -251,7 +251,14 @@
     </delegate>
     <delegate type="TableViewDelegateAndDatasource" name="PastOrder" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="sendLocation:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="FutureOrderSer" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="updateReadState:" />
+    </delegate>
+    <delegate type="TableViewDelegateAndDatasource" name="PastOrderSer" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" factory="AYDefaultDelegateFactory" >

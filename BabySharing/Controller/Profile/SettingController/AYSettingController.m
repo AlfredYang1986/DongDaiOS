@@ -165,7 +165,7 @@
         [cmd_show_module performWithResult:&dic_show_module];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:[NSNumber numberWithInt:DongDaAppModelUnLogin] forKey:@"dongda_app_mode"];
+        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeUnLogin] forKey:@"dongda_app_mode"];
         [defaults synchronize];
     }];
     

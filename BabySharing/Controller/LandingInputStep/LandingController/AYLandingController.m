@@ -409,13 +409,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             NSNumber *model = [defaults objectForKey:@"dongda_app_mode"];
             AYViewController* des;
             switch (model.intValue) {
-                case DongDaAppModelUnLogin:
-                case DongDaAppModelCommon:
+                case DongDaAppModeUnLogin:
+                case DongDaAppModeCommon:
                 {
                     des = DEFAULTCONTROLLER(@"TabBar");
                 }
                     break;
-                case DongDaAppModelNapPersonal:
+                case DongDaAppModeNapPersonal:
                 {
                     des = DEFAULTCONTROLLER(@"TabBarService");
                 }

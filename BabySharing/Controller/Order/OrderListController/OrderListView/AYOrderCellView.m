@@ -123,7 +123,7 @@
     NSString *bookStr = [formatterBookDay stringFromDate:bookDate];
     _dateLabel.text = bookStr;
     
-    int OrderStatus = ((NSNumber*)[args objectForKey:@"status"]).intValue;
+    OrderStatus OrderStatus = ((NSNumber*)[args objectForKey:@"status"]).intValue;
     switch (OrderStatus) {
         case OrderStatusReady:
             _statusLabel.text = @"待确认订单";

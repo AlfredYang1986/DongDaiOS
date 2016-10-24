@@ -10,5 +10,5 @@
 #import "AYControllerBase.h"
 
 @interface AYTabBarServiceController : UITabBarController <AYControllerBase>
-@property (nonatomic, assign) NSNumber *type;
+@property (nonatomic, assign) DongDaAppMode mode;
 @end

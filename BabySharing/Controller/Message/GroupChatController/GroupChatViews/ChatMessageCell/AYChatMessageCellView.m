@@ -146,121 +146,6 @@
     
 }
 
-- (void)setEMMessage:(EMMessage*)msg {
-    _message = msg;
-   
-    NSDictionary* user = nil;
-    CURRENUSER(user);
-    
-    isSenderByOwner = [[user objectForKey:@"user_id"] isEqualToString:_message.from];
-    
-    NSString *content_text  = ((EMTextMessageBody*)_message.body).text;
-    if (content_text) {
-        content.text = content_text;
-    }
-    [self setContentDate:_message.timestamp];
-    
-    if (isSenderByOwner) {
-        
-        [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-10);
-            make.top.equalTo(self).offset(15);
-            make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
-        }];
-        
-        content.textColor = time_label.textColor = [UIColor whiteColor];
-        [content mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(imgView.mas_left).offset(-30);
-            make.top.equalTo(imgView).offset(20);
-//            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
-            
-            make.width.mas_greaterThanOrEqualTo(40);
-            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.65);
-//            make.left.lessThanOrEqualTo(self).offset(30);
-            
-            make.bottom.equalTo(self).offset(-45);
-        }];
-        
-        [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(content);
-            make.top.equalTo(content.mas_bottom).offset(10);
-        }];
-        
-        UIImage *bg = IMGRESOURCE(@"message_bg_me");
-        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 10, 15) resizingMode:UIImageResizingModeStretch];
-        bgView.image = bg;
-        [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -20, -35, -30));
-        }];
-        
-    } else {
-        [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(10);
-            make.top.equalTo(self).offset(15);
-            make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
-        }];
-        
-        content.textColor = time_label.textColor = [Tools blackColor];
-        [content mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(imgView.mas_right).offset(30);
-            make.top.equalTo(imgView).offset(20);
-//            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
-            make.width.mas_greaterThanOrEqualTo(40);
-            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.65);
-            make.bottom.equalTo(self).offset(-45);
-        }];
-        NSLog(@"%@, %f",content.text, content.frame.size.height);
-        
-        [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(content);
-            make.top.equalTo(content.mas_bottom).offset(10);
-        }];
-        
-        UIImage *bg = IMGRESOURCE(@"message_bg_one");
-        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
-        bgView.image = bg;
-        [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -30, -35, -20));
-        }];
-    }
-    
-    sender_user_id = _message.from;
-    id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
-    
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:sender_user_id forKey:@"user_id"];
-    
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-//            NSLog(@"%@",result);
-//            NSString *photo_name = [result objectForKey:@"screen_photo"];
-//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//            [dic setValue:photo_name forKey:@"image"];
-//            [dic setValue:@"img_icon" forKey:@"expect_size"];
-//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//                UIImage* img = (UIImage*)result;
-//                if (img != nil) {
-//                    [imgView setImage:img];
-//                } else [imgView setImage:IMGRESOURCE(@"default_user")];
-//            }];
-            
-            NSString* photo_name = [result objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [imgView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                       placeholderImage:IMGRESOURCE(@"default_user")];
-            
-        } else {
-            [imgView setImage:IMGRESOURCE(@"default_user")];
-        }
-
-    }];
-}
-
 - (void)setContentDate:(NSTimeInterval)date {
     
     NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:date*0.001];
@@ -351,4 +236,120 @@
     cell.message = m;
     return nil;
 }
+
+- (void)setEMMessage:(EMMessage*)msg {
+    _message = msg;
+    
+    NSDictionary* user = nil;
+    CURRENUSER(user);
+    
+    isSenderByOwner = [[user objectForKey:@"user_id"] isEqualToString:_message.from];
+    
+    NSString *content_text  = ((EMTextMessageBody*)_message.body).text;
+    if (content_text) {
+        content.text = content_text;
+    }
+    [self setContentDate:_message.timestamp];
+    
+    if (isSenderByOwner) {
+        
+        [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-10);
+            make.top.equalTo(self).offset(15);
+            make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
+        }];
+        
+        content.textColor = time_label.textColor = [UIColor whiteColor];
+        [content mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(imgView.mas_left).offset(-30);
+            make.top.equalTo(imgView).offset(20);
+            //            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
+            
+            make.width.mas_greaterThanOrEqualTo(40);
+            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.65);
+            //            make.left.lessThanOrEqualTo(self).offset(30);
+            
+            make.bottom.equalTo(self).offset(-45);
+        }];
+        
+        [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(content);
+            make.top.equalTo(content.mas_bottom).offset(10);
+        }];
+        
+        UIImage *bg = IMGRESOURCE(@"message_bg_me");
+        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 10, 15) resizingMode:UIImageResizingModeStretch];
+        bgView.image = bg;
+        [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -20, -35, -30));
+        }];
+        
+    } else {
+        [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(10);
+            make.top.equalTo(self).offset(15);
+            make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
+        }];
+        
+        content.textColor = time_label.textColor = [Tools blackColor];
+        [content mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(imgView.mas_right).offset(30);
+            make.top.equalTo(imgView).offset(20);
+            //            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
+            make.width.mas_greaterThanOrEqualTo(40);
+            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.65);
+            make.bottom.equalTo(self).offset(-45);
+        }];
+        NSLog(@"%@, %f",content.text, content.frame.size.height);
+        
+        [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(content);
+            make.top.equalTo(content.mas_bottom).offset(10);
+        }];
+        
+        UIImage *bg = IMGRESOURCE(@"message_bg_one");
+        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
+        bgView.image = bg;
+        [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -30, -35, -20));
+        }];
+    }
+    
+    sender_user_id = _message.from;
+    id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:sender_user_id forKey:@"user_id"];
+    
+    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            //            NSLog(@"%@",result);
+            //            NSString *photo_name = [result objectForKey:@"screen_photo"];
+            //            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            //            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            //            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            //            [dic setValue:photo_name forKey:@"image"];
+            //            [dic setValue:@"img_icon" forKey:@"expect_size"];
+            //            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            //                UIImage* img = (UIImage*)result;
+            //                if (img != nil) {
+            //                    [imgView setImage:img];
+            //                } else [imgView setImage:IMGRESOURCE(@"default_user")];
+            //            }];
+            
+            NSString* photo_name = [result objectForKey:@"screen_photo"];
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSString *pre = cmd.route;
+            [imgView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                       placeholderImage:IMGRESOURCE(@"default_user")];
+            
+        } else {
+            [imgView setImage:IMGRESOURCE(@"default_user")];
+        }
+        
+    }];
+}
+
 @end

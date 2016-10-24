@@ -25,7 +25,6 @@
 
 @implementation AYOrderListController {
     
-    BOOL isPush;
     NSMutableArray *result_status_0;
 }
 
@@ -35,7 +34,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        isPush = YES;
+//        isPush = YES;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -67,54 +66,201 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UIView* loading = [self.views objectForKey:@"Loading"];
-    loading.hidden = YES;
-    [self.view bringSubviewToFront:loading];
-    
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_reg = [self.views objectForKey:@"DongDaSeg"];
     [view_nav addSubview:(UIView*)view_reg];
     [view_nav bringSubviewToFront:(UIView*)view_reg];
     
-    {
-        id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrder"];
-        
-        id<AYCommand> cmd_datasource = [view_future.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_future.commands objectForKey:@"registerDelegate:"];
-        
-        id obj = (id)cmd_notify;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_notify;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_cell = [view_future.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&class_name];
-        
-        ((UITableView*)view_future).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-    }
+    AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
+    BOOL isSer = [self.tabBarController isKindOfClass:[compare class]];
     
-    {
-        id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
-        id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"PastOrder"];
+    if (isSer) {
+        {
+            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrderSer"];
+            
+            id<AYCommand> cmd_datasource = [view_future.commands objectForKey:@"registerDatasource:"];
+            id<AYCommand> cmd_delegate = [view_future.commands objectForKey:@"registerDelegate:"];
+            
+            id obj = (id)cmd_notify;
+            [cmd_datasource performWithResult:&obj];
+            obj = (id)cmd_notify;
+            [cmd_delegate performWithResult:&obj];
+            
+            id<AYCommand> cmd_cell = [view_future.commands objectForKey:@"registerCellWithClass:"];
+            NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SerOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            [cmd_cell performWithResult:&class_name];
+            
+            NSString* class_name1 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NoOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            [cmd_cell performWithResult:&class_name1];
+            
+            ((UITableView*)view_future).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+        }
         
-        id<AYCommand> cmd_datasource = [view_past.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_past.commands objectForKey:@"registerDelegate:"];
+        {
+            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
+            id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"PastOrderSer"];
+            
+            id<AYCommand> cmd_datasource = [view_past.commands objectForKey:@"registerDatasource:"];
+            id<AYCommand> cmd_delegate = [view_past.commands objectForKey:@"registerDelegate:"];
+            
+            id obj = (id)cmd_relations;
+            [cmd_datasource performWithResult:&obj];
+            obj = (id)cmd_relations;
+            [cmd_delegate performWithResult:&obj];
+            
+            id<AYCommand> cmd_hot_cell = [view_past.commands objectForKey:@"registerCellWithClass:"];
+            NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SerOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            [cmd_hot_cell performWithResult:&class_name];
+            
+            ((UITableView*)view_past).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+        }
+    }
+    else {
+        {
+            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrder"];
+            
+            id<AYCommand> cmd_datasource = [view_future.commands objectForKey:@"registerDatasource:"];
+            id<AYCommand> cmd_delegate = [view_future.commands objectForKey:@"registerDelegate:"];
+            
+            id obj = (id)cmd_notify;
+            [cmd_datasource performWithResult:&obj];
+            obj = (id)cmd_notify;
+            [cmd_delegate performWithResult:&obj];
+            
+            id<AYCommand> cmd_cell = [view_future.commands objectForKey:@"registerCellWithNib:"];
+            NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            [cmd_cell performWithResult:&class_name];
+            
+            ((UITableView*)view_future).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+        }
         
-        id obj = (id)cmd_relations;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_relations;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_hot_cell = [view_past.commands objectForKey:@"registerCellWithNib:"];
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_hot_cell performWithResult:&class_name];
-        
-        ((UITableView*)view_past).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+        {
+            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
+            id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"PastOrder"];
+            
+            id<AYCommand> cmd_datasource = [view_past.commands objectForKey:@"registerDatasource:"];
+            id<AYCommand> cmd_delegate = [view_past.commands objectForKey:@"registerDelegate:"];
+            
+            id obj = (id)cmd_relations;
+            [cmd_datasource performWithResult:&obj];
+            obj = (id)cmd_relations;
+            [cmd_delegate performWithResult:&obj];
+            
+            id<AYCommand> cmd_hot_cell = [view_past.commands objectForKey:@"registerCellWithNib:"];
+            NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            [cmd_hot_cell performWithResult:&class_name];
+            
+            ((UITableView*)view_past).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+        }
     }
     
     [self loadNewData];
+}
+
+#pragma mark -- actions
+- (void)loadNewData {
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
+    BOOL isSer = [self.tabBarController isKindOfClass:[des class]];
+    
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    
+    if (isSer) {
+        
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
+        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+        
+        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                [self sortSerResultArray:result];
+            }else {
+                NSLog(@"query orders error: %@",result);
+            }
+            
+            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+            [((UITableView*)view_future).mj_header endRefreshing];
+            
+            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
+            [((UITableView*)view_past).mj_header endRefreshing];
+        }];
+    } else {
+        
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
+        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+        
+        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            if (success) {
+                [self sortResultArray:result];
+            }else {
+                NSLog(@"query orders error: %@",result);
+            }
+            
+            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+            [((UITableView*)view_future).mj_header endRefreshing];
+            
+            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
+            [((UITableView*)view_past).mj_header endRefreshing];
+        }];
+    }
+    
+}
+
+- (void)sortSerResultArray:(NSDictionary*)result {
+    
+    NSArray *resultArr = [result objectForKey:@"result"];
+    
+    NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
+    NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
+    NSArray *result_status_done = [resultArr filteredArrayUsingPredicate:pred_done];
+    NSArray *result_status_reject = [resultArr filteredArrayUsingPredicate:pred_reject];
+    
+    NSMutableArray *tmpArr = [[NSMutableArray alloc]init];
+    [tmpArr addObjectsFromArray:result_status_done];
+    [tmpArr addObjectsFromArray:result_status_reject];
+    
+    id<AYDelegateBase> cmd_past = [self.delegates objectForKey:@"PastOrderSer"];
+    id<AYCommand> changeData_2 = [cmd_past.commands objectForKey:@"changeQueryData:"];
+    NSArray *all_past = [tmpArr copy];
+    [changeData_2 performWithResult:&all_past];
+    
+    id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
+    id<AYCommand> refresh_2 = [view_past.commands objectForKey:@"refresh"];
+    [refresh_2 performWithResult:nil];
+    
+    /*****************************/
+    
+    NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
+    NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
+    NSArray *result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
+    NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
+    
+    result_status_0 = [result_status_ready copy];
+    
+//    result_status_0 = [[NSMutableArray alloc]init];
+//    [result_status_0 addObjectsFromArray:result_status_ready];
+//    [result_status_0 addObjectsFromArray:result_status_confirm];
+    
+//    NSPredicate *pred_0_1 = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_0, pred_1]];
+//    result_status_0 = [NSMutableArray arrayWithArray:[resultArr filteredArrayUsingPredicate:pred_0_1]];
+    
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FutureOrderSer"];
+    id<AYCommand> changeData_0 = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+    
+    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [tmp setValue:[result_status_ready copy] forKey:@"paid"];
+    [tmp setValue:[result_status_confirm copy] forKey:@"confirm"];
+    [changeData_0 performWithResult:&tmp];
+    
+    id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+    id<AYCommand> refresh_0 = [view_future.commands objectForKey:@"refresh"];
+    [refresh_0 performWithResult:nil];
 }
 
 - (void)sortResultArray:(NSDictionary*)result {
@@ -185,11 +331,7 @@
     view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    if (isPush) {
-        id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-        UIImage* left = IMGRESOURCE(@"bar_left_black");
-        [cmd_left performWithResult:&left];
-    }else {
+    {
         id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
         NSNumber* left_hidden = [NSNumber numberWithBool:YES];
         [cmd_left_vis performWithResult:&left_hidden];
@@ -214,7 +356,7 @@
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - 69 - (isPush?0:49));
+    view.frame = CGRectMake(0, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - 69 - (49));
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -223,7 +365,7 @@
 
 - (id)Table2Layout:(UIView*)view {
     
-    view.frame = CGRectMake(SCREEN_WIDTH, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - 69 - (isPush?0:49));
+    view.frame = CGRectMake(SCREEN_WIDTH, kTableViewY, SCREEN_WIDTH, SCREEN_HEIGHT - 69 - (49));
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     ((UITableView*)view).showsVerticalScrollIndicator = NO;
@@ -256,65 +398,6 @@
     
     return nil;
 }
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    return nil;
-}
-
-#pragma mark -- actions
-- (void)loadNewData {
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isNap = [self.tabBarController isKindOfClass:[des class]];
-    
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
-    if (isNap) {
-        
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
-        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-        
-        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-            if (success) {
-                [self sortResultArray:result];
-            }else {
-                NSLog(@"query orders error: %@",result);
-            }
-            
-            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
-            [((UITableView*)view_future).mj_header endRefreshing];
-            
-            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
-            [((UITableView*)view_past).mj_header endRefreshing];
-        }];
-    } else {
-        
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-        AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
-        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-        
-        [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-            if (success) {
-                [self sortResultArray:result];
-            }else {
-                NSLog(@"query orders error: %@",result);
-            }
-            
-            id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
-            [((UITableView*)view_future).mj_header endRefreshing];
-            
-            id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
-            [((UITableView*)view_past).mj_header endRefreshing];
-        }];
-    }
-    
-}
-
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
