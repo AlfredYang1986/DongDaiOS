@@ -17,7 +17,8 @@
 
 #import "AYModelFacade.h"
 
-@implementation AYQueryCurrentLoginUserCommand
+@implementation AYQueryCurrentLoginUserCommand {
+}
 @synthesize para = _para;
 
 - (void)postPerform {
@@ -26,7 +27,7 @@
 
 - (void)performWithResult:(NSObject**)obj {
     NSLog(@"query tmp user in local db: %@", *obj);
-    
+   
     AYModelFacade* f = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     
