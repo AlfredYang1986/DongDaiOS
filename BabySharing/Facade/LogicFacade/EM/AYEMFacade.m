@@ -25,7 +25,7 @@
 @end
 
 @implementation AYEMFacade {
-    id dongda_note;
+    NSString *dongda_note;
 }
 
 @synthesize para = _para;
@@ -103,10 +103,6 @@
  */
 - (void)didReceiveMessages:(NSArray *)aMessages {
     
-    if (dongda_note == aMessages) {
-        return;
-    }
-    dongda_note = aMessages;
     /**
      * for notification
      */
@@ -114,10 +110,17 @@
     NSArray* dongda_notify = [aMessages filteredArrayUsingPredicate:pn];
     
     for (EMMessage* message in dongda_notify) {
+        
+        NSDictionary* dic = [RemoteInstance searchDataFromData:[((EMTextMessageBody*)message.body).text dataUsingEncoding:NSUTF8StringEncoding]];
+        
+        if ([dongda_note isEqualToString:[dic objectForKey:@"sign"]]) {
+            return;
+        }
+        dongda_note = [dic objectForKey:@"sign"];
+        
         if (message.isRead == NO && message.body.type == EMMessageBodyTypeText) {
             NSLog(@"message is : %@", ((EMTextMessageBody*)message.body).text);
             
-            NSDictionary* dic = [RemoteInstance searchDataFromData:[((EMTextMessageBody*)message.body).text dataUsingEncoding:NSUTF8StringEncoding]];
             
             NotificationActionType type = ((NSNumber*)[dic objectForKey:@"type"]).intValue;
             

@@ -47,7 +47,7 @@
     NSString* desController = [self.para objectForKey:@"controller"];
     Class c = NSClassFromString([[kAYFactoryManagerControllerPrefix stringByAppendingString:desController] stringByAppendingString:kAYFactoryManagerControllersuffix]);
     if (c == nil) {
-        @throw [NSException exceptionWithName:@"error" reason:@"perform  init command error" userInfo:nil];
+        @throw [NSException exceptionWithName:@"error" reason:@"perform init command error" userInfo:nil];
     } else {
         controller = [[c alloc]init];
         

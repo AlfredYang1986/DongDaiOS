@@ -266,6 +266,55 @@
     return result;
 }
 
++ (NSString *)compareFutureTime:(NSDate *)compareDate {
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //zzz表示时区，zzz可以删除，这样返回的日期字符将不包含时区信息。
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    //    秒数差
+    NSTimeInterval  timeInterval = [compareDate timeIntervalSinceNow];
+    //未来为正 过去为负
+    
+    // TODO: 一个bug， 2039穿越时间显示刚刚
+//    if (compareDate.timeIntervalSince1970 > [NSDate date].timeIntervalSince1970) {
+//        return @"";
+//    }
+    
+    double temp = 0;
+    NSString *result;
+    
+    if (timeInterval < 0) {
+        result = [NSString stringWithFormat:@"正在进行"];
+    } else {
+//        timeInterval = - timeInterval;
+        if (timeInterval < 60) {
+            result = [NSString stringWithFormat:@"即将开始"];
+        }
+        else if((temp = timeInterval/60) <60){
+            result = [NSString stringWithFormat:@"%ld分钟后",(long)temp];
+        }
+        
+        else if((temp = temp/60) <24){
+            result = [NSString stringWithFormat:@"%ld小时后",(long)temp];
+        }
+        
+        else if((temp = temp/24) <30){
+            result = [NSString stringWithFormat:@"%ld天后",(long)temp];
+        }
+        
+        else if((temp = temp/30) <12){
+            result = [NSString stringWithFormat:@"%ld月后",(long)temp];
+        }
+        else{
+            temp = temp/12;
+            result = [NSString stringWithFormat:@"%ld年后",(long)temp];
+        }
+    }
+    
+    NSLog(@"MonkeyHengLog: %@ === %@", [dateFormatter stringFromDate:compareDate], result);
+    return result;
+}
+
 + (NSString*)getDeviceUUID {
     return [[UIDevice currentDevice].identifierForVendor UUIDString];
 }

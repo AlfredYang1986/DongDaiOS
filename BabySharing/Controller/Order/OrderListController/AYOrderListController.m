@@ -54,7 +54,6 @@
                 NSString *title = (NSString*)backArgs;
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
-            
         }
         
     }

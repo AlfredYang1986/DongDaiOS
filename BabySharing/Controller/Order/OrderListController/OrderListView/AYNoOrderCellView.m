@@ -40,7 +40,7 @@
         [self addSubview:description];
         [description mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.top.equalTo(titleLabel.mas_bottom).offset(15);
+            make.top.equalTo(titleLabel.mas_bottom).offset(12);
         }];
         
         CALayer *btm_seprtor = [CALayer layer];

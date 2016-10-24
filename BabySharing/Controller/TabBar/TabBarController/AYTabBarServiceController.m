@@ -150,9 +150,9 @@
     if (isExchangeModel != 0) {
         NSString *tipString ;
         
-        if (isExchangeModel == ModelExchangeTypeCommonToNapPersonal) {
+        if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal) {
             tipString = @"转换到服务者模式...";
-        } else if (isExchangeModel == ModelExchangeTypeCommonToNapFamily) {
+        } else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
             tipString = @"转换到看护家庭模式...";
         }
         

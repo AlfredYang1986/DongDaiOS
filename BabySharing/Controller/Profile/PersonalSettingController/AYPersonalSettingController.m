@@ -290,6 +290,13 @@
 
 - (id)rightBtnSelected {
     
+    NSInteger length = [Tools bityWithStr:nameTextField.text];
+    if (length > 32) {
+        NSString *title = @"姓名长度应在4-32个字符之间\n*汉字／大写字母长度为2";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return nil;
+    }
+    
     if (isUserPhotoChanged) {
         AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
         NSMutableDictionary *up_dic = [[NSMutableDictionary alloc]initWithCapacity:2];

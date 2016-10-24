@@ -161,7 +161,7 @@
     UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview:cover];
     
-    if (isExchangeModel == ModelExchangeTypeNapToCommon) {
+    if (isExchangeModel == ModeExchangeTypeNapToCommon) {
         cover.backgroundColor = [Tools darkBackgroundColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
@@ -179,7 +179,7 @@
                 [cover removeFromSuperview];
             }];
         });
-    } else if(isExchangeModel == ModelExchangeTypeUnloginToAllModel) {
+    } else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel) {
         cover.backgroundColor = [UIColor whiteColor];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
