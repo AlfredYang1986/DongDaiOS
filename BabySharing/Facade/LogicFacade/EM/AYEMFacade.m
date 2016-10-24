@@ -20,7 +20,6 @@
 
 #import "RemoteInstance.h"
 
-
 @interface AYEMFacade () <EMClientDelegate, EMChatManagerDelegate, EMChatroomManagerDelegate, EMGroupManagerDelegate>
 
 @end

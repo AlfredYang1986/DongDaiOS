@@ -19,6 +19,9 @@
 #import "AYModel.h"
 #import "AYFactoryManager.h"
 
+#import "Tools.h"
+#import "AYCommentServiceController.h"
+
 #import "MBProgressHUD.h"
 
 #define btmAlertViewH                   80
@@ -208,18 +211,19 @@
 
 #pragma mark -- order
 - (id)OrderAccomplished:(id)args {
-    
+  
     UIViewController *activeVC = [Tools activityViewController];
-    
+    if (![activeVC isKindOfClass:[AYCommentServiceController class]]) {
     id<AYCommand> des = DEFAULTCONTROLLER(@"CommentService");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:activeVC forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = SHOWMODULEUP;
-    [cmd_show_module performWithResult:&dic];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic setValue:activeVC forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd_show_module = SHOWMODULEUP;
+        [cmd_show_module performWithResult:&dic];       
+    }
     return nil;
 }
 

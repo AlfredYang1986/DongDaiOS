@@ -237,8 +237,7 @@
         sumPrice += 40;
     }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
-    sumPrice += unit_price.floatValue * (endClock - startClock);
-    sumPrice = 1;
+    sumPrice += (unit_price.floatValue * (endClock - startClock)) * 100;
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
