@@ -143,7 +143,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     phoneNoLogin.clipsToBounds = YES;
     [self.view addSubview:phoneNoLogin];
     [phoneNoLogin mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view).offset(-200);
+        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 0.6);
         make.centerX.equalTo(self.view);
         make.left.equalTo(self.view).offset(43);
         make.right.equalTo(self.view).offset(-43);

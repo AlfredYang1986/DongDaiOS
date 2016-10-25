@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="105"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="375" height="104"/>
+                <frame key="frameInset" width="375" height="104.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default_user" translatesAutoresizingMaskIntoConstraints="NO" id="afz-TC-iPO">
@@ -22,7 +22,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未知昵称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dj7-qo-zuI">
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -30,7 +30,7 @@
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="pdS-oT-lzg"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
                         <state key="normal" title="交谈">
                             <color key="titleColor" red="0.24313725489999999" green="0.83529411760000005" blue="0.74509803919999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
@@ -45,6 +45,7 @@
                     <constraint firstItem="dj7-qo-zuI" firstAttribute="centerY" secondItem="afz-TC-iPO" secondAttribute="centerY" id="M1U-HU-Yco"/>
                     <constraint firstItem="dj2-Qo-zCG" firstAttribute="centerY" secondItem="afz-TC-iPO" secondAttribute="centerY" id="OMf-TU-Dg8"/>
                     <constraint firstItem="dj7-qo-zuI" firstAttribute="leading" secondItem="afz-TC-iPO" secondAttribute="trailing" constant="15" id="n4I-lS-sES"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dj7-qo-zuI" secondAttribute="trailing" constant="80" id="oG6-bC-9D8"/>
                     <constraint firstAttribute="trailing" secondItem="dj2-Qo-zCG" secondAttribute="trailing" constant="15" id="wle-cX-4vt"/>
                 </constraints>
             </tableViewCellContentView>
@@ -53,7 +54,7 @@
                 <outlet property="userNameLabel" destination="dj7-qo-zuI" id="zCb-tV-iXu"/>
                 <outlet property="userPhotoImage" destination="afz-TC-iPO" id="dwG-rg-XFd"/>
             </connections>
-            <point key="canvasLocation" x="424.5" y="350.5"/>
+            <point key="canvasLocation" x="-12" y="-54"/>
         </tableViewCell>
     </objects>
     <resources>

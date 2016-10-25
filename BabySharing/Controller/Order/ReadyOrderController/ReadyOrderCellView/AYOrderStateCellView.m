@@ -19,26 +19,40 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@interface AYOrderStateCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *stateLabel;
-@property (weak, nonatomic) IBOutlet UIButton *QRCodeBtn;
-@property (weak, nonatomic) IBOutlet UILabel *planTimeLabel;
-@property (weak, nonatomic) IBOutlet UILabel *planCostLabel;
+@implementation AYOrderStateCellView {
+    UILabel *titleLabel;
+}
 
-@end
-
-@implementation AYOrderStateCellView
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-    
-    CALayer *line_separator = [CALayer layer];
-    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
-    line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
-    [self.layer addSublayer:line_separator];
-    
-    [self setUpReuseCell];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        titleLabel = [Tools creatUILabelWithText:@"已评价" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.centerY.equalTo(self);
+        }];
+        
+        UIImageView *signView = [UIImageView new];
+        signView.image = IMGRESOURCE(@"checked_icon");
+        [self addSubview:signView];
+        [signView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
+        }];
+        
+//        CALayer *line_separator = [CALayer layer];
+//        line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+//        line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+//        [self.layer addSublayer:line_separator];
+        
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
+    }
+    return self;
 }
 
 @synthesize para = _para;
@@ -94,48 +108,8 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (IBAction)didQRCodeBtnClick:(id)sender {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didQRCodeBtnClick"];
-    [cmd performWithResult:nil];
-}
-
 - (id)setCellInfo:(NSDictionary*)args{
     
-    int status = ((NSNumber*)[args objectForKey:@"status"]).intValue;
-    switch (status) {
-        case 0:
-            _stateLabel.text = @"待确认订单";
-            break;
-        case 1:
-            _stateLabel.text = @"已确认订单";
-            break;
-        case 2:
-            _stateLabel.text = @"已完成订单";
-            break;
-        default:
-            break;
-    }
-    
-    /*******************/
-    NSDictionary *order_date = [args objectForKey:@"order_date"];
-    NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-    NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-    NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
-    NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
-    
-    NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
-    [formatterDay setDateFormat:@"MM月dd日"];
-    NSString *dayStr = [formatterDay stringFromDate:startDate];
-    
-    NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
-    [formatterTime setDateFormat:@"HH:mm"];
-    NSString *startStr = [formatterTime stringFromDate:startDate];
-    NSString *endStr = [formatterTime stringFromDate:endDate];
-    
-    _planTimeLabel.text = [NSString stringWithFormat:@"%@, %@-%@",dayStr,startStr,endStr];
-    
-//    NSString *str = [args objectForKey:@"price"];
-    _planCostLabel.text = [NSString stringWithFormat:@"%f",((NSNumber*)[args objectForKey:@"price"]).floatValue];
     
     return nil;
 }

@@ -117,7 +117,7 @@
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
     } else if (indexPath.row == 5) {
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderStateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
     } else {
@@ -137,6 +137,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    OrderStatus status = ((NSNumber*)[querydata objectForKey:@"status"]).intValue;
+    
     if (indexPath.row == 0) {
         return 110.f;
     } else if (indexPath.row == 1) {
@@ -145,7 +147,7 @@
         return 135.f;
     } else if (indexPath.row == 3) {
         
-        return isExpend?220.f:90.f;
+        return isExpend?150.f:90.f;
         
     } else if (indexPath.row == 4) {
         return 100.f;
@@ -155,7 +157,10 @@
         return 0.001;
         
     } else {
-        return 220.f;
+        if (status== OrderStatusDone || status == OrderStatusReject) {
+            return 0.001;
+        } else
+            return 220.f;
     }
 }
 

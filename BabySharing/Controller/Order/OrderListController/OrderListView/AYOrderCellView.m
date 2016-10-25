@@ -132,7 +132,7 @@
             _statusLabel.text = @"已确认订单";
             break;
         case OrderStatusPaid:
-            _statusLabel.text = @"已支付订单";
+            _statusLabel.text = @"待确认订单";
             break;
         case OrderStatusDone:
             _statusLabel.text = @"已完成订单";

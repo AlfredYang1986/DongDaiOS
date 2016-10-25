@@ -113,10 +113,10 @@
     UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     header.backgroundColor = [Tools whiteColor];
     NSString *titleStr = section == 0 ? @"待处理" : @"已确认";
-    UILabel *title = [Tools creatUILabelWithText:titleStr andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [header addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(header);
+        make.centerY.equalTo(header).offset(10);
         make.left.equalTo(header).offset(15);
     }];
     
@@ -124,7 +124,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 120;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -133,11 +133,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (querydata_paid.count == 0 && indexPath.section == 0) {
+        return ;
+    }
+    
     NSDictionary *tmp = indexPath.section == 0 ? [querydata_paid objectAtIndex:indexPath.row] : [querydata_confirm objectAtIndex:indexPath.row];
     
     if (indexPath.section == 0) {
         
-        NSLog(@"%ld",(long)indexPath.section);
         NSLog(@"%@",tmp);
         NSNumber *is_read = (NSNumber*)[tmp objectForKey:@"is_read"];
         if (is_read.intValue == 0) {

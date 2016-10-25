@@ -45,7 +45,7 @@
         
         CALayer *btm_seprtor = [CALayer layer];
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 100- 0.5, SCREEN_WIDTH - margin * 2, 0.5);
+        btm_seprtor.frame = CGRectMake(margin, 120- 0.5, SCREEN_WIDTH - margin * 2, 0.5);
         btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:btm_seprtor];
         

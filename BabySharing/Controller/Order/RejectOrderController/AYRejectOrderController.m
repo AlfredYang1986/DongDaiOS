@@ -157,7 +157,7 @@
     //    [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
+    UIImage* left = IMGRESOURCE(@"content_close_white");
     [cmd_left performWithResult:&left];
     
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];

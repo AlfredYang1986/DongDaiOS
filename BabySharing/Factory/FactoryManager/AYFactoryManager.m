@@ -117,8 +117,8 @@ static AYFactoryManager* instance = nil;
 #ifdef SANDBOX
     NSArray* arr = [doc_remote nodesForXPath:@"//sandbox" error:nil];
 #else
-    NSArray* arr = [doc_remote nodesForXPath:@"//sandbox" error:nil];
-//    NSArray* arr = [doc_remote nodesForXPath:@"//remote" error:nil];
+//    NSArray* arr = [doc_remote nodesForXPath:@"//sandbox" error:nil];
+    NSArray* arr = [doc_remote nodesForXPath:@"//remote" error:nil];
 #endif
     if (arr.count == 1) {
         host_route = [[arr.lastObject attributeForName:@"host"] stringValue];

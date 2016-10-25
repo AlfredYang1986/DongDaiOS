@@ -47,14 +47,14 @@
             make.size.mas_equalTo(CGSizeMake(60, 60));
         }];
         
-        orderDateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        orderDateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:orderDateLabel];
         [orderDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(pushUserImageview);
             make.left.equalTo(pushUserImageview.mas_right).offset(15);
         }];
         
-        detailInfoLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        detailInfoLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         detailInfoLabel.numberOfLines = 0;
         [self addSubview:detailInfoLabel];
         [detailInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -72,7 +72,7 @@
             make.size.mas_equalTo(CGSizeMake(10, 10));
         }];
         
-        countTimeOrStatesLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        countTimeOrStatesLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
         [self addSubview:countTimeOrStatesLabel];
         [countTimeOrStatesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-15);
@@ -81,7 +81,7 @@
         
         CALayer *btm_seprtor = [CALayer layer];
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 100- 0.5, SCREEN_WIDTH - margin * 2, 0.5);
+        btm_seprtor.frame = CGRectMake(margin, 120- 0.5, SCREEN_WIDTH - margin * 2, 0.5);
         btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:btm_seprtor];
         

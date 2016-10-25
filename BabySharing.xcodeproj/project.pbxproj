@@ -341,7 +341,6 @@
 		705E96841D470E47006CF9E6 /* AYOrderContactCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705E96821D470E47006CF9E6 /* AYOrderContactCellView.m */; };
 		705E96851D470E47006CF9E6 /* AYOrderContactCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 705E96831D470E47006CF9E6 /* AYOrderContactCellView.xib */; };
 		705E96891D470E88006CF9E6 /* AYOrderStateCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705E96871D470E88006CF9E6 /* AYOrderStateCellView.m */; };
-		705E968A1D470E88006CF9E6 /* AYOrderStateCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 705E96881D470E88006CF9E6 /* AYOrderStateCellView.xib */; };
 		705E968E1D470EAD006CF9E6 /* AYOrderPayCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705E968C1D470EAD006CF9E6 /* AYOrderPayCellView.m */; };
 		705E968F1D470EAD006CF9E6 /* AYOrderPayCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 705E968D1D470EAD006CF9E6 /* AYOrderPayCellView.xib */; };
 		705E96931D470EC6006CF9E6 /* AYOrderMapCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705E96911D470EC6006CF9E6 /* AYOrderMapCellView.m */; };
@@ -1408,7 +1407,6 @@
 		705E96831D470E47006CF9E6 /* AYOrderContactCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOrderContactCellView.xib; sourceTree = "<group>"; };
 		705E96861D470E88006CF9E6 /* AYOrderStateCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderStateCellView.h; sourceTree = "<group>"; };
 		705E96871D470E88006CF9E6 /* AYOrderStateCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderStateCellView.m; sourceTree = "<group>"; };
-		705E96881D470E88006CF9E6 /* AYOrderStateCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOrderStateCellView.xib; sourceTree = "<group>"; };
 		705E968B1D470EAD006CF9E6 /* AYOrderPayCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderPayCellView.h; sourceTree = "<group>"; };
 		705E968C1D470EAD006CF9E6 /* AYOrderPayCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderPayCellView.m; sourceTree = "<group>"; };
 		705E968D1D470EAD006CF9E6 /* AYOrderPayCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOrderPayCellView.xib; sourceTree = "<group>"; };
@@ -4721,7 +4719,6 @@
 				70D2282F1D896B3300EF4211 /* AYOrderPriceCellView.m */,
 				705E96861D470E88006CF9E6 /* AYOrderStateCellView.h */,
 				705E96871D470E88006CF9E6 /* AYOrderStateCellView.m */,
-				705E96881D470E88006CF9E6 /* AYOrderStateCellView.xib */,
 				705E968B1D470EAD006CF9E6 /* AYOrderPayCellView.h */,
 				705E968C1D470EAD006CF9E6 /* AYOrderPayCellView.m */,
 				705E968D1D470EAD006CF9E6 /* AYOrderPayCellView.xib */,
@@ -7907,7 +7904,6 @@
 				70EAD80C1CA662EF007965D2 /* model.xml in Resources */,
 				7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */,
 				70D5BC731D77E3960046B4BC /* AYServicePageCellView.xib in Resources */,
-				705E968A1D470E88006CF9E6 /* AYOrderStateCellView.xib in Resources */,
 				70D2282D1D895AFC00EF4211 /* AYOrderDateCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

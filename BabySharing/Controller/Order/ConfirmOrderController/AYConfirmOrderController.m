@@ -155,7 +155,7 @@
     //    [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
+    UIImage* left = IMGRESOURCE(@"content_close_white");
     [cmd_left performWithResult:&left];
     
     id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
@@ -231,11 +231,11 @@
     CGFloat sumPrice = 0;
     BOOL isLeave = ((NSNumber*)[service_info objectForKey:@"allow_leave"]).boolValue;
     if (isLeave) {
-        sumPrice += 40;
+        sumPrice += 40 * 100;
     }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
     sumPrice += (unit_price.floatValue * (endClock - startClock)) * 100;
-    sumPrice = 1.f;
+//    sumPrice = 1.f;
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
