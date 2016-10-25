@@ -60,7 +60,7 @@
         }];
         
         themePriceLabel = [[UILabel alloc]init];
-        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥00 * 0Hour" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥00 × 0Hour" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themePriceLabel];
         [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(themeTitleLabel);
@@ -217,7 +217,7 @@
 //        sumPrice += 40;
 //    }
     
-    NSNumber *unit_price = [dic_args objectForKey:@"price"];            //单价
+    NSNumber *unit_price = [dic_args objectForKey:@"price"];
     
     if (setedTimes) {
         
@@ -226,15 +226,15 @@
         int startClock = [start substringToIndex:2].intValue;
         int endClock = [end substringToIndex:2].intValue;
         
-        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d小时",unit_price.floatValue,(endClock - startClock)];
+        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f×%d小时",unit_price.floatValue,(endClock - startClock)];
         
-        sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
+        sumPrice += unit_price.floatValue * (endClock - startClock);
         priceLabel.text = [NSString stringWithFormat:@"￥%.f",sumPrice];
         
     } else {
         
         NSNumber *least_hours = [dic_args objectForKey:@"least_hours"];
-        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d+小时",unit_price.floatValue,least_hours.intValue];
+        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f×%d+小时",unit_price.floatValue,least_hours.intValue];
         
         sumPrice = sumPrice + unit_price.floatValue * least_hours.intValue;
         priceLabel.text = [NSString stringWithFormat:@"￥%.f+",sumPrice];

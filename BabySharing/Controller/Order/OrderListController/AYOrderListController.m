@@ -217,17 +217,21 @@
     
     NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
     NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
-    NSArray *result_status_done = [resultArr filteredArrayUsingPredicate:pred_done];
-    NSArray *result_status_reject = [resultArr filteredArrayUsingPredicate:pred_reject];
     
-    NSMutableArray *tmpArr = [[NSMutableArray alloc]init];
-    [tmpArr addObjectsFromArray:result_status_done];
-    [tmpArr addObjectsFromArray:result_status_reject];
+    NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_done, pred_reject]];
+    NSArray *result_past = [resultArr filteredArrayUsingPredicate:pred_past];
+    
+//    NSArray *result_status_done = [resultArr filteredArrayUsingPredicate:pred_done];
+//    NSArray *result_status_reject = [resultArr filteredArrayUsingPredicate:pred_reject];
+    
+//    NSMutableArray *tmpArr = [[NSMutableArray alloc]init];
+//    [tmpArr addObjectsFromArray:result_status_done];
+//    [tmpArr addObjectsFromArray:result_status_reject];
     
     id<AYDelegateBase> cmd_past = [self.delegates objectForKey:@"PastOrderSer"];
     id<AYCommand> changeData_2 = [cmd_past.commands objectForKey:@"changeQueryData:"];
-    NSArray *all_past = [tmpArr copy];
-    [changeData_2 performWithResult:&all_past];
+//    NSArray *all_past = [tmpArr copy];
+    [changeData_2 performWithResult:&result_past];
     
     id<AYViewBase> view_past = [self.views objectForKey:@"Table2"];
     id<AYCommand> refresh_2 = [view_past.commands objectForKey:@"refresh"];

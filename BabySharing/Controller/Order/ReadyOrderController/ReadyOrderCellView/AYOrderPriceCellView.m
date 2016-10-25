@@ -60,7 +60,7 @@
         }];
         
         themePriceLabel = [[UILabel alloc]init];
-        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥ 00 * 0 Hour" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥ 00 × 0 Hour" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themePriceLabel];
         [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(themeTitleLabel);
@@ -207,7 +207,6 @@
     CGFloat sumPrice = 0;
     
     BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
-    
     if (isLeave) {
         isLeavePriceLabel.text = @"￥40";
         sumPrice += 40;
@@ -232,7 +231,7 @@
     int startClock = [startStr substringToIndex:2].intValue;
     int endClock = [endStr substringToIndex:2].intValue;
     
-    themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d小时",unit_price.floatValue,(endClock - startClock)];
+    themePriceLabel.text = [NSString stringWithFormat:@"￥%.f×%d小时",unit_price.floatValue,(endClock - startClock)];
     
     sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
     priceLabel.text = [NSString stringWithFormat:@"￥%.f",sumPrice];

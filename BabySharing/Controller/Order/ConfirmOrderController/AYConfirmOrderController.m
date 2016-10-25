@@ -171,12 +171,6 @@
 #pragma mark -- actions
 - (void)didConfirmBtnClick:(UIButton*)btn {
     
-    NSDictionary* args = nil;
-    CURRENUSER(args)
-    
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
-    
     /**
      yyyyMMdd + HH:mm -> timeSpan
      */
@@ -223,6 +217,9 @@
     [dic_date setValue:[NSNumber numberWithDouble:startSpan*1000] forKey:@"start"];
     [dic_date setValue:[NSNumber numberWithDouble:endSpan*1000] forKey:@"end"];
     
+    NSDictionary* args = nil;
+    CURRENUSER(args)
+    
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     [dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
@@ -238,9 +235,12 @@
     }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
     sumPrice += (unit_price.floatValue * (endClock - startClock)) * 100;
+    sumPrice = 1.f;
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
     [cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
@@ -319,16 +319,18 @@
 //            });
             
         } else {
-            NSString *title = @"服务预订支付失败";
-            [self popToRootVCWithTip:title];
+            NSString *title = @"微信支付成功,未知错误,是否立即联系客服？";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//            [self popToRootVCWithTip:title];
         }
     }];
     return nil;
 }
 
 - (id)WechatPayFailed:(id)args {
-    NSString *title = @"服务预订支付失败";
-    [self popToRootVCWithTip:title];
+    NSString *title = @"微信支付失败\n请改善网络环境并重试";
+    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//    [self popToRootVCWithTip:title];
     return nil;
 }
 @end
