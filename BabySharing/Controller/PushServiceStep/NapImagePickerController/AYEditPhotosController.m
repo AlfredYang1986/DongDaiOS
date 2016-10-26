@@ -8,15 +8,6 @@
 //
 
 #import "AYEditPhotosController.h"
-#import "TZImagePickerController.h"
-#import "UIView+Layout.h"
-#import "TZTestCell.h"
-#import <AssetsLibrary/AssetsLibrary.h>
-#import <Photos/Photos.h>
-#import "LxGridViewFlowLayout.h"
-#import "TZImageManager.h"
-//#import "UICollectionViewLeftAlignedLayout.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -31,24 +22,20 @@
 #define FAKE_BAR_HEIGHT             44
 #define kMaxImagesCount             9
 
-@interface AYEditPhotosController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate> {
+static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSignedTips";
+
+@implementation AYEditPhotosController{
+    BOOL isBePush;
     
-    NSMutableArray *_selectedPhotos;
-//    NSMutableArray *_selectedAssets;
+    NSMutableArray *selectedPhotos;
+    //    NSMutableArray *_selectedAssets;
     BOOL _isSelectOriginalPhoto;
     LxGridViewFlowLayout *_layout;
     
     NSArray *servicePhotoNames;
     BOOL isAllImageDownload;
     
-    NSInteger networkImageCount;
-}
-@property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UIImagePickerController *imagePickerVc;
-@end
-
-@implementation AYEditPhotosController{
-    BOOL isBePush;
+    NSInteger networkImageCount;    
 }
 
 #pragma mark --  commands
@@ -59,8 +46,8 @@
         NSArray *items = [dic objectForKey:kAYControllerChangeArgsKey];
         id item = [items firstObject];
         if ([item isKindOfClass:[UIImage class]]) {
-            _selectedPhotos = [NSMutableArray arrayWithArray:items];
-            networkImageCount = _selectedPhotos.count;
+            selectedPhotos = [NSMutableArray arrayWithArray:items];
+            networkImageCount = selectedPhotos.count;
 //            _selectedAssets = [NSMutableArray arrayWithArray:setedPhotos];
         }
         
@@ -101,15 +88,33 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    UIView *tipsView = [self.views objectForKey:@"TipsCollection"];
+    [self.view bringSubviewToFront:tipsView];
+    
+    if (!isBePush) {
+        NSUserDefaults *default_info = [NSUserDefaults standardUserDefaults];
+        BOOL isHadSignedTips = [default_info boolForKey:defaultKeyIsHadSignedTips];
+        if (!isHadSignedTips) {
+            kAYViewsSendMessage(@"TipsCollection", @"showTipsView", nil)
+            tipsView.hidden = NO;
+        }else {
+            [self showActionSheet];
+            tipsView.hidden = YES;
+        }
+        
+        isBePush = YES;
+    }
+    
 //    if (!_selectedAssets) {
 //        _selectedAssets = [NSMutableArray array];
 //    }
-    if (!_selectedPhotos) {
-        _selectedPhotos = [NSMutableArray array];
+    
+    if (!selectedPhotos) {
+        selectedPhotos = [NSMutableArray array];
     }
     
     [self configCollectionView];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -118,12 +123,12 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (!isBePush) {
+//    [_collectionView reloadData];
+}
+
+- (void)showActionSheet {
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
         [sheet showInView:self.view];
-        isBePush = YES;
-    }
-//    [_collectionView reloadData];
 }
 
 #pragma mark -- layouts
@@ -144,13 +149,18 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [[UIButton alloc]init];
-    bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil)
+    return nil;
+}
+
+- (id)TipsCollectionLayout:(UIView*)view {
+    view.frame = self.view.frame;
+    view.backgroundColor = [UIColor colorWithWhite:0 alpha:0.75];
     return nil;
 }
 
@@ -163,24 +173,25 @@
     _layout.minimumInteritemSpacing = margin;
     _layout.minimumLineSpacing = margin;
     
-    _layout.itemCount = _selectedPhotos.count;
+    _layout.itemCount = selectedPhotos.count;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:_layout];
     _collectionView.backgroundColor = [Tools colorWithRED:244 GREEN:244 BLUE:244 ALPHA:1.f];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     [self.view addSubview:_collectionView];
+    [self.view sendSubviewToBack:_collectionView];
     [_collectionView registerClass:[TZTestCell class] forCellWithReuseIdentifier:@"TZTestCell"];
     
 }
 
 #pragma mark -- UICollectionView
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (_selectedPhotos.count == 0 && !servicePhotoNames) {
+    if (selectedPhotos.count == 0 && !servicePhotoNames) {
         return 2;
     }
     else
-        return _selectedPhotos.count + 1;
+        return selectedPhotos.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -190,7 +201,7 @@
     [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
     [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_first"];
     
-    if (_selectedPhotos.count == 0 && !servicePhotoNames) {
+    if (selectedPhotos.count == 0 && !servicePhotoNames) {
         if (indexPath.row == 1) {
             [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
@@ -202,13 +213,13 @@
     }
     else {
         
-        if (indexPath.row == _selectedPhotos.count) {
+        if (indexPath.row == selectedPhotos.count) {
             
             [dic_cell_info setValue:[UIImage imageNamed:@"AlbumAddBtn.png"] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_hidden"];
         } else {
             
-            [dic_cell_info setValue:_selectedPhotos[indexPath.row] forKey:@"image"];
+            [dic_cell_info setValue:selectedPhotos[indexPath.row] forKey:@"image"];
             [dic_cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_hidden"];
             
         }
@@ -237,8 +248,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == _selectedPhotos.count || _selectedPhotos.count == 0) {
-        if (_selectedPhotos.count >= 9) {
+    if (indexPath.row == selectedPhotos.count || selectedPhotos.count == 0) {
+        if (selectedPhotos.count >= 9) {
             NSString *title = @"您无法再添加更多的照片了";
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             return;
@@ -249,17 +260,17 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSetCoverAtIndexPath:(NSIndexPath *)indexPath {
-    [_selectedPhotos exchangeObjectAtIndex:indexPath.item withObjectAtIndex:0];
+    [selectedPhotos exchangeObjectAtIndex:indexPath.item withObjectAtIndex:0];
     [_collectionView reloadData];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)sourceIndexPath willMoveToIndexPath:(NSIndexPath *)destinationIndexPath {
     [_collectionView performBatchUpdates:^{
         
-        UIImage *dataDict = _selectedPhotos[sourceIndexPath.item];
-        [_selectedPhotos removeObjectAtIndex:sourceIndexPath.item];
-        [_selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item];
-//        [_selectedPhotos indexOfObject:<#(nonnull id)#>]
+        UIImage *dataDict = selectedPhotos[sourceIndexPath.item];
+        [selectedPhotos removeObjectAtIndex:sourceIndexPath.item];
+        [selectedPhotos insertObject:dataDict atIndex:destinationIndexPath.item];
+        
     } completion:^(BOOL finished) {
         [_collectionView reloadData];
     }];
@@ -296,7 +307,7 @@
 }
 #pragma mark - TZImagePickerController
 - (void)pushImagePickerController {
-    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount-_selectedPhotos.count delegate:self];
+    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount - selectedPhotos.count delegate:self];
     
     //四类个性化设置，这些参数都可以不传，此时会走默认设置
     imagePickerVc.isSelectOriginalPhoto = _isSelectOriginalPhoto;
@@ -322,10 +333,10 @@
 
 #pragma mark Click Event
 - (void)deleteBtnClik:(UIButton *)sender {
-    [_selectedPhotos removeObjectAtIndex:sender.tag];
+    [selectedPhotos removeObjectAtIndex:sender.tag];
 //    [_selectedAssets removeObjectAtIndex:sender.tag];
     
-    NSInteger numbCount = _selectedPhotos.count;
+    NSInteger numbCount = selectedPhotos.count;
     if (numbCount == 0) {
         [_collectionView reloadData];
         
@@ -353,9 +364,10 @@
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     if ([type isEqualToString:@"public.image"]) {
         
-        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
+//        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
         
-        [tzImagePickerVc showProgressHUD];
+//        [tzImagePickerVc showProgressHUD];
+        [super startRemoteCall:nil];
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         
         // 保存图片，获取到asset
@@ -366,11 +378,12 @@
             [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
                 
                 [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
-                    [tzImagePickerVc hideProgressHUD];
+//                    [tzImagePickerVc hideProgressHUD];
+                    [super endRemoteCall:nil];
 //                    TZAssetModel *assetModel = [models firstObject];
 //                    TZAssetModel *assetModel = [models lastObject];
 //                    [_selectedAssets addObject:assetModel.asset];
-                    [_selectedPhotos addObject:image];
+                    [selectedPhotos addObject:image];
                     [_collectionView reloadData];
                 }];
             }];
@@ -383,7 +396,7 @@
     
 //    NSArray *subArrNetworkImage = [_selectedPhotos subarrayWithRange:NSMakeRange(0, networkImageCount)];
 //    _selectedPhotos = [NSMutableArray arrayWithArray:subArrNetworkImage];
-    [_selectedPhotos addObjectsFromArray:photos];
+    [selectedPhotos addObjectsFromArray:photos];
     
 //    for (int i = 0; i < photos.count; ++i) {
 //        if (![_selectedPhotos containsObject:photos[i]]) {
@@ -395,15 +408,15 @@
 //    _selectedAssets = [NSMutableArray arrayWithArray:assets];
     
     _isSelectOriginalPhoto = isSelectOriginalPhoto;
-    _layout.itemCount = _selectedPhotos.count;
+    _layout.itemCount = selectedPhotos.count;
     [_collectionView reloadData];
 }
 
 /// 用户选择好了视频
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingVideo:(UIImage *)coverImage sourceAssets:(id)asset {
-    _selectedPhotos = [NSMutableArray arrayWithArray:@[coverImage]];
+    selectedPhotos = [NSMutableArray arrayWithArray:@[coverImage]];
 //    _selectedAssets = [NSMutableArray arrayWithArray:@[asset]];
-    _layout.itemCount = _selectedPhotos.count;
+    _layout.itemCount = selectedPhotos.count;
     [_collectionView reloadData];
 }
 
@@ -426,7 +439,6 @@
     }
 }
 
-
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -439,7 +451,7 @@
 }
 
 - (id)rightBtnSelected {
-    NSArray *cover = [_selectedPhotos copy];
+    NSArray *cover = [selectedPhotos copy];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -452,6 +464,19 @@
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)hideTipsView {
+    
+    NSUserDefaults *default_info = [NSUserDefaults standardUserDefaults];
+    [default_info setBool:NO forKey:defaultKeyIsHadSignedTips];
+    
+    UIView *tipsView = [self.views objectForKey:@"TipsCollection"];
+    tipsView.hidden = YES;
+    
+    [self showActionSheet];
+    
     return nil;
 }
 @end

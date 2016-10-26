@@ -24,12 +24,10 @@
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
 #import "AYHomeHistoryItem.h"
-#import "AYHorizontalLayout.h"
 
 @implementation AYHomeHistoryCellView {
     
     UICollectionView *showCollectionView;
-    
     NSDictionary *service;
     NSArray *queryData;
 }
@@ -57,10 +55,11 @@
             make.top.equalTo(self).offset(15);
         }];
         
-        AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         //    UICollectionViewLayout *layout = [[UICollectionViewLayout alloc]init];
         layout.minimumLineSpacing = 10;
         layout.minimumInteritemSpacing = 0;
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 //        CGFloat width = [UIScreen mainScreen].bounds.size.width;
         layout.itemSize = CGSizeMake(155, 160);
         

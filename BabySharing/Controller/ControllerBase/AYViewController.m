@@ -202,6 +202,7 @@
 - (void)timerRun {
     time_count -- ;
     if (time_count == 0) {
+        count_loading = 0;
         [timer_loding invalidate];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view animated:YES];

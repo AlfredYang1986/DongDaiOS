@@ -561,6 +561,11 @@
         <command type="notify"      message="addPhotosAction" />
     </view>
     
+    <view type="TipsCollection" name="TipsCollection" factory="AYDefaultViewFactory" >
+        <command type="message"     message="showTipsView" />
+        <command type="notify"      message="hideTipsView" />
+    </view>
+    
     <view type="NapTitleCell" name="NapTitleCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
