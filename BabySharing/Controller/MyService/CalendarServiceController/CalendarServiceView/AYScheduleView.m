@@ -306,13 +306,9 @@
         cell.gregoiainCalendar = dateStr;
         cell.chineseCalendar = [self.useTime timeChineseCalendarWithString:dateStr];
         
-//        CGFloat wh = (WIDTH - 30)/7 - 10;
         UIView *selectBgView = [[UIView alloc] init];
 //        selectBgView.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"unavilable_bg")];
         selectBgView.layer.contents = (id)IMGRESOURCE(@"unavilable_bg").CGImage;
-//        selectBgView.layer.cornerRadius = wh / 2;
-//        selectBgView.clipsToBounds = YES;
-//        selectBgView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         cell.selectedBackgroundView = selectBgView;
     }
     return cell;
@@ -422,6 +418,16 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
 //    [_calendarContentView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
     [_calendarContentView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    
+    NSArray *compare = @[@0, @1, @2];
+    for (int i = 0; i < 7; ++i) {
+        int weekd = (indexPath.row + i) % 7;
+        if ([compare containsObject:[NSNumber numberWithInt:weekd]]) {
+//            [_calendarContentView selectItemAtIndexPath:[NSIndexPath indexPathForItem:item + i inSection:section] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+            [_calendarContentView selectItemAtIndexPath:[NSIndexPath indexPathForItem:item + i inSection:section] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+        }
+    }
+    
 }
 
 - (id)dateScrollToCenter:(NSString*)str {

@@ -37,7 +37,7 @@ static NSString *tipsItemID = @"tipsItem";
     pageControl.numberOfPages = tipsItemNumb;
     CGSize size = [pageControl sizeForNumberOfPages:tipsItemNumb];
     
-    pageControl.pageIndicatorTintColor = [Tools themeColor];
+    pageControl.pageIndicatorTintColor = [UIColor blackColor];
     [self addSubview:pageControl];
     [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(SCREEN_HEIGHT  * 0.6);

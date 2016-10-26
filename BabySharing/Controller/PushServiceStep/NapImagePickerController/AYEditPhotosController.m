@@ -91,6 +91,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     
     UIView *tipsView = [self.views objectForKey:@"TipsCollection"];
     [self.view bringSubviewToFront:tipsView];
+    tipsView.hidden = YES;
     
     if (!isBePush) {
         NSUserDefaults *default_info = [NSUserDefaults standardUserDefaults];
@@ -100,7 +101,6 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
             tipsView.hidden = NO;
         }else {
             [self showActionSheet];
-            tipsView.hidden = YES;
         }
         
         isBePush = YES;
@@ -451,6 +451,13 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 }
 
 - (id)rightBtnSelected {
+    
+    if (selectedPhotos.count == 0) {
+        NSString *title = @"您未选择图片,返回上一页请点击返回";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return nil;
+    }
+    
     NSArray *cover = [selectedPhotos copy];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];

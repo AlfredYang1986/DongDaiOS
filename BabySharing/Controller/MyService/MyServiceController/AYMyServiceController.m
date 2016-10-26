@@ -16,18 +16,8 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
-
-@interface AYMyServiceController ()
-
-@end
 
 @implementation AYMyServiceController {
     
@@ -36,6 +26,7 @@
 - (void)postPerform{
     
 }
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
