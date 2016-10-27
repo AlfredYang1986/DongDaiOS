@@ -847,6 +847,8 @@
     </controller>
     
     <controller type="DefaultController" name="CalendarService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Schedule"       name="Schedule" />

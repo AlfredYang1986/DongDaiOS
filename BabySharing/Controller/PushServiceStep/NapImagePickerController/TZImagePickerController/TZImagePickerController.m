@@ -105,8 +105,9 @@
             _tipLable.numberOfLines = 0;
             _tipLable.font = [UIFont systemFontOfSize:16];
             _tipLable.textColor = [UIColor blackColor];
-            NSString *appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleDisplayName"];
-            if (!appName) appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleName"];
+//            NSString *appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleDisplayName"];
+//            if (!appName) appName = [[NSBundle mainBundle].infoDictionary valueForKey:@"CFBundleName"];
+            NSString *appName = @"咚哒";
             _tipLable.text = [NSString stringWithFormat:@"请在%@的\"设置-隐私-照片\"选项中，\r允许%@访问你的手机相册。",[UIDevice currentDevice].model,appName];
             [self.view addSubview:_tipLable];
             

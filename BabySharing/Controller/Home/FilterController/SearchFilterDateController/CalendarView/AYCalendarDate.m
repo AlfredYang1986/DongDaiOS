@@ -88,26 +88,22 @@
  *
  *  @return 28 or 29 or 30 or 31
  */
--(NSInteger) timeNumberOfDaysInString:(NSString *)dateStr{
+-(NSInteger) timeNumberOfDaysInString:(NSString *)dateStr {
     NSDate *date = [self strToDate:dateStr];
     return [self timeNumberOfDaysInDate:date];
 }
 
 
 //获取给定日期所在月有多少天
-- (NSInteger)timeNumberOfDaysInDate:(NSDate *)date
-{
+- (NSInteger)timeNumberOfDaysInDate:(NSDate *)date {
     // 只要个时间给日历,就会帮你计算出来。这里的时间取当前的时间。
-    NSRange range = [self.gregorianCalendar rangeOfUnit:NSCalendarUnitDay
-                                                 inUnit: NSCalendarUnitMonth
-                                                forDate:date];
+    NSRange range = [self.gregorianCalendar rangeOfUnit:NSCalendarUnitDay inUnit: NSCalendarUnitMonth forDate:date];
     return range.length;
 }
 
--(NSInteger) timeMonthWeekDayOfFirstDay:(NSString *)dateStr{
+- (NSInteger) timeMonthWeekDayOfFirstDay:(NSString *)dateStr {
     NSDate *date = [self strToDate:dateStr];
     return [self getDateInfo:date];
-    
 }
 
 //获取给定日期的详细信息，可以得到是周几

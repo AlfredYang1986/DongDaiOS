@@ -46,7 +46,6 @@
             if ([backArgs isKindOfClass:[NSString class]]) {
                 
                 NSString *title = (NSString*)backArgs;
-//                id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
                 id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
                 id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
                 

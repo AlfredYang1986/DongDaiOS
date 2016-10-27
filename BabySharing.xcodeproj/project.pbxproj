@@ -1286,6 +1286,7 @@
 		704762F81D2E00DB00538AC0 /* AYProfileServCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfileServCellView.m; sourceTree = "<group>"; };
 		7047BD291D24C04C00A44F18 /* LoginLocalModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LoginLocalModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		7047BD2A1D24C06A00A44F18 /* QueryLocalModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "QueryLocalModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		70483B6D1DC1F9D300F995FD /* AYCalendarDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCalendarDefines.h; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -6397,6 +6398,7 @@
 		70C41EFD1DBA17B800C77B10 /* CalendarServiceController */ = {
 			isa = PBXGroup;
 			children = (
+				70483B6D1DC1F9D300F995FD /* AYCalendarDefines.h */,
 				70C41EFE1DBA17B800C77B10 /* AYCalendarServiceController.h */,
 				70C41EFF1DBA17B800C77B10 /* AYCalendarServiceController.m */,
 				70C41F001DBA17B800C77B10 /* CalendarServiceView */,

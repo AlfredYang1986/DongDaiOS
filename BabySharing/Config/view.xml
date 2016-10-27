@@ -686,7 +686,9 @@
         <command type="message"     message="setCellInfo:" />
         <command type="message"     message="dateScrollToCenter:" />
         <command type="message"     message="queryUnavluableDate:" />
+        <command type="message"     message="changeQueryData:" />
         <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="ChangeOfSchedule" />
     </view>
     
     <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYDefaultViewFactory" >

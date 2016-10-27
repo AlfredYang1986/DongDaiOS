@@ -300,7 +300,7 @@
         //开始定位
         [self.manager startUpdatingLocation];
     } else {
-        [[[UIAlertView alloc]initWithTitle:@"未授权定位" message:@"请在iPhone的""设置-隐私-定位""中允许定位服务" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show ];
+        [[[UIAlertView alloc]initWithTitle:@"未授权定位" message:@"请在iPhone的\"设置-隐私-定位\"中允许-咚哒-定位服务" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show ];
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }
 //    return nil;

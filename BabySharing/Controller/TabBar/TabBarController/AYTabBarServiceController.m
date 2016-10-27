@@ -147,7 +147,10 @@
     [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
     [defaults synchronize];
     
-    if (isExchangeModel != 0) {
+    UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    [self.view addSubview:cover];
+    
+    if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
         NSString *tipString ;
         
         if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal) {
@@ -156,8 +159,6 @@
             tipString = @"转换到看护家庭模式...";
         }
         
-        UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-        [self.view addSubview:cover];
         cover.backgroundColor = [Tools darkBackgroundColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
@@ -175,8 +176,20 @@
                 [cover removeFromSuperview];
             }];
         });
+    } else if(isExchangeModel == ModeExchangeTypeUnloginToAllModel){
+        cover.backgroundColor = [UIColor whiteColor];
+//        cover.backgroundColor = [Tools darkBackgroundColor];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:1.25 animations:^{
+                cover.alpha = 0;
+            } completion:^(BOOL finished) {
+                [cover removeFromSuperview];
+            }];
+        });
+    } else {
+        [cover removeFromSuperview];
     }
-    isExchangeModel = 0;
+    isExchangeModel = ModeExchangeTypeDissVC;
 }
 
 #pragma mark -- tabbar delegate

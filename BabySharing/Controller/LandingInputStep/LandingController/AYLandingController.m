@@ -294,19 +294,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 - (void)setCurrentStatus:(RemoteControllerStatus)new_status {
     _landing_status = new_status;
     
-//    UIView* sns_view = [self.views objectForKey:@"LandingSNS"];
-    UIView* loading_view = [self.views objectForKey:@"Loading"];
-    
     switch (_landing_status) {
         case RemoteControllerStatusReady: {
             phoneNoLogin.hidden = NO;
-//            weChatLogin.hidden = NO;
             weChatLogin.hidden = !isWXInstall;
             pri_btn.hidden = NO;
-//            sns_view.hidden = NO;
-            loading_view.hidden = YES;
-            [[((id<AYViewBase>)loading_view).commands objectForKey:@"stopGif"] performWithResult:nil];
-            [loading_view removeFromSuperview];
+            [super endRemoteCall:nil];
             }
             break;
         case RemoteControllerStatusPrepare:
@@ -314,10 +307,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             phoneNoLogin.hidden = YES;
             weChatLogin.hidden = YES;
             pri_btn.hidden = YES;
-//            sns_view.hidden = YES;
-            loading_view.hidden = NO;
-            [self.view addSubview:loading_view];
-            [[((id<AYViewBase>)loading_view).commands objectForKey:@"startGif"] performWithResult:nil];
+            [super startRemoteCall:nil];
             }
             break;
         default:
@@ -356,22 +346,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     self.landing_status = RemoteControllerStatusReady;
     int code = ((NSNumber*)args).intValue;
     if (code == -2) {
-        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-        [args setValue:self.view forKey:@"super_view"];
-        [args setValue:@"授权失败" forKey:@"title"];
-        [args setValue:[NSNumber numberWithFloat:SCREEN_WIDTH * 0.5] forKey:@"set_y"];
-        [cmd_add performWithResult:&args];
         
+        NSString *title = @"授权失败";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
     } else {
-        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-        [args setValue:self.view forKey:@"super_view"];
-        [args setValue:@"授权失败" forKey:@"title"];
-        [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
-        [cmd_add performWithResult:&args];
+        
+        NSString *title = @"授权失败";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
     }
     return nil;
 }
@@ -633,13 +614,13 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)startRemoteCall:(id)obj {
-    [super startRemoteCall:nil];
+//    [super startRemoteCall:nil];
     self.landing_status = RemoteControllerStatusLoading;
     return nil;
 }
 
 - (id)endRemoteCall:(id)obj {
-    [super endRemoteCall:nil];
+//    [super endRemoteCall:nil];
     self.landing_status = RemoteControllerStatusReady;
     return nil;
 }
