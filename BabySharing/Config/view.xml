@@ -480,6 +480,7 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="reLoad" />
         <command type="notify"      message="showCansOrFacility:" />
+        <command type="notify"      message="showServiceOfferDate" />
     </view>
     
     <view type="ContentListCell" name="ContentListCell" factory="AYReuseViewFactory" >

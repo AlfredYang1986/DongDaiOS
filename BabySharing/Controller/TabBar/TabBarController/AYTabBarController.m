@@ -148,7 +148,7 @@
         cover.backgroundColor = [Tools darkBackgroundColor];
         
         UILabel *tipsLabel = [[UILabel alloc]init];
-        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"转换到被服务者模式..." andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+        tipsLabel = [Tools setLabelWith:tipsLabel andText:@"切换为预订模式" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
         [cover addSubview:tipsLabel];
         [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(cover).offset(-60);
@@ -229,5 +229,15 @@
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic_show_module];
+}
+
+- (void)changeViewController:(UIViewController*)vc {
+    
+}
+
+- (void)setCurrentIndex:(NSNumber*)index {
+    self.selectedIndex = index.integerValue;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
+    [_dongda_tabbar itemSelected:btn];
 }
 @end

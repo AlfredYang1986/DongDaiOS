@@ -17,7 +17,7 @@
 #import "AYRemoteCallDefines.h"
 
 @implementation AYCalendarServiceController {
-    
+    BOOL isSer;
     NSDictionary *service_info;
     BOOL isChangeCalendar;
 }
@@ -42,7 +42,13 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [Tools whiteColor];
     
-    
+    AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
+    isSer = [self.tabBarController isKindOfClass:[compare class]];
+    if (!isSer) {
+        
+        NSString *title = @"可预约日期";
+        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -50,7 +56,12 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
     NSArray *offer_date = [service_info objectForKey:@"offer_date"];
-    kAYViewsSendMessage(@"Schedule", @"changeQueryData:", &offer_date)
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:offer_date forKey:@"offer_date"];
+    [dic setValue:[NSNumber numberWithBool:isSer] forKey:@"is_serv"];
+    
+    kAYViewsSendMessage(@"Schedule", @"changeQueryData:", &dic)
 }
 
 - (void)viewDidAppear:(BOOL)animated {

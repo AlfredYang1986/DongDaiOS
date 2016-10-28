@@ -16,7 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-
+#import <objc/runtime.h>
 #import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
@@ -58,7 +58,7 @@
     
     
     UILabel *tipsLabel = [UILabel new];
-    tipsLabel = [Tools setLabelWith:tipsLabel andText:@"确认接受订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    tipsLabel = [Tools setLabelWith:tipsLabel andText:@"确认您的订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(150);
@@ -86,7 +86,7 @@
     UIButton *confirmBtn = [[UIButton alloc]init];
     [self.view addSubview:confirmBtn];
     confirmBtn.backgroundColor = [Tools themeColor];
-    [confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+    [confirmBtn setTitle:@"去支付" forState:UIControlStateNormal];
     confirmBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -150,10 +150,6 @@
     view.backgroundColor = [UIColor clearColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    //    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    //    NSString *title = @"待确认订单";
-    //    [cmd_title performWithResult:&title];
-    
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"content_close_white");
     [cmd_left performWithResult:&left];
@@ -162,18 +158,28 @@
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-    //    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-    //    [cmd_bot performWithResult:nil];
-    
     return nil;
 }
 
 #pragma mark -- actions
 - (void)didConfirmBtnClick:(UIButton*)btn {
     
+//    NSString *title = @"服务预订成功!请查看您的日程";
+//    AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+//    return;
     /**
      yyyyMMdd + HH:mm -> timeSpan
      */
+    
+    id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+    id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+    NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+    [cmd_login performWithResult:&IsInstalledWechat];
+    if (!IsInstalledWechat.boolValue) {
+        NSString *title = @"目前仅支持微信支付！";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return;
+    }
     
     NSDictionary *service_info = [order_info objectForKey:@"service_info"];
     NSNumber *order_date = [order_info objectForKey:@"order_date"];
@@ -275,6 +281,13 @@
     
 }
 
+- (void)BtmAlertOtherBtnClick {
+    NSLog(@"didOtherBtnClick");
+    [super BtmAlertOtherBtnClick];
+    
+    
+}
+
 #pragma mark -- notification
 - (id)leftBtnSelected {
     
@@ -310,18 +323,9 @@
             NSString *title = @"服务预订成功";
             [self popToRootVCWithTip:title];
             
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.tabBarController.selectedIndex = 2;
-////                id<AYControllerBase> tabBarController =
-//                AYTabBarController* des = DEFAULTCONTROLLER(@"TabBar");
-//                DongDaTabBarItem* btn = (DongDaTabBarItem*)[des.dongda_tabbar viewWithTag:2];
-//                [des.dongda_tabbar itemSelected:btn];
-//            });
-            
         } else {
-            NSString *title = @"微信支付成功,未知错误,是否立即联系客服？";
+            NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//            [self popToRootVCWithTip:title];
         }
     }];
     return nil;
@@ -330,7 +334,6 @@
 - (id)WechatPayFailed:(id)args {
     NSString *title = @"微信支付失败\n请改善网络环境并重试";
     AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//    [self popToRootVCWithTip:title];
     return nil;
 }
 @end

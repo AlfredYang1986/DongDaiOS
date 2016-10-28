@@ -303,20 +303,20 @@
 //            [rootVC.view bringSubviewToFront:btmAlertView];
             
             [titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(btmAlertView).offset(8);
+                make.top.equalTo(btmAlertView).offset(15);
                 make.left.equalTo(btmAlertView).offset(15);
                 make.right.equalTo(closeBtn.mas_left).offset(-10);
             }];
             
             NSString *btnTitleStr = @"确认";
-            UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil];
+            UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
             otherBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
             [otherBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [btmAlertView addSubview:otherBtn];
             [otherBtn sizeToFit];
             [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(titleLabel);
-                make.top.equalTo(titleLabel.mas_bottom).offset(10);
+                make.top.equalTo(titleLabel.mas_bottom).offset(5);
                 make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 30, otherBtn.bounds.size.width));
             }];
             

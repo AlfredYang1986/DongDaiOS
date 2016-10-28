@@ -13,7 +13,7 @@
 #define HEIGHT              self.frame.size.height
 #define MARGIN              10.f
 #define COLLECTIONROWNUMB   7
-#define actionableWeeksLimit        1
+#define operableWeeksLimit        1
 
 static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提供服务的时间";
 
@@ -23,6 +23,8 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     NSString *currentDate;
     AYCalendarCellView *tmp;
     UILabel *tips;
+    
+    BOOL isServ;
 }
 
 @synthesize headerView = _headerView;
@@ -197,6 +199,8 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 
 - (id)changeQueryData:(id)args {
     
+    NSNumber *isArgs = [(NSDictionary*)args objectForKey:@"is_serv"];
+    isServ = isArgs.boolValue;
     NSDate *Date = [[NSDate alloc]init];
     NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
     
@@ -222,7 +226,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
     
     NSMutableArray *compare = [NSMutableArray arrayWithObjects:@0, @1, @2, @3, @4, @5, @6, nil];
-    NSArray *tmp_args = (NSArray*)args;
+    NSArray *tmp_args = [(NSDictionary*)args objectForKey:@"offer_date"];
     for (NSDictionary *day_times in tmp_args) {
         NSArray *occurance = [day_times objectForKey:@"occurance"];
         if (occurance) {
@@ -257,6 +261,8 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     
     if (timeSpanArray.count != 0) {
         [self setAbilityDateTextWith:nil];
+    } else if(!isServ){
+        tips.text = @"未来一周都可以提供服务";
     }
     
     return nil;
@@ -309,7 +315,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     
     tips = [[UILabel alloc]init];
     [self addSubview:tips];
-    tips = [Tools setLabelWith:tips andText:@"点击日期\n选择您不可以提供服务的时间" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+    tips = [Tools setLabelWith:tips andText:tipsLabelInitStr andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
     tips.numberOfLines = 0;
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_calendarContentView.mas_bottom).offset(80);
@@ -362,7 +368,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         NSTimeInterval cellData = cellDate.timeIntervalSince1970;
         NSDate *today = [_useTime strToDate:currentDate];
         NSTimeInterval todayData = today.timeIntervalSince1970;
-        NSTimeInterval twoWeeksLater = todayData + actionableWeeksLimit * 7 * 86400;
+        NSTimeInterval twoWeeksLater = todayData + operableWeeksLimit * 7 * 86400;
         if (cellData < todayData || cellData >= twoWeeksLater) {
             cell.isGone = YES;
         }
@@ -441,7 +447,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     [selectedItemArray removeObject:indexPath];
     [timeSpanArray removeObject:[NSNumber numberWithDouble:time_p]];
     if (timeSpanArray.count == 0) {
-        tips.text = @"点击日期\n选择您不可以提供服务的时间";
+        tips.text = tipsLabelInitStr;
         return;
     }
     
@@ -450,11 +456,18 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
     AYDayCollectionCellView * cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (cell.isGone) {
+    if (cell.isGone || !isServ) {
         return NO;
     } else
         return YES;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (!isServ) {
+        return NO;
+    } else return YES;
 }
 
 - (void)refreshControlWithYear:(NSString *)year month:(NSString *)month day:(NSString *)day {
@@ -482,10 +495,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 - (NSString*)transformTimespanToMouthAndDayWithDate:(NSTimeInterval)timespan {
     
     NSDate *itemDate = [NSDate dateWithTimeIntervalSince1970:timespan];
-    NSDateFormatter *unformat = [[NSDateFormatter alloc] init];
-    [unformat setDateFormat:@"MM月dd日"];
-    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
-    [unformat setTimeZone:timeZone];
+    NSDateFormatter *unformat = [Tools creatDateFormatterWithString:@"MM月dd日"];
     NSString *date_string = [unformat stringFromDate:itemDate];
     
     return date_string;

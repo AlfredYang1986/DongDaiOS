@@ -68,11 +68,11 @@
     NSNumber *type = [_querydata objectForKey:@"is_service_provider"];
     
     if (type.boolValue) {
-        [tmp replaceObjectAtIndex:0 withObject:@"切换到服务者"];
+        [tmp replaceObjectAtIndex:0 withObject:@"切换为服务者"];
         
         NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
         if (is_nap.boolValue) {
-            [tmp replaceObjectAtIndex:0 withObject:@"切换到被服务者"];
+            [tmp replaceObjectAtIndex:0 withObject:@"切换为预订模式"];
             [tmp replaceObjectAtIndex:1 withObject:@"发布服务"];
         }
     }

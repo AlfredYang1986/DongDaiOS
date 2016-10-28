@@ -222,6 +222,8 @@
 }
 
 - (IBAction)didCalendarBtnClick:(id)sender {
+    
+    kAYViewSendNotify(self, @"showServiceOfferDate", nil)
 }
 
 - (IBAction)didCostBtnClick:(id)sender {

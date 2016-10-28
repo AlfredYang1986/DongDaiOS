@@ -22,4 +22,5 @@
 @property (nonatomic, strong) DongDaTabBar* dongda_tabbar;
 @property (nonatomic, assign) DongDaAppMode mode;
 
+- (void)setCurrentIndex:(NSNumber*)index;
 @end

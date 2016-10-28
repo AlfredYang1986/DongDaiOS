@@ -279,7 +279,7 @@
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:@"order_set_date" forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[service_info objectForKey:@"offer_date"] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_push = PUSH;
     [cmd_push performWithResult:&dic];

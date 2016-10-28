@@ -139,9 +139,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.selectedIndex = 3;
-    DongDaTabBarItem* btn = (DongDaTabBarItem*)[dongda_tabbar viewWithTag:3];
-    [dongda_tabbar itemSelected:btn];
+    [self setCurrentIndex:@3];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
@@ -154,7 +152,7 @@
         NSString *tipString ;
         
         if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal) {
-            tipString = @"转换到服务者模式...";
+            tipString = @"切换为服务者";
         } else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
             tipString = @"转换到看护家庭模式...";
         }
@@ -215,18 +213,9 @@
 }
 
 #pragma mark -- actions
-- (void)showPostController:(NSString*)name {
-    
-    AYViewController* des = nil; //
-    id<AYCommand> cmd = [self.commands objectForKey:name];
-    [cmd performWithResult:&des];
-    
-    NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-    [dic_show_module setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd_show_module = SHOWMODULEUP;
-    [cmd_show_module performWithResult:&dic_show_module];
+- (void)setCurrentIndex:(NSNumber*)index {
+    self.selectedIndex = index.integerValue;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[dongda_tabbar viewWithTag:3];
+    [dongda_tabbar itemSelected:btn];
 }
 @end

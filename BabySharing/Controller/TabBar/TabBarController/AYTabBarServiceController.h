@@ -11,4 +11,6 @@
 
 @interface AYTabBarServiceController : UITabBarController <AYControllerBase>
 @property (nonatomic, assign) DongDaAppMode mode;
+
+- (void)setCurrentIndex:(NSNumber*)index;
 @end

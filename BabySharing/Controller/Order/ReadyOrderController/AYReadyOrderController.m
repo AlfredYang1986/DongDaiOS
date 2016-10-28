@@ -144,13 +144,13 @@
             title = @"已确认日程";
             break;
         case OrderStatusPaid:
-            title = @"已支付日程";
+            title = @"待确认日程";
             break;
         case OrderStatusDone:
             title = @"已完成日程";
             break;
         case OrderStatusUnpaid:
-            title = @"未支付日程";
+            title = @"无效日程";
             break;
         case OrderStatusReject:
             title = @"已拒绝日程";

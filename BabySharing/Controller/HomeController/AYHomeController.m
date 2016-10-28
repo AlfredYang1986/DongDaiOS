@@ -16,19 +16,10 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYThumbsAndPushDefines.h"
-
-#import "MJRefresh.h"
-#import "QueryContent.h"
-
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import <CoreLocation/CoreLocation.h>
+#import <objc/runtime.h>
 
 typedef void(^queryContentFinish)(void);
-
 
 #define HEADER_MARGIN_TO_SCREEN         10.5
 #define CONTENT_START_POINT             71
@@ -219,15 +210,14 @@ typedef void(^queryContentFinish)(void);
 #pragma mark -- controller actions
 - (id)foundBtnClick {
     
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"CommentService");
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-//    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    //    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd_show_module = SHOWMODULEUP;
-//    [cmd_show_module performWithResult:&dic];
+//    NSNumber *args = @2;
+//    UIViewController* cur = DEFAULTCONTROLLER(@"TabBar");
+//    SEL sel = NSSelectorFromString(@"setCurrentIndex:");
+//    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+//    if (m) {
+//        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+//        func(cur, sel, args);
+//    }
     
     AYViewController* des = DEFAULTCONTROLLER(@"Location");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
