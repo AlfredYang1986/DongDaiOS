@@ -50,6 +50,9 @@
     _manageBtn.layer.rasterizationScale = [UIScreen mainScreen].scale;
     _manageBtn.clipsToBounds = YES;
     
+//    _manageBtn.hidden = YES;
+    
+    //产品逻辑：用户不可点击自己头像
 //    _ownerIconImage.userInteractionEnabled = YES;
 //    [_ownerIconImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
     

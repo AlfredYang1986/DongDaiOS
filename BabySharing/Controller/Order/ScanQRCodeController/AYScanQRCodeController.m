@@ -91,7 +91,7 @@
         // 设置扫描的类型 --> 二维码 QRCode
         [self.output setMetadataObjectTypes:@[AVMetadataObjectTypeQRCode]];
     } else {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请在iPhone的“设定-隐私-相机”选项中，允许访问你的相机" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"请在iPhone的“设定-隐私-相机”选项中，允许-咚哒-访问你的相机" message:nil delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
     }
     

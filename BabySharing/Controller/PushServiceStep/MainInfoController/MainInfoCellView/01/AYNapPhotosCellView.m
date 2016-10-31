@@ -37,6 +37,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    _photoImage.contentMode = UIViewContentModeScaleAspectFill;
+    _photoImage.clipsToBounds = YES;
     _photoImage.userInteractionEnabled = YES;
     [_photoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
     

@@ -744,11 +744,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"allow_leave"] forKey:@"allow_leave"];
-//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     if ([_service_change_dic objectForKey:@"cans"]) {
         [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];

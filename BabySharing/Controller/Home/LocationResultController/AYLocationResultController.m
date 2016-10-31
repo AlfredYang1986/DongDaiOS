@@ -36,8 +36,9 @@
     NSString *location_name;
     AMapSearchAPI *search;
     
-    NSArray *searchResultArrWithLoc;
+    NSInteger skipCount;
     
+    NSMutableArray *searchResultArrWithLoc;
     NSDictionary *dic_pop;
 }
 
@@ -76,6 +77,9 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    skipCount = 0;
+    searchResultArrWithLoc = [NSMutableArray array];
+    
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
     [view_nav addSubview:(UIView*)view_title];
@@ -96,26 +100,89 @@
     [cmd_search performWithResult:&nib_search_name];
     
     ((UITableView*)view_table).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    ((UITableView*)view_table).mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     
     [self loadNewData];
 }
 
-- (void)loadNewData {
+- (void)loadMoreData {
+    
     id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
+    
+    NSMutableDictionary *dic_search = [[NSMutableDictionary alloc]init];
+    [dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
+    
+    NSTimeInterval timeSpan = [NSDate date].timeIntervalSince1970;
+    [dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
+    
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
-    NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
-    if (latitude) {
+    if (loc) {
+        NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
+        NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
         [dic setValue:latitude forKey:@"latitude"];
-    }
-    if (longtitude) {
         [dic setValue:longtitude forKey:@"longtitude"];
     }
-    [cmd_tags performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+    
+    [dic_search setValue:dic forKey:@"location"];
+    
+    [cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
             NSLog(@"query recommand tags result %@", result);
-            searchResultArrWithLoc = (NSArray*)result;
+            
+            if (result.count == 0) {
+                NSString *title = @"没有更多服务了";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            } else {
+                skipCount += result.count;
+                [searchResultArrWithLoc addObjectsFromArray:(NSArray*)result];
+                id arr = [searchResultArrWithLoc copy];
+                id<AYDelegateBase> del = [self.delegates objectForKey:@"LocationResult"];
+                id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
+                [cmd performWithResult:&arr];
+                
+                kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+            }
+            
+        } else {
+            NSString *title = @"请改善网络环境并重试";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        }
+        
+        id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+        [((UITableView*)view_table).mj_footer endRefreshing];
+        
+    }];
+}
+
+- (void)loadNewData {
+    
+    id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+    AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
+    
+    NSMutableDictionary *dic_search = [[NSMutableDictionary alloc]init];
+    [dic_search setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];
+    
+    NSTimeInterval timeSpan = [NSDate date].timeIntervalSince1970;
+    [dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    if (loc) {
+        NSNumber *latitude = [NSNumber numberWithFloat:loc.coordinate.latitude];
+        NSNumber *longtitude = [NSNumber numberWithFloat:loc.coordinate.longitude];
+        [dic setValue:latitude forKey:@"latitude"];
+        [dic setValue:longtitude forKey:@"longtitude"];
+    }
+    
+    [dic_search setValue:dic forKey:@"location"];
+    
+    [cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+        if (success) {
+            NSLog(@"query recommand tags result %@", result);
+            
+            skipCount = result.count;
+            
+            searchResultArrWithLoc = [(NSArray*)result mutableCopy];
             id arr = (NSArray*)result;
             id<AYDelegateBase> del = [self.delegates objectForKey:@"LocationResult"];
             id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];
@@ -234,7 +301,7 @@
 - (id)rightBtnSelected {
     NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
     [args setValue:loc forKey:@"location"];
-    [args setValue:searchResultArrWithLoc forKey:@"result_data"];
+    [args setValue:[searchResultArrWithLoc copy] forKey:@"result_data"];
     id<AYCommand> des = DEFAULTCONTROLLER(@"Map");
     
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];

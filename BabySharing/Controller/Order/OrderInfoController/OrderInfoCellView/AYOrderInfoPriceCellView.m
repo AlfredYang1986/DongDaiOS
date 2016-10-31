@@ -44,7 +44,7 @@
         }];
         
         priceLabel = [[UILabel alloc]init];
-        priceLabel = [Tools setLabelWith:priceLabel andText:@"￥ 000" andTextColor:[Tools blackColor] andFontSize:116.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        priceLabel = [Tools setLabelWith:priceLabel andText:@"￥ 000" andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
         [self addSubview:priceLabel];
         [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(titleLabel);
@@ -52,7 +52,7 @@
         }];
         
         themeTitleLabel = [[UILabel alloc]init];
-        themeTitleLabel = [Tools setLabelWith:themeTitleLabel andText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themeTitleLabel = [Tools setLabelWith:themeTitleLabel andText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themeTitleLabel];
         [themeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(45);
@@ -60,7 +60,7 @@
         }];
         
         themePriceLabel = [[UILabel alloc]init];
-        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥00 * 0Hour" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥00 × 0Hour" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themePriceLabel];
         [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(themeTitleLabel);
@@ -96,7 +96,7 @@
         isShowDetail = [[UIButton alloc]init];
         [isShowDetail setTitle:@"查看详情" forState:UIControlStateNormal];
         [isShowDetail setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-        isShowDetail.titleLabel.font = kAYFontLight(14.f);
+        isShowDetail.titleLabel.font = kAYFontLight(15.f);
         isShowDetail.titleLabel.textAlignment = NSTextAlignmentRight;
         [isShowDetail sizeToFit];
         [self addSubview:isShowDetail];
@@ -106,8 +106,6 @@
             make.size.mas_equalTo(CGSizeMake(isShowDetail.bounds.size.width, isShowDetail.bounds.size.height - 4));
         }];
         [isShowDetail addTarget:self action:@selector(didShowDetailClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
         
         CALayer *line_separator = [CALayer layer];
         line_separator.backgroundColor = [Tools garyLineColor].CGColor;
@@ -191,7 +189,6 @@
     
     NSString *title = btn.titleLabel.text;
     if ([title isEqualToString:@"查看详情"]) {
-//        [btn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
         [btn setTitle:@"收起" forState:UIControlStateNormal];
         NSString *tmp = btn.titleLabel.text;
         NSLog(@"%@",tmp);
@@ -217,7 +214,7 @@
 //        sumPrice += 40;
 //    }
     
-    NSNumber *unit_price = [dic_args objectForKey:@"price"];            //单价
+    NSNumber *unit_price = [dic_args objectForKey:@"price"];
     
     if (setedTimes) {
         
@@ -226,15 +223,15 @@
         int startClock = [start substringToIndex:2].intValue;
         int endClock = [end substringToIndex:2].intValue;
         
-        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d小时",unit_price.floatValue,(endClock - startClock)];
+        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f×%d小时",unit_price.floatValue,(endClock - startClock)];
         
-        sumPrice = sumPrice + unit_price.floatValue * (endClock - startClock);
+        sumPrice += unit_price.floatValue * (endClock - startClock);
         priceLabel.text = [NSString stringWithFormat:@"￥%.f",sumPrice];
         
     } else {
         
         NSNumber *least_hours = [dic_args objectForKey:@"least_hours"];
-        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f*%d+小时",unit_price.floatValue,least_hours.intValue];
+        themePriceLabel.text = [NSString stringWithFormat:@"￥%.f×%d+小时",unit_price.floatValue,least_hours.intValue];
         
         sumPrice = sumPrice + unit_price.floatValue * least_hours.intValue;
         priceLabel.text = [NSString stringWithFormat:@"￥%.f+",sumPrice];

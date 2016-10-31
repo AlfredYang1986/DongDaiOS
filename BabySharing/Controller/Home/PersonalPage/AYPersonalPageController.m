@@ -371,6 +371,22 @@
     [cmd_show_module performWithResult:&dic];
     return nil;
 }
+
+- (id)showServiceOfferDate {
+//    NSArray *offer_date = [service_info objectForKey:@"offer_date"];
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"CalendarService");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return nil;
+}
+
 #pragma mark -- actions
 - (void)didPOPClick {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

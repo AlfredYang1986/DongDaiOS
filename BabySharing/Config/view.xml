@@ -480,6 +480,7 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="reLoad" />
         <command type="notify"      message="showCansOrFacility:" />
+        <command type="notify"      message="showServiceOfferDate" />
     </view>
     
     <view type="ContentListCell" name="ContentListCell" factory="AYReuseViewFactory" >
@@ -561,6 +562,11 @@
         <command type="notify"      message="addPhotosAction" />
     </view>
     
+    <view type="TipsCollection" name="TipsCollection" factory="AYDefaultViewFactory" >
+        <command type="message"     message="showTipsView" />
+        <command type="notify"      message="hideTipsView" />
+    </view>
+    
     <view type="NapTitleCell" name="NapTitleCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
@@ -611,6 +617,10 @@
     </view>
     
     <view type="SerOrderCell" name="SerOrderCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+    </view>
+    
+    <view type="NoOrderCell" name="NoOrderCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
     
@@ -677,7 +687,9 @@
         <command type="message"     message="setCellInfo:" />
         <command type="message"     message="dateScrollToCenter:" />
         <command type="message"     message="queryUnavluableDate:" />
+        <command type="message"     message="changeQueryData:" />
         <command type="notify"      message="didCancelClick" />
+        <command type="notify"      message="ChangeOfSchedule" />
     </view>
     
     <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYDefaultViewFactory" >

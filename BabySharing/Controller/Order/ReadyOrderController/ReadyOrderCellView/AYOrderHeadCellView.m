@@ -45,7 +45,7 @@
         
         orderNo_ = [[UILabel alloc]init];
         [self addSubview:orderNo_];
-        orderNo_ = [Tools setLabelWith:orderNo_ andText:@"ASDASDASDASDASFDFS" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        orderNo_ = [Tools setLabelWith:orderNo_ andText:@"ASDASDASDASDASFDFS" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
         [orderNo_ mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(15);
@@ -53,10 +53,11 @@
         
         titleLabel = [[UILabel alloc]init];
         [self addSubview:titleLabel];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"服务标题" andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:0];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(orderNo_.mas_bottom).offset(20);
             make.left.equalTo(orderNo_);
+            make.right.lessThanOrEqualTo(self).offset(-80);
         }];
         
         UIImageView *icon = [[UIImageView alloc]init];

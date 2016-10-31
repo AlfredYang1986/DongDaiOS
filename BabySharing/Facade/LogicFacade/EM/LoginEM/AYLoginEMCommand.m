@@ -28,11 +28,12 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
 
 - (void)performWithResult:(NSObject**)obj {
     NSString* current_user_id = (NSString*)*obj;
-
+    
     void (^registerSuccess)(void) = ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [[EMClient sharedClient] asyncLoginWithUsername:current_user_id password:kAYEMDongdaCommonPassword success:^{
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"环信: 登陆成功");
                     [[EMClient sharedClient].options setIsAutoLogin:YES];
                     [[EMClient sharedClient] dataMigrationTo3];
                     

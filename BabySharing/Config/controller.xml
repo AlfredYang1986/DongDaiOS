@@ -12,7 +12,7 @@
         <facade type="DefaultFacade" name="EM" notification="true"/>
         
 <!--        <view type="LandingSNS" name="LandingSNS" />-->
-        <view type="Loading"    name="Loading" />
+<!--        <view type="Loading"    name="Loading" />-->
         
         <model notification="true" />
     </controller>
@@ -671,6 +671,8 @@
     <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
+        
+        <view type="TipsCollection"     name="TipsCollection" />
     </controller>
     
     <controller type="DefaultController" name="InputNapTitle" factory="AYDefaultControllerFactoy" >
@@ -845,6 +847,8 @@
     </controller>
     
     <controller type="DefaultController" name="CalendarService" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Schedule"       name="Schedule" />

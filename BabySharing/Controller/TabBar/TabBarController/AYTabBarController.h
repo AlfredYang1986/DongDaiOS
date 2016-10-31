@@ -17,9 +17,10 @@
 #import "AYViewBase.h"
 #import "DongDaTabBarItem.h"
 
-@interface AYTabBarController : UITabBarController <AYControllerBase>
+@interface AYTabBarController : UITabBarController <AYControllerBase, UITabBarDelegate, UITabBarControllerDelegate>
 
 @property (nonatomic, strong) DongDaTabBar* dongda_tabbar;
 @property (nonatomic, assign) DongDaAppMode mode;
 
+- (void)setCurrentIndex:(NSNumber*)index;
 @end

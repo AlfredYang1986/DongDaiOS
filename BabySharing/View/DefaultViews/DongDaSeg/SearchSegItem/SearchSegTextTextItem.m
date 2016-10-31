@@ -108,7 +108,7 @@
 - (void)resetFontSize:(CGFloat)font_size {
     _font_size = font_size;
     UILabel* label = [self viewWithTag:-1];
-    label.font = [UIFont systemFontOfSize:_font_size];
+    label.font = kAYFontLight(_font_size);
 }
 
 - (void)resetFontColor:(UIColor *)font_color {

@@ -17,7 +17,9 @@
 @property (nonatomic, weak) id<AYViewBase> loading;
 
 - (void)clearController;
+
 - (void)BtmAlertOtherBtnClick;
+- (id)HideBtmAlert:(id)args;
 
 - (id)startRemoteCall:(id)obj;
 - (id)endRemoteCall:(id)ob;

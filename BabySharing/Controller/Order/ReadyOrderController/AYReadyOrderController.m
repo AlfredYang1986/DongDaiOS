@@ -80,18 +80,21 @@
 //    [refresh_2 performWithResult:nil];
     
     /****************************************/
-    id<AYCommand> cmd_clsss = [view_table.commands objectForKey:@"registerCellWithClass:"];
+    id<AYCommand> cmd_class = [view_table.commands objectForKey:@"registerCellWithClass:"];
     NSString* head_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_clsss performWithResult:&head_name];
+    [cmd_class performWithResult:&head_name];
     
     NSString* price_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_clsss performWithResult:&price_name];
+    [cmd_class performWithResult:&price_name];
     
     NSString* nib_map_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_clsss performWithResult:&nib_map_name];
+    [cmd_class performWithResult:&nib_map_name];
     
     NSString* pay_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoPayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_clsss performWithResult:&pay_name];
+    [cmd_class performWithResult:&pay_name];
+    
+    NSString* nib_state_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderStateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&nib_state_name];
     
     id<AYCommand> cmd_nib = [view_table.commands objectForKey:@"registerCellWithNib:"];
     NSString* nib_contact_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -100,11 +103,8 @@
     NSString* nib_date_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderDateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_nib performWithResult:&nib_date_name];
     
-    NSString* nib_state_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderStateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_nib performWithResult:&nib_state_name];
-    
-    NSString* nib_pay_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_nib performWithResult:&nib_pay_name];
+//    NSString* nib_pay_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//    [cmd_nib performWithResult:&nib_pay_name];
     /****************************************/
     
     NSNumber *status = [order_info objectForKey:@"status"];
@@ -113,6 +113,8 @@
         UIButton *confirmSerBtn = [[UIButton alloc]init];
         confirmSerBtn.backgroundColor = [Tools themeColor];
         [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [confirmSerBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
+        confirmSerBtn.titleLabel.font = kAYFontLight(17.f);
         [self.view addSubview:confirmSerBtn];
         [self.view bringSubviewToFront:confirmSerBtn];
         [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -127,35 +129,34 @@
             [confirmSerBtn addTarget:self action:@selector(didComfirmOrRejectBtnClick) forControlEvents:UIControlEventTouchUpInside];
         } else if (status.intValue == OrderStatusConfirm) {
             
-            [confirmSerBtn setTitle:@"订单完成" forState:UIControlStateNormal];
+            [confirmSerBtn setTitle:@"日程完成" forState:UIControlStateNormal];
             [confirmSerBtn addTarget:self action:@selector(didFinishBtnClick) forControlEvents:UIControlEventTouchUpInside];
         } else
             confirmSerBtn.hidden = YES;
-        
     }
     
     NSString *title;
     switch (status.intValue) {
         case OrderStatusReady:
-            title = @"待确认订单";
+            title = @"待确认日程";
             break;
         case OrderStatusConfirm:
-            title = @"已确认订单";
+            title = @"已确认日程";
             break;
         case OrderStatusPaid:
-            title = @"已支付订单";
+            title = @"待确认日程";
             break;
         case OrderStatusDone:
-            title = @"已完成订单";
+            title = @"已完成日程";
             break;
         case OrderStatusUnpaid:
-            title = @"未支付订单";
+            title = @"无效日程";
             break;
         case OrderStatusReject:
-            title = @"已拒绝订单";
+            title = @"已拒绝日程";
             break;
         default:
-            title = @"异次元订单";
+            title = @"异次元日程";
             break;
     }
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -228,7 +229,6 @@
     return nil;
 }
 
-
 #pragma mark -- actions
 - (void)loadNewData {
     
@@ -267,6 +267,16 @@
 }
 
 - (void)didFinishBtnClick {
+    
+    NSTimeInterval timeSpan = ((NSNumber*)[[order_info objectForKey:@"order_date"] objectForKey:@"end"]).doubleValue * 0.001;
+    NSDate *nowDate = [NSDate date];
+    NSTimeInterval now = nowDate.timeIntervalSince1970;
+//    confirmSerBtn.enabled = (timeSpan <= now);
+    if (timeSpan >= now) {
+        NSString *title = @"订单尚未完成";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return;
+    }
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
     AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"AccomplishOrder"];

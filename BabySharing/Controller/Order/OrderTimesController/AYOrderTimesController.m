@@ -263,11 +263,6 @@
 }
 
 - (id)didCancelClick {
-//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//        }];
-//    }
     startView.userInteractionEnabled = endView.userInteractionEnabled = YES;
     return nil;
 }

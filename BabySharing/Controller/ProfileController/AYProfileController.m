@@ -201,7 +201,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInteger:ModelExchangeTypeNapToCommon] forKey:kAYControllerChangeArgsKey];
+        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:kAYControllerChangeArgsKey];
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
@@ -209,7 +209,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInteger:ModelExchangeTypeCommonToNapPersonal] forKey:kAYControllerChangeArgsKey];
+        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:kAYControllerChangeArgsKey];
         
     }
     

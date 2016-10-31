@@ -47,18 +47,20 @@
             make.size.mas_equalTo(CGSizeMake(60, 60));
         }];
         
-        orderDateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        orderDateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:orderDateLabel];
         [orderDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(pushUserImageview);
             make.left.equalTo(pushUserImageview.mas_right).offset(15);
         }];
         
-        detailInfoLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        detailInfoLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        detailInfoLabel.numberOfLines = 0;
         [self addSubview:detailInfoLabel];
         [detailInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(orderDateLabel.mas_bottom).offset(8);
             make.left.equalTo(orderDateLabel);
+            make.right.equalTo(self).offset(-85);
         }];
         
         signIsReaden = [[UIImageView alloc]init];
@@ -70,7 +72,7 @@
             make.size.mas_equalTo(CGSizeMake(10, 10));
         }];
         
-        countTimeOrStatesLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+        countTimeOrStatesLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
         [self addSubview:countTimeOrStatesLabel];
         [countTimeOrStatesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-15);
@@ -79,7 +81,7 @@
         
         CALayer *btm_seprtor = [CALayer layer];
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 100- 0.5, SCREEN_WIDTH - margin * 2, 0.5);
+        btm_seprtor.frame = CGRectMake(margin, 120- 0.5, SCREEN_WIDTH - margin * 2, 0.5);
         btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:btm_seprtor];
         
@@ -161,8 +163,11 @@
             NSString *pre = cmd.route;
             [pushUserImageview sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                                  placeholderImage:IMGRESOURCE(@"default_user")];
+            
+//            detailInfoLabel.text = [NSString stringWithFormat:@"%@ · %@", [result objectForKey:@"screen_name"] , [[args objectForKey:@"service"] objectForKey:@"title"]];
+            detailInfoLabel.text = [[[result objectForKey:@"screen_name"] stringByAppendingString:@" · "] stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"title"]];
         } else {
-            pushUserImageview.image = IMGRESOURCE(@"default_user");
+            pushUserImageview.image = IMGRESOURCE(@"default_user"); 
         }
     }];
     
@@ -174,7 +179,6 @@
 //    _dateLabel.text = bookStr;
     
     /*******************/
-    detailInfoLabel.text = [[args objectForKey:@"service"] objectForKey:@"title"];
     
     NSDictionary *order_date = [args objectForKey:@"order_date"];
     NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
@@ -197,17 +201,21 @@
     switch (OrderStatus) {
         case OrderStatusReady:
         {
+            signIsReaden.hidden = YES;
+            countTimeOrStatesLabel.hidden = NO;
             countTimeOrStatesLabel.text = @"待支付";
         }
             break;
         case OrderStatusConfirm:
         {
             signIsReaden.hidden = YES;
-            countTimeOrStatesLabel.text = [Tools compareCurrentTime:startDate];
+            countTimeOrStatesLabel.hidden = NO;
+            countTimeOrStatesLabel.text = [Tools compareFutureTime:startDate];
         }
             break;
         case OrderStatusPaid:
         {
+            signIsReaden.hidden = NO;
             signIsReaden.image = IMGRESOURCE(@"icon_badge_red");
             countTimeOrStatesLabel.hidden = YES;
         }
@@ -215,22 +223,27 @@
         case OrderStatusDone:
         {
             signIsReaden.hidden = YES;
+            countTimeOrStatesLabel.hidden = NO;
             countTimeOrStatesLabel.text = @"已完成";
         }
             break;
         case OrderStatusUnpaid:
         {
             signIsReaden.hidden = YES;
+            countTimeOrStatesLabel.hidden = NO;
             countTimeOrStatesLabel.text = @"未支付";
         }
             break;
         case OrderStatusReject:
         {
             signIsReaden.hidden = YES;
+            countTimeOrStatesLabel.hidden = NO;
             countTimeOrStatesLabel.text = @"已拒绝";
         }
             break;
         default:
+            signIsReaden.hidden = YES;
+            countTimeOrStatesLabel.hidden = NO;
             countTimeOrStatesLabel.text = @"系统错误";
             break;
     }

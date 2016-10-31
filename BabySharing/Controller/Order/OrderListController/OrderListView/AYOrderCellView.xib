@@ -12,7 +12,7 @@
             <rect key="frame" x="0.0" y="0.0" width="389" height="285"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="389" height="284.5"/>
+                <frame key="frameInset" width="389" height="284"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2016年12月01日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JQd-mF-olR">
@@ -25,13 +25,13 @@
                             <constraint firstAttribute="height" constant="189" id="jTE-i5-oak"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12月03日，10:00－12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slt-tv-NZh">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12月03日,10:00－12:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Slt-tv-NZh">
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="喜欢画画的插画师妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fio-b2-Ttb">
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -51,8 +51,9 @@
                     <constraint firstItem="QmW-CJ-khw" firstAttribute="centerY" secondItem="Slt-tv-NZh" secondAttribute="centerY" id="3d4-kC-ViY"/>
                     <constraint firstItem="Fio-b2-Ttb" firstAttribute="top" secondItem="9Mx-pg-mfx" secondAttribute="bottom" constant="15" id="3dv-yi-wvI"/>
                     <constraint firstAttribute="trailing" secondItem="Msv-yP-0Tg" secondAttribute="trailing" id="4pA-9V-I2Y"/>
-                    <constraint firstItem="9Mx-pg-mfx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="AvQ-XO-An2"/>
+                    <constraint firstItem="9Mx-pg-mfx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="30" id="AvQ-XO-An2"/>
                     <constraint firstItem="Slt-tv-NZh" firstAttribute="top" secondItem="Fio-b2-Ttb" secondAttribute="bottom" constant="15" id="O5a-SV-AYX"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Fio-b2-Ttb" secondAttribute="trailing" constant="30" id="Qre-CM-T3a"/>
                     <constraint firstItem="Slt-tv-NZh" firstAttribute="leading" secondItem="9Mx-pg-mfx" secondAttribute="leading" id="RU0-sc-eHD"/>
                     <constraint firstItem="JQd-mF-olR" firstAttribute="trailing" secondItem="9Mx-pg-mfx" secondAttribute="trailing" id="XqC-eQ-Nhz"/>
                     <constraint firstItem="Msv-yP-0Tg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="bIB-k3-oAT"/>
@@ -61,7 +62,7 @@
                     <constraint firstItem="Fio-b2-Ttb" firstAttribute="leading" secondItem="9Mx-pg-mfx" secondAttribute="leading" id="wpp-3K-2l1"/>
                     <constraint firstAttribute="bottom" secondItem="Msv-yP-0Tg" secondAttribute="bottom" id="wxI-7u-I6d"/>
                     <constraint firstItem="9Mx-pg-mfx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="xAp-4C-QQY"/>
-                    <constraint firstAttribute="trailing" secondItem="9Mx-pg-mfx" secondAttribute="trailing" constant="15" id="ycy-l3-Uc7"/>
+                    <constraint firstAttribute="trailing" secondItem="9Mx-pg-mfx" secondAttribute="trailing" constant="30" id="ycy-l3-Uc7"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

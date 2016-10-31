@@ -242,6 +242,9 @@
 }
 
 - (void)textFieldTextDidChange:(NSNotification*)tf {
+    
+    
+    
     if (tf.object == coder_area ) {
         if ( coder_area.text.length == 4) {
             [self showEnterBtn];
@@ -250,6 +253,19 @@
         }
     }
     else if (tf.object == inputPhoneNo) {
+        
+        NSString *string = ((UITextField*)tf.object).text;
+        if (string.length == 11) {
+            if (![[string substringWithRange:NSMakeRange(3, 1)] isEqualToString:@" "]) {
+                string = [[[string substringToIndex:3] stringByAppendingString:@" "] stringByAppendingString:[string substringFromIndex:3]];
+                
+                NSString *subs = [string substringWithRange:NSMakeRange(8, 1)];
+                if (![subs isEqualToString:@" "]) {
+                    string = [[[string substringToIndex:8] stringByAppendingString:@" "] stringByAppendingString:[string substringFromIndex:8]];
+                    inputPhoneNo.text = string;
+                }
+            }
+        }
         
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
@@ -270,9 +286,11 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     
     if (textField == inputPhoneNo) {
+        
         if ( inputPhoneNo.text.length >= kPhoneNoLimit && ![string isEqualToString:@""]){
             return NO;
         } else {
+            
             NSString *tmp = inputPhoneNo.text;
             if ((tmp.length == 3 || tmp.length == 8) && ![string isEqualToString:@""]) {
                 tmp = [tmp stringByAppendingString:@" "];

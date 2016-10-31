@@ -89,6 +89,8 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = 49;
     CGFloat step = width / self.count;
@@ -137,6 +139,7 @@
     }
     
     [_bar.tabBar.delegate tabBar:_bar.tabBar didSelectItem:[_bar.tabBar.items objectAtIndex:index]];
+    
 }
 
 - (void)changeItemImage:(UIImage*)img andIndex:(NSInteger)index {

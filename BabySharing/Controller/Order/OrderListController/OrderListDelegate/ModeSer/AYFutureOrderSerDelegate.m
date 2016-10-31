@@ -73,17 +73,31 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SerOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    
-    if (querydata_paid.count ==0) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NoOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name;
+    id<AYViewBase> cell;
+    if (querydata_paid.count == 0) {
+        if (indexPath.section == 0) {
+            
+            class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NoOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        }
+        else {
+            class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SerOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+            cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+            
+            id tmp = [querydata_confirm objectAtIndex:indexPath.row];
+            id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+            [cmd performWithResult:&tmp];
+        }
+        
+    } else {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SerOrderCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        id tmp = indexPath.section == 0 ? [querydata_paid objectAtIndex:indexPath.row] : [querydata_confirm objectAtIndex:indexPath.row];
+        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+        [cmd performWithResult:&tmp];
     }
-    
-    id tmp = indexPath.section == 0 ? [querydata_paid objectAtIndex:indexPath.row] : [querydata_confirm objectAtIndex:indexPath.row];
-    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-    [cmd performWithResult:&tmp];
     
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -99,10 +113,10 @@
     UIView *header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 40)];
     header.backgroundColor = [Tools whiteColor];
     NSString *titleStr = section == 0 ? @"待处理" : @"已确认";
-    UILabel *title = [Tools creatUILabelWithText:titleStr andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [header addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(header);
+        make.centerY.equalTo(header).offset(10);
         make.left.equalTo(header).offset(15);
     }];
     
@@ -110,7 +124,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 120;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -119,11 +133,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (querydata_paid.count == 0 && indexPath.section == 0) {
+        return ;
+    }
+    
     NSDictionary *tmp = indexPath.section == 0 ? [querydata_paid objectAtIndex:indexPath.row] : [querydata_confirm objectAtIndex:indexPath.row];
     
     if (indexPath.section == 0) {
         
-        NSLog(@"%ld",(long)indexPath.section);
         NSLog(@"%@",tmp);
         NSNumber *is_read = (NSNumber*)[tmp objectForKey:@"is_read"];
         if (is_read.intValue == 0) {

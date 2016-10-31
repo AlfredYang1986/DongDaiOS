@@ -88,6 +88,15 @@
         
     } else if ([message_name isEqualToString:kAYNotifyFunctionKeyUnregister]) {
 //        [_observer removeObject:[args objectForKey:kAYNotifyControllerKey]];
+//        id note;
+//        for (AYWeakPointNode * node in [_observer copy]) {
+//            id<AYCommand> controller = node.target;
+//            if (controller == [args objectForKey:kAYNotifyControllerKey]) {
+//                note = controller;
+//            }
+//        }
+//        [_observer removeObject:note];
+        
         NSLog(@"observers are : %@", _observer);
     }
 

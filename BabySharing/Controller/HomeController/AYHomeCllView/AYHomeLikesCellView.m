@@ -7,24 +7,15 @@
 //
 
 #import "AYHomeLikesCellView.h"
-#import "Tools.h"
-#import "TmpFileStorageModel.h"
-#import "QueryContentItem.h"
-#import "GPUImage.h"
-#import "Define.h"
-
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-#import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-
 #import "AYControllerActionDefines.h"
 
-#import "AYHorizontalLayout.h"
 #import "AYHomeHistoryItem.h"
 #import "AYHomeLikesItem.h"
 
@@ -64,7 +55,7 @@
         }];
         
 //        CGFloat width = [UIScreen mainScreen].bounds.size.width;
-        AYHorizontalLayout *layout = [[AYHorizontalLayout alloc] init];
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 //        layout.itemSize = CGSizeMake((width - 30), 370);
 //        layout.itemSize = CGSizeMake((width - 30), self.bounds.size.height);
 //        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
