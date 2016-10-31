@@ -233,15 +233,21 @@
 
 - (void)setCurrentIndex:(NSDictionary*)args {
     NSNumber *index = [args objectForKey:@"to_index"];
-    self.selectedIndex = index.integerValue;
-    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
+//    self.selectedIndex = index.integerValue;
+//    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:index.integerValue];
 //    [_dongda_tabbar itemSelected:btn];
-    [btn setSelected:YES];
     
-//    [self.tabBar.delegate tabBar:(UITabBar*)_dongda_tabbar didSelectItem:[_dongda_tabbar.items objectAtIndex:index.integerValue]];
-    [self.tabBar.delegate tabBar:self.tabBar didSelectItem:[self.tabBar.items objectAtIndex:index.integerValue]];
+    AYViewController *soure = [args objectForKey:@"from"];
+    AYViewController *des = [args objectForKey:@"to"];
     
-    [self.delegate tabBarController:self animationControllerForTransitionFromViewController:[args objectForKey:@"from"] toViewController:[args objectForKey:@"to"]];
+    [UIView transitionFromView:[soure view] toView:[des view] duration:0.5f options:UIViewAnimationOptionCurveEaseInOut completion:^(BOOL finished) {
+        
+        if (finished) {
+            self.selectedIndex = index.integerValue;
+            DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:index.integerValue];
+            [_dongda_tabbar itemSelected:btn];
+        }
+    }];
     
 }
 

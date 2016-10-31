@@ -428,7 +428,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)LoginSuccess {
     NSLog(@"Login Success");
-//    NSLog(@"to do login with XMPP server");
     NSLog(@"to do login with EM server");
     
     self.landing_status = RemoteControllerStatusLoading;
