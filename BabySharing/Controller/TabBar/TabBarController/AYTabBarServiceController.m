@@ -16,13 +16,8 @@
 #import "AYViewBase.h"
 #import "DongDaTabBarItem.h"
 
-@interface AYTabBarServiceController () <UITabBarDelegate, UITabBarControllerDelegate>
-
-@end
-
 @implementation AYTabBarServiceController{
     
-    DongDaTabBar* dongda_tabbar;
     UIImage* img_home_with_no_message;
     UIImage* img_home_with_unread_message;
     
@@ -84,12 +79,12 @@
     img_home_with_no_message = IMGRESOURCE(@"tab_home");
     img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
     
-    dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    dongda_tabbar.backgroundColor = [Tools blackColor];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order_white") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message_white") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"服务"];
-    [dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile_white") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
+    _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
+    _dongda_tabbar.backgroundColor = [Tools blackColor];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order_white") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message_white") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_found") andSelectedImg:IMGRESOURCE(@"tab_found_selected") andTitle:@"服务"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile_white") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
         [[UITabBar appearance] setShadowImage:[UIImage new]];
@@ -139,7 +134,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self setCurrentIndex:@3];
+    self.selectedIndex = 3;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
+    [_dongda_tabbar itemSelected:btn];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
@@ -215,7 +212,7 @@
 #pragma mark -- actions
 - (void)setCurrentIndex:(NSNumber*)index {
     self.selectedIndex = index.integerValue;
-    DongDaTabBarItem* btn = (DongDaTabBarItem*)[dongda_tabbar viewWithTag:3];
-    [dongda_tabbar itemSelected:btn];
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
+    [_dongda_tabbar itemSelected:btn];
 }
 @end

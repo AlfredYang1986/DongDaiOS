@@ -211,22 +211,29 @@ typedef void(^queryContentFinish)(void);
 - (id)foundBtnClick {
     
 //    NSNumber *args = @2;
-//    UIViewController* cur = DEFAULTCONTROLLER(@"TabBar");
-//    SEL sel = NSSelectorFromString(@"setCurrentIndex:");
-//    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-//    if (m) {
-//        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-//        func(cur, sel, args);
-//    }
+    NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+    [args setValue:@2 forKey:@"to_index"];
+    [args setValue:self forKey:@"from"];
     
-    AYViewController* des = DEFAULTCONTROLLER(@"Location");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderList");
+    [args setValue:des forKey:@"to"];
     
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    UIViewController* cur = DEFAULTCONTROLLER(@"TabBar");
+    SEL sel = NSSelectorFromString(@"setCurrentIndex:");
+    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+    if (m) {
+        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+        func(cur, sel, args);
+    }
+    
+//    AYViewController* des = DEFAULTCONTROLLER(@"Location");
+//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//    
+//    id<AYCommand> cmd = PUSH;
+//    [cmd performWithResult:&dic_push];
     return nil;
 }
 

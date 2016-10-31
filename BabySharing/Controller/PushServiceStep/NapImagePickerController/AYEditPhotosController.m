@@ -477,7 +477,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 - (id)hideTipsView {
     
     NSUserDefaults *default_info = [NSUserDefaults standardUserDefaults];
-    [default_info setBool:NO forKey:defaultKeyIsHadSignedTips];
+    [default_info setBool:YES forKey:defaultKeyIsHadSignedTips];
     
     UIView *tipsView = [self.views objectForKey:@"TipsCollection"];
     tipsView.hidden = YES;

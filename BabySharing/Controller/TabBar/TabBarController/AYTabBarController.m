@@ -218,7 +218,7 @@
 #pragma mark -- actions
 - (void)showPostController:(NSString*)name {
    
-    AYViewController* des = nil; //
+    AYViewController* des = nil;
     id<AYCommand> cmd = [self.commands objectForKey:name];
     [cmd performWithResult:&des];
     
@@ -231,13 +231,19 @@
     [cmd_show_module performWithResult:&dic_show_module];
 }
 
-- (void)changeViewController:(UIViewController*)vc {
+- (void)setCurrentIndex:(NSDictionary*)args {
+    NSNumber *index = [args objectForKey:@"to_index"];
+    self.selectedIndex = index.integerValue;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
+//    [_dongda_tabbar itemSelected:btn];
+    [btn setSelected:YES];
+    
+//    [self.tabBar.delegate tabBar:(UITabBar*)_dongda_tabbar didSelectItem:[_dongda_tabbar.items objectAtIndex:index.integerValue]];
+    [self.tabBar.delegate tabBar:self.tabBar didSelectItem:[self.tabBar.items objectAtIndex:index.integerValue]];
+    
+    [self.delegate tabBarController:self animationControllerForTransitionFromViewController:[args objectForKey:@"from"] toViewController:[args objectForKey:@"to"]];
     
 }
 
-- (void)setCurrentIndex:(NSNumber*)index {
-    self.selectedIndex = index.integerValue;
-    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
-    [_dongda_tabbar itemSelected:btn];
-}
+
 @end
