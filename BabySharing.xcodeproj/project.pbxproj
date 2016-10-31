@@ -369,13 +369,6 @@
 		706E460F1CFC107A00CC7C53 /* AYLandingInputNameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E45F41CFC107A00CC7C53 /* AYLandingInputNameView.m */; };
 		706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46011CFC107A00CC7C53 /* AYLandingController.m */; };
 		706E46151CFC107A00CC7C53 /* AYLandingSNSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E46081CFC107A00CC7C53 /* AYLandingSNSView.m */; };
-		7073E80F1D215D5600DA4698 /* AYXMPPFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E7FC1D215D5600DA4698 /* AYXMPPFacade.m */; };
-		7073E8101D215D5600DA4698 /* AYJoinGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E7FF1D215D5600DA4698 /* AYJoinGroupCommand.m */; };
-		7073E8111D215D5600DA4698 /* AYLoginXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E8021D215D5600DA4698 /* AYLoginXMPPCommand.m */; };
-		7073E8121D215D5600DA4698 /* AYLogoutXMPPCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E8051D215D5600DA4698 /* AYLogoutXMPPCommand.m */; };
-		7073E8131D215D5600DA4698 /* AYQueryMessagesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E8081D215D5600DA4698 /* AYQueryMessagesCommand.m */; };
-		7073E8141D215D5600DA4698 /* AYSendMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E80B1D215D5600DA4698 /* AYSendMessageCommand.m */; };
-		7073E8151D215D5600DA4698 /* AYUnreadMessageCountCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7073E80E1D215D5600DA4698 /* AYUnreadMessageCountCommand.m */; };
 		707ABCFB1D54460D0042332A /* AYQueryMyServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707ABCFA1D54460D0042332A /* AYQueryMyServiceCommand.m */; };
 		707ABD011D546AAC0042332A /* AYUpdateMyServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707ABD001D546AAC0042332A /* AYUpdateMyServiceCommand.m */; };
 		707ABD041D546ACB0042332A /* AYRevertMyServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 707ABD031D546ACB0042332A /* AYRevertMyServiceCommand.m */; };
@@ -1460,20 +1453,6 @@
 		706E46011CFC107A00CC7C53 /* AYLandingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingController.m; sourceTree = "<group>"; };
 		706E46071CFC107A00CC7C53 /* AYLandingSNSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingSNSView.h; sourceTree = "<group>"; };
 		706E46081CFC107A00CC7C53 /* AYLandingSNSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingSNSView.m; sourceTree = "<group>"; };
-		7073E7FB1D215D5600DA4698 /* AYXMPPFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYXMPPFacade.h; sourceTree = "<group>"; };
-		7073E7FC1D215D5600DA4698 /* AYXMPPFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYXMPPFacade.m; sourceTree = "<group>"; };
-		7073E7FE1D215D5600DA4698 /* AYJoinGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYJoinGroupCommand.h; sourceTree = "<group>"; };
-		7073E7FF1D215D5600DA4698 /* AYJoinGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinGroupCommand.m; sourceTree = "<group>"; };
-		7073E8011D215D5600DA4698 /* AYLoginXMPPCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLoginXMPPCommand.h; sourceTree = "<group>"; };
-		7073E8021D215D5600DA4698 /* AYLoginXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLoginXMPPCommand.m; sourceTree = "<group>"; };
-		7073E8041D215D5600DA4698 /* AYLogoutXMPPCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLogoutXMPPCommand.h; sourceTree = "<group>"; };
-		7073E8051D215D5600DA4698 /* AYLogoutXMPPCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLogoutXMPPCommand.m; sourceTree = "<group>"; };
-		7073E8071D215D5600DA4698 /* AYQueryMessagesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryMessagesCommand.h; sourceTree = "<group>"; };
-		7073E8081D215D5600DA4698 /* AYQueryMessagesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryMessagesCommand.m; sourceTree = "<group>"; };
-		7073E80A1D215D5600DA4698 /* AYSendMessageCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSendMessageCommand.h; sourceTree = "<group>"; };
-		7073E80B1D215D5600DA4698 /* AYSendMessageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSendMessageCommand.m; sourceTree = "<group>"; };
-		7073E80D1D215D5600DA4698 /* AYUnreadMessageCountCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUnreadMessageCountCommand.h; sourceTree = "<group>"; };
-		7073E80E1D215D5600DA4698 /* AYUnreadMessageCountCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUnreadMessageCountCommand.m; sourceTree = "<group>"; };
 		707ABCF91D54460D0042332A /* AYQueryMyServiceCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryMyServiceCommand.h; sourceTree = "<group>"; };
 		707ABCFA1D54460D0042332A /* AYQueryMyServiceCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryMyServiceCommand.m; sourceTree = "<group>"; };
 		707ABCFF1D546AAC0042332A /* AYUpdateMyServiceCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateMyServiceCommand.h; sourceTree = "<group>"; };
@@ -3347,7 +3326,6 @@
 			isa = PBXGroup;
 			children = (
 				704D48DE1DAE334800A69AF4 /* Alert */,
-				7073E7FA1D215D5600DA4698 /* XMPP */,
 				70A1A54A1D1D4A860063FC7F /* EM */,
 				702BD33A1CF55F700010F2BA /* Keyboard */,
 				805218971CCB9C30006EF119 /* Cache */,
@@ -4947,75 +4925,6 @@
 				706E46081CFC107A00CC7C53 /* AYLandingSNSView.m */,
 			);
 			path = LandingSNS;
-			sourceTree = "<group>";
-		};
-		7073E7FA1D215D5600DA4698 /* XMPP */ = {
-			isa = PBXGroup;
-			children = (
-				7073E7FB1D215D5600DA4698 /* AYXMPPFacade.h */,
-				7073E7FC1D215D5600DA4698 /* AYXMPPFacade.m */,
-				7073E7FD1D215D5600DA4698 /* JoinGroup */,
-				7073E8001D215D5600DA4698 /* LoginXMPP */,
-				7073E8031D215D5600DA4698 /* LogoutXMPP */,
-				7073E8061D215D5600DA4698 /* QueryMessages */,
-				7073E8091D215D5600DA4698 /* SendMessages */,
-				7073E80C1D215D5600DA4698 /* UnreadMessageCount */,
-			);
-			path = XMPP;
-			sourceTree = "<group>";
-		};
-		7073E7FD1D215D5600DA4698 /* JoinGroup */ = {
-			isa = PBXGroup;
-			children = (
-				7073E7FE1D215D5600DA4698 /* AYJoinGroupCommand.h */,
-				7073E7FF1D215D5600DA4698 /* AYJoinGroupCommand.m */,
-			);
-			path = JoinGroup;
-			sourceTree = "<group>";
-		};
-		7073E8001D215D5600DA4698 /* LoginXMPP */ = {
-			isa = PBXGroup;
-			children = (
-				7073E8011D215D5600DA4698 /* AYLoginXMPPCommand.h */,
-				7073E8021D215D5600DA4698 /* AYLoginXMPPCommand.m */,
-			);
-			path = LoginXMPP;
-			sourceTree = "<group>";
-		};
-		7073E8031D215D5600DA4698 /* LogoutXMPP */ = {
-			isa = PBXGroup;
-			children = (
-				7073E8041D215D5600DA4698 /* AYLogoutXMPPCommand.h */,
-				7073E8051D215D5600DA4698 /* AYLogoutXMPPCommand.m */,
-			);
-			path = LogoutXMPP;
-			sourceTree = "<group>";
-		};
-		7073E8061D215D5600DA4698 /* QueryMessages */ = {
-			isa = PBXGroup;
-			children = (
-				7073E8071D215D5600DA4698 /* AYQueryMessagesCommand.h */,
-				7073E8081D215D5600DA4698 /* AYQueryMessagesCommand.m */,
-			);
-			path = QueryMessages;
-			sourceTree = "<group>";
-		};
-		7073E8091D215D5600DA4698 /* SendMessages */ = {
-			isa = PBXGroup;
-			children = (
-				7073E80A1D215D5600DA4698 /* AYSendMessageCommand.h */,
-				7073E80B1D215D5600DA4698 /* AYSendMessageCommand.m */,
-			);
-			path = SendMessages;
-			sourceTree = "<group>";
-		};
-		7073E80C1D215D5600DA4698 /* UnreadMessageCount */ = {
-			isa = PBXGroup;
-			children = (
-				7073E80D1D215D5600DA4698 /* AYUnreadMessageCountCommand.h */,
-				7073E80E1D215D5600DA4698 /* AYUnreadMessageCountCommand.m */,
-			);
-			path = UnreadMessageCount;
 			sourceTree = "<group>";
 		};
 		7077673A1CA55EAE00BC0806 /* ViewCommand */ = {
@@ -7985,7 +7894,6 @@
 				70D175D91D79713300D9C7D9 /* AYHomeLikesCellView.m in Sources */,
 				70F4287C1CC7B18F00A69977 /* MASViewConstraint.m in Sources */,
 				70C41EE21DBA122500C77B10 /* TZImagePickerController.m in Sources */,
-				7073E80F1D215D5600DA4698 /* AYXMPPFacade.m in Sources */,
 				709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */,
 				70B1DC8E1CC73B390041794A /* AYPlayMovieMeta.m in Sources */,
 				704762F61D2E00B500538AC0 /* AYProfileOrigCellView.m in Sources */,
@@ -7998,7 +7906,6 @@
 				70C41ED11DBA122500C77B10 /* AYNapBabyAgeCellView.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				705E96891D470E88006CF9E6 /* AYOrderStateCellView.m in Sources */,
-				7073E8111D215D5600DA4698 /* AYLoginXMPPCommand.m in Sources */,
 				70EC72351D190D6F0012B123 /* TAAnimatedDotView.m in Sources */,
 				704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */,
 				703C7E391DABA723003F58C1 /* WXSTransitionManager+BoomAnimation.m in Sources */,
@@ -8109,7 +8016,6 @@
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
 				709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */,
-				7073E8141D215D5600DA4698 /* AYSendMessageCommand.m in Sources */,
 				702510711CC0C65400DADF2B /* AYRefreshPushDataCommand.m in Sources */,
 				705C451C1CA8FD9F00921799 /* AYControllerExchangFactory.m in Sources */,
 				7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */,
@@ -8164,7 +8070,6 @@
 				70FE54DD1D98EA090077A3E9 /* AYCommentServiceDelegate.m in Sources */,
 				7006931A1CC4A3AF00B511FF /* WEPopoverController.m in Sources */,
 				80FCB6B21D77B61E00CEDCEB /* AYSearchFilterDelegate.m in Sources */,
-				7073E8131D215D5600DA4698 /* AYQueryMessagesCommand.m in Sources */,
 				703C7E441DABA723003F58C1 /* WXSTransitionProperty.m in Sources */,
 				7002DB3B1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m in Sources */,
 				7000CD2D1D7E8A5200DA98F2 /* UIView+MJExtension.m in Sources */,
@@ -8179,7 +8084,6 @@
 				7002DBAD1CC660980013FF2A /* AYTagSearchController.m in Sources */,
 				80FCB6B91D77CBA400CEDCEB /* AYSearchFilterCellView.m in Sources */,
 				70D48DFF1D87FDEC0039C741 /* AYOrderTimesDelegate.m in Sources */,
-				7073E8121D215D5600DA4698 /* AYLogoutXMPPCommand.m in Sources */,
 				70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */,
 				701524931CBFA462005B4C5B /* AYHomeQueryModelFacade.m in Sources */,
 				70A27C001D0EBA3C00B131AB /* AYKidNapRemoteFacade.m in Sources */,
@@ -8209,7 +8113,6 @@
 				703C7DE31D48AF3200292F18 /* AYChatGroupInputDelegate.m in Sources */,
 				70B820AA1CAA75C1001EEAF2 /* AYSaveImgLocalCommand.m in Sources */,
 				80D5E7DB1CCCCE5600A82117 /* AYPhotoTagInitCommand.m in Sources */,
-				7073E8151D215D5600DA4698 /* AYUnreadMessageCountCommand.m in Sources */,
 				70B820A71CAA71CC001EEAF2 /* AYGernarateImgUUIDCommand.m in Sources */,
 				70C41EE81DBA122500C77B10 /* UIView+Layout.m in Sources */,
 				708235EA1CA2874000658531 /* AYViewController.m in Sources */,
@@ -8489,7 +8392,6 @@
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
-				7073E8101D215D5600DA4698 /* AYJoinGroupCommand.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,
 				702349DD1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m in Sources */,
 				700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */,
