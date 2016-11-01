@@ -61,9 +61,9 @@
     [cmd_profile_init performWithResult:&profile];
     profile.tabBarItem.title = @"Profile";
     
-//    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
-    self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
+    //[self.tabBar removeFromSuperview];
     
+    self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
     self.delegate = self;
     
     img_home_with_no_message = IMGRESOURCE(@"tab_home");
@@ -179,35 +179,35 @@
 }
 
 #pragma mark -- tabbar delegate
-- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    NSLog(@"select tab %@", item.title);
-    
-    if ([item.title isEqualToString:@"Post"]) {
-        SHOWCAMERA;
-        
-    } else {
-//        int count = [GotyeOCAPI getTotalUnreadMessageCount];
-//        if (count > 0) {
-//            [dongda_tabbar changeItemImage:img_home_with_unread_message andIndex:0];
-//        } else {
-//            [dongda_tabbar changeItemImage:img_home_with_no_message andIndex:0];
-//        }
-    }
-}
+//- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+//    NSLog(@"select tab %@", item.title);
+//    
+//    if ([item.title isEqualToString:@"Post"]) {
+//        SHOWCAMERA;
+//        
+//    } else {
+////        int count = [GotyeOCAPI getTotalUnreadMessageCount];
+////        if (count > 0) {
+////            [dongda_tabbar changeItemImage:img_home_with_unread_message andIndex:0];
+////        } else {
+////            [dongda_tabbar changeItemImage:img_home_with_no_message andIndex:0];
+////        }
+//    }
+//}
 
 #pragma marks - tabbar controller delegate
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
-{
-    if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
-        return NO;
-    }
-    
-//    if (backView.hidden == NO) {
+//- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+//{
+//    if ([tabBarController.tabBar.selectedItem.title isEqualToString:@"Post"]) {
 //        return NO;
 //    }
-    
-    return YES;
-}
+//    
+////    if (backView.hidden == NO) {
+////        return NO;
+////    }
+//    
+//    return YES;
+//}
 
 - (void)tabBarController:(UITabBarController *)tabBarController willBeginCustomizingViewControllers:(NSArray *)viewControllers {
     for (UIViewController * iter in viewControllers) {
@@ -232,6 +232,7 @@
 }
 
 - (void)setCurrentIndex:(NSDictionary*)args {
+    
     NSNumber *index = [args objectForKey:@"to_index"];
 //    self.selectedIndex = index.integerValue;
 //    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:index.integerValue];
@@ -243,8 +244,7 @@
     [UIView transitionFromView:[soure view] toView:[des view] duration:0.5f options:UIViewAnimationOptionCurveEaseInOut completion:^(BOOL finished) {
         
         if (finished) {
-            self.selectedIndex = index.integerValue;
-            DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:index.integerValue];
+            UIButton *btn = [_dongda_tabbar viewWithTag:index.integerValue];
             [_dongda_tabbar itemSelected:btn];
         }
     }];

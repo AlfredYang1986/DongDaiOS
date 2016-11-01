@@ -11,7 +11,10 @@
 #import "AYResourceManager.h"
 #import "SGActionView.h"
 #import "AYViewController.h"
-
+#import "AYRemoteCallCommand.h"
+#import "AYFacadeBase.h"
+#import "AYFacade.h"
+#import "AYFactoryManager.h"
 
 @implementation AYUserScreenPhoteView
 @synthesize para = _para;
@@ -50,8 +53,18 @@
 }
 
 - (id)changeScreenPhoto:(id)obj {
-    UIImage* img = (UIImage*)obj;
-    self.image = img;
+    //UIImage* img = (UIImage*)obj;
+    //self.image = img;
+    
+    NSString* photo_name = (NSString*)obj;
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    
+    NSString *pre = cmd.route;
+    [self sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                  placeholderImage:IMGRESOURCE(@"default_image")];
+    
     return nil;
 }
 
@@ -68,27 +81,8 @@
 
 - (void)didSelectImgBtn {
     id<AYCommand> cmd = [self.notifies objectForKey:@"tapGestureScreenPhoto"];
-    [cmd performWithResult:nil];//michauxs
+    [cmd performWithResult:nil];
     
-//    [SGActionView showSheetWithTitle:@"" itemTitles:@[@"打开照相机", @"从相册中选择", @"取消"] selectedIndex:-1 selectedHandle:^(NSInteger index) {
-//        switch (index) {
-//            case 0: {
-//                
-//                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerCamera" andArgs:[dic copy]];
-//                }
-//                break;
-//            case 1: {
-//                    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//                    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//                    [_controller performForView:self andFacade:nil andMessage:@"OpenUIImagePickerPicRoll" andArgs:[dic copy]];
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }];
 }
 
 -(id)albumBtnClicked {

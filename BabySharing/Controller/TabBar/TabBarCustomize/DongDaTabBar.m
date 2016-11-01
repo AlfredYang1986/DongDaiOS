@@ -32,27 +32,17 @@
         self.tag = -99;
         _bar = bar;
         
-        CGFloat width = [UIScreen mainScreen].bounds.size.width;
         CGFloat height = 49;
-        self.frame = CGRectMake(0, 0, width, height);
+        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, height);
         self.backgroundColor = [UIColor whiteColor];
-        
-//        NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"YYBoundle" ofType :@"bundle"];
-//        NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-        
-//        selected_layer = [CALayer layer];
-//        selected_layer.contents = (id)[UIImage imageNamed:[resourceBundle pathForResource:[NSString stringWithFormat:@"Selected"] ofType:@"png"]].CGImage;
-//        selected_layer.frame = CGRectMake(0, 0, 15, 10);
-//        [self.layer addSublayer:selected_layer];
     
         [bar.tabBar addSubview:self];
         [bar.tabBar bringSubviewToFront:self];
         
         CALayer* shadow = [CALayer layer];
         shadow.borderColor = [UIColor colorWithRed:0.5922 green:0.5922 blue:0.5922 alpha:0.25].CGColor;
-//        shadow.borderColor = [UIColor lightGrayColor].CGColor;
         shadow.borderWidth = 1.f;
-        shadow.frame = CGRectMake(0, 0, width, 1);
+        shadow.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
         [self.layer addSublayer:shadow];
     }
     return self;
@@ -124,21 +114,25 @@
 //    _bar.selectedIndex = index;
 //    [_bar.tabBar setSelectedItem:[_bar.tabBar.items objectAtIndex:index]];
    
-    NSInteger tmp = _bar.selectedIndex;
+//    NSInteger tmp = _bar.selectedIndex;
     _bar.selectedIndex = index;
-    if (![_bar.delegate tabBarController:_bar shouldSelectViewController:nil]) {
-        _bar.selectedIndex = tmp;
-    } else {
-        
-        for (UIButton* iter in self.subviews) {
-            [iter setSelected:NO];
-        }
-        DongDaTabBarItem* btn = (DongDaTabBarItem*)[self viewWithTag:index];
-        [btn setSelected:YES];
-        selected_layer.position = CGPointMake(btn.center.x, 5);
-    }
+//    if (![_bar.delegate tabBarController:_bar shouldSelectViewController:nil]) {
+//        _bar.selectedIndex = tmp;
+//    } else {
+//    }
     
-    [_bar.tabBar.delegate tabBar:_bar.tabBar didSelectItem:[_bar.tabBar.items objectAtIndex:index]];
+    for (UIButton* iter in self.subviews) {
+        [iter setSelected:NO];
+    }
+//    DongDaTabBarItem* btn = (DongDaTabBarItem*)[self viewWithTag:index];
+    [sender setSelected:YES];
+    //selected_layer.position = CGPointMake(sender.center.x, 5);
+    
+//    [_bar.tabBar.delegate tabBar:_bar.tabBar didSelectItem:[_bar.tabBar.items objectAtIndex:index]];
+    
+    //if ([self.delegate respondsToSelector:@selector(tabBar:selectedFrom:to:)]) {
+    //    [self.delegate tabBar:self selectedFrom:self.selectedBtn.tag to:button.tag];
+   // }
     
 }
 

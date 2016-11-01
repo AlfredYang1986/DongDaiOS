@@ -67,23 +67,13 @@
     self.view.backgroundColor = [Tools themeColor];
    
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
+    
     if (screen_photo && ![screen_photo isEqualToString:@""]) {
         
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:screen_photo forKey:@"image"];
-        [dic setValue:@"img_thum" forKey:@"expect_size"];
+        id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
+        id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
+        [cmd performWithResult:&screen_photo];
         
-        id<AYFacadeBase> facade_download = [self.facades objectForKey:@"FileRemote"];
-        AYRemoteCallCommand* cmd_query_image = [facade_download.commands objectForKey:@"DownloadUserFiles"];
-        [cmd_query_image performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            UIImage* image = (UIImage*)result;
-            if (image != nil) {
-                
-                id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
-                id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
-                [cmd performWithResult:&image];
-            }
-        }];
     }
     
     UILabel *welcome = [[UILabel alloc]init];
@@ -105,57 +95,6 @@
         make.top.equalTo(photoView.mas_bottom).offset(16);
         make.centerX.equalTo(self.view);
     }];
-    
-//    _invateCode = [[UITextField alloc]init];
-//    [self.view addSubview:_invateCode];
-//    _invateCode.layer.cornerRadius = 2.f;
-//    _invateCode.clipsToBounds = YES;
-//    _invateCode.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-//    _invateCode.font = [UIFont systemFontOfSize:14.f];
-//    _invateCode.placeholder = @"输入邀请码";
-//    _invateCode.textAlignment = NSTextAlignmentCenter;
-//    [_invateCode setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];//占位符颜色设置
-//    _invateCode.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(invateCoderTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-//    _invateCode.clearButtonMode = UITextFieldViewModeWhileEditing;
-//    
-//    CGRect frame = _invateCode.frame;
-//    frame.size.width = 10;
-//    UIView *leftview = [[UIView alloc] initWithFrame:frame];
-//    _invateCode.leftViewMode = UITextFieldViewModeAlways;
-//    _invateCode.leftView = leftview;
-//    
-//    [_invateCode mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(self.view);
-//        make.top.equalTo(photoView.mas_bottom).offset(27);
-//        make.size.mas_equalTo(CGSizeMake(230, 40));
-//    }];
-//    
-//    UILabel *getInvate = [[UILabel alloc]init];
-//    [self.view addSubview:getInvate];
-////    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:@"如何获取邀请码"];
-////    NSDictionary * dict = @{
-////                            NSFontAttributeName:[UIFont systemFontOfSize:12],
-////                            NSUnderlineStyleAttributeName:@9};
-////    [str setAttributes:dict range:NSMakeRange(0, str.length)];
-//    getInvate.text = @"如何获取邀请码";
-//    getInvate.font = [UIFont systemFontOfSize:12.f];
-//    getInvate.textColor = [UIColor colorWithWhite:1.f alpha:1.f];
-//    getInvate.textAlignment = NSTextAlignmentCenter;
-//    getInvate.userInteractionEnabled = YES;
-//    [getInvate addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(getInvateBtnClick)]];
-//    
-//    [getInvate mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(_invateCode.mas_bottom).offset(10);
-//        make.centerX.equalTo(self.view);
-//        make.height.mas_equalTo(16);
-//    }];
-//    CALayer *line_separator = [CALayer layer];
-////    line_separator.borderColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
-////    line_separator.borderWidth = 1.f;
-//    line_separator.frame = CGRectMake(0, 15, 12 * 7, 1);
-//    line_separator.backgroundColor = [UIColor whiteColor].CGColor;
-//    [getInvate.layer addSublayer:line_separator];
     
     enterBtn = [[UIButton alloc]init];
     [enterBtn setBackgroundColor:[UIColor clearColor]];

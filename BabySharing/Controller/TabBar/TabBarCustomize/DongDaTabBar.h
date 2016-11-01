@@ -7,8 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+@class DongDaTabBar;
 
-@interface DongDaTabBar : UIView
+@protocol DongDaTabBarDelegate <NSObject>
+/**
+ *  工具栏按钮被选中, 记录从哪里跳转到哪里. (方便以后做相应特效)
+ */
+- (void) tabBar:(DongDaTabBar *)tabBar selectedFrom:(NSInteger) from to:(NSInteger)to;
+
+@end
+
+@interface DongDaTabBar : UIView <UITabBarDelegate>
+
+@property(nonatomic,weak) id<DongDaTabBarDelegate> delegate;
 
 @property (nonatomic, readonly, getter=getTabBarItems) NSArray* items;
 @property (nonatomic, readonly, getter=getTabBarItemCount) NSInteger count;

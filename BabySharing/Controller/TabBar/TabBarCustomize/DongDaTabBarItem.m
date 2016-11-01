@@ -126,7 +126,7 @@
     
     if (!_select_img) return;
 
-    if (self.isSelected) {
+    if (selected) {
         img_layer.contents = (id)_select_img.CGImage;
         title_layer.foregroundColor = SELECT_COLOR;
     } else {
