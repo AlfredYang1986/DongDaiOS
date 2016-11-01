@@ -19,6 +19,8 @@
 #import "AYModelFacade.h"
 #import <objc/runtime.h>
 
+#import "DongDaTabBar.h"
+
 typedef void(^queryContentFinish)(void);
 
 #define HEADER_MARGIN_TO_SCREEN         10.5
@@ -209,22 +211,27 @@ typedef void(^queryContentFinish)(void);
 
 #pragma mark -- controller actions
 - (id)foundBtnClick {
+
+    UITabBarController* tab = [Tools activityViewController].tabBarController;
+    DongDaTabBar* concret = [tab.tabBar viewWithTag:-99];
+    concret.selectIndex = 2;
+    tab.selectedIndex = 2;
     
-//    NSNumber *args = @2;
-    NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-    [args setValue:@2 forKey:@"to_index"];
-    [args setValue:self forKey:@"from"];
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderList");
-    [args setValue:des forKey:@"to"];
-    
-    UIViewController* cur = DEFAULTCONTROLLER(@"TabBar");
-    SEL sel = NSSelectorFromString(@"setCurrentIndex:");
-    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
-    if (m) {
-        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
-        func(cur, sel, args);
-    }
+// NSNumber *args = @2;
+//    NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+//    [args setValue:@2 forKey:@"to_index"];
+//    [args setValue:self forKey:@"from"];
+//    
+//    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderList");
+//    [args setValue:des forKey:@"to"];
+//    
+//    UIViewController* cur = DEFAULTCONTROLLER(@"TabBar");
+//    SEL sel = NSSelectorFromString(@"setCurrentIndex:");
+//    Method m = class_getInstanceMethod([((UIViewController*)cur) class], sel);
+//    if (m) {
+//        id (*func)(id, SEL, id) = (id (*)(id, SEL, id))method_getImplementation(m);
+//        func(cur, sel, args);
+//    }
     
 //    AYViewController* des = DEFAULTCONTROLLER(@"Location");
 //    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
