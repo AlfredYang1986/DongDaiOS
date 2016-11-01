@@ -44,6 +44,8 @@
         shadow.borderWidth = 1.f;
         shadow.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
         [self.layer addSublayer:shadow];
+        
+        bar.delegate = self;
     }
     return self;
 }
@@ -111,29 +113,13 @@
 
 - (void)itemSelected:(UIButton*)sender {
     NSInteger index = sender.tag;
-//    _bar.selectedIndex = index;
-//    [_bar.tabBar setSelectedItem:[_bar.tabBar.items objectAtIndex:index]];
-   
-//    NSInteger tmp = _bar.selectedIndex;
+    _selectIndex = index;
     _bar.selectedIndex = index;
-//    if (![_bar.delegate tabBarController:_bar shouldSelectViewController:nil]) {
-//        _bar.selectedIndex = tmp;
-//    } else {
-//    }
     
     for (UIButton* iter in self.subviews) {
         [iter setSelected:NO];
     }
-//    DongDaTabBarItem* btn = (DongDaTabBarItem*)[self viewWithTag:index];
     [sender setSelected:YES];
-    //selected_layer.position = CGPointMake(sender.center.x, 5);
-    
-//    [_bar.tabBar.delegate tabBar:_bar.tabBar didSelectItem:[_bar.tabBar.items objectAtIndex:index]];
-    
-    //if ([self.delegate respondsToSelector:@selector(tabBar:selectedFrom:to:)]) {
-    //    [self.delegate tabBar:self selectedFrom:self.selectedBtn.tag to:button.tag];
-   // }
-    
 }
 
 - (void)changeItemImage:(UIImage*)img andIndex:(NSInteger)index {
@@ -141,5 +127,18 @@
     if (btn.img != img) {
         btn.img = img;
     }
+}
+
+#pragma mark -- tabbar controller delegate
+- (nullable id <UIViewControllerAnimatedTransitioning>)tabBarController:(UITabBarController *)tabBarController
+                     animationControllerForTransitionFromViewController:(UIViewController *)fromVC
+                                                       toViewController:(UIViewController *)toVC {
+
+    UIButton* btn = [self viewWithTag:_selectIndex];
+    for (UIButton* iter in self.subviews) {
+        [iter setSelected:NO];
+    }
+    [btn setSelected:YES];
+    return nil;
 }
 @end

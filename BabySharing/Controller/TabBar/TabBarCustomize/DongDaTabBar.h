@@ -17,13 +17,13 @@
 
 @end
 
-@interface DongDaTabBar : UIView <UITabBarDelegate>
+@interface DongDaTabBar : UIView <UITabBarDelegate, UITabBarControllerDelegate>
 
 @property(nonatomic,weak) id<DongDaTabBarDelegate> delegate;
 
 @property (nonatomic, readonly, getter=getTabBarItems) NSArray* items;
 @property (nonatomic, readonly, getter=getTabBarItemCount) NSInteger count;
-@property (nonatomic, getter=getCurrentSelectedIndex, setter=setCurrentSelectedIndex:) NSInteger selectIndex;
+@property (nonatomic) NSInteger selectIndex;
 @property (nonatomic, weak) UITabBarController* bar;
 
 - (id)initWithBar:(UITabBarController*)bar;
