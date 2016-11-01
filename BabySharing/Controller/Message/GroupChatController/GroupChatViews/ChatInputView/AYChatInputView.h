@@ -10,6 +10,6 @@
 #import "AYViewBase.h"
 #import <UIKit/UIKit.h>
 
-@interface AYChatInputView : UIView <AYViewBase>
+@interface AYChatInputView : UIView <AYViewBase, UITextViewDelegate>
 
 @end

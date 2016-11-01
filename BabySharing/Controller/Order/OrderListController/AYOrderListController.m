@@ -26,6 +26,7 @@
 @implementation AYOrderListController {
     
     NSMutableArray *result_status_0;
+    BOOL isSer;
 }
 
 #pragma mark -- commands
@@ -71,7 +72,7 @@
     [view_nav bringSubviewToFront:(UIView*)view_reg];
     
     AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isSer = [self.tabBarController isKindOfClass:[compare class]];
+    isSer = [self.tabBarController isKindOfClass:[compare class]];
     
     if (isSer) {
         {
@@ -160,9 +161,6 @@
 
 #pragma mark -- actions
 - (void)loadNewData {
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"TabBarService");
-    BOOL isSer = [self.tabBarController isKindOfClass:[des class]];
     
     NSDictionary* info = nil;
     CURRENUSER(info)

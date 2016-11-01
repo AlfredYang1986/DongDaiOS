@@ -18,6 +18,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYChatInputView.h"
 #import "AYNotifyDefines.h"
+#import "AYModelFacade.h"
 
 #import "GotyeOCChatTarget.h"
 #import "GotyeOCMessage.h"
@@ -26,54 +27,28 @@
 #import "EMConversation.h"
 #import "EMChatroom.h"
 
-#import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-
-#define BACK_BTN_WIDTH          23
-#define BACK_BTN_HEIGHT         23
-#define BOTTOM_MARGIN           10.5
-#define INPUT_HEIGHT            37
-#define INPUT_CONTAINER_HEIGHT  49
-#define USER_BTN_WIDTH          40
-#define USER_BTN_HEIGHT         23
-
-#define USER_INFO_PANE_HEIGHT               194
-#define USER_INFO_PANE_MARGIN               10.5
-#define USER_INGO_PANE_BOTTOM_MARGIN        4
-#define USER_INFO_PANE_WIDTH                width - 2 * USER_INFO_PANE_MARGIN
-#define USER_INFO_CONTAINER_HEIGHT          USER_INFO_PANE_HEIGHT
-
-#define USER_INFO_BACK_BTN_HEIGHT           30
-#define USER_INFO_BACK_BTN_WIDTH            30
-
 static NSString* const kAYGroupChatControllerMessageTable = @"Table";
 static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
+
+#define InputViewheight             64
+#define ChatHeadheight              50
 
 @implementation AYGroupChatController {
     
     NSString* owner_id;
 //    NSNumber* group_id;
-    int chat_state;
     NSString* user_id;
     NSString* theme;
     
     dispatch_semaphore_t semaphore_owner_info;
     __block BOOL owner_info_success;
     __block NSDictionary* owner_info_result;
-    
-//    dispatch_semaphore_t semaphore_join_lst;
-//    __block BOOL join_lst_success;
-//    __block NSArray* join_lst_result;
-//    
-//    __block NSNumber* join_count;
    
     dispatch_semaphore_t semaphore_msg_lst;
     __block NSMutableArray* current_messages;
     
     id messageNote;
+    NSDictionary *order_info;
 }
 
 #pragma mark -- commands
@@ -86,7 +61,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         
         owner_id = [args objectForKey:@"owner_id"];
         user_id = [args objectForKey:@"user_id"];
-        chat_state = ((NSNumber*)[args objectForKey:@"status"]).intValue;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -108,15 +82,24 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     UIView* table_view = [self.views objectForKey:kAYGroupChatControllerMessageTable];
     [self.view sendSubviewToBack:table_view];
-
-    UIView* img = [self.views objectForKey:@"Image"];
-    [self.view sendSubviewToBack:img];
-   
-    UIView* bar = [self.views objectForKey:@"GroupChatHeader"];
-    [self.view bringSubviewToFront:bar];
     
-    UIView* loading = [self.views objectForKey:@"Loading"];
-    [self.view bringSubviewToFront:loading];
+//setGroupChatViewInfo:
+    NSDictionary* info = nil;
+    CURRENUSER(info)
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
+    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+    [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_query setValue:owner_id forKey:@"owner_id"];
+    
+    [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            id args = [(NSArray*)result firstObject];
+            order_info = args;
+            kAYViewsSendMessage(@"", @"setGroupChatViewInfo:", &args)
+        }
+        
+    }];
     
     semaphore_owner_info = dispatch_semaphore_create(0);
 //    semaphore_join_lst = dispatch_semaphore_create(0);
@@ -144,7 +127,6 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         id<AYDelegateBase> del_input = [self.delegates objectForKey:@"ChatGroupInput"];
         
         id<AYCommand> cmd = [view_input.commands objectForKey:@"regInputDelegate:"];
-        
         id obj = del_input;
         [cmd performWithResult:&obj];
     }
@@ -216,7 +198,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (id)GroupChatHeaderLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, view.frame.size.height);
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, ChatHeadheight);
     view.backgroundColor = [UIColor whiteColor];
     
     return nil;
@@ -224,7 +206,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
+    view.frame = CGRectMake(0, 64+ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 - ChatHeadheight);
     view.backgroundColor = [UIColor clearColor];
     //预设高度
     ((UITableView*)view).estimatedRowHeight = 90;
@@ -233,20 +215,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (id)ChatInputLayout:(UIView*)view {
-    view.frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    view.hidden = YES;
-    view.userInteractionEnabled = NO;
+    view.frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight, SCREEN_WIDTH, InputViewheight);
     return nil;
 }
 
 #pragma mark -- notifications
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -258,12 +232,13 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (id)didChatOrderDetailClick {
-//    AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
+    
     id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic setValue:[order_info copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];
@@ -285,8 +260,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (id)EMMessageSendFailed:(id)args {
-    NSLog(@"send message failed");
-    [[[UIAlertView alloc]initWithTitle:@"error" message:@"发送消息失败" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+    
+    NSString *title = @"发送消息失败";
+    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
     return nil;
 }
 
@@ -337,6 +313,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 //        [queryView setContentOffset:offset animated:animated];
 //    }
 //    [queryView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionBottom animated:animated];
+    
 }
 
 #pragma mark -- get input view height
@@ -352,8 +329,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 //        inputView.center = CGPointMake(inputView.center.x, inputView.center.y - step.floatValue);
 //        table_view.center = CGPointMake(table_view.center.x, table_view.center.y - step.floatValue);
         
-        ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT - step.floatValue, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - INPUT_CONTAINER_HEIGHT);
+        ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight - step.floatValue, SCREEN_WIDTH, InputViewheight);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight);
         
 //        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
     }];
@@ -367,8 +344,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     [UIView animateWithDuration:0.3f animations:^{
 //        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2);
-        ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - INPUT_CONTAINER_HEIGHT, SCREEN_WIDTH, INPUT_CONTAINER_HEIGHT);
-        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - INPUT_CONTAINER_HEIGHT);
+        ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight, SCREEN_WIDTH, InputViewheight);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight);
     }];
     
     return nil;
@@ -467,7 +444,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     current_messages = [(NSArray*)brige_id_message mutableCopy];
     NSLog(@"michauxs -- %@", current_messages);
     
-    if (current_messages.count == 0 && chat_state == 0) {
+    if (current_messages.count == 0) {
         [self createChat];
     } else {
         [self setMessagesToDelegate];
@@ -476,15 +453,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 #pragma mark -- enter group chat
-
-
 //- (id)EMGetGroupMemberSuccess:(id)args {
 //    join_lst_success = YES;
 //    join_lst_result = [args objectForKey:@"result"];
 //    dispatch_semaphore_signal(semaphore_join_lst);   
 //    return nil;
 //}
-
 
 - (void)GroupChatControllerIsReady {
     UIView* loading = [self.views objectForKey:@"Loading"];

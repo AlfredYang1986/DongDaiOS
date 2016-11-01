@@ -461,7 +461,6 @@
         NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
         [dic_chat setValue:user_id forKey:@"user_id"];
         [dic_chat setValue:owner_id forKey:@"owner_id"];
-        [dic setValue:[NSNumber numberWithInt:0] forKey:@"status"];
     
     [dic setValue:dic_chat forKey:kAYControllerChangeArgsKey];
     

@@ -17,17 +17,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
-#import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
-
-
-@implementation AYMessageListController{
-    NSMutableArray *loading_status;
+@implementation AYMessageListController {
     
 }
 
@@ -82,7 +72,6 @@
     [cmd_nib performWithResult:&nib_contact_name];
     /****************************************/
     
-    loading_status = [[NSMutableArray alloc]init];
     {
         UIView* view_loading = [self.views objectForKey:@"Loading"];
         [self.view bringSubviewToFront:view_loading];

@@ -198,9 +198,7 @@
 -(void)didDailyBtnClick:(UIButton*)btn {
     
 }
--(void)didChatBtnClick:(UIButton*)btn {
-    
-}
+
 -(void)didCostBtnClick:(UIButton*)btn {
     
 }

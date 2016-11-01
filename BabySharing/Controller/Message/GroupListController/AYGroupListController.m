@@ -231,23 +231,7 @@
 #pragma mark -- notifies
 - (id)scrollToRefresh{
     
-    
-    
     return nil;
 }
 
-
-//- (id)startRemoteCall:(id)obj {
-//    id<AYViewBase> loading = VIEW(@"Loading", @"Loading");
-//    view_loading = (UIView*)loading;
-//    [self.view addSubview:view_loading];
-//    id<AYCommand> cmd = [loading.commands objectForKey:@"startGif"];
-//    [cmd performWithResult:nil];
-//    return nil;
-//}
-//
-//- (id)endRemoteCall:(id)obj {
-//    [view_loading removeFromSuperview];
-//    return nil;
-//}
 @end

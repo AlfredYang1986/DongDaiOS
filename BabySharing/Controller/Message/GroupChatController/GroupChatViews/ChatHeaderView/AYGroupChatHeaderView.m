@@ -25,9 +25,11 @@
     UILabel* theme_label;
     
     UILabel *stateLabel;
-    UIImageView *photoCover;
-    UILabel *titleLabel;
-    UILabel *timeLabel;
+    UIButton *MoreBtn;
+    
+//    UIImageView *photoCover;
+//    UILabel *titleLabel;
+//    UILabel *timeLabel;
 }
 
 @synthesize para = _para;
@@ -45,69 +47,22 @@
     self.backgroundColor = [UIColor whiteColor];
     
     stateLabel = [[UILabel alloc]init];
-    stateLabel = [Tools setLabelWith:stateLabel andText:@"咨询中" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+    stateLabel = [Tools setLabelWith:stateLabel andText:@"咨询中" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
     [self addSubview:stateLabel];
     [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
         make.left.equalTo(self).offset(20);
     }];
     
-    UIView *rule = [[UIView alloc]init];
-    rule.backgroundColor = [Tools garyColor];
-    [self addSubview:rule];
-    [rule mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self);
-        make.left.equalTo(stateLabel.mas_right).offset(20);
-        make.size.mas_equalTo(CGSizeMake(1, 30));
-    }];
-    
-    photoCover = [[UIImageView alloc]init];
-    photoCover.image = IMGRESOURCE(@"sample_image");
-    [self addSubview:photoCover];
-    [photoCover mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self);
-        make.left.equalTo(rule.mas_right).offset(15);
-        make.size.mas_equalTo(CGSizeMake(50, 30));
-    }];
-    
-    titleLabel = [[UILabel alloc]init];
-    titleLabel = [Tools setLabelWith:titleLabel andText:@"服务简介标题" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
-    [self addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(photoCover);
-        make.left.equalTo(photoCover.mas_right).offset(15);
-    }];
-    
-    timeLabel = [[UILabel alloc]init];
-    timeLabel = [Tools setLabelWith:timeLabel andText:@"12月01日 10:00-12:00" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
-    [self addSubview:timeLabel];
-    [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(photoCover);
-        make.left.equalTo(titleLabel);
-    }];
-    
-    UIImageView *iconNext = [[UIImageView alloc]init];
-    iconNext.image = IMGRESOURCE(@"chan_group_back");
-    [self addSubview:iconNext];
-    [iconNext mas_makeConstraints:^(MASConstraintMaker *make) {
+    MoreBtn = [Tools creatUIButtonWithTitle:@"详情" andTitleColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil];
+    [self addSubview:MoreBtn];
+    [MoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-15);
-        make.centerY.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(20, 20));
+        make.centerY.equalTo(stateLabel);
+        make.size.mas_equalTo(CGSizeMake(36, 50));
     }];
+    [MoreBtn addTarget:self action:@selector(didChatOrderDetailClick) forControlEvents:UIControlEventTouchUpInside];
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, SELFHEIGHT - 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [self.layer addSublayer:line];
-    
-    UIView *tapView = [[UIView alloc]init];
-    tapView.backgroundColor = [UIColor clearColor];
-    [self addSubview:tapView];
-    [tapView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self);
-    }];
-    tapView.userInteractionEnabled = YES;
-    [tapView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didChatOrderDetailClick:)]];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -128,13 +83,32 @@
 
 #pragma mark -- messages
 - (id)setGroupChatViewInfo:(id)args {
-//    NSDictionary* dic = (NSDictionary*)args;
-//    
-//    stateLabel.text = [dic objectForKey:@"order_state"];
-//    photoCover.image = [dic objectForKey:@"nap_cover"];
-//    
-//    titleLabel.text = [dic objectForKey:@"nap_title"];
-//    timeLabel.text = [dic objectForKey:@"nap_time"];
+    NSDictionary* dic = (NSDictionary*)args;
+    
+    OrderStatus OrderStatus = ((NSNumber*)[dic objectForKey:@"order_state"]).intValue;
+    switch (OrderStatus) {
+        case OrderStatusReady:
+            stateLabel.text = @"待确认订单";
+            break;
+        case OrderStatusConfirm:
+            stateLabel.text = @"已确认订单";
+            break;
+        case OrderStatusPaid:
+            stateLabel.text = @"待确认订单";
+            break;
+        case OrderStatusDone:
+            stateLabel.text = @"已完成订单";
+            break;
+        case OrderStatusUnpaid:
+            stateLabel.text = @"未支付订单";
+            break;
+        case OrderStatusReject:
+            stateLabel.text = @"已拒绝订单";
+            break;
+        default:
+            stateLabel.text = @"异次元订单";
+            break;
+    }
     
     return nil;
 }
@@ -144,7 +118,7 @@
 }
 
 #pragma mark -- functions
-- (void)didChatOrderDetailClick:(UIGestureRecognizer*)tap{
+- (void)didChatOrderDetailClick {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didChatOrderDetailClick"];
     [cmd performWithResult:nil];
     

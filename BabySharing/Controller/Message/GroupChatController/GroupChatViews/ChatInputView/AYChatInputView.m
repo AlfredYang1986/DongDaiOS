@@ -12,27 +12,19 @@
 #import "Tools.h"
 
 #define INPUT_CONTAINER_HEIGHT  49
-
 #define USER_BTN_WIDTH          40
 #define USER_BTN_HEIGHT         23
-
 #define BACK_BTN_WIDTH          23
 #define BACK_BTN_HEIGHT         23
 #define BOTTOM_MARGIN           10.5
-
 #define INPUT_HEIGHT            37
-    
 #define INPUT_CONTAINER_HEIGHT  49
-
-
-@interface AYChatInputView () <UITextViewDelegate>
-
-@end
 
 @implementation AYChatInputView {
     CATextLayer* group_count;
     UITextView* inputView;
 }
+
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
@@ -40,8 +32,6 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 44);
-    self.backgroundColor = [UIColor whiteColor];
     
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
