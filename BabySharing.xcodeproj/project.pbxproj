@@ -1168,6 +1168,9 @@
 		7039CBF51CBBB5A700BE60C7 /* SearchSegTextTextItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSegTextTextItem.h; sourceTree = "<group>"; };
 		7039CBF61CBBB5A700BE60C7 /* SearchSegTextTextItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSegTextTextItem.m; sourceTree = "<group>"; };
 		7039CBFE1CBBB60900BE60C7 /* AYDongDaSegDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDongDaSegDefines.h; sourceTree = "<group>"; };
+		703AF2E71DC9EDA0006A8345 /* QueryLocalModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "QueryLocalModel 4.xcdatamodel"; sourceTree = "<group>"; };
+		703AF2E81DC9EE2F006A8345 /* LoginLocalModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LoginLocalModel 4.xcdatamodel"; sourceTree = "<group>"; };
+		703AF2E91DC9EE3F006A8345 /* MessageAndNotificationModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MessageAndNotificationModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		703B89641CBF2AEC002EBB18 /* AYSendRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSendRemoteFacade.h; sourceTree = "<group>"; };
 		703B89651CBF2AEC002EBB18 /* AYSendRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSendRemoteFacade.m; sourceTree = "<group>"; };
 		703B89701CBF81E4002EBB18 /* AYWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWebView.h; sourceTree = "<group>"; };
@@ -8793,6 +8796,7 @@
 		701D8A6E1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				703AF2E81DC9EE2F006A8345 /* LoginLocalModel 4.xcdatamodel */,
 				7047BD291D24C04C00A44F18 /* LoginLocalModel 3.xcdatamodel */,
 				700515141CE0681D00F4D406 /* LoginLocalModel 2.xcdatamodel */,
 				701D8A6F1CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodel */,
@@ -8805,6 +8809,7 @@
 		7025108B1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				703AF2E91DC9EE3F006A8345 /* MessageAndNotificationModel 4.xcdatamodel */,
 				709768B21D2272E5005554DB /* MessageAndNotificationModel 3.xcdatamodel */,
 				700515161CE069BF00F4D406 /* MessageAndNotificationModel 2.xcdatamodel */,
 				7025108C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodel */,
@@ -8817,6 +8822,7 @@
 		70CDF6311CBD033900311841 /* QueryLocalModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				703AF2E71DC9EDA0006A8345 /* QueryLocalModel 4.xcdatamodel */,
 				7047BD2A1D24C06A00A44F18 /* QueryLocalModel 3.xcdatamodel */,
 				700515151CE069AE00F4D406 /* QueryLocalModel 2.xcdatamodel */,
 				70CDF6321CBD033900311841 /* QueryLocalModel.xcdatamodel */,
