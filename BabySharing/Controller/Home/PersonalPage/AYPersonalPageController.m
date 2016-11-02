@@ -147,6 +147,11 @@
     id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
     
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
+    id<AYCommand> cmd_change_data = [cmd_notify.commands objectForKey:@"changeQueryData:"];
+    NSDictionary *tmp = [service_info copy];
+    [cmd_change_data performWithResult:&tmp];
+    
     NSDictionary *user_info = nil;
     CURRENUSER(user_info)
     
@@ -155,20 +160,25 @@
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
-            id<AYCommand> cmd = [cmd_notify.commands objectForKey:@"changeQueryData:"];
             
-            NSMutableDictionary *tmp = [service_info mutableCopy];
-            [tmp setValue:[result objectForKey:@"personal_description"] forKey:@"description"];
+            id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
+            id descr = [result objectForKey:@"personal_description"];
+            [cmd_desc performWithResult:&descr];
             
-            NSDictionary *dic = [tmp copy];
-            [cmd performWithResult:&dic];
+//            NSMutableDictionary *tmp = [service_info mutableCopy];
+//            [tmp setValue:[result objectForKey:@"personal_description"] forKey:@"description"];
+//            
+//            NSDictionary *dic = [tmp copy];
+//            [cmd performWithResult:&dic];
             
             id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
             id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
             [refresh performWithResult:nil];
         }
     }];
+    
+//    changeDescription
+    
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];

@@ -23,6 +23,7 @@
 
 @implementation AYServicePageDelegate {
     NSDictionary *querydata;
+    NSString *personal_description;
 }
 
 @synthesize para = _para;
@@ -55,6 +56,11 @@
 - (id)changeQueryData:(NSDictionary*)args{
     querydata = args;
     
+    return nil;
+}
+
+- (id)changeDescription:(id)args {
+    personal_description = (NSString*)args;
     return nil;
 }
 
@@ -105,7 +111,7 @@
         returnHeight -= 90;
     }
     
-    NSString *descStr = [querydata objectForKey:@"description"];
+    NSString *descStr = personal_description;
     if (!descStr || [descStr isEqualToString:@""]) {
         returnHeight -= 100;
     }
