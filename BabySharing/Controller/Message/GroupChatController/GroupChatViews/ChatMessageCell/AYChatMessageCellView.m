@@ -37,11 +37,14 @@
 #define TIME_LABEL_HEIGHT       26
 
 #define TIME_FONT_SIZE          10.f
-#define NAME_FONT_SIZE          10.f
 #define CONTENT_FONT_SIZE       14.f
 
 #define MARGIN_BOTTOM       8
 #define NAME_MARGIN_TOP     10
+
+#define MarginTop       12
+#define MarginLeft       15
+#define TimeMarginTop       5
 
 @implementation AYChatMessageCellView {
 //    OBShapedButton* time_label;
@@ -76,18 +79,15 @@
     self.backgroundColor = [UIColor clearColor];
     
     if (time_label == nil) {
-        time_label = [[UILabel alloc]init];
-        time_label.font = [UIFont systemFontOfSize:TIME_FONT_SIZE];
-        time_label.textColor = [Tools garyColor];
+        time_label = [Tools creatUILabelWithText:@"while" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:time_label];
     }
     
     if (content == nil) {
-        content = [[UILabel alloc]init];
-        [self addSubview:content];
-        content.textColor = [Tools blackColor];
-        content.font = [UIFont systemFontOfSize:CONTENT_FONT_SIZE];
+        content = [Tools creatUILabelWithText:@"chat message content" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         content.numberOfLines = 0;
+        [self addSubview:content];
+        
 //        [content addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     }else content.text = @"";
     
@@ -255,63 +255,58 @@
         
         [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-10);
-            make.top.equalTo(self).offset(15);
+            make.top.equalTo(self).offset(MarginTop);
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
-        content.textColor = time_label.textColor = [UIColor whiteColor];
+        content.textColor =  [UIColor whiteColor];
+        time_label.textColor = [Tools colorWithRED:191 GREEN:241 BLUE:237 ALPHA:1.f];
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(imgView.mas_left).offset(-30);
-            make.top.equalTo(imgView).offset(20);
-            //            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
-            
-            make.width.mas_greaterThanOrEqualTo(40);
-            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.65);
-            //            make.left.lessThanOrEqualTo(self).offset(30);
-            
+            make.right.equalTo(imgView.mas_left).offset(-25);
+            make.top.equalTo(imgView).offset(MarginTop);
+            make.left.equalTo(self).offset(69);
             make.bottom.equalTo(self).offset(-45);
         }];
         
         [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(content);
-            make.top.equalTo(content.mas_bottom).offset(10);
+            make.top.equalTo(content.mas_bottom).offset(TimeMarginTop);
         }];
         
         UIImage *bg = IMGRESOURCE(@"message_bg_me");
         bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 10, 10, 15) resizingMode:UIImageResizingModeStretch];
         bgView.image = bg;
         [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -20, -35, -30));
+            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-MarginTop, -MarginLeft, -35, -20));
         }];
         
     } else {
         [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(10);
-            make.top.equalTo(self).offset(15);
+            make.top.equalTo(self).offset(MarginTop);
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
         content.textColor = time_label.textColor = [Tools blackColor];
         [content mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(imgView.mas_right).offset(30);
-            make.top.equalTo(imgView).offset(20);
-            //            make.width.mas_equalTo(SCREEN_WIDTH * 0.65);
-            make.width.mas_greaterThanOrEqualTo(40);
-            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.65);
+            make.top.equalTo(imgView).offset(MarginTop);
+            make.right.equalTo(self).offset(-69);
             make.bottom.equalTo(self).offset(-45);
         }];
-        NSLog(@"%@, %f",content.text, content.frame.size.height);
         
         [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(content);
-            make.top.equalTo(content.mas_bottom).offset(10);
+            make.top.equalTo(content.mas_bottom).offset(TimeMarginTop);
         }];
         
+        content.textColor =  [Tools blackColor];
+        time_label.textColor = [Tools garyColor];
         UIImage *bg = IMGRESOURCE(@"message_bg_one");
         bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
         bgView.image = bg;
         [bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-20, -30, -35, -20));
+            make.edges.equalTo(content).insets(UIEdgeInsetsMake(-MarginTop, -25, -35, -MarginLeft));
         }];
     }
     

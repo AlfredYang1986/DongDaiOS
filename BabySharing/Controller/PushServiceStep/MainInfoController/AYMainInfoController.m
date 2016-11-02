@@ -203,6 +203,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [self.view addSubview:confirmSerBtn];
     confirmSerBtn.hidden = YES;
     
+    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
+    
     if (service_info) {
         
         NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -221,9 +224,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
         
     } else {
-        
-        AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-        isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
         
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_cell performWithResult:&babyAgeCell];
@@ -277,20 +277,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 #pragma mark -- layout
-- (id)TableLayout:(UIView*)view {
-    
-    CGFloat fit_height = 0;
-    if (service_info) {
-        fit_height = servInfoNormalModelFitHeight;
-    } else {
-        fit_height = isNapModel?napPushServNormalModelFitHeight:becomeNapNormalModelFitHeight;
-    }
-    
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - fit_height);
-    view.backgroundColor = [UIColor whiteColor];
-    return nil;
-}
-
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor whiteColor];
@@ -309,6 +295,21 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);
     
+    return nil;
+}
+
+- (id)TableLayout:(UIView*)view {
+    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
+    CGFloat fit_height = 0;
+    if (service_info) {
+        fit_height = servInfoNormalModelFitHeight;
+    } else {
+        fit_height = isNapModel?napPushServNormalModelFitHeight:becomeNapNormalModelFitHeight;
+    }
+    
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - fit_height);
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 

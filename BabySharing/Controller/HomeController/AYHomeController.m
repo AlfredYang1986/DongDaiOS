@@ -19,7 +19,6 @@
 #import "AYModelFacade.h"
 #import <objc/runtime.h>
 
-#import "DongDaTabBar.h"
 
 typedef void(^queryContentFinish)(void);
 
@@ -212,19 +211,16 @@ typedef void(^queryContentFinish)(void);
 #pragma mark -- controller actions
 - (id)foundBtnClick {
     
-    UITabBarController* tab = [Tools activityViewController].tabBarController;
-    DongDaTabBar* concret = [tab.tabBar viewWithTag:-99];
-    concret.selectIndex = 2;
-    tab.selectedIndex = 2;
+//    [super tabBarVCSelectIndex:2];
     
-//    AYViewController* des = DEFAULTCONTROLLER(@"Location");
-//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    
-//    id<AYCommand> cmd = PUSH;
-//    [cmd performWithResult:&dic_push];
+    AYViewController* des = DEFAULTCONTROLLER(@"Location");
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
     return nil;
 }
 

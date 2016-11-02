@@ -10,17 +10,17 @@
 #import <UIKit/UIKit.h>
 #import "AYControllerBase.h"
 #import "AYResourceManager.h"
-#import "Tools.h"
+#import "DongDaTabBar.h"
 
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>
 @property (nonatomic, weak) id<AYViewBase> loading;
 
 - (void)clearController;
-
 - (void)BtmAlertOtherBtnClick;
-- (id)HideBtmAlert:(id)args;
+- (void)tabBarVCSelectIndex:(NSInteger)index;
 
+- (id)HideBtmAlert:(id)args;
 - (id)startRemoteCall:(id)obj;
 - (id)endRemoteCall:(id)ob;
 @end

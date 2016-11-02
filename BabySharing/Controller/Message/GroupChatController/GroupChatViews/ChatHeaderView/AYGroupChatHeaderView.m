@@ -43,8 +43,7 @@
 #pragma mark -- commands
 - (void)postPerform {
     
-    self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SELFHEIGHT);
-    self.backgroundColor = [UIColor whiteColor];
+    self.clipsToBounds = YES;
     
     stateLabel = [[UILabel alloc]init];
     stateLabel = [Tools setLabelWith:stateLabel andText:@"咨询中" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
@@ -88,25 +87,25 @@
     OrderStatus OrderStatus = ((NSNumber*)[dic objectForKey:@"order_state"]).intValue;
     switch (OrderStatus) {
         case OrderStatusReady:
-            stateLabel.text = @"待确认订单";
+            stateLabel.text = @"待确认";
             break;
         case OrderStatusConfirm:
-            stateLabel.text = @"已确认订单";
+            stateLabel.text = @"已确认";
             break;
         case OrderStatusPaid:
-            stateLabel.text = @"待确认订单";
+            stateLabel.text = @"待确认";
             break;
         case OrderStatusDone:
-            stateLabel.text = @"已完成订单";
+            stateLabel.text = @"已完成";
             break;
         case OrderStatusUnpaid:
-            stateLabel.text = @"未支付订单";
+            stateLabel.text = @"未支付";
             break;
         case OrderStatusReject:
-            stateLabel.text = @"已拒绝订单";
+            stateLabel.text = @"已拒绝";
             break;
         default:
-            stateLabel.text = @"异次元订单";
+            stateLabel.text = @"咨询中";
             break;
     }
     

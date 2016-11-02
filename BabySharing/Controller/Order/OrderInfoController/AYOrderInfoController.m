@@ -178,10 +178,8 @@
 - (void)didAplyBtnClick:(UIButton*)btn {
     
     if (!order_date) {
-        
         NSString *title = @"您还没有预订时间";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
-        
         return;
     }
     

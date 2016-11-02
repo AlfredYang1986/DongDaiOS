@@ -35,19 +35,23 @@
     
     CALayer *line = [CALayer layer];
     line.frame = CGRectMake(0, 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
+    line.backgroundColor = [Tools garyLineColor].CGColor;
     [self.layer addSublayer:line];
     
     UIButton* sendBtn = [[UIButton alloc]init];
-    [sendBtn setTitle:@"Send" forState:UIControlStateNormal];
-    sendBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    sendBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
     [sendBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    sendBtn.layer.cornerRadius = 2.f;
+    sendBtn.layer.borderColor = [Tools themeColor].CGColor;
+    sendBtn.layer.borderWidth = 1.f;
+    sendBtn.clipsToBounds = YES;
     [sendBtn addTarget:self action:@selector(didSendMessageBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:sendBtn];
     [sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-10);
         make.centerY.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(50, 44));
+        make.size.mas_equalTo(CGSizeMake(50, 34));
     }];
     
     inputView = [[UITextView alloc]init];

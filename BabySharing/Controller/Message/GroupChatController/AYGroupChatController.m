@@ -31,7 +31,7 @@ static NSString* const kAYGroupChatControllerMessageTable = @"Table";
 static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 #define InputViewheight             64
-#define ChatHeadheight              50
+#define ChatHeadheight              0
 
 @implementation AYGroupChatController {
     
@@ -94,7 +94,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
     [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            id args = [(NSArray*)result firstObject];
+            id args = [[result objectForKey:@"result" ] firstObject];
             order_info = args;
             kAYViewsSendMessage(@"", @"setGroupChatViewInfo:", &args)
         }
@@ -159,6 +159,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self scrollTableToFoot:YES];
+}
+
 - (void)clearController {
     [super clearController];
     
@@ -198,7 +203,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 }
 
 - (id)GroupChatHeaderLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, ChatHeadheight);
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, ChatHeadheight);
     view.backgroundColor = [UIColor whiteColor];
     
     return nil;
@@ -206,7 +211,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, 64+ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44 - ChatHeadheight);
+    view.frame = CGRectMake(0, kStatusAndNavBarH+ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
     view.backgroundColor = [UIColor clearColor];
     //预设高度
     ((UITableView*)view).estimatedRowHeight = 90;
@@ -320,21 +325,14 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (id)KeyboardShowKeyboard:(id)args {
     
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-    
     UIView *inputView = [self.views objectForKey:@"ChatInput"];
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     
     [UIView animateWithDuration:0.3f animations:^{
         
-//        inputView.center = CGPointMake(inputView.center.x, inputView.center.y - step.floatValue);
-//        table_view.center = CGPointMake(table_view.center.x, table_view.center.y - step.floatValue);
-        
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight - step.floatValue, SCREEN_WIDTH, InputViewheight);
-        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight);
-        
-//        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2 - step.floatValue);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight - ChatHeadheight);
     }];
-    
     return nil;
 }
 
@@ -343,11 +341,9 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     
     [UIView animateWithDuration:0.3f animations:^{
-//        self.view.center = CGPointMake(self.view.center.x, SCREEN_HEIGHT / 2);
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight, SCREEN_WIDTH, InputViewheight);
-        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
     }];
-    
     return nil;
 }
 

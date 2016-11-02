@@ -285,7 +285,7 @@
     NSLog(@"didOtherBtnClick");
     [super BtmAlertOtherBtnClick];
     
-    
+    [super tabBarVCSelectIndex:2];
 }
 
 #pragma mark -- notification
@@ -320,8 +320,9 @@
     
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            NSString *title = @"服务预订成功";
-            [self popToRootVCWithTip:title];
+            NSString *title = @"服务预订成功,去日程查看";
+//            [self popToRootVCWithTip:title];
+            AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
             
         } else {
             NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";

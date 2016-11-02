@@ -310,14 +310,14 @@
             
             NSString *btnTitleStr = @"确认";
             UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
-            otherBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+//            [otherBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -65, 0, 0)];
             [otherBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [btmAlertView addSubview:otherBtn];
             [otherBtn sizeToFit];
             [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(titleLabel);
                 make.top.equalTo(titleLabel.mas_bottom).offset(5);
-                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 30, otherBtn.bounds.size.width));
+                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 20, otherBtn.bounds.size.height));
             }];
             
         }
@@ -344,15 +344,29 @@
 }
 
 - (void)BtmAlertOtherBtnClick {
-    NSLog(@"didOtherBtnClick");
     [self didBtmAlertViewCloseBtnClick];
-    
 }
 
 - (id)HideBtmAlert:(id)args {
-    
     [self didBtmAlertViewCloseBtnClick];
     return nil;
 }
 
+#pragma mark -- tabBarViewController selectedIndex
+- (void)tabBarVCSelectIndex:(NSInteger)index {
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        NSMutableDictionary* dic_tmp = [[NSMutableDictionary alloc]init];
+        [dic_tmp setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+        [dic_tmp setValue:self forKey:kAYControllerActionSourceControllerKey];
+        id<AYCommand> cmd = POPTOROOT;
+        [cmd performWithResult:&dic_tmp];
+    });
+    
+    UITabBarController* tab = [Tools activityViewController].tabBarController;
+    DongDaTabBar* concret = [tab.tabBar viewWithTag:-99];
+    concret.selectIndex = index;
+    tab.selectedIndex = index;
+}
 @end
