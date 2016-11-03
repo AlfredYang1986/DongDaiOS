@@ -62,4 +62,13 @@
     return YES;
 }
 
+- (void)textViewDidChange:(UITextView *)textView {
+    CGRect bounds = textView.bounds;
+    //    计算 text view 的高度
+    CGSize maxSize = CGSizeMake(bounds.size.width, CGFLOAT_MAX);
+    CGSize newSize = [textView sizeThatFits:maxSize];
+    //    bounds.size = newSize;
+    textView.bounds = CGRectMake(0, 0, newSize.width, newSize.height);
+}
+
 @end

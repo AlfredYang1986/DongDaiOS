@@ -122,14 +122,14 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         [view_reg_cell performWithResult:&class_name];
     }
     
-    {
-        id<AYViewBase> view_input = [self.views objectForKey:@"ChatInput"];
-        id<AYDelegateBase> del_input = [self.delegates objectForKey:@"ChatGroupInput"];
-        
-        id<AYCommand> cmd = [view_input.commands objectForKey:@"regInputDelegate:"];
-        id obj = del_input;
-        [cmd performWithResult:&obj];
-    }
+//    {
+//        id<AYViewBase> view_input = [self.views objectForKey:@"ChatInput"];
+//        id<AYDelegateBase> del_input = [self.delegates objectForKey:@"ChatGroupInput"];
+//        
+//        id<AYCommand> cmd = [view_input.commands objectForKey:@"regInputDelegate:"];
+//        id obj = del_input;
+//        [cmd performWithResult:&obj];
+//    }
    
 //    [self waitForControllerReady];
 //    [self queryOwnerInfo];
@@ -159,8 +159,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self scrollTableToFoot:YES];
 }
 
@@ -214,13 +214,14 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     view.frame = CGRectMake(0, kStatusAndNavBarH+ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
     view.backgroundColor = [UIColor clearColor];
     //预设高度
-    ((UITableView*)view).estimatedRowHeight = 90;
+    ((UITableView*)view).estimatedRowHeight = 120;
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }
 
 - (id)ChatInputLayout:(UIView*)view {
     view.frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight, SCREEN_WIDTH, InputViewheight);
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
@@ -331,7 +332,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [UIView animateWithDuration:0.3f animations:^{
         
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight - step.floatValue, SCREEN_WIDTH, InputViewheight);
-        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight - ChatHeadheight);
+        ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight - ChatHeadheight - step.floatValue);
+        [self scrollTableToFoot:YES];
     }];
     return nil;
 }
@@ -343,6 +345,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     [UIView animateWithDuration:0.3f animations:^{
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight, SCREEN_WIDTH, InputViewheight);
         ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
+        [self scrollTableToFoot:YES];
     }];
     return nil;
 }

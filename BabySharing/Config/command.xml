@@ -219,7 +219,8 @@
     <command type="Remote" name="PayOrder"   route="order/pay" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="PushComments"   route="order/comments/push" factory="AYRemoteCallFactory" />
-    
+    <command type="Remote" name="QueryComments"   route="order/comments/overall" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryComment"   route="order/comments/query" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />
