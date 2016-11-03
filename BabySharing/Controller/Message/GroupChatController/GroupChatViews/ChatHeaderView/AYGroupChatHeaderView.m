@@ -62,6 +62,14 @@
     }];
     [MoreBtn addTarget:self action:@selector(didChatOrderDetailClick) forControlEvents:UIControlEventTouchUpInside];
     
+    UIView *lineView = [UIView new];
+    [self addSubview:lineView];
+    lineView.backgroundColor = [Tools garyLineColor];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self);
+        make.centerY.equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH,0.5));
+    }];
 }
 
 - (void)performWithResult:(NSObject**)obj {
