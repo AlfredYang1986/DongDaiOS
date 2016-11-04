@@ -257,7 +257,6 @@
         <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="EM" notification="true" />
-        <!-- <facade type="DefaultFacade" name="XMPP" notification="true" /> -->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         
         <view type="Table" name="Table" />
@@ -308,7 +307,7 @@
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
-        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+<!--        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />-->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
         <view type="Table"          name="Table" />
@@ -489,7 +488,7 @@
         <facade type="DefaultFacade" name="TagContentModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
-        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />
+<!--        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />-->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
         
         <view type="Table"          name="Table" />

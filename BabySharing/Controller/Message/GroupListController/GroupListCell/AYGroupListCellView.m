@@ -7,11 +7,8 @@
 //
 
 #import "AYGroupListCellView.h"
-#import "OBShapedButton.h"
 #import "Targets.h"
-#import "GotyeOCAPI.h"
-#import "Tools.h"
-
+//#import "GotyeOCAPI.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -29,7 +26,7 @@
 #define BRAGE_HEIGHT    BRAGE_WIDTH
 
 @implementation AYGroupListCellView {
-    OBShapedButton* brage;
+//    OBShapedButton* brage;
 }
 
 @synthesize themeLabel = _themeLabel;
@@ -44,68 +41,68 @@
     return 90;
 }
 
-- (void)setSession:(Targets *)current_session {
-    _current_session = current_session;
-   
-    [self changeImage];
-    [self changeThemeText];
-    [self changeUnreadLabel];
-    NSLog(@"MonkeyHengLog: %@ === %lld", @"_current_session.group_id.longLongValue", _current_session.group_id.longLongValue);
-
-    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
-    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
-   
-    [self changeMessageTextWithMessage:m];
-    [self changeTimeTextWithMessage:m];
-  
-    // TODO : 我日 以后改
-    if (_screen_name == nil) {
-        
-    }
-}
-
-- (void)changeUnreadLabel {
-    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
-    int count = [GotyeOCAPI getUnreadMessageCount:group];
-    if (count > 0) {
-        brage.hidden = NO;
-        NSString* str = [NSString stringWithFormat:@"%d", count];
-        [brage setTitle:str forState:UIControlStateNormal];
-    } else {
-        brage.hidden = YES;
-    }
-}
-
-- (void)changeThemeText {
-    _themeLabel.text = _current_session.target_name;
-}
-
-- (void)changeMessageTextWithMessage:(GotyeOCMessage*)m {
-    if (![m.text isEqualToString:@""]) {
-        _chatLabel.text = [[_screen_name stringByAppendingString:@" : "] stringByAppendingString:m.text];
-    }
-}
-
-- (void)changeTimeTextWithMessage:(GotyeOCMessage *)m {
-    if ([GotyeOCAPI getUnreadMessageCount:[GotyeOCGroup groupWithId:_current_session.group_id.longLongValue]] == 0) {
-        _timeLabel.text = @"";
-        return;
-    }
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
-    
-    NSTimeInterval now_time = [NSDate date].timeIntervalSince1970;
-    if (now_time - m.date > 24 * 60 * 60) {
-        [formatter setDateFormat:@"MM-dd"];
-    } else {
-        [formatter setDateFormat:@"hh:mm"];
-    }
-    NSLog(@"MonkeyHengLog: %f === %u", now_time, m.date);
-    NSDate* date = [NSDate dateWithTimeIntervalSince1970:m.date];
-    
-    _timeLabel.text = [Tools compareCurrentTime:date];
-}
+//- (void)setSession:(Targets *)current_session {
+//    _current_session = current_session;
+//   
+//    [self changeImage];
+//    [self changeThemeText];
+//    [self changeUnreadLabel];
+//    NSLog(@"MonkeyHengLog: %@ === %lld", @"_current_session.group_id.longLongValue", _current_session.group_id.longLongValue);
+//
+//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
+//    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
+//   
+//    [self changeMessageTextWithMessage:m];
+//    [self changeTimeTextWithMessage:m];
+//  
+//    // TODO : 我日 以后改
+//    if (_screen_name == nil) {
+//        
+//    }
+//}
+//
+//- (void)changeUnreadLabel {
+//    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
+//    int count = [GotyeOCAPI getUnreadMessageCount:group];
+//    if (count > 0) {
+//        brage.hidden = NO;
+//        NSString* str = [NSString stringWithFormat:@"%d", count];
+//        [brage setTitle:str forState:UIControlStateNormal];
+//    } else {
+//        brage.hidden = YES;
+//    }
+//}
+//
+//- (void)changeThemeText {
+//    _themeLabel.text = _current_session.target_name;
+//}
+//
+//- (void)changeMessageTextWithMessage:(GotyeOCMessage*)m {
+//    if (![m.text isEqualToString:@""]) {
+//        _chatLabel.text = [[_screen_name stringByAppendingString:@" : "] stringByAppendingString:m.text];
+//    }
+//}
+//
+//- (void)changeTimeTextWithMessage:(GotyeOCMessage *)m {
+//    if ([GotyeOCAPI getUnreadMessageCount:[GotyeOCGroup groupWithId:_current_session.group_id.longLongValue]] == 0) {
+//        _timeLabel.text = @"";
+//        return;
+//    }
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+//    [formatter setDateStyle:NSDateFormatterMediumStyle];
+//    [formatter setTimeStyle:NSDateFormatterShortStyle];
+//    
+//    NSTimeInterval now_time = [NSDate date].timeIntervalSince1970;
+//    if (now_time - m.date > 24 * 60 * 60) {
+//        [formatter setDateFormat:@"MM-dd"];
+//    } else {
+//        [formatter setDateFormat:@"hh:mm"];
+//    }
+//    NSLog(@"MonkeyHengLog: %f === %u", now_time, m.date);
+//    NSDate* date = [NSDate dateWithTimeIntervalSince1970:m.date];
+//    
+//    _timeLabel.text = [Tools compareCurrentTime:date];
+//}
 
 - (void)changeImage {
     [self.themeImg setImage:IMGRESOURCE(@"default_user")];

@@ -7,17 +7,6 @@
 //
 
 #import "AYFacilityCellView.h"
-#import "Tools.h"
-#import "TmpFileStorageModel.h"
-#import "QueryContentItem.h"
-#import "GPUImage.h"
-#import "Define.h"
-#import "PhotoTagEnumDefines.h"
-#import "QueryContentTag.h"
-#import "QueryContentChaters.h"
-#import "QueryContent+ContextOpt.h"
-#import "AppDelegate.h"
-
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -27,13 +16,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#import "AYThumbsAndPushDefines.h"
-
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 @implementation AYFacilityCellView {
     

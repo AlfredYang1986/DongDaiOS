@@ -128,7 +128,7 @@
     <command type="Module" name="StillImageCaptureChangeFlash" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="StillImageCaptureTake" factory="AYDefaultModuleFactory" />
     <command type="Module" name="StillImageCaptureRelease" factory="AYDefaultModuleFactory" />
-    
+
     <command type="Module" name="MovieRecordInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieRecordStartCapture" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieRecordStopCapture" factory="AYDefaultModuleFactory" />

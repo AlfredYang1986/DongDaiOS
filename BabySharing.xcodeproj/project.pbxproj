@@ -39,24 +39,7 @@
 		7000CD2D1D7E8A5200DA98F2 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000CD181D7E8A5200DA98F2 /* UIView+MJExtension.m */; };
 		7001310B1CA44057006003C8 /* view.xml in Resources */ = {isa = PBXBuildFile; fileRef = 7001310A1CA44057006003C8 /* view.xml */; };
 		7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */; };
-		7002DB2B1CC5FAB50013FF2A /* AYMovieRecordFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB2A1CC5FAB50013FF2A /* AYMovieRecordFacade.m */; };
-		7002DB2F1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB2E1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m */; };
-		7002DB331CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB321CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m */; };
-		7002DB371CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB361CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m */; };
-		7002DB3B1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB3A1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m */; };
-		7002DB431CC600170013FF2A /* AYMovieRecordViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB421CC600170013FF2A /* AYMovieRecordViewCommand.m */; };
-		7002DB471CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB461CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.m */; };
-		7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB4A1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m */; };
-		7002DB4F1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB4E1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m */; };
-		7002DB541CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB531CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m */; };
-		7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB571CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m */; };
 		7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB5B1CC6173F0013FF2A /* MoviePlayTrait.m */; };
-		7002DB7F1CC64A8D0013FF2A /* AYGPUFilterFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB7E1CC64A8D0013FF2A /* AYGPUFilterFacade.m */; };
-		7002DB831CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB821CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m */; };
-		7002DB881CC64C9D0013FF2A /* ImageFilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB871CC64C9D0013FF2A /* ImageFilterFactory.m */; };
-		7002DB8C1CC64EDA0013FF2A /* AYSceneFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB8B1CC64EDA0013FF2A /* AYSceneFilterCommand.m */; };
-		7002DB901CC650690013FF2A /* AYAvaterFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB8F1CC650690013FF2A /* AYAvaterFilterCommand.m */; };
-		7002DB941CC651220013FF2A /* AYFoodFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB931CC651220013FF2A /* AYFoodFilterCommand.m */; };
 		7002DB9C1CC660070013FF2A /* AYFoundHotTagsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB971CC660070013FF2A /* AYFoundHotTagsCellView.m */; };
 		7002DB9D1CC660070013FF2A /* AYFoundSearchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DB9A1CC660070013FF2A /* AYFoundSearchHeaderView.m */; };
 		7002DB9E1CC660070013FF2A /* AYFoundSearchHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7002DB9B1CC660070013FF2A /* AYFoundSearchHeaderView.xib */; };
@@ -65,7 +48,6 @@
 		7002DBBB1CC669D20013FF2A /* AYTagAddDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBB81CC669D20013FF2A /* AYTagAddDelegate.m */; };
 		7002DBBC1CC669D20013FF2A /* AYTagRecommendDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */; };
 		7003D93D1CFE7F9A001CD17C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7003D93C1CFE7F9A001CD17C /* libc++.tbd */; };
-		70049C311CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */; };
 		70049C351CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70049C341CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m */; };
 		7005D66E1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7005D66D1CB68485004DE0E7 /* AYLocalImageWithNameCommand.m */; };
 		700692E91CC49A2C00B511FF /* AYHomeInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700692E31CC49A2C00B511FF /* AYHomeInitCommand.m */; };
@@ -218,6 +200,9 @@
 		7039CBFA1CBBB5A700BE60C7 /* SearchSegImgTextItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBF21CBBB5A700BE60C7 /* SearchSegImgTextItem.m */; };
 		7039CBFB1CBBB5A700BE60C7 /* SearchSegItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBF41CBBB5A700BE60C7 /* SearchSegItem.m */; };
 		7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBF61CBBB5A700BE60C7 /* SearchSegTextTextItem.m */; };
+		703B4C4B1DCC288300B1088C /* AYPushCommentsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B4C481DCC288300B1088C /* AYPushCommentsCommand.m */; };
+		703B4C4E1DCC292200B1088C /* AYQueryCommentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B4C4D1DCC292200B1088C /* AYQueryCommentCommand.m */; };
+		703B4C511DCC293F00B1088C /* AYQueryCommentsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B4C501DCC293F00B1088C /* AYQueryCommentsCommand.m */; };
 		703B89661CBF2AEC002EBB18 /* AYSendRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89651CBF2AEC002EBB18 /* AYSendRemoteFacade.m */; };
 		703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703B89711CBF81E4002EBB18 /* AYWebView.m */; };
 		703C7DB31D4850BC00292F18 /* AYScanQRPreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 703C7DB21D4850BC00292F18 /* AYScanQRPreView.m */; };
@@ -399,7 +384,6 @@
 		708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235BA1CA2421B00658531 /* libstdc++.tbd */; };
 		708235BD1CA2422800658531 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235BC1CA2422800658531 /* libz.tbd */; };
 		708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 708235C81CA2563400658531 /* AYDefaultControllerFactoy.m */; };
-		708235E31CA2746A00658531 /* libgotyeapi_c++11.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235DE1CA272A300658531 /* libgotyeapi_c++11.a */; };
 		708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235E41CA274FC00658531 /* libz.1.2.5.tbd */; };
 		708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 708235E61CA2756000658531 /* libstdc++.6.0.9.tbd */; };
 		708235EA1CA2874000658531 /* AYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 708235E91CA2874000658531 /* AYViewController.m */; };
@@ -409,15 +393,6 @@
 		7082F1E41D1D4DFA00E64496 /* AYEMEnterBackgroundCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7082F1E31D1D4DFA00E64496 /* AYEMEnterBackgroundCommand.m */; };
 		7082F1E71D1D4E0D00E64496 /* AYEMEnterFrontCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7082F1E61D1D4E0D00E64496 /* AYEMEnterFrontCommand.m */; };
 		70837E391DB8A94100033CC7 /* AYSearchFiltServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70837E381DB8A94100033CC7 /* AYSearchFiltServiceCommand.m */; };
-		708E527B1CC53739008A6023 /* AYStillImageCaptureFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E527A1CC53739008A6023 /* AYStillImageCaptureFacade.m */; };
-		708E527F1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E527E1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m */; };
-		708E528C1CC54471008A6023 /* AYStillImageCaptureStartCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E528B1CC54471008A6023 /* AYStillImageCaptureStartCommand.m */; };
-		708E52901CC544EA008A6023 /* AYStillImageCaptureStopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E528F1CC544EA008A6023 /* AYStillImageCaptureStopCommand.m */; };
-		708E52941CC545B9008A6023 /* AYStillImageCaptureViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52931CC545B9008A6023 /* AYStillImageCaptureViewCommand.m */; };
-		708E52981CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52971CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m */; };
-		708E529C1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E529B1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m */; };
-		708E52A01CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */; };
-		708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */; };
 		709768AE1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */; };
 		709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 709768B01D226FA4005554DB /* Targets+CoreDataProperties.m */; };
 		709949B01CC2A31600078A5B /* AYFakeStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 709949AF1CC2A31600078A5B /* AYFakeStatusBarView.m */; };
@@ -444,18 +419,7 @@
 		70AC5BB01CC8C6DD00E2568F /* AYPostContentCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BAF1CC8C6DD00E2568F /* AYPostContentCommand.m */; };
 		70AC5BB31CC8C84600E2568F /* AYPostPhotosCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */; };
 		70AC5BB71CC8E32C00E2568F /* AYPostMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */; };
-		70B01F7D1DB4D64300731809 /* AYPushCommentsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B01F7C1DB4D64300731809 /* AYPushCommentsCommand.m */; };
 		70B1DC761CC705640041794A /* AYGetAllPhonesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */; };
-		70B1DC791CC706760041794A /* AYMoviePlayerFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC781CC706760041794A /* AYMoviePlayerFacade.m */; };
-		70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC7C1CC70D220041794A /* AYMovieCoverImagesCommand.m */; };
-		70B1DC861CC731E80041794A /* AYPlayMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC851CC731E80041794A /* AYPlayMovieCommand.m */; };
-		70B1DC8E1CC73B390041794A /* AYPlayMovieMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC8D1CC73B390041794A /* AYPlayMovieMeta.m */; };
-		70B1DC951CC73B760041794A /* AYReleaseMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC941CC73B760041794A /* AYReleaseMovieCommand.m */; };
-		70B1DC991CC73D5F0041794A /* AYMovieDisplayViewCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC981CC73D5F0041794A /* AYMovieDisplayViewCommand.m */; };
-		70B1DC9D1CC73E900041794A /* AYPauseMovieCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */; };
-		70B1DCA11CC7576D0041794A /* AYQueryFilterWithNameCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */; };
-		70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */; };
-		70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B1DCA91CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m */; };
 		70B820941CAA5802001EEAF2 /* SGActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208B1CAA5802001EEAF2 /* SGActionView.m */; };
 		70B820951CAA5802001EEAF2 /* SGAlertMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208D1CAA5802001EEAF2 /* SGAlertMenu.m */; };
 		70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B8208F1CAA5802001EEAF2 /* SGBaseMenu.m */; };
@@ -707,7 +671,6 @@
 		80D5E7EF1CCCD0AB00A82117 /* AYFriendsBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7EE1CCCD0AB00A82117 /* AYFriendsBtnView.m */; };
 		80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */; };
 		80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */; };
-		80E249511CD31C0700277130 /* libGPUImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 701524A21CBFBBA9005B4C5B /* libGPUImage.a */; };
 		80E249551CD32E6100277130 /* AYJoinChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */; };
 		80F3E8581CDDB54800970BDE /* AYPushUpBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F3E8571CDDB54800970BDE /* AYPushUpBtnView.m */; };
 		80FCB69B1D76DD3C00CEDCEB /* AYSearchFilterController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80FCB69A1D76DD3C00CEDCEB /* AYSearchFilterController.m */; };
@@ -802,43 +765,8 @@
 		7001310D1CA446CA006003C8 /* AYDefaultViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDefaultViewFactory.h; sourceTree = "<group>"; };
 		7001310E1CA446CA006003C8 /* AYDefaultViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultViewFactory.m; sourceTree = "<group>"; };
 		700131131CA458DF006003C8 /* AYViewBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYViewBase.h; sourceTree = "<group>"; };
-		7002DB291CC5FAB50013FF2A /* AYMovieRecordFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordFacade.h; sourceTree = "<group>"; };
-		7002DB2A1CC5FAB50013FF2A /* AYMovieRecordFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordFacade.m; sourceTree = "<group>"; };
-		7002DB2D1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordChangeCameraCommand.h; sourceTree = "<group>"; };
-		7002DB2E1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordChangeCameraCommand.m; sourceTree = "<group>"; };
-		7002DB311CC5FE7C0013FF2A /* AYMovieRecordInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordInitCommand.h; sourceTree = "<group>"; };
-		7002DB321CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordInitCommand.m; sourceTree = "<group>"; };
-		7002DB351CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordReleaseCommand.h; sourceTree = "<group>"; };
-		7002DB361CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordReleaseCommand.m; sourceTree = "<group>"; };
-		7002DB391CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordStartCaptureCommand.h; sourceTree = "<group>"; };
-		7002DB3A1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordStartCaptureCommand.m; sourceTree = "<group>"; };
-		7002DB411CC600170013FF2A /* AYMovieRecordViewCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordViewCommand.h; sourceTree = "<group>"; };
-		7002DB421CC600170013FF2A /* AYMovieRecordViewCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordViewCommand.m; sourceTree = "<group>"; };
-		7002DB451CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordStopCaptureCommand.h; sourceTree = "<group>"; };
-		7002DB461CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordStopCaptureCommand.m; sourceTree = "<group>"; };
-		7002DB491CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordStartRecordCommand.h; sourceTree = "<group>"; };
-		7002DB4A1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordStartRecordCommand.m; sourceTree = "<group>"; };
-		7002DB4D1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordStopRecordCommand.h; sourceTree = "<group>"; };
-		7002DB4E1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordStopRecordCommand.m; sourceTree = "<group>"; };
-		7002DB521CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordDeleteRecordCommand.h; sourceTree = "<group>"; };
-		7002DB531CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordDeleteRecordCommand.m; sourceTree = "<group>"; };
-		7002DB561CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieRecordMultipleMergeCommand.h; sourceTree = "<group>"; };
-		7002DB571CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieRecordMultipleMergeCommand.m; sourceTree = "<group>"; };
 		7002DB5A1CC6173F0013FF2A /* MoviePlayTrait.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoviePlayTrait.h; sourceTree = "<group>"; };
 		7002DB5B1CC6173F0013FF2A /* MoviePlayTrait.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoviePlayTrait.m; sourceTree = "<group>"; };
-		7002DB7D1CC64A8D0013FF2A /* AYGPUFilterFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGPUFilterFacade.h; sourceTree = "<group>"; };
-		7002DB7E1CC64A8D0013FF2A /* AYGPUFilterFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGPUFilterFacade.m; sourceTree = "<group>"; };
-		7002DB811CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBlackAndWhiteFilterCommand.h; sourceTree = "<group>"; };
-		7002DB821CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBlackAndWhiteFilterCommand.m; sourceTree = "<group>"; };
-		7002DB841CC64B7E0013FF2A /* AYGPUFilterDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYGPUFilterDefines.h; sourceTree = "<group>"; };
-		7002DB861CC64C9D0013FF2A /* ImageFilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageFilterFactory.h; sourceTree = "<group>"; };
-		7002DB871CC64C9D0013FF2A /* ImageFilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageFilterFactory.m; sourceTree = "<group>"; };
-		7002DB8A1CC64EDA0013FF2A /* AYSceneFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSceneFilterCommand.h; sourceTree = "<group>"; };
-		7002DB8B1CC64EDA0013FF2A /* AYSceneFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSceneFilterCommand.m; sourceTree = "<group>"; };
-		7002DB8E1CC650690013FF2A /* AYAvaterFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAvaterFilterCommand.h; sourceTree = "<group>"; };
-		7002DB8F1CC650690013FF2A /* AYAvaterFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAvaterFilterCommand.m; sourceTree = "<group>"; };
-		7002DB921CC651220013FF2A /* AYFoodFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoodFilterCommand.h; sourceTree = "<group>"; };
-		7002DB931CC651220013FF2A /* AYFoodFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoodFilterCommand.m; sourceTree = "<group>"; };
 		7002DB961CC660070013FF2A /* AYFoundHotTagsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundHotTagsCellView.h; sourceTree = "<group>"; };
 		7002DB971CC660070013FF2A /* AYFoundHotTagsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFoundHotTagsCellView.m; sourceTree = "<group>"; };
 		7002DB991CC660070013FF2A /* AYFoundSearchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFoundSearchHeaderView.h; sourceTree = "<group>"; };
@@ -853,8 +781,6 @@
 		7002DBB91CC669D20013FF2A /* AYTagRecommendDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagRecommendDelegate.h; sourceTree = "<group>"; };
 		7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagRecommendDelegate.m; sourceTree = "<group>"; };
 		7003D93C1CFE7F9A001CD17C /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		70049C2F1CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReleaseAllMoviesCommand.h; sourceTree = "<group>"; };
-		70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseAllMoviesCommand.m; sourceTree = "<group>"; };
 		70049C331CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryAlbumNameWithAlbumCommand.h; sourceTree = "<group>"; };
 		70049C341CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryAlbumNameWithAlbumCommand.m; sourceTree = "<group>"; };
 		700515141CE0681D00F4D406 /* LoginLocalModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LoginLocalModel 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -1002,9 +928,6 @@
 		7015249B1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendHomeQueryDataCommand.m; sourceTree = "<group>"; };
 		7015249D1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRefrashHomeQueryDataCommand.h; sourceTree = "<group>"; };
 		7015249E1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRefrashHomeQueryDataCommand.m; sourceTree = "<group>"; };
-		701524A11CBFBBA9005B4C5B /* GPUImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GPUImage.framework; sourceTree = "<group>"; };
-		701524A21CBFBBA9005B4C5B /* libGPUImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGPUImage.a; sourceTree = "<group>"; };
-		701524A51CBFBC50005B4C5B /* GPUImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPUImage.h; sourceTree = "<group>"; };
 		7017F32C1CB74D08002C416E /* AYSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchController.h; sourceTree = "<group>"; };
 		7017F32D1CB74D08002C416E /* AYSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchController.m; sourceTree = "<group>"; };
 		7017F3341CB74F63002C416E /* AYSearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarView.h; sourceTree = "<group>"; };
@@ -1171,6 +1094,12 @@
 		703AF2E71DC9EDA0006A8345 /* QueryLocalModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "QueryLocalModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		703AF2E81DC9EE2F006A8345 /* LoginLocalModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "LoginLocalModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		703AF2E91DC9EE3F006A8345 /* MessageAndNotificationModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MessageAndNotificationModel 4.xcdatamodel"; sourceTree = "<group>"; };
+		703B4C471DCC288300B1088C /* AYPushCommentsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushCommentsCommand.h; sourceTree = "<group>"; };
+		703B4C481DCC288300B1088C /* AYPushCommentsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushCommentsCommand.m; sourceTree = "<group>"; };
+		703B4C4C1DCC292200B1088C /* AYQueryCommentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryCommentCommand.h; sourceTree = "<group>"; };
+		703B4C4D1DCC292200B1088C /* AYQueryCommentCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryCommentCommand.m; sourceTree = "<group>"; };
+		703B4C4F1DCC293F00B1088C /* AYQueryCommentsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryCommentsCommand.h; sourceTree = "<group>"; };
+		703B4C501DCC293F00B1088C /* AYQueryCommentsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryCommentsCommand.m; sourceTree = "<group>"; };
 		703B89641CBF2AEC002EBB18 /* AYSendRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSendRemoteFacade.h; sourceTree = "<group>"; };
 		703B89651CBF2AEC002EBB18 /* AYSendRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSendRemoteFacade.m; sourceTree = "<group>"; };
 		703B89701CBF81E4002EBB18 /* AYWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWebView.h; sourceTree = "<group>"; };
@@ -1514,16 +1443,6 @@
 		708235C51CA248F300658531 /* AYControllerBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYControllerBase.h; sourceTree = "<group>"; };
 		708235C71CA2563400658531 /* AYDefaultControllerFactoy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYDefaultControllerFactoy.h; sourceTree = "<group>"; };
 		708235C81CA2563400658531 /* AYDefaultControllerFactoy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYDefaultControllerFactoy.m; sourceTree = "<group>"; };
-		708235D41CA272A300658531 /* GotyeOCAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCAPI.h; sourceTree = "<group>"; };
-		708235D51CA272A300658531 /* GotyeOCChatTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCChatTarget.h; sourceTree = "<group>"; };
-		708235D61CA272A300658531 /* GotyeOCDeleget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCDeleget.h; sourceTree = "<group>"; };
-		708235D71CA272A300658531 /* GotyeOCGroupMsgConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCGroupMsgConfig.h; sourceTree = "<group>"; };
-		708235D81CA272A300658531 /* GotyeOCMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCMedia.h; sourceTree = "<group>"; };
-		708235D91CA272A300658531 /* GotyeOCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCMessage.h; sourceTree = "<group>"; };
-		708235DA1CA272A300658531 /* GotyeOCNotify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCNotify.h; sourceTree = "<group>"; };
-		708235DB1CA272A300658531 /* GotyeOCStatusCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotyeOCStatusCode.h; sourceTree = "<group>"; };
-		708235DD1CA272A300658531 /* libgotyeapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libgotyeapi.a; sourceTree = "<group>"; };
-		708235DE1CA272A300658531 /* libgotyeapi_c++11.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libgotyeapi_c++11.a"; sourceTree = "<group>"; };
 		708235E41CA274FC00658531 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		708235E61CA2756000658531 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		708235E81CA2874000658531 /* AYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYViewController.h; sourceTree = "<group>"; };
@@ -1540,24 +1459,6 @@
 		7082F1E61D1D4E0D00E64496 /* AYEMEnterFrontCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMEnterFrontCommand.m; sourceTree = "<group>"; };
 		70837E371DB8A94100033CC7 /* AYSearchFiltServiceCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchFiltServiceCommand.h; sourceTree = "<group>"; };
 		70837E381DB8A94100033CC7 /* AYSearchFiltServiceCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchFiltServiceCommand.m; sourceTree = "<group>"; };
-		708E52791CC53739008A6023 /* AYStillImageCaptureFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureFacade.h; sourceTree = "<group>"; };
-		708E527A1CC53739008A6023 /* AYStillImageCaptureFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureFacade.m; sourceTree = "<group>"; };
-		708E527D1CC538AD008A6023 /* AYStillImageCaptureInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureInitCommand.h; sourceTree = "<group>"; };
-		708E527E1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureInitCommand.m; sourceTree = "<group>"; };
-		708E528A1CC54471008A6023 /* AYStillImageCaptureStartCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureStartCommand.h; sourceTree = "<group>"; };
-		708E528B1CC54471008A6023 /* AYStillImageCaptureStartCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureStartCommand.m; sourceTree = "<group>"; };
-		708E528E1CC544EA008A6023 /* AYStillImageCaptureStopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureStopCommand.h; sourceTree = "<group>"; };
-		708E528F1CC544EA008A6023 /* AYStillImageCaptureStopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureStopCommand.m; sourceTree = "<group>"; };
-		708E52921CC545B9008A6023 /* AYStillImageCaptureViewCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureViewCommand.h; sourceTree = "<group>"; };
-		708E52931CC545B9008A6023 /* AYStillImageCaptureViewCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureViewCommand.m; sourceTree = "<group>"; };
-		708E52961CC54623008A6023 /* AYStillImageCaptureReleaseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureReleaseCommand.h; sourceTree = "<group>"; };
-		708E52971CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureReleaseCommand.m; sourceTree = "<group>"; };
-		708E529A1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureChangeCameraCommand.h; sourceTree = "<group>"; };
-		708E529B1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureChangeCameraCommand.m; sourceTree = "<group>"; };
-		708E529E1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureChangeFlashCommand.h; sourceTree = "<group>"; };
-		708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureChangeFlashCommand.m; sourceTree = "<group>"; };
-		708E52A21CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYStillImageCaptureTakeCommand.h; sourceTree = "<group>"; };
-		708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYStillImageCaptureTakeCommand.m; sourceTree = "<group>"; };
 		709768AC1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMQueryGroupMemberLstCommand.h; sourceTree = "<group>"; };
 		709768AD1D2262E7005554DB /* AYEMQueryGroupMemberLstCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMQueryGroupMemberLstCommand.m; sourceTree = "<group>"; };
 		709768AF1D226FA4005554DB /* Targets+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Targets+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -1647,30 +1548,8 @@
 		70AC5BB21CC8C84600E2568F /* AYPostPhotosCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPhotosCommand.m; sourceTree = "<group>"; };
 		70AC5BB51CC8E32C00E2568F /* AYPostMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostMovieCommand.h; sourceTree = "<group>"; };
 		70AC5BB61CC8E32C00E2568F /* AYPostMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostMovieCommand.m; sourceTree = "<group>"; };
-		70B01F7B1DB4D64300731809 /* AYPushCommentsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushCommentsCommand.h; sourceTree = "<group>"; };
-		70B01F7C1DB4D64300731809 /* AYPushCommentsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushCommentsCommand.m; sourceTree = "<group>"; };
 		70B1DC741CC705640041794A /* AYGetAllPhonesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYGetAllPhonesCommand.h; sourceTree = "<group>"; };
 		70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYGetAllPhonesCommand.m; sourceTree = "<group>"; };
-		70B1DC771CC706760041794A /* AYMoviePlayerFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMoviePlayerFacade.h; sourceTree = "<group>"; };
-		70B1DC781CC706760041794A /* AYMoviePlayerFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMoviePlayerFacade.m; sourceTree = "<group>"; };
-		70B1DC7B1CC70D220041794A /* AYMovieCoverImagesCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieCoverImagesCommand.h; sourceTree = "<group>"; };
-		70B1DC7C1CC70D220041794A /* AYMovieCoverImagesCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieCoverImagesCommand.m; sourceTree = "<group>"; };
-		70B1DC841CC731E80041794A /* AYPlayMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPlayMovieCommand.h; sourceTree = "<group>"; };
-		70B1DC851CC731E80041794A /* AYPlayMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPlayMovieCommand.m; sourceTree = "<group>"; };
-		70B1DC8C1CC73B390041794A /* AYPlayMovieMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPlayMovieMeta.h; sourceTree = "<group>"; };
-		70B1DC8D1CC73B390041794A /* AYPlayMovieMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPlayMovieMeta.m; sourceTree = "<group>"; };
-		70B1DC931CC73B760041794A /* AYReleaseMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReleaseMovieCommand.h; sourceTree = "<group>"; };
-		70B1DC941CC73B760041794A /* AYReleaseMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReleaseMovieCommand.m; sourceTree = "<group>"; };
-		70B1DC971CC73D5F0041794A /* AYMovieDisplayViewCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieDisplayViewCommand.h; sourceTree = "<group>"; };
-		70B1DC981CC73D5F0041794A /* AYMovieDisplayViewCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieDisplayViewCommand.m; sourceTree = "<group>"; };
-		70B1DC9B1CC73E900041794A /* AYPauseMovieCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPauseMovieCommand.h; sourceTree = "<group>"; };
-		70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPauseMovieCommand.m; sourceTree = "<group>"; };
-		70B1DC9F1CC7576D0041794A /* AYQueryFilterWithNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryFilterWithNameCommand.h; sourceTree = "<group>"; };
-		70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryFilterWithNameCommand.m; sourceTree = "<group>"; };
-		70B1DCA31CC75BAA0041794A /* AYMovieAddFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMovieAddFilterCommand.h; sourceTree = "<group>"; };
-		70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMovieAddFilterCommand.m; sourceTree = "<group>"; };
-		70B1DCA81CC7625F0041794A /* AYNewMovieCurrentFilterCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNewMovieCurrentFilterCommand.h; sourceTree = "<group>"; };
-		70B1DCA91CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNewMovieCurrentFilterCommand.m; sourceTree = "<group>"; };
 		70B8208A1CAA5802001EEAF2 /* SGActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGActionView.h; sourceTree = "<group>"; };
 		70B8208B1CAA5802001EEAF2 /* SGActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGActionView.m; sourceTree = "<group>"; };
 		70B8208C1CAA5802001EEAF2 /* SGAlertMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGAlertMenu.h; sourceTree = "<group>"; };
@@ -2205,12 +2084,10 @@
 				70490DDA1CA23ABD0093D5DA /* ImageIO.framework in Frameworks */,
 				708235E71CA2756000658531 /* libstdc++.6.0.9.tbd in Frameworks */,
 				708235E51CA274FC00658531 /* libz.1.2.5.tbd in Frameworks */,
-				80E249511CD31C0700277130 /* libGPUImage.a in Frameworks */,
 				708235BD1CA2422800658531 /* libz.tbd in Frameworks */,
 				7058216D1DB9F80800CFE6DD /* AMapSearchKit.framework in Frameworks */,
 				708235BB1CA2421B00658531 /* libstdc++.tbd in Frameworks */,
 				708235B91CA2420A00658531 /* libsqlite3.tbd in Frameworks */,
-				708235E31CA2746A00658531 /* libgotyeapi_c++11.a in Frameworks */,
 				708235B71CA241F800658531 /* libiconv.tbd in Frameworks */,
 				70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */,
 				70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */,
@@ -2429,96 +2306,6 @@
 			path = ViewFactory;
 			sourceTree = "<group>";
 		};
-		7002DB2C1CC5FD960013FF2A /* MovieRecordChangeCamera */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB2D1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.h */,
-				7002DB2E1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m */,
-			);
-			path = MovieRecordChangeCamera;
-			sourceTree = "<group>";
-		};
-		7002DB301CC5FE7C0013FF2A /* MovieRecordInit */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB311CC5FE7C0013FF2A /* AYMovieRecordInitCommand.h */,
-				7002DB321CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m */,
-			);
-			path = MovieRecordInit;
-			sourceTree = "<group>";
-		};
-		7002DB341CC5FF1C0013FF2A /* MovieRecordRelease */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB351CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.h */,
-				7002DB361CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m */,
-			);
-			path = MovieRecordRelease;
-			sourceTree = "<group>";
-		};
-		7002DB381CC5FF740013FF2A /* MovieRecordStartCapture */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB391CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.h */,
-				7002DB3A1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m */,
-			);
-			path = MovieRecordStartCapture;
-			sourceTree = "<group>";
-		};
-		7002DB401CC600170013FF2A /* MovieRecordView */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB411CC600170013FF2A /* AYMovieRecordViewCommand.h */,
-				7002DB421CC600170013FF2A /* AYMovieRecordViewCommand.m */,
-			);
-			path = MovieRecordView;
-			sourceTree = "<group>";
-		};
-		7002DB441CC6057B0013FF2A /* MovieRecordStopCapture */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB451CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.h */,
-				7002DB461CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.m */,
-			);
-			path = MovieRecordStopCapture;
-			sourceTree = "<group>";
-		};
-		7002DB481CC6089F0013FF2A /* MovieRecordStartRecord */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB491CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.h */,
-				7002DB4A1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m */,
-			);
-			path = MovieRecordStartRecord;
-			sourceTree = "<group>";
-		};
-		7002DB4C1CC60F680013FF2A /* MovieRecordStopRecord */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB4D1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.h */,
-				7002DB4E1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m */,
-			);
-			path = MovieRecordStopRecord;
-			sourceTree = "<group>";
-		};
-		7002DB511CC610CA0013FF2A /* MovieRecordDeleteRecord */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB521CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.h */,
-				7002DB531CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m */,
-			);
-			path = MovieRecordDeleteRecord;
-			sourceTree = "<group>";
-		};
-		7002DB551CC6168C0013FF2A /* MovieRecordMultipleMerge */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB561CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.h */,
-				7002DB571CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m */,
-			);
-			path = MovieRecordMultipleMerge;
-			sourceTree = "<group>";
-		};
 		7002DB591CC6173F0013FF2A /* MoviePlayTrait */ = {
 			isa = PBXGroup;
 			children = (
@@ -2526,51 +2313,6 @@
 				7002DB5B1CC6173F0013FF2A /* MoviePlayTrait.m */,
 			);
 			path = MoviePlayTrait;
-			sourceTree = "<group>";
-		};
-		7002DB801CC64AD60013FF2A /* BlackAndWhite */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB811CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.h */,
-				7002DB821CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m */,
-			);
-			path = BlackAndWhite;
-			sourceTree = "<group>";
-		};
-		7002DB851CC64C9D0013FF2A /* ImageFilter */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB861CC64C9D0013FF2A /* ImageFilterFactory.h */,
-				7002DB871CC64C9D0013FF2A /* ImageFilterFactory.m */,
-			);
-			path = ImageFilter;
-			sourceTree = "<group>";
-		};
-		7002DB891CC64EC10013FF2A /* Scene */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB8A1CC64EDA0013FF2A /* AYSceneFilterCommand.h */,
-				7002DB8B1CC64EDA0013FF2A /* AYSceneFilterCommand.m */,
-			);
-			path = Scene;
-			sourceTree = "<group>";
-		};
-		7002DB8D1CC6505D0013FF2A /* Avater */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB8E1CC650690013FF2A /* AYAvaterFilterCommand.h */,
-				7002DB8F1CC650690013FF2A /* AYAvaterFilterCommand.m */,
-			);
-			path = Avater;
-			sourceTree = "<group>";
-		};
-		7002DB911CC651030013FF2A /* Food */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB921CC651220013FF2A /* AYFoodFilterCommand.h */,
-				7002DB931CC651220013FF2A /* AYFoodFilterCommand.m */,
-			);
-			path = Food;
 			sourceTree = "<group>";
 		};
 		7002DB951CC660070013FF2A /* FoundHotTagsCell */ = {
@@ -2619,15 +2361,6 @@
 				7002DBBA1CC669D20013FF2A /* AYTagRecommendDelegate.m */,
 			);
 			path = TableDelegate;
-			sourceTree = "<group>";
-		};
-		70049C2E1CD1CE3E00B1287C /* ReleaseAllMovies */ = {
-			isa = PBXGroup;
-			children = (
-				70049C2F1CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.h */,
-				70049C301CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m */,
-			);
-			path = ReleaseAllMovies;
 			sourceTree = "<group>";
 		};
 		70049C321CD1EDB300B1287C /* QueryAlbumNameWithAlbum */ = {
@@ -2748,17 +2481,6 @@
 			path = QueryRealPhoto;
 			sourceTree = "<group>";
 		};
-		700693391CC51ACD00B511FF /* GUPImage */ = {
-			isa = PBXGroup;
-			children = (
-				708E52751CC53739008A6023 /* GPUFilter */,
-				708E52761CC53739008A6023 /* MoviePlayer */,
-				708E52771CC53739008A6023 /* MovieRecord */,
-				708E52781CC53739008A6023 /* StillImageCapture */,
-			);
-			path = GUPImage;
-			sourceTree = "<group>";
-		};
 		700B212D1D082F13006B5965 /* ShowBoardCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2830,6 +2552,7 @@
 				70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */,
 				700BE5D61CBA6E5800A09B3A /* AYRemoteCallCommand.h */,
 				700BE5D71CBA6E5800A09B3A /* AYRemoteCallCommand.m */,
+				703B4C451DCC288300B1088C /* Comment */,
 				7069A31F1D52F95C007821D4 /* Order */,
 				70A27C011D0EBBC500B131AB /* KidNap */,
 				70D657001D1D3DDE003D1D7D /* expose */,
@@ -3214,16 +2937,6 @@
 			path = RefrashHomeQueryData;
 			sourceTree = "<group>";
 		};
-		701524A01CBFBBA9005B4C5B /* libGPUImage */ = {
-			isa = PBXGroup;
-			children = (
-				701524A51CBFBC50005B4C5B /* GPUImage.h */,
-				701524A11CBFBBA9005B4C5B /* GPUImage.framework */,
-				701524A21CBFBBA9005B4C5B /* libGPUImage.a */,
-			);
-			path = libGPUImage;
-			sourceTree = "<group>";
-		};
 		7017F32A1CB74CDF002C416E /* SearchController */ = {
 			isa = PBXGroup;
 			children = (
@@ -3332,7 +3045,6 @@
 				702BD33A1CF55F700010F2BA /* Keyboard */,
 				805218971CCB9C30006EF119 /* Cache */,
 				70B1DC731CC705640041794A /* ContacterFacade */,
-				700693391CC51ACD00B511FF /* GUPImage */,
 				700693211CC4D67600B511FF /* PHAsset */,
 				701D8A4C1CA7B9C200B5D4C1 /* SNSQQ */,
 				701D8A4F1CA7B9C200B5D4C1 /* SNSWechat */,
@@ -3960,6 +3672,43 @@
 			path = SearchSegItem;
 			sourceTree = "<group>";
 		};
+		703B4C451DCC288300B1088C /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				703B4C461DCC288300B1088C /* PushComments */,
+				703B4C491DCC288300B1088C /* QueryComment */,
+				703B4C4A1DCC288300B1088C /* QueryComments */,
+			);
+			path = Comment;
+			sourceTree = "<group>";
+		};
+		703B4C461DCC288300B1088C /* PushComments */ = {
+			isa = PBXGroup;
+			children = (
+				703B4C471DCC288300B1088C /* AYPushCommentsCommand.h */,
+				703B4C481DCC288300B1088C /* AYPushCommentsCommand.m */,
+			);
+			path = PushComments;
+			sourceTree = "<group>";
+		};
+		703B4C491DCC288300B1088C /* QueryComment */ = {
+			isa = PBXGroup;
+			children = (
+				703B4C4C1DCC292200B1088C /* AYQueryCommentCommand.h */,
+				703B4C4D1DCC292200B1088C /* AYQueryCommentCommand.m */,
+			);
+			path = QueryComment;
+			sourceTree = "<group>";
+		};
+		703B4C4A1DCC288300B1088C /* QueryComments */ = {
+			isa = PBXGroup;
+			children = (
+				703B4C4F1DCC293F00B1088C /* AYQueryCommentsCommand.h */,
+				703B4C501DCC293F00B1088C /* AYQueryCommentsCommand.m */,
+			);
+			path = QueryComments;
+			sourceTree = "<group>";
+		};
 		703B896F1CBF81C1002EBB18 /* WebView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4262,14 +4011,12 @@
 				704697AD1CE047F200DACD8A /* SDWebImage */,
 				70F4285B1CC7B18F00A69977 /* Masonry */,
 				7002DB591CC6173F0013FF2A /* MoviePlayTrait */,
-				701524A01CBFBBA9005B4C5B /* libGPUImage */,
 				70B820A01CAA6F9A001EEAF2 /* TmpFileStorageModel */,
 				70B820891CAA5802001EEAF2 /* SGActionView */,
 				707B4D351CA819D900F6256E /* Tools */,
 				701D8A601CA7D16F00B5D4C1 /* RemoteInstance */,
 				70EAD8061CA65B0C007965D2 /* UIGifVIew */,
 				70F34D641CA5274B00CEF7C1 /* ShapedButton */,
-				708235D21CA272A300658531 /* gotyeapi */,
 				70490DA61CA2339D0093D5DA /* libQQSDK */,
 				70490DA91CA2339D0093D5DA /* libWeChatSDK */,
 				70490DAF1CA2339D0093D5DA /* libWeiboSDK */,
@@ -4827,7 +4574,6 @@
 			isa = PBXGroup;
 			children = (
 				80C5890F1DB776CA00BCC8E9 /* PayOrder */,
-				70B01F7A1DB4D61C00731809 /* PushComments */,
 				70FE54E41D98F8200077A3E9 /* AcceptOrder */,
 				70CB71461D97B0F300C83985 /* AccomplishOrder */,
 				70E77CE41D8E839700C882DD /* RejectOrder */,
@@ -5191,39 +4937,6 @@
 			path = ControllerFactory;
 			sourceTree = "<group>";
 		};
-		708235D21CA272A300658531 /* gotyeapi */ = {
-			isa = PBXGroup;
-			children = (
-				708235D31CA272A300658531 /* include */,
-				708235DC1CA272A300658531 /* libs */,
-			);
-			path = gotyeapi;
-			sourceTree = "<group>";
-		};
-		708235D31CA272A300658531 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				708235D41CA272A300658531 /* GotyeOCAPI.h */,
-				708235D51CA272A300658531 /* GotyeOCChatTarget.h */,
-				708235D61CA272A300658531 /* GotyeOCDeleget.h */,
-				708235D71CA272A300658531 /* GotyeOCGroupMsgConfig.h */,
-				708235D81CA272A300658531 /* GotyeOCMedia.h */,
-				708235D91CA272A300658531 /* GotyeOCMessage.h */,
-				708235DA1CA272A300658531 /* GotyeOCNotify.h */,
-				708235DB1CA272A300658531 /* GotyeOCStatusCode.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		708235DC1CA272A300658531 /* libs */ = {
-			isa = PBXGroup;
-			children = (
-				708235DD1CA272A300658531 /* libgotyeapi.a */,
-				708235DE1CA272A300658531 /* libgotyeapi_c++11.a */,
-			);
-			path = libs;
-			sourceTree = "<group>";
-		};
 		708235EE1CA2881600658531 /* NavigationController */ = {
 			isa = PBXGroup;
 			children = (
@@ -5286,148 +4999,6 @@
 				70837E381DB8A94100033CC7 /* AYSearchFiltServiceCommand.m */,
 			);
 			path = SearchFiltService;
-			sourceTree = "<group>";
-		};
-		708E52751CC53739008A6023 /* GPUFilter */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB841CC64B7E0013FF2A /* AYGPUFilterDefines.h */,
-				7002DB7D1CC64A8D0013FF2A /* AYGPUFilterFacade.h */,
-				7002DB7E1CC64A8D0013FF2A /* AYGPUFilterFacade.m */,
-				7002DB8D1CC6505D0013FF2A /* Avater */,
-				7002DB801CC64AD60013FF2A /* BlackAndWhite */,
-				7002DB911CC651030013FF2A /* Food */,
-				7002DB851CC64C9D0013FF2A /* ImageFilter */,
-				70B1DC9E1CC757510041794A /* QueryFilterWithName */,
-				7002DB891CC64EC10013FF2A /* Scene */,
-			);
-			path = GPUFilter;
-			sourceTree = "<group>";
-		};
-		708E52761CC53739008A6023 /* MoviePlayer */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC771CC706760041794A /* AYMoviePlayerFacade.h */,
-				70B1DC781CC706760041794A /* AYMoviePlayerFacade.m */,
-				70B1DCA21CC75B8D0041794A /* AddFilter */,
-				70B1DC7A1CC70D070041794A /* MovieCoverImages */,
-				70B1DC961CC73D3F0041794A /* MovieDisplayView */,
-				70B1DCA71CC7624E0041794A /* NewMovieCurrentFilter */,
-				70B1DC9A1CC73E850041794A /* PauseMovie */,
-				70B1DC831CC731DA0041794A /* PlayMovie */,
-				70B1DC8B1CC73B390041794A /* PlayMovieMeta */,
-				70049C2E1CD1CE3E00B1287C /* ReleaseAllMovies */,
-				70B1DC921CC73B6A0041794A /* ReleaseMovie */,
-			);
-			path = MoviePlayer;
-			sourceTree = "<group>";
-		};
-		708E52771CC53739008A6023 /* MovieRecord */ = {
-			isa = PBXGroup;
-			children = (
-				7002DB551CC6168C0013FF2A /* MovieRecordMultipleMerge */,
-				7002DB511CC610CA0013FF2A /* MovieRecordDeleteRecord */,
-				7002DB4C1CC60F680013FF2A /* MovieRecordStopRecord */,
-				7002DB481CC6089F0013FF2A /* MovieRecordStartRecord */,
-				7002DB441CC6057B0013FF2A /* MovieRecordStopCapture */,
-				7002DB401CC600170013FF2A /* MovieRecordView */,
-				7002DB381CC5FF740013FF2A /* MovieRecordStartCapture */,
-				7002DB341CC5FF1C0013FF2A /* MovieRecordRelease */,
-				7002DB301CC5FE7C0013FF2A /* MovieRecordInit */,
-				7002DB2C1CC5FD960013FF2A /* MovieRecordChangeCamera */,
-				7002DB291CC5FAB50013FF2A /* AYMovieRecordFacade.h */,
-				7002DB2A1CC5FAB50013FF2A /* AYMovieRecordFacade.m */,
-			);
-			path = MovieRecord;
-			sourceTree = "<group>";
-		};
-		708E52781CC53739008A6023 /* StillImageCapture */ = {
-			isa = PBXGroup;
-			children = (
-				708E52A11CC54EFF008A6023 /* StillImageCaptureTake */,
-				708E529D1CC54C01008A6023 /* StillImageCaptureChangeFlash */,
-				708E52991CC54B49008A6023 /* StillImageCaptureChangeCamera */,
-				708E52951CC54623008A6023 /* StillImageCaptureRelease */,
-				708E52911CC545B9008A6023 /* StillImageCaptureView */,
-				708E528D1CC544EA008A6023 /* StillImageCaptureStop */,
-				708E52891CC54458008A6023 /* StillImageCaptureStart */,
-				708E527C1CC5389F008A6023 /* StillImageCaptureInit */,
-				708E52791CC53739008A6023 /* AYStillImageCaptureFacade.h */,
-				708E527A1CC53739008A6023 /* AYStillImageCaptureFacade.m */,
-			);
-			path = StillImageCapture;
-			sourceTree = "<group>";
-		};
-		708E527C1CC5389F008A6023 /* StillImageCaptureInit */ = {
-			isa = PBXGroup;
-			children = (
-				708E527D1CC538AD008A6023 /* AYStillImageCaptureInitCommand.h */,
-				708E527E1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m */,
-			);
-			path = StillImageCaptureInit;
-			sourceTree = "<group>";
-		};
-		708E52891CC54458008A6023 /* StillImageCaptureStart */ = {
-			isa = PBXGroup;
-			children = (
-				708E528A1CC54471008A6023 /* AYStillImageCaptureStartCommand.h */,
-				708E528B1CC54471008A6023 /* AYStillImageCaptureStartCommand.m */,
-			);
-			path = StillImageCaptureStart;
-			sourceTree = "<group>";
-		};
-		708E528D1CC544EA008A6023 /* StillImageCaptureStop */ = {
-			isa = PBXGroup;
-			children = (
-				708E528E1CC544EA008A6023 /* AYStillImageCaptureStopCommand.h */,
-				708E528F1CC544EA008A6023 /* AYStillImageCaptureStopCommand.m */,
-			);
-			path = StillImageCaptureStop;
-			sourceTree = "<group>";
-		};
-		708E52911CC545B9008A6023 /* StillImageCaptureView */ = {
-			isa = PBXGroup;
-			children = (
-				708E52921CC545B9008A6023 /* AYStillImageCaptureViewCommand.h */,
-				708E52931CC545B9008A6023 /* AYStillImageCaptureViewCommand.m */,
-			);
-			path = StillImageCaptureView;
-			sourceTree = "<group>";
-		};
-		708E52951CC54623008A6023 /* StillImageCaptureRelease */ = {
-			isa = PBXGroup;
-			children = (
-				708E52961CC54623008A6023 /* AYStillImageCaptureReleaseCommand.h */,
-				708E52971CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m */,
-			);
-			path = StillImageCaptureRelease;
-			sourceTree = "<group>";
-		};
-		708E52991CC54B49008A6023 /* StillImageCaptureChangeCamera */ = {
-			isa = PBXGroup;
-			children = (
-				708E529A1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.h */,
-				708E529B1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m */,
-			);
-			path = StillImageCaptureChangeCamera;
-			sourceTree = "<group>";
-		};
-		708E529D1CC54C01008A6023 /* StillImageCaptureChangeFlash */ = {
-			isa = PBXGroup;
-			children = (
-				708E529E1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.h */,
-				708E529F1CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m */,
-			);
-			path = StillImageCaptureChangeFlash;
-			sourceTree = "<group>";
-		};
-		708E52A11CC54EFF008A6023 /* StillImageCaptureTake */ = {
-			isa = PBXGroup;
-			children = (
-				708E52A21CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.h */,
-				708E52A31CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m */,
-			);
-			path = StillImageCaptureTake;
 			sourceTree = "<group>";
 		};
 		709768AB1D2262C5005554DB /* EMQueryGroupMemberLst */ = {
@@ -5686,15 +5257,6 @@
 			path = WithExistingContent;
 			sourceTree = "<group>";
 		};
-		70B01F7A1DB4D61C00731809 /* PushComments */ = {
-			isa = PBXGroup;
-			children = (
-				70B01F7B1DB4D64300731809 /* AYPushCommentsCommand.h */,
-				70B01F7C1DB4D64300731809 /* AYPushCommentsCommand.m */,
-			);
-			path = PushComments;
-			sourceTree = "<group>";
-		};
 		70B1DC731CC705640041794A /* ContacterFacade */ = {
 			isa = PBXGroup;
 			children = (
@@ -5702,87 +5264,6 @@
 				70B1DC751CC705640041794A /* AYGetAllPhonesCommand.m */,
 			);
 			path = ContacterFacade;
-			sourceTree = "<group>";
-		};
-		70B1DC7A1CC70D070041794A /* MovieCoverImages */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC7B1CC70D220041794A /* AYMovieCoverImagesCommand.h */,
-				70B1DC7C1CC70D220041794A /* AYMovieCoverImagesCommand.m */,
-			);
-			path = MovieCoverImages;
-			sourceTree = "<group>";
-		};
-		70B1DC831CC731DA0041794A /* PlayMovie */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC841CC731E80041794A /* AYPlayMovieCommand.h */,
-				70B1DC851CC731E80041794A /* AYPlayMovieCommand.m */,
-			);
-			path = PlayMovie;
-			sourceTree = "<group>";
-		};
-		70B1DC8B1CC73B390041794A /* PlayMovieMeta */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC8C1CC73B390041794A /* AYPlayMovieMeta.h */,
-				70B1DC8D1CC73B390041794A /* AYPlayMovieMeta.m */,
-			);
-			path = PlayMovieMeta;
-			sourceTree = "<group>";
-		};
-		70B1DC921CC73B6A0041794A /* ReleaseMovie */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC931CC73B760041794A /* AYReleaseMovieCommand.h */,
-				70B1DC941CC73B760041794A /* AYReleaseMovieCommand.m */,
-			);
-			path = ReleaseMovie;
-			sourceTree = "<group>";
-		};
-		70B1DC961CC73D3F0041794A /* MovieDisplayView */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC971CC73D5F0041794A /* AYMovieDisplayViewCommand.h */,
-				70B1DC981CC73D5F0041794A /* AYMovieDisplayViewCommand.m */,
-			);
-			path = MovieDisplayView;
-			sourceTree = "<group>";
-		};
-		70B1DC9A1CC73E850041794A /* PauseMovie */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC9B1CC73E900041794A /* AYPauseMovieCommand.h */,
-				70B1DC9C1CC73E900041794A /* AYPauseMovieCommand.m */,
-			);
-			path = PauseMovie;
-			sourceTree = "<group>";
-		};
-		70B1DC9E1CC757510041794A /* QueryFilterWithName */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DC9F1CC7576D0041794A /* AYQueryFilterWithNameCommand.h */,
-				70B1DCA01CC7576D0041794A /* AYQueryFilterWithNameCommand.m */,
-			);
-			path = QueryFilterWithName;
-			sourceTree = "<group>";
-		};
-		70B1DCA21CC75B8D0041794A /* AddFilter */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DCA31CC75BAA0041794A /* AYMovieAddFilterCommand.h */,
-				70B1DCA41CC75BAA0041794A /* AYMovieAddFilterCommand.m */,
-			);
-			path = AddFilter;
-			sourceTree = "<group>";
-		};
-		70B1DCA71CC7624E0041794A /* NewMovieCurrentFilter */ = {
-			isa = PBXGroup;
-			children = (
-				70B1DCA81CC7625F0041794A /* AYNewMovieCurrentFilterCommand.h */,
-				70B1DCA91CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m */,
-			);
-			path = NewMovieCurrentFilter;
 			sourceTree = "<group>";
 		};
 		70B820891CAA5802001EEAF2 /* SGActionView */ = {
@@ -7851,6 +7332,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				703B4C511DCC293F00B1088C /* AYQueryCommentsCommand.m in Sources */,
 				70C69FFB1D9A4D520069E4EE /* AYPersonalInfoDelegate.m in Sources */,
 				80FCB69B1D76DD3C00CEDCEB /* AYSearchFilterController.m in Sources */,
 				70C6A0041D9A50680069E4EE /* AYPersonalValidateCellView.m in Sources */,
@@ -7880,16 +7362,13 @@
 				70CDF63E1CBD033900311841 /* QueryTimeSpan.m in Sources */,
 				70E9AB7D1CF401DB0019D33A /* AYNotifyFollowedBtnView.m in Sources */,
 				70F369A41CC361F90067B62E /* AYQueryRecommandTagsCommand.m in Sources */,
-				7002DB4B1CC6089F0013FF2A /* AYMovieRecordStartRecordCommand.m in Sources */,
 				706E46151CFC107A00CC7C53 /* AYLandingSNSView.m in Sources */,
-				70B1DCA51CC75BAA0041794A /* AYMovieAddFilterCommand.m in Sources */,
 				70F4287B1CC7B18F00A69977 /* MASViewAttribute.m in Sources */,
 				701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */,
 				7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */,
 				704697D11CE047F200DACD8A /* SDImageCache.m in Sources */,
 				7000CD1C1D7E8A5200DA98F2 /* MJRefreshFooter.m in Sources */,
 				700047611D9BDF98000AE1C9 /* AYRejectRealNameCommand.m in Sources */,
-				70B1DCAA1CC7625F0041794A /* AYNewMovieCurrentFilterCommand.m in Sources */,
 				70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */,
 				700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */,
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
@@ -7898,19 +7377,16 @@
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
 				703C7DE11D48AF3200292F18 /* AYGroupChatController.m in Sources */,
 				7006932C1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m in Sources */,
-				7002DB331CC5FE7C0013FF2A /* AYMovieRecordInitCommand.m in Sources */,
 				809597071D65DC0800CBB732 /* AYExchangeWindowsCommand.m in Sources */,
 				70D175D91D79713300D9C7D9 /* AYHomeLikesCellView.m in Sources */,
 				70F4287C1CC7B18F00A69977 /* MASViewConstraint.m in Sources */,
 				70C41EE21DBA122500C77B10 /* TZImagePickerController.m in Sources */,
 				709768B11D226FA4005554DB /* Targets+CoreDataProperties.m in Sources */,
-				70B1DC8E1CC73B390041794A /* AYPlayMovieMeta.m in Sources */,
 				704762F61D2E00B500538AC0 /* AYProfileOrigCellView.m in Sources */,
 				7006931F1CC4A3C400B511FF /* AYFunctionBarView.m in Sources */,
 				80F3E8581CDDB54800970BDE /* AYPushUpBtnView.m in Sources */,
 				701D8A591CA7B9C200B5D4C1 /* AYSNSQQFacade.m in Sources */,
 				70C41E3A1DBA11AD00C77B10 /* RoleLable.m in Sources */,
-				7002DB7F1CC64A8D0013FF2A /* AYGPUFilterFacade.m in Sources */,
 				80D5E7EF1CCCD0AB00A82117 /* AYFriendsBtnView.m in Sources */,
 				70C41ED11DBA122500C77B10 /* AYNapBabyAgeCellView.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
@@ -7930,7 +7406,6 @@
 				80E249551CD32E6100277130 /* AYJoinChatGroupCommand.m in Sources */,
 				70C41EED1DBA122600C77B10 /* AYSetNapCostController.m in Sources */,
 				70F428771CC7B18F00A69977 /* MASCompositeConstraint.m in Sources */,
-				7002DB371CC5FF1C0013FF2A /* AYMovieRecordReleaseCommand.m in Sources */,
 				705D08041D372C9200CA2182 /* AYConfirmRealNameController.m in Sources */,
 				706942D01D59C35100D0BBB4 /* AYChatInputView.m in Sources */,
 				80D5E7D01CCCBDF000A82117 /* AYLabelView.m in Sources */,
@@ -7940,7 +7415,6 @@
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
 				80D5E7DF1CCCCE7800A82117 /* AYRelationshipBtnInitCommand.m in Sources */,
 				8048BFF81D9CF4C30026436E /* AYQueryCurrentUserProfileCommand.m in Sources */,
-				708E528C1CC54471008A6023 /* AYStillImageCaptureStartCommand.m in Sources */,
 				70F369B71CC38E610067B62E /* AYSearchTagWithPreviewsCommand.m in Sources */,
 				7039CBDD1CBB84F300BE60C7 /* AYDongDaSegView.m in Sources */,
 				70C41E0C1DB9FEFE00C77B10 /* AYMessageInitCommand.m in Sources */,
@@ -7962,7 +7436,6 @@
 				70B820B41CAA9BD5001EEAF2 /* AYViewNotifyCommand.m in Sources */,
 				80C829CE1CDD7248007B1077 /* AYThumbsUpBtnView.m in Sources */,
 				705E96971D470F07006CF9E6 /* AYReadyOrderController.m in Sources */,
-				7002DB901CC650690013FF2A /* AYAvaterFilterCommand.m in Sources */,
 				702510AB1CC0F67500DADF2B /* AYQueryChatSessionCommand.m in Sources */,
 				705EC8841CE4BC1D0008D5EA /* AYAppendTagContentDataCommand.m in Sources */,
 				700693281CC4D8DF00B511FF /* AYEnumAlbumNameCommand.m in Sources */,
@@ -8012,15 +7485,12 @@
 				703C7E3D1DABA723003F58C1 /* WXSTransitionManager+InsideThenPushAnimation.m in Sources */,
 				80D5E7C01CCC7C2000A82117 /* PhotoTagTariangleLayer2.m in Sources */,
 				70D48DF71D87C9E90039C741 /* AYOrderInfoPayWayCellView.m in Sources */,
-				7002DB471CC6057B0013FF2A /* AYMovieRecordStopCaptureCommand.m in Sources */,
 				70D175C51D791ABD00D9C7D9 /* AYCalendarCellView.m in Sources */,
 				7015249C1CBFA74B005B4C5B /* AYAppendHomeQueryDataCommand.m in Sources */,
 				7002DBB11CC6685E0013FF2A /* AYSearchBarDelegate.m in Sources */,
 				700BE5FD1CBA6E7D00A09B3A /* AYSearchRemoteFacade.m in Sources */,
-				70B1DC791CC706760041794A /* AYMoviePlayerFacade.m in Sources */,
 				700BE6051CBA75BF00A09B3A /* AYChangeSNSProvidersCommand.m in Sources */,
 				7039CBF91CBBB5A700BE60C7 /* SearchSegImgItem.m in Sources */,
-				708E529C1CC54B49008A6023 /* AYStillImageCaptureChangeCameraCommand.m in Sources */,
 				70049C351CD1EDBD00B1287C /* AYQueryAlbumNameWithAlbumCommand.m in Sources */,
 				70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */,
 				70B820961CAA5802001EEAF2 /* SGBaseMenu.m in Sources */,
@@ -8046,7 +7516,6 @@
 				705D080B1D37685000CA2182 /* AYConfirmSNSController.m in Sources */,
 				703C7DE91D48AF3200292F18 /* AYChatMessageCellView.m in Sources */,
 				7002DBBB1CC669D20013FF2A /* AYTagAddDelegate.m in Sources */,
-				70B1DC9D1CC73E900041794A /* AYPauseMovieCommand.m in Sources */,
 				8086A2231CCE6176006186D4 /* AYQueryContentsWithTagCommand.m in Sources */,
 				70D228221D893ED500EF4211 /* AYFutureOrderDelegate.m in Sources */,
 				80D5E7E61CCCCF9A00A82117 /* AYSamePersonBtnView.m in Sources */,
@@ -8073,18 +7542,15 @@
 				70C41EDB1DBA122500C77B10 /* AYMainInfoDelegate.m in Sources */,
 				80D5E7E91CCCD09600A82117 /* AYFollowedBtnView.m in Sources */,
 				70EAD8051CA64B7B007965D2 /* AYLoadingView.m in Sources */,
-				708E52981CC54623008A6023 /* AYStillImageCaptureReleaseCommand.m in Sources */,
 				705EC8831CE4BC1D0008D5EA /* AYTagContentModelFacade.m in Sources */,
 				708235C91CA2563400658531 /* AYDefaultControllerFactoy.m in Sources */,
 				70FE54DD1D98EA090077A3E9 /* AYCommentServiceDelegate.m in Sources */,
 				7006931A1CC4A3AF00B511FF /* WEPopoverController.m in Sources */,
 				80FCB6B21D77B61E00CEDCEB /* AYSearchFilterDelegate.m in Sources */,
 				703C7E441DABA723003F58C1 /* WXSTransitionProperty.m in Sources */,
-				7002DB3B1CC5FF740013FF2A /* AYMovieRecordStartCaptureCommand.m in Sources */,
 				7000CD2D1D7E8A5200DA98F2 /* UIView+MJExtension.m in Sources */,
 				7000474C1D9BB66D000AE1C9 /* AYAuthRemoteFacade.m in Sources */,
 				70D5BC7C1D7829330046B4BC /* AYFacilityController.m in Sources */,
-				7002DB431CC600170013FF2A /* AYMovieRecordViewCommand.m in Sources */,
 				70C41E3B1DBA11AD00C77B10 /* AYSelfSettingDelegate.m in Sources */,
 				706942C81D59779C00D0BBB4 /* AYQueryEMSationsCommand.m in Sources */,
 				700BE5ED1CBA6E5800A09B3A /* AYDownloadUserFilesCommand.m in Sources */,
@@ -8102,12 +7568,10 @@
 				70D228211D893ED500EF4211 /* AYOrderListController.m in Sources */,
 				707E7A161D07B42200DFC198 /* AYMapController.m in Sources */,
 				70D175C71D791ABD00D9C7D9 /* AYDayCollectionCellView.m in Sources */,
-				7002DB941CC651220013FF2A /* AYFoodFilterCommand.m in Sources */,
 				70C41EC91DBA122500C77B10 /* AYInputNapTitleController.m in Sources */,
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
 				707ABCFB1D54460D0042332A /* AYQueryMyServiceCommand.m in Sources */,
 				702510A31CC0F5AB00DADF2B /* Targets.m in Sources */,
-				708E52901CC544EA008A6023 /* AYStillImageCaptureStopCommand.m in Sources */,
 				7021B4A31DB480E8004420E0 /* AYIsInstalledWechatCommand.m in Sources */,
 				705B4A381D644AA4006273E7 /* AYUnCollectServiceCommand.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
@@ -8131,7 +7595,6 @@
 				7000CD261D7E8A5200DA98F2 /* MJRefreshGifHeader.m in Sources */,
 				70501C8F1D2F4E690050E0C8 /* AYCollectServDelegate.m in Sources */,
 				700BE5C71CBA6DE900A09B3A /* AYLoginSNSWithWeiboCommand.m in Sources */,
-				708E527F1CC538AD008A6023 /* AYStillImageCaptureInitCommand.m in Sources */,
 				70AC5BB31CC8C84600E2568F /* AYPostPhotosCommand.m in Sources */,
 				705489861D34DFB7007FCDA1 /* AYBabyInfoDelegate.m in Sources */,
 				7025109D1CC0F5AB00DADF2B /* Messages.m in Sources */,
@@ -8141,13 +7604,11 @@
 				70C41F131DBA17B800C77B10 /* AYCalendarServiceController.m in Sources */,
 				70A1A5641D1D4A860063FC7F /* AYQueryEMMessagesCommand.m in Sources */,
 				701D8A9D1CA7E06700B5D4C1 /* CurrentToken+ContextOpt.m in Sources */,
-				7002DB541CC611EA0013FF2A /* AYMovieRecordDeleteRecordCommand.m in Sources */,
 				70D5BC721D77E3960046B4BC /* AYServicePageCellView.m in Sources */,
 				70837E391DB8A94100033CC7 /* AYSearchFiltServiceCommand.m in Sources */,
 				703CCDC71CC9D9E400CF4563 /* AYClearNotificationsCommand.m in Sources */,
 				700693171CC4A3AF00B511FF /* UIBarButtonItem+WEPopover.m in Sources */,
 				70EC72371D190D6F0012B123 /* TAPageControl.m in Sources */,
-				7002DB2B1CC5FAB50013FF2A /* AYMovieRecordFacade.m in Sources */,
 				704697DA1CE047F200DACD8A /* UIImage+MultiFormat.m in Sources */,
 				70C41EE41DBA122500C77B10 /* TZPhotoPreviewCell.m in Sources */,
 				7039CBFA1CBBB5A700BE60C7 /* SearchSegImgTextItem.m in Sources */,
@@ -8201,7 +7662,6 @@
 				70A4891F1D1A3AA000D2AA56 /* AYFouceCellView.m in Sources */,
 				704697D51CE047F200DACD8A /* SDWebImageDownloaderOperation.m in Sources */,
 				700047671D9BDFC4000AE1C9 /* AYCheckCodeCommand.m in Sources */,
-				7002DB881CC64C9D0013FF2A /* ImageFilterFactory.m in Sources */,
 				703C7E421DABA723003F58C1 /* WXSTransitionManager+ViewMoveAnimation.m in Sources */,
 				7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */,
 				704697D41CE047F200DACD8A /* SDWebImageDownloader.m in Sources */,
@@ -8209,11 +7669,11 @@
 				7015241C1CBF49CD005B4C5B /* AYUnfollowCommand.m in Sources */,
 				805218A71CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m in Sources */,
 				700BE5FC1CBA6E7D00A09B3A /* AYProfileRemoteFacade.m in Sources */,
-				708E527B1CC53739008A6023 /* AYStillImageCaptureFacade.m in Sources */,
 				7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */,
 				70D175C41D791ABD00D9C7D9 /* AYSearchFilterDateController.m in Sources */,
 				7039CBFB1CBBB5A700BE60C7 /* SearchSegItem.m in Sources */,
 				700693301CC4DD0600B511FF /* AYQueryRealPhotoCommand.m in Sources */,
+				703B4C4E1DCC292200B1088C /* AYQueryCommentCommand.m in Sources */,
 				80C829D91CDD8CF7007B1077 /* AYThumbsNormalBtnView.m in Sources */,
 				703C7E381DABA723003F58C1 /* WXSPercentDrivenInteractiveTransition.m in Sources */,
 				70E77CE31D8E812B00C882DD /* AYUpdateOrderInfoCommand.m in Sources */,
@@ -8256,7 +7716,6 @@
 				800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */,
 				80C589121DB776E900BCC8E9 /* AYPayOrderCommand.m in Sources */,
 				7039CA871CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m in Sources */,
-				70B1DC861CC731E80041794A /* AYPlayMovieCommand.m in Sources */,
 				7069A31E1D52F87C007821D4 /* AYOrderRemoteFacade.m in Sources */,
 				704697DE1CE047F200DACD8A /* UIView+WebCacheOperation.m in Sources */,
 				8086A25C1CCE98F0006186D4 /* AYUserWithRoleTagCommand.m in Sources */,
@@ -8307,10 +7766,8 @@
 				8086A2251CCE6176006186D4 /* AYQueryPushContentCommand.m in Sources */,
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				700BE5FB1CBA6E7D00A09B3A /* AYLandingRemoteFacade.m in Sources */,
-				7002DB4F1CC60F680013FF2A /* AYMovieRecordStopRecordCommand.m in Sources */,
 				70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */,
 				8086A2551CCE983B006186D4 /* AYUserSearchRemoteFacade.m in Sources */,
-				70049C311CD1CE5B00B1287C /* AYReleaseAllMoviesCommand.m in Sources */,
 				707ABD101D55CEF10042332A /* AYQueryApplyOrdersCommand.m in Sources */,
 				70F57E5F1D8693CC003D493E /* MBProgressHUD.m in Sources */,
 				70D46B641CEEB14A0093D50F /* InsetsLabel.m in Sources */,
@@ -8330,7 +7787,6 @@
 				70B8209F1CAA6098001EEAF2 /* AYOpenUIImagePickerPicRollCommand.m in Sources */,
 				70501C931D2F4F140050E0C8 /* AYCollectServCellView.m in Sources */,
 				707E79E01D0673CA00DFC198 /* AYLocationDelegate.m in Sources */,
-				70B1DC951CC73B760041794A /* AYReleaseMovieCommand.m in Sources */,
 				7000CD251D7E8A5200DA98F2 /* BSRefreshAnimationHeader.m in Sources */,
 				70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */,
 				70D5BC7F1D7829520046B4BC /* AYFacilityDelegate.m in Sources */,
@@ -8341,7 +7797,6 @@
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				702349E01D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m in Sources */,
-				7002DB581CC6168C0013FF2A /* AYMovieRecordMultipleMergeCommand.m in Sources */,
 				80C829C91CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m in Sources */,
 				70F3699F1CC361930067B62E /* AYQueryAllRoleTagsCommand.m in Sources */,
 				70EC72361D190D6F0012B123 /* TADotView.m in Sources */,
@@ -8364,7 +7819,6 @@
 				704C9DA71D50573F00E84586 /* AYPushServiceInfoCommand.m in Sources */,
 				704697D31CE047F200DACD8A /* SDWebImageDecoder.m in Sources */,
 				70E77CEC1D8E932500C882DD /* AYRejectOrderController.m in Sources */,
-				70B1DCA11CC7576D0041794A /* AYQueryFilterWithNameCommand.m in Sources */,
 				705E933D1DBDB2B100FA020B /* AYSerOrderCellView.m in Sources */,
 				70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */,
 				704697D61CE047F200DACD8A /* SDWebImageManager.m in Sources */,
@@ -8390,7 +7844,6 @@
 				70C41EE31DBA122500C77B10 /* TZPhotoPickerController.m in Sources */,
 				70C41E1C1DBA06D000C77B10 /* AYAppSettingDelegate.m in Sources */,
 				70C41EC21DBA122500C77B10 /* AYNapAreaDelegate.m in Sources */,
-				708E52A41CC54EFF008A6023 /* AYStillImageCaptureTakeCommand.m in Sources */,
 				70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */,
 				70D175D61D7970F800D9C7D9 /* AYHomeHistoryCellView.m in Sources */,
 				703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */,
@@ -8400,16 +7853,13 @@
 				7050C3431D4B03AD000FFAA4 /* AYPayOptionView.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
-				70B1DC7D1CC70D220041794A /* AYMovieCoverImagesCommand.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,
 				702349DD1D7AD7E000AF40C2 /* AYSearchFilterKidsAgesDelegate.m in Sources */,
 				700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */,
-				7002DB831CC64AE70013FF2A /* AYBlackAndWhiteFilterCommand.m in Sources */,
 				70D48E031D8805440039C741 /* OrderTimesOptionView.m in Sources */,
 				7025105F1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.m in Sources */,
 				7039CBE51CBB86C000BE60C7 /* AYFakeNavBarView.m in Sources */,
-				7002DB2F1CC5FD960013FF2A /* AYMovieRecordChangeCameraCommand.m in Sources */,
 				70C41EEE1DBA122600C77B10 /* OptionOfPlayingView.m in Sources */,
 				70CDF6351CBD033900311841 /* QueryComments.m in Sources */,
 				705361501D5C8971006BB95E /* AYOneProfileController.m in Sources */,
@@ -8421,7 +7871,6 @@
 				70CDF64C1CBD0ECE00311841 /* AYEnumOwnerQueryDataCommand.m in Sources */,
 				70F57E921D86D2AF003D493E /* AYOrderInfoHeadCellView.m in Sources */,
 				70CDF64F1CBD0F0E00311841 /* AYRefrashOwnerQueryDataCommand.m in Sources */,
-				708E52941CC545B9008A6023 /* AYStillImageCaptureViewCommand.m in Sources */,
 				7000CD2A1D7E8A5200DA98F2 /* MJRefreshConst.m in Sources */,
 				70CDF60E1CBCBD8C00311841 /* AlbumGridCell.m in Sources */,
 				70EAD8141CA669F1007965D2 /* AYModelFactory.m in Sources */,
@@ -8441,11 +7890,10 @@
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				705489821D34DD0C007FCDA1 /* AYBabyInfoCellView.m in Sources */,
 				707E79E41D0673CA00DFC198 /* AYCLResultCellView.m in Sources */,
-				70B1DC991CC73D5F0041794A /* AYMovieDisplayViewCommand.m in Sources */,
 				70F4287E1CC7B18F00A69977 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				70C41E141DBA010B00C77B10 /* AYUserScreenPhoteView.m in Sources */,
+				703B4C4B1DCC288300B1088C /* AYPushCommentsCommand.m in Sources */,
 				706E460E1CFC107A00CC7C53 /* AYInputNameController.m in Sources */,
-				708E52A01CC54C01008A6023 /* AYStillImageCaptureChangeFlashCommand.m in Sources */,
 				70F4287F1CC7B18F00A69977 /* View+MASAdditions.m in Sources */,
 				701D8A8E1CA7E06700B5D4C1 /* CurrentToken+CoreDataProperties.m in Sources */,
 				70CDF61A1CBCC3AF00311841 /* AYContentQueryRemoteFacade.m in Sources */,
@@ -8465,10 +7913,8 @@
 				70F2A14A1D4A0A73004BAFF7 /* AYOrderInfoController.m in Sources */,
 				7039CBED1CBB94DF00BE60C7 /* AYQueryUserProfileCommand.m in Sources */,
 				703C7E351DABA723003F58C1 /* UINavigationController+WXSTransition.m in Sources */,
-				7002DB8C1CC64EDA0013FF2A /* AYSceneFilterCommand.m in Sources */,
 				702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */,
 				70F57E951D86D2DB003D493E /* AYOrderInfoDateCellView.m in Sources */,
-				70B01F7D1DB4D64300731809 /* AYPushCommentsCommand.m in Sources */,
 				70A1A5621D1D4A860063FC7F /* AYLoginEMCommand.m in Sources */,
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,
 				70A27C0D1D0EFBE300B131AB /* AYPublishServiceCommand.m in Sources */,

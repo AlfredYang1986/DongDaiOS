@@ -13,8 +13,8 @@
 #import "AYHomeCellDefines.h"
 
 #import "QueryContent.h"
-#import "GPUImage.h"
-#import "MJRefresh.h"
+//#import "GPUImage.h"
+//#import "MJRefresh.h"
 
 @implementation AYContentDelegate {
     NSArray* querydata;

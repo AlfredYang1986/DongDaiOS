@@ -20,8 +20,8 @@
 #import "AYNotifyDefines.h"
 #import "AYModelFacade.h"
 
-#import "GotyeOCChatTarget.h"
-#import "GotyeOCMessage.h"
+//#import "GotyeOCChatTarget.h"
+//#import "GotyeOCMessage.h"
 
 #import "EMMessage.h"
 #import "EMConversation.h"

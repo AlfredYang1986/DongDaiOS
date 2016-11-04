@@ -7,15 +7,8 @@
 //
 
 #import "AYOneProfileAboutCellView.h"
-#import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
-#import "GPUImage.h"
 #import "Define.h"
-#import "PhotoTagEnumDefines.h"
-#import "QueryContentTag.h"
-#import "QueryContentChaters.h"
-#import "QueryContent+ContextOpt.h"
-#import "AppDelegate.h"
 
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
@@ -26,9 +19,6 @@
 #import "AYRemoteCallCommand.h"
 
 #import "AYThumbsAndPushDefines.h"
-
-#import "InsetsLabel.h"
-#import "OBShapedButton.h"
 
 @implementation AYOneProfileAboutCellView {
     

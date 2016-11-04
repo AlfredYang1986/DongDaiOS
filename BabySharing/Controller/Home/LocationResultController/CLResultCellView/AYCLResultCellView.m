@@ -175,6 +175,14 @@
     
     _starRangImage.image = IMGRESOURCE(@"star_rang_5");
     
+    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
+    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
+    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+    [dic_query setValue:[dic objectForKey:@"service_id"] forKey:@"service_id"];
+    [cmd_query performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
+        
+    }];
+    
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
     NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
