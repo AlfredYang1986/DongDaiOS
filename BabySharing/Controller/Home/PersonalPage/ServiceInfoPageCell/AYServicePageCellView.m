@@ -28,6 +28,7 @@
 
 @interface AYServicePageCellView ()<MAMapViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *starRangImage;
 @property (weak, nonatomic) IBOutlet UILabel *ageBoungaryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *capacityLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *allowLeaveImage;
@@ -193,7 +194,7 @@
      */
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
     
-    NSString *desc = [service_info objectForKey:@"description"];
+    NSString *desc = [service_info objectForKey:@"personal_description"];
     if ([_readMoreLabel.text isEqualToString:@"阅读更多"]) {
         _readMoreLabel.text = @"收起";
 //        id<AYCommand> reload = [self.notifies objectForKey:@"reLoad"];
@@ -236,6 +237,37 @@
     NSString *titleStr = [service_info objectForKey:@"title"];
     _titleLabel.text = titleStr ? titleStr : @"标题未设置";
     
+    //重置cell复用数据
+//    _starRangImage.hidden = NO;
+    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
+    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
+    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            NSArray *points = [result objectForKey:@"points"];
+            if (points.count == 0) {
+//                _starRangImage.hidden = YES;
+                _starRangImage.image = IMGRESOURCE(@"star_rang_0");
+            } else {
+                CGFloat sumPoint  = 0;
+                for (NSNumber *point in points) {
+                    sumPoint += point.floatValue;
+                }
+                CGFloat average = sumPoint / points.count;
+                
+                int mainRang = (int)average;
+                NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+                
+                CGFloat tmpCompare = average + 0.5f;
+                if ((int)tmpCompare > mainRang) {
+                    rangImageName = [rangImageName stringByAppendingString:@"_"];
+                }
+                _starRangImage.image = IMGRESOURCE(rangImageName);
+            }
+        }
+    }];
+    
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
     NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:@"lsl"]);
@@ -260,7 +292,7 @@
     paraStyle.lineSpacing = 8;
     paraStyle.hyphenationFactor = 1.0;
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle};
-    NSString *desc = [service_info objectForKey:@"description"];
+    NSString *desc = [service_info objectForKey:@"personal_description"];
     if (!desc) {
         desc = @"描述未设置";
     }
@@ -285,19 +317,8 @@
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
             _ownerName.text = [result objectForKey:@"screen_name"];
-//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//            [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
-//            [dic setValue:@"img_icon" forKey:@"expect_size"];
-//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//                UIImage* img = (UIImage*)result;
-//                if (img != nil) {
-//                    [_ownerPhoto setImage:img];
-//                }
-//            }];
-            
             NSString* photo_name = [result objectForKey:@"screen_photo"];
+            
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
             NSString *pre = cmd.route;

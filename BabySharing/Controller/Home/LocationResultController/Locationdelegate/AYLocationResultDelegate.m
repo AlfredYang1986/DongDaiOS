@@ -78,21 +78,17 @@
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
-    if (cell == nil) {
-        cell = VIEW(@"CLResultCell", @"CLResultCell");
-    }
-    cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-    
     id tmp = [querydata objectAtIndex:indexPath.row];
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [cmd performWithResult:&tmp];
     
+    cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 315;
+    return 340;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

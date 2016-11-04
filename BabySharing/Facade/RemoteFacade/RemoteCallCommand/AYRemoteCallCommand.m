@@ -105,11 +105,14 @@
     AYRemoteCallCommand* cmd_profile = [f_profile.commands objectForKey:@"QueryUserProfile"];
     NSString *profile_route = cmd_profile.route;
     
+    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
+    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
+    NSString *query_comments = cmd_query.route;
 //    NSLog(@"%@",tmpRoute);
 //    NSLog(@"%@",load_route);
 //    NSLog(@"%@",profile_route);
     
-    if ([tmpRoute isEqualToString:load_route] || [tmpRoute isEqualToString:profile_route]) {
+    if ([tmpRoute isEqualToString:load_route] || [tmpRoute isEqualToString:profile_route] || [tmpRoute isEqualToString:query_comments]) {
         return YES;
     } else return NO;
     

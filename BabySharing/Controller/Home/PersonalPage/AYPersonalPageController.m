@@ -26,7 +26,7 @@
 #import "SDCycleScrollView.h"
 
 #define kLIMITEDSHOWNAVBAR  (-50)
-#define kFlexibleHeight     225
+#define kFlexibleHeight     250
 
 @interface AYPersonalPageController ()<SDCycleScrollViewDelegate>
 
@@ -190,7 +190,7 @@
     [self.view bringSubviewToFront:shareBtn];
     [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view).offset(-20);
-        make.centerY.equalTo(self.view.mas_top).offset(225);
+        make.centerY.equalTo(self.view.mas_top).offset(kFlexibleHeight);
         make.size.mas_equalTo(CGSizeMake(52, 52));
     }];
     [shareBtn addTarget:self action:@selector(didShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];

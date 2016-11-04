@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="856"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="855.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="855"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="喜欢画画的插画师妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RXJ-ie-gEL">
@@ -302,6 +302,7 @@
                 <outlet property="ownerPhoto" destination="yvr-TK-JKe" id="YyE-AT-92V"/>
                 <outlet property="readMoreLabel" destination="gfV-RG-ahU" id="6aW-7D-a4P"/>
                 <outlet property="readMoreSpaceConst" destination="FRG-Bb-Skl" id="bxD-sm-a4A"/>
+                <outlet property="starRangImage" destination="Hug-Ov-ZCk" id="bYm-h8-yL3"/>
                 <outlet property="titleLabel" destination="RXJ-ie-gEL" id="C0T-4K-pBQ"/>
             </connections>
             <point key="canvasLocation" x="-190" y="148"/>

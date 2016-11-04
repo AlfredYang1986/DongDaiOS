@@ -71,35 +71,17 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (indexPath.row == 1) {
-        AYFouceCellView *cell = [tableView dequeueReusableCellWithIdentifier:@"AYFouceCellView"];
-        if (cell == nil) {
-            cell = [[AYFouceCellView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"AYFouceCellView"];
-        }
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[querydata objectForKey:@"images"] forKey:@"images"];
-        [dic setValue:[querydata objectForKey:@"price"] forKey:@"price"];
-        cell.cell_info = dic;
-        
-        [cell.friendsImage  addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didXFriendImage:)]];
-        [cell.popImage      addTarget:self action:@selector(didPopImage:) forControlEvents:UIControlEventTouchUpInside];
-        
-        return (UITableViewCell*)cell;
-    } else {
-        
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        id tmp = querydata;
-        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        [cmd performWithResult:&tmp];
-        
-        cell.controller = self.controller;
-        ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-        return (UITableViewCell*)cell;
-    }
-    
+    NSMutableDictionary *tmp = [querydata mutableCopy];
+    [tmp setValue:personal_description forKey:@"personal_description"];
+    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
+    [cmd performWithResult:&tmp];
+
+    cell.controller = self.controller;
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+    return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -117,6 +99,14 @@
     }
     
     return returnHeight;
+    
+    //165
+    //
+    //60
+    //90
+    //225
+    //70
+    //70
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {

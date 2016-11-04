@@ -34,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *adresslabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ownerIconImage;
 @property (weak, nonatomic) IBOutlet UIImageView *starRangImage;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *adressConstraLeft;
 
 @property (nonatomic, strong) CLGeocoder *gecoder;
 @end
@@ -173,14 +174,38 @@
         _adresslabel.text = pl.subLocality;
     }];
     
-    _starRangImage.image = IMGRESOURCE(@"star_rang_5");
+    //重置cell复用数据
+    _starRangImage.hidden = NO;
+    _adressConstraLeft.constant = 124.f;
     
     id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
     AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
     NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
     [dic_query setValue:[dic objectForKey:@"service_id"] forKey:@"service_id"];
-    [cmd_query performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
-        
+    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            NSArray *points = [result objectForKey:@"points"];
+            if (points.count == 0) {
+                _starRangImage.hidden = YES;
+                _adressConstraLeft.constant = 15.f;
+            } else {
+                CGFloat sumPoint ;
+                for (NSNumber *point in points) {
+                    sumPoint += point.floatValue;
+                }
+                CGFloat average = sumPoint / points.count;
+                
+                int mainRang = (int)average;
+                NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+                
+                CGFloat tmpCompare = average + 0.5f;
+                if ((int)tmpCompare > mainRang) {
+                    rangImageName = [rangImageName stringByAppendingString:@"_"];
+                }
+                
+                _starRangImage.image = IMGRESOURCE(rangImageName);
+            }
+        }
     }];
     
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
