@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface AYPlayItemsView : UIView
-@property(nonatomic, strong) UIImageView *item_icon;
-@property(nonatomic, strong) UILabel *item_name;
-@property(nonatomic, strong) NSDictionary *item_info;
+- (instancetype)initWithTitle:(NSString*)title andIconName:(NSString*)iconName;
 @end

@@ -380,10 +380,8 @@
             if ((options & note_pow)) {
                 if (noteCount < 3) {
                     
-                    AYPlayItemsView *item = [[AYPlayItemsView alloc]init];
                     NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-                    item.item_icon.image = IMGRESOURCE(imageName);
-                    item.item_name.text = options_title_facility[i];
+                    AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
                     [self addSubview:item];
                     [item mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.left.mas_equalTo(self).offset(offsetX);

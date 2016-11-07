@@ -31,7 +31,7 @@
         
         CALayer *btm_seprtor = [CALayer layer];
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 0.5, SCREEN_WIDTH - margin * 2, 0.5);
+        btm_seprtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
         btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:btm_seprtor];
         
@@ -43,6 +43,8 @@
             make.right.equalTo(self).offset(-15);
             make.size.mas_equalTo(CGSizeMake(30, 30));
         }];
+        
+        self.clipsToBounds = YES;
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -57,7 +59,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"NoOrderCell", @"NoOrderCell");
+    id<AYViewBase> cell = VIEW(@"ServiceFacilityCell", @"ServiceFacilityCell");
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
         AYViewCommand* cmd = [cell.commands objectForKey:name];
@@ -104,17 +106,17 @@
 
 #pragma mark -- actions
 - (void)didFacalityBtnClick {
-    
+    kAYViewSendNotify(self, @"showCansOrFacility", nil)
 }
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
     
-    NSDictionary *service_info = (NSDictionary*)args;
+    NSNumber *facility = (NSNumber*)args;
     NSArray *options_title_facility = kAY_service_options_title_facilities;
     
     {
-        long options = ((NSNumber*)[service_info objectForKey:@"facility"]).longValue;
+        long options = facility.longValue;
         CGFloat offsetX = 15;
         int noteCount = 0;
         for (int i = 0; i < options_title_facility.count; ++i) {
@@ -123,10 +125,8 @@
             if ((options & note_pow)) {
                 if (noteCount < 3) {
                     
-                    AYPlayItemsView *item = [[AYPlayItemsView alloc]init];
                     NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-                    item.item_icon.image = IMGRESOURCE(imageName);
-                    item.item_name.text = options_title_facility[i];
+                    AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
                     [self addSubview:item];
                     [item mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.left.mas_equalTo(self).offset(offsetX);
@@ -140,14 +140,8 @@
             }
         }
         
-//        if (noteCount == 0) {
-//            _facilitiesConstraintHeight.constant = 0;
-//            _facalityBtn.hidden = YES;
-//        } else {
-//            _facilitiesConstraintHeight.constant = 90;
-//            _facalityBtn.hidden = NO;
-//            [_facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
-//        }
+        [facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
+        
     }
     return nil;
 }

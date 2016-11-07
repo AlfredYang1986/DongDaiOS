@@ -30,7 +30,7 @@
         
         CALayer *btm_seprtor = [CALayer layer];
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 0.5, SCREEN_WIDTH - margin * 2, 0.5);
+        btm_seprtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
         btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:btm_seprtor];
         
@@ -64,7 +64,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"NoOrderCell", @"NoOrderCell");
+    id<AYViewBase> cell = VIEW(@"ServiceCalendarCell", @"ServiceCalendarCell");
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
         AYViewCommand* cmd = [cell.commands objectForKey:name];
@@ -111,7 +111,7 @@
 
 #pragma mark -- actions
 - (void)didDetailBtnClick {
-    
+    kAYViewSendNotify(self, @"showServiceOfferDate", nil)
 }
 
 #pragma mark -- notifies

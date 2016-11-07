@@ -75,9 +75,31 @@
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
     
-    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_search performWithResult:&nib_search_name];
+//    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
+//    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//    [cmd_search performWithResult:&nib_search_name];
+    
+    id<AYCommand> cmd_class = [view_table.commands objectForKey:@"registerCellWithClass:"];
+    NSString* class_name_00 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_00];
+    
+    NSString* class_name_01 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceOwnerInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_01];
+    
+    NSString* class_name_02 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_02];
+    
+    NSString* class_name_03 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_03];
+    
+    NSString* class_name_04 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_04];
+    
+    NSString* class_name_05 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_05];
+    
+    NSString* class_name_06 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCostCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&class_name_06];
     
     {
         UITableView *tableView = (UITableView*)view_table;
@@ -90,7 +112,6 @@
         }];
         
         NSArray *images = [service_info objectForKey:@"images"];
-        
         if ([[images firstObject] isKindOfClass:[NSString class]]) {
             
             id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
@@ -165,12 +186,6 @@
             id descr = [result objectForKey:@"personal_description"];
             [cmd_desc performWithResult:&descr];
             
-//            NSMutableDictionary *tmp = [service_info mutableCopy];
-//            [tmp setValue:[result objectForKey:@"personal_description"] forKey:@"description"];
-//            
-//            NSDictionary *dic = [tmp copy];
-//            [cmd performWithResult:&dic];
-            
             id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
             id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
             [refresh performWithResult:nil];
@@ -178,7 +193,6 @@
     }];
     
 //    changeDescription
-    
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
@@ -216,10 +230,6 @@
     left.frame = CGRectMake(SCREEN_WIDTH *0.5, 11, 1, 28);
     left.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
     [bottom_view.layer addSublayer:left];
-//    CALayer *right = [CALayer layer];
-//    right.frame = CGRectMake(SCREEN_WIDTH *0.5, 0, 1, 44);
-//    right.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.25f].CGColor;
-//    [bottom_view.layer addSublayer:right];
     
     UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 50)];
     [bookBtn setBackgroundColor:[Tools themeColor]];
@@ -368,14 +378,14 @@
     return nil;
 }
 
-- (id)showCansOrFacility:(NSNumber*)args {
+- (id)showCansOrFacility {
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"Facility");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[service_info objectForKey:@"facility"] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_show_module = SHOWMODULEUP;
     [cmd_show_module performWithResult:&dic];
@@ -383,7 +393,7 @@
 }
 
 - (id)showServiceOfferDate {
-//    NSArray *offer_date = [service_info objectForKey:@"offer_date"];
+    
     id<AYCommand> setting = DEFAULTCONTROLLER(@"CalendarService");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -394,6 +404,14 @@
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
+    return nil;
+}
+
+- (id)showMoreOrHideDescription:(NSNumber*)args {
+    UITableView *table = [self.views objectForKey:@"Table"];
+    [table beginUpdates];
+    [table endUpdates];
+    kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
     return nil;
 }
 

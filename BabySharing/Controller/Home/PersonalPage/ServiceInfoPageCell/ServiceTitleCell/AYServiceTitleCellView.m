@@ -62,7 +62,7 @@
             make.size.mas_equalTo(CGSizeMake(27, 27));
         }];
         
-        capacityLabel = [Tools creatUILabelWithText:@"0 Children" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        capacityLabel = [Tools creatUILabelWithText:@"0 Children" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:capacityLabel];
         [capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(signCapacity);
@@ -70,19 +70,19 @@
         }];
         
         //        age_boundary_icon
-        UIImageView *signBabyArgs = [[UIImageView alloc]init];
-        signBabyArgs.image = IMGRESOURCE(@"age_boundary_icon");
-        [self addSubview:signBabyArgs];
-        [signBabyArgs mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(signCapacity).offset(-SCREEN_WIDTH * 0.333);
+        UIImageView *signBabyAges = [[UIImageView alloc]init];
+        signBabyAges.image = IMGRESOURCE(@"age_boundary_icon");
+        [self addSubview:signBabyAges];
+        [signBabyAges mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(signCapacity).offset(-SCREEN_WIDTH * 0.3f);
             make.centerY.equalTo(signCapacity);
             make.size.equalTo(signCapacity);
         }];
         
-        filtBabyArgsLabel = [Tools creatUILabelWithText:@"0-0 years old children" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        filtBabyArgsLabel = [Tools creatUILabelWithText:@"0-0 years old" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:filtBabyArgsLabel];
         [filtBabyArgsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(signBabyArgs);
+            make.centerX.equalTo(signBabyAges);
             make.centerY.equalTo(capacityLabel);
         }];
         
@@ -91,14 +91,14 @@
         allowLeaveSign.image = IMGRESOURCE(@"allow_leave_icon");
         [self addSubview:allowLeaveSign];
         [allowLeaveSign mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(signCapacity).offset(SCREEN_WIDTH * 0.333);
+            make.centerX.equalTo(signCapacity).offset(SCREEN_WIDTH * 0.3f);
             make.centerY.equalTo(signCapacity);
             make.size.equalTo(signCapacity);
         }];
         
-        allowLeave = [Tools creatUILabelWithText:@"Can provide care" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        allowLeave = [Tools creatUILabelWithText:@"Provide care" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:allowLeave];
-        [filtBabyArgsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [allowLeave mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(allowLeaveSign);
             make.centerY.equalTo(capacityLabel);
         }];
@@ -122,7 +122,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"NoOrderCell", @"NoOrderCell");
+    id<AYViewBase> cell = VIEW(@"ServiceTitleCell", @"ServiceTitleCell");
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
         AYViewCommand* cmd = [cell.commands objectForKey:name];
@@ -172,6 +172,57 @@
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
+    
+    NSDictionary *service_info = (NSDictionary*)args;
+    
+    NSString *titleStr = [service_info objectForKey:@"title"];
+    if (titleStr) {
+        titleLabel.text = titleStr;
+    }
+    
+    //重置cell复用数据
+    //    _starRangImage.hidden = NO;
+    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
+    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
+    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            NSArray *points = [result objectForKey:@"points"];
+            if (points.count == 0) {
+                //                _starRangImage.hidden = YES;
+                pointsImageView.image = IMGRESOURCE(@"star_rang_0");
+            } else {
+                CGFloat sumPoint  = 0;
+                for (NSNumber *point in points) {
+                    sumPoint += point.floatValue;
+                }
+                CGFloat average = sumPoint / points.count;
+                
+                int mainRang = (int)average;
+                NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+                
+                CGFloat tmpCompare = average + 0.5f;
+                if ((int)tmpCompare > mainRang) {
+                    rangImageName = [rangImageName stringByAppendingString:@"_"];
+                }
+                pointsImageView.image = IMGRESOURCE(rangImageName);
+            }
+        }
+    }];
+    
+    NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
+    NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
+    NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:@"lsl"]);
+    NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
+    filtBabyArgsLabel.text = [NSString stringWithFormat:@"%@",ages];
+    
+    NSNumber *capacity = [service_info objectForKey:@"capacity"];
+    capacityLabel.text = [NSString stringWithFormat:@"%d个孩子",capacity.intValue];
+    
+    NSNumber *allow = [service_info objectForKey:@"allow_leave"];
+    BOOL isAllow = allow.boolValue;
+    allowLeaveSign.hidden = allowLeave.hidden = !isAllow;
     
     return nil;
 }

@@ -585,17 +585,10 @@
 
 #pragma mark -- AYBtmAlert
 - (void)AYShowBtmAlertWithArgs:(NSDictionary*)args {
-//    NSString *title = @"mesage";
-//    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-//    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-//    
-//    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-//    [dic_alert setValue:title forKey:@"title"];
-//    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-//    [cmd_alert performWithResult:&dic_alert];
+    
 }
 
-#pragma mark -- NSTime
+#pragma mark -- NSDate
 + (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter {
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];

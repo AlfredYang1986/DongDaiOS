@@ -17,13 +17,16 @@
 #import "AYRemoteCallCommand.h"
 
 //#import "AYServiceInfoCellView.h"
-#import "AYFouceCellView.h"
+//#import "AYFouceCellView.h"
 
 #define WIDTH               SCREEN_WIDTH - 15*2
 
 @implementation AYServicePageDelegate {
     NSDictionary *querydata;
     NSString *personal_description;
+    
+    BOOL isExpend;
+    CGFloat expendHeight;
 }
 
 @synthesize para = _para;
@@ -33,7 +36,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-    
+    isExpend = NO;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -64,21 +67,66 @@
     return nil;
 }
 
+- (id)TransfromExpend:(NSNumber*)args {
+    isExpend = YES;
+    expendHeight = args.floatValue;
+    return nil;
+}
+
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return 7;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString* class_name;
+    id<AYViewBase> cell;
     
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-    NSMutableDictionary *tmp = [querydata mutableCopy];
-    [tmp setValue:personal_description forKey:@"personal_description"];
-    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-    [cmd performWithResult:&tmp];
-
+        NSDictionary *tmp = [querydata copy];
+        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+    }
+    else if (indexPath.row ==1) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceOwnerInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSMutableDictionary *tmp = [querydata mutableCopy];
+        [tmp setValue:personal_description forKey:@"personal_description"];
+        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+    }
+    else if (indexPath.row == 2) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        id tmp = [querydata  objectForKey:@"cans"];
+        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+    }
+    else if (indexPath.row == 3) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        id tmp = [querydata  objectForKey:@"facility"];
+        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+    }
+    else if (indexPath.row == 4) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        id tmp = [querydata objectForKey:@"location"];
+        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+    }
+    else if (indexPath.row == 5) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+    }
+    else if (indexPath.row == 6) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCostCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+    }
+    
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
@@ -86,27 +134,36 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CGFloat returnHeight = 940.f;
-    
-    long options = ((NSNumber*)[querydata objectForKey:@"facility"]).longValue;
-    if (options == 0) {
-        returnHeight -= 90;
+    if (indexPath.row == 0) {
+        return 165;
     }
-    
-    NSString *descStr = personal_description;
-    if (!descStr || [descStr isEqualToString:@""]) {
-        returnHeight -= 100;
+    else if (indexPath.row ==1) {
+        
+        NSString *descStr = personal_description;
+        if (!descStr || [descStr isEqualToString:@""]) {
+            return 85;
+        }
+        else {
+            
+            return 85 + expendHeight + 25;
+            
+            //200
+        }
     }
+    else if (indexPath.row == 2) {
+        return 60;
+    }
+    else if (indexPath.row == 3) {
+        
+        long options = ((NSNumber*)[querydata objectForKey:@"facility"]).longValue;
+        return options == 0 ? 0.001 : 90;
+    }
+    else if (indexPath.row == 4) {
+        return 225;
+    }
+    else
+        return 70;
     
-    return returnHeight;
-    
-    //165
-    //
-    //60
-    //90
-    //225
-    //70
-    //70
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
