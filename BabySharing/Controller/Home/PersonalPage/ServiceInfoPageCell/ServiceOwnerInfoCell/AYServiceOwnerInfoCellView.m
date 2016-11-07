@@ -94,7 +94,7 @@
         description.editable = NO;
         [self addSubview:description];
         [description mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(userPhoto.mas_bottom).offset(10);
+            make.top.equalTo(userPhoto.mas_bottom).offset(5);
             make.left.equalTo(userPhoto);
             make.right.equalTo(self).offset(-15);
         }];
@@ -106,7 +106,7 @@
         [readMoreLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didReadMoreClick)]];
         [readMoreLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(description.mas_bottom).offset(1);
-            make.left.equalTo(description);
+            make.left.equalTo(description).offset(5);
         }];
         
         if (reuseIdentifier != nil) {

@@ -409,9 +409,9 @@
 
 - (id)showMoreOrHideDescription:(NSNumber*)args {
     UITableView *table = [self.views objectForKey:@"Table"];
+    kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
     [table beginUpdates];
     [table endUpdates];
-    kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
     return nil;
 }
 

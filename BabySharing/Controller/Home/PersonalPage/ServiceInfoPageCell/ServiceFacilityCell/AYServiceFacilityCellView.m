@@ -112,37 +112,47 @@
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
     
+    for (UIView *sub in self.subviews) {
+        if ([sub isKindOfClass:[AYPlayItemsView class]]) {
+            [sub removeFromSuperview];
+        }
+    }
+    
     NSNumber *facility = (NSNumber*)args;
     NSArray *options_title_facility = kAY_service_options_title_facilities;
     
-    {
-        long options = facility.longValue;
-        CGFloat offsetX = 15;
-        int noteCount = 0;
-        for (int i = 0; i < options_title_facility.count; ++i) {
+    long options = facility.longValue;
+    CGFloat offsetX = 15;
+    int noteCount = 0;
+    int limitNumb =0;
+    if (SCREEN_WIDTH < 375) {
+        limitNumb = 3;
+    } else
+        limitNumb = 4;
+    
+    for (int i = 0; i < options_title_facility.count; ++i) {
+        
+        long note_pow = pow(2, i);
+        if ((options & note_pow)) {
             
-            long note_pow = pow(2, i);
-            if ((options & note_pow)) {
-                if (noteCount < 3) {
-                    
-                    NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-                    AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
-                    [self addSubview:item];
-                    [item mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.left.mas_equalTo(self).offset(offsetX);
-                        make.centerY.equalTo(self);
-                        make.size.mas_equalTo(CGSizeMake(50, 55));
-                    }];
-                    offsetX += 80;
-                }
-                noteCount ++;
+            if (noteCount < limitNumb) {
                 
+                NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
+                AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
+                [self addSubview:item];
+                [item mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(self).offset(offsetX);
+                    make.centerY.equalTo(self);
+                    make.size.mas_equalTo(CGSizeMake(50, 55));
+                }];
+                offsetX += 80;
             }
+            
+            noteCount ++;
         }
-        
-        [facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
-        
     }
+    
+    [facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
     return nil;
 }
 

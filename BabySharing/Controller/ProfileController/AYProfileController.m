@@ -197,7 +197,6 @@
     
     if (isNap) {
         des = compare;
-        //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
@@ -205,7 +204,6 @@
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
-        //    [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
