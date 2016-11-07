@@ -16,7 +16,9 @@
 
     UIImage* img_home_with_no_message;
     UIImage* img_home_with_unread_message;
+    
     ModeExchangeType isExchangeModel;
+    int expectIndex;
 }
 
 @synthesize para = _para;
@@ -61,8 +63,6 @@
     [cmd_profile_init performWithResult:&profile];
     profile.tabBarItem.title = @"Profile";
     
-    //[self.tabBar removeFromSuperview];
-    
     self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
     self.delegate = self;
     
@@ -86,8 +86,13 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSNumber *status = [dic objectForKey:kAYControllerChangeArgsKey];
-        isExchangeModel = status.intValue;
+        NSDictionary *dic_exchange = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSNumber *type = [dic_exchange objectForKey:@"type"];
+        isExchangeModel = type.intValue;
+        
+        NSNumber *index = [dic_exchange objectForKey:@"index"];
+        expectIndex = index.intValue;
+        
 //        NSNumber* index = [dic objectForKey:kAYControllerChangeArgsKey];
 //        switch (index.integerValue) {
 //            case 0:
@@ -136,6 +141,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.selectedIndex = expectIndex;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
+    [_dongda_tabbar itemSelected:btn];
+//    _dongda_tabbar.selectIndex = expectIndex;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:[NSNumber numberWithInt:DongDaAppModeCommon] forKey:@"dongda_app_mode"];

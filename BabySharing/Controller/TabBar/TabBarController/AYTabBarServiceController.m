@@ -22,6 +22,7 @@
     UIImage* img_home_with_unread_message;
     
     int isExchangeModel;
+    int expectIndex;
 }
 
 @synthesize para = _para;
@@ -56,11 +57,6 @@
     [cmd_message_init performWithResult:&message];
     message.tabBarItem.title = @"消息";
     
-//    id<AYCommand> cmd_calendar_init = [self.commands objectForKey:@"CalendarServiceInit"];
-//    AYViewController* calendar = nil;
-//    [cmd_calendar_init performWithResult:&calendar];
-//    calendar.tabBarItem.title = @"日程";
-    
     id<AYCommand> cmd_service_init = [self.commands objectForKey:@"MyServiceInit"];
     AYViewController* service = nil;
     [cmd_service_init performWithResult:&service];
@@ -71,9 +67,7 @@
     [cmd_profile_init performWithResult:&profile];
     profile.tabBarItem.title = @"我的";
     
-    //    self.viewControllers = [NSArray arrayWithObjects:home, found, post, friends, profile, nil];
     self.viewControllers = [NSArray arrayWithObjects:order, message, service, profile, nil];
-    
     self.delegate = self;
     
     img_home_with_no_message = IMGRESOURCE(@"tab_home");
@@ -98,8 +92,12 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSNumber *status = [dic objectForKey:kAYControllerChangeArgsKey];
-        isExchangeModel = status.intValue;
+        NSDictionary *dic_exchange = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSNumber *type = [dic_exchange objectForKey:@"type"];
+        isExchangeModel = type.intValue;
+        
+        NSNumber *index = [dic_exchange objectForKey:@"index"];
+        expectIndex = index.intValue;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -128,15 +126,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.mode = DongDaAppModeNapPersonal;
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.selectedIndex = 3;
-    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:3];
+    self.selectedIndex = expectIndex;
+    DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
     [_dongda_tabbar itemSelected:btn];
+//    _dongda_tabbar.selectIndex = expectIndex;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];

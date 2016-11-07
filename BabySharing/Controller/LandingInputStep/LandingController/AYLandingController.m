@@ -407,12 +407,14 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             
             NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
             [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-//            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
             [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
             [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic_show_module setValue:[NSNumber numberWithInt:ModeExchangeTypeUnloginToAllModel] forKey:kAYControllerChangeArgsKey];
-//            id<AYCommand> cmd_show_module = SHOWMODULE;
-//            [cmd_show_module performWithResult:&dic_show_module];
+//            [dic_show_module setValue:[NSNumber numberWithInt:ModeExchangeTypeUnloginToAllModel] forKey:kAYControllerChangeArgsKey];
+            
+            NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+            [dic_exchange setValue:[NSNumber numberWithInteger:0] forKey:@"index"];
+            [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
+            [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
             
             id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
             [cmd_show_module performWithResult:&dic_show_module];

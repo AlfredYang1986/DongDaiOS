@@ -200,15 +200,23 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:kAYControllerChangeArgsKey];
+//        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:kAYControllerChangeArgsKey];
+        NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+        [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
+        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:@"type"];
+        [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:kAYControllerChangeArgsKey];
+//        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:kAYControllerChangeArgsKey];
         
+        NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+        [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
+        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:@"type"];
+        [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
     }
     
     id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
