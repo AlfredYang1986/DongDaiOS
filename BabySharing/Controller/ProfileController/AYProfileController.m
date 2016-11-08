@@ -200,7 +200,7 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-//        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:kAYControllerChangeArgsKey];
+        
         NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
         [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:@"type"];
@@ -211,7 +211,6 @@
         [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
         [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
         [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-//        [dic_show_module setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:kAYControllerChangeArgsKey];
         
         NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];

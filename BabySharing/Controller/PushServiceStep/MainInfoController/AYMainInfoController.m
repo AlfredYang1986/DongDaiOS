@@ -334,7 +334,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (void)didMeBtnClick {
     
     NSString *title = [NSString stringWithFormat:@"您确认放弃发布当前服务吗？"];
-//    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+    
     id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
     id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
     

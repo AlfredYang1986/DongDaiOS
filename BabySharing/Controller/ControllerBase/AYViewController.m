@@ -364,9 +364,9 @@
         [cmd performWithResult:&dic_tmp];
     });
     
-    UITabBarController* tab = [Tools activityViewController].tabBarController;
-    DongDaTabBar* concret = [tab.tabBar viewWithTag:-99];
+    UITabBarController* tabVC = [Tools activityViewController].tabBarController;
+    DongDaTabBar* concret = [tabVC.tabBar viewWithTag:-99];
     concret.selectIndex = index;
-    tab.selectedIndex = index;
+    tabVC.selectedIndex = index;
 }
 @end
