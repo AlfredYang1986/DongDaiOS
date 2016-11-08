@@ -224,9 +224,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
         
     } else {
-        
+        id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&babyAgeCell];
+        [cmd_class performWithResult:&babyAgeCell];
         
         [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.view).offset((isNapModel?0:-49));
@@ -287,14 +287,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [[UIButton alloc]init];
-    bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"预览" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);
-    
     return nil;
 }
 

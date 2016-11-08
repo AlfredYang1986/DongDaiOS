@@ -227,10 +227,7 @@
 }
 
 /* 输入提示回调. */
-- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response
-{
-//    [self.tips setArray:response.tips];
-    
+- (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response {
     NSArray* tmp = response.tips;
     
     if (tmp.count == 0) {
@@ -238,7 +235,6 @@
         [self scrollToHideKeyBoard];
         
         NSString *title = [NSString stringWithFormat:@"暂时没有符合您要求的搜索"];
-//        id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
         id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
         id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
         
@@ -287,7 +283,7 @@
 }
 
 #pragma mark -- notifies
--(void)startLocation{
+- (void)startLocation {
     
     //授权使用定位服务
 //    [self.manager requestAlwaysAuthorization];
@@ -300,7 +296,8 @@
         //开始定位
         [self.manager startUpdatingLocation];
     } else {
-        [[[UIAlertView alloc]initWithTitle:@"未授权定位" message:@"请在iPhone的\"设置-隐私-定位\"中允许-咚哒-定位服务" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show ];
+        NSString *title = @"请在iPhone的\"设置-隐私-定位\"中允许-咚哒-定位服务";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }
 //    return nil;

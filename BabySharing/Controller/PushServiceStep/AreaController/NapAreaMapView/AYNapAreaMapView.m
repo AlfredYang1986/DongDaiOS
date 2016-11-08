@@ -40,8 +40,6 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    
-    
 }
 
 #pragma mark -- commands
@@ -97,7 +95,6 @@
         NSLog(@"remove current_anno");
     }
     
-    //rang
 //    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 40000, loc.coordinate.longitude - 70000, 80000, 140000);
     currentAnno = [[AYAnnonation alloc]init];
     currentAnno.coordinate = loc.coordinate;

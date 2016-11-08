@@ -317,7 +317,7 @@
             [otherBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(titleLabel);
                 make.top.equalTo(titleLabel.mas_bottom).offset(5);
-                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 20, otherBtn.bounds.size.height));
+                make.size.mas_equalTo(CGSizeMake(otherBtn.bounds.size.width + 10, otherBtn.bounds.size.height));
             }];
             
         }
@@ -355,7 +355,7 @@
 #pragma mark -- tabBarViewController selectedIndex
 - (void)tabBarVCSelectIndex:(NSInteger)index {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
         NSMutableDictionary* dic_tmp = [[NSMutableDictionary alloc]init];
         [dic_tmp setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];

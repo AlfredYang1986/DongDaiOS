@@ -32,11 +32,16 @@
 @end
 
 @implementation AYNapAreaController{
-    UIView *picker;
+    
     UILabel *areaLabel;
     CLLocation *loc;
-    
     NSNumber *type;
+    
+    //new
+    NSString *navTitleStr;
+    UIView *locBGView;
+    UILabel *adressLabel;
+    UITextField *adjustAdress;
 }
 
 - (CLLocationManager *)manager{
@@ -55,6 +60,7 @@
 - (void)postPerform{
     
 }
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -66,93 +72,118 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
+        NSDictionary *dic_loc = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (dic_loc) {
+            NSString* headAdressString = [dic_loc objectForKey:@"location_name"];
+            loc = [dic_loc objectForKey:@"location"];
+            
+            adressLabel.text = headAdressString;
+            
+            id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
+            id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
+            CLLocation *loction = loc;
+            [cmd performWithResult:&loction];
+        }
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
-//    [self.manager requestAlwaysAuthorization];
     [self.manager requestWhenInUseAuthorization];
     //定位精度
     self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     self.manager.delegate = self;
-    if ([CLLocationManager locationServicesEnabled]) {
-        //开始定位
+    
+    BOOL isEnabled = [CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedWhenInUse||[CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedAlways;
+    if (isEnabled) {
         [self.manager startUpdatingLocation];
+    } else {
+        NSString *title = @"发布服务需要开启定位服务";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
     }
     
-//    UILabel *title = [[UILabel alloc]init];
-//    [self.view addSubview:title];
-//    title = [Tools setLabelWith:title andText:@"您的服务区域" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-//    [title mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(94);
-//        make.centerX.equalTo(self.view);
-//    }];
-    
-    CGFloat margin = 30.f;
-    UIView *areaView = [[UIView alloc]init];
-    [self.view addSubview:areaView];
-    areaView.backgroundColor = [UIColor whiteColor];
-    [areaView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(114);
+    locBGView = [[UIView alloc]init];
+    locBGView.backgroundColor = [Tools whiteColor];
+    [self.view addSubview:locBGView];
+    [locBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view).offset(175);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - margin*2, 30));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 175));
     }];
-    areaView.userInteractionEnabled = YES;
-    [areaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSelectedArea:)]];
+    CALayer *topLine = [CALayer layer];
+    topLine.backgroundColor = [Tools garyLineColor].CGColor;
+    topLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
+    [locBGView.layer addSublayer:topLine];
     
-    areaLabel = [[UILabel alloc]init];
-    areaLabel = [Tools setLabelWith:areaLabel andText:@"正在定位" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-    [areaView addSubview:areaLabel];
-    [areaLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(areaView);
-        make.left.equalTo(areaView).offset(10);
+    adressLabel = [Tools creatUILabelWithText:@"正在定位" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    [locBGView addSubview:adressLabel];
+    [adressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(locBGView.mas_top).offset(30);
+        make.left.equalTo(locBGView).offset(20);
+        make.right.equalTo(locBGView).offset(-20);
     }];
+    adressLabel.userInteractionEnabled = YES;
+    [adressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAdressLabeTap)]];
     
     UIImageView *access = [[UIImageView alloc]init];
-    [areaView addSubview:access];
-    access.image = IMGRESOURCE(@"chan_group_back");
+    [locBGView addSubview:access];
+    access.image = IMGRESOURCE(@"plan_time_icon");
     [access mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(areaView).offset(-10);
-        make.centerY.equalTo(areaView);
-        make.size.mas_equalTo(CGSizeMake(8, 8));
+        make.right.equalTo(locBGView).offset(-20);
+        make.centerY.equalTo(adressLabel);
+        make.size.mas_equalTo(CGSizeMake(15, 15));
     }];
     
-    {
-        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-        picker = (UIView*)view_picker;
-        [self.view bringSubviewToFront:picker];
-        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
-        
-        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
-        
-        id obj = (id)cmd_recommend;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_recommend;
-        [cmd_delegate performWithResult:&obj];
-    }
+    CALayer *centerLine = [CALayer layer];
+    centerLine.backgroundColor = [Tools garyLineColor].CGColor;
+    centerLine.frame = CGRectMake(10, 60, SCREEN_WIDTH - 20, 0.5);
+    [locBGView.layer addSublayer:centerLine];
     
-    UIButton *nextBtn = [[UIButton alloc]init];
-    nextBtn.backgroundColor = [Tools themeColor];
-    [nextBtn setTitle:@"下一步" forState:UIControlStateNormal];
-    [nextBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.view addSubview:nextBtn];
-    [self.view bringSubviewToFront:nextBtn];
-    [nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+//    adjustAdress = [Tools creatUILabelWithText:@"门牌号" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    adjustAdress = [[UITextField alloc]init];
+    adjustAdress.font = kAYFontLight(17.f);
+    adjustAdress.placeholder = @"门牌号";
+    adjustAdress.textColor = [Tools blackColor];
+    adjustAdress.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [locBGView addSubview:adjustAdress];
+    [adjustAdress mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(adressLabel).offset(60);
+        make.left.equalTo(adressLabel);
+        make.right.equalTo(locBGView).offset(-10);
     }];
+    
+//    id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+//    picker = (UIView*)view_picker;
+//    [self.view bringSubviewToFront:picker];
+//    id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+//    id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+//    
+//    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
+//    id obj = (id)cmd_recommend;
+//    [cmd_datasource performWithResult:&obj];
+//    obj = (id)cmd_recommend;
+//    [cmd_delegate performWithResult:&obj];
+    
+    UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
+    [locBGView addSubview:nextBtn];
     [nextBtn addTarget:self action:@selector(didNextBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(locBGView);
+        make.centerX.equalTo(locBGView);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 50));
+    }];
+    
+    self.view.userInteractionEnabled = YES;
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture)];
+    [self.view addGestureRecognizer:tap];
+    
+}
+
+- (void)tapGesture {
+    [adjustAdress resignFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -163,65 +194,32 @@
     [super viewWillDisappear:animated];
 }
 
-//定位成功 调用代理方法
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    //CLLocation  位置对象
-    
-    loc = [locations firstObject];
-    CLLocationCoordinate2D coordinate = loc.coordinate;
-    
-    id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
-    id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
-    CLLocation *loction = loc;
-    [cmd performWithResult:&loction];
-    
-    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
-    
-    //位置改变幅度大 ->重新定位
-    [manager stopUpdatingLocation];
-    
-    [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
-        CLPlacemark *pl = [placemarks firstObject];
-        NSString *prvince = pl.administrativeArea;
-        if ([prvince isEqualToString:@"北京市"] || [prvince isEqualToString:@"天津市"] || [prvince isEqualToString:@"上海市"] || [prvince isEqualToString:@"重庆市"]) {
-            prvince = [prvince substringToIndex:2];
-        }
-        NSString *city = pl.locality;
-        NSString *area = pl.subLocality;
-        NSString *address = [NSString stringWithFormat:@"%@%@%@",prvince, city, area];
-        areaLabel.text = (!prvince||[prvince isEqualToString:@"(null)"])?@"点击选择区域":address;
-    }];
-}
-
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
-//    CALayer *line = [CALayer layer];
-//    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-//    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-//    [view.layer addSublayer:line];
     
-    NSString *title = @"服务区域";
+    NSString *title = @"正在定位";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
     
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+    return nil;
+}
+
+- (id)NapAreaMapLayout:(UIView*)view {
+    view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
     return nil;
 }
 
@@ -231,26 +229,80 @@
     return nil;
 }
 
-- (id)NapAreaMapLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 200, SCREEN_WIDTH, SCREEN_HEIGHT - 200);
-    return nil;
+#pragma mark -- 定位成功 调用代理方法
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    
+    loc = [locations firstObject];
+    CLLocationCoordinate2D coordinate = loc.coordinate;
+    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
+    
+    id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
+    id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
+    CLLocation *loction = loc;
+    [cmd performWithResult:&loction];
+    
+    [manager stopUpdatingLocation];
+    
+    [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *pl = [placemarks firstObject];
+        NSString *city = pl.locality;
+        
+        if (city == nil) {
+            
+            return ;
+        } else {
+            
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &city)
+            if (![city isEqualToString:@"北京市"] && (city != nil)) {
+                navTitleStr = city;
+                NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京市地区. \n我们正在努力达到%@",city];
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                return ;
+            }
+            
+            NSString *address = pl.name;
+            adressLabel.text = (!address || [address isEqualToString:@""])?@"点击选择区域":address;
+            [UIView animateWithDuration:0.25 animations:^{
+                UIView *view = [self.views objectForKey:@"NapAreaMap"];
+                view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 175);
+                [locBGView mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.equalTo(self.view);
+                }];
+                [self.view layoutIfNeeded];
+            }];
+            
+        }
+        
+    }];
 }
 
 #pragma mark -- actions
-- (void)didSelectedArea:(UIButton*)btn{
+- (void)didSelectedArea:(UIButton*)btn {
     id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-    picker = (UIView*)view_picker;
+    UIView *picker = (UIView*)view_picker;
     [self.view bringSubviewToFront:picker];
     
     id<AYCommand> cmd_show = [view_picker.commands objectForKey:@"showPickerView"];
     [cmd_show performWithResult:nil];
 }
 
-- (void)didNextBtnClick:(UIButton*)btn{
-//    MainInfo
-    if ([areaLabel.text isEqualToString:@"正在定位"] || [areaLabel.text isEqualToString:@"点击选择区域"]) {
-        
-        NSString *title = @"未选择服务区域";
+- (void)didAdressLabeTap {
+    id<AYCommand> des = DEFAULTCONTROLLER(@"NapLocation");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:@"push" forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+
+- (void)didNextBtnClick:(UIButton*)btn {
+    
+    if ([adjustAdress.text isEqualToString:@""]) {
+        NSString *title = @"请完成具体地址设置";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
@@ -264,21 +316,17 @@
     
     NSMutableDictionary *type_info = [[NSMutableDictionary alloc]init];
     [type_info setValue:type forKey:@"type"];
-    [type_info setValue:areaLabel.text forKey:@"area"];
-    
+    [type_info setValue:navTitleStr forKey:@"distinct"];
+    [type_info setValue:adressLabel forKey:@"address"];
+    [type_info setValue:adjustAdress forKey:@"adjust_address"];
     [dic_push setValue:type_info forKey:kAYControllerChangeArgsKey];
+    
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    
-//    id<AYCommand> cmd = POP;
-//    [cmd performWithResult:&dic];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
@@ -287,7 +335,6 @@
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
-    
     return nil;
 }
 - (id)rightBtnSelected {
@@ -295,7 +342,7 @@
     return nil;
 }
 
--(id)didSaveClick {
+- (id)didSaveClick {
     id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"NapArea"];
     id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
     NSString *address = nil;
@@ -305,19 +352,10 @@
         areaLabel.text = address;
     }
     
-//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//        }];
-//    }
     return nil;
 }
--(id)didCancelClick {
-//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//        }];
-//    }
+
+- (id)didCancelClick {
     return nil;
 }
 

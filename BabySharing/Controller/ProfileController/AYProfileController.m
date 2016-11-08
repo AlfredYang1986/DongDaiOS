@@ -84,9 +84,9 @@
                 } else {
                     AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 }
-            }
+            }//
             
-        }
+        }//
     }
 }
 
