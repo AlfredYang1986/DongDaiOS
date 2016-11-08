@@ -84,7 +84,7 @@ typedef enum : int {
     BtmAlertViewTypeHideWithTimer,
     BtmAlertViewTypeWitnBtn,
     BtmAlertViewTypeWitnMask,
-    BtmAlertViewTypeWitnBtnAndMask,
+//    BtmAlertViewTypeWitnBtnAndMask,
 } BtmAlertViewType;
 
 #define AYShowBtmAlertView(TITLE,TYPE)          {\

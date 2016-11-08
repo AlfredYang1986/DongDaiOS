@@ -78,13 +78,44 @@
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
             if ([backArgs isKindOfClass:[NSString class]]) {
-                
                 NSString *title = (NSString*)backArgs;
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                if ([title isEqualToString:@"服务发布成功,去管理日程?"]) {
+                    AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+                } else {
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                }
             }
             
         }
     }
+}
+
+- (void)BtmAlertOtherBtnClick {
+    [super BtmAlertOtherBtnClick];
+    
+    AYViewController* compare = DEFAULTCONTROLLER(@"TabBar");
+    BOOL isNap = ![self.tabBarController isKindOfClass:[compare class]];
+    
+    if (isNap) {
+        [super tabBarVCSelectIndex:2];
+        
+    } else {
+        
+        AYViewController *des = DEFAULTCONTROLLER(@"TabBarService");
+        NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+        
+        NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+        [dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
+        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:@"type"];
+        [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+        [cmd_show_module performWithResult:&dic_show_module];
+    }
+    
 }
 
 #pragma mark -- life cycle
@@ -194,30 +225,23 @@
     
     AYViewController *des;
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+    [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+    [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+    NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
     
     if (isNap) {
         des = compare;
-        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-        [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        
-        NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
         [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeNapToCommon] forKey:@"type"];
-        [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
         
     } else {
         des = DEFAULTCONTROLLER(@"TabBarService");
-        [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-        [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-        [dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-        
-        NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
         [dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
         [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:@"type"];
-        [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
     }
     
+    [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+    [dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
     id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
     [cmd_show_module performWithResult:&dic_show_module];
     return nil;

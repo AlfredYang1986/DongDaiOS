@@ -426,7 +426,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                             [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_service_provider"];
                             [cmd_profle performWithResult:&dic];
                             
-                            NSString *tip = @"服务发布成功";
+                            NSString *tip = @"服务发布成功,去管理日程?";
                             [self popToRootVCWithTip:tip];
                         } else {
                             
