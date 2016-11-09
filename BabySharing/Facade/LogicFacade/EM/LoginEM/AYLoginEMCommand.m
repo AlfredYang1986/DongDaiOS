@@ -29,7 +29,7 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
 - (void)performWithResult:(NSObject**)obj {
     NSString* current_user_id = (NSString*)*obj;
     
-    void (^registerSuccess)(void) = ^{
+//    void (^registerSuccess)(void) = ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [[EMClient sharedClient] asyncLoginWithUsername:current_user_id password:kAYEMDongdaCommonPassword success:^{
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -51,18 +51,17 @@ static NSString* const kAYEMDongdaCommonPassword = @"PassW0rd";
                 NSLog(@"环信: 登陆失败");
             }];
         });
-    };
+//    };
     
-    void (^rigisterFailed)(EMError* error) = ^(EMError* error) {
-        if (error == nil || error.code == EMErrorUserAlreadyExist) {
-            registerSuccess();
-        } else {
-            NSLog(@"环信: 注册失败");
-        }
-    };
+//    void (^rigisterFailed)(EMError* error) = ^(EMError* error) {
+//        if (error == nil || error.code == EMErrorUserAlreadyExist) {
+//            registerSuccess();
+//        } else {
+//            NSLog(@"环信: 注册失败");
+//        }
+//    };
     
-    
-    [[EMClient sharedClient] asyncRegisterWithUsername:current_user_id password:kAYEMDongdaCommonPassword success:registerSuccess failure:rigisterFailed];
+//    [[EMClient sharedClient] asyncRegisterWithUsername:current_user_id password:kAYEMDongdaCommonPassword success:registerSuccess failure:rigisterFailed];
 }
 
 - (NSString*)getCommandType {

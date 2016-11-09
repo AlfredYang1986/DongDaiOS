@@ -165,18 +165,23 @@
     <command type="Module" name="NotifyFollowBtnInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ThumbsAndPushInit" factory="AYDefaultModuleFactory" />
 
-    <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="LandingReqConfirmCode" route="login/authWithPhone" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="LandingReqConfirmCode" route="v2/phone/code/send" factory="AYRemoteCallFactory" />
     <command type="Remote" name="LandingAuthConfirm" route="login/authConfirm" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CreateTmpUserWithPhone" route="login/authCreateTmpUserWithPhone" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AuthWithSNS" route="login/authWithThird" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AuthSignOut" route="login/signout" factory="AYRemoteCallFactory" />
     <command type="Remote" name="ContatcerInSystem" route="login/userLstInSystem" factory="AYRemoteCallFactory" />
+
+    <command type="Remote" name="AuthPhoneCode" route="v2/auth/code" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="PushRealName"      route="auth/realname/push" factory="AYRemoteCallFactory" />
     <command type="Remote" name="ApproveRealName"   route="auth/realname/approve" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RejectRealName"    route="auth/realname/reject" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="RequireCode"       route="auth/code/require" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="CheckCode"         route="auth/code/check" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="RequireCode"       route="auth/code/require" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="RequireCode"       route="v2/phone/code/send" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="CheckCode"         route="auth/code/check" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="CheckCode"         route="v2/phone/code/check" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />

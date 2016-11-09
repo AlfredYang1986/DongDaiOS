@@ -131,6 +131,8 @@
         <command type="Remote" name="AuthWithSNS" />
         <command type="Remote" name="AuthSignOut" />
         <command type="Remote" name="ContatcerInSystem" />
+
+        <command type="Remote" name="AuthPhoneCode" />
     </facade>
 
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >

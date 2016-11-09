@@ -133,60 +133,97 @@
     [dic_auth setValue:self.reg_token forKey:@"reg_token"];
     [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     [dic_auth setValue:input_coder forKey:@"code"];
+   
     
     AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
-    AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"LandingAuthConfirm"];
+    AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"AuthPhoneCode"];
     [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        NSMutableDictionary* args = [result mutableCopy];
-        NSString* msg = [result objectForKey:@"message"];
-        
-        AYModel* m = MODEL;
-        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
-        [cmd performWithResult:&result];
-        
-        if (success || [msg isEqualToString:@"new user"]) {
-            id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
-            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-            [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
-            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic setValue:args forKey:kAYControllerChangeArgsKey];
-            id<AYCommand> cmd_push = PUSH;
-            [cmd_push performWithResult:&dic];
+        if (success) {
+           
+            NSDictionary* args = [result copy];
             
-        } else if([msg isEqualToString:@"already login"]){
-            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-            [cmd_profile performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                
-                if (success) {
-                    AYModel* m = MODEL;
-                    AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-                    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-                    [cmd performWithResult:&result];
-                } else {
-                    
-                    NSString *title = @"登录失败，请检查网络是否正常连接";
-                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                }
-            }];
-        } else if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]){
-            
-//            id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
-//            id<AYCommand> hide_cmd = [input.commands objectForKey:@"showAYAlertVeiw:"];
-//            NSString *tmp = @"动态密码输入错误";
-//            [hide_cmd performWithResult:&tmp];
-            
-            NSString *title = @"动态密码错误,请重试";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            AYModel* m = MODEL;
+            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+            [cmd performWithResult:&result];
+           
+            NSString* screen_name = [args objectForKey:@"screen_name"];
+            if ([screen_name isEqualToString:@""]) {
+                id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
+                NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
+                [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+                [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
+                [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+                [dic setValue:args forKey:kAYControllerChangeArgsKey];
+                id<AYCommand> cmd_push = PUSH;
+                [cmd_push performWithResult:&dic];
+
+            } else {
+                AYModel* m = MODEL;
+                AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                [cmd performWithResult:&args];
+            }
             
         } else {
-            NSString *title = @"获取动态密码失败，请检查网络是否正常连接";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            NSString* msg = [result objectForKey:@"message"];
+            if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]) {
+                NSString *title = @"动态密码错误,请重试";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            } else {
+                NSString *title = @"验证动态密码失败，请检查网络是否正常连接";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            }
         }
     }];
     
+//    AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
+//    AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"LandingAuthConfirm"];
+//    [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//        NSMutableDictionary* args = [result mutableCopy];
+//        NSString* msg = [result objectForKey:@"message"];
+//        
+//        AYModel* m = MODEL;
+//        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+//        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+//        [cmd performWithResult:&result];
+//        
+//        if (success || [msg isEqualToString:@"new user"]) {
+//            id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
+//            [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//            [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
+//            [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//            [dic setValue:args forKey:kAYControllerChangeArgsKey];
+//            id<AYCommand> cmd_push = PUSH;
+//            [cmd_push performWithResult:&dic];
+//            
+//        } else if([msg isEqualToString:@"already login"]){
+//            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+//            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+//            [cmd_profile performWithResult:[args copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//                
+//                if (success) {
+//                    AYModel* m = MODEL;
+//                    AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+//                    id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+//                    [cmd performWithResult:&result];
+//                } else {
+//                    
+//                    NSString *title = @"登录失败，请检查网络是否正常连接";
+//                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//                }
+//            }];
+//        } else if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]){
+//            NSString *title = @"动态密码错误,请重试";
+//            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//            
+//        } else {
+//            NSString *title = @"获取动态密码失败，请检查网络是否正常连接";
+//            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        }
+//    }];
+
     return nil;
 }
 
