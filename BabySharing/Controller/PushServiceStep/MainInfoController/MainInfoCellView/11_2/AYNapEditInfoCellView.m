@@ -17,30 +17,57 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 
-@interface AYNapEditInfoCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *unSetTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
-
-@end
-
 @implementation AYNapEditInfoCellView {
     NSString *title;
     NSString *content;
+    
+    UILabel *titleLabel;
+    UILabel *subTitlelabel;
+    UIButton *optionBtn;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    
-    _unSetTitleLabel.font = kAYFontLight(14.f);
-    _subTitleLabel.font = kAYFontLight(17.f);
-    _subTitleLabel.textColor = [Tools blackColor];
-    
-    CALayer *separator = [CALayer layer];
-    separator.frame = CGRectMake(10, 63.5, [UIScreen mainScreen].bounds.size.width - 20, 0.5);
-    separator.backgroundColor = [Tools garyLineColor].CGColor;
-    [self.layer addSublayer:separator];
-    
-    [self setUpReuseCell];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        [self addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.bottom.equalTo(self.mas_centerY);
+        }];
+        
+        subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        [self addSubview:subTitlelabel];
+        [subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(titleLabel);
+            make.top.equalTo(self.mas_centerY);
+            make.right.equalTo(self).offset(-60);
+        }];
+        
+        optionBtn = [[UIButton alloc]init];
+        [self addSubview:optionBtn];
+        [optionBtn setImage:[UIImage imageNamed:@"icon_pick"] forState:UIControlStateNormal];
+        [optionBtn setImage:[UIImage imageNamed:@"icon_pick_selected"] forState:UIControlStateSelected];
+        [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(25, 25));
+        }];
+        optionBtn.selected = NO;
+        optionBtn.userInteractionEnabled = NO;
+        
+        CALayer *separator = [CALayer layer];
+        CGFloat margin = 0;
+        separator.frame = CGRectMake(margin, 0, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
+        separator.backgroundColor = [Tools garyLineColor].CGColor;
+        [self.layer addSublayer:separator];
+        
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
+    }
+    return self;
 }
 
 -(void)layoutSubviews{
@@ -102,12 +129,11 @@
 
 - (id)setCellInfo:(NSDictionary*)args {
     
-    _unSetTitleLabel.text = [args objectForKey:@"title"];
-    _subTitleLabel.text = [args objectForKey:@"sub_title"];
-//    NSString *set_sub = [args objectForKey:@"args"];
-//    if (set_sub) {
-//        _subTitleLabel.text = set_sub;
-//    }
+    BOOL isSeted = ((NSNumber*)[args objectForKey:@"is_seted"]).boolValue;
+    optionBtn.selected = isSeted;
+    
+    titleLabel.text = [args objectForKey:@"title"];
+    subTitlelabel.text = [args objectForKey:@"sub_title"];
     
     return nil;
 }

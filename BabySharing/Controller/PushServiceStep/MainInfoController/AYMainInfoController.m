@@ -27,14 +27,14 @@
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 
-#define becomeNapNormalModelFitHeight               (64+49 - 1)
-#define becomeNapAllreadyModelFitHeight               (64+49 + 44 - 1)
+#define becomeNapNormalModelFitHeight               (64+49)
+#define becomeNapAllreadyModelFitHeight               (64+49 + 44)
 
-#define servInfoNormalModelFitHeight                           (64 - 1)
-#define servInfoChangedModelFitHeight                           (64+44 - 1)
+#define servInfoNormalModelFitHeight                           (64)
+#define servInfoChangedModelFitHeight                           (64+44)
 
-#define napPushServNormalModelFitHeight               (64 - 1)
-#define napPushServAllreadyModelFitHeight               (64+44 - 1)
+#define napPushServNormalModelFitHeight               (64)
+#define napPushServAllreadyModelFitHeight               (64+44)
 
 typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
@@ -85,26 +85,26 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
                 [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
             }
-//            else if([key isEqualToString:@"nap_desc"]) {
-//                napDesc = [dic_info objectForKey:@"content"];
-//                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
-//                
-//            }
-            else if([key isEqualToString:@"nap_ages"]){     //2
+            else if([key isEqualToString:@"nap_desc"]) {    //1+
+                napDesc = [dic_info objectForKey:@"content"];
+                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
+                
+            }
+            else if([key isEqualToString:@"nap_ages"]){     //2+
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
                 
                 [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
                 
-            } else if([key isEqualToString:@"nap_theme"]){  //3
+            } else if([key isEqualToString:@"nap_theme"]){  //3+
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"cans"] forKey:@"cans"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
                 
                 [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                 
-            } else if([key isEqualToString:@"nap_cost"]){   //4
+            } else if([key isEqualToString:@"nap_cost"]){   //4+
                 
                 NSString *price = [dic_info objectForKey:@"price"];
                 [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:@"price"];
@@ -112,7 +112,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
                 
-            } else if([key isEqualToString:@"nap_adress"]){     //5
+            } else if([key isEqualToString:@"nap_adress"]){     //5+
                 
                 CLLocation *napLoc = [dic_info objectForKey:@"location"];
                 NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
@@ -128,7 +128,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
                 
-            } else if([key isEqualToString:@"nap_device"]){     //6
+            } else if([key isEqualToString:@"nap_device"]){     //6+
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"facility"] forKey:@"facility"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
@@ -193,9 +193,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     obj = (id)cmd_notify;
     [cmd_delegate performWithResult:&obj];
     
-    id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
+    id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
     NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_cell performWithResult:&photoCell];
+    [cmd_class performWithResult:&photoCell];
     
     confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];
@@ -209,7 +209,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     if (service_info) {
         
         NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_cell performWithResult:&editCell];
+        [cmd_class performWithResult:&editCell];
         
         NSDictionary *dic_info = [service_info copy];
         kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
@@ -224,7 +224,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
         
     } else {
-        id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+        
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_class performWithResult:&babyAgeCell];
         
@@ -236,9 +236,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [confirmSerBtn setTitle:@"提交我的服务" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
         
-        
         if (!isNapModel) {
-            
             UIView *tabbar = [[UIView alloc]init];
             tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
             [self.view addSubview:tabbar];
@@ -696,22 +694,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     return nil;
 }
 
-- (id)inputNapDescAction:(NSString*)args {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapDesc");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    if (args && ![args isEqualToString:@""]) {
-        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
-    }
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
 - (id)setNapBabyAges {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
     
@@ -766,11 +748,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"price"] forKey:@"price"];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"least_hours"] forKey:@"least_hours"];
-//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     if ([_service_change_dic objectForKey:@"price"]) {
         [dic_args setValue:[_service_change_dic objectForKey:@"price"] forKey:@"price"];
@@ -793,11 +770,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"address"] forKey:@"address"];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"adjust_address"] forKey:@"adjust_address"];
-//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     if ([_service_change_dic objectForKey:@"address"]) {
@@ -829,11 +801,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"facility"] forKey:@"facility"];
-//    [dic_args setValue:[_service_change_dic objectForKey:@"option_custom"] forKey:@"option_custom"];
-//    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     if ([_service_change_dic objectForKey:@"facility"]) {

@@ -150,7 +150,6 @@
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
-    
     <delegate type="TableViewDelegateAndDatasource" name="Profile" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeModel:" />
@@ -218,6 +217,7 @@
         <command type="message" message="changeQueryInfo:" />
         
         <command type="notify" message="inputNapTitleAction" />
+        <command type="notify" message="setServiceDesc:" />
         <command type="notify" message="setNapBabyAges" />
         <command type="notify" message="setNapTheme" />
         <command type="notify" message="setNapCost" />

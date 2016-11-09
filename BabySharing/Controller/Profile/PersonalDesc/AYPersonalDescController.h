@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYPersonalDescController : AYViewController
+@interface AYPersonalDescController : AYViewController <UITextViewDelegate>
 
 @end

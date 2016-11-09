@@ -16,12 +16,6 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 
-@interface AYNapBabyAgeCellView ()
-@property (weak, nonatomic) IBOutlet UILabel *unSetTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
-
-@end
-
 @implementation AYNapBabyAgeCellView {
     NSString *title;
     NSString *content;
@@ -42,11 +36,12 @@
             make.bottom.equalTo(self.mas_centerY);
         }];
         
-        subTitlelabel = [Tools creatUILabelWithText:@"'" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:subTitlelabel];
         [subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(titleLabel);
             make.top.equalTo(self.mas_centerY);
+            make.right.equalTo(self).offset(-60);
         }];
         
         optionBtn = [[UIButton alloc]init];
@@ -55,12 +50,15 @@
         [optionBtn setImage:[UIImage imageNamed:@"icon_pick_selected"] forState:UIControlStateSelected];
         [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-20);
+            make.right.equalTo(self).offset(-15);
             make.size.mas_equalTo(CGSizeMake(25, 25));
         }];
+        optionBtn.selected = NO;
+        optionBtn.userInteractionEnabled = NO;
         
         CALayer *separator = [CALayer layer];
-        separator.frame = CGRectMake(10, 69.5, [UIScreen mainScreen].bounds.size.width - 20, 0.5);
+        CGFloat margin = 0;
+        separator.frame = CGRectMake(margin, 0, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
         separator.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:separator];
         
@@ -71,9 +69,8 @@
     return self;
 }
 
--(void)layoutSubviews{
+- (void)layoutSubviews {
     [super layoutSubviews];
-    
 }
 
 @synthesize para = _para;
@@ -131,7 +128,9 @@
 
 - (id)setCellInfo:(NSDictionary*)args {
     
-    optionBtn.selected = YES;
+    BOOL isSeted = ((NSNumber*)[args objectForKey:@"is_seted"]).boolValue;
+    optionBtn.selected = isSeted;
+    
     titleLabel.text = [args objectForKey:@"title"];
     subTitlelabel.text = [args objectForKey:@"sub_title"];
     

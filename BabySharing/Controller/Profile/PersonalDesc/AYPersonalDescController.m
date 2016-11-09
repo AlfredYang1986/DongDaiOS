@@ -22,10 +22,6 @@
 #define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   88
 
-@interface AYPersonalDescController ()<UITextViewDelegate>
-
-@end
-
 @implementation AYPersonalDescController {
     UITextView *inputTitleTextView;
     UILabel *countlabel;
@@ -106,7 +102,6 @@
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
-    
     return nil;
 }
 

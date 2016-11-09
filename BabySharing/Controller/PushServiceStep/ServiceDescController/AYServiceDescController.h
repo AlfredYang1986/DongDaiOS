@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYInputNapDescController : AYViewController
+@interface AYServiceDescController : AYViewController <UITextViewDelegate>
 
 @end

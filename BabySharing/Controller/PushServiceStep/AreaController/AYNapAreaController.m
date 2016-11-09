@@ -24,6 +24,7 @@
 
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 #define FAKE_BAR_HEIGHT             44
+#define locBGViewHeight                 175
 
 @interface AYNapAreaController () <CLLocationManagerDelegate>
 @property (nonatomic, strong) CLLocationManager  *manager;
@@ -301,11 +302,11 @@
 
 - (void)didNextBtnClick:(UIButton*)btn {
     
-    if ([adjustAdress.text isEqualToString:@""]) {
-        NSString *title = @"请完成具体地址设置";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return;
-    }
+//    if ([adjustAdress.text isEqualToString:@""]) {
+//        NSString *title = @"请完成具体地址设置";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return;
+//    }
     
     id<AYCommand> setting = DEFAULTCONTROLLER(@"MainInfo");
     
@@ -359,4 +360,21 @@
     return nil;
 }
 
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+    
+    NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+    [UIView animateWithDuration:0.25f animations:^{
+        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
+    }];
+    return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+    
+    [UIView animateWithDuration:0.25f animations:^{
+        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_WIDTH, locBGViewHeight);
+    }];
+    return nil;
+}
 @end

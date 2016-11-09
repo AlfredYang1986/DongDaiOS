@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYInputNapDescController.h"
+#import "AYServiceDescController.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFacadeBase.h"
@@ -14,20 +14,14 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define LIMITNUMB                   228
+#define LIMITNUMB                   88
 
-@interface AYInputNapDescController ()<UITextViewDelegate>
-
-@end
-
-@implementation AYInputNapDescController{
-    UITextView *inputTitleTextView;
+@implementation AYServiceDescController {
+    UITextView *descTextView;
     UILabel *countlabel;
     NSString *setedTitleString;
 }
@@ -55,33 +49,33 @@
     self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    inputTitleTextView = [[UITextView alloc]init];
-    [self.view addSubview:inputTitleTextView];
+    descTextView = [[UITextView alloc]init];
+    [self.view addSubview:descTextView];
     if (setedTitleString) {
-        inputTitleTextView.text = setedTitleString;
+        descTextView.text = setedTitleString;
     }
-    inputTitleTextView.font = [UIFont systemFontOfSize:14.f];
-    inputTitleTextView.textColor = [Tools blackColor];
-    inputTitleTextView.delegate = self;
-    [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+    descTextView.font = [UIFont systemFontOfSize:14.f];
+    descTextView.textColor = [Tools blackColor];
+    descTextView.delegate = self;
+    [descTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(84);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 60, 200));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
     }];
     
     countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedTitleString.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputTitleTextView.mas_bottom).offset(10);
-        make.right.equalTo(self.view).offset(-10);
+        make.bottom.equalTo(descTextView.mas_bottom).offset(-10);
+        make.right.equalTo(descTextView).offset(-10);
     }];
     
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [inputTitleTextView becomeFirstResponder];
+    [descTextView becomeFirstResponder];
 }
 
 #pragma mark -- layout
@@ -93,45 +87,27 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+    NSString *title = @"服务描述";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
-    bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
     [bar_right_btn sizeToFit];
     bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @"经历简述";
-    titleView.font = [UIFont systemFontOfSize:16.f];
-    titleView.textColor = [Tools blackColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 #pragma mark -- UITextDelegate
-- (void)textViewDidChange:(UITextView *)textView{
+- (void)textViewDidChange:(UITextView *)textView {
     NSInteger count = textView.text.length;
     if (count > LIMITNUMB) {
-        inputTitleTextView.text = [textView.text substringToIndex:LIMITNUMB];
+        descTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }
     countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
 }
@@ -146,6 +122,7 @@
     [cmd performWithResult:&dic];
     return nil;
 }
+
 - (id)rightBtnSelected {
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -153,20 +130,15 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:inputTitleTextView.text forKey:@"content"];
+    [dic_info setValue:descTextView.text forKey:@"content"];
     [dic_info setValue:@"nap_desc" forKey:@"key"];
-    
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
-    [inputTitleTextView resignFirstResponder];
-    
+    [descTextView resignFirstResponder];
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-    return nil;
-}
 @end

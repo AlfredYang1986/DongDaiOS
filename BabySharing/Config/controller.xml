@@ -649,6 +649,8 @@
     </controller>
     
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="Keyboard" notification="true" />
+        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="NapAreaMap"     name="NapAreaMap" />
@@ -678,10 +680,9 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
     </controller>
     
-    <controller type="DefaultController" name="InputNapDesc" factory="AYDefaultControllerFactoy" >
+    <controller type="DefaultController" name="ServiceDesc" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
     <controller type="DefaultController" name="SetNapAges" factory="AYDefaultControllerFactoy" >

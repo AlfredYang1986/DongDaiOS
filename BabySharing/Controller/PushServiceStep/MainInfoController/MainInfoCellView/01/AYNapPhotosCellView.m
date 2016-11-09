@@ -17,16 +17,14 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-@interface AYNapPhotosCellView ()
-@property (weak, nonatomic) IBOutlet UIImageView *photoImage;
-@property (weak, nonatomic) IBOutlet UIButton *addPhotoBtn;
-@property (weak, nonatomic) IBOutlet UILabel *subTitleLabel;
-
-@end
-
 @implementation AYNapPhotosCellView {
     NSString *title;
     NSString *content;
+    
+    UIButton *addPhotoBtn;
+    UILabel *subTitleLabel;
+    UIButton *optionBtn;
+    UIImageView *photoCover;
 }
 
 @synthesize para = _para;
@@ -34,18 +32,57 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-    _photoImage.contentMode = UIViewContentModeScaleAspectFill;
-    _photoImage.clipsToBounds = YES;
-    _photoImage.userInteractionEnabled = YES;
-    [_photoImage addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
-    
-//    _subTitleLabel.text = @"高质量的图片\n可以更好的展现您的服务或场地";
-    self.backgroundColor = [Tools garyBackgroundColor];
-    
-    [self setUpReuseCell];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加照片" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        [self addSubview:addPhotoBtn];
+        [addPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.mas_centerY).offset(-5);
+            make.centerX.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(100, 24));
+        }];
+        [addPhotoBtn addTarget:self action:@selector(addPhotoBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        subTitleLabel = [Tools creatUILabelWithText:@"分享您和孩子之间的故事更打动人" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        [self addSubview:subTitleLabel];
+        [subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(addPhotoBtn);
+            make.top.equalTo(self.mas_centerY).offset(5);
+        }];
+        
+        photoCover = [[UIImageView alloc]init];
+        [self addSubview:photoCover];
+        [photoCover mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+        photoCover.hidden = YES;
+        photoCover.contentMode = UIViewContentModeScaleAspectFill;
+        photoCover.clipsToBounds = YES;
+        
+        photoCover.userInteractionEnabled = YES;
+        [photoCover addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
+        
+        self.backgroundColor = [Tools garyBackgroundColor];
+        
+        optionBtn = [[UIButton alloc]init];
+        [self addSubview:optionBtn];
+        [self bringSubviewToFront:optionBtn];
+        [optionBtn setImage:[UIImage imageNamed:@"icon_pick"] forState:UIControlStateNormal];
+        [optionBtn setImage:[UIImage imageNamed:@"icon_pick_selected"] forState:UIControlStateSelected];
+        [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self).offset(-20);
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(25, 25));
+        }];
+        optionBtn.selected = NO;
+        
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
+    }
+    return self;
 }
 
 -(void)layoutSubviews{
@@ -106,42 +143,30 @@
     [cmd performWithResult:nil];
 }
 
-- (IBAction)addPhotoBtnClick:(id)sender {
+- (void)addPhotoBtnClick {
     id<AYCommand> cmd = [self.notifies objectForKey:@"addPhotosAction"];
     [cmd performWithResult:nil];
 }
 
 - (id)setCellInfo:(id)args {
-    _photoImage.hidden = NO;
+    
+    photoCover.hidden = NO;
+    optionBtn.selected = YES;
     
     if ([args isKindOfClass:[UIImage class]]) {
-        _photoImage.image = (UIImage*)args;
+        photoCover.image = (UIImage*)args;
     } else if ([args isKindOfClass:[NSString class]]) {
         
         NSString* photo_name = (NSString*)args;
-//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//        [dic setValue:photo_name forKey:@"image"];
-//        [dic setValue:@"img_local" forKey:@"expect_size"];
-//        
-//        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//            UIImage* img = (UIImage*)result;
-//            if (img != nil) {
-//                _photoImage.image = img;
-//            }
-//        }];
-        
         id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
         NSString *pre = cmd.route;
-        [_photoImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                      placeholderImage:IMGRESOURCE(@"default_image")];
+        [photoCover sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
         
     }
     
-    _addPhotoBtn.hidden = YES;
-    _subTitleLabel.hidden = YES;
+    addPhotoBtn.hidden = YES;
+    subTitleLabel.hidden = YES;
     return nil;
 }
 @end
