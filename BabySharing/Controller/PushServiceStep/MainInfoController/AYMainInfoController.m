@@ -149,7 +149,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (BOOL)isAllArgsReady {
-    
     NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
     NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
     return isAllResady.count == 0 ? YES : NO;
@@ -367,32 +366,15 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             
             id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
             AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
-            [cmd_push performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+            
+            NSMutableDictionary* nsd = [_service_change_dic mutableCopy];
+            [nsd setValue:[NSNumber numberWithInt:1] forKey:@"is_service_provider"];
+            
+            [cmd_push performWithResult:nsd andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
-                    //发布服务需两步：1上传 -> 2发布
-                    NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
-                    [dic_publish setValue:[user_info objectForKey:@"user_id"] forKey:@"owner_id"];
-                    [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-                    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
-                    [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-                        if (success) {
-                            /**
-                             *  change profile info in coredata
-                             */
-                            id<AYFacadeBase> facade = LOGINMODEL;
-                            id<AYCommand> cmd_profle = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-                            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_service_provider"];
-                            [cmd_profle performWithResult:&dic];
-                            
-                            NSString *tip = @"服务发布成功,去管理日程?";
-                            [self popToRootVCWithTip:tip];
-                        } else {
-                            
-                            NSString *title = @"服务发布失败";
-                            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                        }
-                    }];
+                    NSString *tip = @"服务发布成功,去管理日程?";
+                    [self popToRootVCWithTip:tip];
+                    
                 } else {
                     NSLog(@"push error with:%@",result);
                     NSString *title = @"服务上传失败";

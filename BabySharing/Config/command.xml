@@ -199,13 +199,16 @@
     <command type="Remote" name="SearchRoleTagWithPreviews" route="roletags/queryRoleTagPreViewWithRoleTag" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryContentsWithTag" route="tags/queryContentsWithTag" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="PushServiceInfo"   route="kidnap/push"     factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="PushServiceInfo"   route="kidnap/push"     factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="PushServiceInfo"   route="v2/kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PublishService"    route="kidnap/publish"  factory="AYRemoteCallFactory" />
     <command type="Remote" name="PopMyService"      route="kidnap/pop" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateMyService"   route="kidnap/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RevertMyService"   route="kidnap/revert" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="SearchFiltService" route="kidnap/search" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="SearchFiltService" route="kidnap/search" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="SearchFiltService" route="v2/kidnap/search" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="QueryMyService"    route="v2/kidnap/mine" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />

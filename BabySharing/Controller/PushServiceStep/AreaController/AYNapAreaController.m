@@ -176,11 +176,10 @@
         make.centerX.equalTo(locBGView);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 50));
     }];
-    
+   
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture)];
     [self.view addGestureRecognizer:tap];
-    
 }
 
 - (void)tapGesture {
