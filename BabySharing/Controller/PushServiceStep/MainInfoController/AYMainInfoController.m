@@ -397,13 +397,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_revert setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
     [dic_revert setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     //1.撤销服务
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"RevertMyService"];
-    [cmd_push performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
+//    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+//    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"RevertMyService"];
+//    [cmd_push performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//        if (success) {
             //2.更新
             
-            [_service_change_dic setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
+//            [_service_change_dic setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
             if (napPhotos.count != 0) {
                 NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
                 for (int index = 0; index < napPhotos.count; ++index) {
@@ -453,15 +453,15 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [self updateService];
             }
             
-        } else {
-            NSLog(@"push error with:%@",result);
-            if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
-                
-                NSString *title = @"服务撤销失败,该服务状态错误";
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            }
-        }
-    }];
+//        } else {
+//            NSLog(@"push error with:%@",result);
+//            if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
+//                
+//                NSString *title = @"服务撤销失败,该服务状态错误";
+//                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//            }
+//        }
+//    }];
 }
 
 - (void)updateService {
@@ -469,36 +469,52 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     CURRENUSER(args)
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
+    [_service_change_dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     [cmd_publish performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
+            
+            confirmSerBtn.hidden = YES;
+            UIView *view = [self.views objectForKey:@"Table"];
+            view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
+            
+            NSString *title = @"服务信息已更新";
+            // id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+            id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
+            id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+            
+            NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+            [dic_alert setValue:title forKey:@"title"];
+            [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
+            [cmd_alert performWithResult:&dic_alert];
+            
             //3.重新发布
-            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
-            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
-            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-                if (success) {
-                    
-                    confirmSerBtn.hidden = YES;
-                    UIView *view = [self.views objectForKey:@"Table"];
-                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
-                    
-                    NSString *title = @"服务信息已更新";
-//                    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
-                    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-                    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-                    
-                    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-                    [dic_alert setValue:title forKey:@"title"];
-                    [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
-                    [cmd_alert performWithResult:&dic_alert];
-                    
-                } else {
-                    
-                    NSString *title = @"服务信息已更新,发布失败";
-                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                }
-            }];
+//            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
+//            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
+//            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
+//            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
+//            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//                if (success) {
+//                    
+//                    confirmSerBtn.hidden = YES;
+//                    UIView *view = [self.views objectForKey:@"Table"];
+//                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
+//                    
+//                    NSString *title = @"服务信息已更新";
+////                    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
+//                    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
+//                    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
+//                    
+//                    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
+//                    [dic_alert setValue:title forKey:@"title"];
+//                    [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
+//                    [cmd_alert performWithResult:&dic_alert];
+//                    
+//                } else {
+//                    
+//                    NSString *title = @"服务信息已更新,发布失败";
+//                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//                }
+//            }];
         } else {
             
             NSString *title = @"服务信息更新失败";

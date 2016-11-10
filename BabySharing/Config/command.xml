@@ -202,8 +202,10 @@
 <!--    <command type="Remote" name="PushServiceInfo"   route="kidnap/push"     factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="PushServiceInfo"   route="v2/kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PublishService"    route="kidnap/publish"  factory="AYRemoteCallFactory" />
-    <command type="Remote" name="PopMyService"      route="kidnap/pop" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UpdateMyService"   route="kidnap/update" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="PopMyService"      route="kidnap/pop" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="PopMyService"      route="v2/kidnap/pop" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="UpdateMyService"   route="kidnap/update" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="UpdateMyService"   route="v2/kidnap/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RevertMyService"   route="kidnap/revert" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="SearchFiltService" route="kidnap/search" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="SearchFiltService" route="v2/kidnap/search" factory="AYRemoteCallFactory" />

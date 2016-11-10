@@ -142,34 +142,42 @@
     [dic_revert setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     //1.撤销服务
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_revert  = [facade.commands objectForKey:@"RevertMyService"];
-    [cmd_revert performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            
+//    AYRemoteCallCommand *cmd_revert  = [facade.commands objectForKey:@"RevertMyService"];
+//    [cmd_revert performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//        if (success) {
+    
             AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyService"];
             [cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
                 if (success) {
                     
-                    NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
-                    [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-                    [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-                    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
-                    [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-                        if (success) {
-                            
-                            NSString *title = @"日程已修改";
-                            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                            
-                            NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-                            kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
-                            
-                            isChangeCalendar = YES;
-                        }
-                    }];
+                    NSString *title = @"日程已修改";
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                    
+                    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+                    kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
+                    
+                    isChangeCalendar = YES;
+                    
+//                    NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
+//                    [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
+//                    [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
+//                    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
+//                    [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//                        if (success) {
+//                            
+//                            NSString *title = @"日程已修改";
+//                            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//                            
+//                            NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+//                            kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
+//                            
+//                            isChangeCalendar = YES;
+//                        }
+//                    }];
                 }
             }];
-        }
-    }];
+//        }
+//    }];
     
     return nil;
 }
