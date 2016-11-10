@@ -315,12 +315,18 @@
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *type_info = [[NSMutableDictionary alloc]init];
-    [type_info setValue:type forKey:@"type"];
-    [type_info setValue:navTitleStr forKey:@"distinct"];
-    [type_info setValue:adressLabel forKey:@"address"];
-    [type_info setValue:adjustAdress forKey:@"adjust_address"];
-    [dic_push setValue:type_info forKey:kAYControllerChangeArgsKey];
+    NSMutableDictionary *loc_info = [[NSMutableDictionary alloc]init];
+//    [loc_info setValue:type forKey:@"type"];
+    
+    NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
+    [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
+    [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
+    
+    [loc_info setValue:location forKey:@"location"];
+    [loc_info setValue:navTitleStr forKey:@"distinct"];
+    [loc_info setValue:adressLabel forKey:@"address"];
+    [loc_info setValue:adjustAdress forKey:@"adjust_address"];
+    [dic_push setValue:loc_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

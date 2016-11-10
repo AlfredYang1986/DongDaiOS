@@ -28,7 +28,7 @@
     
     NSNumber *napThemeNote;
     
-    NSString *napCost;
+    NSNumber *napCost;
     
     NSString *napAdress;
     
@@ -151,7 +151,6 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return 7;
 }
 
@@ -197,11 +196,11 @@
             [cell_info setValue:theme forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
-        else if (napTitle && indexPath.row == 2) {
+        else if (napTitle && ![napTitle isEqualToString:@""] && indexPath.row == 2) {
             [cell_info setValue:napTitle forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
-        else if (napDesc && indexPath.row == 3) {
+        else if (napDesc && ![napDesc isEqualToString:@""] && indexPath.row == 3) {
             [cell_info setValue:napDesc forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
@@ -212,7 +211,7 @@
             [cell_info setValue:ages forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
-        else if (napCost && indexPath.row == 5) {
+        else if (napCost.floatValue != 0 && indexPath.row == 5) {
             NSString *price = [NSString stringWithFormat:@"￥ %@/小时",napCost];
             [cell_info setValue:price forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];

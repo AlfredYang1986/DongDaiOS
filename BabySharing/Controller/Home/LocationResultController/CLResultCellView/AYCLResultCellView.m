@@ -138,26 +138,12 @@
     NSString* photo_name = [[dic objectForKey:@"images"] objectAtIndex:0];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    
-//    NSMutableDictionary* dic_img = [[NSMutableDictionary alloc]init];
-//    [dic_img setValue:photo_name forKey:@"image"];
-//    [dic_img setValue:@"img_desc" forKey:@"expect_size"];
-//
-//    [cmd performWithResult:[dic_img copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//        UIImage* img = (UIImage*)result;
-//        if (img != nil) {
-//            _mainImage.image = img;
-//        }
-//    }];
-    
     NSString *pre = cmd.route;
     [_mainImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                             placeholderImage:IMGRESOURCE(@"default_image")];
     
     BOOL isLike = ((NSNumber*)[dic objectForKey:@"is_heart"]).boolValue;
-    if (isLike) {
-        _likeBtn.selected = YES;
-    } else _likeBtn.selected = NO;
+     _likeBtn.selected = isLike;
     
     NSString *title = [dic objectForKey:@"title"];
     _descLabel.text = title;

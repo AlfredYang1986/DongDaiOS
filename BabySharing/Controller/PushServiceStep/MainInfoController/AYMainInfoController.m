@@ -33,14 +33,13 @@
 #define servInfoNormalModelFitHeight                           (64)
 #define servInfoChangedModelFitHeight                           (64+44)
 
-#define napPushServNormalModelFitHeight               (64)
+#define napPushServNormalModelFitHeight               (64+44)
 #define napPushServAllreadyModelFitHeight               (64+44)
 
 typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 @implementation AYMainInfoController {
     
-    NSString *areaString;
     NSNumber *type;
     
     NSArray *napPhotos;
@@ -64,9 +63,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         if ([args objectForKey:@"owner_id"]) {
             service_info = args;
             
-        } else if ([args objectForKey:@"type"]) {
-            areaString = [args objectForKey:@"area"];
-            type = [args objectForKey:@"type"];
+        } else if ([args objectForKey:@"location"]) {
+            _service_change_dic = [args mutableCopy];
         }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -79,91 +77,82 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
-                
-            } else if([key isEqualToString:@"nap_title"]) {  //1
-                
-                [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
-                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_desc"]) {    //1+
-                napDesc = [dic_info objectForKey:@"content"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
-                
-            }
-            else if([key isEqualToString:@"nap_ages"]){     //2+
-                
-                [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
-                
-                [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
-                
-            } else if([key isEqualToString:@"nap_theme"]){  //3+
+            else if([key isEqualToString:@"nap_theme"]){  //1
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"cans"] forKey:@"cans"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
                 
-                [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+            }
+            else if([key isEqualToString:@"nap_title"]) {  //2
                 
-            } else if([key isEqualToString:@"nap_cost"]){   //4+
+                [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
+                
+                [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
+            }
+            else if([key isEqualToString:@"nap_desc"]) {    //3
+                napDesc = [dic_info objectForKey:@"content"];
+                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
+                [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+            }
+            else if([key isEqualToString:@"nap_ages"]){     //4
+                
+                [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+                [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
+                
+                [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
+            }
+            else if([key isEqualToString:@"nap_cost"]){   //5
                 
                 NSString *price = [dic_info objectForKey:@"price"];
                 [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:@"price"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"least_hours"] forKey:@"least_hours"];
                 
-                [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
-                
-            } else if([key isEqualToString:@"nap_adress"]){     //5+
-                
-                CLLocation *napLoc = [dic_info objectForKey:@"location"];
-                NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.latitude] forKey:@"latitude"];
-                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.longitude] forKey:@"longtitude"];
-                
-                NSString *address = [dic_info objectForKey:@"address"];
-                NSString *adjust_address = [dic_info objectForKey:@"adjust_address"];
-                
-                [_service_change_dic setValue:location forKey:@"location"];
-                [_service_change_dic setValue:address forKey:@"address"];
-                [_service_change_dic setValue:adjust_address forKey:@"adjust_address"];
-                
                 [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
-                
-            } else if([key isEqualToString:@"nap_device"]){     //6+
+            }
+//            else if([key isEqualToString:@"nap_adress"]){     //5+
+//                
+//                CLLocation *napLoc = [dic_info objectForKey:@"location"];
+//                NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
+//                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.latitude] forKey:@"latitude"];
+//                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.longitude] forKey:@"longtitude"];
+//                
+//                NSString *address = [dic_info objectForKey:@"address"];
+//                NSString *adjust_address = [dic_info objectForKey:@"adjust_address"];
+//                
+//                [_service_change_dic setValue:location forKey:@"location"];
+//                [_service_change_dic setValue:address forKey:@"address"];
+//                [_service_change_dic setValue:adjust_address forKey:@"adjust_address"];
+//                
+//                [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
+//            }
+            else if([key isEqualToString:@"nap_device"]){     //6
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"facility"] forKey:@"facility"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-                
-//                [_noteAllArgs replaceObjectAtIndex:6 withObject:[NSNumber numberWithBool:YES]];
             }
             
-            [self isAllArgsReady];
-            
+            if (service_info) {
+                [self ServiceInfoChanged];
+            }
             kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
             kAYViewsSendMessage(@"Table", @"refresh", nil)
         }
     }
 }
 
-- (void)isAllArgsReady {
+- (void)ServiceInfoChanged {
+    confirmSerBtn.hidden = NO;
+    UIView *view = [self.views objectForKey:@"Table"];
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoChangedModelFitHeight);
+}
+
+- (BOOL)isAllArgsReady {
     
-    if (!service_info) {
-        
-        NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-        NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
-        
-        if (isAllResady.count == 0 ) {
-            
-            confirmSerBtn.hidden = NO;
-            UIView *view = [self.views objectForKey:@"Table"];
-            view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - (isNapModel?napPushServAllreadyModelFitHeight:becomeNapAllreadyModelFitHeight));
-        }
-    } else {
-        
-        confirmSerBtn.hidden = NO;
-        UIView *view = [self.views objectForKey:@"Table"];
-        view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoChangedModelFitHeight);
-    }
-    
+    NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
+    NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
+    return isAllResady.count == 0 ? YES : NO;
 }
 
 #pragma mark -- life cycle
@@ -172,7 +161,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    _service_change_dic = [[NSMutableDictionary alloc]init];
+    if (!_service_change_dic) {
+        _service_change_dic = [[NSMutableDictionary alloc]init];
+    }
     
     if (!service_info) {
         _noteAllArgs = [[NSMutableArray alloc]init];
@@ -180,7 +171,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
         }
     }
-    
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
@@ -203,8 +193,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [self.view addSubview:confirmSerBtn];
     confirmSerBtn.hidden = YES;
     
-    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
+//    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+//    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
     
     if (service_info) {
         
@@ -228,44 +218,14 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_class performWithResult:&babyAgeCell];
         
+        confirmSerBtn.hidden = NO;
         [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view).offset((isNapModel?0:-49));
+            make.bottom.equalTo(self.view).offset(0);
             make.centerX.equalTo(self.view);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
         }];
-        [confirmSerBtn setTitle:@"提交我的服务" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(conmitMyService) forControlEvents:UIControlEventTouchUpInside];
-        
-        if (!isNapModel) {
-            UIView *tabbar = [[UIView alloc]init];
-            tabbar.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
-            [self.view addSubview:tabbar];
-            [tabbar mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.bottom.equalTo(self.view);
-                make.left.equalTo(self.view);
-                make.right.equalTo(self.view);
-                make.height.mas_equalTo(49);
-            }];
-            CALayer *line = [CALayer layer];
-            line.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
-            line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-            [tabbar.layer addSublayer:line];
-            
-            UIButton *me = [[UIButton alloc]init];
-            [tabbar addSubview:me];
-            [me setImage:IMGRESOURCE(@"tab_profile") forState:UIControlStateNormal];
-            me.imageEdgeInsets = UIEdgeInsetsMake(-5, 10, 5, -10);
-            [me setTitle:@"我的" forState:UIControlStateNormal];
-            [me setTitleColor:[UIColor colorWithWhite:0.6078 alpha:1.f] forState:UIControlStateNormal];
-            me.titleLabel.font = [UIFont systemFontOfSize:9.f];
-            me.titleEdgeInsets = UIEdgeInsetsMake(15, -12, -15, 12);
-            [me mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(tabbar).offset(-20);
-                make.centerY.equalTo(tabbar);
-                make.size.mas_equalTo(CGSizeMake(50, 44));
-            }];
-            [me addTarget:self action:@selector(didMeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        }
+        [confirmSerBtn setTitle:@"下一步" forState:UIControlStateNormal];
+        [confirmSerBtn addTarget:self action:@selector(pushServiceTodoNext) forControlEvents:UIControlEventTouchUpInside];
         
     }
 }
@@ -295,13 +255,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (id)TableLayout:(UIView*)view {
-    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
+//    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+//    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
     CGFloat fit_height = 0;
     if (service_info) {
         fit_height = servInfoNormalModelFitHeight;
     } else {
-        fit_height = isNapModel?napPushServNormalModelFitHeight:becomeNapNormalModelFitHeight;
+        fit_height = napPushServNormalModelFitHeight;
     }
     
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - fit_height);
@@ -347,8 +307,14 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [self popToRootVCWithTip:nil];
 }
 
-#pragma mark -- 提交/更新服务
-- (void)conmitMyService {
+#pragma mark -- 提交服务
+- (void)pushServiceTodoNext {
+    
+    if (![self isAllArgsReady]) {
+        NSString *title = @"请完成所有必选参数设置";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return;
+    }
     
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
     NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
@@ -398,9 +364,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             
             [_service_change_dic setValue:[user_info objectForKey:@"user_id"]  forKey:@"owner_id"];
             [_service_change_dic setObject:arr_items forKey:@"images"];
-            if (areaString) {
-                [_service_change_dic setValue:areaString forKey:@"distinct"];
-            }
             
             id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
             AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
@@ -592,9 +555,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         }
         
         [_service_change_dic setValue:napPhotos forKey:@"images"];
-        if (areaString) {
-            [_service_change_dic setValue:areaString forKey:@"distinct"];
-        }
         [dic_args setValue:[_service_change_dic copy] forKey:kAYControllerChangeArgsKey];
     }
     id<AYCommand> cmd_show_module = PUSH;
@@ -644,26 +604,25 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         for (int i = 0; i < namesArr.count; ++i) {
             NSString* photo_name = namesArr[i];
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:photo_name forKey:@"image"];
-            [dic setValue:@"img_local" forKey:@"expect_size"];
-            
             id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                UIImage* img = (UIImage*)result;
-                if (img != nil) {
-                    [tmp addObject:img];
-                    if (tmp.count == namesArr.count) {
-                        [dic_push_photos setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[cmd.route stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                
+            } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+                if (finished) {
+                    [tmp addObject:image];
+                    if (tmp.count == namesArr.count) {  //所有图片准备完毕
                         
                         [HUBView removeFromSuperview];
+                        
+                        [dic_push_photos setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
                         id<AYCommand> cmd = PUSH;
                         NSDictionary *tmp = [dic_push_photos copy];
                         [cmd performWithResult:&tmp];
                     }
                 }
             }];
+            
         }
         
     } else {
