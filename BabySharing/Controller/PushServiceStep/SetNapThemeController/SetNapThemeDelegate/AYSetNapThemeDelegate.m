@@ -11,15 +11,11 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-@interface AYSetNapThemeDelegate ()
-@property (nonatomic, strong) NSDictionary* querydata;
-@end
-
 @implementation AYSetNapThemeDelegate {
-    NSArray *options_title_cats;
+    NSArray *options_title_cans;
+    NSDictionary* querydata;
+    BOOL isCanSet;
 }
-
-@synthesize querydata = _querydata;
 
 #pragma mark -- command
 @synthesize para = _para;
@@ -28,7 +24,8 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    options_title_cats = kAY_service_options_title_cans;
+    options_title_cans = kAY_service_options_title_cans;
+    isCanSet = NO;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -47,22 +44,28 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
--(id)queryData:(NSDictionary*)args {
-    _querydata = args;
+- (id)queryData:(NSDictionary*)args {
+    querydata = args;
+    NSInteger notePow = ((NSNumber*)[querydata objectForKey:@"cans"]).integerValue;
+    isCanSet = notePow != 1 && notePow != 0;
+    return nil;
+}
+
+- (id)changeEditMode:(NSNumber*)args {
+    isCanSet = args.boolValue;
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
-        
-        return options_title_cats.count;
-    } else
         return 1;
+    } else
+        return options_title_cans.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -72,16 +75,27 @@
     cell.controller = _controller;
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[_querydata objectForKey:@"isShow"] forKey:@"isShow"];
+    
     if (indexPath.section == 0) {
-        [dic setValue:[options_title_cats objectAtIndex:indexPath.row] forKey:@"title"];
-        [dic setValue:[_querydata objectForKey:@"nap_theme"] forKey:@"nap_theme"];
-        [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
-    } else {
-        NSString *allowLeaveStr = @"可以提供看护";
-        [dic setValue:allowLeaveStr forKey:@"title"];
-        [dic setValue:[_querydata objectForKey:@"allow_leave"] forKey:@"isAllowLeaveOption"];
+        [dic setValue:[options_title_cans objectAtIndex:0] forKey:@"title"];
+        [dic setValue:[querydata objectForKey:@"cans"] forKey:@"cans"];
+        [dic setValue:[NSNumber numberWithInteger:0] forKey:@"index"];
     }
+    else {
+        if (indexPath.row == options_title_cans.count - 1) {
+            NSString *allowLeaveStr = @"服务期间需要家长陪伴";
+            [dic setValue:allowLeaveStr forKey:@"title"];
+            [dic setValue:[querydata objectForKey:@"allow_leave"] forKey:@"allow_leave"];
+            [dic setValue:[NSNumber numberWithBool:isCanSet] forKey:@"is_can_set"];
+            
+        } else {
+            [dic setValue:[options_title_cans objectAtIndex:indexPath.row + 1] forKey:@"title"];
+            [dic setValue:[querydata objectForKey:@"cans"] forKey:@"cans"];
+            [dic setValue:[NSNumber numberWithInteger:indexPath.row + 1] forKey:@"index"];
+        }
+        
+    }
+    
     id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [set_cmd performWithResult:&dic];
     
@@ -92,7 +106,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 45;
+    return 55;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{

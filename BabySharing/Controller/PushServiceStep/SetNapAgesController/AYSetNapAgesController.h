@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYSetNapAgesController : AYViewController
+@interface AYSetNapAgesController : AYViewController<UITextViewDelegate>
 
 @end

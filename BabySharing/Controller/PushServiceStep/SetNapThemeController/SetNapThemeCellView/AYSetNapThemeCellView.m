@@ -39,6 +39,11 @@
         NSLog(@"init reuse identifier");
         self.backgroundColor = [UIColor whiteColor];
         
+        CALayer *btm_line = [[CALayer alloc]init];
+        btm_line.frame = CGRectMake(0, 0, SCREEN_WIDTH - 40, 1);
+        btm_line.backgroundColor = [Tools garyBackgroundColor].CGColor;
+        [self.layer addSublayer:btm_line];
+        
         titleLabel = [[UILabel alloc]init];
         titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
@@ -144,34 +149,34 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)args {
     
-    BOOL isShow = ((NSNumber*)[args objectForKey:@"isShow"]).boolValue;
-    if (isShow) {
-        optionBtn.userInteractionEnabled = NO;
-    }
-    
     titleLabel.text = [args objectForKey:@"title"];
+    optionBtn.enabled = YES;
     
     NSNumber *cell_index = [args objectForKey:@"index"];
     if (cell_index) {
-        
+        titleLabel.textColor = [Tools blackColor];
         NSInteger index_tag = cell_index.integerValue;
         optionBtn.tag = index_tag;
-        NSInteger notePow = ((NSNumber*)[args objectForKey:@"nap_theme"]).integerValue;
+        NSInteger notePow = ((NSNumber*)[args objectForKey:@"cans"]).integerValue;
         optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
+        
         if (optionBtn.selected) {
             id<AYCommand> cmd = [self.notifies objectForKey:@"didSetNoteBtn:"];
             UIButton *btn = optionBtn;
             [cmd performWithResult:&btn];
         }
         
-        CALayer *btm_line = [[CALayer alloc]init];
-        btm_line.frame = CGRectMake(2, 44.5, self.bounds.size.width - 4, 0.5);
-        btm_line.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:btm_line];
-        
     } else {
+        NSNumber *isCanSet = [args objectForKey:@"is_can_set"];
+        if (isCanSet.boolValue) {
+            titleLabel.textColor = [Tools themeColor];
+            optionBtn.enabled = YES;
+        } else {
+            titleLabel.textColor = [Tools garyColor];
+            optionBtn.enabled = NO;
+        }
         
-        BOOL isAllowLeaveOption = ((NSNumber*)[args objectForKey:@"isAllowLeaveOption"]).boolValue;
+        BOOL isAllowLeaveOption = ((NSNumber*)[args objectForKey:@"allow_leave"]).boolValue;
         optionBtn.selected = isAllowLeaveOption;
         optionBtn.tag = 99;
     }

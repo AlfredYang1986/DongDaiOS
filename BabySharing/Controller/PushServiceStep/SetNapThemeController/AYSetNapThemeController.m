@@ -14,27 +14,19 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
-#import "Tools.h"
-
 #import "OptionOfPlayingView.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   228
 #define kTableFrameY                64
-
-@interface AYSetNapThemeController ()<UITextViewDelegate>
-
-@end
+#define reloadIndexPathForRow   5
 
 @implementation AYSetNapThemeController {
     
     BOOL isAllowLeave;
     long notePow;
-    BOOL isShow;
     
     CGFloat setY;
     UIButton *tmpNoteBtn;
@@ -50,7 +42,6 @@
             isAllowLeave = ((NSNumber*)[dic_cost objectForKey:@"allow_leave"]).boolValue;
             notePow = ((NSNumber*)[dic_cost objectForKey:@"cans"]).longValue;
             
-            isShow = ((NSNumber*)[dic_cost objectForKey:@"show"]).boolValue;
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -83,10 +74,9 @@
     id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[NSNumber numberWithBool:isAllowLeave] forKey:@"allow_leave"];
-    [dic setValue:[NSNumber numberWithBool:isShow] forKey:@"isShow"];
+    
     if (notePow) {
-        NSNumber *numb = [NSNumber numberWithLong:notePow];
-        [dic setValue:numb forKey:@"nap_theme"];
+        [dic setValue:[NSNumber numberWithLong:notePow] forKey:@"cans"];
     }
     
     [cmd_query performWithResult:&dic];
@@ -113,33 +103,20 @@
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"主题";
+    NSString *title = @"服务类型";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    if (isShow) {
-        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-        id right = [NSNumber numberWithBool:YES];
-        [cmd_right performWithResult:&right];
-        
-    } else {
-        UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-        [bar_right_btn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-        [bar_right_btn setTitle:@"保存" forState:UIControlStateNormal];
-        bar_right_btn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-        [bar_right_btn sizeToFit];
-        bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-        id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-        [cmd_right performWithResult:&bar_right_btn];
-    }
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    [bar_right_btn sizeToFit];
+    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+    [cmd_right performWithResult:&bar_right_btn];
     
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -148,8 +125,6 @@
     view.frame = CGRectMake(margin, kTableFrameY, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - kTableFrameY);
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
     
     return nil;
 }
@@ -197,19 +172,48 @@
 - (id)didOptionBtnClick:(UIButton*)btn {
     
     btn.selected = !btn.selected;
+    
     if (btn.tag != 99) {
         if (btn.selected) {
             notePow = pow(2, btn.tag);
-        }else {
+            
+            if (btn.tag == 0) {
+                isAllowLeave = NO;
+                NSNumber *isEdit = [NSNumber numberWithBool:NO];
+                kAYDelegatesSendMessage(@"SetNapTheme", @"changeEditMode:", &isEdit)
+                
+                UITableView *tableView = [self.views objectForKey:@"Table"];
+                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:reloadIndexPathForRow inSection:1]] withRowAnimation:NO];
+            }
+            else if(!tmpNoteBtn || tmpNoteBtn.tag == 0) {
+                NSNumber *isEdit = [NSNumber numberWithBool:YES];
+                kAYDelegatesSendMessage(@"SetNapTheme", @"changeEditMode:", &isEdit)
+                
+                UITableView *tableView = [self.views objectForKey:@"Table"];
+                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:reloadIndexPathForRow inSection:1]] withRowAnimation:NO];
+            }
+            
+            if (tmpNoteBtn) {
+                tmpNoteBtn.selected = NO;
+            }
+            tmpNoteBtn = btn;
+            
+        }
+        else { //再次点击同一个btn: 即把唯一一个以选择的btn取消选择,此时没有已选择的btn,参数置0
             notePow = 0;
+            tmpNoteBtn = nil;
+            isAllowLeave = NO;
+            NSNumber *isEdit = [NSNumber numberWithBool:NO];
+            kAYDelegatesSendMessage(@"SetNapTheme", @"changeEditMode:", &isEdit)
+            
+            UITableView *tableView = [self.views objectForKey:@"Table"];
+            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:reloadIndexPathForRow inSection:1]] withRowAnimation:NO];
+            
         }
         
-        if (tmpNoteBtn) {
-            tmpNoteBtn.selected = NO;
-        }
-        tmpNoteBtn = tmpNoteBtn==btn?nil:btn;
-        
-    } else isAllowLeave = !isAllowLeave;
+    } else {
+        isAllowLeave = !isAllowLeave;
+    }
     
     return nil;
 }

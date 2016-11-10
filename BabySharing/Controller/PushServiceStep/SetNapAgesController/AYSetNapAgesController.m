@@ -8,33 +8,29 @@
 
 #import "AYSetNapAgesController.h"
 #import "AYViewBase.h"
-#import "AYCommandDefines.h"
 #import "AYFacadeBase.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
-
 #import "AYInsetLabel.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
-
-@interface AYSetNapAgesController ()<UITextViewDelegate>
-
-@end
+#define childNumbLimit                  8
+#define waiterNumbLimit                 8
 
 @implementation AYSetNapAgesController{
     
     UILabel *boundaryLabel;
     UIButton *plusBtn;
+    UIButton *plusWaiterBtn;
     
     NSDictionary *setedAgesData;
     NSInteger countChild;
+    NSInteger countWaiter;
     
     UIView *picker;
     NSNumber *usl;
@@ -50,6 +46,7 @@
         if (age_dic) {
             setedAgesData = [age_dic objectForKey:@"age_boundary"];
             countChild = ((NSNumber*)[age_dic objectForKey:@"capacity"]).integerValue;
+//            countWaiter
         }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -81,12 +78,11 @@
     }
     
     AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
-    h1.text = @"想要服务的孩子的年龄阶段";
+    h1.text = @"服务适合孩子年龄";
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     h1.textColor = [Tools blackColor];
     h1.font = kAYFontLight(14.f);
     h1.backgroundColor = [UIColor whiteColor];
-//    h1 = [Tools setLabelWith:(UILabel*)h1 andText:@"想要服务的孩子的年龄阶段" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[UIColor whiteColor] andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(124);
@@ -110,45 +106,20 @@
     h1.userInteractionEnabled = YES;
     [h1 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNapBabyAgesClick:)]];
     
-//    UILabel *hb = [[UILabel alloc]init];
-//    hb = [Tools setLabelWith:hb andText:@"大的年龄跨度能让您更多的可能接到宝宝哦 ~._.~" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-//    [self.view addSubview:hb];
-//    [hb mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(boundaryLabel.mas_bottom).offset(60);
-//        make.centerX.equalTo(self.view);
-//    }];
-    
-    AYInsetLabel *h2 = [[AYInsetLabel alloc]init];
-    h2.text = @"此年龄阶段可接纳孩子数量";
-    h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h2.textColor = [Tools blackColor];
-    h2.font = kAYFontLight(14.f);
-    h2.backgroundColor = [UIColor whiteColor];
-//    UILabel *h2 = [[UILabel alloc]init];
-//    h2 = [Tools setLabelWith:h2 andText:@"此年龄阶段可容纳孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[UIColor whiteColor] andTextAlignment:NSTextAlignmentLeft];
-    [self.view addSubview:h2];
-    [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
+    /***************************************/
+    AYInsetLabel *h3 = [[AYInsetLabel alloc]init];
+    h3.text = @"最多接纳孩子数量";
+    h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    h3.textColor = [Tools blackColor];
+    h3.font = kAYFontLight(14.f);
+    h3.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:h3];
+    [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(h1.mas_bottom).offset(12);
         make.centerX.equalTo(h1);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
     }];
     
-    AYInsetLabel *h3 = [[AYInsetLabel alloc]init];
-    h3.text = @"孩子数量";
-    h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h3.textColor = [Tools blackColor];
-    h3.font = kAYFontLight(14.f);
-    h3.backgroundColor = [UIColor whiteColor];
-//    UILabel *h3 = [[UILabel alloc]init];
-//    h3 = [Tools setLabelWith:h3 andText:@"孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[UIColor whiteColor] andTextAlignment:NSTextAlignmentLeft];
-    [self.view addSubview:h3];
-    [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(h2.mas_bottom).offset(1);
-        make.centerX.equalTo(h2);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
-    }];
-    
-    /***************************************/
     UILabel *iconLael = [[UILabel alloc]init];
     iconLael = [Tools setLabelWith:iconLael andText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [self.view addSubview:iconLael];
@@ -187,6 +158,58 @@
         make.size.equalTo(plusBtn);
     }];
     [minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    /***************************************/
+    
+    AYInsetLabel *waiterLabel = [[AYInsetLabel alloc]init];
+    waiterLabel.text = @"服务者数量";
+    waiterLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    waiterLabel.textColor = [Tools blackColor];
+    waiterLabel.font = kAYFontLight(14.f);
+    waiterLabel.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:waiterLabel];
+    [waiterLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(h3.mas_bottom).offset(1);
+        make.centerX.equalTo(h1);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
+    }];
+    
+    UILabel *waiterNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [self.view addSubview:waiterNumbSign];
+    [waiterNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(waiterLabel);
+        make.right.equalTo(waiterLabel).offset(-15);
+    }];
+    
+    plusWaiterBtn = [[UIButton alloc]init];
+    if (!countWaiter || countWaiter == 0) {
+        countWaiter = 1;
+    }
+    [plusWaiterBtn setTitle:[NSString stringWithFormat:@"%ld",countWaiter] forState:UIControlStateNormal];
+    plusWaiterBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
+    [plusWaiterBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    plusWaiterBtn.layer.borderColor = [Tools themeColor].CGColor;
+    plusWaiterBtn.layer.borderWidth = 1.f;
+    [self.view addSubview:plusWaiterBtn];
+    [plusWaiterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(waiterNumbSign);
+        make.right.equalTo(waiterNumbSign.mas_left).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(24, 24));
+    }];
+    [plusWaiterBtn addTarget:self action:@selector(didPlusWaiterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *minusWaiterBtn = [[UIButton alloc]init];
+    CALayer *minusLayer2 = [CALayer layer];
+    minusLayer2.frame = CGRectMake(0, 0, 12, 1);
+    minusLayer2.position = CGPointMake(12, 12);
+    minusLayer2.backgroundColor = [Tools themeColor].CGColor;
+    [minusWaiterBtn.layer addSublayer:minusLayer2];
+    [self.view addSubview:minusWaiterBtn];
+    [minusWaiterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(plusWaiterBtn);
+        make.right.equalTo(plusWaiterBtn.mas_left).offset(-10);
+        make.size.equalTo(plusWaiterBtn);
+    }];
+    [minusWaiterBtn addTarget:self action:@selector(didMinusWaiterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -237,12 +260,6 @@
 
 
 - (void)setNapBabyAgesClick:(UIGestureRecognizer*)tap {
-//    if (picker.frame.origin.y == SCREEN_HEIGHT) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, 196);
-//        }];
-//    }
-    
     id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
     id<AYCommand> cmd_show = [view_picker.commands objectForKey:@"showPickerView"];
     [cmd_show performWithResult:nil];
@@ -250,14 +267,9 @@
 
 #pragma mark -- actions
 - (void)didPlusBtnClick:(UIButton*)btn {
-    if (countChild == 8) {
-        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-        [args setValue:self.view forKey:@"super_view"];
-        [args setValue:@"每个服务暂只支持同时容纳8个孩子" forKey:@"title"];
-        [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
-        [cmd_add performWithResult:&args];
+    if (countChild == childNumbLimit) {
+        NSString *title = @"服务同时最多接纳8个孩子";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     countChild ++;
@@ -270,6 +282,22 @@
     }
     countChild --;
     [plusBtn setTitle:[NSString stringWithFormat:@"%ld",countChild] forState:UIControlStateNormal];
+}
+
+- (void)didPlusWaiterBtnClick:(UIButton*)btn {
+//    if (countWaiter == waiterNumbLimit) {
+//        return;
+//    }
+    countWaiter ++;
+    [plusWaiterBtn setTitle:[NSString stringWithFormat:@"%ld",countWaiter] forState:UIControlStateNormal];
+}
+
+- (void)didMinusWaiterBtnClick:(UIButton*)btn {
+    if (countWaiter == 1) {
+        return;
+    }
+    countWaiter --;
+    [plusWaiterBtn setTitle:[NSString stringWithFormat:@"%ld",countWaiter] forState:UIControlStateNormal];
 }
 
 #pragma mark -- notification
@@ -307,6 +335,9 @@
     [dic_info setValue:sl_dic forKey:@"age_boundary"];
     NSString *chilrenNumb = plusBtn.titleLabel.text;
     [dic_info setValue:[NSNumber numberWithInt:chilrenNumb.intValue] forKey:@"capacity"];
+    
+    NSString *waiterNumb = plusBtn.titleLabel.text;
+    [dic_info setValue:[NSNumber numberWithInt:waiterNumb.intValue] forKey:@"capacity_waiter"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     

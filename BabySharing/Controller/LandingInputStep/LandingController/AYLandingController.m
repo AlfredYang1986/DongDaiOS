@@ -571,8 +571,9 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
                             [cmd performWithResult:&result];
                         } else {
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无法登录，参数设置错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
-                            [alert show];
+                            
+                            NSString *title = @"无法登录，参数设置错误";
+                            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                         }
                     }];
                 }

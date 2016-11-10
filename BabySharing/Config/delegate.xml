@@ -232,6 +232,7 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryData:" />
+        <command type="message" message="changeEditMode:" />
         <command type="notify" message="queryCurrentSelected:" />
     </delegate>
     

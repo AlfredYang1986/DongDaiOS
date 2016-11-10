@@ -66,7 +66,7 @@
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-    navTitleStr = @"";
+//    navTitleStr = @"";
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         type = [dic objectForKey:kAYControllerChangeArgsKey];
@@ -253,9 +253,11 @@
             return ;
         } else {
             
+            navTitleStr = city;
+            NSLog(@"%@",city);
+            
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &city)
             if (![city isEqualToString:@"北京市"] && (city != nil)) {
-                navTitleStr = city;
                 NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京市地区. \n我们正在努力达到%@",city];
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 return ;
@@ -302,11 +304,11 @@
 
 - (void)didNextBtnClick:(UIButton*)btn {
     
-//    if ([adjustAdress.text isEqualToString:@""]) {
-//        NSString *title = @"请完成具体地址设置";
-//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//        return;
-//    }
+    if ([adjustAdress.text isEqualToString:@""]) {
+        NSString *title = @"请完成具体地址设置";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return;
+    }
     
     id<AYCommand> setting = DEFAULTCONTROLLER(@"MainInfo");
     

@@ -100,6 +100,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
+                [_service_change_dic setValue:[dic_info objectForKey:@"capacity_waiter"] forKey:@"capacity_waiter"];
                 
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
             }
@@ -685,7 +686,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     if ([_service_change_dic objectForKey:@"cans"]) {
         [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+        [dic_args setValue:[_service_change_dic objectForKey:@"allow_leave"] forKey:@"allow_leave"];
     } else {
         [dic_args setValue:[service_info objectForKey:@"cans"] forKey:@"cans"];
         [dic_args setValue:[service_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
