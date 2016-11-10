@@ -66,6 +66,7 @@
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
+    navTitleStr = @"";
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         type = [dic objectForKey:kAYControllerChangeArgsKey];
@@ -323,8 +324,8 @@
     
     [loc_info setValue:location forKey:@"location"];
     [loc_info setValue:navTitleStr forKey:@"distinct"];
-    [loc_info setValue:adressLabel forKey:@"address"];
-    [loc_info setValue:adjustAdress forKey:@"adjust_address"];
+    [loc_info setValue:adressLabel.text forKey:@"address"];
+    [loc_info setValue:adjustAdress.text forKey:@"adjust_address"];
     [dic_push setValue:loc_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
