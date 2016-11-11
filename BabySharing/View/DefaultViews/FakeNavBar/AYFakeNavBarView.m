@@ -168,28 +168,33 @@
     
     [rightBtn removeFromSuperview];
     
-    //    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    //    btn.frame = CGRectMake(width - 15 - 30, 10, 30, 25);
     [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     rightBtn = btn;
+    [btn sizeToFit];
     [self addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.right.equalTo(self.mas_right).offset(-18.f);
+        make.size.mas_equalTo(CGSizeMake(btn.bounds.size.width, btn.bounds.size.height));
+    }];
     
     return nil;
 }
 
-- (id)setRightBtnWithTitle:(id)args {
+- (id)setRightBtnWithBlackColorTitle:(id)args {
     NSString* title = (NSString*)args;
     [rightBtn removeFromSuperview];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:title forState:UIControlStateNormal];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake([UIScreen mainScreen].bounds.size.width - 10.5 - bar_right_btn.frame.size.width / 2, self.frame.size.height * 0.5);
-    
-    [bar_right_btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
-    rightBtn = bar_right_btn;
-    [self addSubview:bar_right_btn];
+    UIButton* btn = [Tools creatUIButtonWithTitle:title andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
+    [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
+    [btn sizeToFit];
+    rightBtn = btn;
+    [self addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.right.equalTo(self.mas_right).offset(-18.f);
+        make.size.mas_equalTo(CGSizeMake(btn.bounds.size.width, btn.bounds.size.height));
+    }];
     return nil;
 }
 

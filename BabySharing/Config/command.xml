@@ -188,6 +188,9 @@
 <!--    <command type="Remote" name="UpdateUserDetail" route="profile/updateProfile" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="UpdateUserDetail" route="v2/profile/update" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="QueryUserProfile" route="profile/userProfile" factory="AYRemoteCallFactory" />-->
+
+
+
     <command type="Remote" name="QueryUserProfile" route="v2/profile/query" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMultipleUsers" route="profile/multipleUserProfile" factory="AYRemoteCallFactory" />
     

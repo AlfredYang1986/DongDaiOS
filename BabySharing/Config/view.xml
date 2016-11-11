@@ -152,7 +152,7 @@
         <command type="message" message="setRightBtnImg:" />
         <command type="message" message="setLeftBtnWithBtn:" />
         <command type="message" message="setRightBtnWithBtn:" />
-        <command type="message" message="setRightBtnWithTitle:" />
+        <command type="message" message="setRightBtnWithBlackColorTitle:" />
         <command type="message" message="setLeftBtnVisibility:" />
         <command type="message" message="setRightBtnVisibility:" />
         <command type="message" message="setBarBotLine" />

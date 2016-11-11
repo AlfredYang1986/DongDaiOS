@@ -202,7 +202,7 @@
         if (success) {
             
             [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[result objectForKey:@"screen_photo"]]]
-                          placeholderImage:IMGRESOURCE(@"default_user")];
+                               placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
         } else {
             _ownerIconImage.image = IMGRESOURCE(@"default_user");
         }

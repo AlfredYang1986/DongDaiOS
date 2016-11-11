@@ -245,8 +245,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
     UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);

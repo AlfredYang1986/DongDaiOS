@@ -297,7 +297,7 @@
     [cmd performWithResult:nil];
 }
 
--(void)invateCoderTextFieldChanged:(NSNotification*)tf{
+- (void)invateCoderTextFieldChanged:(NSNotification*)tf {
 //    if (tf.object == _invateCode && _invateCode.text.length >= 4) {
 //        enterBtn.enabled = YES;
 //        _invateCode.text = [_invateCode.text substringToIndex:4];
