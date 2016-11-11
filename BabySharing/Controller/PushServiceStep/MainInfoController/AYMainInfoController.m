@@ -21,7 +21,6 @@
 #import "LoginToken+ContextOpt.h"
 #import "CurrentToken.h"
 #import "CurrentToken+ContextOpt.h"
-
 #import <CoreLocation/CoreLocation.h>
 
 #define STATUS_BAR_HEIGHT           20
@@ -255,6 +254,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (id)TableLayout:(UIView*)view {
+    
 //    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
 //    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
     CGFloat fit_height = 0;
@@ -265,7 +265,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     }
     
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - fit_height);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
@@ -505,11 +504,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 /*************************/
 - (id)addPhotosAction {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"EditPhotos");
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"EditPhotos");
     
     dic_push_photos = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push_photos setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push_photos setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push_photos setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push_photos setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     if (napPhotos.count != 0) {
@@ -572,147 +571,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [cmd performWithResult:&tmp];
     }
     
-    
     return nil;
 }
 
-- (id)inputNapTitleAction {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapTitle");
+- (id)editPhotosAction {
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    if ([_service_change_dic objectForKey:@"title"]) {
-        [dic_push setValue:[_service_change_dic objectForKey:@"title"] forKey:kAYControllerChangeArgsKey];
-    } else
-        [dic_push setValue:[service_info objectForKey:@"title"] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)setNapBabyAges {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    if ([_service_change_dic objectForKey:@"capacity"]) {
-        [dic_args setValue:[_service_change_dic objectForKey:@"capacity"] forKey:@"capacity"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-    } else {
-        [dic_args setValue:[service_info objectForKey:@"capacity"] forKey:@"capacity"];
-        [dic_args setValue:[service_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-    }
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)setNapTheme {
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapTheme");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    if ([_service_change_dic objectForKey:@"cans"]) {
-        [dic_args setValue:[_service_change_dic objectForKey:@"cans"] forKey:@"cans"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"allow_leave"] forKey:@"allow_leave"];
-    } else {
-        [dic_args setValue:[service_info objectForKey:@"cans"] forKey:@"cans"];
-        [dic_args setValue:[service_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
-    }
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)setNapCost {
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    if ([_service_change_dic objectForKey:@"price"]) {
-        [dic_args setValue:[_service_change_dic objectForKey:@"price"] forKey:@"price"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-    } else {
-        [dic_args setValue:[service_info objectForKey:@"price"] forKey:@"price"];
-        [dic_args setValue:[service_info objectForKey:@"least_hours"] forKey:@"least_hours"];
-    }
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)setNapAdress {
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"InputNapAdress");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    if ([_service_change_dic objectForKey:@"address"]) {
-        [dic_args setValue:[_service_change_dic objectForKey:@"address"] forKey:@"address"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"adjust_address"] forKey:@"adjust_address"];
-        
-        NSDictionary *loc_dic = [_service_change_dic objectForKey:@"location"];
-        CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:@"latitude"]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:@"longtitude"]).doubleValue];
-        [dic_args setValue:napLoc forKey:@"location"];
-        
-    } else {
-        [dic_args setValue:[service_info objectForKey:@"address"] forKey:@"address"];
-        [dic_args setValue:[service_info objectForKey:@"adjust_address"] forKey:@"adjust_address"];
-        NSDictionary *loc_dic = [service_info objectForKey:@"location"];
-        CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:@"latitude"]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:@"longtitude"]).doubleValue];
-        [dic_args setValue:napLoc forKey:@"location"];
-    }
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
-- (id)setNapDevice {
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    if ([_service_change_dic objectForKey:@"facility"]) {
-        [dic_args setValue:[_service_change_dic objectForKey:@"facility"] forKey:@"facility"];
-        [dic_args setValue:[_service_change_dic objectForKey:@"option_custom"] forKey:@"option_custom"];
-    } else {
-        [dic_args setValue:[service_info objectForKey:@"facility"] forKey:@"facility"];
-        [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-    }
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
     return nil;
 }
 /**********************/

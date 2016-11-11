@@ -232,7 +232,8 @@
     [super layoutSubviews];
 }
 
--(void)requestCoder:(UIButton*)sender{
+-(void)requestCoder:(UIButton*)sender {
+    
     id<AYCommand> cmd = [self.notifies objectForKey:@"rightBtnSelected"];
     [cmd performWithResult:nil];
 }
@@ -317,6 +318,7 @@
     
     coder_area.text = @"";
     [self hideEnterBtn];
+    [self hideKeyboard];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     NSString *tmp = inputPhoneNo.text;
@@ -336,8 +338,6 @@
     
     [self hideKeyboard];
     
-//    id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputCoder");
-//    id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
     id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
     id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
     

@@ -577,6 +577,7 @@
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="addPhotosAction" />
+        <command type="notify"      message="editPhotosAction" />
     </view>
     
     <view type="TipsCollection" name="TipsCollection" factory="AYDefaultViewFactory" >

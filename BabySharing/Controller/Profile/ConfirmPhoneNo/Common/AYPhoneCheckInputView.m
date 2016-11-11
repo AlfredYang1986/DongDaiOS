@@ -203,7 +203,7 @@
         [alert show];
         return;
     }
-    
+    [self resignFocus];
     id<AYCommand> cmd = [self.notifies objectForKey:@"requeryForCode"];
     [cmd performWithResult:nil];
 }

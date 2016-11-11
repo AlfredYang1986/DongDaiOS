@@ -103,27 +103,11 @@
     _cellInfo = cellInfo;
     
     NSString* photo_name = [[_cellInfo objectForKey:@"images"] objectAtIndex:0];
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:photo_name forKey:@"image"];
-//    [dic setValue:@"img_thum" forKey:@"expect_size"];
-//    
-//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//        UIImage* img = (UIImage*)result;
-//        if (img != nil) {
-//            mainImageView.image = img;
-//        }else{
-//            
-//        }
-//    }];
-    
-//    NSString* photo_name = [result objectForKey:@"screen_photo"];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
     [mainImageView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-               placeholderImage:IMGRESOURCE(@"default_user")];
+               placeholderImage:IMGRESOURCE(@"default_image")];
     
     NSString *title = [_cellInfo objectForKey:@"title"];
     titleLabel.text = title;

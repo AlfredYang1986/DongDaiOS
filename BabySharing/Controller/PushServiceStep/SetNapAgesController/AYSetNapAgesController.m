@@ -46,7 +46,7 @@
         if (age_dic) {
             setedAgesData = [age_dic objectForKey:@"age_boundary"];
             countChild = ((NSNumber*)[age_dic objectForKey:@"capacity"]).integerValue;
-//            countWaiter
+            countWaiter = ((NSNumber*)[age_dic objectForKey:@"capacity_waiter"]).integerValue;
         }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {

@@ -27,6 +27,7 @@
 
 #define kLIMITEDSHOWNAVBAR  (-50)
 #define kFlexibleHeight     250
+#define btmViewHeight       50
 
 @interface AYPersonalPageController ()<SDCycleScrollViewDelegate>
 
@@ -229,7 +230,7 @@
     }];
     [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 50, SCREEN_WIDTH, 50)];
+    UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
     bottom_view.backgroundColor = [Tools themeColor];
     [self.view addSubview:bottom_view];
     [self.view bringSubviewToFront:bottom_view];
@@ -316,7 +317,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - btmViewHeight);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     view.backgroundColor = [UIColor clearColor];

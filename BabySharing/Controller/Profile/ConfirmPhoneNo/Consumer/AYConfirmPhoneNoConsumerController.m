@@ -204,6 +204,9 @@
 
 - (id)rightBtnSelected {
     
+    //注销响应者防止键盘挡住底部提示
+    kAYViewsSendMessage(@"PhoneCheckInput", @"resignFocus", nil)
+    
     NSString* tmp = @"";
     {
         id<AYViewBase> view = [self.views objectForKey:@"PhoneCheckInput"];

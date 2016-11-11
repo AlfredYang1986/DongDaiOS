@@ -30,6 +30,7 @@
     self.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.showsHorizontalScrollIndicator = NO;
     self.showsVerticalScrollIndicator = NO;
+    self.backgroundColor = [UIColor clearColor];
 }
 
 - (void)performWithResult:(NSObject**)obj {

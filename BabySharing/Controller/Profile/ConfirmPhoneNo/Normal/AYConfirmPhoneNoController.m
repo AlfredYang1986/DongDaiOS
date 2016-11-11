@@ -123,9 +123,7 @@
 
 #pragma mark -- actions
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
-    id<AYViewBase> view = [self.views objectForKey:@"PhoneCheckInput"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"resignFocus"];
-    [cmd performWithResult:nil];
+    kAYViewsSendMessage(@"PhoneCheckInput", @"resignFocus", nil)
 }
 
 #pragma mark -- notifies
@@ -140,7 +138,10 @@
 }
 
 - (id)rightBtnSelected {
-
+    
+    //注销响应者防止键盘挡住底部提示
+    kAYViewsSendMessage(@"PhoneCheckInput", @"resignFocus", nil)
+    
     NSString* tmp = @"";
     {
         id<AYViewBase> view = [self.views objectForKey:@"PhoneCheckInput"];

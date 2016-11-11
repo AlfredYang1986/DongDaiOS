@@ -61,6 +61,7 @@
     NSLog(@"delegates are : %@", self.delegates);
     
     count_loading = 0;
+    self.view.backgroundColor = [Tools garyBackgroundColor];
     
     for (NSString* view_name in self.views.allKeys) {
         NSLog(@"view name is : %@", view_name);
@@ -86,8 +87,6 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     });
-    
-//    [btmAlertView removeFromSuperview];
     
     [self didBtmAlertViewCloseBtnClick];
 }

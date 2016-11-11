@@ -11,6 +11,7 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYSelfSettingCellDefines.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface AYMainInfoDelegate ()
 //@property (nonatomic, strong) NSArray* querydata;
@@ -24,16 +25,21 @@
     NSString *napPhotoName;
     NSString *napTitle;
     NSString *napDesc;
+    
     NSDictionary *napAges;
+    NSDictionary *napBabyArgsInfo;
     
     NSNumber *napThemeNote;
+    NSDictionary *napThemeInfo;
     
     NSNumber *napCost;
+    NSDictionary *napCostInfo;
     
-    NSString *napAdress;
+    NSDictionary *napAdressInfo;
     
 //    NSDictionary *dic_device;
     NSNumber *napDeviceNote;
+    NSString *customDeviceName;
     
     BOOL isEditModel;
 }
@@ -93,18 +99,21 @@
         
     } else if([key isEqualToString:@"nap_ages"]){
         napAges = [dic objectForKey:@"age_boundary"];
+        napBabyArgsInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_cost"]){
         napCost = [dic objectForKey:@"price"];
+        napCostInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_adress"]){
-        napAdress = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"address"], [dic objectForKey:@"adjust_address"]];
+        napAdressInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_device"]){
         napDeviceNote = [dic objectForKey:@"facility"];
         
     } else if ([key isEqualToString:@"nap_theme"]) {
         napThemeNote = [dic objectForKey:@"cans"];
+        napThemeInfo = [dic copy];
     }
     
     return nil;
@@ -125,10 +134,33 @@
     napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
     napTitle = [info objectForKey:@"title"];
     napDesc = [info objectForKey:@"description"];
+    
+    NSMutableDictionary *dic_baby_args = [[NSMutableDictionary alloc]init];
+    [dic_baby_args setValue:[info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+    [dic_baby_args setValue:[info objectForKey:@"capacity"] forKey:@"capacity"];
+    [dic_baby_args setValue:[info objectForKey:@"capacity_waiter"] forKey:@"capacity_waiter"];
+    napBabyArgsInfo = [dic_baby_args copy];
     napAges = [info objectForKey:@"age_boundary"];
+    
+    NSMutableDictionary *dic_cost = [[NSMutableDictionary alloc]init];
+    [dic_cost setValue:[info objectForKey:@"price"] forKey:@"price"];
+    [dic_cost setValue:[info objectForKey:@"least_hours"] forKey:@"least_hours"];
+    napCostInfo = [dic_cost copy];
     napCost = [info objectForKey:@"price"];
-    napAdress = [NSString stringWithFormat:@"%@%@",[info objectForKey:@"address"], [info objectForKey:@"adjust_address"]];
+    
+    NSMutableDictionary *dic_address = [[NSMutableDictionary alloc]init];
+    [dic_address setValue:[info objectForKey:@"location"] forKey:@"location"];
+    [dic_address setValue:[info objectForKey:@"address"] forKey:@"address"];
+    [dic_address setValue:[info objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+    napAdressInfo = [dic_address copy];
+//    napAdress = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"address"], [dic objectForKey:@"adjust_address"]];
+    
     napDeviceNote = [info objectForKey:@"facility"];
+    
+    NSMutableDictionary *dic_theme = [[NSMutableDictionary alloc]init];
+    [dic_theme setValue:[info objectForKey:@"cans"] forKey:@"cans"];
+    [dic_theme setValue:[info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
+    napThemeInfo = [dic_theme copy];
     napThemeNote = [info objectForKey:@"cans"];
     
     {
@@ -161,15 +193,14 @@
         NSString* class_name = @"AYNapPhotosCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
+        id info = nil;
         if (napPhoto) {
-            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-            UIImage *info = napPhoto;
-            [set_cmd performWithResult:&info];
+            info = napPhoto;
+            kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
         else if (napPhotoName) {
-            id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-            NSString *info = napPhotoName;
-            [set_cmd performWithResult:&info];
+            info = napPhotoName;
+            kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
         
     } else {
@@ -282,28 +313,76 @@
 
 #pragma mark -- notifies set service info
 - (void)setNapTitle {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"inputNapTitleAction"];
-    [cmd performWithResult:nil];
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapTitle");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[napTitle copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 - (void)setNapBabyAges {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapBabyAges"];
-    [cmd performWithResult:nil];
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    [dic_push setValue:[napBabyArgsInfo copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 - (void)setNapTheme {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapTheme"];
-    [cmd performWithResult:nil];
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapTheme");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[napThemeInfo copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 - (void)setNapCost {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapCost"];
-    [cmd performWithResult:nil];
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[napCostInfo copy] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 - (void)setNapAdress {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapAdress"];
-    [cmd performWithResult:nil];
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"InputNapAdress");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    [dic_args setValue:[napAdressInfo objectForKey:@"address"] forKey:@"address"];
+    [dic_args setValue:[napAdressInfo objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+    NSDictionary *loc_dic = [napAdressInfo objectForKey:@"location"];
+    CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:@"latitude"]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:@"longtitude"]).doubleValue];
+    [dic_args setValue:napLoc forKey:@"location"];
+    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 - (void)setServiceDesc {
@@ -320,8 +399,24 @@
 }
 
 - (void)setNapDevice {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"setNapDevice"];
-    [cmd performWithResult:nil];
+    
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    
+    [dic_args setValue:[napDeviceNote copy] forKey:@"facility"];
+//    [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
+    
+    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
 }
 
 @end

@@ -217,12 +217,10 @@
         <command type="message" message="changeQueryInfo:" />
         
         <command type="notify" message="inputNapTitleAction" />
-        <command type="notify" message="setServiceDesc:" />
         <command type="notify" message="setNapBabyAges" />
         <command type="notify" message="setNapTheme" />
         <command type="notify" message="setNapCost" />
         <command type="notify" message="setNapAdress" />
-        <command type="notify" message="setNapDevice" />
     </delegate>
     
     <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >
