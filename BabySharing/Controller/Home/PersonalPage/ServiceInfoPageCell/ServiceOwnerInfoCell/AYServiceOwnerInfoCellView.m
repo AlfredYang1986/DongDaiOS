@@ -185,7 +185,7 @@
     
     NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle,NSForegroundColorAttributeName:[Tools blackColor],NSFontAttributeName:kAYFontLight(14.f)};
     
-    NSString *desc = [service_info objectForKey:@"personal_description"];
+    NSString *desc = [service_info objectForKey:@"description"];
     if ([readMoreLabel.text isEqualToString:@"阅读更多"]) {
         readMoreLabel.text = @"收起";
     } else {
@@ -208,7 +208,7 @@
     
     service_info = (NSDictionary*)args;
     
-    NSString *desc = [service_info objectForKey:@"personal_description"];
+    NSString *desc = [service_info objectForKey:@"description"];
     if (desc) {
         
         paraStyle = [[NSMutableParagraphStyle alloc] init];

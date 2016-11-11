@@ -65,6 +65,14 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    UILabel *secret = [Tools creatUILabelWithText:@"有温度的儿童主题看顾社区" andTextColor:[UIColor colorWithWhite:0.88 alpha:1.f] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
+    [self.view addSubview:secret];
+    [self.view sendSubviewToBack:secret];
+    [secret mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(28);
+        make.centerX.equalTo(self.view);
+    }];
+    
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
@@ -165,32 +173,32 @@
         costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[service_info objectForKey:@"price"]).floatValue];
     }
     
-    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
-    
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
     id<AYCommand> cmd_change_data = [cmd_notify.commands objectForKey:@"changeQueryData:"];
     NSDictionary *tmp = [service_info copy];
     [cmd_change_data performWithResult:&tmp];
     
-    NSDictionary *user_info = nil;
-    CURRENUSER(user_info)
+//    NSDictionary *user_info = nil;
+//    CURRENUSER(user_info)
     
-    NSMutableDictionary* dic = [user_info mutableCopy];
-    [dic setValue:[service_info objectForKey:@"owner_id"]  forKey:@"owner_user_id"];
-    
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            
-            id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
-            id descr = [result objectForKey:@"personal_description"];
-            [cmd_desc performWithResult:&descr];
-            
-            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-            [refresh performWithResult:nil];
-        }
-    }];
+//    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
+//    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
+//
+//    NSMutableDictionary* dic = [user_info mutableCopy];
+//    [dic setValue:[service_info objectForKey:@"owner_id"]  forKey:@"owner_user_id"];
+//    
+//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        if (success) {
+//            
+//            id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
+//            id descr = [result objectForKey:@"personal_description"];
+//            [cmd_desc performWithResult:&descr];
+//            
+//            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+//            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
+//            [refresh performWithResult:nil];
+//        }
+//    }];
     
 //    changeDescription
     
@@ -311,7 +319,7 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 44);
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-    view.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+    view.backgroundColor = [UIColor clearColor];
     
 //    ((UITableView*)view).estimatedRowHeight = 300;
 //    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;

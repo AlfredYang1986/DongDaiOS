@@ -64,7 +64,7 @@
 -(id)changeQueryData:(NSDictionary*)args {
     _querydata = args;
     
-    NSMutableArray *tmp = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+    NSMutableArray *tmp = [NSMutableArray arrayWithObjects:@"发布服务", @"我心仪的服务", @"设置", nil];
     NSNumber *type = [_querydata objectForKey:@"is_service_provider"];
     
     if (type.boolValue) {

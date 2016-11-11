@@ -668,6 +668,14 @@
         <delegate type="TableViewDelegateAndDatasource" name="MainInfo" />
     </controller>
     
+    <controller type="DefaultController" name="SetNapSchedule" factory="AYDefaultControllerFactoy" >
+        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+        
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Schedule"       name="Schedule" />
+    </controller>
+    
     <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

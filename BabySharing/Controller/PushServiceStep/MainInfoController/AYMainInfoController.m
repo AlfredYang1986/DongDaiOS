@@ -311,82 +311,23 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (void)pushServiceTodoNext {
     
     if (![self isAllArgsReady]) {
-        NSString *title = @"请完成所有必选参数设置";
+        NSString *title = @"请完成所有必选项设置";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
     
-    NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
-    NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapSchedule");
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [_service_change_dic setValue:napPhotos forKey:@"images"];
+    [dic_push setValue:[_service_change_dic copy] forKey:kAYControllerChangeArgsKey];
     
-    for (int index = 0; index < napPhotos.count; ++index) {
-        
-        dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
-        [semaphores_upload_photos addObject:tmp];
-        [post_image_result addObject:[NSNumber numberWithBool:NO]];
-    }
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    return;
     
-    dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
-    dispatch_async(qp, ^{
-        
-        NSMutableArray* arr_items = [[NSMutableArray alloc]init];
-        
-        for (int index = 0; index < napPhotos.count; ++index) {
-            
-            UIImage* iter = [napPhotos objectAtIndex:index];
-            NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
-            
-            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-            [photo_dic setValue:extent forKey:@"image"];
-            [photo_dic setValue:iter forKey:@"upload_image"];
-            
-            AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
-            [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                NSLog(@"upload result are %d", success);
-                [post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
-                dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
-            }];
-            [arr_items addObject:extent];
-//            dispatch_semaphore_wait([semaphores_upload_photos objectAtIndex:index], dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        }
-        
-        // 4. 等待图片进程全部处理完成：每一个阻塞线程等待一个图片的上传结果
-        for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-            dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        }
-        
-        NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-        NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
-        
-        if (image_result.count == 0) {
-            NSDictionary* user_info = nil;
-            CURRENUSER(user_info)
-            
-            [_service_change_dic setValue:[user_info objectForKey:@"user_id"]  forKey:@"owner_id"];
-            [_service_change_dic setObject:arr_items forKey:@"images"];
-            
-            id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-            AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
-            
-            NSMutableDictionary* nsd = [_service_change_dic mutableCopy];
-            [nsd setValue:[NSNumber numberWithInt:1] forKey:@"is_service_provider"];
-            
-            [cmd_push performWithResult:nsd andFinishBlack:^(BOOL success, NSDictionary *result) {
-                if (success) {
-                    NSString *tip = @"服务发布成功,去管理日程?";
-                    [self popToRootVCWithTip:tip];
-                    
-                } else {
-                    NSLog(@"push error with:%@",result);
-                    NSString *title = @"服务上传失败";
-                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                }
-            }];
-        } else {
-            NSString *title = @"图片上传失败,请改善网络环境并重试";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        }
-    });
     
 }
 

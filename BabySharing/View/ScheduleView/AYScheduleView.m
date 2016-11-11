@@ -44,6 +44,8 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 #pragma mark -- life cycle
 - (void)postPerform {
     self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, 0);
+    isServ = YES;
+    
     if (!selectedItemArray) {
         selectedItemArray = [[NSMutableArray alloc]init];
     }
@@ -201,6 +203,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     
     NSNumber *isArgs = [(NSDictionary*)args objectForKey:@"is_serv"];
     isServ = isArgs.boolValue;
+    
     NSDate *Date = [[NSDate alloc]init];
     NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
     

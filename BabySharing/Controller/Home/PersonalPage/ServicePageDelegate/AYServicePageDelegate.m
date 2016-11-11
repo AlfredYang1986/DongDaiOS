@@ -23,7 +23,7 @@
 
 @implementation AYServicePageDelegate {
     NSDictionary *querydata;
-    NSString *personal_description;
+//    NSString *personal_description;
     
     BOOL isExpend;
     CGFloat expendHeight;
@@ -63,7 +63,7 @@
 }
 
 - (id)changeDescription:(id)args {
-    personal_description = (NSString*)args;
+//    personal_description = (NSString*)args;
     return nil;
 }
 
@@ -93,8 +93,8 @@
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceOwnerInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        NSMutableDictionary *tmp = [querydata mutableCopy];
-        [tmp setValue:personal_description forKey:@"personal_description"];
+        NSMutableDictionary *tmp = [querydata copy];
+//        [tmp setValue:personal_description forKey:@"personal_description"];
         kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
     else if (indexPath.row == 2) {
@@ -139,7 +139,7 @@
     }
     else if (indexPath.row ==1) {
         
-        NSString *descStr = personal_description;
+        NSString *descStr = [querydata objectForKey:@"description"];
         if (!descStr || [descStr isEqualToString:@""]) {
             return 85;
         }
@@ -153,11 +153,8 @@
                 CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
                 return 85 + filtSize.height + 20;
             }
-//            return 85 + expendHeight + 25;
-            
-            //200
         }
-    }
+    }//
     else if (indexPath.row == 2) {
         return 60;
     }
