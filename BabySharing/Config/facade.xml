@@ -70,7 +70,8 @@
     <facade type="DefaultFacade" name="LoginModel" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="QueryTmpUser" />
         <command type="Module" name="ChangeTmpUser" />
-
+        
+        <command type="Module" name="UpdateRegUserProfile" />
         <command type="Module" name="ChangeRegUser" />
         <command type="Module" name="QueryRegUser" />
 

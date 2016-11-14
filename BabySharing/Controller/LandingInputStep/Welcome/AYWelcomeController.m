@@ -50,14 +50,6 @@
         _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         isFirst = YES;
     }
-//=======
-//        NSLog(@"init args are : %@", _login_attr);
-//        if (![_login_attr objectForKey:@"role_tag"] || [[_login_attr objectForKey:@"role_tag"]isEqualToString:@""]) {
-//            isFirstSNS = YES;
-//            [_login_attr setValue:@"未设置名" forKey:@"role_tag"];
-//        }
-//    } 
-//>>>>>>> Service_version_initial
 }
 
 #pragma mark -- life cycle
@@ -195,29 +187,11 @@
 - (void)updateUserProfile {
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     
-//    if (!screen_photo || [screen_photo isEqualToString:@""]) {
-//        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您没有选择用户头像" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//        return ;
-//    }
-//    if (![_invateCode.text isEqualToString:@"1111"]) {
-//        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入有效的邀请码" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-//        return ;
-//    }
     //通用参数
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
-    [dic_update setValue:[_login_attr objectForKey:@"screen_name"] forKey:@"screen_name"];
-    [dic_update setValue:[_login_attr objectForKey:@"role_tag"] forKey:@"role_tag"];
     [dic_update setValue:[_login_attr objectForKey:@"screen_photo"] forKey:@"screen_photo"];
     [dic_update setValue:[_login_attr objectForKey:@"auth_token"] forKey:@"auth_token"];
     [dic_update setValue:[_login_attr objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic_update setValue:0 forKey:@"gender"];
-    [dic_update setValue:[Tools getDeviceUUID] forKey:@"uuid"];
-    [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"refresh_token"];
-    
-    if ([[_login_attr allKeys] containsObject:@"phoneNo"]) {
-        [dic_update setValue:[_login_attr objectForKey:@"phoneNo"] forKey:@"phoneNo"];
-        [dic_update setValue:[NSNumber numberWithInt:1] forKey:@"create"];
-    }
     
     if (isChangeImg) {
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
@@ -228,24 +202,33 @@
         AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
+            
+            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+            [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                NSLog(@"Update user detail remote result: %@", result);
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (success) {
+                        id args = result;
+                        AYModel* m = MODEL;
+                        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+                        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                        [cmd performWithResult:&args];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                        [alert show];
+                    }
+                });
+            }];
         }];
+    } else {
+        id args = _login_attr;
+        AYModel* m = MODEL;
+        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+        [cmd performWithResult:&args];
     }
-
-    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-    [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        NSLog(@"Update user detail remote result: %@", result);
-        if (success) {
-            AYModel* m = MODEL;
-            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-            [cmd performWithResult:&result];
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-            [alert show];
-        }
-    }];
-    
 }
 
 - (id)CurrentLoginUserChanged:(id)args {
@@ -260,6 +243,16 @@
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic_pop];
+    return nil;
+}
+
+- (id)CurrentRegUserProfileChanged:(id)args {
+    NSLog(@"args: %@", args);
+    NSString* screen_photo = [args objectForKey:@"screen_photo"];
+    [_login_attr setValue:screen_photo forKey:@"screen_photo"];
+    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
+    [cmd performWithResult:&screen_photo];
     return nil;
 }
 

@@ -31,6 +31,7 @@ static NSString* const kAYNotifyLoginModelReady = @"LoginModelRegister:";
 
 static NSString* const kAYNotifySNSLoginSuccess = @"SNSLoginSuccess:";
 static NSString* const kAYCurrentLoginUserChanged = @"CurrentLoginUserChanged:";
+static NSString* const kAYCurrentRegUserProfileChanged = @"CurrentRegUserProfileChanged:";
 //static NSString* const kAYNotifyLoginXMPPSuccess = @"LoginXMPPSuccess:";
 static NSString* const kAYNotifyLoginEMSuccess = @"LoginEMSuccess:";
 static NSString* const kAYNotifyLoginEMFailedForSlowNetwork = @"LoginEMFailedForSlowNetwork:";

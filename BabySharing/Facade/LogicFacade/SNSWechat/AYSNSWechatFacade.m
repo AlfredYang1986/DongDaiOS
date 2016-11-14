@@ -175,8 +175,6 @@ static NSString* const kWechatDescription = @"wechat";
     AYRemoteCallCommand* cmd_sns = [landing_facade.commands objectForKey:@"AuthWithSNS"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
-    [dic setValue:@"" forKey:@"auth_token"];
-    [dic setValue:@"" forKey:@"user_id"];
     [dic setValue:@"wechat" forKey:@"provide_name"];
     [dic setValue:screen_name forKey:@"provide_screen_name"];
     [dic setValue:@"" forKey:@"provide_screen_photo"];
@@ -224,27 +222,27 @@ static NSString* const kWechatDescription = @"wechat";
 
             id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
             AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
-            [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * re) {
                 NSLog(@"upload result are %d", success);
-            }];
-            
-            NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
-            [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
-            [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
-            [dic_up setValue:screen_photo forKey:@"screen_photo"];
-            [reVal setValue:screen_photo forKey:@"screen_photo"];
+                NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
+                [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
+                [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
+                [dic_up setValue:screen_photo forKey:@"screen_photo"];
+                [reVal setValue:screen_photo forKey:@"screen_photo"];
 
-            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-            [cmd_profile performWithResult:[dic_up copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                NSLog(@"Update user detail remote result: %@", result);
-                if (success) {
-                    NSDictionary* args = [result copy];
-                    [cmd performWithResult:&args];
-                } else {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-                    [alert show];
-                }
+                id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+                AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+                [cmd_profile performWithResult:[dic_up copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                    NSLog(@"Update user detail remote result: %@", result);
+                    if (success) {
+                        NSDictionary* args = [result copy];
+                        id<AYCommand> cmd2 = [f.commands objectForKey:@"UpdateRegUserProfile"];
+                        [cmd2 performWithResult:&args];
+                    } else {
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                        [alert show];
+                    }
+                }];
             }];
         }
         

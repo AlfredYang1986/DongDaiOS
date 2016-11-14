@@ -44,6 +44,24 @@
     }
 }
 
++ (void)updateCurrentRegUserProfileWithAttr:(NSDictionary*)attr inContext:(NSManagedObjectContext*)context {
+    NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"RegCurrentToken"];
+    
+    NSError* error = nil;
+    NSArray* matches = [context executeFetchRequest:request error:&error];
+    
+    if (!matches || matches.count > 1) {
+        NSLog(@"should have one and only one current user");
+    } else if (matches.count == 1) {
+        RegCurrentToken* tmp = [matches lastObject];
+        LoginToken* lgt = tmp.who;
+        [LoginToken updataLoginUserInContext:context withUserID:lgt.user_id andAttrs:attr];
+        [context save:nil];
+    } else {
+        NSLog(@"should have one and only one current user");
+    }
+}
+
 + (RegCurrentToken*)changeCurrentRegLoginUserWithUserID:(NSString*)user_id inContext:(NSManagedObjectContext*)context {
     LoginToken* tmp = [LoginToken enumLoginUserInContext:context withUserID:user_id];
     return [RegCurrentToken changeCurrentRegLoginUser:tmp inContext:context];

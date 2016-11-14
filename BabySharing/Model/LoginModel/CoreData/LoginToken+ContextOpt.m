@@ -180,6 +180,10 @@
         for (LoginToken* tmp in matches) {
             NSLog(@"primary tmp %@", tmp);
             NSLog(@"primary tmp user id %@", tmp.user_id);
+            for (LoginToken* tmp in matches) {
+                [context deleteObject:tmp];
+            }
+            [self createTokenInContext:context withUserID:user_id andAttrs:dic];
         }
         NSLog(@"error with primary key");
         return nil;
