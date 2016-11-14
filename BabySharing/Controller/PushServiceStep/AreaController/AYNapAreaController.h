@@ -8,7 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface AYNapAreaController : AYViewController
+@interface AYNapAreaController : AYViewController<CLLocationManagerDelegate, UITextFieldDelegate>
 
+@property (nonatomic, strong) CLLocationManager  *manager;
+@property (nonatomic, strong) CLGeocoder *gecoder;
 @end
+
+

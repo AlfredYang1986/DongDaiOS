@@ -156,7 +156,7 @@
         
     } else if (indexPath.row == 2) {
         NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
-        is_nap.boolValue? [self pushNewService] : [self collectService];
+        is_nap.boolValue ? [self pushNewService] : [self collectService];
         
     } else
         [self appSetting];

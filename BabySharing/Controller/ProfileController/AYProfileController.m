@@ -79,11 +79,11 @@
             
             if ([backArgs isKindOfClass:[NSString class]]) {
                 NSString *title = (NSString*)backArgs;
-                if ([title isEqualToString:@"服务发布成功,去管理日程?"]) {
-                    AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
-                } else {
-                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                }
+//                if ([title isEqualToString:@"服务发布成功,去管理服务?"]) {
+//                    AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+//                } else {
+//                }
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }//
             
         }//

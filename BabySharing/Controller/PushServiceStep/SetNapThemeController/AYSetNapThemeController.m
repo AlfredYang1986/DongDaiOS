@@ -21,7 +21,7 @@
 #define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   228
 #define kTableFrameY                64
-#define reloadIndexPathForRow   5
+#define reloadIndexPathForRow   6
 
 @implementation AYSetNapThemeController {
     

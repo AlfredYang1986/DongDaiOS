@@ -123,7 +123,6 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    [_collectionView reloadData];
 }
 
 - (void)showActionSheet {
@@ -150,8 +149,6 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
     UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil)
@@ -364,30 +361,30 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     if ([type isEqualToString:@"public.image"]) {
         
-//        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
-        
-//        [tzImagePickerVc showProgressHUD];
-        [super startRemoteCall:nil];
+        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
+        [tzImagePickerVc showProgressHUD];
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        
+//        [selectedPhotos addObject:image];
+//        _layout.itemCount = selectedPhotos.count;
+//        [_collectionView reloadData];
         // 保存图片，获取到asset
         [[TZImageManager manager] savePhotoWithImage:image completion:^{
-//            [tzImagePickerVc hideProgressHUD];
-//            [_selectedPhotos addObject:image];
-//            [_collectionView reloadData];
-            [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
-                
-                [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
-//                    [tzImagePickerVc hideProgressHUD];
-                    [super endRemoteCall:nil];
-//                    TZAssetModel *assetModel = [models firstObject];
-//                    TZAssetModel *assetModel = [models lastObject];
-//                    [_selectedAssets addObject:assetModel.asset];
-                    [selectedPhotos addObject:image];
-                    [_collectionView reloadData];
-                }];
-            }];
-        }];
+            [tzImagePickerVc hideProgressHUD];
+            [selectedPhotos addObject:image];
+            _layout.itemCount = selectedPhotos.count;
+            [_collectionView reloadData];
+//            [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
+////                [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
+////                    [tzImagePickerVc hideProgressHUD];
+//////                    TZAssetModel *assetModel = [models firstObject];
+//////                    TZAssetModel *assetModel = [models lastObject];
+//////                    [_selectedAssets addObject:assetModel.asset];
+////                    [selectedPhotos addObject:image];
+////                    [_collectionView reloadData];
+////                    
+////                }];
+//            }];
+        }];//
     }
 }
 
@@ -428,7 +425,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     CGFloat itemWH = (SCREEN_WIDTH - margin * 3) / 3;
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     if (indexPath.row == 0) {
-        return CGSizeMake(width, 225);
+        return CGSizeMake(width, 250);
         
     }
 //    else if (indexPath.row == 1 && (_selectedPhotos.count == 0 || _selectedPhotos.count == 1)) {

@@ -17,6 +17,7 @@
 #import "AYSelfSettingCellView.h"
 
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
+static NSString* const descInitStr =                @"描述一下自己的经历";
 
 @implementation AYPersonalSettingController {
     
@@ -44,7 +45,13 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSString* personal_desc = [dic objectForKey:kAYControllerChangeArgsKey];
-        descLabel.text = personal_desc;
+        
+        if (!personal_desc || [personal_desc isEqualToString:@""]) {
+            descLabel.text = descInitStr;
+        } else {
+            descLabel.text = personal_desc;
+        }
+        
         [change_profile_dic setValue:personal_desc forKey:@"personal_description"];
         [profile_dic setValue:personal_desc forKey:@"personal_description"];
     }
@@ -95,17 +102,6 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
     [user_photo sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[profile_dic objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_image")];
-    
-//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//    [dic setValue:[profile_dic objectForKey:@"screen_photo"] forKey:@"image"];
-//    [dic setValue:@"img_local" forKey:@"expect_size"];
-//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//        UIImage* img = (UIImage*)result;
-//        if (img != nil) {
-//            [user_photo setImage:img];
-//        }
-//    }];
-    
     UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [mainView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -153,14 +149,15 @@
         make.top.equalTo(descTitleLabel.mas_bottom).offset(15);
         make.left.equalTo(nameLabel);
 //        make.right.equalTo(mainView).offset(-20);
-        make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH - 40);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.height.mas_greaterThanOrEqualTo(30);
     }];
     
     NSString *descStr = [profile_dic objectForKey:@"personal_description"];
     if (descStr && ![descStr isEqualToString:@""]) {
         descLabel.text = descStr;
     } else
-        descLabel.text = @"描述一下自己的经历";
+        descLabel.text = descInitStr;
     
     descLabel.userInteractionEnabled = YES;
     [descLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didDescLabelTap:)]];
@@ -191,11 +188,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 #pragma mark -- layouts
@@ -264,12 +260,11 @@
 - (void)didDescLabelTap:(UITapGestureRecognizer*)gusture {
     
     AYViewController* des = DEFAULTCONTROLLER(@"PersonalDesc");
-    
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    if (![descLabel.text isEqualToString:@"描述一下自己的经历"]) {
+    if (![descLabel.text isEqualToString:descInitStr]) {
         [dic_push setValue:descLabel.text forKey:kAYControllerChangeArgsKey];
     }
     
@@ -306,7 +301,6 @@
             NSLog(@"upload result are %d", success);
             if (success) {
                 isUserPhotoChanged = NO;
-//                dispatch_semaphore_signal(semaphore);
                 [self updatePersonalInfo];
             } else {
                 
@@ -338,11 +332,9 @@
             NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
             [dic setValue:[result objectForKey:@"screen_name"] forKey:@"screen_name"];
             
-//            NSString *screen_photo = [result objectForKey:@"screen_photo"];
             if ([result objectForKey:@"screen_photo"]) {
                 [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"screen_photo"];
             }
-//            NSString *personal_description = [result objectForKey:@"personal_description"];
             if ([result objectForKey:@"personal_description"]) {
                 [dic setValue:[result objectForKey:@"personal_description"] forKey:@"personal_description"];
             }
@@ -434,8 +426,6 @@
 - (id)scrollToHideKeyBoard {
     return nil;
 }
-
-
 
 #pragma mark -- UIImagePickerControllerDelegate, UIActionSheetDelegate, UITextFieldDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
