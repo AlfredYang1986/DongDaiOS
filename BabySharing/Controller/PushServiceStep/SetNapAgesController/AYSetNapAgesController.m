@@ -46,7 +46,7 @@
         if (age_dic) {
             setedAgesData = [age_dic objectForKey:@"age_boundary"];
             countChild = ((NSNumber*)[age_dic objectForKey:@"capacity"]).integerValue;
-            countWaiter = ((NSNumber*)[age_dic objectForKey:@"capacity_waiter"]).integerValue;
+            countWaiter = ((NSNumber*)[age_dic objectForKey:@"servant_no"]).integerValue;
         }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -332,7 +332,7 @@
     [dic_info setValue:[NSNumber numberWithInt:chilrenNumb.intValue] forKey:@"capacity"];
     
     NSString *waiterNumb = plusBtn.titleLabel.text;
-    [dic_info setValue:[NSNumber numberWithInt:waiterNumb.intValue] forKey:@"capacity_waiter"];
+    [dic_info setValue:[NSNumber numberWithInt:waiterNumb.intValue] forKey:@"servant_no"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     

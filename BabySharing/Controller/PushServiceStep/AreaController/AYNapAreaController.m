@@ -156,6 +156,9 @@
         make.left.equalTo(adressLabel);
         make.right.equalTo(locBGView).offset(-10);
     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
     
 //    id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
 //    picker = (UIView*)view_picker;
@@ -193,6 +196,47 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+}
+
+- (void)dealloc {
+//    [super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+- (void)keyboardDidShow:(NSNotification*)notification {
+    UIView *result = nil;
+    NSArray *windowsArray = [UIApplication sharedApplication].windows;
+    for (UIView *tmpWindow in windowsArray) {
+        NSArray *viewArray = [tmpWindow subviews];
+        for (UIView *tmpView  in viewArray) {
+            NSLog(@"%@", [NSString stringWithUTF8String:object_getClassName(tmpView)]);
+            // if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIPeripheralHostView"]) {
+            if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIInputSetContainerView"]) {
+                result = tmpView;
+                break;
+            }
+        }
+        
+        if (result != nil) {
+            break;
+        }
+    }
+    
+    //    keyboardView = result;
+    NSDictionary *userInfo = [notification userInfo];
+    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyBoardFrame = value.CGRectValue;
+    
+    locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - keyBoardFrame.size.height, SCREEN_HEIGHT, locBGViewHeight);
+}
+
+- (void)keyboardWasChange:(NSNotification *)notification {
+    
+}
+
+- (void)keyboardDidHidden:(NSNotification*)notification {
+    locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_HEIGHT, locBGViewHeight);
 }
 
 #pragma mark -- layouts
@@ -234,8 +278,6 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     
     loc = [locations firstObject];
-    CLLocationCoordinate2D coordinate = loc.coordinate;
-    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
     
     id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
     id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
@@ -255,10 +297,10 @@
             
             navTitleStr = city;
             NSLog(@"%@",city);
-            
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &city)
-            if (![city isEqualToString:@"北京市"] && (city != nil)) {
-                NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京市地区. \n我们正在努力达到%@",city];
+            
+            if (![navTitleStr isEqualToString:@"北京市"]) {
+                NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京市地区. \n我们正在努力达到%@",navTitleStr];
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 return ;
             }

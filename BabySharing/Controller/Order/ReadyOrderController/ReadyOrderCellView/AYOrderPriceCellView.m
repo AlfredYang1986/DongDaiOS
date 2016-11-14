@@ -186,11 +186,8 @@
     NSString *title = btn.titleLabel.text;
     if ([title isEqualToString:@"查看详情"]) {
         [btn setTitle:@"收起" forState:UIControlStateNormal];
-        NSString *tmp = btn.titleLabel.text;
-        NSLog(@"%@",tmp);
         
     } else if([title isEqualToString:@"收起"]) {
-        //        [btn setImage:nil forState:UIControlStateNormal];
         [btn setTitle:@"查看详情" forState:UIControlStateNormal];
         
     }

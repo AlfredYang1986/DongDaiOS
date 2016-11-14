@@ -167,14 +167,11 @@
     //CLLocation  位置对象
     
     loc = [locations firstObject];
-    CLLocationCoordinate2D coordinate = loc.coordinate;
     
     id<AYViewBase> map = [self.views objectForKey:@"NapAdressMap"];
     id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
     CLLocation *loction = loc;
     [cmd performWithResult:&loction];
-    
-    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
     
     //位置改变幅度大 ->重新定位
     [manager stopUpdatingLocation];

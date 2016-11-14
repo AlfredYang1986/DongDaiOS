@@ -99,7 +99,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"capacity_waiter"] forKey:@"capacity_waiter"];
+                [_service_change_dic setValue:[dic_info objectForKey:@"servant_no"] forKey:@"servant_no"];
                 
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
             }

@@ -263,8 +263,6 @@
 }
 
 - (id)searchTextChanged:(id)obj {
-    NSString* search_text = (NSString*)obj;
-    NSLog(@"text %@", search_text);
     
     return nil;
 }
@@ -308,9 +306,6 @@
     //CLLocation  位置对象
     
     loc = [locations firstObject];
-    CLLocationCoordinate2D coordinate = loc.coordinate;
-    
-    NSLog(@"%f  %f",coordinate.latitude,coordinate.longitude);
     
     //位置改变幅度大 ->重新定位
     [manager stopUpdatingLocation];

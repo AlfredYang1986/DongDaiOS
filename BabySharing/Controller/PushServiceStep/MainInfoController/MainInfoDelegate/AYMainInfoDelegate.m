@@ -138,7 +138,7 @@
     NSMutableDictionary *dic_baby_args = [[NSMutableDictionary alloc]init];
     [dic_baby_args setValue:[info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
     [dic_baby_args setValue:[info objectForKey:@"capacity"] forKey:@"capacity"];
-    [dic_baby_args setValue:[info objectForKey:@"capacity_waiter"] forKey:@"capacity_waiter"];
+    [dic_baby_args setValue:[info objectForKey:@"servant_no"] forKey:@"servant_no"];
     napBabyArgsInfo = [dic_baby_args copy];
     napAges = [info objectForKey:@"age_boundary"];
     

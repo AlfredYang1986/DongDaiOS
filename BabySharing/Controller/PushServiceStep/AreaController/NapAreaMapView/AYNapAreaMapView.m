@@ -32,8 +32,8 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.delegate = self;
-    self.scrollEnabled = NO;
-    self.zoomEnabled = NO;
+//    self.scrollEnabled = NO;
+//    self.zoomEnabled = NO;
     //配置用户Key
     [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
 }
