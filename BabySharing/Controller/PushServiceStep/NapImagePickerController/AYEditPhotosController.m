@@ -364,15 +364,19 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
         TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
         [tzImagePickerVc showProgressHUD];
         UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
-//        [selectedPhotos addObject:image];
-//        _layout.itemCount = selectedPhotos.count;
-//        [_collectionView reloadData];
+        
+        [selectedPhotos addObject:image];
+        _layout.itemCount = selectedPhotos.count;
+        [_collectionView reloadData];
+        
         // 保存图片，获取到asset
         [[TZImageManager manager] savePhotoWithImage:image completion:^{
+            
             [tzImagePickerVc hideProgressHUD];
-            [selectedPhotos addObject:image];
-            _layout.itemCount = selectedPhotos.count;
-            [_collectionView reloadData];
+//            [selectedPhotos addObject:image];
+//            _layout.itemCount = selectedPhotos.count;
+//            [_collectionView reloadData];
+            
 //            [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
 ////                [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
 ////                    [tzImagePickerVc hideProgressHUD];
