@@ -96,7 +96,7 @@
             make.size.equalTo(signCapacity);
         }];
         
-        allowLeave = [Tools creatUILabelWithText:@"可提供看护" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        allowLeave = [Tools creatUILabelWithText:@"需要家长陪伴" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:allowLeave];
         [allowLeave mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(allowLeaveSign);

@@ -184,7 +184,7 @@
                         
                         NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
                         [dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
-                        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeCommonToNapPersonal] forKey:@"type"];
+                        [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
                         [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
                         
                         id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;

@@ -129,7 +129,7 @@
                   @"编辑描述",
                   @"编辑孩子年龄",
                   @"编辑价格",
-                  @"编辑场地友好设施",  nil];
+                  @"编辑场地友好性(选填)",  nil];
     
     napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
     napTitle = [info objectForKey:@"title"];
