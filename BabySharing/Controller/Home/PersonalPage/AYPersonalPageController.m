@@ -36,7 +36,7 @@
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
     
-    BOOL isNap;
+    
     
     UIButton *shareBtn;
     UIButton *collectionBtn;
@@ -56,9 +56,6 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         service_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        
-        AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-        isNap = ![self.tabBarController isKindOfClass:[comp class]];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -236,6 +233,9 @@
     }];
     [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+    BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
     if (!isNap) {
         
         UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
@@ -328,6 +328,8 @@
 
 - (id)TableLayout:(UIView*)view {
     
+    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+    BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : btmViewHeight));
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);

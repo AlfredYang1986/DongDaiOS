@@ -37,6 +37,7 @@
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(15);
+            make.right.lessThanOrEqualTo(self.mas_right).offset(-65);
         }];
         
         ownerNameLabel = [[UILabel alloc]init];

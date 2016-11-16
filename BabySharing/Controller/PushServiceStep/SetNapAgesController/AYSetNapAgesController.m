@@ -211,6 +211,7 @@
     }];
     [minusWaiterBtn addTarget:self action:@selector(didMinusWaiterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
+    waiterLabel.hidden = waiterNumbSign.hidden = plusWaiterBtn.hidden = minusWaiterBtn.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
