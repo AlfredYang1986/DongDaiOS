@@ -238,8 +238,9 @@
                 
                 _likeBtn.selected = YES;
             } else {
-                NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
+                NSString *title = @"收藏失败!请检查网络链接是否正常";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     } else {
@@ -250,8 +251,9 @@
                 
                 _likeBtn.selected = NO;
             } else {
-                NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                
+                NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }

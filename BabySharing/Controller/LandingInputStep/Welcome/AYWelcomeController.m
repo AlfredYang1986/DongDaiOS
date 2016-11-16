@@ -184,12 +184,34 @@
 }
 
 #pragma mark -- view notification
+- (void)updateProfileImpl:(NSDictionary*) dic {
+    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+    [cmd_profile performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
+        NSLog(@"Update user detail remote result: %@", result);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (success) {
+                id args = _login_attr;
+                AYModel* m = MODEL;
+                AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+                [cmd performWithResult:&args];
+                
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                [alert show];
+            }
+        });
+    }];
+}
+
 - (void)updateUserProfile {
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     
     //通用参数
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
-    [dic_update setValue:[_login_attr objectForKey:@"screen_photo"] forKey:@"screen_photo"];
+    [dic_update setValue:[_login_attr objectForKey:@"screen_name"] forKey:@"screen_name"];
     [dic_update setValue:[_login_attr objectForKey:@"auth_token"] forKey:@"auth_token"];
     [dic_update setValue:[_login_attr objectForKey:@"user_id"] forKey:@"user_id"];
     
@@ -202,32 +224,11 @@
         AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
-            
-            id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-            AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-            [cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                NSLog(@"Update user detail remote result: %@", result);
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (success) {
-                        id args = result;
-                        AYModel* m = MODEL;
-                        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-                        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-                        [cmd performWithResult:&args];
-                    } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-                        [alert show];
-                    }
-                });
-            }];
+            [dic_update setValue:screen_photo forKey:@"screen_photo"];
+            [self updateProfileImpl:[dic_update copy]];
         }];
     } else {
-        id args = _login_attr;
-        AYModel* m = MODEL;
-        AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-        [cmd performWithResult:&args];
+        [self updateProfileImpl:[dic_update copy]];
     }
 }
 
