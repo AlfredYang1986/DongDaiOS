@@ -135,15 +135,15 @@
         UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         [self.view addSubview:cover];
         
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
+        [defaults synchronize];
+        
+        self.selectedIndex = expectIndex;
+        DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
+        [_dongda_tabbar itemSelected:btn];
+        
         if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
-            
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
-            [defaults synchronize];
-            
-            self.selectedIndex = expectIndex;
-            DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
-            [_dongda_tabbar itemSelected:btn];
             
             NSString *tipString ;
             if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal) {

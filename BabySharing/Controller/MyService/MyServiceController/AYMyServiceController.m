@@ -101,7 +101,8 @@
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
         } else {
-            kAYUIAlertView(@"错误", @"请检查网络链接是否正常");
+            NSString *title = @"请检查网络链接是否正常";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
 }
@@ -162,7 +163,8 @@
             kAYViewsSendMessage(@"Table", @"refresh", nil)
             
         } else {
-            kAYUIAlertView(@"错误", @"请检查网络链接是否正常");
+            NSString *title = @"请检查网络链接是否正常";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
         
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];

@@ -310,6 +310,8 @@
         }];
     }
     
+    [imgView setImage:IMGRESOURCE(@"default_user")];
+    
     sender_user_id = _message.from;
     id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
@@ -340,8 +342,6 @@
             [imgView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                        placeholderImage:IMGRESOURCE(@"default_user")];
             
-        } else {
-            [imgView setImage:IMGRESOURCE(@"default_user")];
         }
         
     }];

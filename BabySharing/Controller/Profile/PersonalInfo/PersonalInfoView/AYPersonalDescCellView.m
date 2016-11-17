@@ -42,7 +42,7 @@
         
         descLabel = [[UILabel alloc]init];
         descLabel = [Tools setLabelWith:descLabel andText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        descLabel.numberOfLines = 0;
+        descLabel.numberOfLines = 4;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(10);

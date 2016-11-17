@@ -5539,11 +5539,11 @@
 			isa = PBXGroup;
 			children = (
 				7001C4831DD58BAC004275A9 /* SetNapScheduleController */,
-				7001C8701DD2CCD9009EDC59 /* ServiceDescController */,
 				70C41E841DBA122500C77B10 /* NapImagePickerController */,
-				70C41E581DBA122500C77B10 /* InputNapTitleController */,
-				70C41EA11DBA122500C77B10 /* SetNapAgesController */,
 				70C41EB81DBA122500C77B10 /* SetNapThemeController */,
+				70C41E581DBA122500C77B10 /* InputNapTitleController */,
+				7001C8701DD2CCD9009EDC59 /* ServiceDescController */,
+				70C41EA11DBA122500C77B10 /* SetNapAgesController */,
 				70C41EAA1DBA122500C77B10 /* SetNapCostController */,
 				70C41E471DBA122500C77B10 /* InputNapAdressController */,
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,

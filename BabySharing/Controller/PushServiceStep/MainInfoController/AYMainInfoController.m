@@ -161,7 +161,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     if (!_service_change_dic) {
-        _service_change_dic = [[NSMutableDictionary alloc]init];
+        if (service_info) {
+            _service_change_dic = [service_info mutableCopy];
+        } else
+            _service_change_dic = [[NSMutableDictionary alloc]init];
     }
     
     if (!service_info) {
@@ -417,10 +420,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
             
             NSString *title = @"服务信息已更新";
-            // id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
             id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
             id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-            
             NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
             [dic_alert setValue:title forKey:@"title"];
             [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
@@ -482,7 +483,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_args setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     if (service_info) {
-        [dic_args setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+        [dic_args setValue:[_service_change_dic copy] forKey:kAYControllerChangeArgsKey];
     } else {
         
         if (napPhotos.count == 0) {

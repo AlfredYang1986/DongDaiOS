@@ -174,7 +174,7 @@
     if (!selectButton.isSelected) {
         // 1. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
         if (_tzImagePickerVc.selectedModels.count >= _tzImagePickerVc.maxImagesCount) {
-            [_tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"你最多只能选择%zd张照片",_tzImagePickerVc.maxImagesCount]];
+            [_tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"当前最多只能再选择%zd张照片",_tzImagePickerVc.maxImagesCount]];
             return;
         // 2. if not over the maxImagesCount / 如果没有超过最大个数限制
         } else {

@@ -35,6 +35,9 @@
 
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
+    
+    
+    
     UIButton *shareBtn;
     UIButton *collectionBtn;
     UIButton *unCollectionBtn;
@@ -230,31 +233,38 @@
     }];
     [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
-    bottom_view.backgroundColor = [Tools themeColor];
-    [self.view addSubview:bottom_view];
-    [self.view bringSubviewToFront:bottom_view];
     
-    CALayer *left = [CALayer layer];
-    left.frame = CGRectMake(SCREEN_WIDTH *0.5, 11, 1, 28);
-    left.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
-    [bottom_view.layer addSublayer:left];
+    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+    BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
+    if (!isNap) {
+        
+        UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
+        bottom_view.backgroundColor = [Tools themeColor];
+        [self.view addSubview:bottom_view];
+        [self.view bringSubviewToFront:bottom_view];
+        
+        CALayer *left = [CALayer layer];
+        left.frame = CGRectMake(SCREEN_WIDTH *0.5, 11, 1, 28);
+        left.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
+        [bottom_view.layer addSublayer:left];
+        
+        UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 50)];
+        [bookBtn setBackgroundColor:[Tools themeColor]];
+        [bookBtn setTitle:@"申请预订" forState:UIControlStateNormal];
+        bookBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
+        [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [bottom_view addSubview:bookBtn];
+        
+        UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 50)];
+        [chatBtn setBackgroundColor:[Tools themeColor]];
+        [chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
+        chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
+        [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [bottom_view addSubview:chatBtn];
+    }
     
-    UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 50)];
-    [bookBtn setBackgroundColor:[Tools themeColor]];
-    [bookBtn setTitle:@"申请预订" forState:UIControlStateNormal];
-    bookBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
-    [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [bottom_view addSubview:bookBtn];
-    
-    UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 50)];
-    [chatBtn setBackgroundColor:[Tools themeColor]];
-    [chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
-    chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
-    [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [bottom_view addSubview:chatBtn];
 }
 
 #pragma mark -- layouts
@@ -317,7 +327,10 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - btmViewHeight);
+    
+    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
+    BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : btmViewHeight));
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     view.backgroundColor = [UIColor clearColor];
@@ -531,8 +544,8 @@
                 collectionBtn.selected = YES;
                 bar_like_btn.selected = YES;
             } else {
-                NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                NSString *title = @"收藏失败!请检查网络链接是否正常";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }else {
@@ -544,8 +557,8 @@
                 collectionBtn.selected = NO;
                 bar_like_btn.selected = NO;
             } else {
-                NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }

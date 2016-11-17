@@ -101,10 +101,10 @@
     
     CGFloat sumPrice = 0;
     
-    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
-    if (isLeave) {
-        sumPrice += 40;
-    }
+//    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
+//    if (isLeave) {
+//        sumPrice += 40;
+//    }
     
     double start = ((NSNumber*)[order_info objectForKey:@"order_date"]).doubleValue;
     
@@ -235,13 +235,13 @@
     [dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
     
     CGFloat sumPrice = 0;
-    BOOL isLeave = ((NSNumber*)[service_info objectForKey:@"allow_leave"]).boolValue;
-    if (isLeave) {
-        sumPrice += 40 * 100;
-    }
+//    BOOL isLeave = ((NSNumber*)[service_info objectForKey:@"allow_leave"]).boolValue;
+//    if (isLeave) {
+//        sumPrice += 40 * 100;
+//    }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
     sumPrice += (unit_price.floatValue * (endClock - startClock)) * 100;
-    sumPrice = 1.f;
+//    sumPrice = 1.f;
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     

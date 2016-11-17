@@ -18,19 +18,13 @@
 #import "AYModelFacade.h"
 
 #import <AMapSearchKit/AMapSearchKit.h>
-#import <MapKit/MapKit.h>
-#import <CoreLocation/CoreLocation.h>
+
 #import <AMapSearchKit/AMapSearchKit.h>
 
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 #define FAKE_BAR_HEIGHT             44
 #define locBGViewHeight                 175
-
-@interface AYNapAreaController () <CLLocationManagerDelegate>
-@property (nonatomic, strong) CLLocationManager  *manager;
-@property (nonatomic, strong) CLGeocoder *gecoder;
-
-@end
+#define nextBtnHeight                   50
 
 @implementation AYNapAreaController{
     
@@ -150,6 +144,8 @@
     adjustAdress.placeholder = @"门牌号";
     adjustAdress.textColor = [Tools blackColor];
     adjustAdress.clearButtonMode = UITextFieldViewModeWhileEditing;
+    adjustAdress.returnKeyType = UIReturnKeyDone;
+    adjustAdress.delegate = self;
     [locBGView addSubview:adjustAdress];
     [adjustAdress mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(adressLabel).offset(60);
@@ -228,7 +224,7 @@
     NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyBoardFrame = value.CGRectValue;
     
-    locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - keyBoardFrame.size.height, SCREEN_HEIGHT, locBGViewHeight);
+    locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight + nextBtnHeight - keyBoardFrame.size.height, SCREEN_HEIGHT, locBGViewHeight);
 }
 
 - (void)keyboardWasChange:(NSNotification *)notification {
@@ -272,6 +268,15 @@
     view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
     view.backgroundColor = [Tools garyColor];
     return nil;
+}
+
+#pragma mark -- textField delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ([string isEqualToString:@"\n"]) {
+        [adjustAdress resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark -- 定位成功 调用代理方法

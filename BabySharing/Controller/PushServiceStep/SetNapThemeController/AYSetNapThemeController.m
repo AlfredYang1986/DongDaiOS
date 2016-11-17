@@ -21,7 +21,7 @@
 #define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   228
 #define kTableFrameY                64
-#define reloadIndexPathForRow   5
+#define reloadIndexPathForRow   6
 
 @implementation AYSetNapThemeController {
     
@@ -111,8 +111,6 @@
     [cmd_left performWithResult:&left];
     
     UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     

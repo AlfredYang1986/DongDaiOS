@@ -169,8 +169,8 @@ typedef void(^queryContentFinish)(void);
                 id<AYCommand> refresh = [view_notify.commands objectForKey:@"refresh"];
                 [refresh performWithResult:nil];
             } else {
-                NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+                NSString *title = @"请检查网络链接是否正常";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }
@@ -259,7 +259,8 @@ typedef void(^queryContentFinish)(void);
             [refresh performWithResult:nil];
         } else {
             NSLog(@"push error with:%@",result);
-            [[[UIAlertView alloc]initWithTitle:@"错误" message:@"请检查网络链接是否正常" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+            NSString *title = @"请检查网络链接是否正常";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
         [((UITableView*)view_notify).mj_footer endRefreshing];

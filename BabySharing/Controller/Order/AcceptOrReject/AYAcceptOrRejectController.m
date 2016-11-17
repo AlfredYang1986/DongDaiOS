@@ -113,10 +113,10 @@
     
     CGFloat sumPrice = 0;
     
-    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
-    if (isLeave) {
-        sumPrice += 40;
-    }
+//    BOOL isLeave = ((NSNumber*)[dic_args objectForKey:@"allow_leave"]).boolValue;
+//    if (isLeave) {
+//        sumPrice += 40;
+//    }
     
     NSDictionary *dic_times = [order_info objectForKey:@"order_date"];
     double start = ((NSNumber*)[dic_times objectForKey:@"start"]).doubleValue;

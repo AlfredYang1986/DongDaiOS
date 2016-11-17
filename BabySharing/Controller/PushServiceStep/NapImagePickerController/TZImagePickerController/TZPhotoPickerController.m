@@ -345,7 +345,7 @@ static CGSize AssetGridThumbnailSize;
                 [tzImagePickerVc.selectedModels addObject:model];
                 [weakSelf refreshBottomToolBarStatus];
             } else {
-                [tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"你最多只能选择%zd张照片",tzImagePickerVc.maxImagesCount]];
+                [tzImagePickerVc showAlertWithTitle:[NSString stringWithFormat:@"当前最多只能再选择%zd张照片",tzImagePickerVc.maxImagesCount]];
             }
         }
          [UIView showOscillatoryAnimationWithLayer:weakLayer type:TZOscillatoryAnimationToSmaller];

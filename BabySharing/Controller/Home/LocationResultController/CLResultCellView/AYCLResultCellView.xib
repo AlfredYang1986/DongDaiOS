@@ -26,7 +26,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="喜欢画画的插画师妈妈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vtg-UL-53k">
-                        <rect key="frame" x="15" y="265" width="184" height="22"/>
+                        <rect key="frame" x="15" y="265" width="183.5" height="22"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                         <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -107,6 +107,7 @@
                     <constraint firstItem="oKf-ix-c8B" firstAttribute="top" secondItem="AGi-wg-VLC" secondAttribute="bottom" constant="15" id="kya-4t-ha5"/>
                     <constraint firstItem="tbi-Hs-8Dm" firstAttribute="leading" secondItem="vtg-UL-53k" secondAttribute="leading" id="oUO-Lr-sZm"/>
                     <constraint firstItem="vtg-UL-53k" firstAttribute="top" secondItem="lwB-4Y-nxj" secondAttribute="bottom" constant="30" id="ojA-MS-gt5"/>
+                    <constraint firstItem="oKf-ix-c8B" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vtg-UL-53k" secondAttribute="trailing" constant="5" id="ov4-ug-Z6J"/>
                     <constraint firstItem="wSp-Qe-A2P" firstAttribute="centerX" secondItem="oKf-ix-c8B" secondAttribute="centerX" id="qrM-9K-FAX"/>
                 </constraints>
                 <userDefinedRuntimeAttributes>

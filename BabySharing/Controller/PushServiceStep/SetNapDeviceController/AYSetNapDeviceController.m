@@ -166,12 +166,12 @@
 }
 - (id)rightBtnSelected {
     
-    if (notePow == 0) {
-        
-        NSString *title = @"您还没有添加友好设施";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return nil;
-    }
+//    if (notePow == 0) {
+//        
+//        NSString *title = @"您还没有添加友好设施";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return nil;
+//    }
     
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
