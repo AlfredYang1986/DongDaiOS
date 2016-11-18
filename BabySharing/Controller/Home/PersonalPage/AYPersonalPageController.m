@@ -18,25 +18,12 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
-#import "SDCycleScrollView.h"
-
-#define kLIMITEDSHOWNAVBAR  (-50)
+#define kLIMITEDSHOWNAVBAR  (-75)
 #define kFlexibleHeight     250
 #define btmViewHeight       50
 
-@interface AYPersonalPageController ()<SDCycleScrollViewDelegate>
-
-@end
-
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
-    
-    
     
     UIButton *shareBtn;
     UIButton *collectionBtn;
@@ -66,7 +53,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     UILabel *secret = [Tools creatUILabelWithText:@"有温度的儿童主题看顾社区" andTextColor:[UIColor colorWithWhite:0.88 alpha:1.f] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
@@ -86,10 +72,6 @@
     [cmd_datasource performWithResult:&obj];
     obj = (id)cmd_recommend;
     [cmd_delegate performWithResult:&obj];
-    
-//    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-//    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServicePageCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//    [cmd_search performWithResult:&nib_search_name];
     
     id<AYCommand> cmd_class = [view_table.commands objectForKey:@"registerCellWithClass:"];
     NSString* class_name_00 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -155,6 +137,16 @@
             make.edges.equalTo(flexibleView);
         }];
         
+        UIImageView *topMaskVeiw = [[UIImageView alloc]init];
+        topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
+        topMaskVeiw.userInteractionEnabled = NO;
+        [flexibleView addSubview:topMaskVeiw];
+        [topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(flexibleView);
+            make.centerX.equalTo(flexibleView);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 102));
+        }];
+        
         UIButton *popImage = [[UIButton alloc]init];
         [popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
         [flexibleView addSubview:popImage];
@@ -165,9 +157,19 @@
         }];
         [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
         
-        UILabel *costLabel = [[UILabel alloc]init];
-        costLabel = [Tools setLabelWith:costLabel andText:@"Service Price" andTextColor:[UIColor whiteColor] andFontSize:[UIFont systemFontSize] andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
-        costLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:16.f];
+        collectionBtn = [[UIButton alloc]init];
+        [collectionBtn setImage:IMGRESOURCE(@"bar_unlike_btn") forState:UIControlStateNormal];
+        [collectionBtn setImage:IMGRESOURCE(@"bar_like_btn") forState:UIControlStateSelected];
+        [flexibleView addSubview:collectionBtn];
+        [flexibleView bringSubviewToFront:collectionBtn];
+        [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(flexibleView).offset(-35);
+            make.centerY.equalTo(popImage);
+            make.size.mas_equalTo(CGSizeMake(27, 27));
+        }];
+        [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UILabel *costLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
         [flexibleView addSubview:costLabel];
         [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(flexibleView);
@@ -204,13 +206,30 @@
 //        }
 //    }];
     
-//    changeDescription
+    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
+    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
+    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
+        if (success) {
+            NSArray *points = [result objectForKey:@"points"];
+            if (points.count == 0) {
+                id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
+                NSNumber *has_comment = [NSNumber numberWithBool:YES];
+                [cmd_desc performWithResult:&has_comment];
+                
+                UITableView *tableView = [self.views objectForKey:@"Table"];
+                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:NO];
+            }
+        }
+    }];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
     ((UINavigationBar*)navBar).alpha = 0;
     
-    shareBtn = [[UIButton alloc]init];
+    /*
+     shareBtn = [[UIButton alloc]init];
     [shareBtn setImage:IMGRESOURCE(@"service_share") forState:UIControlStateNormal];
     [self.view addSubview:shareBtn];
     [self.view bringSubviewToFront:shareBtn];
@@ -220,19 +239,7 @@
         make.size.mas_equalTo(CGSizeMake(52, 52));
     }];
     [shareBtn addTarget:self action:@selector(didShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    collectionBtn = [[UIButton alloc]init];
-    [collectionBtn setImage:IMGRESOURCE(@"service_uncollection") forState:UIControlStateNormal];
-    [collectionBtn setImage:IMGRESOURCE(@"service_collection") forState:UIControlStateSelected];
-    [self.view addSubview:collectionBtn];
-    [self.view bringSubviewToFront:collectionBtn];
-    [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(shareBtn.mas_left).offset(-20);
-        make.centerY.equalTo(shareBtn);
-        make.size.equalTo(shareBtn);
-    }];
-    [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
+     */
     
     AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
     BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
@@ -276,6 +283,9 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 55);
     view.backgroundColor = [UIColor whiteColor];
     
+    NSString *title = @"服务详情";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
     UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -284,7 +294,7 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     id right = [NSNumber numberWithBool:YES];
     [cmd_right performWithResult:&right];
-    
+    /*
     UIButton *bar_share_btn = [[UIButton alloc]init];
     [bar_share_btn setImage:IMGRESOURCE(@"bar_share_btn") forState:UIControlStateNormal];
     [view addSubview:bar_share_btn];
@@ -303,26 +313,23 @@
         make.centerY.equalTo(bar_share_btn);
         make.size.mas_equalTo(CGSizeMake(1, 20));
     }];
-    
+    */
     bar_like_btn = [[UIButton alloc]init];
     [bar_like_btn setImage:IMGRESOURCE(@"bar_unlike_btn") forState:UIControlStateNormal];
     [bar_like_btn setImage:IMGRESOURCE(@"bar_like_btn") forState:UIControlStateSelected];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(speart.mas_left).offset(-23);
-        make.centerY.equalTo(bar_share_btn);
-        make.size.mas_equalTo(CGSizeMake(23.5, 20));
+        make.right.equalTo(view).offset(-35);
+        make.centerY.equalTo(view);
+        make.size.mas_equalTo(CGSizeMake(27, 27));
     }];
     
     UIView *statusBar = [[UIView alloc]initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, 20)];
     statusBar.backgroundColor = [UIColor whiteColor];
     [view addSubview:statusBar];
     
-    CALayer* line = [CALayer layer];
-    line.backgroundColor = [UIColor colorWithWhite:0.75f alpha:1.f].CGColor;
-    line.frame = CGRectMake(0, 54, SCREEN_WIDTH, 1);
-    [view.layer addSublayer:line];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -364,7 +371,7 @@
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
-    if (offset_y > kLIMITEDSHOWNAVBAR) {
+    if (offset_y > kLIMITEDSHOWNAVBAR) { //偏移的绝对值 小于 abs(-75)
         
         [UIView animateWithDuration:0.5 animations:^{
             ((UINavigationBar*)navBar).alpha = 1.f;
@@ -387,11 +394,11 @@
 //        }];
 //    }
     
-    [shareBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+    /*[shareBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.view).offset(-20);
         make.centerY.equalTo(self.view.mas_top).offset(- offset_y);
         make.size.mas_equalTo(CGSizeMake(52, 52));
-    }];
+    }];*/
 //    [collectionBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
 //        make.right.equalTo(shareBtn.mas_left).offset(-20);
 //        make.centerY.equalTo(shareBtn);

@@ -8,7 +8,8 @@
 
 #import "AYViewController.h"
 #import "AYViewBase.h"
+#import "SDCycleScrollView.h"
 
-@interface AYPersonalPageController : AYViewController
+@interface AYPersonalPageController : AYViewController<SDCycleScrollViewDelegate>
 
 @end

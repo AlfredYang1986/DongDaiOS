@@ -240,6 +240,7 @@
         <command type="message" message="resignFocus" />
         <command type="message" message="regInputDelegate:" />
         <command type="message" message="setJoinerCount:" />
+        <command type="message" message="sendHeightNote:" />
     </view>
     
     <view type="SamePersonBtn" name="SamePersonBtn" factory="AYDefaultViewFactory" >

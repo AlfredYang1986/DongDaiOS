@@ -14,23 +14,20 @@
 #import "AYFacadeBase.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
-#import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-#import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
 
-@interface AYPersonalInfoController ()
-
-@end
+#define userPhotoInitHeight         250
 
 @implementation AYPersonalInfoController {
     
     NSDictionary *personal_info;
+    UIImageView *coverImg;
 }
 
 - (void)postPerform{
     
 }
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -43,6 +40,7 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+        
         kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
         kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     }
@@ -51,27 +49,46 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"PersonalInfo"];
     id obj = (id)cmd_collect;
-    kAYViewsSendMessage(@"Table", @"registerDatasource:", &obj)
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
     
     obj = (id)cmd_collect;
-    kAYViewsSendMessage(@"Table", @"registerDelegate:", &obj)
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
     
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalInfoHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(@"Table", @"registerCellWithClass:", &class_name)
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
     class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(@"Table", @"registerCellWithClass:", &class_name)
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
     class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalValidateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(@"Table", @"registerCellWithClass:", &class_name)
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
     NSDictionary *tmp = [personal_info copy];
     kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
+    
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    UITableView *tableView = (UITableView*)view_table;
+    coverImg = [[UIImageView alloc]init];
+//    coverImg.image = [UIImage imageNamed:@"default_image"];
+    coverImg.backgroundColor = [UIColor lightGrayColor];
+    coverImg.contentMode = UIViewContentModeScaleAspectFill;
+    coverImg.clipsToBounds = YES;
+    [tableView addSubview:coverImg];
+    [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(tableView).offset(- userPhotoInitHeight);
+        make.centerX.equalTo(tableView);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, userPhotoInitHeight));
+    }];
+    
+    NSString* photo_name = [personal_info objectForKey:@"screen_photo"];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSString *pre = cmd.route;
+    [coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
     
 }
 
@@ -124,7 +141,7 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
-//    view.backgroundColor = [Tools garyBackgroundColor];
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(userPhotoInitHeight, 0, 0, 0);
     return nil;
 }
 
@@ -158,6 +175,26 @@
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
+    return nil;
+}
+
+- (id)scrollOffsetY:(NSNumber*)args {
+    CGFloat offset_y = args.floatValue;
+    CGFloat offsetH = userPhotoInitHeight + offset_y;
+    
+    if (offsetH < 0) {
+        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+        UITableView *tableView = (UITableView*)view_notify;
+        
+        [coverImg mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(tableView);
+            make.top.equalTo(tableView).offset(- userPhotoInitHeight + offsetH);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH , userPhotoInitHeight - offsetH));
+            
+//            make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
+//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - (SCREEN_WIDTH * offsetH / kFlexibleHeight), kFlexibleHeight - offsetH));
+        }];
+    }
     return nil;
 }
 

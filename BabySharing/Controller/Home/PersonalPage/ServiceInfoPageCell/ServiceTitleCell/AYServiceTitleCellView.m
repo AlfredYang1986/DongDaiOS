@@ -58,7 +58,7 @@
         [self addSubview:signCapacity];
         [signCapacity mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.top.equalTo(titleLabel.mas_bottom).offset(48);
+            make.bottom.equalTo(self).offset(-45);
             make.size.mas_equalTo(CGSizeMake(27, 27));
         }];
         
@@ -190,8 +190,8 @@
         if (success) {
             NSArray *points = [result objectForKey:@"points"];
             if (points.count == 0) {
-                //                _starRangImage.hidden = YES;
-                pointsImageView.image = IMGRESOURCE(@"star_rang_0");
+                    pointsImageView.hidden = YES;
+//                pointsImageView.image = IMGRESOURCE(@"star_rang_0");
             } else {
                 CGFloat sumPoint  = 0;
                 for (NSNumber *point in points) {

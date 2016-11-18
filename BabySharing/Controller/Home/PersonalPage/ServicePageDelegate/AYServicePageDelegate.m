@@ -16,9 +16,6 @@
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
 
-//#import "AYServiceInfoCellView.h"
-//#import "AYFouceCellView.h"
-
 #define WIDTH               SCREEN_WIDTH - 15*2
 
 @implementation AYServicePageDelegate {
@@ -27,6 +24,8 @@
     
     BOOL isExpend;
     CGFloat expendHeight;
+    
+    BOOL has_comment;
 }
 
 @synthesize para = _para;
@@ -64,6 +63,7 @@
 
 - (id)changeDescription:(id)args {
 //    personal_description = (NSString*)args;
+    has_comment = ((NSNumber*)args).boolValue;
     return nil;
 }
 
@@ -115,7 +115,7 @@
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        id tmp = [querydata objectForKey:@"location"];
+        id tmp = [querydata copy];
         kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
     else if (indexPath.row == 5) {
@@ -135,7 +135,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == 0) {
-        return 165;
+        return has_comment ? 130 : 165;
+//        return 165;
+//        return 130;
     }
     else if (indexPath.row ==1) {
         

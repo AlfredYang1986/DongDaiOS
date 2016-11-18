@@ -70,8 +70,6 @@
                 placeholderImage:IMGRESOURCE(@"default_image")];
     }
     
-    
-    
     return nil;
 }
 

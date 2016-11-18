@@ -100,7 +100,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        return 350;
+        return 100;
     } else if (indexPath.section == 1) {
         return 135;
     } else {
@@ -118,7 +118,7 @@
         } else {
             
             NSNumber *is_real_name_cert = [querydata objectForKey:@"is_real_name_cert"];
-            return is_real_name_cert.boolValue?64:0.001;
+            return is_real_name_cert.boolValue ? 64:0.001;
         }
     }
 }
@@ -137,6 +137,19 @@
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
+    CGFloat offset = scrollView.contentOffset.y;
+    NSNumber *offset_y = [NSNumber numberWithFloat:offset];
+    [cmd performWithResult:&offset_y];
+    if (fabs(offset) < 450) {
+        
+    } else {
+        //        static CGFloat set = scrollView.contentOffset.y;
+        //        scrollView.contentOffset = CGPointMake(0, -450);
+    }
 }
 
 @end

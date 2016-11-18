@@ -14,6 +14,7 @@
 #define USER_BTN_WIDTH          40
 #define INPUT_HEIGHT            33
 #define INPUT_CONTAINER_HEIGHT  49
+#define InputViewheight             64
 
 @implementation AYChatInputView {
     CATextLayer* group_count;
@@ -23,6 +24,7 @@
     UILabel *placeHoldeLabel;
     
     CGFloat height_note;
+    CGFloat keyBoardHeight;
 }
 
 @synthesize para = _para;
@@ -81,7 +83,6 @@
         make.left.equalTo(inputView).offset(5);
     }];
     
-    
 //    UIImageView* img = [[UIImageView alloc]init];
 //    UIImage *bg = [UIImage imageNamed:@"group_chat_input_bg"];
 //    bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
@@ -110,6 +111,11 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+- (id)sendHeightNote:(NSNumber*)args {
+    keyBoardHeight = args.floatValue;
+    return nil;
+}
+
 #pragma mark -- uitextView delegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
@@ -123,14 +129,15 @@
             
             placeHoldeLabel.hidden = NO;
             textView.text = @"";
-            [textView resignFirstResponder];
-            self.frame = CGRectMake(0, SCREEN_HEIGHT - 64, SCREEN_WIDTH, 64);
+//            [textView resignFirstResponder];
+            self.frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight - keyBoardHeight, SCREEN_WIDTH, InputViewheight);
             [inputView mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self).offset(5);
                 make.centerY.equalTo(self);
                 make.right.equalTo(self).offset(-70);
                 make.height.mas_equalTo(INPUT_HEIGHT);
             }];
+            
             height_note = INPUT_HEIGHT;
         }
         
@@ -188,8 +195,8 @@
     
     placeHoldeLabel.hidden = NO;
     inputView.text = @"";
-    [inputView resignFirstResponder];
-    self.frame = CGRectMake(0, SCREEN_HEIGHT - 64, SCREEN_WIDTH, 64);
+//    [inputView resignFirstResponder];
+    self.frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight - keyBoardHeight, SCREEN_WIDTH, InputViewheight);
     [inputView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(5);
         make.centerY.equalTo(self);

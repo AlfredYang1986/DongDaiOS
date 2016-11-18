@@ -31,7 +31,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    baby_ages = @[@"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11"];
+    baby_ages = @[@"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -58,7 +58,7 @@
     if(component == 1){
         return 1;
     } else
-        return 9;
+        return baby_ages.count;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
@@ -71,7 +71,11 @@
     }
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    return [UIScreen mainScreen].bounds.size.width / 3;
+    
+    if(component == 1){
+        return 50;
+    } else
+        return (SCREEN_WIDTH - 150) * 0.5;
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
@@ -87,10 +91,7 @@
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
 {
     UILabel *myView = nil;
-    myView = [[UILabel alloc] init] ;
-    myView.textAlignment = NSTextAlignmentCenter;
-    myView.font = [UIFont systemFontOfSize:14];
-    myView.backgroundColor = [UIColor clearColor];
+    myView = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     
     if (component == 0) {
         myView.text = [baby_ages objectAtIndex:row];
@@ -98,7 +99,7 @@
     else if (component == 2) {
         myView.text = [baby_ages objectAtIndex:row];
     }
-    else myView.text = @"~";
+    else myView.text = @"-";
     
     return myView;
 }

@@ -335,6 +335,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight - ChatHeadheight - step.floatValue);
         [self scrollTableToFoot:YES];
     }];
+    
+    id<AYViewBase> del = [self.views objectForKey:@"ChatInput"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"sendHeightNote:"];
+    id height_note = step;
+    [cmd performWithResult:&height_note];
+    
     return nil;
 }
 
@@ -347,6 +353,12 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
         [self scrollTableToFoot:YES];
     }];
+    
+    id<AYViewBase> del = [self.views objectForKey:@"ChatInput"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"sendHeightNote:"];
+    NSNumber *height_note = [NSNumber numberWithFloat:0];
+    [cmd performWithResult:&height_note];
+    
     return nil;
 }
 

@@ -479,7 +479,7 @@
 }
 
 + (UIColor*)garyLineColor {
-    return [UIColor colorWithWhite:0.75f alpha:1.f];
+    return [UIColor colorWithWhite:0.78f alpha:1.f];
 }
 
 + (UIColor*)garyBackgroundColor {

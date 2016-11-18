@@ -124,7 +124,7 @@
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        id tmp = [[querydata objectForKey:@"service"] objectForKey:@"location"];
+        id tmp = [[querydata objectForKey:@"service"] copy];
         id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
         [cmd performWithResult:&tmp];
     }
