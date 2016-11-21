@@ -49,30 +49,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools themeColor];
-    self.navigationController.navigationBar.tintColor = [Tools themeColor];
-    
-    
-    
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
-    id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
-    id<AYCommand> cmd_view = [view.commands objectForKey:@"startConfirmCodeTimer"];
-    [cmd_view performWithResult:nil];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 64);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
     view.backgroundColor = [Tools themeColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
@@ -80,26 +69,10 @@
     UIImage* left = IMGRESOURCE(@"bar_left_white");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"下一步" forState:UIControlStateNormal];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(width - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-    
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:nil];
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    UILabel* titleView = (UILabel*)view;
-    titleView.text = @" ";
-    titleView.font = [UIFont systemFontOfSize:18.f];
-    titleView.textColor = [UIColor whiteColor];
-    [titleView sizeToFit];
-    titleView.center = CGPointMake(width / 2, 64 / 2);
     return nil;
 }
 

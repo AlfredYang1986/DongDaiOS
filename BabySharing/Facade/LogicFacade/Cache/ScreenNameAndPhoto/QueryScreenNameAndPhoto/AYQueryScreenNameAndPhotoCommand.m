@@ -55,7 +55,9 @@
                 [cmd_push performWithResult:&arg_push];
                 
                 block(YES, [reVal copy]);
-            } else block(NO, nil);
+            } else {
+                block(NO, nil);
+            }
         }];
     }
 }

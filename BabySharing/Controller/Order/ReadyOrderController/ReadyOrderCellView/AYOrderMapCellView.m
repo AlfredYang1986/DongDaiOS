@@ -57,14 +57,14 @@
         [self addSubview:addressLabel];
         [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self).offset(-15);
-            make.centerY.equalTo(self).offset(-50);
+            make.centerY.equalTo(self).offset(-53);
         }];
         
         addressBg = [[UIImageView alloc]init];
         [self addSubview:addressBg];
         addressBg.contentMode = UIViewContentModeBottom;
         addressBg.image = IMGRESOURCE(@"address_bg");
-        addressBg.alpha = 0.95f;
+//        addressBg.alpha = 0.95f;
 //        UIImage *bg = IMGRESOURCE(@"message_bg_one");
 //        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
 //        addressBg.image = bg;

@@ -223,6 +223,11 @@
     } else {
         user_id = last_message.from;
     }
+    
+    if (!user_id) {
+    
+        
+    }
     NSLog(@"%@",user_id);
     
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
@@ -232,21 +237,20 @@
     [dic_owner_id setValue:user_id forKey:@"user_id"];
     
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        _themeLabel.text = [result objectForKey:@"screen_name"];
-        
-        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
-        [dic setValue:@"img_icon" forKey:@"expect_size"];
-        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            UIImage* img = (UIImage*)result;
-            if (img != nil) {
-                [_themeImg setImage:img];
-            } else
-                _themeImg.image = IMGRESOURCE(@"default_user");
-        }];
-        
+        if (success) {
+            
+            _themeLabel.text = [result objectForKey:@"screen_name"];
+            
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSString *screen_photo = [result objectForKey:@"screen_photo"];
+            [_themeImg sd_setImageWithURL:[NSURL URLWithString:[cmd.route stringByAppendingString:screen_photo]] placeholderImage:IMGRESOURCE(@"default_user") options:SDWebImageRefreshCached];
+            
+        } else {
+            
+            _themeLabel.text = @"姓名";
+            _themeImg.image = IMGRESOURCE(@"default_user");
+        }
     }];
     
     _chatLabel.text = ((EMTextMessageBody*)last_message.body).text;

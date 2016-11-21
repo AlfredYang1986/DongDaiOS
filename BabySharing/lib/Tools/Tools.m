@@ -448,6 +448,7 @@
         con.lineFragmentPadding = 4;
         //    con.lineBreakMode = NSLineBreakByWordWrapping;
         con.lineBreakMode = NSLineBreakByCharWrapping;
+        
         return [m usedRectForTextContainer:con].size;
     } else {
         return CGSizeMake(0.f, 0.f);

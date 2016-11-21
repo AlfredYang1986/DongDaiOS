@@ -286,7 +286,6 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 //    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
     id<AYCommand> cmd;
-    
     if (buttonIndex == 0) { // take photo / 去拍照
         cmd = OpenCamera;
     } else if (buttonIndex == 1) {

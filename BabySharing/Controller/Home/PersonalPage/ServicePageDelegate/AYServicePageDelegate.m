@@ -153,7 +153,7 @@
                     return 200;
             } else {
                 CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
-                return 85 + filtSize.height + 20;
+                return 85 + filtSize.height + 40;
             }
         }
     }//

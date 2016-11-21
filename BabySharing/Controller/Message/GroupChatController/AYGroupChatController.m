@@ -261,7 +261,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     }
     
     [self setMessagesToDelegate];
-    [self scrollTableToFoot:YES];
+//    [self scrollTableToFoot:YES];
+    [self sendOrReceviceMessageScrollToFoot];
     return nil;
 }
 
@@ -283,7 +284,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     messageNote = m;
     
     [self setMessagesToDelegate];
-    [self scrollTableToFoot:YES];
+//    [self scrollTableToFoot:YES];
+    [self sendOrReceviceMessageScrollToFoot];
     return nil;
 }
 
@@ -311,15 +313,38 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     if (r<1) return;
     
     NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
-    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
     
+//    UITableViewCell *cell = [queryView cellForRowAtIndexPath:ip];
 //    if (queryView.contentSize.height > queryView.frame.size.height)
 //    {
-//        CGPoint offset = CGPointMake(0, queryView.contentSize.height - queryView.frame.size.height);
+//        CGPoint offset = CGPointMake(0, queryView.contentSize.height - queryView.frame.size.height + cell.bounds.size.height);
 //        [queryView setContentOffset:offset animated:animated];
 //    }
-//    [queryView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionBottom animated:animated];
     
+//    [queryView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionBottom animated:animated];
+}
+
+- (void)sendOrReceviceMessageScrollToFoot {
+    UITableView* queryView = [self.views objectForKey:kAYGroupChatControllerMessageTable];
+    
+    NSInteger s = [queryView numberOfSections];
+    if (s<1) return;
+    NSInteger r = [queryView numberOfRowsInSection:s-1];
+    if (r<1) return;
+    
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+//    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    
+    UITableViewCell *cell = [queryView cellForRowAtIndexPath:ip];
+    CGFloat offse = cell.bounds.size.height;
+    if (queryView.contentSize.height > queryView.frame.size.height)
+    {
+        CGPoint offset = CGPointMake(0, queryView.contentSize.height - queryView.frame.size.height + 0);
+        [queryView setContentOffset:offset animated:YES];
+    }
+    
+//        [queryView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 #pragma mark -- get input view height
@@ -432,7 +457,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYCommand> cmd_refresh = [view.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
     
-    [self scrollTableToFoot:YES];
+//    [self scrollTableToFoot:YES];
 }
 
 #pragma mark -- create chat
