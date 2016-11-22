@@ -14,10 +14,6 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-@interface AYHomeDelegate ()
-
-@end
-
 @implementation AYHomeDelegate{
     NSArray *collectData;
 }

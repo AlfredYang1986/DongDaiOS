@@ -31,7 +31,7 @@
         
     }
     pickerImage.delegate = (id<UINavigationControllerDelegate ,UIImagePickerControllerDelegate>)controller;
-    pickerImage.allowsEditing = NO;
+    pickerImage.allowsEditing = YES;
     [controller presentViewController:pickerImage animated:YES completion:nil];
 }
 

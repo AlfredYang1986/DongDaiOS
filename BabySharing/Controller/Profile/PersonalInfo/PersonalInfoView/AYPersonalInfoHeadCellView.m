@@ -33,23 +33,23 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        userImageView = [UIImageView new];
-        userImageView.image = IMGRESOURCE(@"default_image");
-        userImageView.contentMode = UIViewContentModeScaleAspectFill;
-        userImageView.clipsToBounds = YES;
-        [self addSubview:userImageView];
-        [userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
-        }];
+//        userImageView = [UIImageView new];
+//        userImageView.image = IMGRESOURCE(@"default_image");
+//        userImageView.contentMode = UIViewContentModeScaleAspectFill;
+//        userImageView.clipsToBounds = YES;
+//        [self addSubview:userImageView];
+//        [userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self);
+//            make.centerX.equalTo(self);
+//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
+//        }];
         
         nameLabel = [[UILabel alloc]init];
         nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.top.equalTo(userImageView.mas_bottom).offset(20);
+            make.top.equalTo(self).offset(20);
         }];
         
         registTimeLabel = [[UILabel alloc]init];
@@ -144,19 +144,12 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    NSString* photo_name = [args objectForKey:@"screen_photo"];
-    [dic setValue:photo_name forKey:@"image"];
-    [dic setValue:@"img_local" forKey:@"expect_size"];
-    
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            userImageView.image = img;
-        }
-    }];
+//    NSString* photo_name = [args objectForKey:@"screen_photo"];
+//    
+//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//    NSString *pre = cmd.route;
+//    [userImageView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
     
     nameLabel.text = [args objectForKey:@"screen_name"];
     

@@ -256,7 +256,10 @@
         [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
             CLPlacemark *pl = [placemarks firstObject];
             NSLog(@"%@",pl.addressDictionary);
-            adress.text = [NSString stringWithFormat:@"%@, %@",pl.locality,pl.subLocality];
+            if (pl.locality && pl.subLocality) {
+                
+                adress.text = [NSString stringWithFormat:@"%@, %@",pl.locality,pl.subLocality];
+            }
         }];
     }
     

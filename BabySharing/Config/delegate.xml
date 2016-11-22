@@ -103,6 +103,7 @@
 
     <delegate type="TableViewDelegateAndDatasource" name="GroupChatMessages" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+        <command type="message" message="sendHeightNote:" />
     </delegate>
 
     <delegate type="TextViewDelegate" name="ChatGroupInput" factory="AYDefaultDelegateFactory" >
@@ -169,6 +170,7 @@
     <delegate type="TableViewDelegateAndDatasource" name="OneProfile" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="sendRegMessage" />
+        <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="ProfileService" factory="AYDefaultDelegateFactory" >

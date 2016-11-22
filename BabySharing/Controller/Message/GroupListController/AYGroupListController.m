@@ -164,15 +164,13 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 20, width, 44);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"消息";
@@ -187,18 +185,14 @@
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     [cmd_right_vis performWithResult:&right_hidden];
     
-    CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(0, 43.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools garyColor].CGColor;
-    [view.layer addSublayer:line];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
     
     view.frame = CGRectMake(0, TABLE_VIEW_TOP_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT - TABLE_VIEW_TOP_MARGIN);
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
+    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 

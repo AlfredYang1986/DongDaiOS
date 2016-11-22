@@ -32,6 +32,9 @@
     NSArray *fiteResultData;
     
     CLLocation *loc;
+    
+    UILabel *addressLabel;
+    UIImageView *addressBg;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -49,6 +52,28 @@
         orderMapView.zoomEnabled = NO;
         //配置用户Key
         [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
+        
+        addressLabel = [Tools creatUILabelWithText:@"service address" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [self addSubview:addressLabel];
+        [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self).offset(-15);
+            make.centerY.equalTo(self).offset(-53);
+        }];
+        
+        addressBg = [[UIImageView alloc]init];
+        [self addSubview:addressBg];
+        addressBg.contentMode = UIViewContentModeBottom;
+        addressBg.image = IMGRESOURCE(@"address_bg");
+//        addressBg.alpha = 0.95f;
+//        UIImage *bg = IMGRESOURCE(@"message_bg_one");
+//        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
+//        addressBg.image = bg;
+        [addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-10, -15, -20, -15));
+        }];
+        
+        [self bringSubviewToFront:addressBg];
+        [self bringSubviewToFront:addressLabel];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -112,8 +137,12 @@
 
 - (id)setCellInfo:(id)args{
     
-    NSDictionary *dic_loc = (NSDictionary*)args;
+    NSDictionary *info = (NSDictionary*)args;
     
+    NSString *addressStr = [info objectForKey:@"address"];
+    addressLabel.text = addressStr;
+    
+    NSDictionary *dic_loc = [info objectForKey:@"location"];
     NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
     NSNumber *longtitude = [dic_loc objectForKey:@"longtitude"];
     loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
@@ -158,7 +187,6 @@
     } else {
         //采用系统默认蓝色大头针
         return nil;
-        
     }
 }
 @end

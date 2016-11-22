@@ -212,7 +212,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 - (id)TableLayout:(UIView*)view {
     
     view.frame = CGRectMake(0, kStatusAndNavBarH+ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
-    view.backgroundColor = [UIColor clearColor];
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     //预设高度
     ((UITableView*)view).estimatedRowHeight = 120;
     ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
@@ -261,7 +261,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     }
     
     [self setMessagesToDelegate];
-    [self scrollTableToFoot:YES];
+//    [self scrollTableToFoot:YES];
+    [self sendOrReceviceMessageScrollToFoot];
     return nil;
 }
 
@@ -283,7 +284,8 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     messageNote = m;
     
     [self setMessagesToDelegate];
-    [self scrollTableToFoot:YES];
+//    [self scrollTableToFoot:YES];
+    [self sendOrReceviceMessageScrollToFoot];
     return nil;
 }
 
@@ -311,15 +313,31 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     if (r<1) return;
     
     NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
-    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated];
     
-//    if (queryView.contentSize.height > queryView.frame.size.height)
-//    {
-//        CGPoint offset = CGPointMake(0, queryView.contentSize.height - queryView.frame.size.height);
-//        [queryView setContentOffset:offset animated:animated];
-//    }
+}
+
+- (void)sendOrReceviceMessageScrollToFoot {
+    UITableView* queryView = [self.views objectForKey:kAYGroupChatControllerMessageTable];
+    
+    NSInteger s = [queryView numberOfSections];
+    if (s<1) return;
+    NSInteger r = [queryView numberOfRowsInSection:s-1];
+    if (r<1) return;
+    
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];
+    
+//    UITableViewCell *cell = [queryView cellForRowAtIndexPath:ip];
+//    CGFloat offse = cell.bounds.size.height;
+    CGFloat contentHeight = queryView.contentSize.height;
+    if (contentHeight > queryView.frame.size.height) {
+        
+        CGPoint offset = CGPointMake(0, queryView.contentSize.height - queryView.frame.size.height );
+        [queryView setContentOffset:offset animated:YES];
+        
+    }
 //    [queryView scrollToNearestSelectedRowAtScrollPosition:UITableViewScrollPositionBottom animated:animated];
-    
+    [queryView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
 }
 
 #pragma mark -- get input view height
@@ -335,6 +353,11 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
         ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH  - InputViewheight - ChatHeadheight - step.floatValue);
         [self scrollTableToFoot:YES];
     }];
+    
+    id<AYViewBase> del = [self.views objectForKey:@"ChatInput"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"sendHeightNote:"];
+    id height_note = step;
+    [cmd performWithResult:&height_note];
     return nil;
 }
 
@@ -343,10 +366,17 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     
     [UIView animateWithDuration:0.3f animations:^{
+        
         ((UIView*)inputView).frame = CGRectMake(0, SCREEN_HEIGHT - InputViewheight, SCREEN_WIDTH, InputViewheight);
         ((UIView*)view_table).frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
         [self scrollTableToFoot:YES];
     }];
+    
+    id<AYViewBase> del = [self.views objectForKey:@"ChatInput"];
+    id<AYCommand> cmd = [del.commands objectForKey:@"sendHeightNote:"];
+    NSNumber *height_note = [NSNumber numberWithFloat:0];
+    [cmd performWithResult:&height_note];
+    
     return nil;
 }
 
@@ -420,7 +450,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
     id<AYCommand> cmd_refresh = [view.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
     
-    [self scrollTableToFoot:YES];
+//    [self scrollTableToFoot:YES];
 }
 
 #pragma mark -- create chat

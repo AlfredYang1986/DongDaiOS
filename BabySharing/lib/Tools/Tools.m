@@ -448,6 +448,7 @@
         con.lineFragmentPadding = 4;
         //    con.lineBreakMode = NSLineBreakByWordWrapping;
         con.lineBreakMode = NSLineBreakByCharWrapping;
+        
         return [m usedRectForTextContainer:con].size;
     } else {
         return CGSizeMake(0.f, 0.f);
@@ -479,7 +480,7 @@
 }
 
 + (UIColor*)garyLineColor {
-    return [UIColor colorWithWhite:0.75f alpha:1.f];
+    return [UIColor colorWithWhite:0.78f alpha:1.f];
 }
 
 + (UIColor*)garyBackgroundColor {

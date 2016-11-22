@@ -250,7 +250,7 @@
 
 - (id)PickerLayout:(UIView*)view{
     view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-    view.backgroundColor = [Tools garyColor];
+//    view.backgroundColor = [Tools garyColor];
     return nil;
 }
 
@@ -306,6 +306,7 @@
     [cmd performWithResult:&dic];
     return nil;
 }
+
 - (id)rightBtnSelected {
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -352,28 +353,23 @@
     if (dic) {
         usl = ((NSNumber *)[dic objectForKey:@"usl"]);
         lsl = ((NSNumber *)[dic objectForKey:@"lsl"]);
+        
+        if (usl.intValue < lsl.intValue) {
+            NSString *title = @"年龄设置错误";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            return nil;
+        }
+        
         NSString *ages = [NSString stringWithFormat:@"%d ~ %d 岁",lsl.intValue,usl.intValue];
         boundaryLabel.text = ages;
     }
     
-//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//        }];
-//    }
-    
-    return nil;
-}
-- (id)didCancelClick {
-//    if (picker.frame.origin.y == SHOW_OFFSET_Y) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            picker.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-//        }];
-//    }
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
+- (id)didCancelClick {
+    //do nothing else ,but be have to invoke this methed
     return nil;
 }
+
 @end

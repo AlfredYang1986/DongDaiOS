@@ -33,13 +33,13 @@
 #define MARGIN_RIGHT                10.5
 
 #define SEG_CTR_HEIGHT              49
-
+#define userPhotoInitHeight         250
 
 @implementation AYOneProfileController {
     
     NSString* owner_id;
     
-    UIView *cover;
+    UIImageView *coverImg;
 }
 
 #pragma mark --  commands
@@ -79,6 +79,20 @@
     kAYViewsSendMessage(@"Table", @"registerCellWithClass:", &class_name)
     
     
+    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    UITableView *tableView = (UITableView*)view_table;
+    coverImg = [[UIImageView alloc]init];
+    coverImg.image = [UIImage imageNamed:@"default_image"];
+    coverImg.backgroundColor = [UIColor lightGrayColor];
+    coverImg.contentMode = UIViewContentModeScaleAspectFill;
+    coverImg.clipsToBounds = YES;
+    [tableView addSubview:coverImg];
+    [coverImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(tableView).offset(- userPhotoInitHeight);
+        make.centerX.equalTo(tableView);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, userPhotoInitHeight));
+    }];
+    
     id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
     NSDictionary* user = nil;
@@ -95,8 +109,15 @@
             
             NSString *title = [result objectForKey:@"screen_name"];
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+            
+            NSString* photo_name = [result objectForKey:@"screen_photo"];
+            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+            NSString *pre = cmd.route;
+            [coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
         }
     }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -113,7 +134,7 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
-    view.backgroundColor = [UIColor clearColor];
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(userPhotoInitHeight, 0, 0, 0);
     return nil;
 }
 
@@ -202,10 +223,25 @@
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
+- (id)scrollOffsetY:(NSNumber*)args {
+    CGFloat offset_y = args.floatValue;
+    CGFloat offsetH = userPhotoInitHeight + offset_y;
+    
+    if (offsetH < 0) {
+        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+        UITableView *tableView = (UITableView*)view_notify;
+        
+        [coverImg mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(tableView);
+            make.top.equalTo(tableView).offset(- userPhotoInitHeight + offsetH);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH , userPhotoInitHeight - offsetH));
+            
+            //            make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
+            //            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - (SCREEN_WIDTH * offsetH / kFlexibleHeight), kFlexibleHeight - offsetH));
+        }];
+    }
     return nil;
 }
-
 #pragma mark -- status
 
 @end

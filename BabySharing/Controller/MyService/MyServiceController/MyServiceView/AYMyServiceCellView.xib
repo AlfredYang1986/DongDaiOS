@@ -77,7 +77,7 @@
                 <outlet property="ownerIconImage" destination="AMw-ZT-a6N" id="iDA-CV-v8e"/>
                 <outlet property="titleLabel" destination="T2P-MR-7hs" id="FdJ-yq-xuD"/>
             </connections>
-            <point key="canvasLocation" x="-7" y="74"/>
+            <point key="canvasLocation" x="-198" y="18"/>
         </tableViewCell>
     </objects>
     <resources>

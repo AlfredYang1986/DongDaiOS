@@ -45,9 +45,7 @@
         separtor.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:separtor];
         
-        UILabel *title = [[UILabel alloc]init];
-        title = [Tools setLabelWith:title andText:@"我心仪的服务" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        title.font = [UIFont fontWithName:@"STHeitiSC-Light" size:24.f];
+        UILabel *title = [Tools creatUILabelWithText:@"我心仪的服务" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:title];
         [title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
@@ -56,6 +54,7 @@
         
 //        CGFloat width = [UIScreen mainScreen].bounds.size.width;
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 //        layout.itemSize = CGSizeMake((width - 30), 370);
 //        layout.itemSize = CGSizeMake((width - 30), self.bounds.size.height);
 //        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
@@ -67,6 +66,7 @@
         showCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         showCollectionView.showsHorizontalScrollIndicator = NO;
         showCollectionView.showsVerticalScrollIndicator = NO;
+        showCollectionView.pagingEnabled = YES;
         showCollectionView.decelerationRate = UIScrollViewDecelerationRateNormal;
         
         [showCollectionView registerClass:[AYHomeLikesItem class] forCellWithReuseIdentifier:NSStringFromClass([AYHomeLikesItem class])];
@@ -174,7 +174,7 @@
     
     NSMutableArray *tmp = [NSMutableArray array];
     for (int i = 0; i < 4; ++i) {
-        NSInteger limit_index = indexPath.row + i;
+        NSInteger limit_index = indexPath.row * 4 + i;
         if (limit_index < queryData.count) {
             [tmp addObject:[queryData objectAtIndex:limit_index]];
         }

@@ -255,7 +255,7 @@
         
         [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-10);
-            make.top.equalTo(self).offset(MarginTop);
+            make.top.equalTo(self).offset(0);
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
@@ -265,7 +265,7 @@
             make.right.equalTo(imgView.mas_left).offset(-25);
             make.top.equalTo(imgView).offset(MarginTop);
             make.left.equalTo(self).offset(69);
-            make.bottom.equalTo(self).offset(-45);
+            make.bottom.equalTo(self).offset(-57);
         }];
         
         [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -283,7 +283,7 @@
     } else {
         [imgView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(10);
-            make.top.equalTo(self).offset(MarginTop);
+            make.top.equalTo(self).offset(0);
             make.size.mas_equalTo(CGSizeMake(IMG_WIDTH, IMG_WIDTH));
         }];
         
@@ -292,7 +292,7 @@
             make.left.equalTo(imgView.mas_right).offset(30);
             make.top.equalTo(imgView).offset(MarginTop);
             make.right.equalTo(self).offset(-69);
-            make.bottom.equalTo(self).offset(-45);
+            make.bottom.equalTo(self).offset(-57);
         }];
         
         [time_label mas_remakeConstraints:^(MASConstraintMaker *make) {

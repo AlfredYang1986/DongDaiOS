@@ -127,7 +127,7 @@ typedef void(^queryContentFinish)(void);
         [tableView bringSubviewToFront:found];
         [found mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(tableView).offset(30);
-            make.bottom.equalTo(coverImg).offset(35);
+            make.bottom.equalTo(coverImg).offset(37.5);
             make.size.mas_equalTo(CGSizeMake(75, 75));
         }];
         

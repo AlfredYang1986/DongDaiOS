@@ -160,9 +160,9 @@
 
 #pragma mark -- UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(nullable NSDictionary<NSString *,id> *)editingInfo {
+    [picker dismissViewControllerAnimated:YES completion:nil];
     
     isChangeImg = YES;
-    [picker dismissViewControllerAnimated:YES completion:nil];
     _changeImage = image;
     
     // get image name
@@ -224,8 +224,15 @@
         AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
-            [dic_update setValue:screen_photo forKey:@"screen_photo"];
-            [self updateProfileImpl:[dic_update copy]];
+            if (success) {
+                
+                [dic_update setValue:screen_photo forKey:@"screen_photo"];
+                [self updateProfileImpl:[dic_update copy]];
+            }else {
+                
+                NSString *title = @"真相上传失败!请改善网络环境重试";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            }
         }];
     } else {
         [self updateProfileImpl:[dic_update copy]];
@@ -279,7 +286,6 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 //    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
     id<AYCommand> cmd;
-    
     if (buttonIndex == 0) { // take photo / 去拍照
         cmd = OpenCamera;
     } else if (buttonIndex == 1) {

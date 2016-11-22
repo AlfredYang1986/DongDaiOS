@@ -50,10 +50,11 @@
             make.right.equalTo(self).offset(-15);
         }];
         
-//        CALayer *separtor = [CALayer layer];
-//        separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
-//        separtor.backgroundColor = [Tools garyLineColor].CGColor;
-//        [self.layer addSublayer:separtor];
+        CALayer *separtor = [CALayer layer];
+        CGFloat margin = 0;
+        separtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
+        separtor.backgroundColor = [Tools garyLineColor].CGColor;
+        [self.layer addSublayer:separtor];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
