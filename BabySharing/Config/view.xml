@@ -631,6 +631,21 @@
         <command type="notify"      message="textChange:" />
     </view>
     
+    <view type="ServiceTimesCell" name="ServiceTimesCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didWeekDayBtnClick:" />
+    </view>
+    
+    <view type="ServiceAddTimesCell" name="ServiceAddTimesCell" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="didWeekDayBtnClick:" />
+    </view>
+    
+    <view type="ScheduleWeekDays" name="ScheduleWeekDays" factory="AYDefaultViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+        <command type="notify"      message="changeCurrentIndex:" />
+    </view>
+    
     <view type="OrderCell" name="OrderCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>

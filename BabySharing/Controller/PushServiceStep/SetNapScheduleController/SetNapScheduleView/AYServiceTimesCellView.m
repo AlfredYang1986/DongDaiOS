@@ -1,24 +1,24 @@
 //
-//  AYCalendarCellView.m
+//  AYServiceTimesCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 2/6/16.
+//  Created by Alfred Yang on 22/11/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYCalendarCellView.h"
-#import "AYViewController.h"
+#import "AYServiceTimesCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
 
-@implementation AYCalendarCellView {
-    
+@implementation AYServiceTimesCellView {
+
+    UILabel *titleLabel;
+    UILabel *subTitlelabel;
+    UIButton *optionBtn;
 }
 
 @synthesize para = _para;
@@ -26,9 +26,37 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        [self addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self).offset(15);
+            make.bottom.equalTo(self.mas_centerY);
+        }];
+        
+        CALayer *separator = [CALayer layer];
+        CGFloat margin = 0;
+        separator.frame = CGRectMake(margin, 0, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
+        separator.backgroundColor = [Tools garyLineColor].CGColor;
+        [self.layer addSublayer:separator];
+        
+        if (reuseIdentifier != nil) {
+            [self setUpReuseCell];
+        }
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+}
+
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ProfilePushCell", @"ProfilePushCell");
+    id<AYViewBase> cell = VIEW(@"ServiceTimesCell", @"ServiceTimesCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -74,30 +102,10 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-//        self.backgroundColor = [UIColor whiteColor];
-        self.numLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        self.layer.cornerRadius = frame.size.width * 0.5;
-        self.clipsToBounds = YES;
-        
-        self.numLabel.textAlignment = 1;
-        [self addSubview:self.numLabel];
-        self.userInteractionEnabled = YES;
-        [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfDidClick:)]];
-    }
-    [self setUpReuseCell];
-    return self;
-}
-
-- (void)selfDidClick:(UITapGestureRecognizer*)tap{
-//    NSLog(@"%@--%@",self.numLabel.text,self.dateString);
-    if (self.CellDateBlock) {
-        self.CellDateBlock(self);
-    }
+- (id)setCellInfo:(NSDictionary*)args {
+    
+    
+    return nil;
 }
 
 @end

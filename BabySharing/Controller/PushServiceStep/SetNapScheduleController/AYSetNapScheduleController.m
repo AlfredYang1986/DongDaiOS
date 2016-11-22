@@ -17,10 +17,16 @@
 #import "AYRemoteCallDefines.h"
 #import "TmpFileStorageModel.h"
 
+#define weekdaysViewHeight          95
+
 @implementation AYSetNapScheduleController {
     
     NSMutableDictionary *push_service_info;
     BOOL isChangeCalendar;
+    
+    NSMutableArray *offer_date;
+    NSMutableArray *timesArr;
+    NSInteger segCurrentIndex;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -29,7 +35,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        push_service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+//        push_service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -41,12 +47,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [Tools whiteColor];
     
 //    NSArray *offer_date = [push_service_info objectForKey:@"offer_date"];
 //    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
 //    [dic setValue:offer_date forKey:@"offer_date"];
 //    kAYViewsSendMessage(@"Schedule", @"changeQueryData:", &dic)
+    
+    if (!offer_date) {
+        offer_date = [NSMutableArray array];
+    }
+    segCurrentIndex = -1;
+    
+    UIView *weekdaysView = [self.views objectForKey:@"ScheduleWeekDays"];
+    [self.view bringSubviewToFront:weekdaysView];
+    
+    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServiceTimesShow"];
+    
+    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
+    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+    
+    id obj = (id)cmd_notify;
+    [cmd_datasource performWithResult:&obj];
+    obj = (id)cmd_notify;
+    [cmd_delegate performWithResult:&obj];
+    
+    id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+    NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTimesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&cell_name];
+    cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceAddTimesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&cell_name];
     
     UIButton *pushServiceBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     [pushServiceBtn addTarget:self action:@selector(didPushServiceBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -89,7 +119,20 @@
     
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, @"setRightBtnVisibility:", &right_hidden);
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+    return nil;
+}
+
+- (id)ScheduleWeekDaysLayout:(UIView*)view {
     
+    CGFloat margin = 0;
+    view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, weekdaysViewHeight);
+    view.backgroundColor = [Tools whiteColor];
+    return nil;
+}
+
+- (id)TableLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 - 49);
     return nil;
 }
 
@@ -265,6 +308,63 @@
 //    [bar_right_btn sizeToFit];
 //    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
 //    kAYViewsSendMessage(kAYFakeNavBarView, @"setRightBtnWithBtn:", &bar_right_btn)
+    return nil;
+}
+
+- (id)changeCurrentIndex:(NSNumber *)args {
+    /*
+     日程管理可以是集合，不超出从日到一，是不按顺序的，以keyValue:day为序号(0-6)进行各种操
+     */
+    
+    //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
+    
+    for (int i = 0; i < 7; ++i) {
+        NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+        
+        NSMutableDictionary *times_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+        [times_dic setValue:[NSNumber numberWithInt:0] forKey:@"start"];
+        [times_dic setValue:[NSNumber numberWithInt:2400] forKey:@"end"];
+        
+        NSMutableArray *occurance = [[NSMutableArray alloc]initWithObjects:times_dic, nil];
+        [date_dic setValue:occurance forKey:@"occurance"];
+        
+        [date_dic setValue:[NSNumber numberWithInt:i] forKey:@"day"];
+        [offer_date addObject:date_dic];
+    }
+    
+    segCurrentIndex = args.integerValue;
+    //2.切换后，刷新，并且展示（如果有）此index的数据到容器中
+    
+    return nil;
+}
+
+#pragma mark -- pickerView notifies
+- (id)cellShowPickerView:(NSNumber*)args {
+    
+    if (args.integerValue == timesArr.count) {
+        //添加
+        
+    } else {
+        //修改
+        
+    }
+    
+    kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+    return nil;
+}
+
+- (id)didSaveClick {
+    id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"ServiceTimesPick"];
+    id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
+    NSString *args = nil;
+    [cmd_index performWithResult:&args];
+    
+    
+    return nil;
+}
+
+- (id)didCancelClick {
+    //do nothing else ,but be have to invoke this methed
     return nil;
 }
 

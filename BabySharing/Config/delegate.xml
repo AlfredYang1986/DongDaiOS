@@ -248,6 +248,16 @@
         <command type="notify" message="sendLocation:" />
     </delegate>
     
+    <delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="queryCurrentSelected:" />
+        <command type="notify" message="sendDelMessage:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="cellShowPickerView:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="updateReadState:" />
