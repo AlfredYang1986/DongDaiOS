@@ -1975,6 +1975,7 @@
 		70F606281D9D345800D3E484 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
 		70F68DB41CBE6DBD005524BA /* AYEmailSendCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEmailSendCommand.h; sourceTree = "<group>"; };
 		70F68DB51CBE6DBD005524BA /* AYEmailSendCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEmailSendCommand.m; sourceTree = "<group>"; };
+		70F6D81A1DE5B83000890DFD /* AYServiceTimesRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceTimesRule.h; sourceTree = "<group>"; };
 		70F89EB01CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSaveScreenPhotoCommand.h; sourceTree = "<group>"; };
 		70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSaveScreenPhotoCommand.m; sourceTree = "<group>"; };
 		70FE54D81D98E78F0077A3E9 /* AYCommentServiceCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceCommand.h; sourceTree = "<group>"; };
@@ -2348,6 +2349,7 @@
 			children = (
 				7037E8AF1DE42CE7007BF858 /* SetNapScheduleDelegate */,
 				7037E8AE1DE42CC8007BF858 /* SetNapScheduleView */,
+				70F6D81A1DE5B83000890DFD /* AYServiceTimesRule.h */,
 				7001C4841DD58BCC004275A9 /* AYSetNapScheduleController.h */,
 				7001C4851DD58BCC004275A9 /* AYSetNapScheduleController.m */,
 			);

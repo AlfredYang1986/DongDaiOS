@@ -38,6 +38,14 @@
             make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
         }];
         
+        if (i == 0) {
+            dayBtn.selected = YES;
+//            dayBtn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
+            dayBtn.layer.backgroundColor = [Tools themeColor].CGColor;
+            dayBtn.layer.cornerRadius = btnWH * 0.5;
+            dayBtn.clipsToBounds = YES;
+            noteBtn = dayBtn;
+        }
     }
     
     currentSign = [[UIImageView alloc]init];
@@ -76,19 +84,36 @@
     }
     
     btn.selected = YES;
-    btn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
+//    btn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
+    btn.layer.backgroundColor = [Tools themeColor].CGColor;
+    btn.layer.cornerRadius = btnWH * 0.5;
+    btn.clipsToBounds = YES;
+    [btn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
     
     //notifies
     NSNumber *index = [NSNumber numberWithInteger:btn.tag];
     kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
     
+    //此处index有返回值，NSNumber封装的BOOL类，
+    
     if (noteBtn) {
         noteBtn.selected = NO;
-        noteBtn.layer.contents = nil;
-        noteBtn = btn;
-    } else {
-        noteBtn = btn;
+        noteBtn.layer.backgroundColor = [Tools whiteColor].CGColor;
+        if (index.boolValue) {
+//            noteBtn.layer.contents = (id)IMGRESOURCE(@"date_today_sign").CGImage;
+            noteBtn.layer.borderColor = [Tools themeColor].CGColor;
+            noteBtn.layer.borderWidth = 1.f;
+            noteBtn.layer.cornerRadius = btnWH * 0.5;
+            noteBtn.clipsToBounds = YES;
+            [noteBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+        } else {
+            noteBtn.layer.contents = nil;
+//            noteBtn.layer.borderColor = [UIColor clearColor].CGColor;
+            noteBtn.layer.borderWidth = 0.f;
+            [noteBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+        }
     }
+    noteBtn = btn;
     
     [currentSign mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_bottom);

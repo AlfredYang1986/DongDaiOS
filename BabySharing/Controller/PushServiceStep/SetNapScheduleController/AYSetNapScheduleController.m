@@ -16,6 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "TmpFileStorageModel.h"
+#import "AYServiceTimesRule.h"
 
 #define weekdaysViewHeight          95
 
@@ -26,7 +27,9 @@
     
     NSMutableArray *offer_date;
     NSMutableArray *timesArr;
+    
     NSInteger segCurrentIndex;
+    NSInteger creatOrUpdateNote;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -56,10 +59,21 @@
     if (!offer_date) {
         offer_date = [NSMutableArray array];
     }
-    segCurrentIndex = -1;
+    timesArr = [NSMutableArray array];
+    segCurrentIndex = 0;
     
-    UIView *weekdaysView = [self.views objectForKey:@"ScheduleWeekDays"];
-    [self.view bringSubviewToFront:weekdaysView];
+    {
+        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+        
+        id obj = (id)cmd_recommend;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_recommend;
+        [cmd_delegate performWithResult:&obj];
+    }
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServiceTimesShow"];
@@ -86,6 +100,13 @@
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
     }];
+    
+    //提升view层级
+    UIView *weekdaysView = [self.views objectForKey:@"ScheduleWeekDays"];
+    [self.view bringSubviewToFront:weekdaysView];
+    
+    UIView* picker = [self.views objectForKey:@"Picker"];
+    [self.view bringSubviewToFront:picker];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -133,6 +154,11 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 - 49);
+    return nil;
+}
+
+- (id)PickerLayout:(UIView*)view{
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.frame.size.height);
     return nil;
 }
 
@@ -316,38 +342,87 @@
      日程管理可以是集合，不超出从日到一，是不按顺序的，以keyValue:day为序号(0-6)进行各种操
      */
     
-    //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
+    NSMutableArray *allTimeNotes = [NSMutableArray array];
     
-    for (int i = 0; i < 7; ++i) {
-        NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSEnumerator* enumerator = ((NSDictionary*)obj).keyEnumerator;
+        id iter = nil;
+        while ((iter = [enumerator nextObject]) != nil) {
+            if ([iter isEqualToString:@"start"]) {
+                NSNumber *startNumb = [obj objectForKey:iter];
+                
+            }
+            else if ([iter isEqualToString:@"end"]) {
+                NSNumber *endNumb = [obj objectForKey:iter];
+            } else {
+                // do nothing
+            }
+        }
+    }];
+    
+    //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
+    BOOL isSeted = NO;
+    
+    NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [date_dic setValue:[timesArr copy] forKey:@"occurance"];
+    [date_dic setValue:[NSNumber numberWithInteger:segCurrentIndex] forKey:@"day"];
+    
+    NSPredicate *pred_conts = [NSPredicate predicateWithFormat:@"SELF.day=%d",segCurrentIndex];
+    NSArray *result = [offer_date filteredArrayUsingPredicate:pred_conts];
+    
+    if (result.count != 0 && timesArr.count != 0) {     //update
+        isSeted = YES;
+        NSInteger changeIndex = [offer_date indexOfObject:result.lastObject];
+        [offer_date replaceObjectAtIndex:changeIndex withObject:date_dic];
+    }
+    else if (result.count != 0 && timesArr.count == 0) {        //del
         
-        NSMutableDictionary *times_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-        [times_dic setValue:[NSNumber numberWithInt:0] forKey:@"start"];
-        [times_dic setValue:[NSNumber numberWithInt:2400] forKey:@"end"];
-        
-        NSMutableArray *occurance = [[NSMutableArray alloc]initWithObjects:times_dic, nil];
-        [date_dic setValue:occurance forKey:@"occurance"];
-        
-        [date_dic setValue:[NSNumber numberWithInt:i] forKey:@"day"];
+        [offer_date removeObject:result.lastObject];
+    }
+    else if (result.count == 0 && timesArr.count != 0) {        //creat
+        isSeted = YES;
         [offer_date addObject:date_dic];
     }
+    else if (result.count == 0 && timesArr.count == 0) {        //...
+        
+    }
     
+    //切换
     segCurrentIndex = args.integerValue;
-    //2.切换后，刷新，并且展示（如果有）此index的数据到容器中
     
-    return nil;
+    //2.切换后，刷新，并且展示（如果有）此index的数据到容器中
+    [timesArr removeAllObjects];
+    for (NSDictionary *iter in offer_date) {
+        if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
+            timesArr = [[iter objectForKey:@"occurance"] mutableCopy];
+        }
+    }
+    NSArray *tmp = [timesArr copy];
+    kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+    
+    //3.如果有数据：返回yes，用于btn作已设置标记
+    return [NSNumber numberWithBool:isSeted];
 }
 
 #pragma mark -- pickerView notifies
+- (id)cellDeleteFromTable:(NSNumber*)args {
+    
+    [timesArr removeObjectAtIndex:args.integerValue];
+    NSArray *tmp = [timesArr copy];
+    kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+    return nil;
+}
+
 - (id)cellShowPickerView:(NSNumber*)args {
     
-    if (args.integerValue == timesArr.count) {
-        //添加
-        
-    } else {
-        //修改
-        
-    }
+    creatOrUpdateNote = args.integerValue;
+    
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+    id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
+    NSNumber *offset = [NSNumber numberWithInt:12];
+    [cmd_scroll_center performWithResult:&offset];
     
     kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
     return nil;
@@ -356,10 +431,37 @@
 - (id)didSaveClick {
     id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"ServiceTimesPick"];
     id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
-    NSString *args = nil;
+    NSDictionary *args = nil;
     [cmd_index performWithResult:&args];
+    //eg: 14:00-16:00
     
+    if (!args) {
+        NSString *title = @"服务时间设置错误";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return nil;
+    }
     
+    if (creatOrUpdateNote == timesArr.count) {
+        //添加
+        [timesArr addObject:args];
+    } else {
+        //修改
+        [timesArr replaceObjectAtIndex:creatOrUpdateNote withObject:args];
+    }
+    
+    NSArray *tmp = [timesArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        
+        int first = ((NSNumber*)[obj1 objectForKey:@"start"]).intValue;
+        int second = ((NSNumber*)[obj2 objectForKey:@"start"]).intValue;
+        
+        if (first < second) return  NSOrderedAscending;
+        else if (first > second) return NSOrderedDescending;
+        else return NSOrderedSame;
+    }];
+    
+//    NSArray *tmp = [timesArr copy];
+    kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     return nil;
 }
 

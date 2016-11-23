@@ -38,6 +38,11 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
+- (id)changeQueryData:(id)args {
+    timesArr = (NSArray*)args;
+    return nil;
+}
+
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return timesArr.count + 1;
@@ -56,6 +61,8 @@
         class_name = @"AYServiceTimesCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
+        id tmp = [timesArr objectAtIndex:indexPath.row];
+        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
     
     cell.controller = self.controller;
@@ -86,7 +93,9 @@
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+    kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
 }
 
 @end

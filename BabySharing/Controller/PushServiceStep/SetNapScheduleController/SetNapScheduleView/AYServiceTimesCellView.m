@@ -30,17 +30,19 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        self.backgroundColor = [UIColor clearColor];
+        
+        titleLabel = [Tools creatUILabelWithText:@"00:00 - 00:00" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.bottom.equalTo(self.mas_centerY);
+            make.centerY.equalTo(self);
         }];
         
         CALayer *separator = [CALayer layer];
         CGFloat margin = 0;
-        separator.frame = CGRectMake(margin, 0, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
-        separator.backgroundColor = [Tools garyLineColor].CGColor;
+        separator.frame = CGRectMake(margin, 89.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
+        separator.backgroundColor = [Tools whiteColor].CGColor;
         [self.layer addSublayer:separator];
         
         if (reuseIdentifier != nil) {
@@ -104,6 +106,18 @@
 
 - (id)setCellInfo:(NSDictionary*)args {
     
+    NSNumber *startNumb = [args objectForKey:@"start"];
+    NSString *startStr = [NSString stringWithFormat:@"%.4d",startNumb.intValue];
+    
+    NSNumber *endNumb = [args objectForKey:@"end"];
+    NSString *endStr = [NSString stringWithFormat:@"%.4d",endNumb.intValue];
+    
+    startStr = [[[startStr substringToIndex:2] stringByAppendingString:@":"] stringByAppendingString:[startStr substringFromIndex:2]];
+    endStr = [[[endStr substringToIndex:2] stringByAppendingString:@":"] stringByAppendingString:[endStr substringFromIndex:2]];
+    
+    if (startStr && endStr) {
+        titleLabel.text = [NSString stringWithFormat:@"%@-%@",startStr, endStr];
+    }
     
     return nil;
 }

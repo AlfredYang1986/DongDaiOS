@@ -198,19 +198,16 @@
     <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="queryBabyBirthday:" />
-        <command type="notify" message="sendDelMessage:" />
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker2" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="queryBabySex:" />
-        <command type="notify" message="sendDelMessage:" />
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
     <delegate type="PickerViewDelegateAndDatasource" name="NapArea" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
-        <command type="notify" message="sendDelMessage:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="MainInfo" factory="AYDefaultDelegateFactory" >
@@ -227,7 +224,6 @@
     
     <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
-        <command type="notify" message="sendDelMessage:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >
@@ -250,12 +246,13 @@
     
     <delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
-        <command type="notify" message="sendDelMessage:" />
+        <command type="message" message="scrollToCenterWithOffset:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="notify" message="cellShowPickerView:" />
+        <command type="notify" message="cellDeleteFromTable:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="FutureOrder" factory="AYDefaultDelegateFactory" >
@@ -296,7 +293,6 @@
     <delegate type="PickerViewDelegateAndDatasource" name="OrderTimes" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
         <command type="message" message="scrollToCenterWithOffset:" />
-        <command type="notify" message="sendDelMessage:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="MessageList" factory="AYDefaultDelegateFactory" >
@@ -314,10 +310,8 @@
     </delegate>
     <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterKidsAges" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
-        <command type="notify" message="sendDelMessage:" />
     </delegate>
     <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterPriceRange" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
-        <command type="notify" message="sendDelMessage:" />
     </delegate>
 </delegates>

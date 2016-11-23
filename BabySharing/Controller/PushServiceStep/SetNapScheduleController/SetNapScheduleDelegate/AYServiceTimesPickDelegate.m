@@ -56,11 +56,10 @@
 
 - (id)scrollToCenterWithOffset:(NSNumber*)offset {
     
-    for (int i = 0; i < 3; i++) {
-        if (i == 0) {
+    for (int i = 0; i < 7; i++) {
+        if (i == 0 || i == 4) {
             [picker selectRow:hours.count/2 + offset.intValue inComponent:i animated:NO];
-        } else if(i == 2)
-            [picker selectRow:mins.count/2 inComponent:i animated:NO];
+        }
     }
     
     return nil;
@@ -137,9 +136,20 @@
     NSString *toHourStr = [hours objectAtIndex:toHourIndex];
     NSString *toMinStr = [mins objectAtIndex:toMinIndex];
     
-    NSString *showMsg = [NSString stringWithFormat: @"%@:%@-%@:%@", fromHourStr, fromMinStr, toHourStr, toMinStr];
-    NSLog(@"%@",showMsg);
-    return showMsg;
+//    NSString *showMsg = [NSString stringWithFormat: @"%@:%@-%@:%@", fromHourStr, fromMinStr, toHourStr, toMinStr];
+//    NSLog(@"%@",showMsg);
+    
+    int startTimeSpan = [fromHourStr stringByAppendingString:fromMinStr].intValue;
+    int endTimeSpan = [toHourStr stringByAppendingString:toMinStr].intValue;
+    if (startTimeSpan >= endTimeSpan) {
+        return nil;
+    }
+    
+    NSMutableDictionary *times_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [times_dic setValue:[NSNumber numberWithInt:startTimeSpan] forKey:@"start"];
+    [times_dic setValue:[NSNumber numberWithInt:endTimeSpan] forKey:@"end"];
+    
+    return times_dic;
 }
 
 @end

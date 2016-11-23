@@ -39,6 +39,7 @@
         
         UIButton *addSignBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
         addSignBtn.tintColor = [Tools themeColor];
+        addSignBtn.userInteractionEnabled = NO;
         [self addSubview:addSignBtn];
         [addSignBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-20);
