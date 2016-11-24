@@ -199,7 +199,7 @@
 		7037E8B81DE42DC0007BF858 /* AYScheduleWeekDaysView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7037E8B71DE42DC0007BF858 /* AYScheduleWeekDaysView.m */; };
 		7037E8BB1DE444AA007BF858 /* AYServiceTimesCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7037E8BA1DE444AA007BF858 /* AYServiceTimesCellView.m */; };
 		7037E8BE1DE444F5007BF858 /* AYServiceAddTimesCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7037E8BD1DE444F5007BF858 /* AYServiceAddTimesCellView.m */; };
-		7037E8C11DE465C4007BF858 /* AYWeekDayBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7037E8C01DE465C4007BF858 /* AYWeekDayBtnView.m */; };
+		7037E8C11DE465C4007BF858 /* AYWeekDayBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 7037E8C01DE465C4007BF858 /* AYWeekDayBtn.m */; };
 		7039CA871CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CA861CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m */; };
 		7039CBCE1CBB77EA00BE60C7 /* AYProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBCD1CBB77EA00BE60C7 /* AYProfileController.m */; };
 		7039CBDD1CBB84F300BE60C7 /* AYDongDaSegView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7039CBDC1CBB84F300BE60C7 /* AYDongDaSegView.m */; };
@@ -1099,8 +1099,8 @@
 		7037E8BA1DE444AA007BF858 /* AYServiceTimesCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceTimesCellView.m; sourceTree = "<group>"; };
 		7037E8BC1DE444F5007BF858 /* AYServiceAddTimesCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceAddTimesCellView.h; sourceTree = "<group>"; };
 		7037E8BD1DE444F5007BF858 /* AYServiceAddTimesCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceAddTimesCellView.m; sourceTree = "<group>"; };
-		7037E8BF1DE465C4007BF858 /* AYWeekDayBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWeekDayBtnView.h; sourceTree = "<group>"; };
-		7037E8C01DE465C4007BF858 /* AYWeekDayBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWeekDayBtnView.m; sourceTree = "<group>"; };
+		7037E8BF1DE465C4007BF858 /* AYWeekDayBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWeekDayBtn.h; sourceTree = "<group>"; };
+		7037E8C01DE465C4007BF858 /* AYWeekDayBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWeekDayBtn.m; sourceTree = "<group>"; };
 		7039CA851CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryCurrentFakeUserCommand.h; sourceTree = "<group>"; };
 		7039CA861CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryCurrentFakeUserCommand.m; sourceTree = "<group>"; };
 		7039CBCC1CBB77EA00BE60C7 /* AYProfileController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfileController.h; sourceTree = "<group>"; };
@@ -3670,12 +3670,12 @@
 			children = (
 				7037E8B61DE42DC0007BF858 /* AYScheduleWeekDaysView.h */,
 				7037E8B71DE42DC0007BF858 /* AYScheduleWeekDaysView.m */,
+				7037E8BF1DE465C4007BF858 /* AYWeekDayBtn.h */,
+				7037E8C01DE465C4007BF858 /* AYWeekDayBtn.m */,
 				7037E8B91DE444AA007BF858 /* AYServiceTimesCellView.h */,
 				7037E8BA1DE444AA007BF858 /* AYServiceTimesCellView.m */,
 				7037E8BC1DE444F5007BF858 /* AYServiceAddTimesCellView.h */,
 				7037E8BD1DE444F5007BF858 /* AYServiceAddTimesCellView.m */,
-				7037E8BF1DE465C4007BF858 /* AYWeekDayBtnView.h */,
-				7037E8C01DE465C4007BF858 /* AYWeekDayBtnView.m */,
 			);
 			path = SetNapScheduleView;
 			sourceTree = "<group>";
@@ -7721,7 +7721,7 @@
 				707E7A161D07B42200DFC198 /* AYMapController.m in Sources */,
 				70D175C71D791ABD00D9C7D9 /* AYDayCollectionCellView.m in Sources */,
 				70C41EC91DBA122500C77B10 /* AYInputNapTitleController.m in Sources */,
-				7037E8C11DE465C4007BF858 /* AYWeekDayBtnView.m in Sources */,
+				7037E8C11DE465C4007BF858 /* AYWeekDayBtn.m in Sources */,
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
 				707ABCFB1D54460D0042332A /* AYQueryMyServiceCommand.m in Sources */,
 				702510A31CC0F5AB00DADF2B /* Targets.m in Sources */,

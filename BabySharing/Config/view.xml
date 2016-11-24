@@ -642,7 +642,7 @@
     </view>
     
     <view type="ScheduleWeekDays" name="ScheduleWeekDays" factory="AYDefaultViewFactory" >
-        <command type="message"     message="setCellInfo:" />
+        <command type="message"     message="setViewInfo:" />
         <command type="notify"      message="changeCurrentIndex:" />
     </view>
     

@@ -181,7 +181,6 @@
 //                }
 //            }];
             
-            //下载/缓存 全部交给sdwebimage
             NSString *screen_photo = [result objectForKey:@"screen_photo"];
             [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
                           placeholderImage:IMGRESOURCE(@"default_user")];

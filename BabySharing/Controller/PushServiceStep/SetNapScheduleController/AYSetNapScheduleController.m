@@ -26,8 +26,9 @@
     BOOL isChangeCalendar;
     
     NSMutableArray *offer_date;
-    NSMutableArray *timesArr;
+    NSString *service_id;
     
+    NSMutableArray *timesArr;
     NSInteger segCurrentIndex;
     NSInteger creatOrUpdateNote;
 }
@@ -38,7 +39,14 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        push_service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+        
+        if ([tmp objectForKey:@"service_id"]) {
+            offer_date = [[tmp objectForKey:@"offer_date"] mutableCopy];
+            service_id = [tmp objectForKey:@"service_id"];
+        } else {
+            push_service_info = [tmp mutableCopy];
+        }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -92,14 +100,30 @@
     cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceAddTimesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&cell_name];
     
-    UIButton *pushServiceBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
-    [pushServiceBtn addTarget:self action:@selector(didPushServiceBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:pushServiceBtn];
-    [pushServiceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
-    }];
+    if (push_service_info) {
+        
+        UIButton *pushServiceBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
+        [pushServiceBtn addTarget:self action:@selector(didPushServiceBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:pushServiceBtn];
+        [pushServiceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view);
+            make.centerX.equalTo(self.view);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
+        }];
+    } else {
+        
+        NSArray *date_info = [offer_date copy];
+        kAYViewsSendMessage(@"ScheduleWeekDays", @"setViewInfo:", &date_info)
+        
+        for (NSDictionary *iter in offer_date) {
+            if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
+                [timesArr addObjectsFromArray:[iter objectForKey:@"occurance"]];
+            }
+        }
+        NSArray *tmp = [timesArr copy];
+        kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+        kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+    }
     
     //提升view层级
     UIView *weekdaysView = [self.views objectForKey:@"ScheduleWeekDays"];
@@ -153,7 +177,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 - 49);
+    view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 - (push_service_info?49:0));
     return nil;
 }
 
@@ -357,6 +381,7 @@
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
@@ -365,11 +390,12 @@
 
 - (id)rightBtnSelected {
     
-    NSArray *unavilableDateArr = nil;
-    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavilableDateArr)
+//    NSArray *unavilableDateArr = nil;
+//    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavilableDateArr)
+    
     NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
-    [update_info setValue:[push_service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    [update_info setValue:unavilableDateArr forKey:@"offer_date"];
+    [update_info setValue:service_id forKey:@"service_id"];
+    [update_info setValue:offer_date forKey:@"offer_date"];
     
     NSDictionary* args = nil;
     CURRENUSER(args)
@@ -396,10 +422,11 @@
 }
 
 - (id)ChangeOfSchedule {
-//    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-//    [bar_right_btn sizeToFit];
-//    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-//    kAYViewsSendMessage(kAYFakeNavBarView, @"setRightBtnWithBtn:", &bar_right_btn)
+    
+    if (service_id) {
+        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        kAYViewsSendMessage(kAYFakeNavBarView, @"setRightBtnWithBtn:", &bar_right_btn)
+    }
     return nil;
 }
 
@@ -415,7 +442,7 @@
     }
     
     //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
-    BOOL isSeted = NO;
+    WeekDayBtnState state = WeekDayBtnStateNormal;
     
     NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
     [date_dic setValue:[timesArr copy] forKey:@"occurance"];
@@ -425,7 +452,7 @@
     NSArray *result = [offer_date filteredArrayUsingPredicate:pred_conts];
     
     if (result.count != 0 && timesArr.count != 0) {     //update
-        isSeted = YES;
+        state = WeekDayBtnStateSeted;
         NSInteger changeIndex = [offer_date indexOfObject:result.lastObject];
         [offer_date replaceObjectAtIndex:changeIndex withObject:date_dic];
     }
@@ -434,7 +461,7 @@
         [offer_date removeObject:result.lastObject];
     }
     else if (result.count == 0 && timesArr.count != 0) {        //creat
-        isSeted = YES;
+        state = WeekDayBtnStateSeted;
         [offer_date addObject:date_dic];
     }
     else if (result.count == 0 && timesArr.count == 0) {        //...
@@ -448,7 +475,7 @@
     [timesArr removeAllObjects];
     for (NSDictionary *iter in offer_date) {
         if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
-            timesArr = [[iter objectForKey:@"occurance"] mutableCopy];
+            [timesArr addObjectsFromArray:[iter objectForKey:@"occurance"]];
         }
     }
     NSArray *tmp = [timesArr copy];
@@ -456,7 +483,7 @@
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
     //3.如果有数据：返回yes，用于btn作已设置标记
-    return [NSNumber numberWithBool:isSeted];
+    return [NSNumber numberWithInt:state];
 }
 
 #pragma mark -- pickerView notifies
@@ -466,6 +493,8 @@
     NSArray *tmp = [timesArr copy];
     kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+    
+    [self ChangeOfSchedule];
     return nil;
 }
 
@@ -483,6 +512,7 @@
 }
 
 - (id)didSaveClick {
+    
     id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"ServiceTimesPick"];
     id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
     NSDictionary *args = nil;
@@ -516,6 +546,9 @@
 //    NSArray *tmp = [timesArr copy];
     kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+    
+    [self ChangeOfSchedule];
+    
     return nil;
 }
 

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import "AYWeekDayBtn.h"
+
 @interface AYScheduleWeekDaysView : UIView <AYViewBase>
 
 @end

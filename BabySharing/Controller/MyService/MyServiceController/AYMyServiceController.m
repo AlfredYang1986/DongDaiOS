@@ -16,12 +16,8 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-#import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
 
-@implementation AYMyServiceController {
-    
-}
+@implementation AYMyServiceController
 
 - (void)postPerform{
     
@@ -200,7 +196,7 @@
 
 - (id)didManagerBtnClick:(id)args {
     
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"CalendarService");
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapSchedule");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

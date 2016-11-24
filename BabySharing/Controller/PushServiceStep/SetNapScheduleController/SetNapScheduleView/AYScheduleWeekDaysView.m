@@ -10,7 +10,7 @@
 #define btnSpaceW               (SCREEN_WIDTH - 20) / 7
 #define btnWH                       30
 @implementation AYScheduleWeekDaysView {
-    UIButton *noteBtn;
+    AYWeekDayBtn *noteBtn;
     UIImageView *currentSign;
 }
 
@@ -21,32 +21,6 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    
-    NSArray *weekdays = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六" ];
-    for (int i = 0; i < weekdays.count; ++i) {
-        UIButton *dayBtn = [Tools creatUIButtonWithTitle:weekdays[i] andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
-        [dayBtn setTitleColor:[Tools whiteColor] forState:UIControlStateSelected];
-//        [dayBtn setImage:IMGRESOURCE(@"date_seted_sign") forState:UIControlStateSelected];
-//        dayBtn.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"date_today_sign")];
-        dayBtn.tag = i;
-        [dayBtn addTarget:self action:@selector(didDayBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self addSubview:dayBtn];
-        [dayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.mas_left).offset(btnSpaceW * (i+1) - btnWH * 0.5);
-            make.centerY.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
-        }];
-        
-        if (i == 0) {
-            dayBtn.selected = YES;
-//            dayBtn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
-            dayBtn.layer.backgroundColor = [Tools themeColor].CGColor;
-            dayBtn.layer.cornerRadius = btnWH * 0.5;
-            dayBtn.clipsToBounds = YES;
-            noteBtn = dayBtn;
-        }
-    }
     
     currentSign = [[UIImageView alloc]init];
     currentSign.image = IMGRESOURCE(@"triangle");
@@ -77,8 +51,42 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+#pragma mark -- notifies
+- (id)setViewInfo:(NSArray*)args {
+    
+    NSMutableArray *tmp = [NSMutableArray array];
+    [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [tmp addObject:[obj objectForKey:@"day"]];
+    }];
+    
+    NSArray *weekdays = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六" ];
+    for (int i = 0; i < weekdays.count; ++i) {
+        AYWeekDayBtn *dayBtn = [[AYWeekDayBtn alloc]initWithTitle:weekdays[i]];
+        dayBtn.tag = i;
+        dayBtn.states = WeekDayBtnStateNormal;
+        [dayBtn addTarget:self action:@selector(didDayBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:dayBtn];
+        [dayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.mas_left).offset(btnSpaceW * (i+1) - btnWH * 0.5);
+            make.centerY.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
+        }];
+        
+        if([tmp containsObject:[NSNumber numberWithInt:i]]) {
+            dayBtn.states = WeekDayBtnStateSeted;
+        }
+        
+        if (i == 0) {
+            dayBtn.states = WeekDayBtnStateSelected;
+            noteBtn = dayBtn;
+        }
+        
+    }
+    return nil;
+}
+
 #pragma mark -- actions
-- (void)didDayBtnClick:(UIButton*)btn {
+- (void)didDayBtnClick:(AYWeekDayBtn*)btn {
     if (noteBtn == btn) {
         return;
     }
@@ -86,35 +94,14 @@
     //notifies
     NSNumber *index = [NSNumber numberWithInteger:btn.tag];
     kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
-    
-    //此处index返回值是有意义的：是否有值（是否切换）／NSNumber封装的BOOL类（是否设置已设置标志）
+    //此处index返回值是有意义的：是否有值（是否切换）／NSNumber封装int(0/2)（是否已设置标志）
     
     if(!index) {
         return;
     }
     
-    btn.selected = YES;
-    //    btn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
-    btn.layer.backgroundColor = [Tools themeColor].CGColor;
-    btn.layer.cornerRadius = btnWH * 0.5;
-    btn.clipsToBounds = YES;
-    [btn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-    
-    if (noteBtn) {
-        if (index.boolValue) {
-            noteBtn.layer.borderColor = [Tools themeColor].CGColor;
-            noteBtn.layer.borderWidth = 1.f;
-            noteBtn.layer.cornerRadius = btnWH * 0.5;
-            noteBtn.clipsToBounds = YES;
-            [noteBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-        } else {
-            noteBtn.layer.contents = nil;
-            noteBtn.layer.borderWidth = 0.f;
-            [noteBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-        }
-        noteBtn.selected = NO;
-        noteBtn.layer.backgroundColor = [Tools whiteColor].CGColor;
-    }
+    btn.states = WeekDayBtnStateSelected;
+    noteBtn.states = index.intValue;
     noteBtn = btn;
     
     [currentSign mas_remakeConstraints:^(MASConstraintMaker *make) {
