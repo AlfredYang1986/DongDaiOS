@@ -83,24 +83,25 @@
         return;
     }
     
+    //notifies
+    NSNumber *index = [NSNumber numberWithInteger:btn.tag];
+    kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
+    
+    //此处index返回值是有意义的：是否有值（是否切换）／NSNumber封装的BOOL类（是否设置已设置标志）
+    
+    if(!index) {
+        return;
+    }
+    
     btn.selected = YES;
-//    btn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
+    //    btn.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
     btn.layer.backgroundColor = [Tools themeColor].CGColor;
     btn.layer.cornerRadius = btnWH * 0.5;
     btn.clipsToBounds = YES;
     [btn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
     
-    //notifies
-    NSNumber *index = [NSNumber numberWithInteger:btn.tag];
-    kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
-    
-    //此处index有返回值，NSNumber封装的BOOL类，
-    
     if (noteBtn) {
-        noteBtn.selected = NO;
-        noteBtn.layer.backgroundColor = [Tools whiteColor].CGColor;
         if (index.boolValue) {
-//            noteBtn.layer.contents = (id)IMGRESOURCE(@"date_today_sign").CGImage;
             noteBtn.layer.borderColor = [Tools themeColor].CGColor;
             noteBtn.layer.borderWidth = 1.f;
             noteBtn.layer.cornerRadius = btnWH * 0.5;
@@ -108,10 +109,11 @@
             [noteBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
         } else {
             noteBtn.layer.contents = nil;
-//            noteBtn.layer.borderColor = [UIColor clearColor].CGColor;
             noteBtn.layer.borderWidth = 0.f;
             [noteBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
         }
+        noteBtn.selected = NO;
+        noteBtn.layer.backgroundColor = [Tools whiteColor].CGColor;
     }
     noteBtn = btn;
     

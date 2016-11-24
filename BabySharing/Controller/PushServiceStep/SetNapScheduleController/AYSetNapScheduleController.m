@@ -38,7 +38,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-//        push_service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        push_service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -170,9 +170,41 @@
 #pragma mark -- actions
 - (void)didPushServiceBtnClick {
     
-    NSArray *unavilableDateArr = nil;
-    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavilableDateArr)
-    [push_service_info setValue:unavilableDateArr forKey:@"offer_date"];
+//    NSArray *unavilableDateArr = nil;
+//    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavilableDateArr)
+//    [push_service_info setValue:unavilableDateArr forKey:@"offer_date"];
+    
+    if (![self isCurrentTimesLegal]) {
+        NSString *title = @"服务时间设置错误";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return ;
+    }
+    
+    NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [date_dic setValue:[timesArr copy] forKey:@"occurance"];
+    [date_dic setValue:[NSNumber numberWithInteger:segCurrentIndex] forKey:@"day"];
+    
+    NSPredicate *pred_conts = [NSPredicate predicateWithFormat:@"SELF.day=%d",segCurrentIndex];
+    NSArray *result = [offer_date filteredArrayUsingPredicate:pred_conts];
+    
+    if (result.count != 0 && timesArr.count != 0) {     //update
+        
+        NSInteger changeIndex = [offer_date indexOfObject:result.lastObject];
+        [offer_date replaceObjectAtIndex:changeIndex withObject:date_dic];
+    }
+    else if (result.count != 0 && timesArr.count == 0) {        //del
+        
+        [offer_date removeObject:result.lastObject];
+    }
+    else if (result.count == 0 && timesArr.count != 0) {        //creat
+        
+        [offer_date addObject:date_dic];
+    }
+    else if (result.count == 0 && timesArr.count == 0) {        //...
+        
+    }
+    
+    [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
     
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
     NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
@@ -285,6 +317,40 @@
     
 }
 
+- (BOOL)isCurrentTimesLegal {
+    //    NSMutableArray *allTimeNotes = [NSMutableArray array];
+    __block BOOL isLegal = YES;
+    [timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSNumber *currentEnd = [obj objectForKey:@"end"];
+        
+        if (idx+1 < timesArr.count) {
+            NSNumber *nextStart = [[timesArr objectAtIndex:idx+1] objectForKey:@"start"];
+            
+            if (currentEnd.intValue > nextStart.intValue) {
+                isLegal = NO;
+                *stop = YES;
+            }
+        }
+        
+        //        NSEnumerator* enumerator = ((NSDictionary*)obj).keyEnumerator;
+        //        id iter = nil;
+        //        while ((iter = [enumerator nextObject]) != nil) {
+        //            if ([iter isEqualToString:@"start"]) {
+        //                NSNumber *startNumb = [obj objectForKey:iter];
+        //
+        //            }
+        //            else if ([iter isEqualToString:@"end"]) {
+        //                NSNumber *endNumb = [obj objectForKey:iter];
+        //            } else {
+        //                // do nothing
+        //            }
+        //        }
+    }];
+    
+    return isLegal;
+}
+
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
@@ -342,23 +408,11 @@
      日程管理可以是集合，不超出从日到一，是不按顺序的，以keyValue:day为序号(0-6)进行各种操
      */
     
-    NSMutableArray *allTimeNotes = [NSMutableArray array];
-    
-    [timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSEnumerator* enumerator = ((NSDictionary*)obj).keyEnumerator;
-        id iter = nil;
-        while ((iter = [enumerator nextObject]) != nil) {
-            if ([iter isEqualToString:@"start"]) {
-                NSNumber *startNumb = [obj objectForKey:iter];
-                
-            }
-            else if ([iter isEqualToString:@"end"]) {
-                NSNumber *endNumb = [obj objectForKey:iter];
-            } else {
-                // do nothing
-            }
-        }
-    }];
+    if (![self isCurrentTimesLegal]) {
+        NSString *title = @"服务时间设置错误";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return nil;
+    }
     
     //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
     BOOL isSeted = NO;

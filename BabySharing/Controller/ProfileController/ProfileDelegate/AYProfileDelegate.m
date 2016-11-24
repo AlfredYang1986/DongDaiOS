@@ -245,8 +245,8 @@
 
 - (void)pushNewService {
     
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
-    id<AYCommand> des = DEFAULTCONTROLLER(@"SetNapSchedule");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+//    id<AYCommand> des = DEFAULTCONTROLLER(@"SetNapSchedule");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
