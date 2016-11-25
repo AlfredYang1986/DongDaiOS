@@ -100,6 +100,9 @@
     cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceAddTimesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&cell_name];
     
+    NSArray *date_info = [offer_date copy];
+    kAYViewsSendMessage(@"ScheduleWeekDays", @"setViewInfo:", &date_info)
+    
     if (push_service_info) {
         
         UIButton *pushServiceBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
@@ -111,9 +114,6 @@
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
         }];
     } else {
-        
-        NSArray *date_info = [offer_date copy];
-        kAYViewsSendMessage(@"ScheduleWeekDays", @"setViewInfo:", &date_info)
         
         for (NSDictionary *iter in offer_date) {
             if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
@@ -198,11 +198,11 @@
 //    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavilableDateArr)
 //    [push_service_info setValue:unavilableDateArr forKey:@"offer_date"];
     
-    if (![self isCurrentTimesLegal]) {
-        NSString *title = @"服务时间设置错误";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return ;
-    }
+//    if (![self isCurrentTimesLegal]) {
+//        NSString *title = @"服务时间设置错误";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return ;
+//    }
     
     NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
     [date_dic setValue:[timesArr copy] forKey:@"occurance"];
@@ -435,11 +435,11 @@
      日程管理可以是集合，不超出从日到一，是不按顺序的，以keyValue:day为序号(0-6)进行各种操
      */
     
-    if (![self isCurrentTimesLegal]) {
-        NSString *title = @"服务时间设置错误";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return nil;
-    }
+//    if (![self isCurrentTimesLegal]) {
+//        NSString *title = @"服务时间设置错误";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return nil;
+//    }
     
     //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
     WeekDayBtnState state = WeekDayBtnStateNormal;
@@ -525,15 +525,17 @@
         return nil;
     }
     
+    NSDictionary *argsHolder = nil;
     if (creatOrUpdateNote == timesArr.count) {
         //添加
         [timesArr addObject:args];
     } else {
         //修改
+        argsHolder = [timesArr objectAtIndex:creatOrUpdateNote];
         [timesArr replaceObjectAtIndex:creatOrUpdateNote withObject:args];
     }
     
-    NSArray *tmp = [timesArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+    NSArray *sortedArray = [timesArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
         
         int first = ((NSNumber*)[obj1 objectForKey:@"start"]).intValue;
         int second = ((NSNumber*)[obj2 objectForKey:@"start"]).intValue;
@@ -543,7 +545,23 @@
         else return NSOrderedSame;
     }];
     
-//    NSArray *tmp = [timesArr copy];
+    [timesArr removeAllObjects];
+    [timesArr addObjectsFromArray:sortedArray];
+    
+    if (![self isCurrentTimesLegal]) {
+        if (!argsHolder) {
+//            NSInteger holderIndex = [timesArr indexOfObject:args];
+            [timesArr removeObject:args];
+        } else {
+            NSInteger holderIndex = [timesArr indexOfObject:args];
+            [timesArr replaceObjectAtIndex:holderIndex withObject:argsHolder];
+        }
+        NSString *title = @"服务时间设置错误";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return nil;
+    }
+    
+    NSArray *tmp = [timesArr copy];
     kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
