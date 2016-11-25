@@ -55,13 +55,13 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UILabel *secret = [Tools creatUILabelWithText:@"有温度的儿童主题看顾社区" andTextColor:[UIColor colorWithWhite:0.88 alpha:1.f] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-    [self.view addSubview:secret];
-    [self.view sendSubviewToBack:secret];
-    [secret mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(28);
-        make.centerX.equalTo(self.view);
-    }];
+//    UILabel *secret = [Tools creatUILabelWithText:@"有温度的儿童主题看顾社区" andTextColor:[UIColor colorWithWhite:0.88 alpha:1.f] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
+//    [self.view addSubview:secret];
+//    [self.view sendSubviewToBack:secret];
+//    [secret mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.view).offset(28);
+//        make.centerX.equalTo(self.view);
+//    }];
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -206,23 +206,23 @@
 //        }
 //    }];
     
-    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
-    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
-    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            NSArray *points = [result objectForKey:@"points"];
-            if (points.count == 0) {
-                id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
-                NSNumber *has_comment = [NSNumber numberWithBool:YES];
-                [cmd_desc performWithResult:&has_comment];
-                
-                UITableView *tableView = [self.views objectForKey:@"Table"];
-                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:NO];
-            }
-        }
-    }];
+//    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
+//    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
+//    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
+//    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+//    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
+//        if (success) {
+//            NSArray *points = [result objectForKey:@"points"];
+//            if (points.count == 0) {
+//                id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
+//                NSNumber *has_comment = [NSNumber numberWithBool:YES];
+//                [cmd_desc performWithResult:&has_comment];
+//                
+//                UITableView *tableView = [self.views objectForKey:@"Table"];
+//                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:NO];
+//            }
+//        }
+//    }];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];

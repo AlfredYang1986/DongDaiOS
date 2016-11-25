@@ -25,7 +25,7 @@
     BOOL isExpend;
     CGFloat expendHeight;
     
-    BOOL has_comment;
+//    BOOL has_comment;
 }
 
 @synthesize para = _para;
@@ -61,11 +61,11 @@
     return nil;
 }
 
-- (id)changeDescription:(id)args {
-//    personal_description = (NSString*)args;
-    has_comment = ((NSNumber*)args).boolValue;
-    return nil;
-}
+//- (id)changeDescription:(id)args {
+////    personal_description = (NSString*)args;
+//    has_comment = ((NSNumber*)args).boolValue;
+//    return nil;
+//}
 
 - (id)TransfromExpend:(NSNumber*)args {
     isExpend = YES;
@@ -135,7 +135,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.row == 0) {
-        return has_comment ? 130 : 165;
+        return 155;
+        
+//        return has_comment ? 130 : 165;
 //        return 165;
 //        return 130;
     }
