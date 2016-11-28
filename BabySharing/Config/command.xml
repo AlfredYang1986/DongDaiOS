@@ -68,6 +68,7 @@
 
     <command type="Module" name="OpenUIImagePickerCamera" factory="AYDefaultModuleFactory" />
     <command type="Module" name="OpenUIImagePickerPicRoll" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="LocationAuth" factory="AYDefaultModuleFactory" />
     <command type="Module" name="GernarateImgUUID" factory="AYDefaultModuleFactory" />
     <command type="Module" name="SaveImgLocal" factory="AYDefaultModuleFactory" />
 

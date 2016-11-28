@@ -66,6 +66,7 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 #define EXCHANGEWINDOWS         COMMAND(kAYFactoryManagerCommandWindowChange, kAYFactoryManagerCommandWindowChange)
 #define OpenCamera                COMMAND(@"OpenUIImagePickerCamera", @"OpenUIImagePickerCamera")
 #define OpenImagePickerVC                COMMAND(@"OpenUIImagePickerPicRoll", @"OpenUIImagePickerPicRoll")
+#define LocationAuth                COMMAND(@"LocationAuth", @"LocationAuth")
 
 #define CONTROLLER(TYPE, NAME)  [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:TYPE name:NAME]
 #define DEFAULTCONTROLLER(NAME) [[AYFactoryManager sharedInstance] enumObjectWithCatigory:kAYFactoryManagerCatigoryController type:kAYFactoryManagerCommandTypeDefaultController name:NAME]

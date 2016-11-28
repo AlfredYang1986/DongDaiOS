@@ -169,7 +169,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeSpan.doubleValue];
         NSString *dateStr = [weekFormatter stringFromDate:date];
         
-        if ([dateStr isEqualToString:@"星期日"]) {
+        if ([dateStr isEqualToString:@"星期日"] || [dateStr isEqualToString:@"星期天"]) {
             [noteArr addObject:[offer_date objectAtIndex:0]];
         }
         else if ([dateStr isEqualToString:@"星期一"]) {

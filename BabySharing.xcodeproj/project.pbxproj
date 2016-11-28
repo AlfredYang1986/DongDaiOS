@@ -588,6 +588,7 @@
 		70EAD8341CA68169007965D2 /* AYLoginModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8331CA68169007965D2 /* AYLoginModelFacade.m */; };
 		70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8661CA68437007965D2 /* AYQueryTmpUserCommand.m */; };
 		70EAD86A1CA684F9007965D2 /* AYChangeTmpUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EAD8691CA684F9007965D2 /* AYChangeTmpUserCommand.m */; };
+		70EBBC621DEC361D00968083 /* AYLocationAuthCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EBBC611DEC361D00968083 /* AYLocationAuthCommand.m */; };
 		70EC72341D190D6F0012B123 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC72271D190D6F0012B123 /* TAAbstractDotView.m */; };
 		70EC72351D190D6F0012B123 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC72291D190D6F0012B123 /* TAAnimatedDotView.m */; };
 		70EC72361D190D6F0012B123 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70EC722B1D190D6F0012B123 /* TADotView.m */; };
@@ -1890,6 +1891,8 @@
 		70EAD8681CA684F9007965D2 /* AYChangeTmpUserCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChangeTmpUserCommand.h; sourceTree = "<group>"; };
 		70EAD8691CA684F9007965D2 /* AYChangeTmpUserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChangeTmpUserCommand.m; sourceTree = "<group>"; };
 		70EAD86B1CA68D70007965D2 /* AYNotifyDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotifyDefines.h; sourceTree = "<group>"; };
+		70EBBC601DEC361D00968083 /* AYLocationAuthCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLocationAuthCommand.h; sourceTree = "<group>"; };
+		70EBBC611DEC361D00968083 /* AYLocationAuthCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLocationAuthCommand.m; sourceTree = "<group>"; };
 		70EC72261D190D6F0012B123 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
 		70EC72271D190D6F0012B123 /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
 		70EC72281D190D6F0012B123 /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
@@ -5117,6 +5120,7 @@
 		7082360E1CA2D15000658531 /* ModuleCommand */ = {
 			isa = PBXGroup;
 			children = (
+				70EBBC5F1DEC35F400968083 /* LocationAuth */,
 				70B820A41CAA71A7001EEAF2 /* ImageStorage */,
 				70B820991CAA5B14001EEAF2 /* ImagePicker */,
 				70F34D7A1CA549A300CEF7C1 /* LandingAreaCode */,
@@ -6570,6 +6574,15 @@
 			path = TmpUser;
 			sourceTree = "<group>";
 		};
+		70EBBC5F1DEC35F400968083 /* LocationAuth */ = {
+			isa = PBXGroup;
+			children = (
+				70EBBC601DEC361D00968083 /* AYLocationAuthCommand.h */,
+				70EBBC611DEC361D00968083 /* AYLocationAuthCommand.m */,
+			);
+			path = LocationAuth;
+			sourceTree = "<group>";
+		};
 		70EC72241D190D6F0012B123 /* SDCycleScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -7928,6 +7941,7 @@
 				8086A2551CCE983B006186D4 /* AYUserSearchRemoteFacade.m in Sources */,
 				707ABD101D55CEF10042332A /* AYQueryApplyOrdersCommand.m in Sources */,
 				70F57E5F1D8693CC003D493E /* MBProgressHUD.m in Sources */,
+				70EBBC621DEC361D00968083 /* AYLocationAuthCommand.m in Sources */,
 				70D46B641CEEB14A0093D50F /* InsetsLabel.m in Sources */,
 				70C4C8DD1CF7E53000F44C36 /* AYSMSSendCommand.m in Sources */,
 				7069A3231D52F9A2007821D4 /* AYPushOrderCommand.m in Sources */,

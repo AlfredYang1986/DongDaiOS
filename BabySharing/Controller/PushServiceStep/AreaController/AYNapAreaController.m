@@ -19,8 +19,6 @@
 
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#import <AMapSearchKit/AMapSearchKit.h>
-
 #define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
 #define FAKE_BAR_HEIGHT             44
 #define locBGViewHeight                 175
@@ -85,7 +83,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.manager requestWhenInUseAuthorization];
@@ -279,7 +276,22 @@
     return YES;
 }
 
-#pragma mark -- 定位成功 调用代理方法
+#pragma mark -- 定位代理方法
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    switch (status) {
+        case kCLAuthorizationStatusAuthorizedAlways:
+        case kCLAuthorizationStatusAuthorizedWhenInUse: {
+            [self.manager startUpdatingLocation];
+        }
+            break;
+        case kCLAuthorizationStatusDenied: NSLog(@"Denied"); break;
+        case kCLAuthorizationStatusNotDetermined: NSLog(@"not Determined"); break;
+        case kCLAuthorizationStatusRestricted: NSLog(@"Restricted"); break;
+        default:
+            break;
+    }
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     
     loc = [locations firstObject];
