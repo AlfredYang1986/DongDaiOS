@@ -167,27 +167,27 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     for (NSNumber *timeSpan in timeSpanArray) {
         NSDateFormatter *weekFormatter = [Tools creatDateFormatterWithString:@"EEEE"];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeSpan.doubleValue];
-        NSString *dateStr = [[weekFormatter stringFromDate:date] substringFromIndex:2];
+        NSString *dateStr = [weekFormatter stringFromDate:date];
         
-        if ([dateStr isEqualToString:@"日"]) {
+        if ([dateStr isEqualToString:@"星期日"]) {
             [noteArr addObject:[offer_date objectAtIndex:0]];
         }
-        else if ([dateStr isEqualToString:@"一"]) {
+        else if ([dateStr isEqualToString:@"星期一"]) {
             [noteArr addObject:[offer_date objectAtIndex:1]];
         }
-        else if ([dateStr isEqualToString:@"二"]) {
+        else if ([dateStr isEqualToString:@"星期二"]) {
             [noteArr addObject:[offer_date objectAtIndex:2]];
         }
-        else if ([dateStr isEqualToString:@"三"]) {
+        else if ([dateStr isEqualToString:@"星期三"]) {
             [noteArr addObject:[offer_date objectAtIndex:3]];
         }
-        else if ([dateStr isEqualToString:@"四"]) {
+        else if ([dateStr isEqualToString:@"星期四"]) {
             [noteArr addObject:[offer_date objectAtIndex:4]];
         }
-        else if ([dateStr isEqualToString:@"五"]) {
+        else if ([dateStr isEqualToString:@"星期五"]) {
             [noteArr addObject:[offer_date objectAtIndex:5]];
         }
-        else if ([dateStr isEqualToString:@"六"]) {
+        else if ([dateStr isEqualToString:@"星期六"]) {
             [noteArr addObject:[offer_date objectAtIndex:6]];
         }
     }
@@ -205,61 +205,38 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     isServ = isArgs.boolValue;
     
     NSDate *Date = [[NSDate alloc]init];
-    NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
+    NSTimeInterval interval_note = Date.timeIntervalSince1970;
     
-    NSString *year = calendar[0];
-    NSString *month = calendar[1];
-    NSString *day = calendar[2];
-    
-    // 获得这个月第一天是星期几
-    NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@", year, month, @1];
-    NSInteger dayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:dateStr];
-    
-    // 获得下个月第一天是星期几
-    NSString *nextdateStr = [NSString stringWithFormat:@"%@-%d-%@", year, month.intValue + 1, @1];
-    NSInteger nextdayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:nextdateStr];
-    
-    //这个月多少天，用于判断是否跳到下个月显示 unvaluableday
-    NSInteger daysOfMouth = [_useTime timeNumberOfDaysInString:dateStr];
-    
-    NSInteger section = (year.integerValue - [_useTime getYear])*12 + (month.integerValue - 1);
-    NSInteger item = day.integerValue + dayOfFirstWeek - 1;
-    
-    //当日item
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-    
-    NSMutableArray *compare = [NSMutableArray arrayWithObjects:@0, @1, @2, @3, @4, @5, @6, nil];
     NSArray *tmp_args = [(NSDictionary*)args objectForKey:@"offer_date"];
-    for (NSDictionary *day_times in tmp_args) {
-        NSArray *occurance = [day_times objectForKey:@"occurance"];
-        if (occurance) {
-            [compare removeObject:[day_times objectForKey:@"day"]];
-        }
-    }
     
     for (int i = 0; i < 7; ++i) {
-        int weekd = (indexPath.row + i) % 7;
-        if ([[compare copy] containsObject:[NSNumber numberWithInt:weekd]]) {
+        NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
+        NSDate *date_note = [NSDate dateWithTimeIntervalSince1970:interval_note];
+        NSString *dateStr = [formatter stringFromDate:date_note];
+        
+        NSArray *dateStrArr = [dateStr componentsSeparatedByString:@"-"];
+        NSString *year = dateStrArr[0];
+        NSString *month = dateStrArr[1];
+        NSString *day = dateStrArr[2];
+        
+        NSString *firstDayStr = [NSString stringWithFormat:@"%@-%@-%@", year, month, @1];
+        // 获得这个月第一天是星期几
+        NSInteger dayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:firstDayStr];
+        NSInteger section = (year.integerValue - [_useTime getYear])*12 + (month.integerValue - 1);
+        NSInteger item = day.integerValue + dayOfFirstWeek - 1;
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+        int weekd = indexPath.row % 7;
+        
+        NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekd];
+        NSArray *result_contains = [tmp_args filteredArrayUsingPredicate:pred_contains];
+        if (result_contains.count == 0) {
             
-            if (indexPath.row + i + 1 - dayOfFirstWeek > daysOfMouth) {
-                NSIndexPath *nextMouthIndexPath = [NSIndexPath indexPathForItem:weekd inSection:section+1];
-                [_calendarContentView selectItemAtIndexPath:nextMouthIndexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-                
-                NSInteger nextDay = nextMouthIndexPath.row + 1 - nextdayOfFirstWeek;
-                NSString *unavilableDateStr = [self getDateStrForSection:nextMouthIndexPath.section day:nextDay];
-                NSDate *tmp_date = [_useTime strToDate:unavilableDateStr];
-                NSTimeInterval time_p = tmp_date.timeIntervalSince1970;
-                [timeSpanArray addObject:[NSNumber numberWithDouble:time_p]];
-            }else {
-                [_calendarContentView selectItemAtIndexPath:[NSIndexPath indexPathForItem:item + i inSection:section] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-                
-                NSString *unavilableDateStr = [self getDateStrForSection:indexPath.section day:indexPath.row + 1 + i - dayOfFirstWeek];
-                NSDate *tmp_date = [_useTime strToDate:unavilableDateStr];
-                NSTimeInterval time_p = tmp_date.timeIntervalSince1970;
-                [timeSpanArray addObject:[NSNumber numberWithDouble:time_p]];
-                
-            }
+            [timeSpanArray addObject:[NSNumber numberWithDouble:interval_note]];
+            [_calendarContentView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionNone];
         }
+        
+        interval_note += 86400 ;
     }
     
     if (timeSpanArray.count != 0) {

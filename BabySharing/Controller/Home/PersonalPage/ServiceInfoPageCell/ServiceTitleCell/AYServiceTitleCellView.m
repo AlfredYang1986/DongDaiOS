@@ -201,7 +201,6 @@
                 
                 int mainRang = (int)average;
                 NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
-                
                 CGFloat tmpCompare = average + 0.5f;
                 if ((int)tmpCompare > mainRang) {
                     rangImageName = [rangImageName stringByAppendingString:@"_"];
