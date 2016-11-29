@@ -568,13 +568,18 @@
         <command type="notify"      message="didCancelClick" />
     </view>
     
+    <view type="SetServiceThemeCell" name="SetServiceThemeCell" factory="AYReuseViewFactory" >
+        <command type="message"      message="setCellInfo:" />
+        <command type="notify"       message="didOptionBtnClick:" />
+    </view>
+    
     <view type="NapAreaMap" name="NapAreaMap" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="queryOnesLocal:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     
-    <view type="NapPhotosCell" name="NapPhotosCell" factory="AYDefaultViewFactory" >
+    <view type="NapPhotosCell" name="NapPhotosCell" factory="AYReuseViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="addPhotosAction" />
@@ -592,29 +597,29 @@
         <command type="notify"      message="inputNapTitleAction:" />
     </view>
     
-    <view type="NapDescCell" name="NapDescCell" factory="AYDefaultViewFactory" >
+    <view type="NapDescCell" name="NapDescCell" factory="AYReuseViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="inputNapDescAction:" />
     </view>
     
-    <view type="NapBabyAgeCell" name="NapBabyAgeCell" factory="AYDefaultViewFactory" >
+    <view type="NapBabyAgeCell" name="NapBabyAgeCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    <view type="NapEditInfoCell" name="NapEditInfoCell" factory="AYDefaultViewFactory" >
+    <view type="NapEditInfoCell" name="NapEditInfoCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
     
-    <view type="NapCostCell" name="NapCostCell" factory="AYDefaultViewFactory" >
+    <view type="NapCostCell" name="NapCostCell" factory="AYReuseViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
-    <view type="NapLocationCell" name="NapLocationCell" factory="AYDefaultViewFactory" >
+    <view type="NapLocationCell" name="NapLocationCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
-    <view type="NapDeviceCell" name="NapDeviceCell" factory="AYDefaultViewFactory" >
+    <view type="NapDeviceCell" name="NapDeviceCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
@@ -624,19 +629,19 @@
         <command type="notify"      message="didCancelClick" />
     </view>
     
-    <view type="SetNapOptionsCell" name="SetNapOptionsCell" factory="AYDefaultViewFactory" >
+    <view type="SetNapOptionsCell" name="SetNapOptionsCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didOptionBtnClick:" />
         <command type="notify"      message="didSetNoteBtn:" />
         <command type="notify"      message="textChange:" />
     </view>
     
-    <view type="ServiceTimesCell" name="ServiceTimesCell" factory="AYDefaultViewFactory" >
+    <view type="ServiceTimesCell" name="ServiceTimesCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didWeekDayBtnClick:" />
     </view>
     
-    <view type="ServiceAddTimesCell" name="ServiceAddTimesCell" factory="AYDefaultViewFactory" >
+    <view type="ServiceAddTimesCell" name="ServiceAddTimesCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didWeekDayBtnClick:" />
     </view>
@@ -646,7 +651,7 @@
         <command type="notify"      message="changeCurrentIndex:" />
     </view>
     
-    <view type="OrderCell" name="OrderCell" factory="AYDefaultViewFactory" >
+    <view type="OrderCell" name="OrderCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
     

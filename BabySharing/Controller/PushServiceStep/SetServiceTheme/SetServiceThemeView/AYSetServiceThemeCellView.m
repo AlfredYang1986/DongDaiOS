@@ -1,12 +1,12 @@
 //
-//  AYNapBabyAgeCellView.m
+//  AYSetServiceThemeCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 19/7/16.
+//  Created by Alfred Yang on 29/11/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYNapBabyAgeCellView.h"
+#import "AYSetServiceThemeCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -15,7 +15,7 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 
-@implementation AYNapBabyAgeCellView {
+@implementation AYSetServiceThemeCellView {
     NSString *title;
     NSString *content;
     
@@ -35,29 +35,18 @@
             make.bottom.equalTo(self.mas_centerY);
         }];
         
-        subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:subTitlelabel];
-        [subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(titleLabel);
-            make.top.equalTo(self.mas_centerY);
-            make.right.equalTo(self).offset(-60);
+        UIImageView *access = [[UIImageView alloc]init];
+        [self addSubview:access];
+        access.image = IMGRESOURCE(@"plan_time_icon");
+        [access mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-20);
+            make.centerY.equalTo(titleLabel);
+            make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
-        
-        optionBtn = [[UIButton alloc]init];
-        [self addSubview:optionBtn];
-        [optionBtn setImage:[UIImage imageNamed:@"icon_pick"] forState:UIControlStateNormal];
-        [optionBtn setImage:[UIImage imageNamed:@"icon_pick_selected"] forState:UIControlStateSelected];
-        [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(25, 25));
-        }];
-        optionBtn.selected = NO;
-        optionBtn.userInteractionEnabled = NO;
         
         CALayer *separator = [CALayer layer];
         CGFloat margin = 0;
-        separator.frame = CGRectMake(margin, 0, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
+        separator.frame = CGRectMake(margin, 69.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
         separator.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:separator];
         
@@ -79,7 +68,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"NapBabyAgeCell", @"NapBabyAgeCell");
+    id<AYViewBase> cell = VIEW(@"SetServiceThemeCell", @"SetServiceThemeCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -127,11 +116,7 @@
 
 - (id)setCellInfo:(NSDictionary*)args {
     
-    BOOL isSeted = ((NSNumber*)[args objectForKey:@"is_seted"]).boolValue;
-    optionBtn.selected = isSeted;
-    
     titleLabel.text = [args objectForKey:@"title"];
-    subTitlelabel.text = [args objectForKey:@"sub_title"];
     
     return nil;
 }

@@ -647,6 +647,19 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
     </controller>
     
+    <controller type="DefaultController" name="SetServiceType" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetServiceTheme" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"              name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" />
+    </controller>
+    
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >
 <!--        <facade type="DefaultFacade" name="Keyboard" notification="true" />-->
         <command type="Module" name="LocationAuth" />

@@ -197,8 +197,8 @@
             des = DEFAULTCONTROLLER(@"ConfirmRealName");
 //            des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
         } else {
-            des = DEFAULTCONTROLLER(@"NapArea");
-//            des = DEFAULTCONTROLLER(@"ConfirmFinish");
+//            des = DEFAULTCONTROLLER(@"NapArea");
+            des = DEFAULTCONTROLLER(@"SetServiceType");
         }
         
         NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -244,9 +244,8 @@
 }
 
 - (void)pushNewService {
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"SetNapSchedule");
+//    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

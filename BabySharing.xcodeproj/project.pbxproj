@@ -518,6 +518,10 @@
 		70C69FFE1D9A4E9F0069E4EE /* AYPersonalInfoHeadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C69FFD1D9A4E9F0069E4EE /* AYPersonalInfoHeadCellView.m */; };
 		70C6A0011D9A4F100069E4EE /* AYPersonalDescCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C6A0001D9A4F100069E4EE /* AYPersonalDescCellView.m */; };
 		70C6A0041D9A50680069E4EE /* AYPersonalValidateCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C6A0031D9A50680069E4EE /* AYPersonalValidateCellView.m */; };
+		70CAEC4D1DED7E7D00542C1D /* AYSetServiceTypeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CAEC4C1DED7E7D00542C1D /* AYSetServiceTypeController.m */; };
+		70CAEC511DED9DF900542C1D /* AYSetServiceThemeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CAEC501DED9DF900542C1D /* AYSetServiceThemeController.m */; };
+		70CAEC581DEDA8F700542C1D /* AYSetServiceThemeDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CAEC571DEDA8F700542C1D /* AYSetServiceThemeDelegate.m */; };
+		70CAEC5C1DEDADD500542C1D /* AYSetServiceThemeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CAEC5B1DEDADD500542C1D /* AYSetServiceThemeCellView.m */; };
 		70CB71491D97B0F300C83985 /* AYAccomplishOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB71481D97B0F300C83985 /* AYAccomplishOrderCommand.m */; };
 		70CB714F1D97D33B00C83985 /* AYCommentServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CB714E1D97D33B00C83985 /* AYCommentServiceController.m */; };
 		70CDF6001CBC9DCE00311841 /* AYAuthSignOutCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70CDF5FF1CBC9DCE00311841 /* AYAuthSignOutCommand.m */; };
@@ -1751,6 +1755,14 @@
 		70C6A0001D9A4F100069E4EE /* AYPersonalDescCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalDescCellView.m; sourceTree = "<group>"; };
 		70C6A0021D9A50680069E4EE /* AYPersonalValidateCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPersonalValidateCellView.h; sourceTree = "<group>"; };
 		70C6A0031D9A50680069E4EE /* AYPersonalValidateCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalValidateCellView.m; sourceTree = "<group>"; };
+		70CAEC4B1DED7E7D00542C1D /* AYSetServiceTypeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceTypeController.h; sourceTree = "<group>"; };
+		70CAEC4C1DED7E7D00542C1D /* AYSetServiceTypeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceTypeController.m; sourceTree = "<group>"; };
+		70CAEC4F1DED9DF900542C1D /* AYSetServiceThemeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceThemeController.h; sourceTree = "<group>"; };
+		70CAEC501DED9DF900542C1D /* AYSetServiceThemeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceThemeController.m; sourceTree = "<group>"; };
+		70CAEC561DEDA8F700542C1D /* AYSetServiceThemeDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceThemeDelegate.h; sourceTree = "<group>"; };
+		70CAEC571DEDA8F700542C1D /* AYSetServiceThemeDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceThemeDelegate.m; sourceTree = "<group>"; };
+		70CAEC5A1DEDADD500542C1D /* AYSetServiceThemeCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceThemeCellView.h; sourceTree = "<group>"; };
+		70CAEC5B1DEDADD500542C1D /* AYSetServiceThemeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceThemeCellView.m; sourceTree = "<group>"; };
 		70CB71471D97B0F300C83985 /* AYAccomplishOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAccomplishOrderCommand.h; sourceTree = "<group>"; };
 		70CB71481D97B0F300C83985 /* AYAccomplishOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAccomplishOrderCommand.m; sourceTree = "<group>"; };
 		70CB714D1D97D33B00C83985 /* AYCommentServiceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceController.h; sourceTree = "<group>"; };
@@ -5601,6 +5613,9 @@
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
 				70C41E3E1DBA122500C77B10 /* AreaController */,
+				70CAEC491DED7E2200542C1D /* SetCourseTheme */,
+				70CAEC4E1DED83EA00542C1D /* SetServiceTheme */,
+				70CAEC4A1DED7E2200542C1D /* SetServiceType */,
 			);
 			path = PushServiceStep;
 			sourceTree = "<group>";
@@ -6039,6 +6054,51 @@
 				70C6A0031D9A50680069E4EE /* AYPersonalValidateCellView.m */,
 			);
 			path = PersonalInfoView;
+			sourceTree = "<group>";
+		};
+		70CAEC491DED7E2200542C1D /* SetCourseTheme */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SetCourseTheme;
+			sourceTree = "<group>";
+		};
+		70CAEC4A1DED7E2200542C1D /* SetServiceType */ = {
+			isa = PBXGroup;
+			children = (
+				70CAEC4B1DED7E7D00542C1D /* AYSetServiceTypeController.h */,
+				70CAEC4C1DED7E7D00542C1D /* AYSetServiceTypeController.m */,
+			);
+			path = SetServiceType;
+			sourceTree = "<group>";
+		};
+		70CAEC4E1DED83EA00542C1D /* SetServiceTheme */ = {
+			isa = PBXGroup;
+			children = (
+				70CAEC591DEDADA800542C1D /* SetServiceThemeView */,
+				70CAEC551DEDA8F700542C1D /* SetServiceThemeDelegate */,
+				70CAEC4F1DED9DF900542C1D /* AYSetServiceThemeController.h */,
+				70CAEC501DED9DF900542C1D /* AYSetServiceThemeController.m */,
+			);
+			path = SetServiceTheme;
+			sourceTree = "<group>";
+		};
+		70CAEC551DEDA8F700542C1D /* SetServiceThemeDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70CAEC561DEDA8F700542C1D /* AYSetServiceThemeDelegate.h */,
+				70CAEC571DEDA8F700542C1D /* AYSetServiceThemeDelegate.m */,
+			);
+			path = SetServiceThemeDelegate;
+			sourceTree = "<group>";
+		};
+		70CAEC591DEDADA800542C1D /* SetServiceThemeView */ = {
+			isa = PBXGroup;
+			children = (
+				70CAEC5A1DEDADD500542C1D /* AYSetServiceThemeCellView.h */,
+				70CAEC5B1DEDADD500542C1D /* AYSetServiceThemeCellView.m */,
+			);
+			path = SetServiceThemeView;
 			sourceTree = "<group>";
 		};
 		70CB71461D97B0F300C83985 /* AccomplishOrder */ = {
@@ -7553,6 +7613,7 @@
 				70C41E3A1DBA11AD00C77B10 /* RoleLable.m in Sources */,
 				80D5E7EF1CCCD0AB00A82117 /* AYFriendsBtnView.m in Sources */,
 				70C41ED11DBA122500C77B10 /* AYNapBabyAgeCellView.m in Sources */,
+				70CAEC511DED9DF900542C1D /* AYSetServiceThemeController.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				705E96891D470E88006CF9E6 /* AYOrderStateCellView.m in Sources */,
 				70EC72351D190D6F0012B123 /* TAAnimatedDotView.m in Sources */,
@@ -7620,6 +7681,7 @@
 				70C41EF31DBA122600C77B10 /* AYSetNapThemeCellView.m in Sources */,
 				70CDF6521CBD0F7300311841 /* AYAppendOwnerQueryDataCommand.m in Sources */,
 				703C7DE21D48AF3200292F18 /* AYGroupChatMessagesDelegate.m in Sources */,
+				70CAEC5C1DEDADD500542C1D /* AYSetServiceThemeCellView.m in Sources */,
 				7015243D1CBF785A005B4C5B /* AYQueryMultipleUsersCommand.m in Sources */,
 				70C41EE61DBA122500C77B10 /* TZVideoPlayerController.m in Sources */,
 				701D8A9A1CA7E06700B5D4C1 /* RegTmpToken.m in Sources */,
@@ -7671,6 +7733,7 @@
 				702510A01CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m in Sources */,
 				70DCA6961D6E949700D417FE /* AYAlertView.m in Sources */,
 				7000CD1A1D7E8A5200DA98F2 /* MJRefreshBackFooter.m in Sources */,
+				70CAEC581DEDA8F700542C1D /* AYSetServiceThemeDelegate.m in Sources */,
 				70C41ED31DBA122500C77B10 /* AYNapEditInfoCellView.m in Sources */,
 				7000CD1F1D7E8A5200DA98F2 /* MJRefreshAutoNormalFooter.m in Sources */,
 				70C41EC31DBA122500C77B10 /* AYNapAreaMapView.m in Sources */,
@@ -7966,6 +8029,7 @@
 				700693241CC4D70600B511FF /* AYPHAssetFacade.m in Sources */,
 				70C41ECA1DBA122500C77B10 /* AYMainInfoController.m in Sources */,
 				704D48DC1DAE18AE00A69AF4 /* AYUserAgreeController.m in Sources */,
+				70CAEC4D1DED7E7D00542C1D /* AYSetServiceTypeController.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				702349E01D7AD7F900AF40C2 /* AYSearchFilterPriceRangeDelegate.m in Sources */,

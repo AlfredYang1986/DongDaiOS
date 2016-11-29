@@ -206,6 +206,11 @@
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="setNapAdress" />
+    </delegate>
+    
     <delegate type="PickerViewDelegateAndDatasource" name="NapArea" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
     </delegate>

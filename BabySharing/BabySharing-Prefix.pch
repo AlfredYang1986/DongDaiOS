@@ -26,6 +26,12 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 
 //orderStatus
 typedef enum : int {
+    ServiceTypeLookAfter = 0,
+    ServiceTypeCourse = 1,
+} ServiceType;
+
+//orderStatus
+typedef enum : int {
     OrderStatusReject = -9,
     OrderStatusUnpaid = -1,
     OrderStatusReady = 0,
@@ -52,7 +58,8 @@ typedef enum : int {
 } ModeExchangeType;
 
 #define kAY_service_options_title_cans              @[@"看顾", @"绘本", @"DIY手工", @"英语", @"少儿体育", @"儿童瑜伽", @"自然科学"]
-#define kAY_service_options_title_facilities        @[@"无烟",@"急救包",@"防摔地板", @"安全桌角",@"安全插座", @"安全护栏"]
+#define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏"]
+#define kAY_service_options_title_norse        @[@"日间看顾", @"课后看顾"]
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 
