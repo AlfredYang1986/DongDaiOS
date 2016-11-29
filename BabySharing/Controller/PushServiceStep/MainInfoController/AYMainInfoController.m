@@ -69,8 +69,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSDictionary *dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+        id dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([dic_info isKindOfClass:[NSNumber class]]) {
+            return;
+        }
         if (dic_info) {
             NSString *key = [dic_info objectForKey:@"key"];
             if ([key isEqualToString:@"nap_cover"]) {       //0

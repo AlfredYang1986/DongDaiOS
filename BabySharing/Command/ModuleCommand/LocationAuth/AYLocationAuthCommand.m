@@ -22,7 +22,7 @@
 
 - (void)performWithResult:(NSObject**)obj {
     
-    BOOL isEnabled = [CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedWhenInUse||[CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedAlways;
+    BOOL isEnabled = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways;
     if (isEnabled) {
         *obj = [NSNumber numberWithBool:YES];
         

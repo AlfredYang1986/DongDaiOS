@@ -241,7 +241,9 @@
 //    }
     NSNumber *unit_price = [service_info objectForKey:@"price"];
     sumPrice += (unit_price.floatValue * (endClock - startClock)) * 100;
-    sumPrice = 1.f;
+#ifdef SANDBOX
+        sumPrice = 1.f;
+#endif
     
     [dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
