@@ -126,12 +126,12 @@
 #pragma mark -- actions
 - (void)didPushBtnClick {
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[NSNumber numberWithInt:1] forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

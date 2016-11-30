@@ -12,13 +12,16 @@
 
 @end
 
-@implementation AYSetServiceTypeController
+@implementation AYSetServiceTypeController {
+    BOOL isFromConfirmFlow;
+}
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        isFromConfirmFlow = YES;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -161,7 +164,10 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    if (isFromConfirmFlow) {
+        
+        [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    }
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
