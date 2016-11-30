@@ -192,6 +192,9 @@
 		702E7AB91CA169E30097867E /* command.xml in Resources */ = {isa = PBXBuildFile; fileRef = 702E7AB81CA169E30097867E /* command.xml */; };
 		702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ABF1CA16C830097867E /* AYAppInitCommandFactory.m */; };
 		702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ACF1CA184A70097867E /* AYAppInitCommand.m */; };
+		7030B9471DEE8D32001EB6E4 /* AYSetServiceCapacityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7030B9401DEE8D32001EB6E4 /* AYSetServiceCapacityController.m */; };
+		7030B9481DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7030B9431DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m */; };
+		7030B9491DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7030B9461DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m */; };
 		703291C31CC492B700028DF2 /* AYContatcerInSystemCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */; };
 		70343E4A1DC08634007531A4 /* AYTipsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70343E491DC08634007531A4 /* AYTipsCollectionView.m */; };
 		7037E8B21DE42D3F007BF858 /* AYServiceTimesShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7037E8B11DE42D3F007BF858 /* AYServiceTimesShowDelegate.m */; };
@@ -1090,6 +1093,12 @@
 		702E7ACE1CA184A70097867E /* AYAppInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppInitCommand.h; sourceTree = "<group>"; };
 		702E7ACF1CA184A70097867E /* AYAppInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppInitCommand.m; sourceTree = "<group>"; };
 		702E7AD11CA185C70097867E /* AYCommandDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYCommandDefines.h; sourceTree = "<group>"; };
+		7030B93F1DEE8D32001EB6E4 /* AYSetServiceCapacityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityController.h; sourceTree = "<group>"; };
+		7030B9401DEE8D32001EB6E4 /* AYSetServiceCapacityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityController.m; sourceTree = "<group>"; };
+		7030B9421DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityDelegate.h; sourceTree = "<group>"; };
+		7030B9431DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityDelegate.m; sourceTree = "<group>"; };
+		7030B9451DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityCellView.h; sourceTree = "<group>"; };
+		7030B9461DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityCellView.m; sourceTree = "<group>"; };
 		703291C11CC492B700028DF2 /* AYContatcerInSystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContatcerInSystemCommand.h; sourceTree = "<group>"; };
 		703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContatcerInSystemCommand.m; sourceTree = "<group>"; };
 		70343E481DC08634007531A4 /* AYTipsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTipsCollectionView.h; sourceTree = "<group>"; };
@@ -3662,6 +3671,35 @@
 			path = AppInitCommand;
 			sourceTree = "<group>";
 		};
+		7030B93E1DEE8D32001EB6E4 /* SetServiceCapacity */ = {
+			isa = PBXGroup;
+			children = (
+				7030B93F1DEE8D32001EB6E4 /* AYSetServiceCapacityController.h */,
+				7030B9401DEE8D32001EB6E4 /* AYSetServiceCapacityController.m */,
+				7030B9411DEE8D32001EB6E4 /* SetServiceCapacityDelegate */,
+				7030B9441DEE8D32001EB6E4 /* SetServiceCapacityView */,
+			);
+			path = SetServiceCapacity;
+			sourceTree = "<group>";
+		};
+		7030B9411DEE8D32001EB6E4 /* SetServiceCapacityDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7030B9421DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.h */,
+				7030B9431DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m */,
+			);
+			path = SetServiceCapacityDelegate;
+			sourceTree = "<group>";
+		};
+		7030B9441DEE8D32001EB6E4 /* SetServiceCapacityView */ = {
+			isa = PBXGroup;
+			children = (
+				7030B9451DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.h */,
+				7030B9461DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m */,
+			);
+			path = SetServiceCapacityView;
+			sourceTree = "<group>";
+		};
 		703291C01CC4927A00028DF2 /* ContatcerInSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -5614,6 +5652,7 @@
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
 				70C41E3E1DBA122500C77B10 /* AreaController */,
 				70CAEC491DED7E2200542C1D /* SetCourseTheme */,
+				7030B93E1DEE8D32001EB6E4 /* SetServiceCapacity */,
 				70CAEC4E1DED83EA00542C1D /* SetServiceTheme */,
 				70CAEC4A1DED7E2200542C1D /* SetServiceType */,
 			);
@@ -7930,6 +7969,7 @@
 				705E96801D4703C5006CF9E6 /* AYOrderHeadCellView.m in Sources */,
 				8086A2621CCE9914006186D4 /* AYUserWithScreenNameCommand.m in Sources */,
 				70D9BE0E1DAF94C1006B77A8 /* AYOtherBtnClickCommand.m in Sources */,
+				7030B9471DEE8D32001EB6E4 /* AYSetServiceCapacityController.m in Sources */,
 				707E79E11D0673CA00DFC198 /* AYLocationResultController.m in Sources */,
 				70A1A5631D1D4A860063FC7F /* AYLogoutEMCommand.m in Sources */,
 				700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */,
@@ -7970,6 +8010,7 @@
 				7000CD1D1D7E8A5200DA98F2 /* MJRefreshHeader.m in Sources */,
 				706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */,
 				70EC72381D190D6F0012B123 /* SDCollectionViewCell.m in Sources */,
+				7030B9491DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m in Sources */,
 				70FE54DA1D98E78F0077A3E9 /* AYCommentServiceCommand.m in Sources */,
 				7001C4861DD58BCC004275A9 /* AYSetNapScheduleController.m in Sources */,
 				70D175DF1D79890E00D9C7D9 /* AYHomeHistoryItem.m in Sources */,
@@ -8089,6 +8130,7 @@
 				704697D71CE047F200DACD8A /* SDWebImagePrefetcher.m in Sources */,
 				7050C3431D4B03AD000FFAA4 /* AYPayOptionView.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
+				7030B9481DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m in Sources */,
 				7037E8B51DE42D67007BF858 /* AYServiceTimesPickDelegate.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,

@@ -28,11 +28,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.bottom.equalTo(self.mas_centerY);
+            make.centerY.equalTo(self);
         }];
         
         UIImageView *access = [[UIImageView alloc]init];
@@ -114,9 +114,9 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSDictionary*)args {
+- (id)setCellInfo:(NSString*)args {
     
-    titleLabel.text = [args objectForKey:@"title"];
+    titleLabel.text = args;
     
     return nil;
 }

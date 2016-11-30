@@ -214,7 +214,7 @@
         [cell_info setValue:[NSNumber numberWithBool:NO] forKey:@"is_seted"];
         
         if (napThemeNote.longValue != 0 && indexPath.row == 1) {
-            NSArray *options_title_cans = kAY_service_options_title_cans;
+            NSArray *options_title_cans = kAY_service_options_title_course;
             NSString *theme = @"服务主题";
             long options = napThemeNote.longValue;
             for (int i = 0; i < options_title_cans.count; ++i) {

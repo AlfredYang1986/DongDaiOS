@@ -107,7 +107,7 @@
 - (id)setCellInfo:(id)args {
     
     NSNumber *cans = (NSNumber*)args;
-    NSArray *options_title_cans = kAY_service_options_title_cans;
+    NSArray *options_title_cans = kAY_service_options_title_course;
     
     long options = cans.longValue;
     for (int i = 0; i < options_title_cans.count; ++i) {

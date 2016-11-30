@@ -115,7 +115,7 @@
     star_rang_icon.image = IMGRESOURCE(@"star_rang_5");
 //    contentCountlabel.text = @"12";
     
-    NSArray *options_title_cans = kAY_service_options_title_cans;
+    NSArray *options_title_cans = kAY_service_options_title_course;
     long options = ((NSNumber*)[_cellInfo objectForKey:@"cans"]).longValue;
     for (int i = 0; i < options_title_cans.count; ++i) {
         long note_pow = pow(2, i);

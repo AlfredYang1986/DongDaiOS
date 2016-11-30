@@ -573,6 +573,11 @@
         <command type="notify"       message="didOptionBtnClick:" />
     </view>
     
+    <view type="SetServiceCapacityCell" name="SetServiceCapacityCell" factory="AYReuseViewFactory" >
+        <command type="message"      message="setCellInfo:" />
+        <command type="notify"       message="resetCapacityNumb:" />
+    </view>
+    
     <view type="NapAreaMap" name="NapAreaMap" factory="AYDefaultViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="queryOnesLocal:" />

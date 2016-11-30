@@ -14,7 +14,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @implementation AYSetServiceThemeDelegate {
-    
+    NSArray *titleArr;
 }
 
 #pragma mark -- command
@@ -45,22 +45,29 @@
 
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
-    
+    NSNumber *type = (NSNumber*)args;
+    if (type.intValue == ServiceTypeLookAfter) {
+        titleArr = kAY_service_options_title_lookafter;
+    } else if (type.intValue == ServiceTypeCourse) {
+        titleArr = kAY_service_options_title_course;
+    } else {
+        titleArr = @[@"参数设置错误"];
+    }
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return titleArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    id<AYViewBase> cell = nil;
-    if (indexPath.row == 0) {
-        NSString* class_name = @"AYNapPhotosCellView";
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    }
+    NSString* class_name = @"AYSetServiceThemeCellView";
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+    
+    NSString *title = titleArr[indexPath.row];
+    kAYViewSendMessage(cell, @"setCellInfo:", &title)
     
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -72,13 +79,30 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return;
-    } else {
-        
-    }
+    NSNumber *tmp = [NSNumber numberWithInteger:indexPath.row];
+    kAYDelegateSendNotify(self, @"serviceThemeSeted:", &tmp)
 }
 
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *head = [[UIView alloc]init];
+    head.backgroundColor = [Tools garyBackgroundColor];
+    UILabel *titleLabel = [Tools creatUILabelWithText:@"您想要发布什么主题" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    [head addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(head);
+        make.centerY.equalTo(head);
+    }];
+    
+    return head;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 150;
+    } else {
+        return 0.001;
+    }
+}
 
 #pragma mark -- notifies set service info
 

@@ -208,7 +208,12 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="setNapAdress" />
+        <command type="notify" message="serviceThemeSeted:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceCapacity" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="serviceThemeSeted:" />
     </delegate>
     
     <delegate type="PickerViewDelegateAndDatasource" name="NapArea" factory="AYDefaultDelegateFactory" >

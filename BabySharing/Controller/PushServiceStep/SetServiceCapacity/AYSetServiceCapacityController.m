@@ -1,19 +1,21 @@
 //
-//  AYSetServiceThemeController.m
+//  AYSetServiceCapacityController.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 29/11/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSetServiceThemeController.h"
+#import "AYSetServiceCapacityController.h"
 
-@interface AYSetServiceThemeController ()
+@interface AYSetServiceCapacityController ()
 
 @end
 
-@implementation AYSetServiceThemeController {
-    ServiceType service_type;
+@implementation AYSetServiceCapacityController {
+    NSMutableDictionary *service_info;
+    
+    NSMutableDictionary *ages_dic;
 }
 
 #pragma mark -- commands
@@ -22,7 +24,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        service_type = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -35,8 +37,12 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    ages_dic = [[NSMutableDictionary alloc]init];
+    [ages_dic setValue:[NSNumber numberWithInt:2] forKey:@"lsl"];
+    [ages_dic setValue:[NSNumber numberWithInt:11] forKey:@"usl"];
+    
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceTheme"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceCapacity"];
     
     id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
@@ -46,12 +52,17 @@
     obj = (id)cmd_notify;
     [cmd_delegate performWithResult:&obj];
     
-    NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceCapacityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    NSNumber *type = [NSNumber numberWithInt:service_type];
-    kAYDelegatesSendMessage(@"SetServiceTheme", @"changeQueryData:", &type);
-    
+    UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
+    [self.view addSubview:nextBtn];
+    [nextBtn addTarget:self action:@selector(didNextBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,7 +84,7 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
-    NSString *title = @"服务主题";
+    NSString *title = @"更多信息";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -86,20 +97,22 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
-    view.backgroundColor = [Tools whiteColor];
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
+//    view.backgroundColor = [Tools whiteColor];
+    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     return nil;
 }
 
 #pragma mark -- actions
-- (void)didNorseLabelTap {
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapLocation");
+- (void)didNextBtnClick {
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    id<AYCommand> des = DEFAULTCONTROLLER(@"MainInfo");
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:@"push" forKey:kAYControllerChangeArgsKey];
+    
+    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -111,7 +124,7 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+//    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
@@ -123,23 +136,28 @@
     return nil;
 }
 
-- (id)serviceThemeSeted:(NSNumber*)args {
-//    notePow = pow(2, btn.tag);
-    long option = pow(2, args.longValue);
+- (id)resetCapacityNumb:(NSDictionary*)args {
+    NSNumber *index = [args objectForKey:@"index"];
+    NSNumber *count = [args objectForKey:@"count"];
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    if (index.intValue == 0) {      //lsl
+        [ages_dic setValue:count forKey:@"lsl"];
+        [service_info setValue:ages_dic forKey:@"age_boundary"];
+    }
+    else if (index.intValue == 1) {     //usl
+        [ages_dic setValue:count forKey:@"usl"];
+        [service_info setValue:ages_dic forKey:@"age_boundary"];
+    }
+    else if (index.intValue == 2) {     //capacity
+        [service_info setValue:count forKey:@"capacity"];
+    }
+    else if (index.intValue == 3) {     //servant_no
+        [service_info setValue:count forKey:@"servant_no"];
+    }
+    else {
+        
+    }
     
-    NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
-    [service_info setValue:[NSNumber numberWithInt:service_type] forKey:@"service_cat"];
-    [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:@"cans"];
-    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
     return nil;
 }
 
