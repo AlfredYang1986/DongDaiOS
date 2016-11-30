@@ -40,6 +40,9 @@
     ages_dic = [[NSMutableDictionary alloc]init];
     [ages_dic setValue:[NSNumber numberWithInt:2] forKey:@"lsl"];
     [ages_dic setValue:[NSNumber numberWithInt:11] forKey:@"usl"];
+    [service_info setValue:[ages_dic copy] forKey:@"age_boundary"];
+    [service_info setValue:[NSNumber numberWithInt:4] forKey:@"capacity"];
+    [service_info setValue:[NSNumber numberWithInt:1] forKey:@"servant_no"];
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceCapacity"];
