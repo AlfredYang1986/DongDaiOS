@@ -221,9 +221,12 @@
 <!--    <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="QueryMyService"    route="v2/kidnap/mine" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="CollectService"        route="v2/kidnap/collect" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="AllCollectService"     route="v2/kidnap/collect/lst" factory="AYRemoteCallFactory" />
     
 <!--    <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="QueryOrders"   route="v2/order/query" factory="AYRemoteCallFactory" />
