@@ -37,13 +37,14 @@
     if (self) {
         
         addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加照片" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        addPhotoBtn.userInteractionEnabled = NO;
         [self addSubview:addPhotoBtn];
         [addPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.mas_centerY).offset(-5);
             make.centerX.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(100, 24));
         }];
-        [addPhotoBtn addTarget:self action:@selector(addPhotoBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [addPhotoBtn addTarget:self action:@selector(addPhotoBtnClick) forControlEvents:UIControlEventTouchUpInside];
         
         subTitleLabel = [Tools creatUILabelWithText:@"分享您和孩子之间的故事更打动人" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:subTitleLabel];
@@ -61,8 +62,8 @@
         photoCover.contentMode = UIViewContentModeScaleAspectFill;
         photoCover.clipsToBounds = YES;
         
-        photoCover.userInteractionEnabled = YES;
-        [photoCover addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
+//        photoCover.userInteractionEnabled = YES;
+//        [photoCover addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editPhoto:)]];
         
         self.backgroundColor = [Tools garyBackgroundColor];
         
@@ -155,6 +156,7 @@
     
     if ([args isKindOfClass:[UIImage class]]) {
         photoCover.image = (UIImage*)args;
+        
     } else if ([args isKindOfClass:[NSString class]]) {
         
         NSString* photo_name = (NSString*)args;

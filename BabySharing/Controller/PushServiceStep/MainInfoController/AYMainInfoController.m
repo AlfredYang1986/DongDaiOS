@@ -186,8 +186,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-    NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&photoCell];
+    NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&cell_name];
+    
+    cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&cell_name];
     
     confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];

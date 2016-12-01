@@ -52,15 +52,13 @@
 
 - (void)postPerform {
     
-    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"设置类型", @"撰写标题", @"撰写描述", @"设置孩子年龄", @"设置价格", @"场地友好性(选填)", nil];
+    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"撰写标题", @"撰写描述", @"设置价格", @"制定《服务守则》", @"选填信息", nil];
     sub_titles = [NSMutableArray arrayWithObjects:
                   @"添加图片",
-                  @"选择您的服务类型",
                   @"与众不同的标题可以展示您的魅力",
                   @"总结您的服务亮点",
-                  @"您服务适合的孩子年龄范围",
                   @"一开始可以试试具有吸引力的价格",
-                  @"为孩子提供更友好的场地体验",  nil];
+                  @"预定前家长需要同意服务守则",  nil];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -80,7 +78,7 @@
 }
 
 #pragma marlk -- commands
--(id)changeQueryData:(id)args{
+- (id)changeQueryData:(id)args {
     
 //    isEditModel = NO;
     
@@ -124,12 +122,11 @@
     isEditModel = YES;
     titles = [NSMutableArray arrayWithObjects:
                   @"编辑图片",
-                  @"编辑类型",
                   @"编辑标题",
                   @"编辑描述",
-                  @"编辑孩子年龄",
                   @"编辑价格",
-                  @"编辑场地友好性(选填)",  nil];
+                  @"编辑《服务守则》",
+                  @"编辑选填信息",  nil];
     
     napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
     napTitle = [info objectForKey:@"title"];
@@ -182,8 +179,17 @@
 }
 
 #pragma mark -- table
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    return 2;
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+//    if (section == 0) {
+//        return 5;
+//    } else {
+//        return 1;
+//    }
+    return 6;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -202,6 +208,13 @@
             info = napPhotoName;
             kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
+        
+    } else if (indexPath.row == 5) {
+        NSString* class_name = @"AYOptionalInfoCellView";
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSString *title = titles[indexPath.row];
+        kAYViewSendMessage(cell, @"setCellInfo:", &title)
         
     } else {
         
@@ -281,33 +294,46 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         return 250;
+    } else if (indexPath.row == 5) {
+        return 90;
     } else {
         return 70;
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return;
-    } else if (indexPath.row == 1){
+        kAYDelegateSendNotify(self, @"addPhotosAction", nil)
+//        return;
+    } else if (indexPath.row == 1) {
         [self setNapTheme];         //服务主题
         
-    } else if (indexPath.row == 2){
+    } else if (indexPath.row == 2) {
         [self setNapTitle];
         
-    } else if (indexPath.row == 3){
+    } else if (indexPath.row == 3) {
 //        [self setNapAdress];
         [self setServiceDesc];
         
-    } else if (indexPath.row == 4){
+    } else if (indexPath.row == 4) {
         [self setNapBabyAges];
         
-    } else if (indexPath.row == 5){
+    } else if (indexPath.row == 5) {
         [self setNapCost];
         
     } else {
         [self setNapDevice];
     }
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footView = [[UIView alloc]init];
+    footView.backgroundColor = [Tools garyBackgroundColor];
+    return footView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.001f;
 }
 
 

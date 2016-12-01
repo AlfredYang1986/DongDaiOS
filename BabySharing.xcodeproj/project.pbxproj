@@ -129,6 +129,7 @@
 		7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3461CB79699002C416E /* AYReuseViewFactory.m */; };
 		7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */; };
 		701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */; };
+		7018924B1DF05236001CBBB3 /* AYOptionalInfoCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7018924A1DF05236001CBBB3 /* AYOptionalInfoCellView.m */; };
 		701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */ = {isa = PBXBuildFile; fileRef = 701D8A311CA7999A00B5D4C1 /* remote.xml */; };
 		701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */; };
 		701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A431CA7B9C200B5D4C1 /* AYFacade.m */; };
@@ -967,6 +968,8 @@
 		7017F3521CB7BA74002C416E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7018421E1D2399B2003154F1 /* AYEMClientInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMClientInitCommand.h; sourceTree = "<group>"; };
 		7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMClientInitCommand.m; sourceTree = "<group>"; };
+		701892491DF05236001CBBB3 /* AYOptionalInfoCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOptionalInfoCellView.h; sourceTree = "<group>"; };
+		7018924A1DF05236001CBBB3 /* AYOptionalInfoCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOptionalInfoCellView.m; sourceTree = "<group>"; };
 		701D8A311CA7999A00B5D4C1 /* remote.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = remote.xml; sourceTree = "<group>"; };
 		701D8A341CA7A96200B5D4C1 /* AYRemoteCallFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallFactory.h; sourceTree = "<group>"; };
 		701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteCallFactory.m; sourceTree = "<group>"; };
@@ -3101,6 +3104,15 @@
 			path = EMClientInit;
 			sourceTree = "<group>";
 		};
+		701892481DF05211001CBBB3 /* OptionalInfoCell */ = {
+			isa = PBXGroup;
+			children = (
+				701892491DF05236001CBBB3 /* AYOptionalInfoCellView.h */,
+				7018924A1DF05236001CBBB3 /* AYOptionalInfoCellView.m */,
+			);
+			path = OptionalInfoCell;
+			sourceTree = "<group>";
+		};
 		701D8A331CA7A95000B5D4C1 /* RemoteCallFactory */ = {
 			isa = PBXGroup;
 			children = (
@@ -3874,12 +3886,13 @@
 			path = ServiceFacilityCell;
 			sourceTree = "<group>";
 		};
-		703B4CEB1DCC89E400B1088C /* ServiceMapCell */ = {
+		703B4CEB1DCC89E400B1088C /* ServiceMapCell(Order) */ = {
 			isa = PBXGroup;
 			children = (
 				703B4CFB1DCC8BE800B1088C /* AYServiceMapCellView.h */,
 				703B4CFC1DCC8BE800B1088C /* AYServiceMapCellView.m */,
 			);
+			name = "ServiceMapCell(Order)";
 			path = ServiceMapCell;
 			sourceTree = "<group>";
 		};
@@ -5651,7 +5664,6 @@
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
 				70C41E3E1DBA122500C77B10 /* AreaController */,
-				70CAEC491DED7E2200542C1D /* SetCourseTheme */,
 				7030B93E1DEE8D32001EB6E4 /* SetServiceCapacity */,
 				70CAEC4E1DED83EA00542C1D /* SetServiceTheme */,
 				70CAEC4A1DED7E2200542C1D /* SetServiceType */,
@@ -5785,6 +5797,7 @@
 				70C41E611DBA122500C77B10 /* 01 */,
 				70C41E6D1DBA122500C77B10 /* 11 */,
 				70C41E711DBA122500C77B10 /* 11_2 */,
+				701892481DF05211001CBBB3 /* OptionalInfoCell */,
 			);
 			path = MainInfoCellView;
 			sourceTree = "<group>";
@@ -6093,13 +6106,6 @@
 				70C6A0031D9A50680069E4EE /* AYPersonalValidateCellView.m */,
 			);
 			path = PersonalInfoView;
-			sourceTree = "<group>";
-		};
-		70CAEC491DED7E2200542C1D /* SetCourseTheme */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SetCourseTheme;
 			sourceTree = "<group>";
 		};
 		70CAEC4A1DED7E2200542C1D /* SetServiceType */ = {
@@ -6440,7 +6446,7 @@
 				703B4CEC1DCC89E400B1088C /* ServiceOwnerInfoCell */,
 				703B4CED1DCC89E400B1088C /* ServiceThemeCell */,
 				703B4CEA1DCC89E400B1088C /* ServiceFacilityCell */,
-				703B4CEB1DCC89E400B1088C /* ServiceMapCell */,
+				703B4CEB1DCC89E400B1088C /* ServiceMapCell(Order) */,
 				703B4CE81DCC89E400B1088C /* ServiceCalendarCell */,
 				703B4CE91DCC89E400B1088C /* ServiceCostCell */,
 			);
@@ -8087,6 +8093,7 @@
 				70CB714F1D97D33B00C83985 /* AYCommentServiceController.m in Sources */,
 				703B4D031DCC8C0600B1088C /* AYServiceCostCellView.m in Sources */,
 				70C69FFE1D9A4E9F0069E4EE /* AYPersonalInfoHeadCellView.m in Sources */,
+				7018924B1DF05236001CBBB3 /* AYOptionalInfoCellView.m in Sources */,
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				706942CF1D59C35100D0BBB4 /* AYGroupChatHeaderView.m in Sources */,
 				70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */,

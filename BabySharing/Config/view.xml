@@ -614,6 +614,9 @@
     <view type="NapEditInfoCell" name="NapEditInfoCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
+    <view type="OptionalInfoCell" name="OptionalInfoCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+    </view>
     
     <view type="NapCostCell" name="NapCostCell" factory="AYReuseViewFactory" >
         <command type="message"     message="refresh" />
