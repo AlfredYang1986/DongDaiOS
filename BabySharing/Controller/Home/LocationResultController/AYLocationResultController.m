@@ -106,11 +106,14 @@
 }
 
 - (void)loadMoreData {
+
+    NSDictionary* user = nil;
+    CURRENUSER(user);
     
     id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
     
-    NSMutableDictionary *dic_search = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dic_search = [user mutableCopy];
     [dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
     
     NSTimeInterval timeSpan = [NSDate date].timeIntervalSince1970;
@@ -156,11 +159,14 @@
 }
 
 - (void)loadNewData {
+   
+    NSDictionary* user = nil;
+    CURRENUSER(user);
     
     id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
     
-    NSMutableDictionary *dic_search = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary *dic_search = [user mutableCopy];
     [dic_search setValue:[NSNumber numberWithInteger:0] forKey:@"skip"];
     
     NSTimeInterval timeSpan = [NSDate date].timeIntervalSince1970;
