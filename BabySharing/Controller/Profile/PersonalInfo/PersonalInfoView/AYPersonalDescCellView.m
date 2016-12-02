@@ -139,7 +139,7 @@
     CURRENUSER(info);
     NSString *user_id = [args objectForKey:@"user_id"];
     
-    if (![user_id isEqualToString:[info objectForKey:@"user_id"]]) {
+    if (user_id && ![user_id isEqualToString:[info objectForKey:@"user_id"]]) {
         NSString *nameStr = [args objectForKey:@"screen_name"];
         titleLabel.text = [NSString stringWithFormat:@"关于%@",nameStr];
     }
