@@ -79,7 +79,7 @@
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(124);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
     }];
     
     costTextField = [[UITextField alloc]init];
@@ -128,7 +128,7 @@
             [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(h1.mas_bottom).offset(20);
                 make.centerX.equalTo(self.view);
-                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
+                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
             }];
             
             timeTextField = [[UITextField alloc]init];

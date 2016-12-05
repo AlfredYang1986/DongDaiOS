@@ -7,31 +7,196 @@
 //
 
 #import "AYSetServiceNoticeController.h"
+#import "AYViewBase.h"
+#import "AYCommandDefines.h"
+#import "AYFacadeBase.h"
+#import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
+#import "OptionOfPlayingView.h"
+#import "AYInsetLabel.h"
+#import "AYServiceArgsDefines.h"
 
-@interface AYSetServiceNoticeController ()
+#define STATUS_BAR_HEIGHT           20
+#define FAKE_BAR_HEIGHT             44
+#define LIMITNUMB                   228
+#define kTableFrameY                218
 
-@end
+@implementation AYSetServiceNoticeController{
+    
+    UITextField *costTextField;
+    UITextField *timeTextField;
+    NSString *setedCostString;
+    
+    UIButton *yesBtn;
+    UIButton *noBtn;
+}
 
-@implementation AYSetServiceNoticeController
+#pragma mark --  commands
+- (void)performWithResult:(NSObject *__autoreleasing *)obj {
+    NSDictionary* dic = (NSDictionary*)*obj;
+    
+    if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+        NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
+        if (dic_cost) {
+            setedCostString = [dic_cost objectForKey:@"price"];
+        }
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+        
+    } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        
+    }
+}
 
+#pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
+    h1.text  = @"需要家长陪同";
+    h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    h1.textColor = [Tools blackColor];
+    h1.font = kAYFontLight(14.f);
+    h1.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:h1];
+    [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(124);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+    }];
+    
+    yesBtn = [[UIButton alloc]init];
+    [yesBtn setImage:IMGRESOURCE(@"tab_home") forState:UIControlStateNormal];
+    [yesBtn setImage:IMGRESOURCE(@"tab_home_selected") forState:UIControlStateSelected];
+    [self.view addSubview:yesBtn];
+    [yesBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(h1);
+        make.right.equalTo(h1).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(30, 40));
+    }];
+    
+    noBtn = [[UIButton alloc]init];
+    [noBtn setImage:IMGRESOURCE(@"tab_home") forState:UIControlStateNormal];
+    [noBtn setImage:IMGRESOURCE(@"tab_home_selected") forState:UIControlStateSelected];
+    [self.view addSubview:noBtn];
+    [noBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(h1);
+        make.right.equalTo(yesBtn.mas_left).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(30, 40));
+    }];
+    
+    [yesBtn addTarget:self action:@selector(didYesBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [noBtn addTarget:self action:@selector(didNoBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    AYInsetLabel *h2 = [[AYInsetLabel alloc]init];
+    h2.text = @"其他守则";
+    h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    h2.textColor = [Tools blackColor];
+    h2.font = kAYFontLight(14.f);
+    h2.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:h2];
+    [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(h1.mas_bottom).offset(20);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+    }];
+    h2.userInteractionEnabled = YES;
+    [h2 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOtherNoticeTap)]];
+    
+    
+    UIImageView *access = [[UIImageView alloc]init];
+    [self.view addSubview:access];
+    access.image = IMGRESOURCE(@"plan_time_icon");
+    [access mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(h2.mas_right).offset(-15);
+        make.centerY.equalTo(h2);
+        make.size.mas_equalTo(CGSizeMake(15, 15));
+    }];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark -- layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    return nil;
 }
-*/
+
+- (id)FakeNavBarLayout:(UIView*)view{
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
+    
+    id<AYViewBase> bar = (id<AYViewBase>)view;
+    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+    NSString *title = @"《服务守则》";
+    [cmd_title performWithResult:&title];
+    
+    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    [cmd_left performWithResult:&left];
+    
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
+    [cmd_right performWithResult:&bar_right_btn];
+    
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+    return nil;
+}
+
+- (id)TableLayout:(UIView*)view {
+    view.frame = CGRectMake(0, kTableFrameY, SCREEN_WIDTH, SCREEN_HEIGHT - kTableFrameY);
+    
+    ((UITableView*)view).backgroundColor = [UIColor clearColor];
+    ((UITableView*)view).showsVerticalScrollIndicator = NO;
+    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    return nil;
+}
+
+#pragma mark -- actions
+- (void)didYesBtnClick {
+    yesBtn.selected = YES;
+    noBtn.selected = NO;
+}
+
+- (void)didNoBtnClick {
+    noBtn.selected = YES;
+    yesBtn.selected = NO;
+}
+
+- (void)didOtherNoticeTap {
+    
+}
+
+#pragma mark -- notification
+- (id)leftBtnSelected {
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)rightBtnSelected {
+    //整合数据
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = POP;
+    [cmd performWithResult:&dic];
+    
+    return nil;
+}
 
 @end

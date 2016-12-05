@@ -340,7 +340,7 @@
         
     } else if (indexPath.row == 4) {        //notice
 //        [self setNapBabyAges];
-        
+        [self setServiceNotice];
     } else if (indexPath.row == 5) {
         [self setNapDevice];
         
@@ -412,6 +412,21 @@
     NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napCostInfo];
     [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+}
+
+- (void)setServiceNotice {
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetServiceNotice");
+    
+    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
