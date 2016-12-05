@@ -269,7 +269,8 @@
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
+    NSString* message_name = @"ResetStatusReady";
+    [dic_pop setValue:message_name forKey:kAYControllerChangeArgsKey];
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic_pop];
     return nil;

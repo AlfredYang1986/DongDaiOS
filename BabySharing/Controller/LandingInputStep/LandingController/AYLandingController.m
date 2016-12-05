@@ -607,7 +607,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             id (*func)(id, SEL, ...) = imp;
             func(self, sel);
         }
+        //
     }
+}
+
+- (void)ResetStatusReady {
+    self.landing_status = RemoteControllerStatusReady;
 }
 
 - (id)CurrentLoginUserChanged:(id)args {

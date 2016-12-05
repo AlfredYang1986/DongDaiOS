@@ -232,10 +232,20 @@
     id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
     AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
     NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:[service_info objectForKey:@"owner_id"] forKey:@"user_id"];
+    
+    NSString *user_id = [service_info objectForKey:@"owner_id"] ;
+    if (!user_id) {
+        NSDictionary *user_info;
+        CURRENUSER(user_info)
+        user_id = [user_info objectForKey:@"user_id"];
+    }
+    
+    [dic_owner_id setValue:user_id forKey:@"user_id"];
     
     [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
+            userPhoto.userInteractionEnabled = YES;
+            
             userName.text = [result objectForKey:@"screen_name"];
             
             NSString* photo_name = [result objectForKey:@"screen_photo"];
@@ -244,6 +254,8 @@
             NSString *pre = cmd.route;
             [userPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                            placeholderImage:IMGRESOURCE(@"default_user")];
+        } else {
+            userPhoto.userInteractionEnabled = NO;
         }
     }];
     
