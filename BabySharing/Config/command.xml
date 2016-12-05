@@ -231,7 +231,7 @@
 <!--    <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="QueryOrders"   route="v2/order/query" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="QueryOwnOrders"   route="order/query/own" factory="AYRemoteCallFactory" />-->
-    <command type="Remote" name="QueryOwnOrders"   route="v2/order/query/own" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOwnOrders"   route="v2/order/query/owner" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="QueryApplyOrders"   route="order/query/apply" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="QueryApplyOrders"   route="v2/order/query/apply" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateOrderInfo"   route="order/update" factory="AYRemoteCallFactory" />

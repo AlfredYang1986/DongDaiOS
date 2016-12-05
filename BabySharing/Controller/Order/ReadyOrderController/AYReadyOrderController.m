@@ -273,9 +273,9 @@
     NSTimeInterval now = nowDate.timeIntervalSince1970;
 //    confirmSerBtn.enabled = (timeSpan <= now);
     if (timeSpan >= now) {
-        NSString *title = @"订单尚未完成";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return;
+//        NSString *title = @"订单尚未完成";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return;
     }
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];

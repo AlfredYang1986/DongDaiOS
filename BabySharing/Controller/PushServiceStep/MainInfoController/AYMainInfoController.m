@@ -15,23 +15,19 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
-
 #import "TmpFileStorageModel.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 #import <CoreLocation/CoreLocation.h>
+
+#import "AYServiceArgsDefines.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
+#define requiredInfoNumb                5
 
 #define becomeNapNormalModelFitHeight               (64+49)
 #define becomeNapAllreadyModelFitHeight               (64+49 + 44)
-
 #define servInfoNormalModelFitHeight                           (64)
 #define servInfoChangedModelFitHeight                           (64+44)
-
 #define napPushServNormalModelFitHeight               (64+44)
 #define napPushServAllreadyModelFitHeight               (64+44)
 
@@ -49,7 +45,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     BOOL isNapModel;
 }
-
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
@@ -71,45 +66,56 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         if ([dic_info isKindOfClass:[NSNumber class]]) {
             return;
         }
-        if (dic_info) {
+        else if (dic_info) {
             NSString *key = [dic_info objectForKey:@"key"];
             if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_theme"]){  //1
-                
-                [_service_change_dic setValue:[dic_info objectForKey:@"cans"] forKey:@"cans"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
-                
-                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
-            }
-            else if([key isEqualToString:@"nap_title"]) {  //2
+//            else if([key isEqualToString:@"nap_theme"]){  //1
+//                
+//                [_service_change_dic setValue:[dic_info objectForKey:@"cans"] forKey:@"cans"];
+//                [_service_change_dic setValue:[dic_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
+//                
+//                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+//            }
+            else if([key isEqualToString:@"nap_title"]) {  //1
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
                 
-                [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
+                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_desc"]) {    //3
+            else if([key isEqualToString:@"nap_desc"]) {    //2
                 napDesc = [dic_info objectForKey:@"content"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
+                [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
+            }
+//            else if([key isEqualToString:@"nap_ages"]) {     //3
+//                
+//                [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
+//                [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
+//                [_service_change_dic setValue:[dic_info objectForKey:@"servant_no"] forKey:@"servant_no"];
+//                
+//                [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+//            }
+            else if([key isEqualToString:@"nap_cost"]) {   //3
+                
+                NSString *price = [dic_info objectForKey:kAYServiceArgsPrice];
+                [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:kAYServiceArgsPrice];
+                NSString *duration = [dic_info objectForKey:kAYServiceArgsCourseduration];
+                if (duration && ![duration isEqualToString:@""]) {
+                    [_service_change_dic setValue:[NSNumber numberWithFloat:duration.floatValue] forKey:kAYServiceArgsCourseduration];
+                }
+//                [_service_change_dic setValue:[dic_info objectForKey:@"least_hours"] forKey:@"least_hours"];
+                
                 [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_ages"]) {     //4
+            else if([key isEqualToString:@"nap_notice"]) {   //4
                 
-                [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"servant_no"] forKey:@"servant_no"];
+                [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
+                [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsNotice] forKey:kAYServiceArgsNotice];
                 
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
-            }
-            else if([key isEqualToString:@"nap_cost"]) {   //5
-                
-                NSString *price = [dic_info objectForKey:@"price"];
-                [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:@"price"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"least_hours"] forKey:@"least_hours"];
-                
-                [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
             }
 //            else if([key isEqualToString:@"nap_adress"]){     //5+
 //                
@@ -157,20 +163,18 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     if (!_service_change_dic) {
         if (service_info) {
             _service_change_dic = [service_info mutableCopy];
-        } else
+        }
+        else {
             _service_change_dic = [[NSMutableDictionary alloc]init];
-    }
-    
-    if (!service_info) {
-        _noteAllArgs = [[NSMutableArray alloc]init];
-        for (int i = 0; i < 6; ++i) {
-            [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
+            _noteAllArgs = [[NSMutableArray alloc]init];
+            for (int i = 0; i < requiredInfoNumb; ++i) {
+                [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
+            }
         }
     }
     
@@ -192,11 +196,19 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&cell_name];
     
-    confirmSerBtn = [[UIButton alloc]init];
-    confirmSerBtn.backgroundColor = [Tools themeColor];
-    [confirmSerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    confirmSerBtn = [Tools creatUIButtonWithTitle:@"" andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:confirmSerBtn];
     confirmSerBtn.hidden = YES;
+    [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view);
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+    }];
+    
+    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+    [dic_info setValue:kAYServiceArgsServiceCat forKey:@"key"];
+    [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+    kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
     
 //    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
 //    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
@@ -208,13 +220,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         NSDictionary *dic_info = [service_info copy];
         kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
-        kAYViewsSendMessage(@"Table", @"refresh", nil)
+//        kAYViewsSendMessage(@"Table", @"refresh", nil)
         
-        [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view);
-            make.centerX.equalTo(self.view);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
-        }];
         [confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
         
@@ -224,11 +231,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [cmd_class performWithResult:&babyAgeCell];
         
         confirmSerBtn.hidden = NO;
-        [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view).offset(0);
-            make.centerX.equalTo(self.view);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
-        }];
         [confirmSerBtn setTitle:@"下一步" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(pushServiceTodoNext) forControlEvents:UIControlEventTouchUpInside];
         
@@ -240,9 +242,13 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 #pragma mark -- layout
+- (id)FakeStatusBarLayout:(UIView*)view {
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+    return nil;
+}
+
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"主题看顾服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)

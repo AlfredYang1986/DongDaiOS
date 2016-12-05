@@ -201,10 +201,10 @@
 }
 
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
-    
-    
-    
-    return YES;
+    if ([text isEqualToString:@"\n"]) {
+        return NO;
+    } else
+        return YES;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {

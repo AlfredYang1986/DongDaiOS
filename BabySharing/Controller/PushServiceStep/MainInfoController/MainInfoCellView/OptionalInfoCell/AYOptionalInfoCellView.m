@@ -28,11 +28,25 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        CALayer *bgLayer = [CALayer layer];
+        bgLayer.frame = CGRectMake(0, 0, SCREEN_WIDTH, 90);
+        bgLayer.backgroundColor = [Tools garyBackgroundColor].CGColor;
+        [self.layer addSublayer:bgLayer];
+        
+        UIView *bgView = [[UIView alloc]init];
+        bgView.backgroundColor = [Tools whiteColor];
+        [self addSubview:bgView];
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.centerX.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 70));
+        }];
+        
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
-            make.bottom.equalTo(self.mas_centerY);
+            make.centerY.equalTo(self);
         }];
         
         UIImageView *access = [[UIImageView alloc]init];

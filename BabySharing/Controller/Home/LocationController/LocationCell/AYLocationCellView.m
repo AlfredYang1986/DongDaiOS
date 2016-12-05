@@ -66,7 +66,7 @@
             CALayer *line_separator = [CALayer layer];
             line_separator.borderColor = [UIColor colorWithWhite:0.5922 alpha:0.25].CGColor;
             line_separator.borderWidth = 1.f;
-            line_separator.frame = CGRectMake(0, self.bounds.size.height - 1, [UIScreen mainScreen].bounds.size.width, 1);
+            line_separator.frame = CGRectMake(0, self.bounds.size.height - 1, SCREEN_WIDTH, 1);
             [self.layer addSublayer:line_separator];
             
             [self setUpReuseCell];
@@ -130,15 +130,14 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    if (locationName && ![locationName isEqualToString:@""] ) {
-        
-        locationLabel.text = locationName;
-    }
 }
 
 - (id)resetContent:(id)obj {
     NSDictionary* dic = (NSDictionary*)obj;
     locationName = [dic objectForKey:@"location_name"];
+    if (locationName && ![locationName isEqualToString:@""] ) {
+        locationLabel.text = locationName;
+    }
     districtName = [dic objectForKey:@"district"];
     location = [dic objectForKey:@"location"];
     return nil;

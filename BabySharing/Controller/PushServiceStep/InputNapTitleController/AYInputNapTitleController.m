@@ -20,13 +20,13 @@
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define LIMITNUMB                   16
+#define LIMITNUMB                   18
 
-@interface AYInputNapTitleController ()<UITextViewDelegate>
+@interface AYInputNapTitleController () <UITextViewDelegate>
 
 @end
 
-@implementation AYInputNapTitleController{
+@implementation AYInputNapTitleController {
     UITextView *inputTitleTextView;
     UILabel *countlabel;
     NSString *setedTitleString;
@@ -52,7 +52,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
+    self.view.backgroundColor = [Tools whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     inputTitleTextView = [[UITextView alloc]init];
@@ -111,16 +111,6 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
-    return nil;
-}
-
-- (id)SetNevigationBarTitleLayout:(UIView*)view {
-//    UILabel* titleView = (UILabel*)view;
-//    titleView.text = @"服务标题";
-//    titleView.font = [UIFont systemFontOfSize:16.f];
-//    titleView.textColor = [Tools blackColor];
-//    [titleView sizeToFit];
-//    titleView.center = CGPointMake(SCREEN_WIDTH / 2, 44 / 2 + 20);
     return nil;
 }
 
