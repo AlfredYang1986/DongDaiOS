@@ -138,7 +138,7 @@
     [_imageView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                placeholderImage:IMGRESOURCE(@"default_user")];
     
-    NSArray *options_title_cans = kAY_service_options_title_cans;
+    NSArray *options_title_cans = kAY_service_options_title_course;
     
     long options = ((NSNumber*)[contentInfo objectForKey:@"cans"]).longValue;
     for (int i = 0; i < options_title_cans.count; ++i) {

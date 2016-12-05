@@ -26,9 +26,10 @@
 
 @implementation AYNapAreaController{
     
+    NSMutableDictionary *service_info;
+    
     UILabel *areaLabel;
     CLLocation *loc;
-    NSNumber *type;
     
     //new
     NSString *navTitleStr;
@@ -37,21 +38,17 @@
     UITextField *adjustAdress;
 }
 
-- (CLLocationManager *)manager{
+- (CLLocationManager *)manager {
     if (!_manager) {
         _manager = [[CLLocationManager alloc]init];
     }
     return _manager;
 }
--(CLGeocoder *)gecoder{
+- (CLGeocoder *)gecoder {
     if (!_gecoder) {
         _gecoder = [[CLGeocoder alloc]init];
     }
     return _gecoder;
-}
-
-- (void)postPerform{
-    
 }
 
 #pragma mark -- commands
@@ -61,17 +58,17 @@
 //    navTitleStr = @"";
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        type = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+//        service_info = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:kAYControllerChangeArgsKey]];
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSDictionary *dic_loc = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_loc) {
-            NSString* headAdressString = [dic_loc objectForKey:@"location_name"];
+            NSString* headAdressStr = [dic_loc objectForKey:@"location_name"];
             loc = [dic_loc objectForKey:@"location"];
             
-            adressLabel.text = headAdressString;
+            adressLabel.text = headAdressStr;
             
             id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
             id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
@@ -369,25 +366,26 @@
         return;
     }
     
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"MainInfo");
+//    id<AYCommand> dist = DEFAULTCONTROLLER(@"MainInfo");
+    id<AYCommand> dist = DEFAULTCONTROLLER(@"SetServiceCapacity");
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:dist forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *loc_info = [[NSMutableDictionary alloc]init];
+//    NSMutableDictionary *loc_info = [[NSMutableDictionary alloc]init];
 //    [loc_info setValue:type forKey:@"type"];
     
     NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
     [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
     [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
     
-    [loc_info setValue:location forKey:@"location"];
-    [loc_info setValue:navTitleStr forKey:@"distinct"];
-    [loc_info setValue:adressLabel.text forKey:@"address"];
-    [loc_info setValue:adjustAdress.text forKey:@"adjust_address"];
-    [dic_push setValue:loc_info forKey:kAYControllerChangeArgsKey];
+    [service_info setValue:location forKey:@"location"];
+    [service_info setValue:navTitleStr forKey:@"distinct"];
+    [service_info setValue:adressLabel.text forKey:@"address"];
+    [service_info setValue:adjustAdress.text forKey:@"adjust_address"];
+    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -397,11 +395,11 @@
 - (id)leftBtnSelected {
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+//    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
-    id<AYCommand> cmd = POPTOROOT;
+    id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     return nil;
 }

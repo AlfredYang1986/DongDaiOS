@@ -206,6 +206,16 @@
         <command type="notify" message="scrollOffsetY:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="serviceThemeSeted:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceCapacity" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+        <command type="notify" message="serviceThemeSeted:" />
+    </delegate>
+    
     <delegate type="PickerViewDelegateAndDatasource" name="NapArea" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
     </delegate>
@@ -214,7 +224,7 @@
         <command type="message" message="changeQueryData:" />
         <command type="message" message="queryCurrentSelected:" />
         <command type="message" message="changeQueryInfo:" />
-        
+        <command type="notify" message="addPhotosAction" />
         <command type="notify" message="inputNapTitleAction" />
         <command type="notify" message="setNapBabyAges" />
         <command type="notify" message="setNapTheme" />

@@ -39,8 +39,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 @implementation AYMainInfoController {
     
-    NSNumber *type;
-    
     NSArray *napPhotos;
     NSString *napDesc;
     NSString *napAges;
@@ -97,7 +95,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
                 [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_ages"]){     //4
+            else if([key isEqualToString:@"nap_ages"]) {     //4
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
@@ -105,7 +103,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_cost"]){   //5
+            else if([key isEqualToString:@"nap_cost"]) {   //5
                 
                 NSString *price = [dic_info objectForKey:@"price"];
                 [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:@"price"];
@@ -129,7 +127,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //                
 //                [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
 //            }
-            else if([key isEqualToString:@"nap_device"]){     //6
+            else if([key isEqualToString:@"nap_device"]) {     //6
                 
                 [_service_change_dic setValue:[dic_info objectForKey:@"facility"] forKey:@"facility"];
                 [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
@@ -188,8 +186,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [cmd_delegate performWithResult:&obj];
     
     id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-    NSString* photoCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&photoCell];
+    NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&cell_name];
+    
+    cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_class performWithResult:&cell_name];
     
     confirmSerBtn = [[UIButton alloc]init];
     confirmSerBtn.backgroundColor = [Tools themeColor];

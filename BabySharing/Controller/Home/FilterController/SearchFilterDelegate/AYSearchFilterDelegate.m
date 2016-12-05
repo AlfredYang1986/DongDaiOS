@@ -81,7 +81,7 @@
         [sub_title_arr replaceObjectAtIndex:1 withObject:dateStr];
         
     } else if ([dic objectForKey:@"service_type"]) {
-        NSArray *options_title_cans = kAY_service_options_title_cans;
+        NSArray *options_title_cans = kAY_service_options_title_course;
         NSString *serviceTypeStr = @"";
         int noteCount = 0;
         long options = ((NSNumber*)[dic objectForKey:@"service_type"]).longValue;

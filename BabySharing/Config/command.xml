@@ -221,9 +221,12 @@
 <!--    <command type="Remote" name="QueryMyService"    route="kidnap/mine" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="QueryMyService"    route="v2/kidnap/mine" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="CollectService"        route="kidnap/collect" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="CollectService"        route="v2/kidnap/collect" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="UnCollectService"      route="kidnap/uncollect" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="AllCollectService"     route="kidnap/lst/collect" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="AllCollectService"     route="v2/kidnap/collect/lst" factory="AYRemoteCallFactory" />
     
 <!--    <command type="Remote" name="QueryOrders"   route="order/query" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="QueryOrders"   route="v2/order/query" factory="AYRemoteCallFactory" />
@@ -244,9 +247,12 @@
 
     <command type="Remote" name="PayOrder"   route="order/pay" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="PushComments"   route="order/comments/push" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryComments"   route="order/comments/overall" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryComment"   route="order/comments/query" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="PushComments"   route="order/comments/push" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="PushComments"   route="v2/order/comment/push" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="QueryComments"   route="order/comments/overall" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="QueryComments"   route="v2/order/comment/overall" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="QueryComment"   route="order/comments/query" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="QueryComment"   route="v2/order/comment/query" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="QueryHomeContent" route="query/queryHomeContent" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryPushContent" route="query/queryPush" factory="AYRemoteCallFactory" />

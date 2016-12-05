@@ -1,46 +1,54 @@
 //
-//  AYServiceThemeCellView.m
+//  AYSetServiceThemeCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 4/11/16.
+//  Created by Alfred Yang on 29/11/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServiceThemeCellView.h"
+#import "AYSetServiceThemeCellView.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
-#import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-#import "AYRemoteCallCommand.h"
 #import "AYFacadeBase.h"
-#import "AYPlayItemsView.h"
+#import "AYControllerActionDefines.h"
 
-@implementation AYServiceThemeCellView {
-    UILabel *themeLabel;
+@implementation AYSetServiceThemeCellView {
+    NSString *title;
+    NSString *content;
+    
+    UILabel *titleLabel;
+    UILabel *subTitlelabel;
+    UIButton *optionBtn;
 }
-
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        CALayer *btm_seprtor = [CALayer layer];
-        CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
-        btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:btm_seprtor];
-        
-        themeLabel = [Tools creatUILabelWithText:@"service topic" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:themeLabel];
-        [themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        [self addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
+            make.centerY.equalTo(self);
         }];
+        
+        UIImageView *access = [[UIImageView alloc]init];
+        [self addSubview:access];
+        access.image = IMGRESOURCE(@"plan_time_icon");
+        [access mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self).offset(-20);
+            make.centerY.equalTo(titleLabel);
+            make.size.mas_equalTo(CGSizeMake(15, 15));
+        }];
+        
+        CALayer *separator = [CALayer layer];
+        CGFloat margin = 0;
+        separator.frame = CGRectMake(margin, 69.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
+        separator.backgroundColor = [Tools garyLineColor].CGColor;
+        [self.layer addSublayer:separator];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -53,9 +61,15 @@
     [super layoutSubviews];
 }
 
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ServiceThemeCell", @"ServiceThemeCell");
+    id<AYViewBase> cell = VIEW(@"SetServiceThemeCell", @"SetServiceThemeCell");
+    
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
         AYViewCommand* cmd = [cell.commands objectForKey:name];
@@ -100,23 +114,9 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-#pragma mark -- actions
-
-
-#pragma mark -- notifies
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSString*)args {
     
-    NSNumber *cans = (NSNumber*)args;
-    NSArray *options_title_cans = kAY_service_options_title_course;
-    
-    long options = cans.longValue;
-    for (int i = 0; i < options_title_cans.count; ++i) {
-        long note_pow = pow(2, i);
-        if ((options & note_pow)) {
-            themeLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-            break;
-        }
-    }
+    titleLabel.text = args;
     
     return nil;
 }

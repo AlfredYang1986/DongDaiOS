@@ -24,7 +24,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    options_title_cans = kAY_service_options_title_cans;
+    options_title_cans = kAY_service_options_title_course;
     isCanSet = NO;
 }
 

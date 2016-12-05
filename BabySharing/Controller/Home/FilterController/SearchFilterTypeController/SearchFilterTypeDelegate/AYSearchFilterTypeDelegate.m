@@ -32,7 +32,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    title_arr = kAY_service_options_title_cans;
+    title_arr = kAY_service_options_title_course;
 }
 
 - (void)performWithResult:(NSObject**)obj {

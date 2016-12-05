@@ -150,7 +150,7 @@
 //        }
 //    }];
     
-    //下载/缓存 全部交给sdwebimage
+    //下载/缓存 sdwebimage
     NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
