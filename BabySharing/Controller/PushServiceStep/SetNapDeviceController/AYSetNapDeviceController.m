@@ -21,7 +21,6 @@
 @implementation AYSetNapDeviceController {
     
     NSString *customString;
-    
     UITextField *customField;
 //    NSMutableArray *optionsData;
     long notePow;

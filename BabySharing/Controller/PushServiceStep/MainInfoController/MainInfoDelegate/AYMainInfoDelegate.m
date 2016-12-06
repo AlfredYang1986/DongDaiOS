@@ -47,6 +47,7 @@
     NSString *customDeviceName;
     
     BOOL isEditModel;
+    NSDictionary *service_info;
 }
 
 #pragma mark -- command
@@ -131,6 +132,8 @@
 - (id)changeQueryInfo:(NSDictionary*)info {
     
     isEditModel = YES;
+    service_info = info;
+    
     titles = [NSMutableArray arrayWithObjects:
                   @"编辑图片",
                   @"编辑标题",
@@ -471,23 +474,37 @@
 }
 
 - (void)setNapDevice {
-    
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    
-    [dic_args setValue:[napDeviceNote copy] forKey:@"facility"];
-//    [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-    
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    if (isEditModel) {
+        
+        id<AYCommand> dest = DEFAULTCONTROLLER(@"EditAdvanceInfo");
+        
+        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
+    else {
+        id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
+        
+        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+        NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+        
+        [dic_args setValue:[napDeviceNote copy] forKey:@"facility"];
+        //    [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
+        
+        [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
     
 }
 

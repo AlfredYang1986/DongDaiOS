@@ -177,6 +177,8 @@
 		702510AE1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702510AD1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m */; };
 		7025FE5D1DF660A200044CD9 /* AYOtherNoticeTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE5C1DF660A200044CD9 /* AYOtherNoticeTextController.m */; };
 		7025FE631DF692D200044CD9 /* AYSetServiceOptInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE601DF692D200044CD9 /* AYSetServiceOptInfoController.m */; };
+		7025FE671DF6B0A300044CD9 /* AYEditAdvanceInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */; };
+		7025FE6B1DF6ECA000044CD9 /* AYEditServiceCapacityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE6A1DF6ECA000044CD9 /* AYEditServiceCapacityController.m */; };
 		702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A471DAF286700D8715B /* AYShowAlertCommand.m */; };
 		702B7A4C1DAF2ABF00D8715B /* AYHideAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */; };
 		702B84B61CCA998000CDEB3C /* AYQueryChatGroupCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */; };
@@ -1067,6 +1069,10 @@
 		7025FE5C1DF660A200044CD9 /* AYOtherNoticeTextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOtherNoticeTextController.m; sourceTree = "<group>"; };
 		7025FE5F1DF692D200044CD9 /* AYSetServiceOptInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceOptInfoController.h; sourceTree = "<group>"; };
 		7025FE601DF692D200044CD9 /* AYSetServiceOptInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceOptInfoController.m; sourceTree = "<group>"; };
+		7025FE651DF6B0A300044CD9 /* AYEditAdvanceInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEditAdvanceInfoController.h; sourceTree = "<group>"; };
+		7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEditAdvanceInfoController.m; sourceTree = "<group>"; };
+		7025FE691DF6ECA000044CD9 /* AYEditServiceCapacityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEditServiceCapacityController.h; sourceTree = "<group>"; };
+		7025FE6A1DF6ECA000044CD9 /* AYEditServiceCapacityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEditServiceCapacityController.m; sourceTree = "<group>"; };
 		702B7A461DAF286700D8715B /* AYShowAlertCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYShowAlertCommand.h; sourceTree = "<group>"; };
 		702B7A471DAF286700D8715B /* AYShowAlertCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShowAlertCommand.m; sourceTree = "<group>"; };
 		702B7A4A1DAF2ABF00D8715B /* AYHideAlertCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHideAlertCommand.h; sourceTree = "<group>"; };
@@ -3441,6 +3447,25 @@
 			path = SetServiceOptInfoView;
 			sourceTree = "<group>";
 		};
+		7025FE641DF6B09000044CD9 /* EditAdvanceInfo */ = {
+			isa = PBXGroup;
+			children = (
+				7025FE681DF6EC8800044CD9 /* EditServiceCapacity */,
+				7025FE651DF6B0A300044CD9 /* AYEditAdvanceInfoController.h */,
+				7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */,
+			);
+			path = EditAdvanceInfo;
+			sourceTree = "<group>";
+		};
+		7025FE681DF6EC8800044CD9 /* EditServiceCapacity */ = {
+			isa = PBXGroup;
+			children = (
+				7025FE691DF6ECA000044CD9 /* AYEditServiceCapacityController.h */,
+				7025FE6A1DF6ECA000044CD9 /* AYEditServiceCapacityController.m */,
+			);
+			path = EditServiceCapacity;
+			sourceTree = "<group>";
+		};
 		702B7A421DAF281500D8715B /* ShowAlert */ = {
 			isa = PBXGroup;
 			children = (
@@ -5695,6 +5720,7 @@
 		70C41E3D1DBA122500C77B10 /* PushServiceStep */ = {
 			isa = PBXGroup;
 			children = (
+				7025FE641DF6B09000044CD9 /* EditAdvanceInfo */,
 				7025FE5E1DF692D200044CD9 /* SetServiceOptInfo */,
 				70F82C541DF5698F006EBDD2 /* SetServiceNotice */,
 				7001C4831DD58BAC004275A9 /* SetNapScheduleController */,
@@ -5707,8 +5733,8 @@
 				70C41E471DBA122500C77B10 /* InputNapAdressController */,
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
-				70C41E3E1DBA122500C77B10 /* AreaController */,
 				7030B93E1DEE8D32001EB6E4 /* SetServiceCapacity */,
+				70C41E3E1DBA122500C77B10 /* AreaController */,
 				70CAEC4E1DED83EA00542C1D /* SetServiceTheme */,
 				70CAEC4A1DED7E2200542C1D /* SetServiceType */,
 			);
@@ -7748,6 +7774,7 @@
 				706942D01D59C35100D0BBB4 /* AYChatInputView.m in Sources */,
 				80D5E7D01CCCBDF000A82117 /* AYLabelView.m in Sources */,
 				70C41EFB1DBA129D00C77B10 /* AYTabBarServiceController.m in Sources */,
+				7025FE6B1DF6ECA000044CD9 /* AYEditServiceCapacityController.m in Sources */,
 				704F08301CC8EC7800A9925D /* AYUploadFileCommand.m in Sources */,
 				700BE5EF1CBA6E5800A09B3A /* AYUpdateUserDetailCommand.m in Sources */,
 				702E7A821CA150A00097867E /* AppDelegate.m in Sources */,
@@ -8249,6 +8276,7 @@
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				705489821D34DD0C007FCDA1 /* AYBabyInfoCellView.m in Sources */,
+				7025FE671DF6B0A300044CD9 /* AYEditAdvanceInfoController.m in Sources */,
 				70F404801DD022F700A68196 /* AYPlayItemsView.m in Sources */,
 				707E79E41D0673CA00DFC198 /* AYCLResultCellView.m in Sources */,
 				70F4287E1CC7B18F00A69977 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,

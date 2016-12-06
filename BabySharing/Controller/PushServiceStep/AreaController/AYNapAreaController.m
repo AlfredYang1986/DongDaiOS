@@ -36,6 +36,8 @@
     UIView *locBGView;
     UILabel *adressLabel;
     UITextField *adjustAdress;
+    
+    NSString *editMode;
 }
 
 - (CLLocationManager *)manager {
@@ -58,7 +60,13 @@
 //    navTitleStr = @"";
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        id args = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([args isKindOfClass:[NSMutableDictionary class]]) {
+            
+            service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        } else if ([args isKindOfClass:[NSString class]]) {
+            editMode = @"确定";
+        }
 //        service_info = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:kAYControllerChangeArgsKey]];
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -87,7 +95,7 @@
     self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
     self.manager.delegate = self;
     
-    BOOL isEnabled = [CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedWhenInUse||[CLLocationManager authorizationStatus]==kCLAuthorizationStatusAuthorizedAlways;
+    BOOL isEnabled = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways;
     if (isEnabled) {
         [self.manager startUpdatingLocation];
     } else {
@@ -170,7 +178,10 @@
         make.centerX.equalTo(locBGView);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 50));
     }];
-   
+    if (editMode) {
+        [nextBtn setTitle:editMode forState:UIControlStateNormal];
+    }
+    
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture)];
     [self.view addGestureRecognizer:tap];
@@ -232,13 +243,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"正在定位";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -248,7 +257,6 @@
     
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
-    
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
@@ -365,30 +373,46 @@
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
-    
-//    id<AYCommand> dist = DEFAULTCONTROLLER(@"MainInfo");
-    id<AYCommand> dist = DEFAULTCONTROLLER(@"SetServiceCapacity");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dist forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-//    NSMutableDictionary *loc_info = [[NSMutableDictionary alloc]init];
-//    [loc_info setValue:type forKey:@"type"];
-    
-    NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-    [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
-    [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
-    
-    [service_info setValue:location forKey:@"location"];
-    [service_info setValue:navTitleStr forKey:@"distinct"];
-    [service_info setValue:adressLabel.text forKey:@"address"];
-    [service_info setValue:adjustAdress.text forKey:@"adjust_address"];
-    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    if (editMode) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
+        
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+        [tmp setValue:location forKey:@"location"];
+        [tmp setValue:navTitleStr forKey:@"distinct"];
+        [tmp setValue:adressLabel.text forKey:@"address"];
+        [tmp setValue:adjustAdress.text forKey:@"adjust_address"];
+        [dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = POP;
+        [cmd performWithResult:&dic];
+    } else {
+        //    id<AYCommand> dist = DEFAULTCONTROLLER(@"MainInfo");
+        id<AYCommand> dist = DEFAULTCONTROLLER(@"SetServiceCapacity");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:dist forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
+        
+        [service_info setValue:location forKey:@"location"];
+        [service_info setValue:navTitleStr forKey:@"distinct"];
+        [service_info setValue:adressLabel.text forKey:@"address"];
+        [service_info setValue:adjustAdress.text forKey:@"adjust_address"];
+        [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
 }
 
 #pragma mark -- notifies

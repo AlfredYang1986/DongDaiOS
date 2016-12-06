@@ -16,19 +16,11 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
-#import "AYDongDaSegDefines.h"
 #import "AYSearchDefines.h"
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
-
 
 @interface AYNapLocationController ()<UISearchBarDelegate, CLLocationManagerDelegate, AMapSearchDelegate>
 
@@ -60,7 +52,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
@@ -213,7 +204,7 @@
     return nil;
 }
 
-- (id)scrollToHideKeyBoard {
+- (id)hideKeyBoard {
     UIView* view = [self.views objectForKey:@"SearchBar"];
     if ([view isFirstResponder]) {
         [view resignFirstResponder];
@@ -235,13 +226,11 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic setValue:args forKey:kAYControllerChangeArgsKey];
     
+    [self hideKeyBoard];
+    
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
-    UIView* view = [self.views objectForKey:@"SearchBar"];
-    if ([view isFirstResponder]) {
-        [view resignFirstResponder];
-    }
     return nil;
 }
 

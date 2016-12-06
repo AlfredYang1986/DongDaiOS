@@ -763,6 +763,18 @@
         <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" />
     </controller>
     
+    <controller type="DefaultController" name="EditAdvanceInfo" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+    </controller>
+    
+    <controller type="DefaultController" name="EditServiceCapacity" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+    </controller>
+    
     <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

@@ -252,7 +252,7 @@
     <delegate type="TableViewDelegateAndDatasource" name="NapLocation" factory="AYDefaultDelegateFactory" >
         <command type="message" message="autoLocationData:" />
         <command type="message" message="changeLocationResultData:" />
-        <command type="notify" message="scrollToHideKeyBoard" />
+        <command type="notify" message="hideKeyBoard" />
         <command type="notify" message="sendLocation:" />
     </delegate>
     

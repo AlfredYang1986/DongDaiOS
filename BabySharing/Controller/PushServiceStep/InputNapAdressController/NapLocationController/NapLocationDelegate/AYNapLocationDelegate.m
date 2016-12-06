@@ -57,21 +57,16 @@
     
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"LocationCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell =[tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    
-    if (cell == nil) {
-        cell = VIEW(@"LocationCell", @"LocationCell");
-    }
     cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     
     id<AYCommand> cmd = [cell.commands objectForKey:@"resetContent:"];
-    
     AMapTip *tip = previewDic[indexPath.row];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:tip.name forKey:@"location_name"];
     [dic setValue:tip.district forKey:@"district"];
     [cmd performWithResult:&dic];
     
+    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
@@ -97,7 +92,9 @@
     [dic_location setValue:loc forKey:@"location"];
     
     if (tip.uid != nil && tip.location == nil) {
-        NSString *title = @"公交线路暂无法定位";
+        id<AYCommand> cmd = [self.notifies objectForKey:@"hideKeyBoard"];
+        [cmd performWithResult:nil];
+        NSString *title = @"公交线路无法定位";
         AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
         return;
     }

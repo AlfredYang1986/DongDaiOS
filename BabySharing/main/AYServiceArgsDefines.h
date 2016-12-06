@@ -15,4 +15,10 @@ static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
 static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
 static NSString* const kAYServiceArgsPrice =               @"price";
 static NSString* const kAYServiceArgsFacility =               @"facility";
+
+static NSString* const kAYServiceArgsAddress =               @"address";
+static NSString* const kAYServiceArgsLocation =               @"location";
+static NSString* const kAYServiceArgsDistinct =               @"distinct";
+static NSString* const kAYServiceArgsAdjustAddress =               @"adjust_address";
+
 #endif /* AYServiceArgsDefines_h */
