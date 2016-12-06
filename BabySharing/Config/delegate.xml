@@ -239,12 +239,14 @@
     <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryData:" />
         <command type="message" message="changeEditMode:" />
-        <command type="notify" message="queryCurrentSelected:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryData:" />
-        <command type="notify" message="queryCurrentSelected:" />
+    </delegate>
+    
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="NapLocation" factory="AYDefaultDelegateFactory" >

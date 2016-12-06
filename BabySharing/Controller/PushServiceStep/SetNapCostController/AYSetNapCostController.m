@@ -18,7 +18,6 @@
 #import "AYAlbumDefines.h"
 #import "AYRemoteCallDefines.h"
 
-#import "OptionOfPlayingView.h"
 #import "AYInsetLabel.h"
 #import "AYServiceArgsDefines.h"
 

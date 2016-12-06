@@ -110,11 +110,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_notice"]) {   //4
+            else if([key isEqualToString:kAYServiceArgsNotice]) {   //4
                 
                 [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
                 [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsNotice] forKey:kAYServiceArgsNotice];
-                
+//                [_service_change_dic removeObjectForKey:@"key"];
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
             }
 //            else if([key isEqualToString:@"nap_adress"]){     //5+
@@ -133,9 +133,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //                
 //                [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
 //            }
-            else if([key isEqualToString:@"nap_device"]) {     //6
+            else if([key isEqualToString:kAYServiceArgsFacility]) {     //5
                 
-                [_service_change_dic setValue:[dic_info objectForKey:@"facility"] forKey:@"facility"];
+                [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];
                 [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
             }
             

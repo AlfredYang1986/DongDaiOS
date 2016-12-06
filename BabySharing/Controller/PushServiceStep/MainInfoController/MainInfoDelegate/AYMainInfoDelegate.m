@@ -57,7 +57,7 @@
 
 - (void)postPerform {
     
-    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"撰写标题", @"撰写描述", @"设置价格", @"制定《服务守则》", @"场地友好性(选填)", nil];
+    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"撰写标题", @"撰写描述", @"设置价格", @"制定《服务守则》", @"更多信息(选填)", nil];
     sub_titles = [NSMutableArray arrayWithObjects:
                   @"添加图片",
                   @"与众不同的标题可以展示您的魅力",
@@ -115,13 +115,13 @@
     } else if([key isEqualToString:@"nap_adress"]) {
         napAdressInfo = [dic copy];
         
-    } else if([key isEqualToString:@"nap_device"]) {
+    } else if([key isEqualToString:kAYServiceArgsFacility]) {
         napDeviceNote = [dic objectForKey:@"facility"];
         
     } else if ([key isEqualToString:@"nap_theme"]) {
         napThemeNote = [dic objectForKey:@"cans"];
         napThemeInfo = [dic copy];
-    } else if ([key isEqualToString:@"nap_notice"]) {
+    } else if ([key isEqualToString:kAYServiceArgsNotice]) {
         serviceNoticeInfo = [dic copy];
     }
     
@@ -163,7 +163,7 @@
     napAdressInfo = [dic_address copy];
 //    napAdress = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"address"], [dic objectForKey:@"adjust_address"]];
     
-    napDeviceNote = [info objectForKey:@"facility"];
+    napDeviceNote = [info objectForKey:kAYServiceArgsFacility];
     
     NSMutableDictionary *dic_theme = [[NSMutableDictionary alloc]init];
     [dic_theme setValue:[info objectForKey:@"cans"] forKey:@"cans"];
@@ -171,9 +171,14 @@
     napThemeInfo = [dic_theme copy];
     napThemeNote = [info objectForKey:@"cans"];
     
+    NSMutableDictionary *dic_notice = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [dic_notice setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
+    [dic_notice setValue:[info objectForKey:kAYServiceArgsNotice] forKey:kAYServiceArgsNotice];
+    serviceNoticeInfo = [dic_notice copy];
+    
     {
         NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-        [dic_options setValue:[info objectForKey:@"facility"] forKey:@"option_pow"];
+        [dic_options setValue:[info objectForKey:kAYServiceArgsFacility] forKey:@"option_pow"];
         [dic_options setValue:@"自填" forKey:@"option_custom"];
 //        dic_device = dic_options;
     }
@@ -220,7 +225,16 @@
             kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
         
-    } else {
+    }  else if (indexPath.row == 5 ) {
+        
+        NSString* class_name = @"AYOptionalInfoCellView";
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+        NSString *title = titles[indexPath.row];
+        kAYViewSendMessage(cell, @"setCellInfo:", &title)
+        
+    }
+    else {
         
         NSString* class_name = isEditModel? @"AYNapEditInfoCellView" : @"AYNapBabyAgeCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
@@ -266,41 +280,31 @@
         }
         else if (serviceNoticeInfo && indexPath.row == 4) {
 //            NSNumber *isAllowLeave = [serviceNoticeInfo objectForKey:kAYServiceArgsAllowLeave];
-            NSString *notice = [serviceNoticeInfo objectForKey:kAYServiceArgsNotice];
-            if (notice && ![notice isEqualToString:@""]) {
-                NSString *tmp = @"已定制守则";
-                [cell_info setValue:tmp forKey:@"sub_title"];
-            }
-            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
-        } else if (indexPath.row == 5 && isEditModel) {
-            
-            NSString* class_name = @"AYOptionalInfoCellView";
-            cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-            
-            NSString *title = titles[indexPath.row];
-            kAYViewSendMessage(cell, @"setCellInfo:", &title)
-            
-        }
-        else if (napDeviceNote.longValue != 0 && indexPath.row == 5) {
-            NSArray *options_title_facilities = kAY_service_options_title_facilities;
-            NSString *device = @"";
-            long options = napDeviceNote.longValue;
-            int noteCount = 0;
-            for (int i = 0; i < options_title_facilities.count; ++i) {
-                long note_pow = pow(2, i);
-                if ((options & note_pow)) {
-                    device = [[device stringByAppendingString:@"、"] stringByAppendingString:options_title_facilities[i]];
-                    noteCount ++;
-                    if (noteCount == 3) {
-                        device = [device stringByAppendingString:@"等"];
-                        break;
-                    }
-                }
-            }
-            device = [device substringFromIndex:1];
-            [cell_info setValue:device forKey:@"sub_title"];
+            BOOL isAllowLeave = ((NSNumber*) [serviceNoticeInfo objectForKey:kAYServiceArgsAllowLeave]).boolValue;
+            NSString *notice =  isAllowLeave ? @"需要家长陪伴" : @"不需要家长陪伴";
+            [cell_info setValue:notice forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
+//        else if (napDeviceNote.longValue != 0 && indexPath.row == 5) {
+//            NSArray *options_title_facilities = kAY_service_options_title_facilities;
+//            NSString *device = @"";
+//            long options = napDeviceNote.longValue;
+//            int noteCount = 0;
+//            for (int i = 0; i < options_title_facilities.count; ++i) {
+//                long note_pow = pow(2, i);
+//                if ((options & note_pow)) {
+//                    device = [[device stringByAppendingString:@"、"] stringByAppendingString:options_title_facilities[i]];
+//                    noteCount ++;
+//                    if (noteCount == 3) {
+//                        device = [device stringByAppendingString:@"等"];
+//                        break;
+//                    }
+//                }
+//            }
+//            device = [device substringFromIndex:1];
+//            [cell_info setValue:device forKey:@"sub_title"];
+//            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
+//        }
         
         id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
         [set_cmd performWithResult:&cell_info];
@@ -316,7 +320,8 @@
     if (indexPath.row == 0) {
         return 250;
     } else if (indexPath.row == 5) {
-        return isEditModel? 90 : 70;
+//        return isEditModel? 90 : 70;
+        return 90 ;
     } else {
         return 70;
     }
@@ -425,8 +430,8 @@
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:[serviceNoticeInfo copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

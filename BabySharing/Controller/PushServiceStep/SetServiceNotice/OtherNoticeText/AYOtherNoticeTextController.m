@@ -1,26 +1,23 @@
 //
-//  AYInputNapDescController.m
+//  AYOtherNoticeTextController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 20/7/16.
+//  Created by Alfred Yang on 6/12/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServiceDescController.h"
+#import "AYOtherNoticeTextController.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFacadeBase.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
-#import "AYRemoteCallCommand.h"
-#import "AYRemoteCallDefines.h"
+#import "AYServiceArgsDefines.h"
 
-#define STATUS_BAR_HEIGHT           20
-#define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   88
 
-@implementation AYServiceDescController {
+@implementation AYOtherNoticeTextController {
     UITextView *descTextView;
     UILabel *countlabel;
     NSString *setedStr;
@@ -31,10 +28,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSString *str = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (str) {
-            setedStr = str;
-        }
+        setedStr = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -81,15 +75,13 @@
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     
-    NSString *title = @"服务描述";
+    NSString *title = @"其他守则";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -107,7 +99,7 @@
     if (count > LIMITNUMB) {
         descTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }
-    countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
+    countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count) >= 0 ? (LIMITNUMB - count) : 0];
 }
 
 #pragma mark -- notification
@@ -128,8 +120,8 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:descTextView.text forKey:@"content"];
-    [dic_info setValue:@"nap_desc" forKey:@"key"];
+    [dic_info setValue:descTextView.text forKey:kAYServiceArgsNotice];
+    [dic_info setValue:kAYServiceArgsNotice forKey:@"key"];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;

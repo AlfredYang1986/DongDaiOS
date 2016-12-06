@@ -57,7 +57,7 @@
         }];
         
         CALayer *btm_line = [[CALayer alloc]init];
-        btm_line.frame = CGRectMake(2, 44.5, self.bounds.size.width - 4, 0.5);
+        btm_line.frame = CGRectMake(0, 44.5, SCREEN_WIDTH - 40, 0.5);
         btm_line.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:btm_line];
         

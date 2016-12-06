@@ -15,7 +15,6 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
-#import "OptionOfPlayingView.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44

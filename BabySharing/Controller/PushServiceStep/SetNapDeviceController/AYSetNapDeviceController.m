@@ -14,14 +14,8 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
-#import "AYRemoteCallDefines.h"
+#import "AYServiceArgsDefines.h"
 
-#import "OptionOfPlayingView.h"
-
-#define STATUS_BAR_HEIGHT           20
-#define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   228
 
 @implementation AYSetNapDeviceController {
@@ -43,7 +37,7 @@
         NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_facility) {
             customString = [dic_facility objectForKey:@"option_custom"];
-            notePow = ((NSNumber*)[dic_facility objectForKey:@"facility"]).longValue;
+            notePow = ((NSNumber*)[dic_facility objectForKey:kAYServiceArgsFacility]).longValue;
             
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -56,9 +50,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
@@ -74,7 +66,6 @@
     id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_cell performWithResult:&class_name];
-    
     
     id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
@@ -98,22 +89,15 @@
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
-    
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, FAKE_BAR_HEIGHT - 0.5, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools colorWithRED:178 GREEN:178 BLUE:178 ALPHA:1.f].CGColor;
-    [view.layer addSublayer:line];
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"场地友好性及设施";
+    NSString *title = @"更多信息";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -124,6 +108,8 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+    
     return nil;
 }
 
@@ -131,7 +117,7 @@
     CGFloat margin = 20.f;
     view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
     
-    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+//    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
     return nil;
 }
@@ -179,9 +165,9 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:[NSNumber numberWithLong:notePow] forKey:@"facility"];
+    [dic_info setValue:[NSNumber numberWithLong:notePow] forKey:kAYServiceArgsFacility];
     [dic_info setValue:customString forKey:@"option_custom"];
-    [dic_info setValue:@"nap_device" forKey:@"key"];
+    [dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     

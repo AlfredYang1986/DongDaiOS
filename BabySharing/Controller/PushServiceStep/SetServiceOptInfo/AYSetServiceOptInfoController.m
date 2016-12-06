@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSetServiceNoticeController.h"
+#import "AYSetServiceOptInfoController.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFacadeBase.h"
@@ -20,7 +20,7 @@
 #define LIMITNUMB                   228
 #define kTableFrameY                218
 
-@implementation AYSetServiceNoticeController{
+@implementation AYSetServiceOptInfoController {
     
     NSString *setedNoticeStr;
     BOOL isAllowLeave;

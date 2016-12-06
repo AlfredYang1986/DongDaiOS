@@ -14,4 +14,5 @@ static NSString* const kAYServiceArgsCourseduration =               @"course_dur
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
 static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
 static NSString* const kAYServiceArgsPrice =               @"price";
+static NSString* const kAYServiceArgsFacility =               @"facility";
 #endif /* AYServiceArgsDefines_h */

@@ -750,6 +750,19 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
     </controller>
     
+    <controller type="DefaultController" name="OtherNoticeText" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+    </controller>
+    
+    <controller type="DefaultController" name="SetServiceOptInfo" factory="AYDefaultControllerFactoy" >
+        <view type="FakeStatusBar"  name="FakeStatusBar" />
+        <view type="FakeNavBar"     name="FakeNavBar" />
+        <view type="Table"          name="Table" />
+        
+        <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" />
+    </controller>
+    
     <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
