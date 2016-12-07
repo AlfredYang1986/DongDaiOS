@@ -59,7 +59,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     {

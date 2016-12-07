@@ -645,6 +645,7 @@
 		70FE54DD1D98EA090077A3E9 /* AYCommentServiceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54DC1D98EA090077A3E9 /* AYCommentServiceDelegate.m */; };
 		70FE54E01D98EC440077A3E9 /* AYServQualityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54DF1D98EC440077A3E9 /* AYServQualityCellView.m */; };
 		70FE54E71D98F8200077A3E9 /* AYAcceptOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54E61D98F8200077A3E9 /* AYAcceptOrderCommand.m */; };
+		70FE611D1DF7B26800160239 /* AYEditServiceCapacityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE611C1DF7B26800160239 /* AYEditServiceCapacityDelegate.m */; };
 		800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */; };
 		800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */; };
 		80245E291D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80245E281D77FFE3008A1C91 /* AYSearchFilterKidsAgesController.m */; };
@@ -2026,6 +2027,8 @@
 		70FE54DF1D98EC440077A3E9 /* AYServQualityCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServQualityCellView.m; sourceTree = "<group>"; };
 		70FE54E51D98F8200077A3E9 /* AYAcceptOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAcceptOrderCommand.h; sourceTree = "<group>"; };
 		70FE54E61D98F8200077A3E9 /* AYAcceptOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAcceptOrderCommand.m; sourceTree = "<group>"; };
+		70FE611B1DF7B26800160239 /* AYEditServiceCapacityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEditServiceCapacityDelegate.h; sourceTree = "<group>"; };
+		70FE611C1DF7B26800160239 /* AYEditServiceCapacityDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEditServiceCapacityDelegate.m; sourceTree = "<group>"; };
 		800AF3BC1D74295B007C30AE /* AYPayWithWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPayWithWechatCommand.h; sourceTree = "<group>"; };
 		800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPayWithWechatCommand.m; sourceTree = "<group>"; };
 		800AF3C81D7436DF007C30AE /* AYWechatFuncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWechatFuncHelper.h; sourceTree = "<group>"; };
@@ -3460,6 +3463,7 @@
 		7025FE681DF6EC8800044CD9 /* EditServiceCapacity */ = {
 			isa = PBXGroup;
 			children = (
+				70FE611A1DF7B16D00160239 /* AYEditServiceCapacityDelegate */,
 				7025FE691DF6ECA000044CD9 /* AYEditServiceCapacityController.h */,
 				7025FE6A1DF6ECA000044CD9 /* AYEditServiceCapacityController.m */,
 			);
@@ -7053,6 +7057,15 @@
 			path = AcceptOrder;
 			sourceTree = "<group>";
 		};
+		70FE611A1DF7B16D00160239 /* AYEditServiceCapacityDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70FE611B1DF7B26800160239 /* AYEditServiceCapacityDelegate.h */,
+				70FE611C1DF7B26800160239 /* AYEditServiceCapacityDelegate.m */,
+			);
+			path = AYEditServiceCapacityDelegate;
+			sourceTree = "<group>";
+		};
 		800AF3BB1D742916007C30AE /* PayWithWechat */ = {
 			isa = PBXGroup;
 			children = (
@@ -7951,6 +7964,7 @@
 				7039CBFC1CBBB5A700BE60C7 /* SearchSegTextTextItem.m in Sources */,
 				70CDF6391CBD033900311841 /* QueryContentChaters+CoreDataProperties.m in Sources */,
 				80D5E7C81CCC88C200A82117 /* AYDownloadMovieFilesCommand.m in Sources */,
+				70FE611D1DF7B26800160239 /* AYEditServiceCapacityDelegate.m in Sources */,
 				705D07F81D35E5AA00CA2182 /* AYPickerView.m in Sources */,
 				800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */,
 				704697D81CE047F200DACD8A /* UIButton+WebCache.m in Sources */,

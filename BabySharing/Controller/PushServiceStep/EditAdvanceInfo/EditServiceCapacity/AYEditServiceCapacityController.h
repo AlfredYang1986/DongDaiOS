@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYEditServiceCapacityController : AYViewController
+@interface AYEditServiceCapacityController : AYViewController <UITextFieldDelegate>
 
 @end

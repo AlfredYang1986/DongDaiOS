@@ -42,9 +42,17 @@
 //        [tmp setValue:adjustAdress.text forKey:@"adjust_address"];
         NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
         
+        NSNumber *capacity = [dic_args objectForKey:kAYServiceArgsCapacity];
+        if (capacity) {
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
+        }
+        
         NSNumber *facility = [dic_args objectForKey:kAYServiceArgsFacility];
         if (facility) {
-            
             [service_info setValue:facility forKey:kAYServiceArgsFacility];
         }
         
@@ -67,7 +75,7 @@
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
     
-    UILabel *placeTitle = [Tools creatUILabelWithText:@"place" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *placeTitle = [Tools creatUILabelWithText:@"场地" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [tableView addSubview:placeTitle];
     [placeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(tableView);
@@ -97,7 +105,7 @@
     }];
     
     NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
-    if (addressLabel) {
+    if (addressStr) {
         addressLabel.text = addressStr;
     }
     
@@ -125,7 +133,7 @@
         make.size.mas_equalTo(CGSizeMake(15, 15));
     }];
     
-    UILabel *detailTitle = [Tools creatUILabelWithText:@"detail" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *detailTitle = [Tools creatUILabelWithText:@"详情" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [tableView addSubview:detailTitle];
     [detailTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(tableView);
@@ -238,7 +246,14 @@
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
+    
+    [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -254,6 +269,7 @@
     [cmd performWithResult:&dic];
     return nil;
 }
+
 - (id)rightBtnSelected {
     
     //整合数据
@@ -262,13 +278,12 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
-    
+    [dic_info setValue:kAYServiceArgsServiceInfo forKey:@"key"];
+    [dic_info setValue:service_info forKey:kAYServiceArgsServiceInfo];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
-    
     return nil;
 }
 

@@ -441,7 +441,6 @@
     if (address) {
         areaLabel.text = address;
     }
-    
     return nil;
 }
 

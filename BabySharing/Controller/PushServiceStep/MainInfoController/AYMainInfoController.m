@@ -44,6 +44,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSMutableDictionary* dic_push_photos;
     
     BOOL isNapModel;
+    BOOL isChangeServiceInfo;
 }
 
 #pragma mark --  commands
@@ -68,7 +69,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         }
         else if (dic_info) {
             NSString *key = [dic_info objectForKey:@"key"];
-            if ([key isEqualToString:@"nap_cover"]) {       //0
+            if ([key isEqualToString:kAYServiceArgsServiceInfo]) {       //-1
+                _service_change_dic = [dic_info objectForKey:kAYServiceArgsServiceInfo];
+            }
+            else if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
             }
@@ -337,7 +341,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [cmd performWithResult:&dic_push];
     return;
     
-    
 }
 
 - (void)updateMyService {
@@ -347,75 +350,58 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSMutableDictionary *dic_revert = [[NSMutableDictionary alloc]init];
     [dic_revert setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
     [dic_revert setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    //1.撤销服务
-//    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-//    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"RevertMyService"];
-//    [cmd_push performWithResult:[dic_revert copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-//        if (success) {
-            //2.更新
-            
-//            [_service_change_dic setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-            if (napPhotos.count != 0) {
-                NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
-                for (int index = 0; index < napPhotos.count; ++index) {
-                    dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
-                    [semaphores_upload_photos addObject:tmp];
-                }
-                
-                NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
-                for (int index = 0; index < napPhotos.count; ++index) {
-                    [post_image_result addObject:[NSNumber numberWithBool:NO]];
-                }
-                
-                dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
-                dispatch_async(qp, ^{
-                    
-                    NSMutableArray* arr_items = [[NSMutableArray alloc]init];
-                    for (int index = 0; index < napPhotos.count; ++index) {
-                        UIImage* iter = [napPhotos objectAtIndex:index];
-                        NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
-                        
-                        NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-                        [photo_dic setValue:extent forKey:@"image"];
-                        [photo_dic setValue:@"img_desc" forKey:@"expect_size"];
-                        [photo_dic setValue:iter forKey:@"upload_image"];
-                        AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
-                        [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                            NSLog(@"upload result are %d", success);
-                            [post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
-                            dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
-                        }];
-                        [arr_items addObject:extent];
-                    }
-                    
-                    // 4. 等待图片进程全部处理完成
-                    for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-                        dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-                    }
-                    
-                    NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-                    NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
-                    if (image_result.count == 0) {
-                        [_service_change_dic setValue:arr_items forKey:@"images"];
-                        [self updateService];
-                    }
-                });
-            } else {
-                [self updateService];
+    
+        if (napPhotos.count != 0) {
+            NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
+            for (int index = 0; index < napPhotos.count; ++index) {
+                dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
+                [semaphores_upload_photos addObject:tmp];
             }
             
-//        } else {
-//            NSLog(@"push error with:%@",result);
-//            if (((NSNumber*)[result objectForKey:@"code"]).intValue == -15) {
-//                
-//                NSString *title = @"服务撤销失败,该服务状态错误";
-//                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//            }
-//        }
-//    }];
+            NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
+            for (int index = 0; index < napPhotos.count; ++index) {
+                [post_image_result addObject:[NSNumber numberWithBool:NO]];
+            }
+            
+            dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
+            dispatch_async(qp, ^{
+                
+                NSMutableArray* arr_items = [[NSMutableArray alloc]init];
+                for (int index = 0; index < napPhotos.count; ++index) {
+                    UIImage* iter = [napPhotos objectAtIndex:index];
+                    NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
+                    
+                    NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+                    [photo_dic setValue:extent forKey:@"image"];
+                    [photo_dic setValue:@"img_desc" forKey:@"expect_size"];
+                    [photo_dic setValue:iter forKey:@"upload_image"];
+                    AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
+                    [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+                        NSLog(@"upload result are %d", success);
+                        [post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
+                        dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
+                    }];
+                    [arr_items addObject:extent];
+                }
+                
+                // 4. 等待图片进程全部处理完成
+                for (dispatch_semaphore_t iter in semaphores_upload_photos) {
+                    dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+                }
+                
+                NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
+                NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
+                if (image_result.count == 0) {
+                    [_service_change_dic setValue:arr_items forKey:@"images"];
+                    [self updateServiceInfo];
+                }
+            });
+        } else {
+            [self updateServiceInfo];
+        }
 }
 
-- (void)updateService {
+- (void)updateServiceInfo {
     NSDictionary* args = nil;
     CURRENUSER(args)
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
@@ -424,46 +410,14 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [cmd_publish performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
+            isChangeServiceInfo = YES;
             confirmSerBtn.hidden = YES;
             UIView *view = [self.views objectForKey:@"Table"];
             view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
             
             NSString *title = @"服务信息已更新";
-            id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-            id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-            NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-            [dic_alert setValue:title forKey:@"title"];
-            [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
-            [cmd_alert performWithResult:&dic_alert];
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             
-            //3.重新发布
-//            NSMutableDictionary *dic_publish = [[NSMutableDictionary alloc]init];
-//            [dic_publish setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-//            [dic_publish setValue:[result objectForKey:@"service_id"] forKey:@"service_id"];
-//            AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"PublishService"];
-//            [cmd_publish performWithResult:[dic_publish copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-//                if (success) {
-//                    
-//                    confirmSerBtn.hidden = YES;
-//                    UIView *view = [self.views objectForKey:@"Table"];
-//                    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
-//                    
-//                    NSString *title = @"服务信息已更新";
-////                    id<AYFacadeBase> f_alert = [self.facades objectForKey:@"Alert"];
-//                    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-//                    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-//                    
-//                    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-//                    [dic_alert setValue:title forKey:@"title"];
-//                    [dic_alert setValue:[NSNumber numberWithInt:BtmAlertViewTypeHideWithTimer] forKey:@"type"];
-//                    [cmd_alert performWithResult:&dic_alert];
-//                    
-//                } else {
-//                    
-//                    NSString *title = @"服务信息已更新,发布失败";
-//                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//                }
-//            }];
         } else {
             
             NSString *title = @"服务信息更新失败";
@@ -474,12 +428,14 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
+    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
+    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
+    if (isChangeServiceInfo) {
+        [dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+    }
     id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
+    [cmd performWithResult:&dic_pop];
     return nil;
 }
 

@@ -10,6 +10,19 @@
 
 @implementation AYInsetLabel
 
+- (instancetype)initWithTitle:(NSString*)title andTextColor:(UIColor*)textColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
+    if (self = [super init]) {
+        
+        self.text  = title;
+        self.textColor = textColor;
+        self.font = kAYFontLight(font);
+        self.backgroundColor = backgroundColor;
+        
+        _textInsets = UIEdgeInsetsZero;
+    }
+    return self;
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         _textInsets = UIEdgeInsetsZero;

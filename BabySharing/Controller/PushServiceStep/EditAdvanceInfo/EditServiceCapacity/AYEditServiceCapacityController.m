@@ -21,8 +21,11 @@
 
 @implementation AYEditServiceCapacityController {
     
-    NSMutableDictionary *service_info;
-    UILabel *addressLabel;
+    NSMutableDictionary *service_info_part;
+    
+    UILabel *agesNumbLabel;
+    UITextField *babyNumb;
+    UITextField *servantNumb;
 }
 
 #pragma mark --  commands
@@ -31,31 +34,12 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         //        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
-        service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        service_info_part = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        //        [tmp setValue:location forKey:@"location"];
-        //        [tmp setValue:navTitleStr forKey:@"distinct"];
-        //        [tmp setValue:adressLabel.text forKey:@"address"];
-        //        [tmp setValue:adjustAdress.text forKey:@"adjust_address"];
-        NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
         
-        NSNumber *facility = [dic_args objectForKey:kAYServiceArgsFacility];
-        if (facility) {
-            
-            [service_info setValue:facility forKey:kAYServiceArgsFacility];
-        }
-        
-        NSString *addressStr = [dic_args objectForKey:kAYServiceArgsAddress];
-        if (addressStr) {
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsDistinct] forKey:kAYServiceArgsDistinct];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
-            addressLabel.text = addressStr;
-            [service_info setValue:addressStr forKey:kAYServiceArgsAddress];
-        }
     }
 }
 
@@ -64,97 +48,176 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    {
+        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+         UIView* picker = (UIView*)view_picker;
+        [self.view bringSubviewToFront:picker];
+        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+        
+        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"EditServiceCapacity"];
+        
+        id obj = (id)cmd_recommend;
+        [cmd_datasource performWithResult:&obj];
+        obj = (id)cmd_recommend;
+        [cmd_delegate performWithResult:&obj];
+    }
+    
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
     
-    UILabel *placeTitle = [Tools creatUILabelWithText:@"place" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [tableView addSubview:placeTitle];
-    [placeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(tableView);
+    AYInsetLabel *babyAgesTitle = [[AYInsetLabel alloc]initWithTitle:@"接纳孩子年龄" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    babyAgesTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [tableView addSubview:babyAgesTitle];
+    [babyAgesTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(tableView).offset(20);
-    }];
-    
-    AYInsetLabel *positionLabel = [[AYInsetLabel alloc]init];
-    positionLabel.text  = @"位置";
-    positionLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    positionLabel.textColor = [Tools blackColor];
-    positionLabel.font = kAYFontLight(14.f);
-    positionLabel.backgroundColor = [UIColor whiteColor];
-    [tableView addSubview:positionLabel];
-    [positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(placeTitle.mas_bottom).offset(20);
         make.centerX.equalTo(tableView);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
     }];
-    positionLabel.userInteractionEnabled = YES;
-    [positionLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPositionLabelTap)]];
+    babyAgesTitle.userInteractionEnabled = YES;
+    [babyAgesTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editBabyAgesClick:)]];
     
-    addressLabel = [Tools creatUILabelWithText:@"场地地址" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-    [tableView addSubview:addressLabel];
-    [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(positionLabel).offset(-15);
-        make.centerY.equalTo(positionLabel);
+    agesNumbLabel = [Tools creatUILabelWithText:@"2岁 - 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [tableView addSubview:agesNumbLabel];
+    [agesNumbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(babyAgesTitle).offset(-15);
+        make.centerY.equalTo(babyAgesTitle);
     }];
     
-    NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
-    if (addressLabel) {
-        addressLabel.text = addressStr;
+    NSDictionary *dic_ages = [service_info_part objectForKey:kAYServiceArgsAgeBoundary];
+    NSNumber *age_lsl = [dic_ages objectForKey:kAYServiceArgsAgeBoundaryLow];
+    NSNumber *age_usl = [dic_ages objectForKey:kAYServiceArgsAgeBoundaryUp];
+    if (age_lsl && age_usl) {
+        agesNumbLabel.text = [NSString stringWithFormat:@"%@岁 - %@岁", age_lsl, age_usl];
     }
     
-    AYInsetLabel *facilityLabel = [[AYInsetLabel alloc]init];
-    facilityLabel.text = @"场地友好性";
-    facilityLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    facilityLabel.textColor = [Tools blackColor];
-    facilityLabel.font = kAYFontLight(14.f);
-    facilityLabel.backgroundColor = [UIColor whiteColor];
-    [tableView addSubview:facilityLabel];
-    [facilityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(positionLabel.mas_bottom).offset(20);
+    /*capacity*/
+    AYInsetLabel *babyNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"最多接受孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    babyNumbTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [tableView addSubview:babyNumbTitle];
+    [babyNumbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(babyAgesTitle.mas_bottom).offset(1);
         make.centerX.equalTo(tableView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
-    }];
-    facilityLabel.userInteractionEnabled = YES;
-    [facilityLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
-    
-    UIImageView *access = [[UIImageView alloc]init];
-    [tableView addSubview:access];
-    access.image = IMGRESOURCE(@"plan_time_icon");
-    [access mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(facilityLabel.mas_right).offset(-15);
-        make.centerY.equalTo(facilityLabel);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
+        make.size.equalTo(babyAgesTitle);
     }];
     
-    UILabel *detailTitle = [Tools creatUILabelWithText:@"detail" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [tableView addSubview:detailTitle];
-    [detailTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *babyNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [tableView addSubview:babyNumbSign];
+    [babyNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(babyNumbTitle).offset(-10);
+        make.centerY.equalTo(babyNumbTitle);
+    }];
+    
+    babyNumb = [[UITextField alloc]init];
+    babyNumb.textColor = [Tools themeColor];
+    babyNumb.font = kAYFontLight(14.f);
+    babyNumb.textAlignment = NSTextAlignmentRight;
+    babyNumb.keyboardType = UIKeyboardTypeNumberPad;
+    [tableView addSubview:babyNumb];
+    [babyNumb mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(babyNumbSign.mas_left).offset(-5);
+        make.centerY.equalTo(babyNumbTitle);
+        make.size.mas_equalTo(CGSizeMake(30, 40));
+    }];
+    
+    NSNumber *capacityNumb = [service_info_part objectForKey:kAYServiceArgsCapacity];
+    if (capacityNumb) {
+        babyNumb.text = [NSString stringWithFormat:@"%@", capacityNumb];
+    }
+    
+    /*servant*/
+    AYInsetLabel *servantNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"服务者数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    servantNumbTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [tableView addSubview:servantNumbTitle];
+    [servantNumbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(babyNumbTitle.mas_bottom).offset(1);
         make.centerX.equalTo(tableView);
-        make.top.equalTo(facilityLabel.mas_bottom).offset(25);
+        make.size.equalTo(babyAgesTitle);
     }];
     
-    AYInsetLabel *infoLabel = [[AYInsetLabel alloc]init];
-    infoLabel.text = @"服务详情";
-    infoLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    infoLabel.textColor = [Tools blackColor];
-    infoLabel.font = kAYFontLight(14.f);
-    infoLabel.backgroundColor = [UIColor whiteColor];
-    [tableView addSubview:infoLabel];
-    [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(detailTitle.mas_bottom).offset(20);
+    UILabel *servantNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [tableView addSubview:servantNumbSign];
+    [servantNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(servantNumbTitle).offset(-10);
+        make.centerY.equalTo(servantNumbTitle);
+    }];
+    
+    servantNumb = [[UITextField alloc]init];
+    servantNumb.textColor  = [Tools themeColor];
+    servantNumb.font  = kAYFontLight(14.f);
+    servantNumb.textAlignment  = NSTextAlignmentRight;
+    servantNumb.keyboardType  = UIKeyboardTypeNumberPad;
+    [tableView addSubview:servantNumb];
+    [servantNumb mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(servantNumbSign.mas_left).offset(-5);
+        make.centerY.equalTo(servantNumbTitle);
+        make.size.mas_equalTo(CGSizeMake(30, 40));
+    }];
+    NSNumber *servant_no = [service_info_part objectForKey:kAYServiceArgsServantNumb];
+    if (servant_no) {
+        servantNumb.text = [NSString stringWithFormat:@"%@", servant_no];
+    }
+    
+    /*categary*/
+    AYInsetLabel *serviceCatTitle = [[AYInsetLabel alloc]initWithTitle:@"服务类型" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    serviceCatTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [tableView addSubview:serviceCatTitle];
+    [serviceCatTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(servantNumbTitle.mas_bottom).offset(30);
         make.centerX.equalTo(tableView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+        make.size.equalTo(babyAgesTitle);
     }];
-    infoLabel.userInteractionEnabled = YES;
-    [infoLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didInfoLabelTap)]];
     
-    UIImageView *access2 = [[UIImageView alloc]init];
-    [self.view addSubview:access2];
-    access2.image = IMGRESOURCE(@"plan_time_icon");
-    [access2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(infoLabel.mas_right).offset(-15);
-        make.centerY.equalTo(infoLabel);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
+    UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [tableView addSubview:serCatLabel];
+    [serCatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(serviceCatTitle);
+        make.right.equalTo(serviceCatTitle).offset(-10);
     }];
+    
+    /*theme*/
+    AYInsetLabel *serviceThemeTitle = [[AYInsetLabel alloc]initWithTitle:@"服务主题" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    serviceThemeTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [tableView addSubview:serviceThemeTitle];
+    [serviceThemeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(serviceCatTitle.mas_bottom).offset(30);
+        make.centerX.equalTo(tableView);
+        make.size.equalTo(babyAgesTitle);
+    }];
+    
+    UILabel *serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [tableView addSubview:serThemeLabel];
+    [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(serviceThemeTitle);
+        make.right.equalTo(serviceThemeTitle).offset(-10);
+    }];
+    
+    NSString *catStr;
+    NSArray *options_title_cans;
+    NSNumber *args_cat = [service_info_part objectForKey:kAYServiceArgsServiceCat];
+    NSNumber *cans = [service_info_part objectForKey:kAYServiceArgsTheme];
+    if (args_cat.intValue == ServiceTypeLookAfter) {
+        catStr = @"看顾服务";
+        options_title_cans = kAY_service_options_title_lookafter;
+    }
+    else if (args_cat.intValue == ServiceTypeCourse) {
+        catStr = @"课程";
+        options_title_cans = kAY_service_options_title_course;
+    }
+    
+    serCatLabel.text = catStr;
+    long options = cans.longValue;
+    for (int i = 0; i < options_title_cans.count; ++i) {
+        long note_pow = pow(2, i);
+        if ((options & note_pow)) {
+            serThemeLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+            break;
+        }
+    }//
+    
+    tableView.userInteractionEnabled = YES;
+    [tableView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapElseWhere:)]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -196,41 +259,31 @@
     return nil;
 }
 
+- (id)PickerLayout:(UIView*)view{
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
+    return nil;
+}
+
+
 #pragma mark -- actions
-- (void)didPositionLabelTap {
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    //    NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:@"editMode" forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+- (void)tapElseWhere:(UITapGestureRecognizer*)tap {
+    [babyNumb resignFirstResponder];
+    [servantNumb resignFirstResponder];
 }
 
-- (void)didFacilityLabelTap {
-    
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[service_info objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];
-    //    [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+- (void)editBabyAgesClick:(UIGestureRecognizer*)tap {
+    [self tapElseWhere:nil];
+    kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
 }
 
-- (void)didInfoLabelTap {
-    
+#pragma mark -- textfied delegate
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == babyNumb) {
+        [service_info_part setValue:[NSNumber numberWithInt:textField.text.intValue] forKey:kAYServiceArgsCapacity];
+    }
+    else if (textField == servantNumb) {
+        [service_info_part setValue:[NSNumber numberWithInt:textField.text.intValue] forKey:kAYServiceArgsServantNumb];
+    }
 }
 
 #pragma mark -- notification
@@ -243,22 +296,54 @@
     [cmd performWithResult:&dic];
     return nil;
 }
+
 - (id)rightBtnSelected {
     
     //整合数据
+    if ([babyNumb isFirstResponder]) {
+        [service_info_part setValue:[NSNumber numberWithInt:babyNumb.text.intValue] forKey:kAYServiceArgsCapacity];
+    }
+    else if ([servantNumb isFirstResponder]) {
+        [service_info_part setValue:[NSNumber numberWithInt:servantNumb.text.intValue] forKey:kAYServiceArgsServantNumb];
+    }
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
-    
-    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+    [dic setValue:service_info_part forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
+    return nil;
+}
+
+- (id)didSaveClick {
+    id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"EditServiceCapacity"];
+    id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
+    NSDictionary *dic = nil;
+    [cmd_index performWithResult:&dic];
+    
+    if (dic) {
+        NSNumber* usl = ((NSNumber *)[dic objectForKey:kAYServiceArgsAgeBoundaryUp]);
+        NSNumber* lsl = ((NSNumber *)[dic objectForKey:kAYServiceArgsAgeBoundaryLow]);
+        
+        if (usl.intValue < lsl.intValue) {
+            NSString *title = @"年龄设置错误";
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            return nil;
+        }
+        
+        [service_info_part setValue:dic forKey:kAYServiceArgsAgeBoundary];
+        
+        NSString *ages = [NSString stringWithFormat:@"%@ - %@ 岁",lsl, usl];
+        agesNumbLabel.text = ages;
+    }
     
     return nil;
 }
 
+- (id)didCancelClick {
+    //do nothing else ,but be have to invoke this methed
+    return nil;
+}
 @end

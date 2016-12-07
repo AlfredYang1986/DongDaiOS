@@ -10,4 +10,6 @@
 
 @interface AYInsetLabel : UILabel
 @property (nonatomic, assign) UIEdgeInsets textInsets;
+
+- (instancetype)initWithTitle:(NSString*)title andTextColor:(UIColor*)textColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 @end

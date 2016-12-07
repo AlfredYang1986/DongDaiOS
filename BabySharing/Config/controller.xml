@@ -773,6 +773,9 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Table"          name="Table" />
+        <view type="Picker"         name="Picker" />
+        
+        <delegate type="PickerViewDelegateAndDatasource" name="EditServiceCapacity" />
     </controller>
     
     <controller type="DefaultController" name="InputNapAdress" factory="AYDefaultControllerFactoy" >
