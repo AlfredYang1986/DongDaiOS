@@ -180,7 +180,18 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
             }
         }
+    } else {
+        
+        NSNumber *args_cat = [_service_change_dic objectForKey:kAYServiceArgsServiceCat];
+        if (args_cat.intValue == ServiceTypeLookAfter) {
+            NSString *title = @"添加看顾服务";
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+        } else if (args_cat.intValue == ServiceTypeCourse) {
+            NSString *title = @"添加课程";
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+        }
     }
+    
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
@@ -254,7 +265,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     
-    NSString *title = @"主题看顾服务";
+    NSString *title = @"修改服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");

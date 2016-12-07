@@ -26,6 +26,8 @@
     UILabel *agesNumbLabel;
     UITextField *babyNumb;
     UITextField *servantNumb;
+    
+    BOOL isAlreadyEnable;
 }
 
 #pragma mark --  commands
@@ -104,7 +106,7 @@
     UILabel *babyNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:babyNumbSign];
     [babyNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(babyNumbTitle).offset(-10);
+        make.right.equalTo(babyNumbTitle).offset(-15);
         make.centerY.equalTo(babyNumbTitle);
     }];
     
@@ -113,11 +115,12 @@
     babyNumb.font = kAYFontLight(14.f);
     babyNumb.textAlignment = NSTextAlignmentRight;
     babyNumb.keyboardType = UIKeyboardTypeNumberPad;
+    babyNumb.delegate = self;
     [tableView addSubview:babyNumb];
     [babyNumb mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(babyNumbSign.mas_left).offset(-5);
         make.centerY.equalTo(babyNumbTitle);
-        make.size.mas_equalTo(CGSizeMake(30, 40));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     
     NSNumber *capacityNumb = [service_info_part objectForKey:kAYServiceArgsCapacity];
@@ -138,7 +141,7 @@
     UILabel *servantNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:servantNumbSign];
     [servantNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(servantNumbTitle).offset(-10);
+        make.right.equalTo(servantNumbTitle).offset(-15);
         make.centerY.equalTo(servantNumbTitle);
     }];
     
@@ -146,12 +149,13 @@
     servantNumb.textColor  = [Tools themeColor];
     servantNumb.font  = kAYFontLight(14.f);
     servantNumb.textAlignment  = NSTextAlignmentRight;
-    servantNumb.keyboardType  = UIKeyboardTypeNumberPad;
+//    servantNumb.keyboardType  = UIKeyboardTypeNumberPad;
+    servantNumb.delegate = self;
     [tableView addSubview:servantNumb];
     [servantNumb mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(servantNumbSign.mas_left).offset(-5);
         make.centerY.equalTo(servantNumbTitle);
-        make.size.mas_equalTo(CGSizeMake(30, 40));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     NSNumber *servant_no = [service_info_part objectForKey:kAYServiceArgsServantNumb];
     if (servant_no) {
@@ -172,7 +176,7 @@
     [tableView addSubview:serCatLabel];
     [serCatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceCatTitle);
-        make.right.equalTo(serviceCatTitle).offset(-10);
+        make.right.equalTo(serviceCatTitle).offset(-15);
     }];
     
     /*theme*/
@@ -189,7 +193,7 @@
     [tableView addSubview:serThemeLabel];
     [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceThemeTitle);
-        make.right.equalTo(serviceThemeTitle).offset(-10);
+        make.right.equalTo(serviceThemeTitle).offset(-15);
     }];
     
     NSString *catStr;
@@ -215,9 +219,14 @@
         }
     }//
     
-    tableView.userInteractionEnabled = YES;
-    [tableView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapElseWhere:)]];
+    babyNumbTitle.userInteractionEnabled = YES;
+    servantNumbTitle.userInteractionEnabled = YES;
     
+    [babyNumbTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBabyNumbTitle:)]];
+    [servantNumbTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServantNumbTitle:)]];
+    
+    tableView.userInteractionEnabled = YES;
+    [tableView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTableViewElseWhere:)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -242,9 +251,9 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+    bar_right_btn.userInteractionEnabled = NO;
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
@@ -253,9 +262,7 @@
 - (id)TableLayout:(UIView*)view {
     CGFloat margin = 0;
     view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
-    
     //    ((UITableView*)view).contentInset = UIEdgeInsetsMake(SCREEN_HEIGHT - 64, 0, 0, 0);
-    ((UITableView*)view).backgroundColor = [UIColor clearColor];
     return nil;
 }
 
@@ -264,16 +271,23 @@
     return nil;
 }
 
-
 #pragma mark -- actions
-- (void)tapElseWhere:(UITapGestureRecognizer*)tap {
+- (void)tapTableViewElseWhere:(UITapGestureRecognizer*)tap {
     [babyNumb resignFirstResponder];
     [servantNumb resignFirstResponder];
 }
 
 - (void)editBabyAgesClick:(UIGestureRecognizer*)tap {
-    [self tapElseWhere:nil];
+    [self tapTableViewElseWhere:nil];
     kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+}
+
+- (void)tapBabyNumbTitle:(UIGestureRecognizer*)tap {
+    [babyNumb becomeFirstResponder];
+}
+
+- (void)tapServantNumbTitle:(UIGestureRecognizer*)tap {
+    [servantNumb becomeFirstResponder];
 }
 
 #pragma mark -- textfied delegate
@@ -284,6 +298,22 @@
     else if (textField == servantNumb) {
         [service_info_part setValue:[NSNumber numberWithInt:textField.text.intValue] forKey:kAYServiceArgsServantNumb];
     }
+    
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    
+//    int numb = string.intValue;
+//    if (numb == 0) {
+//        
+//    }
+    
+    if (!isAlreadyEnable) {
+        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+        isAlreadyEnable = YES;
+    }
+    return YES;
 }
 
 #pragma mark -- notification
@@ -337,6 +367,12 @@
         
         NSString *ages = [NSString stringWithFormat:@"%@ - %@ 岁",lsl, usl];
         agesNumbLabel.text = ages;
+        
+        if (!isAlreadyEnable) {
+            UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+            isAlreadyEnable = YES;
+        }
     }
     
     return nil;

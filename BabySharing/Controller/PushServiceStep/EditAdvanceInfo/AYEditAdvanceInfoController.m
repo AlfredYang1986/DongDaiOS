@@ -23,6 +23,8 @@
     
     NSMutableDictionary *service_info;
     UILabel *addressLabel;
+    
+    BOOL isHaveChanged;
 }
 
 #pragma mark --  commands
@@ -36,12 +38,10 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-//        [tmp setValue:location forKey:@"location"];
-//        [tmp setValue:navTitleStr forKey:@"distinct"];
-//        [tmp setValue:adressLabel.text forKey:@"address"];
-//        [tmp setValue:adjustAdress.text forKey:@"adjust_address"];
-        NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
         
+        isHaveChanged = YES;
+        
+        NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
         NSNumber *capacity = [dic_args objectForKey:kAYServiceArgsCapacity];
         if (capacity) {
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
@@ -187,9 +187,8 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    NSNumber *isHidden = [NSNumber numberWithBool:YES];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &isHidden)
     
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
@@ -265,6 +264,12 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
+    if (isHaveChanged) {
+        NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+        [dic_info setValue:kAYServiceArgsServiceInfo forKey:@"key"];
+        [dic_info setValue:service_info forKey:kAYServiceArgsServiceInfo];
+        [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+    }
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     return nil;
