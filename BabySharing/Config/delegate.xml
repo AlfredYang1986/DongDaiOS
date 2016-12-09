@@ -240,6 +240,10 @@
         <command type="message" message="queryCurrentSelected:" />
     </delegate>
     
+    <delegate type="TableViewDelegateAndDatasource" name="SetCourseSign" factory="AYDefaultDelegateFactory" >
+        <command type="message" message="changeQueryData:" />
+    </delegate>
+    
     <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryData:" />
         <command type="message" message="changeEditMode:" />

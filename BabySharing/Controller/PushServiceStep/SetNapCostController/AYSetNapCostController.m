@@ -26,10 +26,6 @@
 #define LIMITNUMB                   228
 #define kTableFrameY                218
 
-@interface AYSetNapCostController ()<UITextViewDelegate>
-
-@end
-
 @implementation AYSetNapCostController{
     
     UITextField *costTextField;
@@ -157,59 +153,6 @@
     }
     
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-    
-//    AYInsetLabel *h3 = [[AYInsetLabel alloc]init];
-//    h3.text = @"最少预定时长";
-//    h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-//    h3.textColor = [Tools blackColor];
-//    h3.font = kAYFontLight(14.f);
-//    h3.backgroundColor = [UIColor whiteColor];
-//    [self.view addSubview:h3];
-//    [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(h1.mas_bottom).offset(15);
-//        make.centerX.equalTo(h1);
-//        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 50, 42));
-//    }];
-//    
-//    /***************************************/
-//    UILabel *iconLael = [[UILabel alloc]init];
-//    iconLael = [Tools setLabelWith:iconLael andText:@"小时" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-//    [self.view addSubview:iconLael];
-//    [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(h3);
-//        make.right.equalTo(h3).offset(-15);
-//    }];
-//    
-//    plusBtn = [[UIButton alloc]init];
-//    if (!least_hours || least_hours == 0) {
-//        least_hours = 1;
-//    }
-//    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",least_hours] forState:UIControlStateNormal];
-//    plusBtn.titleLabel.font = kAYFontLight(12.f);
-//    [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-//    plusBtn.layer.borderColor = [Tools themeColor].CGColor;
-//    plusBtn.layer.borderWidth = 1.f;
-//    [self.view addSubview:plusBtn];
-//    [plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(iconLael);
-//        make.right.equalTo(iconLael.mas_left).offset(-10);
-//        make.size.mas_equalTo(CGSizeMake(24, 24));
-//    }];
-//    [plusBtn addTarget:self action:@selector(didPlusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    UIButton *minusBtn = [[UIButton alloc]init];
-//    CALayer *minusLayer = [CALayer layer];
-//    minusLayer.frame = CGRectMake(0, 0, 12, 1);
-//    minusLayer.position = CGPointMake(12, 12);
-//    minusLayer.backgroundColor = [Tools themeColor].CGColor;
-//    [minusBtn.layer addSublayer:minusLayer];
-//    [self.view addSubview:minusBtn];
-//    [minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.equalTo(plusBtn);
-//        make.right.equalTo(plusBtn.mas_left).offset(-10);
-//        make.size.equalTo(plusBtn);
-//    }];
-//    [minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];

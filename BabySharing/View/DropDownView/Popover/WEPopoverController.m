@@ -403,9 +403,10 @@ static BOOL OSVersionIsAtLeast(float version) {
     if (CGSizeEqualToSize(_popoverContentSize, CGSizeZero)) {
         if ([_contentViewController respondsToSelector:@selector(preferredContentSize)]) {
             _effectivePopoverContentSize = _contentViewController.preferredContentSize;
-        } else {
-            _effectivePopoverContentSize = _contentViewController.contentSizeForViewInPopover;
         }
+//        else {
+//            _effectivePopoverContentSize = _contentViewController.contentSizeForViewInPopover;
+//        }
 	} else {
         _effectivePopoverContentSize = _popoverContentSize;
     }

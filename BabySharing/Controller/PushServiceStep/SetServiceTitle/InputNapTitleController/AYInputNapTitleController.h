@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-@interface AYInputNapTitleController : AYViewController
+@interface AYInputNapTitleController : AYViewController <UITextViewDelegate>
 
 @end

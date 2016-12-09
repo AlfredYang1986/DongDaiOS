@@ -57,8 +57,15 @@ typedef enum : int {
     ModeExchangeTypeNapToCommon = 4,
 } ModeExchangeType;
 
-#define kAY_service_options_title_course              @[@"看顾", @"绘本", @"DIY手工", @"英语", @"少儿体育", @"儿童瑜伽", @"自然科学"]
 #define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏"]
+
+#define kAY_service_options_title_course              @[@"体育", @"美术", @"音乐", @"社会", @"思想品德", @"语文", @"数学", @"自然"]
+#define kAY_service_options_title_course_0              @[@"篮球", @"足球", @"羽毛球", @"乒乓球", @"排球", @"网球", @"混球"]
+#define kAY_service_options_title_course_1              @[@"画画", @"绘画", @"油画", @"水墨画", @"落花", @"素描", @"漫画"]
+#define kAY_service_options_title_course_2              @[@"笛子", @"古筝", @"弟子琴", @"英语", @"少儿体育", @"儿童瑜伽", @"科学"]
+#define kAY_service_options_title_course_3              @[@"看顾", @"绘本", @"DIY手工", @"英语", @"少儿体育", @"儿童瑜伽", @"自然科学"]
+#define kAY_service_options_title_courses_ofall              @[kAY_service_options_title_course_0, kAY_service_options_title_course_1, kAY_service_options_title_course_2, kAY_service_options_title_course_3]
+
 #define kAY_service_options_title_lookafter        @[@"日间看顾", @"课后看顾"]
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]

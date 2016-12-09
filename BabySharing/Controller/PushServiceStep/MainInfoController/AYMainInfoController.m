@@ -76,18 +76,20 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 napPhotos = [dic_info objectForKey:@"content"];
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
             }
-//            else if([key isEqualToString:@"nap_theme"]){  //1
-//                
-//                [_service_change_dic setValue:[dic_info objectForKey:@"cans"] forKey:@"cans"];
-//                [_service_change_dic setValue:[dic_info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
-//                
-//                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
-//            }
             else if([key isEqualToString:@"nap_title"]) {  //1
                 
-                [_service_change_dic setValue:[dic_info objectForKey:@"title"] forKey:@"title"];
+                NSString *title = [dic_info objectForKey:kAYServiceArgsTitle];
+                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsTitle];
+                NSString *coustom = [dic_info objectForKey:kAYServiceArgsCourseCoustom];
                 
-                [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+                [_service_change_dic setValue:title forKey:kAYServiceArgsTitle];
+                [_service_change_dic setValue:course_sign forKey:kAYServiceArgsCourseSign];
+                [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
+                
+                if (title && (coustom || course_sign)) {        //title constain and course_sign or coustom constain
+                    [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+                }
+                
             }
             else if([key isEqualToString:@"nap_desc"]) {    //2
                 napDesc = [dic_info objectForKey:@"content"];
@@ -223,6 +225,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
     [dic_info setValue:kAYServiceArgsServiceCat forKey:@"key"];
     [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+    [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
     kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
     
 //    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");

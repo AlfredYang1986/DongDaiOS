@@ -26,7 +26,10 @@
     
     UIImage *napPhoto;
     NSString *napPhotoName;
+    
     NSString *napTitle;
+    NSDictionary *napTitleInfo;
+    
     NSString *napDesc;
     
     NSDictionary *napAges;
@@ -94,13 +97,14 @@
     NSString *key = [dic objectForKey:@"key"];
     if ([key isEqualToString:kAYServiceArgsServiceCat]) {
         service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsServiceCat]).intValue;
-        
+        napThemeNote = [dic objectForKey:kAYServiceArgsTheme];
     }
     else if ([key isEqualToString:@"nap_cover"]) {
         napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
         
     } else if([key isEqualToString:@"nap_title"]) {
         napTitle = [dic objectForKey:@"title"];
+        napTitleInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_desc"]) {
         napDesc = [dic objectForKey:@"content"];
@@ -143,7 +147,14 @@
                   @"更多信息",  nil];
     
     napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
-    napTitle = [info objectForKey:@"title"];
+    napTitle = [info objectForKey:kAYServiceArgsTitle];
+    
+    NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
+    [dic_title setValue:[info objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
+    [dic_title setValue:[info objectForKey:kAYServiceArgsCourseSign] forKey:kAYServiceArgsCourseSign];
+    [dic_title setValue:[info objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
+    napTitleInfo = [dic_title copy];
+    
     napDesc = [info objectForKey:@"description"];
     
     NSMutableDictionary *dic_baby_args = [[NSMutableDictionary alloc]init];
@@ -376,7 +387,11 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[napTitle copy] forKey:kAYControllerChangeArgsKey];
+    
+    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napTitleInfo];
+    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
+    [tmp setValue:napThemeNote forKey:kAYServiceArgsTheme];
+    [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

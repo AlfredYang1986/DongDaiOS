@@ -32,6 +32,7 @@ static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
 static NSString* const kAYFactoryManagerCommandTypePushSplit = @"PushSplitAnimation";
 static NSString* const kAYFactoryManagerCommandTypePopSplit = @"PopSplitAnimation";
 static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
+static NSString* const kAYFactoryManagerCommandTypePopToDest = @"PopToDest";
 static NSString* const kAYFactoryManagerCommandTypePopToRoot = @"PopToRoot";
 static NSString* const kAYFactoryManagerCommandTypeShowModule = @"ShowModule";
 static NSString* const kAYFactoryManagerCommandTypeShowModuleUp = @"ShowModuleUp";
@@ -57,6 +58,7 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 #define PUSHFROMBOT             COMMAND(kAYFactoryManagerCommandTypePushFromBot, kAYFactoryManagerCommandTypePushFromBot)
 #define POPFROMBOT              COMMAND(kAYFactoryManagerCommandTypePopFromBot, kAYFactoryManagerCommandTypePopFromBot)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)
+#define POPTODEST                     COMMAND(kAYFactoryManagerCommandTypePopToDest, kAYFactoryManagerCommandTypePopToDest)
 #define POPTOROOT               COMMAND(kAYFactoryManagerCommandTypePopToRoot, kAYFactoryManagerCommandTypePopToRoot)
 #define SHOWMODULE              COMMAND(kAYFactoryManagerCommandTypeShowModule, kAYFactoryManagerCommandTypeShowModule)
 #define SHOWMODULEUP            COMMAND(kAYFactoryManagerCommandTypeShowModuleUp, kAYFactoryManagerCommandTypeShowModuleUp)

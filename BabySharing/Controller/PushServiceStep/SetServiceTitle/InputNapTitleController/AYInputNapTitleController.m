@@ -13,23 +13,18 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
-#import "AYRemoteCallCommand.h"
-#import "AYDongDaSegDefines.h"
-#import "AYAlbumDefines.h"
-#import "AYRemoteCallDefines.h"
+#import "AYInsetLabel.h"
+#import "AYServiceArgsDefines.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
 #define LIMITNUMB                   18
 
-@interface AYInputNapTitleController () <UITextViewDelegate>
-
-@end
-
 @implementation AYInputNapTitleController {
     UITextView *inputTitleTextView;
     UILabel *countlabel;
-    NSString *setedTitleString;
+    
+    NSMutableDictionary *titleAndCourseSignInfo;
 }
 
 #pragma mark --  commands
@@ -37,10 +32,8 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSString *str = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (str) {
-            setedTitleString = str;
-        }
+        
+        titleAndCourseSignInfo = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -52,7 +45,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     inputTitleTextView = [[UITextView alloc]init];
@@ -63,7 +55,7 @@
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(84);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 60, 200));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 120));
     }];
     
     countlabel = [[UILabel alloc]init];
@@ -74,11 +66,53 @@
         make.right.equalTo(inputTitleTextView).offset(-10);
     }];
     
-    if (setedTitleString) {
-        NSInteger count = setedTitleString.length;
-        inputTitleTextView.text = setedTitleString;
-        countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
+    NSString *setedTitleStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsTitle];
+    if (setedTitleStr) {
+        NSInteger count = setedTitleStr.length;
+        inputTitleTextView.text = setedTitleStr;
+        countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count) >= 0 ? (LIMITNUMB - count) : 0];
     }
+    
+    ServiceType service_type = ((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsServiceCat]).intValue;
+    switch (service_type) {
+        case ServiceTypeLookAfter:
+        {
+            
+            self.view.backgroundColor = [Tools whiteColor];
+        }
+            break;
+        case ServiceTypeCourse:
+        {
+            AYInsetLabel *facilityLabel = [[AYInsetLabel alloc]init];
+            facilityLabel.text = @"添加服务标签";
+            facilityLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+            facilityLabel.textColor = [Tools blackColor];
+            facilityLabel.font = kAYFontLight(14.f);
+            facilityLabel.backgroundColor = [UIColor whiteColor];
+            [self.view addSubview:facilityLabel];
+            [facilityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(inputTitleTextView.mas_bottom).offset(20);
+                make.centerX.equalTo(self.view);
+                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 44));
+            }];
+            facilityLabel.userInteractionEnabled = YES;
+            [facilityLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
+            
+            UIImageView *access = [[UIImageView alloc]init];
+            [self.view addSubview:access];
+            access.image = IMGRESOURCE(@"plan_time_icon");
+            [access mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(facilityLabel.mas_right).offset(-15);
+                make.centerY.equalTo(facilityLabel);
+                make.size.mas_equalTo(CGSizeMake(15, 15));
+            }];
+        }
+            break;
+        default:
+            break;
+    }
+
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,17 +123,14 @@
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"标题";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -111,6 +142,7 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
     [cmd_right performWithResult:&bar_right_btn];
     
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -127,6 +159,22 @@
         inputTitleTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }
     countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
+}
+
+#pragma mark -- actions
+- (void)didFacilityLabelTap {
+    
+    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetCourseSign");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    
+    [dic_push setValue:titleAndCourseSignInfo forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- notification

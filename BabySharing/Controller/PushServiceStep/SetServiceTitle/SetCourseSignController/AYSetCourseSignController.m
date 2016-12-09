@@ -1,16 +1,18 @@
 //
-//  AYSetServiceThemeController.m
+//  AYSetCourseSignController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 29/11/16.
+//  Created by Alfred Yang on 9/12/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSetServiceThemeController.h"
+#import "AYSetCourseSignController.h"
+#import "AYViewBase.h"
+#import "AYFactoryManager.h"
 #import "AYServiceArgsDefines.h"
 
-@implementation AYSetServiceThemeController {
-    ServiceType service_type;
+@implementation AYSetCourseSignController {
+    NSMutableDictionary *title_info;
 }
 
 #pragma mark -- commands
@@ -19,7 +21,9 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        service_type = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
+        title_info = [dic objectForKey:kAYControllerChangeArgsKey];
+//        course_sign_index = [dic_course objectForKey:kAYServiceArgsCourseSign];
+//        course_coustom = [dic_course objectForKey:kAYServiceArgsCourseCoustom];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -33,7 +37,7 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceTheme"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetCourseSign"];
     
     id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
@@ -46,8 +50,8 @@
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    NSNumber *type = [NSNumber numberWithInt:service_type];
-    kAYDelegatesSendMessage(@"SetServiceTheme", @"changeQueryData:", &type);
+    NSNumber *type = [title_info objectForKey:kAYServiceArgsTheme];
+    kAYDelegatesSendMessage(@"SetCourseSign", @"changeQueryData:", &type);
     
 }
 
@@ -62,15 +66,13 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
     
-    NSString *title = @"服务主题";
+    NSString *title = @"服务标签";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
     UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -121,7 +123,7 @@
 }
 
 - (id)serviceThemeSeted:(NSNumber*)args {
-//    notePow = pow(2, btn.tag);
+    //    notePow = pow(2, btn.tag);
     long option = pow(2, args.longValue);
     
     id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
@@ -131,7 +133,7 @@
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
-    [service_info setValue:[NSNumber numberWithInt:service_type] forKey:kAYServiceArgsServiceCat];
+//    [service_info setValue:[NSNumber numberWithInt:service_type] forKey:kAYServiceArgsServiceCat];
     [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsTheme];
     [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
     

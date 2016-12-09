@@ -1,17 +1,17 @@
 //
-//  AYSetServiceThemeDelegate.m
+//  AYSetCourseSignDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 29/11/16.
+//  Created by Alfred Yang on 9/12/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSetServiceThemeDelegate.h"
+#import "AYSetCourseSignDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 
-@implementation AYSetServiceThemeDelegate {
-    NSArray *titleArr;
+@implementation AYSetCourseSignDelegate {
+    NSMutableArray *titleArr;
 }
 
 #pragma mark -- command
@@ -43,13 +43,17 @@
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
     NSNumber *type = (NSNumber*)args;
-    if (type.intValue == ServiceTypeLookAfter) {
-        titleArr = kAY_service_options_title_lookafter;
-    } else if (type.intValue == ServiceTypeCourse) {
-        titleArr = kAY_service_options_title_course;
-    } else {
-        titleArr = @[@"参数设置错误"];
-    }
+    
+    NSArray *courseAllArr = kAY_service_options_title_courses_ofall;
+//    NSMutableArray *tmp = [[NSMutableArray alloc]initWithObjects:@"添加我自己的服务标签", nil];
+    
+//    [tmp addObjectsFromArray:[courseAllArr objectAtIndex:type.integerValue]];
+//    titleArr = [tmp copy];
+    
+    titleArr = [NSMutableArray array];
+    [titleArr addObjectsFromArray:[courseAllArr objectAtIndex:type.integerValue]];
+    [titleArr insertObject:@"添加我自己的服务标签" atIndex:0];
+    
     return nil;
 }
 
@@ -76,28 +80,23 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSNumber *tmp = [NSNumber numberWithInteger:indexPath.row];
-    kAYDelegateSendNotify(self, @"serviceThemeSeted:", &tmp)
-}
-
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *head = [[UIView alloc]init];
-    head.backgroundColor = [Tools garyBackgroundColor];
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"您想要发布什么主题" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [head addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(head);
-        make.centerY.equalTo(head);
-    }];
-    
-    return head;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return 150;
-    } else {
-        return 0.001;
+    if (indexPath.row == 0) {
+        id<AYCommand> dest = DEFAULTCONTROLLER(@"InputCoustom");
+        
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+        
+//        [dic_push setValue:titleAndCourseSignInfo forKey:kAYControllerChangeArgsKey];
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
+    }
+    else if (indexPath.row == 1) {
+        
+    }
+    else {
+        
     }
 }
 
