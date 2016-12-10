@@ -169,8 +169,12 @@
         
         id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
         AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
-        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+        NSMutableDictionary *dic_query = [info mutableCopy];
+
+        NSMutableDictionary *dic_conditon = [[NSMutableDictionary alloc]init];
+        [dic_conditon setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+        
+        [dic_query setValue:[dic_conditon copy] forKey:@"condition"];
         
         [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
@@ -189,8 +193,12 @@
         
         id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
         AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
-        NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-        [dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+        NSMutableDictionary *dic_query = [info mutableCopy];
+        
+        NSMutableDictionary *dic_conditon = [[NSMutableDictionary alloc]init];
+        [dic_conditon setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+        
+        [dic_query setValue:[dic_conditon copy] forKey:@"condition"];
         
         [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
