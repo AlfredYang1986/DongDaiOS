@@ -24,15 +24,22 @@
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
-    if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+    if (![[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopToDestValue]) {
         @throw [[NSException alloc]initWithName:@"error" reason:@"push command 只能出来push 操作" userInfo:nil];
     }
     
     AYViewController* source = [dic objectForKey:kAYControllerActionSourceControllerKey];
-    AYViewController* des = [dic objectForKey:kAYControllerActionDestinationControllerKey];
+    AYViewController* desClass = [dic objectForKey:kAYControllerActionDestinationControllerKey];
     
     if (source.navigationController == nil) {
         @throw [[NSException alloc]initWithName:@"error" reason:@"push command source controler 必须是一个navigation controller" userInfo:nil];
+    }
+    
+    AYViewController* des ;
+    for (AYViewController *iter in source.navigationController.viewControllers) {
+        if ([iter isKindOfClass:[desClass class]]) {
+            des = iter;
+        }
     }
     
     [source.navigationController popToViewController:des animated:YES];
@@ -40,7 +47,7 @@
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
     if (tmp != nil) {
         NSMutableDictionary* dic_init =[[NSMutableDictionary alloc]init];
-        [dic_init setValue:kAYControllerActionInitValue forKey:kAYControllerActionKey];
+        [dic_init setValue:kAYControllerActionPopBackValue forKey:kAYControllerActionKey];
         [dic_init setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYControllerChangeArgsKey];
         [des performWithResult:&dic_init];
     }

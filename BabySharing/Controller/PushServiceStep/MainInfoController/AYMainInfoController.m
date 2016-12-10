@@ -76,17 +76,18 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 napPhotos = [dic_info objectForKey:@"content"];
                 [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:@"nap_title"]) {  //1
+            else if([key isEqualToString:kAYServiceArgsTitle]) {  //1
                 
                 NSString *title = [dic_info objectForKey:kAYServiceArgsTitle];
-                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsTitle];
+                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsCourseSign];
                 NSString *coustom = [dic_info objectForKey:kAYServiceArgsCourseCoustom];
                 
                 [_service_change_dic setValue:title forKey:kAYServiceArgsTitle];
                 [_service_change_dic setValue:course_sign forKey:kAYServiceArgsCourseSign];
                 [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
                 
-                if (title && (coustom || course_sign)) {        //title constain and course_sign or coustom constain
+                //title constain and course_sign or coustom constain and or service_cat == 0
+                if (title && (coustom || course_sign || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == 0)) {
                     [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 
@@ -112,7 +113,16 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 if (duration && ![duration isEqualToString:@""]) {
                     [_service_change_dic setValue:[NSNumber numberWithFloat:duration.floatValue] forKey:kAYServiceArgsCourseduration];
                 }
-//                [_service_change_dic setValue:[dic_info objectForKey:@"least_hours"] forKey:@"least_hours"];
+                
+                NSNumber *leastHours = [dic_info objectForKey:kAYServiceArgsLeastHours];
+                if (leastHours) {
+                    [_service_change_dic setValue:leastHours forKey:kAYServiceArgsLeastHours];
+                }
+                
+                NSNumber *leastTimes = [dic_info objectForKey:kAYServiceArgsLeastTimes];
+                if (leastTimes) {
+                    [_service_change_dic setValue:leastTimes forKey:kAYServiceArgsLeastTimes];
+                }
                 
                 [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
             }

@@ -50,8 +50,12 @@
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    NSNumber *type = [title_info objectForKey:kAYServiceArgsTheme];
-    kAYDelegatesSendMessage(@"SetCourseSign", @"changeQueryData:", &type);
+    cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetCourseSignCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
+    
+//    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+    id tmp = [title_info copy];
+    kAYDelegatesSendMessage(@"SetCourseSign", @"changeQueryData:", &tmp);
     
 }
 
@@ -110,7 +114,6 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];

@@ -618,6 +618,10 @@
         <command type="message"     message="setCellInfo:" />
     </view>
     
+    <view type="SetCourseSignCell" name="SetCourseSignCell" factory="AYReuseViewFactory" >
+        <command type="message"     message="setCellInfo:" />
+    </view>
+    
     <view type="NapCostCell" name="NapCostCell" factory="AYReuseViewFactory" >
         <command type="message"     message="refresh" />
         <command type="message"     message="setCellInfo:" />

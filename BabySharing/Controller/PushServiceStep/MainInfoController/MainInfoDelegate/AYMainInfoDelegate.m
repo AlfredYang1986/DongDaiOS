@@ -102,8 +102,8 @@
     else if ([key isEqualToString:@"nap_cover"]) {
         napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
         
-    } else if([key isEqualToString:@"nap_title"]) {
-        napTitle = [dic objectForKey:@"title"];
+    } else if([key isEqualToString:kAYServiceArgsTitle]) {
+        napTitle = [dic objectForKey:kAYServiceArgsTitle];
         napTitleInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_desc"]) {
@@ -260,7 +260,15 @@
         
         if (napTitle && ![napTitle isEqualToString:@""] && indexPath.row == 1) {
             [cell_info setValue:napTitle forKey:@"sub_title"];
-            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
+            
+            NSNumber *course_sign = [napTitleInfo objectForKey:kAYServiceArgsCourseSign];
+            NSString *coustom = [napTitleInfo objectForKey:kAYServiceArgsCourseCoustom];
+            
+            //title constain and course_sign or coustom constain and or service_cat == 0
+            if (coustom || course_sign || service_cat == ServiceTypeLookAfter) {
+                
+                [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
+            }
         }
 //        else if (napThemeNote.longValue != 0 && indexPath.row == 1) {
 //            NSArray *options_title_cans = kAY_service_options_title_course;

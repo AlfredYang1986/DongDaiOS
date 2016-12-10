@@ -9,6 +9,7 @@
     <command type="ShowModule" name="ShowModule" factory="AYControllerExchangFactory" />
     <command type="ShowModuleUp" name="ShowModuleUp" factory="AYControllerExchangFactory" />
     <command type="PopToRoot" name="PopToRoot" factory="AYControllerExchangFactory" />
+    <command type="PopToRoot" name="PopToDest" factory="AYControllerExchangFactory" />
     <command type="ReversModule" name="ReversModule" factory="AYControllerExchangFactory" />
     <command type="ExchangeWindows" name="ExchangeWindows" factory="AYControllerExchangFactory" />
     <command type="PushFromBot" name="PushFromBot" factory="AYControllerExchangFactory" />

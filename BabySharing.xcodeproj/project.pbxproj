@@ -645,6 +645,7 @@
 		70F68DB61CBE6DBD005524BA /* AYEmailSendCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F68DB51CBE6DBD005524BA /* AYEmailSendCommand.m */; };
 		70F82C591DF569C2006EBDD2 /* AYSetServiceNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F82C581DF569C2006EBDD2 /* AYSetServiceNoticeController.m */; };
 		70F89EB21CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */; };
+		70FBB9261DFBE54300AFB628 /* AYSetCourseSignCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */; };
 		70FE54DA1D98E78F0077A3E9 /* AYCommentServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54D91D98E78F0077A3E9 /* AYCommentServiceCommand.m */; };
 		70FE54DD1D98EA090077A3E9 /* AYCommentServiceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54DC1D98EA090077A3E9 /* AYCommentServiceDelegate.m */; };
 		70FE54E01D98EC440077A3E9 /* AYServQualityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54DF1D98EC440077A3E9 /* AYServQualityCellView.m */; };
@@ -2031,6 +2032,8 @@
 		70F82C581DF569C2006EBDD2 /* AYSetServiceNoticeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceNoticeController.m; sourceTree = "<group>"; };
 		70F89EB01CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSaveScreenPhotoCommand.h; sourceTree = "<group>"; };
 		70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSaveScreenPhotoCommand.m; sourceTree = "<group>"; };
+		70FBB9241DFBE54300AFB628 /* AYSetCourseSignCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetCourseSignCellView.h; sourceTree = "<group>"; };
+		70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetCourseSignCellView.m; sourceTree = "<group>"; };
 		70FE54D81D98E78F0077A3E9 /* AYCommentServiceCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceCommand.h; sourceTree = "<group>"; };
 		70FE54D91D98E78F0077A3E9 /* AYCommentServiceCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCommentServiceCommand.m; sourceTree = "<group>"; };
 		70FE54DB1D98EA090077A3E9 /* AYCommentServiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceDelegate.h; sourceTree = "<group>"; };
@@ -6265,6 +6268,8 @@
 		70CB482D1DFAAB6D003D38FB /* SetCourseSignView */ = {
 			isa = PBXGroup;
 			children = (
+				70FBB9241DFBE54300AFB628 /* AYSetCourseSignCellView.h */,
+				70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */,
 			);
 			path = SetCourseSignView;
 			sourceTree = "<group>";
@@ -8190,6 +8195,7 @@
 				7000CD1D1D7E8A5200DA98F2 /* MJRefreshHeader.m in Sources */,
 				706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */,
 				70EC72381D190D6F0012B123 /* SDCollectionViewCell.m in Sources */,
+				70FBB9261DFBE54300AFB628 /* AYSetCourseSignCellView.m in Sources */,
 				7030B9491DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m in Sources */,
 				70FE54DA1D98E78F0077A3E9 /* AYCommentServiceCommand.m in Sources */,
 				7001C4861DD58BCC004275A9 /* AYSetNapScheduleController.m in Sources */,

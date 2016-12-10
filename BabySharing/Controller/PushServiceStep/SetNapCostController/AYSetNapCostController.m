@@ -35,7 +35,7 @@
     NSInteger course_duration;
     ServiceType service_type;
     
-    NSInteger least_hours;
+    NSInteger currentNumbCount;
     
     CGFloat setY;
     UIButton *plusBtn;
@@ -48,10 +48,16 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            setedCostString = [dic_cost objectForKey:@"price"];
-            least_hours = ((NSNumber*)[dic_cost objectForKey:@"least_hours"]).integerValue;
+            setedCostString = [dic_cost objectForKey:kAYServiceArgsPrice];
             course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).integerValue;
             service_type = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsServiceCat]).intValue;
+            
+            NSNumber *count_note = [dic_cost objectForKey:kAYServiceArgsLeastHours];
+            if (!count_note) {
+                count_note = [dic_cost objectForKey:kAYServiceArgsLeastTimes];
+            }
+            currentNumbCount = count_note.integerValue;
+            
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -65,11 +71,8 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h1.textColor = [Tools blackColor];
-    h1.font = kAYFontLight(14.f);
-    h1.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(124);
@@ -99,13 +102,63 @@
         make.right.equalTo(h1).offset(-15);
     }];
     
-    NSString *titleStr;
+    /***************************************/
+    AYInsetLabel *h3 = [[AYInsetLabel alloc]initWithTitle:@"最少预定时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+    h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [self.view addSubview:h3];
     
+    UILabel *iconLael = [[UILabel alloc]init];
+    iconLael = [Tools setLabelWith:iconLael andText:@"小时" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    [self.view addSubview:iconLael];
+    [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(h3);
+        make.right.equalTo(h3).offset(-15);
+    }];
+    
+    plusBtn = [[UIButton alloc]init];
+    if (!currentNumbCount || currentNumbCount == 0) {
+        currentNumbCount = 1;
+    }
+    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",currentNumbCount] forState:UIControlStateNormal];
+    plusBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
+    [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+    plusBtn.layer.borderColor = [Tools themeColor].CGColor;
+    plusBtn.layer.borderWidth = 1.f;
+    [self.view addSubview:plusBtn];
+    [plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(iconLael);
+        make.right.equalTo(iconLael.mas_left).offset(-10);
+        make.size.mas_equalTo(CGSizeMake(24, 24));
+    }];
+    [plusBtn addTarget:self action:@selector(didPlusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *minusBtn = [[UIButton alloc]init];
+    CALayer *minusLayer = [CALayer layer];
+    minusLayer.frame = CGRectMake(0, 0, 12, 1);
+    minusLayer.position = CGPointMake(12, 12);
+    minusLayer.backgroundColor = [Tools themeColor].CGColor;
+    [minusBtn.layer addSublayer:minusLayer];
+    [self.view addSubview:minusBtn];
+    [minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(plusBtn);
+        make.right.equalTo(plusBtn.mas_left).offset(-10);
+        make.size.equalTo(plusBtn);
+    }];
+    [minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    NSString *titleStr;
     switch (service_type) {
             case ServiceTypeLookAfter:
         {
             h1.text = @"每小时价格";
             titleStr = @"看顾价格";
+            
+            [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(h1.mas_bottom).offset(15);
+                make.centerX.equalTo(h1);
+                make.size.equalTo(h1);
+            }];
+            
         }
             break;
             case ServiceTypeCourse:
@@ -113,17 +166,13 @@
             h1.text = @"单次课程价格";
             titleStr = @"课程价格";
             
-            AYInsetLabel *h2 = [[AYInsetLabel alloc]init];
-            h2.text = @"课程时长";
+            AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
             h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-            h2.textColor = [Tools blackColor];
-            h2.font = kAYFontLight(14.f);
-            h2.backgroundColor = [UIColor whiteColor];
             [self.view addSubview:h2];
             [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(h1.mas_bottom).offset(20);
+                make.top.equalTo(h1.mas_bottom).offset(15);
                 make.centerX.equalTo(self.view);
-                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+                make.size.equalTo(h1);
             }];
             
             timeTextField = [[UITextField alloc]init];
@@ -140,11 +189,20 @@
                 timeTextField.text = duration;
             }
             
-            UILabel *TIMESign = [Tools creatUILabelWithText:@"分钟" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+            UILabel *TIMESign = [Tools creatUILabelWithText:@"分钟" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
             [self.view addSubview:TIMESign];
             [TIMESign mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(h2);
                 make.right.equalTo(h2).offset(-15);
+            }];
+            
+            /*********************/
+            h3.text = @"最少预定次数";
+            iconLael.text = @"次";
+            [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(h2.mas_bottom).offset(15);
+                make.centerX.equalTo(h1);
+                make.size.equalTo(h1);
             }];
         }
             break;
@@ -191,36 +249,35 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, kTableFrameY, SCREEN_WIDTH, SCREEN_HEIGHT - kTableFrameY);
-    
-    ((UITableView*)view).backgroundColor = [UIColor clearColor];
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     return nil;
 }
 
 #pragma mark -- actions
 - (void)didPlusBtnClick:(UIButton*)btn {
-    if (least_hours == 8) {
-        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
-        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
-        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
-        [args setValue:self.view forKey:@"super_view"];
-        [args setValue:@"最少预定时长最多暂支持8个小时" forKey:@"title"];
-        [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
-        [cmd_add performWithResult:&args];
+    if (currentNumbCount == 8) {
+//        id<AYViewBase> view_tip = VIEW(@"AlertTip", @"AlertTip");
+//        id<AYCommand> cmd_add = [view_tip.commands objectForKey:@"setAlertTipInfo:"];
+//        NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+//        [args setValue:self.view forKey:@"super_view"];
+//        [args setValue:@"最少预定时长最多暂支持8个小时" forKey:@"title"];
+//        [args setValue:[NSNumber numberWithFloat:SCREEN_HEIGHT * 0.5] forKey:@"set_y"];
+//        [cmd_add performWithResult:&args];
+        
+        NSString *title = @"最少预定时长最多暂支持8个小时";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        
         return;
     }
-    least_hours ++;
-    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",least_hours] forState:UIControlStateNormal];
+    currentNumbCount ++;
+    [plusBtn setTitle:[NSString stringWithFormat:@"%ld", currentNumbCount] forState:UIControlStateNormal];
 }
 
 - (void)didMinusBtnClick:(UIButton*)btn {
-    if (least_hours == 1) {
+    if (currentNumbCount == 1) {
         return;
     }
-    least_hours --;
-    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",least_hours] forState:UIControlStateNormal];
+    currentNumbCount --;
+    [plusBtn setTitle:[NSString stringWithFormat:@"%ld", currentNumbCount] forState:UIControlStateNormal];
 }
 
 
@@ -265,6 +322,7 @@
 }
 
 - (id)rightBtnSelected {
+    
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -272,16 +330,23 @@
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
     [dic_info setValue:costTextField.text forKey:kAYServiceArgsPrice];
-//    [dic_info setValue:[NSNumber numberWithInteger:least_hours] forKey:@"least_hours"];
     [dic_info setValue:timeTextField.text forKey:kAYServiceArgsCourseduration];
+    
+    if (service_type == ServiceTypeLookAfter) {
+        [dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastHours];
+    }
+    else if (service_type == ServiceTypeCourse) {
+        [dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastTimes];
+    }
+    
     [dic_info setValue:@"nap_cost" forKey:@"key"];
     
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
+    [costTextField resignFirstResponder];
+    
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
-    
-    [costTextField resignFirstResponder];
     return nil;
 }
 

@@ -23,8 +23,12 @@
 @implementation AYInputNapTitleController {
     UITextView *inputTitleTextView;
     UILabel *countlabel;
+    UIImageView *access;
+    UILabel *signLabel;
     
     NSMutableDictionary *titleAndCourseSignInfo;
+    
+    BOOL isAlreadyEnable;
 }
 
 #pragma mark --  commands
@@ -38,7 +42,26 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+        NSDictionary *args_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSString *coustom = [args_info objectForKey:kAYServiceArgsCourseCoustom];
+        if (coustom) {
+            [titleAndCourseSignInfo setValue:coustom forKey:kAYServiceArgsCourseCoustom];
+            [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseSign];
+        }
         
+        NSNumber *courseSignIndex = [args_info objectForKey:kAYServiceArgsCourseSign];
+        if (courseSignIndex) {
+            [titleAndCourseSignInfo setValue:courseSignIndex forKey:kAYServiceArgsCourseSign];
+            [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseCoustom];
+            coustom = [args_info objectForKey:@"signStr"];
+        }
+        
+        if (coustom && ![coustom isEqualToString:@""]) {
+            
+            access.hidden = YES;
+            signLabel.hidden = NO;
+            signLabel.text = coustom;
+        }
     }
 }
 
@@ -55,7 +78,7 @@
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(84);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 120));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 120));
     }];
     
     countlabel = [[UILabel alloc]init];
@@ -83,29 +106,33 @@
             break;
         case ServiceTypeCourse:
         {
-            AYInsetLabel *facilityLabel = [[AYInsetLabel alloc]init];
-            facilityLabel.text = @"添加服务标签";
-            facilityLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-            facilityLabel.textColor = [Tools blackColor];
-            facilityLabel.font = kAYFontLight(14.f);
-            facilityLabel.backgroundColor = [UIColor whiteColor];
-            [self.view addSubview:facilityLabel];
-            [facilityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            AYInsetLabel *courseSignLabel = [[AYInsetLabel alloc]initWithTitle:@"添加服务标签" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+            courseSignLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+            [self.view addSubview:courseSignLabel];
+            [courseSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(inputTitleTextView.mas_bottom).offset(20);
                 make.centerX.equalTo(self.view);
                 make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 44));
             }];
-            facilityLabel.userInteractionEnabled = YES;
-            [facilityLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
+            courseSignLabel.userInteractionEnabled = YES;
+            [courseSignLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCourseSignLabelTap)]];
             
-            UIImageView *access = [[UIImageView alloc]init];
+            access = [[UIImageView alloc]init];
             [self.view addSubview:access];
             access.image = IMGRESOURCE(@"plan_time_icon");
             [access mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(facilityLabel.mas_right).offset(-15);
-                make.centerY.equalTo(facilityLabel);
+                make.right.equalTo(courseSignLabel.mas_right).offset(-15);
+                make.centerY.equalTo(courseSignLabel);
                 make.size.mas_equalTo(CGSizeMake(15, 15));
             }];
+            
+            signLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+            [self.view addSubview:signLabel];
+            [signLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(access);
+                make.centerY.equalTo(courseSignLabel);
+            }];
+            signLabel.hidden = YES;
         }
             break;
         default:
@@ -147,13 +174,14 @@
 }
 
 #pragma mark -- UITextDelegate
-- (void)textViewDidChange:(UITextView *)textView{
+- (void)textViewDidChange:(UITextView *)textView {
     NSInteger count = textView.text.length;
     
-    id<AYViewBase> bar = [self.views objectForKey:@"FakeNavBar"];
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
+    if (!isAlreadyEnable) {
+        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+        isAlreadyEnable = YES;
+    }
     
     if (count > LIMITNUMB) {
         inputTitleTextView.text = [textView.text substringToIndex:LIMITNUMB];
@@ -162,7 +190,7 @@
 }
 
 #pragma mark -- actions
-- (void)didFacilityLabelTap {
+- (void)didCourseSignLabelTap {
     
     id<AYCommand> setting = DEFAULTCONTROLLER(@"SetCourseSign");
     
@@ -193,10 +221,9 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:inputTitleTextView.text forKey:@"title"];
-    [dic_info setValue:@"nap_title" forKey:@"key"];
-    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+    [titleAndCourseSignInfo setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
+    [titleAndCourseSignInfo setValue:kAYServiceArgsTitle forKey:@"key"];
+    [dic setValue:[titleAndCourseSignInfo copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];

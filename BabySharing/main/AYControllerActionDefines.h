@@ -17,6 +17,7 @@ static NSString* const kAYControllerActionPushValue = @"controller push";
 static NSString* const kAYControllerActionPopValue = @"controller pop";
 static NSString* const kAYControllerActionPushSplitValue = @"controller push split";
 static NSString* const kAYControllerActionPopSplitValue = @"controller pop split";
+static NSString* const kAYControllerActionPopToDestValue = @"controller pop to dest";
 static NSString* const kAYControllerActionPopToRootValue = @"controller pop to root";
 static NSString* const kAYControllerActionShowModuleValue = @"controller show model";
 static NSString* const kAYControllerActionShowModuleUpValue = @"controller show model up";

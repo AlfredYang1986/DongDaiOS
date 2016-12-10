@@ -147,7 +147,7 @@
     id<AYCommand> dest = DEFAULTCONTROLLER(@"InputNapTitle");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionPopToDestValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     

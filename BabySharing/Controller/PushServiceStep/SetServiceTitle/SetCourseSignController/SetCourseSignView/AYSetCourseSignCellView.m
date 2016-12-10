@@ -1,12 +1,12 @@
 //
-//  AYSetServiceThemeCellView.m
+//  AYSetCourseSignCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 29/11/16.
+//  Created by Alfred Yang on 10/12/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSetServiceThemeCellView.h"
+#import "AYSetCourseSignCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -15,13 +15,9 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 
-@implementation AYSetServiceThemeCellView {
-    NSString *title;
-    NSString *content;
-    
+@implementation AYSetCourseSignCellView {
     UILabel *titleLabel;
-    UILabel *subTitlelabel;
-    UIButton *optionBtn;
+    UIImageView *accessCheck;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -35,20 +31,30 @@
             make.centerY.equalTo(self);
         }];
         
-        UIImageView *access = [[UIImageView alloc]init];
-        [self addSubview:access];
-        access.image = IMGRESOURCE(@"plan_time_icon");
-        [access mas_makeConstraints:^(MASConstraintMaker *make) {
+        accessCheck = [[UIImageView alloc]init];
+        [self addSubview:accessCheck];
+        accessCheck.image = IMGRESOURCE(@"checked_icon");
+        [accessCheck mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-20);
             make.centerY.equalTo(titleLabel);
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
+        accessCheck.hidden = YES;
         
         CALayer *separator = [CALayer layer];
         CGFloat margin = 0;
-        separator.frame = CGRectMake(margin, 69.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
+        separator.frame = CGRectMake(margin, 64.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
         separator.backgroundColor = [Tools garyLineColor].CGColor;
         [self.layer addSublayer:separator];
+        
+//        UIView *lineView = [[UIView alloc]init];
+//        lineView.backgroundColor = [Tools garyLineColor];
+//        [self addSubview:lineView];
+//        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(self);
+//            make.centerY.equalTo(self);
+//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 1.f));
+//        }];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -68,7 +74,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"SetServiceThemeCell", @"SetServiceThemeCell");
+    id<AYViewBase> cell = VIEW(@"SetCourseSignCell", @"SetCourseSignCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -114,9 +120,12 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSString*)args {
+- (id)setCellInfo:(NSDictionary*)args {
+    NSString *titleStr = [args objectForKey:@"title"];
+    titleLabel.text = titleStr;
     
-    titleLabel.text = args;
+    NSNumber *isSet = [args objectForKey:@"is_set"];
+    accessCheck.hidden = !isSet.boolValue;
     
     return nil;
 }
