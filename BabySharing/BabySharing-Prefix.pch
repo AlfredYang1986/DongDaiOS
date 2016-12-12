@@ -59,7 +59,7 @@ typedef enum : int {
 
 #define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏"]
 
-#define kAY_service_options_title_course              @[@"体育", @"美术", @"音乐", @"社会", @"思想品德", @"语文", @"数学", @"自然"]
+#define kAY_service_options_title_course              @[@"体育", @"美术", @"音乐", @"思想品德"]
 #define kAY_service_options_title_course_0              @[@"篮球", @"足球", @"羽毛球", @"乒乓球", @"排球", @"网球", @"混球"]
 #define kAY_service_options_title_course_1              @[@"画画", @"绘画", @"油画", @"水墨画", @"落花", @"素描", @"漫画"]
 #define kAY_service_options_title_course_2              @[@"笛子", @"古筝", @"弟子琴", @"英语", @"少儿体育", @"儿童瑜伽", @"科学"]

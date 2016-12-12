@@ -48,12 +48,18 @@
     
     NSDictionary *args_info = (NSDictionary*)args;
     NSNumber *type = [args_info objectForKey:kAYServiceArgsTheme];
+    long sepNumb = log2(type.longValue);
+    
+//    long testArgs = pow(2, 2) * pow(2, 8) + pow(2, 3);
+//    long f_sep = log2(testArgs/pow(2, 8));
+//    long s_sep = log2(testArgs - pow(2, f_sep) * pow(2, 8));
+    
     NSArray *courseAllArr = kAY_service_options_title_courses_ofall;
     
     courseSign = [args_info objectForKey:kAYServiceArgsCourseSign];
     
     titleArr = [NSMutableArray array];
-    [titleArr addObjectsFromArray:[courseAllArr objectAtIndex:type.integerValue]];
+    [titleArr addObjectsFromArray:[courseAllArr objectAtIndex:(NSUInteger)sepNumb]];
     [titleArr insertObject:@"添加我自己的服务标签" atIndex:0];
     
     coustomStr = [args_info objectForKey:kAYServiceArgsCourseCoustom];

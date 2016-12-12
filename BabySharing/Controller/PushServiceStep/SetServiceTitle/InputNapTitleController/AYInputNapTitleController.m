@@ -44,13 +44,12 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSDictionary *args_info = [dic objectForKey:kAYControllerChangeArgsKey];
         NSString *coustom = [args_info objectForKey:kAYServiceArgsCourseCoustom];
+        NSNumber *courseSignIndex = [args_info objectForKey:kAYServiceArgsCourseSign];
         if (coustom) {
             [titleAndCourseSignInfo setValue:coustom forKey:kAYServiceArgsCourseCoustom];
             [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseSign];
         }
-        
-        NSNumber *courseSignIndex = [args_info objectForKey:kAYServiceArgsCourseSign];
-        if (courseSignIndex) {
+        else if (courseSignIndex) {
             [titleAndCourseSignInfo setValue:courseSignIndex forKey:kAYServiceArgsCourseSign];
             [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseCoustom];
             coustom = [args_info objectForKey:@"signStr"];
@@ -61,6 +60,13 @@
             access.hidden = YES;
             signLabel.hidden = NO;
             signLabel.text = coustom;
+            
+            if (!isAlreadyEnable) {
+                UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+                kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+                isAlreadyEnable = YES;
+            }
+            
         }
     }
 }

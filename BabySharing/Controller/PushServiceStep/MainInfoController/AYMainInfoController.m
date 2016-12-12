@@ -248,7 +248,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         NSDictionary *dic_info = [service_info copy];
         kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
-//        kAYViewsSendMessage(@"Table", @"refresh", nil)
         
         [confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];

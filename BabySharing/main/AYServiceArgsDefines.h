@@ -36,6 +36,7 @@ static NSString* const kAYServiceArgsCapacity =               @"capacity";
 static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
 
 static NSString* const kAYServiceArgsTheme =               @"cans";
+static NSString* const kAYServiceArgsCourseCat =               @"course_cat";
 static NSString* const kAYServiceArgsCourseSign =               @"course_sign";
 static NSString* const kAYServiceArgsCourseCoustom =               @"course_custom";
 
