@@ -16,6 +16,7 @@
 #import "SDImageCache.h"
 #import "SDWebImageManager.h"
 #import "AYCommandsCommand.h"
+#import "AYServiceArgsDefines.h"
 
 static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8cd52931";
 
@@ -24,7 +25,7 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
 
-//orderStatus
+//ServiceType
 typedef enum : int {
     ServiceTypeLookAfter = 0,
     ServiceTypeCourse = 1,

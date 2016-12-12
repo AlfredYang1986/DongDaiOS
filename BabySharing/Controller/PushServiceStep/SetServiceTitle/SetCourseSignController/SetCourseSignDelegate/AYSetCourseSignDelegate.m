@@ -112,7 +112,7 @@
     return 65;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         id<AYCommand> dest = DEFAULTCONTROLLER(@"InputCoustom");
         
@@ -145,6 +145,7 @@
 }
 
 #pragma mark -- notifies set service info
+
 
 
 @end

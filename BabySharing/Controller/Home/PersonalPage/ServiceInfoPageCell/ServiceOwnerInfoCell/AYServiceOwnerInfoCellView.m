@@ -229,35 +229,50 @@
         description.attributedText = descAttri;
     }
     
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    
-    NSString *user_id = [service_info objectForKey:@"owner_id"] ;
-    if (!user_id) {
+    NSString *user_id = [service_info objectForKey:@"owner_id"];
+    if (!user_id) {     //用户预览
         NSDictionary *user_info;
         CURRENUSER(user_info)
         user_id = [user_info objectForKey:@"user_id"];
+        
+        id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+        AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+        NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+        [dic_owner_id setValue:user_id forKey:@"user_id"];
+        [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+            if (success) {
+                userPhoto.userInteractionEnabled = YES;
+                
+                userName.text = [result objectForKey:@"screen_name"];
+                
+                NSString* photo_name = [result objectForKey:@"screen_photo"];
+                id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+                AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+                NSString *pre = cmd.route;
+                [userPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                             placeholderImage:IMGRESOURCE(@"default_user")];
+            } else {
+                userPhoto.userInteractionEnabled = NO;
+            }
+        }];
     }
     
-    [dic_owner_id setValue:user_id forKey:@"user_id"];
     
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            userPhoto.userInteractionEnabled = YES;
-            
-            userName.text = [result objectForKey:@"screen_name"];
-            
-            NSString* photo_name = [result objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [userPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                           placeholderImage:IMGRESOURCE(@"default_user")];
-        } else {
-            userPhoto.userInteractionEnabled = NO;
-        }
-    }];
+    
+    userName.text = [service_info objectForKey:@"screen_name"];
+    
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSString *pre = cmd.route;
+    NSString *screen_photo = [service_info objectForKey:@"screen_photo"];
+    if (screen_photo) {
+//        userPhoto.userInteractionEnabled = YES;
+        [userPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+                           placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+    } else {
+        userPhoto.image = IMGRESOURCE(@"default_user");
+        userPhoto.userInteractionEnabled = NO;
+    }
     
     NSDictionary *dic_loc = [service_info objectForKey:@"location"];
     if (dic_loc) {

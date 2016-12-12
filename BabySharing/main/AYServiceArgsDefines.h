@@ -14,11 +14,13 @@ static NSString* const kAYServiceArgsServiceInfo =               @"service_info"
 static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
 static NSString* const kAYServiceArgsTitle =               @"title";
 
-static NSString* const kAYServiceArgsNotice =                           @"service_notice";
+static NSString* const kAYServiceArgsNotice =                           @"other_words";
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
+static NSString* const kAYServiceArgsIsCollect =               @"iscollect";
+static NSString* const kAYServiceArgsPoints =               @"points";
 
 static NSString* const kAYServiceArgsPrice =               @"price";
-static NSString* const kAYServiceArgsCourseduration =               @"course_duration";
+static NSString* const kAYServiceArgsCourseduration =               @"lecture_length";
 static NSString* const kAYServiceArgsLeastHours =               @"least_hours";
 static NSString* const kAYServiceArgsLeastTimes =               @"least_times";
 
@@ -36,7 +38,7 @@ static NSString* const kAYServiceArgsCapacity =               @"capacity";
 static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
 
 static NSString* const kAYServiceArgsTheme =               @"cans";
-static NSString* const kAYServiceArgsCourseCat =               @"course_cat";
+static NSString* const kAYServiceArgsCourseCat =               @"cans_cat";
 static NSString* const kAYServiceArgsCourseSign =               @"course_sign";
 static NSString* const kAYServiceArgsCourseCoustom =               @"course_custom";
 

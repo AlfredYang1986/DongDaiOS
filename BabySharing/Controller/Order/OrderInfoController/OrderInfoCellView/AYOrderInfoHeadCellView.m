@@ -140,44 +140,23 @@
 - (id)setCellInfo:(NSDictionary*)args{
 //    NSDictionary *args = [dic_args objectForKey:@"service"];
     
+    NSString *user_name = [args objectForKey:@"screen_name"];
+    ownerNameLabel.text = [NSString stringWithFormat:@"%@", user_name];
     
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
-    
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:[args objectForKey:@"owner_id"] forKey:@"user_id"];
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            
-            NSString *user_name = [result objectForKey:@"screen_name"];
-            ownerNameLabel.text = [NSString stringWithFormat:@"%@",user_name];
-//
-            NSString *photo_name = [result objectForKey:@"screen_photo"];
-//            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//            [dic setValue:photo_name forKey:@"image"];
-//            [dic setValue:@"img_icon" forKey:@"expect_size"];
-//            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//                UIImage* img = (UIImage*)result;
-//                if (img != nil) {
-//                    [ownerPhoto setImage:img];
-//                }
-//            }];
-//            NSString* photo_name = [result objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                       placeholderImage:IMGRESOURCE(@"default_user")];
-            
-        } else {
-            ownerPhoto.image = IMGRESOURCE(@"default_user");
-        }
-    }];
+    NSString *photo_name = [args objectForKey:@"screen_photo"];
+    if (photo_name) {
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        NSString *pre = cmd.route;
+        [ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                      placeholderImage:IMGRESOURCE(@"default_user")];
+    } else {
+        
+        ownerPhoto.image = IMGRESOURCE(@"default_user");
+    }
     
     titleLabel.text = [args objectForKey:@"title"];
-    
     return nil;
 }
 

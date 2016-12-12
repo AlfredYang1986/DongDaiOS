@@ -142,13 +142,13 @@
     [_mainImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
                             placeholderImage:IMGRESOURCE(@"default_image")];
     
-    BOOL isLike = ((NSNumber*)[dic objectForKey:@"is_heart"]).boolValue;
+    BOOL isLike = ((NSNumber*)[dic objectForKey:kAYServiceArgsIsCollect]).boolValue;
      _likeBtn.selected = isLike;
     
     NSString *title = [dic objectForKey:@"title"];
     _descLabel.text = title;
     
-    NSNumber *price = [dic objectForKey:@"price"];
+    NSNumber *price = [dic objectForKey:kAYServiceArgsPrice];
     _costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",price.floatValue];
     
     NSDictionary *dic_loc = [dic objectForKey:@"location"];
@@ -164,50 +164,35 @@
     _starRangImage.hidden = NO;
     _adressConstraLeft.constant = 124.f;
     
-    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
-    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
-    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-    [dic_query setValue:[dic objectForKey:@"service_id"] forKey:@"service_id"];
-    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            NSArray *points = [result objectForKey:@"points"];
-            if (points.count == 0) {
-                _starRangImage.hidden = YES;
-                _adressConstraLeft.constant = 15.f;
-            } else {
-                CGFloat sumPoint ;
-                for (NSNumber *point in points) {
-                    sumPoint += point.floatValue;
-                }
-                CGFloat average = sumPoint / points.count;
-                
-                int mainRang = (int)average;
-                NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
-                
-                CGFloat tmpCompare = average + 0.5f;
-                if ((int)tmpCompare > mainRang) {
-                    rangImageName = [rangImageName stringByAppendingString:@"_"];
-                }
-                
-                _starRangImage.image = IMGRESOURCE(rangImageName);
-            }
+    NSArray *points = [dic objectForKey:kAYServiceArgsPoints];
+    if (points.count == 0) {
+        _starRangImage.hidden = YES;
+        _adressConstraLeft.constant = 15.f;
+    } else {
+        CGFloat sumPoint ;
+        for (NSNumber *point in points) {
+            sumPoint += point.floatValue;
         }
-    }];
-    
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:[dic objectForKey:@"owner_id"] forKey:@"user_id"];
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            
-            [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[result objectForKey:@"screen_photo"]]]
-                               placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
-        } else {
-            _ownerIconImage.image = IMGRESOURCE(@"default_user");
+        CGFloat average = sumPoint / points.count;
+        
+        int mainRang = (int)average;
+        NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+        
+        CGFloat tmpCompare = average + 0.5f;
+        if ((int)tmpCompare > mainRang) {
+            rangImageName = [rangImageName stringByAppendingString:@"_"];
         }
         
-    }];
+        _starRangImage.image = IMGRESOURCE(rangImageName);
+    }
+    
+    NSString *screen_photo = [dic objectForKey:@"screen_photo"];
+    if (screen_photo && ![screen_photo isEqualToString:@""]) {
+        [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+                           placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+    } else {
+        _ownerIconImage.image = IMGRESOURCE(@"default_user");
+    }
     
     return nil;
 }

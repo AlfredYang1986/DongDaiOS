@@ -150,26 +150,18 @@
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
     
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    NSDictionary *cell_info = (NSDictionary*)args;
+    NSString *photo_name = [cell_info objectForKey:@"screen_photo"];
+    if (photo_name) {
+        
+        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+        NSString *pre = cmd.route;
+        [pushUserImageview sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+                             placeholderImage:IMGRESOURCE(@"default_user")];
+    }
     
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            NSString *photo_name = [result objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [pushUserImageview sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                                 placeholderImage:IMGRESOURCE(@"default_user")];
-            
-//            detailInfoLabel.text = [NSString stringWithFormat:@"%@ · %@", [result objectForKey:@"screen_name"] , [[args objectForKey:@"service"] objectForKey:@"title"]];
-            detailInfoLabel.text = [[[result objectForKey:@"screen_name"] stringByAppendingString:@" · "] stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"title"]];
-        } else {
-            pushUserImageview.image = IMGRESOURCE(@"default_user"); 
-        }
-    }];
+    detailInfoLabel.text = [[[cell_info objectForKey:@"screen_name"] stringByAppendingString:@" · "] stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"title"]];
     
 //    NSTimeInterval book = ((NSNumber*)[args objectForKey:@"date"]).longValue * 0.001;
 //    NSDate *bookDate = [NSDate dateWithTimeIntervalSince1970:book];

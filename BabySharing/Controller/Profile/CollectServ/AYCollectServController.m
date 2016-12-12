@@ -123,17 +123,19 @@
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"AllCollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                id<AYCommand> cmd_change_data = [cmd_collect.commands objectForKey:@"changeQueryData:"];
-                NSArray *data = [result objectForKey:@"result"];
-                [cmd_change_data performWithResult:&data];
                 
-                id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-                [refresh performWithResult:nil];
+                NSArray *data = [result objectForKey:@"result"];
+                if (data.count == 0) {
+                    NSString *title = @"您还没有收藏过服务";
+                    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                } else {
+                    kAYDelegatesSendMessage(@"CollectServ", @"changeQueryData:", &data)
+                    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+                }
             } else {
-                NSLog(@"push error with:%@",result);
-                [[[UIAlertView alloc]initWithTitle:@"提示" message:@"请改善网络环境并重试" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-                //                NSString *title = @"请改善网络环境并重试";
-                //                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+                
+                NSString *title = @"请改善网络环境并重试";
+                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }

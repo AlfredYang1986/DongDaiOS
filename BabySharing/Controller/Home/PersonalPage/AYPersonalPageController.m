@@ -169,6 +169,9 @@
         }];
         [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
+        BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
+        bar_like_btn.selected = collectionBtn.selected = isLike;
+        
         UILabel *costLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
         [flexibleView addSubview:costLabel];
         [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -340,8 +343,6 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : btmViewHeight));
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-    view.backgroundColor = [UIColor clearColor];
-    
 //    ((UITableView*)view).estimatedRowHeight = 300;
 //    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
@@ -359,7 +360,7 @@
     return nil;
 }
 
--(id)sendPopMessage{
+-(id)sendPopMessage {
     [self leftBtnSelected];
     return nil;
 }
@@ -390,7 +391,7 @@
 //        [flexibleView mas_remakeConstraints:^(MASConstraintMaker *make) {
 //            make.centerX.equalTo(tableView);
 //            make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - (SCREEN_WIDTH * offsetH / 225), kFlexibleHeight - offsetH));
+//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight - offsetH));
 //        }];
 //    }
     
@@ -548,8 +549,7 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
-                collectionBtn.selected = YES;
-                bar_like_btn.selected = YES;
+                collectionBtn.selected = bar_like_btn.selected = YES;
             } else {
                 NSString *title = @"收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -561,8 +561,7 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
-                collectionBtn.selected = NO;
-                bar_like_btn.selected = NO;
+                collectionBtn.selected = bar_like_btn.selected = NO;
             } else {
                 NSString *title = @"取消收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

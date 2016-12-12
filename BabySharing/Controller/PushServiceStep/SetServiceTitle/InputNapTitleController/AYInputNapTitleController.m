@@ -87,8 +87,7 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 120));
     }];
     
-    countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(inputTitleTextView.mas_bottom).offset(-10);
@@ -138,7 +137,34 @@
                 make.right.equalTo(access);
                 make.centerY.equalTo(courseSignLabel);
             }];
-            signLabel.hidden = YES;
+            
+            
+            NSString* coustomStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCoustom];
+            if (coustomStr) {
+                access.hidden = YES;
+                signLabel.text = coustomStr;
+            }
+            else {
+                
+                NSNumber* courseSign = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseSign];
+                if (courseSign) {
+                    
+                    NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsTheme];
+                    long sepNumb = log2(type.longValue);
+                    NSArray *courseAllArr = kAY_service_options_title_courses_ofall;
+                    NSArray* titleArr = [courseAllArr objectAtIndex:(NSUInteger)sepNumb];
+                    NSString *courseTitle = [titleArr objectAtIndex:courseSign.integerValue];
+                    access.hidden = YES;
+                    signLabel.text = courseTitle;
+                }
+                else {
+                    signLabel.hidden = YES;
+                }
+            }
+            
+            
+            
+            
         }
             break;
         default:

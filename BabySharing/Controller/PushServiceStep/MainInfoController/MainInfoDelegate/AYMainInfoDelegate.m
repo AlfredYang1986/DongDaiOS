@@ -61,7 +61,7 @@
 
 - (void)postPerform {
     
-    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"撰写标题", @"撰写描述", @"设置价格", @"制定《服务守则》", @"更多信息(选填)", nil];
+    titles = [NSMutableArray arrayWithObjects:@"添加图片", @"撰写标题", @"撰写描述", @"设置价格", @"制定《服务守则》", @"场地友好性(选填)", nil];
     sub_titles = [NSMutableArray arrayWithObjects:
                   @"添加图片",
                   @"与众不同的标题可以展示您的魅力",
@@ -89,8 +89,6 @@
 
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
-    
-//    isEditModel = NO;
     
     NSDictionary *dic = (NSDictionary*)args;
     

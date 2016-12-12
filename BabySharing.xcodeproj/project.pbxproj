@@ -4482,10 +4482,10 @@
 		70501C831D2F49DD0050E0C8 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				70501C841D2F4A070050E0C8 /* CollectServ */,
 				70C41E151DBA06D000C77B10 /* SettingController */,
 				704D48CD1DAE18AE00A69AF4 /* AboutController */,
 				705489791D34DA9F007FCDA1 /* BabyInfoController */,
-				70501C841D2F4A070050E0C8 /* CollectServ */,
 				700047511D9BD74B000AE1C9 /* ConfirmFinish */,
 				705D08001D372C1800CA2182 /* ConfirmRealName */,
 				705D07FF1D372C1800CA2182 /* ConfirmPhoneNo */,
@@ -4597,12 +4597,12 @@
 		7059C9A01D45B712004973F3 /* Order */ = {
 			isa = PBXGroup;
 			children = (
-				70CB714A1D97D31F00C83985 /* CommentServiceController */,
-				70E77CE81D8E930F00C882DD /* RejectOrderController */,
-				70E77CDC1D8E754100C882DD /* AcceptOrReject */,
 				70C5641C1D8FC9C200DA9581 /* ConfirmOrderController */,
 				70D48DF81D87FD3C0039C741 /* OrderTimesController */,
 				70F2A1451D4A0A58004BAFF7 /* OrderInfoController */,
+				70CB714A1D97D31F00C83985 /* CommentServiceController */,
+				70E77CE81D8E930F00C882DD /* RejectOrderController */,
+				70E77CDC1D8E754100C882DD /* AcceptOrReject */,
 				705E969B1D477E55006CF9E6 /* ScanQRCodeController */,
 				705E967B1D47032F006CF9E6 /* ReadyOrderController */,
 				70D228151D893ED500EF4211 /* OrderListController */,

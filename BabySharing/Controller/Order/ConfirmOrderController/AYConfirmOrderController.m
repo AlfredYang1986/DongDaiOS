@@ -176,7 +176,7 @@
     NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
     [cmd_login performWithResult:&IsInstalledWechat];
     if (!IsInstalledWechat.boolValue) {
-        NSString *title = @"目前仅支持微信支付！";
+        NSString *title = @"暂仅支持微信支付！";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }

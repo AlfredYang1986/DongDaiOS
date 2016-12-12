@@ -128,41 +128,28 @@
     
     NSDictionary* info = nil;
     CURRENUSER(info)
-    
     NSString *user_id = [info objectForKey:@"user_id"];
+    
     NSString *order_user_id = [args objectForKey:@"user_id"];
-    NSString *order_owner_id = [args objectForKey:@"owner_id"];
+    NSString *order_owner_id = [args objectForKey:@"owner_id"];     //wofade dan
     
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+    NSString *pre = cmd.route;
     
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    
-    if ([user_id isEqualToString:order_owner_id]) {     //我发的服务 ->要看到对方的头像  ->即发单妈妈
-        [dic_owner_id setValue:order_user_id forKey:@"user_id"];
-        ones_id = order_user_id;
-    } else {
-        [dic_owner_id setValue:order_owner_id forKey:@"user_id"];
-        ones_id = order_owner_id;
-    }
-    
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        _userNameLabel.text = [result objectForKey:@"screen_name"];
+    if ([user_id isEqualToString:order_owner_id]) {     //我发的dan : -> 要看到服务着的头像  -> 即发服务的妈妈
         
-        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"image"];
-        [dic setValue:@"img_icon" forKey:@"expect_size"];
-        [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            UIImage* img = (UIImage*)result;
-            if (img != nil) {
-                [_userPhotoImage setImage:img];
-            } else
-                _userPhotoImage.image = IMGRESOURCE(@"default_user");
-        }];
-    }];
-    
+        ones_id = order_owner_id;
+        _userNameLabel.text = [args objectForKey:@"screen_name"];
+        [_userPhotoImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[args objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
+        
+    } else {
+        
+        ones_id = order_user_id;
+        _userNameLabel.text = [[args objectForKey:@"service"] objectForKey:@"screen_name"];
+        [_userPhotoImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
+        
+    }
     
     return nil;
 }
