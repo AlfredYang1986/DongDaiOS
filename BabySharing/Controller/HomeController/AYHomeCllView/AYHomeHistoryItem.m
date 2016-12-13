@@ -18,7 +18,6 @@
     UIImageView *mainImageView;
     UILabel *titleLabel;
     UIImageView *star_rang_icon;
-    UILabel *contentCountlabel;
     
     UILabel *psLabel;
 }
@@ -54,8 +53,7 @@
         make.height.mas_equalTo(92);
     }];
     
-    titleLabel = [[UILabel alloc]init];
-    titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(mainImageView.mas_bottom).offset(15);
@@ -69,23 +67,14 @@
     [star_rang_icon mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(5);
         make.left.equalTo(titleLabel);
-        make.size.mas_equalTo(CGSizeMake(80, 11));
+        make.size.mas_equalTo(CGSizeMake(70.5, 11));
     }];
     
-    contentCountlabel = [[UILabel alloc]init];
-    contentCountlabel = [Tools setLabelWith:contentCountlabel andText:nil andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [self addSubview:contentCountlabel];
-    [contentCountlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(star_rang_icon);
-        make.left.equalTo(star_rang_icon.mas_right).offset(5);
-    }];
-    
-    psLabel = [[UILabel alloc]init];
-    psLabel = [Tools setLabelWith:psLabel andText:nil andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    psLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self addSubview:psLabel];
     [psLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(star_rang_icon);
-        make.left.equalTo(contentCountlabel.mas_right).offset(5);
+        make.left.equalTo(star_rang_icon.mas_right).offset(5);
         make.right.lessThanOrEqualTo(mainImageView);
     }];
 }
@@ -105,6 +94,32 @@
     
 //    star_rang_icon.image = IMGRESOURCE(@"star_rang_5");
 //    contentCountlabel.text = @"12";
+    
+    NSArray *points = [_itemInfo objectForKey:@"points"];
+    if (points.count == 0) {
+        star_rang_icon.hidden = YES;
+        [psLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(titleLabel.mas_bottom).offset(10);
+            make.left.equalTo(titleLabel).offset(0);
+            make.right.lessThanOrEqualTo(mainImageView);
+        }];
+    } else {
+        star_rang_icon.hidden = NO;
+        CGFloat sumPoint  = 0;
+        for (NSNumber *point in points) {
+            sumPoint += point.floatValue;
+        }
+        CGFloat average = sumPoint / points.count;
+        
+        int mainRang = (int)average;
+        NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+        CGFloat tmpCompare = average + 0.5f;
+        if ((int)tmpCompare > mainRang) {
+            rangImageName = [rangImageName stringByAppendingString:@"_"];
+        }
+        star_rang_icon.image = IMGRESOURCE(rangImageName);
+    }
+    
     
     NSArray *options_title_cans = kAY_service_options_title_course;
     long options = ((NSNumber*)[_itemInfo objectForKey:@"cans"]).longValue;

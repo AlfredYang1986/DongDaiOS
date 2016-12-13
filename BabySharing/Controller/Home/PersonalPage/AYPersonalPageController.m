@@ -209,24 +209,6 @@
 //        }
 //    }];
     
-//    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
-//    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
-//    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-//    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-//    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
-//        if (success) {
-//            NSArray *points = [result objectForKey:@"points"];
-//            if (points.count == 0) {
-//                id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
-//                NSNumber *has_comment = [NSNumber numberWithBool:YES];
-//                [cmd_desc performWithResult:&has_comment];
-//                
-//                UITableView *tableView = [self.views objectForKey:@"Table"];
-//                [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:NO];
-//            }
-//        }
-//    }];
-    
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
     ((UINavigationBar*)navBar).alpha = 0;
@@ -244,9 +226,8 @@
     [shareBtn addTarget:self action:@selector(didShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
      */
     
-    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-    BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
-    if (!isNap) {
+    NSNumber *per_mode = [service_info objectForKey:@"perview_mode"];
+    if (!per_mode) {
         
         UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
         bottom_view.backgroundColor = [Tools themeColor];
@@ -273,6 +254,9 @@
         [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [bottom_view addSubview:chatBtn];
+    }
+    else {
+        bar_like_btn.hidden = collectionBtn.hidden = YES;
     }
     
 }

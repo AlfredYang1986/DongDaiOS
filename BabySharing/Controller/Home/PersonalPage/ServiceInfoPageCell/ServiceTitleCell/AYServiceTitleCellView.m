@@ -182,33 +182,25 @@
     
     //重置cell复用数据
     //    _starRangImage.hidden = NO;
-    id<AYFacadeBase> f_comment = DEFAULTFACADE(@"OrderRemote");
-    AYRemoteCallCommand* cmd_query = [f_comment.commands objectForKey:@"QueryComments"];
-    NSMutableDictionary *dic_query = [[NSMutableDictionary alloc]init];
-    [dic_query setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    [cmd_query performWithResult:dic_query andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            NSArray *points = [result objectForKey:@"points"];
-            if (points.count == 0) {
-                    pointsImageView.hidden = YES;
-//                pointsImageView.image = IMGRESOURCE(@"star_rang_0");
-            } else {
-                CGFloat sumPoint  = 0;
-                for (NSNumber *point in points) {
-                    sumPoint += point.floatValue;
-                }
-                CGFloat average = sumPoint / points.count;
-                
-                int mainRang = (int)average;
-                NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
-                CGFloat tmpCompare = average + 0.5f;
-                if ((int)tmpCompare > mainRang) {
-                    rangImageName = [rangImageName stringByAppendingString:@"_"];
-                }
-                pointsImageView.image = IMGRESOURCE(rangImageName);
-            }
+    NSArray *points = [service_info objectForKey:@"points"];
+    if (points.count == 0) {
+            pointsImageView.hidden = YES;
+//            pointsImageView.image = IMGRESOURCE(@"star_rang_0");
+    } else {
+        CGFloat sumPoint  = 0;
+        for (NSNumber *point in points) {
+            sumPoint += point.floatValue;
         }
-    }];
+        CGFloat average = sumPoint / points.count;
+        
+        int mainRang = (int)average;
+        NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+        CGFloat tmpCompare = average + 0.5f;
+        if ((int)tmpCompare > mainRang) {
+            rangImageName = [rangImageName stringByAppendingString:@"_"];
+        }
+        pointsImageView.image = IMGRESOURCE(rangImageName);
+    }
     
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);

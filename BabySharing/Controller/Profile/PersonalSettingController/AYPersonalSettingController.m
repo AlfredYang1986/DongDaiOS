@@ -233,12 +233,6 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     return nil;
 }
 
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    view.hidden = YES;
-    return nil;
-}
-
 #pragma mark -- actions
 
 -(void)didSelfPhotoClick {
@@ -252,9 +246,6 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     if ([nameTextField isFirstResponder]) {
         [nameTextField resignFirstResponder];
     }
-//    id<AYViewBase> view = [self.views objectForKey:@"SelfSetting"];
-//    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
-//    [cmd performWithResult:nil];
 }
 
 - (void)didDescLabelTap:(UITapGestureRecognizer*)gusture {

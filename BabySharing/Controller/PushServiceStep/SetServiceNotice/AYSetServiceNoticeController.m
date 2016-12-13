@@ -51,12 +51,8 @@
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
-    h1.text  = @"需要家长陪同";
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h1.textColor = [Tools blackColor];
-    h1.font = kAYFontLight(14.f);
-    h1.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(124);
@@ -73,13 +69,10 @@
         make.right.equalTo(h1).offset(-10);
         make.size.mas_equalTo(CGSizeMake(49, 31));
     }];
+    isALeaveSwitch.on = isAllowLeave;
     
-    AYInsetLabel *h2 = [[AYInsetLabel alloc]init];
-    h2.text = @"其他守则";
+    AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"其他守则" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h2.textColor = [Tools blackColor];
-    h2.font = kAYFontLight(14.f);
-    h2.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:h2];
     [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(h1.mas_bottom).offset(20);

@@ -469,9 +469,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_args setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_args setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_args setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
+    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:_service_change_dic];
+    [tmp setValue:[NSNumber numberWithInt:1] forKey:@"perview_mode"];
     if (service_info) {
-        [dic_args setValue:[_service_change_dic copy] forKey:kAYControllerChangeArgsKey];
+        [dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     } else {
         
         if (napPhotos.count == 0) {
@@ -480,8 +481,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             return nil;
         }
         
-        [_service_change_dic setValue:napPhotos forKey:@"images"];
-        [dic_args setValue:[_service_change_dic copy] forKey:kAYControllerChangeArgsKey];
+        [tmp setValue:napPhotos forKey:@"images"];
+        [dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     }
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic_args];

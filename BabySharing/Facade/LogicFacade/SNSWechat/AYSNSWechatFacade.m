@@ -239,7 +239,7 @@ static NSString* const kWechatDescription = @"wechat";
                         id<AYCommand> cmd2 = [f.commands objectForKey:@"UpdateRegUserProfile"];
                         [cmd2 performWithResult:&args];
                     } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"set nick name error" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"昵称设置错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
                         [alert show];
                     }
                 }];

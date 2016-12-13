@@ -82,12 +82,8 @@
         make.top.equalTo(tableView).offset(20);
     }];
     
-    AYInsetLabel *positionLabel = [[AYInsetLabel alloc]init];
-    positionLabel.text  = @"位置";
+    AYInsetLabel *positionLabel = [[AYInsetLabel alloc]initWithTitle:@"位置" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     positionLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    positionLabel.textColor = [Tools blackColor];
-    positionLabel.font = kAYFontLight(14.f);
-    positionLabel.backgroundColor = [UIColor whiteColor];
     [tableView addSubview:positionLabel];
     [positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(placeTitle.mas_bottom).offset(20);
@@ -109,12 +105,8 @@
         addressLabel.text = addressStr;
     }
     
-    AYInsetLabel *facilityLabel = [[AYInsetLabel alloc]init];
-    facilityLabel.text = @"场地友好性";
+    AYInsetLabel *facilityLabel = [[AYInsetLabel alloc]initWithTitle:@"场地友好性" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     facilityLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    facilityLabel.textColor = [Tools blackColor];
-    facilityLabel.font = kAYFontLight(14.f);
-    facilityLabel.backgroundColor = [UIColor whiteColor];
     [tableView addSubview:facilityLabel];
     [facilityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(positionLabel.mas_bottom).offset(20);
@@ -140,12 +132,8 @@
         make.top.equalTo(facilityLabel.mas_bottom).offset(25);
     }];
     
-    AYInsetLabel *infoLabel = [[AYInsetLabel alloc]init];
-    infoLabel.text = @"服务详情";
+    AYInsetLabel *infoLabel = [[AYInsetLabel alloc]initWithTitle:@"服务详情" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     infoLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    infoLabel.textColor = [Tools blackColor];
-    infoLabel.font = kAYFontLight(14.f);
-    infoLabel.backgroundColor = [UIColor whiteColor];
     [tableView addSubview:infoLabel];
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(detailTitle.mas_bottom).offset(20);

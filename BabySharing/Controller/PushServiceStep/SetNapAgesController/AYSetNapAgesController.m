@@ -76,12 +76,8 @@
         [cmd_delegate performWithResult:&obj];
     }
     
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]init];
-    h1.text = @"服务适合孩子年龄";
+    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"服务适合孩子年龄" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h1.textColor = [Tools blackColor];
-    h1.font = kAYFontLight(14.f);
-    h1.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:h1];
     [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(124);
@@ -106,12 +102,8 @@
     [h1 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setNapBabyAgesClick:)]];
     
     /***************************************/
-    AYInsetLabel *h3 = [[AYInsetLabel alloc]init];
-    h3.text = @"最多接纳孩子数量";
+    AYInsetLabel *h3 = [[AYInsetLabel alloc]initWithTitle:@"最多接纳孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h3.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    h3.textColor = [Tools blackColor];
-    h3.font = kAYFontLight(14.f);
-    h3.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:h3];
     [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(h1.mas_bottom).offset(12);
@@ -159,12 +151,8 @@
     [minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     /***************************************/
     
-    AYInsetLabel *waiterLabel = [[AYInsetLabel alloc]init];
-    waiterLabel.text = @"服务者数量";
+    AYInsetLabel *waiterLabel = [[AYInsetLabel alloc]initWithTitle:@"服务者数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     waiterLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    waiterLabel.textColor = [Tools blackColor];
-    waiterLabel.font = kAYFontLight(14.f);
-    waiterLabel.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:waiterLabel];
     [waiterLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(h3.mas_bottom).offset(1);
