@@ -37,12 +37,19 @@ static NSString* const kAYServiceArgsAgeBoundaryLow =               @"lsl";
 static NSString* const kAYServiceArgsCapacity =               @"capacity";
 static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
 
-static NSString* const kAYServiceArgsTheme =               @"cans";
 static NSString* const kAYServiceArgsCourseCat =               @"cans_cat";
-static NSString* const kAYServiceArgsCourseSign =               @"course_sign";
+static NSString* const kAYServiceArgsTheme =               @"cans";
+static NSString* const kAYServiceArgsCourseSign =               @"cans";
 static NSString* const kAYServiceArgsCourseCoustom =               @"course_custom";
 
-//static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
-//static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
+static NSString* const kAYServiceArgsScreenName =               @"screen_name";
+static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
+
+//static NSString* const kAYServiceArgsScreenName =               @"screen_name";
+//static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
+//static NSString* const kAYServiceArgsScreenName =               @"screen_name";
+//static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
+//static NSString* const kAYServiceArgsScreenName =               @"screen_name";
+//static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
 
 #endif /* AYServiceArgsDefines_h */

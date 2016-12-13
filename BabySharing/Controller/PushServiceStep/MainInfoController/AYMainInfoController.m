@@ -87,7 +87,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
                 
                 //title constain and course_sign or coustom constain and or service_cat == 0
-                if (title && (coustom || course_sign || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == 0)) {
+                if (title && (coustom || course_sign || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter)) {
                     [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 
@@ -232,12 +232,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
     }];
     
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:kAYServiceArgsServiceCat forKey:@"key"];
-    [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
-    [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
-    kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
-    
 //    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
 //    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
     
@@ -253,6 +247,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
         
     } else {
+        
+        NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+        [dic_info setValue:kAYServiceArgsServiceCat forKey:@"key"];
+        [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+        [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
+        kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
         
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         [cmd_class performWithResult:&babyAgeCell];

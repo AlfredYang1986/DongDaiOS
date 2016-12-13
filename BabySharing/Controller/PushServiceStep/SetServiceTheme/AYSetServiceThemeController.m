@@ -132,7 +132,11 @@
     
     NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
     [service_info setValue:[NSNumber numberWithInt:service_type] forKey:kAYServiceArgsServiceCat];
-    [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsTheme];
+    if (service_info == ServiceTypeLookAfter) {
+        [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsTheme];
+    } else {
+        [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsCourseCat];
+    }
     [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;

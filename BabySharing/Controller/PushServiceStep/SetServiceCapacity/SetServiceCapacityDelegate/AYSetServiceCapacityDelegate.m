@@ -14,7 +14,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @implementation AYSetServiceCapacityDelegate {
-    NSArray *titleArr;
+    NSMutableArray *titleArr;
 }
 
 #pragma mark -- command
@@ -24,7 +24,8 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    titleArr = @[@"可以接纳最小孩子年龄", @"可以接纳最大孩子年龄", @"最多接纳孩子数量", @"服务者数量"];
+    
+    titleArr = [NSMutableArray arrayWithObjects:@"可以接纳最小孩子年龄", @"可以接纳最大孩子年龄", @"最多接纳孩子数量", @"服务者数量", nil];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -45,7 +46,11 @@
 
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
-    
+    NSDictionary *args_info = (NSDictionary*)args;
+    ServiceType service_type = ((NSNumber*)[args_info objectForKey:kAYServiceArgsServiceCat]).intValue;
+    if (service_type == ServiceTypeCourse) {
+        [titleArr replaceObjectAtIndex:3 withObject:@"老师数量"];
+    }
     return nil;
 }
 

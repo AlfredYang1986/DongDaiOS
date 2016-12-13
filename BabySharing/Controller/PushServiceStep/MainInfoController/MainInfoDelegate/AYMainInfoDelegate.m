@@ -95,7 +95,7 @@
     NSString *key = [dic objectForKey:@"key"];
     if ([key isEqualToString:kAYServiceArgsServiceCat]) {
         service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsServiceCat]).intValue;
-        napThemeNote = [dic objectForKey:kAYServiceArgsTheme];
+        napThemeNote = [dic objectForKey:kAYServiceArgsCourseCat];
     }
     else if ([key isEqualToString:@"nap_cover"]) {
         napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
@@ -396,7 +396,7 @@
     
     NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napTitleInfo];
     [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
-    [tmp setValue:napThemeNote forKey:kAYServiceArgsTheme];
+    [tmp setValue:napThemeNote forKey:kAYServiceArgsCourseCat];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;

@@ -25,7 +25,7 @@
     NSString *setedNoticeStr;
     BOOL isAllowLeave;
     
-    UIButton *optionBtn;
+    UISwitch *isALeaveSwitch;
 }
 
 #pragma mark --  commands
@@ -64,18 +64,15 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
     }];
     
-    optionBtn = [[UIButton alloc]init];
-    [optionBtn setImage:IMGRESOURCE(@"tab_home") forState:UIControlStateNormal];
-    [optionBtn setImage:IMGRESOURCE(@"tab_home_selected") forState:UIControlStateSelected];
-    [self.view addSubview:optionBtn];
-    [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    isALeaveSwitch = [[UISwitch alloc]init];
+    isALeaveSwitch.onTintColor = [Tools themeColor];
+    isALeaveSwitch.transform= CGAffineTransformMakeScale(0.69, 0.69);
+    [self.view addSubview:isALeaveSwitch];
+    [isALeaveSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h1);
         make.right.equalTo(h1).offset(-10);
-        make.size.mas_equalTo(CGSizeMake(30, 40));
+        make.size.mas_equalTo(CGSizeMake(49, 31));
     }];
-    
-    optionBtn.selected = isAllowLeave;
-    [optionBtn addTarget:self action:@selector(didYesBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
     AYInsetLabel *h2 = [[AYInsetLabel alloc]init];
     h2.text = @"其他守则";
@@ -126,10 +123,6 @@
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     [cmd_left performWithResult:&left];
     
-//    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-//    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-//    [cmd_right performWithResult:&bar_right_btn];
-    
     NSNumber *is_hidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
     
@@ -143,9 +136,9 @@
 }
 
 #pragma mark -- actions
-- (void)didYesBtnClick {
-    optionBtn.selected = !optionBtn.selected;
-}
+//- (void)didYesBtnClick {
+//    optionBtn.selected = !optionBtn.selected;
+//}
 
 - (void)didOtherNoticeTap {
     
@@ -169,7 +162,7 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:[NSNumber numberWithBool:optionBtn.selected] forKey:kAYServiceArgsAllowLeave];
+    [dic_info setValue:[NSNumber numberWithBool:isALeaveSwitch.on] forKey:kAYServiceArgsAllowLeave];
     [dic_info setValue:setedNoticeStr forKey:kAYServiceArgsNotice];
     [dic_info setValue:kAYServiceArgsNotice forKey:@"key"];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];

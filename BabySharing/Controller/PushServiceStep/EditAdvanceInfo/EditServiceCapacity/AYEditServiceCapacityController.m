@@ -205,6 +205,7 @@
         options_title_cans = kAY_service_options_title_lookafter;
     }
     else if (args_cat.intValue == ServiceTypeCourse) {
+        servantNumbTitle.text = @"老师数量";
         catStr = @"课程";
         options_title_cans = kAY_service_options_title_course;
     }

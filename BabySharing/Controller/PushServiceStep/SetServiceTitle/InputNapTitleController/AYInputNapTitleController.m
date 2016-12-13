@@ -149,7 +149,7 @@
                 NSNumber* courseSign = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseSign];
                 if (courseSign) {
                     
-                    NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsTheme];
+                    NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat];
                     long sepNumb = log2(type.longValue);
                     NSArray *courseAllArr = kAY_service_options_title_courses_ofall;
                     NSArray* titleArr = [courseAllArr objectAtIndex:(NSUInteger)sepNumb];

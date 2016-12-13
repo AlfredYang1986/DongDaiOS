@@ -58,6 +58,9 @@
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceCapacityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
+    id tmp = [service_info copy];
+    kAYDelegatesSendMessage(@"SetServiceCapacity", @"changeQueryData:", &tmp);
+    
     UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:nextBtn];
     [nextBtn addTarget:self action:@selector(didNextBtnClick) forControlEvents:UIControlEventTouchUpInside];

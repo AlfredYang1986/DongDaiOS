@@ -47,7 +47,7 @@
 - (id)changeQueryData:(id)args {
     
     NSDictionary *args_info = (NSDictionary*)args;
-    NSNumber *type = [args_info objectForKey:kAYServiceArgsTheme];
+    NSNumber *type = [args_info objectForKey:kAYServiceArgsServiceCat];
     long sepNumb = log2(type.longValue);
     
 //    long testArgs = pow(2, 2) * pow(2, 8) + pow(2, 3);
