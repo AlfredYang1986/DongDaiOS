@@ -323,11 +323,11 @@
 
 - (id)rightBtnSelected {
     
-    if (!costTextField.text || [costTextField.text isEqualToString:@""] || !timeTextField.text || [timeTextField.text isEqualToString:@""]) {
-        NSString *title = @"参数缺省";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return nil;
-    }
+//    if (!costTextField.text || [costTextField.text isEqualToString:@""] || !timeTextField.text || [timeTextField.text isEqualToString:@""]) {
+//        NSString *title = @"参数缺省";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return nil;
+//    }
     
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

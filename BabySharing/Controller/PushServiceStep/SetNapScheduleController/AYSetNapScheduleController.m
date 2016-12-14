@@ -228,6 +228,12 @@
         
     }
     
+    if (offer_date.count == 0) {
+        NSString *title = @"您还没有设置时间";
+        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+        return ;
+    }
+    
     [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
     
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成

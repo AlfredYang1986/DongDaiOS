@@ -12,7 +12,15 @@
 static NSString* const kAYServiceArgsServiceInfo =               @"service_info";
 
 static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
+
+static NSString* const kAYServiceArgsImages =               @"images";
 static NSString* const kAYServiceArgsTitle =               @"title";
+static NSString* const kAYServiceArgsDescription =               @"description";
+
+//static NSString* const kAYServiceArgs =               @"title";
+//static NSString* const kAYServiceArgs =               @"title";
+//static NSString* const kAYServiceArgs =               @"title";
+//static NSString* const kAYServiceArgs =               @"title";
 
 static NSString* const kAYServiceArgsNotice =                           @"other_words";
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
@@ -40,7 +48,7 @@ static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
 static NSString* const kAYServiceArgsCourseCat =               @"cans_cat";
 static NSString* const kAYServiceArgsTheme =               @"cans";
 static NSString* const kAYServiceArgsCourseSign =               @"cans";
-static NSString* const kAYServiceArgsCourseCoustom =               @"course_custom";
+static NSString* const kAYServiceArgsCourseCoustom =               @"reserve1";
 
 static NSString* const kAYServiceArgsScreenName =               @"screen_name";
 static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";

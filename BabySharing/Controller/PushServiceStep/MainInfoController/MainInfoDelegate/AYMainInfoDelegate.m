@@ -144,7 +144,7 @@
                   @"编辑《服务守则》",
                   @"更多信息",  nil];
     
-    napPhotoName = [[info objectForKey:@"images"] objectAtIndex:0];
+    napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
     napTitle = [info objectForKey:kAYServiceArgsTitle];
     
     NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
@@ -153,55 +153,40 @@
     [dic_title setValue:[info objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
     napTitleInfo = [dic_title copy];
     
-    napDesc = [info objectForKey:@"description"];
+    napDesc = [info objectForKey:kAYServiceArgsDescription];
     
     NSMutableDictionary *dic_baby_args = [[NSMutableDictionary alloc]init];
-    [dic_baby_args setValue:[info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-    [dic_baby_args setValue:[info objectForKey:@"capacity"] forKey:@"capacity"];
-    [dic_baby_args setValue:[info objectForKey:@"servant_no"] forKey:@"servant_no"];
+    [dic_baby_args setValue:[info objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
+    [dic_baby_args setValue:[info objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
+    [dic_baby_args setValue:[info objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
     napBabyArgsInfo = [dic_baby_args copy];
-    napAges = [info objectForKey:@"age_boundary"];
+    napAges = [info objectForKey:kAYServiceArgsAgeBoundary];
     
     NSMutableDictionary *dic_cost = [[NSMutableDictionary alloc]init];
-    [dic_cost setValue:[info objectForKey:@"price"] forKey:@"price"];
-    [dic_cost setValue:[info objectForKey:@"least_hours"] forKey:@"least_hours"];
+    [dic_cost setValue:[info objectForKey:kAYServiceArgsPrice] forKey:kAYServiceArgsPrice];
+    [dic_cost setValue:[info objectForKey:kAYServiceArgsLeastHours] forKey:kAYServiceArgsLeastHours];
     napCostInfo = [dic_cost copy];
-    napCost = [info objectForKey:@"price"];
+    napCost = [info objectForKey:kAYServiceArgsPrice];
     
     NSMutableDictionary *dic_address = [[NSMutableDictionary alloc]init];
-    [dic_address setValue:[info objectForKey:@"location"] forKey:@"location"];
-    [dic_address setValue:[info objectForKey:@"address"] forKey:@"address"];
-    [dic_address setValue:[info objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+    [dic_address setValue:[info objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
+    [dic_address setValue:[info objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
+    [dic_address setValue:[info objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
     napAdressInfo = [dic_address copy];
 //    napAdress = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"address"], [dic objectForKey:@"adjust_address"]];
     
     napDeviceNote = [info objectForKey:kAYServiceArgsFacility];
     
-    NSMutableDictionary *dic_theme = [[NSMutableDictionary alloc]init];
-    [dic_theme setValue:[info objectForKey:@"cans"] forKey:@"cans"];
-    [dic_theme setValue:[info objectForKey:@"allow_leave"] forKey:@"allow_leave"];
-    napThemeInfo = [dic_theme copy];
+//    NSMutableDictionary *dic_theme = [[NSMutableDictionary alloc]init];
+//    [dic_theme setValue:[info objectForKey:@"cans"] forKey:@"cans"];
+//    [dic_theme setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
+//    napThemeInfo = [dic_theme copy];
     napThemeNote = [info objectForKey:@"cans"];
     
     NSMutableDictionary *dic_notice = [[NSMutableDictionary alloc]initWithCapacity:2];
     [dic_notice setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
     [dic_notice setValue:[info objectForKey:kAYServiceArgsNotice] forKey:kAYServiceArgsNotice];
     serviceNoticeInfo = [dic_notice copy];
-    
-    {
-        NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-        [dic_options setValue:[info objectForKey:kAYServiceArgsFacility] forKey:@"option_pow"];
-        [dic_options setValue:@"自填" forKey:@"option_custom"];
-//        dic_device = dic_options;
-    }
-    
-    {
-        NSMutableDictionary *dic_options = [[NSMutableDictionary alloc]init];
-        [dic_options setValue:[info objectForKey:@"cans"] forKey:@"option_pow"];
-        [dic_options setValue:@"自填" forKey:@"option_custom"];
-        [dic_options setValue:[info objectForKey:@"price"] forKey:@"price"];
-//        dic_cost = dic_options;
-    }
     
     return nil;
 }

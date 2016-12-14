@@ -54,7 +54,7 @@
 //    long f_sep = log2(testArgs/pow(2, 8));
 //    long s_sep = log2(testArgs - pow(2, f_sep) * pow(2, 8));
     
-    NSArray *courseAllArr = kAY_service_options_title_courses_ofall;
+    NSArray *courseAllArr = kAY_service_course_title_ofall;
     
     courseSign = [args_info objectForKey:kAYServiceArgsCourseSign];
     

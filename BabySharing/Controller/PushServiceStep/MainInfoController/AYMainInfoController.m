@@ -108,23 +108,32 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             else if([key isEqualToString:@"nap_cost"]) {   //3
                 
                 NSString *price = [dic_info objectForKey:kAYServiceArgsPrice];
-                [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:kAYServiceArgsPrice];
-                NSString *duration = [dic_info objectForKey:kAYServiceArgsCourseduration];
-                if (duration && ![duration isEqualToString:@""]) {
-                    [_service_change_dic setValue:[NSNumber numberWithFloat:duration.floatValue] forKey:kAYServiceArgsCourseduration];
+                if (price && ![price isEqualToString:@""]) {
+                    [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:kAYServiceArgsPrice];
                 }
-                
                 NSNumber *leastHours = [dic_info objectForKey:kAYServiceArgsLeastHours];
                 if (leastHours) {
                     [_service_change_dic setValue:leastHours forKey:kAYServiceArgsLeastHours];
                 }
                 
+                NSString *duration = [dic_info objectForKey:kAYServiceArgsCourseduration];
+                if (duration && ![duration isEqualToString:@""]) {
+                    [_service_change_dic setValue:[NSNumber numberWithFloat:duration.floatValue] forKey:kAYServiceArgsCourseduration];
+                }
                 NSNumber *leastTimes = [dic_info objectForKey:kAYServiceArgsLeastTimes];
                 if (leastTimes) {
                     [_service_change_dic setValue:leastTimes forKey:kAYServiceArgsLeastTimes];
                 }
                 
-                [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter) {
+                    if (price && leastHours) {
+                        [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                    }
+                } else {
+                    if (price && duration && leastTimes) {
+                        [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                    }
+                }
             }
             else if([key isEqualToString:kAYServiceArgsNotice]) {   //4
                 

@@ -27,8 +27,9 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 
 //ServiceType
 typedef enum : int {
-    ServiceTypeLookAfter = 0,
-    ServiceTypeCourse = 1,
+    ServiceTypeNone = 0,
+    ServiceTypeLookAfter = 1,
+    ServiceTypeCourse = 2,
 } ServiceType;
 
 //orderStatus
@@ -59,18 +60,19 @@ typedef enum : int {
 } ModeExchangeType;
 
 #define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏"]
-
-#define kAY_service_options_title_course              @[@"体育", @"美术", @"音乐", @"思想品德"]
-#define kAY_service_options_title_course_0              @[@"篮球", @"足球", @"羽毛球", @"乒乓球", @"排球", @"网球", @"混球"]
-#define kAY_service_options_title_course_1              @[@"画画", @"绘画", @"油画", @"水墨画", @"落花", @"素描", @"漫画"]
-#define kAY_service_options_title_course_2              @[@"笛子", @"古筝", @"弟子琴", @"英语", @"少儿体育", @"儿童瑜伽", @"科学"]
-#define kAY_service_options_title_course_3              @[@"看顾", @"绘本", @"DIY手工", @"英语", @"少儿体育", @"儿童瑜伽", @"自然科学"]
-#define kAY_service_options_title_courses_ofall              @[kAY_service_options_title_course_0, kAY_service_options_title_course_1, kAY_service_options_title_course_2, kAY_service_options_title_course_3]
-
 #define kAY_service_options_title_lookafter        @[@"日间看顾", @"课后看顾"]
 
-#define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
+#define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学", @"语言", @"阅读", @"其他"]
+#define kAY_service_course_title_0              @[@"钢琴", @"舞蹈", @"书法", @"画画", @"DIY", @"烘培", @"版画"]
+#define kAY_service_course_title_1              @[@"篮球", @"瑜伽健身", @"马术", @"围棋"]
+#define kAY_service_course_title_2              @[@"STEAM"]
+#define kAY_service_course_title_3              @[@"英语"]
+#define kAY_service_course_title_4              @[@"绘本"]
+#define kAY_service_course_title_5              @[@"桌游"]
+#define kAY_service_course_title_ofall              @[kAY_service_course_title_0, kAY_service_course_title_1, kAY_service_course_title_2, kAY_service_course_title_3, kAY_service_course_title_4, kAY_service_course_title_5]
 
+
+#define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 
 
 

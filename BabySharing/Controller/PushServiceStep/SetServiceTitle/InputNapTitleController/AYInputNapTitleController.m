@@ -151,7 +151,7 @@
                     
                     NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat];
                     long sepNumb = log2(type.longValue);
-                    NSArray *courseAllArr = kAY_service_options_title_courses_ofall;
+                    NSArray *courseAllArr = kAY_service_course_title_ofall;
                     NSArray* titleArr = [courseAllArr objectAtIndex:(NSUInteger)sepNumb];
                     NSString *courseTitle = [titleArr objectAtIndex:courseSign.integerValue];
                     access.hidden = YES;
