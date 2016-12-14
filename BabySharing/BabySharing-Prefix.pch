@@ -27,9 +27,9 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 
 //ServiceType
 typedef enum : int {
-    ServiceTypeNone = 0,
+    //ServiceTypeNone = 0,
+    ServiceTypeCourse = 0,
     ServiceTypeLookAfter = 1,
-    ServiceTypeCourse = 2,
 } ServiceType;
 
 //orderStatus
@@ -70,7 +70,6 @@ typedef enum : int {
 #define kAY_service_course_title_4              @[@"绘本"]
 #define kAY_service_course_title_5              @[@"桌游"]
 #define kAY_service_course_title_ofall              @[kAY_service_course_title_0, kAY_service_course_title_1, kAY_service_course_title_2, kAY_service_course_title_3, kAY_service_course_title_4, kAY_service_course_title_5]
-
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 

@@ -27,6 +27,8 @@
     UITextField *babyNumb;
     UITextField *servantNumb;
     
+    UILabel *serThemeLabel;
+    
     BOOL isAlreadyEnable;
 }
 
@@ -41,7 +43,10 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
+        NSNumber *sepNumb = [dic objectForKey:kAYControllerChangeArgsKey];
+        NSArray *options_title_cans = kAY_service_options_title_course;
+        NSString *themeStr = options_title_cans[sepNumb.integerValue];
+        serThemeLabel.text = themeStr;
     }
 }
 
@@ -189,7 +194,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    UILabel *serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serThemeLabel];
     [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceThemeTitle);
@@ -198,27 +203,33 @@
     
     NSString *catStr;
     NSArray *options_title_cans;
-    NSNumber *args_cat = [service_info_part objectForKey:kAYServiceArgsServiceCat];
-    NSNumber *cans = [service_info_part objectForKey:kAYServiceArgsTheme];
-    if (args_cat.intValue == ServiceTypeLookAfter) {
+    NSNumber *service_cat = [service_info_part objectForKey:kAYServiceArgsServiceCat];
+    if (service_cat.intValue == ServiceTypeLookAfter) {
         catStr = @"看顾服务";
         options_title_cans = kAY_service_options_title_lookafter;
     }
-    else if (args_cat.intValue == ServiceTypeCourse) {
+    else if (service_cat.intValue == ServiceTypeCourse) {
         servantNumbTitle.text = @"老师数量";
         catStr = @"课程";
         options_title_cans = kAY_service_options_title_course;
     }
     
     serCatLabel.text = catStr;
-    long options = cans.longValue;
-    for (int i = 0; i < options_title_cans.count; ++i) {
-        long note_pow = pow(2, i);
-        if ((options & note_pow)) {
-            serThemeLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-            break;
-        }
-    }//
+    
+    //服务主题分类
+    NSNumber *cans_cat = [service_info_part objectForKey:kAYServiceArgsCourseCat];
+    if (cans_cat.intValue == -1) {
+        serThemeLabel.text = @"请调整服务主题";
+        serviceThemeTitle.userInteractionEnabled = YES;
+        [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
+    }
+    else if (cans_cat.integerValue < options_title_cans.count) {
+        NSString *themeStr = options_title_cans[cans_cat.integerValue];
+        serThemeLabel.text = themeStr;
+        
+//        serviceThemeTitle.userInteractionEnabled = YES;
+//        [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
+    }
     
     babyNumbTitle.userInteractionEnabled = YES;
     servantNumbTitle.userInteractionEnabled = YES;
@@ -281,6 +292,20 @@
 - (void)editBabyAgesClick:(UIGestureRecognizer*)tap {
     [self tapTableViewElseWhere:nil];
     kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+}
+
+- (void)tapServiceThemeTitle:(UIGestureRecognizer*)tap {
+    id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceTheme");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:@"editTheme" forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
 }
 
 - (void)tapBabyNumbTitle:(UIGestureRecognizer*)tap {

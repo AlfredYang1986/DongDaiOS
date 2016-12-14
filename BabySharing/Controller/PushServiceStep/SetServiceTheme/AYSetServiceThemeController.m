@@ -11,6 +11,7 @@
 
 @implementation AYSetServiceThemeController {
     ServiceType service_type;
+    BOOL isEdit;
 }
 
 #pragma mark -- commands
@@ -19,7 +20,12 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        service_type = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
+        id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([tmp isKindOfClass:[NSNumber class]]) {
+            service_type = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
+        } else if ([tmp isKindOfClass:[NSString class]]) {
+            isEdit = YES;
+        }
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -122,25 +128,39 @@
 
 - (id)serviceThemeSeted:(NSNumber*)args {
 //    notePow = pow(2, btn.tag);
-    long option = pow(2, args.longValue);
+//    long option = pow(2, args.longValue);
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
-    [service_info setValue:[NSNumber numberWithInt:service_type] forKey:kAYServiceArgsServiceCat];
-    if (service_info == ServiceTypeLookAfter) {
-        [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsTheme];
+    if (isEdit) {
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+        [dic setValue:args forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = POP;
+        [cmd performWithResult:&dic];
+        
     } else {
-        [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsCourseCat];
+        
+        int option = args.intValue;
+        
+        id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+        [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+        [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+        
+        NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
+        [service_info setValue:[NSNumber numberWithInt:service_type] forKey:kAYServiceArgsServiceCat];
+        if (service_type == ServiceTypeLookAfter) {
+            [service_info setValue:[NSNumber numberWithInt:option] forKey:kAYServiceArgsTheme];
+        } else if (service_type == ServiceTypeCourse) {
+            [service_info setValue:[NSNumber numberWithInt:option] forKey:kAYServiceArgsCourseCat];
+        }
+        [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
+        
+        id<AYCommand> cmd = PUSH;
+        [cmd performWithResult:&dic_push];
     }
-    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
     return nil;
 }
 

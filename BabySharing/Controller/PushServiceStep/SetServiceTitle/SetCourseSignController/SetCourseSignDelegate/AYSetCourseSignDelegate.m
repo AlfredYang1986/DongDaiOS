@@ -47,19 +47,21 @@
 - (id)changeQueryData:(id)args {
     
     NSDictionary *args_info = (NSDictionary*)args;
-    NSNumber *type = [args_info objectForKey:kAYServiceArgsServiceCat];
-    long sepNumb = log2(type.longValue);
+    NSNumber *courseCat = [args_info objectForKey:kAYServiceArgsCourseCat];
+    if (courseCat.intValue == -1) {
+        return nil;
+    }
     
+//    long sepNumb = log2(type.longValue);
 //    long testArgs = pow(2, 2) * pow(2, 8) + pow(2, 3);
 //    long f_sep = log2(testArgs/pow(2, 8));
 //    long s_sep = log2(testArgs - pow(2, f_sep) * pow(2, 8));
     
-    NSArray *courseAllArr = kAY_service_course_title_ofall;
-    
     courseSign = [args_info objectForKey:kAYServiceArgsCourseSign];
     
+    NSArray *courseAllArr = kAY_service_course_title_ofall;
     titleArr = [NSMutableArray array];
-    [titleArr addObjectsFromArray:[courseAllArr objectAtIndex:(NSUInteger)sepNumb]];
+    [titleArr addObjectsFromArray:[courseAllArr objectAtIndex:courseCat.integerValue]];
     [titleArr insertObject:@"添加我自己的服务标签" atIndex:0];
     
     coustomStr = [args_info objectForKey:kAYServiceArgsCourseCoustom];

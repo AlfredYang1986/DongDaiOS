@@ -314,22 +314,6 @@
     return nil;
 }
 
--(id)ownerIconTap:(NSString *)userId{
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:userId forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
-    return nil;
-}
-
 -(BOOL)isActive{
     UIViewController * tmp = [Tools activityViewController];
     return tmp == self;

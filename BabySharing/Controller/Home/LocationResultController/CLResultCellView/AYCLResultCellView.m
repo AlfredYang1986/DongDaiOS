@@ -198,12 +198,20 @@
 }
 
 #pragma mark -- actions
-- (void)ownerIconTap:(UITapGestureRecognizer*)tap{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"ownerIconTap:"];
-    NSString *info = [cellInfo objectForKey:@"owner_id"];
-    [cmd performWithResult:&info];
+- (void)ownerIconTap:(UITapGestureRecognizer*)tap {
+    
+    AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
+    
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+    [dic_push setValue:[cellInfo objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
+    
+    id<AYCommand> cmd = PUSH;
+    [cmd performWithResult:&dic_push];
+    
 }
-
 
 - (IBAction)didLikeBtnClick:(id)sender {
     

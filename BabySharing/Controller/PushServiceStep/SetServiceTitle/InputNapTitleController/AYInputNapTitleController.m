@@ -84,7 +84,7 @@
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(84);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 120));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 90));
     }];
     
     countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
@@ -138,31 +138,28 @@
                 make.centerY.equalTo(courseSignLabel);
             }];
             
-            
-            NSString* coustomStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCoustom];
-            if (coustomStr) {
-                access.hidden = YES;
-                signLabel.text = coustomStr;
-            }
-            else {
+            //服务标签show
+            if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
+                kAYUIAlertView(@"提示", @"您需要重新设置服务主题，才能进行服务标签设置");
+            } else {
                 
-                NSNumber* courseSign = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseSign];
-                if (courseSign) {
-                    
-                    NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat];
-                    long sepNumb = log2(type.longValue);
-                    NSArray *courseAllArr = kAY_service_course_title_ofall;
-                    NSArray* titleArr = [courseAllArr objectAtIndex:(NSUInteger)sepNumb];
-                    NSString *courseTitle = [titleArr objectAtIndex:courseSign.integerValue];
+                NSString* coustomStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCoustom];
+                if (coustomStr) {
                     access.hidden = YES;
-                    signLabel.text = courseTitle;
-                }
-                else {
-                    signLabel.hidden = YES;
+                    signLabel.text = coustomStr;
+                } else {
+                    NSNumber* courseSign = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseSign];
+                    if (courseSign) {
+                        NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat];
+                        NSArray *courseAllArr = kAY_service_course_title_ofall;
+                        NSString *courseTitle = [[courseAllArr objectAtIndex:type.integerValue] objectAtIndex:courseSign.integerValue];
+                        access.hidden = YES;
+                        signLabel.text = courseTitle;
+                    } else {
+                        signLabel.hidden = YES;
+                    }
                 }
             }
-            
-            
             
             
         }
@@ -249,18 +246,21 @@
 }
 - (id)rightBtnSelected {
     
+    [inputTitleTextView resignFirstResponder];
+    
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    [titleAndCourseSignInfo setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
+    if (![inputTitleTextView.text isEqualToString:@""]) {
+        [titleAndCourseSignInfo setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
+    }
     [titleAndCourseSignInfo setValue:kAYServiceArgsTitle forKey:@"key"];
     [dic setValue:[titleAndCourseSignInfo copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     
-    [inputTitleTextView resignFirstResponder];
     return nil;
 }
 

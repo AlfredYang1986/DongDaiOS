@@ -58,6 +58,7 @@
         [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self).offset(-15);
             make.centerY.equalTo(self).offset(-53);
+            make.width.mas_equalTo(200);
         }];
         
         addressBg = [[UIImageView alloc]init];

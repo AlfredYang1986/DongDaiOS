@@ -98,6 +98,7 @@
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(positionLabel).offset(-15);
         make.centerY.equalTo(positionLabel);
+        make.left.equalTo(positionLabel).offset(80);
     }];
     
     NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
@@ -111,7 +112,7 @@
     [facilityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(positionLabel.mas_bottom).offset(20);
         make.centerX.equalTo(tableView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+        make.size.equalTo(positionLabel);
     }];
     facilityLabel.userInteractionEnabled = YES;
     [facilityLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
@@ -138,7 +139,7 @@
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(detailTitle.mas_bottom).offset(20);
         make.centerX.equalTo(tableView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+        make.size.equalTo(positionLabel);
     }];
     infoLabel.userInteractionEnabled = YES;
     [infoLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didInfoLabelTap)]];
