@@ -140,7 +140,7 @@
             
             //服务标签show
             if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
-                kAYUIAlertView(@"提示", @"您需要重新设置服务主题，才能进行服务标签设置");
+                
             } else {
                 
                 NSString* coustomStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCoustom];
@@ -221,11 +221,16 @@
 #pragma mark -- actions
 - (void)didCourseSignLabelTap {
     
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetCourseSign");
+    if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
+        kAYUIAlertView(@"提示", @"您需要重新设置服务主题，才能进行服务标签设置");
+        return;
+    }
+    
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetCourseSign");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     [dic_push setValue:titleAndCourseSignInfo forKey:kAYControllerChangeArgsKey];

@@ -30,6 +30,7 @@
     UILabel *serThemeLabel;
     
     BOOL isAlreadyEnable;
+    NSNumber *sepNumb;
 }
 
 #pragma mark --  commands
@@ -43,7 +44,9 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSNumber *sepNumb = [dic objectForKey:kAYControllerChangeArgsKey];
+        sepNumb = [dic objectForKey:kAYControllerChangeArgsKey];
+        
+        [service_info_part setValue:sepNumb forKey:kAYServiceArgsCourseCat];
         NSArray *options_title_cans = kAY_service_options_title_course;
         NSString *themeStr = options_title_cans[sepNumb.integerValue];
         serThemeLabel.text = themeStr;

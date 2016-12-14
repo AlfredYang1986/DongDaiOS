@@ -48,6 +48,7 @@
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
         }
         
@@ -239,6 +240,7 @@
     [tmp setValue:[service_info objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
     
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
