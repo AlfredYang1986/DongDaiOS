@@ -237,7 +237,7 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[NSNumber numberWithInt:0] forKey:kAYControllerChangeArgsKey]; //0收藏的服务 /1自己发布的服务
+//    [dic_push setValue:[NSNumber numberWithInt:0] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

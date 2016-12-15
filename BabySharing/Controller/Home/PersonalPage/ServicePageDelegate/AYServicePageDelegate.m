@@ -141,7 +141,7 @@
 //        return 165;
 //        return 130;
     }
-    else if (indexPath.row ==1) {
+    else if (indexPath.row == 1) {
         
         NSString *descStr = [querydata objectForKey:@"description"];
         if (!descStr || [descStr isEqualToString:@""]) {
@@ -155,7 +155,8 @@
                     return 200;
             } else {
                 CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
-                return 85 + filtSize.height + 40;
+//                return 85 + filtSize.height + 40;
+                return 85 + filtSize.height + 20;
             }
         }
     }//

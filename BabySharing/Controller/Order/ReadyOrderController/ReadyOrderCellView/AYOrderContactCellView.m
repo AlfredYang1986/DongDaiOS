@@ -130,22 +130,22 @@
     CURRENUSER(info)
     NSString *user_id = [info objectForKey:@"user_id"];
     
-    NSString *order_user_id = [args objectForKey:@"user_id"];
-    NSString *order_owner_id = [args objectForKey:@"owner_id"];     //wofade dan
+    NSString *order_user_id = [args objectForKey:@"user_id"];     //发单的人
+    NSString *servant_owner_id = [[args objectForKey:@"service"] objectForKey:@"owner_id"];
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
     
-    if ([user_id isEqualToString:order_owner_id]) {     //我发的dan : -> 要看到服务着的头像  -> 即发服务的妈妈
+    if ([user_id isEqualToString:servant_owner_id]) {     //我发的服务 : -> 要看发单人的头像
         
-        ones_id = order_owner_id;
+        ones_id = order_user_id;
         _userNameLabel.text = [args objectForKey:@"screen_name"];
         [_userPhotoImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[args objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
         
     } else {
         
-        ones_id = order_user_id;
+        ones_id = servant_owner_id;
         _userNameLabel.text = [[args objectForKey:@"service"] objectForKey:@"screen_name"];
         [_userPhotoImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
         

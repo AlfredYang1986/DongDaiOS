@@ -165,15 +165,7 @@
             [cmd performWithResult:nil];
             
             NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京地区. 我们正在努力达到\n%@",auto_locationName];
-//            id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Location");
-//            id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
-            id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-            id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-            
-            NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-            [dic_alert setValue:title forKey:@"title"];
-            [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-            [cmd_alert performWithResult:&dic_alert];
+            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             return;
         }
         
@@ -191,7 +183,8 @@
         [dic_location setValue:loc forKey:@"location"];
         
         if (tip.uid != nil && tip.location == nil) {
-            
+            id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToHideKeyBoard"];
+            [cmd performWithResult:nil];
             NSString *title = @"公交线路暂无法定位";
             AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
             return;

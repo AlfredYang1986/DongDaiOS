@@ -183,7 +183,7 @@
 }
 - (void)didReadMoreClick {
     
-    NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle,NSForegroundColorAttributeName:[Tools blackColor],NSFontAttributeName:kAYFontLight(14.f)};
+//    NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle,NSForegroundColorAttributeName:[Tools blackColor],NSFontAttributeName:kAYFontLight(14.f)};
     
     NSString *desc = [service_info objectForKey:@"description"];
     if ([readMoreLabel.text isEqualToString:@"阅读更多"]) {
@@ -194,9 +194,9 @@
         desc = [desc stringByAppendingString:@"..."];
     }
     
-    NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
-    description.attributedText = descAttri;
-    
+//    NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
+//    description.attributedText = descAttri;
+    description.text = desc;
     CGSize filtSize = [description sizeThatFits:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
     NSNumber *activeHeight = [NSNumber numberWithFloat:filtSize.height];
     id<AYCommand> reload = [self.notifies objectForKey:@"showMoreOrHideDescription:"];
@@ -209,15 +209,15 @@
     service_info = (NSDictionary*)args;
     
     NSString *desc = [service_info objectForKey:@"description"];
-    if (desc) {
+    if (desc && ![desc isEqualToString:@""]) {
         
-        paraStyle = [[NSMutableParagraphStyle alloc] init];
-        paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
-        paraStyle.alignment = NSTextAlignmentLeft;
-        paraStyle.lineSpacing = 4;
-        paraStyle.hyphenationFactor = 0;
-        paraStyle.paragraphSpacingBefore = 0.1f;
-        NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle,NSForegroundColorAttributeName:[Tools blackColor],NSFontAttributeName:kAYFontLight(14.f)};
+//        paraStyle = [[NSMutableParagraphStyle alloc] init];
+//        paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+//        paraStyle.alignment = NSTextAlignmentLeft;
+//        paraStyle.lineSpacing = 4;
+//        paraStyle.hyphenationFactor = 0;
+//        paraStyle.paragraphSpacingBefore = 0.1f;
+//        NSDictionary *dic_format = @{NSParagraphStyleAttributeName:paraStyle,NSForegroundColorAttributeName:[Tools blackColor],NSFontAttributeName:kAYFontLight(14.f)};
         
         if (desc.length > 60) {
             desc = [desc substringToIndex:60];
@@ -225,9 +225,11 @@
             readMoreLabel.hidden = NO;
         }
         
-        NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
-        description.attributedText = descAttri;
+//        NSAttributedString *descAttri = [[NSAttributedString alloc]initWithString:desc attributes:dic_format];
+//        description.attributedText = descAttri;
+        description.text = desc;
     }
+    
     
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];

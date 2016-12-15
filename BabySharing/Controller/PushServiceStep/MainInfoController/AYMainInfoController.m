@@ -70,7 +70,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         else if (dic_info) {
             NSString *key = [dic_info objectForKey:@"key"];
             if ([key isEqualToString:kAYServiceArgsServiceInfo]) {       //-1
+                
                 _service_change_dic = [dic_info objectForKey:kAYServiceArgsServiceInfo];
+                
             }
             else if ([key isEqualToString:@"nap_cover"]) {       //0
                 napPhotos = [dic_info objectForKey:@"content"];
@@ -130,7 +132,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                         [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
                 } else {
-                    if (price && duration && leastTimes) {
+                    if (price && duration &&![duration isEqualToString:@""] && leastTimes) {
                         [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
                 }
@@ -273,7 +275,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     }
     
     if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeCourse && ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
-        kAYUIAlertView(@"提示", @"因需求变更，我们在服务主题的基础上添加了服务标签项，请：\n1.在“更多信息”中重新设置服务主题.\n2.在“编辑标题页”下设置您的服务标签.\n完成以上操作以确保您的服务信息显示完整");
+        kAYUIAlertView(@"提示", @"因需求变更，我们在服务主题的基础上添加了服务标签项，请：\n1.在“更多信息”中重新设置服务主题.\n2.在“编辑标题页”下设置您的服务标签.\n\n请务必完成以上操作以确保您的服务信息完整无误");
     }
     
 }
@@ -447,6 +449,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [_service_change_dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     [cmd_publish performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
+            
+            [_service_change_dic removeObjectForKey:kAYServiceArgsIsAdjustSKU];
             
             isChangeServiceInfo = YES;
             confirmSerBtn.hidden = YES;

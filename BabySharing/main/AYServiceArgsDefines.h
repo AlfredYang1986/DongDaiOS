@@ -46,14 +46,14 @@ static NSString* const kAYServiceArgsCapacity =               @"capacity";
 static NSString* const kAYServiceArgsServantNumb =               @"servant_no";
 
 static NSString* const kAYServiceArgsCourseCat =               @"cans_cat";
-static NSString* const kAYServiceArgsTheme =               @"cans";
+static NSString* const kAYServiceArgsTheme =               @"cans_cat";
 static NSString* const kAYServiceArgsCourseSign =               @"cans";
 static NSString* const kAYServiceArgsCourseCoustom =               @"reserve1";
 
 static NSString* const kAYServiceArgsScreenName =               @"screen_name";
 static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
 
-//static NSString* const kAYServiceArgsScreenName =               @"screen_name";
+static NSString* const kAYServiceArgsIsAdjustSKU =               @"is_adjust_SKU";
 //static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
 //static NSString* const kAYServiceArgsScreenName =               @"screen_name";
 //static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";

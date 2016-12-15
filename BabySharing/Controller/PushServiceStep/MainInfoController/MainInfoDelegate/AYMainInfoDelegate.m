@@ -93,7 +93,13 @@
     NSDictionary *dic = (NSDictionary*)args;
     
     NSString *key = [dic objectForKey:@"key"];
-    if ([key isEqualToString:kAYServiceArgsServiceCat]) {
+    
+    
+    if ([key isEqualToString:kAYServiceArgsServiceInfo]) {
+        service_info = [dic objectForKey:kAYServiceArgsServiceInfo];
+        napThemeNote = [[dic objectForKey:kAYServiceArgsServiceInfo] objectForKey:kAYServiceArgsCourseCat];
+    }
+    else if ([key isEqualToString:kAYServiceArgsServiceCat]) {
         service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsServiceCat]).intValue;
         napThemeNote = [dic objectForKey:kAYServiceArgsCourseCat];
     }
@@ -121,10 +127,8 @@
     } else if([key isEqualToString:kAYServiceArgsFacility]) {
         napDeviceNote = [dic objectForKey:@"facility"];
         
-    } else if ([key isEqualToString:@"nap_theme"]) {
-        napThemeNote = [dic objectForKey:@"cans"];
-        napThemeInfo = [dic copy];
-    } else if ([key isEqualToString:kAYServiceArgsNotice]) {
+    }
+    else if ([key isEqualToString:kAYServiceArgsNotice]) {
         serviceNoticeInfo = [dic copy];
     }
     
@@ -151,6 +155,7 @@
     [dic_title setValue:[info objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
     [dic_title setValue:[info objectForKey:kAYServiceArgsCourseSign] forKey:kAYServiceArgsCourseSign];
     [dic_title setValue:[info objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
+    napThemeNote = [info objectForKey:kAYServiceArgsTheme];
     napTitleInfo = [dic_title copy];
     
     napDesc = [info objectForKey:kAYServiceArgsDescription];
@@ -181,7 +186,6 @@
 //    [dic_theme setValue:[info objectForKey:@"cans"] forKey:@"cans"];
 //    [dic_theme setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
 //    napThemeInfo = [dic_theme copy];
-    napThemeNote = [info objectForKey:@"cans"];
     
     NSMutableDictionary *dic_notice = [[NSMutableDictionary alloc]initWithCapacity:2];
     [dic_notice setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
@@ -483,29 +487,28 @@
     if (isEditModel) {
         
         id<AYCommand> dest = DEFAULTCONTROLLER(@"EditAdvanceInfo");
-        
         NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+        
+        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:service_info];
+        [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
+        [tmp setValue:napThemeNote forKey:kAYServiceArgsCourseCat];
+        [dic_push setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
     }
     else {
         id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
-        
         NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-        
         [dic_args setValue:[napDeviceNote copy] forKey:@"facility"];
-        //    [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-        
         [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;

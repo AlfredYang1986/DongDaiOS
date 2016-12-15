@@ -65,7 +65,7 @@
     [titleArr insertObject:@"添加我自己的服务标签" atIndex:0];
     
     coustomStr = [args_info objectForKey:kAYServiceArgsCourseCoustom];
-    if (coustomStr) {
+    if (coustomStr && ![coustomStr isEqualToString:@""]) {
         [titleArr insertObject:coustomStr atIndex:1];
     }
     return nil;
@@ -94,16 +94,15 @@
         [tmp setValue:[NSNumber numberWithBool:NO] forKey:@"is_set"];
         [tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
         
-        if (indexPath.row == 1 && coustomStr) {
+        if (indexPath.row == 1 && coustomStr && ![coustomStr isEqualToString:@""]) {
             [tmp setValue:[NSNumber numberWithBool:YES] forKey:@"is_set"];
         }
-        else if (courseSign && indexPath.row-(coustomStr ? 2 : 1) == courseSign.integerValue ) {
+        else if (courseSign && indexPath.row - (coustomStr && ![coustomStr isEqualToString:@""] ? 2 : 1) == courseSign.integerValue ) {
             [tmp setValue:[NSNumber numberWithBool:YES] forKey:@"is_set"];
         }
         
         kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
-    
     
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -127,7 +126,7 @@
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
     }
-    else if (indexPath.row == 1 && coustomStr) {
+    else if (indexPath.row == 1 && coustomStr && ![coustomStr isEqualToString:@""]) {
         
         return;
     }
@@ -137,7 +136,7 @@
         [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-        [dic_info setValue:[NSNumber numberWithInteger:indexPath.row - (coustomStr ? 2 : 1)] forKey:kAYServiceArgsCourseSign];
+        [dic_info setValue:[NSNumber numberWithInteger:indexPath.row - ((coustomStr && ![coustomStr isEqualToString:@""]) ? 2 : 1)] forKey:kAYServiceArgsCourseSign];
         [dic_info setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"signStr"];
         [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
         

@@ -160,10 +160,6 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 110, SCREEN_WIDTH, SCREEN_HEIGHT - 110);
-    
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
     view.backgroundColor = [UIColor whiteColor];
     return nil;
 }

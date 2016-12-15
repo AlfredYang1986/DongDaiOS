@@ -144,7 +144,7 @@
             } else {
                 
                 NSString* coustomStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCoustom];
-                if (coustomStr) {
+                if (coustomStr && ![coustomStr isEqualToString:@""]) {
                     access.hidden = YES;
                     signLabel.text = coustomStr;
                 } else {
@@ -152,9 +152,13 @@
                     if (courseSign) {
                         NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat];
                         NSArray *courseAllArr = kAY_service_course_title_ofall;
-                        NSString *courseTitle = [[courseAllArr objectAtIndex:type.integerValue] objectAtIndex:courseSign.integerValue];
-                        access.hidden = YES;
-                        signLabel.text = courseTitle;
+                        NSArray *titleArr = [courseAllArr objectAtIndex:type.integerValue];
+                        
+                        if (courseSign.integerValue < titleArr.count) {
+                            NSString *courseTitle = [titleArr objectAtIndex:courseSign.integerValue];
+                            access.hidden = YES;
+                            signLabel.text = courseTitle;
+                        }
                     } else {
                         signLabel.hidden = YES;
                     }

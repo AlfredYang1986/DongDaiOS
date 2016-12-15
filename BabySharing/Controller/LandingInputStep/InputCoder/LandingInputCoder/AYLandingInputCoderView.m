@@ -11,14 +11,13 @@
 #import "AYCommandDefines.h"
 #import "AYControllerBase.h"
 #import "AYFacadeBase.h"
-#import "Tools.h"
 #import "AYFacade.h"
 #import "AYRemoteCallCommand.h"
 #import "AYFactoryManager.h"
 #import "AYAlertView.h"
 
 #define TEXT_FIELD_LEFT_PADDING             10
-#define TimeZore                            30
+#define TimeZore                            60
 #define kPhoneNoLimit                       13
 
 @implementation AYLandingInputCoderView {

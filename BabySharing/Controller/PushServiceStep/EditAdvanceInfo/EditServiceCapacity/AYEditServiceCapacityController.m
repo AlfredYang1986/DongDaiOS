@@ -47,9 +47,18 @@
         sepNumb = [dic objectForKey:kAYControllerChangeArgsKey];
         
         [service_info_part setValue:sepNumb forKey:kAYServiceArgsCourseCat];
+        [service_info_part setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsAdjustSKU];
+        
         NSArray *options_title_cans = kAY_service_options_title_course;
         NSString *themeStr = options_title_cans[sepNumb.integerValue];
         serThemeLabel.text = themeStr;
+        
+        if (!isAlreadyEnable) {
+            UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+            isAlreadyEnable = YES;
+        }
+        
     }
 }
 
@@ -180,7 +189,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serCatLabel];
     [serCatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceCatTitle);
@@ -197,7 +206,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serThemeLabel];
     [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceThemeTitle);
@@ -223,6 +232,7 @@
     NSNumber *cans_cat = [service_info_part objectForKey:kAYServiceArgsCourseCat];
     if (cans_cat.intValue == -1) {
         serThemeLabel.text = @"请调整服务主题";
+        serThemeLabel.textColor = [Tools themeColor];
         serviceThemeTitle.userInteractionEnabled = YES;
         [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
     }
@@ -230,8 +240,12 @@
         NSString *themeStr = options_title_cans[cans_cat.integerValue];
         serThemeLabel.text = themeStr;
         
-//        serviceThemeTitle.userInteractionEnabled = YES;
-//        [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
+    }
+    
+    NSNumber *isadjust = [service_info_part objectForKey:kAYServiceArgsIsAdjustSKU];
+    if (isadjust.boolValue) {
+        serviceThemeTitle.userInteractionEnabled = YES;
+        [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
     }
     
     babyNumbTitle.userInteractionEnabled = YES;

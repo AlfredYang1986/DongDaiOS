@@ -187,28 +187,6 @@
     NSDictionary *tmp = [service_info copy];
     [cmd_change_data performWithResult:&tmp];
     
-//    NSDictionary *user_info = nil;
-//    CURRENUSER(user_info)
-    
-//    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
-//    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
-//
-//    NSMutableDictionary* dic = [user_info mutableCopy];
-//    [dic setValue:[service_info objectForKey:@"owner_id"]  forKey:@"owner_user_id"];
-//    
-//    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-//        if (success) {
-//            
-//            id<AYCommand> cmd_desc = [cmd_notify.commands objectForKey:@"changeDescription:"];
-//            id descr = [result objectForKey:@"personal_description"];
-//            [cmd_desc performWithResult:&descr];
-//            
-//            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-//            id<AYCommand> refresh = [view_table.commands objectForKey:@"refresh"];
-//            [refresh performWithResult:nil];
-//        }
-//    }];
-    
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
     ((UINavigationBar*)navBar).alpha = 0;
