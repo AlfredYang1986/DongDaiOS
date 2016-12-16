@@ -32,7 +32,7 @@
     UITextField *timeTextField;
     NSString *setedCostString;
     
-    NSInteger course_duration;
+    int course_duration;
     ServiceType service_type;
     
     NSInteger currentNumbCount;
@@ -54,7 +54,7 @@
             if (service_type == ServiceTypeCourse) {
                 NSNumber *count_note =  [dic_cost objectForKey:kAYServiceArgsLeastTimes];
                 currentNumbCount = count_note.integerValue;
-                course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).integerValue;
+                course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).intValue;
                 
             } else if(service_type == ServiceTypeLookAfter) {
                 
@@ -121,9 +121,9 @@
     
     plusBtn = [[UIButton alloc]init];
     if (!currentNumbCount || currentNumbCount == 0) {
-        currentNumbCount = 1;
+		currentNumbCount = 1;
     }
-    [plusBtn setTitle:[NSString stringWithFormat:@"%ld",currentNumbCount] forState:UIControlStateNormal];
+    [plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
     plusBtn.titleLabel.font = [UIFont systemFontOfSize:12.f];
     [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
     plusBtn.layer.borderColor = [Tools themeColor].CGColor;
@@ -189,7 +189,7 @@
                 make.edges.equalTo(h2).insets(UIEdgeInsetsMake(0, 115, 0, 50));
             }];
             if (course_duration != 0) {
-                NSString *duration = [NSString stringWithFormat:@"%ld",course_duration];
+                NSString *duration = [NSString stringWithFormat:@"%d", course_duration];
                 timeTextField.text = duration;
             }
             

@@ -255,18 +255,22 @@
             NSNumber *leastTimes = [napCostInfo objectForKey:kAYServiceArgsLeastTimes];
             
             if (price && price.floatValue != 0) {
-                NSString *priceTitleStr = [NSString stringWithFormat:@"￥ %@/小时",price];
-                [cell_info setValue:priceTitleStr forKey:@"sub_title"];
+                NSString *priceTitleStr ;
                 
                 if (service_cat == ServiceTypeLookAfter) {
+					priceTitleStr = [NSString stringWithFormat:@"￥ %@/小时",price];
                     if ( leastHours && leastHours.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
                     }
                 } else {
+					priceTitleStr = [NSString stringWithFormat:@"￥ %@/次",price];
                     if (duration && duration.floatValue != 0 && leastTimes && leastTimes.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
                     }
                 }//
+				
+				[cell_info setValue:priceTitleStr forKey:@"sub_title"];
+				
             }
             
             

@@ -238,6 +238,10 @@
 
 - (void)keyboardDidHidden:(NSNotification*)notification {
     locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_HEIGHT, locBGViewHeight);
+	NSDictionary *userInfo = [notification userInfo];
+	NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+	CGRect keyBoardFrame = value.CGRectValue;
+	NSLog(@"%f,%f,%f,%f", keyBoardFrame.origin.x, keyBoardFrame.origin.y, keyBoardFrame.size.width, keyBoardFrame.size.height);
 }
 
 #pragma mark -- layouts

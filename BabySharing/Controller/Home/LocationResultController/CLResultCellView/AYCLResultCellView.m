@@ -155,11 +155,14 @@
     NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
     NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
     CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-    [self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        CLPlacemark *pl = [placemarks firstObject];
-        _adresslabel.text = pl.subLocality;
-    }];
-    
+	if (location) {
+		[self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+			CLPlacemark *pl = [placemarks firstObject];
+			_adresslabel.text = pl.subLocality;
+		}];
+		
+	}
+	
     //重置cell复用数据
     _starRangImage.hidden = NO;
     _adressConstraLeft.constant = 124.f;

@@ -354,15 +354,14 @@
 #pragma mark -- tabBarViewController selectedIndex
 - (void)tabBarVCSelectIndex:(NSInteger)index {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        
-        NSMutableDictionary* dic_tmp = [[NSMutableDictionary alloc]init];
-        [dic_tmp setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-        [dic_tmp setValue:self forKey:kAYControllerActionSourceControllerKey];
-        id<AYCommand> cmd = POPTOROOT;
-        [cmd performWithResult:&dic_tmp];
+    dispatch_async(dispatch_get_main_queue(), ^{
+		NSMutableDictionary* dic_tmp = [[NSMutableDictionary alloc]init];
+		[dic_tmp setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+		[dic_tmp setValue:self forKey:kAYControllerActionSourceControllerKey];
+		id<AYCommand> cmd = POPTOROOT;
+		[cmd performWithResult:&dic_tmp];
     });
-    
+	
     UITabBarController* tabVC = [Tools activityViewController].tabBarController;
     DongDaTabBar* concret = [tabVC.tabBar viewWithTag:-99];
     concret.selectIndex = index;
