@@ -135,7 +135,7 @@
 - (void)didNorseLabelTap {
     id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceTheme");
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -148,7 +148,7 @@
 - (void)didCourseLabelTap {
     id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceTheme");
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];

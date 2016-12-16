@@ -189,7 +189,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serCatLabel];
     [serCatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceCatTitle);
@@ -206,7 +206,7 @@
         make.size.equalTo(babyAgesTitle);
     }];
     
-    serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serThemeLabel];
     [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceThemeTitle);
@@ -244,6 +244,7 @@
     
     NSNumber *isadjust = [service_info_part objectForKey:kAYServiceArgsIsAdjustSKU];
     if (isadjust.boolValue) {
+        serThemeLabel.textColor = [Tools themeColor];
         serviceThemeTitle.userInteractionEnabled = YES;
         [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
     }

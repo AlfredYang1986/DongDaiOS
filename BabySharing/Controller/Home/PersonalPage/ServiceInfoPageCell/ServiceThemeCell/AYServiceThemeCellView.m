@@ -106,17 +106,74 @@
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
     
-    NSNumber *cans = (NSNumber*)args;
-    NSArray *options_title_cans = kAY_service_options_title_course;
+    NSDictionary *service_info = (NSDictionary*)args;
     
-    long options = cans.longValue;
-    for (int i = 0; i < options_title_cans.count; ++i) {
-        long note_pow = pow(2, i);
-        if ((options & note_pow)) {
-            themeLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-            break;
+    // 看顾服务-日间看古
+    // 课程-艺术-书法
+    // service_cat  -->  cans_cat -->  cans
+    
+    NSString *catStr;
+    NSArray *options_title_cans;
+    NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+    NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
+    
+    if (service_cat.intValue == ServiceTypeLookAfter) {
+        catStr = @"看顾服务";
+        options_title_cans = kAY_service_options_title_lookafter;
+        //服务主题分类
+        if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
+            themeLabel.text = @"该服务主题待调整";
+        } else {
+            NSString *themeStr = options_title_cans[cans_cat.integerValue];
+            themeLabel.text = [[catStr stringByAppendingString:@"-"] stringByAppendingString:themeStr];
+        }
+        
+        
+    }
+    else if (service_cat.intValue == ServiceTypeCourse) {
+        catStr = @"课程";
+        options_title_cans = kAY_service_options_title_course;
+        NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
+        //服务主题分类
+        if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
+            themeLabel.text = @"该服务主题待调整";
+        }
+        else {
+            NSString *themeStr = options_title_cans[cans_cat.integerValue];
+            catStr = [[catStr stringByAppendingString:@"-"] stringByAppendingString:themeStr];
+            
+            NSString *costomStr = [service_info objectForKey:kAYServiceArgsCourseCoustom];
+            if (costomStr && ![costomStr isEqualToString:@""]) {
+                catStr = [[catStr stringByAppendingString:@"-"] stringByAppendingString:costomStr];
+                themeLabel.text = catStr;
+            } else {
+                NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
+                NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
+                if (cans.integerValue < signTitleArr.count) {
+                    catStr = [[catStr stringByAppendingString:@"-"] stringByAppendingString:[signTitleArr objectAtIndex:cans.integerValue]];
+                    themeLabel.text = catStr;
+                } else {
+                    themeLabel.text = @"该服务主题待调整";
+                }
+            }
+            
+            
+            
         }
     }
+    
+    
+//    NSNumber *cans = (NSNumber*)args;
+//    NSArray *options_title_cans = kAY_service_options_title_course;
+//    
+//    long options = cans.longValue;
+//    for (int i = 0; i < options_title_cans.count; ++i) {
+//        long note_pow = pow(2, i);
+//        if ((options & note_pow)) {
+//            themeLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+//            break;
+//        }
+//    }
     
     return nil;
 }

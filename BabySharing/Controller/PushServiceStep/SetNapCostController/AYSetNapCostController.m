@@ -49,14 +49,18 @@
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
             setedCostString = [dic_cost objectForKey:kAYServiceArgsPrice];
-            course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).integerValue;
             service_type = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsServiceCat]).intValue;
             
-            NSNumber *count_note = [dic_cost objectForKey:kAYServiceArgsLeastHours];
-            if (!count_note) {
-                count_note = [dic_cost objectForKey:kAYServiceArgsLeastTimes];
+            if (service_type == ServiceTypeCourse) {
+                NSNumber *count_note =  [dic_cost objectForKey:kAYServiceArgsLeastTimes];
+                currentNumbCount = count_note.integerValue;
+                course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).integerValue;
+                
+            } else if(service_type == ServiceTypeLookAfter) {
+                
+                NSNumber *count_note = [dic_cost objectForKey:kAYServiceArgsLeastHours];
+                currentNumbCount = count_note.integerValue;
             }
-            currentNumbCount = count_note.integerValue;
             
         }
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -335,8 +339,8 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:costTextField.text forKey:kAYServiceArgsPrice];
-    [dic_info setValue:timeTextField.text forKey:kAYServiceArgsCourseduration];
+    [dic_info setValue:[NSNumber numberWithFloat:costTextField.text.floatValue] forKey:kAYServiceArgsPrice];
+    [dic_info setValue:[NSNumber numberWithFloat:timeTextField.text.floatValue] forKey:kAYServiceArgsCourseduration];
     
     if (service_type == ServiceTypeLookAfter) {
         [dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastHours];

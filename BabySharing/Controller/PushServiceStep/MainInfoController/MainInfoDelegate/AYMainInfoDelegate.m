@@ -38,7 +38,7 @@
     NSNumber *napThemeNote;
     NSDictionary *napThemeInfo;
     
-    NSNumber *napCost;
+//    NSNumber *napCost;
     NSDictionary *napCostInfo;
     
     NSDictionary *serviceNoticeInfo;
@@ -118,7 +118,7 @@
         napBabyArgsInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_cost"]) {
-        napCost = [dic objectForKey:@"price"];
+//        napCost = [dic objectForKey:@"price"];
         napCostInfo = [dic copy];
         
     } else if([key isEqualToString:@"nap_adress"]) {
@@ -147,7 +147,7 @@
                   @"编辑价格",
                   @"编辑《服务守则》",
                   @"更多信息",  nil];
-    
+    service_cat = ((NSNumber*)[info objectForKey:kAYServiceArgsServiceCat]).intValue;
     napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
     napTitle = [info objectForKey:kAYServiceArgsTitle];
     
@@ -170,22 +170,17 @@
     NSMutableDictionary *dic_cost = [[NSMutableDictionary alloc]init];
     [dic_cost setValue:[info objectForKey:kAYServiceArgsPrice] forKey:kAYServiceArgsPrice];
     [dic_cost setValue:[info objectForKey:kAYServiceArgsLeastHours] forKey:kAYServiceArgsLeastHours];
+    [dic_cost setValue:[info objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
+    [dic_cost setValue:[info objectForKey:kAYServiceArgsCourseduration] forKey:kAYServiceArgsCourseduration];
     napCostInfo = [dic_cost copy];
-    napCost = [info objectForKey:kAYServiceArgsPrice];
     
     NSMutableDictionary *dic_address = [[NSMutableDictionary alloc]init];
     [dic_address setValue:[info objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
     [dic_address setValue:[info objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
     [dic_address setValue:[info objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
     napAdressInfo = [dic_address copy];
-//    napAdress = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"address"], [dic objectForKey:@"adjust_address"]];
     
     napDeviceNote = [info objectForKey:kAYServiceArgsFacility];
-    
-//    NSMutableDictionary *dic_theme = [[NSMutableDictionary alloc]init];
-//    [dic_theme setValue:[info objectForKey:@"cans"] forKey:@"cans"];
-//    [dic_theme setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
-//    napThemeInfo = [dic_theme copy];
     
     NSMutableDictionary *dic_notice = [[NSMutableDictionary alloc]initWithCapacity:2];
     [dic_notice setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
@@ -196,16 +191,7 @@
 }
 
 #pragma mark -- table
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    return 2;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    if (section == 0) {
-//        return 5;
-//    } else {
-//        return 1;
-//    }
     return 6;
 }
 
@@ -257,35 +243,33 @@
                 [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
             }
         }
-//        else if (napThemeNote.longValue != 0 && indexPath.row == 1) {
-//            NSArray *options_title_cans = kAY_service_options_title_course;
-//            NSString *theme = @"服务主题";
-//            long options = napThemeNote.longValue;
-//            for (int i = 0; i < options_title_cans.count; ++i) {
-//                long note_pow = pow(2, i);
-//                if ((options & note_pow)) {
-//                    theme = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-//                    break;
-//                }
-//            }
-//            [cell_info setValue:theme forKey:@"sub_title"];
-//            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
-//        }
         else if (napDesc && ![napDesc isEqualToString:@""] && indexPath.row == 2) {
             [cell_info setValue:napDesc forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
-//        else if (napAges && indexPath.row == 4) {
-//            NSNumber *usl = ((NSNumber *)[napAges objectForKey:@"usl"]);
-//            NSNumber *lsl = ((NSNumber *)[napAges objectForKey:@"lsl"]);
-//            NSString *ages = [NSString stringWithFormat:@"%d ~ %d 岁",lsl.intValue,usl.intValue];
-//            [cell_info setValue:ages forKey:@"sub_title"];
-//            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
-//        }
-        else if (napCost.floatValue != 0 && indexPath.row == 3) {
-            NSString *price = [NSString stringWithFormat:@"￥ %@/小时",napCost];
-            [cell_info setValue:price forKey:@"sub_title"];
-            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
+        else if ( indexPath.row == 3) {
+            
+            NSNumber *price = [napCostInfo objectForKey:kAYServiceArgsPrice];
+            NSNumber *leastHours = [napCostInfo objectForKey:kAYServiceArgsLeastHours];
+            NSNumber *duration = [napCostInfo objectForKey:kAYServiceArgsCourseduration];
+            NSNumber *leastTimes = [napCostInfo objectForKey:kAYServiceArgsLeastTimes];
+            
+            if (price && price.floatValue != 0) {
+                NSString *priceTitleStr = [NSString stringWithFormat:@"￥ %@/小时",price];
+                [cell_info setValue:priceTitleStr forKey:@"sub_title"];
+                
+                if (service_cat == ServiceTypeLookAfter) {
+                    if ( leastHours && leastHours.floatValue != 0) {
+                        [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
+                    }
+                } else {
+                    if (duration && duration.floatValue != 0 && leastTimes && leastTimes.floatValue != 0) {
+                        [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
+                    }
+                }//
+            }
+            
+            
         }
         else if (serviceNoticeInfo && indexPath.row == 4) {
 //            NSNumber *isAllowLeave = [serviceNoticeInfo objectForKey:kAYServiceArgsAllowLeave];
@@ -294,26 +278,6 @@
             [cell_info setValue:notice forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
-//        else if (napDeviceNote.longValue != 0 && indexPath.row == 5) {
-//            NSArray *options_title_facilities = kAY_service_options_title_facilities;
-//            NSString *device = @"";
-//            long options = napDeviceNote.longValue;
-//            int noteCount = 0;
-//            for (int i = 0; i < options_title_facilities.count; ++i) {
-//                long note_pow = pow(2, i);
-//                if ((options & note_pow)) {
-//                    device = [[device stringByAppendingString:@"、"] stringByAppendingString:options_title_facilities[i]];
-//                    noteCount ++;
-//                    if (noteCount == 3) {
-//                        device = [device stringByAppendingString:@"等"];
-//                        break;
-//                    }
-//                }
-//            }
-//            device = [device substringFromIndex:1];
-//            [cell_info setValue:device forKey:@"sub_title"];
-//            [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
-//        }
         
         id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
         [set_cmd performWithResult:&cell_info];

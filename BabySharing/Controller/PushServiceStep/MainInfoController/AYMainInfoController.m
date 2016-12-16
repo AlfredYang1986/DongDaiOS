@@ -109,30 +109,30 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //            }
             else if([key isEqualToString:@"nap_cost"]) {   //3
                 
-                NSString *price = [dic_info objectForKey:kAYServiceArgsPrice];
-                if (price && ![price isEqualToString:@""]) {
-                    [_service_change_dic setValue:[NSNumber numberWithFloat:price.floatValue] forKey:kAYServiceArgsPrice];
+                NSNumber *price = [dic_info objectForKey:kAYServiceArgsPrice];
+                if (price && price.floatValue != 0) {
+                    [_service_change_dic setValue:price forKey:kAYServiceArgsPrice];
                 }
                 NSNumber *leastHours = [dic_info objectForKey:kAYServiceArgsLeastHours];
-                if (leastHours) {
+                if (leastHours && leastHours.floatValue != 0) {
                     [_service_change_dic setValue:leastHours forKey:kAYServiceArgsLeastHours];
                 }
                 
-                NSString *duration = [dic_info objectForKey:kAYServiceArgsCourseduration];
-                if (duration && ![duration isEqualToString:@""]) {
-                    [_service_change_dic setValue:[NSNumber numberWithFloat:duration.floatValue] forKey:kAYServiceArgsCourseduration];
+                NSNumber *duration = [dic_info objectForKey:kAYServiceArgsCourseduration];
+                if (duration && duration.floatValue != 0) {
+                    [_service_change_dic setValue:duration forKey:kAYServiceArgsCourseduration];
                 }
                 NSNumber *leastTimes = [dic_info objectForKey:kAYServiceArgsLeastTimes];
-                if (leastTimes) {
+                if (leastTimes && leastTimes.floatValue != 0) {
                     [_service_change_dic setValue:leastTimes forKey:kAYServiceArgsLeastTimes];
                 }
                 
                 if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter) {
-                    if (price && leastHours) {
+                    if (price && price.floatValue != 0 && leastHours && leastHours.floatValue != 0) {
                         [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
                 } else {
-                    if (price && duration &&![duration isEqualToString:@""] && leastTimes) {
+                    if (price && price.floatValue != 0 && duration && duration.floatValue != 0 && leastTimes && leastTimes.floatValue != 0) {
                         [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
                 }
@@ -144,22 +144,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //                [_service_change_dic removeObjectForKey:@"key"];
                 [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
             }
-//            else if([key isEqualToString:@"nap_adress"]){     //5+
-//                
-//                CLLocation *napLoc = [dic_info objectForKey:@"location"];
-//                NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-//                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.latitude] forKey:@"latitude"];
-//                [location setValue:[NSNumber numberWithDouble:napLoc.coordinate.longitude] forKey:@"longtitude"];
-//                
-//                NSString *address = [dic_info objectForKey:@"address"];
-//                NSString *adjust_address = [dic_info objectForKey:@"adjust_address"];
-//                
-//                [_service_change_dic setValue:location forKey:@"location"];
-//                [_service_change_dic setValue:address forKey:@"address"];
-//                [_service_change_dic setValue:adjust_address forKey:@"adjust_address"];
-//                
-//                [_noteAllArgs replaceObjectAtIndex:5 withObject:[NSNumber numberWithBool:YES]];
-//            }
             else if([key isEqualToString:kAYServiceArgsFacility]) {     //5
                 
                 [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];

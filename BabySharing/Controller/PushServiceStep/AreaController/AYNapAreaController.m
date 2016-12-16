@@ -321,7 +321,7 @@
             NSLog(@"%@",city);
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &city)
             
-            if (![navTitleStr isEqualToString:@"北京市"]) {
+            if (![navTitleStr isEqualToString:@"北京市"] && ![navTitleStr isEqualToString:@"Beijing"]) {
                 NSString *title = [NSString stringWithFormat:@"咚哒目前只支持北京市地区. \n我们正在努力达到%@",navTitleStr];
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 return ;

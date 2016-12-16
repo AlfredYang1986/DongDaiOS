@@ -101,7 +101,7 @@
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        id tmp = [querydata  objectForKey:@"cans"];
+        id tmp = [querydata  copy];
         kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
     else if (indexPath.row == 3) {
