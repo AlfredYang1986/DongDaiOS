@@ -306,13 +306,12 @@
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
         <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
-<!--        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />-->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
-        <view type="Table"          name="Table" />
         <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="Loading" name="Loading" />
-        
+        <view type="FakeNavBar" name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
     </controller>
     
@@ -324,7 +323,6 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="Table"          name="Table" />
-<!--        <view type="Loading"        name="Loading" />-->
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>

@@ -15,7 +15,7 @@
 #import "AYProfileServCellView.h"
 
 @implementation AYHomeDelegate{
-    NSArray *collectData;
+    NSArray *servicesData;
 }
 
 #pragma mark -- command
@@ -45,83 +45,70 @@
 }
 
 - (id)changeQueryData:(id)args {
-    collectData = (NSArray*)args;
+    servicesData = (NSArray*)args;
     return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return servicesData.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    id<AYViewBase> cell;
-    if (indexPath.row == 0) {
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeTipCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-        
-    } else if (indexPath.row == 1) {
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[collectData copy] forKey:@"collect_data"];
-        [cmd performWithResult:&dic];
-    } else {
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeLikesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-        id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:[collectData copy] forKey:@"collect_data"];
-        [cmd performWithResult:&dic];
-    }
-    
-    cell.controller = self.controller;
+	
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+	cell.controller = self.controller;
+	
+	id tmp = [servicesData objectAtIndex:indexPath.row];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	
     ((UITableViewCell*)cell).clipsToBounds = YES;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        return 193;
-        
-    } else if (indexPath.row == 1) {
-        if (collectData.count == 0) {
-            return 0.001;
-        } else
-            return 235;
-        
-    } else {
-        if (collectData.count == 0) {
-            return 0.001;
-        }
-        if (collectData.count == 1 || collectData.count == 2) {
-            return 240;
-        } else
-            return 435;
-    }
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+//    if (indexPath.row == 0) {
+//        return 193;
+//        
+//    } else if (indexPath.row == 1) {
+//        if (collectData.count == 0) {
+//            return 0.001;
+//        } else
+//            return 235;
+//        
+//    } else {
+//        if (collectData.count == 0) {
+//            return 0.001;
+//        }
+//        if (collectData.count == 1 || collectData.count == 2) {
+//            return 240;
+//        } else
+//            return 435;
+//    }
+	return 325;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    return;
+	NSDictionary *tmp = [servicesData objectAtIndex:indexPath.row];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
-    CGFloat offset = scrollView.contentOffset.y;
-    NSNumber *offset_y = [NSNumber numberWithFloat:offset];
-    [cmd performWithResult:&offset_y];
-    if (fabs(offset) < 450) {
-        
-    } else {
-//        static CGFloat set = scrollView.contentOffset.y;
-//        scrollView.contentOffset = CGPointMake(0, -450);
-    }
+//    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
+//    CGFloat offset = scrollView.contentOffset.y;
+//    NSNumber *offset_y = [NSNumber numberWithFloat:offset];
+//    [cmd performWithResult:&offset_y];
 }
 
 #pragma mark -- actions

@@ -9,14 +9,12 @@
 #import "AYHomeTipCellView.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
-//#import "GPUImage.h"
 #import "Define.h"
 #import "PhotoTagEnumDefines.h"
 #import "QueryContentTag.h"
 #import "QueryContentChaters.h"
 #import "QueryContent+ContextOpt.h"
 #import "AppDelegate.h"
-
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -25,14 +23,7 @@
 #import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
-
-#import "AYThumbsAndPushDefines.h"
-
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 @implementation AYHomeTipCellView {
     
@@ -51,10 +42,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         NSLog(@"init reuse identifier");
-        
-//        AYModelFacade* f = LOGINMODEL;
-//        CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-//        NSString *name = tmp.who.screen_name;
+		
         NSDate *nowDate = [NSDate date];
         NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setDateFormat:@"HH"];
@@ -74,27 +62,7 @@
             on = @"获取系统时间错误";
         }
         
-//        long onTimeSpan = ((long)now /*+ 86400/3*/) % 86400;
-//        if (onTimeSpan < 86400 * 0.25) {
-//            on = @"上午好";
-//        } else if (onTimeSpan < 86400 * 0.5) {
-//            on = @"下午好";
-//        } else {
-//            on = @"晚上好";
-//        }
-        
-        UILabel *hello = [[UILabel alloc]init];
-        hello = [Tools setLabelWith:hello andText:on andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//        hello.font = [UIFont systemFontOfSize:30.f weight:-0.5];
-        hello.font = kAYFontLight(30.f);
-//        hello.font = [UIFont systemFontOfSize:16.f];
-//        hello.textColor = [UIColor blackColor];
-//        NSString *subName = [name substringFromIndex:name.length - 1];
-//        NSMutableAttributedString *helloString = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%@，你好",subName]];
-//        NSDictionary *dic = @{NSFontAttributeName:[UIFont systemFontOfSize:43.f],NSForegroundColorAttributeName:[Tools themeColor]};
-//        [helloString setAttributes:dic range:NSMakeRange(0, subName.length)];
-//        hello.attributedText = helloString;
-        
+        UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:hello];
         [hello mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
@@ -112,18 +80,6 @@
             make.right.equalTo(self).offset(-20);
             make.top.equalTo(hello.mas_bottom).offset(10);
         }];
-        
-//        UIButton *personal = [[UIButton alloc]init];
-//        [personal setTitle:@"我的订单" forState:UIControlStateNormal];
-//        personal.backgroundColor = [Tools themeColor];
-//        [self addSubview:personal];
-//        [personal mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self.mas_bottom).offset(-20);
-//            make.left.equalTo(self).offset(20);
-//            make.right.equalTo(self).offset(-20);
-//            make.height.mas_equalTo(44);
-//        }];
-//        [personal addTarget:self action:@selector(didPushInfo) forControlEvents:UIControlEventTouchUpInside];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -191,13 +147,8 @@
     
 }
 
--(void)didPushInfo{
+-(void)didPushInfo {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didPushInfo"];
-    [cmd performWithResult:nil];
-}
-
--(void)foundBtnClick{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"foundBtnClick"];
     [cmd performWithResult:nil];
 }
 

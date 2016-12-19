@@ -146,13 +146,8 @@
     kAYViewSendNotify(self, @"didSetServiceRang:", &dic)
 }
 
--(void)didPushInfo{
+-(void)didPushInfo {
     id<AYCommand> cmd = [self.notifies objectForKey:@"didPushInfo"];
-    [cmd performWithResult:nil];
-}
-
--(void)foundBtnClick{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"foundBtnClick"];
     [cmd performWithResult:nil];
 }
 

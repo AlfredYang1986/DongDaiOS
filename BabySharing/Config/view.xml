@@ -372,21 +372,23 @@
         <command type="notify" message="joinGroup:" />
         <command type="notify" message="crimeReport:" />
     </view>
-    
+	
+	<view type="HomeServPerCell" name="HomeServPerCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didCellAction" />
+	</view>
+	
     <view type="HomeTipCell" name="HomeTipCell" factory="AYReuseViewFactory" >
         <command type="message"     message="resetPush:" />
-        <command type="notify"      message="foundBtnClick" />
         <command type="notify"      message="didPushInfo" />
     </view>
     
     <view type="HomeHistoryCell" name="HomeHistoryCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="foundBtnClick:" />
     </view>
     
     <view type="HomeLikesCell" name="HomeLikesCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="foundBtnClick:" />
     </view>
     
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >

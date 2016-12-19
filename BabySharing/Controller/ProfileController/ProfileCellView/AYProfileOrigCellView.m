@@ -115,11 +115,6 @@
     [cmd performWithResult:nil];
 }
 
--(void)foundBtnClick {
-    id<AYCommand> cmd = [self.notifies objectForKey:@"foundBtnClick"];
-    [cmd performWithResult:nil];
-}
-
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
     
