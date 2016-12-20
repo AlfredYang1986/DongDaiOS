@@ -40,12 +40,14 @@ typedef void(^queryContentFinish)(void);
     UIView *animationView;
     CGFloat radius;
     CALayer *maskLayer;
-    
-    UIView *cover;
-    NSString *notePostId;
 	
     NSInteger skipCount;
 	NSMutableArray *servicesData;
+	
+	UILabel *addressLabel;
+	UILabel *themeCatlabel;
+	
+	NSDictionary *dic_location;
 }
 
 @synthesize isPushed = _isPushed;
@@ -71,15 +73,20 @@ typedef void(^queryContentFinish)(void);
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (backArgs) {
-            
-            if ([backArgs isKindOfClass:[NSString class]]) {
-                
-                NSString *title = (NSString*)backArgs;
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            }
-            
-        }
+		
+		if ([backArgs isKindOfClass:[NSString class]]) {
+			NSString *title = (NSString*)backArgs;
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+		else if ([backArgs isKindOfClass:[NSDictionary class]]) {
+			NSString *key = [backArgs objectForKey:@"key"];
+			if ([key isEqualToString:@"filterLocation"]) {
+				addressLabel.text = [backArgs objectForKey:kAYServiceArgsAddress];
+			} else if ([key isEqualToString:@"filterTheme"]) {
+				themeCatlabel.text = [backArgs objectForKey:kAYServiceArgsAddress];
+			}
+		}
+			
     }
 }
 
@@ -90,46 +97,7 @@ typedef void(^queryContentFinish)(void);
 	
 	id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
 	UITableView *tableView = (UITableView*)view_notify;
-	
-	{
-		UILabel *tipsLabel = [Tools creatUILabelWithText:@"为您的孩子找个好去处" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[tableView addSubview:tipsLabel];
-		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(tableView).offset(20);
-			make.right.equalTo(tableView).offset(-20);
-			make.bottom.equalTo(tableView.mas_top).offset(-40);
-		}];
-		
-		NSDate *nowDate = [NSDate date];
-		NSDateFormatter *format = [Tools creatDateFormatterWithString:@"HH"];
-		NSString *dateStr = [format stringFromDate:nowDate];
-		
-		NSString *on = nil;
-		int timeSpan = dateStr.intValue;
-		if (timeSpan >= 6 && timeSpan < 12) {
-			on = @"上午好";
-		} else if (timeSpan >= 12 && timeSpan < 18) {
-			on = @"下午好";
-		} else if((timeSpan >= 18 && timeSpan < 24) || (timeSpan >= 0 && timeSpan < 6)){
-			on = @"晚上好";
-		} else {
-			on = @"获取系统时间错误";
-		}
-		
-		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:125.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[tableView addSubview:hello];
-		[hello mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(tableView).offset(20);
-			make.bottom.equalTo(tipsLabel.mas_top).offset(-12);
-		}];
-		
-		CALayer *sepLayer = [CALayer layer];
-		sepLayer.frame = CGRectMake(20, - 20.5, 50, 0.5);
-		sepLayer.backgroundColor = [Tools garyLineColor].CGColor;
-		[tableView.layer addSublayer:sepLayer];
-	}
-	
-	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
 	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Home"];
@@ -150,8 +118,6 @@ typedef void(^queryContentFinish)(void);
 //	
 //	NSString* class_name_lik = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeLikesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 //	[cmd_cell performWithResult:&class_name_lik];
-	
-//	servicesData = [[NSMutableArray alloc]init];
 	
 	[self loadNewData];
 }
@@ -174,11 +140,38 @@ typedef void(^queryContentFinish)(void);
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	
-	NSNumber *is_hidden_left = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden_left)
+	UIImage *left = IMGRESOURCE(@"search_icon");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-//	NSNumber *is_hidden_right = [NSNumber numberWithBool:YES];
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden_right)
+	addressLabel = [Tools creatUILabelWithText:@"场地地址" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[view addSubview:addressLabel];
+	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(view).offset(50);
+		make.centerY.equalTo(view);
+		make.width.mas_lessThanOrEqualTo(150);
+	}];
+	
+	UIView *pointSep = [[UIView alloc]init];
+	pointSep.layer.cornerRadius = 1.f;
+	pointSep.clipsToBounds = YES;
+	pointSep.backgroundColor = [Tools blackColor];
+	[view addSubview:pointSep];
+	[pointSep mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(addressLabel.mas_right).offset(15);
+		make.centerY.equalTo(view);
+		make.size.mas_equalTo(CGSizeMake(2, 2));
+	}];
+	
+	themeCatlabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[view addSubview:themeCatlabel];
+	[themeCatlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(pointSep.mas_right).offset(15);
+		make.centerY.equalTo(view);
+	}];
+	
+	addressLabel.userInteractionEnabled = themeCatlabel.userInteractionEnabled = YES;
+	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
+	[themeCatlabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didThemeCatlabelTap)]];
 	
 	UIImage* right = IMGRESOURCE(@"map_icon");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
@@ -190,7 +183,7 @@ typedef void(^queryContentFinish)(void);
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
     
-    ((UITableView*)view).contentInset = UIEdgeInsetsMake(TableContentInsetTop, 0, 0, 0);
+//    ((UITableView*)view).contentInset = UIEdgeInsetsMake(TableContentInsetTop, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -210,6 +203,28 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- actions
+- (void)didAddressLabelTap {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterLocation");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd_show_module = SHOWMODULEUP;
+	[cmd_show_module performWithResult:&dic];
+}
+
+- (void)didThemeCatlabelTap {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterLocation");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd_show_module = SHOWMODULEUP;
+	[cmd_show_module performWithResult:&dic];
+}
+
 - (void)loadMoreData {
 	
 	NSDictionary* user = nil;
@@ -232,8 +247,9 @@ typedef void(^queryContentFinish)(void);
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			} else {
 				
-				skipCount += result.count;
-				id arr = (NSArray*)result;
+				[servicesData addObjectsFromArray:(NSArray*)result];
+				skipCount = servicesData.count;
+				id arr = [servicesData copy];
 				kAYDelegatesSendMessage(@"Home", @"changeQueryData:", &arr)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
@@ -265,9 +281,9 @@ typedef void(^queryContentFinish)(void);
 		if (success) {
 			NSLog(@"query recommand tags result %@", result);
 			
-			skipCount = result.count;
-			servicesData = [(NSArray*)result mutableCopy];
-			id arr = (NSArray*)result;
+			servicesData = [NSMutableArray arrayWithArray:(NSArray*)result];
+			skipCount = servicesData.count;
+			id arr = [servicesData copy];
 			kAYDelegatesSendMessage(@"Home", @"changeQueryData:", &arr)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			
@@ -283,6 +299,16 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- notifies
+- (id)leftBtnSelected {
+	
+	return nil;
+}
+
+- (id)rightBtnSelected {
+	
+	return nil;
+}
+
 - (id)scrollOffsetY:(NSNumber*)args {
 //    CGFloat offset_y = args.floatValue;
 //    CGFloat offsetH = SCREEN_WIDTH + offset_y;

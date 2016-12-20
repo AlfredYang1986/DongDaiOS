@@ -154,21 +154,10 @@
         make.left.equalTo(adressLabel);
         make.right.equalTo(locBGView).offset(-10);
     }];
+	
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
-    
-//    id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-//    picker = (UIView*)view_picker;
-//    [self.view bringSubviewToFront:picker];
-//    id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
-//    id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
-//    
-//    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
-//    id obj = (id)cmd_recommend;
-//    [cmd_datasource performWithResult:&obj];
-//    obj = (id)cmd_recommend;
-//    [cmd_delegate performWithResult:&obj];
     
     UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     [locBGView addSubview:nextBtn];
@@ -297,7 +286,7 @@
     }
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     
     loc = [locations firstObject];
     

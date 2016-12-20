@@ -19,8 +19,6 @@ static NSString* const kAYServiceArgsDescription =               @"description";
 
 //static NSString* const kAYServiceArgs =               @"title";
 //static NSString* const kAYServiceArgs =               @"title";
-//static NSString* const kAYServiceArgs =               @"title";
-//static NSString* const kAYServiceArgs =               @"title";
 
 static NSString* const kAYServiceArgsNotice =                           @"other_words";
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
@@ -36,6 +34,8 @@ static NSString* const kAYServiceArgsFacility =               @"facility";
 
 static NSString* const kAYServiceArgsAddress =               @"address";
 static NSString* const kAYServiceArgsLocation =               @"location";
+static NSString* const kAYServiceArgsLatitude =               @"latitude";
+static NSString* const kAYServiceArgsLongtitude =               @"longtitude";
 static NSString* const kAYServiceArgsDistinct =               @"distinct";
 static NSString* const kAYServiceArgsAdjustAddress =               @"adjust_address";
 

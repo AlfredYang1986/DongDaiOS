@@ -127,15 +127,6 @@
     _themeImg.layer.cornerRadius = 22.5f;
     _themeImg.clipsToBounds = YES;
     
-//    brage = [[OBShapedButton alloc] init];
-//    [brage setBackgroundImage:PNGRESOURCE(@"chat_round") forState:UIControlStateNormal];
-//    brage.frame = CGRectMake(0, 0, BRAGE_WIDTH, BRAGE_HEIGHT);
-//    brage.center = CGPointMake(48 + BRAGE_WIDTH / 2, 5.5 + BRAGE_HEIGHT / 2);
-//    [brage setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [brage setTitle:@"10" forState:UIControlStateNormal];
-//    brage.titleLabel.font = [UIFont systemFontOfSize:12.f];
-//    [self addSubview:brage];
-    
     [self setUpReuseCell];
 }
 

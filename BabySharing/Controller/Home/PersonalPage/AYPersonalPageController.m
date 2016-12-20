@@ -118,11 +118,11 @@
                 [tmp addObject:obj];
             }
             
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) delegate:self placeholderImage:IMGRESOURCE(@"default_image")];
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) delegate:self placeholderImage:IMGRESOURCE(@"default_image")];
             cycleScrollView.imageURLStringsGroup = [tmp copy];
         } else {
             
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, 0, 0) shouldInfiniteLoop:YES imageNamesGroup:[service_info objectForKey:@"images"]];
+            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) shouldInfiniteLoop:YES imageNamesGroup:[service_info objectForKey:@"images"]];
             cycleScrollView.localizationImageNamesGroup = [service_info objectForKey:@"images"];
             cycleScrollView.delegate = self;
         }
@@ -133,10 +133,10 @@
         [flexibleView addSubview:cycleScrollView];
         cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
-        [cycleScrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(flexibleView);
-        }];
-        
+//        [cycleScrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(flexibleView);
+//        }];
+		
         UIImageView *topMaskVeiw = [[UIImageView alloc]init];
         topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
         topMaskVeiw.userInteractionEnabled = NO;

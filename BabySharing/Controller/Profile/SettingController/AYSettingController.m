@@ -56,13 +56,6 @@
         
     }
     
-//    OBShapedButton* logout_btn = [[OBShapedButton alloc]initWithFrame:CGRectMake(17.5, SCREEN_HEIGHT - 17.5 - 49, SCREEN_WIDTH - 2 * 17.5, 44)];
-//    [logout_btn setBackgroundImage:PNGRESOURCE(@"profile_logout_btn_bg") forState:UIControlStateNormal];
-//    logout_btn.titleLabel.font = [UIFont systemFontOfSize:17.f];
-//    [logout_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [logout_btn setTitle:@"退出登录" forState:UIControlStateNormal];
-    
-    
     UIButton *logout_btn = [Tools creatUIButtonWithTitle:@"退出登录" andTitleColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     logout_btn.layer.cornerRadius = 4.f;
     logout_btn.clipsToBounds = YES;

@@ -91,11 +91,11 @@
 		
 		positionImage = [[UIImageView alloc]init];
 		[self addSubview:positionImage];
-		positionImage.image = IMGRESOURCE(@"category_5");
+		positionImage.image = IMGRESOURCE(@"location_icon");
 		[positionImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(capacityLabel.mas_right).offset(40);
 			make.centerY.equalTo(capacityLabel);
-			make.size.mas_equalTo(CGSizeMake(10, 13));
+			make.size.mas_equalTo(CGSizeMake(13, 13));
 		}];
 		
 		addressLabel = [Tools creatUILabelWithText:@"场地地址" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];

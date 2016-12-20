@@ -157,10 +157,11 @@
     CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
 	if (location) {
 		[self.gecoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-			CLPlacemark *pl = [placemarks firstObject];
-			_adresslabel.text = pl.subLocality;
+			if (!error) {
+				CLPlacemark *pl = [placemarks firstObject];
+				_adresslabel.text = pl.subLocality;
+			}
 		}];
-		
 	}
 	
     //重置cell复用数据

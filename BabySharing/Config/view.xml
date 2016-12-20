@@ -382,7 +382,12 @@
         <command type="message"     message="resetPush:" />
         <command type="notify"      message="didPushInfo" />
     </view>
-    
+	
+	<view type="FilterLocationCell" name="FilterLocationCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didCellAction" />
+	</view>
+	
     <view type="HomeHistoryCell" name="HomeHistoryCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
