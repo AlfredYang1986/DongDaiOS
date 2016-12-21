@@ -358,10 +358,26 @@ static AYFactoryManager* instance = nil;
                     }
                     [dic setValue:[notify_dic copy] forKey:@"notifies"];
                 }
-                
+				
+				{
+					NSMutableArray * args_dic = [[NSMutableArray alloc]init];
+					NSArray* args = [node nodesForXPath:@"command[@type='args']" error:nil];
+					NSLog(@"controller notifiers : %@", args);
+					
+					for (GDataXMLElement* iter in args) {
+						NSString* d = [iter attributeForName:@"direction"].stringValue;
+						[args_dic addObject:d];
+						NSString* mx = [iter attributeForName:@"minspacingx"].stringValue;
+						[args_dic addObject:mx];
+						NSString* my = [iter attributeForName:@"minspacingy"].stringValue;
+						[args_dic addObject:my];
+					}
+					[dic setValue:[args_dic copy] forKey:@"args"];
+				}
+				
                 [dic setValue:name forKey:@"view"];
                 fac.para = [dic copy];
-                
+				
             } else @throw [NSException exceptionWithName:@"Error" reason:@"wrong config files" userInfo:nil];
         
         } else if ([cat isEqualToString:kAYFactoryManagerCatigoryDelegate]) {

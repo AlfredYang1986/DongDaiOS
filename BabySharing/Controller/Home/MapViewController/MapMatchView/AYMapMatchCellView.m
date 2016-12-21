@@ -1,12 +1,12 @@
 //
-//  AYHomeServPerCellView.m
+//  AYMapMatchCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 19/12/16.
+//  Created by Alfred Yang on 21/12/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHomeServPerCellView.h"
+#import "AYMapMatchCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -17,7 +17,7 @@
 #import "AYModelFacade.h"
 #import "AYViewController.h"
 
-@implementation AYHomeServPerCellView {
+@implementation AYMapMatchCellView {
 	
 	UIImageView *coverImage;
 	UILabel *titleLabel;
@@ -39,87 +39,25 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+- (instancetype)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
 	if (self) {
-		
-		coverImage = [[UIImageView alloc]init];
-		[self addSubview:coverImage];
-		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(5);
-			make.left.equalTo(self).offset(20);
-			make.right.equalTo(self).offset(-20);
-			make.height.mas_equalTo(230);
-		}];
-		
-		titleLabel = [Tools creatUILabelWithText:@"服务妈妈的课程" andTextColor:[Tools blackColor] andFontSize:114.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(coverImage);
-			make.top.equalTo(coverImage.mas_bottom).offset(15);
-		}];
-		
-		photoIcon = [[UIImageView alloc]init];
-		photoIcon.layer.cornerRadius = 17.f;
-		photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
-		photoIcon.layer.borderWidth = 2.f;
-		photoIcon.clipsToBounds = YES;
-		photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
-		[self addSubview:photoIcon];
-		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(coverImage);
-			make.centerY.equalTo(titleLabel);
-			make.size.mas_equalTo(CGSizeMake(34, 34));
-		}];
-		
-		photoIcon.userInteractionEnabled = YES;
-		[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
-		
-		priceLabel = [Tools creatUILabelWithText:@"服务价格" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:priceLabel];
-		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(coverImage);
-			make.top.equalTo(titleLabel.mas_bottom).offset(15);
-		}];
-		
-		capacityLabel = [Tools creatUILabelWithText:@"服务最少预定" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:capacityLabel];
-		capacityLabel.layer.borderWidth = 0.5f;
-		capacityLabel.layer.borderColor = [Tools blackColor].CGColor;
-		
-		positionImage = [[UIImageView alloc]init];
-		[self addSubview:positionImage];
-		positionImage.image = IMGRESOURCE(@"location_icon");
-		[positionImage mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(capacityLabel.mas_right).offset(40);
-			make.centerY.equalTo(capacityLabel);
-			make.size.mas_equalTo(CGSizeMake(13, 13));
-		}];
-		
-		addressLabel = [Tools creatUILabelWithText:@"场地地址" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:addressLabel];
-		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(positionImage.mas_right).offset(8);
-			make.right.lessThanOrEqualTo(self).offset(-20);
-			make.centerY.equalTo(positionImage);
-		}];
-		
-		likeBtn  = [[UIButton alloc] init];
-		[likeBtn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
-		[likeBtn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
-		[self addSubview:likeBtn];
-		[likeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(coverImage).offset(-10);
-			make.top.top.equalTo(coverImage).offset(10);
-			make.size.mas_equalTo(CGSizeMake(40, 40));
-		}];
-		[likeBtn addTarget:self action:@selector(didLikeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
+		[self initialize];
 	}
 	return self;
+}
+
+- (instancetype)init{
+	self = [super init];
+	if (self) {
+		[self initialize];
+	}
+	return self;
+}
+
+- (void)initialize {
+	
+	[self setUpReuseCell];
 }
 
 - (void)layoutSubviews {
@@ -241,7 +179,7 @@
 	
 	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
-				  placeholderImage:IMGRESOURCE(@"default_user")];
+				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *unitCat;
 	NSNumber *leastTimesOrHours;

@@ -28,6 +28,7 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     self.delegate = self;
+	self.pagingEnabled = YES;
 //    self.pagingEnabled = YES;
     indexNumb = 0;
 }

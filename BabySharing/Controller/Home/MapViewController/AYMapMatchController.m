@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYMapController.h"
+#import "AYMapMatchController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -16,18 +16,12 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-
 #import "AYSearchDefines.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-
-@interface AYMapController ()
-    
-@end
-
-@implementation AYMapController{
+@implementation AYMapMatchController{
     
     NSDictionary *resultAndLoc;
     CLLocation *loc;

@@ -82,8 +82,9 @@ typedef void(^queryContentFinish)(void);
 			NSString *key = [backArgs objectForKey:@"key"];
 			if ([key isEqualToString:@"filterLocation"]) {
 				addressLabel.text = [backArgs objectForKey:kAYServiceArgsAddress];
-			} else if ([key isEqualToString:@"filterTheme"]) {
-				themeCatlabel.text = [backArgs objectForKey:kAYServiceArgsAddress];
+			}
+			else if ([key isEqualToString:@"filterTheme"]) {
+				themeCatlabel.text = [backArgs objectForKey:@"title"];
 			}
 		}
 			
@@ -215,7 +216,7 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (void)didThemeCatlabelTap {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterLocation");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterTheme");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
@@ -305,6 +306,16 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)rightBtnSelected {
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"MapMatch");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[servicesData copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
 	
 	return nil;
 }

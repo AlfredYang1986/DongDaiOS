@@ -71,6 +71,11 @@
 		<command type="message" message="changeQueryData:" />
 		<command type="notify"  message="reLocationAction" />
 	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="FilterTheme" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify"  message="didCellAction" />
+	</delegate>
 
     <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
@@ -199,7 +204,7 @@
         <command type="notify" message="showPicker:" />
         <command type="notify" message="showPicker2:" />
     </delegate>
-    
+	
     <delegate type="PickerViewDelegateAndDatasource" name="BabyInfoPicker" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="queryBabyBirthday:" />
@@ -339,4 +344,11 @@
     <delegate type="PickerViewDelegateAndDatasource" name="SearchFilterPriceRange" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
     </delegate>
+	
+	
+	<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="showPicker2:" />
+	</delegate>
+	
 </delegates>

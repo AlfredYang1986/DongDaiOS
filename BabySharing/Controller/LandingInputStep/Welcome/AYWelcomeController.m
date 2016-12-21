@@ -309,7 +309,6 @@
 }
 
 - (id)rightBtnSelected {
-//    [self updateUserProfile];
     return nil;
 }
 

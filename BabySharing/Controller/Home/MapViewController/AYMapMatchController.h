@@ -9,6 +9,6 @@
 #import "AYViewController.h"
 #import "AYViewBase.h"
 
-@interface AYMapController : AYViewController
+@interface AYMapMatchController : AYViewController
 
 @end

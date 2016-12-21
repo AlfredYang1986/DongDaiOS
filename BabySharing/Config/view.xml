@@ -388,6 +388,11 @@
 		<command type="notify"      message="didCellAction" />
 	</view>
 	
+	<view type="FilterLocationCell" name="FilterThemeCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didSelectedOpt:" />
+	</view>
+	
     <view type="HomeHistoryCell" name="HomeHistoryCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
@@ -791,4 +796,22 @@
        <command type="message"      message="resetTitle:" />
        <command type="message"      message="queryHintHight" />
    </view>
+   
+   <view type="Collection" name="Collection" factory="AYCollectionViewFactory" >
+	   <command type="message" message="refresh" />
+	   <command type="message" message="registerDatasource:" />
+	   <command type="message" message="registerDelegate:" />
+	   <command type="message" message="registerCellWithClass:" />
+	   <command type="message" message="registerCellWithNib:" />
+	   <command type="message" message="registerHeaderAndFooterWithClass:" />
+	   <command type="message" message="registerHeaderAndFooterWithNib:" />
+	   <command type="message" message="scrollToPostion:" />
+	   
+	   <command type="args"      direction="1" minspacingx = "0" minspacingy = "0"/>
+   </view>
+   
+   <view type="MapMatchCell" name="MapMatchCell" factory="AYDefaultViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   
 </views>
