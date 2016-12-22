@@ -111,9 +111,9 @@
 	if (indexPath.row == 0) {
 		static NSString *indentfier = @"HomeTopTipCell";
 		HomeTopTipCell * cell = [tableView dequeueReusableCellWithIdentifier:indentfier];
-		if (cell == nil) {
-			cell = [[HomeTopTipCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentfier];
-		}
+//		if (cell == nil) {
+//			cell = [[HomeTopTipCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentfier];
+//		}
 		return cell;
 	} else {
 	

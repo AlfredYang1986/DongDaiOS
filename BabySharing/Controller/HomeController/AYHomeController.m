@@ -112,8 +112,11 @@ typedef void(^queryContentFinish)(void);
 	[cmd_delegate performWithResult:&obj];
 	
 	id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-	NSString* class_name_tip = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	[cmd_cell performWithResult:&class_name_tip];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	[cmd_cell performWithResult:&class_name];
+	class_name = @"HomeTopTipCell";
+	[cmd_cell performWithResult:&class_name];
+	
 	
 //	NSString* class_name_his = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 //	[cmd_cell performWithResult:&class_name_his];
