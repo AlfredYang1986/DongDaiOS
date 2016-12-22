@@ -12,6 +12,7 @@
 #import "AYViewBase.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
+#import "AYCollectionView.h"
 
 @implementation AYCollectionViewFactory
 
@@ -38,7 +39,7 @@
 		layout.minimumInteritemSpacing =  ((NSString*)[args objectAtIndex:1]).integerValue;
 		layout.minimumLineSpacing =  ((NSString*)[args objectAtIndex:2]).integerValue;
 		
-		UICollectionView *collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, 0,0) collectionViewLayout:layout];
+		AYCollectionView *collectionView = [[AYCollectionView alloc]initWithFrame:CGRectMake(0, 0, 0,0) collectionViewLayout:layout];
 		result = (id<AYViewBase>)collectionView;
 //		result = [[c alloc]init];
 		[result postPerform];

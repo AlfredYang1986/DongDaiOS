@@ -26,6 +26,8 @@
     NSDictionary *resultAndLoc;
     CLLocation *loc;
     NSArray *fiteResultData;
+	
+	
 }
 
 - (void)postPerform{
@@ -39,9 +41,9 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         resultAndLoc = [dic objectForKey:kAYControllerChangeArgsKey];
-        loc = [resultAndLoc objectForKey:@"location"];
-        fiteResultData = [resultAndLoc objectForKey:@"result_data"];
-        
+//        loc = [resultAndLoc objectForKey:@"location"];
+//        fiteResultData = [resultAndLoc objectForKey:@"result_data"];
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
         
@@ -64,24 +66,35 @@
         make.size.mas_equalTo(CGSizeMake(51, 51));
     }];
     [closeBtn addTarget:self action:@selector(didCloseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
-    id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
-    [view_nav addSubview:(UIView*)view_title];
-    
-    id<AYViewBase> show = [self.views objectForKey:@"ShowBoard"];
-    id<AYCommand> cmd = [show.commands objectForKey:@"changeResultData:"];
-    NSDictionary *dic_show = [resultAndLoc mutableCopy];
-    [cmd performWithResult:&dic_show];
-    
-    [self.view bringSubviewToFront:(UIView*)show];
-    
+	
+//    id<AYViewBase> show = [self.views objectForKey:@"ShowBoard"];
+//    id<AYCommand> cmd = [show.commands objectForKey:@"changeResultData:"];
+//    NSDictionary *dic_show = [resultAndLoc mutableCopy];
+//    [cmd performWithResult:&dic_show];
+//    [self.view bringSubviewToFront:(UIView*)show];
+	
     id<AYViewBase> map = [self.views objectForKey:@"MapView"];
     id<AYCommand> cmd_map = [map.commands objectForKey:@"changeResultData:"];
     NSDictionary *dic_map = [resultAndLoc mutableCopy];
     [cmd_map performWithResult:&dic_map];
+	
+	id<AYViewBase> view_notify = [self.views objectForKey:@"Collection"];
+	
+	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MapMatch"];
+	id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
+	id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+	
+	id obj = (id)cmd_notify;
+	[cmd_datasource performWithResult:&obj];
+	obj = (id)cmd_notify;
+	[cmd_delegate performWithResult:&obj];
+	
+	id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	[cmd_cell performWithResult:&class_name];
     
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
@@ -92,8 +105,7 @@
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    view.frame = CGRectMake(0, 0, width, 20);
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
     view.backgroundColor = [UIColor clearColor];
     return nil;
 }
@@ -114,6 +126,15 @@
     return nil;
 }
 
+- (id)CollectionLayout:(UIView*)view {
+	view.frame = CGRectMake(0, SCREEN_HEIGHT - 260, SCREEN_WIDTH, 260);
+	view.backgroundColor = [UIColor clearColor];
+	
+	((UICollectionView*)view).pagingEnabled = YES;
+	
+	
+	return nil;
+}
 
 #pragma mark -- actions
 - (void)didCloseBtnClick:(UIButton*)btn {
@@ -138,15 +159,15 @@
     return nil;
 }
 
--(id)queryTheLoc:(id)args{
+- (id)queryTheLoc:(id)args{
     return resultAndLoc;
 }
 
--(id)queryResultDate:(id)args{
+- (id)queryResultDate:(id)args{
     return resultAndLoc;
 }
 
--(id)sendChangeOffsetMessage:(NSNumber*)index {
+- (id)sendChangeOffsetMessage:(NSNumber*)index {
     id<AYViewBase> view = [self.views objectForKey:@"ShowBoard"];
     id<AYCommand> cmd = [view.commands objectForKey:@"changeOffsetX:"];
     [cmd performWithResult:&index];
@@ -154,11 +175,12 @@
     return nil;
 }
 
--(id)sendChangeAnnoMessage:(NSNumber*)index{
+- (id)sendChangeAnnoMessage:(NSNumber*)index {
     id<AYViewBase> view = [self.views objectForKey:@"MapView"];
     id<AYCommand> cmd = [view.commands objectForKey:@"changeAnnoView:"];
     [cmd performWithResult:&index];
     
     return nil;
 }
+
 @end

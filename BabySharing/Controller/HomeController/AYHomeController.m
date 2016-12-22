@@ -42,6 +42,7 @@ typedef void(^queryContentFinish)(void);
     CALayer *maskLayer;
 	
     NSInteger skipCount;
+	NSTimeInterval timeSpan;
 	NSMutableArray *servicesData;
 	
 	UILabel *addressLabel;
@@ -236,7 +237,6 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
-	NSTimeInterval timeSpan = [NSDate date].timeIntervalSince1970;
 	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -275,7 +275,7 @@ typedef void(^queryContentFinish)(void);
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	
 	NSMutableDictionary *dic_search = [user mutableCopy];
-	NSTimeInterval timeSpan = [NSDate date].timeIntervalSince1970;
+	timeSpan = [NSDate date].timeIntervalSince1970;
 	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -312,7 +312,7 @@ typedef void(^queryContentFinish)(void);
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:[servicesData copy] forKey:kAYControllerChangeArgsKey];
+//	[dic setValue:[servicesData copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];

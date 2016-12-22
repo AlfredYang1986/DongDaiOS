@@ -810,7 +810,7 @@
 	   <command type="args"      direction="1" minspacingx = "0" minspacingy = "0"/>
    </view>
    
-   <view type="MapMatchCell" name="MapMatchCell" factory="AYDefaultViewFactory" >
+   <view type="MapMatchCell" name="MapMatchCell" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
    </view>
    

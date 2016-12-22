@@ -551,11 +551,11 @@
     
     <controller type="DefaultController" name="MapMatch" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="ShowBoard"      name="ShowBoard" />
+<!--        <view type="ShowBoard"      name="ShowBoard" />-->
         <view type="MapView"        name="MapView" />
-		
 		<view type="Collection"        name="Collection" />
 		
+		<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" />
     </controller>
     
     <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >

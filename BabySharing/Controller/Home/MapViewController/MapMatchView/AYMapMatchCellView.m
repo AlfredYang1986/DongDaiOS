@@ -57,7 +57,18 @@
 
 - (void)initialize {
 	
-	[self setUpReuseCell];
+	UIImage *bgImg = IMGRESOURCE(@"message_bg_one");
+	bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
+	
+	UIView *tView = [[UIView alloc]init];
+	tView.backgroundColor = [Tools colorWithRED:(arc4random()%255) GREEN:(arc4random()%255) BLUE:(arc4random()%255) ALPHA:1.f];
+	[self addSubview:tView];
+	[tView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.center.equalTo(self);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 240));
+	}];
+	
+//	[self setUpReuseCell];
 }
 
 - (void)layoutSubviews {
@@ -66,7 +77,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeServPerCell", @"HomeServPerCell");
+	id<AYViewBase> cell = VIEW(@"MapMatchCell", @"MapMatchCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -126,44 +137,6 @@
 	id<AYCommand> cmd = PUSH;
 	[cmd performWithResult:&dic_push];
 	
-}
-
-- (void)didLikeBtnClick {
-	NSDictionary *info = nil;
-	CURRENUSER(info);
-	
-	NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-	
-	id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Home");
-	if (!likeBtn.selected) {
-		id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
-		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
-		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-			if (success) {
-				
-				likeBtn.selected = YES;
-			} else {
-				
-				NSString *title = @"收藏失败!请检查网络链接是否正常";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			}
-		}];
-	} else {
-		id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
-		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
-		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-			if (success) {
-				
-				likeBtn.selected = NO;
-			} else {
-				
-				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			}
-		}];
-	}
 }
 
 #pragma mark -- messages

@@ -56,12 +56,21 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatch"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
 	
-	
+	id tmp = @"1";
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	return (UICollectionViewCell*)cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+//	CGFloat margin = 2;
+//	CGFloat itemWH = (SCREEN_WIDTH - margin * 3) / 3;
+	return CGSizeMake(SCREEN_WIDTH, 260);
+	
 }
 
 #pragma mark -- actions
