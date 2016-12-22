@@ -491,6 +491,10 @@
     return [UIColor colorWithWhite:1.f alpha:0.25f];
 }
 
++ (UIColor *)randomColor {
+	return [Tools colorWithRED:(arc4random()%255) GREEN:(arc4random()%255) BLUE:(arc4random()%255) ALPHA:1.f];
+}
+
 #pragma mark -- UI
 /**
  *  设置label的 text color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align

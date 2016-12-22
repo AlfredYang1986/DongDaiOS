@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYMapMatchCellView : UICollectionViewCell <AYViewBase>
+typedef void(^touchUpInSubCell)(NSDictionary*);
 
+@interface AYMapMatchCellView : UICollectionViewCell <AYViewBase, UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) NSArray *serviceData;
+@property (nonatomic, strong) touchUpInSubCell didTouchUpInSubCell;
 @end

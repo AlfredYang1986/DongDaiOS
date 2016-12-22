@@ -132,7 +132,6 @@
 	
 	((UICollectionView*)view).pagingEnabled = YES;
 	
-	
 	return nil;
 }
 
