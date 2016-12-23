@@ -18,7 +18,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#define kLIMITEDSHOWNAVBAR  (-75)
+#define kLIMITEDSHOWNAVBAR  (-70.5)
 #define kFlexibleHeight     250
 #define btmViewHeight       50
 
@@ -77,7 +77,7 @@
     NSString* class_name_00 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_00];
     
-    NSString* class_name_01 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceOwnerInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name_01 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_01];
     
     NSString* class_name_02 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -86,13 +86,13 @@
     NSString* class_name_03 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_03];
     
-    NSString* class_name_04 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name_04 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_04];
     
     NSString* class_name_05 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_05];
     
-    NSString* class_name_06 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCostCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* class_name_06 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_06];
     
     {
@@ -139,12 +139,13 @@
 		
         UIImageView *topMaskVeiw = [[UIImageView alloc]init];
         topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
+		topMaskVeiw.contentMode = UIViewContentModeLeft;
         topMaskVeiw.userInteractionEnabled = NO;
         [flexibleView addSubview:topMaskVeiw];
         [topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(flexibleView);
             make.centerX.equalTo(flexibleView);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 102));
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
         }];
         
         UIButton *popImage = [[UIButton alloc]init];
@@ -245,7 +246,7 @@
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 55);
+    view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"服务详情";
@@ -305,8 +306,8 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : btmViewHeight));
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
-//    ((UITableView*)view).estimatedRowHeight = 300;
-//    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
+    ((UITableView*)view).estimatedRowHeight = 300;
+    ((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
     return nil;
 }
 
@@ -400,9 +401,9 @@
 }
 
 - (id)showMoreOrHideDescription:(NSNumber*)args {
-    UITableView *table = [self.views objectForKey:@"Table"];
-    kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
+	UITableView *table = [self.views objectForKey:@"Table"];
     [table beginUpdates];
+	kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
     [table endUpdates];
     return nil;
 }

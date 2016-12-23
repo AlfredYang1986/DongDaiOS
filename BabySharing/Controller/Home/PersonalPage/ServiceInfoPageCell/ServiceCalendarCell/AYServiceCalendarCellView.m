@@ -16,7 +16,9 @@
 #import "AYFacadeBase.h"
 
 @implementation AYServiceCalendarCellView {
-    
+    UILabel *tipsTitleLabel;
+	UILabel *timeLabel;
+	UILabel *moreScheduleLabel;
 }
 
 @synthesize para = _para;
@@ -27,30 +29,34 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        CALayer *btm_seprtor = [CALayer layer];
+		
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
-        btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:btm_seprtor];
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        UILabel *titleLabel = [Tools creatUILabelWithText:@"可预约日期" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.left.equalTo(self).offset(15);
-        }];
-        
-        UIButton *detailBtn = [Tools creatUIButtonWithTitle:@"查看" andTitleColor:[Tools themeColor] andFontSize:17.f andBackgroundColor:nil];
-        [detailBtn addTarget:self action:@selector(didDetailBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [detailBtn sizeToFit];
-        [self addSubview:detailBtn];
-        [detailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-15);
-            make.size.mas_equalTo(detailBtn.bounds.size);
-        }];
-        
+        tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:tipsTitleLabel];
+		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.top.equalTo(self).offset(20);
+			make.bottom.equalTo(self).offset(-105);
+		}];
+		
+		timeLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:timeLabel];
+		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+		}];
+		
+		UIImageView *access = [[UIImageView alloc]init];
+		[self addSubview:access];
+		access.image = IMGRESOURCE(@"plan_time_icon");
+		[access mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-20);
+			make.centerY.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(15, 15));
+		}];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

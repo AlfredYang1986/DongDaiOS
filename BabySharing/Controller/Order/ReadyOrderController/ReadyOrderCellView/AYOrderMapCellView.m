@@ -7,7 +7,6 @@
 //
 
 #import "AYOrderMapCellView.h"
-#import "Notifications.h"
 #import "AYViewController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -17,7 +16,6 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYRemoteCallCommand.h"
-
 #import "AYAnnonation.h"
 
 @implementation AYOrderMapCellView {

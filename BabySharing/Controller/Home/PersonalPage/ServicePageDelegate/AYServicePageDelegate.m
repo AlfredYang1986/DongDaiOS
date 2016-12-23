@@ -75,7 +75,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 7;
+    return 5;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -85,98 +85,82 @@
     if (indexPath.row == 0) {
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        NSDictionary *tmp = [querydata copy];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
     }
     else if (indexPath.row ==1) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceOwnerInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        NSMutableDictionary *tmp = [querydata copy];
-//        [tmp setValue:personal_description forKey:@"personal_description"];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
     }
     else if (indexPath.row == 2) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        id tmp = [querydata  copy];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-    }
-    else if (indexPath.row == 3) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        id tmp = [querydata  objectForKey:@"facility"];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-    }
-    else if (indexPath.row == 4) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        id tmp = [querydata copy];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-    }
-    else if (indexPath.row == 5) {
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
     }
-    else if (indexPath.row == 6) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCostCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    else if (indexPath.row == 3) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
     }
-    
+    else if (indexPath.row == 4) {
+        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+        
+    }
+//    else if (indexPath.row == 5) {
+//        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+//    }
+//    else if (indexPath.row == 6) {
+//        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+//    }
+	
+	id tmp = [querydata copy];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (indexPath.row == 0) {
-        return 155;
-        
-//        return has_comment ? 130 : 165;
-//        return 165;
-//        return 130;
-    }
-    else if (indexPath.row == 1) {
-        
-        NSString *descStr = [querydata objectForKey:@"description"];
-        if (!descStr || [descStr isEqualToString:@""]) {
-            return 85;
-        }
-        else {
-            if (descStr.length > 60) {
-                if (isExpend) {
-                    return 85 + expendHeight + 30;
-                } else
-                    return 200;
-            } else {
-                CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
-//                return 85 + filtSize.height + 40;
-                return 85 + filtSize.height + 20;
-            }
-        }
-    }//
-    else if (indexPath.row == 2) {
-        return 60;
-    }
-    else if (indexPath.row == 3) {
-        
-        long options = ((NSNumber*)[querydata objectForKey:@"facility"]).longValue;
-        return options == 0 ? 0.001 : 90;
-    }
-    else if (indexPath.row == 4) {
-        return 225;
-    }
-    else
-        return 70;
-    
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (indexPath.row == 0) {
+//        return 155;
+//    }
+//    else if (indexPath.row == 1) {
+//        NSString *descStr = [querydata objectForKey:@"description"];
+//        if (!descStr || [descStr isEqualToString:@""]) {
+//            return 85;
+//        }
+//        else {
+//            if (descStr.length > 60) {
+//                if (isExpend) {
+//                    return 85 + expendHeight + 30;
+//                } else
+//                    return 200;
+//            } else {
+//                CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
+////                return 85 + filtSize.height + 40;
+//                return 85 + filtSize.height + 20;
+//            }
+//        }
+//    }//
+//    else if (indexPath.row == 2) {
+//        return 60;
+//    }
+//    else if (indexPath.row == 3) {
+//        
+//        long options = ((NSNumber*)[querydata objectForKey:@"facility"]).longValue;
+//        return options == 0 ? 0.001 : 90;
+//    }
+//    else if (indexPath.row == 4) {
+//        return 225;
+//    }
+//    else
+//        return 70;
+//}
 
--(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 

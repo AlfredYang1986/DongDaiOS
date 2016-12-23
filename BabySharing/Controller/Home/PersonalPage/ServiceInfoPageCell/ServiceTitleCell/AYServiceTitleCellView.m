@@ -17,12 +17,16 @@
 
 @implementation AYServiceTitleCellView {
     UILabel *titleLabel;
-    UIImageView *pointsImageView;
-    
+//    UIImageView *pointsImageView;
+	
+	UILabel *themeLabel;
+	UILabel *ownerNameLabel;
+	UIImageView *ownerPhoto;
+	
     UILabel *filtBabyArgsLabel;
     UILabel *capacityLabel;
     
-    UIImageView *allowLeaveSign;
+    UIImageView *servantSign;
     UILabel *allowLeave;
 }
 
@@ -39,26 +43,50 @@
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
-            make.left.equalTo(self).offset(15);
+            make.left.equalTo(self).offset(20);
         }];
         
-        pointsImageView = [UIImageView new];
-        pointsImageView.image = IMGRESOURCE(@"star_rang_0");
-        [pointsImageView sizeToFit];
-        [self addSubview:pointsImageView];
-        [pointsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(titleLabel);
-            make.top.equalTo(titleLabel.mas_bottom).offset(10);
-            make.size.mas_equalTo(pointsImageView.bounds.size);
-        }];
-        
+//        pointsImageView = [UIImageView new];
+//        pointsImageView.image = IMGRESOURCE(@"star_rang_0");
+//        [pointsImageView sizeToFit];
+//        [self addSubview:pointsImageView];
+//        [pointsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(titleLabel);
+//            make.top.equalTo(titleLabel.mas_bottom).offset(10);
+//            make.size.mas_equalTo(pointsImageView.bounds.size);
+//        }];
+		
+		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview: themeLabel];
+		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(15);
+		}];
+		
+		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:ownerNameLabel];
+		[ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(themeLabel.mas_bottom).offset(5);
+		}];
+		
+		ownerPhoto = [[UIImageView alloc]init];
+		ownerPhoto.image = IMGRESOURCE(@"default_user");
+		[self addSubview:ownerPhoto];
+		[ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-20);
+			make.top.equalTo(titleLabel.mas_bottom).offset(10);
+			make.size.mas_equalTo(CGSizeMake(45, 45));
+		}];
+		
 //        capacity_icon
         UIImageView *signCapacity = [[UIImageView alloc]init];
-        signCapacity.image = IMGRESOURCE(@"capacity_icon");
+        signCapacity.image = IMGRESOURCE(@"service_page_capacity");
         [self addSubview:signCapacity];
         [signCapacity mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(ownerPhoto.mas_bottom).offset(35);
             make.centerX.equalTo(self);
-            make.bottom.equalTo(self).offset(-45);
+            make.bottom.equalTo(self).offset(-35);
             make.size.mas_equalTo(CGSizeMake(27, 27));
         }];
         
@@ -71,7 +99,7 @@
         
         //        age_boundary_icon
         UIImageView *signBabyAges = [[UIImageView alloc]init];
-        signBabyAges.image = IMGRESOURCE(@"age_boundary_icon");
+        signBabyAges.image = IMGRESOURCE(@"service_page_age_boundary");
         [self addSubview:signBabyAges];
         [signBabyAges mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(signCapacity).offset(-SCREEN_WIDTH * 0.3f);
@@ -87,10 +115,10 @@
         }];
         
         //        allow_leave_icon
-        allowLeaveSign = [[UIImageView alloc]init];
-        allowLeaveSign.image = IMGRESOURCE(@"allow_leave_icon");
-        [self addSubview:allowLeaveSign];
-        [allowLeaveSign mas_makeConstraints:^(MASConstraintMaker *make) {
+        servantSign = [[UIImageView alloc]init];
+        servantSign.image = IMGRESOURCE(@"service_page_servant");
+        [self addSubview:servantSign];
+        [servantSign mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(signCapacity).offset(SCREEN_WIDTH * 0.3f);
             make.centerY.equalTo(signCapacity);
             make.size.equalTo(signCapacity);
@@ -99,15 +127,12 @@
         allowLeave = [Tools creatUILabelWithText:@"需要家长陪伴" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:allowLeave];
         [allowLeave mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(allowLeaveSign);
+            make.centerX.equalTo(servantSign);
             make.centerY.equalTo(capacityLabel);
         }];
-        
-        CALayer *btm_seprtor = [CALayer layer];
+		
         CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
-        btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:btm_seprtor];
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyColor] inSuperView:self];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -182,26 +207,26 @@
     
     //重置cell复用数据
     //    _starRangImage.hidden = NO;
-    NSArray *points = [service_info objectForKey:@"points"];
-    if (points.count == 0) {
-            pointsImageView.hidden = YES;
-//            pointsImageView.image = IMGRESOURCE(@"star_rang_0");
-    } else {
-        CGFloat sumPoint  = 0;
-        for (NSNumber *point in points) {
-            sumPoint += point.floatValue;
-        }
-        CGFloat average = sumPoint / points.count;
-        
-        int mainRang = (int)average;
-        NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
-        CGFloat tmpCompare = average + 0.5f;
-        if ((int)tmpCompare > mainRang) {
-            rangImageName = [rangImageName stringByAppendingString:@"_"];
-        }
-        pointsImageView.image = IMGRESOURCE(rangImageName);
-    }
-    
+//    NSArray *points = [service_info objectForKey:@"points"];
+//    if (points.count == 0) {
+//            pointsImageView.hidden = YES;
+////            pointsImageView.image = IMGRESOURCE(@"star_rang_0");
+//    } else {
+//        CGFloat sumPoint  = 0;
+//        for (NSNumber *point in points) {
+//            sumPoint += point.floatValue;
+//        }
+//        CGFloat average = sumPoint / points.count;
+//        
+//        int mainRang = (int)average;
+//        NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
+//        CGFloat tmpCompare = average + 0.5f;
+//        if ((int)tmpCompare > mainRang) {
+//            rangImageName = [rangImageName stringByAppendingString:@"_"];
+//        }
+//        pointsImageView.image = IMGRESOURCE(rangImageName);
+//    }
+	
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
     NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:@"lsl"]);
@@ -213,7 +238,7 @@
     
     NSNumber *allow = [service_info objectForKey:@"allow_leave"];
     BOOL isAllow = allow.boolValue;
-    allowLeaveSign.hidden = allowLeave.hidden = !isAllow;
+    servantSign.hidden = allowLeave.hidden = !isAllow;
     
     return nil;
 }

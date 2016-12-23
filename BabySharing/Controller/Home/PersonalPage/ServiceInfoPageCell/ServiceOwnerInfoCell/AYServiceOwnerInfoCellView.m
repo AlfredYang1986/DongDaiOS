@@ -17,6 +17,11 @@
 #import "AYControllerActionDefines.h"
 
 @implementation AYServiceOwnerInfoCellView {
+	
+//	UILabel *tipsTitleLabel;
+//	UILabel *courseLengthLabel;
+//	UILabel *
+	
     UIImageView *userPhoto;
     UILabel *userName;
     UILabel *adress;

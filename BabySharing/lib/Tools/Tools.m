@@ -588,6 +588,15 @@
     return btn;
 }
 
+#pragma mark -- CALayer
++ (void)creatCALayerWithFrame:(CGRect)frame andColor:(UIColor*)color  inSuperView:(UIView*)view {
+	
+	CALayer *layer = [CALayer layer];
+	layer.frame = frame;
+	layer.backgroundColor = color.CGColor;
+	[view.layer addSublayer:layer];
+}
+
 #pragma mark -- AYBtmAlert
 - (void)AYShowBtmAlertWithArgs:(NSDictionary*)args {
     

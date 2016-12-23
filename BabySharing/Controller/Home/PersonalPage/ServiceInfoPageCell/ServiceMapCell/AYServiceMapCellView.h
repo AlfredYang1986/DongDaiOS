@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import <MAMapKit/MAMapKit.h>
+#import <MapKit/MapKit.h>
+#import <MAMapKit/MAMapKit.h>
+#import <AMapSearchKit/AMapSearchKit.h>
 
-@interface AYServiceMapCellView : UITableViewCell <AYViewBase>
+@interface AYServiceMapCellView : UITableViewCell <AYViewBase, MAMapViewDelegate>
 
 @end

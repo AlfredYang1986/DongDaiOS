@@ -98,6 +98,8 @@
 		700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6211CBA7CEB00A09B3A /* DongDaTabBar.m */; };
 		700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */; };
 		700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */; };
+		700D106D1E0CDBB400C77EDD /* AYServiceDescCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700D106C1E0CDBB400C77EDD /* AYServiceDescCellView.m */; };
+		700D10711E0D4F7000C77EDD /* AYServiceNotiCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700D10701E0D4F7000C77EDD /* AYServiceNotiCellView.m */; };
 		700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F15CE1D73D51600B1CACF /* AYAlertTipView.m */; };
 		70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */; };
 		70120CA71CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9F1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m */; };
@@ -921,6 +923,10 @@
 		700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DongDaTabBarItem.m; sourceTree = "<group>"; };
 		700BE62A1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPreCreateControllerFactoy.h; sourceTree = "<group>"; };
 		700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPreCreateControllerFactoy.m; sourceTree = "<group>"; };
+		700D106B1E0CDBB400C77EDD /* AYServiceDescCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceDescCellView.h; sourceTree = "<group>"; };
+		700D106C1E0CDBB400C77EDD /* AYServiceDescCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceDescCellView.m; sourceTree = "<group>"; };
+		700D106F1E0D4F7000C77EDD /* AYServiceNotiCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceNotiCellView.h; sourceTree = "<group>"; };
+		700D10701E0D4F7000C77EDD /* AYServiceNotiCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceNotiCellView.m; sourceTree = "<group>"; };
 		700F15CD1D73D51600B1CACF /* AYAlertTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlertTipView.h; sourceTree = "<group>"; };
 		700F15CE1D73D51600B1CACF /* AYAlertTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlertTipView.m; sourceTree = "<group>"; };
 		70120C9C1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendOwnerQueryPushDataCommand.h; sourceTree = "<group>"; };
@@ -2905,6 +2911,24 @@
 			path = ChildControllerInit;
 			sourceTree = "<group>";
 		};
+		700D106A1E0CDAB600C77EDD /* ServiceDescCell */ = {
+			isa = PBXGroup;
+			children = (
+				700D106B1E0CDBB400C77EDD /* AYServiceDescCellView.h */,
+				700D106C1E0CDBB400C77EDD /* AYServiceDescCellView.m */,
+			);
+			path = ServiceDescCell;
+			sourceTree = "<group>";
+		};
+		700D106E1E0D4F6000C77EDD /* ServiceNotiCell */ = {
+			isa = PBXGroup;
+			children = (
+				700D106F1E0D4F7000C77EDD /* AYServiceNotiCellView.h */,
+				700D10701E0D4F7000C77EDD /* AYServiceNotiCellView.m */,
+			);
+			path = ServiceNotiCell;
+			sourceTree = "<group>";
+		};
 		700F15CC1D73D4E800B1CACF /* AlertTip */ = {
 			isa = PBXGroup;
 			children = (
@@ -4008,13 +4032,12 @@
 			path = ServiceFacilityCell;
 			sourceTree = "<group>";
 		};
-		703B4CEB1DCC89E400B1088C /* ServiceMapCell(Order) */ = {
+		703B4CEB1DCC89E400B1088C /* ServiceMapCell */ = {
 			isa = PBXGroup;
 			children = (
 				703B4CFB1DCC8BE800B1088C /* AYServiceMapCellView.h */,
 				703B4CFC1DCC8BE800B1088C /* AYServiceMapCellView.m */,
 			);
-			name = "ServiceMapCell(Order)";
 			path = ServiceMapCell;
 			sourceTree = "<group>";
 		};
@@ -6670,12 +6693,14 @@
 		70D5BC6E1D77E3960046B4BC /* ServiceInfoPageCell */ = {
 			isa = PBXGroup;
 			children = (
+				700D106E1E0D4F6000C77EDD /* ServiceNotiCell */,
 				70F4047C1DD022F700A68196 /* AYPlayItemsView */,
 				703B4CEE1DCC89E400B1088C /* ServiceTitleCell */,
+				700D106A1E0CDAB600C77EDD /* ServiceDescCell */,
 				703B4CEC1DCC89E400B1088C /* ServiceOwnerInfoCell */,
 				703B4CED1DCC89E400B1088C /* ServiceThemeCell */,
 				703B4CEA1DCC89E400B1088C /* ServiceFacilityCell */,
-				703B4CEB1DCC89E400B1088C /* ServiceMapCell(Order) */,
+				703B4CEB1DCC89E400B1088C /* ServiceMapCell */,
 				703B4CE81DCC89E400B1088C /* ServiceCalendarCell */,
 				703B4CE91DCC89E400B1088C /* ServiceCostCell */,
 			);
@@ -7924,6 +7949,7 @@
 				70C41ED11DBA122500C77B10 /* AYNapBabyAgeCellView.m in Sources */,
 				70CAEC511DED9DF900542C1D /* AYSetServiceThemeController.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
+				700D10711E0D4F7000C77EDD /* AYServiceNotiCellView.m in Sources */,
 				705E96891D470E88006CF9E6 /* AYOrderStateCellView.m in Sources */,
 				70EC72351D190D6F0012B123 /* TAAnimatedDotView.m in Sources */,
 				704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */,
@@ -8374,6 +8400,7 @@
 				701D8A921CA7E06700B5D4C1 /* LoginLocalModel.xcdatamodeld in Sources */,
 				706942CF1D59C35100D0BBB4 /* AYGroupChatHeaderView.m in Sources */,
 				70F369AE1CC3641C0067B62E /* AYContentDelegate.m in Sources */,
+				700D106D1E0CDBB400C77EDD /* AYServiceDescCellView.m in Sources */,
 				8048C0001D9D01F20026436E /* AYConfirmPhoneNoConsumerController.m in Sources */,
 				704697DD1CE047F200DACD8A /* UIImageView+WebCache.m in Sources */,
 				70CDF63B1CBD033900311841 /* QueryContentTag.m in Sources */,

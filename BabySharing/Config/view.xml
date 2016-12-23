@@ -495,6 +495,9 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="showMoreOrHideDescription:" />
     </view>
+	<view type="ServiceDescCell" name="ServiceDescCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
     <view type="ServiceThemeCell" name="ServiceThemeCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
@@ -512,7 +515,10 @@
     <view type="ServiceCostCell" name="ServiceCostCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    
+	<view type="ServiceNotiCell" name="ServiceNotiCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="ContentListCell" name="ContentListCell" factory="AYReuseViewFactory" >
         <command type="message"     message="resetContent:" />
     </view>
