@@ -17,6 +17,10 @@ static NSString* const kAYServiceArgsImages =               @"images";
 static NSString* const kAYServiceArgsTitle =               @"title";
 static NSString* const kAYServiceArgsDescription =               @"description";
 
+static NSString* const kAYServiceArgsOfferDate =               @"offer_date";
+static NSString* const kAYServiceArgsOccurance =               @"occurance";
+static NSString* const kAYServiceArgsStart =               @"start";
+static NSString* const kAYServiceArgsEnd =               @"end";
 //static NSString* const kAYServiceArgs =               @"title";
 //static NSString* const kAYServiceArgs =               @"title";
 

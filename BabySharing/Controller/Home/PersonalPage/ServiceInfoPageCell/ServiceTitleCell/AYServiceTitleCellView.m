@@ -14,6 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYRemoteCallCommand.h"
 #import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYServiceTitleCellView {
     UILabel *titleLabel;
@@ -27,7 +28,9 @@
     UILabel *capacityLabel;
     
     UIImageView *servantSign;
-    UILabel *allowLeave;
+    UILabel *servantLabel;
+	
+	NSDictionary *service_info;
 }
 
 @synthesize para = _para;
@@ -39,31 +42,21 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(20);
         }];
-        
-//        pointsImageView = [UIImageView new];
-//        pointsImageView.image = IMGRESOURCE(@"star_rang_0");
-//        [pointsImageView sizeToFit];
-//        [self addSubview:pointsImageView];
-//        [pointsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(titleLabel);
-//            make.top.equalTo(titleLabel.mas_bottom).offset(10);
-//            make.size.mas_equalTo(pointsImageView.bounds.size);
-//        }];
 		
-		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview: themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
 		}];
 		
-		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:ownerNameLabel];
 		[ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -72,12 +65,15 @@
 		
 		ownerPhoto = [[UIImageView alloc]init];
 		ownerPhoto.image = IMGRESOURCE(@"default_user");
+		[Tools setViewRadius:ownerPhoto withRadius:22.5f andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
 		[self addSubview:ownerPhoto];
 		[ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-20);
 			make.top.equalTo(titleLabel.mas_bottom).offset(10);
 			make.size.mas_equalTo(CGSizeMake(45, 45));
 		}];
+		ownerPhoto.userInteractionEnabled = YES;
+		[ownerPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
 		
 //        capacity_icon
         UIImageView *signCapacity = [[UIImageView alloc]init];
@@ -86,7 +82,7 @@
         [signCapacity mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(ownerPhoto.mas_bottom).offset(35);
             make.centerX.equalTo(self);
-            make.bottom.equalTo(self).offset(-35);
+            make.bottom.equalTo(self).offset(-45);
             make.size.mas_equalTo(CGSizeMake(27, 27));
         }];
         
@@ -124,9 +120,9 @@
             make.size.equalTo(signCapacity);
         }];
         
-        allowLeave = [Tools creatUILabelWithText:@"需要家长陪伴" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-        [self addSubview:allowLeave];
-        [allowLeave mas_makeConstraints:^(MASConstraintMaker *make) {
+        servantLabel = [Tools creatUILabelWithText:@"Numb of servant" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [self addSubview:servantLabel];
+        [servantLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(servantSign);
             make.centerY.equalTo(capacityLabel);
         }];
@@ -193,39 +189,89 @@
 }
 
 #pragma mark -- actions
-
+- (void)didOwnerPhotoClick {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
+	
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	[dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
+	
+}
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
     
-    NSDictionary *service_info = (NSDictionary*)args;
+    service_info = (NSDictionary*)args;
     
     NSString *titleStr = [service_info objectForKey:@"title"];
     if (titleStr) {
         titleLabel.text = titleStr;
     }
-    
-    //重置cell复用数据
-    //    _starRangImage.hidden = NO;
-//    NSArray *points = [service_info objectForKey:@"points"];
-//    if (points.count == 0) {
-//            pointsImageView.hidden = YES;
-////            pointsImageView.image = IMGRESOURCE(@"star_rang_0");
-//    } else {
-//        CGFloat sumPoint  = 0;
-//        for (NSNumber *point in points) {
-//            sumPoint += point.floatValue;
-//        }
-//        CGFloat average = sumPoint / points.count;
-//        
-//        int mainRang = (int)average;
-//        NSString *rangImageName = [NSString stringWithFormat:@"star_rang_%d",mainRang];
-//        CGFloat tmpCompare = average + 0.5f;
-//        if ((int)tmpCompare > mainRang) {
-//            rangImageName = [rangImageName stringByAppendingString:@"_"];
-//        }
-//        pointsImageView.image = IMGRESOURCE(rangImageName);
-//    }
+	
+	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
+	ownerNameLabel.text = ownerName;
+	
+	NSString *servantCat;
+	NSArray *options_title_cans;
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
+	
+	if (service_cat.intValue == ServiceTypeLookAfter) {
+		servantCat = @"服务者";
+		options_title_cans = kAY_service_options_title_lookafter;
+		//服务主题分类
+		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
+			themeLabel.text = @"该服务主题待调整";
+		} else {
+			NSString *themeStr = options_title_cans[cans_cat.integerValue];
+			themeLabel.text = themeStr;
+		}
+		
+	}
+	else if (service_cat.intValue == ServiceTypeCourse) {
+		servantCat = @"老师";
+		NSString *servCatStr = @"课程";
+		options_title_cans = kAY_service_options_title_course;
+		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
+		//服务主题分类
+		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
+			themeLabel.text = @"该服务主题待调整";
+		}
+		else {
+			
+			NSString *costomStr = [service_info objectForKey:kAYServiceArgsCourseCoustom];
+			if (costomStr && ![costomStr isEqualToString:@""]) {
+				themeLabel.text = [NSString stringWithFormat:@"%@%@", costomStr, servCatStr];
+				
+			} else {
+				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
+				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
+				if (cans.integerValue < signTitleArr.count) {
+					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
+					themeLabel.text = [NSString stringWithFormat:@"%@%@", courseSignStr, servCatStr];
+				} else {
+					themeLabel.text = @"该服务主题待调整";
+				}
+			}//是否自定义课程标签判断end
+		}
+	} else {
+		servantCat = @"服务者";
+		NSLog(@"---null---");
+		themeLabel.text = @"该服务类型待调整";
+	}
+	
+	
+	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *pre = cmd.route;
+	[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+				  placeholderImage:IMGRESOURCE(@"default_user")];
 	
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
@@ -234,12 +280,11 @@
     filtBabyArgsLabel.text = [NSString stringWithFormat:@"%@",ages];
     
     NSNumber *capacity = [service_info objectForKey:@"capacity"];
-    capacityLabel.text = [NSString stringWithFormat:@"%d个孩子",capacity.intValue];
+    capacityLabel.text = [NSString stringWithFormat:@"可接纳%d个孩子",capacity.intValue];
     
-    NSNumber *allow = [service_info objectForKey:@"allow_leave"];
-    BOOL isAllow = allow.boolValue;
-    servantSign.hidden = allowLeave.hidden = !isAllow;
-    
+    NSNumber *servant = [service_info objectForKey:kAYServiceArgsServantNumb];
+	servantLabel.text = [NSString stringWithFormat:@"%@个%@", servant, servantCat];
+	
     return nil;
 }
 

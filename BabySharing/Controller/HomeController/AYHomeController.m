@@ -43,6 +43,8 @@ typedef void(^queryContentFinish)(void);
 	
     NSInteger skipCount;
 	NSTimeInterval timeSpan;
+	NSDictionary *search_loc;
+	NSNumber *search_cansCat;
 	NSMutableArray *servicesData;
 	
 	UILabel *addressLabel;
@@ -83,10 +85,14 @@ typedef void(^queryContentFinish)(void);
 			NSString *key = [backArgs objectForKey:@"key"];
 			if ([key isEqualToString:@"filterLocation"]) {
 				addressLabel.text = [backArgs objectForKey:kAYServiceArgsAddress];
+				search_loc = [backArgs objectForKey:kAYServiceArgsLocation];
+				
 			}
 			else if ([key isEqualToString:@"filterTheme"]) {
 				themeCatlabel.text = [backArgs objectForKey:@"title"];
+				search_cansCat = [backArgs objectForKey:kAYServiceArgsTheme];
 			}
+			[self loadNewData];
 		}
 			
     }
@@ -99,6 +105,15 @@ typedef void(^queryContentFinish)(void);
 	
 	id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
 	UITableView *tableView = (UITableView*)view_notify;
+	
+	UILabel *tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[tableView addSubview:tipsLabel];
+	[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(tableView).offset(180);
+		make.centerX.equalTo(tableView);
+	}];
+	[tableView sendSubviewToBack:tipsLabel];
+	
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
@@ -148,7 +163,7 @@ typedef void(^queryContentFinish)(void);
 	UIImage *left = IMGRESOURCE(@"search_icon");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	addressLabel = [Tools creatUILabelWithText:@"场地地址" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(50);
@@ -180,15 +195,12 @@ typedef void(^queryContentFinish)(void);
 	
 	UIImage* right = IMGRESOURCE(@"map_icon");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
-	
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
-    
-//    ((UITableView*)view).contentInset = UIEdgeInsetsMake(TableContentInsetTop, 0, 0, 0);
     ((UITableView*)view).backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -280,6 +292,8 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	timeSpan = [NSDate date].timeIntervalSince1970;
 	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
+	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
+	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {

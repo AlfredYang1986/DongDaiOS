@@ -220,8 +220,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         NSString *day = dateStrArr[2];
         
         NSString *firstDayStr = [NSString stringWithFormat:@"%@-%@-%@", year, month, @1];
-        // 获得这个月第一天是星期几
-        NSInteger dayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:firstDayStr];
+        NSInteger dayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:firstDayStr];			// 获得这个月第一天是星期几
         NSInteger section = (year.integerValue - [_useTime getYear])*12 + (month.integerValue - 1);
         NSInteger item = day.integerValue + dayOfFirstWeek - 1;
         

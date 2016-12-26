@@ -20,7 +20,7 @@
 
 #define kLIMITEDSHOWNAVBAR  (-70.5)
 #define kFlexibleHeight     250
-#define btmViewHeight       50
+#define btmViewHeight       80
 
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
@@ -139,7 +139,7 @@
 		
         UIImageView *topMaskVeiw = [[UIImageView alloc]init];
         topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
-		topMaskVeiw.contentMode = UIViewContentModeLeft;
+		topMaskVeiw.contentMode = UIViewContentModeTopLeft;
         topMaskVeiw.userInteractionEnabled = NO;
         [flexibleView addSubview:topMaskVeiw];
         [topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -173,14 +173,14 @@
         BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
         bar_like_btn.selected = collectionBtn.selected = isLike;
         
-        UILabel *costLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
-        [flexibleView addSubview:costLabel];
-        [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(flexibleView);
-            make.bottom.equalTo(flexibleView).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(125, 35));
-        }];
-        costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[service_info objectForKey:@"price"]).floatValue];
+//        UILabel *costLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
+//        [flexibleView addSubview:costLabel];
+//        [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(flexibleView);
+//            make.bottom.equalTo(flexibleView).offset(-15);
+//            make.size.mas_equalTo(CGSizeMake(125, 35));
+//        }];
+//        costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[service_info objectForKey:@"price"]).floatValue];
     }
     
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
@@ -209,30 +209,83 @@
     if (!per_mode) {
         
         UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
-        bottom_view.backgroundColor = [Tools themeColor];
+        bottom_view.backgroundColor = [Tools whiteColor];
         [self.view addSubview:bottom_view];
         [self.view bringSubviewToFront:bottom_view];
-        
-        CALayer *left = [CALayer layer];
-        left.frame = CGRectMake(SCREEN_WIDTH *0.5, 11, 1, 28);
-        left.backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f].CGColor;
-        [bottom_view.layer addSublayer:left];
-        
-        UIButton *bookBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH *0.5 - 1, 50)];
-        [bookBtn setBackgroundColor:[Tools themeColor]];
-        [bookBtn setTitle:@"申请预订" forState:UIControlStateNormal];
-        bookBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
-        [bookBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+		
+		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+		[Tools creatCALayerWithFrame:CGRectMake(90, 0, 1, btmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+		
+		UIButton *chatBtn = [[UIButton alloc]init];
+		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
+		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
+		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:14.f];
+		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(25, -27, 0, 0)];
+		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 31, 0, 0)];
+		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		[bottom_view addSubview:chatBtn];
+		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(bottom_view);
+			make.top.equalTo(bottom_view);
+			make.size.mas_equalTo(CGSizeMake(90, 80));
+		}];
+		
+		UILabel *priceLabel = [Tools creatUILabelWithText:@"服务价格" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[bottom_view addSubview:priceLabel];
+		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(bottom_view).offset(115);
+			make.bottom.equalTo(bottom_view.mas_centerY).offset(-2);
+		}];
+		
+		UILabel *capacityLabel = [Tools creatUILabelWithText:@"服务最少预定" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[bottom_view addSubview:capacityLabel];
+		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(bottom_view.mas_centerY).offset(2);
+			make.left.equalTo(priceLabel);
+		}];
+		
+		NSString *unitCat;
+		NSNumber *leastTimesOrHours;
+		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+		if (service_cat.intValue == ServiceTypeLookAfter) {
+			unitCat = @"小时";
+			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
+			
+		}
+		else if (service_cat.intValue == ServiceTypeCourse) {
+			unitCat = @"次";
+			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
+			
+		} else {
+			
+			NSLog(@"---null---");
+			unitCat = @"单价";
+			leastTimesOrHours = @0;
+		}
+		NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
+		NSString *tmp = [NSString stringWithFormat:@"%@", price];
+		int length = (int)tmp.length;
+		NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
+		
+		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+		[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+		priceLabel.attributedText = attributedText;
+		
+		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
+		
+        UIButton *bookBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:-14.f andBackgroundColor:[Tools themeColor]];
+		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
         [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [bottom_view addSubview:bookBtn];
-        
-        UIButton *chatBtn = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH * 0.5 + 1, 0, SCREEN_WIDTH *0.5 - 1, 50)];
-        [chatBtn setBackgroundColor:[Tools themeColor]];
-        [chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
-        chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:20.f];
-        [chatBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [bottom_view addSubview:chatBtn];
+		[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(bottom_view);
+			make.left.equalTo(bottom_view).offset(215);
+			make.right.equalTo(bottom_view).offset(-20);
+			make.height.equalTo(@44);
+		}];
+		
     }
     else {
         bar_like_btn.hidden = collectionBtn.hidden = YES;

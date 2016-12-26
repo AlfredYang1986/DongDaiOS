@@ -38,23 +38,23 @@
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
 			make.top.equalTo(self).offset(20);
-			make.bottom.equalTo(self).offset(-105);
 		}];
 		
-		allowLabel = [Tools creatUILabelWithText:@"*    Is Allow leave" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		allowLabel = [Tools creatUILabelWithText:@"*  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.bottom.equalTo(self).offset(-30);
 		}];
 		
-		otherWordLabel = [Tools creatUILabelWithText:@"Other Words" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		otherWordLabel = [Tools creatUILabelWithText:@"*  Other Words" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:otherWordLabel];
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
-			make.top.equalTo(allowLabel.mas_bottom).offset(20);
+			make.top.equalTo(allowLabel.mas_bottom).offset(12);
+			make.bottom.equalTo(self).offset(-20);
 		}];
+//		otherWordLabel.hidden = YES;
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -121,6 +121,29 @@
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
+	
+	NSDictionary *service_info = args;
+	
+	NSString *leaveStr = @"*  不需要家长陪同";
+	NSNumber *isAllow = [service_info objectForKey:kAYServiceArgsAllowLeave];
+	if (isAllow.boolValue) {
+		leaveStr = @"*  需要家长陪同";
+	}
+	allowLabel.text = leaveStr;
+	
+	NSString *otherWords = [service_info objectForKey:kAYServiceArgsNotice];
+	if (!otherWords || [otherWords isEqualToString:@""]) {
+		[allowLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(15);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.bottom.equalTo(self).offset(-30);
+		}];
+		
+		otherWordLabel.hidden = YES;
+	} else {
+		
+		otherWordLabel.text = [NSString stringWithFormat:@"*  %@", otherWords];
+	}
 	
 	return nil;
 }

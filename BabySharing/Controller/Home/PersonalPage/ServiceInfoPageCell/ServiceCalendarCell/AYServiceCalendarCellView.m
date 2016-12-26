@@ -19,6 +19,8 @@
     UILabel *tipsTitleLabel;
 	UILabel *timeLabel;
 	UILabel *moreScheduleLabel;
+	
+	NSDictionary *service_info;
 }
 
 @synthesize para = _para;
@@ -33,27 +35,37 @@
         CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
 			make.top.equalTo(self).offset(20);
-			make.bottom.equalTo(self).offset(-105);
+			make.bottom.equalTo(self).offset(-85);
 		}];
 		
-		timeLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		timeLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLabel.numberOfLines = 0;
 		[self addSubview:timeLabel];
 		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+			make.left.equalTo(self).offset(15);
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 		}];
+		
+		UILabel *moreLabel = [Tools creatUILabelWithText:@"更多可预定时间" andTextColor:[Tools themeColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		[self addSubview:moreLabel];
+		[moreLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(timeLabel);
+			make.right.equalTo(self).offset(-40);
+		}];
+		moreLabel.userInteractionEnabled = YES;
+		[moreLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMoreLabelTap)]];
 		
 		UIImageView *access = [[UIImageView alloc]init];
 		[self addSubview:access];
 		access.image = IMGRESOURCE(@"plan_time_icon");
 		[access mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-20);
-			make.centerY.equalTo(self);
+			make.centerY.equalTo(moreLabel);
 			make.size.mas_equalTo(CGSizeMake(15, 15));
 		}];
 		
@@ -116,13 +128,66 @@
 }
 
 #pragma mark -- actions
-- (void)didDetailBtnClick {
+- (void)didMoreLabelTap {
     kAYViewSendNotify(self, @"showServiceOfferDate", nil)
 }
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
-    
+	service_info = args;
+	
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	if (service_cat.intValue == ServiceTypeLookAfter) {
+		tipsTitleLabel.text = @"看顾时间";
+	}
+	else if (service_cat.intValue == ServiceTypeCourse) {
+		tipsTitleLabel.text = @"课程时间";
+	} else {
+		tipsTitleLabel.text = @"服务类型待调整";
+	}
+	
+	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+	[calendar setTimeZone: timeZone];
+	
+	NSDate *nowDate = [NSDate date];
+	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+	NSInteger sepNumb = theComponents.weekday;
+	
+	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
+	for (int i = 0; i < 7; ++i) {
+		
+		NSInteger weekday_offer_date = (sepNumb - 1 + i + 1) % 6;
+		if (weekday_offer_date > offer_date.count) {
+			continue;
+		}
+		
+		NSDictionary *tmp = [offer_date objectAtIndex:weekday_offer_date];
+		NSNumber *note = [tmp objectForKey:@"day"];
+		if (note) {
+			NSDictionary *dic_time = [[tmp objectForKey:kAYServiceArgsOccurance] firstObject];
+			NSNumber *stratNumb = [dic_time objectForKey:kAYServiceArgsStart];
+			NSNumber *endNumb = [dic_time objectForKey:kAYServiceArgsEnd];
+			NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%@-%@", stratNumb, endNumb];
+			[timesStr insertString:@":" atIndex:2];
+			[timesStr insertString:@":" atIndex:8];
+			
+			NSTimeInterval nowSpan = nowDate.timeIntervalSince1970;
+			NSTimeInterval ableTimeSpan = nowSpan + 86400 * (i - 1);
+			NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:ableTimeSpan];
+			NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,EEE"];
+			NSString *dateStrPer = [formatter stringFromDate:ableDate];
+			
+			timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
+			break;
+		}
+		
+	}
+	
+	
+	
+	
     return nil;
 }
 

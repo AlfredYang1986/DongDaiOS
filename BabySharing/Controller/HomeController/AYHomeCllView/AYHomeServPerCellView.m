@@ -77,9 +77,11 @@
 		
 		priceLabel = [Tools creatUILabelWithText:@"服务价格" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceLabel];
+//		[priceLabel sizeToFit];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
+//			make.width.mas_equalTo(priceLabel.bounds.size.width);
 		}];
 		
 		capacityLabel = [Tools creatUILabelWithText:@"服务最少预定" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
@@ -293,6 +295,12 @@
 				}
 			}//是否自定义课程标签判断end
 		}
+	} else {
+		
+		NSLog(@"---null---");
+		unitCat = @"单价";
+		leastTimesOrHours = @0;
+		titleLabel.text = @"该服务类型待调整";
 	}
 	
 	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
@@ -304,6 +312,12 @@
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
 	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
+	[priceLabel sizeToFit];
+	[priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(coverImage);
+		make.top.equalTo(titleLabel.mas_bottom).offset(15);
+		make.width.mas_equalTo(priceLabel.bounds.size.width);
+	}];
 	
 	capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 	[capacityLabel sizeToFit];

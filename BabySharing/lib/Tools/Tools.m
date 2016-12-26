@@ -588,6 +588,19 @@
     return btn;
 }
 
++ (void)setViewRadius:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor {
+	view.layer.cornerRadius = radius;
+	view.layer.borderWidth = width;
+	view.clipsToBounds = YES;
+	view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	if (color) {
+		view.layer.borderColor = color.CGColor;
+	}
+	if (backColor) {
+		view.backgroundColor = backColor;
+	}
+}
+
 #pragma mark -- CALayer
 + (void)creatCALayerWithFrame:(CGRect)frame andColor:(UIColor*)color  inSuperView:(UIView*)view {
 	

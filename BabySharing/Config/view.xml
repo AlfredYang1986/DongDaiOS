@@ -503,10 +503,10 @@
     </view>
     <view type="ServiceFacilityCell" name="ServiceFacilityCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="showCansOrFacility" />
     </view>
     <view type="ServiceMapCell" name="ServiceMapCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="showCansOrFacility" />
     </view>
     <view type="ServiceCalendarCell" name="ServiceCalendarCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />

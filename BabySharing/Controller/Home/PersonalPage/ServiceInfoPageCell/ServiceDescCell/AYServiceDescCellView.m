@@ -36,14 +36,15 @@
 		
 		self.clipsToBounds = YES;
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
 			make.top.equalTo(self).offset(20);
 		}];
 		
-		courseLengthLabel = [Tools creatUILabelWithText:@"Lection Length" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		courseLengthLabel = [Tools creatUILabelWithText:@"Lection Length" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[Tools setViewRadius:courseLengthLabel withRadius:12.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyBackgroundColor]];
 		[self addSubview:courseLengthLabel];
 		[courseLengthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
@@ -51,10 +52,10 @@
 			make.size.mas_equalTo(CGSizeMake(140, 25));
 		}];
 		
-		serviceDescLabel = [Tools creatUILabelWithText:@"Service Description" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		serviceDescLabel = [Tools creatUILabelWithText:@"Service Description" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:serviceDescLabel];
 		[serviceDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(courseLengthLabel.mas_bottom).offset(15);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(55);
 			make.left.equalTo(self).offset(15);
 			make.right.equalTo(self).offset(-15);
 			make.bottom.equalTo(self).offset(-15);
@@ -148,7 +149,6 @@
 	case ServiceTypeCourse:
 	{
 		tipsTitleLabel.text = @"课程描述";
-		
 		NSNumber *course_length = [service_info objectForKey:kAYServiceArgsCourseduration];
 		courseLengthLabel.text = [NSString stringWithFormat:@"课程时长%@分钟", course_length];
 		
@@ -158,7 +158,7 @@
 	{
 		tipsTitleLabel.text = @"服务描述";
 		courseLengthLabel.hidden = YES;
-		[courseLengthLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		[serviceDescLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(15);
 			make.left.equalTo(self).offset(15);
 			make.right.equalTo(self).offset(-15);
