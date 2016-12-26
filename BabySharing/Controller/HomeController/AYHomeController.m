@@ -45,6 +45,7 @@ typedef void(^queryContentFinish)(void);
 	NSTimeInterval timeSpan;
 	NSDictionary *search_loc;
 	NSNumber *search_cansCat;
+	NSNumber *search_servCat;
 	NSMutableArray *servicesData;
 	
 	UILabel *addressLabel;
@@ -91,6 +92,7 @@ typedef void(^queryContentFinish)(void);
 			else if ([key isEqualToString:@"filterTheme"]) {
 				themeCatlabel.text = [backArgs objectForKey:@"title"];
 				search_cansCat = [backArgs objectForKey:kAYServiceArgsTheme];
+				search_servCat = [backArgs objectForKey:kAYServiceArgsServiceCat];
 			}
 			[self loadNewData];
 		}
@@ -132,7 +134,6 @@ typedef void(^queryContentFinish)(void);
 	class_name = @"HomeTopTipCell";
 	[cmd_cell performWithResult:&class_name];
 	
-	
 //	NSString* class_name_his = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 //	[cmd_cell performWithResult:&class_name_his];
 //	
@@ -158,16 +159,25 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 55);
 	
-	UIImage *left = IMGRESOURCE(@"search_icon");
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//	UIImage *left = IMGRESOURCE(@"search_icon");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UIImageView *searchSign = [[UIImageView alloc]init];
+	searchSign.image = IMGRESOURCE(@"search_icon");
+	[view addSubview:searchSign];
+	[searchSign mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(view).offset(15);
+		make.centerY.equalTo(view).offset(5);
+		make.size.mas_equalTo(CGSizeMake(20, 20));
+	}];
+	
+	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(50);
-		make.centerY.equalTo(view);
+		make.centerY.equalTo(view).offset(5);
 		make.width.mas_lessThanOrEqualTo(150);
 	}];
 	
@@ -178,29 +188,35 @@ typedef void(^queryContentFinish)(void);
 	[view addSubview:pointSep];
 	[pointSep mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(addressLabel.mas_right).offset(15);
-		make.centerY.equalTo(view);
+		make.centerY.equalTo(addressLabel);
 		make.size.mas_equalTo(CGSizeMake(2, 2));
 	}];
 	
-	themeCatlabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	themeCatlabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:themeCatlabel];
 	[themeCatlabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(pointSep.mas_right).offset(15);
-		make.centerY.equalTo(view);
+		make.centerY.equalTo(addressLabel);
 	}];
 	
 	addressLabel.userInteractionEnabled = themeCatlabel.userInteractionEnabled = YES;
 	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
 	[themeCatlabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didThemeCatlabelTap)]];
 	
-	UIImage* right = IMGRESOURCE(@"map_icon");
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
+//	UIImage* right = IMGRESOURCE(@"map_icon");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
+	
+	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
+	is_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
+	
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
+    view.frame = CGRectMake(0, 75, SCREEN_WIDTH, SCREEN_HEIGHT - 75 - 49);
     ((UITableView*)view).backgroundColor = [UIColor whiteColor];
     return nil;
 }
@@ -253,6 +269,9 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
 	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
+	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
+	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
+	[dic_search setValue:search_servCat forKey:kAYServiceArgsServiceCat];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
@@ -294,6 +313,7 @@ typedef void(^queryContentFinish)(void);
 	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
 	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
+	[dic_search setValue:search_servCat forKey:kAYServiceArgsServiceCat];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {

@@ -33,21 +33,21 @@
 		CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"《服务守则》" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsTitleLabel = [Tools creatUILabelWithText:@"《 服务守则 》" andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(self).offset(20);
+			make.top.equalTo(self).offset(30);
 		}];
 		
-		allowLabel = [Tools creatUILabelWithText:@"*  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 		}];
 		
-		otherWordLabel = [Tools creatUILabelWithText:@"*  Other Words" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		otherWordLabel = [Tools creatUILabelWithText:@"·  Other Words" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:otherWordLabel];
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
@@ -124,10 +124,10 @@
 	
 	NSDictionary *service_info = args;
 	
-	NSString *leaveStr = @"*  不需要家长陪同";
+	NSString *leaveStr = @"·  不需要家长陪同";
 	NSNumber *isAllow = [service_info objectForKey:kAYServiceArgsAllowLeave];
 	if (isAllow.boolValue) {
-		leaveStr = @"*  需要家长陪同";
+		leaveStr = @"·  需要家长陪同";
 	}
 	allowLabel.text = leaveStr;
 	
@@ -142,7 +142,7 @@
 		otherWordLabel.hidden = YES;
 	} else {
 		
-		otherWordLabel.text = [NSString stringWithFormat:@"*  %@", otherWords];
+		otherWordLabel.text = [NSString stringWithFormat:@"·  %@", otherWords];
 	}
 	
 	return nil;

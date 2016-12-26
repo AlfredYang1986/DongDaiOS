@@ -17,9 +17,9 @@
         icon.image = [UIImage imageNamed:iconName];
         [self addSubview:icon];
         [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
+            make.top.equalTo(self).offset(3.5);
             make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(32, 32));
+            make.size.mas_equalTo(CGSizeMake(25, 25));
         }];
         
         UILabel *titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];

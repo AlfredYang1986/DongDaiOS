@@ -331,7 +331,7 @@ static NSString* const descInitStr =                @"描述一下自己的经�
             }
             [cmd_profle performWithResult:&dic];
             
-            NSString *title = @"保存已修改";
+            NSString *title = @"个人信息修改成功";
             [self popToRootVCWithTip:title];
         } else {
             

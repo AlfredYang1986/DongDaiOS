@@ -56,7 +56,7 @@
 	NSString* class_name_tip = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"FilterThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name_tip];
 	
-	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"搜  索" andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
+	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"搜索" andTitleColor:[Tools whiteColor] andFontSize:-20.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:doFilterBtn];
 	[doFilterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);

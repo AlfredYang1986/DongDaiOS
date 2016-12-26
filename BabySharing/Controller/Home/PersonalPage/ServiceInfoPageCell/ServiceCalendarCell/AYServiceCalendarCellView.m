@@ -35,15 +35,15 @@
         CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(self).offset(20);
+			make.top.equalTo(self).offset(30);
 			make.bottom.equalTo(self).offset(-85);
 		}];
 		
-		timeLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLabel = [Tools creatUILabelWithText:@"最近可预定时间" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		timeLabel.numberOfLines = 0;
 		[self addSubview:timeLabel];
 		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -51,23 +51,23 @@
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 		}];
 		
-		UILabel *moreLabel = [Tools creatUILabelWithText:@"更多可预定时间" andTextColor:[Tools themeColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		UILabel *moreLabel = [Tools creatUILabelWithText:@"更多可预定时间" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:moreLabel];
 		[moreLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(timeLabel);
-			make.right.equalTo(self).offset(-40);
+			make.right.equalTo(self).offset(-15);
 		}];
 		moreLabel.userInteractionEnabled = YES;
 		[moreLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMoreLabelTap)]];
 		
-		UIImageView *access = [[UIImageView alloc]init];
-		[self addSubview:access];
-		access.image = IMGRESOURCE(@"plan_time_icon");
-		[access mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-20);
-			make.centerY.equalTo(moreLabel);
-			make.size.mas_equalTo(CGSizeMake(15, 15));
-		}];
+//		UIImageView *access = [[UIImageView alloc]init];
+//		[self addSubview:access];
+//		access.image = IMGRESOURCE(@"plan_time_icon");
+//		[access mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.right.equalTo(self).offset(-20);
+//			make.centerY.equalTo(moreLabel);
+//			make.size.mas_equalTo(CGSizeMake(15, 15));
+//		}];
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -159,7 +159,7 @@
 	for (int i = 0; i < 7; ++i) {
 		
 		NSInteger weekday_offer_date = (sepNumb - 1 + i + 1) % 6;
-		if (weekday_offer_date > offer_date.count) {
+		if (weekday_offer_date >= offer_date.count) {
 			continue;
 		}
 		

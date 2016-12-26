@@ -36,11 +36,11 @@
 		
 		self.clipsToBounds = YES;
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(self).offset(20);
+			make.top.equalTo(self).offset(30);
 		}];
 		
 		courseLengthLabel = [Tools creatUILabelWithText:@"Lection Length" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
@@ -48,21 +48,22 @@
 		[self addSubview:courseLengthLabel];
 		[courseLengthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(10);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 			make.size.mas_equalTo(CGSizeMake(140, 25));
 		}];
 		
 		serviceDescLabel = [Tools creatUILabelWithText:@"Service Description" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		serviceDescLabel.numberOfLines = 0;
 		[self addSubview:serviceDescLabel];
 		[serviceDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(55);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(65);
 			make.left.equalTo(self).offset(15);
 			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self).offset(-15);
+			make.bottom.equalTo(self).offset(-30);
 		}];
 		
 		CGFloat margin = 0;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyColor] inSuperView:self];
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -159,10 +160,10 @@
 		tipsTitleLabel.text = @"服务描述";
 		courseLengthLabel.hidden = YES;
 		[serviceDescLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(15);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 			make.left.equalTo(self).offset(15);
 			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self).offset(-15);
+			make.bottom.equalTo(self).offset(-30);
 		}];
 	}
 		break;

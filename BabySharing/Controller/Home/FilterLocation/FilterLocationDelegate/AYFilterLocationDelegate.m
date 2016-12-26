@@ -104,6 +104,7 @@
 	
 	if (section == 0) {
 		titleLabel.text = @"定位地址";
+		
 		UIButton *reLocationBtn = [Tools creatUIButtonWithTitle:@"重新定位" andTitleColor:[Tools themeColor] andFontSize:13.f andBackgroundColor:nil];
 		[headView addSubview:reLocationBtn];
 		[reLocationBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -112,6 +113,15 @@
 			make.size.mas_equalTo(CGSizeMake(75, 25));
 		}];
 		[reLocationBtn addTarget:self action:@selector(didReLocationBtnClick) forControlEvents:UIControlEventTouchUpInside];
+		
+		UIImageView *locationSign = [[UIImageView alloc]init];
+		locationSign.image = IMGRESOURCE(@"position");
+		[headView addSubview:locationSign];
+		[locationSign mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(reLocationBtn.mas_left).offset(5);
+			make.centerY.equalTo(reLocationBtn);
+			make.size.mas_equalTo(CGSizeMake(20, 20));
+		}];
 		
 	} else {
 		titleLabel.text = @"附近地址";

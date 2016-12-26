@@ -6693,15 +6693,15 @@
 		70D5BC6E1D77E3960046B4BC /* ServiceInfoPageCell */ = {
 			isa = PBXGroup;
 			children = (
-				700D106E1E0D4F6000C77EDD /* ServiceNotiCell */,
 				70F4047C1DD022F700A68196 /* AYPlayItemsView */,
 				703B4CEE1DCC89E400B1088C /* ServiceTitleCell */,
 				700D106A1E0CDAB600C77EDD /* ServiceDescCell */,
+				703B4CE81DCC89E400B1088C /* ServiceCalendarCell */,
+				703B4CEB1DCC89E400B1088C /* ServiceMapCell */,
+				700D106E1E0D4F6000C77EDD /* ServiceNotiCell */,
 				703B4CEC1DCC89E400B1088C /* ServiceOwnerInfoCell */,
 				703B4CED1DCC89E400B1088C /* ServiceThemeCell */,
 				703B4CEA1DCC89E400B1088C /* ServiceFacilityCell */,
-				703B4CEB1DCC89E400B1088C /* ServiceMapCell */,
-				703B4CE81DCC89E400B1088C /* ServiceCalendarCell */,
 				703B4CE91DCC89E400B1088C /* ServiceCostCell */,
 			);
 			path = ServiceInfoPageCell;

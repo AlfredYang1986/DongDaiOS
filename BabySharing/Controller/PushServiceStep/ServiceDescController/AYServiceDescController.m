@@ -18,7 +18,7 @@
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define LIMITNUMB                   88
+#define LIMITNUMB                   200
 
 @implementation AYServiceDescController {
     UITextView *descTextView;

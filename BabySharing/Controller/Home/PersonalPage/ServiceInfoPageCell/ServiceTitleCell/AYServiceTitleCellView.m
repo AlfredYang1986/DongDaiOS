@@ -42,21 +42,22 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(20);
+			make.right.equalTo(self).offset(-15);
         }];
 		
-		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:-17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview: themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
 		}];
 		
-		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:ownerNameLabel];
 		[ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -75,18 +76,27 @@
 		ownerPhoto.userInteractionEnabled = YES;
 		[ownerPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
 		
+		UIView *sepLine = [[UIView alloc]init];
+		sepLine.backgroundColor = [Tools garyLineColor];
+		[self addSubview:sepLine];
+		[sepLine mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.top.equalTo(ownerPhoto.mas_bottom).offset(25);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+		}];
+		
 //        capacity_icon
         UIImageView *signCapacity = [[UIImageView alloc]init];
         signCapacity.image = IMGRESOURCE(@"service_page_capacity");
         [self addSubview:signCapacity];
         [signCapacity mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(ownerPhoto.mas_bottom).offset(35);
+			make.top.equalTo(ownerPhoto.mas_bottom).offset(45);
             make.centerX.equalTo(self);
             make.bottom.equalTo(self).offset(-45);
             make.size.mas_equalTo(CGSizeMake(27, 27));
         }];
         
-        capacityLabel = [Tools creatUILabelWithText:@"0 Children" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        capacityLabel = [Tools creatUILabelWithText:@"0 Children" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:capacityLabel];
         [capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(signCapacity);
@@ -103,7 +113,7 @@
             make.size.equalTo(signCapacity);
         }];
         
-        filtBabyArgsLabel = [Tools creatUILabelWithText:@"0-0 years old" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        filtBabyArgsLabel = [Tools creatUILabelWithText:@"0-0 years old" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:filtBabyArgsLabel];
         [filtBabyArgsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(signBabyAges);
@@ -120,16 +130,16 @@
             make.size.equalTo(signCapacity);
         }];
         
-        servantLabel = [Tools creatUILabelWithText:@"Numb of servant" andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        servantLabel = [Tools creatUILabelWithText:@"Numb of servant" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:servantLabel];
         [servantLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(servantSign);
             make.centerY.equalTo(capacityLabel);
         }];
 		
-        CGFloat margin = 0;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyColor] inSuperView:self];
-        
+//        CGFloat margin = 0;
+//		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyColor] inSuperView:self];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -265,13 +275,38 @@
 		themeLabel.text = @"该服务类型待调整";
 	}
 	
-	
-	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 	NSString *pre = cmd.route;
-	[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
-				  placeholderImage:IMGRESOURCE(@"default_user")];
+	
+	NSNumber *pre_mode = [service_info objectForKey:@"perview_mode"];
+	if (pre_mode) {     //用户预览
+		NSDictionary *user_info;
+		CURRENPROFILE(user_info)
+		
+		ownerNameLabel.text = [user_info objectForKey:@"screen_name"];
+		NSString* photo_name = [user_info objectForKey:@"screen_photo"];
+		[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+					 placeholderImage:IMGRESOURCE(@"default_user")];
+		ownerPhoto.userInteractionEnabled = NO;
+		
+	} else {
+		
+		ownerPhoto.userInteractionEnabled = YES;
+		ownerNameLabel.text = [service_info objectForKey:@"screen_name"];
+		NSString *screen_photo = [service_info objectForKey:@"screen_photo"];
+		if (screen_photo) {
+			[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+		}
+	}
+	
+//	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
+//	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+//	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+//	NSString *pre = cmd.route;
+//	[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+//				  placeholderImage:IMGRESOURCE(@"default_user")];
 	
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);

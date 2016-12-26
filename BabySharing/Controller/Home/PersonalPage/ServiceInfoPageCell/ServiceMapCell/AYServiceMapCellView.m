@@ -45,17 +45,17 @@
 		CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"地理位置" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsTitleLabel = [Tools creatUILabelWithText:@"地理位置" andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.top.equalTo(self).offset(20);
+			make.top.equalTo(self).offset(30);
 		}];
 		
 		orderMapView = [[MAMapView alloc]init];
 		[self addSubview:orderMapView];
 		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(15);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 			make.centerX.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 175));
 			make.bottom.equalTo(self).offset(-90);
@@ -70,17 +70,17 @@
 		addressLabel.numberOfLines = 0;
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self).offset(-15);
-			make.centerY.equalTo(self).offset(-53);
-			make.width.mas_equalTo(200);
+			make.centerX.equalTo(self);
+			make.bottom.equalTo(self.mas_top).offset(130);
+//			make.width.mas_equalTo(200);
 		}];
 		
 		addressBg = [[UIImageView alloc]init];
 		[self addSubview:addressBg];
 //		addressBg.contentMode = UIViewContentModeBottom;
-		addressBg.image =  [IMGRESOURCE(@"address_bg") resizableImageWithCapInsets:UIEdgeInsetsMake(15, 0, 15, 0) resizingMode:UIImageResizingModeStretch];
+		addressBg.image =  [IMGRESOURCE(@"address_bg") resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
 		[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-10, -15, -20, -15));
+			make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-10, -15, -10, -15));
 		}];
 		
 		[self bringSubviewToFront:addressBg];
@@ -172,13 +172,14 @@
 	}
 	
 	//rang
-	orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
+//	orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
 	currentAnno = [[AYAnnonation alloc]init];
 	currentAnno.coordinate = loc.coordinate;
 	currentAnno.title = @"定位位置";
 	currentAnno.imageName = @"location_self";
 	currentAnno.index = 9999;
 	[orderMapView addAnnotation:currentAnno];
+	[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
 //	[orderMapView showAnnotations:@[currentAnno] animated:NO];
 	NSLog(@"add current_anno");
 	

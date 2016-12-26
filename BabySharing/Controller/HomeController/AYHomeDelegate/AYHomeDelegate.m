@@ -42,19 +42,19 @@
 			on = @"获取系统时间错误";
 		}
 		
-		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:125.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:-26.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:hello];
 		[hello mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		UILabel *tipsLabel = [Tools creatUILabelWithText:@"为您的孩子找个好去处" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *tipsLabel = [Tools creatUILabelWithText:@"为您的孩子找个好去处" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsLabel];
 		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.right.equalTo(self).offset(-20);
-			make.top.equalTo(hello.mas_bottom).offset(15);
+			make.top.equalTo(hello.mas_bottom).offset(10);
 		}];
 		
 		CALayer *sepLayer = [CALayer layer];
@@ -133,7 +133,7 @@
     if (indexPath.row == 0) {
 		return 140;
     } else {
-		return 325;
+		return 335;
     }
 }
 

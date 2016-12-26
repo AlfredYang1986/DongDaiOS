@@ -14,7 +14,7 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-#define TableViewHeadHeight		55.f
+#define TableViewHeadHeight		65.f
 #define TableViewCellHeight		45.f
 
 @implementation AYFilterThemeDelegate {
@@ -101,7 +101,7 @@
 	
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools whiteColor];
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);

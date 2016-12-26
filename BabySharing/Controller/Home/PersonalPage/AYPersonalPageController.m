@@ -159,8 +159,8 @@
         [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
         
         collectionBtn = [[UIButton alloc]init];
-        [collectionBtn setImage:IMGRESOURCE(@"bar_unlike_btn") forState:UIControlStateNormal];
-        [collectionBtn setImage:IMGRESOURCE(@"bar_like_btn") forState:UIControlStateSelected];
+        [collectionBtn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
+        [collectionBtn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
         [flexibleView addSubview:collectionBtn];
         [flexibleView bringSubviewToFront:collectionBtn];
         [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -221,7 +221,7 @@
 		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
 		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:14.f];
 		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(25, -27, 0, 0)];
+		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(30, -27, 0, 0)];
 		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 31, 0, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		[bottom_view addSubview:chatBtn];
@@ -235,13 +235,13 @@
 		[bottom_view addSubview:priceLabel];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(bottom_view).offset(115);
-			make.bottom.equalTo(bottom_view.mas_centerY).offset(-2);
+			make.bottom.equalTo(bottom_view.mas_centerY).offset(0);
 		}];
 		
 		UILabel *capacityLabel = [Tools creatUILabelWithText:@"服务最少预定" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[bottom_view addSubview:capacityLabel];
 		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(bottom_view.mas_centerY).offset(2);
+			make.top.equalTo(bottom_view.mas_centerY).offset(4);
 			make.left.equalTo(priceLabel);
 		}];
 		
@@ -269,13 +269,13 @@
 		NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
 		
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-		[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+		[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 		priceLabel.attributedText = attributedText;
 		
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-        UIButton *bookBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:-14.f andBackgroundColor:[Tools themeColor]];
+        UIButton *bookBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
 		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
         [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [bottom_view addSubview:bookBtn];
@@ -334,8 +334,8 @@
     }];
     */
     bar_like_btn = [[UIButton alloc]init];
-    [bar_like_btn setImage:IMGRESOURCE(@"bar_unlike_btn") forState:UIControlStateNormal];
-    [bar_like_btn setImage:IMGRESOURCE(@"bar_like_btn") forState:UIControlStateSelected];
+    [bar_like_btn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
