@@ -201,6 +201,7 @@
 		702E7AB91CA169E30097867E /* command.xml in Resources */ = {isa = PBXBuildFile; fileRef = 702E7AB81CA169E30097867E /* command.xml */; };
 		702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ABF1CA16C830097867E /* AYAppInitCommandFactory.m */; };
 		702E7AD01CA184A70097867E /* AYAppInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7ACF1CA184A70097867E /* AYAppInitCommand.m */; };
+		702F79DB1E1215A10062F2EA /* AYBOrderTimeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 702F79DA1E1215A10062F2EA /* AYBOrderTimeController.m */; };
 		7030B9471DEE8D32001EB6E4 /* AYSetServiceCapacityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7030B9401DEE8D32001EB6E4 /* AYSetServiceCapacityController.m */; };
 		7030B9481DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7030B9431DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.m */; };
 		7030B9491DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7030B9461DEE8D32001EB6E4 /* AYSetServiceCapacityCellView.m */; };
@@ -1129,6 +1130,8 @@
 		702E7ACE1CA184A70097867E /* AYAppInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppInitCommand.h; sourceTree = "<group>"; };
 		702E7ACF1CA184A70097867E /* AYAppInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppInitCommand.m; sourceTree = "<group>"; };
 		702E7AD11CA185C70097867E /* AYCommandDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYCommandDefines.h; sourceTree = "<group>"; };
+		702F79D91E1215A10062F2EA /* AYBOrderTimeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOrderTimeController.h; sourceTree = "<group>"; };
+		702F79DA1E1215A10062F2EA /* AYBOrderTimeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderTimeController.m; sourceTree = "<group>"; };
 		7030B93F1DEE8D32001EB6E4 /* AYSetServiceCapacityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityController.h; sourceTree = "<group>"; };
 		7030B9401DEE8D32001EB6E4 /* AYSetServiceCapacityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityController.m; sourceTree = "<group>"; };
 		7030B9421DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityDelegate.h; sourceTree = "<group>"; };
@@ -3783,6 +3786,7 @@
 				707E79C41D06733100DFC198 /* Home */,
 				7015243E1CBF938F005B4C5B /* HomeController */,
 				703C7DB41D48A7F800292F18 /* Message */,
+				702F79D71E1215710062F2EA /* BookOrderStep */,
 				7059C9A01D45B712004973F3 /* Order */,
 				70501C831D2F49DD0050E0C8 /* Profile */,
 				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
@@ -3827,6 +3831,23 @@
 				702E7ACF1CA184A70097867E /* AYAppInitCommand.m */,
 			);
 			path = AppInitCommand;
+			sourceTree = "<group>";
+		};
+		702F79D71E1215710062F2EA /* BookOrderStep */ = {
+			isa = PBXGroup;
+			children = (
+				702F79D81E1215710062F2EA /* BOrderTime */,
+			);
+			path = BookOrderStep;
+			sourceTree = "<group>";
+		};
+		702F79D81E1215710062F2EA /* BOrderTime */ = {
+			isa = PBXGroup;
+			children = (
+				702F79D91E1215A10062F2EA /* AYBOrderTimeController.h */,
+				702F79DA1E1215A10062F2EA /* AYBOrderTimeController.m */,
+			);
+			path = BOrderTime;
 			sourceTree = "<group>";
 		};
 		7030B93E1DEE8D32001EB6E4 /* SetServiceCapacity */ = {
@@ -8326,6 +8347,7 @@
 				7001C4861DD58BCC004275A9 /* AYSetNapScheduleController.m in Sources */,
 				7000CD281D7E8A5200DA98F2 /* MJRefreshStateHeader.m in Sources */,
 				70F428781CC7B18F00A69977 /* MASConstraint.m in Sources */,
+				702F79DB1E1215A10062F2EA /* AYBOrderTimeController.m in Sources */,
 				700693191CC4A3AF00B511FF /* WEPopoverContainerView.m in Sources */,
 				70AC5BAD1CC8C6B600E2568F /* AYPostUnlikeContentCommand.m in Sources */,
 				704697DB1CE047F200DACD8A /* UIImage+WebP.m in Sources */,

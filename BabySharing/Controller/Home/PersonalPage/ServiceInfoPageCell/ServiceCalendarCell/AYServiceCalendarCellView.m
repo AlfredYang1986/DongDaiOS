@@ -158,29 +158,30 @@
 	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
 	for (int i = 0; i < 7; ++i) {
 		
-		NSInteger weekday_offer_date = (sepNumb - 1 + i + 1) % 6;
-		if (weekday_offer_date >= offer_date.count) {
-			continue;
-		}
-		
-		NSDictionary *tmp = [offer_date objectAtIndex:weekday_offer_date];
-		NSNumber *note = [tmp objectForKey:@"day"];
-		if (note) {
-			NSDictionary *dic_time = [[tmp objectForKey:kAYServiceArgsOccurance] firstObject];
-			NSNumber *stratNumb = [dic_time objectForKey:kAYServiceArgsStart];
-			NSNumber *endNumb = [dic_time objectForKey:kAYServiceArgsEnd];
-			NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%@-%@", stratNumb, endNumb];
-			[timesStr insertString:@":" atIndex:2];
-			[timesStr insertString:@":" atIndex:8];
+		NSInteger weekday_offer_date = (sepNumb - 1 + i + 1) % 7;
+		NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday_offer_date];
+		NSArray *result_contains = [offer_date filteredArrayUsingPredicate:pred_contains];
+		if (result_contains.count != 0) {
 			
-			NSTimeInterval nowSpan = nowDate.timeIntervalSince1970;
-			NSTimeInterval ableTimeSpan = nowSpan + 86400 * (i - 1);
-			NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:ableTimeSpan];
-			NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,EEE"];
-			NSString *dateStrPer = [formatter stringFromDate:ableDate];
-			
-			timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-			break;
+			NSDictionary *tmp = [result_contains firstObject];
+			NSNumber *note = [tmp objectForKey:@"day"];
+			if (note) {
+				NSDictionary *dic_time = [[tmp objectForKey:kAYServiceArgsOccurance] firstObject];
+				NSNumber *stratNumb = [dic_time objectForKey:kAYServiceArgsStart];
+				NSNumber *endNumb = [dic_time objectForKey:kAYServiceArgsEnd];
+				NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%@-%@", stratNumb, endNumb];
+				[timesStr insertString:@":" atIndex:2];
+				[timesStr insertString:@":" atIndex:8];
+				
+				NSTimeInterval nowSpan = nowDate.timeIntervalSince1970;
+				NSTimeInterval ableTimeSpan = nowSpan + 86400 * (i + 1);
+				NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:ableTimeSpan];
+				NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,EEE"];
+				NSString *dateStrPer = [formatter stringFromDate:ableDate];
+				
+				timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
+				break;
+			}
 		}
 		
 	}
