@@ -1,18 +1,19 @@
 //
-//  AYMapMatchDelegate.m
+//  AYBOrderTimeDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 21/12/16.
+//  Created by Alfred Yang on 27/12/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYMapMatchDelegate.h"
+#import "AYBOrderTimeDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYModelFacade.h"
 #import "AYMapMatchCellView.h"
+#import "AYBOrderTimeItemView.h"
 
-@implementation AYMapMatchDelegate {
-	NSArray *servicesData;
+@implementation AYBOrderTimeDelegate {
+	NSArray *query_data;
 }
 
 #pragma mark -- command
@@ -42,33 +43,33 @@
 }
 
 - (id)changeQueryData:(id)args {
-	servicesData = (NSArray*)args;
+	query_data = (NSArray*)args;
 	return nil;
 }
 
 #pragma mark -- collection
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return 5;
+	return 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	AYMapMatchCellView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
+	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	AYBOrderTimeItemView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
 	
-	NSArray *tmp = [NSArray array];
-	cell.serviceData = tmp;
+	NSArray *tmp = [query_data copy];
+	cell.item_data = tmp;
 	cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
 		
 	};
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	return (UICollectionViewCell*)cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	return CGSizeMake(SCREEN_WIDTH, 260);
+	return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

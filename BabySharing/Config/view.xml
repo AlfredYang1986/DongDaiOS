@@ -725,7 +725,11 @@
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
-    
+	
+	<view type="BOrderTimeItem" name="BOrderTimeItem" factory="AYDefaultViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="OrderInfoHeadCell" name="OrderInfoHeadCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />

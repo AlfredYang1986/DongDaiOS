@@ -932,7 +932,15 @@
 
         <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" />
     </controller>
-    
+	
+	<controller type="DefaultController" name="BOrderTime" factory="AYDefaultControllerFactoy" >
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="Collection"        name="Collection" />
+		
+		<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" />
+	</controller>
+	
     <controller type="DefaultController" name="OrderTimes" factory="AYDefaultControllerFactoy" >
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="FakeStatusBar"  name="FakeStatusBar" />

@@ -146,11 +146,10 @@
 		tipsTitleLabel.text = @"服务类型待调整";
 	}
 	
+	NSDate *nowDate = [NSDate date];
 	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
 	[calendar setTimeZone: timeZone];
-	
-	NSDate *nowDate = [NSDate date];
 	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
 	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
 	NSInteger sepNumb = theComponents.weekday;

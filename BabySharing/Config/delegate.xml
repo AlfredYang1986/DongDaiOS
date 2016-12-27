@@ -348,7 +348,10 @@
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
-		<command type="notify" message="showPicker2:" />
+	</delegate>
+	
+	<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
 	</delegate>
 	
 </delegates>
