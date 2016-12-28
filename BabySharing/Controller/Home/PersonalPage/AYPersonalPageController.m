@@ -21,6 +21,8 @@
 #define kLIMITEDSHOWNAVBAR  (-70.5)
 #define kFlexibleHeight     250
 #define btmViewHeight       80
+#define bookBtnTitleNormal  @"查看可预约时间"
+#define bookBtnTitleSeted  @"申请预定"
 
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
@@ -35,6 +37,9 @@
     
     UIView *flexibleView;
     SDCycleScrollView *cycleScrollView;
+	
+	UIButton *bookBtn;
+	NSArray *setedTimesArr;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -47,21 +52,14 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        
+        setedTimesArr = [dic objectForKey:kAYControllerChangeArgsKey];
+		bookBtn.titleLabel.text = bookBtnTitleSeted;
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-//    UILabel *secret = [Tools creatUILabelWithText:@"有温度的儿童主题看顾社区" andTextColor:[UIColor colorWithWhite:0.88 alpha:1.f] andFontSize:12.f andBackgroundColor:nil andTextAlignment:1];
-//    [self.view addSubview:secret];
-//    [self.view sendSubviewToBack:secret];
-//    [secret mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.view).offset(28);
-//        make.centerX.equalTo(self.view);
-//    }];
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -133,9 +131,6 @@
         [flexibleView addSubview:cycleScrollView];
         cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
-//        [cycleScrollView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.edges.equalTo(flexibleView);
-//        }];
 		
         UIImageView *topMaskVeiw = [[UIImageView alloc]init];
         topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
@@ -275,7 +270,8 @@
 		
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-        UIButton *bookBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
+        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
+		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
 		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
         [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [bottom_view addSubview:bookBtn];
@@ -475,49 +471,56 @@
     /**
      * 1. cannot order owner service
      */
-    NSDictionary* user = nil;
-    CURRENPROFILE(user);
-    NSString *user_id = [user objectForKey:@"user_id"];
-    NSString *owner_id = [service_info objectForKey:@"owner_id"];
-    if ([user_id isEqualToString:owner_id]) {
-        
-        NSString *title = @"该服务是您自己发布";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return;
-    }
-   
-    /**
-     * 2. check profile has_phone, if not, go confirmNoConsumer
-     */
-    if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
-//    if (0) {
-        id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd_show_module = PUSH;
-        [cmd_show_module performWithResult:&dic];
-
-    } else {
-        id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNoConsumer");
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-        [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-        [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-        [dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd_show_module = PUSH;
-        [cmd_show_module performWithResult:&dic];
-    }
+	
+	if ([btn.titleLabel.text isEqualToString:bookBtnTitleNormal]) {
+		[self showServiceOfferDate];
+		
+	} else {
+	
+		NSDictionary* user = nil;
+		CURRENPROFILE(user);
+		NSString *user_id = [user objectForKey:@"user_id"];
+		NSString *owner_id = [service_info objectForKey:@"owner_id"];
+		if ([user_id isEqualToString:owner_id]) {
+			
+			NSString *title = @"该服务是您自己发布";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			return;
+		}
+		
+		/**
+		 * 2. check profile has_phone, if not, go confirmNoConsumer
+		 */
+		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
+			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd_show_module = PUSH;
+			[cmd_show_module performWithResult:&dic];
+			
+		} else {
+			id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNoConsumer");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd_show_module = PUSH;
+			[cmd_show_module performWithResult:&dic];
+		}
+	}
+	
 }
 
 - (void)didChatBtnClick:(UIButton*)btn{
     NSDictionary* user = nil;
     CURRENUSER(user);
-    
+	
     NSString *user_id = [user objectForKey:@"user_id"];
     NSString *owner_id = [service_info objectForKey:@"owner_id"];
     if ([user_id isEqualToString:owner_id]) {

@@ -337,14 +337,9 @@
     
     [self hideKeyboard];
     
-    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-    
-    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-    [dic_alert setValue:@"动态密码已发送" forKey:@"title"];
-    [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-    [cmd_alert performWithResult:&dic_alert];
-    
+	NSString *title = @"正在为您发送动态密码，请稍等...\n*请在10分钟内完成验证";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	
     return nil;
 }
 

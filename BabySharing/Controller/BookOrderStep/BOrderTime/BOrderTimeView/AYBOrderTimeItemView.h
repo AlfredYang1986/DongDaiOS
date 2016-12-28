@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-typedef void(^touchUpInSubCell)(NSDictionary*);
+typedef void(^touchUpInSubBtn)(NSDictionary*);
 
 @interface AYBOrderTimeItemView : UICollectionViewCell <AYViewBase>
 @property (nonatomic, strong) NSArray *item_data;
-@property (nonatomic, strong) touchUpInSubCell didTouchUpInSubCell;
+@property (nonatomic, strong) touchUpInSubBtn didTouchUpInSubBtn;
+@property (nonatomic, assign) NSInteger multiple;
 
 @end

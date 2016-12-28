@@ -7,10 +7,9 @@
 //
 
 #import "AYServTimesBtn.h"
+#import "AYBOrderTimeDefines.h"
 
-#define itemWidth				((SCREEN_WIDTH - 15) / 7)
-#define AdjustFiltVertical				7
-#define itemUintHeight  					34
+#define TitleFontSize		10.f
 
 @implementation AYServTimesBtn {
 	UILabel *topTitle;
@@ -27,23 +26,23 @@
 		NSNumber *top = [args objectForKey:kAYServiceArgsStart];
 		NSNumber *btm = [args objectForKey:kAYServiceArgsEnd];
 		
-		CGFloat offsetY = itemUintHeight * (top.intValue / 100 - 6);
+		CGFloat offsetY = itemUintHeight * (top.intValue / 100 - 6) + 40;
 		CGFloat height =  itemUintHeight * (btm.intValue / 100 - top.intValue / 100);
-		self.frame = CGRectMake(offsetX + 15, offsetY + AdjustFiltVertical, itemWidth, height);
+		self.frame = CGRectMake(offsetX, offsetY + AdjustFiltVertical, itemWidth, height);
 		
 		normalBg = [[UIView alloc]init];
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth, height) andColor:[Tools garyBackgroundColor] inSuperView:normalBg];
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth, 3) andColor:[Tools themeColor] inSuperView:normalBg];
+		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, height) andColor:[Tools garyBackgroundColor] inSuperView:normalBg];
+		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, 3) andColor:[Tools themeColor] inSuperView:normalBg];
 		[self addSubview:normalBg];
 		[normalBg mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(self);
+			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 0, 0, -1));
 		}];
 		
 		selectedBg = [[UIView alloc]init];
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth, height) andColor:[Tools themeColor] inSuperView:selectedBg];
+		[Tools creatCALayerWithFrame:CGRectMake(0, 0, itemWidth - 1, height) andColor:[Tools themeColor] inSuperView:selectedBg];
 		[self addSubview:selectedBg];
 		[selectedBg mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(self);
+			make.edges.equalTo(normalBg);
 		}];
 		
 		// init status
@@ -52,9 +51,9 @@
 		selectedBg.userInteractionEnabled = normalBg.userInteractionEnabled = NO;
 		
 		NSMutableString *tmp = [NSMutableString stringWithFormat:@"%@", top];
-		[tmp insertString:@":" atIndex:2];
+		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
-		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:topTitle];
 		[topTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(3);
@@ -62,9 +61,9 @@
 		}];
 		
 		tmp = [NSMutableString stringWithFormat:@"%@", btm];
-		[tmp insertString:@":" atIndex:2];
+		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
-		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:btmtitle];
 		[btmtitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self);

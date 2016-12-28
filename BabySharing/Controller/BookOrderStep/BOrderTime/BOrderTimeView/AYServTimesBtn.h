@@ -12,4 +12,6 @@
 
 - (instancetype)initWithOffsetX:(CGFloat)offsetX andTimesDic:(NSDictionary*)args;
 
+@property (nonatomic, strong) NSDictionary *dic_times;
+
 @end

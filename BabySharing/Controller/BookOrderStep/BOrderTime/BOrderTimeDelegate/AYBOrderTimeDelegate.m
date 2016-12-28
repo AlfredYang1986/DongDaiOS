@@ -59,8 +59,9 @@
 	
 	NSArray *tmp = [query_data copy];
 	cell.item_data = tmp;
-	cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
-		
+	cell.multiple = indexPath.row;
+	cell.didTouchUpInSubBtn = ^(NSDictionary *service_info) {
+		kAYDelegateSendNotify(self, @"transTimesInfo:", &service_info)
 	};
 	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
@@ -72,8 +73,11 @@
 	return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height);
 }
 
+#pragma mark -- UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-	
+	CGFloat offset_x = scrollView.contentOffset.x;
+	NSNumber *tmp = [NSNumber numberWithFloat:offset_x];
+	kAYDelegateSendNotify(self, @"scrollOffsetX:", &tmp)
 }
 
 #pragma mark -- actions

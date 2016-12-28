@@ -17,10 +17,7 @@
 #import "AYModelFacade.h"
 #import "AYViewController.h"
 #import "AYServTimesBtn.h"
-
-#define itemWidth				((SCREEN_WIDTH - 15) / 7)
-#define AdjustFiltVertical				7
-#define itemMargin  					68
+#import "AYBOrderTimeDefines.h"
 
 @implementation AYBOrderTimeItemView {
 	
@@ -72,27 +69,24 @@
 
 - (void)initialize {
 	
-	scheduleView = [[UIScrollView alloc]init];
-	scheduleView.showsVerticalScrollIndicator = NO;
-	scheduleView.showsHorizontalScrollIndicator = NO;
-	scheduleView.bounces = NO;
-	[self addSubview:scheduleView];
-	[scheduleView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self);
-	}];
-	
-	scheduleView.contentSize = CGSizeMake(SCREEN_WIDTH, 68 * 8 + 20);
-	
-	for (int i = 0; i < 9; ++i) {
-		UILabel *itemLabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"%d", 6+2*i] andTextColor:[Tools garyColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[scheduleView addSubview:itemLabel];
-		[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(scheduleView.mas_left).offset(15*0.5);
-			make.top.equalTo(scheduleView.mas_top).offset(itemMargin * i);
-		}];
+	{
+		NSDate *nowDate = [NSDate date];
+		NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+		NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+		[calendar setTimeZone: timeZone];
+		NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+		NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+		weekdaySep = theComponents.weekday - 1;
 		
-		[Tools creatCALayerWithFrame:CGRectMake(15, AdjustFiltVertical + itemMargin * i, SCREEN_WIDTH - 15, 0.5) andColor:[Tools garyLineColor] inSuperView:scheduleView];
-		
+		NSArray *weekdayTitle = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六"];
+		for (int i = 0; i < weekdayTitle.count; ++i) {
+			UILabel *itemLabel = [Tools creatUILabelWithText:[weekdayTitle objectAtIndex:(weekdaySep + i) % 7] andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+			[self addSubview:itemLabel];
+			[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.centerY.equalTo(self.mas_top).offset(20);
+				make.centerX.equalTo(self.mas_left).offset(itemWidth*0.5 + itemWidth * i);
+			}];
+		}
 	}
 	
 	//	[self setUpReuseCell];
@@ -137,8 +131,13 @@
 - (void)didTimesBtnClick:(UIButton*)btn {
 	
 	btn.selected = !btn.selected;
-//	NSInteger ooo = btn.tag;
 	
+	NSDictionary *times = ((AYServTimesBtn*)btn).dic_times;
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:times];
+	[tmp setValue:[NSNumber numberWithInt:(int)btn.tag] forKey:@"weekday"];
+	[tmp setValue:[NSNumber numberWithInteger:_multiple] forKey:@"multiple"];
+	[tmp setValue:btn forKey:@"btn"];
+	_didTouchUpInSubBtn(tmp);
 }
 
 #pragma mark -- messages
@@ -150,36 +149,26 @@
 
 - (void)setItem_data:(NSArray *)item_data {
 	
-	NSDate *nowDate = [NSDate date];
-	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-	[calendar setTimeZone: timeZone];
-	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-	weekdaySep = theComponents.weekday - 1;
-	
 	for (int i = 0; i < 7; ++i) {
-		
 		NSInteger weekday_offer_date = (weekdaySep + i) % 7;
 		NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday_offer_date];
 		NSArray *result_contains = [item_data filteredArrayUsingPredicate:pred_contains];
 		if (result_contains.count != 0) {
 			
 			NSDictionary *dic_day = [result_contains firstObject];
-			NSNumber *note = [dic_day objectForKey:kAYServiceArgsWeekday];
+//			NSNumber *note = [dic_day objectForKey:kAYServiceArgsWeekday];
 			CGFloat offsetX = itemWidth * i;
 			NSArray *timesArr = [dic_day objectForKey:kAYServiceArgsOccurance];
 			for (NSDictionary *times in timesArr) {
 				
 				AYServTimesBtn *timesBtn = [[AYServTimesBtn alloc]initWithOffsetX:offsetX andTimesDic:times];
-				[scheduleView addSubview:timesBtn];
-				timesBtn.tag = note.integerValue;
+				[self addSubview:timesBtn];
+				timesBtn.tag = i;
+				timesBtn.dic_times = times;
 				[timesBtn addTarget:self action:@selector(didTimesBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 			}
 		}
-		
 	} //for end
-	
 	
 }
 

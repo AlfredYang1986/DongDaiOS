@@ -1141,6 +1141,7 @@
 		702F79E21E1258610062F2EA /* AYBOrderTimeItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderTimeItemView.m; sourceTree = "<group>"; };
 		702F79E41E1269970062F2EA /* AYServTimesBtn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServTimesBtn.h; sourceTree = "<group>"; };
 		702F79E51E1269970062F2EA /* AYServTimesBtn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServTimesBtn.m; sourceTree = "<group>"; };
+		702FB1B71E1359470074E3E3 /* AYBOrderTimeDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOrderTimeDefines.h; sourceTree = "<group>"; };
 		7030B93F1DEE8D32001EB6E4 /* AYSetServiceCapacityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityController.h; sourceTree = "<group>"; };
 		7030B9401DEE8D32001EB6E4 /* AYSetServiceCapacityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityController.m; sourceTree = "<group>"; };
 		7030B9421DEE8D32001EB6E4 /* AYSetServiceCapacityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityDelegate.h; sourceTree = "<group>"; };
@@ -3877,6 +3878,7 @@
 				702F79E21E1258610062F2EA /* AYBOrderTimeItemView.m */,
 				702F79E41E1269970062F2EA /* AYServTimesBtn.h */,
 				702F79E51E1269970062F2EA /* AYServTimesBtn.m */,
+				702FB1B71E1359470074E3E3 /* AYBOrderTimeDefines.h */,
 			);
 			path = BOrderTimeView;
 			sourceTree = "<group>";

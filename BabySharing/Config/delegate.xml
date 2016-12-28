@@ -352,6 +352,8 @@
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="scrollOffsetX:" />
+		<command type="notify" message="transTimesInfo:" />
 	</delegate>
 	
 </delegates>
