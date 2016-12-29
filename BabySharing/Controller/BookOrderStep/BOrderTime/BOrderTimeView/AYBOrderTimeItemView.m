@@ -136,7 +136,9 @@
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:times];
 	[tmp setValue:[NSNumber numberWithInt:(int)btn.tag] forKey:@"weekday"];
 	[tmp setValue:[NSNumber numberWithInteger:_multiple] forKey:@"multiple"];
+	
 	[tmp setValue:btn forKey:@"btn"];
+	
 	_didTouchUpInSubBtn(tmp);
 }
 
@@ -156,15 +158,23 @@
 		if (result_contains.count != 0) {
 			
 			NSDictionary *dic_day = [result_contains firstObject];
-//			NSNumber *note = [dic_day objectForKey:kAYServiceArgsWeekday];
+//			NSNumber *index= [dic_day objectForKey:@"index"];
+			
+			NSNumber *note = [dic_day objectForKey:kAYServiceArgsWeekday];
 			CGFloat offsetX = itemWidth * i;
 			NSArray *timesArr = [dic_day objectForKey:kAYServiceArgsOccurance];
 			for (NSDictionary *times in timesArr) {
 				
 				AYServTimesBtn *timesBtn = [[AYServTimesBtn alloc]initWithOffsetX:offsetX andTimesDic:times];
 				[self addSubview:timesBtn];
-				timesBtn.tag = i;
+				timesBtn.tag = note.integerValue;
 				timesBtn.dic_times = times;
+				
+				NSNumber *isSelect = [times objectForKey:@"select_pow"];
+				long compA = (long)isSelect.intValue;
+				long compB = pow(2, _multiple);
+				timesBtn.selected =  compA&compB;
+				
 				[timesBtn addTarget:self action:@selector(didTimesBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 			}
 		}

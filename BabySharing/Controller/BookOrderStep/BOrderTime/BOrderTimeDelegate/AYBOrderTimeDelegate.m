@@ -58,8 +58,8 @@
 	AYBOrderTimeItemView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
 	
 	NSArray *tmp = [query_data copy];
-	cell.item_data = tmp;
 	cell.multiple = indexPath.row;
+	cell.item_data = tmp;
 	cell.didTouchUpInSubBtn = ^(NSDictionary *service_info) {
 		kAYDelegateSendNotify(self, @"transTimesInfo:", &service_info)
 	};

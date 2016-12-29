@@ -38,8 +38,11 @@
     UIView *flexibleView;
     SDCycleScrollView *cycleScrollView;
 	
-	UIButton *bookBtn;
+//	UIButton *bookBtn;
+	UILabel *bookBtn;
 	NSArray *setedTimesArr;
+	
+	NSMutableArray *offer_date_mutable;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -52,8 +55,8 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        setedTimesArr = [dic objectForKey:kAYControllerChangeArgsKey];
-		bookBtn.titleLabel.text = bookBtnTitleSeted;
+        offer_date_mutable = [dic objectForKey:kAYControllerChangeArgsKey];
+		bookBtn.text = bookBtnTitleSeted;
     }
 }
 
@@ -270,10 +273,15 @@
 		
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
-		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-        [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
+//		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+//		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//        [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		
+		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		bookBtn.userInteractionEnabled = YES;
+		[bookBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didBookBtnClick:)]];
         [bottom_view addSubview:bookBtn];
 		[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(bottom_view);
@@ -309,26 +317,7 @@
     id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
     id right = [NSNumber numberWithBool:YES];
     [cmd_right performWithResult:&right];
-    /*
-    UIButton *bar_share_btn = [[UIButton alloc]init];
-    [bar_share_btn setImage:IMGRESOURCE(@"bar_share_btn") forState:UIControlStateNormal];
-    [view addSubview:bar_share_btn];
-    [bar_share_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view).offset(-35);
-        make.centerY.equalTo(view);
-        make.size.mas_equalTo(CGSizeMake(23, 24));
-    }];
-    [bar_share_btn addTarget:self action:@selector(didShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    UIView *speart = [[UIView alloc]init];
-    speart.backgroundColor = [UIColor colorWithWhite:0.85 alpha:1.f];
-    [view addSubview:speart];
-    [speart mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(bar_share_btn.mas_left).offset(-24);
-        make.centerY.equalTo(bar_share_btn);
-        make.size.mas_equalTo(CGSizeMake(1, 20));
-    }];
-    */
+	
     bar_like_btn = [[UIButton alloc]init];
     [bar_like_btn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
     [bar_like_btn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
@@ -406,17 +395,7 @@
 //            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight - offsetH));
 //        }];
 //    }
-    
-    /*[shareBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view).offset(-20);
-        make.centerY.equalTo(self.view.mas_top).offset(- offset_y);
-        make.size.mas_equalTo(CGSizeMake(52, 52));
-    }];*/
-//    [collectionBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(shareBtn.mas_left).offset(-20);
-//        make.centerY.equalTo(shareBtn);
-//        make.size.equalTo(shareBtn);
-//    }];
+	
     return nil;
 }
 
@@ -442,8 +421,24 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
-    
+	
+	if (!offer_date_mutable) {
+		offer_date_mutable = [[service_info objectForKey:kAYServiceArgsOfferDate] mutableCopy];
+		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//			[obj setValue:[NSNumber numberWithInt:0] forKey:@"index"];
+			
+			NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
+			[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[obj setValue:[NSNumber numberWithInt:0] forKey:@"select_pow"];
+			}];
+		}];
+	}
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	[tmp setValue:[service_info objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
+	[tmp setValue:offer_date_mutable forKey:kAYServiceArgsOfferDate];
+    [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;
@@ -467,12 +462,13 @@
     [cmd performWithResult:&dic];
 }
 
-- (void)didBookBtnClick:(UIButton*)btn{
+- (void)didBookBtnClick:(UITapGestureRecognizer*)tap {
     /**
      * 1. cannot order owner service
      */
 	
-	if ([btn.titleLabel.text isEqualToString:bookBtnTitleNormal]) {
+	UIView *tapView = tap.view;
+	if ([((UILabel*)tapView).text isEqualToString:bookBtnTitleNormal]) {
 		[self showServiceOfferDate];
 		
 	} else {
@@ -499,6 +495,34 @@
 			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 			[dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
 			
+			NSMutableArray *orderTimeSpans = [NSMutableArray array];
+			
+			NSDate *nowDate = [NSDate date];
+			NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+			NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+			[calendar setTimeZone: timeZone];
+			NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+			NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+			NSInteger weekdaySep = theComponents.weekday - 1;
+			
+			[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//				NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
+				NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
+				[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+					NSNumber *select_pow = [obj objectForKey:@"select_pow"];
+					int compA = select_pow.intValue;
+					if (compA&1) {
+						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andweekday:weekdaySep andMultiple:0];
+						[orderTimeSpans addObject:tmpSpan];
+					}
+					if (compA&2) {
+						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andweekday:weekdaySep andMultiple:1];
+						[orderTimeSpans addObject:tmpSpan];
+					}
+					
+				}];
+			}];
+			
 			id<AYCommand> cmd_show_module = PUSH;
 			[cmd_show_module performWithResult:&dic];
 			
@@ -515,6 +539,45 @@
 		}
 	}
 	
+}
+
+- (NSDictionary*)transTimeSpanWithDic:(NSDictionary*)dic_time andDate:(NSDate*)now andweekday:(NSInteger)weekday andMultiple:(NSInteger)multiple {
+	
+	NSTimeInterval nowSpan = now.timeIntervalSince1970;
+	NSNumber *time_start = [dic_time objectForKey:kAYServiceArgsStart];
+	NSNumber *time_end = [dic_time objectForKey:kAYServiceArgsEnd];
+	
+	// (weekday + x ) % 7 = "day"    x=?
+	for (int i = 0; i < 8; ++i) {
+		
+	}
+	
+	NSTimeInterval transDaySpan = nowSpan + (weekday + multiple*7) * 86400;
+	NSDate *transDayDate = [NSDate dateWithTimeIntervalSince1970:transDaySpan];
+	NSDateFormatter *form = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
+	NSString *transDayStr = [form stringFromDate:transDayDate];
+	
+	NSMutableString *tmp = [NSMutableString stringWithFormat:@"%@", time_start];
+	[tmp insertString:@":" atIndex:tmp.length - 2];
+	NSString *startTimeStr = [NSString stringWithFormat:@"%@ %@", transDayStr, tmp];
+	
+	tmp = [NSMutableString stringWithFormat:@"%@", time_end];
+	[tmp insertString:@":" atIndex:tmp.length - 2];
+	NSString *endTimeStr = [NSString stringWithFormat:@"%@ %@", transDayStr, tmp];
+	
+	NSDateFormatter *formTime = [Tools creatDateFormatterWithString:@"yyyy-MM-dd H:mm"];
+	
+	NSDate *startTimeDate = [formTime dateFromString:startTimeStr];
+	NSDate *endTimeDate = [formTime dateFromString:endTimeStr];
+	
+	NSTimeInterval startTimeSpan = startTimeDate.timeIntervalSince1970;
+	NSTimeInterval endTimeSpan = endTimeDate.timeIntervalSince1970;
+	
+	NSMutableDictionary *timesSpan = [[NSMutableDictionary alloc]init];
+	[timesSpan setValue:[NSNumber numberWithDouble:startTimeSpan * 1000] forKey:kAYServiceArgsStart];
+	[timesSpan setValue:[NSNumber numberWithDouble:endTimeSpan * 1000] forKey:kAYServiceArgsEnd];
+	
+	return timesSpan;
 }
 
 - (void)didChatBtnClick:(UIButton*)btn{

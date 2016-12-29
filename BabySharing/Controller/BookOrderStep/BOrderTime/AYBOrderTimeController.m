@@ -22,11 +22,13 @@
 	UIView *markSepView;
 //	NSInteger weekdaySep;
 	
-	NSDictionary *service_info;
+	NSMutableArray *offer_date_mutable;
+	
 	NSMutableArray *timesArr;
 	NSMutableArray *btnContainer;
 	
 	NSInteger leastTimes;
+	NSInteger timesCount;
 }
 
 - (void)postPerform{
@@ -39,7 +41,9 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
+		leastTimes = ((NSNumber*)[tmp objectForKey:kAYServiceArgsLeastTimes]).integerValue;
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -57,7 +61,6 @@
 		timesArr = [NSMutableArray array];
 	}
 	btnContainer = [NSMutableArray array];
-	leastTimes = ((NSNumber*)[service_info objectForKey:kAYServiceArgsLeastTimes]).integerValue;
 	
 //	NSDate *nowDate = [NSDate date];
 //	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -81,7 +84,24 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
 	
-	id tmp = [service_info objectForKey:kAYServiceArgsOfferDate];
+	[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		NSNumber *index = [obj objectForKey:@"index"];
+		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
+		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSNumber *is_select = [obj objectForKey:@"is_select"];
+			
+			int compA = is_select.intValue;
+			if (compA&1) {
+				timesCount ++;
+			}
+			if (compA&2) {
+				timesCount ++;
+			}
+			
+		}];
+	}];
+	
+	id tmp = [offer_date_mutable copy];
 	kAYDelegatesSendMessage(@"BOrderTime", @"changeQueryData:", &tmp)
 	
 	scheduleView = [[UIScrollView alloc]init];
@@ -97,10 +117,6 @@
 		make.bottom.equalTo(self.view).offset(-49);
 //		make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(64, 15, -49, 0));
 	}];
-	
-	scheduleView.contentSize = CGSizeMake(SCREEN_WIDTH - 15, itemMargin * 8 + 40 +20); //+20 margin
-	UIView *collectionView = (UIView*)view_notify;
-	[scheduleView addSubview:collectionView];
 	
 	markSepView = [[UIView alloc]init];
 	[self.view addSubview:markSepView];
@@ -122,9 +138,13 @@
 		
 	}
 	
+	scheduleView.contentSize = CGSizeMake(SCREEN_WIDTH - 15, itemMargin * 8 + 40 +20); //+20 margin
+	UIView *collectionView = (UIView*)view_notify;
+	[scheduleView addSubview:collectionView];
+	
 	[self setNavTitleWithIndex:0];
 	
-	UIButton *certainBtn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools whiteColor] andFontSize:-20.f andBackgroundColor:[Tools themeColor]];
+	UIButton *certainBtn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:certainBtn];
 	[certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
@@ -200,7 +220,7 @@
 #pragma mark -- actions
 - (void)didCertainBtnnClick {
 	
-	if (timesArr.count < leastTimes) {
+	if (timesCount < leastTimes) {
 		NSString *title = [NSString stringWithFormat:@"该服务最少预定%d次",(int)leastTimes];
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
@@ -209,7 +229,7 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:[timesArr copy] forKey:kAYControllerChangeArgsKey];
+	[dic setValue:offer_date_mutable forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
@@ -244,57 +264,58 @@
 
 - (id)transTimesInfo:(id)args {
 	
-	UIButton *btn = [args objectForKey:@"btn"];
 	
-	if ([btnContainer containsObject:btn]) {
-		
-		NSInteger tmp_index = [btnContainer indexOfObject:btn];
-		[timesArr removeObjectAtIndex:tmp_index];
-		[btnContainer removeObject:btn];
-		return nil;
-	} else {
-//		if (timesArr.count >= leastTimes) {
-//			btn.selected = NO;
-//			return nil;
-//		} else {
-//		}
-		[btnContainer addObject:btn];
-	}    // end
+	
+	
+	
+	UIButton *btn = [args objectForKey:@"btn"];
+//	if ([btnContainer containsObject:btn]) {
+//		
+//		NSInteger tmp_index = [btnContainer indexOfObject:btn];
+//		[timesArr removeObjectAtIndex:tmp_index];
+//		[btnContainer removeObject:btn];
+//		return nil;
+//	} else {
+//		[btnContainer addObject:btn];
+//	}    // end
 	
 	NSNumber *multiple = [args objectForKey:@"multiple"];
 	NSNumber *weekday = [args objectForKey:@"weekday"];
 	NSNumber *time_start = [args objectForKey:kAYServiceArgsStart];
-	NSNumber *time_end = [args objectForKey:kAYServiceArgsEnd];
+//	NSNumber *time_end = [args objectForKey:kAYServiceArgsEnd];
 	
-	NSDate *now = [NSDate date];
-	NSTimeInterval nowSpan = now.timeIntervalSince1970;
+	NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday.intValue];
+	NSArray *resultArr = [offer_date_mutable filteredArrayUsingPredicate:pred_contains];
+	NSDictionary *dic_day = [resultArr firstObject];
 	
-	NSTimeInterval transDaySpan = nowSpan + (weekday.intValue + multiple.intValue*7) * 86400;
-	NSDate *transDayDate = [NSDate dateWithTimeIntervalSince1970:transDaySpan];
-	NSDateFormatter *form = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
-	NSString *transDayStr = [form stringFromDate:transDayDate];
+	NSArray *occurance = [dic_day objectForKey:kAYServiceArgsOccurance];
+	__block NSDictionary *dic_times;
+	[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		if ([[obj objectForKey:kAYServiceArgsStart] isEqualToNumber:time_start]) {
+			dic_times = obj;
+		}
+	}];
+	NSNumber *seleted = [dic_times objectForKey:@"select_pow"];
+	int note = seleted.intValue;
+	int powArgs = pow(2, multiple.intValue);
 	
-	NSMutableString *tmp = [NSMutableString stringWithFormat:@"%@", time_start];
-	[tmp insertString:@":" atIndex:tmp.length - 2];
-	NSString *startTimeStr = [NSString stringWithFormat:@"%@ %@", transDayStr, tmp];
+	if (btn.selected) {
+		timesCount ++;
+		if (!(note&powArgs)) {
+			note = note + powArgs;
+		}
+	} else {
+		timesCount --;
+		if (note&powArgs) {
+			note = note - powArgs;
+		}
+	}
+	[dic_times setValue:[NSNumber numberWithInt:note] forKey:@"select_pow"];
+//	[dic_day setValue:[NSNumber numberWithInt:note] forKey:@"index"];
 	
-	tmp = [NSMutableString stringWithFormat:@"%@", time_end];
-	[tmp insertString:@":" atIndex:tmp.length - 2];
-	NSString *endTimeStr = [NSString stringWithFormat:@"%@ %@", transDayStr, tmp];
-	
-	NSDateFormatter *formTime = [Tools creatDateFormatterWithString:@"yyyy-MM-dd H:mm"];
-	
-	NSDate *startTimeDate = [formTime dateFromString:startTimeStr];
-	NSDate *endTimeDate = [formTime dateFromString:endTimeStr];
-	
-	NSTimeInterval startTimeSpan = startTimeDate.timeIntervalSince1970;
-	NSTimeInterval endTimeSpan = endTimeDate.timeIntervalSince1970;
-	
-	NSMutableDictionary *timesSpan = [[NSMutableDictionary alloc]init];
-	[timesSpan setValue:[NSNumber numberWithDouble:startTimeSpan * 1000] forKey:kAYServiceArgsStart];
-	[timesSpan setValue:[NSNumber numberWithDouble:endTimeSpan * 1000] forKey:kAYServiceArgsEnd];
-	
-	[timesArr addObject:timesSpan];
+	NSLog(@"%@", offer_date_mutable);
+	NSLog(@"%ld", timesCount);
+	NSLog(@"----------");
 	
 	return nil;
 }
