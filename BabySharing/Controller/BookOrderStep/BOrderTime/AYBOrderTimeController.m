@@ -42,7 +42,7 @@
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
+		offer_date_mutable = [[tmp objectForKey:kAYServiceArgsOfferDate] mutableCopy];
 		leastTimes = ((NSNumber*)[tmp objectForKey:kAYServiceArgsLeastTimes]).integerValue;
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -88,7 +88,7 @@
 //		NSNumber *index = [obj objectForKey:@"index"];
 		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
 		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSNumber *is_select = [obj objectForKey:@"is_select"];
+			NSNumber *is_select = [obj objectForKey:@"select_pow"];
 			
 			int compA = is_select.intValue;
 			if (compA&1) {
@@ -227,30 +227,30 @@
 	}
 	
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:offer_date_mutable forKey:kAYControllerChangeArgsKey];
+	[dic setValue:[offer_date_mutable copy] forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd = POP;
+	id<AYCommand> cmd = REVERSMODULE;
 	[cmd performWithResult:&dic];
 }
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	id<AYCommand> cmd = POP;
+	id<AYCommand> cmd = REVERSMODULE;
 	[cmd performWithResult:&dic];
 	return nil;
 }
 
 - (id)rightBtnSelected {
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	id<AYCommand> cmd = POP;
+	id<AYCommand> cmd = REVERSMODULE;
 	[cmd performWithResult:&dic];
 	return nil;
 }

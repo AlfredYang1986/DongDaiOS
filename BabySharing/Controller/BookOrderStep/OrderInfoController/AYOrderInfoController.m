@@ -24,6 +24,7 @@
 @implementation AYOrderInfoController {
     
     NSDictionary *service_info;
+	NSArray *order_times;
     NSDictionary *setedTimes;
     
     NSNumber *order_date;
@@ -37,8 +38,10 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+        NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		service_info = [tmp objectForKey:kAYServiceArgsServiceInfo];
+		order_times = [tmp objectForKey:@"order_times"];
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -74,7 +77,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];

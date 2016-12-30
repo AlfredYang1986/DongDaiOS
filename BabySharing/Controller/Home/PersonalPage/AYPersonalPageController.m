@@ -304,7 +304,6 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"服务详情";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
@@ -418,7 +417,7 @@
 //    id<AYCommand> setting = DEFAULTCONTROLLER(@"CalendarService");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"BOrderTime");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
@@ -436,10 +435,10 @@
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
 	[tmp setValue:[service_info objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
-	[tmp setValue:offer_date_mutable forKey:kAYServiceArgsOfferDate];
+	[tmp setValue:[offer_date_mutable copy] forKey:kAYServiceArgsOfferDate];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
-    id<AYCommand> cmd = PUSH;
+    id<AYCommand> cmd = SHOWMODULEUP;
     [cmd performWithResult:&dic_push];
     return nil;
 }
@@ -488,12 +487,6 @@
 		 * 2. check profile has_phone, if not, go confirmNoConsumer
 		 */
 		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
-			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
-			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-			[dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
 			
 			NSMutableArray *orderTimeSpans = [NSMutableArray array];
 			
@@ -506,22 +499,33 @@
 			NSInteger weekdaySep = theComponents.weekday - 1;
 			
 			[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//				NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
+				NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
 				NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
 				[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 					NSNumber *select_pow = [obj objectForKey:@"select_pow"];
 					int compA = select_pow.intValue;
 					if (compA&1) {
-						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andweekday:weekdaySep andMultiple:0];
+						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
 						[orderTimeSpans addObject:tmpSpan];
 					}
 					if (compA&2) {
-						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andweekday:weekdaySep andMultiple:1];
+						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
 						[orderTimeSpans addObject:tmpSpan];
 					}
 					
 				}];
 			}];
+			
+			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			
+			NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+			[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
+			[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
+			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 			
 			id<AYCommand> cmd_show_module = PUSH;
 			[cmd_show_module performWithResult:&dic];
@@ -541,18 +545,22 @@
 	
 }
 
-- (NSDictionary*)transTimeSpanWithDic:(NSDictionary*)dic_time andDate:(NSDate*)now andweekday:(NSInteger)weekday andMultiple:(NSInteger)multiple {
+- (NSDictionary*)transTimeSpanWithDic:(NSDictionary*)dic_time andDate:(NSDate*)now andDay:(NSNumber*)day andweektoday:(NSInteger)weekday andMultiple:(NSInteger)multiple {
 	
 	NSTimeInterval nowSpan = now.timeIntervalSince1970;
 	NSNumber *time_start = [dic_time objectForKey:kAYServiceArgsStart];
 	NSNumber *time_end = [dic_time objectForKey:kAYServiceArgsEnd];
 	
 	// (weekday + x ) % 7 = "day"    x=?
+	int lag;
 	for (int i = 0; i < 8; ++i) {
-		
+		if ((weekday + i ) % 7 == day.intValue) {
+			lag = i;
+			break ;
+		}
 	}
 	
-	NSTimeInterval transDaySpan = nowSpan + (weekday + multiple*7) * 86400;
+	NSTimeInterval transDaySpan = nowSpan + (lag + multiple*7) * 86400;
 	NSDate *transDayDate = [NSDate dateWithTimeIntervalSince1970:transDaySpan];
 	NSDateFormatter *form = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
 	NSString *transDayStr = [form stringFromDate:transDayDate];
@@ -573,11 +581,11 @@
 	NSTimeInterval startTimeSpan = startTimeDate.timeIntervalSince1970;
 	NSTimeInterval endTimeSpan = endTimeDate.timeIntervalSince1970;
 	
-	NSMutableDictionary *timesSpan = [[NSMutableDictionary alloc]init];
-	[timesSpan setValue:[NSNumber numberWithDouble:startTimeSpan * 1000] forKey:kAYServiceArgsStart];
-	[timesSpan setValue:[NSNumber numberWithDouble:endTimeSpan * 1000] forKey:kAYServiceArgsEnd];
+	NSMutableDictionary *dic_timespan = [[NSMutableDictionary alloc]init];
+	[dic_timespan setValue:[NSNumber numberWithDouble:startTimeSpan * 1000] forKey:kAYServiceArgsStart];
+	[dic_timespan setValue:[NSNumber numberWithDouble:endTimeSpan * 1000] forKey:kAYServiceArgsEnd];
 	
-	return timesSpan;
+	return dic_timespan;
 }
 
 - (void)didChatBtnClick:(UIButton*)btn{
