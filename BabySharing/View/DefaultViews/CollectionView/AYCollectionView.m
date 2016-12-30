@@ -91,14 +91,12 @@
 - (id)scrollToPostion:(id)obj {
 	
 	NSDictionary* dic = (NSDictionary*)obj;
-	NSInteger row = ((NSNumber*)[dic objectForKey:@"row"]).integerValue;
 	
-	id<AYViewBase> cell = VIEW(kAYHomeCellName, kAYHomeCellName);
-	id<AYCommand> cmd = [cell.commands objectForKey:@"queryContentCellHeight"];
-	NSNumber* result = nil;
-	[cmd performWithResult:&result];
+	NSNumber *index = [dic objectForKey:@"index"];
+	NSNumber *cellWidth = [dic objectForKey:@"unit_width"];
 	
-	[self setContentOffset:CGPointMake(0, row * result.floatValue)];
+//	[self setContentOffset:CGPointMake(index.intValue * cellWidth.floatValue, 0)];
+	[self setContentOffset:CGPointMake(index.intValue * cellWidth.floatValue, 0) animated:YES];
 	return nil;
 }
 

@@ -24,6 +24,7 @@
     
     NSDictionary *resultAndLoc;
     NSArray *fiteResultData;
+	CLLocation *loc;
 }
 
 @synthesize para = _para;
@@ -42,7 +43,17 @@
 //    self.userTrackingMode = MKUserTrackingModeNone;
 //    self.centerCoordinate = self.userLocation.location.coordinate;
 //    self.rotateEnabled = NO;
-    
+	
+	UIButton *showMyself = [[UIButton alloc]init];
+	[showMyself setImage:IMGRESOURCE(@"position_myself") forState:UIControlStateNormal];
+//	[Tools setViewRadius:showMyself withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
+	[self addSubview:showMyself];
+	[showMyself mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(self).offset(-20);
+		make.bottom.equalTo(self).offset(-220);
+		make.size.mas_equalTo(CGSizeMake(37, 37));
+	}];
+	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)layoutSubviews{
@@ -72,12 +83,13 @@
     
     if (annoArray.count != 0) {
         [self removeAnnotations:annoArray];
+		[annoArray removeAllObjects];
     }
     if (currentAnno) {
         [self removeAnnotation:currentAnno];
     }
     
-    CLLocation *loc = [resultAndLoc objectForKey:@"location"];
+    loc = [resultAndLoc objectForKey:@"location"];
     fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
     for (int i = 0; i < fiteResultData.count; ++i) {
@@ -90,7 +102,8 @@
         
         AYAnnonation *anno = [[AYAnnonation alloc]init];
         anno.coordinate = location.coordinate;
-        anno.title = @"谁知道哪！";
+		NSString *annoTitle = [info objectForKey:kAYServiceArgsAddress];
+        anno.title = annoTitle;
         anno.imageName = @"position_normal";
         anno.index = i;
         [self addAnnotation:anno];
@@ -111,6 +124,11 @@
     [self setCenterCoordinate:loc.coordinate animated:NO];
     
     return nil;
+}
+
+#pragma mark -- actios
+- (void)didShowMyselfBtnClick {
+	[self setCenterCoordinate:loc.coordinate animated:YES];
 }
 
 #pragma mark -- MKMapViewDelegate
@@ -160,7 +178,7 @@
     
 }
 
--(id)changeAnnoView:(NSNumber*)index{
+-(id)changeAnnoView:(NSNumber*)index {
     
     if (index.longValue >= fiteResultData.count) {
         return nil;

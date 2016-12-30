@@ -299,7 +299,7 @@
 		
 		NSLog(@"---null---");
 		unitCat = @"单价";
-		leastTimesOrHours = @0;
+		leastTimesOrHours = @1;
 		titleLabel.text = @"该服务类型待调整";
 	}
 	

@@ -20,9 +20,9 @@
 
 #define kLIMITEDSHOWNAVBAR  (-70.5)
 #define kFlexibleHeight     250
-#define btmViewHeight       80
+#define btmViewHeight       70
 #define bookBtnTitleNormal  @"查看可预约时间"
-#define bookBtnTitleSeted  @"申请预定"
+#define bookBtnTitleSeted  @"申请预订"
 
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
@@ -208,18 +208,21 @@
         
         UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
         bottom_view.backgroundColor = [Tools whiteColor];
+		bottom_view.layer.shadowColor = [Tools garyColor].CGColor;
+		bottom_view.layer.shadowOffset = CGSizeMake(0, -0.5);
+		bottom_view.layer.shadowOpacity = 0.4f;
         [self.view addSubview:bottom_view];
         [self.view bringSubviewToFront:bottom_view];
 		
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1) andColor:[Tools garyLineColor] inSuperView:bottom_view];
-		[Tools creatCALayerWithFrame:CGRectMake(90, 0, 1, btmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+//		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+		[Tools creatCALayerWithFrame:CGRectMake(90, 0, 0.5, btmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
 		
 		UIButton *chatBtn = [[UIButton alloc]init];
 		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
 		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
-		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:14.f];
+		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.f];
 		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(30, -27, 0, 0)];
+		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(29, -27, 0, 0)];
 		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 31, 0, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		[bottom_view addSubview:chatBtn];
@@ -259,7 +262,7 @@
 			
 			NSLog(@"---null---");
 			unitCat = @"单价";
-			leastTimesOrHours = @0;
+			leastTimesOrHours = @1;
 		}
 		NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
 		NSString *tmp = [NSString stringWithFormat:@"%@", price];

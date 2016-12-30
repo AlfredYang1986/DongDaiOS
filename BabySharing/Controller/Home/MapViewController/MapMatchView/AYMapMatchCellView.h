@@ -12,6 +12,9 @@
 typedef void(^touchUpInSubCell)(NSDictionary*);
 
 @interface AYMapMatchCellView : UICollectionViewCell <AYViewBase, UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) NSArray *serviceData;
+
+@property (nonatomic, strong) NSDictionary *service_info;
 @property (nonatomic, strong) touchUpInSubCell didTouchUpInSubCell;
+
+//@property (nonatomic, strong) NSArray *serviceData;
 @end

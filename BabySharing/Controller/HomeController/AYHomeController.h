@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface AYHomeController : AYViewController
-@property (nonatomic) BOOL isPushed;
-@property (nonatomic, strong) NSString* push_home_title;
+@interface AYHomeController : AYViewController <CLLocationManagerDelegate>
+@property (nonatomic, strong) CLLocationManager  *manager;
+
 @end

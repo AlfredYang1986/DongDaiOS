@@ -21,12 +21,13 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-@implementation AYMapMatchController{
+#define CollectionViewHeight				200
+
+@implementation AYMapMatchController {
     
     NSDictionary *resultAndLoc;
     CLLocation *loc;
     NSArray *fiteResultData;
-	
 	
 }
 
@@ -67,12 +68,6 @@
     }];
     [closeBtn addTarget:self action:@selector(didCloseBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
-//    id<AYViewBase> show = [self.views objectForKey:@"ShowBoard"];
-//    id<AYCommand> cmd = [show.commands objectForKey:@"changeResultData:"];
-//    NSDictionary *dic_show = [resultAndLoc mutableCopy];
-//    [cmd performWithResult:&dic_show];
-//    [self.view bringSubviewToFront:(UIView*)show];
-	
     id<AYViewBase> map = [self.views objectForKey:@"MapView"];
     id<AYCommand> cmd_map = [map.commands objectForKey:@"changeResultData:"];
     NSDictionary *dic_map = [resultAndLoc mutableCopy];
@@ -92,7 +87,9 @@
 	id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
-    
+	
+	id tmp = [resultAndLoc objectForKey:@"result_data"];
+	kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -127,11 +124,10 @@
 }
 
 - (id)CollectionLayout:(UIView*)view {
-	view.frame = CGRectMake(0, SCREEN_HEIGHT - 260, SCREEN_WIDTH, 260);
+	view.frame = CGRectMake(0, SCREEN_HEIGHT - CollectionViewHeight + 2, SCREEN_WIDTH, CollectionViewHeight);
 	view.backgroundColor = [UIColor clearColor];
 	
 	((UICollectionView*)view).pagingEnabled = YES;
-	
 	return nil;
 }
 
@@ -167,9 +163,14 @@
 }
 
 - (id)sendChangeOffsetMessage:(NSNumber*)index {
-    id<AYViewBase> view = [self.views objectForKey:@"ShowBoard"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"changeOffsetX:"];
-    [cmd performWithResult:&index];
+    id<AYViewBase> view = [self.views objectForKey:@"Collection"];
+    id<AYCommand> cmd = [view.commands objectForKey:@"scrollToPostion:"];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	[tmp setValue:index forKey:@"index"];
+	[tmp setValue:[NSNumber numberWithInt:SCREEN_WIDTH] forKey:@"unit_width"];
+	
+    [cmd performWithResult:&tmp];
     
     return nil;
 }

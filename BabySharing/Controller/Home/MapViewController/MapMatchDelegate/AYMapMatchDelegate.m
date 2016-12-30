@@ -48,7 +48,7 @@
 
 #pragma mark -- collection
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return 5;
+	return servicesData.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -56,8 +56,8 @@
 	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	AYMapMatchCellView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
 	
-	NSArray *tmp = [NSArray array];
-	cell.serviceData = tmp;
+	id tmp = [servicesData objectAtIndex:indexPath.row];
+	cell.service_info = tmp;
 	cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
 		
 	};
@@ -68,11 +68,29 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	return CGSizeMake(SCREEN_WIDTH, 260);
+	return CGSizeMake(collectionView.bounds.size.width, collectionView.bounds.size.height);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+	CGFloat offset_x = scrollView.contentOffset.x;
+	int index = offset_x / SCREEN_WIDTH;
+	NSNumber *tmp = [NSNumber numberWithInt:index];
+	kAYDelegateSendNotify(self, @"sendChangeAnnoMessage:", &tmp)
 	
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	id tmp = [servicesData objectAtIndex:indexPath.row];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
 }
 
 #pragma mark -- actions

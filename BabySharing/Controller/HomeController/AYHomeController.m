@@ -18,6 +18,7 @@
 #import "AYThumbsAndPushDefines.h"
 #import "AYModelFacade.h"
 
+
 typedef void(^queryContentFinish)(void);
 
 #define HEADER_MARGIN_TO_SCREEN         10.5
@@ -52,10 +53,16 @@ typedef void(^queryContentFinish)(void);
 	UILabel *themeCatlabel;
 	
 	NSDictionary *dic_location;
+	CLLocation *loc;
 }
 
-@synthesize isPushed = _isPushed;
-@synthesize push_home_title = _push_home_title;
+@synthesize manager = _manager;
+- (CLLocationManager *)manager{
+	if (!_manager) {
+		_manager = [[CLLocationManager alloc]init];
+	}
+	return _manager;
+}
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -63,9 +70,8 @@ typedef void(^queryContentFinish)(void);
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        _isPushed = YES;
+		
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-        _push_home_title = [args objectForKey:@"home_title"];
         push_content = [args objectForKey:@"content"];
         start_index = [args objectForKey:@"start_index"];
         
@@ -141,6 +147,7 @@ typedef void(^queryContentFinish)(void);
 //	[cmd_cell performWithResult:&class_name_lik];
 	
 	[self loadNewData];
+	[self startLocation];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -203,14 +210,13 @@ typedef void(^queryContentFinish)(void);
 	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
 	[themeCatlabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didThemeCatlabelTap)]];
 	
-//	UIImage* right = IMGRESOURCE(@"map_icon");
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
+	UIImage* right = IMGRESOURCE(@"map_icon");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
-	is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
-	
+//	is_hidden = [NSNumber numberWithBool:YES];
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
@@ -344,15 +350,26 @@ typedef void(^queryContentFinish)(void);
 
 - (id)rightBtnSelected {
 	
+	if (!loc) {
+		NSString *title = @"正在定位，请稍等...";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return nil;
+	}
+	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"MapMatch");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//	[dic setValue:[servicesData copy] forKey:kAYControllerChangeArgsKey];
+	
+	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
+	[dic_show_module setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+	[args setValue:loc forKey:@"location"];
+	[args setValue:[servicesData copy] forKey:@"result_data"];
+	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
+	[cmd_show_module performWithResult:&dic_show_module];
 	
 	return nil;
 }
@@ -372,5 +389,29 @@ typedef void(^queryContentFinish)(void);
 //    }
     return nil;
 }
+
+- (void)startLocation {
+	
+	[self.manager requestWhenInUseAuthorization];
+	self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+	self.manager.delegate = self;
+	if ([CLLocationManager locationServicesEnabled]) {
+		
+		[self.manager startUpdatingLocation];
+	} else {
+		NSString *title = @"请在iPhone的\"设置-隐私-定位\"中允许-咚哒-定位服务";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+	}
+}
+
+//定位成功 调用代理方法
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+	
+	loc = [locations firstObject];
+	[manager stopUpdatingLocation];
+	
+}
+
 
 @end

@@ -168,14 +168,14 @@
 				NSDictionary *dic_time = [[tmp objectForKey:kAYServiceArgsOccurance] firstObject];
 				NSNumber *stratNumb = [dic_time objectForKey:kAYServiceArgsStart];
 				NSNumber *endNumb = [dic_time objectForKey:kAYServiceArgsEnd];
-				NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%@-%@", stratNumb, endNumb];
+				NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
 				[timesStr insertString:@":" atIndex:2];
 				[timesStr insertString:@":" atIndex:8];
 				
 				NSTimeInterval nowSpan = nowDate.timeIntervalSince1970;
 				NSTimeInterval ableTimeSpan = nowSpan + 86400 * (i + 1);
 				NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:ableTimeSpan];
-				NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,EEE"];
+				NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
 				NSString *dateStrPer = [formatter stringFromDate:ableDate];
 				
 				timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
