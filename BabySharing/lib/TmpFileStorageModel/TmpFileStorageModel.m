@@ -44,6 +44,7 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
     if([[NSFileManager defaultManager] fileExistsAtPath:image_dir]) {
         [[NSFileManager defaultManager] removeItemAtPath:image_dir error:nil];
     }
+	[[SDImageCache sharedImageCache] clearDisk];
 }
 
 + (NSString*)BMTmpMovieDir {
@@ -234,48 +235,11 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
                     }
                     return ;
                 }
-                
-//                NSData *new_data = UIImageJPEGRepresentation(newSizeImg, 1);
-//                UIImage *saveImg = [UIImage imageWithData:new_data];
-//                [[SDImageCache sharedImageCache] storeImage:saveImg forKey:[name stringByAppendingString:sizeType] toDisk:NO];
-//                [TmpFileStorageModel saveToTmpDirWithImage:saveImg withName:[name stringByAppendingString:sizeType]];
+				
             });
         }
     }
     return reVal;
-//    NSString* name = [args objectForKey:@"image"];
-//    NSString* sizeType = [args objectForKey:@"expect_size"];//icon-120 thum-240 desc-750
-//    UIImage* imageCache = [[SDImageCache sharedImageCache] imageFromMemoryCacheForKey:[name stringByAppendingString:sizeType]];
-//    if (!imageCache) {
-//        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//        NSURL *imgURL = [NSURL URLWithString:[cmd.route stringByAppendingPathComponent:name]];
-//        SDWebImageManager* maneger = [SDWebImageManager sharedManager];
-//        [maneger downloadImageWithURL:imgURL options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-//            if (image) {
-//                UIImage *newSizeImg = nil;
-//                if ([sizeType isEqualToString:@"img_icon"]) {
-//                    newSizeImg = [self pressImageWith:image andExpectedWidth:120];
-//                }
-//                else if([sizeType isEqualToString:@"img_thum"]){
-//                    newSizeImg = [self pressImageWith:image andExpectedWidth:240];
-//                }
-//                else if([sizeType isEqualToString:@"img_desc"]){
-//                    newSizeImg = [self pressImageWith:image andExpectedWidth:750];
-//                }else {
-//                  return ;
-//                }
-//                NSData *data = UIImageJPEGRepresentation(newSizeImg, 1);
-//                UIImage *saveImg = [UIImage imageWithData:data];
-//                [[SDImageCache sharedImageCache] storeImage:saveImg forKey:[name stringByAppendingString:sizeType]];
-//                [TmpFileStorageModel saveToTmpDirWithImage:saveImg withName:[name stringByAppendingString:sizeType]];
-//
-//                block(YES, saveImg);
-//            }else
-//                block(NO, image);
-//        }];
-//    }
-//    return imageCache;
 }
 
 +(UIImage *)pressImageWith:(UIImage *)image andExpectedWidth:(CGFloat)width
@@ -335,7 +299,15 @@ static NSString* const kDongDaCacheKey = @"DongDaCacheKey";
         folderSize += [self fileSizeAtPath:fileAbsolutePath];
         
     }
-    
-    return folderSize/(1024.0*1024.0);
+	
+	SDImageCache *cache = [SDImageCache sharedImageCache];
+	long long cacheSize = cache.getSize;
+	
+    return (folderSize + cacheSize)/(1024.0*1024.0);
 }
+
+//+ (CGFloat)SDWebImageFileStorageSize {
+//	
+//}
+
 @end

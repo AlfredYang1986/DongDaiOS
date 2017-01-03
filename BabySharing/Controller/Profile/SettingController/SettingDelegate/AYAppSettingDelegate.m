@@ -118,7 +118,7 @@
         [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         [_controller performWithResult:&dic];
         
-    }else{
+    }else {
         [TmpFileStorageModel deleteBMTmpImageDir];
         [TmpFileStorageModel deleteBMTmpMovieDir];
         NSIndexPath *currentIndex = indexPath;

@@ -217,7 +217,6 @@ static NSString* const kWechatDescription = @"wechat";
 
             NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:3];
             [photo_dic setValue:screen_photo forKey:@"image"];
-            [photo_dic setValue:@"img_thum" forKey:@"expect_size"];
             [photo_dic setValue:img forKey:@"upload_image"];
 
             id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");

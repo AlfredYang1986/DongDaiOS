@@ -40,4 +40,5 @@ typedef void(^fileDidDownloadBlock)(BOOL success, NSURL* img);
 
 #pragma mark -- get file stroage size
 + (CGFloat)tmpFileStorageSize;
+//+ (CGFloat)SDWebImageFileStorageSize;
 @end

@@ -392,12 +392,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 
                 NSMutableArray* arr_items = [[NSMutableArray alloc]init];
                 for (int index = 0; index < napPhotos.count; ++index) {
-                    UIImage* iter = [napPhotos objectAtIndex:index];
-                    NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
-                    
+					UIImage* iter = [napPhotos objectAtIndex:index];
+//					NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
+					NSString* extent = [TmpFileStorageModel generateFileName];
+					
                     NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
                     [photo_dic setValue:extent forKey:@"image"];
-                    [photo_dic setValue:@"img_desc" forKey:@"expect_size"];
                     [photo_dic setValue:iter forKey:@"upload_image"];
                     AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
                     [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {

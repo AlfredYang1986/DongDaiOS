@@ -255,7 +255,8 @@
         for (int index = 0; index < napPhotos.count; ++index) {
             
             UIImage* iter = [napPhotos objectAtIndex:index];
-            NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
+//            NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
+			NSString* extent = [TmpFileStorageModel generateFileName];
             
             NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
             [photo_dic setValue:extent forKey:@"image"];

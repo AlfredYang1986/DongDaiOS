@@ -300,7 +300,7 @@
                 [cmd performWithResult:nil];
             }
             
-			NSString *title = @"正在为您发送动态密码，请稍等...\n*请在10分钟内完成验证";
+			NSString *title = @"正在为您发送动态密码，请稍等...";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			
         } else {
