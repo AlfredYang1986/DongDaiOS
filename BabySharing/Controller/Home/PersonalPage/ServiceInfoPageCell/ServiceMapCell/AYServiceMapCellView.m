@@ -65,6 +65,17 @@
 		orderMapView.zoomEnabled = NO;
 		//配置用户Key
 		[AMapSearchServices sharedServices].apiKey = kAMapApiKey;
+//		orderMapView.userInteractionEnabled = YES;
+//		[orderMapView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
+		
+		UIView *tapview = [[UIView alloc]init];
+		[self addSubview:tapview];
+		[tapview mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(orderMapView);
+		}];
+		tapview.alpha = 0.05;
+		tapview.userInteractionEnabled = YES;
+		[tapview addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
 		
 		addressLabel = [Tools creatUILabelWithText:@"service address" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		addressLabel.numberOfLines = 0;
@@ -258,6 +269,11 @@
 }
 
 #pragma mark -- actions
+- (void)didMapTap {
+	
+	kAYViewSendNotify(self, @"showP2PMap", nil)
+}
+
 - (void)didFacalityBtnClick {
 	kAYViewSendNotify(self, @"showCansOrFacility", nil)
 }

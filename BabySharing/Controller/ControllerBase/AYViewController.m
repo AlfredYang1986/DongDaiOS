@@ -60,9 +60,11 @@
     NSLog(@"view are : %@", self.views);
     NSLog(@"delegates are : %@", self.delegates);
     
-    count_loading = 0;
     self.view.backgroundColor = [Tools garyBackgroundColor];
-    
+	self.automaticallyAdjustsScrollViewInsets = NO;
+	
+	count_loading = 0;
+	
     for (NSString* view_name in self.views.allKeys) {
         NSLog(@"view name is : %@", view_name);
         SEL selector = NSSelectorFromString([[view_name stringByAppendingString:kAYViewLayoutSuffix] stringByAppendingString:@":"]);

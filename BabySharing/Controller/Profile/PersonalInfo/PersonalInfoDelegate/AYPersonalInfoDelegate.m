@@ -102,7 +102,11 @@
     if (indexPath.section == 0) {
         return 100;
     } else if (indexPath.section == 1) {
-        return 135;
+		
+		NSString *descStr = [querydata objectForKey:@"personal_description"];
+		CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
+		return filtSize.height + 60;
+//        return 135;
     } else {
         if (indexPath.row == 0) {
             return 64;

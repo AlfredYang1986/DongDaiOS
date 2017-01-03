@@ -575,7 +575,12 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="Facility" />
     </controller>
-    
+	
+	<controller type="DefaultController" name="ServiceMap" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"      name="FakeStatusBar" />
+		<view type="ServiceMap"      name="ServiceMap" />
+	</controller>
+	
     <controller type="DefaultController" name="ContentList" factory="AYDefaultControllerFactoy" >
         <view type="Table"          name="Table" />
         

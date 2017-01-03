@@ -185,7 +185,7 @@ typedef void(^queryContentFinish)(void);
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(50);
 		make.centerY.equalTo(view).offset(5);
-		make.width.mas_lessThanOrEqualTo(150);
+		make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.4);
 	}];
 	
 	UIView *pointSep = [[UIView alloc]init];
@@ -210,13 +210,23 @@ typedef void(^queryContentFinish)(void);
 	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
 	[themeCatlabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didThemeCatlabelTap)]];
 	
-	UIImage* right = IMGRESOURCE(@"map_icon");
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
+//	UIImage* right = IMGRESOURCE(@"map_icon");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnImgMessage, &right)
+	
+	UIButton *mapBtn = [[UIButton alloc]init];
+	[mapBtn setImage:IMGRESOURCE(@"map_icon") forState:UIControlStateNormal];
+	[view addSubview:mapBtn];
+	[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(searchSign);
+		make.right.equalTo(view).offset(-10);
+		make.size.mas_equalTo(CGSizeMake(30, 20));
+	}];
+	[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
-//	is_hidden = [NSNumber numberWithBool:YES];
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
+	is_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }

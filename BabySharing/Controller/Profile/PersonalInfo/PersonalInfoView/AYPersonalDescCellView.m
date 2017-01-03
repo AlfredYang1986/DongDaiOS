@@ -32,29 +32,24 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"关于我" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:@"关于我" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(10);
             make.left.equalTo(self).offset(15);
         }];
         
-        descLabel = [[UILabel alloc]init];
-        descLabel = [Tools setLabelWith:descLabel andText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        descLabel.numberOfLines = 4;
+        descLabel = [Tools creatUILabelWithText:@"向咚哒社区其他年轻家庭和孩子们介绍您自己，让交流感到轻松有趣" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        descLabel.numberOfLines = 0;
         [self addSubview:descLabel];
         [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(10);
             make.left.equalTo(titleLabel);
             make.right.equalTo(self).offset(-15);
         }];
-        
-        CALayer *separtor = [CALayer layer];
+		
         CGFloat margin = 0;
-        separtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
-        separtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:separtor];
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

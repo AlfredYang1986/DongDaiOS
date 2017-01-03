@@ -102,7 +102,7 @@
         [titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
             make.centerY.equalTo(self);
-            make.width.mas_lessThanOrEqualTo([UIScreen mainScreen].bounds.size.width - 180);
+            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH - 160);
         }];
     }
     

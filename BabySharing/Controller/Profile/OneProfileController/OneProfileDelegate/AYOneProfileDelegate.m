@@ -108,8 +108,12 @@
         NSString *descStr = [querydata objectForKey:@"personal_description"];
         if (!descStr || [descStr isEqualToString:@""]) {
             return 0.001;
-        } else
-            return 135;
+		} else {
+			NSString *descStr = [querydata objectForKey:@"personal_description"];
+			CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
+			return filtSize.height + 60;
+//			return 135;
+		}
     } else {
         if (indexPath.row == 0) {
             return 64;

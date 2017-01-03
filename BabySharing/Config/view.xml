@@ -480,7 +480,11 @@
         <command type="notify"      message="queryTheLoc:" />
         <command type="notify"      message="sendChangeOffsetMessage:" />
     </view>
-    
+	
+	<view type="ServiceMap" name="ServiceMap" factory="AYDefaultViewFactory" >
+		<command type="message"     message="changePositionData:" />
+	</view>
+	
     <view type="ServicePageCell" name="ServicePageCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="reLoad" />
@@ -507,6 +511,7 @@
     <view type="ServiceMapCell" name="ServiceMapCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="showCansOrFacility" />
+		<command type="notify"      message="showP2PMap" />
     </view>
     <view type="ServiceCalendarCell" name="ServiceCalendarCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />

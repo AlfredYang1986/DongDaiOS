@@ -162,7 +162,7 @@
         [flexibleView addSubview:collectionBtn];
         [flexibleView bringSubviewToFront:collectionBtn];
         [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(flexibleView).offset(-35);
+            make.right.equalTo(flexibleView).offset(-20);
             make.centerY.equalTo(popImage);
             make.size.mas_equalTo(CGSizeMake(27, 27));
         }];
@@ -223,7 +223,7 @@
 		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.f];
 		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
 		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(29, -27, 0, 0)];
-		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 31, 0, 0)];
+		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 23, 0, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		[bottom_view addSubview:chatBtn];
 		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -293,6 +293,16 @@
 			make.height.equalTo(@44);
 		}];
 		
+		if (SCREEN_WIDTH < 375) {
+			bookBtn.font = [UIFont systemFontOfSize:13.f];
+			[bookBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.centerY.equalTo(bottom_view);
+				make.left.equalTo(bottom_view).offset(205);
+				make.right.equalTo(bottom_view).offset(-15);
+				make.height.equalTo(@44);
+			}];
+		}
+		
     }
     else {
         bar_like_btn.hidden = collectionBtn.hidden = YES;
@@ -326,7 +336,7 @@
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(view).offset(-35);
+        make.right.equalTo(view).offset(-20);
         make.centerY.equalTo(view);
         make.size.mas_equalTo(CGSizeMake(27, 27));
     }];
@@ -399,6 +409,23 @@
 //    }
 	
     return nil;
+}
+
+- (id)showP2PMap {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServiceMap");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *dic_p2p = [[NSMutableDictionary alloc]init];
+	[dic_p2p setValue:[service_info objectForKey:kAYServiceArgsLocation] forKey:@"2p"];
+//	dic_p2p [setValue: forKey:@"self"];
+	[dic setValue:[dic_p2p copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = SHOWMODULEUP;
+	[cmd_show_module performWithResult:&dic];
+	return nil;
 }
 
 - (id)showCansOrFacility {

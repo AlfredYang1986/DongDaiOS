@@ -65,7 +65,7 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     change_profile_dic = [[NSMutableDictionary alloc]init];
     
     UIScrollView *mainView = [[UIScrollView alloc]init];
-    mainView.contentSize = CGSizeMake(0, 555.f);
+    mainView.contentSize = CGSizeMake(SCREEN_WIDTH, 555.f);
     mainView.showsVerticalScrollIndicator = NO;
     mainView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:mainView];
