@@ -44,6 +44,8 @@
 	if (self) {
 		
 		coverImage = [[UIImageView alloc]init];
+		coverImage.contentMode = UIViewContentModeScaleAspectFill;
+		coverImage.clipsToBounds = YES;
 		[self addSubview:coverImage];
 		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(5);
@@ -64,7 +66,8 @@
 		photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
 		photoIcon.layer.borderWidth = 2.f;
 		photoIcon.clipsToBounds = YES;
-		photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
+		photoIcon.layer.rasterizationScale = UIScreenScale;
+		photoIcon.contentMode = UIViewContentModeScaleAspectFill;
 		[self addSubview:photoIcon];
 		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(coverImage);
@@ -233,6 +236,7 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
+	capacityLabel.alpha = 1.f;
 	
 	NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
@@ -245,8 +249,8 @@
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
 				  placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	NSString *unitCat;
-	NSNumber *leastTimesOrHours;
+	NSString *unitCat = @"UNIT";
+	NSNumber *leastTimesOrHours = @1;
 	
 	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
 	NSArray *options_title_cans;
@@ -255,8 +259,11 @@
 	
 	if (service_cat.intValue == ServiceTypeLookAfter) {
 		unitCat = @"小时";
-		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
 		
+		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastHours];
+		if (![tmp isEqualToNumber:@0]) {
+			leastTimesOrHours = tmp;
+		}
 		options_title_cans = kAY_service_options_title_lookafter;
 		//服务主题分类
 		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
@@ -269,7 +276,11 @@
 	}
 	else if (service_cat.intValue == ServiceTypeCourse) {
 		unitCat = @"次";
-		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
+		
+		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastTimes];
+		if (![tmp isEqualToNumber:@0]) {
+			leastTimesOrHours = tmp;
+		}
 		
 		NSString *servCatStr = @"课程";
 		options_title_cans = kAY_service_options_title_course;
@@ -298,8 +309,6 @@
 	} else {
 		
 		NSLog(@"---null---");
-		unitCat = @"单价";
-		leastTimesOrHours = @1;
 		titleLabel.text = @"该服务类型待调整";
 	}
 	
@@ -326,8 +335,18 @@
 		make.centerY.equalTo(priceLabel);
 		make.size.mas_equalTo(CGSizeMake(capacityLabel.bounds.size.width + 8, capacityLabel.bounds.size.height + 4));
 	}];
+	if ([leastTimesOrHours isEqualToNumber:@1] || [leastTimesOrHours isEqualToNumber:@0]) {
+		capacityLabel.alpha = 0;
+	}
 	
-	addressLabel.text = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *stringPre = @"中国北京市";
+	if ([addressStr hasPrefix:stringPre]) {
+		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
+//		addressStr = [addressStr substringFromIndex:5];
+//		tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
+	}
+	addressLabel.text = addressStr;
 	
 	NSNumber *iscollect = [service_info objectForKey:@"iscollect"];
 	likeBtn.selected = iscollect.boolValue;

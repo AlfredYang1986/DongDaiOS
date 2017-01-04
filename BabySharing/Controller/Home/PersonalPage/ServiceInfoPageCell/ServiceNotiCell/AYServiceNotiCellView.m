@@ -47,7 +47,8 @@
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 		}];
 		
-		otherWordLabel = [Tools creatUILabelWithText:@"·  Other Words" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		otherWordLabel = [Tools creatUILabelWithText:@"·  Other Words" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		otherWordLabel.numberOfLines = 0;
 		[self addSubview:otherWordLabel];
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
@@ -142,7 +143,11 @@
 		otherWordLabel.hidden = YES;
 	} else {
 		
-		otherWordLabel.text = [NSString stringWithFormat:@"·  %@", otherWords];
+		NSString *noticeStr = [NSString stringWithFormat:@"·  %@", otherWords];
+		if ([noticeStr containsString:@"\n"]) {
+			noticeStr = [noticeStr stringByReplacingOccurrencesOfString:@"\n" withString:@"\n·  "];
+		}
+		otherWordLabel.text = noticeStr;
 	}
 	
 	return nil;

@@ -54,23 +54,19 @@
         addressLabel = [Tools creatUILabelWithText:@"service address" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:addressLabel];
         [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self).offset(-15);
-            make.centerY.equalTo(self).offset(-53);
-            make.width.mas_equalTo(200);
+            make.centerX.equalTo(self).offset(0);
+            make.centerY.equalTo(self).offset(-35);
+//            make.width.mas_equalTo(200);
         }];
         
-        addressBg = [[UIImageView alloc]init];
-        [self addSubview:addressBg];
-        addressBg.contentMode = UIViewContentModeBottom;
-        addressBg.image = IMGRESOURCE(@"address_bg");
-//        addressBg.alpha = 0.95f;
-//        UIImage *bg = IMGRESOURCE(@"message_bg_one");
-//        bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 15, 10, 10) resizingMode:UIImageResizingModeStretch];
-//        addressBg.image = bg;
-        [addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-10, -15, -20, -15));
-        }];
-        
+		addressBg = [[UIImageView alloc]init];
+		[self addSubview:addressBg];
+		//		addressBg.contentMode = UIViewContentModeBottom;
+		addressBg.image =  [IMGRESOURCE(@"address_bg") resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+		[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-10, -15, -10, -15));
+		}];
+		
         [self bringSubviewToFront:addressBg];
         [self bringSubviewToFront:addressLabel];
         

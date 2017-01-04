@@ -437,7 +437,7 @@ static CGFloat TZScreenScale;
                     completion();
                 } else if (error) {
                     NSLog(@"保存照片出错:%@",error.localizedDescription);
-                    kAYUIAlertView(@"提示", @"保存照片出错，请重试");
+//                    kAYUIAlertView(@"提示", @"保存照片出错，请重试");
                 }
             });
         }];
@@ -445,7 +445,7 @@ static CGFloat TZScreenScale;
         [self.assetLibrary writeImageToSavedPhotosAlbum:image.CGImage orientation:[self orientationFromImage:image] completionBlock:^(NSURL *assetURL, NSError *error) {
             if (error) {
                 NSLog(@"保存图片失败:%@",error.localizedDescription);
-                kAYUIAlertView(@"提示", @"保存照片出错，请重试");
+//                kAYUIAlertView(@"提示", @"保存照片出错，请重试");
             } else {
                 if (completion) {
                     completion();

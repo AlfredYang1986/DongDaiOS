@@ -48,8 +48,8 @@
             make.right.equalTo(self).offset(-15);
         }];
 		
-        CGFloat margin = 0;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+//        CGFloat margin = 0;
+//		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

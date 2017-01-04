@@ -74,8 +74,8 @@
         make.centerY.equalTo(lhs);
         make.size.mas_equalTo(CGSizeMake(48, 48));
     }];
-    
-    des = [Tools creatUILabelWithText:@"我们要求每一位妈妈在预订服务前验证手机号码\n您只需要验证一次" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//    我们要求每一位妈妈在预订服务前验证手机号码\n您只需要验证一次
+    des = [Tools creatUILabelWithText:@"第一次预订服务需要您验证手机号码\n您只需要验证一次" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     des.numberOfLines = 0;
     [self addSubview:des];
     [des mas_makeConstraints:^(MASConstraintMaker *make) {

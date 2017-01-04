@@ -62,7 +62,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+	self.view.backgroundColor = [Tools whiteColor];
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];

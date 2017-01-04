@@ -44,7 +44,6 @@
         service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-//        service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
@@ -55,8 +54,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
@@ -245,20 +242,23 @@
                 
                 [cmd performWithResult:&dic];
             }
-            
-            AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
-            
-            NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-            [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-            [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-            [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-            [dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
-            
-            id<AYCommand> cmd = PUSH;
-            [cmd performWithResult:&dic_push];
-            
+			
+			dispatch_async(dispatch_get_main_queue(), ^{
+				
+				AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
+				
+				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+				[dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+				
+				id<AYCommand> cmd = PUSH;
+				[cmd performWithResult:&dic_push];
+			});
+			
         } else {
-            
+			
             NSString *title = @"验证码错误，请重试";
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
@@ -317,5 +317,24 @@
     }
     
     return nil;
+}
+
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+	
+	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+	[UIView animateWithDuration:0.25f animations:^{
+		self.view.frame = CGRectMake(0, SCREEN_HEIGHT - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
+	return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+	
+	[UIView animateWithDuration:0.25f animations:^{
+		
+		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
+	return nil;
 }
 @end

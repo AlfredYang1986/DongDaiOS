@@ -171,19 +171,19 @@ typedef void(^queryContentFinish)(void);
 //	UIImage *left = IMGRESOURCE(@"search_icon");
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIImageView *searchSign = [[UIImageView alloc]init];
-	searchSign.image = IMGRESOURCE(@"search_icon");
-	[view addSubview:searchSign];
-	[searchSign mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(view).offset(15);
-		make.centerY.equalTo(view).offset(5);
-		make.size.mas_equalTo(CGSizeMake(20, 20));
-	}];
+//	UIImageView *searchSign = [[UIImageView alloc]init];
+//	searchSign.image = IMGRESOURCE(@"search_icon");
+//	[view addSubview:searchSign];
+//	[searchSign mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(view).offset(15);
+//		make.centerY.equalTo(view).offset(5);
+//		make.size.mas_equalTo(CGSizeMake(20, 20));
+//	}];
 	
 	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(view).offset(50);
+		make.left.equalTo(view).offset(20);
 		make.centerY.equalTo(view).offset(5);
 		make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH * 0.4);
 	}];
@@ -217,7 +217,7 @@ typedef void(^queryContentFinish)(void);
 	[mapBtn setImage:IMGRESOURCE(@"map_icon") forState:UIControlStateNormal];
 	[view addSubview:mapBtn];
 	[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(searchSign);
+		make.centerY.equalTo(view).offset(5);
 		make.right.equalTo(view).offset(-10);
 		make.size.mas_equalTo(CGSizeMake(30, 20));
 	}];

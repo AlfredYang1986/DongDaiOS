@@ -283,7 +283,7 @@
     
     //重绘图片
     UIImage *newImage;
-    if (image.size.width > 750 || image.size.height > 500) {
+    if (image.size.width > 750 || image.size.height > 500 /*|| image.size.width/image.size.height != 750/500*/) {
         CGSize expectSize = CGSizeMake(750, 500);
         
         float imageWidth = image.size.width;

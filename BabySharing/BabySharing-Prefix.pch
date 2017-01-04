@@ -22,6 +22,7 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
+#define UIScreenScale											[UIScreen mainScreen].scale
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
 

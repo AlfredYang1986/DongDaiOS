@@ -57,9 +57,10 @@
             controller.commands = [cmds copy];
         }
 
-        if (facades)
-            controller.facades = facades;
-       
+		if (facades) {
+			controller.facades = facades;
+		}
+		
         for (AYFactoryParaNode* view_node in [_para objectForKey:@"views"]) {
             id<AYCommand> view = VIEW(view_node.type, view_node.name);
             [views setValue:view forKey:view_node.name];

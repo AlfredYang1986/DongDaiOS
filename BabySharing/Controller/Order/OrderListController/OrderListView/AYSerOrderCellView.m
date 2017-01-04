@@ -55,7 +55,7 @@
         }];
         
         detailInfoLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        detailInfoLabel.numberOfLines = 0;
+        detailInfoLabel.numberOfLines = 2;
         [self addSubview:detailInfoLabel];
         [detailInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(orderDateLabel.mas_bottom).offset(8);

@@ -32,8 +32,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:nil andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
@@ -48,13 +47,10 @@
             make.right.equalTo(self).offset(-15);
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
-        
-        CALayer *separtor = [CALayer layer];
-        CGFloat margin = 0;
-        separtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
-        separtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:separtor];
-        
+		
+		CGFloat margin = 0;
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 63.5, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

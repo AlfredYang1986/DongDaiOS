@@ -104,8 +104,14 @@
     } else if (indexPath.section == 1) {
 		
 		NSString *descStr = [querydata objectForKey:@"personal_description"];
-		CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
-		return filtSize.height + 60;
+		if (!descStr || [descStr isEqualToString:@""]) {
+			return 110;
+		} else {
+			NSString *descStr = [querydata objectForKey:@"personal_description"];
+			CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
+			return filtSize.height + 60;
+			//			return 135;
+		}
 //        return 135;
     } else {
         if (indexPath.row == 0) {

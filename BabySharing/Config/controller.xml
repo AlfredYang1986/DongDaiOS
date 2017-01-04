@@ -646,7 +646,10 @@
         <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade"    name="AuthRemote" notification="true" />
-        
+		<facade type="DefaultFacade" name="EM" notification="true" />
+		<facade type="DefaultFacade" name="ChatSessionRemote" notification="true" />
+		<facade type="DefaultFacade" name="Keyboard" notification="true" />
+		
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="PhoneCheckInput" name="PhoneCheckInput" />
