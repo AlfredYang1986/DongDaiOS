@@ -9,7 +9,7 @@
 #import "AYServTimesBtn.h"
 #import "AYBOrderTimeDefines.h"
 
-#define TitleFontSize		10.f
+#define TitleFontSize		12.f
 
 @implementation AYServTimesBtn {
 	UILabel *topTitle;
@@ -53,7 +53,8 @@
 		NSMutableString *tmp = [NSMutableString stringWithFormat:@"%@", top];
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
-		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		topTitle = [Tools creatUILabelWithText:tmp andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:topTitle];
 		[topTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(3);
@@ -63,7 +64,8 @@
 		tmp = [NSMutableString stringWithFormat:@"%@", btm];
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
-		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		btmtitle = [Tools creatUILabelWithText:tmp andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:btmtitle];
 		[btmtitle mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self);

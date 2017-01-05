@@ -516,35 +516,35 @@
 		/**
 		 * 2. check profile has_phone, if not, go confirmNoConsumer
 		 */
-		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
-			
-			NSMutableArray *orderTimeSpans = [NSMutableArray array];
-			
-			NSDate *nowDate = [NSDate date];
-			NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-			NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-			[calendar setTimeZone: timeZone];
-			NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-			NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-			NSInteger weekdaySep = theComponents.weekday - 1;
-			
-			[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
-				NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-				[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					NSNumber *select_pow = [obj objectForKey:@"select_pow"];
-					int compA = select_pow.intValue;
-					if (compA&1) {
-						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
-						[orderTimeSpans addObject:tmpSpan];
-					}
-					if (compA&2) {
-						NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
-						[orderTimeSpans addObject:tmpSpan];
-					}
-					
-				}];
+		NSMutableArray *orderTimeSpans = [NSMutableArray array];
+		
+		NSDate *nowDate = [NSDate date];
+		NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+		NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+		[calendar setTimeZone: timeZone];
+		NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+		NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+		NSInteger weekdaySep = theComponents.weekday - 1;
+		
+		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
+			NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
+			[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				NSNumber *select_pow = [obj objectForKey:@"select_pow"];
+				int compA = select_pow.intValue;
+				if (compA&1) {
+					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
+					[orderTimeSpans addObject:tmpSpan];
+				}
+				if (compA&2) {
+					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
+					[orderTimeSpans addObject:tmpSpan];
+				}
+				
 			}];
+		}];
+		
+		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
 			
 			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
 			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -566,7 +566,11 @@
 			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-			[dic setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+			
+			NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+			[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
+			[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
+			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 			
 			id<AYCommand> cmd_show_module = PUSH;
 			[cmd_show_module performWithResult:&dic];

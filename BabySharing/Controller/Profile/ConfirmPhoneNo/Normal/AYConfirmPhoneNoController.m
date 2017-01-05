@@ -30,9 +30,6 @@
     NSString* reg_token;
 }
 
-- (void)postPerform{
-    
-}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -251,5 +248,29 @@
     }
 
     return nil;
+}
+
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+	
+	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+	UIView *inputView = [self.views objectForKey:@"PhoneCheckInput"];
+	CGFloat maxY = CGRectGetMaxY(inputView.frame);
+	CGFloat keyBoardMinY  = SCREEN_HEIGHT - step.floatValue;
+	
+	if (maxY > keyBoardMinY) {
+		[UIView animateWithDuration:0.25f animations:^{
+			self.view.frame = CGRectMake(0, -(maxY - keyBoardMinY) - 5, SCREEN_WIDTH, SCREEN_HEIGHT);
+		}];
+	}
+	return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+	
+	[UIView animateWithDuration:0.25f animations:^{
+		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
+	return nil;
 }
 @end

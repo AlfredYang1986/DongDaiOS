@@ -27,9 +27,6 @@
     UITextField *coderTextField;
 }
 
-- (void)postPerform{
-    
-}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
@@ -208,6 +205,30 @@
     if ([coderTextField isFirstResponder]) {
         [coderTextField resignFirstResponder];
     }
+}
+
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+	
+	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+	
+	CGFloat maxY = CGRectGetMaxY(coderTextField.frame);
+	CGFloat keyBoardMinY  = SCREEN_HEIGHT - step.floatValue;
+	
+	if (maxY > keyBoardMinY) {
+		[UIView animateWithDuration:0.25f animations:^{
+			self.view.frame = CGRectMake(0, -(maxY - keyBoardMinY), SCREEN_WIDTH, SCREEN_HEIGHT);
+		}];
+	}
+	return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+	
+	[UIView animateWithDuration:0.25f animations:^{
+		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
+	return nil;
 }
 
 @end

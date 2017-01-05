@@ -218,8 +218,8 @@ typedef void(^queryContentFinish)(void);
 	[view addSubview:mapBtn];
 	[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(view).offset(5);
-		make.right.equalTo(view).offset(-10);
-		make.size.mas_equalTo(CGSizeMake(30, 20));
+		make.right.equalTo(view).offset(-12);
+		make.size.mas_equalTo(CGSizeMake(28, 25));
 	}];
 	[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	

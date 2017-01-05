@@ -29,19 +29,19 @@
 @implementation AYConfirmPhoneNoConsumerController {
     NSString* reg_token;
     NSDictionary* service_info;
+	NSDictionary* book_info;
 }
 
 #pragma mark -- commands
-- (void)postPerform{
-    
-}
 
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        service_info = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
+		
+		book_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		service_info = [book_info objectForKey:kAYServiceArgsServiceInfo];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -246,12 +246,11 @@
 			dispatch_async(dispatch_get_main_queue(), ^{
 				
 				AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
-				
 				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
 				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-				[dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+				[dic_push setValue:book_info forKey:kAYControllerChangeArgsKey];
 				
 				id<AYCommand> cmd = PUSH;
 				[cmd performWithResult:&dic_push];
@@ -323,16 +322,25 @@
 - (id)KeyboardShowKeyboard:(id)args {
 	
 	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-	[UIView animateWithDuration:0.25f animations:^{
-		self.view.frame = CGRectMake(0, SCREEN_HEIGHT - step.floatValue, SCREEN_WIDTH, SCREEN_HEIGHT);
-	}];
+	
+	UIView *inputView = [self.views objectForKey:@"PhoneCheckInput"];
+	CGFloat maxY = CGRectGetMaxY(inputView.frame);
+	
+	CGFloat keyBoardMinY  = SCREEN_HEIGHT - step.floatValue;
+	
+	if (maxY > keyBoardMinY) {
+		
+		[UIView animateWithDuration:0.25f animations:^{
+			self.view.frame = CGRectMake(0, -(maxY - keyBoardMinY) - 5, SCREEN_WIDTH, SCREEN_HEIGHT);
+		}];
+	}
+	
 	return nil;
 }
 
 - (id)KeyboardHideKeyboard:(id)args {
 	
 	[UIView animateWithDuration:0.25f animations:^{
-		
 		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}];
 	return nil;

@@ -27,7 +27,6 @@
 @implementation AYNapAreaController{
     
     NSMutableDictionary *service_info;
-    
     UILabel *areaLabel;
     CLLocation *loc;
     
@@ -36,7 +35,6 @@
     UIView *locBGView;
     UILabel *adressLabel;
     UITextField *adjustAdress;
-    
     NSString *editMode;
 }
 
@@ -88,7 +86,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.manager requestWhenInUseAuthorization];
     //定位精度
@@ -155,10 +152,10 @@
         make.right.equalTo(locBGView).offset(-10);
     }];
 	
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
-    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
+	
     UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     [locBGView addSubview:nextBtn];
     [nextBtn addTarget:self action:@selector(didNextBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -186,47 +183,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-}
-
-- (void)dealloc {
-//    [super dealloc];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillChangeFrameNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-}
-- (void)keyboardDidShow:(NSNotification*)notification {
-    UIView *result = nil;
-    NSArray *windowsArray = [UIApplication sharedApplication].windows;
-    for (UIView *tmpWindow in windowsArray) {
-        NSArray *viewArray = [tmpWindow subviews];
-        for (UIView *tmpView  in viewArray) {
-            NSLog(@"%@", [NSString stringWithUTF8String:object_getClassName(tmpView)]);
-            // if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIPeripheralHostView"]) {
-            if ([[NSString stringWithUTF8String:object_getClassName(tmpView)] isEqualToString:@"UIInputSetContainerView"]) {
-                result = tmpView;
-                break;
-            }
-        }
-        
-        if (result != nil) {
-            break;
-        }
-    }
-    
-    //    keyboardView = result;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyBoardFrame = value.CGRectValue;
-    
-    locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight + nextBtnHeight - keyBoardFrame.size.height, SCREEN_HEIGHT, locBGViewHeight);
-}
-
-- (void)keyboardWasChange:(NSNotification *)notification {
-    
-}
-
-- (void)keyboardDidHidden:(NSNotification*)notification {
-    locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_HEIGHT, locBGViewHeight);
 }
 
 #pragma mark -- layouts
@@ -316,8 +272,14 @@
                 return ;
             }
             
-            NSString *address = pl.name;
-            adressLabel.text = (!address || [address isEqualToString:@""])?@"点击选择区域":address;
+//            NSString *address = pl.name;
+			NSString *addressStr = pl.name;
+			NSString *stringPre = @"中国北京市";
+			if ([addressStr hasPrefix:stringPre]) {
+				addressStr = [addressStr substringFromIndex:5];
+			}
+			
+            adressLabel.text = (!addressStr || [addressStr isEqualToString:@""]) ? @"点击选择区域" : addressStr;
             [UIView animateWithDuration:0.25 animations:^{
                 UIView *view = [self.views objectForKey:@"NapAreaMap"];
                 view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 175);
@@ -442,7 +404,9 @@
     
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
     [UIView animateWithDuration:0.25f animations:^{
-        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
+//        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
+//		locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight + nextBtnHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
+		self.view.frame = CGRectMake(0, - step.floatValue + nextBtnHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
     }];
     return nil;
 }
@@ -450,8 +414,10 @@
 - (id)KeyboardHideKeyboard:(id)args {
     
     [UIView animateWithDuration:0.25f animations:^{
-        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_WIDTH, locBGViewHeight);
+//        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_WIDTH, locBGViewHeight);
+		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }];
     return nil;
 }
+
 @end

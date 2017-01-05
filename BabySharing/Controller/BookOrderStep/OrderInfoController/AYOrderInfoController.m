@@ -233,12 +233,14 @@
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
+	id<AYCommand> dest = DEFAULTCONTROLLER(@"PersonalPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopToDestValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+	
+	id<AYCommand> cmd = POPTODEST;
+	[cmd performWithResult:&dic];
     return nil;
 }
 

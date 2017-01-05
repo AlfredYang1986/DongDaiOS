@@ -21,8 +21,11 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        isFromConfirmFlow = YES;
-        
+		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		if ([tmp isKindOfClass:[NSString class]]) {
+			isFromConfirmFlow = YES;
+		}
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -164,8 +167,8 @@
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
     if (isFromConfirmFlow) {
-        
         [dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
     }
     

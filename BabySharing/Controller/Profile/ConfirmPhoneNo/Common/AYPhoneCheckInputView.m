@@ -152,7 +152,7 @@
 - (void)textFieldTextDidChange:(NSNotification*)tf {
     if (tf.object == coder_area ) {
         if ( coder_area.text.length == 4) {
-            
+			[self resignFocus];
         } else {
             
         }

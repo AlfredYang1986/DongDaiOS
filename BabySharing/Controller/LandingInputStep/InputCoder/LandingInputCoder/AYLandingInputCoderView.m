@@ -248,6 +248,7 @@
     if (tf.object == coder_area ) {
         if ( coder_area.text.length == 4) {
             [self showEnterBtn];
+			[coder_area resignFirstResponder];
         } else {
             [self hideEnterBtn];
         }
