@@ -275,7 +275,9 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 }
 
 - (id)rightBtnSelected {
-    
+	
+	[nameTextField resignFirstResponder];
+	
     NSInteger length = [Tools bityWithStr:nameTextField.text];
     if (length > 32 || length < 4) {
         NSString *title = @"姓名长度应在4-32个字符之间\n*汉字／大写字母长度为2";

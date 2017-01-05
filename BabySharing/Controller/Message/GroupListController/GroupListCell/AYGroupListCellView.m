@@ -47,7 +47,6 @@
 //    [self changeImage];
 //    [self changeThemeText];
 //    [self changeUnreadLabel];
-//    NSLog(@"MonkeyHengLog: %@ === %lld", @"_current_session.group_id.longLongValue", _current_session.group_id.longLongValue);
 //
 //    GotyeOCGroup* group = [GotyeOCGroup groupWithId:_current_session.group_id.longLongValue];
 //    GotyeOCMessage* m = [GotyeOCAPI getLastMessage:group];
@@ -98,7 +97,6 @@
 //    } else {
 //        [formatter setDateFormat:@"hh:mm"];
 //    }
-//    NSLog(@"MonkeyHengLog: %f === %u", now_time, m.date);
 //    NSDate* date = [NSDate dateWithTimeIntervalSince1970:m.date];
 //    
 //    _timeLabel.text = [Tools compareCurrentTime:date];

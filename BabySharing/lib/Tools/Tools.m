@@ -262,7 +262,7 @@
         temp = temp/12;
         result = [NSString stringWithFormat:@"%ld年前",temp];
     }
-    NSLog(@"MonkeyHengLog: %@ === %@", [dateFormatter stringFromDate:compareDate], result);
+	
     return result;
 }
 
@@ -311,7 +311,6 @@
         }
     }
     
-    NSLog(@"MonkeyHengLog: %@ === %@", [dateFormatter stringFromDate:compareDate], result);
     return result;
 }
 

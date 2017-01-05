@@ -238,7 +238,7 @@
             NSString *coustom = [napTitleInfo objectForKey:kAYServiceArgsCourseCoustom];
             
             //constain of title and course_sign or coustom and or service_cat == 0
-            if (coustom || course_sign.intValue != 0 || service_cat == ServiceTypeLookAfter) {
+            if (coustom || course_sign.intValue != -1 || service_cat == ServiceTypeLookAfter) {
                 [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
             }
         }
@@ -271,8 +271,7 @@
 				[cell_info setValue:priceTitleStr forKey:@"sub_title"];
 				
             }
-            
-            
+			
         }
         else if (serviceNoticeInfo && indexPath.row == 4) {
 //            NSNumber *isAllowLeave = [serviceNoticeInfo objectForKey:kAYServiceArgsAllowLeave];

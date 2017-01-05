@@ -141,7 +141,7 @@
 }
 
 - (void)scrollToItemWithScrollView:(UIScrollView *)scrollView {
-    NSLog(@"MonkeyHengLog: %@ === %f", @"速度", velocity);
+    NSLog(@"%@ === %f", @"速度", velocity);
     if (!isDecelerate) {
         NSLog(@"拖动终止为0");
         CGFloat offsetY = scrollView.contentOffset.y - floor(scrollView.contentOffset.y / rowHeight) * rowHeight;

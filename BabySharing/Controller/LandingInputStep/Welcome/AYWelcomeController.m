@@ -199,7 +199,7 @@
                 [cmd performWithResult:&args];
                 
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"昵称设置错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络错误,请重试" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
                 [alert show];
             }
         });

@@ -27,7 +27,7 @@
     options.networkAccessAllowed = YES;
     options.progressHandler = ^(double progress, NSError *__nullable error, BOOL *stop, NSDictionary *__nullable info) {
         if (!error) {
-            NSLog(@"MonkeyHengLog: %@ === %f", @"progress", progress);
+            NSLog(@" %@ === %f", @"progress", progress);
         }
     };
     [[PHImageManager defaultManager] cancelImageRequest:requestid];

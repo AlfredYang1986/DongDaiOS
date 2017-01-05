@@ -115,7 +115,7 @@
 }
 
 - (void)setShowingPhotoWithName:(NSString*)photo_name {
-    NSLog(@"MonkeyHengLog: %@ === %@", @"photo_name", photo_name);
+    NSLog(@"%@ === %@", @"photo_name", photo_name);
     NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
     NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
     NSString * filePath = [resourceBundle pathForResource:[NSString stringWithFormat:@"relase_imge_default"] ofType:@"png"];

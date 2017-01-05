@@ -73,7 +73,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
@@ -287,9 +286,12 @@
 
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     NSLog(@"tap esle where");
-    if ([costTextField isFirstResponder]) {
-        [costTextField resignFirstResponder];
-    }
+	if ([costTextField isFirstResponder]) {
+		[costTextField resignFirstResponder];
+	}
+	if ([timeTextField isFirstResponder]) {
+		[timeTextField resignFirstResponder];
+	}
 }
 
 //-(id)didOptionBtnClick:(NSDictionary*)args{

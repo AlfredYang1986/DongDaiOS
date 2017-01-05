@@ -24,6 +24,7 @@
     UITextView *descTextView;
     UILabel *countlabel;
     NSString *setedStr;
+	UIView *tapView;
 }
 
 #pragma mark --  commands
@@ -47,7 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     descTextView = [[UITextView alloc]init];
     [self.view addSubview:descTextView];
@@ -56,21 +56,46 @@
     }
     descTextView.font = [UIFont systemFontOfSize:14.f];
     descTextView.textColor = [Tools blackColor];
+	descTextView.scrollEnabled = NO;
     descTextView.delegate = self;
     [descTextView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(84);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
+//        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
+		make.width.mas_equalTo(SCREEN_WIDTH - 40);
+		make.height.mas_greaterThanOrEqualTo(20);
     }];
     
     countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(descTextView.mas_bottom).offset(-10);
+        make.top.equalTo(descTextView.mas_bottom).offset(25);
         make.right.equalTo(descTextView).offset(-10);
     }];
-    
+	
+	
+	tapView = [[UIView alloc]init];
+	[self.view addSubview:tapView];
+	[tapView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(self.view);
+	}];
+	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
+	[tapView addGestureRecognizer:tap];
+	tapView.alpha = 0;
+	
+	UIView *statusView = [self.views objectForKey:@"FakeStatusBar"];
+	UIView *navView = [self.views objectForKey:kAYFakeNavBarView];
+	[self.view bringSubviewToFront:statusView];
+	[self.view bringSubviewToFront:navView];
+	
+}
+
+- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
+	
+	if ([descTextView isFirstResponder]) {
+		[descTextView resignFirstResponder];
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -138,5 +163,24 @@
     [descTextView resignFirstResponder];
     return nil;
 }
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+	tapView.alpha = 0.5;
+//	descTextView.userInteractionEnabled = NO;
+//	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+//	[UIView animateWithDuration:0.25 animations:^{
+//		
+//	}];
+	
+	return nil;
+}
 
+- (id)KeyboardHideKeyboard:(id)args {
+	tapView.alpha = 0;
+//	descTextView.userInteractionEnabled = YES;
+//	[UIView animateWithDuration:0.25 animations:^{
+//		
+//	}];
+	return nil;
+}
 @end

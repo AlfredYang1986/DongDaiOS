@@ -403,20 +403,38 @@
 - (id)KeyboardShowKeyboard:(id)args {
     
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-    [UIView animateWithDuration:0.25f animations:^{
-//        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
-//		locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight + nextBtnHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
-		self.view.frame = CGRectMake(0, - step.floatValue + nextBtnHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
+//    [UIView animateWithDuration:0.25f animations:^{
+////        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
+////		locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight + nextBtnHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
+//		self.view.frame = CGRectMake(0, - step.floatValue + nextBtnHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
+//    }];
+	
+	[UIView animateWithDuration:0.25 animations:^{
+//		UIView *view = [self.views objectForKey:@"NapAreaMap"];
+//		view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - locBGViewHeight);
+		[locBGView mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self.view).offset(-step.floatValue+nextBtnHeight);
+		}];
+		[self.view layoutIfNeeded];
+	}];
+	
     return nil;
 }
 
 - (id)KeyboardHideKeyboard:(id)args {
-    
-    [UIView animateWithDuration:0.25f animations:^{
-//        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_WIDTH, locBGViewHeight);
-		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    }];
+	
+//    [UIView animateWithDuration:0.25f animations:^{
+////        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_WIDTH, locBGViewHeight);
+//		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+//    }];
+	[UIView animateWithDuration:0.25 animations:^{
+//		UIView *view = [self.views objectForKey:@"NapAreaMap"];
+//		view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 175);
+		[locBGView mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self.view);
+		}];
+		[self.view layoutIfNeeded];
+	}];
     return nil;
 }
 
