@@ -52,6 +52,7 @@
 		[self addSubview:otherWordLabel];
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
+			make.right.equalTo(self).offset(-15);
 			make.top.equalTo(allowLabel.mas_bottom).offset(12);
 			make.bottom.equalTo(self).offset(-20);
 		}];

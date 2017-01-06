@@ -238,7 +238,7 @@
             NSString *coustom = [napTitleInfo objectForKey:kAYServiceArgsCourseCoustom];
             
             //constain of title and course_sign or coustom and or service_cat == 0
-            if (coustom || course_sign.intValue != -1 || service_cat == ServiceTypeLookAfter) {
+            if (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || service_cat == ServiceTypeLookAfter) {
                 [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
             }
         }

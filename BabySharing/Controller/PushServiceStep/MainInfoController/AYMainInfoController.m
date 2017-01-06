@@ -89,7 +89,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                 [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
                 
                 //title constain and course_sign or coustom constain and or service_cat == 0
-                if (title && ![title isEqualToString:@""] && (coustom || course_sign || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter)) {
+                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter)) {
                     [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 

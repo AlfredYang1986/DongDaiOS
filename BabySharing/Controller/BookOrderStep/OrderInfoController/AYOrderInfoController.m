@@ -233,7 +233,7 @@
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
-	id<AYCommand> dest = DEFAULTCONTROLLER(@"PersonalPage");
+	id<AYCommand> dest = DEFAULTCONTROLLER(@"BOrderTime");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopToDestValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];

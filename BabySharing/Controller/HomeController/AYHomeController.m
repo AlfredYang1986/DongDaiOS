@@ -253,6 +253,7 @@ typedef void(^queryContentFinish)(void);
 
 #pragma mark -- actions
 - (void)didAddressLabelTap {
+	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterLocation");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
@@ -261,9 +262,11 @@ typedef void(^queryContentFinish)(void);
 	
 	id<AYCommand> cmd_show_module = SHOWMODULEUP;
 	[cmd_show_module performWithResult:&dic];
+	
 }
 
 - (void)didThemeCatlabelTap {
+	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterTheme");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
