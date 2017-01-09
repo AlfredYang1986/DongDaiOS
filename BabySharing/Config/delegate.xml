@@ -312,7 +312,7 @@
         <command type="notify" message="sendLocation:" />
     </delegate>
     
-    <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" factory="AYDefaultDelegateFactory" >
+    <delegate type="TableViewDelegateAndDatasource" name="BOrderMain" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="setOrderDate:" />
         <command type="message" message="setOrderTimes:" />

@@ -928,7 +928,7 @@
         <delegate type="TableViewDelegateAndDatasource" name="MessageList" />
     </controller>
     
-    <controller type="DefaultController" name="OrderInfo" factory="AYDefaultControllerFactoy" >
+    <controller type="DefaultController" name="BOrderMain" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
@@ -940,7 +940,7 @@
 <!--        <view type="PayOption"      name="PayOption" />-->
         <view type="Table"          name="Table" />
 
-        <delegate type="TableViewDelegateAndDatasource" name="OrderInfo" />
+        <delegate type="TableViewDelegateAndDatasource" name="BOrderMain" />
     </controller>
 	
 	<controller type="DefaultController" name="BOrderTime" factory="AYDefaultControllerFactoy" >

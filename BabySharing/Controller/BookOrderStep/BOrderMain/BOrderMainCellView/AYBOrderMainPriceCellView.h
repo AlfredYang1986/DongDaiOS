@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYOrderInfoPriceCellView : UITableViewCell <AYViewBase>
+@interface AYBOrderMainPriceCellView : UITableViewCell <AYViewBase>
 
 @end

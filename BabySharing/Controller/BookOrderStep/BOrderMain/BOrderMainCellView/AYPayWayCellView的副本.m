@@ -1,12 +1,12 @@
 //
-//  AYOrderInfoHeadCellView.m
+//  AYOrderPayWayCellView.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 12/9/16.
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInfoHeadCellView.h"
+#import "AYPayWayCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -15,13 +15,13 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#define kOwnerPhotoWH           50
+#import "InsetsLabel.h"
+#import "OBShapedButton.h"
 
-@implementation AYOrderInfoHeadCellView {
+@implementation AYPayWayCellView {
     
-    UIImageView *ownerPhoto;
-    UILabel *titleLabel;
-    UILabel *ownerNameLabel;
+//    UILabel *titleLabel;
+//    UIImageView *payWayIcon;
     
     NSDictionary *service;
 }
@@ -29,41 +29,46 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSLog(@"init reuse identifier");
         
-        titleLabel = [[UILabel alloc]init];
+        UILabel *titleLabel = [[UILabel alloc]init];
+        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"爱画画的插画师妈妈" andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:0];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
             make.left.equalTo(self).offset(15);
-            make.right.lessThanOrEqualTo(self.mas_right).offset(-65);
         }];
         
-        ownerNameLabel = [[UILabel alloc]init];
-        ownerNameLabel = [Tools setLabelWith:ownerNameLabel andText:@"服务妈妈" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:ownerNameLabel];
-        [ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.mas_bottom).offset(17);
+        UIImageView *payWayIcon = [UIImageView new];
+        payWayIcon.image = IMGRESOURCE(@"wechat");
+        [self addSubview:payWayIcon];
+        [payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(titleLabel.mas_bottom).offset(20);
             make.left.equalTo(titleLabel);
+            make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
         
-        /**
-         <#Description#>
-         */
+        UILabel *payWayLabel = [UILabel new];
+        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:payWayLabel];
+        [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(payWayIcon);
+            make.left.equalTo(payWayIcon.mas_right).offset(15);
+        }];
         
-        ownerPhoto = [[UIImageView alloc]init];
-        ownerPhoto.image = IMGRESOURCE(@"default_user");
-        ownerPhoto.layer.cornerRadius = kOwnerPhotoWH * 0.5;
-        ownerPhoto.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
-        ownerPhoto.layer.borderWidth = 2.f;
-        ownerPhoto.clipsToBounds = YES;
-        [self addSubview:ownerPhoto];
-        [ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(ownerNameLabel);
+        UIImageView *signView = [UIImageView new];
+        signView.image = IMGRESOURCE(@"checked_icon");
+        [self addSubview:signView];
+        [signView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(payWayIcon);
             make.right.equalTo(self).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(kOwnerPhotoWH, kOwnerPhotoWH));
+            make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
         }];
+        
+        
+        CALayer *line_separator = [CALayer layer];
+        line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+        line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
+        [self.layer addSublayer:line_separator];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -83,7 +88,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"OrderInfoHeadCell", @"OrderInfoHeadCell");
+    id<AYViewBase> cell = VIEW(@"PayWayCell", @"PayWayCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
@@ -137,26 +142,8 @@
 }
 
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)args{
-//    NSDictionary *args = [dic_args objectForKey:@"service"];
+- (id)setCellInfo:(NSDictionary*)dic_args {
     
-    NSString *user_name = [args objectForKey:@"screen_name"];
-    ownerNameLabel.text = [NSString stringWithFormat:@"%@", user_name];
-    
-    NSString *photo_name = [args objectForKey:@"screen_photo"];
-    if (photo_name) {
-        
-        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        NSString *pre = cmd.route;
-        [ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                      placeholderImage:IMGRESOURCE(@"default_user")];
-    } else {
-        
-        ownerPhoto.image = IMGRESOURCE(@"default_user");
-    }
-    
-    titleLabel.text = [args objectForKey:@"title"];
     return nil;
 }
 

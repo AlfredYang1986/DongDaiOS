@@ -735,23 +735,23 @@
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	
-    <view type="OrderInfoHeadCell" name="OrderInfoHeadCell" factory="AYDefaultViewFactory" >
+    <view type="BOrderMainHeadCell" name="BOrderMainHeadCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     
-    <view type="OrderInfoDateCell" name="OrderInfoDateCell" factory="AYDefaultViewFactory" >
+    <view type="BOrderMainDateCell" name="BOrderMainDateCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didEditDate" />
         <command type="notify"      message="didEditTimes" />
     </view>
     
-    <view type="OrderInfoPriceCell" name="OrderInfoPriceCell" factory="AYDefaultViewFactory" >
+    <view type="BOrderMainPriceCell" name="BOrderMainPriceCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didShowDetailClick" />
     </view>
     
-    <view type="OrderInfoPayWayCell" name="OrderInfoPayWayCell" factory="AYDefaultViewFactory" >
+    <view type="PayWayCell" name="PayWayCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didShowDetailClick" />
     </view>

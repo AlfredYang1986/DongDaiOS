@@ -12,6 +12,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewController.h"
 
-@interface AYOrderInfoDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+@interface AYBOrderMainDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

@@ -6,28 +6,19 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInfoPayWayCellView.h"
+#import "AYPayWayCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
-#import "AYHomeCellDefines.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#import "TmpFileStorageModel.h"
-#import "QueryContentItem.h"
-#import "Define.h"
-#import "QueryContentTag.h"
-#import "QueryContentChaters.h"
-#import "QueryContent+ContextOpt.h"
-
-#import "AYThumbsAndPushDefines.h"
 #import "InsetsLabel.h"
 #import "OBShapedButton.h"
 
-@implementation AYOrderInfoPayWayCellView {
+@implementation AYPayWayCellView {
     
 //    UILabel *titleLabel;
 //    UIImageView *payWayIcon;
@@ -39,25 +30,26 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(20);
-            make.left.equalTo(self).offset(15);
-        }];
-        
+//        UILabel *titleLabel = [[UILabel alloc]init];
+//        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//        [self addSubview:titleLabel];
+//        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self).offset(20);
+//            make.left.equalTo(self).offset(15);
+//        }];
+		
         UIImageView *payWayIcon = [UIImageView new];
         payWayIcon.image = IMGRESOURCE(@"wechat");
         [self addSubview:payWayIcon];
         [payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleLabel.mas_bottom).offset(20);
-            make.left.equalTo(titleLabel);
+//            make.top.equalTo(titleLabel.mas_bottom).offset(20);
+			make.left.equalTo(self).offset(15);
+			make.centerY.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
         
         UILabel *payWayLabel = [UILabel new];
-        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:payWayLabel];
         [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);
@@ -73,11 +65,7 @@
             make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
         }];
         
-        
-        CALayer *line_separator = [CALayer layer];
-        line_separator.backgroundColor = [Tools garyLineColor].CGColor;
-        line_separator.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 0.5);
-        [self.layer addSublayer:line_separator];
+        [Tools creatCALayerWithFrame:CGRectMake(0, 49.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyBackgroundColor] inSuperView:self];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -97,7 +85,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"OrderInfoPayWayCell", @"OrderInfoPayWayCell");
+    id<AYViewBase> cell = VIEW(@"PayWayCell", @"PayWayCell");
     
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {

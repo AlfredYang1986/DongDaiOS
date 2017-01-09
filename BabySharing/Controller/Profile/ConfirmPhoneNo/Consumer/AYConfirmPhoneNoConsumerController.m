@@ -245,7 +245,7 @@
 			
 			dispatch_async(dispatch_get_main_queue(), ^{
 				
-				AYViewController* des = DEFAULTCONTROLLER(@"OrderInfo");
+				AYViewController* des = DEFAULTCONTROLLER(@"BOrderMain");
 				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
 				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

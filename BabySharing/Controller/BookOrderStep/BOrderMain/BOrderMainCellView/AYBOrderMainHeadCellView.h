@@ -1,5 +1,5 @@
 //
-//  AYOrderPayWayCellView.h
+//  AYOrderInfoHeadCellView.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 12/9/16.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYOrderInfoPayWayCellView : UITableViewCell <AYViewBase>
+@interface AYBOrderMainHeadCellView : UITableViewCell <AYViewBase>
 
 @end

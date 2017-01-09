@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInfoController.h"
+#import "AYBOrderMainController.h"
 #import "TmpFileStorageModel.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -18,15 +18,14 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-#import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
-
-@implementation AYOrderInfoController {
-    
+@implementation AYBOrderMainController {
+	
+	NSDictionary *order_info;
+	
     NSDictionary *service_info;
-	NSArray *order_times;
-    NSDictionary *setedTimes;
+	NSMutableArray *order_times;
     
+	NSDictionary *setedTimes;
     NSNumber *order_date;
 }
 
@@ -38,9 +37,9 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-		service_info = [tmp objectForKey:kAYServiceArgsServiceInfo];
-		order_times = [tmp objectForKey:@"order_times"];
+        order_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		service_info = [order_info objectForKey:kAYServiceArgsServiceInfo];
+		order_times = [order_info objectForKey:@"order_times"];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -50,7 +49,7 @@
         if ([args objectForKey:@"order_date"]) {
             order_date = [args objectForKey:@"order_date"];
             
-            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderInfo"];
+            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"BOrderMain"];
             id<AYCommand> cmd_date = [cmd_recommend.commands objectForKey:@"setOrderDate:"];
             NSNumber *tmp = [order_date copy];
             [cmd_date performWithResult:&tmp];
@@ -63,7 +62,7 @@
             setedTimes = args;
             id times = [args copy];
             
-            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderInfo"];
+            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"BOrderMain"];
             id<AYCommand> cmd_times = [cmd_recommend.commands objectForKey:@"setOrderTimes:"];
             [cmd_times performWithResult:&times];
             
@@ -77,12 +76,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"OrderInfo"];
+    id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"BOrderMain"];
     
     id obj = (id)cmd_recommend;
     [cmd_datasource performWithResult:&obj];
@@ -90,20 +88,20 @@
     [cmd_delegate performWithResult:&obj];
     /****************************************/
     id<AYCommand> cmd_head = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* head_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* head_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderMainHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&head_class];
     
-    NSString* date_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoDateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* date_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderMainDateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&date_class];
     
-    NSString* price_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* price_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderMainPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&price_class];
     
-    NSString* payway_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderInfoPayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    NSString* payway_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&payway_class];
     
     id<AYCommand> change_data = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
-    NSDictionary *tmp = [service_info copy];
+    NSDictionary *tmp = [order_info copy];
     [change_data performWithResult:&tmp];
     
 //    id<AYCommand> cmd_nib = [view_table.commands objectForKey:@"registerCellWithNib:"];
@@ -111,17 +109,12 @@
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *aplyBtn = [[UIButton alloc]init];
+    UIButton *aplyBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:aplyBtn];
-    [self.view bringSubviewToFront:aplyBtn];
-    aplyBtn.backgroundColor = [Tools themeColor];
-    [aplyBtn setTitle:@"申请预订" forState:UIControlStateNormal];
-    aplyBtn.titleLabel.font = [UIFont systemFontOfSize:16.f];
-    [aplyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [aplyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
     }];
     [aplyBtn addTarget:self action:@selector(didAplyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -138,18 +131,15 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
     
     id<AYViewBase> bar = (id<AYViewBase>)view;
-    
     id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"服务详情";
+    NSString *title = @"确认信息";
     [cmd_title performWithResult:&title];
     
     id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
@@ -162,17 +152,11 @@
     
     id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
     [cmd_bot performWithResult:nil];
-    
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
-    
-    ((UITableView*)view).separatorStyle = UITableViewCellSeparatorStyleNone;
-    ((UITableView*)view).showsHorizontalScrollIndicator = NO;
-    ((UITableView*)view).showsVerticalScrollIndicator = NO;
-    view.backgroundColor = [Tools garyBackgroundColor];
+    view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
     return nil;
 }
 
@@ -303,16 +287,16 @@
     
     id<AYCommand> cmd_push = PUSH;
     [cmd_push performWithResult:&dic];
-    
     return nil;
 }
+
 /**
  *  price
  */
 - (id)didShowDetailClick {
     
     UITableView *table_view = [self.views objectForKey:@"Table"];
-    id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"OrderInfo"];
+    id<AYDelegateBase> cmd_delegate = [self.delegates objectForKey:@"BOrderMain"];
     id<AYCommand> cmd_animation = [cmd_delegate.commands objectForKey:@"TransfromExpend"];
     [cmd_animation performWithResult:nil];
     

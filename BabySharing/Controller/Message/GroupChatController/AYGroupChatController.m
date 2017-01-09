@@ -239,7 +239,7 @@ static NSString* const kAYGroupChatControllerUserInfoTable = @"Table2";
 
 - (id)didChatOrderDetailClick {
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"BOrderMain");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

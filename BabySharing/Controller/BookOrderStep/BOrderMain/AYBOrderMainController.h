@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYOrderInfoController : AYViewController
+@interface AYBOrderMainController : AYViewController
 
 @end
