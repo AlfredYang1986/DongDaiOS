@@ -56,7 +56,7 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         offer_date_mutable = [dic objectForKey:kAYControllerChangeArgsKey];
-		bookBtn.text = bookBtnTitleSeted;
+//		bookBtn.text = bookBtnTitleSeted;
     }
 }
 
@@ -443,32 +443,19 @@
 }
 
 - (id)showServiceOfferDate {
-    
-//    id<AYCommand> setting = DEFAULTCONTROLLER(@"CalendarService");
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"BOrderTime");
+	
+    id<AYCommand> dest = DEFAULTCONTROLLER(@"BOrderTime");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	if (!offer_date_mutable) {
-		offer_date_mutable = [[service_info objectForKey:kAYServiceArgsOfferDate] mutableCopy];
-		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			[obj setValue:[NSNumber numberWithInt:0] forKey:@"index"];
-			
-			NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
-			[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				[obj setValue:[NSNumber numberWithInt:0] forKey:@"select_pow"];
-			}];
-		}];
-	}
-	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:[service_info objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
-	[tmp setValue:[offer_date_mutable copy] forKey:kAYServiceArgsOfferDate];
+	[tmp setValue:service_info forKey:kAYServiceArgsServiceInfo];
+	[tmp setValue:offer_date_mutable forKey:kAYServiceArgsOfferDate];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
-    id<AYCommand> cmd = SHOWMODULEUP;
+    id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return nil;
 }
@@ -492,92 +479,87 @@
 }
 
 - (void)didBookBtnClick:(UITapGestureRecognizer*)tap {
-    /**
-     * 1. cannot order owner service
-     */
-	
-	UIView *tapView = tap.view;
-	if ([((UILabel*)tapView).text isEqualToString:bookBtnTitleNormal]) {
-		[self showServiceOfferDate];
-		
-	} else {
-	
-		NSDictionary* user = nil;
-		CURRENPROFILE(user);
-		NSString *user_id = [user objectForKey:@"user_id"];
-		NSString *owner_id = [service_info objectForKey:@"owner_id"];
-		if ([user_id isEqualToString:owner_id]) {
-			
-			NSString *title = @"该服务是您自己发布";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			return;
-		}
-		
-		/**
-		 * 2. check profile has_phone, if not, go confirmNoConsumer
-		 */
-		NSMutableArray *orderTimeSpans = [NSMutableArray array];
-		
-		NSDate *nowDate = [NSDate date];
-		NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-		NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-		[calendar setTimeZone: timeZone];
-		NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-		NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-		NSInteger weekdaySep = theComponents.weekday - 1;
-		
-		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
-			NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-			[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				NSNumber *select_pow = [obj objectForKey:@"select_pow"];
-				int compA = select_pow.intValue;
-				if (compA&1) {
-					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
-					[orderTimeSpans addObject:tmpSpan];
-				}
-				if (compA&2) {
-					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
-					[orderTimeSpans addObject:tmpSpan];
-				}
-				
-			}];
-		}];
-		
-		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
-			
-			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
-			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-			
-			NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-			[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
-			[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
-			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-			
-			id<AYCommand> cmd_show_module = PUSH;
-			[cmd_show_module performWithResult:&dic];
-			
-		} else {
-			id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNoConsumer");
-			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-			
-			NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-			[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
-			[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
-			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-			
-			id<AYCommand> cmd_show_module = PUSH;
-			[cmd_show_module performWithResult:&dic];
-		}
-	}
-	
+	[self showServiceOfferDate];
 }
+
+//- (void)didBookBtnClick:(UITapGestureRecognizer*)tap {
+//	
+//	UIView *tapView = tap.view;
+//	if ([((UILabel*)tapView).text isEqualToString:bookBtnTitleNormal]) {
+//		[self showServiceOfferDate];
+//	}
+//	else {
+//		
+//		NSDictionary* user = nil;
+//		CURRENPROFILE(user);
+//		NSString *user_id = [user objectForKey:@"user_id"];
+//		NSString *owner_id = [service_info objectForKey:@"owner_id"];
+//		if ([user_id isEqualToString:owner_id]) {
+//			
+//			NSString *title = @"该服务是您自己发布";
+//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//			return;
+//		}
+//		
+//		NSMutableArray *orderTimeSpans = [NSMutableArray array];
+//		
+//		NSDate *nowDate = [NSDate date];
+//		NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+//		NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+//		[calendar setTimeZone: timeZone];
+//		NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+//		NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+//		NSInteger weekdaySep = theComponents.weekday - 1;
+//		
+//		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//			NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
+//			NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
+//			[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//				NSNumber *select_pow = [obj objectForKey:@"select_pow"];
+//				int compA = select_pow.intValue;
+//				if (compA&1) {
+//					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
+//					[orderTimeSpans addObject:tmpSpan];
+//				}
+//				if (compA&2) {
+//					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
+//					[orderTimeSpans addObject:tmpSpan];
+//				}
+//			}];
+//		}];
+//		
+//		NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+//		[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
+//		[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
+//		
+//		/**
+//		 * 2. check profile has_phone, if not, go confirmNoConsumer
+//		 */
+//		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
+//			
+//			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfo");
+//			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+//			
+//			id<AYCommand> cmd_show_module = PUSH;
+//			[cmd_show_module performWithResult:&dic];
+//			
+//		} else {
+//			id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNoConsumer");
+//			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+//			
+//			id<AYCommand> cmd_show_module = PUSH;
+//			[cmd_show_module performWithResult:&dic];
+//		}
+//	}//
+//}
 
 - (NSDictionary*)transTimeSpanWithDic:(NSDictionary*)dic_time andDate:(NSDate*)now andDay:(NSNumber*)day andweektoday:(NSInteger)weekday andMultiple:(NSInteger)multiple {
 	

@@ -3940,8 +3940,8 @@
 			isa = PBXGroup;
 			children = (
 				7012C94C1E16156800C8F510 /* ConfirmOrderController */,
-				7012C9501E16156800C8F510 /* OrderInfoController */,
 				7012C9611E16156800C8F510 /* OrderTimesController */,
+				7012C9501E16156800C8F510 /* OrderInfoController */,
 				702F79D81E1215710062F2EA /* BOrderTime */,
 			);
 			path = BookOrderStep;

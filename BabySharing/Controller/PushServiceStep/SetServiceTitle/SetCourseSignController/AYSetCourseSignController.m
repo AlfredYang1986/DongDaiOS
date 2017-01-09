@@ -125,24 +125,4 @@
     return nil;
 }
 
-- (id)serviceThemeSeted:(NSNumber*)args {
-    //    notePow = pow(2, btn.tag);
-    long option = pow(2, args.longValue);
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
-//    [service_info setValue:[NSNumber numberWithInt:service_type] forKey:kAYServiceArgsServiceCat];
-    [service_info setValue:[NSNumber numberWithInt:(int)option] forKey:kAYServiceArgsTheme];
-    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    return nil;
-}
-
 @end

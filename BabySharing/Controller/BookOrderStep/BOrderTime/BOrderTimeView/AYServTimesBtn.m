@@ -23,11 +23,16 @@
 	self = [super init];
 	if (self) {
 		
+//		self.clipsToBounds = YES;
+		
 		NSNumber *top = [args objectForKey:kAYServiceArgsStart];
 		NSNumber *btm = [args objectForKey:kAYServiceArgsEnd];
 		
 		CGFloat offsetY = itemUintHeight * (top.intValue / 100 - 6) + 40;
 		CGFloat height =  itemUintHeight * (btm.intValue / 100 - top.intValue / 100);
+		if (height == 0) {
+			height = itemUintHeight;
+		}
 		self.frame = CGRectMake(offsetX, offsetY + AdjustFiltVertical, itemWidth, height);
 		
 		normalBg = [[UIView alloc]init];

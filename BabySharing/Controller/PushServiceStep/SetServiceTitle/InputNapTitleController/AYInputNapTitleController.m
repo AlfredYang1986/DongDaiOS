@@ -47,7 +47,8 @@
         NSNumber *courseSignIndex = [args_info objectForKey:kAYServiceArgsCourseSign];
         if (coustom) {
             [titleAndCourseSignInfo setValue:coustom forKey:kAYServiceArgsCourseCoustom];
-            [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseSign];
+//            [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseSign];
+			[titleAndCourseSignInfo setValue:@-1 forKey:kAYServiceArgsCourseSign];		//服务器默认返回-1，兼容设置-1
         }
         else if (courseSignIndex) {
             [titleAndCourseSignInfo setValue:courseSignIndex forKey:kAYServiceArgsCourseSign];
