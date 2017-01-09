@@ -135,17 +135,15 @@
 	NSNumber *end = [dic_args objectForKey:kAYServiceArgsEnd];
 	
 	NSDateFormatter *format = [Tools creatDateFormatterWithString:@"yyyy-MM-dd日, EEEE"];
-	
+	NSDateFormatter *format_time = [Tools creatDateFormatterWithString:@"HH:mm"];
 	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start.doubleValue * 0.001];
+	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end.doubleValue * 0.001];
+	
 	NSString *dateStr = [format stringFromDate:startDate];
 	dateLabel.text = dateStr;
 	
-	NSDateFormatter *format_time = [Tools creatDateFormatterWithString:@"HH:mm"];
-	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end.doubleValue * 0.001];
-	
 	NSString *startStr = [format_time stringFromDate:startDate];
 	NSString *endStr = [format_time stringFromDate:endDate];
-		
 	timeLabel.text = [NSString stringWithFormat:@"%@-%@", startStr, endStr];
 	
     return nil;

@@ -74,11 +74,6 @@
     return nil;
 }
 
-- (id)setOrderTimes:(NSDictionary*)args {
-    setedTimes = args;
-    return nil;
-}
-
 - (id)TransfromExpend {
     isExpend = !isExpend;
     return nil;
@@ -198,11 +193,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 1) {
 		
+		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+		if (service_cat.intValue == ServiceTypeCourse) {
+			return;
+		}
+		else {
+			NSNumber *note = [NSNumber numberWithInteger:indexPath.row];
+			kAYDelegateSendNotify(self, @"setOrderTime:", &note)
+		}
+		
 	}
-}
-
--(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
-    return NO;
 }
 
 @end

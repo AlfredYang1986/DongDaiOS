@@ -103,16 +103,12 @@
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-        if (component == 1) {
-            return COMPLENTWIDTHMin;
-        }
-//        else if (component == 1) {
-//            return 100;
-//        }
-        else {
-            return COMPLENTWIDTHMax;
-        }
-//    return COMPLENTWIDTH;
+	if (component == 1) {
+		return 100;
+	}
+	else {
+		return 50;
+	}
 }
 
 //- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {

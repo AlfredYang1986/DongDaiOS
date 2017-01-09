@@ -18,21 +18,13 @@
 #import "AYModelFacade.h"
 #import "AYCommandDefines.h"
 
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-
 #import "OrderTimesOptionView.h"
 
 #define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
 #define STATUS_HEIGHT           20
 #define NAV_HEIGHT              45
-
 #define TEXT_COLOR              [Tools blackColor]
-
 #define CONTROLLER_MARGIN       10.f
-
 #define FIELD_HEIGHT                        80
 
 @implementation AYOrderTimesController {
@@ -41,8 +33,7 @@
     OrderTimesOptionView *endView;
     
     NSDictionary *dic_times;
-    
-    UIView *picker;
+	NSDictionary *initialData;
 }
 
 #pragma mark -- commands
@@ -51,8 +42,10 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        dic_times = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+        NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		dic_times = [tmp objectForKey:@"order_time"];
+		initialData = [tmp objectForKey:@"initail"];
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -64,23 +57,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
     
     startView = [[OrderTimesOptionView alloc]initWithTitle:@"开始时间"];
     [self.view addSubview:startView];
     [startView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(100);
+        make.top.equalTo(self.view).offset(65);
         make.left.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH * 0.5, 75));
     }];
     startView.userInteractionEnabled = YES;
     [startView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetStartTime)]];
     startView.states = 1;
-    
-    NSDictionary *setedTimes = [dic_times objectForKey:@"order_times"];
-    NSString *start = [setedTimes objectForKey:@"start"];
-    startView.timeLabel.text = start ? start : @"10:00";
     
     endView = [[OrderTimesOptionView alloc]initWithTitle:@"结束时间"];
     [self.view addSubview:endView];
@@ -92,27 +79,42 @@
     endView.userInteractionEnabled = YES;
     [endView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetEndTime)]];
     endView.states = 0;
+	
+	NSNumber *start = [dic_times objectForKey:kAYServiceArgsStart];
+	NSNumber *end = [dic_times objectForKey:kAYServiceArgsEnd];
+	
+	NSDateFormatter *format_time = [Tools creatDateFormatterWithString:@"HH:mm"];
+	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start.doubleValue * 0.001];
+	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end.doubleValue * 0.001];
+	
+	NSString *startStr = [format_time stringFromDate:startDate];
+	startView.timeLabel.text = startStr ? startStr : @"10:00";
+	
+	NSString *endStr = [format_time stringFromDate:endDate];
+    endView.timeLabel.text = endStr ? endStr : @"12:00";
     
-    NSString *end = [setedTimes objectForKey:@"end"];
-    endView.timeLabel.text = end ? end : @"12:00";
-    
-    
-    /**
-     * 保存按钮
-     */
-//    UIButton* btn = [[UIButton alloc]init];
-//    [btn setTitle:@"保存" forState:UIControlStateNormal];
-//    [self.view addSubview:btn];
-//    btn.frame = CGRectMake(10, SCREEN_HEIGHT - 10 - 45, SCREEN_WIDTH - 2 * 10, 45);
-//    btn.backgroundColor = [Tools themeColor];
-//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [btn.layer setCornerRadius:4.f];
-//    [btn addTarget:self action:@selector(saveBtnSelected) forControlEvents:UIControlEventTouchUpInside];
-    
+	{
+		NSNumber *start = [initialData objectForKey:kAYServiceArgsStart];
+		NSNumber *end = [initialData objectForKey:kAYServiceArgsEnd];
+		NSDateFormatter *format_time = [Tools creatDateFormatterWithString:@"HH:mm"];
+		
+		NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start.doubleValue * 0.001];
+		NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end.doubleValue * 0.001];
+		NSString *startStr = [format_time stringFromDate:startDate];
+		NSString *endStr = [format_time stringFromDate:endDate];
+		
+		UILabel *tipslabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"当前可预订时间段 %@-%@", startStr, endStr] andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipslabel.numberOfLines = 0;
+		[self.view addSubview:tipslabel];
+		[tipslabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self.view);
+			make.top.equalTo(endView.mas_bottom).offset(80);
+		}];
+	}
+		
     {
         id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-        picker = (UIView*)view_picker;
-        [self.view bringSubviewToFront:picker];
+        [self.view bringSubviewToFront:(UIView*)view_picker];
         id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
         id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
         
@@ -129,28 +131,27 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, STATUS_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, STATUS_HEIGHT, SCREEN_WIDTH, NAV_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    
-    {
-        UIImage* img = IMGRESOURCE(@"content_close");
-        id<AYCommand> cmd = [bar.commands objectForKey:@"setLeftBtnImg:"];
-        [cmd performWithResult:&img];
-    }
-    
+	
+	NSString *title = @"时间修改";
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+	UIImage* left = IMGRESOURCE(@"bar_left_black");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+	
     return nil;
 }
 
 - (id)PickerLayout:(UIView*)view {
     view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
-    view.backgroundColor = [Tools garyColor];
-    
     return nil;
 }
 
@@ -210,23 +211,37 @@
     
     int startClock = [startView.timeLabel.text substringToIndex:2].intValue;
     int endClock = [endView.timeLabel.text substringToIndex:2].intValue;
-    int least = ((NSNumber*)[dic_times objectForKey:@"least_hours"]).intValue;
-    if (endClock - startClock < least) {
+//    int least = ((NSNumber*)[dic_times objectForKey:@"least_hours"]).intValue;
+    if (endClock < startClock) {
         
-        NSString *title = [NSString stringWithFormat:@"您没有预定足够的时长:\n%d小时",least];
+        NSString *title = @"结束时间需大于开始时间";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return nil;
     }
-    
+	
+	NSNumber *start = [dic_times objectForKey:kAYServiceArgsStart];
+	NSDateFormatter *format = [Tools creatDateFormatterWithString:@"yyyy-MM-dd日"];
+	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start.doubleValue * 0.001];
+	NSString *dateStr = [format stringFromDate:startDate];
+	
+	NSDateFormatter *unformat = [Tools creatDateFormatterWithString:@"yyyy-MM-dd日HH:mm"];
+	NSString *setStartStr = [dateStr stringByAppendingString:startView.timeLabel.text];
+	NSDate *setStartDate = [unformat dateFromString:setStartStr];
+	NSTimeInterval startSpan = setStartDate.timeIntervalSince1970 * 1000;
+	
+	NSString *setEndStr = [dateStr stringByAppendingString:endView.timeLabel.text];
+	NSDate *setEndtDate = [unformat dateFromString:setEndStr];
+	NSTimeInterval endSpan = setEndtDate.timeIntervalSince1970 * 1000;
+	
+	/**/
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [dic_args setValue:startView.timeLabel.text forKey:@"start"];
-    [dic_args setValue:endView.timeLabel.text forKey:@"end"];
-    
-    [dic setValue:dic_args forKey:kAYControllerChangeArgsKey];
+    [dic_args setValue:[NSNumber numberWithDouble:startSpan] forKey:kAYServiceArgsStart];
+    [dic_args setValue:[NSNumber numberWithDouble:endSpan] forKey:kAYServiceArgsEnd];
+    [dic setValue:[dic_args copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];

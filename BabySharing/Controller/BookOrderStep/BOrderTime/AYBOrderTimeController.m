@@ -308,7 +308,7 @@
 	}];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
+	[tmp setValue:orderTimeSpans forKey:@"order_times"];
 	[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
 	
 	/**

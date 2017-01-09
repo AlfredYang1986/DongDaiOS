@@ -49,7 +49,7 @@
         }];
         
         UILabel *payWayLabel = [UILabel new];
-        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:payWayLabel];
         [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);

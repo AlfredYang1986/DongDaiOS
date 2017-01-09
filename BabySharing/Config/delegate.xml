@@ -315,8 +315,8 @@
     <delegate type="TableViewDelegateAndDatasource" name="BOrderMain" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="setOrderDate:" />
-        <command type="message" message="setOrderTimes:" />
         <command type="message" message="TransfromExpend" />
+		<command type="notify" message="setOrderTime:" />
         <command type="notify" message="sendLocation:" />
     </delegate>
     

@@ -24,9 +24,11 @@
 	
     NSDictionary *service_info;
 	NSMutableArray *order_times;
-    
+	NSArray *initialTimeData;
 	NSDictionary *setedTimes;
     NSNumber *order_date;
+	
+	int edit_note;
 }
 
 - (void)postPerform{
@@ -39,38 +41,20 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         order_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		service_info = [order_info objectForKey:kAYServiceArgsServiceInfo];
+//		order_times = [[order_info objectForKey:@"order_times"] mutableCopy];
 		order_times = [order_info objectForKey:@"order_times"];
+		initialTimeData = [order_times copy];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-        
-        if ([args objectForKey:@"order_date"]) {
-            order_date = [args objectForKey:@"order_date"];
-            
-            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"BOrderMain"];
-            id<AYCommand> cmd_date = [cmd_recommend.commands objectForKey:@"setOrderDate:"];
-            NSNumber *tmp = [order_date copy];
-            [cmd_date performWithResult:&tmp];
-            
-            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
-            [cmd_refresh performWithResult:nil];
-        }
-        if ([args objectForKey:@"start"]) {
-            setedTimes = args;
-            id times = [args copy];
-            
-            id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"BOrderMain"];
-            id<AYCommand> cmd_times = [cmd_recommend.commands objectForKey:@"setOrderTimes:"];
-            [cmd_times performWithResult:&times];
-            
-            id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-            id<AYCommand> cmd_refresh = [view_table.commands objectForKey:@"refresh"];
-            [cmd_refresh performWithResult:nil];
-        }
-        
+		[order_times replaceObjectAtIndex:edit_note withObject:args];
+		
+//		[order_info setValue:order_times forKey:@"order_times"];
+		id tmp = [order_info copy];
+		kAYDelegatesSendMessage(@"BOrderMain", @"BOrderMain:", &tmp)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     }
 }
 
@@ -136,22 +120,16 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
+	
     NSString *title = @"确认信息";
-    [cmd_title performWithResult:&title];
-    
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
-    
-    id<AYCommand> cmd_bot = [bar.commands objectForKey:@"setBarBotLine"];
-    [cmd_bot performWithResult:nil];
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -272,8 +250,10 @@
     return nil;
 }
 
-- (id)didEditTimes {
-    
+- (id)setOrderTime:(NSNumber*)index {
+	
+	edit_note = index.intValue;
+	
     id<AYCommand> des = DEFAULTCONTROLLER(@"OrderTimes");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -281,8 +261,8 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_times = [[NSMutableDictionary alloc]init];
-    [dic_times setValue:[setedTimes copy] forKey:@"order_times"];
-    [dic_times setValue:[service_info objectForKey:@"least_hours"] forKey:@"least_hours"];
+    [dic_times setValue:[order_times objectAtIndex:edit_note] forKey:@"order_time"];
+    [dic_times setValue:[initialTimeData objectAtIndex:edit_note] forKey:@"initail"];
     [dic setValue:dic_times forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_push = PUSH;
