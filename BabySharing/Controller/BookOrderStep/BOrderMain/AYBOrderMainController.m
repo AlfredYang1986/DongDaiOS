@@ -26,9 +26,9 @@
 	NSMutableArray *order_times;
 	NSArray *initialTimeData;
 	NSDictionary *setedTimes;
-    NSNumber *order_date;
 	
 	int edit_note;
+	NSString* order_id;
 }
 
 - (void)postPerform{
@@ -51,9 +51,8 @@
         NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
 		[order_times replaceObjectAtIndex:edit_note withObject:args];
 		
-//		[order_info setValue:order_times forKey:@"order_times"];
-		id tmp = [order_info copy];
-		kAYDelegatesSendMessage(@"BOrderMain", @"BOrderMain:", &tmp)
+//		id tmp = [order_info copy];
+//		kAYDelegatesSendMessage(@"BOrderMain", @"changeQueryData:", &tmp)
 		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     }
 }
@@ -140,61 +139,93 @@
 
 #pragma mark -- actions
 - (void)didAplyBtnClick:(UIButton*)btn {
-    
-    if (!order_date) {
-        NSString *title = @"您还没有预订时间";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
-        return;
-    }
-    
-    NSMutableDictionary *dic_order_info = [[NSMutableDictionary alloc]init];
-    [dic_order_info setValue:[service_info copy] forKey:@"service_info"];   //service
-    [dic_order_info setValue:[order_date copy] forKey:@"order_date"];       //date
-    
-    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy年MM月dd日, EEEE"];
-    NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
-    [format setTimeZone:timeZone];
-    
-    if (!setedTimes) {
-        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-        [tmp setValue:@"10:00" forKey:@"start"];
-        [tmp setValue:@"12:00" forKey:@"end"];
-        setedTimes = [tmp copy];
-    }
-    [dic_order_info setValue:[setedTimes copy] forKey:@"order_times"];      //times
-    
-    NSString *start = [setedTimes objectForKey:@"start"];
-    NSString *end = [setedTimes objectForKey:@"end"];
-    
-    /**
-     *  最小时长限制
-     */
-    int startClock = [start substringToIndex:2].intValue;
-    int endClock = [end substringToIndex:2].intValue;
-    int least = ((NSNumber*)[service_info objectForKey:@"least_hours"]).intValue;
-    if (endClock - startClock < least) {
-        
-        NSString *title = [NSString stringWithFormat:@"您没有预定足够的时长:\n%d小时",least];
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return;
-    }
-    
-    id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmOrder");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:dic_order_info forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = PUSHFROMBOT;
-    [cmd_show_module performWithResult:&dic];
-    
+	
+	id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+	id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+	NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+	[cmd_login performWithResult:&IsInstalledWechat];
+	if (!IsInstalledWechat.boolValue) {
+		NSString *title = @"暂仅支持微信支付！";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return;
+	}
+	
+	CGFloat sumPrice = 0;
+	NSString *unitCat = @"UNIT";
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	__block int count_times = 0;
+	
+	if (service_cat.intValue == ServiceTypeLookAfter) {
+		
+		unitCat = @"小时";
+		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			
+			NSNumber *start = [obj objectForKey:kAYServiceArgsStart];
+			NSNumber *end = [obj objectForKey:kAYServiceArgsEnd];
+			
+			double duration = end.doubleValue * 0.001 - start.doubleValue * 0.001 ;
+			count_times += (duration / 60 / 60);
+		}];
+		
+	} else if (service_cat.intValue == ServiceTypeCourse) {
+		unitCat = @"次";
+		count_times = (int)order_times.count;
+	} else {
+		
+	}
+	
+	NSNumber *unit_price = [service_info objectForKey:kAYServiceArgsPrice];
+	sumPrice += (unit_price.floatValue * count_times) * 100;
+#ifdef SANDBOX
+	sumPrice = 1.f;
+#endif
+	
+	NSDictionary *dic_date = [order_times firstObject];
+	NSDictionary* args = nil;
+	CURRENUSER(args)
+	
+	NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+	[dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
+	[dic_push setValue:[[service_info objectForKey:@"images"] objectAtIndex:0] forKey:@"order_thumbs"];
+	[dic_push setValue:dic_date forKey:@"order_date"];
+	[dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
+	[dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
+	[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			// 支付
+			id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+			AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
+			
+			NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+			[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+			[cmd performWithResult:&pay];
+			
+			order_id = [result objectForKey:@"order_id"];
+			
+		} else {
+			
+			NSString *title = @"服务预订失败\n请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	
+}
+- (void)BtmAlertOtherBtnClick {
+	NSLog(@"didOtherBtnClick");
+	[super BtmAlertOtherBtnClick];
+	
+	[super tabBarVCSelectIndex:2];
 }
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    
+	
 	id<AYCommand> dest = DEFAULTCONTROLLER(@"BOrderTime");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopToDestValue forKey:kAYControllerActionKey];
@@ -284,6 +315,41 @@
     [table_view endUpdates];
     
     return nil;
+}
+
+- (id)WechatPaySuccess:(id)args {
+	
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	// 支付成功
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:order_id forKey:@"order_id"];
+	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+	
+	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		if (success) {
+			NSString *title = @"服务预订成功,去日程查看";
+			//            [self popToRootVCWithTip:title];
+			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+			
+		} else {
+			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	return nil;
+}
+
+- (id)WechatPayFailed:(id)args {
+	NSString *title = @"微信支付失败\n请改善网络环境并重试";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	return nil;
 }
 
 @end

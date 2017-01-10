@@ -151,7 +151,7 @@
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="HomeInit" />
         <command type="Module" name="MessageInit" />
-        <command type="Module" name="OrderInit" />
+        <command type="Module" name="OrderCommonInit" />
         <command type="Module" name="ProfileInit" />
         
 <!--        <command type="Module" name="FoundInit" />-->
@@ -858,7 +858,18 @@
         <delegate type="TableViewDelegateAndDatasource" name="FutureOrderSer" />
         <delegate type="TableViewDelegateAndDatasource" name="PastOrderSer" />
     </controller>
-    
+	
+	<controller type="DefaultController" name="OrderCommon" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+<!--		<view type="FakeNavBar"     name="FakeNavBar" />-->
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="OrderCommon" />
+	</controller>
+	
     <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />
@@ -935,9 +946,6 @@
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-<!--        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />-->
-<!--        <view type="TimeOption"     name="TimeOption" />-->
-<!--        <view type="PayOption"      name="PayOption" />-->
         <view type="Table"          name="Table" />
 
         <delegate type="TableViewDelegateAndDatasource" name="BOrderMain" />

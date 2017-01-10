@@ -697,7 +697,11 @@
     <view type="NoOrderCell" name="NoOrderCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    
+	
+	<view type="OrderNewsreelCell" name="OrderNewsreelCell" factory="AYDefaultViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="OrderHeadCell" name="OrderHeadCell" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didServiceDetailClick" />

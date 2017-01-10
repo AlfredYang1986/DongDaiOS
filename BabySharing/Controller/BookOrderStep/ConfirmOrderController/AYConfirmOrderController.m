@@ -28,10 +28,6 @@
     NSString* order_id;
 }
 
-- (void)postPerform{
-    
-}
-
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
@@ -54,8 +50,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools darkBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
     
     UILabel *tipsLabel = [UILabel new];
     tipsLabel = [Tools setLabelWith:tipsLabel andText:@"确认您的订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];

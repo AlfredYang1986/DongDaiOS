@@ -53,7 +53,7 @@
     [cmd_friends_init performWithResult:&friends];
     friends.tabBarItem.title = @"Message";
     
-    id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderInit"];
+    id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderCommonInit"];
     AYViewController* order = nil;
     [cmd_order_init performWithResult:&order];
     order.tabBarItem.title = @"order";

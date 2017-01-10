@@ -658,6 +658,10 @@
 		70F82C591DF569C2006EBDD2 /* AYSetServiceNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F82C581DF569C2006EBDD2 /* AYSetServiceNoticeController.m */; };
 		70F89EB21CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */; };
 		70FBB9261DFBE54300AFB628 /* AYSetCourseSignCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */; };
+		70FE1C751E24D12E00050FF0 /* AYOrderCommonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C741E24D12E00050FF0 /* AYOrderCommonController.m */; };
+		70FE1C781E24DB9A00050FF0 /* AYOrderCommonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C771E24DB9A00050FF0 /* AYOrderCommonDelegate.m */; };
+		70FE1C7B1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */; };
+		70FE1C7E1E24F0A500050FF0 /* AYOrderCommonInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C7D1E24F0A500050FF0 /* AYOrderCommonInitCommand.m */; };
 		70FE54DA1D98E78F0077A3E9 /* AYCommentServiceCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54D91D98E78F0077A3E9 /* AYCommentServiceCommand.m */; };
 		70FE54DD1D98EA090077A3E9 /* AYCommentServiceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54DC1D98EA090077A3E9 /* AYCommentServiceDelegate.m */; };
 		70FE54E01D98EC440077A3E9 /* AYServQualityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE54DF1D98EC440077A3E9 /* AYServQualityCellView.m */; };
@@ -2071,6 +2075,14 @@
 		70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSaveScreenPhotoCommand.m; sourceTree = "<group>"; };
 		70FBB9241DFBE54300AFB628 /* AYSetCourseSignCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetCourseSignCellView.h; sourceTree = "<group>"; };
 		70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetCourseSignCellView.m; sourceTree = "<group>"; };
+		70FE1C731E24D12E00050FF0 /* AYOrderCommonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCommonController.h; sourceTree = "<group>"; };
+		70FE1C741E24D12E00050FF0 /* AYOrderCommonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderCommonController.m; sourceTree = "<group>"; };
+		70FE1C761E24DB9A00050FF0 /* AYOrderCommonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCommonDelegate.h; sourceTree = "<group>"; };
+		70FE1C771E24DB9A00050FF0 /* AYOrderCommonDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderCommonDelegate.m; sourceTree = "<group>"; };
+		70FE1C791E24DBBB00050FF0 /* AYOrderNewsreelCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderNewsreelCellView.h; sourceTree = "<group>"; };
+		70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderNewsreelCellView.m; sourceTree = "<group>"; };
+		70FE1C7C1E24F0A500050FF0 /* AYOrderCommonInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCommonInitCommand.h; sourceTree = "<group>"; };
+		70FE1C7D1E24F0A500050FF0 /* AYOrderCommonInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderCommonInitCommand.m; sourceTree = "<group>"; };
 		70FE54D81D98E78F0077A3E9 /* AYCommentServiceCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceCommand.h; sourceTree = "<group>"; };
 		70FE54D91D98E78F0077A3E9 /* AYCommentServiceCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCommentServiceCommand.m; sourceTree = "<group>"; };
 		70FE54DB1D98EA090077A3E9 /* AYCommentServiceDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCommentServiceDelegate.h; sourceTree = "<group>"; };
@@ -3885,6 +3897,7 @@
 				703C7DB41D48A7F800292F18 /* Message */,
 				702F79D71E1215710062F2EA /* BookOrderStep */,
 				7059C9A01D45B712004973F3 /* Order */,
+				70FE1C6F1E24D10200050FF0 /* OrderCommonMode */,
 				70501C831D2F49DD0050E0C8 /* Profile */,
 				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
 				70C41E3D1DBA122500C77B10 /* PushServiceStep */,
@@ -5990,6 +6003,8 @@
 			children = (
 				70C41E241DBA091F00C77B10 /* AYOrderInitCommand.h */,
 				70C41E251DBA091F00C77B10 /* AYOrderInitCommand.m */,
+				70FE1C7C1E24F0A500050FF0 /* AYOrderCommonInitCommand.h */,
+				70FE1C7D1E24F0A500050FF0 /* AYOrderCommonInitCommand.m */,
 			);
 			path = OrderInit;
 			sourceTree = "<group>";
@@ -7309,6 +7324,43 @@
 			path = SetServiceNoticeView;
 			sourceTree = "<group>";
 		};
+		70FE1C6F1E24D10200050FF0 /* OrderCommonMode */ = {
+			isa = PBXGroup;
+			children = (
+				70FE1C701E24D10200050FF0 /* OrderCommon */,
+			);
+			path = OrderCommonMode;
+			sourceTree = "<group>";
+		};
+		70FE1C701E24D10200050FF0 /* OrderCommon */ = {
+			isa = PBXGroup;
+			children = (
+				70FE1C711E24D10200050FF0 /* OrderCommonDelegate */,
+				70FE1C721E24D10200050FF0 /* OrderCommonView */,
+				70FE1C731E24D12E00050FF0 /* AYOrderCommonController.h */,
+				70FE1C741E24D12E00050FF0 /* AYOrderCommonController.m */,
+			);
+			path = OrderCommon;
+			sourceTree = "<group>";
+		};
+		70FE1C711E24D10200050FF0 /* OrderCommonDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70FE1C761E24DB9A00050FF0 /* AYOrderCommonDelegate.h */,
+				70FE1C771E24DB9A00050FF0 /* AYOrderCommonDelegate.m */,
+			);
+			path = OrderCommonDelegate;
+			sourceTree = "<group>";
+		};
+		70FE1C721E24D10200050FF0 /* OrderCommonView */ = {
+			isa = PBXGroup;
+			children = (
+				70FE1C791E24DBBB00050FF0 /* AYOrderNewsreelCellView.h */,
+				70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */,
+			);
+			path = OrderCommonView;
+			sourceTree = "<group>";
+		};
 		70FE54D71D98E74C0077A3E9 /* CommentService */ = {
 			isa = PBXGroup;
 			children = (
@@ -8023,6 +8075,7 @@
 				703C7E3F1DABA723003F58C1 /* WXSTransitionManager+SpreadAnimation.m in Sources */,
 				70F4287A1CC7B18F00A69977 /* MASLayoutConstraint.m in Sources */,
 				700BE5B71CBA65A500A09B3A /* AYPopToRootCommand.m in Sources */,
+				70FE1C7E1E24F0A500050FF0 /* AYOrderCommonInitCommand.m in Sources */,
 				703C7DE11D48AF3200292F18 /* AYGroupChatController.m in Sources */,
 				7006932C1CC4DB1800B511FF /* AYEnumAllPhotoWithAlbumCommand.m in Sources */,
 				809597071D65DC0800CBB732 /* AYExchangeWindowsCommand.m in Sources */,
@@ -8122,6 +8175,7 @@
 				70D228241D893ED500EF4211 /* AYOrderCellView.m in Sources */,
 				70C41EC41DBA122500C77B10 /* AYInputNapAdressController.m in Sources */,
 				70168F461E23657C00FD5B6A /* AYBOrderMainController.m in Sources */,
+				70FE1C7B1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m in Sources */,
 				70C41EF41DBA122600C77B10 /* AYSetNapThemeDelegate.m in Sources */,
 				70EAD8101CA6680C007965D2 /* AYModel.m in Sources */,
 				705E96A01D477E70006CF9E6 /* AYScanQRCodeController.m in Sources */,
@@ -8422,6 +8476,7 @@
 				70125A171E0AAC030082C76B /* AYMapMatchCellView.m in Sources */,
 				70FE54DA1D98E78F0077A3E9 /* AYCommentServiceCommand.m in Sources */,
 				7001C4861DD58BCC004275A9 /* AYSetNapScheduleController.m in Sources */,
+				70FE1C781E24DB9A00050FF0 /* AYOrderCommonDelegate.m in Sources */,
 				70168F471E23657C00FD5B6A /* AYBOrderMainDateCellView.m in Sources */,
 				7000CD281D7E8A5200DA98F2 /* MJRefreshStateHeader.m in Sources */,
 				70F428781CC7B18F00A69977 /* MASConstraint.m in Sources */,
@@ -8575,6 +8630,7 @@
 				7025109C1CC0F5AB00DADF2B /* MessageAndNotificationModel.xcdatamodeld in Sources */,
 				7054897C1D34DABE007FCDA1 /* AYBabyInfoController.m in Sources */,
 				701D8A5B1CA7B9C200B5D4C1 /* AYSNSWeiboFacade.m in Sources */,
+				70FE1C751E24D12E00050FF0 /* AYOrderCommonController.m in Sources */,
 				70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */,
 				70EAD82B1CA673E7007965D2 /* AYNotiyCommand.m in Sources */,
 				705489821D34DD0C007FCDA1 /* AYBabyInfoCellView.m in Sources */,

@@ -7,15 +7,12 @@
 //
 
 #import "AYBOrderMainDelegate.h"
-#import "Notifications.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
-#import "AYRemoteCallCommand.h"
 
 @implementation AYBOrderMainDelegate {
     NSDictionary *querydata;
