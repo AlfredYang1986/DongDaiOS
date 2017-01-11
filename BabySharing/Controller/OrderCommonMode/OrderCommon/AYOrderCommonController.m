@@ -7,7 +7,6 @@
 //
 
 #import "AYOrderCommonController.h"
-#import "TmpFileStorageModel.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -62,20 +61,21 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
 	}];
 	
-	UILabel *title = [Tools creatUILabelWithText:@"News" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *title = [Tools creatUILabelWithText:@"最新动态" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:title];
 	[title mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(newsBoardView).offset(15);
 		make.top.equalTo(newsBoardView).offset(20);
 	}];
 	
-	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"all news" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部动态" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
 	[newsBoardView addSubview:allNewsBtn];
 	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(title);
 		make.right.equalTo(newsBoardView).offset(-15);
 		make.size.mas_equalTo(CGSizeMake(70, 30));
 	}];
+	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
 	leastNews = [Tools creatUILabelWithText:@"暂时没有新的动态" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:leastNews];
@@ -135,8 +135,18 @@
 }
 
 #pragma mark -- actions
-- (void)didAplyBtnClick:(UIButton*)btn {
+- (void)didAllNewsBtnClick:(UIButton*)btn {
 	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderListNews");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	id tmp ;
+//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 	
 }
 

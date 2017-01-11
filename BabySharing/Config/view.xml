@@ -690,43 +690,50 @@
         <command type="message"     message="setCellInfo:" />
     </view>
     
-    <view type="SerOrderCell" name="SerOrderCell" factory="AYDefaultViewFactory" >
+    <view type="SerOrderCell" name="SerOrderCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
     
-    <view type="NoOrderCell" name="NoOrderCell" factory="AYDefaultViewFactory" >
+    <view type="NoOrderCell" name="NoOrderCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
 	
-	<view type="OrderNewsreelCell" name="OrderNewsreelCell" factory="AYDefaultViewFactory" >
+	<view type="OrderNewsreelCell" name="OrderNewsreelCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	
-    <view type="OrderHeadCell" name="OrderHeadCell" factory="AYDefaultViewFactory" >
+	<view type="OSWaitCell" name="OSWaitCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="OSEstabCell" name="OSEstabCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
+    <view type="OrderHeadCell" name="OrderHeadCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didServiceDetailClick" />
     </view>
-    <view type="OrderContactCell" name="OrderContactCell" factory="AYDefaultViewFactory" >
+    <view type="OrderContactCell" name="OrderContactCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didContactBtnClick" />
     </view>
-    <view type="OrderDateCell" name="OrderDateCell" factory="AYDefaultViewFactory" >
+    <view type="OrderDateCell" name="OrderDateCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message=":" />
     </view>
-    <view type="OrderPriceCell" name="OrderPriceCell" factory="AYDefaultViewFactory" >
+    <view type="OrderPriceCell" name="OrderPriceCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didShowDetailClick" />
     </view>
-    <view type="OrderStateCell" name="OrderStateCell" factory="AYDefaultViewFactory" >
+    <view type="OrderStateCell" name="OrderStateCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didQRCodeBtnClick" />
     </view>
-    <view type="OrderPayCell" name="OrderPayCell" factory="AYDefaultViewFactory" >
+    <view type="OrderPayCell" name="OrderPayCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="" />
     </view>
-    <view type="OrderMapCell" name="OrderMapCell" factory="AYDefaultViewFactory" >
+    <view type="OrderMapCell" name="OrderMapCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
     
@@ -739,28 +746,28 @@
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	
-    <view type="BOrderMainHeadCell" name="BOrderMainHeadCell" factory="AYDefaultViewFactory" >
+    <view type="BOrderMainHeadCell" name="BOrderMainHeadCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />
     </view>
     
-    <view type="BOrderMainDateCell" name="BOrderMainDateCell" factory="AYDefaultViewFactory" >
+    <view type="BOrderMainDateCell" name="BOrderMainDateCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didEditDate" />
         <command type="notify"      message="didEditTimes" />
     </view>
     
-    <view type="BOrderMainPriceCell" name="BOrderMainPriceCell" factory="AYDefaultViewFactory" >
+    <view type="BOrderMainPriceCell" name="BOrderMainPriceCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didShowDetailClick" />
     </view>
     
-    <view type="PayWayCell" name="PayWayCell" factory="AYDefaultViewFactory" >
+    <view type="PayWayCell" name="PayWayCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didShowDetailClick" />
     </view>
     
-    <view type="ServQualityCell" name="ServQualityCell" factory="AYDefaultViewFactory" >
+    <view type="ServQualityCell" name="ServQualityCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didSetServiceRang:" />
     </view>
@@ -774,12 +781,12 @@
         <command type="notify"      message="ChangeOfSchedule" />
     </view>
     
-    <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYDefaultViewFactory" >
+    <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didAllContent" />
     </view>
     
-    <view type="OneProfileContentCell" name="OneProfileContentCell" factory="AYDefaultViewFactory" >
+    <view type="OneProfileContentCell" name="OneProfileContentCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didAllContent" />
     </view>

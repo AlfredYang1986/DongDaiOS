@@ -15,9 +15,6 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-#import "InsetsLabel.h"
-#import "OBShapedButton.h"
-
 @implementation AYOrderNewsreelCellView {
 	
 	UILabel *titleLabel;

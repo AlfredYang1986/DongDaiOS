@@ -1,12 +1,12 @@
 //
-//  AYOrderCommonDelegate.m
+//  AYOrderListNewsDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 10/1/17.
+//  Created by Alfred Yang on 11/1/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderCommonDelegate.h"
+#import "AYOrderListNewsDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,16 +14,11 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYOrderCommonDelegate {
+@implementation AYOrderListNewsDelegate {
 	NSDictionary *querydata;
-	NSDictionary *service_info;
-	NSMutableArray *order_times;
 	
-	BOOL isSetedDate;
-	BOOL isExpend;
-	
-	NSNumber *setedDate;
-	NSDictionary *setedTimes;
+	NSArray *waitArrData;
+	NSArray *estabArrData;
 }
 
 @synthesize para = _para;
@@ -55,22 +50,38 @@
 
 - (id)changeQueryData:(NSDictionary*)info {
 	querydata = info;
-	service_info = [querydata objectForKey:kAYServiceArgsServiceInfo];
-	order_times = [querydata objectForKey:@"order_times"];
 	return nil;
 }
 
 #pragma mark -- table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 4;
+	
+	if (section == 0) {
+		return 2;
+	} else {
+		return 4;
+	}
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	NSString* class_name;
+	id tmp ;
+	if (indexPath.section == 0) {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		tmp = [waitArrData objectAtIndex:indexPath.row];
+		
+	} else {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		tmp = [estabArrData objectAtIndex:indexPath.row];
+		
+	}
 	
-	NSDictionary *tmp = [service_info copy];
+	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -80,46 +91,50 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	return 90.f;
+		
+	if (indexPath.section == 0) {
+		return 100.f;
+	} else {
+		
+		return 160.f;
+	}
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-	NSString *titleStr = @"我的时间轴";
+	NSString *titleStr ;
+	
+	if (section == 0) {
+		titleStr = @"等待服务者接单：";
+	} else {
+		titleStr = @"全部动态";
+	}
+	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(headView).offset(15);
-		make.left.equalTo(headView).offset(65);
+		make.centerY.equalTo(headView);
+		make.left.equalTo(headView).offset(20);
 	}];
-	
-	CALayer *dotLayer = [CALayer layer];
-	dotLayer.cornerRadius = 7.5f;
-	dotLayer.bounds = CGRectMake(0, 0, 15, 15);
-	dotLayer.position = CGPointMake(85, 70-7.5);
-	dotLayer.backgroundColor = [Tools lightGreyColor].CGColor;
-	[headView.layer addSublayer:dotLayer];
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 70.f;
+	if (section == 0) {
+		
+		return 50.f;
+		
+	} else {
+		return 50.f;
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 1) {
+	if (indexPath.section == 0) {
 		
-		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-		if (service_cat.intValue == ServiceTypeCourse) {
-			return;
-		}
-		else {
-			NSNumber *note = [NSNumber numberWithInteger:indexPath.row];
-			kAYDelegateSendNotify(self, @"setOrderTime:", &note)
-		}
+	} else {
 		
 	}
 }
