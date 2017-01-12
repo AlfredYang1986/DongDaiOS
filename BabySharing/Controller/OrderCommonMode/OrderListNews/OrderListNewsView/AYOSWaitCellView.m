@@ -147,7 +147,43 @@
 
 
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args {
+- (id)setCellInfo:(id)args {
+	
+	NSDictionary *order_info = (NSDictionary*)args;
+	
+	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
+	if (photo_name) {
+		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+		NSString *pre = cmd.route;
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+					 placeholderImage:IMGRESOURCE(@"default_user")];
+	}
+	
+	NSString *titleStr = [NSString stringWithFormat:@"%@ · %@", [order_info objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
+	if (titleStr && ![titleStr isEqualToString:@""]) {
+		titleLabel.text = titleStr;
+	}
+	
+	NSDictionary *order_date = [args objectForKey:@"order_date"];
+	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
+	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
+	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
+	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
+	
+	NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
+	[formatterDay setDateFormat:@"MM月dd日"];
+	NSString *dayStr = [formatterDay stringFromDate:startDate];
+	
+	NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
+	[formatterTime setDateFormat:@"HH:mm"];
+	NSString *startStr = [formatterTime stringFromDate:startDate];
+	NSString *endStr = [formatterTime stringFromDate:endDate];
+	
+	dateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", dayStr, startStr, endStr];
+	
+	stateLabel.textColor = [Tools garyColor];
+	stateLabel.text = @"待处理";
 	
 	return nil;
 }

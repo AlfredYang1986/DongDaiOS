@@ -163,7 +163,7 @@
     </controller>
     
     <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
-        <command type="Module" name="OrderInit" />
+        <command type="Module" name="OrderServantInit" />
         <command type="Module" name="MyServiceInit" />
         <command type="Module" name="CalendarServiceInit" />
         <command type="Module" name="MessageInit" />
@@ -844,7 +844,6 @@
     
     <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
-        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -858,6 +857,17 @@
         <delegate type="TableViewDelegateAndDatasource" name="FutureOrderSer" />
         <delegate type="TableViewDelegateAndDatasource" name="PastOrderSer" />
     </controller>
+	
+	<controller type="DefaultController" name="OrderServant" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<!--		<view type="FakeNavBar"     name="FakeNavBar" />-->
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="OrderServant" />
+	</controller>
 	
 	<controller type="DefaultController" name="OrderCommon" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />

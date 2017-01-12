@@ -19,8 +19,10 @@
 
 @implementation AYOrderCommonController {
 	
-	NSArray *order_info;
 	UILabel *leastNews;
+	
+	NSArray *result_status_ready;
+	NSArray *result_status_confirm;
 }
 
 #pragma mark -- commands
@@ -45,7 +47,7 @@
 	
 	/****************************************/
 	[Tools creatCALayerWithFrame:CGRectMake(85, SCREEN_HEIGHT * 0.5, 1.f, SCREEN_HEIGHT * 0.5 - 49) andColor:[Tools lightGreyColor] inSuperView:self.view];
-	UIView *tableView = [self.views objectForKey:kAYTableView];
+	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	[self.view bringSubviewToFront:tableView];
 	/****************************************/
 	
@@ -61,7 +63,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
 	}];
 	
-	UILabel *title = [Tools creatUILabelWithText:@"最新动态" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *title = [Tools creatUILabelWithText:@"最近日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:title];
 	[title mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(newsBoardView).offset(15);
@@ -77,7 +79,7 @@
 	}];
 	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
-	leastNews = [Tools creatUILabelWithText:@"暂时没有新的动态" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	leastNews = [Tools creatUILabelWithText:@"暂时没有新的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:leastNews];
 	[leastNews mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(title);
@@ -91,11 +93,14 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
+	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+	[self loadNewData];
+	
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	NSDictionary *tmp = [order_info copy];
-	kAYDelegatesSendMessage(@"BOrderMain:", @"changeQueryData:", &tmp)
+//	NSDictionary *tmp = [order_info copy];
+//	kAYDelegatesSendMessage(@"BOrderMain:", @"changeQueryData:", &tmp)
 	
 }
 
@@ -142,12 +147,63 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//	id tmp ;
-//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	[tmp setValue:result_status_ready forKey:@"wait"];
+	[tmp setValue:result_status_confirm forKey:@"confirm"];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
 	
+}
+
+#pragma mark -- actions
+- (void)loadNewData {
+	NSDictionary *info;
+	CURRENUSER(info)
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
+	NSMutableDictionary *dic_query = [info mutableCopy];
+	
+	NSMutableDictionary *dic_conditon = [[NSMutableDictionary alloc]init];
+	[dic_conditon setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+	
+	[dic_query setValue:[dic_conditon copy] forKey:@"condition"];
+	
+	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			NSArray *resultArr = [result objectForKey:@"result"];
+			
+//			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
+//			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
+//			NSArray *result_status_done = [resultArr filteredArrayUsingPredicate:pred_done];
+//			NSArray *result_status_reject = [resultArr filteredArrayUsingPredicate:pred_reject];
+//			
+//			NSMutableArray *tmpArr = [[NSMutableArray alloc]init];
+//			[tmpArr addObjectsFromArray:result_status_done];
+//			[tmpArr addObjectsFromArray:result_status_reject];
+			
+			/*****************************/
+			
+			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
+			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
+			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
+			result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
+			
+			leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+			
+//			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
+//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		} else {
+			NSLog(@"query orders error: %@",result);
+		}
+		
+		id<AYViewBase> view_future = [self.views objectForKey:@"Table"];
+		[((UITableView*)view_future).mj_header endRefreshing];
+		
+	}];
 }
 
 #pragma mark -- notifies

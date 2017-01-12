@@ -47,7 +47,7 @@
 
 - (void)postPerform {
     
-    id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderInit"];
+    id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderServantInit"];
     AYViewController* order = nil;
     [cmd_order_init performWithResult:&order];
     order.tabBarItem.title = @"订单";

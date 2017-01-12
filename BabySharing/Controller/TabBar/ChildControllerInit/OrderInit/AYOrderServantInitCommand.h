@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYCommand.h"
 
-@interface AYOrderInitCommand : NSObject <AYCommand>
+@interface AYOrderServantInitCommand : NSObject <AYCommand>
 
 @end

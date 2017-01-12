@@ -34,6 +34,9 @@ static NSString* const kAYTableRefreshMessage =                 @"refresh";
 //Picker
 static NSString* const kAYPickerShowViewMessage =                 @"showPickerView";
 
+//Delegate message
+static NSString* const kAYDelegateChangeDataMessage =                 @"changeQueryData:";
+
 #pragma mark -- VC中的views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\
                                                                 id<AYViewBase> kAYView = [self.views objectForKey:VIEW];\

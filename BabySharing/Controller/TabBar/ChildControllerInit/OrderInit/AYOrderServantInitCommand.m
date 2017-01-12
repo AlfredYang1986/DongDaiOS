@@ -6,14 +6,14 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInitCommand.h"
+#import "AYOrderServantInitCommand.h"
 #import "AYCommandDefines.h"
 #import "AYNavigationController.h"
 #import "AYViewController.h"
 #import "AYFactoryManager.h"
 #import "AppDelegate.h"
 
-@implementation AYOrderInitCommand
+@implementation AYOrderServantInitCommand
 @synthesize para = _para;
 
 - (void)postPerform {
@@ -21,14 +21,13 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-//    UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderService");
-    UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderList");
-    
-//    AYNavigationServiceController * rootContorller = CONTROLLER(@"DefaultController", @"NavigationService");
+	
+    UIViewController* controller = CONTROLLER(@"DefaultController", @"OrderServant");
+	
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];
-    
     [rootContorller setNavigationBarHidden:YES animated:NO];
+	
     *obj = rootContorller;
 }
 

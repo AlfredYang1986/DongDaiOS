@@ -106,7 +106,7 @@
     <command type="Module" name="CameraInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MovieInit" factory="AYDefaultModuleFactory" />
     
-    <command type="Module" name="OrderInit" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="OrderServantInit" factory="AYDefaultModuleFactory" />
 	<command type="Module" name="OrderCommonInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MessageInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="MyServiceInit" factory="AYDefaultModuleFactory" />

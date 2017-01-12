@@ -1,12 +1,12 @@
 //
-//  AYOrderListNewsDelegate.m
+//  AYOrderServantDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 11/1/17.
+//  Created by Alfred Yang on 12/1/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderListNewsDelegate.h"
+#import "AYOrderServantDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,7 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYOrderListNewsDelegate {
+@implementation AYOrderServantDelegate {
 	NSDictionary *querydata;
 	
 	NSArray *waitArrData;
@@ -48,42 +48,22 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(NSDictionary*)info {
-	querydata = info;
-	waitArrData = [querydata objectForKey:@"wait"];
-	estabArrData = [querydata objectForKey:@"confirm"];
+- (id)changeQueryData:(id)info {
+	estabArrData = info;
 	return nil;
 }
 
 #pragma mark -- table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	
-	if (section == 0) {
-		return waitArrData.count;
-	} else {
-		return estabArrData.count;
-	}
+	return estabArrData.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name;
-	id tmp ;
-	if (indexPath.section == 0) {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		tmp = [waitArrData objectAtIndex:indexPath.row];
-		
-	} else {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		tmp = [estabArrData objectAtIndex:indexPath.row];
-		
-	}
-	
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	
+	id tmp = [estabArrData objectAtIndex:indexPath.row];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -93,26 +73,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-		
-	if (indexPath.section == 0) {
-		return 100.f;
-	} else {
-		
-		return 160.f;
-	}
+	return 160.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-	headView.clipsToBounds = YES;
-	NSString *titleStr ;
-	
-	if (section == 0) {
-		titleStr = @"等待服务者接单：";
-	} else {
-		titleStr = @"全部动态";
-	}
+	NSString *titleStr = @"您的时间轴：";
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
@@ -126,10 +93,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	if (section == 0) {
-		if (waitArrData.count == 0) {
-			return 0.001f;
-		} else
-			return 50.f;
+		
+		return 50.f;
 		
 	} else {
 		return 50.f;

@@ -175,7 +175,6 @@
         [dic_conditon setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
         
         [dic_query setValue:[dic_conditon copy] forKey:@"condition"];
-        
         [cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 [self sortSerResultArray:result];
