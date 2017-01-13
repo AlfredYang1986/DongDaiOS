@@ -172,9 +172,9 @@
     
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ProfileRemote" />
-        <facade type="DefaultFacade" name="ContentQueryRemote" />
-        <facade type="DefaultFacade" name="OwnerQueryModel" />
-        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
+<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
+<!--        <facade type="DefaultFacade" name="OwnerQueryModel" />-->
+<!--        <facade type="DefaultFacade" name="OwnerQueryPushModel" />-->
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
@@ -1013,19 +1013,19 @@
     <controller type="DefaultController" name="Message" factory="AYDefaultControllerFactoy" >
     </controller>
     
-    <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="ProfileRemote" />
-        <facade type="DefaultFacade" name="ContentQueryRemote" />
-        <facade type="DefaultFacade" name="OwnerQueryModel" />
-        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
-        
-        <view type="Table"          name="Table" />
-        <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />
-    </controller>
-    
+<!--    <controller type="DefaultController" name="ProfileService" factory="AYDefaultControllerFactoy" >-->
+<!--        <facade type="DefaultFacade" name="ProfileRemote" />-->
+<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
+<!--        <facade type="DefaultFacade" name="OwnerQueryModel" />-->
+<!--        <facade type="DefaultFacade" name="OwnerQueryPushModel" />-->
+<!---->
+<!--        <view type="Table"          name="Table" />-->
+<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
+<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
+<!--        -->
+<!--        <delegate type="TableViewDelegateAndDatasource" name="ProfileService" />-->
+<!--    </controller>-->
+
     <controller type="DefaultController" name="SearchFilter" factory="AYDefaultControllerFactoy" >
         
         <view type="Table"          name="Table" />

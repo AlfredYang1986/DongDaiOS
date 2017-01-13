@@ -1,6 +1,6 @@
 <facades>
-    <facade type="DefaultFacade" name="PhoneLogin" factory="AYDefaultFacadeFactory" >
-    </facade>
+<!--    <facade type="DefaultFacade" name="PhoneLogin" factory="AYDefaultFacadeFactory" >-->
+<!--    </facade>-->
     <facade type="DefaultFacade" name="SNSQQ" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="LoginSNSWithQQ" />
         <command type="Remote" name="ShareWithQQ" />
@@ -40,24 +40,24 @@
 <!--        <command type="Module" name="MovieRecordMultipleMerge" />-->
 <!--    </facade>-->
 
-    <facade type="DefaultFacade" name="GPUFilter" factory="AYDefaultFacadeFactory" >
-        <command type="Module" name="BlackAndWhiteFilter" />
-        <command type="Module" name="SceneFilter" />
-        <command type="Module" name="AvaterFilter" />
-        <command type="Module" name="FoodFilter" />
-        <command type="Module" name="QueryFilterWithName" />
-    </facade>
-
-    <facade type="DefaultFacade" name="MoviePlayer" factory="AYDefaultFacadeFactory" >
-        <command type="Module" name="MovieCoverImages" />
-        <command type="Module" name="PlayMovie" />
-        <command type="Module" name="PauseMovie" />
-        <command type="Module" name="ReleaseMovie" />
-        <command type="Module" name="MovieDisplayView" />
-        <command type="Module" name="MovieAddFilter" />
-        <command type="Module" name="ReleaseAllMovies" />
-        <command type="Remote" name="NewMovieCurrentFilter" />
-    </facade>
+<!--    <facade type="DefaultFacade" name="GPUFilter" factory="AYDefaultFacadeFactory" >-->
+<!--        <command type="Module" name="BlackAndWhiteFilter" />-->
+<!--        <command type="Module" name="SceneFilter" />-->
+<!--        <command type="Module" name="AvaterFilter" />-->
+<!--        <command type="Module" name="FoodFilter" />-->
+<!--        <command type="Module" name="QueryFilterWithName" />-->
+<!--    </facade>-->
+<!---->
+<!--    <facade type="DefaultFacade" name="MoviePlayer" factory="AYDefaultFacadeFactory" >-->
+<!--        <command type="Module" name="MovieCoverImages" />-->
+<!--        <command type="Module" name="PlayMovie" />-->
+<!--        <command type="Module" name="PauseMovie" />-->
+<!--        <command type="Module" name="ReleaseMovie" />-->
+<!--        <command type="Module" name="MovieDisplayView" />-->
+<!--        <command type="Module" name="MovieAddFilter" />-->
+<!--        <command type="Module" name="ReleaseAllMovies" />-->
+<!--        <command type="Remote" name="NewMovieCurrentFilter" />-->
+<!--    </facade>-->
 <!--    路径：DongDaiOS/BabySharing/Facade/LogicFacade/GUPImage-->
 
     <facade type="DefaultFacade" name="PHAsset" factory="AYDefaultFacadeFactory" >
