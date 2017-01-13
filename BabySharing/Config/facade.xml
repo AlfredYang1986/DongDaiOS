@@ -26,7 +26,7 @@
 <!--        <command type="Remote" name="StillImageCaptureTake" />-->
 <!--        <command type="Module" name="StillImageCaptureRelease" />-->
 <!--    </facade>-->
-<!---->
+
 <!--    <facade type="DefaultFacade" name="MovieRecord" factory="AYDefaultFacadeFactory" >-->
 <!--        <command type="Module" name="MovieRecordInit" />-->
 <!--        <command type="Module" name="MovieRecordStartCapture" />-->
@@ -127,11 +127,8 @@
 
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="LandingReqConfirmCode" />
-<!--        <command type="Remote" name="LandingAuthConfirm" />-->
-<!--        <command type="Remote" name="CreateTmpUserWithPhone" />-->
         <command type="Remote" name="AuthWithSNS" />
         <command type="Remote" name="AuthSignOut" />
-<!--        <command type="Remote" name="ContatcerInSystem" />-->
 
         <command type="Remote" name="AuthPhoneCode" />
     </facade>
@@ -139,7 +136,6 @@
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UpdateUserDetail" />
         <command type="Remote" name="QueryUserProfile" />
-<!--        <command type="Remote" name="QueryMultipleUsers" />-->
     </facade>
     
     <facade type="DefaultFacade" name="AuthRemote" factory="AYDefaultFacadeFactory" >
@@ -158,62 +154,13 @@
         <command type="Remote" name="DownloadMovieFiles" />
     </facade>
 
-<!--    <facade type="DefaultFacade" name="SearchRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="QueryAllRoleTags" />-->
-<!--        <command type="Remote" name="QueryRecommandRoleTags" />-->
-<!--        <command type="Remote" name="QueryRecommandTags" />-->
-<!--        <command type="Remote" name="SearchTagWithPreviews" />-->
-<!--        <command type="Remote" name="SearchRoleTagWithPreviews" />-->
-<!--        <command type="Remote" name="QueryRecommandTags" />-->
-<!--    </facade>-->
-
-<!--    <facade type="DefaultFacade" name="ContentQueryRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="QueryHomeContent" />-->
-<!--        <command type="Remote" name="QueryPushContent" />-->
-<!--        <command type="Remote" name="QueryContentsWithTag" />-->
-<!--    </facade>-->
-<!---->
-<!--    <facade type="DefaultFacade" name="ContentPostRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="PostLikeContent" />-->
-<!--        <command type="Remote" name="PostUnlikeContent" />-->
-<!--        <command type="Remote" name="PostPushContent" />-->
-<!--    </facade>-->
-
-<!--    <facade type="DefaultFacade" name="SendRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="EmailSend" />-->
-<!--        <command type="Remote" name="SMSSend" />-->
-<!--    </facade>-->
-
     <facade type="DefaultFacade" name="ExposeRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="ExposeUser" />
         <command type="Remote" name="ExposeContent" />
     </facade>
 
-<!--    <facade type="DefaultFacade" name="RelationshipRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="Follow" />-->
-<!--        <command type="Remote" name="Unfollow" />-->
-<!--        <command type="Remote" name="QueryFriends" />-->
-<!--        <command type="Remote" name="QueryFollowing" />-->
-<!--        <command type="Remote" name="QueryFollowed" />-->
-<!--    </facade>-->
-
-<!--    <facade type="DefaultFacade" name="PostRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="PostPhotos" />-->
-<!--        <command type="Remote" name="PostMovie" />-->
-<!--    </facade>-->
-<!---->
-<!--    <facade type="DefaultFacade" name="UserSearchRemote" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Remote" name="UserRecommand" />-->
-<!--        <command type="Remote" name="UserWithRoleTag" />-->
-<!--        <command type="Remote" name="UserWithScreenName" />-->
-<!--    </facade>-->
-
     <facade type="DefaultFacade" name="ChatSessionRemote" factory="AYDefaultFacadeFactory" >
-<!--        <command type="Remote" name="QueryChatGroup" />-->
-<!--        <command type="Remote" name="QueryChatGroup" /> 这个函数有问题，应该在服务器端就处理好哪些是已经加入的-->
-<!--        <command type="Remote" name="EnterChatGroup" />-->
-<!--        <command type="Remote" name="JoinChatGroup" />-->
-<!--        <command type="Remote" name="LeaveChatGroup" />-->
+
     </facade>
 
 <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
