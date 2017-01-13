@@ -79,7 +79,7 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-	NSString *titleStr = @"您的时间轴：";
+	NSString *titleStr = @"您的日程轴：";
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
@@ -92,21 +92,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
 		
-		return 50.f;
-		
-	} else {
-		return 50.f;
-	}
+	return 50.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
-		
-	} else {
-		
-	}
+//	id tmp = [estabArrData objectAtIndex:indexPath.row];
+	
 }
 
 @end

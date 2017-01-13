@@ -616,6 +616,9 @@
 		70F967861E28F8EE00B3805B /* AYDayCollectionCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70F967821E28F8EE00B3805B /* AYDayCollectionCellView.xib */; };
 		70F9678B1E28F94F00B3805B /* AYCLResultCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967891E28F94F00B3805B /* AYCLResultCellView.m */; };
 		70F9678C1E28F94F00B3805B /* AYCLResultCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70F9678A1E28F94F00B3805B /* AYCLResultCellView.xib */; };
+		70F967961E28FD4100B3805B /* AYOrderInfoPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9678F1E28FD4100B3805B /* AYOrderInfoPageController.m */; };
+		70F967971E28FD4100B3805B /* AYOrderInfoPageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967921E28FD4100B3805B /* AYOrderInfoPageDelegate.m */; };
+		70F967981E28FD4100B3805B /* AYOrderInfoPageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967951E28FD4100B3805B /* AYOrderInfoPageCellView.m */; };
 		70FBB9261DFBE54300AFB628 /* AYSetCourseSignCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */; };
 		70FE1C751E24D12E00050FF0 /* AYOrderCommonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C741E24D12E00050FF0 /* AYOrderCommonController.m */; };
 		70FE1C781E24DB9A00050FF0 /* AYOrderCommonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C771E24DB9A00050FF0 /* AYOrderCommonDelegate.m */; };
@@ -2022,6 +2025,12 @@
 		70F967881E28F94F00B3805B /* AYCLResultCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCLResultCellView.h; sourceTree = "<group>"; };
 		70F967891E28F94F00B3805B /* AYCLResultCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCLResultCellView.m; sourceTree = "<group>"; };
 		70F9678A1E28F94F00B3805B /* AYCLResultCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYCLResultCellView.xib; sourceTree = "<group>"; };
+		70F9678E1E28FD4100B3805B /* AYOrderInfoPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoPageController.h; sourceTree = "<group>"; };
+		70F9678F1E28FD4100B3805B /* AYOrderInfoPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoPageController.m; sourceTree = "<group>"; };
+		70F967911E28FD4100B3805B /* AYOrderInfoPageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoPageDelegate.h; sourceTree = "<group>"; };
+		70F967921E28FD4100B3805B /* AYOrderInfoPageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoPageDelegate.m; sourceTree = "<group>"; };
+		70F967941E28FD4100B3805B /* AYOrderInfoPageCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoPageCellView.h; sourceTree = "<group>"; };
+		70F967951E28FD4100B3805B /* AYOrderInfoPageCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoPageCellView.m; sourceTree = "<group>"; };
 		70FBB9241DFBE54300AFB628 /* AYSetCourseSignCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetCourseSignCellView.h; sourceTree = "<group>"; };
 		70FBB9251DFBE54300AFB628 /* AYSetCourseSignCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetCourseSignCellView.m; sourceTree = "<group>"; };
 		70FE1C731E24D12E00050FF0 /* AYOrderCommonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCommonController.h; sourceTree = "<group>"; };
@@ -7308,9 +7317,39 @@
 			path = CLResultCellView;
 			sourceTree = "<group>";
 		};
+		70F9678D1E28FD4100B3805B /* OrderInfoPage */ = {
+			isa = PBXGroup;
+			children = (
+				70F9678E1E28FD4100B3805B /* AYOrderInfoPageController.h */,
+				70F9678F1E28FD4100B3805B /* AYOrderInfoPageController.m */,
+				70F967901E28FD4100B3805B /* OrderInfoPageDelegate */,
+				70F967931E28FD4100B3805B /* OrderInfoPageView */,
+			);
+			path = OrderInfoPage;
+			sourceTree = "<group>";
+		};
+		70F967901E28FD4100B3805B /* OrderInfoPageDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70F967911E28FD4100B3805B /* AYOrderInfoPageDelegate.h */,
+				70F967921E28FD4100B3805B /* AYOrderInfoPageDelegate.m */,
+			);
+			path = OrderInfoPageDelegate;
+			sourceTree = "<group>";
+		};
+		70F967931E28FD4100B3805B /* OrderInfoPageView */ = {
+			isa = PBXGroup;
+			children = (
+				70F967941E28FD4100B3805B /* AYOrderInfoPageCellView.h */,
+				70F967951E28FD4100B3805B /* AYOrderInfoPageCellView.m */,
+			);
+			path = OrderInfoPageView;
+			sourceTree = "<group>";
+		};
 		70FE1C6F1E24D10200050FF0 /* OrderCommonMode */ = {
 			isa = PBXGroup;
 			children = (
+				70F9678D1E28FD4100B3805B /* OrderInfoPage */,
 				7029FD711E261C8900B2FF22 /* OrderListNews */,
 				70FE1C701E24D10200050FF0 /* OrderCommon */,
 			);
@@ -8214,6 +8253,7 @@
 				7012C9731E16156800C8F510 /* AYOrderTimesDelegate.m in Sources */,
 				7012C96A1E16156800C8F510 /* AYConfirmOrderController.m in Sources */,
 				70C41EE91DBA122500C77B10 /* TZTestCell.m in Sources */,
+				70F967981E28FD4100B3805B /* AYOrderInfoPageCellView.m in Sources */,
 				70EC723E1D1922D20012B123 /* AYServicePageDelegate.m in Sources */,
 				701524491CBF96F0005B4C5B /* AYImageView.m in Sources */,
 				70FE54E01D98EC440077A3E9 /* AYServQualityCellView.m in Sources */,
@@ -8333,6 +8373,7 @@
 				70C6A0011D9A4F100069E4EE /* AYPersonalDescCellView.m in Sources */,
 				8048C0041D9D02860026436E /* AYPhoneCheckInputView.m in Sources */,
 				80D5E7C41CCC7C2000A82117 /* WKFRadarView.m in Sources */,
+				70F967971E28FD4100B3805B /* AYOrderInfoPageDelegate.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				7000CD1D1D7E8A5200DA98F2 /* MJRefreshHeader.m in Sources */,
 				706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */,
@@ -8442,6 +8483,7 @@
 				805C344D1D9D42720011F705 /* AYServiceConsumerFaceView.m in Sources */,
 				707FC50C1CD8D5E400C0BC37 /* AYShareWithQQCommand.m in Sources */,
 				700047641D9BDFAE000AE1C9 /* AYRequireCodeCommand.m in Sources */,
+				70F967961E28FD4100B3805B /* AYOrderInfoPageController.m in Sources */,
 				7015249F1CBFA7E1005B4C5B /* AYRefrashHomeQueryDataCommand.m in Sources */,
 				700BE5EC1CBA6E5800A09B3A /* AYRemoteCallCommand.m in Sources */,
 				70EAD8091CA65B0C007965D2 /* UIGifView.m in Sources */,

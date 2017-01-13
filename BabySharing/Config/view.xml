@@ -709,6 +709,7 @@
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	
+	
 	<view type="ServantHistoryCell" name="ServantHistoryCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>

@@ -1,12 +1,12 @@
 //
-//  AYServantHistoryDelegate.m
+//  AYOrderInfoPageDelegate.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 13/1/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServantHistoryDelegate.h"
+#import "AYOrderInfoPageDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,9 +14,11 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYServantHistoryDelegate {
-	NSArray *querydata;
+@implementation AYOrderInfoPageDelegate {
+	NSDictionary *querydata;
 	
+	NSArray *waitArrData;
+	NSArray *estabArrData;
 }
 
 @synthesize para = _para;
@@ -47,21 +49,21 @@
 }
 
 - (id)changeQueryData:(id)info {
-	querydata = info;
+	estabArrData = info;
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return querydata.count;
+	return estabArrData.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServantHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	id tmp = [querydata objectAtIndex:indexPath.row];
+	id tmp = [estabArrData objectAtIndex:indexPath.row];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -77,7 +79,7 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-	NSString *titleStr = @"01/02 EEEE";
+	NSString *titleStr = @"您的日程轴：";
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
@@ -86,27 +88,17 @@
 		make.left.equalTo(headView).offset(20);
 	}];
 	
-	[Tools creatCALayerWithFrame:CGRectMake(10, 49.5, SCREEN_WIDTH - 10*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
-	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
-		
-		return 50.f;
-		
-	} else {
-		return 50.f;
-	}
+	
+	return 50.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
-		
-	} else {
-		
-	}
+//	id tmp = [estabArrData objectAtIndex:indexPath.row];
+	
 }
 
 @end
