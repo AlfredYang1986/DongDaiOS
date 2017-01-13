@@ -869,6 +869,17 @@
 		<delegate type="TableViewDelegateAndDatasource" name="OrderServant" />
 	</controller>
 	
+	<controller type="DefaultController" name="ServantHistory" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="ServantHistory" />
+	</controller>
+	
 	<controller type="DefaultController" name="OrderCommon" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />
 		<facade type="DefaultFacade" name="OrderRemote" notification="true" />

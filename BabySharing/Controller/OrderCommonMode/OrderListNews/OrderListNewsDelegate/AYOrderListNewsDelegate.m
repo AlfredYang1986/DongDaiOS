@@ -14,6 +14,8 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
+#import "AYNoContentCell.h"
+
 @implementation AYOrderListNewsDelegate {
 	NSDictionary *querydata;
 	
@@ -65,31 +67,48 @@
 	if (section == 0) {
 		return waitArrData.count;
 	} else {
-		return estabArrData.count;
+		return estabArrData.count == 0 ? 1 : estabArrData.count;
 	}
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	NSString* class_name;
+	id<AYViewBase> cell;
 	id tmp ;
 	if (indexPath.section == 0) {
 		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		tmp = [waitArrData objectAtIndex:indexPath.row];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+		cell.controller = self.controller;
+		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+		((UITableViewCell*)cell).clipsToBounds = YES;
+		return (UITableViewCell*)cell;
 		
 	} else {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		tmp = [estabArrData objectAtIndex:indexPath.row];
+		if (estabArrData.count == 0) {
+			AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
+			if (!cell) {
+				cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
+			}
+			cell.titleStr = @"您还没有动态";
+			return cell;
+		} else {
+			class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+			tmp = [estabArrData objectAtIndex:indexPath.row];
+			kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+			
+			cell.controller = self.controller;
+			((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+			((UITableViewCell*)cell).clipsToBounds = YES;
+			return (UITableViewCell*)cell;
+		}
 		
 	}
 	
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-	
-	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	((UITableViewCell*)cell).clipsToBounds = YES;
-	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -141,6 +160,14 @@
 		
 	} else {
 		
+	}
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.section == 1 && estabArrData.count == 0) {
+		return NO;
+	} else {
+		return YES;
 	}
 }
 

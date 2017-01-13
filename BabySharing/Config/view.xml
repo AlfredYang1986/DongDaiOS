@@ -709,6 +709,10 @@
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	
+	<view type="ServantHistoryCell" name="ServantHistoryCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="OrderHeadCell" name="OrderHeadCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didServiceDetailClick" />

@@ -21,6 +21,7 @@
 	UILabel *noticeNews;
 	NSArray *order_info;
 	NSArray *result_status_ready;
+	NSArray *order_past;
 }
 
 #pragma mark -- commands
@@ -168,6 +169,11 @@
 			id<AYCommand> refresh_2 = [view_past.commands objectForKey:@"refresh"];
 			[refresh_2 performWithResult:nil];
 			
+			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
+			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
+			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_done, pred_reject, pred_confirm]];
+			order_past = [resultArr filteredArrayUsingPredicate:pred_past];
+			
 		}else {
 			NSLog(@"query orders error: %@",result);
 		}
@@ -184,6 +190,15 @@
 
 - (void)didHistoryBtnClick:(UIButton*)btn {
 	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServantHistory");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[order_past copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 #pragma mark -- notifies
