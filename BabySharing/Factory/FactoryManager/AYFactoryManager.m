@@ -171,6 +171,7 @@ static AYFactoryManager* instance = nil;
         
         } else if ([cat isEqualToString:kAYFactoryManagerCatigoryController]) {
             NSArray* arr = [doc_controller nodesForXPath:[[@"//controller[@name='" stringByAppendingString:name] stringByAppendingString:@"']"] error:NULL];
+            NSLog(@"controller name is : %@", name);
             NSLog(@"controller arr is : %@", arr);
             if (arr.count == 1) {
                

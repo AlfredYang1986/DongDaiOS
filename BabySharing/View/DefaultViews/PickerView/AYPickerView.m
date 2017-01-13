@@ -10,7 +10,7 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYFactoryManager.h"
-#import "AYHomeCellDefines.h"
+//#import "AYHomeCellDefines.h"
 
 #define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
 #define kSelfHeight             196
