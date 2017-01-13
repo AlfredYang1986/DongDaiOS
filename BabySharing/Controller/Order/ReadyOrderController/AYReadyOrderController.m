@@ -18,7 +18,7 @@
 #import "AYModelFacade.h"
 
 #import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
+//#import "AYSearchDefines.h"
 
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>

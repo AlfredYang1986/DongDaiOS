@@ -18,7 +18,7 @@
 #import "AYModelFacade.h"
 
 #import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
+//#import "AYSearchDefines.h"
 
 #define LIMITNUMB                   88
 

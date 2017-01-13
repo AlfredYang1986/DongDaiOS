@@ -12,7 +12,7 @@
 #import "AYFactoryManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
-#import "FoundHotTagBtn.h"
+//#import "FoundHotTagBtn.h"
 #import "Tools.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"

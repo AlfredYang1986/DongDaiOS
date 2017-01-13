@@ -18,7 +18,7 @@
 #import "AYModelFacade.h"
 #import <objc/runtime.h>
 #import "AYDongDaSegDefines.h"
-#import "AYSearchDefines.h"
+//#import "AYSearchDefines.h"
 
 #import "DongDaTabBarItem.h"
 #import "AYTabBarController.h"

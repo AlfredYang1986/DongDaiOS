@@ -11,7 +11,7 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
-#import "AYSearchDefines.h"
+//#import "AYSearchDefines.h"
 
 #import <AMapSearchKit/AMapSearchKit.h>
 

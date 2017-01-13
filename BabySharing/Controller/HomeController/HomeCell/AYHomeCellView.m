@@ -10,7 +10,7 @@
 #import "Tools.h"
 #import "TmpFileStorageModel.h"
 #import "QueryContentItem.h"
-#import "GPUImage.h"
+//#import "GPUImage.h"
 #import "Define.h"
 #import "PhotoTagEnumDefines.h"
 #import "QueryContentTag.h"
