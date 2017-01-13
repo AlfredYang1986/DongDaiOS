@@ -173,8 +173,8 @@
     <controller type="DefaultController" name="Profile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ProfileRemote" />
 <!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
-<!--        <facade type="DefaultFacade" name="OwnerQueryModel" />-->
-<!--        <facade type="DefaultFacade" name="OwnerQueryPushModel" />-->
+        <facade type="DefaultFacade" name="OwnerQueryModel" />
+        <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
@@ -206,7 +206,7 @@
     <controller type="DefaultController" name="OneProfile" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="ExposeRemote" />
         <facade type="DefaultFacade" name="ProfileRemote" />
-        <facade type="DefaultFacade" name="ContentQueryRemote" />
+<!--        <facade type="DefaultFacade" name="ContentQueryRemote" />-->
         <facade type="DefaultFacade" name="OwnerQueryModel" />
         <facade type="DefaultFacade" name="OwnerQueryPushModel" />
         
@@ -304,8 +304,8 @@
         <facade type="DefaultFacade" name="EM" notification="true" />
 
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
-        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
-        <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
+<!--        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>-->
+<!--        <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>-->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -499,7 +499,7 @@
     <controller type="DefaultController" name="TagContent" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="TagContentModel" notification="true"/>
-        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>
+<!--        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>-->
         <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>
 <!--        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />-->
         <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />

@@ -67,71 +67,71 @@
         <command type="Remote" name="QueryRealPhoto" />
     </facade>
     
-<!--    <facade type="DefaultFacade" name="LoginModel" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Module" name="QueryTmpUser" />-->
-<!--        <command type="Module" name="ChangeTmpUser" />-->
-<!--        -->
-<!--        <command type="Module" name="UpdateRegUserProfile" />-->
-<!--        <command type="Module" name="ChangeRegUser" />-->
-<!--        <command type="Module" name="QueryRegUser" />-->
-<!---->
-<!--        <command type="Module" name="QueryCurrentLoginUser" />-->
-<!--        <command type="Module" name="QueryCurrentUserProfile" />-->
-<!--        <command type="Module" name="ChangeCurrentLoginUser" />-->
-<!--        <command type="Module" name="UpdateLocalCurrentUserProfile" />-->
-<!---->
-<!--        <command type="Module" name="QuerySNSProviders" />-->
-<!--        <command type="Module" name="ChangeSNSProviders" />-->
-<!---->
-<!--        <command type="Module" name="SignOutLocal" />-->
-<!--        -->
-<!--        <command type="Module" name="SaveScreenPhoto" />-->
-<!--    </facade>-->
+    <facade type="DefaultFacade" name="LoginModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="QueryTmpUser" />
+        <command type="Module" name="ChangeTmpUser" />
+        
+        <command type="Module" name="UpdateRegUserProfile" />
+        <command type="Module" name="ChangeRegUser" />
+        <command type="Module" name="QueryRegUser" />
 
-<!--    <facade type="DefaultFacade" name="OwnerQueryModel" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Module" name="RefrashOwnerQueryData" />-->
-<!--        <command type="Module" name="AppendOwnerQueryData" />-->
-<!--        <command type="Module" name="EnumOwnerQueryData" />-->
-<!--    </facade>-->
-<!---->
-<!--    <facade type="DefaultFacade" name="OwnerQueryPushModel" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Module" name="RefrashOwnerQueryPushData" />-->
-<!--        <command type="Module" name="AppendOwnerQueryPushData" />-->
-<!--        <command type="Module" name="EnumOwnerQueryPushData" />-->
-<!--    </facade>-->
-<!--    -->
-<!--    <facade type="DefaultFacade" name="HomeQueryModel" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Module" name="RefrashHomeQueryData" />-->
-<!--        <command type="Module" name="AppendHomeQueryData" />-->
-<!--        <command type="Module" name="EnumHomeQueryData" />-->
-<!--        <command type="Module" name="EnumHomeTimeSpan" />-->
-<!--        <command type="Module" name="RefreshLikeData" />-->
-<!--        <command type="Module" name="RefreshPushData" />-->
-<!--    </facade>-->
-<!--    -->
-<!--    <facade type="DefaultFacade" name="ChatSessionModel" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Module" name="UpdataChatSession" />-->
-<!--        <command type="Module" name="QueryChatSession" />-->
-<!--        <command type="Module" name="PushNotification" />-->
-<!--        <command type="Module" name="QueryNotifications" />-->
-<!--        <command type="Module" name="RemoveNotification" />-->
-<!--        <command type="Module" name="ClearNotifications" />-->
-<!--    </facade>-->
-<!---->
-<!--    <facade type="DefaultFacade" name="TagContentModel" factory="AYDefaultFacadeFactory" >-->
-<!--        <command type="Module" name="RefrashTagContentData" />-->
-<!--        <command type="Module" name="AppendTagContentData" />-->
-<!--        <command type="Module" name="EnumTagContentData" />-->
-<!--        <command type="Module" name="EnumTagContentTimeSpan" />-->
-<!--    </facade>-->
+        <command type="Module" name="QueryCurrentLoginUser" />
+        <command type="Module" name="QueryCurrentUserProfile" />
+        <command type="Module" name="ChangeCurrentLoginUser" />
+        <command type="Module" name="UpdateLocalCurrentUserProfile" />
+
+        <command type="Module" name="QuerySNSProviders" />
+        <command type="Module" name="ChangeSNSProviders" />
+
+        <command type="Module" name="SignOutLocal" />
+        
+        <command type="Module" name="SaveScreenPhoto" />
+    </facade>
+
+    <facade type="DefaultFacade" name="OwnerQueryModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashOwnerQueryData" />
+        <command type="Module" name="AppendOwnerQueryData" />
+        <command type="Module" name="EnumOwnerQueryData" />
+    </facade>
+
+    <facade type="DefaultFacade" name="OwnerQueryPushModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashOwnerQueryPushData" />
+        <command type="Module" name="AppendOwnerQueryPushData" />
+        <command type="Module" name="EnumOwnerQueryPushData" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="HomeQueryModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashHomeQueryData" />
+        <command type="Module" name="AppendHomeQueryData" />
+        <command type="Module" name="EnumHomeQueryData" />
+        <command type="Module" name="EnumHomeTimeSpan" />
+        <command type="Module" name="RefreshLikeData" />
+        <command type="Module" name="RefreshPushData" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="ChatSessionModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="UpdataChatSession" />
+        <command type="Module" name="QueryChatSession" />
+        <command type="Module" name="PushNotification" />
+        <command type="Module" name="QueryNotifications" />
+        <command type="Module" name="RemoveNotification" />
+        <command type="Module" name="ClearNotifications" />
+    </facade>
+
+    <facade type="DefaultFacade" name="TagContentModel" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="RefrashTagContentData" />
+        <command type="Module" name="AppendTagContentData" />
+        <command type="Module" name="EnumTagContentData" />
+        <command type="Module" name="EnumTagContentTimeSpan" />
+    </facade>
 
     <facade type="DefaultFacade" name="LandingRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="LandingReqConfirmCode" />
-        <command type="Remote" name="LandingAuthConfirm" />
-        <command type="Remote" name="CreateTmpUserWithPhone" />
+<!--        <command type="Remote" name="LandingAuthConfirm" />-->
+<!--        <command type="Remote" name="CreateTmpUserWithPhone" />-->
         <command type="Remote" name="AuthWithSNS" />
         <command type="Remote" name="AuthSignOut" />
-        <command type="Remote" name="ContatcerInSystem" />
+<!--        <command type="Remote" name="ContatcerInSystem" />-->
 
         <command type="Remote" name="AuthPhoneCode" />
     </facade>
@@ -139,7 +139,7 @@
     <facade type="DefaultFacade" name="ProfileRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="UpdateUserDetail" />
         <command type="Remote" name="QueryUserProfile" />
-        <command type="Remote" name="QueryMultipleUsers" />
+<!--        <command type="Remote" name="QueryMultipleUsers" />-->
     </facade>
     
     <facade type="DefaultFacade" name="AuthRemote" factory="AYDefaultFacadeFactory" >
@@ -209,10 +209,10 @@
 <!--    </facade>-->
 
     <facade type="DefaultFacade" name="ChatSessionRemote" factory="AYDefaultFacadeFactory" >
-        <command type="Remote" name="QueryChatGroup" />
+<!--        <command type="Remote" name="QueryChatGroup" />-->
 <!--        <command type="Remote" name="QueryChatGroup" /> 这个函数有问题，应该在服务器端就处理好哪些是已经加入的-->
-        <command type="Remote" name="EnterChatGroup" />
-        <command type="Remote" name="JoinChatGroup" />
+<!--        <command type="Remote" name="EnterChatGroup" />-->
+<!--        <command type="Remote" name="JoinChatGroup" />-->
 <!--        <command type="Remote" name="LeaveChatGroup" />-->
     </facade>
 
@@ -254,10 +254,10 @@
     
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="PushServiceInfo" />
-        <command type="Remote" name="PublishService" />
+<!--        <command type="Remote" name="PublishService" />-->
         <command type="Remote" name="SearchFiltService" />
         <command type="Remote" name="QueryMyService" />
-        <command type="Remote" name="RevertMyService" />
+<!--        <command type="Remote" name="RevertMyService" />-->
         <command type="Remote" name="UpdateMyService" />
         <command type="Remote" name="PopMyService" />
         
