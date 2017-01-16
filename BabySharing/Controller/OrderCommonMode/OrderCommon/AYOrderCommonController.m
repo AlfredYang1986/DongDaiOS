@@ -46,7 +46,7 @@
 	[super viewDidLoad];
 	
 	/****************************************/
-	[Tools creatCALayerWithFrame:CGRectMake(85, SCREEN_HEIGHT * 0.5, 1.f, SCREEN_HEIGHT * 0.5 - 49) andColor:[Tools lightGreyColor] inSuperView:self.view];
+//	[Tools creatCALayerWithFrame:CGRectMake(85, SCREEN_HEIGHT * 0.5, 1.f, SCREEN_HEIGHT * 0.5 - 49) andColor:[Tools lightGreyColor] inSuperView:self.view];
 	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	[self.view bringSubviewToFront:tableView];
 	/****************************************/
@@ -96,11 +96,9 @@
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	[self loadNewData];
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
-//	NSDictionary *tmp = [order_info copy];
-//	kAYDelegatesSendMessage(@"BOrderMain:", @"changeQueryData:", &tmp)
 	
 }
 
@@ -194,8 +192,10 @@
 			
 			leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
 			
-//			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
-//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			id tmp = [result_status_confirm copy];
+			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			
 		} else {
 			NSLog(@"query orders error: %@",result);
 		}

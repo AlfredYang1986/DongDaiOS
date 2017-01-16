@@ -32,6 +32,7 @@
         NSLog(@"init reuse identifier");
 		
 		coverPhoto = [[UIImageView alloc]init];
+		coverPhoto.contentMode = UIViewContentModeScaleAspectFit;
 		coverPhoto.image = IMGRESOURCE(@"default_image");
 		[self addSubview:coverPhoto];
 		[coverPhoto mas_makeConstraints:^(MASConstraintMaker *make) {

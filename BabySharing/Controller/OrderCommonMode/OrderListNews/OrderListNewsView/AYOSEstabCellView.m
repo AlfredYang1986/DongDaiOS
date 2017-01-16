@@ -39,7 +39,7 @@
 		bgView.image = bgImg;
 		[self addSubview:bgView];
 		[bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, -17.5, 10, -5));
+			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, -2.5, 10, -2.5));
 		}];
 		
 		photoIcon = [[UIImageView alloc]init];
@@ -52,7 +52,7 @@
 		photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
 		[self addSubview:photoIcon];
 		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
+			make.left.equalTo(self).offset(35);
 			make.top.equalTo(self).offset(8);
 			make.size.mas_equalTo(CGSizeMake(45, 45));
 		}];

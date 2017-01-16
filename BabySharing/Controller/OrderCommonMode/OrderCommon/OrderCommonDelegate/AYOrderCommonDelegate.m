@@ -15,9 +15,8 @@
 #import "AYFacadeBase.h"
 
 @implementation AYOrderCommonDelegate {
-	NSDictionary *querydata;
-	NSDictionary *service_info;
-	NSMutableArray *order_times;
+	
+	NSArray *querydata;
 	
 	BOOL isSetedDate;
 	BOOL isExpend;
@@ -53,24 +52,23 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(NSDictionary*)info {
+- (id)changeQueryData:(id)info {
 	querydata = info;
-	service_info = [querydata objectForKey:kAYServiceArgsServiceInfo];
-	order_times = [querydata objectForKey:@"order_times"];
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 4;
+	return querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	NSDictionary *tmp = [service_info copy];
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -80,27 +78,27 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	return 90.f;
+	return 160.f;
+//	return 90.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-	NSString *titleStr = @"我的时间轴";
+	NSString *titleStr = @"所有日程";
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(headView).offset(15);
-		make.left.equalTo(headView).offset(65);
+		make.centerY.equalTo(headView).offset(0);
+		make.left.equalTo(headView).offset(20);
 	}];
 	
-	CALayer *dotLayer = [CALayer layer];
-	dotLayer.cornerRadius = 7.5f;
-	dotLayer.bounds = CGRectMake(0, 0, 15, 15);
-	dotLayer.position = CGPointMake(85, 70-7.5);
-	dotLayer.backgroundColor = [Tools lightGreyColor].CGColor;
-	[headView.layer addSublayer:dotLayer];
+//	CALayer *dotLayer = [CALayer layer];
+//	dotLayer.cornerRadius = 7.5f;
+//	dotLayer.bounds = CGRectMake(0, 0, 15, 15);
+//	dotLayer.position = CGPointMake(85, 70-7.5);
+//	dotLayer.backgroundColor = [Tools lightGreyColor].CGColor;
+//	[headView.layer addSublayer:dotLayer];
 	
 	return headView;
 }
@@ -110,18 +108,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 1) {
-		
-		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-		if (service_cat.intValue == ServiceTypeCourse) {
-			return;
-		}
-		else {
-			NSNumber *note = [NSNumber numberWithInteger:indexPath.row];
-			kAYDelegateSendNotify(self, @"setOrderTime:", &note)
-		}
-		
-	}
+	
 }
 
 @end
