@@ -856,6 +856,17 @@
         <delegate type="TableViewDelegateAndDatasource" name="PastOrderSer" />
     </controller>
 	
+	<controller type="DefaultController" name="OrderInfoPage" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="OrderInfoPage" />
+	</controller>
+	
 	<controller type="DefaultController" name="OrderServant" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />
 		<facade type="DefaultFacade" name="OrderRemote" notification="true" />

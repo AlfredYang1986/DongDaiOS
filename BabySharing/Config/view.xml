@@ -741,7 +741,15 @@
     <view type="OrderMapCell" name="OrderMapCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    
+	
+	<view type="OrderPageHeadCell" name="OrderPageHeadCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="OrderPageContactCell" name="OrderPageContactCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
+	
     <view type="PayOption" name="PayOption" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="didCancelClick" />

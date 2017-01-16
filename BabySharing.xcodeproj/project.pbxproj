@@ -89,6 +89,7 @@
 		700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6211CBA7CEB00A09B3A /* DongDaTabBar.m */; };
 		700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */; };
 		700BE62C1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */; };
+		700CFABA1E2C6EFE00B48821 /* AYOrderPageContactCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700CFAB91E2C6EFE00B48821 /* AYOrderPageContactCellView.m */; };
 		700D106D1E0CDBB400C77EDD /* AYServiceDescCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700D106C1E0CDBB400C77EDD /* AYServiceDescCellView.m */; };
 		700D10711E0D4F7000C77EDD /* AYServiceNotiCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700D10701E0D4F7000C77EDD /* AYServiceNotiCellView.m */; };
 		700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F15CE1D73D51600B1CACF /* AYAlertTipView.m */; };
@@ -618,7 +619,7 @@
 		70F9678C1E28F94F00B3805B /* AYCLResultCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70F9678A1E28F94F00B3805B /* AYCLResultCellView.xib */; };
 		70F967961E28FD4100B3805B /* AYOrderInfoPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9678F1E28FD4100B3805B /* AYOrderInfoPageController.m */; };
 		70F967971E28FD4100B3805B /* AYOrderInfoPageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967921E28FD4100B3805B /* AYOrderInfoPageDelegate.m */; };
-		70F967981E28FD4100B3805B /* AYOrderInfoPageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967951E28FD4100B3805B /* AYOrderInfoPageCellView.m */; };
+		70F967981E28FD4100B3805B /* AYOrderPageHeadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967951E28FD4100B3805B /* AYOrderPageHeadCellView.m */; };
 		70F967A21E29003800B3805B /* AYSetServiceCapacityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9679B1E29003800B3805B /* AYSetServiceCapacityController.m */; };
 		70F967A31E29003800B3805B /* AYSetServiceCapacityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9679E1E29003800B3805B /* AYSetServiceCapacityDelegate.m */; };
 		70F967A41E29003800B3805B /* AYSetServiceCapacityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967A11E29003800B3805B /* AYSetServiceCapacityCellView.m */; };
@@ -883,6 +884,8 @@
 		700BE6231CBA7CEB00A09B3A /* DongDaTabBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DongDaTabBarItem.m; sourceTree = "<group>"; };
 		700BE62A1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPreCreateControllerFactoy.h; sourceTree = "<group>"; };
 		700BE62B1CBA8D5C00A09B3A /* AYPreCreateControllerFactoy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPreCreateControllerFactoy.m; sourceTree = "<group>"; };
+		700CFAB81E2C6EFE00B48821 /* AYOrderPageContactCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderPageContactCellView.h; sourceTree = "<group>"; };
+		700CFAB91E2C6EFE00B48821 /* AYOrderPageContactCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderPageContactCellView.m; sourceTree = "<group>"; };
 		700D106B1E0CDBB400C77EDD /* AYServiceDescCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceDescCellView.h; sourceTree = "<group>"; };
 		700D106C1E0CDBB400C77EDD /* AYServiceDescCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceDescCellView.m; sourceTree = "<group>"; };
 		700D106F1E0D4F7000C77EDD /* AYServiceNotiCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceNotiCellView.h; sourceTree = "<group>"; };
@@ -2026,8 +2029,8 @@
 		70F9678F1E28FD4100B3805B /* AYOrderInfoPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoPageController.m; sourceTree = "<group>"; };
 		70F967911E28FD4100B3805B /* AYOrderInfoPageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoPageDelegate.h; sourceTree = "<group>"; };
 		70F967921E28FD4100B3805B /* AYOrderInfoPageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoPageDelegate.m; sourceTree = "<group>"; };
-		70F967941E28FD4100B3805B /* AYOrderInfoPageCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderInfoPageCellView.h; sourceTree = "<group>"; };
-		70F967951E28FD4100B3805B /* AYOrderInfoPageCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderInfoPageCellView.m; sourceTree = "<group>"; };
+		70F967941E28FD4100B3805B /* AYOrderPageHeadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderPageHeadCellView.h; sourceTree = "<group>"; };
+		70F967951E28FD4100B3805B /* AYOrderPageHeadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderPageHeadCellView.m; sourceTree = "<group>"; };
 		70F9679A1E29003800B3805B /* AYSetServiceCapacityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityController.h; sourceTree = "<group>"; };
 		70F9679B1E29003800B3805B /* AYSetServiceCapacityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityController.m; sourceTree = "<group>"; };
 		70F9679D1E29003800B3805B /* AYSetServiceCapacityDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityDelegate.h; sourceTree = "<group>"; };
@@ -7314,8 +7317,10 @@
 		70F967931E28FD4100B3805B /* OrderInfoPageView */ = {
 			isa = PBXGroup;
 			children = (
-				70F967941E28FD4100B3805B /* AYOrderInfoPageCellView.h */,
-				70F967951E28FD4100B3805B /* AYOrderInfoPageCellView.m */,
+				70F967941E28FD4100B3805B /* AYOrderPageHeadCellView.h */,
+				70F967951E28FD4100B3805B /* AYOrderPageHeadCellView.m */,
+				700CFAB81E2C6EFE00B48821 /* AYOrderPageContactCellView.h */,
+				700CFAB91E2C6EFE00B48821 /* AYOrderPageContactCellView.m */,
 			);
 			path = OrderInfoPageView;
 			sourceTree = "<group>";
@@ -8257,7 +8262,7 @@
 				7012C9731E16156800C8F510 /* AYOrderTimesDelegate.m in Sources */,
 				7012C96A1E16156800C8F510 /* AYConfirmOrderController.m in Sources */,
 				70C41EE91DBA122500C77B10 /* TZTestCell.m in Sources */,
-				70F967981E28FD4100B3805B /* AYOrderInfoPageCellView.m in Sources */,
+				70F967981E28FD4100B3805B /* AYOrderPageHeadCellView.m in Sources */,
 				70EC723E1D1922D20012B123 /* AYServicePageDelegate.m in Sources */,
 				701524491CBF96F0005B4C5B /* AYImageView.m in Sources */,
 				70FE54E01D98EC440077A3E9 /* AYServQualityCellView.m in Sources */,
@@ -8501,6 +8506,7 @@
 				703B89721CBF81E4002EBB18 /* AYWebView.m in Sources */,
 				703C7E361DABA723003F58C1 /* UIViewController+WXSTransition.m in Sources */,
 				704697D71CE047F200DACD8A /* SDWebImagePrefetcher.m in Sources */,
+				700CFABA1E2C6EFE00B48821 /* AYOrderPageContactCellView.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
 				7037E8B51DE42D67007BF858 /* AYServiceTimesPickDelegate.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
@@ -8713,10 +8719,7 @@
 					"$(PROJECT_DIR)/BabySharing/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"SANDBOX=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/BabySharing/lib/libQQSDK/TencentOpenAPI.framework/Headers",
 					/usr/include/libxml2,

@@ -181,6 +181,9 @@
     <command type="Remote" name="RequireCode"       route="v2/phone/code/send" factory="AYRemoteCallFactory" />
     <command type="Remote" name="CheckCode"         route="v2/phone/code/check" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateUserDetail" route="v2/profile/update" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="PushRealName"      route="auth/realname/push" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="ApproveRealName"      route="auth/realname/approve" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="RejectRealName"      route="auth/realname/reject" factory="AYRemoteCallFactory" />
 
 
     <command type="Remote" name="QueryUserProfile" route="v2/profile/query" factory="AYRemoteCallFactory" />

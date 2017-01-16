@@ -1,12 +1,12 @@
 //
-//  AYOrderInfoPageCellView.m
+//  AYOrderPageContactCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 13/1/17.
+//  Created by Alfred Yang on 16/1/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderInfoPageCellView.h"
+#import "AYOrderPageContactCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -15,7 +15,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
-@implementation AYOrderInfoPageCellView {
+@implementation AYOrderPageContactCellView {
 	
 	UIImageView *photoIcon;
 	UILabel *titleLabel;
