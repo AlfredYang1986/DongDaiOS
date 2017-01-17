@@ -17,12 +17,10 @@
 
 @implementation AYOrderPageContactCellView {
 	
-	UIImageView *photoIcon;
 	UILabel *titleLabel;
-	UILabel *stateLabel;
-	UILabel *orderNoLabel;
-	UILabel *dateLabel;
-	
+	UIImageView *photoIcon;
+	UILabel *nameLabel;
+	NSString *ones_id;
 	NSDictionary *service_info;
 	
 }
@@ -31,8 +29,15 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		self.backgroundColor = [UIColor clearColor];
-		//		[Tools creatCALayerWithFrame:CGRectMake(0, 99.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+//		self.backgroundColor = [UIColor clearColor];
+		[Tools creatCALayerWithFrame:CGRectMake(0, 109.5f, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		
+		titleLabel = [Tools creatUILabelWithText:@"联系人" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(10);
+			make.top.equalTo(self).offset(15);
+		}];
 		
 		photoIcon = [[UIImageView alloc]init];
 		photoIcon.image = IMGRESOURCE(@"default_user");
@@ -44,40 +49,29 @@
 		photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
 		[self addSubview:photoIcon];
 		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.top.equalTo(self).offset(20);
+			make.left.equalTo(titleLabel);
+			make.top.equalTo(titleLabel.mas_bottom).offset(15);
 			make.size.mas_equalTo(CGSizeMake(45, 45));
 		}];
 		//	photoIcon.userInteractionEnabled = YES;
 		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Servant's Service With Theme" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(photoIcon.mas_right).offset(10);
-			make.top.equalTo(photoIcon);
+		nameLabel = [Tools creatUILabelWithText:@"服务者姓名" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:nameLabel];
+		[nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(photoIcon.mas_right).offset(15);
+			make.centerY.equalTo(photoIcon);
 		}];
 		
-		//		stateLabel = [Tools creatUILabelWithText:@"Order state" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		//		[self addSubview:stateLabel];
-		//		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		//			make.centerY.equalTo(titleLabel);
-		//			make.right.equalTo(self).offset(-20);
-		//		}];
-		
-		//		orderNoLabel = [Tools creatUILabelWithText:@"Order NO" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		//		[self addSubview:orderNoLabel];
-		//		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		//			make.left.equalTo(titleLabel);
-		//			make.top.equalTo(titleLabel.mas_bottom).offset(10);
-		//		}];
-		
-		dateLabel = [Tools creatUILabelWithText:@"01-01 00:00-00:00" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:dateLabel];
-		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(15);
+		UIButton *chatBtn = [[UIButton alloc]init];
+		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
+		[self addSubview:chatBtn];
+		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(nameLabel);
+			make.right.equalTo(self).offset(-15);
+			make.size.mas_equalTo(CGSizeMake(30, 30));
 		}];
+		[chatBtn addTarget:self action:@selector(didChatBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -97,7 +91,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"OrderInfoPageCell", @"OrderInfoPageCell");
+	id<AYViewBase> cell = VIEW(@"OrderPageContactCell", @"OrderPageContactCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -144,46 +138,36 @@
 }
 
 #pragma mark -- actions
-
+- (void)didChatBtnClick {
+	
+}
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
+	NSDictionary* info = nil;
+	CURRENUSER(info)
+	NSString *user_id = [info objectForKey:@"user_id"];
 	
-	NSDictionary *order_info = (NSDictionary*)args;
+	NSString *order_user_id = [args objectForKey:@"user_id"];     //发单的人
+	NSString *servant_owner_id = [[args objectForKey:@"service"] objectForKey:@"owner_id"];
 	
-	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
-	if (photo_name) {
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *pre = cmd.route;
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-					 placeholderImage:IMGRESOURCE(@"default_user")];
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *pre = cmd.route;
+	
+	if ([user_id isEqualToString:servant_owner_id]) {     //我发的服务 : -> 要看发单人的头像
+		
+		ones_id = order_user_id;
+		nameLabel.text = [args objectForKey:@"screen_name"];
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[args objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
+		
+	} else {
+		
+		ones_id = servant_owner_id;
+		nameLabel.text = [[args objectForKey:@"service"] objectForKey:@"screen_name"];
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
+		
 	}
-	
-	NSString *titleStr = [NSString stringWithFormat:@"%@ · %@", [order_info objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
-	if (titleStr && ![titleStr isEqualToString:@""]) {
-		titleLabel.text = titleStr;
-	}
-	
-	NSDictionary *order_date = [args objectForKey:@"order_date"];
-	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
-	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
-	
-	NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
-	[formatterDay setDateFormat:@"MM月dd日"];
-	NSString *dayStr = [formatterDay stringFromDate:startDate];
-	
-	NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
-	[formatterTime setDateFormat:@"HH:mm"];
-	NSString *startStr = [formatterTime stringFromDate:startDate];
-	NSString *endStr = [formatterTime stringFromDate:endDate];
-	
-	dateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", dayStr, startStr, endStr];
-	
-	stateLabel.textColor = [Tools garyColor];
-	stateLabel.text = @"待处理";
 	
 	return nil;
 }

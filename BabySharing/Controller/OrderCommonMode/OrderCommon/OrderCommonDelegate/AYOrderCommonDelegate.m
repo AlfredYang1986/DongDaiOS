@@ -13,6 +13,7 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYOrderCommonDelegate {
 	
@@ -109,6 +110,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 @end

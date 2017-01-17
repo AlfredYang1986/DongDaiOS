@@ -313,6 +313,7 @@
 		70490DE61CA23B090093D5DA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE51CA23B090093D5DA /* Foundation.framework */; };
 		70490DE81CA23B0E0093D5DA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE71CA23B0E0093D5DA /* AVFoundation.framework */; };
 		70490DEA1CA23B180093D5DA /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DE91CA23B180093D5DA /* MediaPlayer.framework */; };
+		704BE7901E2E0F660009A1C3 /* AYOrderPageTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 704BE78F1E2E0F660009A1C3 /* AYOrderPageTimeView.m */; };
 		704C9DA71D50573F00E84586 /* AYPushServiceInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 704C9DA61D50573F00E84586 /* AYPushServiceInfoCommand.m */; };
 		704D48DA1DAE18AE00A69AF4 /* AYAboutDongdaDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D48D11DAE18AE00A69AF4 /* AYAboutDongdaDelegate.m */; };
 		704D48DB1DAE18AE00A69AF4 /* AYAboutDDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 704D48D31DAE18AE00A69AF4 /* AYAboutDDController.m */; };
@@ -1349,6 +1350,8 @@
 		70490DE51CA23B090093D5DA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		70490DE71CA23B0E0093D5DA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		70490DE91CA23B180093D5DA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		704BE78E1E2E0F660009A1C3 /* AYOrderPageTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderPageTimeView.h; sourceTree = "<group>"; };
+		704BE78F1E2E0F660009A1C3 /* AYOrderPageTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderPageTimeView.m; sourceTree = "<group>"; };
 		704C9DA51D50573F00E84586 /* AYPushServiceInfoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushServiceInfoCommand.h; sourceTree = "<group>"; };
 		704C9DA61D50573F00E84586 /* AYPushServiceInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceInfoCommand.m; sourceTree = "<group>"; };
 		704D48D01DAE18AE00A69AF4 /* AYAboutDongdaDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAboutDongdaDelegate.h; sourceTree = "<group>"; };
@@ -7321,6 +7324,8 @@
 				70F967951E28FD4100B3805B /* AYOrderPageHeadCellView.m */,
 				700CFAB81E2C6EFE00B48821 /* AYOrderPageContactCellView.h */,
 				700CFAB91E2C6EFE00B48821 /* AYOrderPageContactCellView.m */,
+				704BE78E1E2E0F660009A1C3 /* AYOrderPageTimeView.h */,
+				704BE78F1E2E0F660009A1C3 /* AYOrderPageTimeView.m */,
 			);
 			path = OrderInfoPageView;
 			sourceTree = "<group>";
@@ -8567,6 +8572,7 @@
 				707B4D431CA81E7600F6256E /* AYChangeRegUserCommand.m in Sources */,
 				70C41EDC1DBA122500C77B10 /* AYEditPhotosController.m in Sources */,
 				7039CBED1CBB94DF00BE60C7 /* AYQueryUserProfileCommand.m in Sources */,
+				704BE7901E2E0F660009A1C3 /* AYOrderPageTimeView.m in Sources */,
 				703C7E351DABA723003F58C1 /* UINavigationController+WXSTransition.m in Sources */,
 				70A1A5621D1D4A860063FC7F /* AYLoginEMCommand.m in Sources */,
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,

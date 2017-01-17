@@ -16,9 +16,6 @@
 
 @implementation AYOrderInfoPageDelegate {
 	NSDictionary *querydata;
-	
-	NSArray *waitArrData;
-	NSArray *estabArrData;
 }
 
 @synthesize para = _para;
@@ -49,56 +46,60 @@
 }
 
 - (id)changeQueryData:(id)info {
-	estabArrData = info;
+	querydata = info;
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return estabArrData.count;
+	return 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	NSString* class_name;
+	id<AYViewBase> cell;
 	
-	id tmp = [estabArrData objectAtIndex:indexPath.row];
+	if (indexPath.row == 0) {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+	} else if (indexPath.row == 1) {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+	} else {
+		return nil;
+	}
+	
+	id tmp ;
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	((UITableViewCell*)cell).clipsToBounds = YES;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 160.f;
-}
-
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	UIView *headView = [[UIView alloc]init];
-	headView.backgroundColor = [Tools garyBackgroundColor];
-	NSString *titleStr = @"您的日程轴：";
-	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[headView addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(headView);
-		make.left.equalTo(headView).offset(20);
-	}];
-	
-	return headView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	
-	return 50.f;
+	if (indexPath.row == 0) {
+		id tmp = [querydata objectForKey:@"order_date"];
+		if ( [tmp isKindOfClass:[NSDictionary class]]) {
+			return 190 + 90 + 20 + 85;
+		} else /*if ( [tmp isKindOfClass:[NSArray class]]) */{
+			return 190 + 90 + 20 + 85 * ((NSArray*)tmp).count;
+		}
+	} else {
+		return 110.f;
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //	id tmp = [estabArrData objectAtIndex:indexPath.row];
 	
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	return NO;
 }
 
 @end
