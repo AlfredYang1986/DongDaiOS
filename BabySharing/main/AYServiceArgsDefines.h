@@ -62,6 +62,9 @@ static NSString* const kAYServiceArgsIsAdjustSKU =               @"is_adjust_SKU
 //static NSString* const kAYServiceArgsScreenName =               @"screen_name";
 //static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
 //static NSString* const kAYServiceArgsScreenName =               @"screen_name";
-//static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
+
+
+//order info args
+static NSString* const kAYOrderArgsTotalFee =               @"total_fee";
 
 #endif /* AYServiceArgsDefines_h */

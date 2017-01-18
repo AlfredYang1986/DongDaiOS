@@ -749,6 +749,9 @@
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	
+	<view type="OrderListPendingCell" name="OrderListPendingCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	
     <view type="PayOption" name="PayOption" factory="AYDefaultViewFactory" >
         <command type="message"     message="setCellInfo:" />

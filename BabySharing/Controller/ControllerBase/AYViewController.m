@@ -332,7 +332,7 @@
 }
 
 - (void)didBtmAlertViewCloseBtnClick {
-    NSLog(@"didBtmAlertViewCloseBtnClick");
+    NSLog(@"BtmAlertViewClose");
     if (btmAlertView.frame.origin.y == SCREEN_HEIGHT - btmAlertViewH) {
         [UIView animateWithDuration:0.25 animations:^{
             btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);

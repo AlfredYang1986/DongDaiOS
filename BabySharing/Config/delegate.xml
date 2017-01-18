@@ -315,6 +315,10 @@
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="OrderListPending" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
 	<delegate type="TableViewDelegateAndDatasource" name="ServantHistory" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>

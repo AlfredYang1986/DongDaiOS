@@ -90,11 +90,21 @@
 			make.centerY.equalTo(sumPriceLabel);
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:@"01-01 00:00-00:00" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UIImageView *positionImage = [[UIImageView alloc]init];
+		[self addSubview:positionImage];
+		positionImage.image = IMGRESOURCE(@"location_icon");
+		[positionImage mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel).offset(0);
+			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-50);
+			make.size.mas_equalTo(CGSizeMake(13, 13));
+		}];
+		
+		addressLabel = [Tools creatUILabelWithText:@"0101 00110010011100" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(titleLabel);
-			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-50);
+			make.left.equalTo(positionImage.mas_right).offset(15);
+			make.centerY.equalTo(positionImage);
+			make.right.equalTo(self).offset(-15);
 		}];
 		
 		UIView *line_btm = [[UIView alloc]init];
@@ -102,7 +112,7 @@
 		[self addSubview:line_btm];
 		[line_btm mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self);
-			make.centerY.equalTo(self);
+			make.centerX.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
 		}];
 		
@@ -242,23 +252,43 @@
 		titleLabel.text = @"该服务类型待调整";
 	}
 	
-	NSNumber *price = [order_info objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%@", price];
-	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@", price];
+	NSNumber *price = [order_info objectForKey:kAYOrderArgsTotalFee];
+	NSString *priceStr = [NSString stringWithFormat:@"¥ %@", price];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(2, priceStr.length - 2)];
 	sumPriceLabel.attributedText = attributedText;
-	
 	unitPriceLabel.text = [NSString stringWithFormat:@"¥100／%@*%@", unitCat, leastTimesOrHours];
+	
+	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *stringPre = @"中国北京市";
+	if ([addressStr hasPrefix:stringPre]) {
+		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
+	}
+	addressLabel.text = addressStr;
 	
 	id order_date = [order_info objectForKey:@"order_date"];
 	if ( [order_date isKindOfClass:[NSArray class]]) {
-		
+		for (int i = 0; i < ((NSArray*)order_info).count; ++i) {
+			AYOrderPageTimeView *timeView = [[AYOrderPageTimeView alloc]init];
+			timeView.args = [((NSArray*)order_info) objectAtIndex:i];
+			[self addSubview:timeView];
+			[timeView mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(orderNoLabel.mas_bottom).offset(20+85*i);
+				make.centerX.equalTo(self);
+				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 85));
+			}];
+		}
 	} else /*if ( [tmp isKindOfClass:[NSDictionary class]]) */{
-		
+		AYOrderPageTimeView *timeView = [[AYOrderPageTimeView alloc]init];
+		timeView.args = order_date;
+		[self addSubview:timeView];
+		[timeView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(orderNoLabel.mas_bottom).offset(20);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 85));
+		}];
 	}
 	
 	return nil;

@@ -27,6 +27,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		order_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -54,19 +55,25 @@
 	id tmp = [order_info copy];
 	kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
 	
-	UIButton *historyBtn  = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-	//	historyBtn.layer.shadowColor = [Tools garyColor].CGColor;
-	//	historyBtn.layer.shadowOffset = CGSizeMake(0, -0.5);
-	//	historyBtn.layer.shadowOpacity = 0.4f;
-	[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
-	[self.view addSubview:historyBtn];
-	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.view);
-		make.bottom.equalTo(self.view).offset(-49);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
+	[Tools creatCALayerWithFrame:CGRectMake(0, SCREEN_HEIGHT - 49, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	UIButton *rejectBtn  = [Tools creatUIButtonWithTitle:@"拒绝" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+	[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:2.f andBorderColor:[Tools themeColor] andBackground:nil];
+	[self.view addSubview:rejectBtn];
+	[rejectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.view.mas_left).offset(SCREEN_WIDTH * 0.25);
+		make.centerY.equalTo(self.view.mas_bottom).offset(-49*0.5);
+		make.size.mas_equalTo(CGSizeMake((SCREEN_WIDTH - 60) * 0.5, 40));
 	}];
-	[historyBtn addTarget:self action:@selector(didHistoryBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	[rejectBtn addTarget:self action:@selector(didRejectBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
+	UIButton *acceptBtn  = [Tools creatUIButtonWithTitle:@"接受" andTitleColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:[Tools themeColor]];
+	[self.view addSubview:acceptBtn];
+	[acceptBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.view.mas_right).offset(-SCREEN_WIDTH * 0.25);
+		make.centerY.equalTo(rejectBtn);
+		make.size.equalTo(rejectBtn);
+	}];
+	[acceptBtn addTarget:self action:@selector(didAcceptBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -103,24 +110,80 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 140, SCREEN_WIDTH, SCREEN_HEIGHT - 140 - 49 - 49); //5 margin
+	view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
 	return nil;
 }
 
 #pragma mark -- actions
-
-
-- (void)didHistoryBtnClick:(UIButton*)btn {
+- (void)didRejectBtnClick:(UIButton*)btn {
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
 	
-//	id<AYCommand> des = DEFAULTCONTROLLER(@"ServantHistory");
-//	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//	[dic setValue:[order_past copy] forKey:kAYControllerChangeArgsKey];
-//	
-//	id<AYCommand> cmd_push = PUSH;
-//	[cmd_push performWithResult:&dic];
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+	[dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
+	[dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+	[dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic setValue:[order_info objectForKey:@"service_id"] forKey:@"service_id"];
+//	[dic setValue:seasonOfTextView.text forKey:@"further_message"];
+	
+	[cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			NSString *title = @"已拒绝日程";
+			[self popToRootVCWithTip:title];
+		} else {
+			
+		}
+	}];
+}
+
+- (void)didAcceptBtnClick {
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"AcceptOrder"];
+	
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:[order_info objectForKey:@"user_id"] forKey:@"user_id"];
+	[dic setValue:[order_info objectForKey:@"order_id"] forKey:@"order_id"];
+	[dic setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic setValue:[order_info objectForKey:@"service_id"] forKey:@"service_id"];
+	
+	[cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		NSString *message = nil;
+		if (success) {
+			message = @"您已经接受订单，请及时处理!";
+			[self popToRootVCWithTip:message];
+		} else {
+			message = @"接受订单失败!\n请检查网络是否正常连接";
+			NSLog(@"error with:%@",result);
+			[[[UIAlertView alloc]initWithTitle:@"提示" message:message delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
+		}
+	}];
+}
+
+- (void)popToRootVCWithTip:(NSString*)tip {
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = POPTOROOT;
+	[cmd performWithResult:&dic];
+	
+}
+
+- (void)popToDestVCWithTip:(NSString*)tip {
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderCommon");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopToDestValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = POPTODEST;
+	[cmd performWithResult:&dic];
+	
 }
 
 #pragma mark -- notifies

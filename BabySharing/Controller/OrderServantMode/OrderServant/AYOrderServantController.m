@@ -159,6 +159,7 @@
 			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
 			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
 			noticeNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+			noticeNews.userInteractionEnabled = result_status_ready.count != 0;
 			
 			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
 			NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
@@ -186,6 +187,25 @@
 
 - (void)didNoticeLabelTap {
 	
+	id<AYCommand> des;
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	
+	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
+//		des = DEFAULTCONTROLLER(@"OrderInfoPage");
+//		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
+		des = DEFAULTCONTROLLER(@"OrderListPending");
+		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+	} else {
+		des = DEFAULTCONTROLLER(@"OrderListPending");
+		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+	}
+	
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 - (void)didHistoryBtnClick:(UIButton*)btn {

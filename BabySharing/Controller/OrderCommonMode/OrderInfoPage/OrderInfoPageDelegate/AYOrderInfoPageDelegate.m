@@ -72,7 +72,7 @@
 		return nil;
 	}
 	
-	id tmp ;
+	id tmp = [querydata copy];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;

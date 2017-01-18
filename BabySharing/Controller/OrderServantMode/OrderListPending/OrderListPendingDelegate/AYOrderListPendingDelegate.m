@@ -1,29 +1,22 @@
 //
-//  AYOrderCommonDelegate.m
+//  AYOrderListPendingDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 10/1/17.
+//  Created by Alfred Yang on 18/1/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderCommonDelegate.h"
+#import "AYOrderListPendingDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
 
-@implementation AYOrderCommonDelegate {
-	
+@implementation AYOrderListPendingDelegate {
 	NSArray *querydata;
 	
-	BOOL isSetedDate;
-	BOOL isExpend;
-	
-	NSNumber *setedDate;
-	NSDictionary *setedTimes;
 }
 
 @synthesize para = _para;
@@ -60,16 +53,16 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return querydata.count;
+//	return querydata.count;
+	return 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderListPendingCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	id tmp = [querydata objectAtIndex:indexPath.row];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -79,48 +72,42 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 160.f;
-//	return 90.f;
+	return 150.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-	NSString *titleStr = @"所有日程";
+	NSString *titleStr = @"01/02 EEEE";
+	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(headView).offset(0);
+		make.centerY.equalTo(headView);
 		make.left.equalTo(headView).offset(20);
 	}];
 	
-//	CALayer *dotLayer = [CALayer layer];
-//	dotLayer.cornerRadius = 7.5f;
-//	dotLayer.bounds = CGRectMake(0, 0, 15, 15);
-//	dotLayer.position = CGPointMake(85, 70-7.5);
-//	dotLayer.backgroundColor = [Tools lightGreyColor].CGColor;
-//	[headView.layer addSublayer:dotLayer];
+	[Tools creatCALayerWithFrame:CGRectMake(10, 49.5, SCREEN_WIDTH - 10*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 70.f;
+	if (section == 0) {
+		
+		return 50.f;
+		
+	} else {
+		return 50.f;
+	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_push = PUSH;
-	[cmd_push performWithResult:&dic];
+	if (indexPath.section == 0) {
+		
+	} else {
+		
+	}
 }
 
 @end

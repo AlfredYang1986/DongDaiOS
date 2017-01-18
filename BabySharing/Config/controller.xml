@@ -911,6 +911,17 @@
 		<delegate type="TableViewDelegateAndDatasource" name="OrderListNews" />
 	</controller>
 	
+	<controller type="DefaultController" name="OrderListPending" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="OrderListPending" />
+	</controller>
+	
     <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />

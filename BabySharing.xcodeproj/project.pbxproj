@@ -93,6 +93,9 @@
 		700D106D1E0CDBB400C77EDD /* AYServiceDescCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700D106C1E0CDBB400C77EDD /* AYServiceDescCellView.m */; };
 		700D10711E0D4F7000C77EDD /* AYServiceNotiCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700D10701E0D4F7000C77EDD /* AYServiceNotiCellView.m */; };
 		700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F15CE1D73D51600B1CACF /* AYAlertTipView.m */; };
+		7010B6BC1E2F5A6000E40C2C /* AYOrderListPendingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010B6BB1E2F5A6000E40C2C /* AYOrderListPendingController.m */; };
+		7010B6BF1E2F5A8100E40C2C /* AYOrderListPendingCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010B6BE1E2F5A8100E40C2C /* AYOrderListPendingCellView.m */; };
+		7010B6C21E2F5A9400E40C2C /* AYOrderListPendingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010B6C11E2F5A9400E40C2C /* AYOrderListPendingDelegate.m */; };
 		70120CA61CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */; };
 		70120CA71CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120C9F1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.m */; };
 		70120CA81CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120CA21CBE0D9400B169F9 /* AYEnumOwnerQueryPushDataCommand.m */; };
@@ -893,6 +896,12 @@
 		700D10701E0D4F7000C77EDD /* AYServiceNotiCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceNotiCellView.m; sourceTree = "<group>"; };
 		700F15CD1D73D51600B1CACF /* AYAlertTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlertTipView.h; sourceTree = "<group>"; };
 		700F15CE1D73D51600B1CACF /* AYAlertTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlertTipView.m; sourceTree = "<group>"; };
+		7010B6BA1E2F5A6000E40C2C /* AYOrderListPendingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderListPendingController.h; sourceTree = "<group>"; };
+		7010B6BB1E2F5A6000E40C2C /* AYOrderListPendingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderListPendingController.m; sourceTree = "<group>"; };
+		7010B6BD1E2F5A8100E40C2C /* AYOrderListPendingCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderListPendingCellView.h; sourceTree = "<group>"; };
+		7010B6BE1E2F5A8100E40C2C /* AYOrderListPendingCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderListPendingCellView.m; sourceTree = "<group>"; };
+		7010B6C01E2F5A9400E40C2C /* AYOrderListPendingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderListPendingDelegate.h; sourceTree = "<group>"; };
+		7010B6C11E2F5A9400E40C2C /* AYOrderListPendingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderListPendingDelegate.m; sourceTree = "<group>"; };
 		70120C9C1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendOwnerQueryPushDataCommand.h; sourceTree = "<group>"; };
 		70120C9D1CBE0D9400B169F9 /* AYAppendOwnerQueryPushDataCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppendOwnerQueryPushDataCommand.m; sourceTree = "<group>"; };
 		70120C9E1CBE0D9400B169F9 /* AYOwnerQueryPushModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOwnerQueryPushModelFacade.h; sourceTree = "<group>"; };
@@ -2922,6 +2931,35 @@
 			path = AlertTip;
 			sourceTree = "<group>";
 		};
+		7010B6B71E2F5A3A00E40C2C /* OrderListPending */ = {
+			isa = PBXGroup;
+			children = (
+				7010B6B81E2F5A3A00E40C2C /* OrderListPendingDelegate */,
+				7010B6B91E2F5A3A00E40C2C /* OrderListPendingView */,
+				7010B6BA1E2F5A6000E40C2C /* AYOrderListPendingController.h */,
+				7010B6BB1E2F5A6000E40C2C /* AYOrderListPendingController.m */,
+			);
+			path = OrderListPending;
+			sourceTree = "<group>";
+		};
+		7010B6B81E2F5A3A00E40C2C /* OrderListPendingDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7010B6C01E2F5A9400E40C2C /* AYOrderListPendingDelegate.h */,
+				7010B6C11E2F5A9400E40C2C /* AYOrderListPendingDelegate.m */,
+			);
+			path = OrderListPendingDelegate;
+			sourceTree = "<group>";
+		};
+		7010B6B91E2F5A3A00E40C2C /* OrderListPendingView */ = {
+			isa = PBXGroup;
+			children = (
+				7010B6BD1E2F5A8100E40C2C /* AYOrderListPendingCellView.h */,
+				7010B6BE1E2F5A8100E40C2C /* AYOrderListPendingCellView.m */,
+			);
+			path = OrderListPendingView;
+			sourceTree = "<group>";
+		};
 		701152551CCE62200064A79C /* FoundNickCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2980,6 +3018,7 @@
 		7012195A1E2721BF0046482C /* OrderServantMode */ = {
 			isa = PBXGroup;
 			children = (
+				7010B6B71E2F5A3A00E40C2C /* OrderListPending */,
 				70F967621E288DEF00B3805B /* ServantHistory */,
 				7012195B1E2721BF0046482C /* OrderServant */,
 			);
@@ -7993,6 +8032,7 @@
 				701D8A631CA7D16F00B5D4C1 /* RemoteInstance.m in Sources */,
 				705C45201CA8FEBE00921799 /* AYPushCommand.m in Sources */,
 				70AC5BA21CC8C63300E2568F /* AYPostRemoteFacade.m in Sources */,
+				7010B6C21E2F5A9400E40C2C /* AYOrderListPendingDelegate.m in Sources */,
 				7000475E1D9BDF7C000AE1C9 /* AYApproveRealNameCommand.m in Sources */,
 				700692E91CC49A2C00B511FF /* AYHomeInitCommand.m in Sources */,
 				70C41F151DBA17B800C77B10 /* AYMyServiceController.m in Sources */,
@@ -8308,6 +8348,7 @@
 				70D175D21D7966E300D9C7D9 /* AYHomeDelegate.m in Sources */,
 				70882D261E07CD3D00513AA2 /* AYInsetLabel.m in Sources */,
 				702510A11CC0F5AB00DADF2B /* Notifications.m in Sources */,
+				7010B6BC1E2F5A6000E40C2C /* AYOrderListPendingController.m in Sources */,
 				701D8A991CA7E06700B5D4C1 /* RegTmpToken+CoreDataProperties.m in Sources */,
 				704697D51CE047F200DACD8A /* SDWebImageDownloaderOperation.m in Sources */,
 				70125A0B1E0A88980082C76B /* AYCollectionViewFactory.m in Sources */,
@@ -8335,6 +8376,7 @@
 				7045EFEC1E08F3CD00341E14 /* AYFilterLocationDelegate.m in Sources */,
 				705E96841D470E47006CF9E6 /* AYOrderContactCellView.m in Sources */,
 				706E460F1CFC107A00CC7C53 /* AYLandingInputNameView.m in Sources */,
+				7010B6BF1E2F5A8100E40C2C /* AYOrderListPendingCellView.m in Sources */,
 				702F79E61E1269970062F2EA /* AYServTimesBtn.m in Sources */,
 				7000CD211D7E8A5200DA98F2 /* BSRefreshAnimationFooter.m in Sources */,
 				70EC723A1D190D6F0012B123 /* UIView+SDExtension.m in Sources */,

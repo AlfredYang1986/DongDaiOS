@@ -587,7 +587,7 @@
     return btn;
 }
 
-+ (void)setViewRadius:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor {
++ (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor {
 	view.layer.cornerRadius = radius;
 	view.layer.borderWidth = width;
 	view.clipsToBounds = YES;

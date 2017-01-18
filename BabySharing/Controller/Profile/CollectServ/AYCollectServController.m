@@ -58,9 +58,9 @@
     obj = (id)cmd_collect;
     [cmd_delegate performWithResult:&obj];
     
-    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"CLResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_search performWithResult:&nib_search_name];
+    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithClass:"];
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    [cmd_search performWithResult:&class_name];
     
     UITableView *tableView = (UITableView*)view_table;
     tipsLabel = [Tools creatUILabelWithText:@"您还没有收藏过服务" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];

@@ -44,7 +44,7 @@
 		}];
 		
 		courseLengthLabel = [Tools creatUILabelWithText:@"Lection Length" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewRadius:courseLengthLabel withRadius:12.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyBackgroundColor]];
+		[Tools setViewBorder:courseLengthLabel withRadius:12.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyBackgroundColor]];
 		[self addSubview:courseLengthLabel];
 		[courseLengthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
