@@ -13,6 +13,7 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYOrderListPendingDelegate {
 	NSArray *querydata;
@@ -53,8 +54,8 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return querydata.count;
-	return 2;
+	return querydata.count;
+//	return 2;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -103,11 +104,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
-		
-	} else {
-		
-	}
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 @end

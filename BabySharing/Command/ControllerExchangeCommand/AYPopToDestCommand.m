@@ -35,15 +35,19 @@
         @throw [[NSException alloc]initWithName:@"error" reason:@"push command source controler 必须是一个navigation controller" userInfo:nil];
     }
     
-    AYViewController* des ;
+    AYViewController* des = nil;
     for (AYViewController *iter in source.navigationController.viewControllers) {
         if ([iter isKindOfClass:[desClass class]]) {
             des = iter;
         }
     }
-    
-    [source.navigationController popToViewController:des animated:YES];
-    
+	
+	if (!des) {
+		[source.navigationController popToRootViewControllerAnimated:YES];
+	} else {
+		[source.navigationController popToViewController:des animated:YES];
+	}
+	
     id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
     if (tmp != nil) {
         NSMutableDictionary* dic_init =[[NSMutableDictionary alloc]init];

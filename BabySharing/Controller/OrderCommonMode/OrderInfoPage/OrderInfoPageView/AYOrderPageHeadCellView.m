@@ -33,7 +33,7 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		self.backgroundColor = [UIColor clearColor];
+//		self.backgroundColor = [Tools whiteColor];
 //		[Tools creatCALayerWithFrame:CGRectMake(0, 99.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
 //		photoIcon = [[UIImageView alloc]init];
@@ -90,12 +90,21 @@
 			make.centerY.equalTo(sumPriceLabel);
 		}];
 		
+		UIView *line_b_address_price = [[UIView alloc]init];
+		line_b_address_price.backgroundColor = [Tools garyLineColor];
+		[self addSubview:line_b_address_price];
+		[line_b_address_price mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-20);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+		}];
+		
 		UIImageView *positionImage = [[UIImageView alloc]init];
 		[self addSubview:positionImage];
 		positionImage.image = IMGRESOURCE(@"location_icon");
 		[positionImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel).offset(0);
-			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-50);
+			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-40);
 			make.size.mas_equalTo(CGSizeMake(13, 13));
 		}];
 		
@@ -105,6 +114,15 @@
 			make.left.equalTo(positionImage.mas_right).offset(15);
 			make.centerY.equalTo(positionImage);
 			make.right.equalTo(self).offset(-15);
+		}];
+		
+		UIView *line_b_address_date = [[UIView alloc]init];
+		line_b_address_date.backgroundColor = [Tools garyLineColor];
+		[self addSubview:line_b_address_date];
+		[line_b_address_date mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(addressLabel.mas_top).offset(-20);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
 		}];
 		
 		UIView *line_btm = [[UIView alloc]init];

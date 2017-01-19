@@ -13,12 +13,13 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYOrderServantDelegate {
-	NSDictionary *querydata;
+	NSArray *querydata;
 	
-	NSArray *waitArrData;
-	NSArray *estabArrData;
+//	NSArray *waitArrData;
+//	NSArray *estabArrData;
 }
 
 @synthesize para = _para;
@@ -49,13 +50,13 @@
 }
 
 - (id)changeQueryData:(id)info {
-	estabArrData = info;
+	querydata = info;
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return estabArrData.count;
+	return querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,7 +64,7 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	id tmp = [estabArrData objectAtIndex:indexPath.row];
+	id tmp = [querydata objectAtIndex:indexPath.row];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -97,7 +98,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//	id tmp = [estabArrData objectAtIndex:indexPath.row];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 	
 }
 

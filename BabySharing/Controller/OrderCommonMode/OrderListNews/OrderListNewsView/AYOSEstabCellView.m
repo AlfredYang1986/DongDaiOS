@@ -168,7 +168,7 @@
 							 placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	
-	NSString *titleStr = [NSString stringWithFormat:@"%@ · %@", [order_info objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
+	NSString *titleStr = [NSString stringWithFormat:@"%@ · %@", [[order_info objectForKey:@"service"] objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
 	if (titleStr && ![titleStr isEqualToString:@""]) {
 		titleLabel.text = titleStr;
 	}

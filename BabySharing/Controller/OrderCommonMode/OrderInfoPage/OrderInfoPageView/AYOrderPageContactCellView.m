@@ -14,6 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYOrderPageContactCellView {
 	
@@ -53,8 +54,8 @@
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
 			make.size.mas_equalTo(CGSizeMake(45, 45));
 		}];
-		//	photoIcon.userInteractionEnabled = YES;
-		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
+		photoIcon.userInteractionEnabled = YES;
+		[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPhotoTap)]];
 		
 		nameLabel = [Tools creatUILabelWithText:@"服务者姓名" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:nameLabel];
@@ -138,8 +139,22 @@
 }
 
 #pragma mark -- actions
-- (void)didChatBtnClick {
+- (void)userPhotoTap {
+	UIViewController* des = DEFAULTCONTROLLER(@"OneProfile");
 	
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	[dic_push setValue:ones_id forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic_push];
+}
+
+- (void)didChatBtnClick {
+	id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick"];
+	[cmd performWithResult:nil];
 }
 
 #pragma mark -- messages

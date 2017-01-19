@@ -162,6 +162,8 @@
 		701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8AA31CA7E2D200B5D4C1 /* AYModelFacade.m */; };
 		701E7A0C1D0D42BA0037AD3B /* AYPersonalPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701E7A0B1D0D42BA0037AD3B /* AYPersonalPageController.m */; };
 		7021B4A31DB480E8004420E0 /* AYIsInstalledWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7021B4A21DB480E8004420E0 /* AYIsInstalledWechatCommand.m */; };
+		70231ADC1E3061150025E087 /* AYNapLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70231AD81E3061150025E087 /* AYNapLocationController.m */; };
+		70231ADD1E3061150025E087 /* AYNapLocationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70231ADB1E3061150025E087 /* AYNapLocationDelegate.m */; };
 		702459E11CAA282400CC51D0 /* AYPopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702459E01CAA282400CC51D0 /* AYPopCommand.m */; };
 		7025105F1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025105E1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.m */; };
 		7025106E1CC0C64400DADF2B /* AYRefreshLikeDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025106D1CC0C64400DADF2B /* AYRefreshLikeDataCommand.m */; };
@@ -1048,6 +1050,10 @@
 		701E7A0B1D0D42BA0037AD3B /* AYPersonalPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPersonalPageController.m; sourceTree = "<group>"; };
 		7021B4A11DB480E8004420E0 /* AYIsInstalledWechatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYIsInstalledWechatCommand.h; sourceTree = "<group>"; };
 		7021B4A21DB480E8004420E0 /* AYIsInstalledWechatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYIsInstalledWechatCommand.m; sourceTree = "<group>"; };
+		70231AD71E3061150025E087 /* AYNapLocationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapLocationController.h; sourceTree = "<group>"; };
+		70231AD81E3061150025E087 /* AYNapLocationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapLocationController.m; sourceTree = "<group>"; };
+		70231ADA1E3061150025E087 /* AYNapLocationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNapLocationDelegate.h; sourceTree = "<group>"; };
+		70231ADB1E3061150025E087 /* AYNapLocationDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNapLocationDelegate.m; sourceTree = "<group>"; };
 		702459DF1CAA282400CC51D0 /* AYPopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPopCommand.h; sourceTree = "<group>"; };
 		702459E01CAA282400CC51D0 /* AYPopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPopCommand.m; sourceTree = "<group>"; };
 		7025105D1CC0BA7C00DADF2B /* AYContentPostRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContentPostRemoteFacade.h; sourceTree = "<group>"; };
@@ -3517,6 +3523,25 @@
 				7021B4A21DB480E8004420E0 /* AYIsInstalledWechatCommand.m */,
 			);
 			path = IsInstalledWechat;
+			sourceTree = "<group>";
+		};
+		70231AD61E3061150025E087 /* NapLocationController */ = {
+			isa = PBXGroup;
+			children = (
+				70231AD71E3061150025E087 /* AYNapLocationController.h */,
+				70231AD81E3061150025E087 /* AYNapLocationController.m */,
+				70231AD91E3061150025E087 /* NapLocationDelegate */,
+			);
+			path = NapLocationController;
+			sourceTree = "<group>";
+		};
+		70231AD91E3061150025E087 /* NapLocationDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70231ADA1E3061150025E087 /* AYNapLocationDelegate.h */,
+				70231ADB1E3061150025E087 /* AYNapLocationDelegate.m */,
+			);
+			path = NapLocationDelegate;
 			sourceTree = "<group>";
 		};
 		702510601CC0BAAB00DADF2B /* Post */ = {
@@ -6042,6 +6067,7 @@
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
 				70F967991E29003800B3805B /* SetServiceCapacity */,
+				70231AD61E3061150025E087 /* NapLocationController */,
 				70C41E3E1DBA122500C77B10 /* AreaController */,
 				70CAEC4E1DED83EA00542C1D /* SetServiceTheme */,
 				70CAEC4A1DED7E2200542C1D /* SetServiceType */,
@@ -8198,6 +8224,7 @@
 				7060BDB11CB60EEF001E4111 /* AYQueryCurrentLoginUserCommand.m in Sources */,
 				704697D01CE047F200DACD8A /* NSData+ImageContentType.m in Sources */,
 				702510A01CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m in Sources */,
+				70231ADD1E3061150025E087 /* AYNapLocationDelegate.m in Sources */,
 				70DCA6961D6E949700D417FE /* AYAlertView.m in Sources */,
 				7000CD1A1D7E8A5200DA98F2 /* MJRefreshBackFooter.m in Sources */,
 				70CAEC581DEDA8F700542C1D /* AYSetServiceThemeDelegate.m in Sources */,
@@ -8424,6 +8451,7 @@
 				700692EA1CC49A2C00B511FF /* AYProfileInitCommand.m in Sources */,
 				700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */,
 				70C41EDF1DBA122500C77B10 /* TZAssetModel.m in Sources */,
+				70231ADC1E3061150025E087 /* AYNapLocationController.m in Sources */,
 				705B4A3C1D644AD3006273E7 /* AYAllCollectServiceCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				70C41EFA1DBA129D00C77B10 /* AYTabBarController.m in Sources */,

@@ -84,9 +84,9 @@
 	if (indexPath.row == 0) {
 		id tmp = [querydata objectForKey:@"order_date"];
 		if ( [tmp isKindOfClass:[NSDictionary class]]) {
-			return 190 + 90 + 20 + 85;
+			return 120 + 90 + 20 + 85;
 		} else /*if ( [tmp isKindOfClass:[NSArray class]]) */{
-			return 190 + 90 + 20 + 85 * ((NSArray*)tmp).count;
+			return 120 + 90 + 20 + 85 * ((NSArray*)tmp).count;
 		}
 	} else {
 		return 110.f;

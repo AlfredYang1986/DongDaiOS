@@ -163,7 +163,7 @@
 			
 			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
 			NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
-			id tmp = result_status_confirm;
+			id tmp = [result_status_confirm copy];
 			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryData:", &tmp)
 			
 			id<AYViewBase> view_past = [self.views objectForKey:@"Table"];

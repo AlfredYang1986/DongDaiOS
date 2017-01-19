@@ -25,11 +25,11 @@
 			make.top.equalTo(self).offset(20);
 		}];
 		
-		timeLabel =  [Tools creatUILabelWithText:@"Service Time" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLabel =  [Tools creatUILabelWithText:@"Service Time" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:timeLabel];
 		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
-			make.top.equalTo(dateLabel.mas_bottom).offset(12);
+			make.top.equalTo(dateLabel.mas_bottom).offset(10);
 		}];
 		
 	}

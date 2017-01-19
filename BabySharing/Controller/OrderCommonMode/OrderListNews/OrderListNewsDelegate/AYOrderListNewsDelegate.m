@@ -13,6 +13,7 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
+#import "AYControllerActionDefines.h"
 
 #import "AYNoContentCell.h"
 
@@ -138,11 +139,18 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
-		
-	} else {
-		
-	}
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
