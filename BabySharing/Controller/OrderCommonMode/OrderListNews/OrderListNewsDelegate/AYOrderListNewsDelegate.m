@@ -17,10 +17,10 @@
 #import "AYNoContentCell.h"
 
 @implementation AYOrderListNewsDelegate {
-	NSDictionary *querydata;
+	NSArray *querydata;
 	
-	NSArray *waitArrData;
-	NSArray *estabArrData;
+//	NSArray *waitArrData;
+//	NSArray *estabArrData;
 }
 
 @synthesize para = _para;
@@ -50,25 +50,25 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(NSDictionary*)info {
+- (id)changeQueryData:(id)info {
 	querydata = info;
-	waitArrData = [querydata objectForKey:@"wait"];
-	estabArrData = [querydata objectForKey:@"confirm"];
+//	waitArrData = [querydata objectForKey:@"wait"];
+//	estabArrData = [querydata objectForKey:@"confirm"];
 	return nil;
 }
 
 #pragma mark -- table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//	return 2;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	
-	if (section == 0) {
-		return waitArrData.count;
-	} else {
-		return estabArrData.count == 0 ? 1 : estabArrData.count;
-	}
+//	if (section == 0) {
+//		return waitArrData.count;
+//	} else {
+//	}
+	return querydata.count == 0 ? 1 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,62 +76,51 @@
 	NSString* class_name;
 	id<AYViewBase> cell;
 	id tmp ;
-	if (indexPath.section == 0) {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		tmp = [waitArrData objectAtIndex:indexPath.row];
+//	if (indexPath.section == 0) {
+//		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//		tmp = [waitArrData objectAtIndex:indexPath.row];
+//		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+//		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+//		
+//		cell.controller = self.controller;
+//		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+//		((UITableViewCell*)cell).clipsToBounds = YES;
+//		return (UITableViewCell*)cell;
+//		
+//	} else {
+//		
+//	}
+	if (querydata.count == 0) {
+		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
+		if (!cell) {
+			cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
+		}
+		cell.titleStr = @"您没有新的动态";
+		return cell;
+	} else {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		tmp = [querydata objectAtIndex:indexPath.row];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 		
 		cell.controller = self.controller;
 		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 		((UITableViewCell*)cell).clipsToBounds = YES;
 		return (UITableViewCell*)cell;
-		
-	} else {
-		if (estabArrData.count == 0) {
-			AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
-			if (!cell) {
-				cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
-			}
-			cell.titleStr = @"您还没有动态";
-			return cell;
-		} else {
-			class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-			tmp = [estabArrData objectAtIndex:indexPath.row];
-			kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-			
-			cell.controller = self.controller;
-			((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-			((UITableViewCell*)cell).clipsToBounds = YES;
-			return (UITableViewCell*)cell;
-		}
-		
 	}
 	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-		
-	if (indexPath.section == 0) {
-		return 100.f;
-	} else {
-		
-		return 160.f;
-	}
+	
+	return 160.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools garyBackgroundColor];
 	headView.clipsToBounds = YES;
-	NSString *titleStr ;
-	
-	if (section == 0) {
-		titleStr = @"等待服务者接单：";
-	} else {
-		titleStr = @"全部动态";
-	}
+	NSString *titleStr = @"最近提醒：";
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
@@ -144,15 +133,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
-		if (waitArrData.count == 0) {
-			return 0.001f;
-		} else
-			return 50.f;
-		
-	} else {
-		return 50.f;
-	}
+	
+	return 50.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -164,7 +146,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 1 && estabArrData.count == 0) {
+	if ( querydata.count == 0) {
 		return NO;
 	} else {
 		return YES;

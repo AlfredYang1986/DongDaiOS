@@ -85,6 +85,8 @@
 		make.left.equalTo(title);
 		make.top.equalTo(title.mas_bottom).offset(18);
 	}];
+	leastNews.userInteractionEnabled = YES;
+	[leastNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didLeastNewsTap)]];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
 	id obj = (id)delegate;
@@ -138,6 +140,28 @@
 }
 
 #pragma mark -- actions
+- (void)didLeastNewsTap {
+	id<AYCommand> des;
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	
+	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
+		//		des = DEFAULTCONTROLLER(@"OrderInfoPage");
+		//		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
+		des = DEFAULTCONTROLLER(@"OrderListNews");
+		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+	} else {
+		des = DEFAULTCONTROLLER(@"OrderListNews");
+		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+	}
+	
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+}
+
 - (void)didAllNewsBtnClick:(UIButton*)btn {
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderListNews");

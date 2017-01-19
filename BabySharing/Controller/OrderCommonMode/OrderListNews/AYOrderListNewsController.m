@@ -19,7 +19,7 @@
 
 @implementation AYOrderListNewsController {
 	
-	NSDictionary *order_info;
+	NSArray *orderData;
 }
 
 #pragma mark -- commands
@@ -27,7 +27,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		order_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		orderData = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 //		@"wait"];
 //		[tmp setValue:result_status_confirm forKey:@"confirm"];
@@ -54,7 +54,7 @@
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	id tmp = [order_info copy];
+	id tmp = [orderData copy];
 	kAYDelegatesSendMessage(@"OrderListNews", @"changeQueryData:", &tmp)
 	
 }
