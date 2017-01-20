@@ -66,6 +66,7 @@
 		
 		ownerPhoto = [[UIImageView alloc]init];
 		ownerPhoto.image = IMGRESOURCE(@"default_user");
+		ownerPhoto.contentMode = UIViewContentModeScaleAspectFill;
 		[Tools setViewBorder:ownerPhoto withRadius:22.5f andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
 		[self addSubview:ownerPhoto];
 		[ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
