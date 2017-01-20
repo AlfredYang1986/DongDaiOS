@@ -24,6 +24,8 @@
 #define bookBtnTitleNormal  @"查看可预约时间"
 #define bookBtnTitleSeted  @"申请预订"
 
+//#define CarouseNumb			
+
 @implementation AYPersonalPageController {
     NSDictionary *service_info;
     
@@ -38,6 +40,13 @@
     UIView *flexibleView;
     SDCycleScrollView *cycleScrollView;
 	
+	/****/
+	UICollectionView *CarouselView;
+	UIPageControl *pageControl;
+	int carouselNumb;
+	CGFloat HeadViewHeight;
+	/****/
+	
 //	UIButton *bookBtn;
 	UILabel *bookBtn;
 	NSArray *setedTimesArr;
@@ -51,7 +60,8 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         service_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -60,10 +70,55 @@
     }
 }
 
+#pragma mark --<UICollectionViewDataSource,UICollectionViewDelegate>
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return carouselNumb;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CarouselCell" forIndexPath:indexPath];
+	cell.backgroundColor = [UIColor clearColor];
+	[cell.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	
+	UIImageView *tipView = [[UIImageView alloc]init];
+	tipView.contentMode = UIViewContentModeScaleAspectFill;
+	NSArray *images = [service_info objectForKey:@"images"];
+	if ([[images firstObject] isKindOfClass:[NSString class]]) {
+		
+		id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
+		AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
+		NSString *PRE = cmd_load.route;
+		[tipView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [images objectAtIndex:indexPath.row]]] placeholderImage:IMGRESOURCE(@"default_image")];
+		
+	} else {
+		
+		tipView.image = [images objectAtIndex:indexPath.row];
+	}
+	
+	[cell addSubview:tipView];
+	tipView.frame = cell.bounds;
+	return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+		return CGSizeMake(SCREEN_WIDTH, HeadViewHeight);
+}
+
+//设置页码
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	
+	int page = (int)(scrollView.contentOffset.x / SCREEN_WIDTH + 0.5)%carouselNumb;
+	pageControl.currentPage = page;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools whiteColor];
-    
+	
+	HeadViewHeight = 250;
+	
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
@@ -95,7 +150,8 @@
     
     NSString* class_name_06 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_class performWithResult:&class_name_06];
-    
+	
+	/*********************************************/
     {
         UITableView *tableView = (UITableView*)view_table;
         flexibleView = [[UIView alloc]init];
@@ -105,35 +161,37 @@
             make.centerX.equalTo(tableView);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
         }];
-        
-        NSArray *images = [service_info objectForKey:@"images"];
-        if ([[images firstObject] isKindOfClass:[NSString class]]) {
-            
-            id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
-            NSString *PRE = cmd_load.route;
-            NSMutableArray *tmp = [NSMutableArray array];
-            for (int i = 0; i < images.count; ++i) {
-                NSString *obj = images[i];
-                obj = [PRE stringByAppendingString:obj];
-                [tmp addObject:obj];
-            }
-            
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) delegate:self placeholderImage:IMGRESOURCE(@"default_image")];
-            cycleScrollView.imageURLStringsGroup = [tmp copy];
-        } else {
-            
-            cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) shouldInfiniteLoop:YES imageNamesGroup:[service_info objectForKey:@"images"]];
-            cycleScrollView.localizationImageNamesGroup = [service_info objectForKey:@"images"];
-            cycleScrollView.delegate = self;
-        }
-        
-        cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
-        cycleScrollView.currentPageDotColor = [Tools themeColor];
-        cycleScrollView.pageControlDotSize = CGSizeMake(10, 10);
-        [flexibleView addSubview:cycleScrollView];
-        cycleScrollView.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        cycleScrollView.autoScrollTimeInterval = 99999.0;   //99999秒 滚动一次 ≈ 不自动滚动
+		
+		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+		layout.itemSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
+		layout.minimumLineSpacing = 0.f;
+		layout.minimumInteritemSpacing = 0.f;
+		layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:layout];
+		CarouselView.backgroundColor = [UIColor clearColor];
+		CarouselView.delegate = self;
+		CarouselView.dataSource = self;
+		[CarouselView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CarouselCell"];
+		CarouselView.pagingEnabled = YES;
+		CarouselView.showsHorizontalScrollIndicator = NO;
+		CarouselView.showsVerticalScrollIndicator = NO;
+		CarouselView.bounces = NO;
+		[flexibleView addSubview:CarouselView];
+		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(flexibleView);
+		}];
+		
+		pageControl = [[UIPageControl alloc]init];
+		pageControl.numberOfPages = carouselNumb;
+		CGSize size = [pageControl sizeForNumberOfPages:carouselNumb];
+		pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+		pageControl.currentPageIndicatorTintColor = [Tools themeColor];
+		[flexibleView addSubview:pageControl];
+		[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(flexibleView).offset(-10);
+			make.centerX.equalTo(flexibleView);
+			make.size.mas_equalTo(size);
+		}];
 		
         UIImageView *topMaskVeiw = [[UIImageView alloc]init];
         topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
@@ -170,15 +228,7 @@
         
         BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
         bar_like_btn.selected = collectionBtn.selected = isLike;
-        
-//        UILabel *costLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[UIColor colorWithWhite:0.f alpha:0.6f] andTextAlignment:NSTextAlignmentCenter];
-//        [flexibleView addSubview:costLabel];
-//        [costLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(flexibleView);
-//            make.bottom.equalTo(flexibleView).offset(-15);
-//            make.size.mas_equalTo(CGSizeMake(125, 35));
-//        }];
-//        costLabel.text = [NSString stringWithFormat:@"¥ %.f／小时",((NSString*)[service_info objectForKey:@"price"]).floatValue];
+		
     }
     
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
@@ -189,20 +239,8 @@
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
     [self.view bringSubviewToFront:(UINavigationBar*)navBar];
     ((UINavigationBar*)navBar).alpha = 0;
-    
-    /*
-     shareBtn = [[UIButton alloc]init];
-    [shareBtn setImage:IMGRESOURCE(@"service_share") forState:UIControlStateNormal];
-    [self.view addSubview:shareBtn];
-    [self.view bringSubviewToFront:shareBtn];
-    [shareBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.view).offset(-20);
-        make.centerY.equalTo(self.view.mas_top).offset(kFlexibleHeight);
-        make.size.mas_equalTo(CGSizeMake(52, 52));
-    }];
-    [shareBtn addTarget:self action:@selector(didShareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-     */
-    
+	
+	/***************************************/
     NSNumber *per_mode = [service_info objectForKey:@"perview_mode"];
     if (!per_mode) {
         
@@ -278,7 +316,7 @@
 		
 //        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
 //		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-//		[Tools setViewRadius:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 //        [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
 		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
@@ -397,16 +435,18 @@
         }];
     }
     
-//    CGFloat offsetH = kFlexibleHeight + offset_y;
-//    if (offsetH < 0) {
-//        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-//        UITableView *tableView = (UITableView*)view_notify;
-//        [flexibleView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(tableView);
-//            make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight - offsetH));
-//        }];
-//    }
+    CGFloat offsetH = kFlexibleHeight + offset_y;
+    if (offsetH < 0) {
+        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+        UITableView *tableView = (UITableView*)view_notify;
+        [flexibleView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(tableView);
+            make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight - offsetH));
+        }];
+		HeadViewHeight = kFlexibleHeight - offsetH;
+		[CarouselView reloadData];
+    }
 	
     return nil;
 }
@@ -482,128 +522,6 @@
 	[self showServiceOfferDate];
 }
 
-//- (void)didBookBtnClick:(UITapGestureRecognizer*)tap {
-//	
-//	UIView *tapView = tap.view;
-//	if ([((UILabel*)tapView).text isEqualToString:bookBtnTitleNormal]) {
-//		[self showServiceOfferDate];
-//	}
-//	else {
-//		
-//		NSDictionary* user = nil;
-//		CURRENPROFILE(user);
-//		NSString *user_id = [user objectForKey:@"user_id"];
-//		NSString *owner_id = [service_info objectForKey:@"owner_id"];
-//		if ([user_id isEqualToString:owner_id]) {
-//			
-//			NSString *title = @"该服务是您自己发布";
-//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//			return;
-//		}
-//		
-//		NSMutableArray *orderTimeSpans = [NSMutableArray array];
-//		
-//		NSDate *nowDate = [NSDate date];
-//		NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-//		NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-//		[calendar setTimeZone: timeZone];
-//		NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-//		NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-//		NSInteger weekdaySep = theComponents.weekday - 1;
-//		
-//		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
-//			NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-//			[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//				NSNumber *select_pow = [obj objectForKey:@"select_pow"];
-//				int compA = select_pow.intValue;
-//				if (compA&1) {
-//					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
-//					[orderTimeSpans addObject:tmpSpan];
-//				}
-//				if (compA&2) {
-//					NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
-//					[orderTimeSpans addObject:tmpSpan];
-//				}
-//			}];
-//		}];
-//		
-//		NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-//		[tmp setValue:[orderTimeSpans copy] forKey:@"order_times"];
-//		[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
-//		
-//		/**
-//		 * 2. check profile has_phone, if not, go confirmNoConsumer
-//		 */
-//		if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
-//			
-//			id<AYCommand> des = DEFAULTCONTROLLER(@"BOrderMain");
-//			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-//			
-//			id<AYCommand> cmd_show_module = PUSH;
-//			[cmd_show_module performWithResult:&dic];
-//			
-//		} else {
-//			id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNoConsumer");
-//			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-//			
-//			id<AYCommand> cmd_show_module = PUSH;
-//			[cmd_show_module performWithResult:&dic];
-//		}
-//	}//
-//}
-
-- (NSDictionary*)transTimeSpanWithDic:(NSDictionary*)dic_time andDate:(NSDate*)now andDay:(NSNumber*)day andweektoday:(NSInteger)weekday andMultiple:(NSInteger)multiple {
-	
-	NSTimeInterval nowSpan = now.timeIntervalSince1970;
-	NSNumber *time_start = [dic_time objectForKey:kAYServiceArgsStart];
-	NSNumber *time_end = [dic_time objectForKey:kAYServiceArgsEnd];
-	
-	// (weekday + x ) % 7 = "day"    x=?
-	int lag;
-	for (int i = 0; i < 8; ++i) {
-		if ((weekday + i ) % 7 == day.intValue) {
-			lag = i;
-			break ;
-		}
-	}
-	
-	NSTimeInterval transDaySpan = nowSpan + (lag + multiple*7) * 86400;
-	NSDate *transDayDate = [NSDate dateWithTimeIntervalSince1970:transDaySpan];
-	NSDateFormatter *form = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
-	NSString *transDayStr = [form stringFromDate:transDayDate];
-	
-	NSMutableString *tmp = [NSMutableString stringWithFormat:@"%@", time_start];
-	[tmp insertString:@":" atIndex:tmp.length - 2];
-	NSString *startTimeStr = [NSString stringWithFormat:@"%@ %@", transDayStr, tmp];
-	
-	tmp = [NSMutableString stringWithFormat:@"%@", time_end];
-	[tmp insertString:@":" atIndex:tmp.length - 2];
-	NSString *endTimeStr = [NSString stringWithFormat:@"%@ %@", transDayStr, tmp];
-	
-	NSDateFormatter *formTime = [Tools creatDateFormatterWithString:@"yyyy-MM-dd H:mm"];
-	
-	NSDate *startTimeDate = [formTime dateFromString:startTimeStr];
-	NSDate *endTimeDate = [formTime dateFromString:endTimeStr];
-	
-	NSTimeInterval startTimeSpan = startTimeDate.timeIntervalSince1970;
-	NSTimeInterval endTimeSpan = endTimeDate.timeIntervalSince1970;
-	
-	NSMutableDictionary *dic_timespan = [[NSMutableDictionary alloc]init];
-	[dic_timespan setValue:[NSNumber numberWithDouble:startTimeSpan * 1000] forKey:kAYServiceArgsStart];
-	[dic_timespan setValue:[NSNumber numberWithDouble:endTimeSpan * 1000] forKey:kAYServiceArgsEnd];
-	
-	return dic_timespan;
-}
-
 - (void)didChatBtnClick:(UIButton*)btn{
     NSDictionary* user = nil;
     CURRENUSER(user);
@@ -631,12 +549,6 @@
     id<AYCommand> cmd_show_module = PUSH;
     [cmd_show_module performWithResult:&dic];
     
-}
-
-//
--(void)didShareBtnClick:(UIButton*)btn{
-    NSString *title = @"暂不支持该功能";
-    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 }
 
 -(void)didCollectionBtnClick:(UIButton*)btn{
