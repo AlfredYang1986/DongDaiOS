@@ -188,7 +188,7 @@
 	NSString *startStr = [formatterTime stringFromDate:startDate];
 	NSString *endStr = [formatterTime stringFromDate:endDate];
 	
-	dateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@",dayStr,startStr,endStr];
+	dateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@",dayStr, startStr, endStr];
 	
 	OrderStatus OrderStatus = ((NSNumber*)[args objectForKey:@"status"]).intValue;
 	switch (OrderStatus) {
