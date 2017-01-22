@@ -20,6 +20,8 @@
 @implementation AYFilterThemeController {
 	NSMutableDictionary *dic_theme;
 	UIButton *noteBtn;
+	
+	NSDictionary *filterInfo;
 }
 
 #pragma mark -- commands
@@ -28,7 +30,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		
+		filterInfo = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -40,7 +42,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.automaticallyAdjustsScrollViewInsets = NO;
 	
 	id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
 	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"FilterTheme"];
@@ -56,7 +57,10 @@
 	NSString* class_name_tip = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"FilterThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name_tip];
 	
-	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"搜索" andTitleColor:[Tools whiteColor] andFontSize:-20.f andBackgroundColor:[Tools themeColor]];
+	id tmp = [filterInfo copy];
+	kAYDelegatesSendMessage(@"FilterTheme", kAYDelegateChangeDataMessage, &tmp)
+	
+	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"查看" andTitleColor:[Tools whiteColor] andFontSize:-20.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:doFilterBtn];
 	[doFilterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
@@ -89,8 +93,11 @@
 	UIImage *left = IMGRESOURCE(@"content_close");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
+	UIButton *right = [Tools creatUIButtonWithTitle:@"重置" andTitleColor:[Tools themeColor] andFontSize:-16.f andBackgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &right)
+	
+//	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	return nil;
 }
 
@@ -123,24 +130,35 @@
 }
 
 - (id)rightBtnSelected {
-	
+	[dic_theme removeAllObjects];
+	[dic_theme setValue:@"服务主题" forKey:@"title"];
+	[dic_theme setValue:@"filterTheme" forKey:@"key"];
+	noteBtn = nil;
+	id tmp;
+	kAYDelegatesSendMessage(@"FilterTheme", kAYDelegateChangeDataMessage, &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	return nil;
 }
 
 - (id)didSelectedOpt:(NSDictionary*)args {
 	
 	UIButton *btn = [args objectForKey:@"option_btn"];
-	btn.selected = YES;
-	if (noteBtn) {
+	btn.selected = !btn.selected;
+	
+	if (btn.selected) {
+		
+		dic_theme = [args mutableCopy];
+		[dic_theme removeObjectForKey:@"option_btn"];
+		[dic_theme setValue:@"filterTheme" forKey:@"key"];
+		
 		noteBtn.selected = NO;
 		noteBtn = btn;
 	} else {
-		noteBtn = btn;
+		[dic_theme removeAllObjects];
+		[dic_theme setValue:@"服务主题" forKey:@"title"];
+		[dic_theme setValue:@"filterTheme" forKey:@"key"];
+		noteBtn = nil;
 	}
-	
-	dic_theme = [args mutableCopy];
-	[dic_theme removeObjectForKey:@"option_btn"];
-	[dic_theme setValue:@"filterTheme" forKey:@"key"];
 	
 	return nil;
 }

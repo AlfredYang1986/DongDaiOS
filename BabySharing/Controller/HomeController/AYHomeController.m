@@ -96,9 +96,11 @@ typedef void(^queryContentFinish)(void);
 				
 			}
 			else if ([key isEqualToString:@"filterTheme"]) {
-				themeCatlabel.text = [backArgs objectForKey:@"title"];
+				
 				search_cansCat = [backArgs objectForKey:kAYServiceArgsTheme];
 				search_servCat = [backArgs objectForKey:kAYServiceArgsServiceCat];
+				
+					themeCatlabel.text = [backArgs objectForKey:@"title"];
 			}
 			[self loadNewData];
 		}
@@ -272,6 +274,11 @@ typedef void(^queryContentFinish)(void);
 	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	[tmp setValue:search_cansCat forKey:kAYServiceArgsTheme];
+	[tmp setValue:search_servCat forKey:kAYServiceArgsServiceCat];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = SHOWMODULEUP;
 	[cmd_show_module performWithResult:&dic];

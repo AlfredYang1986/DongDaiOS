@@ -121,6 +121,7 @@
 	[tmp setValue:btn forKey:@"option_btn"];
 	id<AYCommand> cmd = [self.notifies objectForKey:@"didSelectedOpt:"];
 	[cmd performWithResult:&tmp];
+	
 }
 
 
@@ -129,6 +130,9 @@
 	
 	titleLabel.text = [args objectForKey:@"title"];
 	dic_theme = args;
+	
+	optionBtn.selected = ((NSNumber*)[args objectForKey:@"is_selected"]).boolValue;
+	
 	return nil;
 }
 

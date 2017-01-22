@@ -21,6 +21,7 @@
 	NSArray *titleArr_course;
 	NSArray *titleArr_lookafter;
 	
+	NSDictionary *filterInfo;
 }
 
 #pragma mark -- command
@@ -51,16 +52,7 @@
 }
 
 - (id)changeQueryData:(id)args {
-//	if ([args isKindOfClass:[NSArray class]]) {
-//		
-//		query_data = [NSArray arrayWithArray:args];
-//	} else if ([args isKindOfClass:[NSDictionary class]]) {
-//		
-//		dic_location = args;
-//	} else if ([args isEqualToString:@"remove"]) {
-//		
-//		dic_location = nil;
-//	}
+	filterInfo = args;
 	return nil;
 }
 
@@ -91,6 +83,12 @@
 	}
 	[tmp setValue:[NSNumber numberWithInteger:indexPath.section] forKey:kAYServiceArgsServiceCat];
 	[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:kAYServiceArgsTheme];
+	
+	NSNumber *service_cat = [filterInfo objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *theme_cat = [filterInfo objectForKey:kAYServiceArgsTheme];
+	BOOL isFilterOpt = service_cat && service_cat.floatValue == indexPath.section  && theme_cat && theme_cat.floatValue == indexPath.row;
+	[tmp setValue:[NSNumber numberWithBool:isFilterOpt] forKey:@"is_selected"];
+	
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;

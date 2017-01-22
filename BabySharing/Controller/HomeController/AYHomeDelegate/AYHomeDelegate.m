@@ -114,6 +114,7 @@
 //		if (cell == nil) {
 //			cell = [[HomeTopTipCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentfier];
 //		}
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		return cell;
 	} else {
 	
@@ -136,6 +137,8 @@
 		return 335;
     }
 }
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {

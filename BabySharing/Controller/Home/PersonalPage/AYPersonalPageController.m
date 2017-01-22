@@ -163,11 +163,10 @@
         }];
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-		layout.itemSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
 		layout.minimumLineSpacing = 0.f;
 		layout.minimumInteritemSpacing = 0.f;
 		layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) collectionViewLayout:layout];
+		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, HeadViewHeight) collectionViewLayout:layout];
 		CarouselView.backgroundColor = [UIColor clearColor];
 		CarouselView.delegate = self;
 		CarouselView.dataSource = self;
