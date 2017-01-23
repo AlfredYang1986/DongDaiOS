@@ -191,6 +191,7 @@
 			make.centerX.equalTo(flexibleView);
 			make.size.mas_equalTo(size);
 		}];
+		pageControl.hidden = carouselNumb == 1;
 		
         UIImageView *topMaskVeiw = [[UIImageView alloc]init];
         topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");

@@ -95,15 +95,10 @@
 
 - (id)scrollToPostion:(id)obj {
 #pragma mark -- only use for HomeCell or get position errors
-    NSDictionary* dic = (NSDictionary*)obj;
-    NSInteger row = ((NSNumber*)[dic objectForKey:@"row"]).integerValue;
-   
-    id<AYViewBase> cell = VIEW(kAYHomeCellName, kAYHomeCellName);
-    id<AYCommand> cmd = [cell.commands objectForKey:@"queryContentCellHeight"];
-    NSNumber* result = nil;
-    [cmd performWithResult:&result];
-   
-    [self setContentOffset:CGPointMake(0, row * result.floatValue)];
+	
+	NSNumber *offsetY = obj;
+    [self setContentOffset:CGPointMake(0, offsetY.floatValue)];
+	
     return nil;
 }
 

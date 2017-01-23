@@ -103,6 +103,8 @@ typedef void(^queryContentFinish)(void);
 					themeCatlabel.text = [backArgs objectForKey:@"title"];
 			}
 			[self loadNewData];
+			NSNumber *height = [NSNumber numberWithFloat:0.f];
+			kAYViewsSendMessage(kAYTableView, @"scrollToPostion:", &height)
 		}
 			
     }

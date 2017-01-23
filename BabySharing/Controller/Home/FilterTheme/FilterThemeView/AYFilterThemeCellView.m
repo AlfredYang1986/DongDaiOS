@@ -131,7 +131,11 @@
 	titleLabel.text = [args objectForKey:@"title"];
 	dic_theme = args;
 	
-	optionBtn.selected = ((NSNumber*)[args objectForKey:@"is_selected"]).boolValue;
+	BOOL is_selected = ((NSNumber*)[args objectForKey:@"is_selected"]).boolValue;
+	if (is_selected) {
+		
+		[self didOptionBtnClick:optionBtn];
+	}
 	
 	return nil;
 }
