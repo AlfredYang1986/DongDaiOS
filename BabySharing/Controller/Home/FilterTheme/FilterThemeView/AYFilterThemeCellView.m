@@ -135,6 +135,8 @@
 	if (is_selected) {
 		
 		[self didOptionBtnClick:optionBtn];
+	} else {
+		optionBtn.selected = NO;
 	}
 	
 	return nil;
