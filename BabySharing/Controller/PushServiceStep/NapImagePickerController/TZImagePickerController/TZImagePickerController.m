@@ -94,7 +94,7 @@
         self.allowPickingVideo = NO;
         self.allowPickingImage = YES;
         self.allowTakePicture = YES;
-        self.timeout = 15;
+        self.timeout = 30;
         self.photoWidth = 828.0;
         self.photoPreviewMaxWidth = 600;
         
@@ -126,7 +126,7 @@
     if (self) {
         self.selectedAssets = [NSMutableArray arrayWithArray:selectedAssets];
         self.allowPickingOriginalPhoto = YES;
-        self.timeout = 15;
+        self.timeout = 30;
         self.photoWidth = 828.0;
         self.maxImagesCount = selectedAssets.count;
         self.photoPreviewMaxWidth = 600;
@@ -261,7 +261,7 @@
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
-    if (iOS7Later) viewController.automaticallyAdjustsScrollViewInsets = NO;
+    viewController.automaticallyAdjustsScrollViewInsets = NO;
     if (_timer) { [_timer invalidate]; _timer = nil;}
     
     if (self.childViewControllers.count > 0) {
