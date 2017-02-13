@@ -58,4 +58,7 @@
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;
 + (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg;
+
+#pragma mark -- service SKU -> real name
++ (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary*)service_info;
 @end

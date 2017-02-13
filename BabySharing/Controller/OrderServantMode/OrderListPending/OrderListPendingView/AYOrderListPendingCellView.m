@@ -160,7 +160,15 @@
 					 placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	
-	NSString *titleStr = [NSString stringWithFormat:@"%@·%@", [order_info objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
+	NSString *orderID = [order_info objectForKey:@"order_id"];
+	orderID = [orderID uppercaseString];
+	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
+	
+	service_info = [order_info objectForKey:@"service"];
+	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
+	
+	NSString *aplyName = [order_info objectForKey:kAYServiceArgsScreenName];
+	NSString *titleStr = [NSString stringWithFormat:@"%@申请预订%@", aplyName, completeTheme];
 	if (titleStr && ![titleStr isEqualToString:@""]) {
 		titleLabel.text = titleStr;
 	}

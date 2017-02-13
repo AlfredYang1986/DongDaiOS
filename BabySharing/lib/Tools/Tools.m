@@ -676,4 +676,55 @@
     *pImg = [UIImage imageWithCGImage:btm];
     return [UIImage imageWithCGImage:top];
 }
+
++ (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary *)service_info {
+	NSString *completeTheme;
+	NSArray *options_title_cans;
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
+	
+	if (service_cat.intValue == ServiceTypeLookAfter) {
+		
+		options_title_cans = kAY_service_options_title_lookafter;
+		//kangu 服务主题分类
+		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
+			completeTheme = @"待调整主题服务";
+		} else {
+			completeTheme = options_title_cans[cans_cat.integerValue];
+		}
+		
+	}
+	else if (service_cat.intValue == ServiceTypeCourse) {
+		
+		NSString *servCatStr = @"课程";
+		options_title_cans = kAY_service_options_title_course;
+		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
+		//kecheng服务主题分类
+		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
+			completeTheme = @"待调整主题服务";
+		}
+		else {
+			
+			NSString *costomStr = [service_info objectForKey:kAYServiceArgsCourseCoustom];
+			if (costomStr && ![costomStr isEqualToString:@""]) {
+				completeTheme = [NSString stringWithFormat:@"%@%@", costomStr, servCatStr];
+				
+			} else {
+				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
+				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
+				if (cans.integerValue < signTitleArr.count) {
+					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
+					completeTheme = [NSString stringWithFormat:@"%@%@", courseSignStr, servCatStr];
+				} else {
+					completeTheme = @"待调整主题服务";
+				}
+			}//是否自定义课程标签判断end
+		}
+	} else {
+		
+		NSLog(@"---null---");
+		completeTheme = @"待调整主题服务";
+	}
+	return completeTheme;
+}
 @end

@@ -63,21 +63,21 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
 	}];
 	
-	UILabel *title = [Tools creatUILabelWithText:@"最近日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *title = [Tools creatUILabelWithText:@"最近提醒" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:title];
 	[title mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(newsBoardView).offset(15);
 		make.top.equalTo(newsBoardView).offset(20);
 	}];
 	
-	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部动态" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
-	[newsBoardView addSubview:allNewsBtn];
-	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(title);
-		make.right.equalTo(newsBoardView).offset(-15);
-		make.size.mas_equalTo(CGSizeMake(70, 30));
-	}];
-	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部动态" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+//	[newsBoardView addSubview:allNewsBtn];
+//	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.centerY.equalTo(title);
+//		make.right.equalTo(newsBoardView).offset(-15);
+//		make.size.mas_equalTo(CGSizeMake(70, 30));
+//	}];
+//	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
 	leastNews = [Tools creatUILabelWithText:@"暂时没有新的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:leastNews];

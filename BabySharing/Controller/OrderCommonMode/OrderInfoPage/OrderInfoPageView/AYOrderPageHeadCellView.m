@@ -270,6 +270,10 @@
 		titleLabel.text = @"该服务类型待调整";
 	}
 	
+	NSString *orderID = [order_info objectForKey:@"order_id"];
+	orderID = [orderID uppercaseString];
+	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
+	
 	NSNumber *price = [order_info objectForKey:kAYOrderArgsTotalFee];
 	NSString *priceStr = [NSString stringWithFormat:@"¥ %@", price];
 	
