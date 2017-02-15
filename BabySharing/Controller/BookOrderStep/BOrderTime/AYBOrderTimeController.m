@@ -73,7 +73,7 @@
 		}
 	}
 	
-	NSTimeInterval transDaySpan = nowSpan + (lag + multiple*7) * 86400;
+	NSTimeInterval transDaySpan = nowSpan + (lag + multiple * 7) * 86400;
 	NSDate *transDayDate = [NSDate dateWithTimeIntervalSince1970:transDaySpan];
 	NSDateFormatter *form = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
 	NSString *transDayStr = [form stringFromDate:transDayDate];
@@ -290,7 +290,7 @@
 	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
 	NSInteger weekdaySep = theComponents.weekday - 1;
 	
-	[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[offer_date_mutable enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
 		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
 		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

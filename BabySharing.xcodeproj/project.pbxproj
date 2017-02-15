@@ -641,6 +641,8 @@
 		70FE611D1DF7B26800160239 /* AYEditServiceCapacityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE611C1DF7B26800160239 /* AYEditServiceCapacityDelegate.m */; };
 		800AF3BE1D74295B007C30AE /* AYPayWithWechatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3BD1D74295B007C30AE /* AYPayWithWechatCommand.m */; };
 		800AF3CA1D7436DF007C30AE /* AYWechatFuncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */; };
+		80198C3A1E5470FA00149F97 /* AYTimemanagementFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 80198C391E5470FA00149F97 /* AYTimemanagementFacade.m */; };
+		80198C3E1E54763800149F97 /* AYPushServiceTMProtocolCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80198C3D1E54763800149F97 /* AYPushServiceTMProtocolCommand.m */; };
 		802C6D2A1E28F3BF000D2741 /* AYHomeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802C6D291E28F3BF000D2741 /* AYHomeCellView.m */; };
 		802C6D2E1E28F3DB000D2741 /* AYHomeServPerCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802C6D2D1E28F3DB000D2741 /* AYHomeServPerCellView.m */; };
 		8048BFEA1D9CC4B90026436E /* LoginToken+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8048BFE71D9CC4B90026436E /* LoginToken+CoreDataClass.m */; };
@@ -2080,6 +2082,10 @@
 		800AF3C81D7436DF007C30AE /* AYWechatFuncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYWechatFuncHelper.h; sourceTree = "<group>"; };
 		800AF3C91D7436DF007C30AE /* AYWechatFuncHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYWechatFuncHelper.m; sourceTree = "<group>"; };
 		800AF3CB1D744237007C30AE /* AYSNSWechatDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYSNSWechatDefines.h; sourceTree = "<group>"; };
+		80198C381E5470FA00149F97 /* AYTimemanagementFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTimemanagementFacade.h; sourceTree = "<group>"; };
+		80198C391E5470FA00149F97 /* AYTimemanagementFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTimemanagementFacade.m; sourceTree = "<group>"; };
+		80198C3C1E54763800149F97 /* AYPushServiceTMProtocolCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushServiceTMProtocolCommand.h; sourceTree = "<group>"; };
+		80198C3D1E54763800149F97 /* AYPushServiceTMProtocolCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceTMProtocolCommand.m; sourceTree = "<group>"; };
 		802C6D281E28F3BF000D2741 /* AYHomeCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeCellView.h; sourceTree = "<group>"; };
 		802C6D291E28F3BF000D2741 /* AYHomeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeCellView.m; sourceTree = "<group>"; };
 		802C6D2B1E28F3DB000D2741 /* AYHomeCellDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AYHomeCellDefines.h; path = BabySharing/Controller/HomeController/AYHomeCellView/AYHomeCellDefines.h; sourceTree = SOURCE_ROOT; };
@@ -3382,6 +3388,7 @@
 		701D8A441CA7B9C200B5D4C1 /* LogicFacade */ = {
 			isa = PBXGroup;
 			children = (
+				80198C371E5470C600149F97 /* TimeManagement */,
 				704D48DE1DAE334800A69AF4 /* Alert */,
 				70A1A54A1D1D4A860063FC7F /* EM */,
 				702BD33A1CF55F700010F2BA /* Keyboard */,
@@ -7508,6 +7515,25 @@
 			path = WechatFuncHelper;
 			sourceTree = "<group>";
 		};
+		80198C371E5470C600149F97 /* TimeManagement */ = {
+			isa = PBXGroup;
+			children = (
+				80198C3B1E54762200149F97 /* pushServiceTMProtocol */,
+				80198C381E5470FA00149F97 /* AYTimemanagementFacade.h */,
+				80198C391E5470FA00149F97 /* AYTimemanagementFacade.m */,
+			);
+			path = TimeManagement;
+			sourceTree = "<group>";
+		};
+		80198C3B1E54762200149F97 /* pushServiceTMProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				80198C3C1E54763800149F97 /* AYPushServiceTMProtocolCommand.h */,
+				80198C3D1E54763800149F97 /* AYPushServiceTMProtocolCommand.m */,
+			);
+			path = pushServiceTMProtocol;
+			sourceTree = "<group>";
+		};
 		802C6D271E28F3BF000D2741 /* HomeCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -8089,6 +8115,7 @@
 				703B4D001DCC8BF700B1088C /* AYServiceCalendarCellView.m in Sources */,
 				700047611D9BDF98000AE1C9 /* AYRejectRealNameCommand.m in Sources */,
 				70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */,
+				80198C3A1E5470FA00149F97 /* AYTimemanagementFacade.m in Sources */,
 				700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */,
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
 				703C7E3F1DABA723003F58C1 /* WXSTransitionManager+SpreadAnimation.m in Sources */,
@@ -8278,6 +8305,7 @@
 				70125A131E0AA8390082C76B /* AYMapMatchDelegate.m in Sources */,
 				702F79E31E1258610062F2EA /* AYBOrderTimeItemView.m in Sources */,
 				70A27C001D0EBA3C00B131AB /* AYKidNapRemoteFacade.m in Sources */,
+				80198C3E1E54763800149F97 /* AYPushServiceTMProtocolCommand.m in Sources */,
 				80BB1ECD1D79538000B1E17A /* AYPopSplitAnimationCommand.m in Sources */,
 				7082F1E71D1D4E0D00E64496 /* AYEMEnterFrontCommand.m in Sources */,
 				70D228211D893ED500EF4211 /* AYOrderListController.m in Sources */,

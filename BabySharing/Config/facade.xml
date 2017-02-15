@@ -230,4 +230,8 @@
         <command type="Remote" name="QueryComments" />
         <command type="Remote" name="QueryComment" />
     </facade>
+    
+    <facade type="DefaultFacade" name="Timemanagement" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="PushServiceTMProtocol" />
+    </facade>
 </facades>

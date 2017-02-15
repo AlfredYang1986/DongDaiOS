@@ -169,6 +169,8 @@
     <command type="Module" name="NotifyFollowBtnInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ThumbsAndPushInit" factory="AYDefaultModuleFactory" />
     
+    <command type="Module" name="PushServiceTMProtocol" factory="AYDefaultModuleFactory" />
+    
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
     
