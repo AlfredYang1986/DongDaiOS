@@ -15,13 +15,10 @@
 #import "AYFactoryManager.h"
 
 #define BASICMARGIN                         8
-
 #define SNS_TOP_MARGIN                      130
-
 #define AREA_CODE_WIDTH                     66
 #define INPUT_TEXT_FIELD_HEIGHT             45.5
 #define INPUT_MARGIN                        10.5 //32.5
-
 #define TEXT_FIELD_LEFT_PADDING             10
 #define LINE_MARGIN                         5
 #define CODE_BTN_WIDTH                      80
@@ -31,17 +28,12 @@
 #define LOGIN_BTN_BOTTOM_MARGIN             40
 
 @implementation AYLandingInputNameView {
-    UIButton * area_code_btn;
-    UIButton * next_btn;
-    UIButton * confirm_btn;
-    
-    NSTimer* timer;
-    NSInteger seconds;
-    
+	
     /**/
     UIView  *inputView;
     UITextField *name_area;
 	UIImageView *checkIcon;
+	UIButton *nextBtn;
 	
 	BOOL isLegalName;
 }
@@ -77,7 +69,7 @@
     name_area.font = [UIFont boldSystemFontOfSize:20.f];
     name_area.textColor = [Tools themeColor];
     name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    name_area.placeholder = @"您的真实姓名或昵称";
+    name_area.placeholder = @"您的姓名";
     [inputView addSubview:name_area];
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(inputView);
@@ -85,6 +77,7 @@
         make.centerY.equalTo(inputView);
         make.height.equalTo(@40);
     }];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameTextFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:name_area];
 	
 	checkIcon = [[UIImageView alloc]init];
 	checkIcon.image = IMGRESOURCE(@"checked_icon_iphone");
@@ -98,7 +91,7 @@
 	}];
 	checkIcon.hidden = YES;
 	
-	UIButton *nextBtn = [[UIButton alloc]init];
+	nextBtn = [[UIButton alloc]init];
 	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
 	[self addSubview:nextBtn];
 	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,8 +126,9 @@
 
 - (void)didNextBtnClick {
 	
-	if (!isLegalName) {
-		NSString *title = @"姓名昵称仅限中英文";
+	if (!isLegalName || name_area.text.length < 1) {
+		[name_area resignFirstResponder];
+		NSString *title = @"1-32个字符,仅限中英文";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
@@ -144,32 +138,35 @@
 }
 
 #pragma mark -- handle
-- (void)nameTextFieldChanged:(UITextField*)tf {
-    
+- (void)nameTextFieldTextDidChange:(UITextField*)tf {
+	
+//	NSString *tmp = textField.text;
+//	if (![string isEqualToString:@""]) {
+//		tmp = [tmp stringByAppendingString:string];
+//	}
+//	else if([string isEqualToString:@""] && tmp.length != 0) {
+//		tmp = [tmp substringToIndex:tmp.length-1];
+//	}
+	NSString *tmp = name_area.text;
+	NSString *regex = @"[a-zA-Z\u4e00-\u9fa5]+";
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+	isLegalName = [pred evaluateWithObject:tmp];
+	checkIcon.hidden  = !isLegalName;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	if (![string isEqualToString:@""]) {
+	
+	NSString *tmp = textField.text;
+	if ([Tools bityWithStr:tmp] >= 32) {
 		
-		NSString *tmp = [textField.text stringByAppendingString:string];
-		
-		NSString *regex = @"[a-zA-Z\u4e00-\u9fa5]+";
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-		isLegalName = [pred evaluateWithObject:tmp];
-		checkIcon.hidden  = !isLegalName;
-		
-		if ([Tools bityWithStr:tmp] >= 32) {
-			
-			[name_area resignFirstResponder];
-			NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
-			return NO;
-		} else {
-			return YES;
-		}
+		[name_area resignFirstResponder];
+		NSString *title = @"1-32个字符,仅限中英文";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
+		return NO;
 	} else {
 		return YES;
 	}
+	
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

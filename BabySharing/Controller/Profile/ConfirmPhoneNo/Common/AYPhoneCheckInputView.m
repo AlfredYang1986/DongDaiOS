@@ -11,7 +11,6 @@
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "PhotoTagEnumDefines.h"
-
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -24,7 +23,7 @@
 #import "AYModel.h"
 
 #define TEXT_FIELD_LEFT_PADDING             10
-#define TimeZore                            30
+#define TimeZore                            60
 #define kPhoneNoLimit                       13
 
 @interface AYPhoneCheckInputView () <UITextFieldDelegate>
@@ -39,9 +38,10 @@
     
     UITextField *coder_area;
     UITextField *inputPhoneNo;
-    UILabel *count_timer;
-    
+	UIImageView *checkIcon;
+	
     UIButton *getCodeBtn;
+	UILabel *count_timer;
 }
 
 @synthesize para = _para;
@@ -51,74 +51,100 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    /* 电话号码 */
-    UIView *confirmPhoneView = self;
-    confirmPhoneView.backgroundColor = [UIColor clearColor];
+	
+	self.bounds = CGRectMake(0, 0, 0, 140);
+    self.backgroundColor = [UIColor clearColor];
     
-    inputPhoneNo = [[UITextField alloc]init];
-    inputPhoneNo.delegate = self;
-    inputPhoneNo.backgroundColor = [UIColor whiteColor];
-    inputPhoneNo.font = [UIFont systemFontOfSize:14.f];
-    inputPhoneNo.textColor = [Tools blackColor];
-    inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
-    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
-    inputPhoneNo.placeholder = @"输入手机号码";
-    UIView *padingView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 15, 1)];
-    inputPhoneNo.leftView = padingView;
-    inputPhoneNo.leftViewMode = UITextFieldViewModeAlways;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
-    [confirmPhoneView addSubview:inputPhoneNo];
-    [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(confirmPhoneView);
-        make.left.equalTo(confirmPhoneView);
-        make.right.equalTo(confirmPhoneView);
-        make.height.mas_equalTo(40);
-    }];
-    
-    /* 验证码 */
-    UIView *inputCodeView = [[UIView alloc]init];
-    [confirmPhoneView addSubview:inputCodeView];
-    [inputCodeView setBackgroundColor:[UIColor whiteColor]];
-    [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(confirmPhoneView);
-        make.left.equalTo(confirmPhoneView);
-        make.right.equalTo(confirmPhoneView);
-        make.height.mas_equalTo(40);
-    }];
-    
-    coder_area = [[UITextField alloc]init];
-    coder_area.delegate = self;
-    coder_area.backgroundColor = [UIColor clearColor];
-    coder_area.font = [UIFont systemFontOfSize:14.f];
-    coder_area.textColor = [Tools blackColor];
-    //    coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    coder_area.keyboardType = UIKeyboardTypeNumberPad;
-    coder_area.placeholder = @"输入动态密码";
-    [inputCodeView addSubview:coder_area];
-    [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputCodeView);
-        make.left.equalTo(inputCodeView).offset(15);
-        make.right.equalTo(inputCodeView).offset(-150);
-        make.height.equalTo(inputCodeView);
-    }];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:coder_area];
-    
-    /* 重新获取coder */
-    getCodeBtn = [[UIButton alloc]init];
-    [getCodeBtn setTitle:@"获取动态密码" forState:UIControlStateNormal];
-    [getCodeBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    [getCodeBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
-    getCodeBtn.enabled = NO;
-    getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    [getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [inputCodeView addSubview:getCodeBtn];
-    [getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(inputCodeView);
-        make.centerY.equalTo(inputCodeView);
-        make.size.mas_equalTo(CGSizeMake(110, 42));
-    }];
-    
-    
+	/* 电话号码 */
+	UIView *inputPhoneNoView = [[UIView alloc]init];
+	[self addSubview:inputPhoneNoView];
+	CGFloat phoneBgHeight = 60;
+	[inputPhoneNoView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self);
+		make.left.equalTo(self);
+		make.right.equalTo(self);
+		make.height.mas_equalTo(phoneBgHeight);
+	}];
+	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 40, 0.5) andColor:[Tools themeColor] inSuperView:inputPhoneNoView];
+	
+	UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:115.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	[inputPhoneNoView addSubview:phoneNo];
+	[phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(inputPhoneNoView);
+		make.left.equalTo(inputPhoneNoView);
+		make.size.mas_equalTo(CGSizeMake(60, 35));
+	}];
+	
+	checkIcon = [[UIImageView alloc]init];
+	checkIcon.image = IMGRESOURCE(@"checked_icon_iphone");
+	[inputPhoneNoView addSubview:checkIcon];
+	[checkIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(inputPhoneNoView);
+		make.centerY.equalTo(inputPhoneNoView);
+		make.size.mas_equalTo(CGSizeMake(18, 14));
+	}];
+	checkIcon.hidden = YES;
+	
+	inputPhoneNo = [[UITextField alloc]init];
+	inputPhoneNo.delegate = self;
+	inputPhoneNo.backgroundColor = [UIColor clearColor];
+	inputPhoneNo.font = [UIFont boldSystemFontOfSize:18.f];
+	inputPhoneNo.textColor = [Tools themeColor];
+	inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
+	//    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
+	inputPhoneNo.placeholder = @"手机号码";
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
+	[inputPhoneNoView addSubview:inputPhoneNo];
+	[inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(phoneNo.mas_right).offset(15);
+		make.right.equalTo(checkIcon.mas_left).offset(-10);
+		make.centerY.equalTo(inputPhoneNoView);
+		make.height.equalTo(@34);
+	}];
+	
+	/* 验证码 */
+	UIView *inputCodeView = [[UIView alloc]init];
+	[self addSubview:inputCodeView];
+	[inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(inputPhoneNoView.mas_bottom).offset(15);
+		make.left.equalTo(self);
+		make.width.equalTo(self);
+		make.height.mas_equalTo(phoneBgHeight);
+	}];
+	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 40, 0.5) andColor:[Tools themeColor] inSuperView:inputCodeView];
+	
+	coder_area = [[UITextField alloc]init];
+	coder_area.backgroundColor = [UIColor clearColor];
+	coder_area.font = [UIFont boldSystemFontOfSize:18.f];
+	coder_area.textColor = [Tools themeColor];
+	coder_area.keyboardType = UIKeyboardTypeNumberPad;
+	coder_area.delegate = self;
+	coder_area.placeholder = @"动态密码";
+	[inputCodeView addSubview:coder_area];
+	[coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(inputCodeView).offset(10);
+		make.right.equalTo(inputCodeView).offset(-150);
+		make.centerY.equalTo(inputCodeView);
+		make.height.equalTo(inputCodeView);
+	}];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:coder_area];
+	
+	/* 重新获取coder */
+	getCodeBtn = [[UIButton alloc]init];
+	[getCodeBtn setTitle:@"获取动态密码" forState:UIControlStateNormal];
+	[getCodeBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+	[getCodeBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
+	getCodeBtn.enabled = NO;
+	getCodeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+	[getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	[inputCodeView addSubview:getCodeBtn];
+	[getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(self);
+		make.centerY.equalTo(inputCodeView);
+		make.size.mas_equalTo(CGSizeMake(110, 42));
+	}];
+	
     timer = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                              target: self
                                            selector: @selector(timerRun:)
@@ -165,12 +191,16 @@
                 NSString *title = @"您输入了错误的电话号码";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
                 return;
-            }
+            } else
+				checkIcon.hidden = NO;
+			
             if (seconds == TimeZore || seconds == 0) {
                 getCodeBtn.enabled = YES;
             }
-        } else
-            getCodeBtn.enabled = NO;
+		} else {
+			getCodeBtn.enabled = NO;
+			checkIcon.hidden = YES;
+		}
     }
 }
 
@@ -220,6 +250,7 @@
         [getCodeBtn setTitle:@"重获动态密码" forState:UIControlStateNormal];
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             getCodeBtn.enabled = YES;
+			checkIcon.hidden = NO;
         }
     }
 }

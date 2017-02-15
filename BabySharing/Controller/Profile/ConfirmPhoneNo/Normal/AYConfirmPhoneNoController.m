@@ -46,38 +46,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     
-    UILabel *title = [[UILabel alloc]init];
-    title = [Tools setLabelWith:title andText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];
+    UILabel *title = [Tools creatUILabelWithText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(100);
-        make.centerX.equalTo(self.view);
+        make.left.equalTo(self.view).offset(20);
     }];
     
-    UILabel *descLabel = [[UILabel alloc]init];
-    descLabel = [Tools setLabelWith:descLabel andText:@"手机验证让您可以及时和每一位妈妈沟通" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    descLabel.numberOfLines = 2;
+    UILabel *descLabel = [Tools creatUILabelWithText:@"手机验证可以让您及时和家长沟通" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    descLabel.numberOfLines = 0;
     [self.view addSubview:descLabel];
     [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(title.mas_bottom).offset(15);
-        make.centerX.equalTo(title);
+        make.top.equalTo(title.mas_bottom).offset(8);
+        make.left.equalTo(title);
     }];
    
-    UIView* view = [self.views objectForKey:@"PhoneCheckInput"];
-    view.backgroundColor = [UIColor clearColor];
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIView* input_view = [self.views objectForKey:@"PhoneCheckInput"];
+    input_view.backgroundColor = [UIColor clearColor];
+    [input_view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(descLabel.mas_bottom).offset(50);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
-        make.height.mas_equalTo(90);
+        make.height.mas_equalTo(input_view.frame.size.height);
     }];
+	
+	UIButton *nextBtn = [[UIButton alloc]init];
+	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
+	[self.view addSubview:nextBtn];
+	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(input_view.mas_bottom).offset(30);
+		make.right.equalTo(input_view);
+		make.size.mas_equalTo(CGSizeMake(50, 50));
+	}];
+	[nextBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -100,17 +106,12 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor clearColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
-    
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+	
     return nil;
 }
 
