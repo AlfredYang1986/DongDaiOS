@@ -41,6 +41,9 @@
     /**/
     UIView  *inputView;
     UITextField *name_area;
+	UIImageView *checkIcon;
+	
+	BOOL isLegalName;
 }
 
 @synthesize para = _para;
@@ -49,60 +52,63 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
-    UILabel *tips = [[UILabel alloc]init];
-    tips = [Tools setLabelWith:tips andText:@"还有，您的姓名" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:22.f andBackgroundColor:nil andTextAlignment:1];
-    [self addSubview:tips];
-    [tips mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.centerX.equalTo(self);
-    }];
-    
+	
+	UILabel *tips = [Tools creatUILabelWithText:@"还有，您的姓名" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self addSubview:tips];
+	[tips mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self);
+		make.left.equalTo(self);
+	}];
+	
     /* 姓名 */
     inputView = [[UIView alloc]init];
     [self addSubview:inputView];
-    [inputView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
+	CGFloat inputBgHeight = 60;
     [inputView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tips.mas_bottom).offset(32);
+        make.top.equalTo(tips.mas_bottom).offset(15);
         make.left.equalTo(self);
         make.width.equalTo(self);
-        make.height.mas_equalTo(42);
+        make.height.mas_equalTo(inputBgHeight);
     }];
-    
-    CALayer *rule_layer = [CALayer layer];
-    rule_layer.frame = CGRectMake(15, 13, 1, 14);
-    rule_layer.backgroundColor = [Tools garyLineColor].CGColor;
-    [inputView.layer addSublayer:rule_layer];
-    
-//    UILabel *leftView = [[UILabel alloc]init];
-//    leftView.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
-//    leftView.text = @"姓 名";
-//    leftView.font = [UIFont systemFontOfSize:14.f];
-//    leftView.textColor = [Tools themeColor];
-//    leftView.textAlignment = NSTextAlignmentCenter;
-//    [inputView addSubview:leftView];
-//    [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(inputView);
-//        make.left.equalTo(inputView);
-//        make.size.mas_equalTo(CGSizeMake(96, 40));
-//    }];
-    
+	[Tools creatCALayerWithFrame:CGRectMake(0, inputBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputView];
+	
     name_area = [[UITextField alloc]init];
     name_area.delegate = self;
-    name_area.backgroundColor = [UIColor clearColor];
-    name_area.font = [UIFont systemFontOfSize:14.f];
-    name_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
+    name_area.font = [UIFont boldSystemFontOfSize:20.f];
+    name_area.textColor = [Tools themeColor];
     name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    name_area.placeholder = @"填写您的真实姓名或昵称";
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nameTextFieldChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    name_area.placeholder = @"您的真实姓名或昵称";
     [inputView addSubview:name_area];
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(inputView);
         make.right.equalTo(inputView);
-        make.top.equalTo(inputView);
-        make.left.equalTo(inputView).offset(30);
-        make.height.equalTo(inputView);
+        make.centerY.equalTo(inputView);
+        make.height.equalTo(@40);
     }];
-    
+	
+	checkIcon = [[UIImageView alloc]init];
+	checkIcon.image = IMGRESOURCE(@"checked_icon_iphone");
+	checkIcon.contentMode = UIViewContentModeCenter;
+	checkIcon.backgroundColor = [Tools whiteColor];
+	[self addSubview:checkIcon];
+	[checkIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(inputView);
+		make.top.equalTo(inputView);
+		make.size.mas_equalTo(CGSizeMake(27, inputBgHeight - 1));
+	}];
+	checkIcon.hidden = YES;
+	
+	UIButton *nextBtn = [[UIButton alloc]init];
+	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
+	[self addSubview:nextBtn];
+	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(inputView.mas_bottom).offset(70);
+		make.right.equalTo(self);
+		make.size.mas_equalTo(CGSizeMake(50, 50));
+	}];
+//	nextBtn.alpha = 0;
+	[nextBtn addTarget:self action:@selector(didNextBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -125,33 +131,45 @@
     [super layoutSubviews];
 }
 
+- (void)didNextBtnClick {
+	
+	if (!isLegalName) {
+		NSString *title = @"姓名昵称仅限中英文";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return;
+	}
+	
+	id<AYCommand> cmd = [self.notifies objectForKey:@"rightBtnSelected"];
+	[cmd performWithResult:nil];
+}
+
 #pragma mark -- handle
 - (void)nameTextFieldChanged:(UITextField*)tf {
     
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSString *tmp = textField.text;
-    if ([Tools bityWithStr:tmp] >= 32 && ![string isEqualToString:@""]){
-        
-        [name_area resignFirstResponder];
-        
-        NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
-//        id<AYControllerBase> controller = DEFAULTCONTROLLER(@"InputName");
-//        id<AYFacadeBase> f_alert = [controller.facades objectForKey:@"Alert"];
-        id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-        id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-        
-        NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-        [dic_alert setValue:title forKey:@"title"];
-        [dic_alert setValue:[NSNumber numberWithInt:1] forKey:@"type"];
-        [cmd_alert performWithResult:&dic_alert];
-        
-        return NO;
-    }
-    else {
-        return YES;
-    }
+	if (![string isEqualToString:@""]) {
+		
+		NSString *tmp = [textField.text stringByAppendingString:string];
+		
+		NSString *regex = @"[a-zA-Z\u4e00-\u9fa5]+";
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+		isLegalName = [pred evaluateWithObject:tmp];
+		checkIcon.hidden  = !isLegalName;
+		
+		if ([Tools bityWithStr:tmp] >= 32) {
+			
+			[name_area resignFirstResponder];
+			NSString *title = @"4-32个字符(汉字／大写字母长度为2)\n*仅限中英文";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
+			return NO;
+		} else {
+			return YES;
+		}
+	} else {
+		return YES;
+	}
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {

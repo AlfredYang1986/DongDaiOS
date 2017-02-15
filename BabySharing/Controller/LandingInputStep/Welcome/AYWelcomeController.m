@@ -56,7 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools themeColor];
+    self.view.backgroundColor = [Tools whiteColor];
    
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
     
@@ -68,8 +68,7 @@
         
     }
     
-    UILabel *welcome = [[UILabel alloc]init];
-    welcome = [Tools setLabelWith:welcome andText:@"最后一步，您的照片" andTextColor:[UIColor whiteColor] andFontSize:22.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *welcome = [Tools creatUILabelWithText:@"最后一步，您的照片" andTextColor:[Tools themeColor] andFontSize:22.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(WELCOMEY);
@@ -80,27 +79,23 @@
     UIView *photoView = (UIView*)photo_view;
     
     NSString *user_name = [_login_attr objectForKey:@"screen_name"];
-    UILabel *nameLabel = [[UILabel alloc]init];
-    nameLabel = [Tools setLabelWith:nameLabel andText:user_name andTextColor:[UIColor whiteColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *nameLabel = [Tools creatUILabelWithText:user_name andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(photoView.mas_bottom).offset(16);
         make.centerX.equalTo(self.view);
     }];
-    
-    enterBtn = [[UIButton alloc]init];
-    [enterBtn setBackgroundColor:[UIColor clearColor]];
-    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
-    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
-//    enterBtn.enabled = NO;
+	
+	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:enterBtn];
     [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(nameLabel.mas_bottom).offset(68);
+        make.top.equalTo(nameLabel.mas_bottom).offset(55);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(115, 40));
+        make.size.mas_equalTo(CGSizeMake(130, 45));
     }];
-    
+	
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     
@@ -124,16 +119,12 @@
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
-    view.backgroundColor = [Tools themeColor];
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
-    [cmd_left performWithResult:&left];
-    
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
+	
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
     return nil;
 }
 
@@ -199,7 +190,7 @@
                 [cmd performWithResult:&args];
                 
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络错误,请重试" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络错误,请退出重试" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
                 [alert show];
             }
         });
@@ -208,7 +199,12 @@
 
 - (void)updateUserProfile {
     NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
-    
+	if ([screen_photo isEqualToString:@""] && !_changeImage) {
+		NSString *title = @"请求真相!";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return;
+	}
+	
     //通用参数
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
     [dic_update setValue:[_login_attr objectForKey:@"screen_name"] forKey:@"screen_name"];
@@ -228,7 +224,7 @@
                 
                 [dic_update setValue:screen_photo forKey:@"screen_photo"];
                 [self updateProfileImpl:[dic_update copy]];
-            }else {
+            } else {
                 
                 NSString *title = @"真相上传失败!请改善网络环境重试";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

@@ -45,7 +45,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools themeColor];
+    self.view.backgroundColor = [Tools whiteColor];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -66,21 +66,16 @@
 #pragma mark -- views layouts
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 64);
-    view.backgroundColor = [Tools themeColor];
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_white");
-    [cmd_left performWithResult:&left];
-    
-    UIButton* bar_right_btn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [bar_right_btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bar_right_btn setTitle:@"" forState:UIControlStateNormal];
-    bar_right_btn.userInteractionEnabled = NO;
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 10.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
-    
+//    view.backgroundColor = [Tools themeColor];
+//	NSString *title = @"确认信息";
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -179,7 +174,7 @@
     return nil;
 }
 
--(id)reReqConfirmCode:(id)args{
+-(id)reReqConfirmCode:(id)args {
     NSDictionary *args_dic = (NSDictionary*)args;
     _phoneNo = [args_dic objectForKey:@"phoneNo"];
     
@@ -204,20 +199,12 @@
             id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
             NSNumber *is_reg = [result objectForKey:@"is_reg"];
             if (is_reg.intValue == 0) {
-                
-                UIButton *bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:nil];
-                [bar_right_btn sizeToFit];
-                bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 64 / 2);
-                kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-                
-                id<AYCommand> hide_cmd = [input.commands objectForKey:@"hideEnterBtnForNewUser"];
+				
+                id<AYCommand> hide_cmd = [input.commands objectForKey:@"showNextBtnForNewUser"];
                 [hide_cmd performWithResult:nil];
                 
             } else if (is_reg.intValue == 1) {
-                
-                NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-                kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
-                
+				
                 id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
                 [show_cmd performWithResult:nil];
             }
@@ -226,7 +213,7 @@
     return nil;
 }
 
--(id)queryCurPhoneNo:(NSString*)args{
+-(id)queryCurPhoneNo:(NSString*)args {
     return _phoneNo;
 }
 

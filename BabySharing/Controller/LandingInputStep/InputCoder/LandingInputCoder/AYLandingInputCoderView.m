@@ -27,13 +27,15 @@
     
     /**/
     UILabel *inputArea;
-    
+	UITextField *inputPhoneNo;
+	UIImageView *checkIcon;
+	
     UIView *inputCodeView;
     UITextField *coder_area;
-    UITextField *inputPhoneNo;
-    
+	
     UIButton *getCodeBtn;
     UIButton *enterBtn;
+	UIButton *nextBtn;
     
     BOOL isNewUser;
 }
@@ -44,128 +46,85 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    UILabel *tips = [[UILabel alloc]init];
-    tips = [Tools setLabelWith:tips andText:@"您的手机号码？" andTextColor:[UIColor colorWithWhite:1.f alpha:0.95f] andFontSize:24.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	
+    UILabel *tips = [Tools creatUILabelWithText:@"您的手机号码？" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
-        make.centerX.equalTo(self);
+        make.left.equalTo(self);
     }];
-    
-//    UIView *countryAreaView = [[UIView alloc]init];
-//    [self addSubview:countryAreaView];
-//    [countryAreaView setBackgroundColor:[Tools colorWithRED:238.f GREEN:251.f BLUE:250.f ALPHA:1.f]];
-//    countryAreaView.layer.cornerRadius = 2.f;
-//    countryAreaView.clipsToBounds = YES;
-//    [countryAreaView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(input_tips.mas_bottom).offset(15);
-//        make.left.equalTo(self);
-//        make.width.equalTo(self);
-//        make.height.mas_equalTo(40);
-//    }];
-//
-//    UILabel *area = [[UILabel alloc]init];
-//    area.backgroundColor = [Tools colorWithRED:220.f GREEN:247.f BLUE:244.f ALPHA:1.f];
-//    area.text = @"国家/地区";
-//    area.font = [UIFont systemFontOfSize:14.f];
-//    area.textColor = [Tools themeColor];
-//    area.textAlignment = NSTextAlignmentCenter;
-//    [countryAreaView addSubview:area];
-//    [area mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(countryAreaView);
-//        make.left.equalTo(countryAreaView);
-//        make.size.mas_equalTo(CGSizeMake(96, 40));
-//    }];
-//
-//    inputArea = [[UILabel alloc]init];
-//    inputArea.text = @"中国";
-//    inputArea.font = [UIFont systemFontOfSize:14.f];
-//    inputArea.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
-//    [countryAreaView addSubview:inputArea];
-//    [inputArea mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(countryAreaView);
-//        make.left.equalTo(area.mas_right).offset(10);
-//        make.height.equalTo(countryAreaView);
-//    }];
-//    
-//    UIButton *areaBtn = [[UIButton alloc]init];
-//    [areaBtn setImage:[UIImage imageNamed:@"landing_input_triangle"] forState:UIControlStateNormal];
-//    [areaBtn addTarget:self action:@selector(areaBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//    [countryAreaView addSubview:areaBtn];
-//    [areaBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(countryAreaView.mas_right).offset(-5);
-//        make.centerY.equalTo(countryAreaView);
-//        make.size.mas_equalTo(CGSizeMake(38, 38));
-//    }];
     
     /* 电话号码 */
     UIView *inputPhoneNoView = [[UIView alloc]init];
     [self addSubview:inputPhoneNoView];
-    [inputPhoneNoView setBackgroundColor:[UIColor whiteColor]];
-//    inputPhoneNoView.layer.cornerRadius = 2.f;
-//    inputPhoneNoView.clipsToBounds = YES;
+	CGFloat phoneBgHeight = 60;
     [inputPhoneNoView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tips.mas_bottom).offset(32);
+        make.top.equalTo(tips.mas_bottom).offset(15);
         make.left.equalTo(self);
         make.right.equalTo(self);
-        make.height.mas_equalTo(42);
+        make.height.mas_equalTo(phoneBgHeight);
     }];
-    
-    CALayer *rule_layer = [CALayer layer];
-    rule_layer.frame = CGRectMake(61, 13, 1, 14);
-    rule_layer.backgroundColor = [Tools garyLineColor].CGColor;
-    [inputPhoneNoView.layer addSublayer:rule_layer];
-    
-    UILabel *phoneNo = [[UILabel alloc]init];
-    phoneNo = [Tools setLabelWith:phoneNo andText:@"+ 86" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputPhoneNoView];
+	
+    UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:115.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [inputPhoneNoView addSubview:phoneNo];
     [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputPhoneNoView);
+        make.centerY.equalTo(inputPhoneNoView);
         make.left.equalTo(inputPhoneNoView);
-        make.size.mas_equalTo(CGSizeMake(60, 42));
+        make.size.mas_equalTo(CGSizeMake(60, 35));
     }];
-
+	
+	checkIcon = [[UIImageView alloc]init];
+	checkIcon.image = IMGRESOURCE(@"checked_icon_iphone");
+	[inputPhoneNoView addSubview:checkIcon];
+	[checkIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(inputPhoneNoView);
+		make.centerY.equalTo(inputPhoneNoView);
+		make.size.mas_equalTo(CGSizeMake(18, 14));
+	}];
+	checkIcon.hidden = YES;
+	
     inputPhoneNo = [[UITextField alloc]init];
     inputPhoneNo.delegate = self;
     inputPhoneNo.backgroundColor = [UIColor clearColor];
-    inputPhoneNo.font = [UIFont systemFontOfSize:14.f];
-    inputPhoneNo.textColor = [Tools blackColor];
+    inputPhoneNo.font = [UIFont boldSystemFontOfSize:18.f];
+    inputPhoneNo.textColor = [Tools themeColor];
     inputPhoneNo.keyboardType = UIKeyboardTypeNumberPad;
-    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
-    inputPhoneNo.placeholder = @"输入您的手机号码";
+//    inputPhoneNo.clearButtonMode = UITextFieldViewModeWhileEditing;
+    inputPhoneNo.placeholder = @"手机号码";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:inputPhoneNo];
     [inputPhoneNoView addSubview:inputPhoneNo];
     [inputPhoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(inputPhoneNoView);
-        make.top.equalTo(inputPhoneNoView);
-        make.left.equalTo(phoneNo.mas_right).offset(16);
-        make.height.equalTo(inputPhoneNoView);
+		make.left.equalTo(phoneNo.mas_right).offset(15);
+        make.right.equalTo(checkIcon.mas_left).offset(-10);
+        make.centerY.equalTo(inputPhoneNoView);
+        make.height.equalTo(@34);
     }];
     
     /* 验证码 */
     inputCodeView = [[UIView alloc]init];
     [self addSubview:inputCodeView];
-    [inputCodeView setBackgroundColor:[UIColor whiteColor]];
     [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputPhoneNoView.mas_bottom).offset(16);
+        make.top.equalTo(inputPhoneNoView.mas_bottom).offset(15);
         make.left.equalTo(self);
         make.width.equalTo(self);
-        make.height.mas_equalTo(42);
+        make.height.mas_equalTo(phoneBgHeight);
     }];
-    
-    coder_area = [[UITextField alloc]init];
-    coder_area.backgroundColor = [UIColor clearColor];
-    coder_area.font = [UIFont systemFontOfSize:14.f];
-    coder_area.textColor = [Tools colorWithRED:74 GREEN:74 BLUE:74 ALPHA:1.f];
-//    coder_area.clearButtonMode = UITextFieldViewModeWhileEditing;
-    coder_area.keyboardType = UIKeyboardTypeNumberPad;
+    [Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputCodeView];
+	
+	coder_area = [[UITextField alloc]init];
+	coder_area.backgroundColor = [UIColor clearColor];
+	coder_area.font = [UIFont boldSystemFontOfSize:18.f];
+	coder_area.textColor = [Tools themeColor];
+	coder_area.keyboardType = UIKeyboardTypeNumberPad;
     coder_area.delegate = self;
-    coder_area.placeholder = @"输入动态密码";
+    coder_area.placeholder = @"动态密码";
     [inputCodeView addSubview:coder_area];
     [coder_area mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(inputCodeView).offset(10);
         make.right.equalTo(inputCodeView).offset(-150);
-        make.top.equalTo(inputCodeView);
-        make.left.equalTo(inputCodeView).offset(15);
+        make.centerY.equalTo(inputCodeView);
         make.height.equalTo(inputCodeView);
     }];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldTextDidChange:) name:UITextFieldTextDidChangeNotification object:coder_area];
@@ -176,9 +135,9 @@
     [getCodeBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
     [getCodeBtn setTitleColor:[Tools garyColor] forState:UIControlStateDisabled];
     getCodeBtn.enabled = NO;
-    getCodeBtn.titleLabel.font = [UIFont systemFontOfSize:15.f];
-    getCodeBtn.layer.cornerRadius = 2.f;
-    getCodeBtn.clipsToBounds = YES;
+    getCodeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+//    getCodeBtn.layer.cornerRadius = 2.f;
+//    getCodeBtn.clipsToBounds = YES;
     [getCodeBtn addTarget:self action:@selector(getcodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [inputCodeView addSubview:getCodeBtn];
     [getCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -188,21 +147,31 @@
     }];
     
     
-    enterBtn = [[UIButton alloc]init];
-    [enterBtn setBackgroundColor:[UIColor clearColor]];
-    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
-    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
+	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+//    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
+//    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
 //    enterBtn.enabled = NO;
-    enterBtn.hidden = YES;
     enterBtn.alpha = 0;
     [enterBtn addTarget:self action:@selector(requestCoder:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:enterBtn];
     [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputCodeView.mas_bottom).offset(100);
+        make.top.equalTo(inputCodeView.mas_bottom).offset(70);
         make.centerX.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(115, 40));
+        make.size.mas_equalTo(CGSizeMake(130, 45));
     }];
-    
+	
+	nextBtn = [[UIButton alloc]init];
+	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
+	[self addSubview:nextBtn];
+	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(enterBtn);
+		make.right.equalTo(self);
+		make.size.mas_equalTo(CGSizeMake(50, 50));
+	}];
+	nextBtn.alpha = 0;
+	[nextBtn addTarget:self action:@selector(requestCoder:) forControlEvents:UIControlEventTouchUpInside];
+	
     timer = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                              target: self
                                            selector: @selector(timerRun:)
@@ -242,15 +211,13 @@
 }
 
 - (void)textFieldTextDidChange:(NSNotification*)tf {
-    
-    
-    
+	
     if (tf.object == coder_area ) {
         if ( coder_area.text.length == 4) {
-            [self showEnterBtn];
+            [self showEnterOrNextBtn];
 			[coder_area resignFirstResponder];
         } else {
-            [self hideEnterBtn];
+            [self hideEnterOrNextBtn];
         }
     }
     else if (tf.object == inputPhoneNo) {
@@ -272,15 +239,20 @@
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
                 
                 [inputPhoneNo resignFirstResponder];
+				
                 NSString *title = @"手机号码输入错误";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
                 return;
-            }
+            } else
+				checkIcon.hidden = NO;
+				
             if (seconds == TimeZore || seconds == 0) {
                 getCodeBtn.enabled = YES;
             }
-        } else
-            getCodeBtn.enabled = NO;
+		} else {
+			getCodeBtn.enabled = NO;
+			checkIcon.hidden = YES;
+		}
     }
 }
 
@@ -317,7 +289,7 @@
 - (void)getcodeBtnClick {
     
     coder_area.text = @"";
-    [self hideEnterBtn];
+    [self hideEnterOrNextBtn];
     [self hideKeyboard];
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
@@ -353,7 +325,7 @@
         [timer setFireDate:[NSDate distantFuture]];
         [getCodeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
         [getCodeBtn setTitle:@"重获动态密码" forState:UIControlStateNormal];
-        if (inputPhoneNo.text.length >= 10) {
+        if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             getCodeBtn.enabled = YES;
         }
     }
@@ -377,23 +349,24 @@
     });
 }
 
--(void)hideEnterBtn{
-    if (!enterBtn.hidden) {
-        [UIView animateWithDuration:0 animations:^{
-            enterBtn.alpha = 0;
-        } completion:^(BOOL finished) {
-            enterBtn.hidden = YES;
-        }];
-    }
+-(void)hideEnterOrNextBtn {
+	[UIView animateWithDuration:0.25 animations:^{
+		enterBtn.alpha = 0;
+		nextBtn.alpha = 0;
+	}];
 }
--(void)showEnterBtn{
-    if (enterBtn.hidden && !isNewUser) {
-        enterBtn.hidden = NO;
-        [UIView animateWithDuration:0 animations:^{
-            enterBtn.alpha = 1;
+-(void)showEnterOrNextBtn {
+    if (isNewUser) {
+        [UIView animateWithDuration:0.25 animations:^{
+			nextBtn.alpha = 1;
         }];
-    }
+	} else {
+		[UIView animateWithDuration:0.25 animations:^{
+			enterBtn.alpha = 1;
+		}];
+	}
 }
+
 #pragma mark -- view commands
 - (id)showAYAlertVeiw:(NSString*)args {
     [self showAYAlertViewWithTitle:args];
@@ -415,7 +388,7 @@
     return nil;
 }
 
--(id)hideEnterBtnForNewUser {
+-(id)showNextBtnForNewUser {
     isNewUser = YES;
     return nil;
 }
