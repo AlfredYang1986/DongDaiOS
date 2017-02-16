@@ -32,9 +32,24 @@
         [re_one setValue:[NSNumber numberWithLong:[self startdateFromDay:day]] forKey:@"startdate"];
         [re_one setValue:[NSNumber numberWithLong:[self enddateFromDay:day]] forKey:@"enddate"];
         
-        [result addObject:[re_one copy]];
+        for (NSDictionary* hours in [dic objectForKey:@"occurance"]) {
+            NSNumber* starthours = [hours objectForKey:@"start"];
+            NSNumber* endhours = [hours objectForKey:@"end"];
+            NSLog(@"start hour is %@", starthours);
+            
+            NSMutableDictionary* re = [re_one mutableCopy];
+            [re setValue:starthours forKey:@"starthours"];
+            [re setValue:endhours forKey:@"endhours"];
+            
+            [re setValue:[NSNumber numberWithInt:1] forKey:@"pattern"];
+            
+            [result addObject:[re copy]];
+        }
+        
+        //[result addObject:[re_one copy]];
     }
     
+    NSLog(@"time managemant result is %@", result);
     *obj = result;
 }
 

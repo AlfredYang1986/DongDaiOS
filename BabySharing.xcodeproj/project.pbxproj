@@ -685,6 +685,7 @@
 		80D5E7F31CCCD41000A82117 /* AYInvitationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */; };
 		80D5E7F71CCCE2E300A82117 /* AYNoneRelationBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */; };
 		80E2FB551DD3108700B822FE /* AYAuthPhoneCodeCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E2FB541DD3108700B822FE /* AYAuthPhoneCodeCommand.m */; };
+		80ECF0DD1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80ECF0DC1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.m */; };
 		80F3E8581CDDB54800970BDE /* AYPushUpBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80F3E8571CDDB54800970BDE /* AYPushUpBtnView.m */; };
 /* End PBXBuildFile section */
 
@@ -2187,6 +2188,8 @@
 		80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinChatGroupCommand.m; sourceTree = "<group>"; };
 		80E2FB531DD3108700B822FE /* AYAuthPhoneCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthPhoneCodeCommand.h; sourceTree = "<group>"; };
 		80E2FB541DD3108700B822FE /* AYAuthPhoneCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAuthPhoneCodeCommand.m; sourceTree = "<group>"; };
+		80ECF0DB1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateMyServiceTMCommand.h; sourceTree = "<group>"; };
+		80ECF0DC1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateMyServiceTMCommand.m; sourceTree = "<group>"; };
 		80F3E8561CDDB54800970BDE /* AYPushUpBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushUpBtnView.h; sourceTree = "<group>"; };
 		80F3E8571CDDB54800970BDE /* AYPushUpBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushUpBtnView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -5791,6 +5794,7 @@
 		70A27C011D0EBBC500B131AB /* KidNap */ = {
 			isa = PBXGroup;
 			children = (
+				80ECF0DA1E55C1AC0020DBC8 /* UpdateMyServiceTM */,
 				70837E361DB8A94100033CC7 /* SearchFiltService */,
 				70FE54D71D98E74C0077A3E9 /* CommentService */,
 				705B4A391D644AB4006273E7 /* AllCollectService */,
@@ -7912,6 +7916,15 @@
 			path = AuthPhoneCode;
 			sourceTree = "<group>";
 		};
+		80ECF0DA1E55C1AC0020DBC8 /* UpdateMyServiceTM */ = {
+			isa = PBXGroup;
+			children = (
+				80ECF0DB1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.h */,
+				80ECF0DC1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.m */,
+			);
+			path = UpdateMyServiceTM;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -8309,6 +8322,7 @@
 				80BB1ECD1D79538000B1E17A /* AYPopSplitAnimationCommand.m in Sources */,
 				7082F1E71D1D4E0D00E64496 /* AYEMEnterFrontCommand.m in Sources */,
 				70D228211D893ED500EF4211 /* AYOrderListController.m in Sources */,
+				80ECF0DD1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.m in Sources */,
 				707E7A161D07B42200DFC198 /* AYMapMatchController.m in Sources */,
 				7037E8C11DE465C4007BF858 /* AYWeekDayBtn.m in Sources */,
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,

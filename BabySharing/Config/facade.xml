@@ -206,6 +206,8 @@
         <command type="Remote" name="QueryMyService" />
 <!--        <command type="Remote" name="RevertMyService" />-->
         <command type="Remote" name="UpdateMyService" />
+        <command type="Remote" name="UpdateMyServiceTM" />
+        
         <command type="Remote" name="PopMyService" />
         
         <command type="Remote" name="CollectService" />
