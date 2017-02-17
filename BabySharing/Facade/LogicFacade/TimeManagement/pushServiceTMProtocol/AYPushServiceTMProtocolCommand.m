@@ -65,9 +65,9 @@
 //    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     NSInteger unitFlags = NSCalendarUnitWeekday;
     comps = [calendar components:unitFlags fromDate:now];
-    NSInteger cur = [comps weekday] % 7;
+    NSInteger cur = [comps weekday] - 1;
     
-    NSInteger gap = (day + cur) * 60 * 60 * 24;
+    NSInteger gap = (day - cur) * 60 * 60 * 24;
     return ([now timeIntervalSince1970] + gap) * 1000;
 }
 

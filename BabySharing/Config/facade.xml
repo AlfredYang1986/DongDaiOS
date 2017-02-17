@@ -235,5 +235,6 @@
     
     <facade type="DefaultFacade" name="Timemanagement" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="PushServiceTMProtocol" />
+        <command type="Module" name="ParseServiceTMProtocol" />
     </facade>
 </facades>

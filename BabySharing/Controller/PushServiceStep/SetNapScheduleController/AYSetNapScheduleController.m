@@ -42,7 +42,15 @@
         NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
         
         if ([tmp objectForKey:@"service_id"]) {
-            offer_date = [[tmp objectForKey:@"offer_date"] mutableCopy];
+            
+            if ([tmp objectForKey:@"tms"]) {
+                id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+                id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+                id args = [tmp objectForKey:@"tms"];
+                [cmd performWithResult:&args];
+                offer_date = [args mutableCopy];
+            }
+            // offer_date = [[tmp objectForKey:@"offer_date"] mutableCopy];
             service_id = [tmp objectForKey:@"service_id"];
         } else {
             push_service_info = [tmp mutableCopy];
@@ -117,7 +125,7 @@
         
         for (NSDictionary *iter in offer_date) {
             if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
-                [timesArr addObjectsFromArray:[iter objectForKey:@"occurance"]];
+                [timesArr addObjectsFromArray:(NSArray*)[iter objectForKey:@"occurance"]];
             }
         }
         NSArray *tmp = [timesArr copy];
