@@ -451,16 +451,6 @@
         [update_info setValue:result forKey:@"tms"];
     }
     
-    
-//    [update_info setValue:offer_date forKey:@"offer_date"];
-    
-//    NSDictionary* args = nil;
-//    CURRENUSER(args)
-//    NSMutableDictionary *dic_revert = [[NSMutableDictionary alloc]init];
-//    [dic_revert setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-//    [dic_revert setValue:[push_service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    
-    
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyServiceTM"];
     [cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
