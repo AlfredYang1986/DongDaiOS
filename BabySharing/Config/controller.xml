@@ -1,7 +1,13 @@
 <controllers>
     <controller type="DefaultController" name="Navigation" factory="AYDefaultControllerFactoy" />
     <controller type="DefaultController" name="NavigationService" factory="AYDefaultControllerFactoy" />
-    
+	
+	<controller type="DefaultController" name="NewVersionNav" factory="AYDefaultControllerFactoy" >
+		<view type="Collection"        name="Collection" />
+		
+		<delegate type="CollectionViewDelegateAndDatasource" name="NewVersionNav" />
+	</controller>
+	
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />

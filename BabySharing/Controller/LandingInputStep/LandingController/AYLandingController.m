@@ -261,7 +261,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 #pragma mark -- actions
--(void)pri_btnDidClick{
+-(void)pri_btnDidClick {
     NSLog(@"push to suer privacy");
     id<AYCommand> UserAgree = DEFAULTCONTROLLER(@"UserAgree");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -416,8 +416,8 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             [dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
             [dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
             
-            id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
-            [cmd_show_module performWithResult:&dic_show_module];
+            id<AYCommand> cmd_exchange = EXCHANGEWINDOWS;
+            [cmd_exchange performWithResult:&dic_show_module];
             
         } else {
             NSLog(@"something wrong with login process");

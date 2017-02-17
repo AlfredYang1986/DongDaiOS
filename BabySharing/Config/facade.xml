@@ -153,6 +153,11 @@
         <command type="Remote" name="DownloadUserFiles" />
         <command type="Remote" name="DownloadMovieFiles" />
     </facade>
+	
+	<facade type="DefaultFacade" name="SendRemote" factory="AYDefaultFacadeFactory" >
+		<command type="Remote" name="EmailSend" />
+		<command type="Remote" name="SMSSend" />
+	</facade>
 
     <facade type="DefaultFacade" name="ExposeRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="ExposeUser" />

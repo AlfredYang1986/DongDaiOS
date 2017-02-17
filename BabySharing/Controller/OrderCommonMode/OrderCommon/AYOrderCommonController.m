@@ -63,7 +63,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
 	}];
 	
-	UILabel *title = [Tools creatUILabelWithText:@"最近提醒" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *title = [Tools creatUILabelWithText:@"最近提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:title];
 	[title mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(newsBoardView).offset(15);
@@ -145,10 +145,10 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
 	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
-		//		des = DEFAULTCONTROLLER(@"OrderInfoPage");
-		//		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
-		des = DEFAULTCONTROLLER(@"OrderListNews");
-		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+		des = DEFAULTCONTROLLER(@"OrderInfoPage");
+		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
+//		des = DEFAULTCONTROLLER(@"OrderListNews");
+//		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
 	} else {
 		des = DEFAULTCONTROLLER(@"OrderListNews");
 		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
@@ -214,7 +214,16 @@
 			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
 			result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
 			
-			leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+			if (result_status_ready.count == 0) {
+				leastNews.text = @"暂时没有待处理的日程";
+				leastNews.textColor = [Tools garyColor];
+				leastNews.userInteractionEnabled = NO;
+			} else {
+				
+				leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+				leastNews.textColor = [Tools themeColor];
+				leastNews.userInteractionEnabled = YES;
+			}
 			
 			id tmp = [result_status_confirm copy];
 			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)

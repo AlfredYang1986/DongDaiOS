@@ -69,30 +69,31 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
-    UILabel *tips = [Tools creatUILabelWithText:@"验证成功完成" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tips = [Tools creatUILabelWithText:@"恭喜您！认证成功" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(100);
+        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 190/667);
         make.centerX.equalTo(self.view);
     }];
     
-    UILabel *descLabel = [Tools creatUILabelWithText:@"现在您可以发布服务了" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [self.view addSubview:descLabel];
-    [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tips.mas_bottom).offset(15);
-        make.centerX.equalTo(tips);
-    }];
-    
-    UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:[Tools themeColor]];
+//    UILabel *descLabel = [Tools creatUILabelWithText:@"现在您可以发布服务了" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//    [self.view addSubview:descLabel];
+//    [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(tips.mas_bottom).offset(15);
+//        make.centerX.equalTo(tips);
+//    }];
+	
+    UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"去发布服务" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	[Tools setViewBorder:pushBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [self.view addSubview:pushBtn];
     [pushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(descLabel);
-        make.top.equalTo(descLabel.mas_bottom).offset(50);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 44));
+        make.centerX.equalTo(tips);
+        make.top.equalTo(tips.mas_bottom).offset(45);
+        make.size.mas_equalTo(CGSizeMake(200 , 45));
     }];
     [pushBtn addTarget:self action:@selector(didPushBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -110,16 +111,12 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
     view.backgroundColor = [UIColor clearColor];
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
-    id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    [cmd_right_vis performWithResult:&right_hidden];
-    
+	
+	UIImage* left = IMGRESOURCE(@"content_close");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
     return nil;
 }
 

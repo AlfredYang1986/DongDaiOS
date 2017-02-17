@@ -52,7 +52,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
 	}];
 	
-	UILabel *title = [Tools creatUILabelWithText:@"待办日程：" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *title = [Tools creatUILabelWithText:@"待确认日程" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[newsBoardView addSubview:title];
 	[title mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(newsBoardView).offset(15);
@@ -98,7 +98,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
 	}];
 	[historyBtn addTarget:self action:@selector(didHistoryBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-	
+	historyBtn.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -135,7 +135,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 140, SCREEN_WIDTH, SCREEN_HEIGHT - 140 - 49 - 49); //5 margin
+	view.frame = CGRectMake(0, 140, SCREEN_WIDTH, SCREEN_HEIGHT - 140 - 49); //5 margin
 	return nil;
 }
 
@@ -158,8 +158,16 @@
 			
 			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
 			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
-			noticeNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
-			noticeNews.userInteractionEnabled = result_status_ready.count != 0;
+			if (result_status_ready.count == 0) {
+				noticeNews.text = @"暂时没有待处理的日程";
+				noticeNews.textColor = [Tools garyColor];
+				noticeNews.userInteractionEnabled = NO;
+			} else {
+				
+				noticeNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+				noticeNews.textColor = [Tools themeColor];
+				noticeNews.userInteractionEnabled = YES;
+			}
 			
 			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
 			NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
@@ -191,10 +199,10 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
 	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
-//		des = DEFAULTCONTROLLER(@"OrderInfoPage");
-//		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
-		des = DEFAULTCONTROLLER(@"OrderListPending");
-		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+		des = DEFAULTCONTROLLER(@"OrderInfoPage");
+		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
+//		des = DEFAULTCONTROLLER(@"OrderListPending");
+//		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
 	} else {
 		des = DEFAULTCONTROLLER(@"OrderListPending");
 		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];

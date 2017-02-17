@@ -371,6 +371,10 @@
         <command type="message" message="queryCurrentSelected:" />
     </delegate>
 	
+	<delegate type="CollectionViewDelegateAndDatasource" name="NewVersionNav" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="scrollOffsetX:" />
+	</delegate>
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
