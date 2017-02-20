@@ -42,7 +42,15 @@
         NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
         
         if ([tmp objectForKey:@"service_id"]) {
-            offer_date = [[tmp objectForKey:@"offer_date"] mutableCopy];
+            
+            if ([tmp objectForKey:@"tms"]) {
+                id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+                id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+                id args = [tmp objectForKey:@"tms"];
+                [cmd performWithResult:&args];
+                offer_date = [args mutableCopy];
+            }
+            // offer_date = [[tmp objectForKey:@"offer_date"] mutableCopy];
             service_id = [tmp objectForKey:@"service_id"];
         } else {
             push_service_info = [tmp mutableCopy];
@@ -117,7 +125,7 @@
         
         for (NSDictionary *iter in offer_date) {
             if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
-                [timesArr addObjectsFromArray:[iter objectForKey:@"occurance"]];
+                [timesArr addObjectsFromArray:(NSArray*)[iter objectForKey:@"occurance"]];
             }
         }
         NSArray *tmp = [timesArr copy];
@@ -234,7 +242,17 @@
         return ;
     }
     
-    [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
+    {
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+        id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
+        id args = [offer_date copy];
+        [cmd performWithResult:&args];
+        NSArray* result = (NSArray*)args;
+        NSLog(@"result is %@", result);
+        [push_service_info setValue:result forKey:@"tms"];
+    }
+    
+//    [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
     
     NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
     NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
@@ -402,16 +420,47 @@
     
     NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
     [update_info setValue:service_id forKey:@"service_id"];
-    [update_info setValue:offer_date forKey:@"offer_date"];
     
-    NSDictionary* args = nil;
-    CURRENUSER(args)
-    NSMutableDictionary *dic_revert = [[NSMutableDictionary alloc]init];
-    [dic_revert setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-    [dic_revert setValue:[push_service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    //1.撤销服务
+    {
+        [self didSaveClick];
+        NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
+        [date_dic setValue:[timesArr copy] forKey:@"occurance"];
+        [date_dic setValue:[NSNumber numberWithInteger:segCurrentIndex] forKey:@"day"];
+        
+        NSPredicate *pred_conts = [NSPredicate predicateWithFormat:@"SELF.day=%d",segCurrentIndex];
+        NSArray *result = [offer_date filteredArrayUsingPredicate:pred_conts];
+        
+        if (result.count != 0 && timesArr.count != 0) {     //update
+            
+            NSInteger changeIndex = [offer_date indexOfObject:result.lastObject];
+            [offer_date replaceObjectAtIndex:changeIndex withObject:date_dic];
+        }
+        else if (result.count != 0 && timesArr.count == 0) {        //del
+            
+            [offer_date removeObject:result.lastObject];
+        }
+        else if (result.count == 0 && timesArr.count != 0) {        //creat
+            
+            [offer_date addObject:date_dic];
+        }
+        else if (result.count == 0 && timesArr.count == 0) {        //...
+            
+        }
+        
+    }
+    
+    {
+        id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+        id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
+        id args = [offer_date copy];
+        [cmd performWithResult:&args];
+        NSArray* result = (NSArray*)args;
+        NSLog(@"result is %@", result);
+        [update_info setValue:result forKey:@"tms"];
+    }
+    
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyService"];
+    AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyServiceTM"];
     [cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             

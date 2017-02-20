@@ -211,6 +211,8 @@
         <command type="Remote" name="QueryMyService" />
 <!--        <command type="Remote" name="RevertMyService" />-->
         <command type="Remote" name="UpdateMyService" />
+        <command type="Remote" name="UpdateMyServiceTM" />
+        
         <command type="Remote" name="PopMyService" />
         
         <command type="Remote" name="CollectService" />
@@ -234,5 +236,10 @@
         <command type="Remote" name="PushComments" />
         <command type="Remote" name="QueryComments" />
         <command type="Remote" name="QueryComment" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="Timemanagement" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="PushServiceTMProtocol" />
+        <command type="Module" name="ParseServiceTMProtocol" />
     </facade>
 </facades>

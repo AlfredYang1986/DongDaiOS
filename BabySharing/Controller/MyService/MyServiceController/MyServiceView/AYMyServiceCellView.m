@@ -161,13 +161,17 @@
     NSString *title = [service_info objectForKey:@"title"];
     _titleLabel.text = title;
     
-    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
-    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
-    [dic_owner_id setValue:[service_info objectForKey:@"owner_id"] forKey:@"user_id"];
-    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        if (success) {
-            
+//    id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+//    AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
+    NSString *screen_photo = [service_info objectForKey:@"screen_photo"];
+    [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+                       placeholderImage:IMGRESOURCE(@"default_user")];
+    
+//    NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+//    [dic_owner_id setValue:[service_info objectForKey:@"owner_id"] forKey:@"user_id"];
+//    [cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+//        if (success) {
+    
 //            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 //            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 //            
@@ -181,12 +185,12 @@
 //                }
 //            }];
             
-            NSString *screen_photo = [result objectForKey:@"screen_photo"];
-            [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
-                          placeholderImage:IMGRESOURCE(@"default_user")];
-            
-        }
-    }];
+//            NSString *screen_photo = [result objectForKey:@"screen_photo"];
+//            [_ownerIconImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+//                          placeholderImage:IMGRESOURCE(@"default_user")];
+//            
+//        }
+//    }];
     
     return nil;
 }

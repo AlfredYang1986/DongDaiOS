@@ -169,6 +169,9 @@
     <command type="Module" name="NotifyFollowBtnInit" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ThumbsAndPushInit" factory="AYDefaultModuleFactory" />
     
+    <command type="Module" name="PushServiceTMProtocol" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="ParseServiceTMProtocol" factory="AYDefaultModuleFactory" />
+    
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
     
@@ -193,11 +196,15 @@
     <command type="Remote" name="DownloadUserFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadMovieFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
 
-    <command type="Remote" name="PushServiceInfo"   route="v2/kidnap/push"     factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="PushServiceInfo"   route="v2/kidnap/push"     factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="PushServiceInfo"   route="v3/kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PopMyService"      route="v2/kidnap/pop" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UpdateMyService"   route="v2/kidnap/update" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="SearchFiltService" route="v2.1/kidnap/search" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryMyService"    route="v2/kidnap/mine" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="UpdateMyService"   route="v2/kidnap/update" factory="AYRemoteCallFactory" />-->
+    <command type="Remote" name="UpdateMyService"   route="v3/kidnap/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateMyServiceTM" route="v3/tm/update" factory="AYRemoteCallFactory" />
+    
+    <command type="Remote" name="SearchFiltService" route="v3.1/kidnap/search" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryMyService"    route="v3/kidnap/mine" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="CollectService"        route="v2/kidnap/collect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />
