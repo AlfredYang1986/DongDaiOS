@@ -64,21 +64,23 @@
 -(id)changeQueryData:(NSDictionary*)args {
     _querydata = args;
     
-    NSMutableArray *tmp = [NSMutableArray arrayWithObjects:@"发布服务", @"我心仪的服务", @"设置", nil];
-    NSNumber *type = [_querydata objectForKey:@"is_service_provider"];
-    
-    if (type.boolValue) {
-        [tmp replaceObjectAtIndex:0 withObject:@"切换为服务者"];
-        
-        NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
-        if (is_nap.boolValue) {
-            [tmp replaceObjectAtIndex:0 withObject:@"切换为预订模式"];
-            [tmp replaceObjectAtIndex:1 withObject:@"发布服务"];
-        }
-    }
+	NSMutableArray *tmp;
+	NSNumber *is_real_name = [_querydata objectForKey:@"is_real_name_cert"];
+    NSNumber *is_servant = [_querydata objectForKey:@"is_service_provider"];
+	NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
+	
+	if (is_nap.boolValue) {
+		tmp = [NSMutableArray arrayWithObjects:@"切换为预订模式", @"发布服务", @"设置", nil];
+	} else {
+		tmp = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+		if (is_servant.boolValue) {
+			[tmp replaceObjectAtIndex:0 withObject:@"切换为服务者"];
+		} else if (is_real_name.boolValue) {
+			[tmp replaceObjectAtIndex:0 withObject:@"发布服务"];
+		}
+	}
     
     origs = [tmp copy];
-    
     return nil;
 }
 

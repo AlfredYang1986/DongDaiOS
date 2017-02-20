@@ -27,14 +27,25 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    title = [Tools creatUILabelWithText:@"准备预订服务需先验证手机" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	
+	self.bounds = CGRectMake(0, 0, 0, 200);
+	
+    title = [Tools creatUILabelWithText:@"手机号验证" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.centerX.equalTo(self);
+        make.top.equalTo(self).offset(20);
+        make.left.equalTo(self);
     }];
-    
-    
+	
+	//    我们要求每一位妈妈在预订服务前验证手机号码\n您只需要验证一次
+	des = [Tools creatUILabelWithText:@"第一次预订服务需要您验证手机号码\n以便和服务者及时沟通" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	des.numberOfLines = 0;
+	[self addSubview:des];
+	[des mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(title.mas_bottom).offset(10);
+		make.left.equalTo(title);
+	}];
+	
     lhs = [[UIImageView alloc]init];
     lhs.layer.borderWidth = 2.f;
     lhs.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
@@ -44,7 +55,7 @@
     [self addSubview:lhs];
     [lhs mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self).offset(-50);
-        make.top.equalTo(title.mas_bottom).offset(30);
+        make.top.equalTo(des.mas_bottom).offset(30);
         make.size.mas_equalTo(CGSizeMake(75, 75));
     }];
     
@@ -73,14 +84,6 @@
         make.centerX.equalTo(self);
         make.centerY.equalTo(lhs);
         make.size.mas_equalTo(CGSizeMake(48, 48));
-    }];
-//    我们要求每一位妈妈在预订服务前验证手机号码\n您只需要验证一次
-    des = [Tools creatUILabelWithText:@"第一次预订服务需要您验证手机号码\n您只需要验证一次" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    des.numberOfLines = 0;
-    [self addSubview:des];
-    [des mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(lhs.mas_bottom).offset(30);
-        make.centerX.equalTo(self);
     }];
 }
 

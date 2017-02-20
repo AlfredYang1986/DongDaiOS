@@ -71,12 +71,21 @@
     UIView* inpu_view = [self.views objectForKey:@"PhoneCheckInput"];
     inpu_view.backgroundColor = [UIColor clearColor];
     [inpu_view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(view.mas_bottom).offset(40);
+        make.top.equalTo(view.mas_bottom).offset(25);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
-        make.height.mas_equalTo(90);
+        make.height.mas_equalTo(inpu_view.frame.size.height);
     }];
-    
+	
+	UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	[Tools setViewBorder:nextBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+	[nextBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:nextBtn];
+	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(inpu_view.mas_bottom).offset(30);
+		make.centerX.equalTo(self.view);
+		make.size.mas_equalTo(CGSizeMake(130, 45));
+	}];
     
     {
         NSDictionary* user = nil;
@@ -157,15 +166,11 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor clearColor];
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnWithBtn:"];
-    [cmd_right performWithResult:&bar_right_btn];
-    
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
     return nil;
 }
 

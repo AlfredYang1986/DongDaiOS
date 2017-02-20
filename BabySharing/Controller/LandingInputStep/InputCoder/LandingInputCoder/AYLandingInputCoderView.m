@@ -30,7 +30,7 @@
 	UITextField *inputPhoneNo;
 	UIImageView *checkIcon;
 	
-    UIView *inputCodeView;
+//    UIView *inputCodeView;
     UITextField *coder_area;
 	
     UIButton *getCodeBtn;
@@ -103,7 +103,7 @@
     }];
     
     /* 验证码 */
-    inputCodeView = [[UIView alloc]init];
+    UIView *inputCodeView = [[UIView alloc]init];
     [self addSubview:inputCodeView];
     [inputCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(inputPhoneNoView.mas_bottom).offset(15);
@@ -332,22 +332,22 @@
 }
 
 #pragma mark -- actions
-- (void)showAYAlertViewWithTitle:(NSString*)title {
-    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
-    [self addSubview:alertView];
-    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(inputCodeView.mas_bottom).offset(60);
-        make.centerX.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:1.f animations:^{
-            alertView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [alertView removeFromSuperview];
-        }];
-    });
-}
+//- (void)showAYAlertViewWithTitle:(NSString*)title {
+//    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
+//    [self addSubview:alertView];
+//    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(inputCodeView.mas_bottom).offset(60);
+//        make.centerX.equalTo(self);
+//        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
+//    }];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [UIView animateWithDuration:1.f animations:^{
+//            alertView.alpha = 0;
+//        } completion:^(BOOL finished) {
+//            [alertView removeFromSuperview];
+//        }];
+//    });
+//}
 
 -(void)hideEnterOrNextBtn {
 	[UIView animateWithDuration:0.25 animations:^{
@@ -368,10 +368,10 @@
 }
 
 #pragma mark -- view commands
-- (id)showAYAlertVeiw:(NSString*)args {
-    [self showAYAlertViewWithTitle:args];
-    return nil;
-}
+//- (id)showAYAlertVeiw:(NSString*)args {
+//    [self showAYAlertViewWithTitle:args];
+//    return nil;
+//}
 
 - (id)hideKeyboard {
     if ([coder_area isFirstResponder]) {
