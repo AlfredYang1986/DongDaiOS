@@ -117,6 +117,7 @@ BabySharing/lib/libGPUImage/*.a
 BabySharing/lib/libWeChatSDK/*.a
 BabySharing/lib/libWeiboSDK/*.a
 BabySharing/lib/libQQSDK
+BabySharing/lib/libAlipaySDK/AlipaySDK.framework
 BabySharing/lib/HyphenateFullSDK/lib
 BabySharing.xcodeproj/project.xcworkspace
 BabySharing.xcodeproj/xcuserdata

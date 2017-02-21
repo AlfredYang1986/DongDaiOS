@@ -25,6 +25,8 @@
     <command type="Remote" name="ShareWithWeibo" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="PayWithWechat" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="AlipayPay" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="UpdateRegUserProfile" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryTmpUser" factory="AYDefaultModuleFactory" />

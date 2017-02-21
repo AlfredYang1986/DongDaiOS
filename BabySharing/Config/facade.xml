@@ -242,4 +242,8 @@
         <command type="Module" name="PushServiceTMProtocol" />
         <command type="Module" name="ParseServiceTMProtocol" />
     </facade>
+    
+    <facade type="DefaultFacade" name="Alipay" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="AlipayPay" />
+    </facade>
 </facades>
