@@ -27,7 +27,7 @@
 //#define CarouseNumb			
 
 @implementation AYPersonalPageController {
-    NSDictionary *service_info;
+    NSMutableDictionary *service_info;
     
     UIButton *shareBtn;
     UIButton *collectionBtn;
@@ -59,7 +59,15 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+		
+		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+		id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+		id args = [service_info objectForKey:@"tms"];
+		[cmd performWithResult:&args];
+		[service_info removeObjectForKey:kAYServiceArgsTimes];
+		[service_info setValue:args forKey:kAYServiceArgsOfferDate];
+		
 		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {

@@ -40,7 +40,7 @@
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
@@ -137,6 +137,7 @@
 	if (!otherWords || [otherWords isEqualToString:@""]) {
 		[allowLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
+			make.right.equalTo(self).offset(-15);
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 			make.bottom.equalTo(self).offset(-30);
 		}];

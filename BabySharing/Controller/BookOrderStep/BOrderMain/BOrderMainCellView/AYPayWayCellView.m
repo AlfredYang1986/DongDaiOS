@@ -20,9 +20,10 @@
 
 @implementation AYPayWayCellView {
     
-//    UILabel *titleLabel;
-//    UIImageView *payWayIcon;
-    
+    UILabel *titleLabel;
+    UIImageView *payWayIcon;
+	UIImageView *signView;
+	
     NSDictionary *service;
 }
 
@@ -38,8 +39,7 @@
 //            make.left.equalTo(self).offset(15);
 //        }];
 		
-        UIImageView *payWayIcon = [UIImageView new];
-        payWayIcon.image = IMGRESOURCE(@"wechat");
+        payWayIcon = [UIImageView new];
         [self addSubview:payWayIcon];
         [payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.top.equalTo(titleLabel.mas_bottom).offset(20);
@@ -48,15 +48,14 @@
             make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
         
-        UILabel *payWayLabel = [UILabel new];
-        payWayLabel = [Tools setLabelWith:payWayLabel andText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:payWayLabel];
-        [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        titleLabel = [Tools creatUILabelWithText:@"Pay Way Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:titleLabel];
+        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);
             make.left.equalTo(payWayIcon.mas_right).offset(15);
         }];
         
-        UIImageView *signView = [UIImageView new];
+        signView = [UIImageView new];
         signView.image = IMGRESOURCE(@"checked_icon");
         [self addSubview:signView];
         [signView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -64,9 +63,12 @@
             make.right.equalTo(self).offset(-15);
             make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
         }];
-        
+		signView.hidden = YES;
         [Tools creatCALayerWithFrame:CGRectMake(0, 49.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyBackgroundColor] inSuperView:self];
-        
+		
+		self.userInteractionEnabled = YES;
+		[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPayOptionClick)]];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -132,15 +134,37 @@
 }
 
 #pragma mark -- actions
-- (void)didServiceDetailClick:(UIGestureRecognizer*)tap{
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didServiceDetailClick"];
-    [cmd performWithResult:nil];
+- (void)didPayOptionClick {
+	id tmp = signView;
+    id<AYCommand> cmd = [self.notifies objectForKey:@"didPayOptionClick:"];
+    [cmd performWithResult:&tmp];
     
 }
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
-    
+	
+	NSUInteger row = ((NSNumber*)[dic_args objectForKey:@"row_index"]).integerValue;
+	signView.tag = row;
+	
+	if (row == PayWayOptionWechat) {
+		
+		payWayIcon.image = IMGRESOURCE(@"wechat");
+		titleLabel.text = @"微信支付";
+		signView.hidden = NO;
+		
+		id tmp = signView;
+		id<AYCommand> cmd = [self.notifies objectForKey:@"didPayOptionClick:"];
+		[cmd performWithResult:&tmp];
+		
+	} else if (row == PayWayOptionAlipay) {
+		
+		payWayIcon.image = IMGRESOURCE(@"wechat");
+		titleLabel.text = @"支付宝";
+	} else {
+		
+	}
+	
     return nil;
 }
 

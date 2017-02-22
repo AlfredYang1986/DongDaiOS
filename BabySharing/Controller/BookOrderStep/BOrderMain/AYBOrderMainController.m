@@ -29,11 +29,9 @@
 	
 	int edit_note;
 	NSString* order_id;
+	UIView *payOptionSignView;
 }
 
-- (void)postPerform{
-    
-}
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
@@ -199,14 +197,28 @@
 		if (success) {
 			
 			// 支付
-			id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
-			AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
+			switch (payOptionSignView.tag) {
+				case PayWayOptionWechat:
+				{
+					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+					AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
+					
+					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+					[cmd performWithResult:&pay];
+					
+					order_id = [result objectForKey:@"order_id"];
+				}
+					break;
+				case PayWayOptionAlipay:
+				{
+					
+				}
+					break;
+				default:
+					break;
+			}
 			
-			NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-			[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-			[cmd performWithResult:&pay];
-			
-			order_id = [result objectForKey:@"order_id"];
 			
 		} else {
 			
@@ -240,6 +252,14 @@
 - (id)rightBtnSelected {
     
     return nil;
+}
+
+- (id)didPayOptionClick:(id)args {
+	payOptionSignView.hidden = YES;
+	payOptionSignView = args;
+	payOptionSignView.hidden = NO;
+	
+	return nil;
 }
 
 - (id)didServiceDetailClick {
@@ -347,8 +367,14 @@
 }
 
 - (id)WechatPayFailed:(id)args {
-	NSString *title = @"微信支付失败\n请改善网络环境并重试";
-	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	int err_code = ((NSNumber*)[args objectForKey:@"err_code"]).intValue;
+	if (err_code == -2) {
+//		NSString *title = @"您已取消本次支付支付";
+//		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	} else {
+		NSString *title = @"微信支付失败\n请改善网络环境并重试";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	}
 	return nil;
 }
 

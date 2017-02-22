@@ -95,6 +95,7 @@ static NSString* const kWechatDescription = @"wechat";
                     [notify setValue:kAYNotifyWechatPayFailed forKey:kAYNotifyFunctionKey];
                     
                     NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+					[args setValue:[NSNumber numberWithInt:resp.errCode] forKey:@"err_code"];
                     [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
                     [self performWithResult:&notify];
                 }

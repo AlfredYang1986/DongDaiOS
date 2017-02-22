@@ -17,12 +17,18 @@ static NSString* const kAYServiceArgsImages =               @"images";
 static NSString* const kAYServiceArgsTitle =               @"title";
 static NSString* const kAYServiceArgsDescription =               @"description";
 
+static NSString* const kAYServiceArgsTimes =               @"tms";
+static NSString* const kAYServiceArgsStartDate =               @"startdate";
+static NSString* const kAYServiceArgsEndDate =               @"enddate";
+static NSString* const kAYServiceArgsStartHours =               @"starthours";
+static NSString* const kAYServiceArgsEndHours =               @"endhours";
+static NSString* const kAYServiceArgsPattern =               @"pattern";
+
 static NSString* const kAYServiceArgsOfferDate =               @"offer_date";
 static NSString* const kAYServiceArgsWeekday =               @"day";
 static NSString* const kAYServiceArgsOccurance =               @"occurance";
 static NSString* const kAYServiceArgsStart =               @"start";
 static NSString* const kAYServiceArgsEnd =               @"end";
-//static NSString* const kAYServiceArgs =               @"title";
 
 static NSString* const kAYServiceArgsNotice =                           @"other_words";
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";

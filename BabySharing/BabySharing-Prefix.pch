@@ -26,6 +26,12 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
 
+//PayWayOption
+typedef enum : int {
+	PayWayOptionWechat = 0,
+	PayWayOptionAlipay = 1,
+} PayWayOption;
+
 //ServiceType
 typedef enum : int {
     //ServiceTypeNone = 0,
