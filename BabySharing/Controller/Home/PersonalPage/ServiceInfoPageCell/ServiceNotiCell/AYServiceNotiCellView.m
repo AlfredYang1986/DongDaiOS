@@ -137,6 +137,7 @@
 	if (!otherWords || [otherWords isEqualToString:@""]) {
 		[allowLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
+			make.right.equalTo(self).offset(-15);
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 			make.bottom.equalTo(self).offset(-30);
 		}];

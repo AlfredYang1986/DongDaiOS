@@ -252,6 +252,7 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="SetCourseSign" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+		<command type="notify" message="courseCansSeted:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >

@@ -12,7 +12,7 @@
 #import "AYServiceArgsDefines.h"
 
 @implementation AYSetCourseSignController {
-    NSMutableDictionary *title_info;
+    NSMutableDictionary *dic_cat_cans;
 }
 
 #pragma mark -- commands
@@ -21,7 +21,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        title_info = [dic objectForKey:kAYControllerChangeArgsKey];
+        dic_cat_cans = [dic objectForKey:kAYControllerChangeArgsKey];
 //        course_sign_index = [dic_course objectForKey:kAYServiceArgsCourseSign];
 //        course_coustom = [dic_course objectForKey:kAYServiceArgsCourseCoustom];
         
@@ -54,7 +54,7 @@
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
 //    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-    id tmp = [title_info copy];
+    id tmp = [dic_cat_cans copy];
     kAYDelegatesSendMessage(@"SetCourseSign", @"changeQueryData:", &tmp);
     
 }
@@ -76,15 +76,15 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     
-    NSString *title = @"服务标签";
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+//    NSString *title = @"服务标签";
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+    UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -111,18 +111,32 @@
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
-    return nil;
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[NSNumber numberWithBool:NO] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = POP;
+	[cmd performWithResult:&dic];
+	return nil;
 }
 
 - (id)rightBtnSelected {
     
     return nil;
+}
+
+- (id)courseCansSeted:(id)args {
+	[dic_cat_cans setValue:args forKey:kAYServiceArgsCourseSign];
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = POP;
+	[cmd performWithResult:&dic];
+	return nil;
 }
 
 @end

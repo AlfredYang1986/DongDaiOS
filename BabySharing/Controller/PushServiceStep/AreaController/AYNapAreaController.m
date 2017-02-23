@@ -59,7 +59,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         id args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args isKindOfClass:[NSMutableDictionary class]]) {
+        if ([args isKindOfClass:[NSDictionary class]]) {
             
             service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         } else if ([args isKindOfClass:[NSString class]]) {

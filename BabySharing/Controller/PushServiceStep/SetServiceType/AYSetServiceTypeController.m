@@ -36,31 +36,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"您想要发布什么类型的服务" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//	self.view.backgroundColor = [Tools ]
+	
+    UILabel *titleLabel = [Tools creatUILabelWithText:@"您想要发布什么类型的服务?" andTextColor:[Tools themeColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	titleLabel.numberOfLines = 0;
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(90 + 64);
+        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 200/667);
+		make.width.mas_equalTo(240);
     }];
-    
+	
+	CGFloat unitHeight = 100.f;
+	
     UIView *locBGView = [[UIView alloc]init];
     locBGView.backgroundColor = [Tools whiteColor];
     [self.view addSubview:locBGView];
     [locBGView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view).offset(0);
         make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 140));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, unitHeight * 2));
     }];
-    CALayer *topLine = [CALayer layer];
-    topLine.backgroundColor = [Tools garyLineColor].CGColor;
-    topLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
-    [locBGView.layer addSublayer:topLine];
-    
-    UILabel *norseLabel = [Tools creatUILabelWithText:@"看顾服务" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:locBGView];
+	
+    UILabel *norseLabel = [Tools creatUILabelWithText:@"看顾服务" andTextColor:[Tools themeColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [locBGView addSubview:norseLabel];
     [norseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(locBGView.mas_top).offset(35);
+        make.centerY.equalTo(locBGView.mas_top).offset(unitHeight * 0.5);
         make.left.equalTo(locBGView).offset(20);
         make.right.equalTo(locBGView).offset(-20);
     }];
@@ -75,16 +77,12 @@
         make.centerY.equalTo(norseLabel);
         make.size.mas_equalTo(CGSizeMake(15, 15));
     }];
+	[Tools creatCALayerWithFrame:CGRectMake(10, unitHeight, SCREEN_WIDTH - 20, 0.5) andColor:[Tools garyLineColor] inSuperView:locBGView];
     
-    CALayer *centerLine = [CALayer layer];
-    centerLine.backgroundColor = [Tools garyLineColor].CGColor;
-    centerLine.frame = CGRectMake(10, 70, SCREEN_WIDTH - 20, 0.5);
-    [locBGView.layer addSublayer:centerLine];
-    
-    UILabel *courseLabel = [Tools creatUILabelWithText:@"课程" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *courseLabel = [Tools creatUILabelWithText:@"课程" andTextColor:[Tools themeColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [locBGView addSubview:courseLabel];
     [courseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(locBGView.mas_bottom).offset(-35);
+        make.centerY.equalTo(locBGView.mas_bottom).offset(-unitHeight * 0.5);
         make.left.equalTo(locBGView).offset(20);
         make.right.equalTo(locBGView).offset(-20);
     }];
@@ -113,24 +111,24 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
+//    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
+//    view.backgroundColor = [UIColor whiteColor];
     
-    NSString *title = @"服务类型";
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-    
+	
+//	NSString *title = @"服务类型";
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
     NSNumber* right_hidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
     
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 

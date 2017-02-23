@@ -24,7 +24,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -40,12 +40,9 @@
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
         accessCheck.hidden = YES;
-        
-        CALayer *separator = [CALayer layer];
-        CGFloat margin = 0;
-        separator.frame = CGRectMake(margin, 64.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
-        separator.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:separator];
+		
+        CGFloat margin = 10;
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 64.5, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
 //        UIView *lineView = [[UIView alloc]init];
 //        lineView.backgroundColor = [Tools garyLineColor];
