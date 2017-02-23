@@ -227,6 +227,7 @@
         <command type="Remote" name="UpdateOrderInfo" />
         
         <command type="Remote" name="PushOrder" />
+        <command type="Remote" name="PushOrderAlipay" />
         <command type="Remote" name="AcceptOrder" />
         <command type="Remote" name="RejectOrder" />
         <command type="Remote" name="AccomplishOrder" />

@@ -674,6 +674,7 @@
 		80C829D11CDD7256007B1077 /* AYPushNormalBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D01CDD7256007B1077 /* AYPushNormalBtnView.m */; };
 		80C829D51CDD729D007B1077 /* AYThumbsAndPushInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D41CDD729D007B1077 /* AYThumbsAndPushInitCommand.m */; };
 		80C829D91CDD8CF7007B1077 /* AYThumbsNormalBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D81CDD8CF7007B1077 /* AYThumbsNormalBtnView.m */; };
+		80CCABC61E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80CCABC51E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m */; };
 		80D5E7C01CCC7C2000A82117 /* PhotoTagTariangleLayer2.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7B61CCC7C2000A82117 /* PhotoTagTariangleLayer2.m */; };
 		80D5E7C11CCC7C2000A82117 /* AYPhotoTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7B81CCC7C2000A82117 /* AYPhotoTagView.m */; };
 		80D5E7C21CCC7C2000A82117 /* PhotoTagRoundPointLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7BB1CCC7C2000A82117 /* PhotoTagRoundPointLayer.m */; };
@@ -2177,6 +2178,8 @@
 		80C829D61CDD739B007B1077 /* AYThumbsAndPushDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYThumbsAndPushDefines.h; sourceTree = "<group>"; };
 		80C829D71CDD8CF7007B1077 /* AYThumbsNormalBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYThumbsNormalBtnView.h; sourceTree = "<group>"; };
 		80C829D81CDD8CF7007B1077 /* AYThumbsNormalBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYThumbsNormalBtnView.m; sourceTree = "<group>"; };
+		80CCABC41E5EDB5E0012F422 /* AYPushOrderAlipayCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushOrderAlipayCommand.h; sourceTree = "<group>"; };
+		80CCABC51E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushOrderAlipayCommand.m; sourceTree = "<group>"; };
 		80D5E7B21CCC7C2000A82117 /* PhotoTagEnumDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTagEnumDefines.h; sourceTree = "<group>"; };
 		80D5E7B51CCC7C2000A82117 /* PhotoTagTariangleLayer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTagTariangleLayer2.h; sourceTree = "<group>"; };
 		80D5E7B61CCC7C2000A82117 /* PhotoTagTariangleLayer2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTagTariangleLayer2.m; sourceTree = "<group>"; };
@@ -5373,6 +5376,7 @@
 		7069A31F1D52F95C007821D4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				80CCABC31E5EDA5D0012F422 /* PushOrderAlipay */,
 				80C5890F1DB776CA00BCC8E9 /* PayOrder */,
 				70FE54E41D98F8200077A3E9 /* AcceptOrder */,
 				70CB71461D97B0F300C83985 /* AccomplishOrder */,
@@ -7917,6 +7921,15 @@
 			path = ThumbsAndPushInit;
 			sourceTree = "<group>";
 		};
+		80CCABC31E5EDA5D0012F422 /* PushOrderAlipay */ = {
+			isa = PBXGroup;
+			children = (
+				80CCABC41E5EDB5E0012F422 /* AYPushOrderAlipayCommand.h */,
+				80CCABC51E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m */,
+			);
+			path = PushOrderAlipay;
+			sourceTree = "<group>";
+		};
 		80D5E7B11CCC7C2000A82117 /* PhotoTagView */ = {
 			isa = PBXGroup;
 			children = (
@@ -8302,8 +8315,8 @@
 				TargetAttributes = {
 					702E7A411CA14A480097867E = {
 						CreatedOnToolsVersion = 7.2.1;
-						DevelopmentTeam = V6843SSXWV;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = AA47RE58D2;
+						ProvisioningStyle = Automatic;
 					};
 					702E7A5A1CA14A490097867E = {
 						CreatedOnToolsVersion = 7.2.1;
@@ -8872,6 +8885,7 @@
 				70120CB11CBE4F7C00B169F9 /* AYButtonView.m in Sources */,
 				701E7A0C1D0D42BA0037AD3B /* AYPersonalPageController.m in Sources */,
 				700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */,
+				80CCABC61E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m in Sources */,
 				8048C0011D9D01F20026436E /* AYConfirmPhoneNoController.m in Sources */,
 				705E96931D470EC6006CF9E6 /* AYOrderMapCellView.m in Sources */,
 				70C41EDE1DBA122500C77B10 /* TZAssetCell.m in Sources */,
@@ -9152,7 +9166,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Yuan Yang (2X5VX27Y79)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = V6843SSXWV;
+				DEVELOPMENT_TEAM = AA47RE58D2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -9191,10 +9205,10 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing.tmp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3505b0fd-dc12-424d-acb9-4303ace2e86a";
-				PROVISIONING_PROFILE_SPECIFIER = Baby;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -9205,8 +9219,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Yuan Yang (V6843SSXWV)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = V6843SSXWV;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AA47RE58D2;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -9241,10 +9255,10 @@
 					"-fobjc-arc",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blackmirror.BabySharing.tmp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "93b76c3c-bf8e-406a-809d-d78d9d0fdab1";
-				PROVISIONING_PROFILE_SPECIFIER = may26sunfei;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

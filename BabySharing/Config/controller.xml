@@ -1003,6 +1003,7 @@
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="OrderRemote" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
+        <facade type="DefaultFacade" name="Alipay" notification="true"/>
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

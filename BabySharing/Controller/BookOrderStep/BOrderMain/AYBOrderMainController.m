@@ -136,14 +136,23 @@
 }
 
 #pragma mark -- actions
+- (AYRemoteCallCommand*)getPushOrderCommand {
+    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+    
+    if (payOptionSignView.tag == PayWayOptionWechat)
+        return [facade.commands objectForKey:@"PushOrder"];
+    else
+        return [facade.commands objectForKey:@"PushOrderAlipay"];
+}
+
 - (void)didAplyBtnClick:(UIButton*)btn {
 	
 	id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
 	id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
 	NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
 	[cmd_login performWithResult:&IsInstalledWechat];
-	if (!IsInstalledWechat.boolValue) {
-		NSString *title = @"暂仅支持微信支付！";
+	if (!IsInstalledWechat.boolValue && payOptionSignView.tag == PayWayOptionWechat) {
+		NSString *title = @"微信支付尚未安装！";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
@@ -190,9 +199,8 @@
 	[dic_push setValue:dic_date forKey:@"order_date"];
 	[dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
 	[dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
-	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
+    
+    AYRemoteCallCommand *cmd_push = [self getPushOrderCommand];
 	[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
@@ -212,7 +220,14 @@
 					break;
 				case PayWayOptionAlipay:
 				{
-					
+                    id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
+                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
+                    
+                    NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+//                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+                    [cmd performWithResult:&pay];
+                    
+                    order_id = [result objectForKey:@"order_id"];
 				}
 					break;
 				default:
