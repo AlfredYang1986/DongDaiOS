@@ -36,23 +36,24 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加照片" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        addPhotoBtn = [Tools creatUIButtonWithTitle:@"添加照片" andTitleColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil];
         addPhotoBtn.userInteractionEnabled = NO;
         [self addSubview:addPhotoBtn];
         [addPhotoBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_centerY).offset(-5);
+//            make.bottom.equalTo(self.mas_centerY).offset(-5);
+			make.centerY.equalTo(self);
             make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(100, 24));
+            make.size.mas_equalTo(CGSizeMake(120, 30));
         }];
 //        [addPhotoBtn addTarget:self action:@selector(addPhotoBtnClick) forControlEvents:UIControlEventTouchUpInside];
         
-        subTitleLabel = [Tools creatUILabelWithText:@"分享您和孩子之间的故事更打动人" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:subTitleLabel];
-        [subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(addPhotoBtn);
-            make.top.equalTo(self.mas_centerY).offset(5);
-        }];
-        
+//        subTitleLabel = [Tools creatUILabelWithText:@"分享您和孩子之间的故事更打动人" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+//        [self addSubview:subTitleLabel];
+//        [subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(addPhotoBtn);
+//            make.top.equalTo(self.mas_centerY).offset(5);
+//        }];
+		
         photoCover = [[UIImageView alloc]init];
         [self addSubview:photoCover];
         [photoCover mas_makeConstraints:^(MASConstraintMaker *make) {

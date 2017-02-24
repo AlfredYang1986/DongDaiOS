@@ -274,6 +274,7 @@
 		703CCDC41CC9D96F00CF4563 /* AYRemoveNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */; };
 		703CCDC71CC9D9E400CF4563 /* AYClearNotificationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */; };
 		704336321CF5D88600F9B73B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 704336311CF5D88600F9B73B /* Assets.xcassets */; };
+		7045B61B1E60391B00A0ED30 /* AYAdvanceOptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7045B61A1E60391B00A0ED30 /* AYAdvanceOptView.m */; };
 		7045EFE91E08F3B600341E14 /* AYFilterLocationCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7045EFE81E08F3B600341E14 /* AYFilterLocationCellView.m */; };
 		7045EFEC1E08F3CD00341E14 /* AYFilterLocationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7045EFEB1E08F3CD00341E14 /* AYFilterLocationDelegate.m */; };
 		7045EFEF1E08F3E800341E14 /* AYFilterLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7045EFEE1E08F3E800341E14 /* AYFilterLocationController.m */; };
@@ -1295,6 +1296,8 @@
 		703CCDC51CC9D9E400CF4563 /* AYClearNotificationsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYClearNotificationsCommand.h; sourceTree = "<group>"; };
 		703CCDC61CC9D9E400CF4563 /* AYClearNotificationsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYClearNotificationsCommand.m; sourceTree = "<group>"; };
 		704336311CF5D88600F9B73B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7045B6191E60391B00A0ED30 /* AYAdvanceOptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAdvanceOptView.h; sourceTree = "<group>"; };
+		7045B61A1E60391B00A0ED30 /* AYAdvanceOptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAdvanceOptView.m; sourceTree = "<group>"; };
 		7045EFE71E08F3B600341E14 /* AYFilterLocationCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFilterLocationCellView.h; sourceTree = "<group>"; };
 		7045EFE81E08F3B600341E14 /* AYFilterLocationCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFilterLocationCellView.m; sourceTree = "<group>"; };
 		7045EFEA1E08F3CD00341E14 /* AYFilterLocationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFilterLocationDelegate.h; sourceTree = "<group>"; };
@@ -3727,6 +3730,7 @@
 		7025FE641DF6B09000044CD9 /* EditAdvanceInfo */ = {
 			isa = PBXGroup;
 			children = (
+				7045B6181E6038F300A0ED30 /* AdvanceOptView */,
 				7025FE681DF6EC8800044CD9 /* EditServiceCapacity */,
 				7025FE651DF6B0A300044CD9 /* AYEditAdvanceInfoController.h */,
 				7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */,
@@ -4574,6 +4578,15 @@
 				703CCDC31CC9D96F00CF4563 /* AYRemoveNotificationCommand.m */,
 			);
 			path = RemoveNotification;
+			sourceTree = "<group>";
+		};
+		7045B6181E6038F300A0ED30 /* AdvanceOptView */ = {
+			isa = PBXGroup;
+			children = (
+				7045B6191E60391B00A0ED30 /* AYAdvanceOptView.h */,
+				7045B61A1E60391B00A0ED30 /* AYAdvanceOptView.m */,
+			);
+			path = AdvanceOptView;
 			sourceTree = "<group>";
 		};
 		7045EFE41E08ED9D00341E14 /* FilterLocation */ = {
@@ -6157,16 +6170,16 @@
 			children = (
 				7025FE641DF6B09000044CD9 /* EditAdvanceInfo */,
 				7025FE5E1DF692D200044CD9 /* SetServiceOptInfo */,
-				70F82C541DF5698F006EBDD2 /* SetServiceNotice */,
 				7001C4831DD58BAC004275A9 /* SetNapScheduleController */,
-				70C41E841DBA122500C77B10 /* NapImagePickerController */,
-				70CB48251DFAAB6D003D38FB /* SetServiceTitle */,
 				70C41EB81DBA122500C77B10 /* SetNapThemeController */,
-				7001C8701DD2CCD9009EDC59 /* ServiceDescController */,
 				70C41EA11DBA122500C77B10 /* SetNapAgesController */,
-				70C41EAA1DBA122500C77B10 /* SetNapCostController */,
 				70C41E471DBA122500C77B10 /* InputNapAdressController */,
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,
+				70F82C541DF5698F006EBDD2 /* SetServiceNotice */,
+				70C41EAA1DBA122500C77B10 /* SetNapCostController */,
+				7001C8701DD2CCD9009EDC59 /* ServiceDescController */,
+				70CB48251DFAAB6D003D38FB /* SetServiceTitle */,
+				70C41E841DBA122500C77B10 /* NapImagePickerController */,
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
 				70F967991E29003800B3805B /* SetServiceCapacity */,
 				70231AD61E3061150025E087 /* NapLocationController */,
@@ -8540,6 +8553,7 @@
 				80C589121DB776E900BCC8E9 /* AYPayOrderCommand.m in Sources */,
 				7039CA871CD36D1A00432334 /* AYQueryCurrentFakeUserCommand.m in Sources */,
 				7069A31E1D52F87C007821D4 /* AYOrderRemoteFacade.m in Sources */,
+				7045B61B1E60391B00A0ED30 /* AYAdvanceOptView.m in Sources */,
 				704697DE1CE047F200DACD8A /* UIView+WebCacheOperation.m in Sources */,
 				704D48DB1DAE18AE00A69AF4 /* AYAboutDDController.m in Sources */,
 				80BB1ECA1D793BA600B1E17A /* AYPushSplitAnimationCommand.m in Sources */,

@@ -234,11 +234,12 @@
         if (napTitle && ![napTitle isEqualToString:@""] && indexPath.row == 1) {
             [cell_info setValue:napTitle forKey:@"sub_title"];
             
-            NSNumber *course_sign = [napTitleInfo objectForKey:kAYServiceArgsCourseSign];
-            NSString *coustom = [napTitleInfo objectForKey:kAYServiceArgsCourseCoustom];
-            
+//            NSNumber *course_sign = [napTitleInfo objectForKey:kAYServiceArgsCourseSign];
+//            NSString *coustom = [napTitleInfo objectForKey:kAYServiceArgsCourseCoustom];
+			
             //constain of title and course_sign or coustom and or service_cat == 0
-            if (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || service_cat == ServiceTypeLookAfter) {
+//            if (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || service_cat == ServiceTypeLookAfter) {
+			if(napTitle && ![napTitle isEqualToString:@""]) {
                 [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
             }
         }
@@ -349,10 +350,10 @@
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napTitleInfo];
-    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
-    [tmp setValue:napThemeNote forKey:kAYServiceArgsCourseCat];
-    [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
+//    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napTitleInfo];
+//    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
+//    [tmp setValue:napThemeNote forKey:kAYServiceArgsCourseCat];
+    [dic_push setValue:napTitle forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

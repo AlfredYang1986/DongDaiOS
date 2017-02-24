@@ -81,15 +81,16 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             else if([key isEqualToString:kAYServiceArgsTitle]) {  //1
                 
                 NSString *title = [dic_info objectForKey:kAYServiceArgsTitle];
-                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsCourseSign];
-                NSString *coustom = [dic_info objectForKey:kAYServiceArgsCourseCoustom];
-                
+//                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsCourseSign];
+//                NSString *coustom = [dic_info objectForKey:kAYServiceArgsCourseCoustom];
+				
                 [_service_change_dic setValue:title forKey:kAYServiceArgsTitle];
-                [_service_change_dic setValue:course_sign forKey:kAYServiceArgsCourseSign];
-                [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
-                
+//                [_service_change_dic setValue:course_sign forKey:kAYServiceArgsCourseSign];
+//                [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
+				
                 //title constain and course_sign or coustom constain and or service_cat == 0
-                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter)) {
+				if(title && ![title isEqualToString:@""]) {
+//                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter)) {
                     [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 
@@ -191,10 +192,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
         NSNumber *args_cat = [_service_change_dic objectForKey:kAYServiceArgsServiceCat];
         if (args_cat.intValue == ServiceTypeLookAfter) {
-            NSString *title = @"添加看顾服务";
+            NSString *title = @"我的看顾服务";
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
         } else if (args_cat.intValue == ServiceTypeCourse) {
-            NSString *title = @"添加课程";
+            NSString *title = @"我的课程";
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
         }
     }
@@ -281,10 +282,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSString *title = @"修改服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
     
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"预览" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
     kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn);
     
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil);

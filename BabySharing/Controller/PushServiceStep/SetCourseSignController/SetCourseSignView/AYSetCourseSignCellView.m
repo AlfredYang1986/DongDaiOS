@@ -33,7 +33,7 @@
         
         accessCheck = [[UIImageView alloc]init];
         [self addSubview:accessCheck];
-        accessCheck.image = IMGRESOURCE(@"checked_icon");
+        accessCheck.image = IMGRESOURCE(@"checked_icon_iphone");
         [accessCheck mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self).offset(-20);
             make.centerY.equalTo(titleLabel);

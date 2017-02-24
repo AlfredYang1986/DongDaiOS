@@ -785,8 +785,8 @@
     <controller type="DefaultController" name="SetNapCost" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="Table"          name="Table" />
-        
+<!--        <view type="Table"          name="Table" />-->
+
         <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" />
     </controller>
     

@@ -162,7 +162,7 @@
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 
-	[dic_push setValue:[dic_cat_cans copy] forKey:kAYControllerChangeArgsKey];
+	[dic_push setValue:dic_cat_cans forKey:kAYControllerChangeArgsKey];
 
 	id<AYCommand> cmd = PUSH;
 	[cmd performWithResult:&dic_push];

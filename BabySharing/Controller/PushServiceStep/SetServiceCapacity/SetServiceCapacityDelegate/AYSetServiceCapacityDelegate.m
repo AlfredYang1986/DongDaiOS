@@ -84,6 +84,23 @@
 //    kAYDelegateSendNotify(self, @"serviceThemeSeted:", &tmp)
 }
 
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	UIView *head = [[UIView alloc]init];
+	head.backgroundColor = [Tools whiteColor];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"更多信息" andTextColor:[Tools themeColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[head addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(head);
+		make.centerY.equalTo(head);
+	}];
+	
+	return head;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return 80.f;
+}
+
 #pragma mark -- notifies set service info
 
 

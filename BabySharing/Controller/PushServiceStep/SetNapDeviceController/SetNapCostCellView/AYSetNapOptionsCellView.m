@@ -37,11 +37,10 @@
         NSLog(@"init reuse identifier");
         self.backgroundColor = [UIColor whiteColor];
         
-        titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(20);
+            make.left.equalTo(self).offset(25);
             make.centerY.equalTo(self);
         }];
         
@@ -52,15 +51,13 @@
         [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-20);
+            make.right.equalTo(self).offset(-25);
             make.size.mas_equalTo(CGSizeMake(25, 25));
         }];
-        
-        CALayer *btm_line = [[CALayer alloc]init];
-        btm_line.frame = CGRectMake(0, 44.5, SCREEN_WIDTH - 40, 0.5);
-        btm_line.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:btm_line];
-        
+		
+		CGFloat margin = 20.f;
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 63.5, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

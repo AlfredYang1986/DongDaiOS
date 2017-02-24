@@ -16,6 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYServiceArgsDefines.h"
 #import "AYInsetLabel.h"
+#import "AYAdvanceOptView.h"
 
 #define LIMITNUMB                   228
 
@@ -23,7 +24,8 @@
     
     NSMutableDictionary *service_info;
     UILabel *addressLabel;
-    
+	AYAdvanceOptView *positionTitle;
+	
     BOOL isHaveChanged;
 }
 
@@ -63,7 +65,7 @@
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsDistinct] forKey:kAYServiceArgsDistinct];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
-            addressLabel.text = addressStr;
+            positionTitle.subTitleLabel.text = addressStr;
             [service_info setValue:addressStr forKey:kAYServiceArgsAddress];
         }
     }
@@ -76,84 +78,67 @@
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
-    
-    UILabel *placeTitle = [Tools creatUILabelWithText:@"场地" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-    [tableView addSubview:placeTitle];
-    [placeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+	
+	UILabel *placelabel = [Tools creatUILabelWithText:@"场地信息" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	AYAdvanceOptView *placeTitle = [[AYAdvanceOptView alloc] initWithTitle:placelabel];
+	placeTitle.access.hidden = YES;
+	[tableView addSubview:placeTitle];
+	[placeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(tableView).offset(10);
+		make.centerX.equalTo(tableView);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 50));
+	}];
+	
+	UILabel *positionLabel = [Tools creatUILabelWithText:@"位置" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	positionTitle = [[AYAdvanceOptView alloc] initWithTitle:positionLabel];
+	[tableView addSubview:positionTitle];
+	[positionTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(placeTitle.mas_bottom).offset(0);
+		make.centerX.equalTo(tableView);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 64));
+	}];
+	positionTitle.userInteractionEnabled = YES;
+	[positionTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPositionLabelTap)]];
+	
+	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	if (addressStr && ![addressStr isEqualToString:@""]) {
+		positionTitle.subTitleLabel.text = addressStr;
+	} else {
+		positionTitle.subTitleLabel.text = @"场地地址";
+	}
+	
+	UILabel *facilityLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	AYAdvanceOptView *facilityTitle = [[AYAdvanceOptView alloc] initWithTitle:facilityLabel];
+    [tableView addSubview:facilityTitle];
+    [facilityTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(positionTitle.mas_bottom).offset(0);
         make.centerX.equalTo(tableView);
-        make.top.equalTo(tableView).offset(20);
+        make.size.equalTo(positionTitle);
     }];
+    facilityTitle.userInteractionEnabled = YES;
+    [facilityTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
     
-    AYInsetLabel *positionLabel = [[AYInsetLabel alloc]initWithTitle:@"位置" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    positionLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [tableView addSubview:positionLabel];
-    [positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(placeTitle.mas_bottom).offset(20);
-        make.centerX.equalTo(tableView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
-    }];
-    positionLabel.userInteractionEnabled = YES;
-    [positionLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPositionLabelTap)]];
-    
-    addressLabel = [Tools creatUILabelWithText:@"场地地址" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-    [tableView addSubview:addressLabel];
-    [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(positionLabel).offset(-15);
-        make.centerY.equalTo(positionLabel);
-        make.left.equalTo(positionLabel).offset(80);
-    }];
-    
-    NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
-    if (addressStr) {
-        addressLabel.text = addressStr;
-    }
-    
-    AYInsetLabel *facilityLabel = [[AYInsetLabel alloc]initWithTitle:@"场地友好性" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    facilityLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [tableView addSubview:facilityLabel];
-    [facilityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(positionLabel.mas_bottom).offset(20);
-        make.centerX.equalTo(tableView);
-        make.size.equalTo(positionLabel);
-    }];
-    facilityLabel.userInteractionEnabled = YES;
-    [facilityLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
-    
-    UIImageView *access = [[UIImageView alloc]init];
-    [tableView addSubview:access];
-    access.image = IMGRESOURCE(@"plan_time_icon");
-    [access mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(facilityLabel.mas_right).offset(-15);
-        make.centerY.equalTo(facilityLabel);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
-    }];
-    
-    UILabel *detailTitle = [Tools creatUILabelWithText:@"详情" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *detailLabel = [Tools creatUILabelWithText:@"详情" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	AYAdvanceOptView *detailTitle = [[AYAdvanceOptView alloc] initWithTitle:detailLabel];
+	detailTitle.access.hidden = YES;
     [tableView addSubview:detailTitle];
     [detailTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(tableView);
-        make.top.equalTo(facilityLabel.mas_bottom).offset(25);
+        make.top.equalTo(facilityTitle.mas_bottom).offset(25);
+		make.size.equalTo(placeTitle);
     }];
-    
-    AYInsetLabel *infoLabel = [[AYInsetLabel alloc]initWithTitle:@"服务详情" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    infoLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [tableView addSubview:infoLabel];
-    [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	
+    UILabel *infoLabel = [Tools creatUILabelWithText:@"服务详情" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	AYAdvanceOptView *infoTitle = [[AYAdvanceOptView alloc]initWithTitle:infoLabel];
+    [tableView addSubview:infoTitle];
+    [infoTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(detailTitle.mas_bottom).offset(20);
         make.centerX.equalTo(tableView);
-        make.size.equalTo(positionLabel);
+        make.size.equalTo(positionTitle);
     }];
-    infoLabel.userInteractionEnabled = YES;
-    [infoLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didInfoLabelTap)]];
-    
-    UIImageView *access2 = [[UIImageView alloc]init];
-    [self.view addSubview:access2];
-    access2.image = IMGRESOURCE(@"plan_time_icon");
-    [access2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(infoLabel.mas_right).offset(-15);
-        make.centerY.equalTo(infoLabel);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
-    }];
+    infoTitle.userInteractionEnabled = YES;
+    [infoTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didInfoLabelTap)]];
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -169,19 +154,13 @@
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"更多信息";
-    [cmd_title performWithResult:&title];
-    
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
     NSNumber *isHidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &isHidden)
     
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 

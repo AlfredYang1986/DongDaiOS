@@ -22,9 +22,13 @@
 
 @implementation AYServiceDescController {
     UITextView *descTextView;
+	UILabel *placeHolder;
+	
     UILabel *countlabel;
     NSString *setedStr;
 	UIView *tapView;
+	
+	BOOL isAlreadyEnable;
 }
 
 #pragma mark --  commands
@@ -48,24 +52,43 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
-    
+	
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"描述" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view).offset(80);
+		make.left.equalTo(self.view).offset(20);
+	}];
+	
+	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	
     descTextView = [[UITextView alloc]init];
     [self.view addSubview:descTextView];
-    if (setedStr) {
-        descTextView.text = setedStr;
-    }
     descTextView.font = [UIFont systemFontOfSize:14.f];
     descTextView.textColor = [Tools blackColor];
 	descTextView.scrollEnabled = NO;
     descTextView.delegate = self;
     [descTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(84);
+//        make.top.equalTo(self.view).offset(84);
+		make.top.equalTo(titleLabel.mas_bottom).offset(30);
         make.centerX.equalTo(self.view);
 //        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
 		make.width.mas_equalTo(SCREEN_WIDTH - 40);
 		make.height.mas_greaterThanOrEqualTo(20);
     }];
-    
+	
+	placeHolder = [Tools creatUILabelWithText:@"描述服务内容、特点以及理念和目的等" andTextColor:[Tools garyColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[descTextView addSubview:placeHolder];
+	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(descTextView).offset(5);
+		make.top.equalTo(descTextView).offset(8);
+	}];
+	
+	if (setedStr && ![setedStr isEqualToString:@""]) {
+		descTextView.text = setedStr;
+		placeHolder.hidden  = YES;
+	}
+	
     countlabel = [[UILabel alloc]init];
     countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
@@ -106,29 +129,37 @@
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, FAKE_BAR_HEIGHT);
-    view.backgroundColor = [UIColor whiteColor];
     
-    NSString *title = @"服务描述";
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+//    NSString *title = @"服务描述";
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+    UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+	
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 #pragma mark -- UITextDelegate
 - (void)textViewDidChange:(UITextView *)textView {
-    NSInteger count = textView.text.length;
+	NSInteger count = textView.text.length;
+	placeHolder.hidden = count != 0;
+	
+	if (!isAlreadyEnable) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = YES;
+	}
+	
     if (count > LIMITNUMB) {
         descTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }
