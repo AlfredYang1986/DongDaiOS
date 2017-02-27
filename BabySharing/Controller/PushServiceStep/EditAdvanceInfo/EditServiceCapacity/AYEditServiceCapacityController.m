@@ -65,7 +65,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     {
         id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
@@ -81,17 +80,38 @@
         obj = (id)cmd_recommend;
         [cmd_delegate performWithResult:&obj];
     }
-    
+	
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"描述" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view).offset(80);
+		make.left.equalTo(self.view).offset(20);
+	}];
+	
+	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
-    
+	[tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(titleLabel.mas_bottom).offset(15);
+		make.centerX.equalTo(self.view);
+		make.width.mas_equalTo(SCREEN_WIDTH);
+		make.bottom.equalTo(self.view);
+	}];
+	
+	UIEdgeInsets labelInset = UIEdgeInsetsMake(0, 5, 0, 0);
+	
+	CGFloat labelHeight = 64.f;
+	CGFloat setLabelHeight = 45.f;
+	CGFloat rightMargin = 5.f;
+	
     AYInsetLabel *babyAgesTitle = [[AYInsetLabel alloc]initWithTitle:@"接纳孩子年龄" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    babyAgesTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    babyAgesTitle.textInsets = labelInset;
     [tableView addSubview:babyAgesTitle];
     [babyAgesTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tableView).offset(20);
+        make.top.equalTo(tableView).offset(0);
         make.centerX.equalTo(tableView);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, setLabelHeight));
     }];
     babyAgesTitle.userInteractionEnabled = YES;
     [babyAgesTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editBabyAgesClick:)]];
@@ -99,7 +119,7 @@
     agesNumbLabel = [Tools creatUILabelWithText:@"2岁 - 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:agesNumbLabel];
     [agesNumbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(babyAgesTitle).offset(-15);
+        make.right.equalTo(babyAgesTitle).offset(-rightMargin);
         make.centerY.equalTo(babyAgesTitle);
     }];
     
@@ -112,7 +132,7 @@
     
     /*capacity*/
     AYInsetLabel *babyNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"最多接受孩子数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    babyNumbTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    babyNumbTitle.textInsets = labelInset;
     [tableView addSubview:babyNumbTitle];
     [babyNumbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(babyAgesTitle.mas_bottom).offset(1);
@@ -123,7 +143,7 @@
     UILabel *babyNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:babyNumbSign];
     [babyNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(babyNumbTitle).offset(-15);
+        make.right.equalTo(babyNumbTitle).offset(-rightMargin);
         make.centerY.equalTo(babyNumbTitle);
     }];
     
@@ -147,18 +167,28 @@
     
     /*servant*/
     AYInsetLabel *servantNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"服务者数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    servantNumbTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    servantNumbTitle.textInsets = labelInset;
     [tableView addSubview:servantNumbTitle];
     [servantNumbTitle mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(babyNumbTitle.mas_bottom).offset(1);
         make.centerX.equalTo(tableView);
         make.size.equalTo(babyAgesTitle);
     }];
+	
+	UIView *servantBg = [[UIView alloc] init];
+	[Tools creatCALayerWithFrame:CGRectMake(0, setLabelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:servantBg];
+	[tableView addSubview:servantBg];
+	[servantBg mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(servantNumbTitle).offset(5);
+		make.left.equalTo(servantNumbTitle);
+		make.size.equalTo(servantNumbTitle);
+	}];
+	[tableView sendSubviewToBack:servantBg];
     
     UILabel *servantNumbSign = [Tools creatUILabelWithText:@"个" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:servantNumbSign];
     [servantNumbSign mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(servantNumbTitle).offset(-15);
+        make.right.equalTo(servantNumbTitle).offset(-rightMargin);
         make.centerY.equalTo(servantNumbTitle);
     }];
     
@@ -181,38 +211,58 @@
     
     /*categary*/
     AYInsetLabel *serviceCatTitle = [[AYInsetLabel alloc]initWithTitle:@"服务类型" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    serviceCatTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    serviceCatTitle.textInsets = labelInset;
     [tableView addSubview:serviceCatTitle];
     [serviceCatTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(servantNumbTitle.mas_bottom).offset(30);
+        make.top.equalTo(servantNumbTitle.mas_bottom).offset(6);
         make.centerX.equalTo(tableView);
-        make.size.equalTo(babyAgesTitle);
+        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, labelHeight));
     }];
     
     UILabel *serCatLabel = [Tools creatUILabelWithText:@"服务类型" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serCatLabel];
     [serCatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceCatTitle);
-        make.right.equalTo(serviceCatTitle).offset(-15);
+        make.right.equalTo(serviceCatTitle).offset(-rightMargin);
     }];
-    
+	
+	UIView *serviceCatBg = [[UIView alloc] init];
+	[Tools creatCALayerWithFrame:CGRectMake(0, labelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:serviceCatBg];
+	[tableView addSubview:serviceCatBg];
+	[serviceCatBg mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(serviceCatTitle).offset(1);
+		make.left.equalTo(serviceCatTitle);
+		make.size.equalTo(serviceCatTitle);
+	}];
+	[tableView sendSubviewToBack:serviceCatBg];
+	
     /*theme*/
     AYInsetLabel *serviceThemeTitle = [[AYInsetLabel alloc]initWithTitle:@"服务主题" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    serviceThemeTitle.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    serviceThemeTitle.textInsets = labelInset;
     [tableView addSubview:serviceThemeTitle];
     [serviceThemeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(serviceCatTitle.mas_bottom).offset(30);
+        make.top.equalTo(serviceCatTitle.mas_bottom).offset(1);
         make.centerX.equalTo(tableView);
-        make.size.equalTo(babyAgesTitle);
+        make.size.equalTo(serviceCatTitle);
     }];
     
     serThemeLabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:serThemeLabel];
     [serThemeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(serviceThemeTitle);
-        make.right.equalTo(serviceThemeTitle).offset(-15);
+        make.right.equalTo(serviceThemeTitle).offset(-rightMargin);
     }];
-    
+	
+	UIView *serviceThemeBg = [[UIView alloc] init];
+	[Tools creatCALayerWithFrame:CGRectMake(0, labelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:serviceThemeBg];
+	[tableView addSubview:serviceThemeBg];
+	[serviceThemeBg mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(serviceThemeTitle).offset(1);
+		make.left.equalTo(serviceThemeTitle);
+		make.size.equalTo(serviceThemeTitle);
+	}];
+	[tableView sendSubviewToBack:serviceThemeBg];
+	
     NSString *catStr;
     NSArray *options_title_cans;
     NSNumber *service_cat = [service_info_part objectForKey:kAYServiceArgsServiceCat];
@@ -227,7 +277,10 @@
     }
     
     serCatLabel.text = catStr;
-    
+	
+//	NSString *CompleteName = [Tools serviceCompleteNameFromSKUWith:service_info_part];
+//	serThemeLabel.text = CompleteName;
+	
     //服务主题分类
     NSNumber *cans_cat = [service_info_part objectForKey:kAYServiceArgsCourseCat];
     if (cans_cat.intValue == -1) {
@@ -239,7 +292,7 @@
     else if (cans_cat.integerValue < options_title_cans.count) {
         NSString *themeStr = options_title_cans[cans_cat.integerValue];
         serThemeLabel.text = themeStr;
-        
+		
     }
     
     NSNumber *isadjust = [service_info_part objectForKey:kAYServiceArgsIsAdjustSKU];
@@ -271,27 +324,21 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"服务详情";
-    [cmd_title performWithResult:&title];
-    
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
+	
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
     UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
     bar_right_btn.userInteractionEnabled = NO;
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
     CGFloat margin = 0;
-    view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
+    view.frame = CGRectMake(margin, 118, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
     //    ((UITableView*)view).contentInset = UIEdgeInsetsMake(SCREEN_HEIGHT - 64, 0, 0, 0);
     return nil;
 }
@@ -380,7 +427,15 @@
     else if ([servantNumb isFirstResponder]) {
         [service_info_part setValue:[NSNumber numberWithInt:servantNumb.text.intValue] forKey:kAYServiceArgsServantNumb];
     }
-    
+	
+	NSNumber *babyNumbArgs = [service_info_part objectForKey:kAYServiceArgsCapacity];
+	NSNumber *servantNumbArgs = [service_info_part objectForKey:kAYServiceArgsServantNumb];
+	if ([babyNumbArgs  isEqualToNumber:@0] || [servantNumbArgs  isEqualToNumber:@0]) {
+		NSString *tipsTitle = @"限制数量不能设置为 0 ";
+		AYShowBtmAlertView(tipsTitle, BtmAlertViewTypeHideWithTimer)
+		return nil;
+	}
+	
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];

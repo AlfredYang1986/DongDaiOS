@@ -78,18 +78,18 @@
 	}
 	
     countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedStr.length] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(descTextView.mas_bottom).offset(-10);
         make.right.equalTo(descTextView).offset(-10);
     }];
-    
+	
+	[descTextView becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [descTextView becomeFirstResponder];
 }
 
 #pragma mark -- layout
@@ -159,6 +159,23 @@
     
     [descTextView resignFirstResponder];
     return nil;
+}
+
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+	
+	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+	[countlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view).offset(- step.floatValue - 10);
+		make.right.equalTo(self.view).offset(-20);
+	}];
+	
+	return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+	
+	return nil;
 }
 
 @end

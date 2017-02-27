@@ -195,13 +195,19 @@
 //        default:
 //            break;
 //    }
-
-    
+	self.view.userInteractionEnabled = YES;
+	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere)];
+	[self.view addGestureRecognizer:tap];
+	
+	[inputTitleTextView becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [inputTitleTextView becomeFirstResponder];
+}
+
+- (void)tapElseWhere {
+	[inputTitleTextView resignFirstResponder];
 }
 
 #pragma mark -- layout
@@ -296,7 +302,20 @@
     return nil;
 }
 
-- (id)startRemoteCall:(id)obj {
-    return nil;
+#pragma mark -- Keyboard facade
+- (id)KeyboardShowKeyboard:(id)args {
+	
+	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+	[countlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view).offset(- step.floatValue - 10);
+		make.right.equalTo(self.view).offset(-20);
+	}];
+	
+	return nil;
+}
+
+- (id)KeyboardHideKeyboard:(id)args {
+	
+	return nil;
 }
 @end
