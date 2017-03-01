@@ -1,0 +1,128 @@
+//
+//  AYNurseScheduleCellThemeView.m
+//  BabySharing
+//
+//  Created by Alfred Yang on 1/3/17.
+//  Copyright © 2017年 Alfred Yang. All rights reserved.
+//
+
+#import "AYNurseScheduleCellThemeView.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYResourceManager.h"
+#import "AYViewCommand.h"
+#import "AYViewNotifyCommand.h"
+#import "AYFacadeBase.h"
+
+@implementation AYNurseScheduleCellThemeView {
+	
+	UILabel *startLabel;
+	UILabel *endLabel;
+	UIButton *delBtn;
+}
+
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+	if (self) {
+		
+		CGFloat selfHeight = 50.f;
+		
+		startLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:[Tools themeColor] andFontSize:116.f andBackgroundColor:nil andTextAlignment:1];
+		[self addSubview:startLabel];
+		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(20);
+			make.centerY.equalTo(self);
+			make.width.mas_equalTo(80);
+		}];
+		
+		endLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:[Tools themeColor] andFontSize:116.f andBackgroundColor:nil andTextAlignment:1];
+		[self addSubview:endLabel];
+		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(startLabel.mas_right).offset(55);
+			make.centerY.equalTo(self);
+			make.width.mas_equalTo(80);
+		}];
+		
+		delBtn = [[UIButton alloc] init];
+		[delBtn setImage:IMGRESOURCE(@"cross_theme") forState:UIControlStateNormal];
+		[self addSubview:delBtn];
+		[delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-20);
+			make.centerY.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(30, 30));
+		}];
+		
+		[Tools creatCALayerWithFrame:CGRectMake(22, selfHeight - 0.5, 80, 0.5) andColor:[Tools themeColor] inSuperView:self];
+		[Tools creatCALayerWithFrame:CGRectMake(125, selfHeight * 0.5 - 1, 15, 2) andColor:[Tools themeColor] inSuperView:self];
+		[Tools creatCALayerWithFrame:CGRectMake(160, selfHeight - 0.5, 80, 0.5) andColor:[Tools themeColor] inSuperView:self];
+		
+		if (reuseIdentifier != nil) {
+			[self setUpReuseCell];
+		}
+	}
+	return self;
+}
+
+- (void)layoutSubviews {
+	[super layoutSubviews];
+}
+
+#pragma mark -- life cycle
+- (void)setUpReuseCell {
+	id<AYViewBase> cell = VIEW(@"NurseScheduleCellTheme", @"NurseScheduleCellTheme");
+	
+	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
+	for (NSString* name in cell.commands.allKeys) {
+		AYViewCommand* cmd = [cell.commands objectForKey:name];
+		AYViewCommand* c = [[AYViewCommand alloc]init];
+		c.view = self;
+		c.method_name = cmd.method_name;
+		c.need_args = cmd.need_args;
+		[arr_commands setValue:c forKey:name];
+	}
+	self.commands = [arr_commands copy];
+	
+	NSMutableDictionary* arr_notifies = [[NSMutableDictionary alloc]initWithCapacity:cell.notifies.count];
+	for (NSString* name in cell.notifies.allKeys) {
+		AYViewNotifyCommand* cmd = [cell.notifies objectForKey:name];
+		AYViewNotifyCommand* c = [[AYViewNotifyCommand alloc]init];
+		c.view = self;
+		c.method_name = cmd.method_name;
+		c.need_args = cmd.need_args;
+		[arr_notifies setValue:c forKey:name];
+	}
+	self.notifies = [arr_notifies copy];
+}
+
+#pragma mark -- commands
+- (void)postPerform {
+	
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (id)setCellInfo:(NSDictionary*)args {
+	
+	return nil;
+}
+
+@end

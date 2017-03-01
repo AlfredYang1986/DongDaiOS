@@ -733,7 +733,31 @@
         <delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />
         <delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" />
     </controller>
-    
+	
+	<controller type="DefaultController" name="NurseScheduleMain" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="NurseScheduleTable" />
+		<delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />
+	</controller>
+	
+	<controller type="DefaultController" name="NurseCalendar" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+		<facade type="DefaultFacade" name="Timemanagement" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+<!--		<view type="Schedule"       name="Schedule" />-->
+		<view type="ScheduleWeekDays"       name="ScheduleWeekDays" />
+		<view type="Table" name="Table" />
+		<view type="Picker"         name="Picker" />
+		
+		<delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />
+		<delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" />
+	</controller>
+	
     <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

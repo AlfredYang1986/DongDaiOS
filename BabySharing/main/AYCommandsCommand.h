@@ -33,6 +33,8 @@ static NSString* const kAYTableRefreshMessage =                 @"refresh";
 
 //Picker
 static NSString* const kAYPickerShowViewMessage =                 @"showPickerView";
+static NSString* const kAYPickerRegisterDatasourceMessage =      @"registerDatasource:";
+static NSString* const kAYPickerRegisterDelegateMessage =        @"registerDelegate:";
 
 //Delegate message
 static NSString* const kAYDelegateChangeDataMessage =                 @"changeQueryData:";

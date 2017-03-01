@@ -61,7 +61,7 @@
     
     NSArray *weekdays = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六" ];
     for (int i = 0; i < weekdays.count; ++i) {
-        AYWeekDayBtn *dayBtn = [[AYWeekDayBtn alloc]initWithTitle:weekdays[i]];
+        AYWeekDayBtn *dayBtn = [[AYWeekDayBtn alloc] initWithTitle:weekdays[i]];
         dayBtn.tag = i;
         dayBtn.states = WeekDayBtnStateNormal;
         [dayBtn addTarget:self action:@selector(didDayBtnClick:) forControlEvents:UIControlEventTouchUpInside];

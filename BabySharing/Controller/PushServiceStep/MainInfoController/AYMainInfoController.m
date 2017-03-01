@@ -353,8 +353,16 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
-    
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapSchedule");
+	
+	ServiceType type = ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue;
+	
+    id<AYCommand> dest ;
+	if (type == ServiceTypeCourse) {
+		dest = DEFAULTCONTROLLER(@"SetNapSchedule");
+	} else if (type == ServiceTypeLookAfter) {
+		dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
+	}
+	
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];

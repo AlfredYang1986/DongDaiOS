@@ -267,7 +267,16 @@
     <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
-    
+	
+	<delegate type="TableViewDelegateAndDatasource" name="NurseScheduleTable" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="PickerViewDelegateAndDatasource" name="NurseSchedulePick" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="queryCurrentSelected:" />
+		<command type="message" message="scrollToCenterWithOffset:" />
+	</delegate>
+	
     <delegate type="TableViewDelegateAndDatasource" name="NapLocation" factory="AYDefaultDelegateFactory" >
         <command type="message" message="autoLocationData:" />
         <command type="message" message="changeLocationResultData:" />

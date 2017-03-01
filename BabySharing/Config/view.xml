@@ -858,4 +858,11 @@
 	   <command type="message"      message="setCellInfo:" />
    </view>
    
+   <view type="NurseScheduleCellWhiter" name="NurseScheduleCellWhiter" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   <view type="NurseScheduleCellTheme" name="NurseScheduleCellTheme" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   
 </views>

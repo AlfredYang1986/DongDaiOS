@@ -11,10 +11,6 @@
 #import "AYProfileHeadCellView.h"
 #import "Notifications.h"
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
