@@ -629,6 +629,7 @@
 		70F967A21E29003800B3805B /* AYSetServiceCapacityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9679B1E29003800B3805B /* AYSetServiceCapacityController.m */; };
 		70F967A31E29003800B3805B /* AYSetServiceCapacityDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F9679E1E29003800B3805B /* AYSetServiceCapacityDelegate.m */; };
 		70F967A41E29003800B3805B /* AYSetServiceCapacityCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967A11E29003800B3805B /* AYSetServiceCapacityCellView.m */; };
+		70FA0E2B1E6804860069907D /* AYNurseCalendarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FA0E2A1E6804860069907D /* AYNurseCalendarController.m */; };
 		70FCB16D1E66B43E00A79499 /* AYSetNapScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB15D1E66B43E00A79499 /* AYSetNapScheduleController.m */; };
 		70FCB16E1E66B43E00A79499 /* AYServiceTimesPickDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB1601E66B43E00A79499 /* AYServiceTimesPickDelegate.m */; };
 		70FCB16F1E66B43E00A79499 /* AYServiceTimesShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB1621E66B43E00A79499 /* AYServiceTimesShowDelegate.m */; };
@@ -2065,6 +2066,8 @@
 		70F9679E1E29003800B3805B /* AYSetServiceCapacityDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityDelegate.m; sourceTree = "<group>"; };
 		70F967A01E29003800B3805B /* AYSetServiceCapacityCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceCapacityCellView.h; sourceTree = "<group>"; };
 		70F967A11E29003800B3805B /* AYSetServiceCapacityCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceCapacityCellView.m; sourceTree = "<group>"; };
+		70FA0E291E6804860069907D /* AYNurseCalendarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseCalendarController.h; sourceTree = "<group>"; };
+		70FA0E2A1E6804860069907D /* AYNurseCalendarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseCalendarController.m; sourceTree = "<group>"; };
 		70FCB15B1E66B43E00A79499 /* AYServiceTimesRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceTimesRule.h; sourceTree = "<group>"; };
 		70FCB15C1E66B43E00A79499 /* AYSetNapScheduleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapScheduleController.h; sourceTree = "<group>"; };
 		70FCB15D1E66B43E00A79499 /* AYSetNapScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapScheduleController.m; sourceTree = "<group>"; };
@@ -7469,6 +7472,20 @@
 			path = SetServiceCapacityView;
 			sourceTree = "<group>";
 		};
+		70FA0E271E6804600069907D /* NurseCalendarDelegate */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NurseCalendarDelegate;
+			sourceTree = "<group>";
+		};
+		70FA0E281E6804600069907D /* NurseCalendarView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NurseCalendarView;
+			sourceTree = "<group>";
+		};
 		70FCB1591E66B43E00A79499 /* SetSchedule */ = {
 			isa = PBXGroup;
 			children = (
@@ -7529,6 +7546,10 @@
 		70FCB1741E66BA0A00A79499 /* NurseCalendar */ = {
 			isa = PBXGroup;
 			children = (
+				70FA0E271E6804600069907D /* NurseCalendarDelegate */,
+				70FA0E281E6804600069907D /* NurseCalendarView */,
+				70FA0E291E6804860069907D /* AYNurseCalendarController.h */,
+				70FA0E2A1E6804860069907D /* AYNurseCalendarController.m */,
 			);
 			path = NurseCalendar;
 			sourceTree = "<group>";
@@ -8271,6 +8292,7 @@
 				703B4CFD1DCC8BE800B1088C /* AYServiceMapCellView.m in Sources */,
 				706E46151CFC107A00CC7C53 /* AYLandingSNSView.m in Sources */,
 				70F4287B1CC7B18F00A69977 /* MASViewAttribute.m in Sources */,
+				70FA0E2B1E6804860069907D /* AYNurseCalendarController.m in Sources */,
 				701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */,
 				7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */,
 				704697D11CE047F200DACD8A /* SDImageCache.m in Sources */,

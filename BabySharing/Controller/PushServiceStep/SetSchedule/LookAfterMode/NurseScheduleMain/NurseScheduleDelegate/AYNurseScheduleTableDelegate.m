@@ -43,8 +43,8 @@
 	return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
--(id)queryData:(NSDictionary*)args {
-	
+-(id)changeQueryData:(id)args {
+	querydata = args;
 	return nil;
 }
 
@@ -55,8 +55,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (section == 0) {
-//		return querydata.count;
-		return 2;
+		return querydata.count == 0 ? 1 : querydata.count;
 	} else {
 		return 0;
 	}
@@ -69,11 +68,13 @@
 	cell.controller = _controller;
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:[querydata objectAtIndex:indexPath.row] forKey:@"title"];
-	[dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
+	[dic setValue:[NSNumber numberWithBool:(indexPath.row==0)] forKey:@"is_first"];
+	if (querydata.count != 0) {
+		[dic setValue:[querydata objectAtIndex:indexPath.row] forKey:@"dic_time"];
+	}
+	[dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"row"];
 	
-	id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-	[set_cmd performWithResult:&dic];
+	kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &dic)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
@@ -81,11 +82,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 50;
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+	return 55;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -96,19 +93,22 @@
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);
-		make.centerY.equalTo(headView).offset(15);
+		make.centerY.equalTo(headView).offset(10);
 	}];
 	
 	if (section == 0) {
-		UIButton *addSignBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-		addSignBtn.tintColor = [Tools themeColor];
-		addSignBtn.userInteractionEnabled = NO;
+//		headView.userInteractionEnabled = NO;
+		UIButton *addSignBtn = [[UIButton alloc] init];
+		[addSignBtn setImage:IMGRESOURCE(@"add_icon_circle") forState:UIControlStateNormal];
 		[headView addSubview:addSignBtn];
 		[addSignBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(headView).offset(-20);
 			make.centerY.equalTo(titleLabel);
-			make.size.mas_equalTo(CGSizeMake(50, 50));
+			make.size.mas_equalTo(CGSizeMake(30, 30));
 		}];
+		
+		[addSignBtn addTarget:self action:@selector(didAddTimeDurationClick) forControlEvents:UIControlEventTouchUpInside];
+		
 	} else {
 		titleLabel.text = @"2.您的休息日";
 		UIImageView *signView = [[UIImageView alloc] init];
@@ -116,17 +116,42 @@
 		[signView sizeToFit];
 		[headView addSubview:signView];
 		[signView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(headView).offset(-20);
+			make.right.equalTo(headView).offset(-25);
 			make.centerY.equalTo(titleLabel);
 			make.size.mas_equalTo(signView.image.size);
 		}];
+		
+		headView.userInteractionEnabled = YES;
+		[headView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didRestDayTap)]];
 	}
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	
 	return 70;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (querydata.count == 0) {
+		return;
+	}
+	
+	NSNumber *index= [NSNumber numberWithInteger:indexPath.row];
+	kAYDelegateSendNotify(self, @"exchangeTimeDuration:", &index)
+	
+}
+
+#pragma mark -- actions
+- (void)didAddTimeDurationClick {
+	NSLog(@"----add");
+	
+	kAYDelegateSendNotify(self, @"addTimeDuration", nil)
+	
+}
+
+- (void)didRestDayTap {
+	NSLog(@"----tap");
+}
+
 @end

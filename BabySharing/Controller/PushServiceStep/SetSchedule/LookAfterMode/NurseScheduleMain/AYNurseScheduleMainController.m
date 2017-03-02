@@ -25,9 +25,11 @@
 	NSMutableDictionary *push_service_info;
 	BOOL isChangeCalendar;
 	
-	NSMutableArray *timesArr;
+	NSMutableArray *timeDurationArr;
 	NSMutableArray *offer_date;
 	NSString *service_id;
+	
+	NSNumber *exchangeIndexNote;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -63,6 +65,10 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
+	
+	if (!timeDurationArr) {
+		timeDurationArr  = [NSMutableArray array];
+	}
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"最后，设定您的看顾时间" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
@@ -140,7 +146,6 @@
 
 #pragma mark -- actions
 - (void)didPushServiceBtnClick {
-	
 	
 	if (offer_date.count == 0) {
 		NSString *title = @"您还没有设置时间";
@@ -275,12 +280,12 @@
 - (BOOL)isCurrentTimesLegal {
 	//    NSMutableArray *allTimeNotes = [NSMutableArray array];
 	__block BOOL isLegal = YES;
-	[timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+	[timeDurationArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 		
 		NSNumber *currentEnd = [obj objectForKey:@"end"];
 		
-		if (idx+1 < timesArr.count) {
-			NSNumber *nextStart = [[timesArr objectAtIndex:idx+1] objectForKey:@"start"];
+		if (idx+1 < timeDurationArr.count) {
+			NSNumber *nextStart = [[timeDurationArr objectAtIndex:idx+1] objectForKey:@"start"];
 			
 			if (currentEnd.intValue > nextStart.intValue) {
 				isLegal = NO;
@@ -353,12 +358,17 @@
 #pragma mark -- pickerView notifies
 - (id)cellDeleteFromTable:(NSNumber*)args {
 	
-	[timesArr removeObjectAtIndex:args.integerValue];
-	NSArray *tmp = [timesArr copy];
+	[timeDurationArr removeObjectAtIndex:args.integerValue];
+	NSArray *tmp = [timeDurationArr copy];
 	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	
 	[self ChangeOfSchedule];
+	return nil;
+}
+
+- (id)addTimeDuration {
+	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
 	return nil;
 }
 
@@ -381,14 +391,64 @@
 	id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
 	NSDictionary *args = nil;
 	[cmd_index performWithResult:&args];
-	//eg: 14:00-16:00
+	//eg: {(int)1400,1600}
 	
 	if (!args) {
 		NSString *title = @"服务时间设置错误";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		exchangeIndexNote = nil;
 		return nil;
 	}
 	
+	if (exchangeIndexNote) {
+		[timeDurationArr replaceObjectAtIndex:exchangeIndexNote.integerValue withObject:args];
+	} else {
+		[timeDurationArr addObject:args];
+	}
+	
+	NSArray *tmpArr = [timeDurationArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		
+		int first = ((NSNumber*)[obj1 objectForKey:@"start"]).intValue;
+		int second = ((NSNumber*)[obj2 objectForKey:@"start"]).intValue;
+		
+		if (first < second) return  NSOrderedAscending;
+		else if (first > second) return NSOrderedDescending;
+		else return NSOrderedSame;
+	}];
+	[timeDurationArr removeAllObjects];
+	[timeDurationArr addObjectsFromArray:tmpArr];
+	
+	if (![self isCurrentTimesLegal]) {
+		[timeDurationArr removeObject:args];
+		
+		NSString *title = @"服务时间设置错误";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		exchangeIndexNote = nil;
+		return nil;
+	}
+	
+	
+	id tmp = [timeDurationArr copy];
+	kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	
+	exchangeIndexNote = nil;
+	return nil;
+}
+
+- (id)exchangeTimeDuration:(id)args {
+	exchangeIndexNote = args;
+	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+	return nil;
+}
+
+- (id)delTimeDuration:(id)args {
+	NSNumber *row = args;
+	[timeDurationArr removeObjectAtIndex:row.integerValue];
+	
+	id tmp = [timeDurationArr copy];
+	kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	return nil;
 }
 

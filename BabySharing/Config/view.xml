@@ -863,6 +863,7 @@
    </view>
    <view type="NurseScheduleCellTheme" name="NurseScheduleCellTheme" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
+	   <command type="notify" message="delTimeDuration:" />
    </view>
    
 </views>

@@ -738,6 +738,7 @@
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Table"          name="Table" />
+		<view type="Picker"         name="Picker" />
 		
 		<delegate type="TableViewDelegateAndDatasource" name="NurseScheduleTable" />
 		<delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />

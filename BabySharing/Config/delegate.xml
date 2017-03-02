@@ -270,6 +270,8 @@
 	
 	<delegate type="TableViewDelegateAndDatasource" name="NurseScheduleTable" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="addTimeDuration" />
+		<command type="notify" message="exchangeTimeDuration:" />
 	</delegate>
 	
 	<delegate type="PickerViewDelegateAndDatasource" name="NurseSchedulePick" factory="AYDefaultDelegateFactory" >

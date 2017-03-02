@@ -30,7 +30,7 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		CGFloat selfHeight = 50.f;
+		CGFloat selfHeight = 55.f;
 		
 		startLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:[Tools themeColor] andFontSize:116.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:startLabel];
@@ -56,6 +56,7 @@
 			make.centerY.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(30, 30));
 		}];
+		[delBtn addTarget:self action:@selector(didDelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
 		[Tools creatCALayerWithFrame:CGRectMake(22, selfHeight - 0.5, 80, 0.5) andColor:[Tools themeColor] inSuperView:self];
 		[Tools creatCALayerWithFrame:CGRectMake(125, selfHeight * 0.5 - 1, 15, 2) andColor:[Tools themeColor] inSuperView:self];
@@ -120,7 +121,33 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSDictionary*)args {
+#pragma mark -- actions
+- (void)didDelBtnClick:(UIButton*)btn {
+	
+	NSNumber *tmp = [NSNumber numberWithInteger:btn.tag];
+	kAYViewSendNotify(self, @"delTimeDuration:", &tmp)
+}
+
+#pragma mark -- notifies
+- (id)setCellInfo:(id)args {
+	
+	NSNumber *is_first = [args objectForKey:@"is_first"];
+	delBtn.hidden = is_first.boolValue;
+	delBtn.tag = ((NSNumber*)[args objectForKey:@"row"]).integerValue - 1;
+	
+	NSDictionary *dic_time = [args objectForKey:@"dic_time"];
+	if (dic_time) {
+		NSNumber *top = [dic_time objectForKey:kAYServiceArgsStart];
+		NSNumber *btm = [dic_time objectForKey:kAYServiceArgsEnd];
+		
+		NSMutableString *tmp = [NSMutableString stringWithFormat:@"%.4d", top.intValue];
+		[tmp insertString:@":" atIndex:2];
+		startLabel.text = tmp;
+		
+		tmp = [NSMutableString stringWithFormat:@"%.4d", btm.intValue];
+		[tmp insertString:@":" atIndex:2];
+		endLabel.text = tmp;
+	}
 	
 	return nil;
 }
