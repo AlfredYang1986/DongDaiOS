@@ -641,7 +641,6 @@
 		70FCB17E1E66BCEB00A79499 /* AYNurseScheduleCellThemeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB17D1E66BCEB00A79499 /* AYNurseScheduleCellThemeView.m */; };
 		70FCB1811E66BCFD00A79499 /* AYNurseScheduleCellWhiterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB1801E66BCFD00A79499 /* AYNurseScheduleCellWhiterView.m */; };
 		70FCB1841E66BD2300A79499 /* AYNurseScheduleTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB1831E66BD2300A79499 /* AYNurseScheduleTableDelegate.m */; };
-		70FCB1871E66BD3000A79499 /* AYNurseSchedulePickDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FCB1861E66BD3000A79499 /* AYNurseSchedulePickDelegate.m */; };
 		70FE1C751E24D12E00050FF0 /* AYOrderCommonController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C741E24D12E00050FF0 /* AYOrderCommonController.m */; };
 		70FE1C781E24DB9A00050FF0 /* AYOrderCommonDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C771E24DB9A00050FF0 /* AYOrderCommonDelegate.m */; };
 		70FE1C7B1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */; };
@@ -2091,8 +2090,6 @@
 		70FCB1801E66BCFD00A79499 /* AYNurseScheduleCellWhiterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseScheduleCellWhiterView.m; sourceTree = "<group>"; };
 		70FCB1821E66BD2300A79499 /* AYNurseScheduleTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseScheduleTableDelegate.h; sourceTree = "<group>"; };
 		70FCB1831E66BD2300A79499 /* AYNurseScheduleTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseScheduleTableDelegate.m; sourceTree = "<group>"; };
-		70FCB1851E66BD3000A79499 /* AYNurseSchedulePickDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNurseSchedulePickDelegate.h; sourceTree = "<group>"; };
-		70FCB1861E66BD3000A79499 /* AYNurseSchedulePickDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNurseSchedulePickDelegate.m; sourceTree = "<group>"; };
 		70FE1C731E24D12E00050FF0 /* AYOrderCommonController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCommonController.h; sourceTree = "<group>"; };
 		70FE1C741E24D12E00050FF0 /* AYOrderCommonController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOrderCommonController.m; sourceTree = "<group>"; };
 		70FE1C761E24DB9A00050FF0 /* AYOrderCommonDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderCommonDelegate.h; sourceTree = "<group>"; };
@@ -7581,8 +7578,6 @@
 			children = (
 				70FCB1821E66BD2300A79499 /* AYNurseScheduleTableDelegate.h */,
 				70FCB1831E66BD2300A79499 /* AYNurseScheduleTableDelegate.m */,
-				70FCB1851E66BD3000A79499 /* AYNurseSchedulePickDelegate.h */,
-				70FCB1861E66BD3000A79499 /* AYNurseSchedulePickDelegate.m */,
 			);
 			path = NurseScheduleDelegate;
 			sourceTree = "<group>";
@@ -8375,7 +8370,6 @@
 				700693281CC4D8DF00B511FF /* AYEnumAlbumNameCommand.m in Sources */,
 				705E969A1D470F37006CF9E6 /* AYReadyOrderDelegate.m in Sources */,
 				701524371CBF60E6005B4C5B /* AYUserDisplayView.m in Sources */,
-				70FCB1871E66BD3000A79499 /* AYNurseSchedulePickDelegate.m in Sources */,
 				70D228301D896B3300EF4211 /* AYOrderPriceCellView.m in Sources */,
 				70C69FF51D9A496A0069E4EE /* AYPersonalInfoController.m in Sources */,
 				70CDF6081CBCA4E500311841 /* AYSignOutLocalCommand.m in Sources */,

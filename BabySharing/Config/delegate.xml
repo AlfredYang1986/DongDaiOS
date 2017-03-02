@@ -271,6 +271,7 @@
 	<delegate type="TableViewDelegateAndDatasource" name="NurseScheduleTable" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="addTimeDuration" />
+		<command type="notify" message="manageRestDaySchedule" />
 		<command type="notify" message="exchangeTimeDuration:" />
 	</delegate>
 	
@@ -394,6 +395,12 @@
 	</delegate>
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="scrollOffsetX:" />
+		<command type="notify" message="transTimesInfo:" />
+	</delegate>
+	
+	<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="scrollOffsetX:" />
 		<command type="notify" message="transTimesInfo:" />

@@ -152,6 +152,7 @@
 
 - (void)didRestDayTap {
 	NSLog(@"----tap");
+	kAYDelegateSendNotify(self, @"manageRestDaySchedule", nil)
 }
 
 @end

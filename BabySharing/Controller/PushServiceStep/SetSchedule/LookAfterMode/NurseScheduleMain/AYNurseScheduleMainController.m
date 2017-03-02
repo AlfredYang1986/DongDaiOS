@@ -457,6 +457,21 @@
 	return nil;
 }
 
+
+- (id)manageRestDaySchedule {
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"NurseCalendar");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[timeDurationArr copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+	return nil;
+}
+
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.

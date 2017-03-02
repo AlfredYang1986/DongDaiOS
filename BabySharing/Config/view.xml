@@ -847,11 +847,24 @@
 	   <command type="message" message="registerDelegate:" />
 	   <command type="message" message="registerCellWithClass:" />
 	   <command type="message" message="registerCellWithNib:" />
-	   <command type="message" message="registerHeaderAndFooterWithClass:" />
+	   <command type="message" message="registerHeaderWithClass:" />
 	   <command type="message" message="registerHeaderAndFooterWithNib:" />
 	   <command type="message" message="scrollToPostion:" />
 	   
 	   <command type="args"      direction="1" minspacingx = "0" minspacingy = "0"/>
+   </view>
+   
+   <view type="CollectionVer" name="CollectionVer" factory="AYCollectionViewFactory" >
+	   <command type="message" message="refresh" />
+	   <command type="message" message="registerDatasource:" />
+	   <command type="message" message="registerDelegate:" />
+	   <command type="message" message="registerCellWithClass:" />
+	   <command type="message" message="registerCellWithNib:" />
+	   <command type="message" message="registerHeaderWithClass:" />
+	   <command type="message" message="registerHeaderAndFooterWithNib:" />
+	   <command type="message" message="scrollToPostion:" />
+	   
+	   <command type="args"      direction="0" minspacingx = "0" minspacingy = "0"/>
    </view>
    
    <view type="MapMatchCell" name="MapMatchCell" factory="AYReuseViewFactory" >

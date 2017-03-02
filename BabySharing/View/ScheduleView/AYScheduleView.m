@@ -9,7 +9,6 @@
 #import "AYScheduleView.h"
 #import "AYCalendarDefines.h"
 
-#define WIDTH               (self.frame.size.width - 30)
 #define HEIGHT              self.frame.size.height
 #define MARGIN              10.f
 #define COLLECTIONROWNUMB   7
@@ -22,12 +21,10 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     NSMutableArray *timeSpanArray;
     NSString *currentDate;
     AYCalendarCellView *tmp;
-    UILabel *tips;
-    
-    BOOL isServ;
+//    UILabel *tips;
+	
 }
 
-@synthesize headerView = _headerView;
 @synthesize calendarContentView = _calendarContentView;
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -44,7 +41,6 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 #pragma mark -- life cycle
 - (void)postPerform {
     self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, 0);
-    isServ = YES;
     
     if (!selectedItemArray) {
         selectedItemArray = [[NSMutableArray alloc]init];
@@ -78,9 +74,76 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     return kAYFactoryManagerCatigoryView;
 }
 
-#pragma mark -- Tools
-
 #pragma mark -- layout
+- (void)addCollectionView {
+	
+	CGFloat margin = 10.f;
+	
+	NSArray *titleArr = [NSArray arrayWithObjects:@"日", @"一",@"二",@"三",@"四",@"五",@"六",nil];
+	
+	CGFloat labelWidth = (SCREEN_WIDTH - margin * 2)/7;
+	for (int i = 0; i<7; i++) {
+		UILabel *label = [Tools creatUILabelWithText:[titleArr objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:label];
+		[label mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self.mas_left).offset((margin+labelWidth*0.5)+labelWidth*i);
+			make.centerY.equalTo(self.mas_top).offset(15);
+		}];
+	}
+	
+	/******************/
+	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+	layout.itemSize = CGSizeMake(labelWidth, labelWidth);
+	layout.minimumLineSpacing = 0;
+	layout.minimumInteritemSpacing = 0;
+	
+	_calendarContentView = [[UICollectionView alloc]initWithFrame:CGRectMake(margin, 30, SCREEN_WIDTH - margin*2, SCREEN_HEIGHT - 120 - 130) collectionViewLayout:layout];
+	_calendarContentView.backgroundColor = [UIColor clearColor];
+	[self addSubview:_calendarContentView];
+	_calendarContentView.delegate = self;
+	_calendarContentView.dataSource = self;
+	_calendarContentView.allowsMultipleSelection = YES;
+	_calendarContentView.showsVerticalScrollIndicator = NO;
+//	[_calendarContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.bottom.equalTo(self);
+//		make.left.equalTo(self).offset(margin);
+//		make.right.equalTo(self).offset(-margin);
+//		make.top.equalTo(self).offset(30);
+//	}];
+	
+	CALayer *line_separator = [CALayer layer];
+	line_separator.frame = CGRectMake(0, 29.5, SCREEN_WIDTH, 0.5);
+	line_separator.backgroundColor = [Tools garyLineColor].CGColor;
+	[self.layer addSublayer:line_separator];
+	
+	[_calendarContentView registerClass:[AYDayCollectionCellView class] forCellWithReuseIdentifier:@"AYDayCollectionCellView"];
+	//注册头部
+	[_calendarContentView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
+	
+	[self refreshScrollPositionCurrentDate];
+	
+}
+
+- (void)refreshScrollPositionCurrentDate {
+	NSDate *Date = [[NSDate alloc]init];
+	NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
+	[self refreshControlWithYear:calendar[0] month:calendar[1] day:calendar[2]];
+}
+
+- (void)refreshControlWithYear:(NSString *)year month:(NSString *)month day:(NSString *)day {
+	// 每个月的第一天
+	NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@", year, month, @1];
+	// 获得这个月第一天是星期几
+	NSInteger dayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:dateStr];
+	NSInteger section = (year.integerValue - [_useTime getYear])*12 + (month.integerValue - 1);
+	NSInteger item = day.integerValue + dayOfFirstWeek - 1;
+	
+	NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+	//    [_calendarContentView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+	[_calendarContentView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+	
+}
+
 -(void)layoutSubviews{
     [super layoutSubviews];
 }
@@ -127,22 +190,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 
 #pragma mark -- commands
 -(id)queryFiterArgs:(NSDictionary*)args{
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//    NSDateFormatter *format = [[NSDateFormatter alloc] init];
-//    [format setDateFormat:@"yyyy-MM-dd HH:mm"];
-//    
-//    NSString *plan_time_post = [NSString stringWithFormat:@"%@ %@",theDayDate,choocePostTime.text];
-//    NSDate *startDate = [format dateFromString:plan_time_post];
-//    NSTimeInterval start = startDate.timeIntervalSince1970;
-//    
-//    NSString *plan_time_get = [NSString stringWithFormat:@"%@ %@", theDayDate,chooceGetTime.text];//2016-06-18 3:45.AM
-//    NSDate *endDate = [format dateFromString:plan_time_get];
-//    NSTimeInterval end = endDate.timeIntervalSince1970; //s
-//    
-//    [dic setValue:theDayDate forKey:@"plan_date"];
-//    [dic setValue:[NSNumber numberWithDouble:start] forKey:@"plan_time_post"];
-//    [dic setValue:[NSNumber numberWithDouble:end] forKey:@"plan_time_get"];
-//    
+	
     return nil;
 }
 
@@ -201,9 +249,6 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 
 - (id)changeQueryData:(id)args {
     
-    NSNumber *isArgs = [(NSDictionary*)args objectForKey:@"is_serv"];
-    isServ = isArgs.boolValue;
-    
     NSDate *Date = [[NSDate alloc]init];
     NSTimeInterval interval_note = Date.timeIntervalSince1970;
     
@@ -240,74 +285,12 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     
     if (timeSpanArray.count != 0) {
         [self setAbilityDateTextWith:nil];
-    } else if(!isServ){
-        tips.text = @"未来一周都可以提供服务";
     }
     
     return nil;
 }
 
 #pragma mark -- scrollView delegate
-
-- (void)addCollectionView{
-    NSArray *titleArr = [NSArray arrayWithObjects:@"日", @"一",@"二",@"三",@"四",@"五",@"六",nil];
-    _headerView = [[UIView alloc]initWithFrame:CGRectMake(15, 0, WIDTH, 30)];
-    [self addSubview:_headerView];
-    
-    CGFloat labelWidth = (WIDTH - 30)/7;
-    for (int i = 0; i<7; i++) {
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(i*labelWidth + 15, 0, labelWidth, 30)];
-        label = [Tools setLabelWith:label andText:[titleArr objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-        [_headerView addSubview:label];
-    }
-    
-    /******************/
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    CGFloat wh = (WIDTH - 30) / 7;
-    layout.itemSize = CGSizeMake(wh, wh);
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
-    
-    _calendarContentView = [[UICollectionView alloc]initWithFrame:CGRectMake(30, 30, WIDTH - 30, (WIDTH - 30)/7*COLLECTIONROWNUMB) collectionViewLayout:layout];
-    _calendarContentView.backgroundColor = [UIColor clearColor];
-    [self addSubview:_calendarContentView];
-    _calendarContentView.delegate = self;
-    _calendarContentView.dataSource = self;
-    _calendarContentView.allowsMultipleSelection = YES;
-    _calendarContentView.showsVerticalScrollIndicator = NO;
-    
-    CALayer *line_separator = [CALayer layer];
-    line_separator.frame = CGRectMake(0, 29.5, SCREEN_WIDTH, 0.5);
-    line_separator.backgroundColor = [Tools garyLineColor].CGColor;
-    [self.layer addSublayer:line_separator];
-    
-    [_calendarContentView registerClass:[AYDayCollectionCellView class] forCellWithReuseIdentifier:@"AYDayCollectionCellView"];
-    //注册头部
-    [_calendarContentView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
-    
-    [self refreshScrollPositionCurrentDate];
-    
-    CALayer *line = [CALayer layer];
-    line.frame = CGRectMake(0, (WIDTH - 30)/7*COLLECTIONROWNUMB + 30, SCREEN_WIDTH, 0.5);
-    line.backgroundColor = [Tools garyLineColor].CGColor;
-    [self.layer addSublayer:line];
-    
-    tips = [[UILabel alloc]init];
-    [self addSubview:tips];
-    tips = [Tools setLabelWith:tips andText:tipsLabelInitStr andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-    tips.numberOfLines = 0;
-    [tips mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_calendarContentView.mas_bottom).offset(80);
-        make.centerX.equalTo(self);
-    }];
-    
-}
-
-- (void)refreshScrollPositionCurrentDate {
-    NSDate *Date = [[NSDate alloc]init];
-    NSArray *calendar = [[self.useTime dataToString:Date] componentsSeparatedByString:@"-"];
-    [self refreshControlWithYear:calendar[0] month:calendar[1] day:calendar[2]];
-}
 
 #pragma mark -- UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -397,7 +380,9 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 
 //设置header的高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    return (CGSize){WIDTH, (WIDTH - 30) / COLLECTIONROWNUMB};
+	
+	CGFloat width = SCREEN_WIDTH - 10 * 2;
+    return (CGSize){width, width / 7};
 }
 
 #pragma mark -- cell点击
@@ -426,7 +411,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     [selectedItemArray removeObject:indexPath];
     [timeSpanArray removeObject:[NSNumber numberWithDouble:time_p]];
     if (timeSpanArray.count == 0) {
-        tips.text = tipsLabelInitStr;
+		
         return;
     }
     
@@ -437,30 +422,14 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     AYDayCollectionCellView * cell = (AYDayCollectionCellView *)[collectionView cellForItemAtIndexPath:indexPath];
-    if (cell.isGone || !isServ) {
+    if (cell.isGone ) {
         return NO;
     } else
         return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (!isServ) {
-        return NO;
-    } else return YES;
-}
-
-- (void)refreshControlWithYear:(NSString *)year month:(NSString *)month day:(NSString *)day {
-    // 每个月的第一天
-    NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@", year, month, @1];
-    // 获得这个月第一天是星期几
-    NSInteger dayOfFirstWeek = [_useTime timeMonthWeekDayOfFirstDay:dateStr];
-    NSInteger section = (year.integerValue - [_useTime getYear])*12 + (month.integerValue - 1);
-    NSInteger item = day.integerValue + dayOfFirstWeek - 1;
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
-//    [_calendarContentView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
-    [_calendarContentView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-    
+    return YES;
 }
 
 - (id)dateScrollToCenter:(NSString*)str {
@@ -513,9 +482,9 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
             NSString *date_string = [self transformTimespanToMouthAndDayWithDate:timeDate];
             ability_dateString = [ability_dateString stringByAppendingString:[NSString stringWithFormat:@", %@",date_string]];
         }
-    } else ability_dateString = @"多个日期";
-    
-    tips.text = [ability_dateString stringByAppendingString:@"\n暂无法提供服务"];
+    } else
+		ability_dateString = @"多个日期";
+	
 }
 
 - (BOOL)isMilitaryWithArray:(NSArray*)array {
