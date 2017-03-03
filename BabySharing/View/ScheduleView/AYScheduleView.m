@@ -17,10 +17,11 @@
 static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提供服务的时间";
 
 @implementation AYScheduleView {
-    NSMutableArray *selectedItemArray;
+//    NSMutableArray *selectedItemArray;
     NSMutableArray *timeSpanArray;
+	
     NSString *currentDate;
-    AYCalendarCellView *tmp;
+    AYCalendarCellView *CalendarCellNote;
 //    UILabel *tips;
 	
 }
@@ -42,15 +43,16 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 - (void)postPerform {
     self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, 0);
     
-    if (!selectedItemArray) {
-        selectedItemArray = [[NSMutableArray alloc]init];
-    }
-    
+//    if (!selectedItemArray) {
+//        selectedItemArray = [[NSMutableArray alloc]init];
+//    }
+	
     if (!timeSpanArray) {
         timeSpanArray = [[NSMutableArray alloc]init];
     }
     
     [self addCollectionView];
+	
     NSDate *current = [[NSDate alloc]init];
     NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
@@ -102,14 +104,14 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	[self addSubview:_calendarContentView];
 	_calendarContentView.delegate = self;
 	_calendarContentView.dataSource = self;
-	_calendarContentView.allowsMultipleSelection = YES;
+//	_calendarContentView.allowsMultipleSelection = YES;
 	_calendarContentView.showsVerticalScrollIndicator = NO;
-//	[_calendarContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.bottom.equalTo(self);
-//		make.left.equalTo(self).offset(margin);
-//		make.right.equalTo(self).offset(-margin);
-//		make.top.equalTo(self).offset(30);
-//	}];
+	[_calendarContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self);
+		make.left.equalTo(self).offset(margin);
+		make.right.equalTo(self).offset(-margin);
+		make.top.equalTo(self).offset(30);
+	}];
 	
 	CALayer *line_separator = [CALayer layer];
 	line_separator.frame = CGRectMake(0, 29.5, SCREEN_WIDTH, 0.5);
@@ -117,7 +119,6 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	[self.layer addSublayer:line_separator];
 	
 	[_calendarContentView registerClass:[AYDayCollectionCellView class] forCellWithReuseIdentifier:@"AYDayCollectionCellView"];
-	//注册头部
 	[_calendarContentView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
 	
 	[self refreshScrollPositionCurrentDate];
@@ -150,18 +151,18 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 
 #pragma mark -- actions
 - (void)getClickDate:(AYCalendarCellView*)view {
-    if (tmp) {
-        tmp.backgroundColor = [UIColor clearColor];
-        if ([tmp.numLabel.text isEqualToString:[NSString stringWithFormat:@"%d",self.day]]) {
-            tmp.numLabel.textColor = [Tools themeColor];
+    if (CalendarCellNote) {
+        CalendarCellNote.backgroundColor = [UIColor clearColor];
+        if ([CalendarCellNote.numLabel.text isEqualToString:[NSString stringWithFormat:@"%d",self.day]]) {
+            CalendarCellNote.numLabel.textColor = [Tools themeColor];
         }
         else {
-            tmp.numLabel.textColor = [UIColor blackColor];
+            CalendarCellNote.numLabel.textColor = [UIColor blackColor];
         }
     }
     view.numLabel.textColor = [UIColor whiteColor];
     view.backgroundColor = [Tools themeColor];
-    tmp = view;
+    CalendarCellNote = view;
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setDateFormat:@"yyyy-MM-dd"];
@@ -249,7 +250,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 
 - (id)changeQueryData:(id)args {
     
-    NSDate *Date = [[NSDate alloc]init];
+    NSDate *Date = [[NSDate alloc] init];
     NSTimeInterval interval_note = Date.timeIntervalSince1970;
     
     NSArray *tmp_args = [(NSDictionary*)args objectForKey:@"offer_date"];
@@ -283,10 +284,10 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         interval_note += 86400 ;
     }
     
-    if (timeSpanArray.count != 0) {
-        [self setAbilityDateTextWith:nil];
-    }
-    
+//    if (timeSpanArray.count != 0) {
+//        [self setAbilityDateTextWith:nil];
+//    }
+	
     return nil;
 }
 
@@ -320,30 +321,36 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     NSInteger lastConter = self.dayOfWeek + self.monthNumber - 1;
     if (indexPath.item < firstCorner || indexPath.item > lastConter) {
         cell.hidden = YES;
-    }else {
+    } else {
         cell.hidden = NO;
         cell.isGone = NO;
         
         NSInteger gregoiain = indexPath.item - firstCorner+1;
         NSString *cellDateStr = [NSString stringWithFormat:@"%ld-%ld-%ld", indexPath.section/12 + [_useTime getYear], indexPath.section%12 + 1, (long)gregoiain];
         NSDate *cellDate = [_useTime strToDate:cellDateStr];
-        NSTimeInterval cellData = cellDate.timeIntervalSince1970;
+        NSTimeInterval cellTimeSpan = cellDate.timeIntervalSince1970;
+		
         NSDate *today = [_useTime strToDate:currentDate];
-        NSTimeInterval todayData = today.timeIntervalSince1970;
-        NSTimeInterval twoWeeksLater = todayData + operableWeeksLimit * 7 * 86400;
-        if (cellData < todayData || cellData >= twoWeeksLater) {
+        NSTimeInterval todayTimeSpan = today.timeIntervalSince1970;
+		
+//        NSTimeInterval twoWeeksLater = todayTimeSpan + operableWeeksLimit * 7 * 86400;		//1周内日期
+        if (cellTimeSpan < todayTimeSpan /*|| cellTimeSpan >= twoWeeksLater*/) {
             cell.isGone = YES;
-        }
+		} else if (cellTimeSpan == todayTimeSpan) {
+			UIView *BgView = [[UIView alloc] init];
+			BgView.layer.contents = (id)IMGRESOURCE(@"date_today_sign").CGImage;
+			cell.backgroundView = BgView;
+		}
         //阳历
         cell.gregoiainDay = [NSString stringWithFormat:@"%ld", gregoiain];
         //日期属性
-        cell.timeSpan = cellData;
+        cell.timeSpan = cellTimeSpan;
         cell.gregoiainCalendar = dateStr;
         cell.chineseCalendar = [self.useTime timeChineseCalendarWithString:dateStr];
         
         UIView *selectBgView = [[UIView alloc] init];
 //        selectBgView.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"unavilable_bg")];
-        selectBgView.layer.contents = (id)IMGRESOURCE(@"unavilable_bg").CGImage;
+        selectBgView.layer.contents = (id)IMGRESOURCE(@"date_seted_sign").CGImage;
         cell.selectedBackgroundView = selectBgView;
     }
     return cell;
@@ -362,7 +369,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         UILabel *label = [headerView viewWithTag:119];
         if (label == nil) {
             //添加日期
-            label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+            label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
             label.tag = 119;
             [headerView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -391,13 +398,16 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     if (cell.isGone) {
         return ;
     }
-    
-    long time_p = cell.timeSpan;
-    [selectedItemArray addObject:indexPath];
-    [timeSpanArray addObject:[NSNumber numberWithDouble:time_p]];
-    
-    [self setAbilityDateTextWith:nil];
-    [self didChangedAvilableDate];
+	cell.isLightColor = YES;
+    NSTimeInterval time_p = cell.timeSpan;
+	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
+	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+	
+////    [selectedItemArray addObject:indexPath];
+//    [timeSpanArray addObject:[NSNumber numberWithDouble:time_p]];
+//    
+//    [self setAbilityDateTextWith:nil];
+//    [self didChangedAvilableDate];
 }
 
 #pragma mark -- cell反选
@@ -406,17 +416,18 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     if (cell.isGone) {
         return ;
     }
-    
-    long time_p = cell.timeSpan;
-    [selectedItemArray removeObject:indexPath];
-    [timeSpanArray removeObject:[NSNumber numberWithDouble:time_p]];
-    if (timeSpanArray.count == 0) {
-		
-        return;
-    }
-    
-    [self setAbilityDateTextWith:nil];
-    [self didChangedAvilableDate];
+	cell.isLightColor = NO;
+	NSTimeInterval time_p = cell.timeSpan;
+	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
+	kAYViewSendNotify(self, @"didDeselectItemAtIndexPath:", &tmp)
+////    [selectedItemArray removeObject:indexPath];
+//    [timeSpanArray removeObject:[NSNumber numberWithDouble:time_p]];
+//    if (timeSpanArray.count == 0) {
+//        return;
+//    }
+	
+//    [self setAbilityDateTextWith:nil];
+//    [self didChangedAvilableDate];
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {

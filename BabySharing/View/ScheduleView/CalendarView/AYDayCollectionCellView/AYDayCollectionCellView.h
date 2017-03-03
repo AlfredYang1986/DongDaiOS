@@ -15,6 +15,8 @@
 @property (nonatomic, copy) NSString *dayDay;
 @property (nonatomic, assign) BOOL isGone;
 @property (nonatomic, assign) double timeSpan;
+@property (nonatomic, assign) BOOL isLightColor;
+
 /** 日 */
 @property (nonatomic, copy) NSString *lunarDay;
 

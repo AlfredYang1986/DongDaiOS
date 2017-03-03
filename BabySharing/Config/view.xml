@@ -797,6 +797,8 @@
         <command type="message"     message="changeQueryData:" />
         <command type="notify"      message="didCancelClick" />
         <command type="notify"      message="ChangeOfSchedule" />
+		<command type="notify"      message="didSelectItemAtIndexPath:" />
+		<command type="notify"      message="didDeselectItemAtIndexPath:" />
     </view>
     
     <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYReuseViewFactory" >
@@ -871,8 +873,9 @@
 	   <command type="message"      message="setCellInfo:" />
    </view>
    
-   <view type="NurseScheduleCellWhiter" name="NurseScheduleCellWhiter" factory="AYReuseViewFactory" >
+   <view type="NurseScheduleCellWhiter" name="NurseScheduleCellWhite" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
+	   <command type="notify" message="delTimeDuration:" />
    </view>
    <view type="NurseScheduleCellTheme" name="NurseScheduleCellTheme" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />

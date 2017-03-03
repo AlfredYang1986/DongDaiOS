@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AYViewBase.h"
 
-@interface AYNurseScheduleCellWhiterView : UITableViewCell
+@interface AYNurseScheduleCellWhiteView : UITableViewCell <AYViewBase>
 
 @end

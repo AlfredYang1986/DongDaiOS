@@ -406,4 +406,10 @@
 		<command type="notify" message="transTimesInfo:" />
 	</delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="RestDayTable" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="addTimeDuration" />
+		<command type="notify" message="exchangeTimeDuration:" />
+	</delegate>
+	
 </delegates>

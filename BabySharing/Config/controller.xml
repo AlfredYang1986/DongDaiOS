@@ -754,6 +754,16 @@
 <!--		<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" />-->
 	</controller>
 	
+	<controller type="DefaultController" name="RestDaySchedule" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		<view type="Picker"         name="Picker" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="RestDayTable" />
+		<delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />
+	</controller>
+	
     <controller type="DefaultController" name="EditPhotos" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
