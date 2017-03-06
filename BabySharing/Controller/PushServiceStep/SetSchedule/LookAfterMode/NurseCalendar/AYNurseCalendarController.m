@@ -21,7 +21,7 @@
 
 @implementation AYNurseCalendarController {
 	
-	NSArray *timeDurationArr;
+//	NSArray *timeDurationArr;
 //	UIButton *editBtn;
 	
 	NSMutableArray *RestDayArr;
@@ -34,15 +34,34 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		timeDurationArr = [dic objectForKey:kAYControllerChangeArgsKey];
+//		timeDurationArr = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-//		NSDictionary *back_args = [dic objectForKey:kAYControllerChangeArgsKey];
-//		NSNumber *handle = [back_args objectForKey:@"handle"];
-//		NSInteger handle_index = [RestDayArr indexOfObject:handle];
+		NSDictionary *back_args = [dic objectForKey:kAYControllerChangeArgsKey];
+		timesArrNote = [back_args objectForKey:@"rest_schedule"];
 		
+		NSNumber *handle = [back_args objectForKey:@"time_span_handle"];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", handle];
+		NSArray *result = [RestDayArr filteredArrayUsingPredicate:pred];
+		
+		if (result.count != 0) {
+			NSInteger handle_index = [RestDayArr indexOfObject:result.firstObject];
+			[RestDayArr replaceObjectAtIndex:handle_index withObject:back_args];
+			
+		} else {
+			
+			[RestDayArr addObject:back_args];
+		}
+		
+		[RestDayArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+			return [[obj1 objectForKey:@"time_span_handle"] intValue] > [[obj2 objectForKey:@"time_span_handle"] intValue];
+		}];
+		
+		
+		NSArray *tmp = [RestDayArr copy];
+		kAYViewsSendMessage(@"Schedule", kAYDelegateChangeDataMessage, &tmp)
 		
 	}
 }
@@ -53,6 +72,9 @@
 	if (!RestDayArr) {
 		RestDayArr = [NSMutableArray array];
 	}
+	
+//	NSArray *tmp = [timeDurationArr copy];
+//	kAYViewsSendMessage(@"Schedule", kAYDelegateChangeDataMessage, &tmp)
 	
 //	editBtn = [Tools creatUIButtonWithTitle:@"编辑日期" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
 //	[Tools setViewBorder:editBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
@@ -71,8 +93,9 @@
 	[super viewWillAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
 }
 
 #pragma mark -- layouts
@@ -116,6 +139,7 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[RestDayArr copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
@@ -136,7 +160,8 @@
 //		isContains = YES;
 //	}
 	
-	[RestDayArr addObject:args];		//NSNumber (double)
+	//NSNumber (double)
+//	[RestDayArr addObject:args];
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"RestDaySchedule");
 	
@@ -146,8 +171,19 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	[tmp setValue:args forKey:@"timeinterval"];
-	[tmp setValue:timesArrNote forKey:@"times_note"];
+	[tmp setValue:args forKey:@"time_span_handle"];
+	
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", args];
+	NSArray *result = [RestDayArr filteredArrayUsingPredicate:pred];
+	if (result.count == 0) {
+		[tmp setValue:timesArrNote forKey:@"times_note"];
+	} else {
+		NSDictionary *dic_times = result.firstObject;
+		NSArray *tmpArr = [dic_times objectForKey:@"rest_schedule"];
+		[tmp setValue:[tmpArr copy] forKey:@"times_note"];
+	}
+	
+	
 	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
@@ -158,14 +194,14 @@
 
 - (id)didDeselectItemAtIndexPath:(id)args {
 	
-	__block id tmp;
-	[RestDayArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if ([obj isEqualToNumber:args]) {
-			tmp = obj;
-			*stop = YES;
-		}
-	}];
-	[RestDayArr removeObject:tmp];
+//	__block id tmp;
+//	[RestDayArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		if ([obj isEqualToNumber:args]) {
+//			tmp = obj;
+//			*stop = YES;
+//		}
+//	}];
+//	[RestDayArr removeObject:tmp];
 	
 	return nil;
 }

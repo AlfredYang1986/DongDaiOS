@@ -22,6 +22,8 @@
 
 @implementation AYNurseScheduleMainController {
 	
+	UIButton *PushBtn;
+	
 	NSMutableDictionary *push_service_info;
 	BOOL isChangeCalendar;
 	
@@ -29,7 +31,11 @@
 	NSMutableArray *offer_date;
 	NSString *service_id;
 	
+	//back args
+	NSArray *restDayScheduleArr;
+	
 	NSNumber *exchangeIndexNote;
+	BOOL isAddAlready;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -58,6 +64,7 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		restDayScheduleArr = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	}
 }
@@ -100,6 +107,18 @@
 	
 	NSArray *date_info = [offer_date copy];
 	kAYViewsSendMessage(@"ScheduleWeekDays", @"setViewInfo:", &date_info)
+	
+	PushBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
+	[self.view addSubview:PushBtn];
+	[PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view).offset(-25);
+		make.right.equalTo(self.view).offset(-25);
+		make.size.mas_equalTo(CGSizeMake(125, 50));
+	}];
+
+	PushBtn.alpha = 0.f;
+	[PushBtn addTarget:self action:@selector(didPushServiceBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	UIView* picker = [self.views objectForKey:@"Picker"];
 	[self.view bringSubviewToFront:picker];
@@ -147,18 +166,16 @@
 #pragma mark -- actions
 - (void)didPushServiceBtnClick {
 	
-	if (offer_date.count == 0) {
-		NSString *title = @"您还没有设置时间";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return ;
-	}
-	
 	{
 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
-		id args = [offer_date copy];
-		[cmd performWithResult:&args];
-		NSArray* result = (NSArray*)args;
+		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMNurse"];
+		
+		NSMutableDictionary *time_brige_args = [[NSMutableDictionary alloc] init];
+		[time_brige_args setValue:timeDurationArr forKey:@"schedule_normal"];
+		[time_brige_args setValue:restDayScheduleArr forKey:@"schedule_restday"];
+		
+		[cmd performWithResult:&time_brige_args];
+		NSArray* result = (NSArray*)time_brige_args;
 		NSLog(@"result is %@", result);
 		[push_service_info setValue:result forKey:@"tms"];
 	}
@@ -277,26 +294,6 @@
 	
 }
 
-- (BOOL)isCurrentTimesLegal {
-	//    NSMutableArray *allTimeNotes = [NSMutableArray array];
-	__block BOOL isLegal = YES;
-	[timeDurationArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		
-		NSNumber *currentEnd = [obj objectForKey:@"end"];
-		
-		if (idx+1 < timeDurationArr.count) {
-			NSNumber *nextStart = [[timeDurationArr objectAtIndex:idx+1] objectForKey:@"start"];
-			
-			if (currentEnd.intValue > nextStart.intValue) {
-				isLegal = NO;
-				*stop = YES;
-			}
-		}
-	}];
-	
-	return isLegal;
-}
-
 #pragma mark -- notifies
 - (id)leftBtnSelected {
 	
@@ -374,14 +371,6 @@
 
 - (id)cellShowPickerView:(NSNumber*)args {
 	
-//	creatOrUpdateNote = args.integerValue;
-//	
-//	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
-//	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
-//	NSNumber *offset = [NSNumber numberWithInt:12];
-//	[cmd_scroll_center performWithResult:&offset];
-//	
-//	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
 	return nil;
 }
 
@@ -431,7 +420,10 @@
 	id tmp = [timeDurationArr copy];
 	kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-	
+	if (!isAddAlready) {
+		PushBtn.alpha = 1.f;
+		isAddAlready = YES;
+	}
 	exchangeIndexNote = nil;
 	return nil;
 }
@@ -477,5 +469,24 @@
 	// Dispose of any resources that can be recreated.
 }
 
+- (BOOL)isCurrentTimesLegal {
+	//    NSMutableArray *allTimeNotes = [NSMutableArray array];
+	__block BOOL isLegal = YES;
+	[timeDurationArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		
+		NSNumber *currentEnd = [obj objectForKey:@"end"];
+		
+		if (idx+1 < timeDurationArr.count) {
+			NSNumber *nextStart = [[timeDurationArr objectAtIndex:idx+1] objectForKey:@"start"];
+			
+			if (currentEnd.intValue > nextStart.intValue) {
+				isLegal = NO;
+				*stop = YES;
+			}
+		}
+	}];
+	
+	return isLegal;
+}
 
 @end

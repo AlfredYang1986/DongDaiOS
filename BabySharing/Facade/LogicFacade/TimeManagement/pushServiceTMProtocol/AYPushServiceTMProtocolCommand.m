@@ -41,7 +41,7 @@
             [re setValue:starthours forKey:@"starthours"];
             [re setValue:endhours forKey:@"endhours"];
             
-            [re setValue:[NSNumber numberWithInt:1] forKey:@"pattern"];
+            [re setValue:[NSNumber numberWithInt:TMPatternTypeWeekly] forKey:@"pattern"];
             
             [result addObject:[re copy]];
         }

@@ -38,8 +38,8 @@
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		timeSpanHandle = [dic objectForKey:@"timeinterval"];
-		timeDurationArr = [dic_args objectForKey:@"times_note"];
+		timeSpanHandle = [dic_args objectForKey:@"time_span_handle"];
+		timeDurationArr = [[dic_args objectForKey:@"times_note"] mutableCopy];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -55,6 +55,8 @@
 	
 	if (!timeDurationArr) {
 		timeDurationArr  = [NSMutableArray array];
+	} else {
+		[self showRightBtn];
 	}
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"可以预定" andTextColor:[Tools whiteColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -74,6 +76,7 @@
 		make.size.mas_equalTo(CGSizeMake(62, 42));
 	}];
 	[isAllowedBtn addTarget:self action:@selector(didAllowedBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	isAllowedBtn.selected = YES;
 	
 	{
 		
@@ -97,7 +100,7 @@
 	}
 	
 	NSArray *tmp = [timeDurationArr copy];
-	kAYViewsSendMessage(@"RestDayTable", kAYDelegateChangeDataMessage, &tmp)
+	kAYDelegatesSendMessage(@"RestDayTable", kAYDelegateChangeDataMessage, &tmp)
 	
 	UIView* picker = [self.views objectForKey:@"Picker"];
 	[self.view bringSubviewToFront:picker];
@@ -199,7 +202,7 @@
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[timeDurationArr copy] forKey:@"rest_schedule"];
 	[tmp setValue:[NSNumber numberWithBool:isAllowedBtn.selected] forKey:@"rest_isable"];
-	[tmp setValue:timeSpanHandle forKey:@"handle"];
+	[tmp setValue:timeSpanHandle forKey:@"time_span_handle"];
 	[dic_pop setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;

@@ -26,6 +26,15 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
 
+//TMPatternType
+typedef enum : int {
+	//ServiceTypeNone = 0,
+	TMPatternTypeDaily = 0,
+	TMPatternTypeWeekly = 1,
+	TMPatternTypeMonthly = 2,
+	TMPatternTypeOnce = 3,
+} TMPatternType;
+
 //ServiceType
 typedef enum : int {
     //ServiceTypeNone = 0,

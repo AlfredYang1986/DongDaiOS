@@ -194,6 +194,7 @@
 		702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A471DAF286700D8715B /* AYShowAlertCommand.m */; };
 		702B7A4C1DAF2ABF00D8715B /* AYHideAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */; };
 		702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */; };
+		702C4DED1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
 		702E7A821CA150A00097867E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A7B1CA1502C0097867E /* AppDelegate.m */; };
@@ -1135,6 +1136,8 @@
 		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
+		702C4DEB1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushServiceTMNurseCommand.h; sourceTree = "<group>"; };
+		702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceTMNurseCommand.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5B1CA14A490097867E /* BabySharingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabySharingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5F1CA14A490097867E /* BabySharingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BabySharingTests.m; sourceTree = "<group>"; };
@@ -7724,6 +7727,8 @@
 			children = (
 				80198C3C1E54763800149F97 /* AYPushServiceTMProtocolCommand.h */,
 				80198C3D1E54763800149F97 /* AYPushServiceTMProtocolCommand.m */,
+				702C4DEB1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.h */,
+				702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */,
 			);
 			path = pushServiceTMProtocol;
 			sourceTree = "<group>";
@@ -8660,6 +8665,7 @@
 				702510AE1CC0F68700DADF2B /* AYUpdataChatSessionCommand.m in Sources */,
 				705E968E1D470EAD006CF9E6 /* AYOrderPayCellView.m in Sources */,
 				70C41EDD1DBA122500C77B10 /* LxGridViewFlowLayout.m in Sources */,
+				702C4DED1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m in Sources */,
 				7001C48A1DD59752004275A9 /* AYScheduleView.m in Sources */,
 				70CDF6371CBD033900311841 /* QueryContent+ContextOpt.m in Sources */,
 				704762F21D2D28DF00538AC0 /* AYProfileHeadCellView.m in Sources */,
