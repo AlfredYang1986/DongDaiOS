@@ -26,6 +26,7 @@
 	UIButton *isAllowedBtn;
 	
 	NSNumber *timeSpanHandle;
+	NSNumber *isAble;
 	
 	NSNumber *exchangeIndexNote;
 	BOOL isChange;
@@ -40,6 +41,7 @@
 		
 		timeSpanHandle = [dic_args objectForKey:@"time_span_handle"];
 		timeDurationArr = [[dic_args objectForKey:@"times_note"] mutableCopy];
+		isAble = [dic_args objectForKey:@"rest_isable"];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -59,6 +61,10 @@
 		[self showRightBtn];
 	}
 	
+	if (!isAble) {
+		isAble = [NSNumber numberWithBool:YES];
+	}
+	
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"可以预定" andTextColor:[Tools whiteColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -76,7 +82,9 @@
 		make.size.mas_equalTo(CGSizeMake(62, 42));
 	}];
 	[isAllowedBtn addTarget:self action:@selector(didAllowedBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-	isAllowedBtn.selected = YES;
+	isAllowedBtn.selected = isAble.boolValue;
+	UITableView *tableView = [self.views objectForKey:kAYTableView];
+	tableView.hidden = !isAble.boolValue;
 	
 	{
 		
@@ -112,6 +120,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
+	
+	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
+	NSNumber *offset = [NSNumber numberWithInt:6];
+	[cmd_scroll_center performWithResult:&offset];
 }
 
 #pragma mark -- Layout

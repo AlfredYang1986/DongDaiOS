@@ -34,7 +34,10 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//		timeDurationArr = [dic objectForKey:kAYControllerChangeArgsKey];
+		
+		NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
+		timesArrNote = [[dic_args objectForKey:@"schedule_workday"] mutableCopy];
+		RestDayArr = [[dic_args objectForKey:@"schedule_restday"] mutableCopy];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -73,8 +76,8 @@
 		RestDayArr = [NSMutableArray array];
 	}
 	
-//	NSArray *tmp = [timeDurationArr copy];
-//	kAYViewsSendMessage(@"Schedule", kAYDelegateChangeDataMessage, &tmp)
+	NSArray *tmp = [RestDayArr copy];
+	kAYViewsSendMessage(@"Schedule", kAYDelegateChangeDataMessage, &tmp)
 	
 //	editBtn = [Tools creatUIButtonWithTitle:@"编辑日期" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
 //	[Tools setViewBorder:editBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
@@ -181,6 +184,7 @@
 		NSDictionary *dic_times = result.firstObject;
 		NSArray *tmpArr = [dic_times objectForKey:@"rest_schedule"];
 		[tmp setValue:[tmpArr copy] forKey:@"times_note"];
+		[tmp setValue:[dic_times objectForKey:@"rest_isable"] forKey:@"rest_isable"];
 	}
 	
 	

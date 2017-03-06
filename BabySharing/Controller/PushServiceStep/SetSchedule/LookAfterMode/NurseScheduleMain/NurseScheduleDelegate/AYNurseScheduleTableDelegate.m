@@ -106,7 +106,7 @@
 			make.centerY.equalTo(titleLabel);
 			make.size.mas_equalTo(CGSizeMake(30, 30));
 		}];
-		
+		addSignBtn.hidden = querydata.count == 0;
 		[addSignBtn addTarget:self action:@selector(didAddTimeDurationClick) forControlEvents:UIControlEventTouchUpInside];
 		
 	} else {
@@ -134,11 +134,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (querydata.count == 0) {
-		return;
+		kAYDelegateSendNotify(self, @"addTimeDuration", nil)
+	} else {
+		NSNumber *index= [NSNumber numberWithInteger:indexPath.row];
+		kAYDelegateSendNotify(self, @"exchangeTimeDuration:", &index)
 	}
-	
-	NSNumber *index= [NSNumber numberWithInteger:indexPath.row];
-	kAYDelegateSendNotify(self, @"exchangeTimeDuration:", &index)
 	
 }
 
@@ -152,6 +152,7 @@
 
 - (void)didRestDayTap {
 	NSLog(@"----tap");
+	
 	kAYDelegateSendNotify(self, @"manageRestDaySchedule", nil)
 }
 

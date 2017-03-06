@@ -322,6 +322,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
     } else {
         cell.hidden = NO;
         cell.isGone = NO;
+		cell.isLightColor = NO;
 		cell.backgroundView = nil;
 		
         NSInteger gregoiain = indexPath.item - firstCorner+1;
@@ -332,10 +333,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         NSDate *today = [_useTime strToDate:currentDate];
         NSTimeInterval todayTimeSpan = today.timeIntervalSince1970;
 		
-		NSNumber *handle = [NSNumber numberWithDouble:cellTimeSpan];
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", handle];
-		NSArray *result = [setedCellData filteredArrayUsingPredicate:pred];
-//        NSTimeInterval twoWeeksLater = todayTimeSpan + operableWeeksLimit * 7 * 86400;		//1周内日期
+		//        NSTimeInterval twoWeeksLater = todayTimeSpan + operableWeeksLimit * 7 * 86400;		//1周内日期
         if (cellTimeSpan < todayTimeSpan /*|| cellTimeSpan >= twoWeeksLater*/) {
             cell.isGone = YES;
 		} else if (cellTimeSpan == todayTimeSpan) {
@@ -344,18 +342,21 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 			cell.backgroundView = BgView;
 		}
 		
-		if (result.count != 0) {
-			UIView *BgView = [[UIView alloc] init];
-			BgView.layer.contents = (id)IMGRESOURCE(@"date_unavilable_sign").CGImage;
-			cell.backgroundView = BgView;
-		}
+		cell.gregoiainDay = [NSString stringWithFormat:@"%ld", gregoiain];
+		cell.timeSpan = cellTimeSpan;
 		
-        //阳历
-        cell.gregoiainDay = [NSString stringWithFormat:@"%ld", gregoiain];
-        //日期属性
-        cell.timeSpan = cellTimeSpan;
-        cell.gregoiainCalendar = dateStr;
-        cell.chineseCalendar = [self.useTime timeChineseCalendarWithString:dateStr];
+		NSNumber *handle = [NSNumber numberWithDouble:cellTimeSpan];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", handle];
+		NSArray *result = [setedCellData filteredArrayUsingPredicate:pred];
+		if (result.count != 0) {
+			if (((NSNumber*)[result.firstObject objectForKey:@"rest_isable"]).boolValue) {
+				cell.isLightColor = YES;
+			} else {
+				UIView *BgView = [[UIView alloc] init];
+				BgView.layer.contents = (id)IMGRESOURCE(@"date_unavilable_sign").CGImage;
+				cell.backgroundView = BgView;
+			}
+		}
         
 //        UIView *selectBgView = [[UIView alloc] init];
 ////        selectBgView.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"unavilable_bg")];

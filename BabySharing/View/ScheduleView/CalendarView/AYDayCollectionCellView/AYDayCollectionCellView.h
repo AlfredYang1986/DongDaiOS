@@ -17,12 +17,4 @@
 @property (nonatomic, assign) double timeSpan;
 @property (nonatomic, assign) BOOL isLightColor;
 
-/** 日 */
-@property (nonatomic, copy) NSString *lunarDay;
-
-/** 阳历 */
-@property (nonatomic, copy) NSString *gregoiainCalendar;
-/** 农历 */
-@property (nonatomic, copy) NSString *chineseCalendar;
-
 @end

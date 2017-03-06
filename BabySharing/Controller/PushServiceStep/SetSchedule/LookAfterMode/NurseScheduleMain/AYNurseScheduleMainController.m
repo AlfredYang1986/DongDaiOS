@@ -126,12 +126,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
-	
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
+	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
+	NSNumber *offset = [NSNumber numberWithInt:6];
+	[cmd_scroll_center performWithResult:&offset];
 }
 
 #pragma mark -- Layout
@@ -365,6 +368,7 @@
 }
 
 - (id)addTimeDuration {
+	
 	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
 	return nil;
 }
@@ -452,12 +456,22 @@
 
 - (id)manageRestDaySchedule {
 	
+	if(timeDurationArr.count == 0) {
+		NSString *title = @"需要先设置工作日日程";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return nil;
+	}
+	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"NurseCalendar");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:[timeDurationArr copy] forKey:kAYControllerChangeArgsKey];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:restDayScheduleArr forKey:@"schedule_restday"];
+	[tmp setValue:timeDurationArr forKey:@"schedule_workday"];
+	[dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
