@@ -736,6 +736,7 @@
 	
 	<controller type="DefaultController" name="NurseScheduleMain" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="Timemanagement" notification="true" />
+		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />

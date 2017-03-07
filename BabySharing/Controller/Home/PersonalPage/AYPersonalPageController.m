@@ -355,7 +355,8 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    
+	view.backgroundColor = [Tools whiteColor];
+	
     NSString *title = @"服务详情";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     

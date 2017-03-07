@@ -183,57 +183,17 @@
 		[push_service_info setValue:result forKey:@"tms"];
 	}
 	
-	//    [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
-	
-	NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
-	NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
+//    [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
 	
 	NSArray *napPhotos = [push_service_info objectForKey:@"images"];
-	for (int index = 0; index < napPhotos.count; ++index) {
-		
-		dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
-		[semaphores_upload_photos addObject:tmp];
-		[post_image_result addObject:[NSNumber numberWithBool:NO]];
-	}
-	
-	dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
-	dispatch_async(qp, ^{
-		
-		NSMutableArray* arr_items = [[NSMutableArray alloc]init];
-		
-		for (int index = 0; index < napPhotos.count; ++index) {
-			
-			UIImage* iter = [napPhotos objectAtIndex:index];
-			//            NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
-			NSString* extent = [TmpFileStorageModel generateFileName];
-			
-			NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-			[photo_dic setValue:extent forKey:@"image"];
-			[photo_dic setValue:iter forKey:@"upload_image"];
-			
-			AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
-			[up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-				NSLog(@"upload result are %d", success);
-				[post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
-				dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
-			}];
-			[arr_items addObject:extent];
-		}
-		
-		// 4. 等待图片进程全部处理完成：每一个阻塞线程等待一个图片的上传结果
-		for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-			dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-		}
-		
-		NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-		NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
-		
-		if (image_result.count == 0) {
+	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
+	[cmd_upload performWithResult:(NSDictionary*)napPhotos andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
 			NSDictionary* user_info = nil;
 			CURRENUSER(user_info)
 			
 			[push_service_info setValue:[user_info objectForKey:@"user_id"]  forKey:@"owner_id"];
-			[push_service_info setValue:arr_items forKey:@"images"];
+			[push_service_info setValue:(NSArray*)result forKey:@"images"];
 			
 			id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
@@ -251,25 +211,10 @@
 					
 					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
 					BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
-					
 					if (isNap) {
 						[super tabBarVCSelectIndex:2];
-						
 					} else {
-						
-						AYViewController *des = compare;
-						NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
-						[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-						[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-						[dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-						
-						NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
-						[dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
-						[dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
-						[dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
-						
-						id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
-						[cmd_show_module performWithResult:&dic_show_module];
+						[self exchangeWindowsWithDest:compare];
 					}
 					
 				} else {
@@ -282,7 +227,25 @@
 			NSString *title = @"图片上传失败,请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
-	});
+	}];
+	
+}
+
+- (void)exchangeWindowsWithDest:(id)dest {
+	AYViewController *des = dest;
+	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc] init];
+	[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
+	[dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
+	[dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
+	[dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+	[cmd_show_module performWithResult:&dic_show_module];
+	
 }
 
 - (void)popToRootVCWithTip:(NSString*)tip {
