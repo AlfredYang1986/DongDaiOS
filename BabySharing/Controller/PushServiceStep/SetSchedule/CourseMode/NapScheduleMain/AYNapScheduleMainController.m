@@ -1,12 +1,12 @@
 //
-//  AYNurseScheduleMainController.m
+//  AYNapScheduleMainController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 1/3/17.
+//  Created by Alfred Yang on 7/3/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYNurseScheduleMainController.h"
+#import "AYNapScheduleMainController.h"
 #import "AYViewBase.h"
 #import "AYCommandDefines.h"
 #import "AYFacadeBase.h"
@@ -18,24 +18,17 @@
 #import "TmpFileStorageModel.h"
 #import "AYServiceTimesRule.h"
 
-#define weekdaysViewHeight          95
-
-@implementation AYNurseScheduleMainController {
+@implementation AYNapScheduleMainController {
 	
 	UIButton *PushBtn;
+	UIButton *plusBtn;
+	NSInteger currentNumbCount;
 	
 	NSMutableDictionary *push_service_info;
-	BOOL isChangeCalendar;
-	
-	NSMutableArray *timeDurationArr;
 	NSMutableArray *offer_date;
 	NSString *service_id;
 	
-	//back args
-	NSArray *restDayScheduleArr;
-	
-	NSNumber *exchangeIndexNote;
-	BOOL isAddAlready;
+	BOOL isChange;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -43,7 +36,6 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 		if ([tmp objectForKey:@"service_id"]) {
@@ -55,7 +47,7 @@
 				[cmd performWithResult:&args];
 				offer_date = [args mutableCopy];
 			}
-			// offer_date = [[tmp objectForKey:@"offer_date"] mutableCopy];
+			
 			service_id = [tmp objectForKey:@"service_id"];
 		} else {
 			push_service_info = [tmp mutableCopy];
@@ -64,8 +56,8 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		restDayScheduleArr = [dic objectForKey:kAYControllerChangeArgsKey];
-		
+		offer_date = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+		[self showPushServiceBtn];
 	}
 }
 
@@ -73,40 +65,81 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	if (!timeDurationArr) {
-		timeDurationArr  = [NSMutableArray array];
-	}
-	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"最后，设定您的看顾时间" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"最后，设定您的课程时间" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	{
-		
-		id<AYDelegateBase> pick_delegate = [self.delegates objectForKey:@"ServiceTimesPick"];
-		
-		id obj = (id)pick_delegate;
-		kAYViewsSendMessage(kAYPickerView, kAYPickerRegisterDelegateMessage, &obj)
-		obj = (id)pick_delegate;
-		kAYViewsSendMessage(kAYPickerView, kAYPickerRegisterDatasourceMessage, &obj)
-	}
+	UILabel *scheduleTitleLabel = [Tools creatUILabelWithText:@"1.您每周的课程时间" andTextColor:[Tools themeColor] andFontSize:-18.f andBackgroundColor:nil andTextAlignment:0];
+	[self.view addSubview:scheduleTitleLabel];
+	[scheduleTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(titleLabel);
+		make.top.equalTo(titleLabel.mas_bottom).offset(30);
+		make.right.equalTo(self.view).offset(-20);
+		make.height.mas_equalTo(45);
+	}];
+	scheduleTitleLabel.userInteractionEnabled = YES;
+	[scheduleTitleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didScheduleLabelTap)]];
 	
-	{
-		id<AYDelegateBase> table_delegate = [self.delegates objectForKey:@"NurseScheduleTable"];
-		id obj = (id)table_delegate;
-		kAYViewsSendMessage(kAYTableView, kAYPickerRegisterDelegateMessage, &obj)
-		obj = (id)table_delegate;
-		kAYViewsSendMessage(kAYTableView, kAYPickerRegisterDatasourceMessage, &obj)
-		
-		NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NurseScheduleCellTheme"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
-	}
+	UIImageView *accessView = [[UIImageView alloc]init];
+	[self.view addSubview:accessView];
+	accessView.image = IMGRESOURCE(@"plan_time_icon");
+	[accessView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(scheduleTitleLabel);
+		make.centerY.equalTo(scheduleTitleLabel);
+		make.size.mas_equalTo(CGSizeMake(23, 23));
+	}];
+//	accessView.userInteractionEnabled  = NO;
 	
-	NSArray *date_info = [offer_date copy];
-	kAYViewsSendMessage(@"ScheduleWeekDays", @"setViewInfo:", &date_info)
+	UILabel *weekNumbTitleLabel = [Tools creatUILabelWithText:@"2.这个课程您打算循环几周？" andTextColor:[Tools themeColor] andFontSize:-18.f andBackgroundColor:nil andTextAlignment:0];
+	[self.view addSubview:weekNumbTitleLabel];
+	[weekNumbTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(scheduleTitleLabel);
+		make.top.equalTo(scheduleTitleLabel.mas_bottom).offset(30);
+		make.right.equalTo(self.view).offset(-20);
+		make.height.mas_equalTo(45);
+	}];
+	
+	CGFloat btnWH = 50.f;
+	UIButton *minusBtn = [[UIButton alloc]init];
+	CALayer *minusLayer = [CALayer layer];
+	minusLayer.frame = CGRectMake(0, 0, btnWH * 0.4, 3);
+	minusLayer.position = CGPointMake(btnWH * 0.5, btnWH * 0.5);
+	minusLayer.backgroundColor = [Tools themeColor].CGColor;
+	[minusBtn.layer addSublayer:minusLayer];
+	[self.view addSubview:minusBtn];
+	[minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(weekNumbTitleLabel.mas_bottom).offset(30);
+		make.left.equalTo(weekNumbTitleLabel).offset(10);
+		make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
+	}];
+	[minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	
+	plusBtn = [[UIButton alloc]init];
+	if (!currentNumbCount || currentNumbCount == 0) {
+		currentNumbCount = 2;
+	}
+	[plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
+	plusBtn.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
+	[plusBtn setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
+	plusBtn.backgroundColor = [Tools themeColor];
+	plusBtn.layer.cornerRadius = btnWH * 0.5;
+	[self.view addSubview:plusBtn];
+	[plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(minusBtn);
+		make.left.equalTo(minusBtn.mas_right).offset(10);
+		make.size.equalTo(minusBtn);
+	}];
+	[plusBtn addTarget:self action:@selector(didPlusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	
+	UILabel *weekSign = [Tools creatUILabelWithText:@"周" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:weekSign];
+	[weekSign mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(plusBtn);
+		make.left.equalTo(plusBtn.mas_right).offset(20);
+	}];
 	
 	PushBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
@@ -116,12 +149,10 @@
 		make.right.equalTo(self.view).offset(-25);
 		make.size.mas_equalTo(CGSizeMake(125, 50));
 	}];
-
+	
 	PushBtn.alpha = 0.f;
 	[PushBtn addTarget:self action:@selector(didPushServiceBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
-	UIView* picker = [self.views objectForKey:@"Picker"];
-	[self.view bringSubviewToFront:picker];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -130,11 +161,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
-	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
-	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
-	NSNumber *offset = [NSNumber numberWithInt:6];
-	[cmd_scroll_center performWithResult:&offset];
 }
 
 #pragma mark -- Layout
@@ -151,7 +177,7 @@
 	
 	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, @"setRightBtnVisibility:", &right_hidden);
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
@@ -167,23 +193,56 @@
 }
 
 #pragma mark -- actions
+- (void)didScheduleLabelTap {
+	id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapSchedule");
+	
+	NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	[dic_push setValue:[offer_date copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
+}
+
+- (void)didPlusBtnClick:(UIButton*)btn {
+	currentNumbCount ++;
+	[plusBtn setTitle:[NSString stringWithFormat:@"%ld", currentNumbCount] forState:UIControlStateNormal];
+	[self showPushServiceBtn];
+}
+
+- (void)didMinusBtnClick:(UIButton*)btn {
+	if (currentNumbCount == 2) {
+		return;
+	}
+	currentNumbCount --;
+	[plusBtn setTitle:[NSString stringWithFormat:@"%ld", currentNumbCount] forState:UIControlStateNormal];
+	[self showPushServiceBtn];
+}
+
 - (void)didPushServiceBtnClick {
+	
+	if (offer_date.count == 0) {
+		NSString *title = @"请设置课程时间安排";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return;
+	}
 	
 	{
 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMNurse"];
+		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
 		
-		NSMutableDictionary *time_brige_args = [[NSMutableDictionary alloc] init];
-		[time_brige_args setValue:timeDurationArr forKey:@"schedule_normal"];
-		[time_brige_args setValue:restDayScheduleArr forKey:@"schedule_restday"];
+		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
+		[args setValue:[offer_date copy] forKey:@"offer_date"];
+		[args setValue:[NSNumber numberWithDouble:currentNumbCount * 7 * OneDayTimeInterval] forKey:@"timeinterval_start_end"];
 		
-		[cmd performWithResult:&time_brige_args];
-		NSArray* result = (NSArray*)time_brige_args;
+		[cmd performWithResult:&args];
+		NSArray* result = (NSArray*)args;
 		NSLog(@"result is %@", result);
 		[push_service_info setValue:result forKey:@"tms"];
 	}
-	
-//    [push_service_info setValue:[offer_date copy] forKey:@"offer_date"];
 	
 	NSArray *napPhotos = [push_service_info objectForKey:@"images"];
 	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
@@ -205,9 +264,6 @@
 					NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 					[dic setValue:[NSNumber numberWithBool:YES] forKey:@"is_service_provider"];
 					[cmd performWithResult:&dic];
-					
-					//                    NSString *tip = @"服务发布成功,去管理服务?";
-					//                    [self popToRootVCWithTip:tip];
 					
 					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
 					BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
@@ -260,6 +316,13 @@
 	
 }
 
+- (void)showPushServiceBtn {
+	if (!isChange) {
+		PushBtn.alpha = 1.f;
+		isChange = YES;
+	}
+}
+
 #pragma mark -- notifies
 - (id)leftBtnSelected {
 	
@@ -282,26 +345,17 @@
 	[update_info setValue:service_id forKey:@"service_id"];
 	
 	{
-//		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-//		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
-//		id args = [offer_date copy];
-//		[cmd performWithResult:&args];
-//		NSArray* result = (NSArray*)args;
-//		NSLog(@"result is %@", result);
-//		[update_info setValue:result forKey:@"tms"];
-		
 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMNurse"];
+		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
 		
-		NSMutableDictionary *time_brige_args = [[NSMutableDictionary alloc] init];
-		[time_brige_args setValue:timeDurationArr forKey:@"schedule_normal"];
-		[time_brige_args setValue:restDayScheduleArr forKey:@"schedule_restday"];
+		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
+		[args setValue:[offer_date copy] forKey:@"offer_date"];
+		[args setValue:[NSNumber numberWithDouble:currentNumbCount * 7 * OneDayTimeInterval] forKey:@"timeinterval_start_end"];
 		
-		[cmd performWithResult:&time_brige_args];
-		NSArray* result = (NSArray*)time_brige_args;
+		[cmd performWithResult:&args];
+		NSArray* result = (NSArray*)args;
 		NSLog(@"result is %@", result);
 		[update_info setValue:result forKey:@"tms"];
-		
 	}
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
@@ -315,128 +369,13 @@
 			NSNumber* right_hidden = [NSNumber numberWithBool:YES];
 			kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
 			
-			isChangeCalendar = YES;
 		}
 	}];
 	
 	return nil;
 }
 
-- (id)ChangeOfSchedule {
-	
-	return nil;
-}
-
-- (id)changeCurrentIndex:(NSNumber *)args {
-	return nil;
-}
-
-#pragma mark -- pickerView notifies
-- (id)cellDeleteFromTable:(NSNumber*)args {
-	
-	[timeDurationArr removeObjectAtIndex:args.integerValue];
-	NSArray *tmp = [timeDurationArr copy];
-	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
-	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-	
-	[self ChangeOfSchedule];
-	return nil;
-}
-
-- (id)addTimeDuration {
-	
-	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
-	return nil;
-}
-
-- (id)cellShowPickerView:(NSNumber*)args {
-	
-	return nil;
-}
-
-- (id)didSaveClick {
-	
-	id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"ServiceTimesPick"];
-	id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
-	NSDictionary *args = nil;
-	[cmd_index performWithResult:&args];
-	//eg: {(int)1400,1600}
-	
-	if (!args) {
-		NSString *title = @"服务时间设置错误";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		exchangeIndexNote = nil;
-		return nil;
-	}
-	
-	if (exchangeIndexNote) {
-		[timeDurationArr replaceObjectAtIndex:exchangeIndexNote.integerValue withObject:args];
-	} else {
-		[timeDurationArr addObject:args];
-	}
-	
-	NSArray *tmpArr = [timeDurationArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-		
-		int first = ((NSNumber*)[obj1 objectForKey:@"start"]).intValue;
-		int second = ((NSNumber*)[obj2 objectForKey:@"start"]).intValue;
-		
-		if (first < second) return  NSOrderedAscending;
-		else if (first > second) return NSOrderedDescending;
-		else return NSOrderedSame;
-	}];
-	[timeDurationArr removeAllObjects];
-	[timeDurationArr addObjectsFromArray:tmpArr];
-	
-	if (![self isCurrentTimesLegal]) {
-		[timeDurationArr removeObject:args];
-		
-		NSString *title = @"服务时间设置错误";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		exchangeIndexNote = nil;
-		return nil;
-	}
-	
-	
-	id tmp = [timeDurationArr copy];
-	kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
-	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-	if (!isAddAlready) {
-		PushBtn.alpha = 1.f;
-		isAddAlready = YES;
-	}
-	exchangeIndexNote = nil;
-	return nil;
-}
-
-- (id)exchangeTimeDuration:(id)args {
-	exchangeIndexNote = args;
-	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
-	return nil;
-}
-
-- (id)delTimeDuration:(id)args {
-	NSNumber *row = args;
-	[timeDurationArr removeObjectAtIndex:row.integerValue];
-	
-	id tmp = [timeDurationArr copy];
-	kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
-	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-	return nil;
-}
-
-- (id)didCancelClick {
-	//do nothing else ,but be have to invoke this methed
-	return nil;
-}
-
-
 - (id)manageRestDaySchedule {
-	
-	if(timeDurationArr.count == 0) {
-		NSString *title = @"需要先设置工作日日程";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return nil;
-	}
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"NurseCalendar");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -445,8 +384,6 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	[tmp setValue:restDayScheduleArr forKey:@"schedule_restday"];
-	[tmp setValue:timeDurationArr forKey:@"schedule_workday"];
 	[dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
@@ -457,26 +394,6 @@
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
-}
-
-- (BOOL)isCurrentTimesLegal {
-	//    NSMutableArray *allTimeNotes = [NSMutableArray array];
-	__block BOOL isLegal = YES;
-	[timeDurationArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		
-		NSNumber *currentEnd = [obj objectForKey:@"end"];
-		
-		if (idx+1 < timeDurationArr.count) {
-			NSNumber *nextStart = [[timeDurationArr objectAtIndex:idx+1] objectForKey:@"start"];
-			
-			if (currentEnd.intValue > nextStart.intValue) {
-				isLegal = NO;
-				*stop = YES;
-			}
-		}
-	}];
-	
-	return isLegal;
 }
 
 @end

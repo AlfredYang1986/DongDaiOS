@@ -21,16 +21,21 @@
     // need to be modified
     
     NSMutableArray* result = [[NSMutableArray alloc]init];
-    
-    NSArray* offer_date = (NSArray*)*obj;
+	
+	NSDictionary *args = (NSDictionary*)*obj;
+	
+    NSArray* offer_date = [args objectForKey:@"offer_date"];
+	NSTimeInterval span_start_end = ((NSNumber*)[args objectForKey:@"timeinterval_start_end"]).doubleValue;
+	NSTimeInterval span_today = [NSDate date].timeIntervalSince1970;
+	
     NSLog(@"选择的时间是：%@", offer_date);
-    
+	
     for (NSDictionary* dic in offer_date) {
         int day = ((NSNumber*)[dic objectForKey:@"day"]).intValue;
         
         NSMutableDictionary* re_one = [[NSMutableDictionary alloc]init];
         [re_one setValue:[NSNumber numberWithLong:[self startdateFromDay:day]] forKey:@"startdate"];
-        [re_one setValue:[NSNumber numberWithLong:[self enddateFromDay:day]] forKey:@"enddate"];
+        [re_one setValue:[NSNumber numberWithDouble:(span_today + span_start_end) * 1000] forKey:@"enddate"];
         
         for (NSDictionary* hours in [dic objectForKey:@"occurance"]) {
             NSNumber* starthours = [hours objectForKey:@"start"];

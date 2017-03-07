@@ -358,7 +358,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 	
     id<AYCommand> dest ;
 	if (type == ServiceTypeCourse) {
-		dest = DEFAULTCONTROLLER(@"SetNapSchedule");
+		dest = DEFAULTCONTROLLER(@"NapScheduleMain");
 	} else if (type == ServiceTypeLookAfter) {
 		dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
 	}

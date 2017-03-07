@@ -718,16 +718,25 @@
         
         <delegate type="TableViewDelegateAndDatasource" name="MainInfo" />
     </controller>
-    
+	
+	<controller type="DefaultController" name="NapScheduleMain" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+		<facade type="DefaultFacade" name="Timemanagement" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		
+<!--		<delegate type="TableViewDelegateAndDatasource" name="ServiceTimesShow" />-->
+	</controller>
+	
     <controller type="DefaultController" name="SetNapSchedule" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
         <facade type="DefaultFacade" name="Timemanagement" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-<!--        <view type="Schedule"       name="Schedule" />-->
         <view type="ScheduleWeekDays"       name="ScheduleWeekDays" />
-        <view type="Table" name="Table" />
+        <view type="Table" 			name="Table" />
         <view type="Picker"         name="Picker" />
         
         <delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" />
