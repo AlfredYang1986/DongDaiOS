@@ -17,6 +17,7 @@
 #import "TencentOAuth.h"
 #import "WXApi.h"
 #import "WeiboSDK.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 #import "EMSDK.h"
 #import "EMError.h"
@@ -165,21 +166,39 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 #pragma mark -- open sns url
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     
-    id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
-    id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
-    
-    return [TencentOAuth HandleOpenURL:url] ||
+    if ([url.host isEqualToString:@"safepay"]) {
+        // 跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"alipay result = %@",resultDic);
+        }];
+        return YES;
+        
+    } else {
+        id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
+        id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
+        
+        return [TencentOAuth HandleOpenURL:url] ||
         [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
         [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)wechat_delegate];
+    }
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 
-    id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
-    id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
-   
-    return [TencentOAuth HandleOpenURL:url] ||
+    if ([url.host isEqualToString:@"safepay"]) {
+        // 跳转支付宝钱包进行支付，处理支付结果
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            NSLog(@"alipay result = %@",resultDic);
+        }];
+        return YES;
+        
+    } else {
+        id<AYCommand> weibo_delegate = DEFAULTFACADE(@"SNSWeibo");
+        id<AYCommand> wechat_delegate = DEFAULTFACADE(@"SNSWechat");
+        
+        return [TencentOAuth HandleOpenURL:url] ||
         [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
         [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)wechat_delegate];
+    }
 }
 @end
