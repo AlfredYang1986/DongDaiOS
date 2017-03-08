@@ -136,12 +136,18 @@
 	
 	NSNumber *is_first = [args objectForKey:@"is_first"];
 	delBtn.hidden = is_first.boolValue;
-	delBtn.tag = ((NSNumber*)[args objectForKey:@"row"]).integerValue - 1;
+	delBtn.tag = ((NSNumber*)[args objectForKey:@"row"]).integerValue;
 	
 	NSDictionary *dic_time = [args objectForKey:@"dic_time"];
 	if (dic_time) {
-		NSNumber *top = [dic_time objectForKey:kAYServiceArgsStart];
-		NSNumber *btm = [dic_time objectForKey:kAYServiceArgsEnd];
+		NSNumber *top = [dic_time objectForKey:@"starthours"];
+		if (!top) {
+			top = [dic_time objectForKey:kAYServiceArgsStart];
+		}
+		NSNumber *btm = [dic_time objectForKey:@"endhours"];
+		if (!btm) {
+			btm = [dic_time objectForKey:kAYServiceArgsEnd];
+		}
 		
 		NSMutableString *tmp = [NSMutableString stringWithFormat:@"%.4d", top.intValue];
 		[tmp insertString:@":" atIndex:2];

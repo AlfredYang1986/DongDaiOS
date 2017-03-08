@@ -24,12 +24,12 @@
 	NSDictionary *time_brige_args = (NSDictionary*)*obj;
 	
 	NSArray *restDayScheduleArr = [time_brige_args objectForKey:@"schedule_restday"];
-	NSArray *workDaySchedule = [time_brige_args objectForKey:@"schedule_normal"];
+	NSArray *workDaySchedule = [time_brige_args objectForKey:@"schedule_workday"];
 	
 	NSDate *nowDate = [NSDate date];
 	NSTimeInterval nowInterval = nowDate.timeIntervalSince1970;
 	
-	if (restDayScheduleArr) {
+	if (restDayScheduleArr.count != 0) {
 		
 		for (NSDictionary *dic_rest in restDayScheduleArr) {		//All Day
 			

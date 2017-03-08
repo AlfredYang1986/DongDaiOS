@@ -38,8 +38,8 @@
         [re_one setValue:[NSNumber numberWithDouble:(span_today + span_start_end) * 1000] forKey:@"enddate"];
         
         for (NSDictionary* hours in [dic objectForKey:@"occurance"]) {
-            NSNumber* starthours = [hours objectForKey:@"start"];
-            NSNumber* endhours = [hours objectForKey:@"end"];
+            NSNumber* starthours = [hours objectForKey:kAYServiceArgsStart];
+            NSNumber* endhours = [hours objectForKey:kAYServiceArgsEnd];
             NSLog(@"start hour is %@", starthours);
             
             NSMutableDictionary* re = [re_one mutableCopy];

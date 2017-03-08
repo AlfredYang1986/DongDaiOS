@@ -35,17 +35,16 @@
          */
         NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSInteger unitFlags = NSCalendarUnitWeekday;
-        
-        
+		
         bool isValidate = true;
         long start = ((NSNumber*)[dic objectForKey:@"startdate"]).longValue;
-        {
-            long now = [[NSDate date] timeIntervalSince1970] * 1000;
-            isValidate &= now > start;
-            long end = ((NSNumber*)[dic objectForKey:@"enddate"]).longValue;
-            isValidate &= end < 0 || now < end;
-        }
-        
+//        {
+//            long now = [[NSDate date] timeIntervalSince1970] * 1000;
+//            isValidate &= now > start;
+//            long end = ((NSNumber*)[dic objectForKey:@"enddate"]).longValue;
+//            isValidate &= end < 0 || now < end;
+//        }
+		
         if (isValidate) {
             NSDate* d = [NSDate dateWithTimeIntervalSince1970:start / 1000];
             
@@ -58,14 +57,16 @@
             
             NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.day=%d", day];
             NSPredicate* pred_other = [NSPredicate predicateWithFormat:@"SELF.day!=%d", day];
+			
             NSMutableDictionary* one = [result filteredArrayUsingPredicate:pred].firstObject;
+			
             NSMutableArray* other = [[result filteredArrayUsingPredicate:pred_other] mutableCopy];
             
             if (one) {
                 NSMutableArray* arr = [one objectForKey:@"occurance"];
                 NSMutableDictionary* nd = [[NSMutableDictionary alloc]init];
-                [nd setValue:starthours forKey:@"start"];
-                [nd setValue:endhours forKey:@"end"];
+                [nd setValue:starthours forKey:kAYServiceArgsStart];
+                [nd setValue:endhours forKey:kAYServiceArgsEnd];
                 
                 [arr addObject:nd];
             } else {
@@ -74,8 +75,8 @@
                 
                 NSMutableArray* arr = [[NSMutableArray alloc]init];
                 NSMutableDictionary* nd = [[NSMutableDictionary alloc]init];
-                [nd setValue:starthours forKey:@"start"];
-                [nd setValue:endhours forKey:@"end"];
+                [nd setValue:starthours forKey:kAYServiceArgsStart];
+                [nd setValue:endhours forKey:kAYServiceArgsEnd];
                 
                 [arr addObject:nd];
                 

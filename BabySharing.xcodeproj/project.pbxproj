@@ -61,6 +61,7 @@
 		700693301CC4DD0600B511FF /* AYQueryRealPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7006932F1CC4DD0600B511FF /* AYQueryRealPhotoCommand.m */; };
 		700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700693321CC4E80A00B511FF /* AYAlbumBaseDelegate.m */; };
 		700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700693351CC4F78E00B511FF /* AYReversModuleCommand.m */; };
+		700B08391E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700B08381E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m */; };
 		700B8C651D58749100DD1D06 /* AYCreateEMChatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700B8C641D58749100DD1D06 /* AYCreateEMChatCommand.m */; };
 		700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */ = {isa = PBXBuildFile; fileRef = 700BE5991CBA1B4E00A09B3A /* delegate.xml */; };
 		700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 700BE59D1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m */; };
@@ -851,6 +852,8 @@
 		700693341CC4F78E00B511FF /* AYReversModuleCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReversModuleCommand.h; sourceTree = "<group>"; };
 		700693351CC4F78E00B511FF /* AYReversModuleCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReversModuleCommand.m; sourceTree = "<group>"; };
 		700AC18B1DF134FB00F42242 /* AYServiceArgsDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceArgsDefines.h; sourceTree = "<group>"; };
+		700B08371E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYParseServiceTMNurseCommand.h; sourceTree = "<group>"; };
+		700B08381E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYParseServiceTMNurseCommand.m; sourceTree = "<group>"; };
 		700B75711D7D717600F139C4 /* BabySharing-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BabySharing-Prefix.pch"; sourceTree = "<group>"; };
 		700B8C631D58749100DD1D06 /* AYCreateEMChatCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCreateEMChatCommand.h; sourceTree = "<group>"; };
 		700B8C641D58749100DD1D06 /* AYCreateEMChatCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCreateEMChatCommand.m; sourceTree = "<group>"; };
@@ -7640,6 +7643,8 @@
 			children = (
 				8014F71A1E56C59B0012A1C8 /* AYParseServiceTMProtocolCommand.h */,
 				8014F71B1E56C59B0012A1C8 /* AYParseServiceTMProtocolCommand.m */,
+				700B08371E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.h */,
+				700B08381E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m */,
 			);
 			path = parseServiceTMProtocol;
 			sourceTree = "<group>";
@@ -8692,6 +8697,7 @@
 				700BE59E1CBA1C2A00A09B3A /* AYDefaultDelegateFactory.m in Sources */,
 				8048C0011D9D01F20026436E /* AYConfirmPhoneNoController.m in Sources */,
 				701B9C3F1E5EBA33001B0517 /* AYSetCourseSignController.m in Sources */,
+				700B08391E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m in Sources */,
 				705E96931D470EC6006CF9E6 /* AYOrderMapCellView.m in Sources */,
 				70C41EDE1DBA122500C77B10 /* TZAssetCell.m in Sources */,
 				701D8AA41CA7E2D200B5D4C1 /* AYModelFacade.m in Sources */,

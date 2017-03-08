@@ -44,6 +44,11 @@
 				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
 				id args = [tmp objectForKey:@"tms"];
+				
+				NSNumber *enddate = [[args firstObject] objectForKey:@"enddate"];
+				NSNumber *startdate = [[args firstObject] objectForKey:@"startdate"];
+				currentNumbCount = (enddate.doubleValue - startdate.doubleValue) * 0.001 / OneDayTimeInterval / 7;
+				
 				[cmd performWithResult:&args];
 				offer_date = [args mutableCopy];
 			}
@@ -65,7 +70,17 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"最后，设定您的课程时间" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	NSString *pushBtnTitleStr ;
+	NSString *titleStr;
+	if (service_id) {
+		titleStr = @"重新设定您的课程时间";
+		pushBtnTitleStr = @"确定";
+	} else {
+		titleStr = @"最后，设定您的课程时间";
+		pushBtnTitleStr = @"发布服务";
+	}
+	
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -118,7 +133,7 @@
 	[minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
 	plusBtn = [[UIButton alloc]init];
-	if (!currentNumbCount || currentNumbCount == 0) {
+	if ( currentNumbCount < 2) {
 		currentNumbCount = 2;
 	}
 	[plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
@@ -141,7 +156,7 @@
 		make.left.equalTo(plusBtn.mas_right).offset(20);
 	}];
 	
-	PushBtn = [Tools creatUIButtonWithTitle:@"发布服务" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+	PushBtn = [Tools creatUIButtonWithTitle:pushBtnTitleStr andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
 	[self.view addSubview:PushBtn];
 	[PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -151,7 +166,7 @@
 	}];
 	
 	PushBtn.alpha = 0.f;
-	[PushBtn addTarget:self action:@selector(didPushServiceBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	[PushBtn addTarget:self action:@selector(didPushBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 }
 
@@ -222,7 +237,15 @@
 	[self showPushServiceBtn];
 }
 
-- (void)didPushServiceBtnClick {
+- (void)didPushBtnClick {
+	if (service_id) {
+		[self updateServiceSchedule];
+	} else {
+		[self pushService];
+	}
+}
+
+- (void)pushService {
 	
 	if (offer_date.count == 0) {
 		NSString *title = @"请设置课程时间安排";
@@ -230,19 +253,8 @@
 		return;
 	}
 	
-	{
-		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
-		
-		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
-		[args setValue:[offer_date copy] forKey:@"offer_date"];
-		[args setValue:[NSNumber numberWithDouble:currentNumbCount * 7 * OneDayTimeInterval] forKey:@"timeinterval_start_end"];
-		
-		[cmd performWithResult:&args];
-		NSArray* result = (NSArray*)args;
-		NSLog(@"result is %@", result);
-		[push_service_info setValue:result forKey:@"tms"];
-	}
+	NSArray *reorganizeArr = [self reorganizeTM];
+	[push_service_info setValue:reorganizeArr forKey:@"tms"];
 	
 	NSArray *napPhotos = [push_service_info objectForKey:@"images"];
 	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
@@ -284,7 +296,44 @@
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
+}
+
+- (void)updateServiceSchedule {
 	
+	NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
+	[update_info setValue:service_id forKey:@"service_id"];
+	
+	NSArray *reorganizeArr = [self reorganizeTM];
+	[update_info setValue:reorganizeArr forKey:@"tms"];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyServiceTM"];
+	[cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			NSString *title = @"日程已修改";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			
+			NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+			kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
+			
+		}
+	}];
+}
+
+- (NSArray*) reorganizeTM {
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+	id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
+	
+	NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
+	[args setValue:[offer_date copy] forKey:@"offer_date"];
+	[args setValue:[NSNumber numberWithDouble:currentNumbCount * 7 * OneDayTimeInterval] forKey:@"timeinterval_start_end"];
+	
+	[cmd performWithResult:&args];
+	NSArray* result = (NSArray*)args;
+	NSLog(@"result is %@", result);
+	return result;
 }
 
 - (void)exchangeWindowsWithDest:(id)dest {
@@ -337,41 +386,7 @@
 }
 
 - (id)rightBtnSelected {
-	
-	//    NSArray *unavilableDateArr = nil;
-	//    kAYViewsSendMessage(@"Schedule", @"queryUnavluableDate:", &unavilableDateArr)
-	
-	NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
-	[update_info setValue:service_id forKey:@"service_id"];
-	
-	{
-		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-		id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
-		
-		NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
-		[args setValue:[offer_date copy] forKey:@"offer_date"];
-		[args setValue:[NSNumber numberWithDouble:currentNumbCount * 7 * OneDayTimeInterval] forKey:@"timeinterval_start_end"];
-		
-		[cmd performWithResult:&args];
-		NSArray* result = (NSArray*)args;
-		NSLog(@"result is %@", result);
-		[update_info setValue:result forKey:@"tms"];
-	}
-	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyServiceTM"];
-	[cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-		if (success) {
-			
-			NSString *title = @"日程已修改";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			
-			NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-			kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
-			
-		}
-	}];
-	
+	[self updateServiceSchedule];
 	return nil;
 }
 

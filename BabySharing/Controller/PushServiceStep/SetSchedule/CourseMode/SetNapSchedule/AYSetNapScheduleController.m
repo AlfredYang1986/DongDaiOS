@@ -37,7 +37,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        offer_date = [dic objectForKey:kAYControllerChangeArgsKey];
+        offer_date = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         

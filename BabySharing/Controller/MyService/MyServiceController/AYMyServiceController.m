@@ -198,11 +198,23 @@
 
 - (id)didManagerBtnClick:(id)args {
     
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapSchedule");
-    
+    id<AYCommand> dest;
+	
+	NSNumber *service_cat = [args objectForKey:kAYServiceArgsServiceCat];
+	switch (service_cat.intValue) {
+	  case ServiceTypeCourse:
+			dest = DEFAULTCONTROLLER(@"NapScheduleMain");
+			break;
+		case ServiceTypeLookAfter:
+			dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
+			break;
+	  default:
+				break;
+	}
+	
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
+    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
     [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
     
