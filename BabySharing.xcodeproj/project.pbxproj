@@ -675,6 +675,7 @@
 		80C829D51CDD729D007B1077 /* AYThumbsAndPushInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D41CDD729D007B1077 /* AYThumbsAndPushInitCommand.m */; };
 		80C829D91CDD8CF7007B1077 /* AYThumbsNormalBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C829D81CDD8CF7007B1077 /* AYThumbsNormalBtnView.m */; };
 		80CCABC61E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80CCABC51E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m */; };
+		80D0F30F1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D0F30E1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.m */; };
 		80D5E7C01CCC7C2000A82117 /* PhotoTagTariangleLayer2.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7B61CCC7C2000A82117 /* PhotoTagTariangleLayer2.m */; };
 		80D5E7C11CCC7C2000A82117 /* AYPhotoTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7B81CCC7C2000A82117 /* AYPhotoTagView.m */; };
 		80D5E7C21CCC7C2000A82117 /* PhotoTagRoundPointLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 80D5E7BB1CCC7C2000A82117 /* PhotoTagRoundPointLayer.m */; };
@@ -2180,6 +2181,9 @@
 		80C829D81CDD8CF7007B1077 /* AYThumbsNormalBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYThumbsNormalBtnView.m; sourceTree = "<group>"; };
 		80CCABC41E5EDB5E0012F422 /* AYPushOrderAlipayCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushOrderAlipayCommand.h; sourceTree = "<group>"; };
 		80CCABC51E5EDB5E0012F422 /* AYPushOrderAlipayCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushOrderAlipayCommand.m; sourceTree = "<group>"; };
+		80D0F30D1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryAliCallBackHandlerCommand.h; sourceTree = "<group>"; };
+		80D0F30E1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryAliCallBackHandlerCommand.m; sourceTree = "<group>"; };
+		80D0F3111E6FE9430058B287 /* AYAlipayDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYAlipayDefines.h; sourceTree = "<group>"; };
 		80D5E7B21CCC7C2000A82117 /* PhotoTagEnumDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTagEnumDefines.h; sourceTree = "<group>"; };
 		80D5E7B51CCC7C2000A82117 /* PhotoTagTariangleLayer2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTagTariangleLayer2.h; sourceTree = "<group>"; };
 		80D5E7B61CCC7C2000A82117 /* PhotoTagTariangleLayer2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTagTariangleLayer2.m; sourceTree = "<group>"; };
@@ -7930,6 +7934,15 @@
 			path = PushOrderAlipay;
 			sourceTree = "<group>";
 		};
+		80D0F30C1E6FE5030058B287 /* QueryAliCallBackHandler */ = {
+			isa = PBXGroup;
+			children = (
+				80D0F30D1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.h */,
+				80D0F30E1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.m */,
+			);
+			path = QueryAliCallBackHandler;
+			sourceTree = "<group>";
+		};
 		80D5E7B11CCC7C2000A82117 /* PhotoTagView */ = {
 			isa = PBXGroup;
 			children = (
@@ -8124,9 +8137,11 @@
 		80F058D81E5C38D5002B105F /* Alipay */ = {
 			isa = PBXGroup;
 			children = (
+				80D0F30C1E6FE5030058B287 /* QueryAliCallBackHandler */,
 				80F058DC1E5C3AB1002B105F /* AlipayPay */,
 				80F058D91E5C38F3002B105F /* AYAlipayFacade.h */,
 				80F058DA1E5C38F3002B105F /* AYAlipayFacade.m */,
+				80D0F3111E6FE9430058B287 /* AYAlipayDefines.h */,
 			);
 			path = Alipay;
 			sourceTree = "<group>";
@@ -8516,6 +8531,7 @@
 				705195591E1B8DAB00F1F761 /* AYServiceMapController.m in Sources */,
 				700BE6251CBA7CEB00A09B3A /* DongDaTabBarItem.m in Sources */,
 				705B4A341D644A7F006273E7 /* AYCollectServiceCommand.m in Sources */,
+				80D0F30F1E6FE5120058B287 /* AYQueryAliCallBackHandlerCommand.m in Sources */,
 				700BE5EA1CBA6E5800A09B3A /* AYLandingAuthConfirmCommand.m in Sources */,
 				701BB6051E0BC88D00319A54 /* AYPServsCellView.m in Sources */,
 				70B820981CAA5802001EEAF2 /* SGSheetMenu.m in Sources */,

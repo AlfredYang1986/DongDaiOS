@@ -245,6 +245,7 @@
     </facade>
     
     <facade type="DefaultFacade" name="Alipay" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="QueryAliCallBackHandler" />
         <command type="Module" name="AlipayPay" />
     </facade>
 </facades>

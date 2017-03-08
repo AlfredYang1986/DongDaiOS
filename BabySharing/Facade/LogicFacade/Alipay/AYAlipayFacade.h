@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "AYFacade.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface AYAlipayFacade : AYFacade
-
+@property (readonly, strong) CompletionBlock cltBlock;
 @end

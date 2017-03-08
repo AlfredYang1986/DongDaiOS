@@ -70,4 +70,7 @@ static NSString* const kAYNotifyWechatPayFailed = @"WechatPayFailed:";
 
 static NSString* const kAYNotifyOrderAccomplished = @"OrderAccomplished:";
 
+static NSString* const kAYAlipaySuccess = @"AlipaySuccess:";
+static NSString* const kAYAlipayFailed = @"AlipayFailed:";
+
 #endif /* AYNotifyDefines_h */

@@ -168,9 +168,11 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     
     if ([url.host isEqualToString:@"safepay"]) {
         // 跳转支付宝钱包进行支付，处理支付结果
-        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-            NSLog(@"alipay result = %@",resultDic);
-        }];
+        id<AYFacadeBase> Alipay_delegate = DEFAULTFACADE(@"Alipay");
+        id<AYCommand> callback = [Alipay_delegate.commands objectForKey:@"QueryAliCallBackHandler"];
+        id arg = nil;
+        [callback performWithResult:&arg];
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:(CompletionBlock)arg];
         return YES;
         
     } else {

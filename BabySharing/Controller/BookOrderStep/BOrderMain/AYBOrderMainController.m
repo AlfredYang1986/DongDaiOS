@@ -393,4 +393,14 @@
 	return nil;
 }
 
+- (id)AlipaySuccess:(id)args {
+    NSLog(@"pay success");
+    return nil;
+}
+
+- (id)AlipayFailed:(id)args {
+    NSLog(@"pay failed");
+    return nil;
+}
+
 @end
