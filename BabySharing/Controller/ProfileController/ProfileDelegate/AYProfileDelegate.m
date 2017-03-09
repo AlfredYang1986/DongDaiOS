@@ -261,8 +261,8 @@
     // NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
 //    setting = DEFAULTCONTROLLER(@"NurseScheduleMain");
-	setting = DEFAULTCONTROLLER(@"NapScheduleMain");
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+//	setting = DEFAULTCONTROLLER(@"NapScheduleMain");
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
@@ -272,7 +272,7 @@
     [cmd performWithResult:&dic_push];
 }
 
--(void)confirmSNS{
+-(void)confirmSNS {
     id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmSNS");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
