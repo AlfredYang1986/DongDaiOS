@@ -35,7 +35,7 @@
 		UIColor *mainColor = [Tools whiteColor];
 		self.backgroundColor = [Tools themeColor];
 		
-		startLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:mainColor andFontSize:116.f andBackgroundColor:nil andTextAlignment:1];
+		startLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:mainColor andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:startLabel];
 		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -43,13 +43,15 @@
 			make.width.mas_equalTo(80);
 		}];
 		
-		endLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:mainColor andFontSize:116.f andBackgroundColor:nil andTextAlignment:1];
+		endLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:mainColor andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:endLabel];
 		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(startLabel.mas_right).offset(55);
 			make.centerY.equalTo(self);
 			make.width.mas_equalTo(80);
 		}];
+		
+		startLabel.alpha = endLabel.alpha = 0.6f;
 		
 		delBtn = [[UIButton alloc] init];
 		[delBtn setImage:IMGRESOURCE(@"cross_white") forState:UIControlStateNormal];
@@ -61,9 +63,23 @@
 		}];
 		[delBtn addTarget:self action:@selector(didDelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
-		[Tools creatCALayerWithFrame:CGRectMake(22, selfHeight - 0.5, 80, 0.5) andColor:mainColor inSuperView:self];
-		[Tools creatCALayerWithFrame:CGRectMake(125, selfHeight * 0.5 - 1, 15, 2) andColor:mainColor inSuperView:self];
-		[Tools creatCALayerWithFrame:CGRectMake(160, selfHeight - 0.5, 80, 0.5) andColor:mainColor inSuperView:self];
+		UIView *startLine = [UIView new];
+		[self addSubview:startLine];
+		[startLine mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(startLabel);
+			make.bottom.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(80, 0.5));
+		}];
+		UIView *endLine = [UIView new];
+		[self addSubview:endLine];
+		[endLine mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(endLabel);
+			make.bottom.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(80, 0.5));
+		}];
+		startLine.backgroundColor = endLine.backgroundColor = mainColor;
+		
+		[Tools creatCALayerWithFrame:CGRectMake(119, selfHeight * 0.5 - 1, 15, 2) andColor:mainColor inSuperView:self];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -156,6 +172,8 @@
 		tmp = [NSMutableString stringWithFormat:@"%.4d", btm.intValue];
 		[tmp insertString:@":" atIndex:2];
 		endLabel.text = tmp;
+		
+		startLabel.alpha = endLabel.alpha = 1.f;
 	}
 	
 	return nil;

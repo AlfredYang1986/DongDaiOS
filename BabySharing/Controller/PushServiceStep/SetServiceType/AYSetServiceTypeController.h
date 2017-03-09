@@ -7,8 +7,6 @@
 //
 
 #import "AYViewController.h"
-#import "AYViewBase.h"
-#import "AYFactoryManager.h"
 
 @interface AYSetServiceTypeController : AYViewController
 

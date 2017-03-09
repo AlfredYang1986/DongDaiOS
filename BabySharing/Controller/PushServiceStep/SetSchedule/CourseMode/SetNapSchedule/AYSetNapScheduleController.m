@@ -156,8 +156,8 @@
     return nil;
 }
 
-- (id)PickerLayout:(UIView*)view{
-    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.frame.size.height);
+- (id)PickerLayout:(UIView*)view {
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
     return nil;
 }
 

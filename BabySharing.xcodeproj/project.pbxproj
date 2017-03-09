@@ -135,6 +135,7 @@
 		70168F491E23657C00FD5B6A /* AYPayWayCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F3E1E23657C00FD5B6A /* AYPayWayCellView.m */; };
 		70168F4A1E23657C00FD5B6A /* AYBOrderMainPriceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F401E23657C00FD5B6A /* AYBOrderMainPriceCellView.m */; };
 		70168F4C1E23657C00FD5B6A /* AYBOrderMainDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F451E23657C00FD5B6A /* AYBOrderMainDelegate.m */; };
+		701771D01E7138B800304D4D /* AYFinalConfirmController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701771CF1E7138B800304D4D /* AYFinalConfirmController.m */; };
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
 		7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3461CB79699002C416E /* AYReuseViewFactory.m */; };
@@ -1013,6 +1014,8 @@
 		70168F401E23657C00FD5B6A /* AYBOrderMainPriceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderMainPriceCellView.m; sourceTree = "<group>"; };
 		70168F441E23657C00FD5B6A /* AYBOrderMainDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOrderMainDelegate.h; sourceTree = "<group>"; };
 		70168F451E23657C00FD5B6A /* AYBOrderMainDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderMainDelegate.m; sourceTree = "<group>"; };
+		701771CE1E7138B800304D4D /* AYFinalConfirmController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFinalConfirmController.h; sourceTree = "<group>"; };
+		701771CF1E7138B800304D4D /* AYFinalConfirmController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFinalConfirmController.m; sourceTree = "<group>"; };
 		7017F32C1CB74D08002C416E /* AYSearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchController.h; sourceTree = "<group>"; };
 		7017F32D1CB74D08002C416E /* AYSearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchController.m; sourceTree = "<group>"; };
 		7017F3341CB74F63002C416E /* AYSearchBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchBarView.h; sourceTree = "<group>"; };
@@ -3353,6 +3356,15 @@
 				70168F451E23657C00FD5B6A /* AYBOrderMainDelegate.m */,
 			);
 			path = BOrderMainDelegate;
+			sourceTree = "<group>";
+		};
+		701771CD1E71389100304D4D /* FinalConfirm */ = {
+			isa = PBXGroup;
+			children = (
+				701771CE1E7138B800304D4D /* AYFinalConfirmController.h */,
+				701771CF1E7138B800304D4D /* AYFinalConfirmController.m */,
+			);
+			path = FinalConfirm;
 			sourceTree = "<group>";
 		};
 		7017F32A1CB74CDF002C416E /* SearchController */ = {
@@ -6219,6 +6231,7 @@
 		70C41E3D1DBA122500C77B10 /* PushServiceStep */ = {
 			isa = PBXGroup;
 			children = (
+				701771CD1E71389100304D4D /* FinalConfirm */,
 				70FCB1591E66B43E00A79499 /* SetSchedule */,
 				7025FE641DF6B09000044CD9 /* EditAdvanceInfo */,
 				7025FE5E1DF692D200044CD9 /* SetServiceOptInfo */,
@@ -8665,6 +8678,7 @@
 				70F4287D1CC7B18F00A69977 /* NSArray+MASAdditions.m in Sources */,
 				70C41EEF1DBA122600C77B10 /* AYSetNapDeviceController.m in Sources */,
 				70501C871D2F4A490050E0C8 /* AYCollectServController.m in Sources */,
+				701771D01E7138B800304D4D /* AYFinalConfirmController.m in Sources */,
 				704762F91D2E00DB00538AC0 /* AYProfileServCellView.m in Sources */,
 				705E93361DBDADB200FA020B /* AYPastOrderSerDelegate.m in Sources */,
 				705E93351DBDADB200FA020B /* AYFutureOrderSerDelegate.m in Sources */,

@@ -338,7 +338,14 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
             cell.isGone = YES;
 		} else if (cellTimeSpan == todayTimeSpan) {
 			UIView *BgView = [[UIView alloc] init];
-			BgView.layer.contents = (id)IMGRESOURCE(@"date_today_sign").CGImage;
+//			BgView.layer.contents = (id)IMGRESOURCE(@"date_today_sign").CGImage;
+			UIView *circleView = [[UIView alloc] init];
+			[BgView addSubview:circleView];
+			[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools blackColor] andBackground:[UIColor clearColor]];
+			[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.center.equalTo(BgView);
+				make.size.mas_equalTo(CGSizeMake(30, 30));
+			}];
 			cell.backgroundView = BgView;
 		}
 		
@@ -353,7 +360,15 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 				cell.isLightColor = YES;
 			} else {
 				UIView *BgView = [[UIView alloc] init];
-				BgView.layer.contents = (id)IMGRESOURCE(@"date_unavilable_sign").CGImage;
+//				BgView.layer.contents = (id)IMGRESOURCE(@"date_unavilable_sign").CGImage;
+				UIImageView *imageView = [[UIImageView alloc] init];
+				imageView.image = IMGRESOURCE(@"date_unavilable_sign");
+				imageView.contentMode = UIViewContentModeCenter;
+				[BgView addSubview:imageView];
+				[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+					make.center.equalTo(BgView);
+					make.size.mas_equalTo(CGSizeMake(27, 12));
+				}];
 				cell.backgroundView = BgView;
 			}
 		}

@@ -132,10 +132,9 @@
 		currentNumbCount = 1;
     }
     [plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
+	[Tools setViewBorder:plusBtn withRadius:btnWH*0.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     plusBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    plusBtn.layer.borderColor = [Tools themeColor].CGColor;
-    plusBtn.layer.borderWidth = 1.f;
+    [plusBtn setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:plusBtn];
     [plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(iconLael);

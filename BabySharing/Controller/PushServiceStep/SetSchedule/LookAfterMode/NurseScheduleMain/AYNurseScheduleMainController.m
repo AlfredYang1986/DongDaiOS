@@ -89,7 +89,7 @@
 		pushBtnTitleStr = @"确定";
 	} else {
 		titleStr = @"最后，设定您的看顾时间";
-		pushBtnTitleStr = @"发布服务";
+		pushBtnTitleStr = @"确认";
 	}
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -177,7 +177,7 @@
 }
 
 - (id)PickerLayout:(UIView*)view {
-	view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.frame.size.height);
+	view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
 	return nil;
 }
 
@@ -209,59 +209,26 @@
 	if (service_id) {
 		[self updateServiceSchedule];
 	} else {
-		[self pushNurseService];
+		[self pushService];
 	}
 	
 }
 
-- (void)pushNurseService {
+- (void)pushService {
 	
 	NSArray *result = [self reorganizeTM];
 	[push_service_info setValue:result forKey:@"tms"];
 	
-	NSArray *napPhotos = [push_service_info objectForKey:@"images"];
-	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
-	[cmd_upload performWithResult:(NSDictionary*)napPhotos andFinishBlack:^(BOOL success, NSDictionary *result) {
-		if (success) {
-			NSDictionary* user_info = nil;
-			CURRENUSER(user_info)
-			
-			[push_service_info setValue:[user_info objectForKey:@"user_id"]  forKey:@"owner_id"];
-			[push_service_info setValue:(NSArray*)result forKey:@"images"];
-			
-			id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
-			[cmd_push performWithResult:[push_service_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-				if (success) {
-					
-					id<AYFacadeBase> facade = LOGINMODEL;
-					id<AYCommand> cmd = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-					NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-					[dic setValue:[NSNumber numberWithBool:YES] forKey:@"is_service_provider"];
-					[cmd performWithResult:&dic];
-					
-					//                    NSString *tip = @"服务发布成功,去管理服务?";
-					//                    [self popToRootVCWithTip:tip];
-					
-					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-					BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
-					if (isNap) {
-						[super tabBarVCSelectIndex:2];
-					} else {
-						[self exchangeWindowsWithDest:compare];
-					}
-					
-				} else {
-					
-					NSString *title = @"服务上传失败";
-					AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-				}
-			}];
-		} else {
-			NSString *title = @"图片上传失败,请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-	}];
+	id<AYCommand> des = DEFAULTCONTROLLER(@"FinalConfirm");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:[push_service_info copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+	
 }
 
 - (void)updateServiceSchedule {
@@ -284,35 +251,6 @@
 			
 		}
 	}];
-}
-
-- (void)exchangeWindowsWithDest:(id)dest {
-	AYViewController *des = dest;
-	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc] init];
-	[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
-	
-	NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc]init];
-	[dic_exchange setValue:[NSNumber numberWithInteger:2] forKey:@"index"];
-	[dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
-	[dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
-	[cmd_show_module performWithResult:&dic_show_module];
-	
-}
-
-- (void)popToRootVCWithTip:(NSString*)tip {
-	
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd = POPTOROOT;
-	[cmd performWithResult:&dic];
-	
 }
 
 #pragma mark -- notifies

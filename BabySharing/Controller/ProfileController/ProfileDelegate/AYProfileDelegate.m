@@ -260,7 +260,8 @@
 - (void)appSetting {
     // NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
-//    setting = DEFAULTCONTROLLER(@"NapScheduleMain");
+//    setting = DEFAULTCONTROLLER(@"NurseScheduleMain");
+	setting = DEFAULTCONTROLLER(@"NapScheduleMain");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];

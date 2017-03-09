@@ -162,7 +162,7 @@
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	

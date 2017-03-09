@@ -89,7 +89,7 @@
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"1.每天可以服务的时间" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"1. 每天可以服务的时间" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);
@@ -110,7 +110,7 @@
 		[addSignBtn addTarget:self action:@selector(didAddTimeDurationClick) forControlEvents:UIControlEventTouchUpInside];
 		
 	} else {
-		titleLabel.text = @"2.您的休息日";
+		titleLabel.text = @"2. 您的休息日";
 		UIImageView *signView = [[UIImageView alloc] init];
 		signView.image = IMGRESOURCE(@"plan_time_icon");
 		[signView sizeToFit];
@@ -126,6 +126,20 @@
 	}
 	
 	return headView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+	if (section == 0) {
+		return 30.f;
+	} else {
+		return 0.001f;
+	}
+}
+
+- (UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+	UIView *footerView = [UIView new];
+	footerView.backgroundColor = [Tools whiteColor];
+	return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
