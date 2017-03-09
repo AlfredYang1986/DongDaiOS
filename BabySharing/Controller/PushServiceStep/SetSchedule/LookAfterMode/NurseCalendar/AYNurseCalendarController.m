@@ -45,8 +45,8 @@
 		NSDictionary *back_args = [dic objectForKey:kAYControllerChangeArgsKey];
 		timesArrNote = [back_args objectForKey:@"rest_schedule"];
 		
-		NSNumber *handle = [back_args objectForKey:@"time_span_handle"];
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", handle];
+		NSNumber *handle = [back_args objectForKey:kAYServiceArgsTPHandle];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.timePointHandle=%@", handle];
 		NSArray *result = [RestDayArr filteredArrayUsingPredicate:pred];
 		
 		if (result.count != 0) {
@@ -59,7 +59,7 @@
 		}
 		
 		[RestDayArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-			return [[obj1 objectForKey:@"time_span_handle"] intValue] > [[obj2 objectForKey:@"time_span_handle"] intValue];
+			return [[obj1 objectForKey:kAYServiceArgsTPHandle] intValue] > [[obj2 objectForKey:kAYServiceArgsTPHandle] intValue];
 		}];
 		
 		
@@ -174,9 +174,9 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-	[tmp setValue:args forKey:@"time_span_handle"];
+	[tmp setValue:args forKey:kAYServiceArgsTPHandle];
 	
-	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", args];
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.timePointHandle=%@", args];
 	NSArray *result = [RestDayArr filteredArrayUsingPredicate:pred];
 	if (result.count == 0) {
 		[tmp setValue:timesArrNote forKey:@"times_note"];

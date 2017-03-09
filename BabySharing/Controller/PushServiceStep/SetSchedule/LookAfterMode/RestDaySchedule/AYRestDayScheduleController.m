@@ -39,7 +39,7 @@
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		timeSpanHandle = [dic_args objectForKey:@"time_span_handle"];
+		timeSpanHandle = [dic_args objectForKey:kAYServiceArgsTPHandle];
 		timeDurationArr = [[dic_args objectForKey:@"times_note"] mutableCopy];
 		isAble = [dic_args objectForKey:@"rest_isable"];
 		
@@ -215,7 +215,7 @@
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[timeDurationArr copy] forKey:@"rest_schedule"];
 	[tmp setValue:[NSNumber numberWithBool:isAllowedBtn.selected] forKey:@"rest_isable"];
-	[tmp setValue:timeSpanHandle forKey:@"time_span_handle"];
+	[tmp setValue:timeSpanHandle forKey:kAYServiceArgsTPHandle];
 	[dic_pop setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;

@@ -33,7 +33,7 @@
 		
 		for (NSDictionary *dic_rest in restDayScheduleArr) {		//All Day
 			
-			NSNumber *TPointSpan = [dic_rest objectForKey:@"time_span_handle"];
+			NSNumber *TPointSpan = [dic_rest objectForKey:kAYServiceArgsTPHandle];
 			NSNumber *isAble = [dic_rest objectForKey:@"rest_isable"];
 			if (isAble.boolValue) {
 				
@@ -51,7 +51,14 @@
 				}
 			}//is able day
 			else {
+				NSMutableDictionary *time_args = [[NSMutableDictionary alloc] init];
+				[time_args setValue:[NSNumber numberWithInt:TMPatternTypeOnce] forKey:@"pattern"];
+				[time_args setValue:[NSNumber numberWithInt:1] forKey:@"starthours"];
+				[time_args setValue:[NSNumber numberWithInt:1] forKey:@"endhours"];
+				[time_args setValue:[NSNumber numberWithDouble:TPointSpan.doubleValue * 1000] forKey:@"startdate"];
+				[time_args setValue:[NSNumber numberWithDouble:-1] forKey:@"enddate"];
 				
+				[result addObject:time_args];
 			}// end
 			
 		} //end forin
@@ -59,7 +66,7 @@
 		//rest time span <-> nowTimeSpan
 		NSMutableArray *TPointArr = [NSMutableArray array];
 		for (int i = 0; i < restDayScheduleArr.count; ++i) {
-			NSNumber *TPointSpan = [[restDayScheduleArr objectAtIndex:i] objectForKey:@"time_span_handle"];
+			NSNumber *TPointSpan = [[restDayScheduleArr objectAtIndex:i] objectForKey:kAYServiceArgsTPHandle];
 			if (i == 0) {
 				
 				NSMutableDictionary *dic_tp_s_and_e = [[NSMutableDictionary alloc] init];

@@ -47,14 +47,15 @@
 		NSNumber* starthours = ((NSNumber*)[dic objectForKey:@"starthours"]);
 		NSNumber* endhours =  ((NSNumber*)[dic objectForKey:@"endhours"]);
 		
-		NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.day=%ld", startdate];
-		NSPredicate* pred_other = [NSPredicate predicateWithFormat:@"SELF.day!=%ld", startdate];
+		NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.timePointHandle=%ld", (long)startdate];
+		NSPredicate* pred_other = [NSPredicate predicateWithFormat:@"SELF.timePointHandle!=%ld", (long)startdate];
 		
-		NSMutableDictionary* one = [restdayTimesArr filteredArrayUsingPredicate:pred].firstObject;
+		NSArray *oneArr = [restdayTimesArr filteredArrayUsingPredicate:pred];
+		NSMutableDictionary* one = oneArr.firstObject;
 		NSMutableArray* other = [[restdayTimesArr filteredArrayUsingPredicate:pred_other] mutableCopy];//当前已存入的数据Arr
 		
 		if (one) {
-			NSMutableArray* arr = [one objectForKey:@"occurance"];
+			NSMutableArray* arr = [one objectForKey:@"rest_schedule"];
 			NSMutableDictionary* nd = [[NSMutableDictionary alloc]init];
 			[nd setValue:starthours forKey:kAYServiceArgsStart];
 			[nd setValue:endhours forKey:kAYServiceArgsEnd];
@@ -62,7 +63,7 @@
 			[arr addObject:nd];
 		} else {
 			one = [[NSMutableDictionary  alloc]init];
-			[one setValue:[NSNumber numberWithDouble:startdate] forKey:@"day_timespan"];
+			[one setValue:[NSNumber numberWithDouble:startdate] forKey:kAYServiceArgsTPHandle];
 			
 			NSMutableArray* arr = [[NSMutableArray alloc]init];
 			NSMutableDictionary* nd = [[NSMutableDictionary alloc]init];
@@ -71,13 +72,17 @@
 			
 			[arr addObject:nd];
 			
-			[one setValue:arr forKey:@"occurance"];
+			[one setValue:arr forKey:@"rest_schedule"];
+			[one setValue:[NSNumber numberWithBool:(![starthours isEqualToNumber:@1] && ![endhours isEqualToNumber:@1])] forKey:@"rest_isable"];
+			
 		}
 		
 		[other addObject:one];
 		restdayTimesArr = [other copy];
 		
 	}
+	
+	
 	
 	NSMutableDictionary *back_args = [[NSMutableDictionary alloc] init];
 	[back_args setValue:[workdayTimesArr copy] forKey:@"schedule_workday"];

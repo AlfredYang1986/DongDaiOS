@@ -346,7 +346,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 		cell.timeSpan = cellTimeSpan;
 		
 		NSNumber *handle = [NSNumber numberWithDouble:cellTimeSpan];
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.time_span_handle=%@", handle];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.timePointHandle=%@", handle];
 		NSArray *result = [setedCellData filteredArrayUsingPredicate:pred];
 		if (result.count != 0) {
 			if (((NSNumber*)[result.firstObject objectForKey:@"rest_isable"]).boolValue) {
