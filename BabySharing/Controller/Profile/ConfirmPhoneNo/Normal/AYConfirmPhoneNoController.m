@@ -51,7 +51,7 @@
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     
-    UILabel *title = [Tools creatUILabelWithText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatUILabelWithText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(100);

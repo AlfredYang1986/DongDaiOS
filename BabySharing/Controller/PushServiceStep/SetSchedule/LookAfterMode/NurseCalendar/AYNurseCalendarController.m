@@ -79,7 +79,7 @@
 	NSArray *tmp = [RestDayArr copy];
 	kAYViewsSendMessage(@"Schedule", kAYDelegateChangeDataMessage, &tmp)
 	
-//	editBtn = [Tools creatUIButtonWithTitle:@"编辑日期" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+//	editBtn = [Tools creatUIButtonWithTitle:@"编辑日期" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
 //	[Tools setViewBorder:editBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
 //	[self.view addSubview:editBtn];
 //	[editBtn mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -42,7 +42,7 @@
 			on = @"获取系统时间错误";
 		}
 		
-		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:-26.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:326.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:hello];
 		[hello mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);

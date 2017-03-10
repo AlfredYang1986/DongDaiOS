@@ -79,7 +79,7 @@
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
 	
-	UILabel *placelabel = [Tools creatUILabelWithText:@"场地信息" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *placelabel = [Tools creatUILabelWithText:@"场地信息" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *placeTitle = [[AYAdvanceOptView alloc] initWithTitle:placelabel];
 	placeTitle.access.hidden = YES;
 	[tableView addSubview:placeTitle];
@@ -89,7 +89,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 50));
 	}];
 	
-	UILabel *positionLabel = [Tools creatUILabelWithText:@"位置" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *positionLabel = [Tools creatUILabelWithText:@"位置" andTextColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	positionTitle = [[AYAdvanceOptView alloc] initWithTitle:positionLabel];
 	[tableView addSubview:positionTitle];
 	[positionTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -107,7 +107,7 @@
 		positionTitle.subTitleLabel.text = @"场地地址";
 	}
 	
-	UILabel *facilityLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *facilityLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *facilityTitle = [[AYAdvanceOptView alloc] initWithTitle:facilityLabel];
     [tableView addSubview:facilityTitle];
     [facilityTitle mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,7 +118,7 @@
     facilityTitle.userInteractionEnabled = YES;
     [facilityTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didFacilityLabelTap)]];
     
-    UILabel *detailLabel = [Tools creatUILabelWithText:@"详情" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *detailLabel = [Tools creatUILabelWithText:@"详情" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *detailTitle = [[AYAdvanceOptView alloc] initWithTitle:detailLabel];
 	detailTitle.access.hidden = YES;
     [tableView addSubview:detailTitle];
@@ -128,7 +128,7 @@
 		make.size.equalTo(placeTitle);
     }];
 	
-    UILabel *infoLabel = [Tools creatUILabelWithText:@"服务详情" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *infoLabel = [Tools creatUILabelWithText:@"服务详情" andTextColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	AYAdvanceOptView *infoTitle = [[AYAdvanceOptView alloc]initWithTitle:infoLabel];
     [tableView addSubview:infoTitle];
     [infoTitle mas_makeConstraints:^(MASConstraintMaker *make) {

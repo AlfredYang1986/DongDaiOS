@@ -247,6 +247,7 @@
 
 - (void)pushNewService {
 //    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+	
     id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -260,7 +261,7 @@
 - (void)appSetting {
     // NSLog(@"setting view controller");
     id<AYCommand> setting = DEFAULTCONTROLLER(@"Setting");
-//    setting = DEFAULTCONTROLLER(@"NurseScheduleMain");
+    setting = DEFAULTCONTROLLER(@"NurseScheduleMain");
 //	setting = DEFAULTCONTROLLER(@"NapScheduleMain");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -272,7 +273,7 @@
     [cmd performWithResult:&dic_push];
 }
 
--(void)confirmSNS {
+- (void)confirmSNS {
     id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmSNS");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -285,7 +286,8 @@
     [cmd performWithResult:&dic_push];
     
 }
--(void)confirmPhoneNo{
+
+- (void)confirmPhoneNo {
     id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -296,7 +298,8 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
--(void)confirmRealName{
+
+- (void)confirmRealName {
     id<AYCommand> des = DEFAULTCONTROLLER(@"ConfirmRealName");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -307,4 +310,5 @@
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
+
 @end

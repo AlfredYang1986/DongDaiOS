@@ -530,8 +530,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         hubLayer.cornerRadius = 10.f;
         [HUBView.layer addSublayer:hubLayer];
         
-        UILabel *tips = [[UILabel alloc]init];
-        tips = [Tools setLabelWith:tips andText:@"正在准备图片..." andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+        UILabel *tips = [Tools creatUILabelWithText:@"正在准备图片..." andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
         [HUBView addSubview:tips];
         [tips mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(HUBView);

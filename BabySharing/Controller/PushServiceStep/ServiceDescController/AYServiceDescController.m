@@ -54,7 +54,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"描述" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"描述" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -78,7 +78,7 @@
 		make.height.mas_greaterThanOrEqualTo(20);
     }];
 	
-	placeHolder = [Tools creatUILabelWithText:@"描述服务内容、特点以及理念和目的等" andTextColor:[Tools garyColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHolder = [Tools creatUILabelWithText:@"描述服务内容、特点以及理念和目的等" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[descTextView addSubview:placeHolder];
 	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(descTextView).offset(5);
@@ -90,8 +90,7 @@
 		placeHolder.hidden  = YES;
 	}
 	
-    countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(descTextView.mas_bottom).offset(25);

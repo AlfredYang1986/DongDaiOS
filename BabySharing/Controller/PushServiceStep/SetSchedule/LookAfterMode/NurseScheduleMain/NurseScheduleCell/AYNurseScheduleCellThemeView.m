@@ -32,7 +32,7 @@
 		
 		CGFloat selfHeight = 55.f;
 		
-		startLabel = [Tools creatUILabelWithText:@"开始时间" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
+		startLabel = [Tools creatUILabelWithText:@"开始" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:startLabel];
 		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -40,7 +40,7 @@
 			make.width.mas_equalTo(80);
 		}];
 		
-		endLabel = [Tools creatUILabelWithText:@"结束时间" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
+		endLabel = [Tools creatUILabelWithText:@"结束" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:endLabel];
 		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(startLabel.mas_right).offset(55);

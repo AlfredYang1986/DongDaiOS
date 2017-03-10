@@ -88,11 +88,11 @@
 		titleStr = @"重新设定您的看顾时间";
 		pushBtnTitleStr = @"确定";
 	} else {
-		titleStr = @"最后，设定您的看顾时间";
+		titleStr = @"设定您的看顾时间";
 		pushBtnTitleStr = @"确认";
 	}
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -123,7 +123,7 @@
 	id tmp = [workDaySchedule copy];
 	kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
 	
-	PushBtn = [Tools creatUIButtonWithTitle:pushBtnTitleStr andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+	PushBtn = [Tools creatUIButtonWithTitle:pushBtnTitleStr andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
 	[self.view addSubview:PushBtn];
 	[PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {

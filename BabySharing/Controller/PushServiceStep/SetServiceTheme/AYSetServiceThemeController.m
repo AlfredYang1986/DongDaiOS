@@ -87,7 +87,7 @@
 		titleStr = @"参数设置错误";
 	}
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,7 +104,7 @@
 	UIView *tableView = [self.views objectForKey:kAYTableView];
 	tableView.frame = CGRectMake(0, SCREEN_HEIGHT - backArgsOfRowNumb * CellHeight, SCREEN_WIDTH, backArgsOfRowNumb * CellHeight);
 	
-	UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+	UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:nextBtn];
 	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self.view);

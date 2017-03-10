@@ -70,7 +70,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
     
-    UILabel *tips = [Tools creatUILabelWithText:@"恭喜您！认证成功" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tips = [Tools creatUILabelWithText:@"恭喜您！认证成功" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tips];
     [tips mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 190/667);
@@ -84,7 +84,7 @@
 //        make.centerX.equalTo(tips);
 //    }];
 	
-    UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"去发布服务" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+    UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"去发布服务" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:pushBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [self.view addSubview:pushBtn];
     [pushBtn mas_makeConstraints:^(MASConstraintMaker *make) {

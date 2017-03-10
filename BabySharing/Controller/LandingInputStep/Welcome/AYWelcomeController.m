@@ -79,14 +79,14 @@
     UIView *photoView = (UIView*)photo_view;
     
     NSString *user_name = [_login_attr objectForKey:@"screen_name"];
-    UILabel *nameLabel = [Tools creatUILabelWithText:user_name andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *nameLabel = [Tools creatUILabelWithText:user_name andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(photoView.mas_bottom).offset(16);
         make.centerX.equalTo(self.view);
     }];
 	
-	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [enterBtn addTarget:self action:@selector(updateUserProfile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:enterBtn];

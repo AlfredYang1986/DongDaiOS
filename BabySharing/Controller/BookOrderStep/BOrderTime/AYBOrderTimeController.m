@@ -188,7 +188,7 @@
 	
 	[self setNavTitleWithIndex:0];
 	
-	UIButton *certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	UIButton *certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:certainBtn];
 	[certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);

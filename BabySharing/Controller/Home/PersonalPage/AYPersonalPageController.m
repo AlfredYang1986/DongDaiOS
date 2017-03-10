@@ -314,12 +314,12 @@
 		
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-//        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:[Tools themeColor]];
+//        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
 //		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
 //		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 //        [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
-		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
 		bookBtn.userInteractionEnabled = YES;
 		[bookBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didBookBtnClick:)]];

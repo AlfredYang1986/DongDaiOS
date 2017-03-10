@@ -65,8 +65,7 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 200));
     }];
     
-    countlabel = [[UILabel alloc]init];
-    countlabel = [Tools setLabelWith:countlabel andText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedTitleString.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%lu个字符",LIMITNUMB - setedTitleString.length] andTextColor:[Tools garyColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(inputTitleTextView.mas_bottom).offset(-10);

@@ -65,7 +65,7 @@
 		isAble = [NSNumber numberWithBool:YES];
 	}
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"可以预定" andTextColor:[Tools whiteColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"看顾状态" andTextColor:[Tools whiteColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(110);
@@ -169,7 +169,7 @@
 
 - (void)showRightBtn {
 	if (!isChange) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:nil];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isChange = YES;
 	}

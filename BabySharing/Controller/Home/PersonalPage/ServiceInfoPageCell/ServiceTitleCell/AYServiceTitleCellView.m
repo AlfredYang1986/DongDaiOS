@@ -42,7 +42,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(20);
@@ -50,7 +50,7 @@
 			make.right.equalTo(self).offset(-15);
         }];
 		
-		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:-17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		themeLabel = [Tools creatUILabelWithText:@"Service Theme" andTextColor:[Tools blackColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview: themeLabel];
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);

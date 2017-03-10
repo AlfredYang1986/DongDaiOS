@@ -164,7 +164,7 @@
 #pragma mark -- actions
 - (void)showRightBtn {
 	if (!isChange) {
-		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:-16.f andBackgroundColor:nil];
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 		isChange = YES;
 	}

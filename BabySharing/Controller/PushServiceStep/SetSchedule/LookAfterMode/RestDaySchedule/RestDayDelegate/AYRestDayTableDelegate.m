@@ -77,7 +77,7 @@
 	UIView *headView = [[UIView alloc] init];
 	headView.backgroundColor = [Tools themeColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务时间" andTextColor:[Tools whiteColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务时段" andTextColor:[Tools whiteColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);

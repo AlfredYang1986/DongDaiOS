@@ -394,7 +394,7 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
         UILabel *label = [headerView viewWithTag:119];
         if (label == nil) {
             //添加日期
-            label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+            label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
             label.tag = 119;
             [headerView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {

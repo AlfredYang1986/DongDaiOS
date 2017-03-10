@@ -30,7 +30,7 @@
 	
 	self.bounds = CGRectMake(0, 0, 0, 200);
 	
-    title = [Tools creatUILabelWithText:@"手机号验证" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    title = [Tools creatUILabelWithText:@"手机号验证" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(20);

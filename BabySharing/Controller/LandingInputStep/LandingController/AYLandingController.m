@@ -109,16 +109,14 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 //    NSLog(@"systemName  %@",device.systemName);
 //    NSLog(@"systemVersion  %@",device.systemVersion);
     
-    UILabel *welcome = [[UILabel alloc]init];
-    welcome = [Tools setLabelWith:welcome andText:@"欢迎来到 咚哒" andTextColor:[UIColor whiteColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:0];
+    UILabel *welcome = [Tools creatUILabelWithText:@"欢迎来到 咚哒" andTextColor:[UIColor whiteColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:0];
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(logo);
         make.top.equalTo(self.view).offset(139);
     }];
     
-    UILabel *welTips = [[UILabel alloc]init];
-    welTips = [Tools setLabelWith:welTips andText:@"为孩子预订贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
+    UILabel *welTips = [Tools creatUILabelWithText:@"为孩子预订贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];
     welTips.numberOfLines = 0;
     [self.view addSubview:welTips];
     [welTips mas_makeConstraints:^(MASConstraintMaker *make) {

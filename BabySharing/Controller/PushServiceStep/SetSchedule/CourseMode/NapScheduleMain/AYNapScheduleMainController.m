@@ -80,14 +80,14 @@
 		pushBtnTitleStr = @"确认";
 	}
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	UILabel *scheduleTitleLabel = [Tools creatUILabelWithText:@"1.您每周的课程时间" andTextColor:[Tools themeColor] andFontSize:-18.f andBackgroundColor:nil andTextAlignment:0];
+	UILabel *scheduleTitleLabel = [Tools creatUILabelWithText:@"1.您每周的课程时间" andTextColor:[Tools themeColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:0];
 	[self.view addSubview:scheduleTitleLabel];
 	[scheduleTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(titleLabel);
@@ -108,7 +108,7 @@
 	}];
 //	accessView.userInteractionEnabled  = NO;
 	
-	UILabel *weekNumbTitleLabel = [Tools creatUILabelWithText:@"2.这个课程您打算循环几周？" andTextColor:[Tools themeColor] andFontSize:-18.f andBackgroundColor:nil andTextAlignment:0];
+	UILabel *weekNumbTitleLabel = [Tools creatUILabelWithText:@"2.这个课程您打算循环几周？" andTextColor:[Tools themeColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:0];
 	[self.view addSubview:weekNumbTitleLabel];
 	[weekNumbTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(scheduleTitleLabel);
@@ -149,14 +149,14 @@
 	}];
 	[plusBtn addTarget:self action:@selector(didPlusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
-	UILabel *weekSign = [Tools creatUILabelWithText:@"周" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *weekSign = [Tools creatUILabelWithText:@"周" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:weekSign];
 	[weekSign mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(plusBtn);
 		make.left.equalTo(plusBtn.mas_right).offset(20);
 	}];
 	
-	PushBtn = [Tools creatUIButtonWithTitle:pushBtnTitleStr andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+	PushBtn = [Tools creatUIButtonWithTitle:pushBtnTitleStr andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:PushBtn withRadius:25.f andBorderWidth:0 andBorderColor:0 andBackground:[Tools themeColor]];
 	[self.view addSubview:PushBtn];
 	[PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
