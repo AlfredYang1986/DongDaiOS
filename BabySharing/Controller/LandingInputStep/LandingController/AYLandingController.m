@@ -97,7 +97,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     logo.image = IMGRESOURCE(@"login_logo");
     [self.view addSubview:logo];
     [logo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(68);
+        make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 68/667);
         make.left.equalTo(self.view).offset(43);
         make.size.mas_equalTo(CGSizeMake(52, 52)); //46
     }];
@@ -113,7 +113,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
     [self.view addSubview:welcome];
     [welcome mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(logo);
-        make.top.equalTo(self.view).offset(139);
+        make.top.equalTo(logo.mas_bottom).offset(20);
     }];
     
     UILabel *welTips = [Tools creatUILabelWithText:@"为孩子预订贴心服务，\n体验与众不同的轻松时刻。" andTextColor:[UIColor whiteColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:0];

@@ -496,7 +496,7 @@
 
 #pragma mark -- UI
 /**
- *  设置label的 text\ color \fontSize(正常数值为细体,大于600为粗体,300为正常粗细) \background \align
+ *  设置label的 text\ color \fontSize(正常数值为细体, 300+为正常, 600+为粗体) \background \align
 */
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
     
