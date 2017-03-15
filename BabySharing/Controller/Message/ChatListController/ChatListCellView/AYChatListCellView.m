@@ -55,12 +55,22 @@
 		//	photoIcon.userInteractionEnabled = YES;
 		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
+		CGFloat redPWH = 12.f;
 		isReadSign = [[UIView alloc] init];
-		[Tools setViewBorder:isReadSign withRadius:3.f andBorderWidth:1.f andBorderColor:[Tools whiteColor] andBackground:[UIColor redColor]];
+		[Tools setViewBorder:isReadSign withRadius:redPWH * 0.5 andBorderWidth:0 andBorderColor:nil andBackground:[UIColor whiteColor]];
 		[self addSubview:isReadSign];
 		[isReadSign mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(themeImg);
-			make.top.equalTo(themeImg);
+			make.right.equalTo(themeImg).offset(2);
+			make.top.equalTo(themeImg).offset(0);
+			make.size.mas_equalTo(CGSizeMake(redPWH, redPWH));
+		}];
+		
+		CGFloat margin = 3.f;
+		UIView *redCenter = [[UIView alloc] init];
+		[Tools setViewBorder:redCenter withRadius:(redPWH - margin*2) * 0.5 andBorderWidth:0 andBorderColor:nil andBackground:[UIColor redColor]];
+		[isReadSign addSubview:redCenter];
+		[redCenter mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(isReadSign).insets(UIEdgeInsetsMake(margin, margin, margin, margin));
 		}];
 		
 		themeLabel = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -70,7 +80,7 @@
 			make.top.equalTo(themeImg);
 		}];
 		
-		chatLabel = [Tools creatUILabelWithText:@"Order state" andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		chatLabel = [Tools creatUILabelWithText:@"Message - context " andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		chatLabel.numberOfLines = 2.f;
 		[self addSubview:chatLabel];
 		[chatLabel mas_makeConstraints:^(MASConstraintMaker *make) {

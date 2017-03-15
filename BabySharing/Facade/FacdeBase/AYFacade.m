@@ -104,7 +104,7 @@
 }
 
 - (void)sendNotification:(NSString*)message_name withArgs:(NSDictionary*)args {
-//    for (NSObject * controller  in _observer) {
+
     for (AYWeakPointNode * node in [_observer copy]) {
         id<AYCommand> controller = node.target;
         if (controller) {
@@ -116,7 +116,15 @@
             }
         }
     }
-    
+	
+//	id controller = [Tools activityViewController];
+//	SEL sel = NSSelectorFromString(message_name);
+//	Method m = class_getInstanceMethod([controller class], sel);
+//	if (m) {
+//		id (*func)(id, SEL, id) = (id(*)(id, SEL, id))method_getImplementation(m);
+//		func(controller, sel, args);
+//	}
+	
     [self cleanObserverNode];
 }
 

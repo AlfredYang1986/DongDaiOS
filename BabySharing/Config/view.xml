@@ -233,7 +233,13 @@
         <command type="message" message="querGroupChatViewHeight" />
         <command type="notify" message="didChatOrderDetailClick" />
     </view>
-
+	
+	<view type="SingleChatHead" name="SingleChatHead" factory="AYDefaultViewFactory" >
+		<command type="message" message="setGroupChatViewInfo:" />
+		<command type="message" message="querGroupChatViewHeight" />
+		<command type="notify" message="didChatOrderDetailClick" />
+	</view>
+	
     <view type="ChatInput" name="ChatInput" factory="AYDefaultViewFactory" >
         <command type="notify" message="sendMessage:" />
         <command type="notify" message="didSelectedBackBtn" />

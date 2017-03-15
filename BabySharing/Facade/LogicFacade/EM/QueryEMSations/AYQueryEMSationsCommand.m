@@ -37,12 +37,15 @@
             [tmp removeObject:sation];
         }
         
-        NSString *master = sation.conversationId;
-        if ([master isEqualToString:@"dongda_master"]) {
-            [tmp removeObject:sation];
-        }
+//        NSString *master = sation.conversationId;
+//        if ([master isEqualToString:kAYEMIDDongDaMaster]) {
+//            [tmp removeObject:sation];
+//        }
     }
-    
+	
+//	NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.from!=%@", kAYEMIDDongDaMaster];
+//	NSArray* dongda_msg = [conversations filteredArrayUsingPredicate:pm];
+	
 //    NSString *from = message.from;
 //    NSString *to = message.to;
 //    NSString *me = ((EMTextMessageBody*)message.body).text;

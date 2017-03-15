@@ -115,11 +115,16 @@
         <command type="message" message="changeQueryData:" />
         <command type="message" message="sendHeightNote:" />
     </delegate>
-
-    <delegate type="TextViewDelegate" name="ChatGroupInput" factory="AYDefaultDelegateFactory" >
+	
+    <delegate type="TextViewDelegate" name="ChatInput" factory="AYDefaultDelegateFactory" >
         <command type="notify" message="sendMessage:" />
     </delegate>
-
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SingleChatMessage" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="sendHeightNote:" />
+	</delegate>
+	
     <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeScreenPhoto:" />

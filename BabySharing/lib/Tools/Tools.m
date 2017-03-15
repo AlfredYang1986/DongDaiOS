@@ -570,13 +570,16 @@
 + (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor {
 	view.layer.cornerRadius = radius;
 	view.layer.borderWidth = width;
-	view.clipsToBounds = YES;
+//	view.layer.border
 	view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	view.clipsToBounds = YES;
 	if (color) {
 		view.layer.borderColor = color.CGColor;
 	}
 	if (backColor) {
 		view.backgroundColor = backColor;
+	} else {
+		view.backgroundColor = [UIColor clearColor];
 	}
 }
 

@@ -535,7 +535,7 @@
         return;
     }
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"GroupChat");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"SingleChat");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

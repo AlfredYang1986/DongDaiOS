@@ -105,22 +105,15 @@
 		
 		NSDictionary *info = nil;
 		CURRENUSER(info)
-		
 		id brige = [info objectForKey:@"user_id"];
-		NSLog(@"michauxs -- %@", (NSArray*)brige);
+		[cmd performWithResult:&brige];
 		
+		NSLog(@"michauxs -- %@", (NSArray*)brige);
 		conversations = [(NSArray*)brige mutableCopy];
 		//    NSArray *sastions = [(NSArray*)brige copy];
 		
-		[cmd performWithResult:&brige];
-		
-		id<AYDelegateBase> del = [self.delegates objectForKey:@"ChatList"];
-		id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
-		[cmd_change performWithResult:&brige];
-		
-		id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
-		id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
-		[cmd_refresh performWithResult:nil];
+		kAYDelegatesSendMessage(@"ChatList", kAYDelegateChangeDataMessage, &brige)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		
 		brige = nil;
 	}
@@ -130,27 +123,6 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [UIColor whiteColor];
-	return nil;
-}
-
-- (id)FakeNavBarLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [UIColor whiteColor];
-	
-	NSString *title = @"消息";
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-	
-	id<AYViewBase> bar = (id<AYViewBase>)view;
-	id<AYCommand> cmd_left_vis = [bar.commands objectForKey:@"setLeftBtnVisibility:"];
-	NSNumber* left_hidden = [NSNumber numberWithBool:YES];
-	[cmd_left_vis performWithResult:&left_hidden];
-	
-	id<AYCommand> cmd_right_vis = [bar.commands objectForKey:@"setRightBtnVisibility:"];
-	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-	[cmd_right_vis performWithResult:&right_hidden];
-	
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
@@ -168,23 +140,19 @@
 	
 	NSDictionary *info = nil;
 	CURRENUSER(info)
-	
 	id brige = [info objectForKey:@"user_id"];
-	NSLog(@"michauxs -- %@", (NSArray*)brige);
-	
-	conversations = [(NSArray*)brige mutableCopy];
 	
 	[cmd performWithResult:&brige];
 	
-	id<AYDelegateBase> del = [self.delegates objectForKey:@"ChatList"];
-	id<AYCommand> cmd_change = [del.commands objectForKey:@"changeQueryData:"];
-	[cmd_change performWithResult:&brige];
+	NSLog(@"michauxs -- %@", (NSArray*)brige);
+	conversations = [(NSArray*)brige mutableCopy];
+	
+	kAYDelegatesSendMessage(@"ChatList", kAYDelegateChangeDataMessage, &brige)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	
 	id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
-	id<AYCommand> cmd_refresh = [view_content.commands objectForKey:@"refresh"];
-	[cmd_refresh performWithResult:nil];
-	
 	[((UITableView*)view_content).mj_header endRefreshing];
+	
 }
 
 #pragma mark -- notifies

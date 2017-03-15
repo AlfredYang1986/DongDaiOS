@@ -71,7 +71,6 @@
     
     UIView* reVal = [[UIView alloc]init];
     reVal.backgroundColor = [UIColor whiteColor];
-    reVal.clipsToBounds = YES;
     
     UILabel* label = [Tools creatUILabelWithText:@"消息" andTextColor:[Tools blackColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [reVal addSubview:label];
@@ -109,7 +108,7 @@
         owner_id = last_message.from;
     }
     
-    AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
+    AYViewController* des = DEFAULTCONTROLLER(@"SingleChat");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
