@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYMessageListController : AYViewController
+@interface AYChatListController : AYViewController
 
 @end

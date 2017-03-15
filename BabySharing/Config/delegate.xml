@@ -364,9 +364,9 @@
         <command type="message" message="scrollToCenterWithOffset:" />
     </delegate>
     
-    <delegate type="TableViewDelegateAndDatasource" name="MessageList" factory="AYDefaultDelegateFactory" >
+    <delegate type="TableViewDelegateAndDatasource" name="ChatList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="sendLocation:" />
+		<command type="notify" message="scrollToRefresh" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" factory="AYDefaultDelegateFactory" >

@@ -20,8 +20,8 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-//    UIViewController* controller = CONTROLLER(@"DefaultController", @"Message");
-    UIViewController* controller = CONTROLLER(@"DefaultController", @"GroupList");
+	
+    UIViewController* controller = CONTROLLER(@"DefaultController", @"ChatList");
     
     AYNavigationController * rootContorller = CONTROLLER(@"DefaultController", @"Navigation");
     [rootContorller pushViewController:controller animated:NO];

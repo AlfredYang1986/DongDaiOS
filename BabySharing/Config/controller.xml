@@ -1040,16 +1040,15 @@
         <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
     </controller>
     
-    <controller type="DefaultController" name="MessageList" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="FileRemote" notification="true" />
-        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />
-        
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="SetNevigationBarTitle"     name="SetNevigationBarTitle" />
-        <view type="Table"          name="Table" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="MessageList" />
+    <controller type="DefaultController" name="ChatList" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
+		<facade type="DefaultFacade" name="EM" notification="true" />
+		
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+<!--		<view type="FakeNavBar"     name="FakeNavBar" />-->
+		<view type="Table"          name="Table" />
+		
+        <delegate type="TableViewDelegateAndDatasource" name="ChatList" />
     </controller>
     
     <controller type="DefaultController" name="BOrderMain" factory="AYDefaultControllerFactoy" >

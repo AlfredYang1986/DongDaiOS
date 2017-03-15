@@ -401,7 +401,11 @@
     <view type="HomeLikesCell" name="HomeLikesCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    
+	
+	<view type="ChatListCell" name="ChatListCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >
         <command type="message" message="queryContentCellHeight" />
         <command type="message" message="resetContent:" />
