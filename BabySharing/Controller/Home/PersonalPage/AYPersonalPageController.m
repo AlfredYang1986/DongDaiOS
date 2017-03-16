@@ -30,15 +30,13 @@
     NSDictionary *service_info;
     
     UIButton *shareBtn;
-    UIButton *collectionBtn;
-    UIButton *unCollectionBtn;
     CGFloat offset_y;
+	BOOL isBlackLeftBtn;
     
     UIButton *bar_unlike_btn;
     UIButton *bar_like_btn;
     
     UIView *flexibleView;
-    SDCycleScrollView *cycleScrollView;
 	
 	/****/
 	UICollectionView *CarouselView;
@@ -49,7 +47,6 @@
 	
 //	UIButton *bookBtn;
 	UILabel *bookBtn;
-	NSArray *setedTimesArr;
 	
 	NSMutableArray *offer_date_mutable;
 }
@@ -166,7 +163,7 @@
 		layout.minimumLineSpacing = 0.f;
 		layout.minimumInteritemSpacing = 0.f;
 		layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, HeadViewHeight) collectionViewLayout:layout];
+		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) collectionViewLayout:layout];
 		CarouselView.backgroundColor = [UIColor clearColor];
 		CarouselView.delegate = self;
 		CarouselView.dataSource = self;
@@ -204,30 +201,31 @@
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
         }];
         
-        UIButton *popImage = [[UIButton alloc]init];
-        [popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
-        [flexibleView addSubview:popImage];
-        [popImage mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(flexibleView).offset(12);
-            make.top.equalTo(flexibleView).offset(25);
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-        }];
-        [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
-        
-        collectionBtn = [[UIButton alloc]init];
-        [collectionBtn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
-        [collectionBtn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
-        [flexibleView addSubview:collectionBtn];
-        [flexibleView bringSubviewToFront:collectionBtn];
-        [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(flexibleView).offset(-20);
-            make.centerY.equalTo(popImage);
-            make.size.mas_equalTo(CGSizeMake(27, 27));
-        }];
-        [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        
+//        UIButton *popImage = [[UIButton alloc]init];
+//        [popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
+//        [flexibleView addSubview:popImage];
+//        [popImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(flexibleView).offset(12);
+//            make.top.equalTo(flexibleView).offset(25);
+//            make.size.mas_equalTo(CGSizeMake(30, 30));
+//        }];
+//        [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
+		
+//        collectionBtn = [[UIButton alloc]init];
+//        [collectionBtn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
+//        [collectionBtn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
+//        [flexibleView addSubview:collectionBtn];
+//        [flexibleView bringSubviewToFront:collectionBtn];
+//        [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.equalTo(flexibleView).offset(-20);
+//            make.centerY.equalTo(popImage);
+//            make.size.mas_equalTo(CGSizeMake(27, 27));
+//        }];
+//        [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		
         BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
-        bar_like_btn.selected = collectionBtn.selected = isLike;
+//        bar_like_btn.selected = collectionBtn.selected = isLike;
+		bar_like_btn.selected = isLike;
 		
     }
     
@@ -237,8 +235,10 @@
     [cmd_change_data performWithResult:&tmp];
     
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
-    [self.view bringSubviewToFront:(UINavigationBar*)navBar];
-    ((UINavigationBar*)navBar).alpha = 0;
+	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
+    [self.view bringSubviewToFront:(UIView*)navBar];
+	[self.view bringSubviewToFront:(UIView*)statusBar];
+    ((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
 	
 	/***************************************/
     NSNumber *per_mode = [service_info objectForKey:@"perview_mode"];
@@ -343,31 +343,28 @@
 		
     }
     else {
-        bar_like_btn.hidden = collectionBtn.hidden = YES;
+        bar_like_btn.hidden = YES;
     }
     
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
-    return nil;
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [Tools whiteColor];
 	
     NSString *title = @"服务详情";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
+	
     UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
-    id<AYCommand> cmd_right = [bar.commands objectForKey:@"setRightBtnVisibility:"];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
     id right = [NSNumber numberWithBool:YES];
-    [cmd_right performWithResult:&right];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right)
 	
     bar_like_btn = [[UIButton alloc]init];
     [bar_like_btn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
@@ -380,11 +377,11 @@
         make.size.mas_equalTo(CGSizeMake(27, 27));
     }];
     
-    UIView *statusBar = [[UIView alloc]initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, 20)];
-    statusBar.backgroundColor = [UIColor whiteColor];
-    [view addSubview:statusBar];
-    
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    UIView *statusBar = [[UIView alloc]initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, 20)];
+//    statusBar.backgroundColor = [UIColor whiteColor];
+//    [view addSubview:statusBar];
+	
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -420,22 +417,32 @@
 -(id)scrollOffsetY:(NSNumber*)y {
     offset_y = y.floatValue;
 //    [self prefersStatusBarHidden];
-    [self setNeedsStatusBarAppearanceUpdate];
-    
+//    [self setNeedsStatusBarAppearanceUpdate];
+	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
-    [self.view bringSubviewToFront:(UINavigationBar*)navBar];
-    if (offset_y > kLIMITEDSHOWNAVBAR) { //偏移的绝对值 小于 abs(-75)
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            ((UINavigationBar*)navBar).alpha = 1.f;
-        }];
-        
-    }else {
-        [UIView animateWithDuration:0.5 animations:^{
-            ((UINavigationBar*)navBar).alpha = 0;
-        }];
-    }
-    
+	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
+	
+    if (offset_y <= -kStatusAndNavBarH && offset_y >= -kStatusAndNavBarH*2) { //偏移的绝对值 小于 abs(-64)
+		
+		CGFloat alp = (kStatusAndNavBarH*2 + offset_y)/(kStatusAndNavBarH);
+//		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
+//		if (alp > 0.5 && !isBlackLeftBtn) {
+//			UIImage* left = IMGRESOURCE(@"bar_left_black");
+//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//			isBlackLeftBtn = YES;
+//		} else if (alp <  0.5 && isBlackLeftBtn) {
+//			UIImage* left = IMGRESOURCE(@"bar_left_white");
+//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//			isBlackLeftBtn = NO;
+//		}
+		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
+		
+	} else if (offset_y < - kStatusAndNavBarH * 2) {
+		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
+	} else {
+		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+	}
+	
     CGFloat offsetH = kFlexibleHeight + offset_y;
     if (offsetH < 0) {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -561,14 +568,14 @@
     [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
     [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     
-    if (!collectionBtn.selected) {
+    if (!bar_like_btn.selected) {
         
         id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
-                collectionBtn.selected = bar_like_btn.selected = YES;
+                bar_like_btn.selected = bar_like_btn.selected = YES;
             } else {
                 NSString *title = @"收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -580,7 +587,7 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
-                collectionBtn.selected = bar_like_btn.selected = NO;
+                bar_like_btn.selected = bar_like_btn.selected = NO;
             } else {
                 NSString *title = @"取消收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -589,13 +596,15 @@
     }
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    if (offset_y > kLIMITEDSHOWNAVBAR) {
-        return UIStatusBarStyleDefault;
-    }else return UIStatusBarStyleLightContent;
+//- (UIStatusBarStyle)preferredStatusBarStyle {
+//    if (offset_y > kLIMITEDSHOWNAVBAR) {
+//        return UIStatusBarStyleDefault;
+//    } else
+//		return UIStatusBarStyleLightContent;
+//}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleDefault;
 }
 
-//-(BOOL)prefersStatusBarHidden{
-//    return YES;
-//}
 @end

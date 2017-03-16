@@ -17,35 +17,20 @@
 #import "AYGroupListCellDefines.h"
 #import "MJRefresh.h"
 
-#define TABLE_VIEW_TOP_MARGIN   50
+#define TABLE_VIEW_TOP_MARGIN   35
 
 @implementation AYChatListController {
 	
-	NSArray* chatGroupArray_mine;
-	NSArray* chatGroupArray_recommend;
-	//    UIView *bkView;
-	UIButton* actionView;
-	CAShapeLayer *circleLayer;
-	UIView *animationView;
-	CGFloat radius;
-	CGPathRef startPath;
-	
-	CALayer *scaleMaskLayer;
-	
-	UIViewController* homeVC;
-	
 	NSArray *conversations;
 	
-	UIView *view_loading;
 }
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		
-		homeVC = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -61,12 +46,11 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	self.automaticallyAdjustsScrollViewInsets = NO;
 	self.edgesForExtendedLayout = UIRectEdgeNone;
 	self.extendedLayoutIncludesOpaqueBars = NO;
 	
 	{
-		id<AYViewBase> view_content = [self.views objectForKey:@"Table"];
+		id<AYViewBase> view_content = [self.views objectForKey:kAYTableView];
 		id<AYDelegateBase> del = [self.delegates objectForKey:@"ChatList"];
 		id<AYCommand> cmd_datasource = [view_content.commands objectForKey:@"registerDatasource:"];
 		id<AYCommand> cmd_delegate = [view_content.commands objectForKey:@"registerDelegate:"];
@@ -90,33 +74,18 @@
 	
 }
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	[self.navigationController setNavigationBarHidden:YES animated:NO];
+	[self loadNewData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {//todo: 聊天列表
 	[super viewDidAppear:animated];
 	
-	if (!conversations) {
-		
-		id<AYFacadeBase> em = [self.facades objectForKey:@"EM"];
-		id<AYCommand> cmd = [em.commands objectForKey:@"QueryEMSations"];
-		
-		NSDictionary *info = nil;
-		CURRENUSER(info)
-		id brige = [info objectForKey:@"user_id"];
-		[cmd performWithResult:&brige];
-		
-		NSLog(@"michauxs -- %@", (NSArray*)brige);
-		conversations = [(NSArray*)brige mutableCopy];
-		//    NSArray *sastions = [(NSArray*)brige copy];
-		
-		kAYDelegatesSendMessage(@"ChatList", kAYDelegateChangeDataMessage, &brige)
-		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-		
-		brige = nil;
-	}
+//	if (!conversations) {
+//			[self loadNewData];
+//	}
 	
 }
 
@@ -130,6 +99,10 @@
 	
 	view.frame = CGRectMake(0, TABLE_VIEW_TOP_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT - TABLE_VIEW_TOP_MARGIN);
 	view.backgroundColor = [UIColor whiteColor];
+	
+	((UITableView*)view).estimatedRowHeight = 100;
+	((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
+	
 	return nil;
 }
 
@@ -141,7 +114,6 @@
 	NSDictionary *info = nil;
 	CURRENUSER(info)
 	id brige = [info objectForKey:@"user_id"];
-	
 	[cmd performWithResult:&brige];
 	
 	NSLog(@"michauxs -- %@", (NSArray*)brige);
@@ -156,6 +128,15 @@
 }
 
 #pragma mark -- notifies
+- (id)EMReceiveMessage:(id)args {
+	NSLog(@"receive message success");
+	UIViewController* vc = [Tools activityViewController];
+	if (vc == self) {
+		[self loadNewData];
+	}
+	return nil;
+}
+
 - (id)scrollToRefresh {
 	
 	return nil;

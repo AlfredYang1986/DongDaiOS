@@ -597,6 +597,17 @@
     
 }
 
+#pragma mark -- NSAttributedString
++ (NSAttributedString*)transStingToAttributeString:(NSString *)string withLineSpace:(CGFloat)lineSpace {
+	// 调整行间距
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.lineSpacing = lineSpace;
+	paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
+	return attributedString;
+}
+
 #pragma mark -- NSDate
 + (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter {
     

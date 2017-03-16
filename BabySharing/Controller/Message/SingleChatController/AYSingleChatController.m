@@ -12,23 +12,17 @@
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
-#import "AYUserDisplayDefines.h"
-//#import "AYChatGroupInfoCellDefines.h"
 #import "AYChatMessageCellDefines.h"
 #import "AYRemoteCallCommand.h"
-#import "AYChatInputView.h"
 #import "AYNotifyDefines.h"
 #import "AYModelFacade.h"
-
-//#import "GotyeOCChatTarget.h"
-//#import "GotyeOCMessage.h"
 
 #import "EMMessage.h"
 #import "EMConversation.h"
 #import "EMChatroom.h"
 
 #define InputViewheight             64
-#define ChatHeadheight              0
+#define ChatHeadheight              0			//50
 
 @implementation AYSingleChatController {
     
@@ -37,10 +31,10 @@
     NSString* user_id;
     NSString* theme;
     
-    dispatch_semaphore_t semaphore_owner_info;
-    __block BOOL owner_info_success;
-    __block NSDictionary* owner_info_result;
-   
+//    dispatch_semaphore_t semaphore_owner_info;
+//    __block BOOL owner_info_success;
+//    __block NSDictionary* owner_info_result;
+	
     dispatch_semaphore_t semaphore_msg_lst;
     __block NSMutableArray* current_messages;
     
@@ -73,9 +67,7 @@
     
     UIView* table_view = [self.views objectForKey:kAYTableView];
     [self.view sendSubviewToBack:table_view];
-    
-    semaphore_owner_info = dispatch_semaphore_create(0);
-//    semaphore_join_lst = dispatch_semaphore_create(0);
+	
     semaphore_msg_lst = dispatch_semaphore_create(0);
     
     {
@@ -171,7 +163,7 @@
 
 - (id)TableLayout:(UIView*)view {
     
-    view.frame = CGRectMake(0, kStatusAndNavBarH+ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
+    view.frame = CGRectMake(0, kStatusAndNavBarH + ChatHeadheight, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - InputViewheight - ChatHeadheight);
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
     //预设高度
     ((UITableView*)view).estimatedRowHeight = 120;
@@ -349,39 +341,6 @@
 #pragma mark -- block user interaction
 
 #pragma mark -- query user info
-- (void)waitForControllerReady {
-    dispatch_queue_t qw = dispatch_queue_create("query data wait", nil);
-    dispatch_async(qw, ^{
-        dispatch_semaphore_wait(semaphore_owner_info, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-//        dispatch_semaphore_wait(semaphore_join_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        dispatch_semaphore_wait(semaphore_msg_lst, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-			
-            [self setMessagesToDelegate];
-			
-        });
-    });
-}
-
-- (void)queryOwnerInfo {
-    id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryUserProfile"];
-    
-    NSDictionary* user = nil;
-    CURRENUSER(user);
-    
-    NSMutableDictionary* dic = [user mutableCopy];
-    [dic setValue:owner_id forKey:@"owner_user_id"];
-    
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        owner_info_success = success;
-        owner_info_result = [result copy];
-        
-        dispatch_semaphore_signal(semaphore_owner_info);
-    }];
-}
-
 - (void)setMessagesToDelegate {
     id<AYDelegateBase> del = [self.delegates objectForKey:@"SingleChatMessage"];
     id<AYCommand> cmd = [del.commands objectForKey:@"changeQueryData:"];

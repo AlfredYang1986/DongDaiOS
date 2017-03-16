@@ -371,7 +371,7 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="ChatList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-		<command type="notify" message="scrollToRefresh" />
+		<command type="notify" message="quickScrollHiddenKeyboard" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" factory="AYDefaultDelegateFactory" >

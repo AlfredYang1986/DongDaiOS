@@ -11,8 +11,4 @@
 
 @interface AYSingleChatHeadView : UIView <AYViewBase>
 
-@property (nonatomic, strong, setter=setThemeLabelText:) NSString* theme_label_text;
-@property (nonatomic, strong, setter=setThemeTags:) NSArray* theme_tags;
-
-- (CGFloat)preferredHeight;
 @end

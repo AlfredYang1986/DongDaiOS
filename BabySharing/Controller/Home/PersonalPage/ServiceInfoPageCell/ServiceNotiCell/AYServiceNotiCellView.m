@@ -40,7 +40,7 @@
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

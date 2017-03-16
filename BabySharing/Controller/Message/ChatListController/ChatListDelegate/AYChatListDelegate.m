@@ -83,13 +83,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 60;
+	return 100.f;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    return 110.f;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//	
+//    return 110.f;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -125,13 +125,6 @@
     [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [_controller performWithResult:&dic_push];
 }
-
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    CGFloat off_y = fabs(scrollView.contentOffset.y);
-//    if (off_y > 20) {
-//        
-//    }
-//}
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
 	

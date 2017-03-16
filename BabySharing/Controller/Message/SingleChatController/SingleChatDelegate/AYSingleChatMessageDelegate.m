@@ -14,6 +14,7 @@
 
 @implementation AYSingleChatMessageDelegate {
     NSArray* querydata;
+	
 }
 
 #pragma mark -- command
@@ -76,5 +77,14 @@
 - (id)changeQueryData:(id)args {
     querydata = (NSArray*)args;
     return nil;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//	CGFloat offset_v = [[scrollView panGestureRecognizer] velocityInView:scrollView].y;
+//	NSLog(@"%f",offset_v);
+//	if (fabs(offset_v) > 15) {
+//		//		kAYDelegateSendNotify(self, @"quickScrollHiddenKeyboard", nil)
+//	}
+	
 }
 @end

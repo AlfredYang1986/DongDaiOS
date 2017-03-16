@@ -49,7 +49,7 @@
 		[self addSubview:themeImg];
 		[themeImg mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
-			make.centerY.equalTo(self);
+			make.top.equalTo(self).offset(10);
 			make.size.mas_equalTo(CGSizeMake(themeImgWH, themeImgWH));
 		}];
 		//	photoIcon.userInteractionEnabled = YES;
@@ -81,12 +81,13 @@
 		}];
 		
 		chatLabel = [Tools creatUILabelWithText:@"Message - context " andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		chatLabel.numberOfLines = 2.f;
+		chatLabel.numberOfLines = 3.f;
 		[self addSubview:chatLabel];
 		[chatLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(themeLabel.mas_bottom).offset(10);
 			make.left.equalTo(themeLabel);
 			make.right.equalTo(self).offset(-20);
+			make.bottom.equalTo(self).offset(-40);
 		}];
 		
 		dateLabel = [Tools creatUILabelWithText:@"00:00" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -114,7 +115,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"OSWaitCell", @"OSWaitCell");
+	id<AYViewBase> cell = VIEW(@"ChatListCell", @"ChatListCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -203,7 +204,10 @@
 		}
 	}];
 	
-	chatLabel.text = ((EMTextMessageBody*)last_message.body).text;
+//	chatLabel.text = ((EMTextMessageBody*)last_message.body).text;
+	// 调整行间距
+	NSString *messageStr = ((EMTextMessageBody*)last_message.body).text;
+	chatLabel.attributedText = [Tools transStingToAttributeString:messageStr withLineSpace:4.f];
 	
 	[self setContentDate:last_message.timestamp];
 	
