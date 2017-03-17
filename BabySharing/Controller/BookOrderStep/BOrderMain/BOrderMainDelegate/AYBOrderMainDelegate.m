@@ -161,6 +161,7 @@
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
+	headView.backgroundColor = [Tools whiteColor];
 	NSString *titleStr;
 	if (section == 1) {
 		titleStr = @"服务时间";
@@ -183,7 +184,7 @@
 	if (section == 0) {
 		return 0.001f;
 	} else {
-		return 58.f;
+		return 50.f;
 	}
 }
 

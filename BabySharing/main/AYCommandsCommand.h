@@ -23,6 +23,7 @@ static NSString* const kAYNavBarSetRightBtnWithBtnMessage =     @"setRightBtnWit
 static NSString* const kAYNavBarSetLeftBtnVisibilityMessage =   @"setLeftBtnVisibility:";
 static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVisibility:";
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
+static NSString* const kAYNavBarHideBarBotLineMessage =          @"hideBarBotLine";
 
 //Table
 static NSString* const kAYTableRegisterDatasourceMessage =      @"registerDatasource:";

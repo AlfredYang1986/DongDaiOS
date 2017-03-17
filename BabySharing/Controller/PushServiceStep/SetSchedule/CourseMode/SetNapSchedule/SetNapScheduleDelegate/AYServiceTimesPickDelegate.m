@@ -29,8 +29,8 @@
 
 - (void)postPerform {
     
-    NSMutableArray *tmpArr = [[NSMutableArray alloc]init];
-    for (long i = 0; i< 24*10; ++i) {
+    NSMutableArray *tmpArr = [[NSMutableArray alloc] init];
+    for (long i = 0; i< 24 * 10; ++i) {
         int tmpInt = i % 24;
         [tmpArr addObject:[NSString stringWithFormat:@"%.2d",tmpInt]];
     }

@@ -56,8 +56,24 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		
+		NSMutableDictionary *tmp_args = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+		id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+		id args = [tmp_args objectForKey:@"tms"];
+		[cmd performWithResult:&args];
+		
+		[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
+		service_info = [tmp_args copy];
 		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
+		
+		offer_date_mutable = [args mutableCopy];
+		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
+			[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+				[obj setValue:[NSNumber numberWithInt:0] forKey:@"select_pow"];
+			}];
+		}];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -116,40 +132,37 @@
 	
 	HeadViewHeight = 250;
 	
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServicePage"];
     
     id obj = (id)cmd_recommend;
-    [cmd_datasource performWithResult:&obj];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
     obj = (id)cmd_recommend;
-    [cmd_delegate performWithResult:&obj];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	
+    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    id<AYCommand> cmd_class = [view_table.commands objectForKey:@"registerCellWithClass:"];
-    NSString* class_name_00 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_00];
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    NSString* class_name_01 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_01];
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    NSString* class_name_02 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_02];
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    NSString* class_name_03 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_03];
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    NSString* class_name_04 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_04];
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    NSString* class_name_05 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_05];
-    
-    NSString* class_name_06 = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&class_name_06];
+    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 	/*********************************************/
-    {
+	{
+		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
         UITableView *tableView = (UITableView*)view_table;
         flexibleView = [[UIView alloc]init];
         [tableView addSubview:flexibleView];
@@ -163,6 +176,7 @@
 		layout.minimumLineSpacing = 0.f;
 		layout.minimumInteritemSpacing = 0.f;
 		layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+		
 		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) collectionViewLayout:layout];
 		CarouselView.backgroundColor = [UIColor clearColor];
 		CarouselView.delegate = self;
@@ -200,33 +214,9 @@
             make.centerX.equalTo(flexibleView);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
         }];
-        
-//        UIButton *popImage = [[UIButton alloc]init];
-//        [popImage setImage:IMGRESOURCE(@"bar_left_white") forState:UIControlStateNormal];
-//        [flexibleView addSubview:popImage];
-//        [popImage mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.equalTo(flexibleView).offset(12);
-//            make.top.equalTo(flexibleView).offset(25);
-//            make.size.mas_equalTo(CGSizeMake(30, 30));
-//        }];
-//        [popImage addTarget:self action:@selector(didPOPClick) forControlEvents:UIControlEventTouchUpInside];
-		
-//        collectionBtn = [[UIButton alloc]init];
-//        [collectionBtn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
-//        [collectionBtn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
-//        [flexibleView addSubview:collectionBtn];
-//        [flexibleView bringSubviewToFront:collectionBtn];
-//        [collectionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.right.equalTo(flexibleView).offset(-20);
-//            make.centerY.equalTo(popImage);
-//            make.size.mas_equalTo(CGSizeMake(27, 27));
-//        }];
-//        [collectionBtn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 		
         BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
-//        bar_like_btn.selected = collectionBtn.selected = isLike;
 		bar_like_btn.selected = isLike;
-		
     }
     
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
@@ -357,10 +347,10 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	
-    NSString *title = @"服务详情";
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+//    NSString *title = @"服务详情";
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    UIImage* left = IMGRESOURCE(@"bar_left_white");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
     id right = [NSNumber numberWithBool:YES];
@@ -376,12 +366,7 @@
         make.centerY.equalTo(view);
         make.size.mas_equalTo(CGSizeMake(27, 27));
     }];
-    
-//    UIView *statusBar = [[UIView alloc]initWithFrame:CGRectMake(0, -20, SCREEN_WIDTH, 20)];
-//    statusBar.backgroundColor = [UIColor whiteColor];
-//    [view addSubview:statusBar];
 	
-//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
@@ -409,14 +394,13 @@
     return nil;
 }
 
--(id)sendPopMessage {
+- (id)sendPopMessage {
     [self leftBtnSelected];
     return nil;
 }
 
 -(id)scrollOffsetY:(NSNumber*)y {
     offset_y = y.floatValue;
-//    [self prefersStatusBarHidden];
 //    [self setNeedsStatusBarAppearanceUpdate];
 	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
@@ -426,21 +410,23 @@
 		
 		CGFloat alp = (kStatusAndNavBarH*2 + offset_y)/(kStatusAndNavBarH);
 //		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
-//		if (alp > 0.5 && !isBlackLeftBtn) {
-//			UIImage* left = IMGRESOURCE(@"bar_left_black");
-//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-//			isBlackLeftBtn = YES;
-//		} else if (alp <  0.5 && isBlackLeftBtn) {
-//			UIImage* left = IMGRESOURCE(@"bar_left_white");
-//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-//			isBlackLeftBtn = NO;
-//		}
+		if (alp > 0.5 && !isBlackLeftBtn) {
+			UIImage* left = IMGRESOURCE(@"bar_left_black");
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+			isBlackLeftBtn = YES;
+		} else if (alp <  0.5 && isBlackLeftBtn) {
+			UIImage* left = IMGRESOURCE(@"bar_left_white");
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+			isBlackLeftBtn = NO;
+		}
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
 		
 	} else if (offset_y < - kStatusAndNavBarH * 2) {
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
 	} else {
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	}
 	
     CGFloat offsetH = kFlexibleHeight + offset_y;
@@ -503,8 +489,8 @@
 	[tmp setValue:offer_date_mutable forKey:kAYServiceArgsOfferDate];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
+    id<AYCommand> cmd_push = PUSH;
+    [cmd_push performWithResult:&dic_push];
     return nil;
 }
 
@@ -575,7 +561,7 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
-                bar_like_btn.selected = bar_like_btn.selected = YES;
+                bar_like_btn.selected = YES;
             } else {
                 NSString *title = @"收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -587,7 +573,7 @@
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
                 
-                bar_like_btn.selected = bar_like_btn.selected = NO;
+                bar_like_btn.selected = NO;
             } else {
                 NSString *title = @"取消收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

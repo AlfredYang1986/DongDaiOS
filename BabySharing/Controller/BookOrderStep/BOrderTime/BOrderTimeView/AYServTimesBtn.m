@@ -55,7 +55,7 @@
 		normalBg.hidden = NO;
 		selectedBg.userInteractionEnabled = normalBg.userInteractionEnabled = NO;
 		
-		NSMutableString *tmp = [NSMutableString stringWithFormat:@"%@", top];
+		NSMutableString *tmp = [NSMutableString stringWithFormat:@"%.4d", top.intValue];
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
 //		topTitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"开始"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -66,7 +66,7 @@
 			make.left.equalTo(self).offset(2);
 		}];
 		
-		tmp = [NSMutableString stringWithFormat:@"%@", btm];
+		tmp = [NSMutableString stringWithFormat:@"%.4d", btm.intValue];
 		[tmp insertString:@":" atIndex:tmp.length - 2];
 		
 //		btmtitle = [Tools creatUILabelWithText:[tmp stringByAppendingString:@"结束"] andTextColor:[Tools themeColor] andFontSize:TitleFontSize andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];

@@ -13,6 +13,7 @@
 @implementation AYFakeNavBarView {
     UIButton* leftBtn;
     UIButton* rightBtn;
+	UIView *BotLine;
 }
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -22,43 +23,43 @@
 #pragma mark -- commands
 - (void)postPerform {
     {
-        UIButton* barBtn = [[UIButton alloc]init];
-        CALayer * layer = [CALayer layer];
-        layer.contents = (id)IMGRESOURCE(@"bar_left_black").CGImage;
-        layer.frame = CGRectMake(0, 0, 25, 25);
-        [barBtn.layer addSublayer:layer];
-        [barBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];
-        leftBtn = barBtn;
-        [self addSubview:barBtn];
-        
+        leftBtn = [[UIButton alloc]init];
+		[leftBtn setImage:IMGRESOURCE(@"bar_left_black") forState:UIControlStateNormal];
+        [self addSubview:leftBtn];
         [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
             make.centerY.equalTo(self);
             make.left.equalTo(self.mas_left).offset(10.5f);
             make.width.equalTo(@30);
-            make.height.equalTo(@26);
+            make.height.equalTo(@30);
         }];
-        
+		
+		[leftBtn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];
     }
+	
     {
-        UIButton* barBtn = [[UIButton alloc]init];
-        CALayer * layer = [CALayer layer];
-        layer.contents = (id)PNGRESOURCE(@"profile_setting_dark").CGImage;
-        layer.frame = CGRectMake(0, 0, 25, 25);
-        [barBtn.layer addSublayer:layer];
-        [barBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
-        rightBtn = barBtn;
-        [self addSubview:barBtn];
-        
+        rightBtn = [[UIButton alloc]init];
+		[rightBtn setImage:IMGRESOURCE(@"profile_setting_dark") forState:UIControlStateNormal];
+        [self addSubview:rightBtn];
+		
         [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self.mas_bottom).offset(-4.f);
             make.centerY.equalTo(self);
             make.right.equalTo(self.mas_right).offset(-10.5f);
             make.width.equalTo(@30);
             make.height.equalTo(@30);
         }];
+		[rightBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     }
-    
+	
+	BotLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 0.5, self.bounds.size.width, 0.5)];
+	[self addSubview:BotLine];
+	BotLine.backgroundColor = [Tools garyLineColor];
+	[BotLine mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self);
+		make.centerX.equalTo(self);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+	}];
+	BotLine.hidden = YES;
+	
     self.backgroundColor = [UIColor clearColor];
 }
 
@@ -79,13 +80,8 @@
 }
 
 - (void)layoutSubviews {
-    leftBtn.center = CGPointMake(leftBtn.center.x, self.frame.size.height / 2);
-    rightBtn.center = CGPointMake(rightBtn.center.x, self.frame.size.height / 2);
-    
-//    CALayer* line = [CALayer layer];
-//    line.frame = CGRectMake(0, self.frame.size.height - 0.5, [UIScreen mainScreen].bounds.size.width, 0.5);
-//    line.backgroundColor = [Tools garyLineColor].CGColor;
-//    [self.layer addSublayer:line];
+	[super layoutSubviews];
+	
 }
 
 #pragma mark -- 
@@ -119,42 +115,24 @@
 - (id)setLeftBtnImg:(id)args {
     
     UIImage* img = (UIImage*)args;
-    for (CALayer* layer in leftBtn.layer.sublayers) {
-        [layer removeFromSuperlayer];
-    }
     [leftBtn setImage:img forState:UIControlStateNormal];
-    
-    
-//    for (CALayer* layer in leftBtn.layer.sublayers) {
-//        [layer removeFromSuperlayer];
-//    }
-//
-//    CALayer * layer = [CALayer layer];
-//    layer.contents = (id)img.CGImage;
-//    layer.frame = CGRectMake(0, 0, 25, 25);
-//    [leftBtn.layer addSublayer:layer];
+	
     return nil;
 }
 
 - (id)setRightBtnImg:(id)args {
 
     UIImage* img = (UIImage*)args;
-    for (CALayer* layer in rightBtn.layer.sublayers) {
-        [layer removeFromSuperlayer];
-    }
     [rightBtn setImage:img forState:UIControlStateNormal];
-    
-//    CALayer * layer = [CALayer layer];
-//    layer.contents = (id)img.CGImage;
-//    layer.frame = CGRectMake(0, 0, 25, 25);
-//    [rightBtn.layer addSublayer:layer];
+	
     return nil;
 }
 
 - (id)setLeftBtnWithBtn:(id)args {
+	
     UIButton* btn = (UIButton*)args;
-    
     [leftBtn removeFromSuperview];
+	
     [btn addTarget:self action:@selector(didSelectLeftBtn) forControlEvents:UIControlEventTouchUpInside];
     leftBtn = btn;
     [self addSubview:btn];
@@ -163,12 +141,11 @@
 }
 
 - (id)setRightBtnWithBtn:(id)args {
+	
     UIButton* btn = (UIButton*)args;
-    
     [rightBtn removeFromSuperview];
     
     [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
-    rightBtn = btn;
     [btn sizeToFit];
     [self addSubview:btn];
     [btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -176,24 +153,8 @@
         make.right.equalTo(self.mas_right).offset(-18.f);
         make.size.mas_equalTo(CGSizeMake(btn.bounds.size.width, btn.bounds.size.height));
     }];
-    
-    return nil;
-}
-
-- (id)setRightBtnWithBlackColorTitle:(id)args {
-    NSString* title = (NSString*)args;
-    [rightBtn removeFromSuperview];
-    
-    UIButton* btn = [Tools creatUIButtonWithTitle:title andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
-    [btn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
-    [btn sizeToFit];
-    rightBtn = btn;
-    [self addSubview:btn];
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self);
-        make.right.equalTo(self.mas_right).offset(-18.f);
-        make.size.mas_equalTo(CGSizeMake(btn.bounds.size.width, btn.bounds.size.height));
-    }];
+	rightBtn = btn;
+	
     return nil;
 }
 
@@ -210,11 +171,13 @@
 }
 
 - (id)setBarBotLine {
-    CALayer* line = [CALayer layer];
-    line.frame = CGRectMake(0, self.frame.size.height - 0.5, self.frame.size.width, 0.5);
-    line.backgroundColor = [Tools garyLineColor].CGColor;
-    [self.layer addSublayer:line];
+	BotLine.hidden = NO;
     return nil;
+}
+
+- (id)hideBarBotLine {
+	BotLine.hidden = YES;
+	return nil;
 }
 
 #pragma mark -- notify

@@ -25,7 +25,6 @@
 	NSMutableArray *offer_date_mutable;
 	NSDictionary *service_info;
 	
-	NSInteger leastTimes;
 	NSInteger timesCount;
 }
 
@@ -38,18 +37,6 @@
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
 		service_info = [tmp objectForKey:kAYServiceArgsServiceInfo];
-		leastTimes = ((NSNumber*)[service_info objectForKey:kAYServiceArgsLeastTimes]).integerValue;
-		
-		if (!offer_date_mutable) {
-			offer_date_mutable = [[service_info objectForKey:kAYServiceArgsOfferDate] mutableCopy];
-			[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				
-				NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
-				[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-					[obj setValue:[NSNumber numberWithInt:0] forKey:@"select_pow"];
-				}];
-			}];
-		}
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -275,6 +262,7 @@
 		return;
 	}
 	
+	NSInteger leastTimes = ((NSNumber*)[service_info objectForKey:kAYServiceArgsLeastTimes]).integerValue;
 	if (timesCount < leastTimes) {
 		NSString *title = [NSString stringWithFormat:@"该服务最少预定%d次",(int)leastTimes];
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)

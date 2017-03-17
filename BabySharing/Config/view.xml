@@ -157,6 +157,7 @@
         <command type="message" message="setLeftBtnVisibility:" />
         <command type="message" message="setRightBtnVisibility:" />
         <command type="message" message="setBarBotLine" />
+		<command type="message" message="hideBarBotLine" />
         <command type="notify" message="leftBtnSelected" />
         <command type="notify" message="rightBtnSelected" />
     </view>
