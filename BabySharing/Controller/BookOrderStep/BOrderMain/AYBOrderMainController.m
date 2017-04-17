@@ -187,7 +187,6 @@
 	sumPrice = 1.f;
 #endif
 	
-	NSDictionary *dic_date = [order_times firstObject];
 	NSDictionary* args = nil;
 	CURRENUSER(args)
 	
@@ -196,7 +195,7 @@
 	[dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
 	[dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
 	[dic_push setValue:[[service_info objectForKey:@"images"] objectAtIndex:0] forKey:@"order_thumbs"];
-	[dic_push setValue:dic_date forKey:@"order_date"];
+	[dic_push setValue:[order_times copy] forKey:@"order_date"];
 	[dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
 	[dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
     
@@ -387,19 +386,46 @@
 //		NSString *title = @"您已取消本次支付支付";
 //		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	} else {
-		NSString *title = @"微信支付失败\n请改善网络环境并重试";
+		NSString *title = @"支付失败\n请改善网络环境并重试";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	}
 	return nil;
 }
 
 - (id)AlipaySuccess:(id)args {
-    NSLog(@"pay success");
+	NSLog(@"pay success");
+	
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	// 支付成功
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:order_id forKey:@"order_id"];
+	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+	
+	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		if (success) {
+			NSString *title = @"服务预订成功,去日程查看";
+			//            [self popToRootVCWithTip:title];
+			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+			
+		} else {
+			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
     return nil;
 }
 
 - (id)AlipayFailed:(id)args {
-    NSLog(@"pay failed");
+	NSLog(@"pay failed");
+	NSString *title = @"支付失败\n请改善网络环境并重试";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
     return nil;
 }
 

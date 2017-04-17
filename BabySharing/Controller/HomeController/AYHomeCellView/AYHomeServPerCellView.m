@@ -59,6 +59,7 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);
 			make.top.equalTo(coverImage.mas_bottom).offset(15);
+			make.right.equalTo(self).offset(-70);
 		}];
 		
 		photoIcon = [[UIImageView alloc]init];

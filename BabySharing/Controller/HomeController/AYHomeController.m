@@ -350,7 +350,7 @@ typedef void(^queryContentFinish)(void);
 			servicesData = [NSMutableArray arrayWithArray:(NSArray*)result];
 			skipCount = servicesData.count;
 			id arr = [servicesData copy];
-			kAYDelegatesSendMessage(@"Home", @"changeQueryData:", &arr)
+			kAYDelegatesSendMessage(@"Home", @"changeQueryData:", &arr) 
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			
 		} else {
