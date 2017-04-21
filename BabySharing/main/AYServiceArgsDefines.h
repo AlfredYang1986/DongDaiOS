@@ -20,8 +20,6 @@ static NSString* const kAYServiceArgsDescription =               @"description";
 static NSString* const kAYServiceArgsTimes =               @"tms";
 static NSString* const kAYServiceArgsStartDate =               @"startdate";
 static NSString* const kAYServiceArgsEndDate =               @"enddate";
-static NSString* const kAYServiceArgsStartHours =               @"starthours";
-static NSString* const kAYServiceArgsEndHours =               @"endhours";
 static NSString* const kAYServiceArgsPattern =               @"pattern";
 
 static NSString* const kAYServiceArgsOfferDate =               @"offer_date";

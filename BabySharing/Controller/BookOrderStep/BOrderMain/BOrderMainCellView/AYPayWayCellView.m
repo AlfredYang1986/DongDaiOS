@@ -41,20 +41,20 @@
         }];
         
 
-//         titleLabel = [Tools creatUILabelWithText:@"Pay Way Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//         [self addSubview:titleLabel];
-//         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//             make.centerY.equalTo(payWayIcon);
-//             make.left.equalTo(payWayIcon.mas_right).offset(15);
-//         }];
+         titleLabel = [Tools creatUILabelWithText:@"Pay Way Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+         [self addSubview:titleLabel];
+         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+             make.centerY.equalTo(payWayIcon);
+             make.left.equalTo(payWayIcon.mas_right).offset(15);
+         }];
 
-        UILabel *payWayLabel = [Tools creatUILabelWithText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:payWayLabel];
-        [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(payWayIcon);
-            make.left.equalTo(payWayIcon.mas_right).offset(15);
-        }];
-        
+//        UILabel *payWayLabel = [Tools creatUILabelWithText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//        [self addSubview:payWayLabel];
+//        [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(payWayIcon);
+//            make.left.equalTo(payWayIcon.mas_right).offset(15);
+//        }];
+		
         signView = [UIImageView new];
         signView.image = IMGRESOURCE(@"checked_icon");
         [self addSubview:signView];
