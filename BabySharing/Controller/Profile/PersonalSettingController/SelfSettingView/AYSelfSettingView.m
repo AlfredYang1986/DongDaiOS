@@ -25,9 +25,9 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    UILabel *nameLabel = [[UILabel alloc]init];
-    [self addSubview:nameLabel];
-    nameLabel = [Tools setLabelWith:nameLabel andText:@"姓名" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	
+    UILabel *nameLabel = [Tools creatUILabelWithText:@"姓名" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	[self addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(30);
         make.left.equalTo(self).offset(15);
@@ -58,9 +58,8 @@
     }];
     /*********/
     
-    UILabel *addressLabel = [[UILabel alloc]init];
-    [self addSubview:addressLabel];
-    addressLabel = [Tools setLabelWith:addressLabel andText:@"所在城市" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    UILabel *addressLabel = [Tools creatUILabelWithText:@"所在城市" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	[self addSubview:addressLabel];
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line01.mas_bottom).offset(25);
         make.left.equalTo(self).offset(15);
@@ -93,18 +92,16 @@
     }];
     /*********/
     
-    UILabel *bobyLabel = [[UILabel alloc]init];
-    [self addSubview:bobyLabel];
-    bobyLabel = [Tools setLabelWith:bobyLabel andText:@"宝宝信息" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    UILabel *bobyLabel = [Tools creatUILabelWithText:@"宝宝信息" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	[self addSubview:bobyLabel];
     [bobyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line02.mas_bottom).offset(25);
         make.left.equalTo(self).offset(15);
         make.height.mas_equalTo(14);
     }];
-    
-    boby = [[UILabel alloc]init];
-    [self addSubview:boby];
-    boby = [Tools setLabelWith:boby andText:@"2岁9个月男宝宝，2岁9个月男宝宝，2岁9个月男宝宝" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	
+    boby = [Tools creatUILabelWithText:@"2岁9个月男宝宝，2岁9个月男宝宝，2岁9个月男宝宝" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	[self addSubview:boby];
     boby.numberOfLines = 0;
     [boby mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(bobyLabel);
@@ -136,17 +133,15 @@
     }];
     /*********/
 
-    UILabel *timeLabel = [[UILabel alloc]init];
-    [self addSubview:timeLabel];
-    timeLabel = [Tools setLabelWith:timeLabel andText:@"注册时间" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+    UILabel *timeLabel = [Tools creatUILabelWithText:@"注册时间" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	[self addSubview:timeLabel];
     [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(line03.mas_bottom).offset(25);
         make.left.equalTo(self).offset(15);
     }];
-    
-    registTime = [[UILabel alloc]init];
-    [self addSubview:registTime];
-    registTime = [Tools setLabelWith:registTime andText:@"2016.6.12" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	
+    registTime = [Tools creatUILabelWithText:@"2016.6.12" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
+	[self addSubview:registTime];
     [registTime mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(timeLabel);
         make.left.equalTo(self).offset(90);

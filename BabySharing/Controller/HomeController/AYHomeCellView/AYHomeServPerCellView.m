@@ -54,7 +54,7 @@
 			make.height.mas_equalTo(230);
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"服务妈妈的课程" andTextColor:[Tools blackColor] andFontSize:-16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"服务妈妈的课程" andTextColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);

@@ -13,17 +13,15 @@
 - (instancetype)initWithTitle:(NSString*)title {
     self = [super init];
     if (self) {
-        
-        _titleLabel = [[UILabel alloc]init];
-        _titleLabel = [Tools setLabelWith:_titleLabel andText:title andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		
+        _titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:_titleLabel];
         [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(8);
             make.centerX.equalTo(self);
         }];
-        
-        _timeLabel = [[UILabel alloc]init];
-        _timeLabel = [Tools setLabelWith:_timeLabel andText:nil andTextColor:[Tools themeColor] andFontSize:26.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		
+        _timeLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools themeColor] andFontSize:26.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:_timeLabel];
         [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_titleLabel.mas_bottom).offset(8);

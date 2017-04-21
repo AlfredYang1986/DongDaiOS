@@ -69,12 +69,13 @@
 	return nil;
 }
 
-//- (id)registerHeaderAndFooterWithClass:(id)obj {
-//	NSString* class_name = (NSString*)obj;
-//	Class c = NSClassFromString(class_name);
+- (id)registerHeaderWithClass:(id)obj {
+	NSString* class_name = (NSString*)obj;
+	Class c = NSClassFromString(class_name);
 //	[self registerClass:c forHeaderFooterViewReuseIdentifier:class_name];
-//	return nil;
-//}
+	[self registerClass:c forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:class_name];  //[UICollectionReusableView class]
+	return nil;
+}
 //
 //- (id)registerHeaderAndFooterWithNib:(id)obj {
 //	NSString* nib_name = (NSString*)obj;
@@ -99,5 +100,10 @@
 	[self setContentOffset:CGPointMake(index.intValue * cellWidth.floatValue, 0) animated:YES];
 	return nil;
 }
+
+@end
+
+@implementation AYCollectionVerView
+
 
 @end

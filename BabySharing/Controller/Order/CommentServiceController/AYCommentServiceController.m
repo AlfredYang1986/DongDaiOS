@@ -69,8 +69,7 @@
         [service_rangs addObject:[NSNumber numberWithFloat:5]];
     }
     
-    UILabel *tipsLabel = [UILabel new];
-    tipsLabel = [Tools setLabelWith:tipsLabel andText:@"请评价您体验的服务" andTextColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tipsLabel = [Tools creatUILabelWithText:@"请评价您体验的服务" andTextColor:[UIColor whiteColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(90);
@@ -89,9 +88,8 @@
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
-    
-    nameLabel = [[UILabel alloc]init];
-    nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools whiteColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	
+    nameLabel = [Tools creatUILabelWithText:@"服务者" andTextColor:[Tools whiteColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(userPhoto.mas_bottom).offset(25);
@@ -131,15 +129,6 @@
             nameLabel.text = user_name;
         }
     }];
-    
-//    UILabel *countLabel = [[UILabel alloc]init];
-//    countLabel = [Tools setLabelWith:countLabel andText:@"服务主题" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//    [self.view addSubview:countLabel];
-//    [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(nameLabel.mas_bottom).offset(10);
-//        make.centerX.equalTo(self.view);
-//    }];
-    
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];

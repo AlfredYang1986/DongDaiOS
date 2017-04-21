@@ -11,6 +11,8 @@
 #import "AYControllerBase.h"
 #import "AYResourceManager.h"
 #import "DongDaTabBar.h"
+#import "AYViewBase.h"
+#import "AYFactoryManager.h"
 
 @protocol AYViewBase;
 @interface AYViewController : UIViewController <AYControllerBase>

@@ -164,6 +164,7 @@
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
+	headView.backgroundColor = [Tools whiteColor];
 	NSString *titleStr;
 	if (section == 1) {
 		titleStr = @"服务时间";
@@ -172,7 +173,7 @@
 	} else if (section == 3) {
 		titleStr = @"支付方式";
 	}
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView);
@@ -186,7 +187,7 @@
 	if (section == 0) {
 		return 0.001f;
 	} else {
-		return 58.f;
+		return 50.f;
 	}
 }
 

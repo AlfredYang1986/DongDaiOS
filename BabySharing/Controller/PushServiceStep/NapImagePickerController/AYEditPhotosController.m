@@ -86,8 +86,6 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.backgroundColor = [UIColor whiteColor];
     
     UIView *tipsView = [self.views objectForKey:@"TipsCollection"];
     [self.view bringSubviewToFront:tipsView];
@@ -145,7 +143,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     NSString *title = @"图片展示";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
     
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
     UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
@@ -173,7 +171,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     _layout.itemCount = selectedPhotos.count;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:_layout];
-    _collectionView.backgroundColor = [Tools colorWithRED:244 GREEN:244 BLUE:244 ALPHA:1.f];
+    _collectionView.backgroundColor = [Tools whiteColor];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     [self.view addSubview:_collectionView];

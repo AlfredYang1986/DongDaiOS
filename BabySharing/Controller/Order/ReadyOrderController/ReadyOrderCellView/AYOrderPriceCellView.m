@@ -35,32 +35,28 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        UILabel *titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:@"价格" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        UILabel *titleLabel = [Tools creatUILabelWithText:@"价格" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(25);
             make.left.equalTo(self).offset(15);
         }];
-        
-        priceLabel = [[UILabel alloc]init];
-        priceLabel = [Tools setLabelWith:priceLabel andText:@"￥ 000" andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		
+        priceLabel = [Tools creatUILabelWithText:@"￥ 000" andTextColor:[Tools blackColor] andFontSize:30.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
         [self addSubview:priceLabel];
         [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(titleLabel);
             make.right.equalTo(self).offset(-15);
         }];
-        
-        themeTitleLabel = [[UILabel alloc]init];
-        themeTitleLabel = [Tools setLabelWith:themeTitleLabel andText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		
+        themeTitleLabel = [Tools creatUILabelWithText:@"主题服务" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themeTitleLabel];
         [themeTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(45);
             make.left.equalTo(titleLabel);
         }];
-        
-        themePriceLabel = [[UILabel alloc]init];
-        themePriceLabel = [Tools setLabelWith:themePriceLabel andText:@"￥ 00 × 0 Hour" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		
+        themePriceLabel = [Tools creatUILabelWithText:@"￥ 00 × 0 Hour" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:themePriceLabel];
         [themePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(themeTitleLabel);
@@ -75,22 +71,6 @@
 //            make.left.equalTo(self).offset(10);
 //            make.right.equalTo(self).offset(-10);
 //            make.height.mas_equalTo(0.5f);
-//        }];
-//
-//        isLeaveTitleLabel = [[UILabel alloc]init];
-//        isLeaveTitleLabel = [Tools setLabelWith:isLeaveTitleLabel andText:@"看顾" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-//        [self addSubview:isLeaveTitleLabel];
-//        [isLeaveTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(sperator.mas_bottom).offset(20);
-//            make.left.equalTo(titleLabel);
-//        }];
-//        
-//        isLeavePriceLabel = [[UILabel alloc]init];
-//        isLeavePriceLabel = [Tools setLabelWith:isLeavePriceLabel andText:@"服务不提供看护" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-//        [self addSubview:isLeavePriceLabel];
-//        [isLeavePriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.equalTo(isLeaveTitleLabel);
-//            make.right.equalTo(priceLabel);
 //        }];
         
         isShowDetail = [[UIButton alloc]init];

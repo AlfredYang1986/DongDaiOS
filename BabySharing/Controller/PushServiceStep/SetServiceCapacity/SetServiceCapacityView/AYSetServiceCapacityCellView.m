@@ -41,43 +41,55 @@
             make.centerX.equalTo(self);
             make.top.equalTo(self).offset(20);
         }];
-        
+		
+		UIView *divView = [[UIView alloc]init];
+		[Tools setViewBorder:divView withRadius:0 andBorderWidth:1.f andBorderColor:[Tools garyLineColor] andBackground:nil];
+		[self addSubview:divView];
+		[divView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 60, 50));
+		}];
+		
+		[Tools creatCALayerWithFrame:CGRectMake(50, 4, 1, 42) andColor:[Tools garyLineColor] inSuperView:divView];
+		[Tools creatCALayerWithFrame:CGRectMake(SCREEN_WIDTH - 60 - 50, 4, 1, 42) andColor:[Tools garyLineColor] inSuperView:divView];
+		
         UIButton *minusBtn = [[UIButton alloc]init];
         CALayer *minuslayer = [CALayer layer];
-        minuslayer.frame = CGRectMake(0, 0, 15, 1);
+        minuslayer.frame = CGRectMake(0, 0, 15, 2);
         minuslayer.position = CGPointMake(25, 25);
         minuslayer.backgroundColor = [Tools themeColor].CGColor;
         [minusBtn.layer addSublayer:minuslayer];
-        [self addSubview:minusBtn];
+        [divView addSubview:minusBtn];
         [minusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.mas_bottom).offset(-25);
-            make.left.equalTo(self).offset(20);
+            make.centerY.equalTo(divView);
+            make.left.equalTo(divView);
             make.size.mas_equalTo(CGSizeMake(50, 50));
         }];
         [minusBtn addTarget:self action:@selector(didMinusBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *addBtn = [[UIButton alloc]init];
         CALayer *addlayerX = [CALayer layer];
-        addlayerX.frame = CGRectMake(0, 0, 15, 1);
+        addlayerX.frame = CGRectMake(0, 0, 15, 2);
         CALayer *addlayerY = [CALayer layer];
-        addlayerY.frame = CGRectMake(0, 0, 1, 15);
+        addlayerY.frame = CGRectMake(0, 0, 2, 15);
         addlayerY.position = addlayerX.position = CGPointMake(25, 25);
         addlayerY.backgroundColor = addlayerX.backgroundColor = [Tools themeColor].CGColor;
         [addBtn.layer addSublayer:addlayerX];
         [addBtn.layer addSublayer:addlayerY];
-        [self addSubview:addBtn];
+        [divView addSubview:addBtn];
         [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(minusBtn);
-            make.right.equalTo(self).offset(-20);
+            make.centerY.equalTo(divView);
+			make.right.equalTo(divView);
             make.size.equalTo(minusBtn);
         }];
         [addBtn addTarget:self action:@selector(didAddBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
-        countLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-        [self addSubview:countLabel];
+        countLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        [divView addSubview:countLabel];
         [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(minusBtn);
-            make.centerX.equalTo(self);
+            make.centerY.equalTo(divView);
+            make.centerX.equalTo(divView);
         }];
         
         if (reuseIdentifier != nil) {

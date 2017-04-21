@@ -403,7 +403,7 @@
 
 - (id)didContactBtnClick {
     
-    AYViewController* des = DEFAULTCONTROLLER(@"GroupChat");
+    AYViewController* des = DEFAULTCONTROLLER(@"SingleChat");
 //    id<AYCommand> des = DEFAULTCONTROLLER(@"GroupList");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

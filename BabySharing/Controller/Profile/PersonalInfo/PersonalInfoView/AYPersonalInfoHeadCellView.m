@@ -44,16 +44,14 @@
 //            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
 //        }];
         
-        nameLabel = [[UILabel alloc]init];
-        nameLabel = [Tools setLabelWith:nameLabel andText:@"服务者" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        nameLabel = [Tools creatUILabelWithText:@"服务者" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.top.equalTo(self).offset(20);
         }];
-        
-        registTimeLabel = [[UILabel alloc]init];
-        registTimeLabel = [Tools setLabelWith:registTimeLabel andText:@"注册时间：2015年7月" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		
+        registTimeLabel = [Tools creatUILabelWithText:@"注册时间：2015年7月" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:registTimeLabel];
         [registTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);

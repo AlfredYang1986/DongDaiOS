@@ -17,7 +17,7 @@
 	if (self) {
 		
 		self.backgroundColor = [UIColor clearColor];
-		_descLabel = [Tools creatUILabelWithText:@"没有内容" andTextColor:[Tools garyColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		_descLabel = [Tools creatUILabelWithText:@"没有内容" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:_descLabel];
 		[_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);

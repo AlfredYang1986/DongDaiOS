@@ -12,3 +12,7 @@
 @interface AYCollectionView : UICollectionView <AYViewBase>
 
 @end
+
+@interface AYCollectionVerView : AYCollectionView
+
+@end

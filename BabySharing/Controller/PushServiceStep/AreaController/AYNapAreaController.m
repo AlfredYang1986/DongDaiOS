@@ -59,7 +59,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         id args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args isKindOfClass:[NSMutableDictionary class]]) {
+        if ([args isKindOfClass:[NSDictionary class]]) {
             
             service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         } else if ([args isKindOfClass:[NSString class]]) {
@@ -211,8 +211,8 @@
     return nil;
 }
 
-- (id)PickerLayout:(UIView*)view{
-    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+- (id)PickerLayout:(UIView*)view {
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
     view.backgroundColor = [Tools garyColor];
     return nil;
 }

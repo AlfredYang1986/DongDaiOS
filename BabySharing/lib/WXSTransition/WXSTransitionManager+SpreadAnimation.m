@@ -52,7 +52,6 @@
     tempView.layer.mask = maskLayer;
     
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"path"];
-    animation.delegate = self;
     animation.fromValue = (__bridge id)(startPath.CGPath);
     animation.toValue = (__bridge id)((endPath.CGPath));
     animation.duration = self.animationTime;

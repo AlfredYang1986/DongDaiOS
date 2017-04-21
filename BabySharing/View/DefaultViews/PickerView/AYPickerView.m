@@ -13,9 +13,13 @@
 //#import "AYHomeCellDefines.h"
 
 #define SHOW_OFFSET_Y           SCREEN_HEIGHT - 196
-#define kSelfHeight             196
+#define kPickBgHeight             196
 
-@implementation AYPickerView
+@implementation AYPickerView {
+//	UIView *maskBgView;
+	UIView *pickBgView;
+}
+
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
@@ -23,36 +27,47 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, kSelfHeight);
-    self.clipsToBounds = YES;
-    self.backgroundColor = [UIColor whiteColor];
+	
+    self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	self.backgroundColor = [UIColor clearColor];
+	
+//	maskBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+//	maskBgView.alpha = 0.1f;
+//	[self addSubview:maskBgView];
+	self.userInteractionEnabled = YES;
+	[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePickerView)]];
+	
+	pickBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight)];
+	[self addSubview:pickBgView];
+	pickBgView.backgroundColor = [Tools whiteColor];
+    pickBgView.clipsToBounds = YES;
     
     UIButton *save = [[UIButton alloc]init];
-    [self addSubview:save];
+    [pickBgView addSubview:save];
     [save setTitle:@"保存" forState:UIControlStateNormal];
     [save setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    save.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    save.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [save mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self);
-        make.top.equalTo(self);
+        make.right.equalTo(pickBgView);
+        make.top.equalTo(pickBgView);
         make.size.mas_equalTo(CGSizeMake(50, 30));
     }];
     [save addTarget:self action:@selector(didSaveClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *cancel = [[UIButton alloc]init];
-    [self addSubview:cancel];
+    [pickBgView addSubview:cancel];
     [cancel setTitle:@"取消" forState:UIControlStateNormal];
-    [cancel setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    cancel.titleLabel.font = [UIFont systemFontOfSize:14.f];
+    [cancel setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+    cancel.titleLabel.font = [UIFont systemFontOfSize:17.f];
     [cancel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self);
-        make.top.equalTo(self);
+        make.left.equalTo(pickBgView);
+        make.top.equalTo(pickBgView);
         make.size.mas_equalTo(CGSizeMake(50, 30));
     }];
     [cancel addTarget:self action:@selector(didCancelClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    _pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, kSelfHeight - 30)];
-    [self addSubview:_pickerView];
+    _pickerView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, 30, SCREEN_WIDTH, kPickBgHeight - 30)];
+    [pickBgView addSubview:_pickerView];
     
 }
 
@@ -107,19 +122,23 @@
 }
 
 - (id)showPickerView {
-    
+	
+	self.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [UIView animateWithDuration:0.25 animations:^{
-        self.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kSelfHeight);
+        pickBgView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kPickBgHeight);
     }];
     
     return nil;
 }
 
 - (id)hidePickerView {
-    
+	
     [UIView animateWithDuration:0.25 animations:^{
-        self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kSelfHeight);
-    }];
+        pickBgView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight);
+		
+	} completion:^(BOOL finished) {
+		self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
     
     return nil;
 }

@@ -241,7 +241,9 @@
     
     <facade type="DefaultFacade" name="Timemanagement" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="PushServiceTMProtocol" />
+		<command type="Module" name="PushServiceTMNurse" />
         <command type="Module" name="ParseServiceTMProtocol" />
+		<command type="Module" name="ParseServiceTMNurse" />
     </facade>
     
     <facade type="DefaultFacade" name="Alipay" factory="AYDefaultFacadeFactory" >

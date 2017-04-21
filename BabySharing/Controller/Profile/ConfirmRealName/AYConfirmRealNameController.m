@@ -44,7 +44,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UILabel *title = [Tools creatUILabelWithText:@"还差一步，实名认证" andTextColor:[Tools blackColor] andFontSize:-20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatUILabelWithText:@"还差一步，实名认证" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(92);
@@ -96,7 +96,7 @@
     }];
 	[Tools creatCALayerWithFrame:CGRectMake(0, inputTextFieldHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:coderTextField];
 	
-	UIButton *enterBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	UIButton *enterBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
 	[enterBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	[self.view addSubview:enterBtn];
@@ -166,7 +166,7 @@
     [dic_push setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
     [dic_push setValue:nameTextField.text forKey:@"real_name"];
     [dic_push setValue:coderTextField.text forKey:@"social_id"];
-    
+	
     [cmd performWithResult:dic_push andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             

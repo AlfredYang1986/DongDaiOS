@@ -30,6 +30,11 @@ static NSString* const kAYServiceArgsOccurance =               @"occurance";
 static NSString* const kAYServiceArgsStart =               @"start";
 static NSString* const kAYServiceArgsEnd =               @"end";
 
+static NSString* const kAYServiceArgsTPHandle =               @"timePointHandle";
+static NSString* const kAYServiceArgsStartHours =               @"starthours";
+static NSString* const kAYServiceArgsEndHours =               @"endhours";
+//static NSString* const kAYServiceArgs =               @"title";
+
 static NSString* const kAYServiceArgsNotice =                           @"other_words";
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
 static NSString* const kAYServiceArgsIsCollect =               @"iscollect";

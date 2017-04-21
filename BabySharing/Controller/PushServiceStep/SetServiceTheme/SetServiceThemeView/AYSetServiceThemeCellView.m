@@ -16,8 +16,6 @@
 #import "AYControllerActionDefines.h"
 
 @implementation AYSetServiceThemeCellView {
-    NSString *title;
-    NSString *content;
     
     UILabel *titleLabel;
     UILabel *subTitlelabel;
@@ -28,7 +26,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -43,13 +41,17 @@
             make.centerY.equalTo(titleLabel);
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
-        
-        CALayer *separator = [CALayer layer];
-        CGFloat margin = 0;
-        separator.frame = CGRectMake(margin, 69.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
-        separator.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:separator];
-        
+		
+		subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		[self addSubview:subTitlelabel];
+		[subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(access.mas_left).offset(-10);
+			make.centerY.equalTo(titleLabel);
+		}];
+		
+        CGFloat margin = 10;
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 99.5, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -114,9 +116,18 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSString*)args {
-    
-    titleLabel.text = args;
+- (id)setCellInfo:(id)args {
+	
+	NSString *titleStr = [args objectForKey:@"title"];
+    titleLabel.text = titleStr;
+	
+	NSString *subTitleStr = [args objectForKey:@"sub_title"];
+	if (subTitleStr && ![subTitleStr isEqualToString:@""]) {
+		subTitlelabel.hidden = NO;
+		subTitlelabel.text = subTitleStr;
+	} else {
+		subTitlelabel.hidden = YES;
+	}
     
     return nil;
 }

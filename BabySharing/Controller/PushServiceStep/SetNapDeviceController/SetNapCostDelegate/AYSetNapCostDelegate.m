@@ -11,10 +11,6 @@
 #import "AYProfileHeadCellView.h"
 #import "Notifications.h"
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
@@ -86,34 +82,29 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 45;
+    return 64;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
     return NO;
 }
 
-//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    UIView *headView = [[UIView alloc]init];
-//    headView.backgroundColor = [Tools garyBackgroundColor];
-//    
-//    UILabel *titleLabel = [Tools creatUILabelWithText:@"场地友好性设施" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//    [headView addSubview:titleLabel];
-//    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(headView);
-//        make.centerY.equalTo(headView);
-//    }];
-//    
-//    return headView;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    
-//    return 80;
-////    if (section == 0) {
-////        return 80;
-////    } else {
-////        return 0.001;
-////    }
-//}
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *headView = [[UIView alloc]init];
+    headView.backgroundColor = [Tools whiteColor];
+    
+    UILabel *titleLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    [headView addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headView).offset(20);
+        make.centerY.equalTo(headView);
+    }];
+	[Tools creatCALayerWithFrame:CGRectMake(20, 49.5, SCREEN_WIDTH - 40, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
+    return headView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    
+    return 50;
+}
 @end

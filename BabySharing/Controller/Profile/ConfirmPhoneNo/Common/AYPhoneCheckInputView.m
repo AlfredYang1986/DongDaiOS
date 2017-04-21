@@ -67,7 +67,7 @@
 	}];
 	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 40, 0.5) andColor:[Tools themeColor] inSuperView:inputPhoneNoView];
 	
-	UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:115.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
 	[inputPhoneNoView addSubview:phoneNo];
 	[phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {

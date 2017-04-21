@@ -30,14 +30,6 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-//        UILabel *titleLabel = [[UILabel alloc]init];
-//        titleLabel = [Tools setLabelWith:titleLabel andText:@"支付方式" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//        [self addSubview:titleLabel];
-//        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self).offset(20);
-//            make.left.equalTo(self).offset(15);
-//        }];
 		
         payWayIcon = [UIImageView new];
         [self addSubview:payWayIcon];
@@ -48,9 +40,17 @@
             make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
         
-        titleLabel = [Tools creatUILabelWithText:@"Pay Way Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+
+//         titleLabel = [Tools creatUILabelWithText:@"Pay Way Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//         [self addSubview:titleLabel];
+//         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//             make.centerY.equalTo(payWayIcon);
+//             make.left.equalTo(payWayIcon.mas_right).offset(15);
+//         }];
+
+        UILabel *payWayLabel = [Tools creatUILabelWithText:@"微信支付" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        [self addSubview:payWayLabel];
+        [payWayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);
             make.left.equalTo(payWayIcon.mas_right).offset(15);
         }];

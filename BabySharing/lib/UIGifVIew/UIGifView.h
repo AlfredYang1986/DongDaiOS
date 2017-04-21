@@ -9,7 +9,12 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+@interface UIGifView : UIView <CAAnimationDelegate>
+#else
 @interface UIGifView : UIView
+#endif
+//@interface UIGifView : UIView
 /*
  * @brief desingated initializer
  */

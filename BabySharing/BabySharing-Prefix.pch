@@ -19,6 +19,7 @@
 #import "AYServiceArgsDefines.h"
 
 static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8cd52931";
+static NSString* const kAYEMIDDongDaMaster =                @"dongda_master";
 
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
@@ -26,11 +27,21 @@ static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8c
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
 
+
 //PayWayOption
 typedef enum : int {
 	PayWayOptionWechat = 0,
 	PayWayOptionAlipay = 1,
 } PayWayOption;
+
+//TMPatternType
+typedef enum : int {
+	//ServiceTypeNone = 0,
+	TMPatternTypeDaily = 0,
+	TMPatternTypeWeekly = 1,
+	TMPatternTypeMonthly = 2,
+	TMPatternTypeOnce = 3,
+} TMPatternType;
 
 //ServiceType
 typedef enum : int {
@@ -69,18 +80,19 @@ typedef enum : int {
 #define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏"]
 #define kAY_service_options_title_lookafter        @[@"日间看顾", @"课后看顾"]
 
-#define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学", @"语言", @"阅读", @"手工"]
+#define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学"]
 #define kAY_service_course_title_0              @[@"钢琴", @"舞蹈", @"书法", @"中国画", @"绘画", @"尤克丽丽", @"戏剧"]
 #define kAY_service_course_title_1              @[@"瑜伽健身", @"篮球", @"马术", @"围棋", @"击剑", @"桌游"]
 #define kAY_service_course_title_2              @[@"3D打印", @"机器人", @"心理学", @"行为习惯"]
 #define kAY_service_course_title_3              @[@"英语"]
 #define kAY_service_course_title_4              @[@"绘本"]
 #define kAY_service_course_title_5              @[@"烘焙", @"陶艺"]
-#define kAY_service_course_title_ofall              @[kAY_service_course_title_0, kAY_service_course_title_1, kAY_service_course_title_2, kAY_service_course_title_3, kAY_service_course_title_4, kAY_service_course_title_5]
+#define kAY_service_course_title_ofall              @[kAY_service_course_title_0, kAY_service_course_title_1, kAY_service_course_title_2]
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 
 
+#define OneDayTimeInterval					86400
 
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)

@@ -60,7 +60,7 @@
     NSLog(@"view are : %@", self.views);
     NSLog(@"delegates are : %@", self.delegates);
     
-    self.view.backgroundColor = [Tools garyBackgroundColor];
+    self.view.backgroundColor = [Tools whiteColor];
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	
 	count_loading = 0;
@@ -332,8 +332,9 @@
 }
 
 - (void)didBtmAlertViewCloseBtnClick {
-    NSLog(@"BtmAlertViewClose");
+	
     if (btmAlertView.frame.origin.y == SCREEN_HEIGHT - btmAlertViewH) {
+		NSLog(@"BtmAlertViewClose");
         [UIView animateWithDuration:0.25 animations:^{
             btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
             maskView.alpha = 0;

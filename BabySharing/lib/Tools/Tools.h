@@ -40,7 +40,6 @@
 + (UIColor*)borderAlphaColor;
 
 #pragma mark -- UIView
-+ (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 + (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
@@ -53,12 +52,15 @@
 #pragma mark -- AYBtmAlert
 - (void)AYShowBtmAlertWithArgs:(NSDictionary*)args;
 
+#pragma mark -- NSAttributedString
++ (NSAttributedString*)transStingToAttributeString:(NSString*)string withLineSpace:(CGFloat)lineSpace;
+
 #pragma mark -- NSTime
 + (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter;
 
+#pragma mark -- service SKU -> complete name
++ (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary*)service_info;
+
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;
 + (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg;
-
-#pragma mark -- service SKU -> real name
-+ (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary*)service_info;
 @end

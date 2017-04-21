@@ -51,8 +51,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools darkBackgroundColor];
     
-    UILabel *tipsLabel = [UILabel new];
-    tipsLabel = [Tools setLabelWith:tipsLabel andText:@"确认您的订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *tipsLabel = [Tools creatUILabelWithText:@"确认您的订单" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(150);
@@ -68,8 +67,7 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 20, 1));
     }];
     
-    UILabel *order_detail = [UILabel new];
-    order_detail = [Tools setLabelWith:order_detail andText:nil andTextColor:[UIColor whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *order_detail = [Tools creatUILabelWithText:nil andTextColor:[UIColor whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     order_detail.numberOfLines = 0;
     [self.view addSubview:order_detail];
     [order_detail mas_makeConstraints:^(MASConstraintMaker *make) {

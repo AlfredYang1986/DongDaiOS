@@ -115,11 +115,16 @@
         <command type="message" message="changeQueryData:" />
         <command type="message" message="sendHeightNote:" />
     </delegate>
-
-    <delegate type="TextViewDelegate" name="ChatGroupInput" factory="AYDefaultDelegateFactory" >
+	
+    <delegate type="TextViewDelegate" name="ChatInput" factory="AYDefaultDelegateFactory" >
         <command type="notify" message="sendMessage:" />
     </delegate>
-
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SingleChatMessage" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="sendHeightNote:" />
+	</delegate>
+	
     <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
         <command type="message" message="changeScreenPhoto:" />
@@ -252,6 +257,7 @@
     
     <delegate type="TableViewDelegateAndDatasource" name="SetCourseSign" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
+		<command type="notify" message="courseCansSeted:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapTheme" factory="AYDefaultDelegateFactory" >
@@ -266,7 +272,19 @@
     <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
-    
+	
+	<delegate type="TableViewDelegateAndDatasource" name="NurseScheduleTable" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="addTimeDuration" />
+		<command type="notify" message="manageRestDaySchedule" />
+		<command type="notify" message="exchangeTimeDuration:" />
+	</delegate>
+	
+	<delegate type="PickerViewDelegateAndDatasource" name="NurseSchedulePick" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="queryCurrentSelected:" />
+		<command type="message" message="scrollToCenterWithOffset:" />
+	</delegate>
+	
     <delegate type="TableViewDelegateAndDatasource" name="NapLocation" factory="AYDefaultDelegateFactory" >
         <command type="message" message="autoLocationData:" />
         <command type="message" message="changeLocationResultData:" />
@@ -351,9 +369,9 @@
         <command type="message" message="scrollToCenterWithOffset:" />
     </delegate>
     
-    <delegate type="TableViewDelegateAndDatasource" name="MessageList" factory="AYDefaultDelegateFactory" >
+    <delegate type="TableViewDelegateAndDatasource" name="ChatList" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
-        <command type="notify" message="sendLocation:" />
+		<command type="notify" message="quickScrollHiddenKeyboard" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SearchFilter" factory="AYDefaultDelegateFactory" >
@@ -385,6 +403,18 @@
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="scrollOffsetX:" />
 		<command type="notify" message="transTimesInfo:" />
+	</delegate>
+	
+	<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="scrollOffsetX:" />
+		<command type="notify" message="transTimesInfo:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="RestDayTable" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="addTimeDuration" />
+		<command type="notify" message="exchangeTimeDuration:" />
 	</delegate>
 	
 </delegates>

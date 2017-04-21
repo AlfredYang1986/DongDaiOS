@@ -33,7 +33,7 @@
 //		self.backgroundColor = [UIColor clearColor];
 		[Tools creatCALayerWithFrame:CGRectMake(0, 109.5f, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		titleLabel = [Tools creatUILabelWithText:@"联系人" andTextColor:[Tools blackColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"联系人" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(10);

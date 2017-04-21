@@ -49,46 +49,70 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    AYInsetLabel *h1 = [[AYInsetLabel alloc]initWithTitle:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    h1.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [self.view addSubview:h1];
-    [h1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(124);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
-    }];
+	
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view).offset(80);
+		make.left.equalTo(self.view).offset(20);
+	}];
+	
+	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	
+	CGFloat insetLabelHeight = 64.f;
+	
+	UIView *allowView = [[UIView alloc]init];
+	[self.view addSubview:allowView];
+	[allowView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view).offset(116);
+		make.centerX.equalTo(self.view);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, insetLabelHeight));
+	}];
+	[Tools creatCALayerWithFrame:CGRectMake(0, insetLabelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:allowView];
+	
+	UILabel *h1 = [Tools creatUILabelWithText:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[allowView addSubview:h1];
+	[h1 mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(allowView);
+		make.left.equalTo(allowView).offset(5);
+	}];
     
     isALeaveSwitch = [[UISwitch alloc]init];
     isALeaveSwitch.onTintColor = [Tools themeColor];
-    isALeaveSwitch.transform= CGAffineTransformMakeScale(0.69, 0.69);
-    [self.view addSubview:isALeaveSwitch];
+//    isALeaveSwitch.transform= CGAffineTransformMakeScale(0.69, 0.69);
+    [allowView addSubview:isALeaveSwitch];
     [isALeaveSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(h1);
-        make.right.equalTo(h1).offset(-10);
+        make.centerY.equalTo(allowView);
+        make.right.equalTo(allowView).offset(-10);
         make.size.mas_equalTo(CGSizeMake(49, 31));
     }];
     isALeaveSwitch.on = isAllowLeave;
-    
-    AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"其他守则" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-    h2.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [self.view addSubview:h2];
-    [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(h1.mas_bottom).offset(20);
-        make.centerX.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 42));
+	
+	UIView *otherNoticeView = [[UIView alloc]init];
+	[self.view addSubview:otherNoticeView];
+	[otherNoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(allowView.mas_bottom);
+		make.centerX.equalTo(allowView);
+		make.size.equalTo(allowView);
+	}];
+	[Tools creatCALayerWithFrame:CGRectMake(0, insetLabelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:otherNoticeView];
+	
+	UILabel *otherLabel = [Tools creatUILabelWithText:@"其他守则" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    [otherNoticeView addSubview:otherLabel];
+    [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(otherNoticeView);
+		make.left.equalTo(otherNoticeView).offset(5);
     }];
-    h2.userInteractionEnabled = YES;
-    [h2 addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOtherNoticeTap)]];
+    otherNoticeView.userInteractionEnabled = YES;
+    [otherNoticeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOtherNoticeTap)]];
     
     UIImageView *access = [[UIImageView alloc]init];
-    [self.view addSubview:access];
+    [otherNoticeView addSubview:access];
     access.image = IMGRESOURCE(@"plan_time_icon");
     [access mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(h2.mas_right).offset(-15);
-        make.centerY.equalTo(h2);
-        make.size.mas_equalTo(CGSizeMake(15, 15));
+        make.right.equalTo(otherNoticeView).offset(-10);
+        make.centerY.equalTo(otherNoticeView);
+        make.size.mas_equalTo(CGSizeMake(23, 23));
     }];
     
 }
@@ -106,20 +130,14 @@
 
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    
-    id<AYViewBase> bar = (id<AYViewBase>)view;
-    id<AYCommand> cmd_title = [bar.commands objectForKey:@"setTitleText:"];
-    NSString *title = @"《服务守则》";
-    [cmd_title performWithResult:&title];
-    
-    id<AYCommand> cmd_left = [bar.commands objectForKey:@"setLeftBtnImg:"];
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
-    [cmd_left performWithResult:&left];
-    
+	
+	UIImage* left = IMGRESOURCE(@"bar_left_theme");
+	kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
+	
     NSNumber *is_hidden = [NSNumber numberWithBool:YES];
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
     
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 

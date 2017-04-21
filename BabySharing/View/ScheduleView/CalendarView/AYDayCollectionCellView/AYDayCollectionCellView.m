@@ -38,7 +38,16 @@
     }
 }
 
-//-(void)setLunarDay:(NSString *)lunarDay{
+- (void)setIsLightColor:(BOOL)isLightColor {
+	_isLightColor = isLightColor;
+	if (isLightColor) {
+		self.dayDateLabel.textColor = [Tools themeColor];
+	} else {
+		self.dayDateLabel.textColor = [Tools blackColor];
+	}
+}
+
+//-(void)setLunarDay:(NSString *)lunarDay {
 //    _lunarDay = lunarDay;
 //    self.lunarDayLabel.text = lunarDay;
 //}

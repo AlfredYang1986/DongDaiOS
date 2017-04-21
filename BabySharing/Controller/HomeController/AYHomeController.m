@@ -184,7 +184,7 @@ typedef void(^queryContentFinish)(void);
 //		make.size.mas_equalTo(CGSizeMake(20, 20));
 //	}];
 	
-	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(20);
@@ -203,7 +203,7 @@ typedef void(^queryContentFinish)(void);
 		make.size.mas_equalTo(CGSizeMake(2, 2));
 	}];
 	
-	themeCatlabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	themeCatlabel = [Tools creatUILabelWithText:@"服务主题" andTextColor:[Tools themeColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:themeCatlabel];
 	[themeCatlabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(pointSep.mas_right).offset(15);

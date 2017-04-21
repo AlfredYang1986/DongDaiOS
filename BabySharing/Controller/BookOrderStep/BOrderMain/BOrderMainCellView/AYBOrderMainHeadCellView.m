@@ -34,6 +34,7 @@
 		coverPhoto = [[UIImageView alloc]init];
 		coverPhoto.contentMode = UIViewContentModeScaleAspectFit;
 		coverPhoto.image = IMGRESOURCE(@"default_image");
+		coverPhoto.backgroundColor = [Tools garyBackgroundColor];
 		[self addSubview:coverPhoto];
 		[coverPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self);
@@ -56,7 +57,16 @@
             make.top.equalTo(titleLabel.mas_bottom).offset(15);
             make.left.equalTo(titleLabel);
         }];
-        
+		
+//		UIView *btmLine = [[UIView alloc] init];
+//		btmLine.backgroundColor = [Tools garyLineColor];
+//		[self addSubview:btmLine];
+//		[btmLine mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.bottom.equalTo(self);
+//			make.centerX.equalTo(self);
+//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+//		}];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

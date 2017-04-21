@@ -19,7 +19,6 @@
 @property(nonatomic,assign) int month;
 @property(nonatomic,assign) int day;
 
-@property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UICollectionView *calendarContentView;
 
 //@property(nonatomic,copy) NSMutableArray *registerArr;

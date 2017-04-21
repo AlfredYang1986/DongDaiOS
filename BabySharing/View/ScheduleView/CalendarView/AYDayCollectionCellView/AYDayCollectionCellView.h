@@ -15,12 +15,6 @@
 @property (nonatomic, copy) NSString *dayDay;
 @property (nonatomic, assign) BOOL isGone;
 @property (nonatomic, assign) double timeSpan;
-/** 日 */
-@property (nonatomic, copy) NSString *lunarDay;
-
-/** 阳历 */
-@property (nonatomic, copy) NSString *gregoiainCalendar;
-/** 农历 */
-@property (nonatomic, copy) NSString *chineseCalendar;
+@property (nonatomic, assign) BOOL isLightColor;
 
 @end

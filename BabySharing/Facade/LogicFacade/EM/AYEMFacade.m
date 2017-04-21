@@ -106,7 +106,7 @@
     /**
      * for notification
      */
-    NSPredicate* pn = [NSPredicate predicateWithFormat:@"SELF.from=%@", @"dongda_master"];
+    NSPredicate* pn = [NSPredicate predicateWithFormat:@"SELF.from=%@", kAYEMIDDongDaMaster];
     NSArray* dongda_notify = [aMessages filteredArrayUsingPredicate:pn];
     
     for (EMMessage* message in dongda_notify) {
@@ -183,7 +183,7 @@
     /**
      * for message
      */
-    NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.from!=%@", @"dongda_master"];
+    NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.from!=%@", kAYEMIDDongDaMaster];
     NSArray* dongda_msg = [aMessages filteredArrayUsingPredicate:pm];
     
     for (EMMessage* message in dongda_msg) {
@@ -197,9 +197,9 @@
         [self performWithResult:&notify];
     }
     
-    EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:@"dongda_master" type:EMConversationTypeChat createIfNotExist:YES];
+    EMConversation *conversation = [[EMClient sharedClient].chatManager getConversation:kAYEMIDDongDaMaster type:EMConversationTypeChat createIfNotExist:YES];
     [conversation markAllMessagesAsRead];
-    [[EMClient sharedClient].chatManager deleteConversation:@"dongda_master" deleteMessages:YES];
+    [[EMClient sharedClient].chatManager deleteConversation:kAYEMIDDongDaMaster deleteMessages:YES];
 }
 
 /*!

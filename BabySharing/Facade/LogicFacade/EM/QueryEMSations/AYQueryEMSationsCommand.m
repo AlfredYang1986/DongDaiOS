@@ -37,17 +37,31 @@
             [tmp removeObject:sation];
         }
         
-        NSString *master = sation.conversationId;
-        if ([master isEqualToString:@"dongda_master"]) {
-            [tmp removeObject:sation];
-        }
+//        NSString *master = sation.conversationId;
+//        if ([master isEqualToString:kAYEMIDDongDaMaster]) {
+//            [tmp removeObject:sation];
+//        }
     }
-    
-//    NSString *from = message.from;
-//    NSString *to = message.to;
-//    NSString *me = ((EMTextMessageBody*)message.body).text;
-    
-    *obj = tmp;
+	
+	[tmp sortUsingComparator:^NSComparisonResult(EMConversation *obj1, EMConversation *obj2) {
+		return obj1.latestMessage.serverTime < obj2.latestMessage.serverTime;
+	}];
+	
+	*obj = [tmp copy];
+	
+//	NSArray *sortArray = [conversations sortedArrayUsingComparator:^NSComparisonResult(EMConversation * obj1, EMConversation * obj2) {
+//		if(obj1.latestMessage.serverTime < obj2.latestMessage.serverTime) {
+//			return (NSComparisonResult)NSOrderedDescending;
+//		}else{
+//			return (NSComparisonResult)NSOrderedAscending;
+//		}
+//	}];
+//    *obj = sortArray;
+	
+//	NSPredicate* pm = [NSPredicate predicateWithFormat:@"SELF.from!=%@", kAYEMIDDongDaMaster];
+//	NSArray* dongda_msg = [conversations filteredArrayUsingPredicate:pm];
+	
+	/*-----------------------------------*/
     //群聊模式：
     //    NSDictionary* dic = (NSDictionary*)*obj;
     //    NSString* group_id = [dic objectForKey:@"group_id"];

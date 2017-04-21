@@ -78,11 +78,11 @@
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	UIView *headView = [[UIView alloc]init];
-	headView.backgroundColor = [Tools garyBackgroundColor];
+	UIView *headView = [[UIView alloc] init];
+	headView.backgroundColor = [Tools whiteColor];
 	NSString *titleStr = @"所有日程";
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView);
@@ -93,14 +93,14 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-		
+	
 	return 50.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];

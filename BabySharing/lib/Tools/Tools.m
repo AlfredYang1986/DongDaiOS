@@ -496,47 +496,27 @@
 
 #pragma mark -- UI
 /**
- *  设置label的 text color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
+ *  设置label的 text\ color \fontSize(正常数值为细体, 300+为正常, 600+为粗体) \background \align
 */
-+ (UILabel*)setLabelWith:(UILabel*)label andText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
-    
-    label.text = text;
-    label.textColor = color;
-    label.textAlignment = align;
-    
-    if (font < 0) {
-        label.font = [UIFont systemFontOfSize:-font];
-    } else if (font > 100.f) {
-        label.font = [UIFont boldSystemFontOfSize:(font - 100)];
-    } else {
-        label.font = kAYFontLight(font);
-    }
-    
-    if (backgroundColor) {
-        label.backgroundColor = backgroundColor;
-    } else label.backgroundColor = [UIColor clearColor];
-    
-    return label;
-}
-
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
     
     UILabel *label = [UILabel new];
     label.text = text;
     label.textColor = color;
     label.textAlignment = align;
-    
-    if (font < 0) {
-        label.font = [UIFont systemFontOfSize:-font];
-    } else if (font > 100.f) {
-        label.font = [UIFont boldSystemFontOfSize:(font - 100)];
-    } else {
+	
+	if (font > 600.f) {
+		label.font = [UIFont boldSystemFontOfSize:(font - 600)];
+	} else if (font < 600.f && font > 300.f) {
+			label.font = [UIFont systemFontOfSize:(font - 300)];
+	} else {
         label.font = kAYFontLight(font);
     }
     
     if (backgroundColor) {
         label.backgroundColor = backgroundColor;
-    } else label.backgroundColor = [UIColor clearColor];
+    } else
+		label.backgroundColor = [UIColor clearColor];
     
     return label;
 }
@@ -570,15 +550,15 @@
     UIButton *btn = [UIButton new];
     [btn setTitle:title forState:UIControlStateNormal];
     [btn setTitleColor:TitleColor forState:UIControlStateNormal];
-    
-    if (font < 0) {
-        btn.titleLabel.font = [UIFont systemFontOfSize:-font];
-    } else if (font > 100.f) {
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 100)];
-    } else {
-        btn.titleLabel.font = kAYFontLight(font);
-    }
-    
+	
+	if (font > 600.f) {
+		btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 600)];
+	} else if (font < 600.f && font > 300.f) {
+		btn.titleLabel.font = [UIFont systemFontOfSize:(font - 300)];
+	} else {
+		btn.titleLabel.font = kAYFontLight(font);
+	}
+	
     if (backgroundColor) {
         btn.backgroundColor = backgroundColor;
     } else
@@ -590,13 +570,16 @@
 + (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor {
 	view.layer.cornerRadius = radius;
 	view.layer.borderWidth = width;
-	view.clipsToBounds = YES;
+//	view.layer.border
 	view.layer.rasterizationScale = [UIScreen mainScreen].scale;
+	view.clipsToBounds = YES;
 	if (color) {
 		view.layer.borderColor = color.CGColor;
 	}
 	if (backColor) {
 		view.backgroundColor = backColor;
+	} else {
+		view.backgroundColor = [UIColor clearColor];
 	}
 }
 
@@ -612,6 +595,17 @@
 #pragma mark -- AYBtmAlert
 - (void)AYShowBtmAlertWithArgs:(NSDictionary*)args {
     
+}
+
+#pragma mark -- NSAttributedString
++ (NSAttributedString*)transStingToAttributeString:(NSString *)string withLineSpace:(CGFloat)lineSpace {
+	// 调整行间距
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.lineSpacing = lineSpace;
+	paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+	[attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [string length])];
+	return attributedString;
 }
 
 #pragma mark -- NSDate

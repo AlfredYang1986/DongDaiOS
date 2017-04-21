@@ -52,8 +52,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapTheme"];
