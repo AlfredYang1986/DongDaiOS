@@ -157,6 +157,7 @@
         <command type="message" message="setLeftBtnVisibility:" />
         <command type="message" message="setRightBtnVisibility:" />
         <command type="message" message="setBarBotLine" />
+		<command type="message" message="hideBarBotLine" />
         <command type="notify" message="leftBtnSelected" />
         <command type="notify" message="rightBtnSelected" />
     </view>
@@ -233,7 +234,13 @@
         <command type="message" message="querGroupChatViewHeight" />
         <command type="notify" message="didChatOrderDetailClick" />
     </view>
-
+	
+	<view type="SingleChatHead" name="SingleChatHead" factory="AYDefaultViewFactory" >
+		<command type="message" message="setGroupChatViewInfo:" />
+		<command type="message" message="querGroupChatViewHeight" />
+		<command type="notify" message="didChatOrderDetailClick" />
+	</view>
+	
     <view type="ChatInput" name="ChatInput" factory="AYDefaultViewFactory" >
         <command type="notify" message="sendMessage:" />
         <command type="notify" message="didSelectedBackBtn" />
@@ -401,7 +408,11 @@
     <view type="HomeLikesCell" name="HomeLikesCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    
+	
+	<view type="ChatListCell" name="ChatListCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="GroupListCell" name="GroupListCell" factory="AYReuseViewFactory" >
         <command type="message" message="queryContentCellHeight" />
         <command type="message" message="resetContent:" />
@@ -797,6 +808,8 @@
         <command type="message"     message="changeQueryData:" />
         <command type="notify"      message="didCancelClick" />
         <command type="notify"      message="ChangeOfSchedule" />
+		<command type="notify"      message="didSelectItemAtIndexPath:" />
+		<command type="notify"      message="didDeselectItemAtIndexPath:" />
     </view>
     
     <view type="OneProfileAboutCell" name="OneProfileAboutCell" factory="AYReuseViewFactory" >
@@ -847,15 +860,37 @@
 	   <command type="message" message="registerDelegate:" />
 	   <command type="message" message="registerCellWithClass:" />
 	   <command type="message" message="registerCellWithNib:" />
-	   <command type="message" message="registerHeaderAndFooterWithClass:" />
+	   <command type="message" message="registerHeaderWithClass:" />
 	   <command type="message" message="registerHeaderAndFooterWithNib:" />
 	   <command type="message" message="scrollToPostion:" />
 	   
 	   <command type="args"      direction="1" minspacingx = "0" minspacingy = "0"/>
    </view>
    
+   <view type="CollectionVer" name="CollectionVer" factory="AYCollectionViewFactory" >
+	   <command type="message" message="refresh" />
+	   <command type="message" message="registerDatasource:" />
+	   <command type="message" message="registerDelegate:" />
+	   <command type="message" message="registerCellWithClass:" />
+	   <command type="message" message="registerCellWithNib:" />
+	   <command type="message" message="registerHeaderWithClass:" />
+	   <command type="message" message="registerHeaderAndFooterWithNib:" />
+	   <command type="message" message="scrollToPostion:" />
+	   
+	   <command type="args"      direction="0" minspacingx = "0" minspacingy = "0"/>
+   </view>
+   
    <view type="MapMatchCell" name="MapMatchCell" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
+   </view>
+   
+   <view type="NurseScheduleCellWhiter" name="NurseScheduleCellWhite" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+	   <command type="notify" message="delTimeDuration:" />
+   </view>
+   <view type="NurseScheduleCellTheme" name="NurseScheduleCellTheme" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+	   <command type="notify" message="delTimeDuration:" />
    </view>
    
 </views>

@@ -33,7 +33,7 @@
 			make.left.equalTo(self).offset(15);
 		}];
 		
-		priceLabel =  [Tools creatUILabelWithText:@"Total Price" andTextColor:[Tools themeColor] andFontSize:-14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		priceLabel =  [Tools creatUILabelWithText:@"Total Price" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:priceLabel];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(sumTitleLabel);

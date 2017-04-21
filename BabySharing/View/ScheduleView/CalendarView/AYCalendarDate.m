@@ -39,7 +39,7 @@
     return _formatter;
 }
 
-//农历年数据，加载一次足矣
+//农历年数据，加载一次
 -(NSArray *)chineseYears{
     if (!_chineseYears) {
         _chineseYears = [NSArray arrayWithObjects:
@@ -52,7 +52,7 @@
     }
     return _chineseYears;
 }
-//农历月数据，加载一次足矣
+//农历月数据，加载一次
 -(NSArray *)chineseMonths{
     if (!_chineseMonths) {
         _chineseMonths = [NSArray arrayWithObjects:
@@ -62,7 +62,7 @@
     }
     return _chineseMonths;
 }
-//农历日数据，加载一次足矣
+//农历日数据，加载一次
 -(NSArray *)chineseDays{
     if (!_chineseDays) {
         _chineseDays = [NSArray arrayWithObjects:
@@ -72,7 +72,7 @@
     }
     return _chineseDays;
 }
-//星期数据，加载一次足矣
+//星期数据，加载一次
 -(NSArray *)chineseWeekDays{
     if (!_chineseWeekDays) {
         _chineseWeekDays = [NSArray arrayWithObjects:
@@ -171,7 +171,7 @@
  *
  *  @return 丙寅虎年 四月廿四 星期三
  */
-- (NSString *) timeChineseCalendarWithString:(NSString *)dateStr{
+- (NSString *) timeChineseCalendarWithString:(NSString *)dateStr {
     NSDate *date = [self strToDate:dateStr];
     return [self timeChineseCalendarWithDate:date];
     

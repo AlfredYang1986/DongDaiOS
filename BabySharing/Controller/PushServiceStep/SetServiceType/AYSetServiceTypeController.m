@@ -35,10 +35,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-//	self.view.backgroundColor = [Tools ]
+//	self.view.backgroundColor = [Tools themeColor];
 	
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"您想要发布什么类型的服务?" andTextColor:[Tools themeColor] andFontSize:124.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *titleLabel = [Tools creatUILabelWithText:@"选择您即将发布\n的服务类型?" andTextColor:[Tools themeColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -49,7 +48,7 @@
 	
 	CGFloat unitHeight = 100.f;
 	
-    UIView *locBGView = [[UIView alloc]init];
+    UIView *locBGView = [[UIView alloc] init];
     locBGView.backgroundColor = [Tools whiteColor];
     [self.view addSubview:locBGView];
     [locBGView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -162,7 +161,7 @@
 #pragma mark -- notifies
 - (id)leftBtnSelected {
     
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+    NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	

@@ -66,7 +66,7 @@
     }];
 	[Tools creatCALayerWithFrame:CGRectMake(0, phoneBgHeight - 0.5, SCREEN_WIDTH - 50, 0.5) andColor:[Tools themeColor] inSuperView:inputPhoneNoView];
 	
-    UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:115.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+    UILabel *phoneNo = [Tools creatUILabelWithText:@"+ 86" andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:phoneNo withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     [inputPhoneNoView addSubview:phoneNo];
     [phoneNo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -147,7 +147,7 @@
     }];
     
     
-	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:-18.f andBackgroundColor:[Tools themeColor]];
+	enterBtn = [Tools creatUIButtonWithTitle:@"进入咚哒" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
 	[Tools setViewBorder:enterBtn withRadius:22.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
 //    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
 //    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];

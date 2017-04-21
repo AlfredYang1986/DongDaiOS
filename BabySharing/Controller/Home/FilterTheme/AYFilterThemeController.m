@@ -60,7 +60,7 @@
 	id tmp = [filterInfo copy];
 	kAYDelegatesSendMessage(@"FilterTheme", kAYDelegateChangeDataMessage, &tmp)
 	
-	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"查看" andTitleColor:[Tools whiteColor] andFontSize:-20.f andBackgroundColor:[Tools themeColor]];
+	UIButton *doFilterBtn = [Tools creatUIButtonWithTitle:@"查看" andTitleColor:[Tools whiteColor] andFontSize:320.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:doFilterBtn];
 	[doFilterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
@@ -93,7 +93,7 @@
 	UIImage *left = IMGRESOURCE(@"content_close");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton *right = [Tools creatUIButtonWithTitle:@"重置" andTitleColor:[Tools themeColor] andFontSize:-16.f andBackgroundColor:nil];
+	UIButton *right = [Tools creatUIButtonWithTitle:@"重置" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &right)
 	
 //	NSNumber *is_hidden = [NSNumber numberWithBool:YES];

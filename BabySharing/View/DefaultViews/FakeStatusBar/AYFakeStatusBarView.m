@@ -18,7 +18,7 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor clearColor];
 }
 
 - (void)performWithResult:(NSObject**)obj {

@@ -353,8 +353,16 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
-    
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapSchedule");
+	
+	ServiceType type = ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue;
+	
+    id<AYCommand> dest ;
+	if (type == ServiceTypeCourse) {
+		dest = DEFAULTCONTROLLER(@"NapScheduleMain");
+	} else if (type == ServiceTypeLookAfter) {
+		dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
+	}
+	
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
@@ -522,8 +530,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         hubLayer.cornerRadius = 10.f;
         [HUBView.layer addSublayer:hubLayer];
         
-        UILabel *tips = [[UILabel alloc]init];
-        tips = [Tools setLabelWith:tips andText:@"正在准备图片..." andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+        UILabel *tips = [Tools creatUILabelWithText:@"正在准备图片..." andTextColor:[Tools whiteColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
         [HUBView addSubview:tips];
         [tips mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(HUBView);

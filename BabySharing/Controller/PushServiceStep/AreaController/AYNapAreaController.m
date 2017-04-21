@@ -211,8 +211,8 @@
     return nil;
 }
 
-- (id)PickerLayout:(UIView*)view{
-    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 196);
+- (id)PickerLayout:(UIView*)view {
+    view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
     view.backgroundColor = [Tools garyColor];
     return nil;
 }

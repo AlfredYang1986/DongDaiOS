@@ -19,8 +19,7 @@
         self.clipsToBounds = YES;
         self.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.5];
         
-        _titleLabel = [UILabel new];
-        _titleLabel = [Tools setLabelWith:_titleLabel andText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        _titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [_titleLabel sizeToFit];
         _titleSize = _titleLabel.frame.size;
         [self addSubview:_titleLabel];

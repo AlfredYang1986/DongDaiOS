@@ -65,8 +65,7 @@
     }];
     [closeBtn addTarget:self action:@selector(didCloseBtnClick) forControlEvents:UIControlEventTouchUpInside];
     
-    UILabel *titleLabel = [[UILabel alloc]init];
-    titleLabel = [Tools setLabelWith:titleLabel andText:@"场地友好设施" andTextColor:[Tools blackColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *titleLabel = [Tools creatUILabelWithText:@"场地友好设施" andTextColor:[Tools blackColor] andFontSize:24.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(closeBtn.mas_bottom).offset(20);

@@ -170,7 +170,9 @@
     <command type="Module" name="ThumbsAndPushInit" factory="AYDefaultModuleFactory" />
     
     <command type="Module" name="PushServiceTMProtocol" factory="AYDefaultModuleFactory" />
+	<command type="Module" name="PushServiceTMNurse" factory="AYDefaultModuleFactory" />
     <command type="Module" name="ParseServiceTMProtocol" factory="AYDefaultModuleFactory" />
+	<command type="Module" name="ParseServiceTMNurse" factory="AYDefaultModuleFactory" />
     
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />

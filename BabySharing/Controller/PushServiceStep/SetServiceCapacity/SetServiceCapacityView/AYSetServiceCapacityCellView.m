@@ -85,7 +85,7 @@
         }];
         [addBtn addTarget:self action:@selector(didAddBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         
-        countLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:118.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        countLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [divView addSubview:countLabel];
         [countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(divView);

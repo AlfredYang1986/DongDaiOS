@@ -92,7 +92,7 @@
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *aplyBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:-16.f andBackgroundColor:[Tools themeColor]];
+    UIButton *aplyBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:aplyBtn];
     [aplyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);

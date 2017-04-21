@@ -74,7 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"标题" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"标题" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -118,8 +118,7 @@
     h3.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     [self.view addSubview:h3];
 	
-    UILabel *iconLael = [[UILabel alloc]init];
-    iconLael = [Tools setLabelWith:iconLael andText:@"小时" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	UILabel *iconLael = [Tools creatUILabelWithText:@"小时" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [self.view addSubview:iconLael];
     [iconLael mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(h3);
@@ -132,10 +131,9 @@
 		currentNumbCount = 1;
     }
     [plusBtn setTitle:[NSString stringWithFormat:@"%d",(int)currentNumbCount] forState:UIControlStateNormal];
+	[Tools setViewBorder:plusBtn withRadius:btnWH*0.5 andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
     plusBtn.titleLabel.font = [UIFont systemFontOfSize:14.f];
-    [plusBtn setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-    plusBtn.layer.borderColor = [Tools themeColor].CGColor;
-    plusBtn.layer.borderWidth = 1.f;
+    [plusBtn setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
     [self.view addSubview:plusBtn];
     [plusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(iconLael);

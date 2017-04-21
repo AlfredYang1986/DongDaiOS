@@ -11,10 +11,6 @@
 #import "AYProfileHeadCellView.h"
 #import "Notifications.h"
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
@@ -97,7 +93,7 @@
     UIView *headView = [[UIView alloc]init];
     headView.backgroundColor = [Tools whiteColor];
     
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools themeColor] andFontSize:120.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *titleLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [headView addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(headView).offset(20);

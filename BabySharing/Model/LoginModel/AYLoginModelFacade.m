@@ -53,7 +53,7 @@ static NSString* const LOCALDB_LOGIN = @"loginData.sqlite";
     dispatch_async(aq, ^(void){
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [document.managedObjectContext performBlock: ^(void){
-                NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                NSMutableDictionary* notify = [[NSMutableDictionary alloc] init];
                 [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
                 [notify setValue:kAYNotifyLoginModelReady forKey:kAYNotifyFunctionKey];
                 

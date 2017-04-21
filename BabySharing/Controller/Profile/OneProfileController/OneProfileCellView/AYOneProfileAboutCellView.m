@@ -107,8 +107,7 @@
 - (id)setCellInfo:(NSDictionary*)dic_args{
     NSString *single = [dic_args objectForKey:@"validate"];
     if (single) {
-        UILabel *title = [[UILabel alloc]init];
-        title = [Tools setLabelWith:title andText:@"已验证的身份" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:0];
+        UILabel *title = [Tools creatUILabelWithText:@"已验证的身份" andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:title];
         [title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
@@ -118,17 +117,15 @@
     } else {
         NSString *title = [dic_args objectForKey:@"title"];
         NSString *sub_title = [dic_args objectForKey:@"sub_title"];
-        
-        titleLabel = [[UILabel alloc]init];
-        titleLabel = [Tools setLabelWith:titleLabel andText:title andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:0];
+		
+        titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.top.equalTo(self).offset(20);
         }];
         
-        UILabel *subTitle = [[UILabel alloc]init];
-        subTitle = [Tools setLabelWith:subTitle andText:sub_title andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:0];
+        UILabel *subTitle = [Tools creatUILabelWithText:sub_title andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:subTitle];
         [subTitle mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(titleLabel);

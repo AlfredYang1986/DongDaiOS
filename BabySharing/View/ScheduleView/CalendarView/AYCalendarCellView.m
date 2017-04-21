@@ -89,7 +89,9 @@
         self.userInteractionEnabled = YES;
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selfDidClick:)]];
     }
+	
     [self setUpReuseCell];
+	
     return self;
 }
 

@@ -31,7 +31,7 @@
 		self.backgroundColor = [UIColor clearColor];
 		[Tools creatCALayerWithFrame:CGRectMake(85, 0, 1, 90) andColor:[Tools lightGreyColor] inSuperView:self];
 		
-		dateLabel = [Tools creatUILabelWithText:@"01/10\nEEEE" andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		dateLabel = [Tools creatUILabelWithText:@"01/10\nEEEE" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		dateLabel.numberOfLines = 0;
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {

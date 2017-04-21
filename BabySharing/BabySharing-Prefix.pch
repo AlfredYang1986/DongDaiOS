@@ -19,12 +19,22 @@
 #import "AYServiceArgsDefines.h"
 
 static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8cd52931";
+static NSString* const kAYEMIDDongDaMaster =                @"dongda_master";
 
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
 #define UIScreenScale											[UIScreen mainScreen].scale
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
+
+//TMPatternType
+typedef enum : int {
+	//ServiceTypeNone = 0,
+	TMPatternTypeDaily = 0,
+	TMPatternTypeWeekly = 1,
+	TMPatternTypeMonthly = 2,
+	TMPatternTypeOnce = 3,
+} TMPatternType;
 
 //ServiceType
 typedef enum : int {
@@ -75,6 +85,7 @@ typedef enum : int {
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 
 
+#define OneDayTimeInterval					86400
 
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)

@@ -16,7 +16,6 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-//#import "AYSearchDefines.h"
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
@@ -55,8 +54,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithWhite:0.9490 alpha:1.f];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     UIButton *closeBtn = [[UIButton alloc]init];
     [closeBtn setImage:IMGRESOURCE(@"map_cancel") forState:UIControlStateNormal];

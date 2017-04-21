@@ -33,14 +33,14 @@
 		CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"《 服务守则 》" andTextColor:[Tools blackColor] andFontSize:-15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsTitleLabel = [Tools creatUILabelWithText:@"《 服务守则 》" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);

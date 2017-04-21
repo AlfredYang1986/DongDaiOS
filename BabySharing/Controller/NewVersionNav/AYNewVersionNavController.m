@@ -61,7 +61,7 @@
 	}];
 	navControl.currentPage = 0;
 	
-	enterBtn = [Tools creatUIButtonWithTitle:@"立即加入" andTitleColor:[Tools themeColor] andFontSize:-16.f andBackgroundColor:nil];
+	enterBtn = [Tools creatUIButtonWithTitle:@"立即加入" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
 	[Tools setViewBorder:enterBtn withRadius:18.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
 	[self.view addSubview:enterBtn];
 	[enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
