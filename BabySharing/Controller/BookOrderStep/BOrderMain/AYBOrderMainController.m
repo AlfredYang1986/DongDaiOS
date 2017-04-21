@@ -194,7 +194,10 @@
 	[dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
 	[dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
 	[dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
-	[dic_push setValue:[[service_info objectForKey:@"images"] objectAtIndex:0] forKey:@"order_thumbs"];
+	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
+	if (images.count != 0) {
+		[dic_push setValue:[images firstObject] forKey:@"order_thumbs"];
+	}
 	[dic_push setValue:[order_times copy] forKey:@"order_date"];
 	[dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
 	[dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
@@ -244,8 +247,8 @@
 }
 - (void)BtmAlertOtherBtnClick {
 	NSLog(@"didOtherBtnClick");
-	[super BtmAlertOtherBtnClick];
 	
+	[super BtmAlertOtherBtnClick];
 	[super tabBarVCSelectIndex:2];
 }
 
