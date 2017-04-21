@@ -240,7 +240,7 @@
 }
 
 - (id)CollectionLayout:(UIView*)view {
-//	view.frame = CGRectMake(0, 104, SCREEN_WIDTH, SCREEN_HEIGHT - 104 - 49 - 5); //-5留底
+	
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH - 15, itemMargin * 8 + 20);
 	view.backgroundColor = [UIColor clearColor];
 	((UICollectionView*)view).pagingEnabled = YES;

@@ -793,7 +793,7 @@
     
     <view type="PayWayCell" name="PayWayCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="didShowDetailClick" />
+        <command type="notify"      message="didPayOptionClick:" />
     </view>
     
     <view type="ServQualityCell" name="ServQualityCell" factory="AYReuseViewFactory" >

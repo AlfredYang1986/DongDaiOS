@@ -91,7 +91,7 @@
 	else if (section == 2) {
 		return 1;
 	} else {
-		return 1;
+		return 2;
 	}
 }
 
@@ -122,7 +122,10 @@
     } else {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
+		cell.controller = self.controller;
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+		[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"row_index"];
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
     
     cell.controller = self.controller;

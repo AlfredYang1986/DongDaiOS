@@ -146,13 +146,35 @@
 		tipsTitleLabel.text = @"服务类型待调整";
 	}
 	
-	NSDate *nowDate = [NSDate date];
 	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
 	[calendar setTimeZone: timeZone];
 	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+	
+	NSDate *nowDate = [NSDate date];
 	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
 	NSInteger sepNumb = theComponents.weekday;
+	
+//	NSArray *service_times = [service_info objectForKey:kAYServiceArgsTimes];
+//	[service_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		NSTimeInterval startdate = ((NSNumber*)[obj objectForKey:kAYServiceArgsStartDate]).doubleValue;
+//		NSDate *date = [NSDate dateWithTimeIntervalSince1970:startdate];
+//		NSDateComponents *theComponentsOf = [calendar components:calendarUnit fromDate:date];
+//		NSInteger sepOfFromOne = theComponentsOf.weekday;
+//		if (sepNumb == sepOfFromOne-1) {
+//			NSNumber *stratNumb = [obj objectForKey:kAYServiceArgsStartHours];
+//			NSNumber *endNumb = [obj objectForKey:kAYServiceArgsEndHours];
+//			NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
+//			[timesStr insertString:@":" atIndex:2];
+//			[timesStr insertString:@":" atIndex:8];
+//			
+//			NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
+//			NSString *dateStrPer = [formatter stringFromDate:date];
+//			timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
+//			
+//			*stop = YES;
+//		}
+//	}];
 	
 	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
 	for (int i = 0; i < 7; ++i) {
@@ -184,9 +206,6 @@
 		}
 		
 	}
-	
-	
-	
 	
     return nil;
 }

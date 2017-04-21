@@ -227,6 +227,7 @@
         <command type="Remote" name="UpdateOrderInfo" />
         
         <command type="Remote" name="PushOrder" />
+        <command type="Remote" name="PushOrderAlipay" />
         <command type="Remote" name="AcceptOrder" />
         <command type="Remote" name="RejectOrder" />
         <command type="Remote" name="AccomplishOrder" />
@@ -243,5 +244,10 @@
 		<command type="Module" name="PushServiceTMNurse" />
         <command type="Module" name="ParseServiceTMProtocol" />
 		<command type="Module" name="ParseServiceTMNurse" />
+    </facade>
+    
+    <facade type="DefaultFacade" name="Alipay" factory="AYDefaultFacadeFactory" >
+        <command type="Module" name="QueryAliCallBackHandler" />
+        <command type="Module" name="AlipayPay" />
     </facade>
 </facades>

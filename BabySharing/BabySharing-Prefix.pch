@@ -27,6 +27,13 @@ static NSString* const kAYEMIDDongDaMaster =                @"dongda_master";
 #define kTabBarH                                              49
 #define kStatusAndNavBarH                               64
 
+
+//PayWayOption
+typedef enum : int {
+	PayWayOptionWechat = 0,
+	PayWayOptionAlipay = 1,
+} PayWayOption;
+
 //TMPatternType
 typedef enum : int {
 	//ServiceTypeNone = 0,

@@ -25,6 +25,9 @@
     <command type="Remote" name="ShareWithWeibo" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="PayWithWechat" factory="AYDefaultModuleFactory" />
+    
+    <command type="Module" name="AlipayPay" factory="AYDefaultModuleFactory" />
+    <command type="Module" name="QueryAliCallBackHandler" factory="AYDefaultModuleFactory" />
 
     <command type="Module" name="UpdateRegUserProfile" factory="AYDefaultModuleFactory" />
     <command type="Module" name="QueryTmpUser" factory="AYDefaultModuleFactory" />
@@ -217,7 +220,9 @@
     <command type="Remote" name="QueryApplyOrders"   route="v2.1/order/query/apply" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateOrderInfo"   route="v2/order/update" factory="AYRemoteCallFactory" />
 
-    <command type="Remote" name="PushOrder"         route="v2/order/push" factory="AYRemoteCallFactory" />
+<!--    <command type="Remote" name="PushOrder"         route="v2/order/push" factory="AYRemoteCallFactory" />-->
+	<command type="Remote" name="PushOrder"         route="v2/order/push" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PushOrderAlipay"   route="v2/order/push/alipay" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AcceptOrder"       route="v2/order/accept" factory="AYRemoteCallFactory" />
     <command type="Remote" name="RejectOrder"       route="v2/order/reject" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AccomplishOrder"   route="v2/order/accomplish" factory="AYRemoteCallFactory" />

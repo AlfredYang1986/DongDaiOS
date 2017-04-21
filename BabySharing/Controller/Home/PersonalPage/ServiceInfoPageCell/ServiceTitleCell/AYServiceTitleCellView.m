@@ -55,6 +55,7 @@
 		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(titleLabel.mas_bottom).offset(15);
+			make.right.equalTo(self).offset(-80);
 		}];
 		
 		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -62,6 +63,7 @@
 		[ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
 			make.top.equalTo(themeLabel.mas_bottom).offset(5);
+			make.right.equalTo(self).offset(-80);
 		}];
 		
 		ownerPhoto = [[UIImageView alloc]init];

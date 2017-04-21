@@ -27,7 +27,7 @@
 //#define CarouseNumb			
 
 @implementation AYPersonalPageController {
-    NSDictionary *service_info;
+    NSMutableDictionary *service_info;
     
     UIButton *shareBtn;
     CGFloat offset_y;
@@ -56,6 +56,17 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+
+    service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+		
+// 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+// 		id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+// 		id args = [service_info objectForKey:@"tms"];
+// 		[cmd performWithResult:&args];
+// 		[service_info removeObjectForKey:kAYServiceArgsTimes];
+// 		[service_info setValue:args forKey:kAYServiceArgsOfferDate];
+		
+
 		
 		NSMutableDictionary *tmp_args = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
@@ -65,6 +76,7 @@
 		
 		[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
 		service_info = [tmp_args copy];
+
 		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
 		
 		offer_date_mutable = [args mutableCopy];
