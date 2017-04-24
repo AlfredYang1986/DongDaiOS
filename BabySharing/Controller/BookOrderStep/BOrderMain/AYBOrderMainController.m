@@ -136,37 +136,37 @@
 }
 
 #pragma mark -- actions
-- (AYRemoteCallCommand*)getPushOrderCommand {
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-    
-    if (payOptionSignView.tag == PayWayOptionWechat)
-        return [facade.commands objectForKey:@"PushOrder"];
-    else
-        return [facade.commands objectForKey:@"PushOrderAlipay"];
-}
-
 - (void)didAplyBtnClick:(UIButton*)btn {
 	
-	id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
-	id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
-	NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
-	[cmd_login performWithResult:&IsInstalledWechat];
-	if (!IsInstalledWechat.boolValue && payOptionSignView.tag == PayWayOptionWechat) {
-		NSString *title = @"微信支付尚未安装！";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return;
+	AYRemoteCallCommand *cmd_push;
+	CGFloat scaleUnit ;
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	
+	if (payOptionSignView.tag == PayWayOptionWechat) {
+		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+		[cmd_login performWithResult:&IsInstalledWechat];
+		if (!IsInstalledWechat.boolValue ) {
+			NSString *title = @"微信支付尚未安装！";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			return;
+		}
+		cmd_push = [facade.commands objectForKey:@"PushOrder"];
+		scaleUnit = 1.f;
+		
+	} else {
+		cmd_push = [facade.commands objectForKey:@"PushOrderAlipay"];
+		scaleUnit = 0.01f;
 	}
 	
 	CGFloat sumPrice = 0;
-	NSString *unitCat = @"UNIT";
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	__block int count_times = 0;
+	__block CGFloat count_times = 0;
 	
 	if (service_cat.intValue == ServiceTypeLookAfter) {
-		
-		unitCat = @"小时";
 		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			
 			NSNumber *start = [obj objectForKey:kAYServiceArgsStart];
 			NSNumber *end = [obj objectForKey:kAYServiceArgsEnd];
 			
@@ -175,16 +175,14 @@
 		}];
 		
 	} else if (service_cat.intValue == ServiceTypeCourse) {
-		unitCat = @"次";
 		count_times = (int)order_times.count;
-	} else {
-		
 	}
 	
 	NSNumber *unit_price = [service_info objectForKey:kAYServiceArgsPrice];
-	sumPrice += (unit_price.floatValue * count_times) * 100;
+	sumPrice += (unit_price.floatValue * count_times) * 100 * scaleUnit;
+	
 #ifdef SANDBOX
-	sumPrice = 1.f;
+	sumPrice = 1 * scaleUnit;
 #endif
 	
 	NSDictionary* args = nil;
@@ -201,10 +199,11 @@
 	[dic_push setValue:[order_times copy] forKey:@"order_date"];
 	[dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
 	[dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
-    
-    AYRemoteCallCommand *cmd_push = [self getPushOrderCommand];
+	
 	[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
+			
+			order_id = [result objectForKey:@"order_id"];
 			
 			// 支付
 			switch (payOptionSignView.tag) {
@@ -216,20 +215,16 @@
 					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
 					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
 					[cmd performWithResult:&pay];
-					
-					order_id = [result objectForKey:@"order_id"];
 				}
 					break;
 				case PayWayOptionAlipay:
 				{
                     id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
                     AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
-                    
+					
                     NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
 //                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
                     [cmd performWithResult:&pay];
-                    
-                    order_id = [result objectForKey:@"order_id"];
 				}
 					break;
 				default:

@@ -17,6 +17,7 @@ static NSString* const kAYPickerView =                       @"Picker";
 
 //FakeNavBar
 static NSString* const kAYNavBarSetTitleMessage =               @"setTitleText:";
+static NSString* const kAYNavBarSetTitleColorMessage =               @"setTitleTextColor:";
 static NSString* const kAYNavBarSetLeftBtnImgMessage =          @"setLeftBtnImg:";
 static NSString* const kAYNavBarSetRightBtnImgMessage =         @"setRightBtnImg:";
 static NSString* const kAYNavBarSetRightBtnWithBtnMessage =     @"setRightBtnWithBtn:";

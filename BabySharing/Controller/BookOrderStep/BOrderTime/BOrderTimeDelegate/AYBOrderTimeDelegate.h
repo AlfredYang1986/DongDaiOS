@@ -10,7 +10,16 @@
 #import "AYCommand.h"
 #import "AYViewBase.h"
 #import "AYViewController.h"
+#import "AYCalendarDate.h"
 
 @interface AYBOrderTimeDelegate : NSObject <AYDelegateBase, UICollectionViewDelegate, UICollectionViewDataSource>
+
+/** 公历某个月的天数 */
+@property (nonatomic, assign) NSInteger monthNumber;
+/** 某天是星期几 */
+@property (nonatomic, assign) NSInteger dayOfWeek;
+/** 月日，星期几 */
+@property (nonatomic, strong) NSMutableArray *monthNumberAndWeek;
+@property (nonatomic, strong) AYCalendarDate *useTime;
 
 @end

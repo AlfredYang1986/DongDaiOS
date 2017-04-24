@@ -18,7 +18,7 @@
 #import "AYServTimesBtn.h"
 
 @implementation AYBOrderTimeController {
-	UIScrollView *scheduleView;
+//	UIScrollView *scheduleView;
 	UIView *markSepView;
 //	NSInteger weekdaySep;
 	
@@ -26,6 +26,8 @@
 	NSDictionary *service_info;
 	
 	NSInteger timesCount;
+	/******/
+	UILabel *dateShowLabel;
 }
 
 #pragma mark -- commands
@@ -53,7 +55,7 @@
 	
 	// (weekday + x ) % 7 = "day"    x=?
 	int lag;
-	for (int i = 0; i < 8; ++i) {
+	for (int i = 0; ; ++i) {
 		if ((weekday + i ) % 7 == day.intValue) {
 			lag = i;
 			break ;
@@ -92,28 +94,40 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [Tools whiteColor];
+	[self preferredStatusBarStyle];
 	
-//	NSDate *nowDate = [NSDate date];
-//	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-//	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-//	[calendar setTimeZone: timeZone];
-//	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-//	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-//	weekdaySep = theComponents.weekday - 1;
+	dateShowLabel = [Tools creatUILabelWithText:@"选择日期" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
+	[self.view addSubview:dateShowLabel];
+	[dateShowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self.view);
+		make.top.equalTo(self.view).offset(kStatusAndNavBarH);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 40));
+	}];
 	
-	id<AYViewBase> view_notify = [self.views objectForKey:@"Collection"];
+	NSArray *weekdayTitle = @[@"周日", @"周一", @"周二", @"周三", @"周四", @"周五", @"周六"];
+	for (int i = 0; i < weekdayTitle.count; ++i) {
+		UILabel *itemLabel = [Tools creatUILabelWithText:[weekdayTitle objectAtIndex:i] andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self.view addSubview:itemLabel];
+		[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(dateShowLabel.mas_bottom).offset(20);
+			make.centerX.equalTo(self.view.mas_left).offset(itemWidth*0.5 + itemWidth * i);
+		}];
+	}
+	
+	id<AYViewBase> view_collection= [self.views objectForKey:@"CollectionVer"];
 	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"BOrderTime"];
-	id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-	id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+	id<AYCommand> cmd_datasource = [view_collection.commands objectForKey:@"registerDatasource:"];
+	id<AYCommand> cmd_delegate = [view_collection.commands objectForKey:@"registerDelegate:"];
 	
 	id obj = (id)cmd_notify;
 	[cmd_datasource performWithResult:&obj];
 	obj = (id)cmd_notify;
 	[cmd_delegate performWithResult:&obj];
 	
-	id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+	id<AYCommand> cmd_cell = [view_collection.commands objectForKey:@"registerCellWithClass:"];
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
+	[(UICollectionView*)view_collection registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
 	
 	[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 //		NSNumber *index = [obj objectForKey:@"index"];
@@ -133,21 +147,7 @@
 	}];
 	
 	id tmp = [offer_date_mutable copy];
-	kAYDelegatesSendMessage(@"BOrderTime", @"changeQueryData:", &tmp)
-	
-	scheduleView = [[UIScrollView alloc]init];
-	scheduleView.showsVerticalScrollIndicator = NO;
-	scheduleView.showsHorizontalScrollIndicator = NO;
-	scheduleView.delegate = self;
-//	scheduleView.bounces = NO;
-	[self.view addSubview:scheduleView];
-	[scheduleView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view).offset(64);
-		make.left.equalTo(self.view).offset(15);
-		make.right.equalTo(self.view).offset(0);
-		make.bottom.equalTo(self.view).offset(-49);
-//		make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(64, 15, -49, 0));
-	}];
+	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
 	
 	markSepView = [[UIView alloc]init];
 	[self.view addSubview:markSepView];
@@ -157,23 +157,7 @@
 		make.size.mas_equalTo(CGSizeMake(15, itemMargin * 8 + 40 +20));
 	}];
 	
-	for (int i = 0; i < 9; ++i) {
-		UILabel *itemLabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"%d", 6+2*i] andTextColor:[Tools garyColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[markSepView addSubview:itemLabel];
-		[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(markSepView.mas_left).offset(15*0.5);
-			make.top.equalTo(markSepView.mas_top).offset(itemMargin * i);
-		}];
-		
-		[Tools creatCALayerWithFrame:CGRectMake(0, AdjustFiltVertical + itemMargin * i + 40, SCREEN_WIDTH - 15, 0.5) andColor:[Tools garyLineColor] inSuperView:scheduleView];
-		
-	}
-	
-	scheduleView.contentSize = CGSizeMake(SCREEN_WIDTH - 15, itemMargin * 8 + 40 +20); //+20 margin
-	UIView *collectionView = (UIView*)view_notify;
-	[scheduleView addSubview:collectionView];
-	
-	[self setNavTitleWithIndex:0];
+//	[self setNavTitleWithIndex:0];
 	
 	UIButton *certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:certainBtn];
@@ -225,26 +209,34 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.backgroundColor = [Tools themeColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.backgroundColor = [Tools themeColor];
 	
-	UIImage *left = IMGRESOURCE(@"content_close");
+	UIImage *left = IMGRESOURCE(@"bar_left_white");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+	
+	NSString *title = @"可预约时间";
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+	UIColor *color = [Tools whiteColor];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleColorMessage, &color)
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	return nil;
 }
 
-- (id)CollectionLayout:(UIView*)view {
+- (id)CollectionVerLayout:(UIView*)view {
 	
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH - 15, itemMargin * 8 + 20);
+	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40);
 	view.backgroundColor = [UIColor clearColor];
-	((UICollectionView*)view).pagingEnabled = YES;
-	((UICollectionView*)view).bounces = NO;
+//	((UICollectionView*)view).pagingEnabled = YES;
+//	((UICollectionView*)view).bounces = NO;
 	return nil;
 }
 
@@ -403,6 +395,12 @@
 }
 
 #pragma mark -- UIScrollViewDelegate
+- (id)scrollToCenter:(id)args {
+	UICollectionView *view_collection = [self.views objectForKey:@"Collection"];
+	[view_collection scrollToItemAtIndexPath:args atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+	return nil;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	
 	CGFloat offset = scrollView.contentOffset.y;
@@ -413,4 +411,8 @@
 	}];
 }
 
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 @end

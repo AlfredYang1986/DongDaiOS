@@ -10,9 +10,10 @@
 #define AYBOrderTimeDefines_h
 
 
-#define itemWidth				((SCREEN_WIDTH - 15) / 7)
 #define AdjustFiltVertical				7
 #define itemMargin  					68
 #define itemUintHeight  				34
+#define screenPadding  					0
+#define itemWidth				((SCREEN_WIDTH - screenPadding*2) / 7)
 
 #endif /* AYBOrderTimeDefines_h */

@@ -148,6 +148,7 @@
 
     <view type="FakeNavBar" name="FakeNavBar" factory="AYDefaultViewFactory" >
         <command type="message" message="setTitleText:" />
+		<command type="message" message="setTitleTextColor:" />
         <command type="message" message="setBackGroundColor:" />
         <command type="message" message="setLeftBtnImg:" />
         <command type="message" message="setRightBtnImg:" />

@@ -403,6 +403,7 @@
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="scrollOffsetX:" />
 		<command type="notify" message="transTimesInfo:" />
+		<command type="notify" message="scrollToCenter:" />
 	</delegate>
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" factory="AYDefaultDelegateFactory" >

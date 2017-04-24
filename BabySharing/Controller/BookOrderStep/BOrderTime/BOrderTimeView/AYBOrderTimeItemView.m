@@ -22,7 +22,12 @@
 @implementation AYBOrderTimeItemView {
 	
 	NSInteger weekdaySep;
-	UIScrollView *scheduleView;
+//	UIScrollView *scheduleView;
+	
+	UILabel *dayLabel;
+	UILabel *todaySignLabel;
+	UILabel *selectedSignLabel;
+	UIView *abledSignView;
 }
 
 @synthesize para = _para;
@@ -69,35 +74,76 @@
 
 - (void)initialize {
 	
-	{
-		NSDate *nowDate = [NSDate date];
-		NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-		NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-		[calendar setTimeZone: timeZone];
-		NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-		NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-		weekdaySep = theComponents.weekday - 1;
-		
-		NSArray *weekdayTitle = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六"];
-		for (int i = 0; i < weekdayTitle.count; ++i) {
-			UILabel *itemLabel = [Tools creatUILabelWithText:[weekdayTitle objectAtIndex:(weekdaySep + i) % 7] andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-			[self addSubview:itemLabel];
-			[itemLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-				make.centerY.equalTo(self.mas_top).offset(20);
-				make.centerX.equalTo(self.mas_left).offset(itemWidth*0.5 + itemWidth * i);
-			}];
-		}
-	}
+	dayLabel = [Tools creatUILabelWithText:@"Null" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self addSubview:dayLabel];
+	[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self);
+		make.centerY.equalTo(self);
+	}];
+	
+	todaySignLabel = [Tools creatUILabelWithText:@"今天" andTextColor:[Tools garyColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self addSubview:todaySignLabel];
+	[todaySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self);
+		make.bottom.equalTo(dayLabel.mas_top);
+	}];
+	todaySignLabel.hidden = YES;
+	
+	selectedSignLabel = [Tools creatUILabelWithText:@"已选" andTextColor:[Tools themeColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self addSubview:selectedSignLabel];
+	[selectedSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self);
+		make.top.equalTo(dayLabel.mas_bottom);
+	}];
+	selectedSignLabel.hidden = YES;
+	
+	abledSignView = [UIView new];
+	abledSignView.backgroundColor = [Tools themeColor];
+	abledSignView.layer.cornerRadius = 2.5f;
+	abledSignView.clipsToBounds = YES;
+	[self addSubview:abledSignView];
+	[abledSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self);
+		make.centerY.equalTo(selectedSignLabel);
+		make.size.mas_equalTo(CGSizeMake(5, 5));
+	}];
+	abledSignView.hidden = YES;
+	
+	UIView *BgView = [[UIView alloc] init];
+	UIView *circleView = [[UIView alloc] init];
+	[BgView addSubview:circleView];
+	[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools blackColor] andBackground:[Tools themeColor]];
+	[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.center.equalTo(BgView);
+		make.size.mas_equalTo(CGSizeMake(30, 30));
+	}];
+	self.selectedBackgroundView = BgView;
 	
 	//	[self setUpReuseCell];
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
+- (void)setDay:(int)day {
+	_day = day;
+	dayLabel.text = [NSString stringWithFormat:@"%d", day];
 }
 
-- (void)setServiceData:(NSArray *)serviceData {
-	
+- (void)setIsDisable:(BOOL)isDisable {
+	_isDisable = isDisable;
+	dayLabel.textColor = isDisable ? [Tools garyColor] : [Tools themeColor];
+	abledSignView.hidden = !isDisable;
+	selectedSignLabel.hidden = YES;
+	todaySignLabel.hidden = YES;
+}
+
+- (void)setIsToday:(BOOL)isToday {
+	_isToday = isToday;
+	todaySignLabel.hidden = NO;
+}
+
+- (void)setIsSelectedItem:(BOOL)isSelectedItem {
+	_isSelectedItem = isSelectedItem;
+	abledSignView.hidden = YES;
+	selectedSignLabel.hidden = NO;
 }
 
 #pragma mark -- life cycle
@@ -144,41 +190,12 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSArray*)dic_args {
-	_item_data = dic_args;
 	
 	return nil;
 }
 
-- (void)setItem_data:(NSArray *)item_data {
+- (void)setItem_data:(NSDictionary *)item_data {
 	
-	for (int i = 0; i < 7; ++i) {
-		NSInteger weekday_offer_date = (weekdaySep + i) % 7;
-		NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday_offer_date];
-		NSArray *result_contains = [item_data filteredArrayUsingPredicate:pred_contains];
-		if (result_contains.count != 0) {
-			
-			NSDictionary *dic_day = [result_contains firstObject];
-//			NSNumber *index= [dic_day objectForKey:@"index"];
-			
-			NSNumber *note = [dic_day objectForKey:kAYServiceArgsWeekday];
-			CGFloat offsetX = itemWidth * i;
-			NSArray *timesArr = [dic_day objectForKey:kAYServiceArgsOccurance];
-			for (NSDictionary *times in timesArr) {
-				
-				AYServTimesBtn *timesBtn = [[AYServTimesBtn alloc]initWithOffsetX:offsetX andTimesDic:times];
-				[self addSubview:timesBtn];
-				timesBtn.tag = note.integerValue;
-				timesBtn.dic_times = times;
-				
-				NSNumber *isSelect = [times objectForKey:@"select_pow"];
-				long compA = (long)isSelect.intValue;
-				long compB = pow(2, _multiple);
-				timesBtn.selected =  compA&compB;
-				
-				[timesBtn addTarget:self action:@selector(didTimesBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-			}
-		}
-	} //for end
 	
 }
 

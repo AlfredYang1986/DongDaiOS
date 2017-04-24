@@ -141,10 +141,6 @@
 	return self;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
-
 @synthesize para = _para;
 @synthesize controller = _controller;
 @synthesize commands = _commands;
@@ -292,9 +288,9 @@
 	
 	id order_date = [order_info objectForKey:@"order_date"];
 	if ( [order_date isKindOfClass:[NSArray class]]) {
-		for (int i = 0; i < ((NSArray*)order_info).count; ++i) {
+		for (int i = 0; i < ((NSArray*)order_date).count; ++i) {
 			AYOrderPageTimeView *timeView = [[AYOrderPageTimeView alloc]init];
-			timeView.args = [((NSArray*)order_info) objectAtIndex:i];
+			timeView.args = [((NSArray*)order_date) objectAtIndex:i];
 			[self addSubview:timeView];
 			[timeView mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(orderNoLabel.mas_bottom).offset(20+85*i);

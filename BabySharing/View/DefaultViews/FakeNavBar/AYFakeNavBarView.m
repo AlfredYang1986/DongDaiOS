@@ -13,6 +13,7 @@
 @implementation AYFakeNavBarView {
     UIButton* leftBtn;
     UIButton* rightBtn;
+	UILabel *titleView;
 	UIView *BotLine;
 }
 @synthesize para = _para;
@@ -49,6 +50,15 @@
         }];
 		[rightBtn addTarget:self action:@selector(didSelectRightBtn) forControlEvents:UIControlEventTouchUpInside];
     }
+	
+	titleView = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self addSubview:titleView];
+	[titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self);
+		make.centerY.equalTo(self);
+		make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH - 160);
+	}];
+	titleView.hidden  = YES;
 	
 	BotLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height - 0.5, self.bounds.size.width, 0.5)];
 	[self addSubview:BotLine];
@@ -88,25 +98,19 @@
 - (id)setTitleText:(id)args {
     
     NSString *title = (NSString*)args;
-    UILabel *titleView = [self viewWithTag:999];
-    if (!titleView) {
-        
-        titleView = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		titleView.tag = 999;
-        [self addSubview:titleView];
-        [titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self);
-            make.centerY.equalTo(self);
-            make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH - 160);
-        }];
-    }
-    
+	titleView.hidden = NO;
     titleView.text = title;
     return nil;
 }
 
+- (id)setTitleTextColor:(id)args {
+	
+	titleView.textColor = args;
+	return nil;
+}
+
 - (id)setBackGroundColor:(id)args {
-    
+	
     UIColor* c = (UIColor*)args;
     self.backgroundColor = c;
     return nil;

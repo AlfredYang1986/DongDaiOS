@@ -146,10 +146,6 @@ static NSString * const tipsLabelInitStr = @"点击日期\n选择您不可以提
 	
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-}
-
 #pragma mark -- actions
 - (void)getClickDate:(AYCalendarCellView*)view {
     if (CalendarCellNote) {

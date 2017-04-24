@@ -1086,7 +1086,7 @@
 	<controller type="DefaultController" name="BOrderTime" factory="AYDefaultControllerFactoy" >
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
-		<view type="Collection"        name="Collection" />
+		<view type="CollectionVer"        name="CollectionVer" />
 		
 		<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" />
 	</controller>

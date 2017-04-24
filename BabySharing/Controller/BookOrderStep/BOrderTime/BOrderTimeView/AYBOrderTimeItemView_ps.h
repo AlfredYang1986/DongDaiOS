@@ -12,14 +12,8 @@
 typedef void(^touchUpInSubBtn)(NSDictionary*);
 
 @interface AYBOrderTimeItemView : UICollectionViewCell <AYViewBase>
-@property (nonatomic, strong) NSDictionary *item_data;
+@property (nonatomic, strong) NSArray *item_data;
 @property (nonatomic, strong) touchUpInSubBtn didTouchUpInSubBtn;
 @property (nonatomic, assign) NSInteger multiple;
-
-@property (nonatomic, assign) int day;
-@property (nonatomic, assign) BOOL isDisable;
-@property (nonatomic, assign) double timeSpan;
-@property (nonatomic, assign) BOOL isSelectedItem;
-@property (nonatomic, assign) BOOL isToday;
 
 @end

@@ -180,8 +180,6 @@
 - (NSString *) timeChineseCalendarWithDate:(NSDate *)date{
     
     NSInteger dayOfWeek  =[self getDateInfo:date];
-    
-    
     NSDateComponents *localeComp = [self.chineseCalendar components:NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay fromDate:date];
     
     NSString *y_str = [self.chineseYears objectAtIndex:localeComp.year-1];
@@ -200,13 +198,13 @@
  *  @return 1～30
  */
 
--(NSString *)timeChineseDaysWithDate:(NSString *)dateStr{
+- (NSString *)timeChineseDaysWithDate:(NSString *)dateStr {
     NSDate *date = [self strToDate:dateStr];
     return [self getChineseWeekDaysWithDate:date];
 }
 
 // get chinese day
--(NSString *)getChineseWeekDaysWithDate:(NSDate *)date{
+- (NSString *)getChineseWeekDaysWithDate:(NSDate *)date {
     
     NSDateComponents *localeComp = [self.chineseCalendar components: NSCalendarUnitDay fromDate:date];
     
@@ -214,7 +212,7 @@
 }
 
 //返回当前年
--(int)getYear{
+- (int)getYear {
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     NSDate *nowDate = [NSDate date];
