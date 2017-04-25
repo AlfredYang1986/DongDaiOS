@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYBOrderTimeController : AYViewController <UIScrollViewDelegate>
+@interface AYBOrderTimeController : AYViewController
 
 @end

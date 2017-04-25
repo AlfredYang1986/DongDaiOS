@@ -486,6 +486,10 @@
     return [UIColor colorWithWhite:0.9490f alpha:1.f];
 }
 
++ (UIColor*)disableBackgroundColor {
+	return [UIColor colorWithRed:144.f / 255.f green:144.f / 255.f blue:144.f / 255.f alpha:1.f];
+}
+
 + (UIColor*)borderAlphaColor {
     return [UIColor colorWithWhite:1.f alpha:0.25f];
 }

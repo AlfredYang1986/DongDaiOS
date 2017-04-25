@@ -772,8 +772,15 @@
         <command type="notify"      message="didCancelClick" />
     </view>
 	
-	<view type="BOrderTimeItem" name="BOrderTimeItem" factory="AYDefaultViewFactory" >
+	<view type="BOrderTimeItem" name="BOrderTimeItem" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+	</view>
+	
+	<view type="AddOTimeCell" name="AddOTimeCell" factory="AYReuseViewFactory" >
+		<command type="message"      message="setCellInfo:" />
+	</view>
+	<view type="SELOTimeCell" name="SELOTimeCell" factory="AYReuseViewFactory" >
+		<command type="message"      message="setCellInfo:" />
 	</view>
 	
     <view type="BOrderMainHeadCell" name="BOrderMainHeadCell" factory="AYReuseViewFactory" >

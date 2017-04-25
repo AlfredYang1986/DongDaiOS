@@ -18,16 +18,16 @@
 #import "AYServTimesBtn.h"
 
 @implementation AYBOrderTimeController {
-//	UIScrollView *scheduleView;
-	UIView *markSepView;
-//	NSInteger weekdaySep;
 	
 	NSMutableArray *offer_date_mutable;
 	NSDictionary *service_info;
-	
 	NSInteger timesCount;
 	/******/
 	UILabel *dateShowLabel;
+	UIButton *certainBtn;
+	
+	NSInteger creatOrUpdateNote;
+	NSMutableArray *timesArr;
 }
 
 #pragma mark -- commands
@@ -90,11 +90,14 @@
 	return dic_timespan;
 }
 
-
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	self.view.backgroundColor = [Tools whiteColor];
 	[self preferredStatusBarStyle];
+	
+	if (!timesArr) {
+		timesArr = [NSMutableArray array];
+	}
 	
 	dateShowLabel = [Tools creatUILabelWithText:@"选择日期" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
 	[self.view addSubview:dateShowLabel];
@@ -114,23 +117,58 @@
 		}];
 	}
 	
-	id<AYViewBase> view_collection= [self.views objectForKey:@"CollectionVer"];
-	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"BOrderTime"];
-	id<AYCommand> cmd_datasource = [view_collection.commands objectForKey:@"registerDatasource:"];
-	id<AYCommand> cmd_delegate = [view_collection.commands objectForKey:@"registerDelegate:"];
+	{
+		id<AYViewBase> view_collection= [self.views objectForKey:@"CollectionVer"];
+		id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"BOrderTime"];
+		id<AYCommand> cmd_datasource = [view_collection.commands objectForKey:@"registerDatasource:"];
+		id<AYCommand> cmd_delegate = [view_collection.commands objectForKey:@"registerDelegate:"];
+		
+		id obj = (id)cmd_notify;
+		[cmd_datasource performWithResult:&obj];
+		obj = (id)cmd_notify;
+		[cmd_delegate performWithResult:&obj];
+		
+		id<AYCommand> cmd_cell = [view_collection.commands objectForKey:@"registerCellWithClass:"];
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		[cmd_cell performWithResult:&class_name];
+		[(UICollectionView*)view_collection registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
+	}
 	
-	id obj = (id)cmd_notify;
-	[cmd_datasource performWithResult:&obj];
-	obj = (id)cmd_notify;
-	[cmd_delegate performWithResult:&obj];
-	
-	id<AYCommand> cmd_cell = [view_collection.commands objectForKey:@"registerCellWithClass:"];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	[cmd_cell performWithResult:&class_name];
-	[(UICollectionView*)view_collection registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
-	
+	{
+		id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+		id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
+		id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
+		
+		id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+		
+		id obj = (id)cmd_recommend;
+		[cmd_datasource performWithResult:&obj];
+		obj = (id)cmd_recommend;
+		[cmd_delegate performWithResult:&obj];
+	}
+	{
+		id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+		id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"BOTimeTable"];
+		
+		id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
+		id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
+		
+		id obj = (id)cmd_notify;
+		[cmd_datasource performWithResult:&obj];
+		obj = (id)cmd_notify;
+		[cmd_delegate performWithResult:&obj];
+		
+		id<AYCommand> cmd_class = [view_table.commands objectForKey:@"registerCellWithClass:"];
+		NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AddOTimeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		[cmd_class performWithResult:&cell_name];
+		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SELOTimeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		[cmd_class performWithResult:&cell_name];
+		
+	//	NSArray *tmp = [timesArr copy];
+	//	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+	}
 	[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//		NSNumber *index = [obj objectForKey:@"index"];
+
 		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
 		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			NSNumber *is_select = [obj objectForKey:@"select_pow"];
@@ -149,53 +187,17 @@
 	id tmp = [offer_date_mutable copy];
 	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
 	
-	markSepView = [[UIView alloc]init];
-	[self.view addSubview:markSepView];
-	[markSepView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.view);
-		make.top.equalTo(self.view).offset(104);
-		make.size.mas_equalTo(CGSizeMake(15, itemMargin * 8 + 40 +20));
-	}];
-	
-//	[self setNavTitleWithIndex:0];
-	
-	UIButton *certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools themeColor]];
+	certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools disableBackgroundColor]];
 	[self.view addSubview:certainBtn];
 	[certainBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
 		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kBotButtonH));
 	}];
 	[certainBtn addTarget:self action:@selector(didCertainBtnnClick) forControlEvents:UIControlEventTouchUpInside];
 	
-}
-
-- (void)setNavTitleWithIndex:(int)index {
-	
-	NSDate *now = [NSDate date];
-	NSDateFormatter *form = [Tools creatDateFormatterWithString:@"MM月dd日"];
-	NSString *nowStr = [form stringFromDate:now];
-	
-	NSString *title;
-	if (index == 0) {
-		NSTimeInterval sevenAfter = now.timeIntervalSince1970 + 86400 * 6;
-		NSDate *afterDate = [NSDate dateWithTimeIntervalSince1970:sevenAfter];
-		NSString *afterStr = [form stringFromDate:afterDate];
-		
-		title  = [NSString stringWithFormat:@"%@-%@",nowStr, afterStr];
-		
-	} else if (index == 1) {
-		NSTimeInterval eightAfter = now.timeIntervalSince1970 + 86400 * 7;
-		NSDate *eightAfterDate = [NSDate dateWithTimeIntervalSince1970:eightAfter];
-		NSString *eightAfterStr = [form stringFromDate:eightAfterDate];
-		
-		NSTimeInterval fourTeenAfter = now.timeIntervalSince1970 + 86400 * 13;
-		NSDate *fourTeenDate = [NSDate dateWithTimeIntervalSince1970:fourTeenAfter];
-		NSString *fourTeenStr = [form stringFromDate:fourTeenDate];
-		
-		title  = [NSString stringWithFormat:@"%@-%@",eightAfterStr, fourTeenStr];
-	}
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	UIView* picker = [self.views objectForKey:@"Picker"];
+	[self.view bringSubviewToFront:picker];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -204,6 +206,15 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
+	NSNumber *offset = [NSNumber numberWithInt:6];
+	[cmd_scroll_center performWithResult:&offset];
 }
 
 #pragma mark -- layouts
@@ -232,11 +243,19 @@
 }
 
 - (id)CollectionVerLayout:(UIView*)view {
-	
-	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40);
+	view.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
 	view.backgroundColor = [UIColor clearColor];
-//	((UICollectionView*)view).pagingEnabled = YES;
-//	((UICollectionView*)view).bounces = NO;
+	return nil;
+}
+
+- (id)TableLayout:(UIView*)view {
+	view.backgroundColor = [Tools garyBackgroundColor];
+	view.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+	return nil;
+}
+
+- (id)PickerLayout:(UIView*)view {
+	view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
 	return nil;
 }
 
@@ -248,8 +267,7 @@
 	NSString *user_id = [user objectForKey:@"user_id"];
 	NSString *owner_id = [service_info objectForKey:@"owner_id"];
 	if ([user_id isEqualToString:owner_id]) {
-		
-		NSString *title = @"该服务是您自己发布";
+		NSString *title = @"您不能预订自己发布的服务";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
@@ -320,6 +338,22 @@
 	
 }
 
+- (void)setTipTitleWithInterval:(NSTimeInterval)interval {
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日"];
+	NSString *title = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:interval]];
+	dateShowLabel.text = title;
+}
+
+- (void)checkCertainBtnStates {
+	if (timesArr.count == 0) {
+		certainBtn.backgroundColor = [Tools disableBackgroundColor];
+		certainBtn.enabled = NO;
+	} else {
+		certainBtn.backgroundColor = [Tools themeColor];
+		certainBtn.enabled = YES;
+	}
+}
+
 #pragma mark -- notifies
 - (id)leftBtnSelected {
 	
@@ -342,75 +376,122 @@
 	return nil;
 }
 
-- (id)scrollOffsetX:(NSNumber*)args {
+- (id)didSelectItemAtIndexPath:(id)args {
 	
-	int index= args.floatValue / (SCREEN_WIDTH - 15);
-	[self setNavTitleWithIndex:index];
-	return nil;
-}
-
-- (id)transTimesInfo:(id)args {
+	NSTimeInterval t = ((NSNumber*)[args objectForKey:@"interval"]).doubleValue;
+	[self setTipTitleWithInterval:t];
 	
-	UIButton *btn = [args objectForKey:@"btn"];
+	NSInteger numb = ((NSNumber*)[args objectForKey:@"numb_weeks"]).integerValue;
+	numb = 2;
+	UITableView *view_table = [self.views objectForKey:kAYTableView];
+	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
+	CGFloat transHeight = itemWidth * (numb+1);
 	
-	NSNumber *multiple = [args objectForKey:@"multiple"];
-	NSNumber *weekday = [args objectForKey:@"weekday"];
-	NSNumber *time_start = [args objectForKey:kAYServiceArgsStart];
-//	NSNumber *time_end = [args objectForKey:kAYServiceArgsEnd];
-	
-	NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday.intValue];
-	NSArray *resultArr = [offer_date_mutable filteredArrayUsingPredicate:pred_contains];
-	NSDictionary *dic_day = [resultArr firstObject];
-	
-	NSArray *occurance = [dic_day objectForKey:kAYServiceArgsOccurance];
-	__block NSDictionary *dic_times;
-	[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		if ([[obj objectForKey:kAYServiceArgsStart] isEqualToNumber:time_start]) {
-			dic_times = obj;
-		}
+	[UIView animateWithDuration:0.25 animations:^{
+		view_collec.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
+		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + kBotButtonH));
+//		[self.view layoutIfNeeded];
 	}];
-	NSNumber *seleted = [dic_times objectForKey:@"select_pow"];
-	int note = seleted.intValue;
-	int powArgs = pow(2, multiple.intValue);
-	
-	if (btn.selected) {
-		timesCount ++;
-		if (!(note&powArgs)) {
-			note = note + powArgs;
-		}
-	} else {
-		timesCount --;
-		if (note&powArgs) {
-			note = note - powArgs;
-		}
-	}
-	[dic_times setValue:[NSNumber numberWithInt:note] forKey:@"select_pow"];
-//	[dic_day setValue:[NSNumber numberWithInt:note] forKey:@"index"];
-	
-	NSLog(@"%@", offer_date_mutable);
-	NSLog(@"%ld", timesCount);
-	NSLog(@"----------");
-	
 	return nil;
 }
 
-#pragma mark -- UIScrollViewDelegate
+- (id)scrollToShowMore {
+	UITableView *view_table = [self.views objectForKey:kAYTableView];
+	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
+	[UIView animateWithDuration:0.25 animations:^{
+		view_collec.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
+		view_table.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+	}];
+	return nil;
+}
+
 - (id)scrollToCenter:(id)args {
 	UICollectionView *view_collection = [self.views objectForKey:@"Collection"];
 	[view_collection scrollToItemAtIndexPath:args atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
 	return nil;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
-	CGFloat offset = scrollView.contentOffset.y;
-	[markSepView mas_remakeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.view);
-		make.top.equalTo(self.view).offset(104 - offset);
-		make.size.mas_equalTo(CGSizeMake(15, itemMargin * 8 + 40 +20));
-	}];
+#pragma mark -- pickerView notifies
+- (id)cellDeleteFromTable:(NSNumber*)args {
+	[timesArr removeObjectAtIndex:args.integerValue];
+	NSArray *tmp = [timesArr copy];
+	kAYDelegatesSendMessage(@"BOTimeTable", @"changeQueryData:", &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	[self checkCertainBtnStates];
+	return nil;
 }
 
+- (id)cellShowPickerView:(NSNumber*)args {
+	creatOrUpdateNote = args.integerValue;
+	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+	return nil;
+}
+
+- (id)didSaveClick {
+	id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"ServiceTimesPick"];
+	id<AYCommand> cmd_index = [cmd_commend.commands objectForKey:@"queryCurrentSelected:"];
+	NSDictionary *args = nil;
+	[cmd_index performWithResult:&args];
+	//eg: (int)1400-1600
+	
+	if (!args) {
+		NSString *title = @"服务时间设置错误";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return nil;
+	}
+	
+	NSDictionary *argsHolder = nil;
+	if (creatOrUpdateNote == timesArr.count) {
+		//添加
+		[timesArr addObject:args];
+	} else {
+		//修改
+		argsHolder = [timesArr objectAtIndex:creatOrUpdateNote];
+		[timesArr replaceObjectAtIndex:creatOrUpdateNote withObject:args];
+	}
+	
+	[timesArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [[obj1 objectForKey:kAYServiceArgsStart] intValue] > [[obj2 objectForKey:kAYServiceArgsStart] intValue];
+	}];
+	
+	if (![self isCurrentTimesLegal]) {
+		if (!argsHolder) {
+			[timesArr removeObject:args];
+		} else {
+			NSInteger holderIndex = [timesArr indexOfObject:args];
+			[timesArr replaceObjectAtIndex:holderIndex withObject:argsHolder];
+		}
+		NSString *title = @"服务时间设置错误";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return nil;
+	}
+	
+	NSArray *tmp = [timesArr copy];
+	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	[self checkCertainBtnStates];
+	return nil;
+}
+
+- (id)didCancelClick {
+	//do nothing else ,but be have to invoke this methed
+	return nil;
+}
+
+- (BOOL)isCurrentTimesLegal {
+	__block BOOL isLegal = YES;
+	[timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		NSNumber *currentEnd = [obj objectForKey:@"end"];
+		if (idx+1 < timesArr.count) {
+			NSNumber *nextStart = [[timesArr objectAtIndex:idx+1] objectForKey:@"start"];
+			if (currentEnd.intValue > nextStart.intValue) {
+				isLegal = NO;
+				*stop = YES;
+			}
+		}
+	}];
+	return isLegal;
+}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;

@@ -271,17 +271,9 @@
 		[timeDurationArr addObject:args];
 	}
 	
-	NSArray *tmpArr = [timeDurationArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-		
-		int first = ((NSNumber*)[obj1 objectForKey:kAYServiceArgsStart]).intValue;
-		int second = ((NSNumber*)[obj2 objectForKey:kAYServiceArgsStart]).intValue;
-		
-		if (first < second) return  NSOrderedAscending;
-		else if (first > second) return NSOrderedDescending;
-		else return NSOrderedSame;
+	[timeDurationArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [[obj1 objectForKey:kAYServiceArgsStart] intValue] > [[obj2 objectForKey:kAYServiceArgsStart] intValue];
 	}];
-	[timeDurationArr removeAllObjects];
-	[timeDurationArr addObjectsFromArray:tmpArr];
 	
 	if (![self isCurrentTimesLegal]) {
 		[timeDurationArr removeObject:args];

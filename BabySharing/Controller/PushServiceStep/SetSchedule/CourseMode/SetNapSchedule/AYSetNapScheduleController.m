@@ -363,19 +363,10 @@
         [timesArr replaceObjectAtIndex:creatOrUpdateNote withObject:args];
     }
     
-    NSArray *sortedArray = [timesArr sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        
-        int first = ((NSNumber*)[obj1 objectForKey:@"start"]).intValue;
-        int second = ((NSNumber*)[obj2 objectForKey:@"start"]).intValue;
-        
-        if (first < second) return  NSOrderedAscending;
-        else if (first > second) return NSOrderedDescending;
-        else return NSOrderedSame;
-    }];
-    
-    [timesArr removeAllObjects];
-    [timesArr addObjectsFromArray:sortedArray];
-    
+	[timesArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [[obj1 objectForKey:kAYServiceArgsStart] intValue] > [[obj2 objectForKey:kAYServiceArgsStart] intValue];
+	}];
+	
     if (![self isCurrentTimesLegal]) {
         if (!argsHolder) {
 //            NSInteger holderIndex = [timesArr indexOfObject:args];

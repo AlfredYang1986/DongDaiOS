@@ -401,15 +401,21 @@
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
-		<command type="notify" message="scrollOffsetX:" />
-		<command type="notify" message="transTimesInfo:" />
+		<command type="notify" message="scrollToShowMore" />
 		<command type="notify" message="scrollToCenter:" />
+		<command type="notify" message="didSelectItemAtIndexPath:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="BOTimeTable" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="scrollOffsetY:" />
+		<command type="notify" message="cellShowPickerView:" />
+		<command type="notify" message="cellDeleteFromTable:" />
 	</delegate>
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="scrollOffsetX:" />
-		<command type="notify" message="transTimesInfo:" />
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="RestDayTable" factory="AYDefaultDelegateFactory" >

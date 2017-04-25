@@ -213,6 +213,9 @@
 		702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A471DAF286700D8715B /* AYShowAlertCommand.m */; };
 		702B7A4C1DAF2ABF00D8715B /* AYHideAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */; };
 		702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */; };
+		702C3B991EAF25AB007F3303 /* AYSELOTimeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B981EAF25AB007F3303 /* AYSELOTimeCellView.m */; };
+		702C3B9C1EAF2606007F3303 /* AYBOTimeTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9B1EAF2606007F3303 /* AYBOTimeTableDelegate.m */; };
+		702C3B9F1EAF27C6007F3303 /* AYAddOTimeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9E1EAF27C6007F3303 /* AYAddOTimeCellView.m */; };
 		702C4DED1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
@@ -1171,6 +1174,12 @@
 		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
+		702C3B971EAF25AB007F3303 /* AYSELOTimeCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSELOTimeCellView.h; sourceTree = "<group>"; };
+		702C3B981EAF25AB007F3303 /* AYSELOTimeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSELOTimeCellView.m; sourceTree = "<group>"; };
+		702C3B9A1EAF2606007F3303 /* AYBOTimeTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOTimeTableDelegate.h; sourceTree = "<group>"; };
+		702C3B9B1EAF2606007F3303 /* AYBOTimeTableDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOTimeTableDelegate.m; sourceTree = "<group>"; };
+		702C3B9D1EAF27C6007F3303 /* AYAddOTimeCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAddOTimeCellView.h; sourceTree = "<group>"; };
+		702C3B9E1EAF27C6007F3303 /* AYAddOTimeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAddOTimeCellView.m; sourceTree = "<group>"; };
 		702C4DEB1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushServiceTMNurseCommand.h; sourceTree = "<group>"; };
 		702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceTMNurseCommand.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4199,12 +4208,12 @@
 				707E79C41D06733100DFC198 /* Home */,
 				7015243E1CBF938F005B4C5B /* HomeController */,
 				703C7DB41D48A7F800292F18 /* Message */,
-				702F79D71E1215710062F2EA /* BookOrderStep */,
 				7059C9A01D45B712004973F3 /* Order */,
 				7012195A1E2721BF0046482C /* OrderServantMode */,
 				70FE1C6F1E24D10200050FF0 /* OrderCommonMode */,
 				70501C831D2F49DD0050E0C8 /* Profile */,
 				7039CBCB1CBB77D100BE60C7 /* ProfileController */,
+				702F79D71E1215710062F2EA /* BookOrderStep */,
 				70C41E3D1DBA122500C77B10 /* PushServiceStep */,
 				70C41EFC1DBA17B800C77B10 /* MyService */,
 				700BE5A81CBA4F2900A09B3A /* TabBar */,
@@ -4276,6 +4285,8 @@
 			children = (
 				702F79DE1E1254540062F2EA /* AYBOrderTimeDelegate.h */,
 				702F79DF1E1254540062F2EA /* AYBOrderTimeDelegate.m */,
+				702C3B9A1EAF2606007F3303 /* AYBOTimeTableDelegate.h */,
+				702C3B9B1EAF2606007F3303 /* AYBOTimeTableDelegate.m */,
 			);
 			path = BOrderTimeDelegate;
 			sourceTree = "<group>";
@@ -4283,6 +4294,10 @@
 		702F79DD1E12543C0062F2EA /* BOrderTimeView */ = {
 			isa = PBXGroup;
 			children = (
+				702C3B9D1EAF27C6007F3303 /* AYAddOTimeCellView.h */,
+				702C3B9E1EAF27C6007F3303 /* AYAddOTimeCellView.m */,
+				702C3B971EAF25AB007F3303 /* AYSELOTimeCellView.h */,
+				702C3B981EAF25AB007F3303 /* AYSELOTimeCellView.m */,
 				702F79E11E1258610062F2EA /* AYBOrderTimeItemView.h */,
 				702F79E21E1258610062F2EA /* AYBOrderTimeItemView.m */,
 				702F79E41E1269970062F2EA /* AYServTimesBtn.h */,
@@ -8542,6 +8557,7 @@
 				700BE5EB1CBA6E5800A09B3A /* AYLandingReqConfirmCodeCommand.m in Sources */,
 				7045EFEF1E08F3E800341E14 /* AYFilterLocationController.m in Sources */,
 				703B89661CBF2AEC002EBB18 /* AYSendRemoteFacade.m in Sources */,
+				702C3B991EAF25AB007F3303 /* AYSELOTimeCellView.m in Sources */,
 				707FC5091CD8D5B300C0BC37 /* AYShareWithWechatCommand.m in Sources */,
 				705EC8861CE4BC1D0008D5EA /* AYEnumTagContentTimeSpanCommand.m in Sources */,
 				70E77CE01D8E756200C882DD /* AYAcceptOrRejectController.m in Sources */,
@@ -8580,6 +8596,7 @@
 				70D228211D893ED500EF4211 /* AYOrderListController.m in Sources */,
 				80ECF0DD1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.m in Sources */,
 				707E7A161D07B42200DFC198 /* AYMapMatchController.m in Sources */,
+				702C3B9C1EAF2606007F3303 /* AYBOTimeTableDelegate.m in Sources */,
 				701D8A951CA7E06700B5D4C1 /* Providers+CoreDataProperties.m in Sources */,
 				707ABCFB1D54460D0042332A /* AYQueryMyServiceCommand.m in Sources */,
 				702510A31CC0F5AB00DADF2B /* Targets.m in Sources */,
@@ -8631,6 +8648,7 @@
 				7012C9731E16156800C8F510 /* AYOrderTimesDelegate.m in Sources */,
 				7012C96A1E16156800C8F510 /* AYConfirmOrderController.m in Sources */,
 				70C41EE91DBA122500C77B10 /* TZTestCell.m in Sources */,
+				702C3B9F1EAF27C6007F3303 /* AYAddOTimeCellView.m in Sources */,
 				70F967981E28FD4100B3805B /* AYOrderPageHeadCellView.m in Sources */,
 				70EC723E1D1922D20012B123 /* AYServicePageDelegate.m in Sources */,
 				701524491CBF96F0005B4C5B /* AYImageView.m in Sources */,

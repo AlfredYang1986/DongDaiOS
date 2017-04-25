@@ -37,6 +37,7 @@
 + (UIColor*)garyLineColor;
 + (UIColor*)garyBackgroundColor;
 + (UIColor*)darkBackgroundColor;
++ (UIColor*)disableBackgroundColor;
 + (UIColor*)borderAlphaColor;
 
 #pragma mark -- UIView

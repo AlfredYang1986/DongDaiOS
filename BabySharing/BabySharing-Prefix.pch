@@ -25,6 +25,7 @@ static NSString* const kAYEMIDDongDaMaster =                @"dongda_master";
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
 #define UIScreenScale											[UIScreen mainScreen].scale
 #define kTabBarH                                              49
+#define kBotButtonH                                              49
 #define kStatusAndNavBarH                               64
 
 

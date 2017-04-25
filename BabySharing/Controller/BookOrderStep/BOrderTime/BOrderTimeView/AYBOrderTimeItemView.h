@@ -17,9 +17,11 @@ typedef void(^touchUpInSubBtn)(NSDictionary*);
 @property (nonatomic, assign) NSInteger multiple;
 
 @property (nonatomic, assign) int day;
-@property (nonatomic, assign) BOOL isDisable;
 @property (nonatomic, assign) double timeSpan;
+@property (nonatomic, assign) BOOL isEnAbled;
 @property (nonatomic, assign) BOOL isSelectedItem;
-@property (nonatomic, assign) BOOL isToday;
+
+- (void)setInitStates;
+- (void)setTodatStates;
 
 @end

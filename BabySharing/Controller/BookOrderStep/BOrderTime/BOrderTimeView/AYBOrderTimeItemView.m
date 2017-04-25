@@ -74,14 +74,14 @@
 
 - (void)initialize {
 	
-	dayLabel = [Tools creatUILabelWithText:@"Null" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	dayLabel = [Tools creatUILabelWithText:@"Null" andTextColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:dayLabel];
 	[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
 		make.centerY.equalTo(self);
 	}];
 	
-	todaySignLabel = [Tools creatUILabelWithText:@"今天" andTextColor:[Tools garyColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	todaySignLabel = [Tools creatUILabelWithText:@"今天" andTextColor:[Tools themeColor] andFontSize:8.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:todaySignLabel];
 	[todaySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -89,7 +89,7 @@
 	}];
 	todaySignLabel.hidden = YES;
 	
-	selectedSignLabel = [Tools creatUILabelWithText:@"已选" andTextColor:[Tools themeColor] andFontSize:10.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	selectedSignLabel = [Tools creatUILabelWithText:@"已选" andTextColor:[Tools themeColor] andFontSize:8.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:selectedSignLabel];
 	[selectedSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -112,7 +112,7 @@
 	UIView *BgView = [[UIView alloc] init];
 	UIView *circleView = [[UIView alloc] init];
 	[BgView addSubview:circleView];
-	[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools blackColor] andBackground:[Tools themeColor]];
+	[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools themeColor] andBackground:nil];
 	[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(BgView);
 		make.size.mas_equalTo(CGSizeMake(30, 30));
@@ -127,21 +127,29 @@
 	dayLabel.text = [NSString stringWithFormat:@"%d", day];
 }
 
-- (void)setIsDisable:(BOOL)isDisable {
-	_isDisable = isDisable;
-	dayLabel.textColor = isDisable ? [Tools garyColor] : [Tools themeColor];
-	abledSignView.hidden = !isDisable;
+- (void)setInitStates {
+	_isEnAbled = NO;
+	dayLabel.textColor = [Tools garyColor];
+	abledSignView.hidden = YES;
 	selectedSignLabel.hidden = YES;
 	todaySignLabel.hidden = YES;
 }
 
-- (void)setIsToday:(BOOL)isToday {
-	_isToday = isToday;
+- (void)setTodatStates {
+	dayLabel.textColor = [Tools themeColor];
 	todaySignLabel.hidden = NO;
+	abledSignView.hidden = NO;
+}
+
+- (void)setIsEnAbled:(BOOL)isEnAbled {
+	_isEnAbled = isEnAbled;
+	dayLabel.textColor = [Tools themeColor];
+	abledSignView.hidden = NO;
 }
 
 - (void)setIsSelectedItem:(BOOL)isSelectedItem {
 	_isSelectedItem = isSelectedItem;
+	dayLabel.textColor = [Tools themeColor];
 	abledSignView.hidden = YES;
 	selectedSignLabel.hidden = NO;
 }
