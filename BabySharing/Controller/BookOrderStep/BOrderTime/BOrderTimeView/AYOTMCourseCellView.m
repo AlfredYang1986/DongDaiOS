@@ -18,6 +18,7 @@
 	
 	UILabel *startLabel;
 	UILabel *endLabel;
+	UIButton *checkBtn;
 }
 
 @synthesize para = _para;
@@ -29,35 +30,74 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
+		self.backgroundColor = [UIColor clearColor];
+		
+		UIImageView *olockView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"timeflow_icon_olock")];
+		[self addSubview:olockView];
+		[olockView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self.mas_left).offset(27);
+			make.top.equalTo(self).offset(16);
+			make.size.mas_equalTo(CGSizeMake(26, 26));
+		}];
+		
+		UIView *timeDivView = [[UIView alloc] init];
+		timeDivView.layer.cornerRadius = 4.f;
+		timeDivView.clipsToBounds = YES;
+		timeDivView.backgroundColor = [Tools whiteColor];
+		[self addSubview:timeDivView];
+		[timeDivView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self);
+			make.left.equalTo(self).offset(55);
+			make.right.equalTo(self).offset(-75);
+			make.height.equalTo(@65);
+		}];
+		
 		UILabel *startTitleLabel = [Tools creatUILabelWithText:@"开始时间" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-		[self addSubview:startTitleLabel];
+		[timeDivView addSubview:startTitleLabel];
 		[startTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(47);
-			make.top.equalTo(self).offset(8);
+			make.left.equalTo(timeDivView).offset(25);
+			make.top.equalTo(timeDivView).offset(4);
 		}];
 		
 		UILabel *endTitleLabel = [Tools creatUILabelWithText:@"结束时间" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-		[self addSubview:endTitleLabel];
+		[timeDivView addSubview:endTitleLabel];
 		[endTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-47);
+			make.right.equalTo(timeDivView).offset(-25);
 			make.centerY.equalTo(startTitleLabel);
 		}];
 		
 		startLabel = [Tools creatUILabelWithText:@"the start" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
-		[self addSubview:startLabel];
+		[timeDivView addSubview:startLabel];
 		[startLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(startTitleLabel);
-			make.top.equalTo(self).offset(30);
+			make.top.equalTo(timeDivView).offset(30);
 		}];
 		
 		endLabel = [Tools creatUILabelWithText:@"the end" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:1];
-		[self addSubview:endLabel];
+		[timeDivView addSubview:endLabel];
 		[endLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(endTitleLabel);
 			make.centerY.equalTo(startLabel);
 		}];
 		
-		[Tools creatCALayerWithFrame:CGRectMake(180, 45, 15, 1) andColor:[Tools themeColor] inSuperView:self];
+		UIView *toIconView = [[UIView alloc] init];
+		toIconView.backgroundColor = [Tools themeColor];
+		[timeDivView addSubview:toIconView];
+		[toIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(timeDivView);
+			make.centerY.equalTo(startLabel);
+			make.size.mas_equalTo(CGSizeMake(17, 1));
+		}];
+		
+		checkBtn = [[UIButton alloc] init];
+		[checkBtn setImage:IMGRESOURCE(@"icon_pick") forState:UIControlStateNormal];
+		[checkBtn setImage:IMGRESOURCE(@"icon_pick_selected") forState:UIControlStateSelected];
+		[self addSubview:checkBtn];
+		[checkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-15);
+			make.centerY.equalTo(timeDivView);
+			make.size.mas_equalTo(CGSizeMake(30, 30));
+		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -116,8 +156,8 @@
 
 - (id)setCellInfo:(NSDictionary*)args {
 	
-	NSNumber *top = [args objectForKey:kAYServiceArgsStart];
-	NSNumber *btm = [args objectForKey:kAYServiceArgsEnd];
+	NSNumber *top = [args objectForKey:kAYServiceArgsStartHours];
+	NSNumber *btm = [args objectForKey:kAYServiceArgsEndHours];
 	
 	NSMutableString *tmp = [NSMutableString stringWithFormat:@"%.4d", top.intValue];
 	[tmp insertString:@":" atIndex:2];
@@ -126,6 +166,8 @@
 	tmp = [NSMutableString stringWithFormat:@"%.4d", btm.intValue];
 	[tmp insertString:@":" atIndex:2];
 	endLabel.text = tmp;
+	
+	checkBtn.selected = ((NSNumber*)[args objectForKey:@"is_selected"]).boolValue;
 	
 	return nil;
 }

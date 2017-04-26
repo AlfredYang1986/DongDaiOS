@@ -10,6 +10,7 @@
 
 @implementation AYBOTimeTableDelegate {
 	NSArray *querydata;
+	ServiceType service_type;
 }
 
 #pragma mark -- command
@@ -38,6 +39,11 @@
 	return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
+- (id)setDelegateType:(id)args {
+	service_type = ((NSNumber*)args).intValue;
+	return nil;
+}
+
 - (id)changeQueryData:(id)args {
 	querydata = (NSArray*)args;
 	return nil;
@@ -45,7 +51,11 @@
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return querydata.count + 1;
+	if (service_type == ServiceTypeCourse) {
+		return querydata.count;
+//		return 3;
+	} else
+		return querydata.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -56,17 +66,24 @@
 	
 	NSString* class_name;
 	id<AYViewBase> cell;
-	
-	if (indexPath.section == querydata.count) {
-		class_name = @"AYAddOTimeCellView";
+	if (service_type == ServiceTypeCourse) {
+		class_name = @"AYOTMCourseCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		
-	} else {
-		class_name = @"AYOTMNurseCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		
 		id tmp = [querydata objectAtIndex:indexPath.section];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+	} else {
+			if (indexPath.section == querydata.count) {
+			class_name = @"AYAddOTimeCellView";
+			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+			
+		} else {
+			class_name = @"AYOTMNurseCellView";
+			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+			
+			id tmp = [querydata objectAtIndex:indexPath.section];
+			kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		}
 	}
 	
 	cell.controller = self.controller;
@@ -75,29 +92,54 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 65.f;
+	if (service_type == ServiceTypeCourse) {
+		return 85.f;
+	} else
+		return 65.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	NSNumber *row = [NSNumber numberWithInteger:indexPath.section];
-	kAYDelegateSendNotify(self, @"cellShowPickerView:", &row)
+	if (service_type == ServiceTypeNursery) {
+		NSNumber *row = [NSNumber numberWithInteger:indexPath.section];
+		kAYDelegateSendNotify(self, @"cellShowPickerView:", &row)
+	} else {
+		NSIndexPath *row = indexPath;
+		kAYDelegateSendNotify(self, @"didClickTheCellRow:", &row)
+	}
 	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 6.f;
+	if (service_type == ServiceTypeNursery) {
+		return 6.f;
+	} else if (service_type == ServiceTypeCourse && section == 0) {
+		return 6.f;
+	} else
+		return 0.001f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [UIView new];
 	headView.backgroundColor = [Tools garyBackgroundColor];
+		
+//	if (service_type == ServiceTypeCourse && section == 0) {
+//		UIView *libgView = [[UIView alloc] init];
+//		libgView.backgroundColor = [Tools themeColor];
+//		[headView addSubview:libgView];
+//		[libgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.centerX.equalTo(headView.mas_left).offset(27);
+//			make.top.equalTo(headView);
+//			make.width.mas_equalTo(1.5);
+//			make.height.mas_equalTo(6.f);
+//		}];
+//	}
+	
 	return headView;
 }
 
 //左划删除
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == querydata.count) {
+	if (indexPath.section == querydata.count || service_type == ServiceTypeCourse) {
 		return NO;
 	} else
 		return YES;

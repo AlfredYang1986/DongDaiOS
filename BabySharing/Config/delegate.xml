@@ -408,9 +408,11 @@
 	
 	<delegate type="TableViewDelegateAndDatasource" name="BOTimeTable" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="message" message="setDelegateType:" />
 		<command type="notify" message="scrollOffsetY:" />
 		<command type="notify" message="cellShowPickerView:" />
 		<command type="notify" message="cellDeleteFromTable:" />
+		<command type="notify" message="didClickTheCellRow:" />
 	</delegate>
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" factory="AYDefaultDelegateFactory" >

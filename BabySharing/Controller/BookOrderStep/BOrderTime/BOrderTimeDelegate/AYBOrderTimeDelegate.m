@@ -179,9 +179,6 @@
 		[tmp setValue:indexPath forKey:@"index_path"];
 		
 		kAYDelegateSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
-		
-		[collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
-		
 	}
 }
 

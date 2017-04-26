@@ -483,7 +483,7 @@
 }
 
 + (UIColor*)garyBackgroundColor {
-    return [UIColor colorWithWhite:0.9490f alpha:1.f];
+    return [UIColor colorWithRed:249.f / 255.f green:249.f / 255.f blue:249.f / 255.f alpha:1.f];
 }
 
 + (UIColor*)disableBackgroundColor {

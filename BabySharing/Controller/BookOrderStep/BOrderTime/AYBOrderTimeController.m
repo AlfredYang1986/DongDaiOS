@@ -19,7 +19,7 @@
 
 @implementation AYBOrderTimeController {
 	
-	NSMutableArray *offer_date_mutable;
+//	NSMutableArray *offer_date_mutable;
 	NSDictionary *service_info;
 	NSInteger timesCount;
 	/******/
@@ -32,6 +32,11 @@
 	
 	NSIndexPath *indexPathHandle;
 	NSNumber *timeSpanhandle;
+	
+	NSNumber *serviceType;
+	
+	NSArray *serviceTMs;
+	NSMutableArray *tms_mutable;
 }
 
 #pragma mark -- commands
@@ -41,8 +46,10 @@
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
+//		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
 		service_info = [tmp objectForKey:kAYServiceArgsServiceInfo];
+		serviceType = [service_info objectForKey:kAYServiceArgsServiceCat];
+		serviceTMs = [service_info objectForKey:kAYServiceArgsTimes];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -187,7 +194,11 @@
 		[cmd_class performWithResult:&cell_name];
 		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMNurseCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		[cmd_class performWithResult:&cell_name];
+		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMCourseCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		[cmd_class performWithResult:&cell_name];
 		
+		id t = [serviceType copy];
+		kAYDelegatesSendMessage(@"BOTimeTable", @"setDelegateType:", &t)
 	}
 	
 	certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools disableBackgroundColor]];
@@ -254,6 +265,19 @@
 - (id)TableLayout:(UIView*)view {
 	view.backgroundColor = [Tools garyBackgroundColor];
 	view.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+		
+	if (serviceType.intValue == ServiceTypeCourse) {
+		UIView *libgView = [[UIView alloc] init];
+		libgView.backgroundColor = [Tools themeColor];
+		[view addSubview:libgView];
+		[libgView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(view.mas_left).offset(27);
+			make.top.equalTo(view);
+			make.width.mas_equalTo(1.5);
+			make.height.mas_equalTo(736);
+		}];
+		[view sendSubviewToBack:libgView];
+	}
 	return nil;
 }
 
@@ -283,30 +307,30 @@
 	}
 	
 	NSMutableArray *orderTimeSpans = [NSMutableArray array];
-	NSDate *nowDate = [NSDate date];
-	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-	[calendar setTimeZone: timeZone];
-	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-	NSInteger weekdaySep = theComponents.weekday - 1;
-	
-	[offer_date_mutable enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-		NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
-		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSNumber *select_pow = [obj objectForKey:@"select_pow"];
-			int compA = select_pow.intValue;
-			if (compA&1) {
-				NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
-				[orderTimeSpans addObject:tmpSpan];
-			}
-			if (compA&2) {
-				NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
-				[orderTimeSpans addObject:tmpSpan];
-			}
-		}];
-	}];
+//	NSDate *nowDate = [NSDate date];
+//	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+//	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+//	[calendar setTimeZone: timeZone];
+//	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+//	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+//	NSInteger weekdaySep = theComponents.weekday - 1;
+//	
+//	[offer_date_mutable enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
+//		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
+//		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//			NSNumber *select_pow = [obj objectForKey:@"select_pow"];
+//			int compA = select_pow.intValue;
+//			if (compA&1) {
+//				NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
+//				[orderTimeSpans addObject:tmpSpan];
+//			}
+//			if (compA&2) {
+//				NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
+//				[orderTimeSpans addObject:tmpSpan];
+//			}
+//		}];
+//	}];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
 	[tmp setValue:orderTimeSpans forKey:@"order_times"];
@@ -348,14 +372,31 @@
 }
 
 - (void)checkCertainBtnStates {
-	if (timesArr.count == 0) {
-		certainBtn.backgroundColor = [Tools disableBackgroundColor];
-		certainBtn.enabled = NO;
-		[otmSet removeObjectForKey:timeSpanhandle.stringValue];
+	
+	//1.判断当前handle中的数据是否可以相应下一步
+	//2.判断之前handle中是否有数据 需要保存
+	if (serviceType.intValue == ServiceTypeCourse) {
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.is_selected=%@", @1];
+		NSArray *result = [timesArr filteredArrayUsingPredicate:pred];
+		if (result.count == 0) {
+			certainBtn.backgroundColor = [Tools disableBackgroundColor];
+			certainBtn.enabled = NO;
+			[otmSet removeObjectForKey:timeSpanhandle.stringValue];
+		} else {
+			certainBtn.backgroundColor = [Tools themeColor];
+			certainBtn.enabled = YES;
+		}
 	} else {
-		certainBtn.backgroundColor = [Tools themeColor];
-		certainBtn.enabled = YES;
+		if (timesArr.count == 0) {
+			certainBtn.backgroundColor = [Tools disableBackgroundColor];
+			certainBtn.enabled = NO;
+			[otmSet removeObjectForKey:timeSpanhandle.stringValue];
+		} else {
+			certainBtn.backgroundColor = [Tools themeColor];
+			certainBtn.enabled = YES;
+		}
 	}
+	
 }
 
 #pragma mark -- notifies
@@ -364,7 +405,7 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:offer_date_mutable forKey:kAYControllerChangeArgsKey];
+//	[dic setValue:offer_date_mutable forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
@@ -381,6 +422,7 @@
 }
 
 - (id)didSelectItemAtIndexPath:(id)args {
+	
 	//整合数据
 	if (timeSpanhandle && timesArr.count != 0) {
 		[otmSet setValue:[timesArr mutableCopy] forKey:timeSpanhandle.stringValue];
@@ -390,6 +432,20 @@
 	timesArr = [otmSet objectForKey:timeSpanhandle.stringValue];
 	if (!timesArr) {
 		timesArr = [NSMutableArray array];
+		if (serviceType.intValue == ServiceTypeCourse) {
+			for (NSDictionary *dic_tm in serviceTMs) {
+				NSNumber *s = [dic_tm objectForKey:kAYServiceArgsStartDate];
+				NSNumber *e = [dic_tm objectForKey:kAYServiceArgsEndDate];
+				if (s.doubleValue*0.001 <= timeSpanhandle.doubleValue + OneDayTimeInterval - 1 && e.doubleValue > timeSpanhandle.doubleValue) {
+					NSMutableDictionary *dic_op = [[NSMutableDictionary alloc] init];
+					[dic_op setValue:[dic_tm objectForKey:kAYServiceArgsStartHours] forKey:kAYServiceArgsStartHours];
+					[dic_op setValue:[dic_tm objectForKey:kAYServiceArgsEndHours] forKey:kAYServiceArgsEndHours];
+					[dic_op setValue:[NSNumber numberWithBool:NO] forKey:@"is_selected"];
+					[timesArr addObject:dic_op];
+				}
+			}
+		}
+		
 	}
 	NSArray *tmp = [timesArr copy];
 	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
@@ -416,8 +472,9 @@
 	[UIView animateWithDuration:0.25 animations:^{
 		view_collec.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
 		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + kBotButtonH));
-//		[self.view layoutIfNeeded];
 	}];
+	[view_collec scrollToItemAtIndexPath:indexPathHandle atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+	
 	return nil;
 }
 
@@ -450,6 +507,18 @@
 - (id)cellShowPickerView:(NSNumber*)args {
 	creatOrUpdateNote = args.integerValue;
 	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+	return nil;
+}
+
+- (id)didClickTheCellRow:(id)args {
+	
+	NSInteger sect = ((NSIndexPath*)args).section;
+	NSMutableDictionary *dic_op = [timesArr objectAtIndex:sect];
+	BOOL isSelected = ((NSNumber*)[dic_op objectForKey:@"is_selected"]).boolValue;
+	[dic_op setValue:[NSNumber numberWithBool:!isSelected] forKey:@"is_selected"];
+	
+	UITableView *view_table = [self.views objectForKey:kAYTableView];
+	[view_table reloadRowsAtIndexPaths:@[args] withRowAnimation:UITableViewRowAnimationNone];
 	return nil;
 }
 
