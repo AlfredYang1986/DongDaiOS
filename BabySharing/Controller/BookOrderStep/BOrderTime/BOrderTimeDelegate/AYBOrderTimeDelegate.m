@@ -14,7 +14,7 @@
 #import "AYBOrderTimeDefines.h"
 
 @implementation AYBOrderTimeDelegate {
-	NSArray *query_data;
+	NSDictionary *querydata;
 	NSTimeInterval todayTimeSpan;
 	NSDate *currentDate;
 	
@@ -59,7 +59,7 @@
 }
 
 - (id)changeQueryData:(id)args {
-	query_data = (NSArray*)args;
+	querydata = args;
 	return nil;
 }
 
@@ -110,27 +110,23 @@
 			cell.isEnAbled = YES;
 		} else if ((int)cellTimeSpan == (int)todayTimeSpan) {
 			[cell setTodatStates];
-			cell.isEnAbled = YES;
 		}
 		
 		cell.timeSpan = cellTimeSpan;
 		
-		NSNumber *handle = [NSNumber numberWithDouble:cellTimeSpan];
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"timePointHandle", handle];
-		NSArray *result = [query_data filteredArrayUsingPredicate:pred];
-		if (result.count != 0) {
-			if (((NSNumber*)[result.firstObject objectForKey:@"rest_isable"]).boolValue) {
-				cell.isSelectedItem = YES;
+		for (NSString *k in [querydata allKeys]) {
+			double handle = k.doubleValue;
+			if (handle == cellTimeSpan) {
+				[cell setSelectedStates];
 			}
 		}
-		
 	}
 	return cell;
 }
 
 //获得据section／cell的完整日期
 - (NSString *)getDateStrForSection:(NSInteger)section day:(NSInteger)day {
-	section = section + theMonth -1;		//月份本比序号大1，之前版本序号转月份+1，不改保持不变，此处-1
+	section = section + theMonth -1;		//月份本比序号大1，之前版本序号转月份+1(不改保持不变)，此处-1
 	return [NSString stringWithFormat:@"%ld-%ld-%ld", section/12 + theYear, section%12 + 1, day];
 }
 
@@ -180,6 +176,7 @@
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 		[tmp setValue:[NSNumber numberWithInteger:weekNumb] forKey:@"numb_weeks"];
 		[tmp setValue:[NSNumber numberWithDouble:time_p] forKey:@"interval"];
+		[tmp setValue:indexPath forKey:@"index_path"];
 		
 		kAYDelegateSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
 		

@@ -28,6 +28,10 @@
 	
 	NSInteger creatOrUpdateNote;
 	NSMutableArray *timesArr;
+	NSMutableDictionary *otmSet;
+	
+	NSIndexPath *indexPathHandle;
+	NSNumber *timeSpanhandle;
 }
 
 #pragma mark -- commands
@@ -95,8 +99,9 @@
 	self.view.backgroundColor = [Tools whiteColor];
 	[self preferredStatusBarStyle];
 	
-	if (!timesArr) {
-		timesArr = [NSMutableArray array];
+	timesArr = [NSMutableArray array];
+	if (!otmSet) {
+		otmSet = [[NSMutableDictionary alloc] init];
 	}
 	
 	dateShowLabel = [Tools creatUILabelWithText:@"选择日期" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:[Tools themeColor] andTextAlignment:NSTextAlignmentCenter];
@@ -132,6 +137,25 @@
 		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		[cmd_cell performWithResult:&class_name];
 		[(UICollectionView*)view_collection registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
+		
+//		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//			
+//			NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
+//			[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//				NSNumber *is_select = [obj objectForKey:@"select_pow"];
+//				
+//				int compA = is_select.intValue;
+//				if (compA&1) {
+//					timesCount ++;
+//				}
+//				if (compA&2) {
+//					timesCount ++;
+//				}
+//				
+//			}];
+//		}];
+//		id tmp = [offer_date_mutable copy];
+//		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
 	}
 	
 	{
@@ -161,31 +185,10 @@
 		id<AYCommand> cmd_class = [view_table.commands objectForKey:@"registerCellWithClass:"];
 		NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AddOTimeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		[cmd_class performWithResult:&cell_name];
-		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SELOTimeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMNurseCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		[cmd_class performWithResult:&cell_name];
 		
-	//	NSArray *tmp = [timesArr copy];
-	//	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
 	}
-	[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-
-		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSNumber *is_select = [obj objectForKey:@"select_pow"];
-			
-			int compA = is_select.intValue;
-			if (compA&1) {
-				timesCount ++;
-			}
-			if (compA&2) {
-				timesCount ++;
-			}
-			
-		}];
-	}];
-	
-	id tmp = [offer_date_mutable copy];
-	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
 	
 	certainBtn = [Tools creatUIButtonWithTitle:@"申请预订" andTitleColor:[Tools whiteColor] andFontSize:318.f andBackgroundColor:[Tools disableBackgroundColor]];
 	[self.view addSubview:certainBtn];
@@ -348,6 +351,7 @@
 	if (timesArr.count == 0) {
 		certainBtn.backgroundColor = [Tools disableBackgroundColor];
 		certainBtn.enabled = NO;
+		[otmSet removeObjectForKey:timeSpanhandle.stringValue];
 	} else {
 		certainBtn.backgroundColor = [Tools themeColor];
 		certainBtn.enabled = YES;
@@ -377,14 +381,36 @@
 }
 
 - (id)didSelectItemAtIndexPath:(id)args {
+	//整合数据
+	if (timeSpanhandle && timesArr.count != 0) {
+		[otmSet setValue:[timesArr mutableCopy] forKey:timeSpanhandle.stringValue];
+	}
 	
-	NSTimeInterval t = ((NSNumber*)[args objectForKey:@"interval"]).doubleValue;
+	timeSpanhandle = [args objectForKey:@"interval"];
+	timesArr = [otmSet objectForKey:timeSpanhandle.stringValue];
+	if (!timesArr) {
+		timesArr = [NSMutableArray array];
+	}
+	NSArray *tmp = [timesArr copy];
+	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	[self checkCertainBtnStates];
+	
+	
+	UITableView *view_table = [self.views objectForKey:kAYTableView];
+	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
+	if (indexPathHandle) {
+		id tmp = [otmSet copy];
+		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
+		[view_collec reloadItemsAtIndexPaths:@[indexPathHandle]];
+	}
+	indexPathHandle = [args objectForKey:@"index_path"];
+	
+	NSTimeInterval t = timeSpanhandle.doubleValue;
 	[self setTipTitleWithInterval:t];
 	
 	NSInteger numb = ((NSNumber*)[args objectForKey:@"numb_weeks"]).integerValue;
 	numb = 2;
-	UITableView *view_table = [self.views objectForKey:kAYTableView];
-	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
 	CGFloat transHeight = itemWidth * (numb+1);
 	
 	[UIView animateWithDuration:0.25 animations:^{
@@ -406,7 +432,7 @@
 }
 
 - (id)scrollToCenter:(id)args {
-	UICollectionView *view_collection = [self.views objectForKey:@"Collection"];
+	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
 	[view_collection scrollToItemAtIndexPath:args atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
 	return nil;
 }

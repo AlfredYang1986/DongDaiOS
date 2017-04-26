@@ -79,7 +79,7 @@
     
     NSNumber *type = [NSNumber numberWithInt:service_type];
 	NSString *titleStr;
-	if (type.intValue == ServiceTypeLookAfter) {
+	if (type.intValue == ServiceTypeNursery) {
 		titleStr = @"您的看顾是什么类型?";
 	} else if (type.intValue == ServiceTypeCourse) {
 		titleStr = @"您的课程是什么类型?";
@@ -202,7 +202,7 @@
     } else {
 		
 		switch (service_type) {
-			case ServiceTypeLookAfter:
+			case ServiceTypeNursery:
 			{
 				[dic_cat_cans setValue:args forKey:kAYServiceArgsTheme];
 				[self didServiceThemeNextBtnClick];

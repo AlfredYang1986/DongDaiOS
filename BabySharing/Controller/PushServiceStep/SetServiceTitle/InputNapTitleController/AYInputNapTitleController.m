@@ -127,7 +127,7 @@
 //    
 //    ServiceType service_type = ((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsServiceCat]).intValue;
 //    switch (service_type) {
-//        case ServiceTypeLookAfter:
+//        case ServiceTypeNursery:
 //        {
 //            
 //            self.view.backgroundColor = [Tools whiteColor];

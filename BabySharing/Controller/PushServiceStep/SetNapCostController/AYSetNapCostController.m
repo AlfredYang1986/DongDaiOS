@@ -56,7 +56,7 @@
                 currentNumbCount = count_note.integerValue;
                 course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).intValue;
                 
-            } else if(service_type == ServiceTypeLookAfter) {
+            } else if(service_type == ServiceTypeNursery) {
                 
                 NSNumber *count_note = [dic_cost objectForKey:kAYServiceArgsLeastHours];
                 currentNumbCount = count_note.integerValue;
@@ -160,7 +160,7 @@
 	
     NSString *titleStr;
     switch (service_type) {
-            case ServiceTypeLookAfter:
+            case ServiceTypeNursery:
         {
             h1.text = @"每小时价格";
             titleStr = @"看顾价格";
@@ -353,7 +353,7 @@
     [dic_info setValue:[NSNumber numberWithFloat:costTextField.text.floatValue] forKey:kAYServiceArgsPrice];
     [dic_info setValue:[NSNumber numberWithFloat:timeTextField.text.floatValue] forKey:kAYServiceArgsCourseduration];
     
-    if (service_type == ServiceTypeLookAfter) {
+    if (service_type == ServiceTypeNursery) {
         [dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastHours];
     }
     else if (service_type == ServiceTypeCourse) {

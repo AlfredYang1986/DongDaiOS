@@ -154,7 +154,7 @@
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	__block int count_times = 0;
 	
-	if (service_cat.intValue == ServiceTypeLookAfter) {
+	if (service_cat.intValue == ServiceTypeNursery) {
 		
 		unitCat = @"小时";
 		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

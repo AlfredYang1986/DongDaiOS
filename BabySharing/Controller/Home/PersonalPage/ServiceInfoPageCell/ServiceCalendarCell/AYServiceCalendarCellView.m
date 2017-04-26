@@ -137,7 +137,7 @@
 	service_info = args;
 	
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	if (service_cat.intValue == ServiceTypeLookAfter) {
+	if (service_cat.intValue == ServiceTypeNursery) {
 		tipsTitleLabel.text = @"看顾时间";
 	}
 	else if (service_cat.intValue == ServiceTypeCourse) {

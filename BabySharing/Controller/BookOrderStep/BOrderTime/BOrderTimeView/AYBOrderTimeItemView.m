@@ -112,10 +112,10 @@
 	UIView *BgView = [[UIView alloc] init];
 	UIView *circleView = [[UIView alloc] init];
 	[BgView addSubview:circleView];
-	[Tools setViewBorder:circleView withRadius:15 andBorderWidth:0.5f andBorderColor:[Tools themeColor] andBackground:nil];
+	[Tools setViewBorder:circleView withRadius:4.f andBorderWidth:0.5f andBorderColor:[Tools themeColor] andBackground:nil];
 	[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(BgView);
-		make.size.mas_equalTo(CGSizeMake(30, 30));
+		make.size.mas_equalTo(CGSizeMake(itemWidth - 10, itemWidth - 10));
 	}];
 	self.selectedBackgroundView = BgView;
 	
@@ -136,6 +136,7 @@
 }
 
 - (void)setTodatStates {
+	_isEnAbled = YES;
 	dayLabel.textColor = [Tools themeColor];
 	todaySignLabel.hidden = NO;
 	abledSignView.hidden = NO;
@@ -147,8 +148,8 @@
 	abledSignView.hidden = NO;
 }
 
-- (void)setIsSelectedItem:(BOOL)isSelectedItem {
-	_isSelectedItem = isSelectedItem;
+- (void)setSelectedStates {
+	_isSelectedItem = YES;
 	dayLabel.textColor = [Tools themeColor];
 	abledSignView.hidden = YES;
 	selectedSignLabel.hidden = NO;

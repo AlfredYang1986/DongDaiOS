@@ -48,7 +48,7 @@ typedef enum : int {
 typedef enum : int {
     //ServiceTypeNone = 0,
     ServiceTypeCourse = 0,
-    ServiceTypeLookAfter = 1,
+    ServiceTypeNursery = 1,
 } ServiceType;
 
 //orderStatus

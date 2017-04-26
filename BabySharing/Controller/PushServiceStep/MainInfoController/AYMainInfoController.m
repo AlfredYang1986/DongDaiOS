@@ -90,7 +90,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 				
                 //title constain and course_sign or coustom constain and or service_cat == 0
 				if(title && ![title isEqualToString:@""]) {
-//                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter)) {
+//                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeNursery)) {
                     [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 
@@ -128,7 +128,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
                     [_service_change_dic setValue:leastTimes forKey:kAYServiceArgsLeastTimes];
                 }
                 
-                if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeLookAfter) {
+                if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeNursery) {
                     if (price && price.floatValue != 0 && leastHours && leastHours.floatValue != 0) {
                         [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
@@ -191,7 +191,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         }
         
         NSNumber *args_cat = [_service_change_dic objectForKey:kAYServiceArgsServiceCat];
-        if (args_cat.intValue == ServiceTypeLookAfter) {
+        if (args_cat.intValue == ServiceTypeNursery) {
             NSString *title = @"我的看顾服务";
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
         } else if (args_cat.intValue == ServiceTypeCourse) {
@@ -359,7 +359,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     id<AYCommand> dest ;
 	if (type == ServiceTypeCourse) {
 		dest = DEFAULTCONTROLLER(@"NapScheduleMain");
-	} else if (type == ServiceTypeLookAfter) {
+	} else if (type == ServiceTypeNursery) {
 		dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
 	}
 	

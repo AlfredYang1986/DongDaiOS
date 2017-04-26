@@ -238,7 +238,7 @@
 //            NSString *coustom = [napTitleInfo objectForKey:kAYServiceArgsCourseCoustom];
 			
             //constain of title and course_sign or coustom and or service_cat == 0
-//            if (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || service_cat == ServiceTypeLookAfter) {
+//            if (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || service_cat == ServiceTypeNursery) {
 			if(napTitle && ![napTitle isEqualToString:@""]) {
                 [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
             }
@@ -257,7 +257,7 @@
             if (price && price.floatValue != 0) {
                 NSString *priceTitleStr ;
                 
-                if (service_cat == ServiceTypeLookAfter) {
+                if (service_cat == ServiceTypeNursery) {
 					priceTitleStr = [NSString stringWithFormat:@"￥ %@/小时",price];
                     if ( leastHours && leastHours.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];

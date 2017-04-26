@@ -46,7 +46,7 @@
 - (id)changeQueryData:(id)args {
 	queryData = args;
     NSNumber *type = [args objectForKey:kAYServiceArgsServiceCat];
-    if (type.intValue == ServiceTypeLookAfter) {
+    if (type.intValue == ServiceTypeNursery) {
         titleArr = @[@"日间看顾（2-6岁孩子）", @"课后看顾（6-11岁孩子）"];
     } else if (type.intValue == ServiceTypeCourse) {
         titleArr = kAY_service_options_title_course;

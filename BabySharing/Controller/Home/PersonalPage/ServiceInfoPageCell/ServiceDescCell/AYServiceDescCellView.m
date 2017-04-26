@@ -155,7 +155,7 @@
 		
 	}
 		break;
-	case ServiceTypeLookAfter:
+	case ServiceTypeNursery:
 	{
 		tipsTitleLabel.text = @"服务描述";
 		courseLengthLabel.hidden = YES;

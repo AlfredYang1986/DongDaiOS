@@ -65,7 +65,6 @@
 		
 		[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
 		service_info = [tmp_args copy];
-//		f48b299f744104676e054230ed19b84a
 		
 		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
 		
@@ -87,7 +86,7 @@
 
 #pragma mark --<UICollectionViewDataSource,UICollectionViewDelegate>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return carouselNumb;
+	return carouselNumb == 0 ? 1 : carouselNumb;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -99,17 +98,21 @@
 	UIImageView *tipView = [[UIImageView alloc]init];
 	tipView.contentMode = UIViewContentModeScaleAspectFill;
 	NSArray *images = [service_info objectForKey:@"images"];
-	if ([[images firstObject] isKindOfClass:[NSString class]]) {
+	if (images.count != 0) {
+		if ([[images firstObject] isKindOfClass:[NSString class]]) {
+			
+			id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
+			AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
+			NSString *PRE = cmd_load.route;
+			[tipView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [images objectAtIndex:indexPath.row]]] placeholderImage:IMGRESOURCE(@"default_image")];
+			
+		} else {
+			
+			tipView.image = [images objectAtIndex:indexPath.row];
+		}
 		
-		id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
-		NSString *PRE = cmd_load.route;
-		[tipView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [images objectAtIndex:indexPath.row]]] placeholderImage:IMGRESOURCE(@"default_image")];
-		
-	} else {
-		
-		tipView.image = [images objectAtIndex:indexPath.row];
-	}
+	} else
+		tipView.image = IMGRESOURCE(@"default_image");
 	
 	[cell addSubview:tipView];
 	tipView.frame = cell.bounds;
@@ -279,7 +282,7 @@
 		NSString *unitCat;
 		NSNumber *leastTimesOrHours;
 		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-		if (service_cat.intValue == ServiceTypeLookAfter) {
+		if (service_cat.intValue == ServiceTypeNursery) {
 			unitCat = @"小时";
 			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
 			

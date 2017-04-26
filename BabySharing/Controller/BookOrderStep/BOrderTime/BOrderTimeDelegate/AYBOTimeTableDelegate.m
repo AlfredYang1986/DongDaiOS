@@ -9,7 +9,7 @@
 #import "AYBOTimeTableDelegate.h"
 
 @implementation AYBOTimeTableDelegate {
-	NSArray *timesArr;
+	NSArray *querydata;
 }
 
 #pragma mark -- command
@@ -39,13 +39,13 @@
 }
 
 - (id)changeQueryData:(id)args {
-	timesArr = (NSArray*)args;
+	querydata = (NSArray*)args;
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return timesArr.count + 1;
+	return querydata.count + 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -57,15 +57,15 @@
 	NSString* class_name;
 	id<AYViewBase> cell;
 	
-	if (indexPath.section == timesArr.count) {
+	if (indexPath.section == querydata.count) {
 		class_name = @"AYAddOTimeCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
 	} else {
-		class_name = @"AYSELOTimeCellView";
+		class_name = @"AYOTMNurseCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
-		id tmp = [timesArr objectAtIndex:indexPath.section];
+		id tmp = [querydata objectAtIndex:indexPath.section];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	}
 	
@@ -97,7 +97,7 @@
 
 //左划删除
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == timesArr.count) {
+	if (indexPath.section == querydata.count) {
 		return NO;
 	} else
 		return YES;
@@ -115,17 +115,17 @@
 }
 
 - (NSArray<UITableViewRowAction*>*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"         " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+//	@"         "
+	UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"  删除  " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
 		//        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		NSNumber *row = [NSNumber numberWithInteger:indexPath.section];
 		kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
 	}];
 	
-	UIImage *image = IMGRESOURCE(@"cell_delete");
 //	view.layer.contents = (id) image.CGImage;    // 如果需要背景透明加上下面这句
 //	view.layer.backgroundColor = [UIColor clearColor].CGColor;
-	rowAction.backgroundColor = [UIColor colorWithCGColor:(__bridge CGColorRef _Nonnull)(image)];
+//	rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
+	rowAction.backgroundColor = [Tools themeColor];
 	return @[rowAction];
 }
 

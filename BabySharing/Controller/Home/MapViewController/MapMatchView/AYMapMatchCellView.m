@@ -188,7 +188,7 @@
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
 	
-	if (service_cat.intValue == ServiceTypeLookAfter) {
+	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
 		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
 		

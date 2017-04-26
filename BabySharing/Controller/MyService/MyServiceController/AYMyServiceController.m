@@ -205,7 +205,7 @@
 	  case ServiceTypeCourse:
 			dest = DEFAULTCONTROLLER(@"NapScheduleMain");
 			break;
-		case ServiceTypeLookAfter:
+		case ServiceTypeNursery:
 			dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
 			break;
 	  default:

@@ -779,7 +779,10 @@
 	<view type="AddOTimeCell" name="AddOTimeCell" factory="AYReuseViewFactory" >
 		<command type="message"      message="setCellInfo:" />
 	</view>
-	<view type="SELOTimeCell" name="SELOTimeCell" factory="AYReuseViewFactory" >
+	<view type="OTMNurseCell" name="OTMNurseCell" factory="AYReuseViewFactory" >
+		<command type="message"      message="setCellInfo:" />
+	</view>
+	<view type="OTMCourseCell" name="OTMCourseCell" factory="AYReuseViewFactory" >
 		<command type="message"      message="setCellInfo:" />
 	</view>
 	

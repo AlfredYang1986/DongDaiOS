@@ -239,12 +239,17 @@
 	service_info = dic_args;
 	capacityLabel.alpha = 1.f;
 	
-	NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 	NSString *pre = cmd.route;
-	[coverImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-				  placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+		
+	NSArray *images = [service_info objectForKey:@"images"];
+	if (images.count != 0) {
+		NSString* photo_name = [images objectAtIndex:0];
+		[coverImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+					  placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	} else
+		coverImage.image = IMGRESOURCE(@"default_image");
 	
 	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
@@ -258,7 +263,7 @@
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
 	
-	if (service_cat.intValue == ServiceTypeLookAfter) {
+	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
 		
 		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastHours];

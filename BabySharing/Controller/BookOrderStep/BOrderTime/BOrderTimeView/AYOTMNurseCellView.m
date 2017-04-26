@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSELOTimeCellView.h"
+#import "AYOTMNurseCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,7 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYSELOTimeCellView {
+@implementation AYOTMNurseCellView {
 	
 	UILabel *startLabel;
 	UILabel *endLabel;
@@ -66,13 +66,9 @@
 	return self;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
-
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"SELOTimeCell", @"SELOTimeCell");
+	id<AYViewBase> cell = VIEW(@"OTMNurseCell", @"OTMNurseCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {

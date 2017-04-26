@@ -681,7 +681,7 @@
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
 	
-	if (service_cat.intValue == ServiceTypeLookAfter) {
+	if (service_cat.intValue == ServiceTypeNursery) {
 		
 		options_title_cans = kAY_service_options_title_lookafter;
 		//kangu 服务主题分类

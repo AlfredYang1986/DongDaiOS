@@ -165,7 +165,7 @@
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	__block CGFloat count_times = 0;
 	
-	if (service_cat.intValue == ServiceTypeLookAfter) {
+	if (service_cat.intValue == ServiceTypeNursery) {
 		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			NSNumber *start = [obj objectForKey:kAYServiceArgsStart];
 			NSNumber *end = [obj objectForKey:kAYServiceArgsEnd];
