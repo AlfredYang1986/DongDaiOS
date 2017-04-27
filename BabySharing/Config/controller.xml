@@ -1084,6 +1084,8 @@
     </controller>
 	
 	<controller type="DefaultController" name="BOrderTime" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade"		name="Timemanagement" notification="true" />
+		
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="CollectionVer"        name="CollectionVer" />

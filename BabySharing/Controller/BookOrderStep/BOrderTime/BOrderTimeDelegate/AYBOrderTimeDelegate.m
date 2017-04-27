@@ -14,6 +14,7 @@
 #import "AYBOrderTimeDefines.h"
 
 @implementation AYBOrderTimeDelegate {
+	NSArray *serviceTMs;
 	NSDictionary *querydata;
 	NSTimeInterval todayTimeSpan;
 	NSDate *currentDate;
@@ -56,6 +57,11 @@
 
 - (NSString*)getViewName {
 	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (id)setInitStatesData:(id)args {
+	serviceTMs = args;
+	return nil;
 }
 
 - (id)changeQueryData:(id)args {
@@ -106,6 +112,9 @@
 		NSTimeInterval cellTimeSpan = cellDate.timeIntervalSince1970;
 		
 		NSTimeInterval twoWeeksLater = todayTimeSpan + 2 * 7 * 86400;		//1周内日期
+		
+		
+		
 		if (cellTimeSpan > todayTimeSpan && cellTimeSpan < twoWeeksLater) {
 			cell.isEnAbled = YES;
 		} else if ((int)cellTimeSpan == (int)todayTimeSpan) {

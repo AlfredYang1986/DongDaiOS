@@ -72,7 +72,7 @@
 		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
 			[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				[obj setValue:[NSNumber numberWithInt:0] forKey:@"select_pow"];
+				[obj setValue:[NSNumber numberWithBool:NO] forKey:@"is_selected"];
 			}];
 		}];
 		

@@ -213,6 +213,7 @@
 		702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A471DAF286700D8715B /* AYShowAlertCommand.m */; };
 		702B7A4C1DAF2ABF00D8715B /* AYHideAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */; };
 		702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */; };
+		702C04511EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C04501EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m */; };
 		702C3B991EAF25AB007F3303 /* AYOTMNurseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B981EAF25AB007F3303 /* AYOTMNurseCellView.m */; };
 		702C3B9C1EAF2606007F3303 /* AYBOTimeTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9B1EAF2606007F3303 /* AYBOTimeTableDelegate.m */; };
 		702C3B9F1EAF27C6007F3303 /* AYAddOTimeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9E1EAF27C6007F3303 /* AYAddOTimeCellView.m */; };
@@ -1175,6 +1176,9 @@
 		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
+		702C044F1EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYParseSTMForDayCourseCommand.h; sourceTree = "<group>"; };
+		702C04501EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYParseSTMForDayCourseCommand.m; sourceTree = "<group>"; };
+		702C04521EB1D19000BE1518 /* Readme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Readme.h; sourceTree = "<group>"; };
 		702C3B971EAF25AB007F3303 /* AYOTMNurseCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOTMNurseCellView.h; sourceTree = "<group>"; };
 		702C3B981EAF25AB007F3303 /* AYOTMNurseCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOTMNurseCellView.m; sourceTree = "<group>"; };
 		702C3B9A1EAF2606007F3303 /* AYBOTimeTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOTimeTableDelegate.h; sourceTree = "<group>"; };
@@ -7616,6 +7620,8 @@
 				8014F71B1E56C59B0012A1C8 /* AYParseServiceTMProtocolCommand.m */,
 				700B08371E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.h */,
 				700B08381E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m */,
+				702C044F1EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.h */,
+				702C04501EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m */,
 			);
 			path = parseServiceTMProtocol;
 			sourceTree = "<group>";
@@ -7627,6 +7633,7 @@
 				80198C3B1E54762200149F97 /* pushServiceTMProtocol */,
 				80198C381E5470FA00149F97 /* AYTimemanagementFacade.h */,
 				80198C391E5470FA00149F97 /* AYTimemanagementFacade.m */,
+				702C04521EB1D19000BE1518 /* Readme.h */,
 			);
 			path = TimeManagement;
 			sourceTree = "<group>";
@@ -8920,6 +8927,7 @@
 				704697D71CE047F200DACD8A /* SDWebImagePrefetcher.m in Sources */,
 				700CFABA1E2C6EFE00B48821 /* AYOrderPageContactCellView.m in Sources */,
 				701D8A9E1CA7E06700B5D4C1 /* LoginToken+ContextOpt.m in Sources */,
+				702C04511EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m in Sources */,
 				70CDF6421CBD034000311841 /* AYOwnerQueryModelFacade.m in Sources */,
 				703CCDBB1CC9D57800CF4563 /* AYPushNotificationCommand.m in Sources */,
 				70F34D6B1CA5274B00CEF7C1 /* OBShapedButton.m in Sources */,

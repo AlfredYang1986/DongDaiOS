@@ -98,6 +98,7 @@
 			make.centerY.equalTo(timeDivView);
 			make.size.mas_equalTo(CGSizeMake(30, 30));
 		}];
+		checkBtn.userInteractionEnabled = NO;
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -156,8 +157,8 @@
 
 - (id)setCellInfo:(NSDictionary*)args {
 	
-	NSNumber *top = [args objectForKey:kAYServiceArgsStartHours];
-	NSNumber *btm = [args objectForKey:kAYServiceArgsEndHours];
+	NSNumber *top = [args objectForKey:kAYServiceArgsStart];
+	NSNumber *btm = [args objectForKey:kAYServiceArgsEnd];
 	
 	NSMutableString *tmp = [NSMutableString stringWithFormat:@"%.4d", top.intValue];
 	[tmp insertString:@":" atIndex:2];

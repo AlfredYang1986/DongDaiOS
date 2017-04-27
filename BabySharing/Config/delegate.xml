@@ -401,6 +401,7 @@
 	
 	<delegate type="CollectionViewDelegateAndDatasource" name="BOrderTime" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="message" message="setInitStatesData:" />
 		<command type="notify" message="scrollToShowMore" />
 		<command type="notify" message="scrollToCenter:" />
 		<command type="notify" message="didSelectItemAtIndexPath:" />
