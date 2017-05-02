@@ -21,7 +21,7 @@
 	
 	NSMutableArray *offer_date_mutable;
 	NSDictionary *service_info;
-	NSInteger timesCount;
+//	NSInteger timesCount;
 	/******/
 	UILabel *dateShowLabel;
 	UIButton *certainBtn;
@@ -130,7 +130,7 @@
 	}
 	
 	{
-		id<AYViewBase> view_collection= [self.views objectForKey:@"CollectionVer"];
+		id<AYViewBase> view_collection= [self.views objectForKey:kAYCollectionVerView];
 		id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"BOrderTime"];
 		id<AYCommand> cmd_datasource = [view_collection.commands objectForKey:@"registerDatasource:"];
 		id<AYCommand> cmd_delegate = [view_collection.commands objectForKey:@"registerDelegate:"];
@@ -180,7 +180,7 @@
 	}
 	
 	{
-		id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
+		id<AYViewBase> view_picker = [self.views objectForKey:kAYPickerView];
 		id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
 		id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
 		
@@ -192,7 +192,7 @@
 		[cmd_delegate performWithResult:&obj];
 	}
 	{
-		id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
 		id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"BOTimeTable"];
 		
 		id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -239,10 +239,10 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	
-	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
-	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
-	NSNumber *offset = [NSNumber numberWithInt:6];
-	[cmd_scroll_center performWithResult:&offset];
+//	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
+//	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
+//	NSNumber *offset = [NSNumber numberWithInt:6];
+//	[cmd_scroll_center performWithResult:&offset];
 }
 
 #pragma mark -- layouts
@@ -301,6 +301,49 @@
 }
 
 #pragma mark -- actions
+- (NSArray *)transDicWithOTMDictionary:(NSDictionary*)dic_otm {
+	NSMutableArray *orderTimeSpans = [NSMutableArray array];
+	NSEnumerator* enumerator = OTMSet.keyEnumerator;
+	id iter = nil;
+	while ((iter = [enumerator nextObject]) != nil) {
+		
+		NSDateFormatter *dateform = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
+		NSString *dateStr = [dateform stringFromDate:[NSDate dateWithTimeIntervalSince1970:((NSString*)iter).doubleValue]];
+		
+		NSArray *order_times = [OTMSet objectForKey:iter];
+		for (NSDictionary *dic_tm in order_times) {
+			if (serviceType.intValue == ServiceTypeCourse) {
+				if (((NSNumber*)[dic_tm objectForKey:@"is_selected"]).boolValue) {
+					NSString *date_start = [NSString stringWithFormat:@"%@%.4d", dateStr, ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStart]).intValue];
+					NSString *date_end = [NSString stringWithFormat:@"%@%.4d", dateStr, ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEnd]).intValue];
+					NSDateFormatter *formatter_c = [Tools creatDateFormatterWithString:@"yyyy-MM-ddHHmm"];
+					NSTimeInterval start_timespan = [formatter_c dateFromString:date_start].timeIntervalSince1970;
+					NSTimeInterval end_timespan = [formatter_c dateFromString:date_end].timeIntervalSince1970;
+					
+					NSMutableDictionary *dic_offer_date = [[NSMutableDictionary alloc] init];
+					[dic_offer_date setValue:[NSNumber numberWithDouble:start_timespan*1000] forKey:kAYServiceArgsStart];
+					[dic_offer_date setValue:[NSNumber numberWithDouble:end_timespan*1000] forKey:kAYServiceArgsEnd];
+					[orderTimeSpans addObject:dic_offer_date];
+				}
+			} else {
+				NSString *date_start = [NSString stringWithFormat:@"%@%.4d", dateStr, ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStart]).intValue];
+				NSString *date_end = [NSString stringWithFormat:@"%@%.4d", dateStr, ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEnd]).intValue];
+				NSDateFormatter *formatter_c = [Tools creatDateFormatterWithString:@"yyyy-MM-ddHHmm"];
+				NSTimeInterval start_timespan = [formatter_c dateFromString:date_start].timeIntervalSince1970;
+				NSTimeInterval end_timespan = [formatter_c dateFromString:date_end].timeIntervalSince1970;
+				
+				NSMutableDictionary *dic_offer_date = [[NSMutableDictionary alloc] init];
+				[dic_offer_date setValue:[NSNumber numberWithDouble:start_timespan*1000] forKey:kAYServiceArgsStart];
+				[dic_offer_date setValue:[NSNumber numberWithDouble:end_timespan*1000] forKey:kAYServiceArgsEnd];
+				[orderTimeSpans addObject:dic_offer_date];
+			}
+			
+		}
+		
+	}
+	return [orderTimeSpans copy];
+}
+
 - (void)didCertainBtnnClick {
 	
 	NSDictionary* user = nil;
@@ -314,13 +357,14 @@
 	}
 	
 	NSInteger leastTimes = ((NSNumber*)[service_info objectForKey:kAYServiceArgsLeastTimes]).integerValue;
-	if (timesCount < leastTimes) {
+	NSArray *order_times = [self transDicWithOTMDictionary:nil];
+	if (order_times.count < leastTimes) {
 		NSString *title = [NSString stringWithFormat:@"该服务最少预定%d次",(int)leastTimes];
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
 	
-	NSMutableArray *orderTimeSpans = [NSMutableArray array];
+//	NSMutableArray *orderTimeSpans = [NSMutableArray array];
 //	NSDate *nowDate = [NSDate date];
 //	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 //	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
@@ -347,7 +391,7 @@
 //	}];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:orderTimeSpans forKey:@"order_times"];
+	[tmp setValue:order_times forKey:@"order_times"];
 	[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
 	
 	/**
@@ -400,15 +444,24 @@
 - (void)checkTimesArrOrCheckOTMSetWithHandle:(NSArray*)array {
 	//当前handle中 是否有数据
 	if (array.count == 0) {
-		//删除 空handle，检查Set中是否有数据
-		[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
-		if (OTMSet.count == 0) {
+		//删除 空handle，检查Set中是否有数据			update:空handle不删除，更新判断条件
+//		[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
+		
+		BOOL isContainsSet = NO;
+		for (NSArray *arr in [OTMSet allValues]) {
+			if (arr.count != 0) {
+				isContainsSet = YES;
+				break;
+			}
+		}
+		
+		if (isContainsSet) {
+			certainBtn.backgroundColor = [Tools themeColor];
+			certainBtn.enabled = YES;
+		} else {
 			//没有数据，btn不可用
 			certainBtn.backgroundColor = [Tools disableBackgroundColor];
 			certainBtn.enabled = NO;
-		} else {
-			certainBtn.backgroundColor = [Tools themeColor];
-			certainBtn.enabled = YES;
 		}
 	} else {
 		certainBtn.backgroundColor = [Tools themeColor];
@@ -445,23 +498,57 @@
 	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
 	
 	//整合数据(如果有)
-	if (timeSpanhandle) {
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.is_selected=%@", @1];
-		NSArray *result = [timesArr filteredArrayUsingPredicate:pred];
-		if (result.count == 0) {
-			[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
-		}
-		id tmp = [OTMSet copy];
-		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
-		[view_collec reloadItemsAtIndexPaths:@[indexPathHandle]];
-	}
+//	if (timeSpanhandle) {
+//		if (serviceType.intValue == ServiceTypeCourse) {
+//			NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.is_selected=%@", @1];
+//			NSArray *result = [timesArr filteredArrayUsingPredicate:pred];
+//			if (result.count == 0) {
+//				[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
+//			}
+//		} else {
+//			if (timesArr.count == 0) {
+//				[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
+//			}
+//		}
+//		id tmp = [OTMSet copy];
+//		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
+//		[view_collec reloadItemsAtIndexPaths:@[indexPathHandle]];
+//	}
+	
 	//替换 NSIndexPath handle数据
 	indexPathHandle = [args objectForKey:@"index_path"];
-	
 	timeSpanhandle = [args objectForKey:@"interval"];
 	timesArr = [OTMSet objectForKey:timeSpanhandle.stringValue];
-	if (!timesArr) {
-		timesArr = [NSMutableArray array];
+	
+	if (serviceType.intValue == ServiceTypeNursery) {
+		int maxEnd = 0;
+		int minStart = 24;		//确保遍历第一个元素时 重新赋值
+		for (NSDictionary *dic_tm in serviceTMs) {
+			NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
+			NSTimeInterval enddate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
+			if (startdate <= timeSpanhandle.doubleValue && (enddate > timeSpanhandle.doubleValue || enddate == -0.001)) {
+				int starthours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue / 100;
+				int endhours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndHours]).intValue / 100;
+				if (starthours != 0 && starthours < minStart) {
+					minStart = starthours;
+				}
+				if (endhours != 0 && endhours > maxEnd) {
+					maxEnd = endhours;
+				}
+			}
+		}
+		NSMutableArray *tmpArr = [NSMutableArray array];
+		for (int i = 0; i<= maxEnd-minStart; ++i) {
+			[tmpArr addObject:[NSString stringWithFormat:@"%.2d",minStart + i]];
+		}
+		NSMutableDictionary *dic_data = [[NSMutableDictionary alloc] init];
+		[dic_data setValue:[tmpArr copy] forKey:@"hours"];
+		kAYDelegatesSendMessage(@"ServiceTimesPick", @"changeOptionData:", &dic_data);
+		kAYViewsSendMessage(kAYPickerView, kAYTableRefreshMessage, nil);
+	}
+	
+	if (!timesArr || timesArr.count == 0) {
+		
 		if (serviceType.intValue == ServiceTypeCourse) {
 			
 			NSDate *handleDate = [NSDate dateWithTimeIntervalSince1970:timeSpanhandle.doubleValue];
@@ -474,7 +561,13 @@
 			
 			NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.day=%d", weekdaySep];
 			NSArray *resultArr = [offer_date_mutable filteredArrayUsingPredicate:pred];
-			[timesArr addObjectsFromArray:[resultArr.firstObject objectForKey:kAYServiceArgsOccurance]];
+			NSMutableArray *f = [[resultArr.firstObject mutableCopy] objectForKey:kAYServiceArgsOccurance];
+			for (NSDictionary *dic in f) {
+				[dic setValue:[NSNumber numberWithBool:NO] forKey:@"is_selected"];
+			}
+			timesArr = [NSMutableArray arrayWithArray:f];
+		} else {
+			timesArr = [NSMutableArray array];
 		}
 		[OTMSet setValue:timesArr forKey:timeSpanhandle.stringValue];
 	}
@@ -482,7 +575,6 @@
 	NSArray *tmp = [timesArr copy];
 	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-	
 	
 	NSTimeInterval t = timeSpanhandle.doubleValue;
 	[self setTipTitleWithInterval:t];
@@ -521,6 +613,15 @@
 	kAYDelegatesSendMessage(@"BOTimeTable", @"changeQueryData:", &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	[self checkCertainBtnStates];
+		
+	if (timesArr.count == 0) {
+//		[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
+		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
+		id tmp_set = [OTMSet copy];
+		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
+		[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
+		[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+	}
 	return nil;
 }
 
@@ -537,6 +638,17 @@
 	BOOL isSelected = ((NSNumber*)[dic_op objectForKey:@"is_selected"]).boolValue;
 	[dic_op setValue:[NSNumber numberWithBool:!isSelected] forKey:@"is_selected"];
 	[self checkCertainBtnStates];
+	
+	NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"is_selected", 1];
+	NSArray *resultArr = [timesArr filteredArrayUsingPredicate:pred];
+	if (resultArr.count == 0 || resultArr.count == 1) {
+		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
+		id tmp = [OTMSet copy];
+		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
+		[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
+		[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+	}
+	
 	
 	UITableView *view_table = [self.views objectForKey:kAYTableView];
 	[view_table reloadRowsAtIndexPaths:@[args] withRowAnimation:UITableViewRowAnimationNone];
@@ -580,12 +692,19 @@
 		NSString *title = @"服务时间设置错误";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return nil;
-	}		//输入数据 检测合法性 => 存入/再移除
+	}		//输入数据 检测合法性 => 确定存入/再移除
 	
 	NSArray *tmp = [timesArr copy];
 	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	[self checkCertainBtnStates];
+	
+	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
+	id tmp_set = [OTMSet copy];
+	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
+	[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
+	[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+	
 	return nil;
 }
 

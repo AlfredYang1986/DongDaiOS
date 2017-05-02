@@ -16,7 +16,6 @@
 #define kPickBgHeight             196
 
 @implementation AYPickerView {
-//	UIView *maskBgView;
 	UIView *pickBgView;
 }
 
@@ -31,9 +30,6 @@
     self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	self.backgroundColor = [UIColor clearColor];
 	
-//	maskBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-//	maskBgView.alpha = 0.1f;
-//	[self addSubview:maskBgView];
 	self.userInteractionEnabled = YES;
 	[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePickerView)]];
 	
@@ -87,10 +83,6 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-}
 
 - (void)didSaveClick:(UIButton*)btn {
     
@@ -141,6 +133,11 @@
 	}];
     
     return nil;
+}
+
+- (id)refresh {
+	[_pickerView reloadAllComponents];
+	return nil;
 }
 
 @end

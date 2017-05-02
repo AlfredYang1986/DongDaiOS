@@ -14,6 +14,9 @@
 static NSString* const kAYFakeNavBarView =                  @"FakeNavBar";
 static NSString* const kAYTableView =                       @"Table";
 static NSString* const kAYPickerView =                       @"Picker";
+static NSString* const kAYCollectionView =                       @"Collection";
+static NSString* const kAYCollectionVerView =                       @"CollectionVer";
+
 
 //FakeNavBar
 static NSString* const kAYNavBarSetTitleMessage =               @"setTitleText:";
@@ -49,7 +52,7 @@ static NSString* const kAYCellSetCellInfoMessage =                 @"setCellInfo
                                                                 id<AYViewBase> kAYView = [self.views objectForKey:VIEW];\
                                                                 id<AYCommand> kAYCommand = [kAYView.commands objectForKey:MESSAGE];\
                                                                 [kAYCommand performWithResult:ARGS];\
-                                                            }
+                                                            }\
 
 #define kAYViewsSendNotify(VIEW,MESSAGE,ARGS)               {\
                                                                 id<AYViewBase> kAYView = [self.views objectForKey:VIEW];\

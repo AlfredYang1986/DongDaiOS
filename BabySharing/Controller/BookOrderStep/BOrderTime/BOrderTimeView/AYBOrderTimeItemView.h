@@ -24,5 +24,6 @@ typedef void(^touchUpInSubBtn)(NSDictionary*);
 - (void)setInitStates;
 - (void)setTodatStates;
 - (void)setSelectedStates;
+- (void)setEnAbleStates;
 
 @end

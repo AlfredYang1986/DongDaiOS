@@ -30,7 +30,7 @@
 - (void)postPerform {
     
     NSMutableArray *tmpArr = [[NSMutableArray alloc] init];
-    for (long i = 0; i< 24 * 10; ++i) {
+    for (long i = 0; i< 24 * 5; ++i) {
         int tmpInt = i % 24;
         [tmpArr addObject:[NSString stringWithFormat:@"%.2d",tmpInt]];
     }
@@ -54,8 +54,16 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
+- (id)changeOptionData:(id)args {
+	hours = [args objectForKey:@"hours"];
+	id tmp = [args objectForKey:@"mins"];
+	if (tmp) {
+		mins = tmp;
+	}
+	return nil;
+}
+
 - (id)scrollToCenterWithOffset:(NSNumber*)offset {
-    
     for (int i = 0; i < 7; i++) {
         if (i == 0 || i == 4) {
             [picker selectRow:hours.count/2 + offset.intValue inComponent:i animated:NO];

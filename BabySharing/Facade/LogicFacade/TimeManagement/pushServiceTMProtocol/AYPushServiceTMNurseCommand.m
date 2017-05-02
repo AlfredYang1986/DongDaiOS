@@ -122,7 +122,7 @@
 					[time_args setValue:[dic_duration objectForKey:@"start"] forKey:@"starthours"];
 					[time_args setValue:[dic_duration objectForKey:@"end"] forKey:@"endhours"];
 					[time_args setValue:[NSNumber numberWithDouble:((NSNumber*)[[TPointArr objectAtIndex:i-1] objectForKey:@"tp_end"]).doubleValue * 1000] forKey:@"startdate"];
-					[time_args setValue:[[TPointArr objectAtIndex:i] objectForKey:@"tp_start"] forKey:@"enddate"];
+					[time_args setValue:[NSNumber numberWithDouble:((NSNumber*)[[TPointArr objectAtIndex:i] objectForKey:@"tp_start"]).doubleValue * 1000] forKey:@"enddate"];
 					
 					[result addObject:time_args];
 				}
@@ -166,8 +166,13 @@
 	comps = [calendar components:unitFlags fromDate:now];
 	NSInteger cur = [comps weekday] - 1;
 	
+	/*update: 之前是用的date是now，now存在匹配问题 =>转截成以“日”为标准的date*/
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
+	NSString *dateStr = [formatter stringFromDate:now];
+	NSDate *todayDate = [formatter dateFromString:dateStr];
+	
 	NSInteger gap = (day - cur) * 60 * 60 * 24;
-	return ([now timeIntervalSince1970] + gap) * 1000;
+	return ([todayDate timeIntervalSince1970] + gap) * 1000;
 }
 
 - (long)enddateFromDay:(int)day {

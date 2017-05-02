@@ -73,7 +73,13 @@
     NSInteger cur = [comps weekday] - 1;
     
     NSInteger gap = (day - cur) * 60 * 60 * 24;
-    return ([now timeIntervalSince1970] + gap) * 1000;
+	
+	/*update: 之前是用的date是now，now存在匹配问题 =>转截成以“日”为标准的date*/
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
+	NSString *dateStr = [formatter stringFromDate:now];
+	NSDate *todayDate = [formatter dateFromString:dateStr];
+	
+    return ([todayDate timeIntervalSince1970] + gap) * 1000;
 }
 
 - (long)enddateFromDay:(int)day {

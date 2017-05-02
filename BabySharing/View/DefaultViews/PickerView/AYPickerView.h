@@ -12,7 +12,6 @@
 
 @interface AYPickerView : UIView <AYViewBase>
 @property(nonatomic, strong) UIPickerView *pickerView;
-
 @end
 
 @interface AYPicker2View : AYPickerView

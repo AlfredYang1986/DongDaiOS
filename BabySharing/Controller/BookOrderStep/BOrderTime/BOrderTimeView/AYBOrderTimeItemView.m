@@ -142,15 +142,14 @@
 	abledSignView.hidden = NO;
 }
 
-- (void)setIsEnAbled:(BOOL)isEnAbled {
-	_isEnAbled = isEnAbled;
+- (void)setEnAbleStates {
+	_isEnAbled = YES;
 	dayLabel.textColor = [Tools themeColor];
 	abledSignView.hidden = NO;
 }
 
 - (void)setSelectedStates {
 	_isSelectedItem = YES;
-	dayLabel.textColor = [Tools themeColor];
 	abledSignView.hidden = YES;
 	selectedSignLabel.hidden = NO;
 }

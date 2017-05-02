@@ -18,6 +18,7 @@
 	NSDictionary *querydata;
 	NSTimeInterval todayTimeSpan;
 	NSDate *currentDate;
+	NSCalendar *calendarTools;
 	
 	int theYear;
 	int theMonth;
@@ -40,6 +41,11 @@
 	
 	theYear = [self.useTime getYear];
 	theMonth = [self.useTime getMonth];
+	
+//	NSDate *handleDate = [NSDate dateWithTimeIntervalSince1970:timeSpanhandle.doubleValue];
+	calendarTools = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+	[calendarTools setTimeZone: timeZone];
 	
 }
 
@@ -111,21 +117,51 @@
 		NSDate *cellDate = [_useTime strToDate:cellDateStr];
 		NSTimeInterval cellTimeSpan = cellDate.timeIntervalSince1970;
 		
-		NSTimeInterval twoWeeksLater = todayTimeSpan + 2 * 7 * 86400;		//1周内日期
+		for (NSDictionary *dic_tm in serviceTMs) {
+			NSNumber *pattern = [dic_tm objectForKey:kAYServiceArgsPattern];
+			double start = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
+			double end = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
+			int startHours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue;
+			
+			if (pattern.intValue == TMPatternTypeDaily) {
+				if (cellTimeSpan >= todayTimeSpan) {
+					[cell setEnAbleStates];
+					break;
+				}
+			}
+			else if (pattern.intValue == TMPatternTypeWeekly) {
+				NSDateComponents *cellComponents = [calendarTools components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:cellTimeSpan]];
+				int cellWeekday = (int)cellComponents.weekday - 1;
+				NSDateComponents *startComponents = [calendarTools components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:start]];
+				int startWeekday = (int)startComponents.weekday - 1;
+				if (cellWeekday == startWeekday && cellTimeSpan < end && cellTimeSpan >= todayTimeSpan) {
+					[cell setEnAbleStates];
+					break;
+				}
+			}
+			else if (pattern.intValue == TMPatternTypeOnce) {
+				if ((start >= cellTimeSpan) && (start < cellTimeSpan + OneDayTimeInterval -1) && (cellTimeSpan >= todayTimeSpan)) {
+					if (startHours == 1) {
+						[cell setInitStates];
+					} else {
+						[cell setEnAbleStates];
+					}
+					break;
+				}
+			}
+			else {
+				
+			}
+		} //forin
 		
-		
-		
-		if (cellTimeSpan > todayTimeSpan && cellTimeSpan < twoWeeksLater) {
-			cell.isEnAbled = YES;
-		} else if ((int)cellTimeSpan == (int)todayTimeSpan) {
+		cell.timeSpan = cellTimeSpan;
+		if ((int)cellTimeSpan == (int)todayTimeSpan) {
 			[cell setTodatStates];
 		}
 		
-		cell.timeSpan = cellTimeSpan;
-		
 		for (NSString *k in [querydata allKeys]) {
 			double handle = k.doubleValue;
-			if (handle == cellTimeSpan) {
+			if (handle == cellTimeSpan && ((NSArray*)[querydata objectForKey:k]).count != 0) {
 				[cell setSelectedStates];
 			}
 		}

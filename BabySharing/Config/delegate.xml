@@ -293,6 +293,7 @@
     </delegate>
     
     <delegate type="PickerViewDelegateAndDatasource" name="ServiceTimesPick" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeOptionData:" />
         <command type="message" message="queryCurrentSelected:" />
         <command type="message" message="scrollToCenterWithOffset:" />
     </delegate>

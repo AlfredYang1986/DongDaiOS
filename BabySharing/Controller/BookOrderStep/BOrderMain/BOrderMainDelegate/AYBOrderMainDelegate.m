@@ -24,6 +24,8 @@
     
     NSNumber *setedDate;
     NSDictionary *setedTimes;
+	
+	NSArray *sectionTitles;
 }
 
 @synthesize para = _para;
@@ -33,7 +35,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-    
+	sectionTitles = @[@"服务时间", @"服务价格", @"支付方式"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -163,22 +165,18 @@
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools whiteColor];
-	NSString *titleStr;
-	if (section == 1) {
-		titleStr = @"服务时间";
-	} else if (section == 2) {
-		titleStr = @"服务价格";
-	} else if (section == 3) {
-		titleStr = @"支付方式";
+	if (section > 0) {
+		
+		UILabel *titleLabel = [Tools creatUILabelWithText:[sectionTitles objectAtIndex:section - 1] andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[headView addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(headView);
+			make.centerX.equalTo(headView);
+		}];
 	}
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[headView addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(headView);
-		make.centerX.equalTo(headView);
-	}];
 	
 	return headView;
 }
@@ -187,7 +185,7 @@
 	if (section == 0) {
 		return 0.001f;
 	} else {
-		return 50.f;
+		return 40.f;
 	}
 }
 
