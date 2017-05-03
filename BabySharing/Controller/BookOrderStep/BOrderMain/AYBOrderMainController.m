@@ -58,7 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
+    id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
     id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"BOrderMain"];
@@ -80,17 +80,16 @@
     
     NSString* payway_class = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     [cmd_head performWithResult:&payway_class];
-    
-    id<AYCommand> change_data = [cmd_recommend.commands objectForKey:@"changeQueryData:"];
+	
     NSDictionary *tmp = [order_info copy];
-    [change_data performWithResult:&tmp];
+    kAYDelegatesSendMessage(@"BOrderMain", kAYDelegateChangeDataMessage, &tmp)
     
 //    id<AYCommand> cmd_nib = [view_table.commands objectForKey:@"registerCellWithNib:"];
 //    NSString* nib_contact_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *aplyBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
+    UIButton *aplyBtn = [Tools creatUIButtonWithTitle:@"提交订单预订" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:aplyBtn];
     [aplyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);
@@ -144,15 +143,15 @@
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
 	
 	if (payOptionSignView.tag == PayWayOptionWechat) {
-		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
-		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
-		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
-		[cmd_login performWithResult:&IsInstalledWechat];
-		if (!IsInstalledWechat.boolValue ) {
-			NSString *title = @"微信支付尚未安装！";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			return;
-		}
+//		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+//		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+//		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+//		[cmd_login performWithResult:&IsInstalledWechat];
+//		if (!IsInstalledWechat.boolValue ) {
+//			NSString *title = @"未安装微信！";
+//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//			return;
+//		}
 		cmd_push = [facade.commands objectForKey:@"PushOrder"];
 		scaleUnit = 1.f;
 		
@@ -203,33 +202,43 @@
 	[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
-			order_id = [result objectForKey:@"order_id"];
 			
-			// 支付
-			switch (payOptionSignView.tag) {
-				case PayWayOptionWechat:
-				{
-					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
-					AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
-					
-					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-					[cmd performWithResult:&pay];
-				}
-					break;
-				case PayWayOptionAlipay:
-				{
-                    id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
-                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
-					
-                    NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-//                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-                    [cmd performWithResult:&pay];
-				}
-					break;
-				default:
-					break;
-			}
+			id<AYCommand> des = DEFAULTCONTROLLER(@"BOApplyBack");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			
+			id<AYCommand> cmd_push = PUSH;
+			[cmd_push performWithResult:&dic];
+			
+//			order_id = [result objectForKey:@"order_id"];
+//			
+//			// 支付
+//			switch (payOptionSignView.tag) {
+//				case PayWayOptionWechat:
+//				{
+//					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+//					AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
+//					
+//					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+//					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+//					[cmd performWithResult:&pay];
+//				}
+//					break;
+//				case PayWayOptionAlipay:
+//				{
+//                    id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
+//                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
+//					
+//                    NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+////                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+//                    [cmd performWithResult:&pay];
+//				}
+//					break;
+//				default:
+//					break;
+//			}
 			
 			
 		} else {
@@ -366,7 +375,7 @@
 	
 	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			NSString *title = @"服务预订成功,去日程查看";
+			NSString *title = @"服务预订成功! 去日程查看?";
 			//            [self popToRootVCWithTip:title];
 			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
 			

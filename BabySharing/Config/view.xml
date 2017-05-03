@@ -904,4 +904,8 @@
 	   <command type="notify" message="delTimeDuration:" />
    </view>
    
+   <view type="BOApplyBack" name="BOApplyBack" factory="AYDefaultViewFactory" >
+	   
+   </view>
+   
 </views>
