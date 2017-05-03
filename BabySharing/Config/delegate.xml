@@ -327,7 +327,10 @@
 	
 	<delegate type="TableViewDelegateAndDatasource" name="OrderServant" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
-<!--		<command type="notify" message="updateReadState:" />-->
+		<command type="notify" message="showMoreAppli" />
+		<command type="notify" message="showLeastOneAppli" />
+		<command type="notify" message="showHistoryAppli" />
+		<command type="notify" message="showRemindMessage" />
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="OrderListNews" factory="AYDefaultDelegateFactory" >
@@ -339,6 +342,9 @@
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="ServantHistory" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	<delegate type="TableViewDelegateAndDatasource" name="MoreAppli" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	

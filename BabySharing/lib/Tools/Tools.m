@@ -582,8 +582,6 @@
 	}
 	if (backColor) {
 		view.backgroundColor = backColor;
-	} else {
-		view.backgroundColor = [UIColor clearColor];
 	}
 }
 

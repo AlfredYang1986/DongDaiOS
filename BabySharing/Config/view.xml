@@ -908,4 +908,14 @@
 	   
    </view>
    
+   <view type="TodoApplyCell" name="TodoApplyCell" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   <view type="HistoryApplyCell" name="HistoryApplyCell" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   <view type="DayRemindCell" name="DayRemindCell" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   
 </views>

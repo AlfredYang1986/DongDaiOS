@@ -18,6 +18,7 @@
 @implementation AYOrderServantDelegate {
 	NSArray *querydata;
 	
+	NSArray *funcNameArr;
 //	NSArray *waitArrData;
 //	NSArray *estabArrData;
 }
@@ -29,7 +30,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	
+	funcNameArr = @[@"showLeastOneAppli", @"showHistoryAppli", @"showRemindMessage"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -55,62 +56,107 @@
 }
 
 #pragma mark -- table
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//	return 2;
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return querydata.count;
+	return 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	NSString* class_name ;
+	id<AYViewBase> cell ;
+	id args;
+	if (indexPath.row == 0) {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	} else if (indexPath.row == 1) {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	} else {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"DayRemindCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	}
 	
-	id tmp = [querydata objectAtIndex:indexPath.row];
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	kAYViewSendMessage(cell, @"setCellInfo:", &args)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	((UITableViewCell*)cell).clipsToBounds = YES;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 160.f;
+	if (indexPath.row == 0) {
+		return 110.f;
+	} else if (indexPath.row == 1) {
+		return 60.f;
+	} else {
+		return 180.f;
+	}
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc] init];
 	headView.backgroundColor = [Tools whiteColor];
-	NSString *titleStr = @"所有日程";
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	NSString *titleStr = @"待确认";
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView);
 		make.left.equalTo(headView).offset(20);
 	}];
 	
+	UILabel *countlabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[UIColor redColor] andTextAlignment:NSTextAlignmentCenter];
+	[Tools setViewBorder:countlabel withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+	[headView addSubview:countlabel];
+	[countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(titleLabel.mas_right).offset(5);
+		make.top.equalTo(titleLabel).offset(-2);
+		make.size.mas_equalTo(CGSizeMake(20, 20));
+	}];
+	
+	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+	[headView addSubview:readMoreBtn];
+	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(headView).offset(-20);
+		make.centerY.equalTo(headView);
+		make.size.mas_equalTo(CGSizeMake(70, 30));
+	}];
+	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	
-	return 50.f;
+	return 55.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	NSString *funcName = [funcNameArr objectAtIndex:indexPath.row];
+	kAYDelegateSendNotify(self, funcName, nil)
 	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+//	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+//	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+//	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//	
+//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+//	
+//	id<AYCommand> cmd_push = PUSH;
+//	[cmd_push performWithResult:&dic];
 	
-	id<AYCommand> cmd_push = PUSH;
-	[cmd_push performWithResult:&dic];
-	
+}
+
+#pragma mark -- actions
+- (void)didReadMoreBtnClick {
+	kAYDelegateSendNotify(self, @"showMoreAppli", nil)
 }
 
 @end

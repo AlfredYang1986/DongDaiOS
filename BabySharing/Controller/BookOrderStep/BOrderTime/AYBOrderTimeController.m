@@ -341,6 +341,9 @@
 		}
 		
 	}
+	[orderTimeSpans sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [[obj1 objectForKey:kAYServiceArgsStart] doubleValue] > [[obj2 objectForKey:kAYServiceArgsStart] doubleValue];
+	}];
 	return [orderTimeSpans copy];
 }
 

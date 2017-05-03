@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewBase.h"
 
-@interface AYServantHistoryDelegate : NSObject<AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+@interface AYServantHistoryDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

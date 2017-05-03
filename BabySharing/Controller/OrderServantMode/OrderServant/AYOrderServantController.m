@@ -18,7 +18,7 @@
 #import "AYModelFacade.h"
 
 @implementation AYOrderServantController {
-	UILabel *noticeNews;
+//	UILabel *noticeNews;
 	NSArray *order_info;
 	NSArray *result_status_ready;
 	NSArray *order_past;
@@ -40,34 +40,34 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UIView *newsBoardView = [[UIView alloc]init];
-	newsBoardView.backgroundColor = [Tools whiteColor];
-	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
-	newsBoardView.layer.shadowOffset = CGSizeMake(0, 0);
-	newsBoardView.layer.shadowOpacity = 0.5f;
-	[self.view addSubview:newsBoardView];
-	[newsBoardView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.view);
-		make.top.equalTo(self.view).offset(30);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
-	}];
+//	UIView *newsBoardView = [[UIView alloc]init];
+//	newsBoardView.backgroundColor = [Tools whiteColor];
+//	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
+//	newsBoardView.layer.shadowOffset = CGSizeMake(0, 0);
+//	newsBoardView.layer.shadowOpacity = 0.5f;
+//	[self.view addSubview:newsBoardView];
+//	[newsBoardView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.centerX.equalTo(self.view);
+//		make.top.equalTo(self.view).offset(30);
+//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
+//	}];
 	
-	UILabel *title = [Tools creatUILabelWithText:@"待确认日程" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[newsBoardView addSubview:title];
-	[title mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(newsBoardView).offset(15);
-		make.top.equalTo(newsBoardView).offset(20);
-	}];
-
-	
-	noticeNews = [Tools creatUILabelWithText:@"暂时没有待处理的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[newsBoardView addSubview:noticeNews];
-	[noticeNews mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(title);
-		make.top.equalTo(title.mas_bottom).offset(18);
-	}];
-	noticeNews.userInteractionEnabled = YES;
-	[noticeNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didNoticeLabelTap)]];
+//	UILabel *title = [Tools creatUILabelWithText:@"待确认日程" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//	[newsBoardView addSubview:title];
+//	[title mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(newsBoardView).offset(15);
+//		make.top.equalTo(newsBoardView).offset(20);
+//	}];
+//
+//	
+//	noticeNews = [Tools creatUILabelWithText:@"暂时没有待处理的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//	[newsBoardView addSubview:noticeNews];
+//	[noticeNews mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(title);
+//		make.top.equalTo(title.mas_bottom).offset(18);
+//	}];
+//	noticeNews.userInteractionEnabled = YES;
+//	[noticeNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didNoticeLabelTap)]];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderServant"];
 	id obj = (id)delegate;
@@ -76,7 +76,11 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
-	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"DayRemindCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 	NSDictionary *tmp = [order_info copy];
@@ -86,19 +90,6 @@
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	[self loadNewData];
 	
-	UIButton *historyBtn  = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-//	historyBtn.layer.shadowColor = [Tools garyColor].CGColor;
-//	historyBtn.layer.shadowOffset = CGSizeMake(0, -0.5);
-//	historyBtn.layer.shadowOpacity = 0.4f;
-	[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
-	[self.view addSubview:historyBtn];
-	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.view);
-		make.bottom.equalTo(self.view).offset(-49);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
-	}];
-	[historyBtn addTarget:self action:@selector(didHistoryBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-	historyBtn.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,11 +113,11 @@
 	//	NSString *title = @"确认信息";
 	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
-	UIImage* left = IMGRESOURCE(@"bar_left_black");
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-	
-	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
+//	UIImage* left = IMGRESOURCE(@"bar_left_black");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//	
+//	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	
 	//	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
 	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
@@ -135,7 +126,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 140, SCREEN_WIDTH, SCREEN_HEIGHT - 140 - 49); //5 margin
+	view.frame = CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kTabBarH); //5 margin
 	return nil;
 }
 
@@ -159,14 +150,14 @@
 			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
 			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
 			if (result_status_ready.count == 0) {
-				noticeNews.text = @"暂时没有待处理的日程";
-				noticeNews.textColor = [Tools garyColor];
-				noticeNews.userInteractionEnabled = NO;
+//				noticeNews.text = @"暂时没有待处理的日程";
+//				noticeNews.textColor = [Tools garyColor];
+//				noticeNews.userInteractionEnabled = NO;
 			} else {
 				
-				noticeNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
-				noticeNews.textColor = [Tools themeColor];
-				noticeNews.userInteractionEnabled = YES;
+//				noticeNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+//				noticeNews.textColor = [Tools themeColor];
+//				noticeNews.userInteractionEnabled = YES;
 			}
 			
 			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
@@ -242,6 +233,40 @@
 }
 
 - (id)rightBtnSelected {
+	
+	return nil;
+}
+
+- (id)showLeastOneAppli {
+	
+	return nil;
+}
+
+- (id)showMoreAppli {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"MoreAppli");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+	return nil;
+}
+
+- (id)showHistoryAppli {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServantHistory");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+	return nil;
+}
+
+- (id)showRemindMessage {
 	
 	return nil;
 }

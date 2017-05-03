@@ -1,27 +1,33 @@
 //
-//  AYServantHistoryCellView.m
+//  AYTodoApplyCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 13/1/17.
+//  Created by Alfred Yang on 3/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServantHistoryCellView.h"
+#import "AYTodoApplyCellView.h"
 #import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
-#import "AYFactoryManager.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYRemoteCallCommand.h"
 
-@implementation AYServantHistoryCellView {
+@implementation AYTodoApplyCellView {
+	
+	UIView *remindView;
 	
 	UIImageView *userPhotoView;
 	UILabel *userNameLabel;
 	UILabel *serviceTitleLabel;
-	UILabel *statesLabel;
+	
 }
+
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -31,13 +37,13 @@
 		
 		CGFloat imageWidth = 45.f;
 		CGFloat margin = 10.f;
-//		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
 		userPhotoView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"default_user")];
 		[Tools setViewBorder:userPhotoView withRadius:imageWidth * 0.5 andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
 		[self addSubview:userPhotoView];
 		[userPhotoView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(self).offset(-10);
+			make.centerY.equalTo(self);
 			make.left.equalTo(self).offset(20);
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
@@ -63,21 +69,6 @@
 			make.left.equalTo(userNameLabel);
 		}];
 		
-		statesLabel = [Tools creatUILabelWithText:@"申请状态" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:statesLabel];
-		[statesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(serviceTitleLabel.mas_bottom).offset(3);
-			make.left.equalTo(userNameLabel);
-		}];
-		
-		UIView *lineView = [UIView new];
-		lineView.backgroundColor = [Tools garyLineColor];
-		[self addSubview:lineView];
-		[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - margin * 2, 0.5));
-		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -86,18 +77,9 @@
 	return self;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
-
-@synthesize para = _para;
-@synthesize controller = _controller;
-@synthesize commands = _commands;
-@synthesize notifies = _notiyies;
-
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"ServantHistoryCell", @"ServantHistoryCell");
+	id<AYViewBase> cell = VIEW(@"TodoApplyCell", @"TodoApplyCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -143,30 +125,8 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-#pragma mark -- actions
-
-
-#pragma mark -- messages
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSDictionary*)args {
 	
-//	NSDictionary *order_info = (NSDictionary*)args;
-//	
-//	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
-//	if (photo_name) {
-//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//		NSString *pre = cmd.route;
-//		[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-//					 placeholderImage:IMGRESOURCE(@"default_user")];
-//	}
-//	
-//	NSString *titleStr = [NSString stringWithFormat:@"%@ · %@", [order_info objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
-//	if (titleStr && ![titleStr isEqualToString:@""]) {
-//		serviceTitleLabel.text = titleStr;
-//	}
-//	
-//	statesLabel.textColor = [Tools garyColor];
-//	statesLabel.text = @"待处理";
 	
 	return nil;
 }

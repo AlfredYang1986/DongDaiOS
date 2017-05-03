@@ -1,12 +1,12 @@
 //
-//  AYServantHistoryController.m
+//  AYMoreAppliController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 13/1/17.
+//  Created by Alfred Yang on 3/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServantHistoryController.h"
+#import "AYMoreAppliController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -17,7 +17,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-@implementation AYServantHistoryController {
+@implementation AYMoreAppliController {
 	
 	NSArray *order_past;
 }
@@ -39,14 +39,14 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"ServantHistory"];
+	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"MoreAppli"];
 	id obj = (id)delegate;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServantHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 	id tmp = [order_past copy];
@@ -72,8 +72,8 @@
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	view.backgroundColor = [UIColor clearColor];
-//		NSString *title = @"历史记录";
-//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	//		NSString *title = @"历史记录";
+	//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)

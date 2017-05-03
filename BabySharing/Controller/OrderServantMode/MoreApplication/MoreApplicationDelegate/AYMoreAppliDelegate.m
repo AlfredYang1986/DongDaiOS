@@ -1,12 +1,12 @@
 //
-//  AYServantHistoryDelegate.m
+//  AYMoreAppliDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 13/1/17.
+//  Created by Alfred Yang on 3/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServantHistoryDelegate.h"
+#import "AYMoreAppliDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -16,9 +16,9 @@
 
 #define headViewHeight		50
 
-@implementation AYServantHistoryDelegate {
+@implementation AYMoreAppliDelegate {
 	NSArray *querydata;
-	
+	NSArray *sectionTitleArr;
 }
 
 @synthesize para = _para;
@@ -28,7 +28,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	
+	sectionTitleArr = @[@"待处理", @"订单反馈"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -54,18 +54,22 @@
 }
 
 #pragma mark -- table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return querydata.count;
-	return 5;
+	//	return querydata.count;
+	return 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServantHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-//	id tmp = [querydata objectAtIndex:indexPath.row];
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	//	id tmp = [querydata objectAtIndex:indexPath.row];
+	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -73,13 +77,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 120.f;
+	return 110.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
 	headView.backgroundColor = [Tools whiteColor];
-	NSString *titleStr = @"历史记录";
+	NSString *titleStr = [sectionTitleArr objectAtIndex:section];
 	
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
@@ -94,21 +98,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
-		
-		return headViewHeight;
-		
-	} else {
-		return 50.f;
-	}
+	
+	return headViewHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) {
-		
-	} else {
-		
-	}
+	
 }
 
 @end
