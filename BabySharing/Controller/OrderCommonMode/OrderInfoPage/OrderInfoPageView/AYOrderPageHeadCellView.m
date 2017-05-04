@@ -22,8 +22,8 @@
 	UILabel *titleLabel;
 	UILabel *orderNoLabel;
 	UILabel *addressLabel;
-	UILabel *sumPriceLabel;
-	UILabel *unitPriceLabel;
+//	UILabel *sumPriceLabel;
+//	UILabel *unitPriceLabel;
 	
 	NSDictionary *service_info;
 	
@@ -69,42 +69,42 @@
 		
 		/*******************************/
 		
-		unitPriceLabel = [Tools creatUILabelWithText:@"$100 * 1 Uint" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:unitPriceLabel];
-		[unitPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self.mas_bottom).offset(-15);
-		}];
+//		unitPriceLabel = [Tools creatUILabelWithText:@"$100 * 1 Uint" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		[self addSubview:unitPriceLabel];
+//		[unitPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.right.equalTo(self).offset(-15);
+//			make.bottom.equalTo(self.mas_bottom).offset(-15);
+//		}];
+//		
+//		sumPriceLabel = [Tools creatUILabelWithText:@"$100" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		[self addSubview:sumPriceLabel];
+//		[sumPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.right.equalTo(unitPriceLabel);
+//			make.bottom.equalTo(unitPriceLabel.mas_top).offset(-10);
+//		}];
+//		
+//		UILabel *priceTitle = [Tools creatUILabelWithText:@"价格" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		[self addSubview:priceTitle];
+//		[priceTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(titleLabel);
+//			make.centerY.equalTo(sumPriceLabel);
+//		}];
 		
-		sumPriceLabel = [Tools creatUILabelWithText:@"$100" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:sumPriceLabel];
-		[sumPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(unitPriceLabel);
-			make.bottom.equalTo(unitPriceLabel.mas_top).offset(-10);
-		}];
-		
-		UILabel *priceTitle = [Tools creatUILabelWithText:@"价格" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:priceTitle];
-		[priceTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(titleLabel);
-			make.centerY.equalTo(sumPriceLabel);
-		}];
-		
-		UIView *line_b_address_price = [[UIView alloc]init];
-		line_b_address_price.backgroundColor = [Tools garyLineColor];
-		[self addSubview:line_b_address_price];
-		[line_b_address_price mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-20);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
-		}];
+//		UIView *line_b_address_price = [[UIView alloc]init];
+//		line_b_address_price.backgroundColor = [Tools garyLineColor];
+//		[self addSubview:line_b_address_price];
+//		[line_b_address_price mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-20);
+//			make.centerX.equalTo(self);
+//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+//		}];
 		
 		UIImageView *positionImage = [[UIImageView alloc]init];
 		[self addSubview:positionImage];
 		positionImage.image = IMGRESOURCE(@"location_icon");
 		[positionImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel).offset(0);
-			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-40);
+			make.centerY.equalTo(self.mas_bottom).offset(-30);
 			make.size.mas_equalTo(CGSizeMake(13, 13));
 		}];
 		
@@ -270,21 +270,14 @@
 	orderID = [orderID uppercaseString];
 	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	
-	NSNumber *price = [order_info objectForKey:kAYOrderArgsTotalFee];
-	NSString *priceStr = [NSString stringWithFormat:@"¥ %@", price];
-	
-	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(2, priceStr.length - 2)];
-	sumPriceLabel.attributedText = attributedText;
-	unitPriceLabel.text = [NSString stringWithFormat:@"¥100／%@*%@", unitCat, leastTimesOrHours];
-	
 	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
 	NSString *stringPre = @"中国北京市";
 	if ([addressStr hasPrefix:stringPre]) {
 		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
 	}
-	addressLabel.text = addressStr;
+	if (addressStr && ![addressStr isEqualToString:@""]) {
+		addressLabel.text = addressStr;
+	}
 	
 	id order_date = [order_info objectForKey:@"order_date"];
 	if ( [order_date isKindOfClass:[NSArray class]]) {

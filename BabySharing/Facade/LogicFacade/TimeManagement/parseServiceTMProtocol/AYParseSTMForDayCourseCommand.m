@@ -20,7 +20,7 @@
 	
 	NSDictionary* dic_parse = (NSDictionary*)*obj;
 	NSArray* tms = [dic_parse objectForKey:kAYServiceArgsTimes];
-	NSNumber *timeHandle = [dic_parse objectForKey:kAYServiceArgsTPHandle];
+//	NSNumber *timeHandle = [dic_parse objectForKey:kAYServiceArgsTPHandle];
 	
 	NSMutableArray *result = [NSMutableArray array];
 	

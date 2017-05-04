@@ -59,68 +59,90 @@
 }
 
 #pragma mark -- table
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//	return 2;
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return querydata.count;
+//	return querydata.count;
+	return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 //	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	((UITableViewCell*)cell).clipsToBounds = YES;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 160.f;
-//	return 90.f;
+//	if (indexPath.section == 0) {
+//		return 100.f;
+//	} else
+		return 120.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	UIView *headView = [[UIView alloc]init];
+	UIView *headView = [[UIView alloc] init];
 	headView.backgroundColor = [Tools whiteColor];
-	NSString *titleStr = @"所有日程";
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	
+	NSString *titleStr = @"日程";
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(headView).offset(0);
+		make.centerY.equalTo(headView);
 		make.left.equalTo(headView).offset(20);
 	}];
 	
-//	CALayer *dotLayer = [CALayer layer];
-//	dotLayer.cornerRadius = 7.5f;
-//	dotLayer.bounds = CGRectMake(0, 0, 15, 15);
-//	dotLayer.position = CGPointMake(85, 70-7.5);
-//	dotLayer.backgroundColor = [Tools lightGreyColor].CGColor;
-//	[headView.layer addSublayer:dotLayer];
+//	if (section == 0) {
+//		UILabel *countlabel = [Tools creatUILabelWithText:@"9+" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[UIColor redColor] andTextAlignment:NSTextAlignmentCenter];
+//		[Tools setViewBorder:countlabel withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//		[headView addSubview:countlabel];
+//		[countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(titleLabel.mas_right).offset(5);
+//			make.top.equalTo(titleLabel).offset(-2);
+//			make.size.mas_equalTo(CGSizeMake(20, 20));
+//		}];
+//	} else {
+//		titleLabel.text = @"日程";
+//	}
+//	
+//	CGFloat margin = 10.f;
+//	[Tools creatCALayerWithFrame:CGRectMake(margin, 54.5f, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
+	
+//	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+//	[headView addSubview:readMoreBtn];
+//	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.right.equalTo(headView).offset(-20);
+//		make.centerY.equalTo(headView);
+//		make.size.mas_equalTo(CGSizeMake(70, 30));
+//	}];
+//	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 70.f;
+	
+	return 55.f;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_push = PUSH;
-	[cmd_push performWithResult:&dic];
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+//	if (indexPath.section == 0) {
+//		return YES;
+//	} else
+		return NO;
 }
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//	kAYDelegateSendNotify(self, @"showAppliFeedback", nil)
+//}
 
 @end

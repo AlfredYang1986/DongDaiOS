@@ -16,10 +16,14 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
+#import "AYAppliFBTopView.h"
+
+#define TOPHEIGHT		165
 
 @implementation AYOrderCommonController {
 	
-	UILabel *leastNews;
+//	UILabel *leastNews;
+	AYAppliFBTopView *TOPView;
 	
 	NSArray *result_status_ready;
 	NSArray *result_status_confirm;
@@ -51,42 +55,45 @@
 	[self.view bringSubviewToFront:tableView];
 	/****************************************/
 	
-	UIView *newsBoardView = [[UIView alloc]init];
-	newsBoardView.backgroundColor = [Tools whiteColor];
-	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
-	newsBoardView.layer.shadowOffset = CGSizeMake(0, 0);
-	newsBoardView.layer.shadowOpacity = 0.5f;
-	[self.view addSubview:newsBoardView];
-	[newsBoardView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.view);
-		make.top.equalTo(self.view).offset(30);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
-	}];
-	
-	UILabel *title = [Tools creatUILabelWithText:@"最近提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[newsBoardView addSubview:title];
-	[title mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(newsBoardView).offset(15);
-		make.top.equalTo(newsBoardView).offset(20);
-	}];
-	
-//	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部动态" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
-//	[newsBoardView addSubview:allNewsBtn];
-//	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.centerY.equalTo(title);
-//		make.right.equalTo(newsBoardView).offset(-15);
-//		make.size.mas_equalTo(CGSizeMake(70, 30));
+//	UIView *newsBoardView = [[UIView alloc]init];
+//	newsBoardView.backgroundColor = [Tools whiteColor];
+//	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
+//	newsBoardView.layer.shadowOffset = CGSizeMake(0, 0);
+//	newsBoardView.layer.shadowOpacity = 0.5f;
+//	[self.view addSubview:newsBoardView];
+//	[newsBoardView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.centerX.equalTo(self.view);
+//		make.top.equalTo(self.view).offset(30);
+//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
 //	}];
-//	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//	
+//	UILabel *title = [Tools creatUILabelWithText:@"最近提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//	[newsBoardView addSubview:title];
+//	[title mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(newsBoardView).offset(15);
+//		make.top.equalTo(newsBoardView).offset(20);
+//	}];
+//	
+//	leastNews = [Tools creatUILabelWithText:@"暂时没有新的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//	[newsBoardView addSubview:leastNews];
+//	[leastNews mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(title);
+//		make.top.equalTo(title.mas_bottom).offset(18);
+//	}];
+//	leastNews.userInteractionEnabled = YES;
+//	[leastNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didLeastNewsTap)]];
 	
-	leastNews = [Tools creatUILabelWithText:@"暂时没有新的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[newsBoardView addSubview:leastNews];
-	[leastNews mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(title);
-		make.top.equalTo(title.mas_bottom).offset(18);
+	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+	[self.view addSubview:allNewsBtn];
+	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(self.view.mas_top).offset(42);
+		make.right.equalTo(self.view).offset(-20);
+		make.size.mas_equalTo(CGSizeMake(70, 30));
 	}];
-	leastNews.userInteractionEnabled = YES;
-	[leastNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didLeastNewsTap)]];
+	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	
+	TOPView = [[AYAppliFBTopView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT)];
+	[self.view addSubview:TOPView];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
 	id obj = (id)delegate;
@@ -99,7 +106,7 @@
 	[self loadNewData];
 	
 //	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 }
@@ -135,12 +142,12 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 140, SCREEN_WIDTH, SCREEN_HEIGHT - 140 - 49);
+	view.frame = CGRectMake(0, kStatusAndNavBarH+TOPHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH-TOPHEIGHT);
 	return nil;
 }
 
 #pragma mark -- actions
-- (void)didLeastNewsTap {
+- (id)showAppliFeedback {
 	id<AYCommand> des;
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
@@ -150,7 +157,7 @@
 //		des = DEFAULTCONTROLLER(@"OrderListNews");
 //		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
 	} else {
-		des = DEFAULTCONTROLLER(@"OrderListNews");
+		des = DEFAULTCONTROLLER(@"AppliFBList");
 		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
 	}
 	
@@ -160,20 +167,22 @@
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
+	return nil;
 }
 
 - (void)didAllNewsBtnClick:(UIButton*)btn {
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderListNews");
+	des = DEFAULTCONTROLLER(@"AppliFBList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:result_status_ready forKey:@"wait"];
-	[tmp setValue:result_status_confirm forKey:@"confirm"];
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+//	[tmp setValue:result_status_ready forKey:@"wait"];
+//	[tmp setValue:result_status_confirm forKey:@"confirm"];
+//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
@@ -215,14 +224,14 @@
 			result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
 			
 			if (result_status_ready.count == 0) {
-				leastNews.text = @"暂时没有待处理的日程";
-				leastNews.textColor = [Tools garyColor];
-				leastNews.userInteractionEnabled = NO;
+//				leastNews.text = @"暂时没有待处理的日程";
+//				leastNews.textColor = [Tools garyColor];
+//				leastNews.userInteractionEnabled = NO;
 			} else {
 				
-				leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
-				leastNews.textColor = [Tools themeColor];
-				leastNews.userInteractionEnabled = YES;
+//				leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+//				leastNews.textColor = [Tools themeColor];
+//				leastNews.userInteractionEnabled = YES;
 			}
 			
 			id tmp = [result_status_confirm copy];

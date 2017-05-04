@@ -758,6 +758,9 @@
 	<view type="OrderPageHeadCell" name="OrderPageHeadCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
+	<view type="OPPriceCell" name="OPPriceCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	<view type="OrderPageContactCell" name="OrderPageContactCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="didContactBtnClick" />
@@ -915,6 +918,10 @@
 	   <command type="message"      message="setCellInfo:" />
    </view>
    <view type="DayRemindCell" name="DayRemindCell" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+   </view>
+   
+   <view type="AppliFBCell" name="AppliFBCell" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
    </view>
    

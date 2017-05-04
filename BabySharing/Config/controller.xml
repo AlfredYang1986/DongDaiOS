@@ -988,10 +988,15 @@
 		<delegate type="TableViewDelegateAndDatasource" name="OrderCommon" />
 	</controller>
 	
-	<controller type="DefaultController" name="OrderListNews" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade" name="FileRemote" notification="true" />
-		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+	<controller type="DefaultController" name="AppliFBList" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+				<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table" name="Table" />
 		
+		<delegate type="TableViewDelegateAndDatasource" name="AppliFBList" />
+	</controller>
+	
+	<controller type="DefaultController" name="OrderListNews" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Table" name="Table" />

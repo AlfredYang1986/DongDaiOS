@@ -16,7 +16,8 @@
 - (instancetype)init {
 	if (self = [super init]) {
 		self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, 85);
-		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		CGFloat margin = 10.f;
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
 		dateLabel =  [Tools creatUILabelWithText:@"Service Date" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:dateLabel];

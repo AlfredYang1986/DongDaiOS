@@ -52,7 +52,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 2;
+	return 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -65,11 +65,12 @@
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
 	} else if (indexPath.row == 1) {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OPPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
 	} else {
-		return nil;
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	}
 	
 	id tmp = [querydata copy];
@@ -84,11 +85,15 @@
 	if (indexPath.row == 0) {
 		id tmp = [querydata objectForKey:@"order_date"];
 		if ( [tmp isKindOfClass:[NSDictionary class]]) {
-			return 120 + 90 + 20 + 85;
+			return 120 /*+ 90*/ + 20 + 85;
 		} else /*if ( [tmp isKindOfClass:[NSArray class]]) */{
-			return 120 + 90 + 20 + 85 * ((NSArray*)tmp).count;
+			return 120 /*+ 90*/ + 20 + 85 * (((NSArray*)tmp).count == 0 ? 1 : ((NSArray*)tmp).count);
 		}
-	} else {
+	}
+	else if (indexPath.row == 1) {
+		return 90.f;
+	}
+	else {
 		return 110.f;
 	}
 }

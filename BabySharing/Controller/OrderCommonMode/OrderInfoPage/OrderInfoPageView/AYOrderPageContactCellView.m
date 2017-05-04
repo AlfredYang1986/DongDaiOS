@@ -36,7 +36,7 @@
 		titleLabel = [Tools creatUILabelWithText:@"联系人" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(10);
+			make.left.equalTo(self).offset(15);
 			make.top.equalTo(self).offset(15);
 		}];
 		
@@ -57,7 +57,7 @@
 		photoIcon.userInteractionEnabled = YES;
 		[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userPhotoTap)]];
 		
-		nameLabel = [Tools creatUILabelWithText:@"服务者姓名" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		nameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:nameLabel];
 		[nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(photoIcon.mas_right).offset(15);
@@ -79,10 +79,6 @@
 		}
 	}
 	return self;
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
 }
 
 @synthesize para = _para;
@@ -168,19 +164,19 @@
 	
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
+	NSString *PRE = cmd.route;
 	
 	if ([user_id isEqualToString:servant_owner_id]) {     //我发的服务 : -> 要看发单人的头像
 		
 		ones_id = order_user_id;
 		nameLabel.text = [args objectForKey:@"screen_name"];
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[args objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [args objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
 		
 	} else {
 		
 		ones_id = servant_owner_id;
 		nameLabel.text = [[args objectForKey:@"service"] objectForKey:@"screen_name"];
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:[[args objectForKey:@"service"] objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [[args objectForKey:@"service"] objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
 		
 	}
 	

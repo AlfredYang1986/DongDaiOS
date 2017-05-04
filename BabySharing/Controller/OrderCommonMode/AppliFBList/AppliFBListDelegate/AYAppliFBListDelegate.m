@@ -1,25 +1,23 @@
 //
-//  AYMoreAppliDelegate.m
+//  AYAppliFBListDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 3/5/17.
+//  Created by Alfred Yang on 4/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYMoreAppliDelegate.h"
+#import "AYAppliFBListDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
 
-#define headViewHeight		50
 
-@implementation AYMoreAppliDelegate {
+@implementation AYAppliFBListDelegate {
 	NSArray *querydata;
-	NSArray *sectionTitleArr;
+	
 }
 
 @synthesize para = _para;
@@ -29,7 +27,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	sectionTitleArr = @[@"待处理", @"订单反馈"];
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -55,18 +53,14 @@
 }
 
 #pragma mark -- table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	//	return querydata.count;
-	return 3;
+	return 5;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
 	//	id tmp = [querydata objectAtIndex:indexPath.row];
@@ -78,31 +72,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 110.f;
+	return 100.f;
 }
 
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-	UIView *headView = [[UIView alloc]init];
-	headView.backgroundColor = [Tools whiteColor];
-	NSString *titleStr = [sectionTitleArr objectAtIndex:section];
-	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[headView addSubview:titleLabel];
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(headView);
-		make.left.equalTo(headView).offset(20);
-	}];
-	
-	[Tools creatCALayerWithFrame:CGRectMake(10, headViewHeight - 0.5, SCREEN_WIDTH - 10*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
-	
-	return headView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	
-	return headViewHeight;
-}
-
+#import "AYControllerActionDefines.h"
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
@@ -110,10 +83,10 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-
-//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-
+	
+	//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
 }

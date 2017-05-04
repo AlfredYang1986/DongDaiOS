@@ -68,6 +68,11 @@
 		700693301CC4DD0600B511FF /* AYQueryRealPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7006932F1CC4DD0600B511FF /* AYQueryRealPhotoCommand.m */; };
 		700693331CC4E80A00B511FF /* AYAlbumBaseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 700693321CC4E80A00B511FF /* AYAlbumBaseDelegate.m */; };
 		700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700693351CC4F78E00B511FF /* AYReversModuleCommand.m */; };
+		7009CAD81EBACDEC00088A1D /* AYOPPriceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7009CAD71EBACDEC00088A1D /* AYOPPriceCellView.m */; };
+		7009CADB1EBB02F100088A1D /* AYAppliFBCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7009CADA1EBB02F100088A1D /* AYAppliFBCellView.m */; };
+		7009CAE41EBB17D900088A1D /* AYAppliFBListDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7009CAE31EBB17D900088A1D /* AYAppliFBListDelegate.m */; };
+		7009CAE71EBB183400088A1D /* AYAppliFBListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7009CAE61EBB183400088A1D /* AYAppliFBListController.m */; };
+		7009CAEA1EBB33A000088A1D /* AYAppliFBTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7009CAE91EBB33A000088A1D /* AYAppliFBTopView.m */; };
 		700B08391E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700B08381E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m */; };
 		700B8C651D58749100DD1D06 /* AYCreateEMChatCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 700B8C641D58749100DD1D06 /* AYCreateEMChatCommand.m */; };
 		700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */ = {isa = PBXBuildFile; fileRef = 700BE5991CBA1B4E00A09B3A /* delegate.xml */; };
@@ -873,6 +878,16 @@
 		700693321CC4E80A00B511FF /* AYAlbumBaseDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlbumBaseDelegate.m; sourceTree = "<group>"; };
 		700693341CC4F78E00B511FF /* AYReversModuleCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReversModuleCommand.h; sourceTree = "<group>"; };
 		700693351CC4F78E00B511FF /* AYReversModuleCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReversModuleCommand.m; sourceTree = "<group>"; };
+		7009CAD61EBACDEC00088A1D /* AYOPPriceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOPPriceCellView.h; sourceTree = "<group>"; };
+		7009CAD71EBACDEC00088A1D /* AYOPPriceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOPPriceCellView.m; sourceTree = "<group>"; };
+		7009CAD91EBB02F100088A1D /* AYAppliFBCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppliFBCellView.h; sourceTree = "<group>"; };
+		7009CADA1EBB02F100088A1D /* AYAppliFBCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppliFBCellView.m; sourceTree = "<group>"; };
+		7009CAE21EBB17D900088A1D /* AYAppliFBListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppliFBListDelegate.h; sourceTree = "<group>"; };
+		7009CAE31EBB17D900088A1D /* AYAppliFBListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppliFBListDelegate.m; sourceTree = "<group>"; };
+		7009CAE51EBB183400088A1D /* AYAppliFBListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppliFBListController.h; sourceTree = "<group>"; };
+		7009CAE61EBB183400088A1D /* AYAppliFBListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppliFBListController.m; sourceTree = "<group>"; };
+		7009CAE81EBB33A000088A1D /* AYAppliFBTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppliFBTopView.h; sourceTree = "<group>"; };
+		7009CAE91EBB33A000088A1D /* AYAppliFBTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAppliFBTopView.m; sourceTree = "<group>"; };
 		700AC18B1DF134FB00F42242 /* AYServiceArgsDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceArgsDefines.h; sourceTree = "<group>"; };
 		700B08371E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYParseServiceTMNurseCommand.h; sourceTree = "<group>"; };
 		700B08381E6FFEB7000BCA25 /* AYParseServiceTMNurseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYParseServiceTMNurseCommand.m; sourceTree = "<group>"; };
@@ -2773,6 +2788,33 @@
 				7006932F1CC4DD0600B511FF /* AYQueryRealPhotoCommand.m */,
 			);
 			path = QueryRealPhoto;
+			sourceTree = "<group>";
+		};
+		7009CADC1EBB177C00088A1D /* AppliFBList */ = {
+			isa = PBXGroup;
+			children = (
+				7009CADD1EBB177C00088A1D /* AppliFBListDelegate */,
+				7009CADE1EBB177C00088A1D /* AppliFBListView */,
+				7009CAE51EBB183400088A1D /* AYAppliFBListController.h */,
+				7009CAE61EBB183400088A1D /* AYAppliFBListController.m */,
+			);
+			path = AppliFBList;
+			sourceTree = "<group>";
+		};
+		7009CADD1EBB177C00088A1D /* AppliFBListDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7009CAE21EBB17D900088A1D /* AYAppliFBListDelegate.h */,
+				7009CAE31EBB17D900088A1D /* AYAppliFBListDelegate.m */,
+			);
+			path = AppliFBListDelegate;
+			sourceTree = "<group>";
+		};
+		7009CADE1EBB177C00088A1D /* AppliFBListView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AppliFBListView;
 			sourceTree = "<group>";
 		};
 		700B8C621D58749100DD1D06 /* CreateEMChat */ = {
@@ -7472,6 +7514,8 @@
 			children = (
 				70F967941E28FD4100B3805B /* AYOrderPageHeadCellView.h */,
 				70F967951E28FD4100B3805B /* AYOrderPageHeadCellView.m */,
+				7009CAD61EBACDEC00088A1D /* AYOPPriceCellView.h */,
+				7009CAD71EBACDEC00088A1D /* AYOPPriceCellView.m */,
 				700CFAB81E2C6EFE00B48821 /* AYOrderPageContactCellView.h */,
 				700CFAB91E2C6EFE00B48821 /* AYOrderPageContactCellView.m */,
 				704BE78E1E2E0F660009A1C3 /* AYOrderPageTimeView.h */,
@@ -7607,6 +7651,7 @@
 		70FE1C6F1E24D10200050FF0 /* OrderCommonMode */ = {
 			isa = PBXGroup;
 			children = (
+				7009CADC1EBB177C00088A1D /* AppliFBList */,
 				70F9678D1E28FD4100B3805B /* OrderInfoPage */,
 				7029FD711E261C8900B2FF22 /* OrderListNews */,
 				70FE1C701E24D10200050FF0 /* OrderCommon */,
@@ -7639,6 +7684,10 @@
 			children = (
 				70FE1C791E24DBBB00050FF0 /* AYOrderNewsreelCellView.h */,
 				70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */,
+				7009CAD91EBB02F100088A1D /* AYAppliFBCellView.h */,
+				7009CADA1EBB02F100088A1D /* AYAppliFBCellView.m */,
+				7009CAE81EBB33A000088A1D /* AYAppliFBTopView.h */,
+				7009CAE91EBB33A000088A1D /* AYAppliFBTopView.m */,
 			);
 			path = OrderCommonView;
 			sourceTree = "<group>";
@@ -8481,6 +8530,7 @@
 				703B4D001DCC8BF700B1088C /* AYServiceCalendarCellView.m in Sources */,
 				700047611D9BDF98000AE1C9 /* AYRejectRealNameCommand.m in Sources */,
 				70A1A5611D1D4A860063FC7F /* AYJoinEMGroupCommand.m in Sources */,
+				7009CAEA1EBB33A000088A1D /* AYAppliFBTopView.m in Sources */,
 				80198C3A1E5470FA00149F97 /* AYTimemanagementFacade.m in Sources */,
 				700047491D9B9960000AE1C9 /* AYPersonalDescController.m in Sources */,
 				7002DB5C1CC6173F0013FF2A /* MoviePlayTrait.m in Sources */,
@@ -8546,6 +8596,7 @@
 				700BE5EA1CBA6E5800A09B3A /* AYLandingAuthConfirmCommand.m in Sources */,
 				701BB6051E0BC88D00319A54 /* AYPServsCellView.m in Sources */,
 				70B820981CAA5802001EEAF2 /* SGSheetMenu.m in Sources */,
+				7009CAE41EBB17D900088A1D /* AYAppliFBListDelegate.m in Sources */,
 				70C41EE51DBA122500C77B10 /* TZPhotoPreviewController.m in Sources */,
 				70B820B41CAA9BD5001EEAF2 /* AYViewNotifyCommand.m in Sources */,
 				80C829CE1CDD7248007B1077 /* AYThumbsUpBtnView.m in Sources */,
@@ -8863,6 +8914,7 @@
 				700BE5A71CBA496800A09B3A /* AYFactoryParaNode.m in Sources */,
 				70C41EDF1DBA122500C77B10 /* TZAssetModel.m in Sources */,
 				70231ADC1E3061150025E087 /* AYNapLocationController.m in Sources */,
+				7009CAD81EBACDEC00088A1D /* AYOPPriceCellView.m in Sources */,
 				705B4A3C1D644AD3006273E7 /* AYAllCollectServiceCommand.m in Sources */,
 				70360B5E1E57125A00D5332F /* AYEmailSendCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
@@ -8943,6 +8995,7 @@
 				70C41ECA1DBA122500C77B10 /* AYMainInfoController.m in Sources */,
 				704D48DC1DAE18AE00A69AF4 /* AYUserAgreeController.m in Sources */,
 				70CAEC4D1DED7E7D00542C1D /* AYSetServiceTypeController.m in Sources */,
+				7009CAE71EBB183400088A1D /* AYAppliFBListController.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
 				80C829C91CDD70A6007B1077 /* AYThumbsAndPushBtnBaseView.m in Sources */,
@@ -9076,6 +9129,7 @@
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,
 				70A27C0D1D0EFBE300B131AB /* AYPublishServiceCommand.m in Sources */,
 				70360B5F1E57125A00D5332F /* AYSMSSendCommand.m in Sources */,
+				7009CADB1EBB02F100088A1D /* AYAppliFBCellView.m in Sources */,
 				7000CD2B1D7E8A5200DA98F2 /* UIScrollView+MJExtension.m in Sources */,
 				707FC5011CD8A65F00C0BC37 /* AYShareWithWeiboCommand.m in Sources */,
 				704D48E11DAE33B100A69AF4 /* AYAlertFacade.m in Sources */,

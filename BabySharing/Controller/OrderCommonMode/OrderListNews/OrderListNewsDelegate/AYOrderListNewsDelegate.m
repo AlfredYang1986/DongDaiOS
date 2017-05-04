@@ -106,14 +106,12 @@
 		
 		cell.controller = self.controller;
 		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-		((UITableViewCell*)cell).clipsToBounds = YES;
 		return (UITableViewCell*)cell;
 	}
 	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
 	return 160.f;
 }
 
@@ -135,7 +133,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
 	
-	return 50.f;
+	return 55.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
