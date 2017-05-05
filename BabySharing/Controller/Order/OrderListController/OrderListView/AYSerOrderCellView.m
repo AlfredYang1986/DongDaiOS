@@ -219,13 +219,6 @@
             countTimeOrStatesLabel.text = @"已完成";
         }
             break;
-        case OrderStatusUnpaid:
-        {
-            signIsReaden.hidden = YES;
-            countTimeOrStatesLabel.hidden = NO;
-            countTimeOrStatesLabel.text = @"未支付";
-        }
-            break;
         case OrderStatusReject:
         {
             signIsReaden.hidden = YES;

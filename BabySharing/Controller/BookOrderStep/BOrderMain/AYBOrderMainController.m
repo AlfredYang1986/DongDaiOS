@@ -29,7 +29,7 @@
 	
 	int edit_note;
 	NSString* order_id;
-	UIView *payOptionSignView;
+//	UIView *payOptionSignView;
 }
 
 #pragma mark -- commands
@@ -89,14 +89,14 @@
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *aplyBtn = [Tools creatUIButtonWithTitle:@"提交订单预订" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
-    [self.view addSubview:aplyBtn];
-    [aplyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIButton *applyBtn = [Tools creatUIButtonWithTitle:@"提交预订申请" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
+    [self.view addSubview:applyBtn];
+    [applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 49));
     }];
-    [aplyBtn addTarget:self action:@selector(didAplyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [applyBtn addTarget:self action:@selector(didApplyBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -135,30 +135,7 @@
 }
 
 #pragma mark -- actions
-- (void)didAplyBtnClick:(UIButton*)btn {
-	
-	AYRemoteCallCommand *cmd_push;
-	CGFloat scaleUnit ;
-	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	
-	if (payOptionSignView.tag == PayWayOptionWechat) {
-//		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
-//		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
-//		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
-//		[cmd_login performWithResult:&IsInstalledWechat];
-//		if (!IsInstalledWechat.boolValue ) {
-//			NSString *title = @"未安装微信！";
-//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//			return;
-//		}
-		cmd_push = [facade.commands objectForKey:@"PushOrder"];
-		scaleUnit = 1.f;
-		
-	} else {
-		cmd_push = [facade.commands objectForKey:@"PushOrderAlipay"];
-		scaleUnit = 0.01f;
-	}
+- (void)didApplyBtnClick:(UIButton*)btn {
 	
 	CGFloat sumPrice = 0;
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
@@ -168,40 +145,36 @@
 		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 			NSNumber *start = [obj objectForKey:kAYServiceArgsStart];
 			NSNumber *end = [obj objectForKey:kAYServiceArgsEnd];
-			
 			double duration = end.doubleValue * 0.001 - start.doubleValue * 0.001 ;
 			count_times += (duration / 60 / 60);
 		}];
-		
-	} else if (service_cat.intValue == ServiceTypeCourse) {
+	}
+	else if (service_cat.intValue == ServiceTypeCourse) {
 		count_times = (int)order_times.count;
 	}
 	
 	NSNumber *unit_price = [service_info objectForKey:kAYServiceArgsPrice];
-	sumPrice += (unit_price.floatValue * count_times) * 100 * scaleUnit;
-	
-#ifdef SANDBOX
-	sumPrice = 1 * scaleUnit;
-#endif
+	sumPrice += (unit_price.floatValue * count_times) * 100;		// /元 -> /分
 	
 	NSDictionary* args = nil;
 	CURRENUSER(args)
 	
 	NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-	[dic_push setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-	[dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-	[dic_push setValue:[args objectForKey:@"user_id"] forKey:@"user_id"];
+	[dic_push setValue:[service_info objectForKey:kAYServiceArgsServiceID] forKey:kAYServiceArgsServiceID];
+	[dic_push setValue:[service_info objectForKey:kAYServiceArgsOwnerID] forKey:kAYServiceArgsOwnerID];
+	[dic_push setValue:[args objectForKey:kAYServiceArgsUserID] forKey:kAYServiceArgsUserID];
 	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
 	if (images.count != 0) {
-		[dic_push setValue:[images firstObject] forKey:@"order_thumbs"];
+		[dic_push setValue:[images firstObject] forKey:kAYOrderArgsThumbs];
 	}
-	[dic_push setValue:[order_times copy] forKey:@"order_date"];
-	[dic_push setValue:[service_info objectForKey:@"title"] forKey:@"order_title"];
-	[dic_push setValue:[NSNumber numberWithFloat:sumPrice] forKey:@"total_fee"];
+	[dic_push setValue:[order_times copy] forKey:kAYOrderArgsDate];
+	[dic_push setValue:[service_info objectForKey:kAYServiceArgsTitle] forKey:kAYOrderArgsTitle];
+	[dic_push setValue:[NSNumber numberWithInt:sumPrice] forKey:kAYOrderArgsTotalFee];
 	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
 	[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			
 			
 			id<AYCommand> des = DEFAULTCONTROLLER(@"BOApplyBack");
 			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -212,38 +185,9 @@
 			id<AYCommand> cmd_push = PUSH;
 			[cmd_push performWithResult:&dic];
 			
-//			order_id = [result objectForKey:@"order_id"];
-//			
-//			// 支付
-//			switch (payOptionSignView.tag) {
-//				case PayWayOptionWechat:
-//				{
-//					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
-//					AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
-//					
-//					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-//					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-//					[cmd performWithResult:&pay];
-//				}
-//					break;
-//				case PayWayOptionAlipay:
-//				{
-//                    id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
-//                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
-//					
-//                    NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-////                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-//                    [cmd performWithResult:&pay];
-//				}
-//					break;
-//				default:
-//					break;
-//			}
-			
-			
 		} else {
 			
-			NSString *title = @"服务预订失败\n请改善网络环境并重试";
+			NSString *title = @"预订申请失败\n请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
@@ -352,82 +296,5 @@
     return nil;
 }
 
-- (id)WechatPaySuccess:(id)args {
-	
-	NSDictionary* user = nil;
-	CURRENUSER(user)
-	
-	// 支付成功
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
-	
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:order_id forKey:@"order_id"];
-	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-	
-	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			NSString *title = @"服务预订成功! 去日程查看?";
-			//            [self popToRootVCWithTip:title];
-			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
-			
-		} else {
-			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-	}];
-	return nil;
-}
-
-- (id)WechatPayFailed:(id)args {
-	int err_code = ((NSNumber*)[args objectForKey:@"err_code"]).intValue;
-	if (err_code == -2) {
-//		NSString *title = @"您已取消本次支付支付";
-//		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-	} else {
-		NSString *title = @"支付失败\n请改善网络环境并重试";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-	}
-	return nil;
-}
-
-- (id)AlipaySuccess:(id)args {
-	NSLog(@"pay success");
-	
-	NSDictionary* user = nil;
-	CURRENUSER(user)
-	
-	// 支付成功
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
-	
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:order_id forKey:@"order_id"];
-	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-	
-	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			NSString *title = @"服务预订成功,去日程查看";
-			//            [self popToRootVCWithTip:title];
-			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
-			
-		} else {
-			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-	}];
-    return nil;
-}
-
-- (id)AlipayFailed:(id)args {
-	NSLog(@"pay failed");
-	NSString *title = @"支付失败\n请改善网络环境并重试";
-	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-    return nil;
-}
 
 @end

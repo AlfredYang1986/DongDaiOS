@@ -22,6 +22,9 @@
 	NSArray *order_info;
 	NSArray *result_status_ready;
 	NSArray *order_past;
+	
+	NSTimeInterval queryTimespan;
+	NSInteger skipCount;
 }
 
 #pragma mark -- commands
@@ -39,7 +42,7 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
+	skipCount = 0;
 //	UIView *newsBoardView = [[UIView alloc]init];
 //	newsBoardView.backgroundColor = [Tools whiteColor];
 //	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
@@ -78,7 +81,7 @@
 	/****************************************/
 	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryEnterCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"DayRemindCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
@@ -103,13 +106,12 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [UIColor clearColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [UIColor clearColor];
+	
 	//	NSString *title = @"确认信息";
 	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
@@ -119,9 +121,7 @@
 //	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	
-	//	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
-	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
@@ -136,19 +136,23 @@
 	CURRENUSER(info)
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOwnOrders"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
+	
 	NSMutableDictionary *dic_query = [info mutableCopy];
+	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
 	
-	NSMutableDictionary *dic_conditon = [[NSMutableDictionary alloc]init];
-	[dic_conditon setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+	queryTimespan  = [NSDate date].timeIntervalSince1970;
+	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan*1000] forKey:@"date"];
+	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
+	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
 	
-	[dic_query setValue:[dic_conditon copy] forKey:@"condition"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			NSArray *resultArr = [result objectForKey:@"result"];
 			
-			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
+			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"states", OrderStatusPaid];
 			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
+			
 			if (result_status_ready.count == 0) {
 //				noticeNews.text = @"暂时没有待处理的日程";
 //				noticeNews.textColor = [Tools garyColor];
@@ -174,8 +178,9 @@
 			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_done, pred_reject, pred_confirm]];
 			order_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			
-		}else {
-			NSLog(@"query orders error: %@",result);
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_future = [self.views objectForKey:@"Table"];

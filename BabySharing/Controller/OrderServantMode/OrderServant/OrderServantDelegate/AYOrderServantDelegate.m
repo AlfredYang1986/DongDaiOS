@@ -72,12 +72,16 @@
 	if (indexPath.row == 0) {
 		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
 	} else if (indexPath.row == 1) {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryEnterCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	} else {
 		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"DayRemindCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+		
+		
 	}
 	
 	kAYViewSendMessage(cell, @"setCellInfo:", &args)

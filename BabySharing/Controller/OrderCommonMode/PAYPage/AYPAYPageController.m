@@ -19,7 +19,9 @@
 
 @implementation AYPAYPageController {
 	
-	NSArray *order_past;
+	NSString *order_id;
+	NSDictionary *service_info;
+	
 	UIView *payOptionSignView;
 }
 
@@ -28,7 +30,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
+//		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -91,7 +93,52 @@
 #pragma mark -- actions
 - (void)didConfirmPayBtnClick {
 	
+//#ifdef SANDBOX
+//	sumPrice = 1 * scaleUnit;
+//#endif
+	
+	
+	//		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+	//		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+	//		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+	//		[cmd_login performWithResult:&IsInstalledWechat];
+	//		if (!IsInstalledWechat.boolValue ) {
+	//			NSString *title = @"未安装微信！";
+	//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	//			return;
+	//		}
+	
+	
+	//			order_id = [result objectForKey:@"order_id"];
+	//
+	//			// 支付
+	//			switch (payOptionSignView.tag) {
+	//				case PayWayOptionWechat:
+	//				{
+	//					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+	//					AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
+	//
+	//					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+	//					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+	//					[cmd performWithResult:&pay];
+	//				}
+	//					break;
+	//				case PayWayOptionAlipay:
+	//				{
+	//                    id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
+	//                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
+	//
+	//                    NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
+	////                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
+	//                    [cmd performWithResult:&pay];
+	//				}
+	//					break;
+	//				default:
+	//					break;
+	//			}
 }
+
+
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
@@ -115,6 +162,85 @@
 	payOptionSignView = args;
 	payOptionSignView.hidden = NO;
 	
+	return nil;
+}
+
+#pragma mark -- payment notifies
+- (id)WechatPaySuccess:(id)args {
+	
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	// 支付成功
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:order_id forKey:@"order_id"];
+	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+	
+	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		if (success) {
+			NSString *title = @"服务预订成功! 去日程查看?";
+			//            [self popToRootVCWithTip:title];
+			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+			
+		} else {
+			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	return nil;
+}
+
+- (id)WechatPayFailed:(id)args {
+	int err_code = ((NSNumber*)[args objectForKey:@"err_code"]).intValue;
+	if (err_code == -2) {
+		//		NSString *title = @"您已取消本次支付支付";
+		//		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	} else {
+		NSString *title = @"支付失败\n请改善网络环境并重试";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	}
+	return nil;
+}
+
+- (id)AlipaySuccess:(id)args {
+	NSLog(@"pay success");
+	
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	// 支付成功
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:order_id forKey:@"order_id"];
+	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
+	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
+	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+	
+	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		if (success) {
+			NSString *title = @"服务预订成功,去日程查看";
+			//            [self popToRootVCWithTip:title];
+			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+			
+		} else {
+			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	return nil;
+}
+
+- (id)AlipayFailed:(id)args {
+	NSLog(@"pay failed");
+	NSString *title = @"支付失败\n请改善网络环境并重试";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 	return nil;
 }
 

@@ -1,5 +1,5 @@
 //
-//  AYHistoryApplyCellView.h
+//  AYHistoryEnterCellView.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 3/5/17.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYHistoryApplyCellView : UITableViewCell <AYViewBase>
+@interface AYHistoryEnterCellView : UITableViewCell <AYViewBase>
 
 @end

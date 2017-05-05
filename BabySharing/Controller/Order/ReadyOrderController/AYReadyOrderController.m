@@ -149,9 +149,6 @@
         case OrderStatusDone:
             title = @"已完成日程";
             break;
-        case OrderStatusUnpaid:
-            title = @"无效日程";
-            break;
         case OrderStatusReject:
             title = @"已拒绝日程";
             break;

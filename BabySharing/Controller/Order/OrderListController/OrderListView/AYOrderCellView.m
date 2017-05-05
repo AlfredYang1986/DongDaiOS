@@ -123,9 +123,6 @@
         case OrderStatusDone:
             _statusLabel.text = @"已完成订单";
             break;
-        case OrderStatusUnpaid:
-            _statusLabel.text = @"未支付订单";
-            break;
         case OrderStatusReject:
             _statusLabel.text = @"已拒绝订单";
             break;

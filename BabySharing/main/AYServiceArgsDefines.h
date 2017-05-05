@@ -10,6 +10,9 @@
 #define AYServiceArgsDefines_h
 
 static NSString* const kAYServiceArgsServiceInfo =               @"service_info";
+static NSString* const kAYServiceArgsServiceID =               @"service_id";
+static NSString* const kAYServiceArgsUserID =               @"user_id";
+static NSString* const kAYServiceArgsOwnerID =               @"owner_id";
 
 static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
 
@@ -75,5 +78,9 @@ static NSString* const kAYServiceArgsIsAdjustSKU =               @"is_adjust_SKU
 
 //order info args
 static NSString* const kAYOrderArgsTotalFee =               @"total_fee";
+static NSString* const kAYOrderArgsThumbs =               @"order_thumbs";
+static NSString* const kAYOrderArgsTitle =               @"order_title";
+static NSString* const kAYOrderArgsDate =               @"order_date";
+//static NSString* const kAYOrderArgs =               @"order_";
 
 #endif /* AYServiceArgsDefines_h */

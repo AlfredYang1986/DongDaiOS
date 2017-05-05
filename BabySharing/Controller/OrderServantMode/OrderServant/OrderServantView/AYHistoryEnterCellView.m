@@ -1,12 +1,12 @@
 //
-//  AYHistoryApplyCellView.m
+//  AYHistoryEnterCellView.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 3/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHistoryApplyCellView.h"
+#import "AYHistoryEnterCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,7 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYHistoryApplyCellView {
+@implementation AYHistoryEnterCellView {
 	
 	UILabel *startLabel;
 	UILabel *endLabel;

@@ -99,9 +99,6 @@
         case OrderStatusDone:
             stateLabel.text = @"已完成";
             break;
-        case OrderStatusUnpaid:
-            stateLabel.text = @"未支付";
-            break;
         case OrderStatusReject:
             stateLabel.text = @"已拒绝";
             break;
