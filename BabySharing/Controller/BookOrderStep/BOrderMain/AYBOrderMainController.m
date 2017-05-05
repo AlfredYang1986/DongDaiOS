@@ -275,13 +275,7 @@
     return nil;
 }
 
-- (id)didPayOptionClick:(id)args {
-	payOptionSignView.hidden = YES;
-	payOptionSignView = args;
-	payOptionSignView.hidden = NO;
-	
-	return nil;
-}
+
 
 - (id)didServiceDetailClick {
     id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");

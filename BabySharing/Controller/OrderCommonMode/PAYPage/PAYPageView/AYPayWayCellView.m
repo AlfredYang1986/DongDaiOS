@@ -35,7 +35,7 @@
         [self addSubview:payWayIcon];
         [payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.top.equalTo(titleLabel.mas_bottom).offset(20);
-			make.left.equalTo(self).offset(15);
+			make.left.equalTo(self).offset(25);
 			make.centerY.equalTo(self);
             make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
@@ -60,7 +60,7 @@
         [self addSubview:signView];
         [signView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(payWayIcon);
-            make.right.equalTo(self).offset(-15);
+            make.right.equalTo(self).offset(-25);
             make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
         }];
 		signView.hidden = YES;

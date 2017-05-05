@@ -267,7 +267,15 @@
 }
 
 - (id)showRemindMessage {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderListPending");
 	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
 	return nil;
 }
 

@@ -337,6 +337,13 @@
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="PAYPage" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	<delegate type="TableViewDelegateAndDatasource" name="UnSubsPage" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
 	<delegate type="TableViewDelegateAndDatasource" name="OrderListNews" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>

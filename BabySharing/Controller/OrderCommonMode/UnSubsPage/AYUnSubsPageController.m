@@ -1,12 +1,12 @@
 //
-//  AYOrderListPendingController.m
+//  AYUnSubsPageController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 18/1/17.
+//  Created by Alfred Yang on 5/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderListPendingController.h"
+#import "AYUnSubsPageController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -17,9 +17,10 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-@implementation AYOrderListPendingController {
+@implementation AYUnSubsPageController {
 	
-	NSArray *orderData;
+	NSArray *order_past;
+	UIView *payOptionSignView;
 }
 
 #pragma mark -- commands
@@ -27,7 +28,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		orderData = [dic objectForKey:kAYControllerChangeArgsKey];
+		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -39,27 +40,43 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderListPending"];
+	UIImageView *checkIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"checked_icon")];
+	[self.view addSubview:checkIcon];
+	[checkIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(self.view.mas_top).offset(104);
+		make.left.equalTo(self.view).offset(90);
+		make.size.mas_equalTo(CGSizeMake(20,20));
+	}];
+	
+	UILabel *titleH1 = [Tools creatUILabelWithText:@"Please Certain Unsubscribe" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:titleH1];
+	[titleH1 mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(checkIcon.mas_right).offset(20);
+		make.centerY.equalTo(checkIcon);
+	}];
+	
+	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"UnSubsPage"];
 	id obj = (id)delegate;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderListPendingCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TitleOptCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	id tmp = [orderData copy];
-	kAYDelegatesSendMessage(@"OrderListPending", @"changeQueryData:", &tmp)
+	//	id tmp = [order_past copy];
+	//	kAYDelegatesSendMessage(@"UnSubsPage", kAYDelegateChangeDataMessage, &tmp)
 	
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
+	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"Submit" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	[self.view addSubview:ConfirmPayBtn];
+	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view);
+		make.centerX.equalTo(self.view);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+	}];
+	[ConfirmPayBtn addTarget:self action:@selector(didConfirmPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
 }
 
 #pragma mark -- layouts
@@ -70,8 +87,7 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	
-	NSString *title = @"今日提醒";
+	NSString *title = @"取消原因";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -79,17 +95,19 @@
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
-	
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH);
+	view.frame = CGRectMake(0, kStatusAndNavBarH + 80, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 80);
 	return nil;
 }
 
 #pragma mark -- actions
+- (void)didConfirmPayBtnClick {
+	
+}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
@@ -104,6 +122,14 @@
 }
 
 - (id)rightBtnSelected {
+	
+	return nil;
+}
+
+- (id)didOptionClick:(id)args {
+	payOptionSignView.hidden = YES;
+	payOptionSignView = args;
+	payOptionSignView.hidden = NO;
 	
 	return nil;
 }

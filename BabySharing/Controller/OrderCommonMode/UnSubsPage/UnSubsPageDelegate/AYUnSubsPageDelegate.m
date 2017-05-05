@@ -1,24 +1,22 @@
 //
-//  AYOrderListPendingDelegate.m
+//  AYUnSubsPageDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 18/1/17.
+//  Created by Alfred Yang on 5/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderListPendingDelegate.h"
+#import "AYUnSubsPageDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
-#import "AYRemindDateHeaderView.h"
 
-@implementation AYOrderListPendingDelegate {
-	NSArray *querydata;
-	
+@implementation AYUnSubsPageDelegate {
+	NSDictionary *querydata;
+	NSArray *titleArr;
 }
 
 @synthesize para = _para;
@@ -28,7 +26,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	
+	titleArr = @[@"我想重新选择时间", @"支付出现问题", @"我不想订了"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -48,72 +46,56 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(id)info {
+- (id)changeQueryData:(NSDictionary*)info {
 	querydata = info;
 	return nil;
 }
 
 #pragma mark -- table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 3;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return querydata.count;
-	return 1;
+	return titleArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderListPendingCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TitleOptCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	cell.controller = self.controller;
 	
-	id tmp = [querydata objectAtIndex:indexPath.row];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"row_index"];
+	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
-	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 110.f;
+	return 55.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	UIView *headView = [[UIView alloc] init];
+	headView.backgroundColor = [Tools whiteColor];
 	
-	static NSString *IDD = @"AYRemindDateHeaderView";
-	AYRemindDateHeaderView *headView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:IDD];
-	if (!headView) {
-		headView = [[AYRemindDateHeaderView alloc] initWithReuseIdentifier:IDD];
-	}
-//	headView.cellInfo = nil;
+	NSString *titleStr = @"请选择取消原因：";
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[headView addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(headView);
+		make.left.equalTo(headView).offset(20);
+	}];
+	[Tools addBtmLineWithMargin:10.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:headView];
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
-		
-		return 50.f;
-		
-	} else {
-		return 50.f;
-	}
+	return 55.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_push = PUSH;
-	[cmd_push performWithResult:&dic];
 }
 
 @end

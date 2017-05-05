@@ -94,6 +94,8 @@
 	
 	TOPView = [[AYAppliFBTopView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT)];
 	[self.view addSubview:TOPView];
+	TOPView.userInteractionEnabled = YES;
+	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
 	id obj = (id)delegate;
@@ -103,7 +105,7 @@
 	
 	/****************************************/
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-	[self loadNewData];
+//	[self loadNewData];
 	
 //	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -143,19 +145,20 @@
 
 - (id)TableLayout:(UIView*)view {
 	view.frame = CGRectMake(0, kStatusAndNavBarH+TOPHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH-TOPHEIGHT);
+	//预设高度
+//	((UITableView*)view).estimatedRowHeight = 120;
+//	((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
 	return nil;
 }
 
 #pragma mark -- actions
-- (id)showAppliFeedback {
+- (void)showAppliFeedback {
 	id<AYCommand> des;
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
 	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
 		des = DEFAULTCONTROLLER(@"OrderInfoPage");
 		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
-//		des = DEFAULTCONTROLLER(@"OrderListNews");
-//		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
 	} else {
 		des = DEFAULTCONTROLLER(@"AppliFBList");
 		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
@@ -167,13 +170,12 @@
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
-	return nil;
+//	return nil;
 }
 
 - (void)didAllNewsBtnClick:(UIButton*)btn {
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderListNews");
-	des = DEFAULTCONTROLLER(@"AppliFBList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

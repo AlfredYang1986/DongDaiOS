@@ -64,12 +64,9 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	
-//	if (section == 0) {
-//		return waitArrData.count;
-//	} else {
-//	}
-	return querydata.count == 0 ? 1 : querydata.count;
+
+//	return querydata.count == 0 ? 1 : querydata.count;
+	return 5;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -77,57 +74,43 @@
 	NSString* class_name;
 	id<AYViewBase> cell;
 	id tmp ;
-//	if (indexPath.section == 0) {
-//		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSWaitCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//		tmp = [waitArrData objectAtIndex:indexPath.row];
-//		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-//		
-//		cell.controller = self.controller;
-//		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-//		((UITableViewCell*)cell).clipsToBounds = YES;
-//		return (UITableViewCell*)cell;
-//		
+	
+//	if (querydata.count == 0) {
+//		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
+//		if (!cell) {
+//			cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
+//		}
+//		cell.titleStr = @"您没有新的动态";
+//		return cell;
 //	} else {
-//		
 //	}
-	if (querydata.count == 0) {
-		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
-		if (!cell) {
-			cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
-		}
-		cell.titleStr = @"您没有新的动态";
-		return cell;
-	} else {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		tmp = [querydata objectAtIndex:indexPath.row];
-		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-		
-		cell.controller = self.controller;
-		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-		return (UITableViewCell*)cell;
-	}
+	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+//	tmp = [querydata objectAtIndex:indexPath.row];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	
+	cell.controller = self.controller;
+	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+	return (UITableViewCell*)cell;
 	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 160.f;
+	return 95.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [[UIView alloc]init];
-	headView.backgroundColor = [Tools garyBackgroundColor];
-	headView.clipsToBounds = YES;
-	NSString *titleStr = @"最近提醒：";
+	headView.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	NSString *titleStr = @"全部订单";
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(headView);
 		make.left.equalTo(headView).offset(20);
 	}];
-	
+	[Tools addBtmLineWithMargin:10.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:headView];
 	return headView;
 }
 
@@ -151,12 +134,12 @@
 	[cmd_push performWithResult:&dic];
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ( querydata.count == 0) {
-		return NO;
-	} else {
-		return YES;
-	}
-}
+//- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+//	if ( querydata.count == 0) {
+//		return NO;
+//	} else {
+//		return YES;
+//	}
+//}
 
 @end

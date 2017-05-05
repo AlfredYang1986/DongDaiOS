@@ -990,7 +990,7 @@
 	
 	<controller type="DefaultController" name="AppliFBList" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
-				<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Table" name="Table" />
 		
 		<delegate type="TableViewDelegateAndDatasource" name="AppliFBList" />
@@ -1013,6 +1013,21 @@
 		<view type="Table" name="Table" />
 		
 		<delegate type="TableViewDelegateAndDatasource" name="OrderListPending" />
+	</controller>
+	
+	<controller type="DefaultController" name="PAYPage" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="PAYPage" />
+	</controller>
+	<controller type="DefaultController" name="UnSubsPage" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table" name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="UnSubsPage" />
 	</controller>
 	
     <controller type="DefaultController" name="ConfirmOrder" factory="AYDefaultControllerFactoy" >

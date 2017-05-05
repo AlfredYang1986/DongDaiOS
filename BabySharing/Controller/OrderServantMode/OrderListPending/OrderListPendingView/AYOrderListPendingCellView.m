@@ -20,8 +20,9 @@
 	UIImageView *photoIcon;
 	UILabel *titleLabel;
 	UILabel *orderNoLabel;
-	UILabel *paymentInfoLabel;
-	UILabel *stateLabel;
+//	UILabel *paymentInfoLabel;
+//	UILabel *stateLabel;
+	UILabel *userNameLabel;
 	
 	NSDictionary *service_info;
 	
@@ -34,10 +35,12 @@
 		self.backgroundColor = [UIColor clearColor];
 		//		[Tools creatCALayerWithFrame:CGRectMake(0, 99.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
+		CGFloat photoImageWidth = 45.f;
+		
 		photoIcon = [[UIImageView alloc]init];
 		photoIcon.image = IMGRESOURCE(@"default_user");
 		photoIcon.contentMode = UIViewContentModeScaleAspectFill;
-		photoIcon.layer.cornerRadius = 15;
+		photoIcon.layer.cornerRadius = photoImageWidth * 0.5;
 		photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
 		photoIcon.layer.borderWidth = 2.f;
 		photoIcon.clipsToBounds = YES;
@@ -45,39 +48,46 @@
 		[self addSubview:photoIcon];
 		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
-			make.top.equalTo(self).offset(20);
-			make.size.mas_equalTo(CGSizeMake(30, 30));
+			make.centerY.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(photoImageWidth, photoImageWidth));
 		}];
 		//	photoIcon.userInteractionEnabled = YES;
 		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Servant's Service With Theme" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"Servant's Service With Theme" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(photoIcon.mas_right).offset(10);
-			make.top.equalTo(photoIcon);
+			make.left.equalTo(photoIcon.mas_right).offset(20);
+			make.centerY.equalTo(photoIcon);
 		}];
-
+		
+		userNameLabel = [Tools creatUILabelWithText:@"Order NO:" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:userNameLabel];
+		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(titleLabel);
+			make.bottom.equalTo(titleLabel.mas_top).offset(-3);
+		}];
+		
 		orderNoLabel = [Tools creatUILabelWithText:@"Order NO:" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:orderNoLabel];
 		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(10);
+			make.top.equalTo(titleLabel.mas_bottom).offset(3);
 		}];
 		
-		paymentInfoLabel = [Tools creatUILabelWithText:@"Price Payway" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:paymentInfoLabel];
-		[paymentInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(titleLabel);
-			make.top.equalTo(orderNoLabel.mas_bottom).offset(10);
-		}];
+//		paymentInfoLabel = [Tools creatUILabelWithText:@"Price Payway" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		[self addSubview:paymentInfoLabel];
+//		[paymentInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(titleLabel);
+//			make.top.equalTo(orderNoLabel.mas_bottom).offset(10);
+//		}];
 		
-		stateLabel = [Tools creatUILabelWithText:@"Order state" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:stateLabel];
-		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(titleLabel);
-			make.top.equalTo(paymentInfoLabel.mas_bottom).offset(15);
-		}];
+//		stateLabel = [Tools creatUILabelWithText:@"Order state" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//		[self addSubview:stateLabel];
+//		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(titleLabel);
+//			make.top.equalTo(paymentInfoLabel.mas_bottom).offset(15);
+//		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -151,14 +161,14 @@
 	
 	NSDictionary *order_info = (NSDictionary*)args;
 	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *pre = cmd.route;
+	
 	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
-	if (photo_name) {
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *pre = cmd.route;
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-					 placeholderImage:IMGRESOURCE(@"default_user")];
-	}
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
+				 placeholderImage:IMGRESOURCE(@"default_user")];
+	
 	
 	NSString *orderID = [order_info objectForKey:@"order_id"];
 	orderID = [orderID uppercaseString];
@@ -173,25 +183,25 @@
 		titleLabel.text = titleStr;
 	}
 	
-	NSString *price = [order_info objectForKey:kAYOrderArgsTotalFee];
-	paymentInfoLabel.text = [NSString stringWithFormat:@"¥%@  微信支付", price];
-	
-	NSDictionary *order_date = [args objectForKey:@"order_date"];
-	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
-	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
-	
-	NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
-	[formatterDay setDateFormat:@"MM月dd日"];
-	NSString *dayStr = [formatterDay stringFromDate:startDate];
-	
-	NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
-	[formatterTime setDateFormat:@"HH:mm"];
-	NSString *startStr = [formatterTime stringFromDate:startDate];
-	NSString *endStr = [formatterTime stringFromDate:endDate];
-	
-	stateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", dayStr, startStr, endStr];
+//	NSString *price = [order_info objectForKey:kAYOrderArgsTotalFee];
+//	paymentInfoLabel.text = [NSString stringWithFormat:@"¥%@  微信支付", price];
+//	
+//	NSDictionary *order_date = [args objectForKey:@"order_date"];
+//	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
+//	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
+//	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
+//	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
+//	
+//	NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
+//	[formatterDay setDateFormat:@"MM月dd日"];
+//	NSString *dayStr = [formatterDay stringFromDate:startDate];
+//	
+//	NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
+//	[formatterTime setDateFormat:@"HH:mm"];
+//	NSString *startStr = [formatterTime stringFromDate:startDate];
+//	NSString *endStr = [formatterTime stringFromDate:endDate];
+//	
+//	stateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", dayStr, startStr, endStr];
 	
 	return nil;
 }

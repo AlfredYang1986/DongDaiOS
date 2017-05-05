@@ -114,20 +114,13 @@
         NSDictionary *tmp = [order_times objectAtIndex:indexPath.row];
         kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
         
-    } else if (indexPath.section == 2) {
+    } else {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderMainPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
         NSMutableDictionary *tmp = [querydata copy];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
         
-    } else {
-        NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		cell.controller = self.controller;
-		NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-		[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"row_index"];
-		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     }
     
     cell.controller = self.controller;

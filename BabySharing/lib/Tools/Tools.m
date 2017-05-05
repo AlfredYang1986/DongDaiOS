@@ -586,6 +586,23 @@
 }
 
 #pragma mark -- CALayer
++ (void)addBtmLineWithMargin:(CGFloat)margin andAlignment:(NSInteger)alignment andColor:(UIColor*)lineColor inSuperView:(UIView*)superView {
+	UIView *line_btm = [[UIView alloc]init];
+	line_btm.backgroundColor = lineColor;
+	[superView addSubview:line_btm];
+	[line_btm mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(superView);
+		if(alignment == NSTextAlignmentCenter) {
+			make.centerX.equalTo(superView);
+		} else if (alignment == NSTextAlignmentLeft) {
+			make.left.equalTo(superView);
+		} else if (alignment == NSTextAlignmentRight) {
+			make.right.equalTo(superView);
+		}
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH- margin*((alignment == NSTextAlignmentLeft || alignment == NSTextAlignmentRight) ? 1 : 2), 0.5));
+	}];
+}
+
 + (void)creatCALayerWithFrame:(CGRect)frame andColor:(UIColor*)color  inSuperView:(UIView*)view {
 	
 	CALayer *layer = [CALayer layer];

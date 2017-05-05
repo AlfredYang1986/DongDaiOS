@@ -42,7 +42,7 @@
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
 		
-		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);

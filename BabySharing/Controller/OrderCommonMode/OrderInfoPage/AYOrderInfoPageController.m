@@ -88,7 +88,7 @@
 			[acceptBtn addTarget:self action:@selector(didAcceptBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		}
 		
-	} else {
+	} else {	//用户方
 		
 //		NSString *tipsStr;
 //		switch (status) {
@@ -103,6 +103,24 @@
 //				tipsStr = @"";
 //			break;
 //		}
+		UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"Go Pay" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+		[self.view addSubview:gotoPayBtn];
+		[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self.view);
+			make.centerX.equalTo(self.view);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+		}];
+		[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
+		
+		UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"cancel Application" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+		[self.view addSubview:cancelBtn];
+		[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(gotoPayBtn.mas_top);
+			make.centerX.equalTo(self.view);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+		}];
+		[cancelBtn addTarget:self action:@selector(didCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+		
 		if (status == OrderStatusPaid) {
 			
 			[Tools creatCALayerWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
@@ -156,6 +174,30 @@
 }
 
 #pragma mark -- actions
+- (void)didGoPayBtnClick {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"PAYPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic];
+}
+
+- (void)didCancelBtnClick {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"UnSubsPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	//	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic];
+}
+
 - (void)didRejectBtnClick:(UIButton*)btn {
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
 	AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];

@@ -925,4 +925,9 @@
 	   <command type="message"      message="setCellInfo:" />
    </view>
    
+   <view type="TitleOptCell" name="TitleOptCell" factory="AYReuseViewFactory" >
+	   <command type="message"      message="setCellInfo:" />
+	   <command type="notify" message="didOptionClick:" />
+   </view>
+   
 </views>

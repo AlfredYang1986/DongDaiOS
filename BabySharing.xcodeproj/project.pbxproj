@@ -150,7 +150,6 @@
 		70168F461E23657C00FD5B6A /* AYBOrderMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F371E23657C00FD5B6A /* AYBOrderMainController.m */; };
 		70168F471E23657C00FD5B6A /* AYBOrderMainDateCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F3A1E23657C00FD5B6A /* AYBOrderMainDateCellView.m */; };
 		70168F481E23657C00FD5B6A /* AYBOrderMainHeadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F3C1E23657C00FD5B6A /* AYBOrderMainHeadCellView.m */; };
-		70168F491E23657C00FD5B6A /* AYPayWayCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F3E1E23657C00FD5B6A /* AYPayWayCellView.m */; };
 		70168F4A1E23657C00FD5B6A /* AYBOrderMainPriceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F401E23657C00FD5B6A /* AYBOrderMainPriceCellView.m */; };
 		70168F4C1E23657C00FD5B6A /* AYBOrderMainDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70168F451E23657C00FD5B6A /* AYBOrderMainDelegate.m */; };
 		701771D01E7138B800304D4D /* AYFinalConfirmController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701771CF1E7138B800304D4D /* AYFinalConfirmController.m */; };
@@ -639,6 +638,13 @@
 		70F428801CC7B18F00A69977 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F428751CC7B18F00A69977 /* ViewController+MASAdditions.m */; };
 		70F57E5F1D8693CC003D493E /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F57E5E1D8693CC003D493E /* MBProgressHUD.m */; };
 		70F606251D9CD74400D3E484 /* LoginToken+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F606221D9CD74400D3E484 /* LoginToken+CoreDataProperties.m */; };
+		70F607BB1EBC22E000FD6ABD /* AYPAYPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607BA1EBC22E000FD6ABD /* AYPAYPageController.m */; };
+		70F607BE1EBC23C800FD6ABD /* AYPAYPageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607BD1EBC23C800FD6ABD /* AYPAYPageDelegate.m */; };
+		70F607C11EBC241B00FD6ABD /* AYPayWayCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607C01EBC241B00FD6ABD /* AYPayWayCellView.m */; };
+		70F607CA1EBC2D2200FD6ABD /* AYUnSubsPageDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607C91EBC2D2200FD6ABD /* AYUnSubsPageDelegate.m */; };
+		70F607CD1EBC2DDA00FD6ABD /* AYUnSubsPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607CC1EBC2DDA00FD6ABD /* AYUnSubsPageController.m */; };
+		70F607D01EBC31A800FD6ABD /* AYTitleOptCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607CF1EBC31A800FD6ABD /* AYTitleOptCellView.m */; };
+		70F607D31EBC752E00FD6ABD /* AYRemindDateHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F607D21EBC752E00FD6ABD /* AYRemindDateHeaderView.m */; };
 		70F82C591DF569C2006EBDD2 /* AYSetServiceNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F82C581DF569C2006EBDD2 /* AYSetServiceNoticeController.m */; };
 		70F89EB21CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F89EB11CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.m */; };
 		70F967611E287E2F00B3805B /* AYNoContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F967601E287E2F00B3805B /* AYNoContentCell.m */; };
@@ -1058,8 +1064,6 @@
 		70168F3A1E23657C00FD5B6A /* AYBOrderMainDateCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderMainDateCellView.m; sourceTree = "<group>"; };
 		70168F3B1E23657C00FD5B6A /* AYBOrderMainHeadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOrderMainHeadCellView.h; sourceTree = "<group>"; };
 		70168F3C1E23657C00FD5B6A /* AYBOrderMainHeadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderMainHeadCellView.m; sourceTree = "<group>"; };
-		70168F3D1E23657C00FD5B6A /* AYPayWayCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPayWayCellView.h; sourceTree = "<group>"; };
-		70168F3E1E23657C00FD5B6A /* AYPayWayCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPayWayCellView.m; sourceTree = "<group>"; };
 		70168F3F1E23657C00FD5B6A /* AYBOrderMainPriceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOrderMainPriceCellView.h; sourceTree = "<group>"; };
 		70168F401E23657C00FD5B6A /* AYBOrderMainPriceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYBOrderMainPriceCellView.m; sourceTree = "<group>"; };
 		70168F441E23657C00FD5B6A /* AYBOrderMainDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYBOrderMainDelegate.h; sourceTree = "<group>"; };
@@ -2091,6 +2095,20 @@
 		70F606221D9CD74400D3E484 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
 		70F606271D9D345800D3E484 /* LoginToken+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginToken+CoreDataProperties.h"; sourceTree = "<group>"; };
 		70F606281D9D345800D3E484 /* LoginToken+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginToken+CoreDataProperties.m"; sourceTree = "<group>"; };
+		70F607B91EBC22E000FD6ABD /* AYPAYPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPAYPageController.h; sourceTree = "<group>"; };
+		70F607BA1EBC22E000FD6ABD /* AYPAYPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPAYPageController.m; sourceTree = "<group>"; };
+		70F607BC1EBC23C800FD6ABD /* AYPAYPageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPAYPageDelegate.h; sourceTree = "<group>"; };
+		70F607BD1EBC23C800FD6ABD /* AYPAYPageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPAYPageDelegate.m; sourceTree = "<group>"; };
+		70F607BF1EBC241B00FD6ABD /* AYPayWayCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPayWayCellView.h; sourceTree = "<group>"; };
+		70F607C01EBC241B00FD6ABD /* AYPayWayCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPayWayCellView.m; sourceTree = "<group>"; };
+		70F607C81EBC2D2200FD6ABD /* AYUnSubsPageDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUnSubsPageDelegate.h; sourceTree = "<group>"; };
+		70F607C91EBC2D2200FD6ABD /* AYUnSubsPageDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUnSubsPageDelegate.m; sourceTree = "<group>"; };
+		70F607CB1EBC2DDA00FD6ABD /* AYUnSubsPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUnSubsPageController.h; sourceTree = "<group>"; };
+		70F607CC1EBC2DDA00FD6ABD /* AYUnSubsPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUnSubsPageController.m; sourceTree = "<group>"; };
+		70F607CE1EBC31A800FD6ABD /* AYTitleOptCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTitleOptCellView.h; sourceTree = "<group>"; };
+		70F607CF1EBC31A800FD6ABD /* AYTitleOptCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTitleOptCellView.m; sourceTree = "<group>"; };
+		70F607D11EBC752E00FD6ABD /* AYRemindDateHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemindDateHeaderView.h; sourceTree = "<group>"; };
+		70F607D21EBC752E00FD6ABD /* AYRemindDateHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemindDateHeaderView.m; sourceTree = "<group>"; };
 		70F82C571DF569C2006EBDD2 /* AYSetServiceNoticeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetServiceNoticeController.h; sourceTree = "<group>"; };
 		70F82C581DF569C2006EBDD2 /* AYSetServiceNoticeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetServiceNoticeController.m; sourceTree = "<group>"; };
 		70F89EB01CDB3E3E0008FCB6 /* AYSaveScreenPhotoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSaveScreenPhotoCommand.h; sourceTree = "<group>"; };
@@ -3212,6 +3230,8 @@
 			children = (
 				7010B6BD1E2F5A8100E40C2C /* AYOrderListPendingCellView.h */,
 				7010B6BE1E2F5A8100E40C2C /* AYOrderListPendingCellView.m */,
+				70F607D11EBC752E00FD6ABD /* AYRemindDateHeaderView.h */,
+				70F607D21EBC752E00FD6ABD /* AYRemindDateHeaderView.m */,
 			);
 			path = OrderListPendingView;
 			sourceTree = "<group>";
@@ -3559,8 +3579,6 @@
 				70168F3A1E23657C00FD5B6A /* AYBOrderMainDateCellView.m */,
 				70168F3F1E23657C00FD5B6A /* AYBOrderMainPriceCellView.h */,
 				70168F401E23657C00FD5B6A /* AYBOrderMainPriceCellView.m */,
-				70168F3D1E23657C00FD5B6A /* AYPayWayCellView.h */,
-				70168F3E1E23657C00FD5B6A /* AYPayWayCellView.m */,
 			);
 			path = BOrderMainCellView;
 			sourceTree = "<group>";
@@ -7403,6 +7421,64 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		70F607B61EBC228200FD6ABD /* PAYPage */ = {
+			isa = PBXGroup;
+			children = (
+				70F607B71EBC228200FD6ABD /* PAYPageDelegate */,
+				70F607B81EBC228200FD6ABD /* PAYPageView */,
+				70F607B91EBC22E000FD6ABD /* AYPAYPageController.h */,
+				70F607BA1EBC22E000FD6ABD /* AYPAYPageController.m */,
+			);
+			path = PAYPage;
+			sourceTree = "<group>";
+		};
+		70F607B71EBC228200FD6ABD /* PAYPageDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70F607BC1EBC23C800FD6ABD /* AYPAYPageDelegate.h */,
+				70F607BD1EBC23C800FD6ABD /* AYPAYPageDelegate.m */,
+			);
+			path = PAYPageDelegate;
+			sourceTree = "<group>";
+		};
+		70F607B81EBC228200FD6ABD /* PAYPageView */ = {
+			isa = PBXGroup;
+			children = (
+				70F607BF1EBC241B00FD6ABD /* AYPayWayCellView.h */,
+				70F607C01EBC241B00FD6ABD /* AYPayWayCellView.m */,
+			);
+			path = PAYPageView;
+			sourceTree = "<group>";
+		};
+		70F607C21EBC2CF300FD6ABD /* UnSubsPage */ = {
+			isa = PBXGroup;
+			children = (
+				70F607C31EBC2CF300FD6ABD /* UnSubsPageDelegate */,
+				70F607C41EBC2CF300FD6ABD /* UnSubsPageView */,
+				70F607CB1EBC2DDA00FD6ABD /* AYUnSubsPageController.h */,
+				70F607CC1EBC2DDA00FD6ABD /* AYUnSubsPageController.m */,
+			);
+			path = UnSubsPage;
+			sourceTree = "<group>";
+		};
+		70F607C31EBC2CF300FD6ABD /* UnSubsPageDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				70F607C81EBC2D2200FD6ABD /* AYUnSubsPageDelegate.h */,
+				70F607C91EBC2D2200FD6ABD /* AYUnSubsPageDelegate.m */,
+			);
+			path = UnSubsPageDelegate;
+			sourceTree = "<group>";
+		};
+		70F607C41EBC2CF300FD6ABD /* UnSubsPageView */ = {
+			isa = PBXGroup;
+			children = (
+				70F607CE1EBC31A800FD6ABD /* AYTitleOptCellView.h */,
+				70F607CF1EBC31A800FD6ABD /* AYTitleOptCellView.m */,
+			);
+			path = UnSubsPageView;
+			sourceTree = "<group>";
+		};
 		70F82C541DF5698F006EBDD2 /* SetServiceNotice */ = {
 			isa = PBXGroup;
 			children = (
@@ -7651,6 +7727,8 @@
 		70FE1C6F1E24D10200050FF0 /* OrderCommonMode */ = {
 			isa = PBXGroup;
 			children = (
+				70F607C21EBC2CF300FD6ABD /* UnSubsPage */,
+				70F607B61EBC228200FD6ABD /* PAYPage */,
 				7009CADC1EBB177C00088A1D /* AppliFBList */,
 				70F9678D1E28FD4100B3805B /* OrderInfoPage */,
 				7029FD711E261C8900B2FF22 /* OrderListNews */,
@@ -8646,6 +8724,7 @@
 				7045EFE91E08F3B600341E14 /* AYFilterLocationCellView.m in Sources */,
 				70C41E261DBA091F00C77B10 /* AYCalendarServiceInitCommand.m in Sources */,
 				802C6D2A1E28F3BF000D2741 /* AYHomeCellView.m in Sources */,
+				70F607CA1EBC2D2200FD6ABD /* AYUnSubsPageDelegate.m in Sources */,
 				70CB483B1DFAE2EE003D38FB /* AYPopToDestCommand.m in Sources */,
 				705E93401DBDC48900FA020B /* AYNoOrderCellView.m in Sources */,
 				700BE5EE1CBA6E5800A09B3A /* AYUploadUserImageCommand.m in Sources */,
@@ -8844,9 +8923,9 @@
 				80D5E7EC1CCCD0A200A82117 /* AYFollowingBtnView.m in Sources */,
 				7029FD791E261CC200B2FF22 /* AYOrderListNewsDelegate.m in Sources */,
 				805218A71CCBA13C006EF119 /* AYQueryScreenNameAndPhotoCommand.m in Sources */,
+				70F607D31EBC752E00FD6ABD /* AYRemindDateHeaderView.m in Sources */,
 				700BE5FC1CBA6E7D00A09B3A /* AYProfileRemoteFacade.m in Sources */,
 				7001310F1CA446CA006003C8 /* AYDefaultViewFactory.m in Sources */,
-				70168F491E23657C00FD5B6A /* AYPayWayCellView.m in Sources */,
 				70168F4C1E23657C00FD5B6A /* AYBOrderMainDelegate.m in Sources */,
 				7039CBFB1CBBB5A700BE60C7 /* SearchSegItem.m in Sources */,
 				700693301CC4DD0600B511FF /* AYQueryRealPhotoCommand.m in Sources */,
@@ -8882,6 +8961,7 @@
 				704762F21D2D28DF00538AC0 /* AYProfileHeadCellView.m in Sources */,
 				705E96801D4703C5006CF9E6 /* AYOrderHeadCellView.m in Sources */,
 				70D9BE0E1DAF94C1006B77A8 /* AYOtherBtnClickCommand.m in Sources */,
+				70F607D01EBC31A800FD6ABD /* AYTitleOptCellView.m in Sources */,
 				70A1A5631D1D4A860063FC7F /* AYLogoutEMCommand.m in Sources */,
 				700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */,
 				70EC72341D190D6F0012B123 /* TAAbstractDotView.m in Sources */,
@@ -8919,6 +8999,7 @@
 				70360B5E1E57125A00D5332F /* AYEmailSendCommand.m in Sources */,
 				702E7AC01CA16C830097867E /* AYAppInitCommandFactory.m in Sources */,
 				70C41EFA1DBA129D00C77B10 /* AYTabBarController.m in Sources */,
+				70F607C11EBC241B00FD6ABD /* AYPayWayCellView.m in Sources */,
 				7029FD7C1E26205900B2FF22 /* AYOSWaitCellView.m in Sources */,
 				70120A1B1E6EA8AF00136B8E /* AYServiceAddTimesCellView.m in Sources */,
 				70C6A0011D9A4F100069E4EE /* AYPersonalDescCellView.m in Sources */,
@@ -8960,6 +9041,7 @@
 				707B4D3E1CA819D900F6256E /* UIImage+fixOrientation.m in Sources */,
 				701D8A9B1CA7E06700B5D4C1 /* UserKids+CoreDataProperties.m in Sources */,
 				70FCB1841E66BD2300A79499 /* AYNurseScheduleTableDelegate.m in Sources */,
+				70F607CD1EBC2DDA00FD6ABD /* AYUnSubsPageController.m in Sources */,
 				700BE5FB1CBA6E7D00A09B3A /* AYLandingRemoteFacade.m in Sources */,
 				70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */,
 				8086A2551CCE983B006186D4 /* AYUserSearchRemoteFacade.m in Sources */,
@@ -8995,6 +9077,7 @@
 				70C41ECA1DBA122500C77B10 /* AYMainInfoController.m in Sources */,
 				704D48DC1DAE18AE00A69AF4 /* AYUserAgreeController.m in Sources */,
 				70CAEC4D1DED7E7D00542C1D /* AYSetServiceTypeController.m in Sources */,
+				70F607BE1EBC23C800FD6ABD /* AYPAYPageDelegate.m in Sources */,
 				7009CAE71EBB183400088A1D /* AYAppliFBListController.m in Sources */,
 				700BE5BF1CBA6DAD00A09B3A /* AYLoginSNSWithQQCommand.m in Sources */,
 				708235F21CA28A2E00658531 /* AYNavigationController.m in Sources */,
@@ -9073,6 +9156,7 @@
 				7039CBCE1CBB77EA00BE60C7 /* AYProfileController.m in Sources */,
 				7000CD1E1D7E8A5200DA98F2 /* MJRefreshAutoGifFooter.m in Sources */,
 				7001C8731DD2CCD9009EDC59 /* AYServiceDescController.m in Sources */,
+				70F607BB1EBC22E000FD6ABD /* AYPAYPageController.m in Sources */,
 				700BE6241CBA7CEB00A09B3A /* DongDaTabBar.m in Sources */,
 				700BE6081CBA75D400A09B3A /* AYQuerySNSProvidersCommand.m in Sources */,
 				7069A3271D532444007821D4 /* AYQueryOrdersCommand.m in Sources */,

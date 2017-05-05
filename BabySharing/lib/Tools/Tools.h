@@ -48,6 +48,7 @@
 + (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor;
 
 #pragma mark -- CALayer
++ (void)addBtmLineWithMargin:(CGFloat)margin andAlignment:(NSInteger)alignment andColor:(UIColor*)lineColor inSuperView:(UIView*)superView;
 + (void)creatCALayerWithFrame:(CGRect)frame andColor:(UIColor*)color inSuperView:(UIView*)view;
 
 #pragma mark -- AYBtmAlert

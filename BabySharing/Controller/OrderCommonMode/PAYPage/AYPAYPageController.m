@@ -1,12 +1,12 @@
 //
-//  AYOrderListPendingController.m
+//  AYPAYPageController.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 18/1/17.
+//  Created by Alfred Yang on 5/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYOrderListPendingController.h"
+#import "AYPAYPageController.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYViewBase.h"
@@ -17,9 +17,10 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-@implementation AYOrderListPendingController {
+@implementation AYPAYPageController {
 	
-	NSArray *orderData;
+	NSArray *order_past;
+	UIView *payOptionSignView;
 }
 
 #pragma mark -- commands
@@ -27,7 +28,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		orderData = [dic objectForKey:kAYControllerChangeArgsKey];
+		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -39,27 +40,27 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderListPending"];
+	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"PAYPage"];
 	id obj = (id)delegate;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	obj = (id)delegate;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
 	
 	/****************************************/
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderListPendingCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	id tmp = [orderData copy];
-	kAYDelegatesSendMessage(@"OrderListPending", @"changeQueryData:", &tmp)
+//	id tmp = [order_past copy];
+//	kAYDelegatesSendMessage(@"PayWayCell", kAYDelegateChangeDataMessage, &tmp)
 	
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
+	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"Confirm Payment" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	[self.view addSubview:ConfirmPayBtn];
+	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(self.view);
+		make.centerX.equalTo(self.view);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+	}];
+	[ConfirmPayBtn addTarget:self action:@selector(didConfirmPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark -- layouts
@@ -70,8 +71,7 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	
-	NSString *title = @"今日提醒";
+	NSString *title = @"在线支付";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -79,7 +79,6 @@
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
-	
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
@@ -90,6 +89,9 @@
 }
 
 #pragma mark -- actions
+- (void)didConfirmPayBtnClick {
+	
+}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
@@ -104,6 +106,14 @@
 }
 
 - (id)rightBtnSelected {
+	
+	return nil;
+}
+
+- (id)didPayOptionClick:(id)args {
+	payOptionSignView.hidden = YES;
+	payOptionSignView = args;
+	payOptionSignView.hidden = NO;
 	
 	return nil;
 }
