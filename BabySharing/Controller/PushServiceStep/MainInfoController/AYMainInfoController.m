@@ -69,9 +69,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         }
         else if (dic_info) {
             NSString *key = [dic_info objectForKey:@"key"];
-            if ([key isEqualToString:kAYServiceArgsServiceInfo]) {       //-1
+            if ([key isEqualToString:kAYServiceArgsInfo]) {       //-1
                 
-                _service_change_dic = [dic_info objectForKey:kAYServiceArgsServiceInfo];
+                _service_change_dic = [dic_info objectForKey:kAYServiceArgsInfo];
                 
             }
             else if ([key isEqualToString:@"nap_cover"]) {       //0

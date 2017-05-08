@@ -1,12 +1,12 @@
 //
-//  AYDayRemindCellView.m
+//  AYHistoryEnterCellView.m
 //  BabySharing
 //
 //  Created by Alfred Yang on 3/5/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYDayRemindCellView.h"
+#import "AYHistoryEnterCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,10 +14,11 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYDayRemindCellView {
+@implementation AYHistoryEnterCellView {
 	
-	UIImageView *olockView;
-	UILabel *countRemindLabel;
+	UILabel *startLabel;
+	UILabel *endLabel;
+	UIButton *checkBtn;
 }
 
 @synthesize para = _para;
@@ -30,36 +31,14 @@
 	if (self) {
 		
 		self.backgroundColor = [UIColor clearColor];
-		CGFloat marginLine = 10.f;
-		CGFloat marginContent = 20.f;
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"提醒" andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		CGFloat margin = 10.f;
+		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+	
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"查看历史记录" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(marginContent);
-			make.top.equalTo(self).offset(30);
-		}];
-		
-		UILabel *subTitleLabel = [Tools creatUILabelWithText:@"今日日程" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:subTitleLabel];
-		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(8);
-		}];
-		
-		olockView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"chan_group_back")];
-		[self addSubview:olockView];
-		[olockView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(subTitleLabel);
-			make.right.equalTo(self).offset(-marginContent);
-			make.size.mas_equalTo(CGSizeMake(20, 20));
-		}];
-		olockView.hidden = YES;
-		
-		countRemindLabel = [Tools creatUILabelWithText:@"没有任何提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
-		[self addSubview:countRemindLabel];
-		[countRemindLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(marginContent);
-			make.centerY.equalTo(subTitleLabel.mas_bottom).offset(40);
+			make.left.equalTo(self).offset(20);
+			make.centerY.equalTo(self);
 		}];
 		
 		UIView *lineView = [UIView new];
@@ -68,12 +47,11 @@
 		[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
 			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - marginLine * 2, 0.5));
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
 		}];
-		
-		if (reuseIdentifier != nil) {
-			[self setUpReuseCell];
-		}
+//		if (reuseIdentifier != nil) {
+//			[self setUpReuseCell];
+//		}
 	}
 	return self;
 }
@@ -126,23 +104,8 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSArray*)args {
+- (id)setCellInfo:(NSDictionary*)args {
 	
-	if (args.count == 0) {
-		olockView.hidden = YES;
-		countRemindLabel.text = @"没有任何提醒";
-		
-	} else if (args.count >= 1) {
-		olockView.hidden = NO;
-		
-		NSString *tmp = [NSString stringWithFormat:@"%ld 个", args.count];
-		int length = (int)tmp.length;
-		
-		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:tmp];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:25.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length-2)];
-		countRemindLabel.attributedText = attributedText;
-		
-	}
 	return nil;
 }
 

@@ -57,7 +57,7 @@
 
 - (id)changeQueryData:(NSDictionary*)info {
     querydata = info;
-	service_info = [querydata objectForKey:kAYServiceArgsServiceInfo];
+	service_info = [querydata objectForKey:kAYServiceArgsInfo];
 	order_times = [querydata objectForKey:@"order_times"];
     return nil;
 }

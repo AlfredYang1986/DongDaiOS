@@ -18,7 +18,7 @@
 #define headViewHeight		50
 
 @implementation AYMoreAppliDelegate {
-	NSArray *querydata;
+	NSDictionary *querydata;
 	NSArray *sectionTitleArr;
 }
 
@@ -56,21 +56,30 @@
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
+	NSArray *feedbackArr = [querydata objectForKey:@"feedback"];
+	return feedbackArr.count == 0 ? 1 : 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	//	return querydata.count;
-	return 3;
+	NSArray *todoArr = [querydata objectForKey:@"todo"];
+	NSArray *feedbackArr = [querydata objectForKey:@"feedback"];
+	if (section == 0) {
+		return todoArr.count;
+	} else
+		return feedbackArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	id tmp;
+	if (indexPath.section == 0) {
+		tmp = [[querydata objectForKey:@"todo"] objectAtIndex:indexPath.row];;
+	} else
+		tmp = [[querydata objectForKey:@"feedback"] objectAtIndex:indexPath.row];
 	
-	//	id tmp = [querydata objectAtIndex:indexPath.row];
-	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -111,8 +120,12 @@
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
 
-//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	id tmp;
+	if (indexPath.section == 0) {
+		tmp = [[querydata objectForKey:@"todo"] objectAtIndex:indexPath.row];;
+	} else
+		tmp = [[querydata objectForKey:@"feedback"] objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];

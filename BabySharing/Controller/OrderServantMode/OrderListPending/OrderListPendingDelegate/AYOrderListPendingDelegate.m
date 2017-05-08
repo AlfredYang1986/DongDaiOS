@@ -55,7 +55,7 @@
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 3;
+	return querydata.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -68,7 +68,7 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderListPendingCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	id tmp = [querydata objectAtIndex:indexPath.row];
+	id tmp = [querydata objectAtIndex:indexPath.section];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -87,7 +87,7 @@
 	if (!headView) {
 		headView = [[AYRemindDateHeaderView alloc] initWithReuseIdentifier:IDD];
 	}
-//	headView.cellInfo = nil;
+	headView.cellInfo = [querydata objectAtIndex:section];
 	return headView;
 }
 

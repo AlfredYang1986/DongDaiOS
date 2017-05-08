@@ -95,9 +95,9 @@
     NSString *key = [dic objectForKey:@"key"];
     
     
-    if ([key isEqualToString:kAYServiceArgsServiceInfo]) {
-        service_info = [dic objectForKey:kAYServiceArgsServiceInfo];
-        napThemeNote = [[dic objectForKey:kAYServiceArgsServiceInfo] objectForKey:kAYServiceArgsCourseCat];
+    if ([key isEqualToString:kAYServiceArgsInfo]) {
+        service_info = [dic objectForKey:kAYServiceArgsInfo];
+        napThemeNote = [[dic objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsCourseCat];
     }
     else if ([key isEqualToString:kAYServiceArgsServiceCat]) {
         service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsServiceCat]).intValue;

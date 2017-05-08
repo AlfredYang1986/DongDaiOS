@@ -147,7 +147,7 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)args {
 	
-	NSDictionary *service_info = [args objectForKey:kAYServiceArgsServiceInfo];
+	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
 	NSArray *order_times = [args objectForKey:@"order_times"];
 	
 	NSString *unitCat = @"UNIT";

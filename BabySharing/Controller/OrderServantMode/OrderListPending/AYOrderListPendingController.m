@@ -79,7 +79,6 @@
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
-	
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
@@ -90,6 +89,8 @@
 }
 
 #pragma mark -- actions
+
+
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {

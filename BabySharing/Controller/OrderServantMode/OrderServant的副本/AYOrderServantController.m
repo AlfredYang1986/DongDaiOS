@@ -16,25 +16,15 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-#import "AYOrderTOPView.h"
-
-#define TOPHEIGHT		155
-#define HISTORYBTNHEIGHT		60
 
 @implementation AYOrderServantController {
 //	UILabel *noticeNews;
-	AYOrderTOPView *TOPView;
-	
-	NSArray *remindArr;
-	NSArray *result_status_posted;
-	NSArray *result_status_paid_cancel;
-	NSArray *result_status_past;
+	NSArray *order_info;
+	NSArray *result_status_ready;
+	NSArray *order_past;
 	
 	NSTimeInterval queryTimespan;
 	NSInteger skipCount;
-	
-	NSTimeInterval queryTimespanRemind;
-	NSInteger skipCountRemind;
 }
 
 #pragma mark -- commands
@@ -52,34 +42,36 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	skipCount = skipCountRemind = 0;
-	queryTimespan = queryTimespanRemind = [NSDate date].timeIntervalSince1970 * 1000;
+	skipCount = 0;
+	queryTimespan  = [NSDate date].timeIntervalSince1970 * 1000;
+//	UIView *newsBoardView = [[UIView alloc]init];
+//	newsBoardView.backgroundColor = [Tools whiteColor];
+//	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
+//	newsBoardView.layer.shadowOffset = CGSizeMake(0, 0);
+//	newsBoardView.layer.shadowOpacity = 0.5f;
+//	[self.view addSubview:newsBoardView];
+//	[newsBoardView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.centerX.equalTo(self.view);
+//		make.top.equalTo(self.view).offset(30);
+//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
+//	}];
 	
-	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeServant];
-	[self.view addSubview:TOPView];
-	TOPView.userInteractionEnabled = YES;
-	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
-	
-	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-	[self.view addSubview:readMoreBtn];
-	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(TOPView).offset(-20);
-		make.top.equalTo(TOPView).offset(10);
-		make.size.mas_equalTo(CGSizeMake(70, 30));
-	}];
-	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-	
-	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-	[historyBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,20, 0, 0)];
-	[self.view addSubview:historyBtn];
-	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.view);
-		make.top.equalTo(TOPView.mas_bottom).offset(0);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, HISTORYBTNHEIGHT));
-	}];
-	[historyBtn addTarget:self action:@selector(didHistoryBtnClick) forControlEvents:UIControlEventTouchUpInside];
-	[Tools creatCALayerWithFrame:CGRectMake(0, HISTORYBTNHEIGHT - 0.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
+//	UILabel *title = [Tools creatUILabelWithText:@"待确认日程" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//	[newsBoardView addSubview:title];
+//	[title mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(newsBoardView).offset(15);
+//		make.top.equalTo(newsBoardView).offset(20);
+//	}];
+//
+//	
+//	noticeNews = [Tools creatUILabelWithText:@"暂时没有待处理的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+//	[newsBoardView addSubview:noticeNews];
+//	[noticeNews mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(title);
+//		make.top.equalTo(title.mas_bottom).offset(18);
+//	}];
+//	noticeNews.userInteractionEnabled = YES;
+//	[noticeNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didNoticeLabelTap)]];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderServant"];
 	id obj = (id)delegate;
@@ -95,10 +87,21 @@
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"DayRemindCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
+	NSDictionary *tmp = [order_info copy];
+	kAYDelegatesSendMessage(@"OrderListNews:", @"changeQueryData:", &tmp)
+	
 	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	[self loadNewData];
 	
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
 }
 
 #pragma mark -- layouts
@@ -109,48 +112,27 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	
+	//	NSString *title = @"确认信息";
+	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	
+//	UIImage* left = IMGRESOURCE(@"bar_left_black");
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//	
+//	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
+	
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 40+TOPHEIGHT+HISTORYBTNHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kTabBarH - TOPHEIGHT - HISTORYBTNHEIGHT);
+	view.frame = CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kTabBarH); //5 margin
 	return nil;
 }
 
 #pragma mark -- actions
-- (void)didHistoryBtnClick {
-	[self showHistoryAppli];
-}
-- (void)didReadMoreBtnClick {
-	[self showMoreAppli];
-}
-
 - (void)loadNewData {
-	[self queryOrders];
-	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
-	
-	NSDictionary* info = nil;
-	CURRENUSER(info)
-	NSMutableDictionary *dic_query = [info mutableCopy];
-	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-	
-//	[dic_query setValue:[NSNumber numberWithDouble:queryTimespanRemind] forKey:@"date"];
-//	[dic_query setValue:[NSNumber numberWithInteger:skipCountRemind] forKey:@"skin"];
-//	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
-	
-	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-		if (success) {
-			remindArr = [result copy];
-			id tmp = [result copy];
-			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryData:", &tmp)
-			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-		}
-	}];
-}
-
-- (void)queryOrders {
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	
@@ -169,19 +151,33 @@
 			NSArray *resultArr = [result objectForKey:@"result"];
 			queryTimespan = ((NSNumber*)[result objectForKey:@"date"]).doubleValue;
 			
-			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPosted];
-			result_status_posted = [resultArr filteredArrayUsingPredicate:pred_ready];
-			[TOPView setItemArgs:result_status_posted];
+			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPaid];
+			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
 			
-			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPaid];
-			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusCancel];
-			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_paid, pred_cancel]];
-			result_status_paid_cancel = [resultArr filteredArrayUsingPredicate:pred_fb];
+			if (result_status_ready.count == 0) {
+//				noticeNews.text = @"暂时没有待处理的日程";
+//				noticeNews.textColor = [Tools garyColor];
+//				noticeNews.userInteractionEnabled = NO;
+			} else {
+				
+//				noticeNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
+//				noticeNews.textColor = [Tools themeColor];
+//				noticeNews.userInteractionEnabled = YES;
+			}
 			
-			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
-			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusDone];
-			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_reject, pred_cancel, pred_done]];
-			result_status_past = [resultArr filteredArrayUsingPredicate:pred_past];
+			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
+			NSArray *result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
+			id tmp = [result_status_confirm copy];
+			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryData:", &tmp)
+			
+			id<AYViewBase> view_past = [self.views objectForKey:@"Table"];
+			id<AYCommand> refresh_2 = [view_past.commands objectForKey:@"refresh"];
+			[refresh_2 performWithResult:nil];
+			
+			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
+			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
+			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_done, pred_reject, pred_confirm]];
+			order_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			
 		} else {
 			NSString *title = @"请改善网络环境并重试";
@@ -194,19 +190,19 @@
 	
 }
 
-- (void)showTodoApplyAndBack {
+- (void)didNoticeLabelTap {
 	
 	id<AYCommand> des;
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
-	if (result_status_posted.count == 1 ) {
+	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
 		des = DEFAULTCONTROLLER(@"OrderInfoPage");
-		[dic setValue:[result_status_posted firstObject] forKey:kAYControllerChangeArgsKey];
-	}
-	else if (result_status_posted.count > 1) {
-		des = DEFAULTCONTROLLER(@"MoreAppli");
-		NSDictionary *tmp = @{@"todo":result_status_posted, @"feedback":result_status_paid_cancel};
-		[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
+//		des = DEFAULTCONTROLLER(@"OrderListPending");
+//		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+	} else {
+		des = DEFAULTCONTROLLER(@"OrderListPending");
+		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
 	}
 	
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -224,7 +220,7 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:[result_status_past copy] forKey:kAYControllerChangeArgsKey];
+	[dic setValue:[order_past copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
@@ -259,9 +255,6 @@
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	NSDictionary *tmp = @{@"todo":result_status_posted, @"feedback":result_status_paid_cancel};
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
 	return nil;
@@ -273,8 +266,7 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:result_status_past forKey:kAYControllerChangeArgsKey];
-	
+
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
 	return nil;
@@ -287,7 +279,6 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:remindArr forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];

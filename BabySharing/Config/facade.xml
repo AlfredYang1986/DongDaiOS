@@ -225,7 +225,8 @@
         <command type="Remote" name="QueryOwnOrders" />
         <command type="Remote" name="QueryApplyOrders" />
         <command type="Remote" name="UpdateOrderInfo" />
-        
+        <command type="Remote" name="QueryRemind" />
+		
         <command type="Remote" name="PushOrder" />
         <command type="Remote" name="PushOrderAlipay" />
         <command type="Remote" name="AcceptOrder" />

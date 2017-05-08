@@ -51,9 +51,8 @@
 		[olockView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(subTitleLabel);
 			make.right.equalTo(self).offset(-marginContent);
-			make.size.mas_equalTo(CGSizeMake(20, 20));
+			make.size.mas_equalTo(CGSizeMake(26, 26));
 		}];
-		olockView.hidden = YES;
 		
 		countRemindLabel = [Tools creatUILabelWithText:@"没有任何提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:countRemindLabel];
@@ -126,23 +125,9 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSArray*)args {
+- (id)setCellInfo:(NSDictionary*)args {
 	
-	if (args.count == 0) {
-		olockView.hidden = YES;
-		countRemindLabel.text = @"没有任何提醒";
-		
-	} else if (args.count >= 1) {
-		olockView.hidden = NO;
-		
-		NSString *tmp = [NSString stringWithFormat:@"%ld 个", args.count];
-		int length = (int)tmp.length;
-		
-		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:tmp];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:25.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length-2)];
-		countRemindLabel.attributedText = attributedText;
-		
-	}
+	
 	return nil;
 }
 

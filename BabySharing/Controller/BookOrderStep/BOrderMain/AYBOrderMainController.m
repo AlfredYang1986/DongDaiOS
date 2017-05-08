@@ -38,7 +38,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         order_info = [dic objectForKey:kAYControllerChangeArgsKey];
-		service_info = [order_info objectForKey:kAYServiceArgsServiceInfo];
+		service_info = [order_info objectForKey:kAYServiceArgsInfo];
 //		order_times = [[order_info objectForKey:@"order_times"] mutableCopy];
 		order_times = [order_info objectForKey:@"order_times"];
 		initialTimeData = [order_times copy];
@@ -160,9 +160,9 @@
 	CURRENUSER(args)
 	
 	NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-	[dic_push setValue:[service_info objectForKey:kAYServiceArgsServiceID] forKey:kAYServiceArgsServiceID];
-	[dic_push setValue:[service_info objectForKey:kAYServiceArgsOwnerID] forKey:kAYServiceArgsOwnerID];
-	[dic_push setValue:[args objectForKey:kAYServiceArgsUserID] forKey:kAYServiceArgsUserID];
+	[dic_push setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_push setValue:[service_info objectForKey:kAYCommArgsOwnerID] forKey:kAYCommArgsOwnerID];
+	[dic_push setValue:[args objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
 	if (images.count != 0) {
 		[dic_push setValue:[images firstObject] forKey:kAYOrderArgsThumbs];

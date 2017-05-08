@@ -75,29 +75,13 @@
 			make.top.equalTo(titleLabel.mas_bottom).offset(3);
 		}];
 		
-//		paymentInfoLabel = [Tools creatUILabelWithText:@"Price Payway" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:paymentInfoLabel];
-//		[paymentInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(titleLabel);
-//			make.top.equalTo(orderNoLabel.mas_bottom).offset(10);
-//		}];
-		
-//		stateLabel = [Tools creatUILabelWithText:@"Order state" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:stateLabel];
-//		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(titleLabel);
-//			make.top.equalTo(paymentInfoLabel.mas_bottom).offset(15);
-//		}];
+		[Tools addBtmLineWithMargin:10.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:self];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
 		}
 	}
 	return self;
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
 }
 
 @synthesize para = _para;
@@ -158,6 +142,27 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
+//	{
+//		address = "Beijing Haidian Driving School Registration Office (Dongsheng Student Accommodation Unit Southwest)";
+//		cans = "-1";
+//		"cans_cat" = 0;
+//		end = 1494637200000;
+//		"order_id" = 5ec0d0e954acebfecbc617eab87d08c8;
+//		"order_thumbs" = "EAC8BAE9-46FB-4054-94E0-70B32E2C82E1";
+//		"order_title" = "Sunfei' Service";
+//		owner =     {
+//			"screen_name" = Singer;
+//			"screen_photo" = "A25F3F2C-9619-484D-8EB6-B7B187BA4F9A";
+//		};
+//		reserve1 = "";
+//		"service_cat" = 1;
+//		"service_id" = 4b99af39a03c518f794f4f1ff799f66c;
+//		start = 1494633600000;
+//		user =     {
+//			"screen_name" = "\U827e\U4f26\U4e36\U7c73\U4fee\U65af";
+//			"screen_photo" = "3B958915-E9D8-4D36-B995-A98C907EFEA0";
+//		};
+//	}
 	
 	NSDictionary *order_info = (NSDictionary*)args;
 	
@@ -165,7 +170,7 @@
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 	NSString *pre = cmd.route;
 	
-	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
+	NSString *photo_name = [[order_info objectForKey:@"user"] objectForKey:@"screen_photo"];
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
@@ -174,34 +179,11 @@
 	orderID = [orderID uppercaseString];
 	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	
-	service_info = [order_info objectForKey:@"service"];
-	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
+	NSString *userName = [[order_info objectForKey:@"user"] objectForKey:kAYServiceArgsScreenName];
+	userNameLabel.text = userName;
 	
-	NSString *aplyName = [order_info objectForKey:kAYServiceArgsScreenName];
-	NSString *titleStr = [NSString stringWithFormat:@"%@申请预订%@", aplyName, completeTheme];
-	if (titleStr && ![titleStr isEqualToString:@""]) {
-		titleLabel.text = titleStr;
-	}
-	
-//	NSString *price = [order_info objectForKey:kAYOrderArgsTotalFee];
-//	paymentInfoLabel.text = [NSString stringWithFormat:@"¥%@  微信支付", price];
-//	
-//	NSDictionary *order_date = [args objectForKey:@"order_date"];
-//	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-//	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-//	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
-//	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
-//	
-//	NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
-//	[formatterDay setDateFormat:@"MM月dd日"];
-//	NSString *dayStr = [formatterDay stringFromDate:startDate];
-//	
-//	NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
-//	[formatterTime setDateFormat:@"HH:mm"];
-//	NSString *startStr = [formatterTime stringFromDate:startDate];
-//	NSString *endStr = [formatterTime stringFromDate:endDate];
-//	
-//	stateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@", dayStr, startStr, endStr];
+	NSString *orderTitle = [order_info objectForKey:kAYOrderArgsTitle];
+	titleLabel.text = orderTitle;
 	
 	return nil;
 }

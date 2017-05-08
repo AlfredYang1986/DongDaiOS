@@ -33,7 +33,8 @@
 			make.right.equalTo(self).offset(-20);
 		}];
 		
-		[Tools creatCALayerWithFrame:CGRectMake(10, 49.5, SCREEN_WIDTH - 10*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		[Tools addBtmLineWithMargin:10.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:self];
+		
 	}
 	return self;
 }
@@ -42,11 +43,10 @@
 - (void)setCellInfo:(NSDictionary *)cellInfo {
 	_cellInfo = cellInfo;
 	
-	NSDictionary *order_date = [cellInfo objectForKey:@"order_date"];
-	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
-	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
+	NSTimeInterval start = ((NSNumber*)[cellInfo objectForKey:@"start"]).longValue * 0.001;
+	NSTimeInterval end = ((NSNumber*)[cellInfo objectForKey:@"end"]).longValue * 0.001;
+	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
+	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
 	
 	NSDateFormatter *formatterDay = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日"];
 	NSString *dayStr = [formatterDay stringFromDate:startDate];

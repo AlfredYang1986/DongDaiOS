@@ -9,10 +9,15 @@
 #ifndef AYServiceArgsDefines_h
 #define AYServiceArgsDefines_h
 
-static NSString* const kAYServiceArgsServiceInfo =               @"service_info";
-static NSString* const kAYServiceArgsServiceID =               @"service_id";
-static NSString* const kAYServiceArgsUserID =               @"user_id";
-static NSString* const kAYServiceArgsOwnerID =               @"owner_id";
+//common args
+static NSString* const kAYCommArgsUserID =               @"user_id";
+static NSString* const kAYCommArgsOwnerID =               @"owner_id";
+//static NSString* const kAYCommArgs =               @"user_id";
+
+
+//service args
+static NSString* const kAYServiceArgsInfo =               @"service_info";
+static NSString* const kAYServiceArgsID =               @"service_id";
 
 static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
 
@@ -76,11 +81,18 @@ static NSString* const kAYServiceArgsIsAdjustSKU =               @"is_adjust_SKU
 //static NSString* const kAYServiceArgsScreenName =               @"screen_name";
 
 
-//order info args
+//order args
+static NSString* const kAYOrderArgsID =               @"order_id";
 static NSString* const kAYOrderArgsTotalFee =               @"total_fee";
 static NSString* const kAYOrderArgsThumbs =               @"order_thumbs";
 static NSString* const kAYOrderArgsTitle =               @"order_title";
 static NSString* const kAYOrderArgsDate =               @"order_date";
+static NSString* const kAYOrderArgsStatus =               @"status";
+static NSString* const kAYOrderArgsFurtherMessage =               @"further_message";
 //static NSString* const kAYOrderArgs =               @"order_";
+
+
+
+
 
 #endif /* AYServiceArgsDefines_h */

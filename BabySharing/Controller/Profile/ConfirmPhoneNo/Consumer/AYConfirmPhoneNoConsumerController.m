@@ -41,7 +41,7 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		
 		book_info = [dic objectForKey:kAYControllerChangeArgsKey];
-		service_info = [book_info objectForKey:kAYServiceArgsServiceInfo];
+		service_info = [book_info objectForKey:kAYServiceArgsInfo];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         

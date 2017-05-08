@@ -47,7 +47,7 @@
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
-		service_info = [tmp objectForKey:kAYServiceArgsServiceInfo];
+		service_info = [tmp objectForKey:kAYServiceArgsInfo];
 		serviceType = [service_info objectForKey:kAYServiceArgsServiceCat];
 		serviceTMs = [service_info objectForKey:kAYServiceArgsTimes];
 		
@@ -395,7 +395,7 @@
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
 	[tmp setValue:order_times forKey:@"order_times"];
-	[tmp setValue:[service_info copy] forKey:kAYServiceArgsServiceInfo];
+	[tmp setValue:[service_info copy] forKey:kAYServiceArgsInfo];
 	
 	/**
 	 * 2. check profile has_phone, if not, go confirmNoConsumer

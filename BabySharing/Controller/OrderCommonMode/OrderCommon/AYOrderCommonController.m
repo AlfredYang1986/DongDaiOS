@@ -16,17 +16,16 @@
 #import "AYRemoteCallCommand.h"
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
-#import "AYAppliFBTopView.h"
+#import "AYOrderTOPView.h"
 
 #define TOPHEIGHT		165
 
 @implementation AYOrderCommonController {
 	
 //	UILabel *leastNews;
-	AYAppliFBTopView *TOPView;
+	AYOrderTOPView *TOPView;
 	
-	NSArray *result_status_ready;
-	NSArray *result_status_confirm;
+	NSArray *result_status_fb;
 }
 
 #pragma mark -- commands
@@ -50,38 +49,9 @@
 	[super viewDidLoad];
 	
 	/****************************************/
-//	[Tools creatCALayerWithFrame:CGRectMake(85, SCREEN_HEIGHT * 0.5, 1.f, SCREEN_HEIGHT * 0.5 - 49) andColor:[Tools lightGreyColor] inSuperView:self.view];
 	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	[self.view bringSubviewToFront:tableView];
 	/****************************************/
-	
-//	UIView *newsBoardView = [[UIView alloc]init];
-//	newsBoardView.backgroundColor = [Tools whiteColor];
-//	newsBoardView.layer.shadowColor = [Tools garyColor].CGColor;
-//	newsBoardView.layer.shadowOffset = CGSizeMake(0, 0);
-//	newsBoardView.layer.shadowOpacity = 0.5f;
-//	[self.view addSubview:newsBoardView];
-//	[newsBoardView mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.centerX.equalTo(self.view);
-//		make.top.equalTo(self.view).offset(30);
-//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 30, 95));
-//	}];
-//	
-//	UILabel *title = [Tools creatUILabelWithText:@"最近提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//	[newsBoardView addSubview:title];
-//	[title mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.left.equalTo(newsBoardView).offset(15);
-//		make.top.equalTo(newsBoardView).offset(20);
-//	}];
-//	
-//	leastNews = [Tools creatUILabelWithText:@"暂时没有新的日程" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//	[newsBoardView addSubview:leastNews];
-//	[leastNews mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.left.equalTo(title);
-//		make.top.equalTo(title.mas_bottom).offset(18);
-//	}];
-//	leastNews.userInteractionEnabled = YES;
-//	[leastNews addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didLeastNewsTap)]];
 	
 	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
 	[self.view addSubview:allNewsBtn];
@@ -92,7 +62,7 @@
 	}];
 	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
-	TOPView = [[AYAppliFBTopView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT)];
+	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeCommon];
 	[self.view addSubview:TOPView];
 	TOPView.userInteractionEnabled = YES;
 	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
@@ -105,7 +75,7 @@
 	
 	/****************************************/
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-//	[self loadNewData];
+	[self loadNewData];
 	
 //	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -124,7 +94,6 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [UIColor clearColor];
 	return nil;
 }
 
@@ -156,12 +125,12 @@
 	id<AYCommand> des;
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
-	if (result_status_ready.count == 1 && result_status_ready.count != 0) {
+	if (result_status_fb.count == 1 ) {
 		des = DEFAULTCONTROLLER(@"OrderInfoPage");
-		[dic setValue:[result_status_ready firstObject] forKey:kAYControllerChangeArgsKey];
+		[dic setValue:[result_status_fb firstObject] forKey:kAYControllerChangeArgsKey];
 	} else {
 		des = DEFAULTCONTROLLER(@"AppliFBList");
-		[dic setValue:[result_status_ready copy] forKey:kAYControllerChangeArgsKey];
+		[dic setValue:[result_status_fb copy] forKey:kAYControllerChangeArgsKey];
 	}
 	
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -193,6 +162,8 @@
 
 #pragma mark -- actions
 - (void)loadNewData {
+	
+	
 	NSDictionary *info;
 	CURRENUSER(info)
 	
@@ -208,37 +179,12 @@
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			NSArray *resultArr = [result objectForKey:@"result"];
+			NSPredicate *pred_accept = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusAccepted];
+			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
+			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_accept, pred_reject]];
+			result_status_fb = [resultArr filteredArrayUsingPredicate:pred_fb];
 			
-//			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusDone];
-//			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusReject];
-//			NSArray *result_status_done = [resultArr filteredArrayUsingPredicate:pred_done];
-//			NSArray *result_status_reject = [resultArr filteredArrayUsingPredicate:pred_reject];
-//			
-//			NSMutableArray *tmpArr = [[NSMutableArray alloc]init];
-//			[tmpArr addObjectsFromArray:result_status_done];
-//			[tmpArr addObjectsFromArray:result_status_reject];
-			
-			/*****************************/
-			
-			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusPaid];
-			NSPredicate *pred_confirm = [NSPredicate predicateWithFormat:@"SELF.status=%d",OrderStatusConfirm];
-			result_status_ready = [resultArr filteredArrayUsingPredicate:pred_ready];
-			result_status_confirm = [resultArr filteredArrayUsingPredicate:pred_confirm];
-			
-			if (result_status_ready.count == 0) {
-//				leastNews.text = @"暂时没有待处理的日程";
-//				leastNews.textColor = [Tools garyColor];
-//				leastNews.userInteractionEnabled = NO;
-			} else {
-				
-//				leastNews.text = [NSString stringWithFormat:@"您有 %d个待处理订单", (int)result_status_ready.count];
-//				leastNews.textColor = [Tools themeColor];
-//				leastNews.userInteractionEnabled = YES;
-			}
-			
-			id tmp = [result_status_confirm copy];
-			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
-			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			[TOPView setItemArgs:result_status_fb];
 			
 		} else {
 			NSLog(@"query orders error: %@",result);

@@ -237,8 +237,8 @@
     
     if (isHaveChanged) {
         NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-        [dic_info setValue:kAYServiceArgsServiceInfo forKey:@"key"];
-        [dic_info setValue:service_info forKey:kAYServiceArgsServiceInfo];
+        [dic_info setValue:kAYServiceArgsInfo forKey:@"key"];
+        [dic_info setValue:service_info forKey:kAYServiceArgsInfo];
         [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     }
     id<AYCommand> cmd = POP;
@@ -254,8 +254,8 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:kAYServiceArgsServiceInfo forKey:@"key"];
-    [dic_info setValue:service_info forKey:kAYServiceArgsServiceInfo];
+    [dic_info setValue:kAYServiceArgsInfo forKey:@"key"];
+    [dic_info setValue:service_info forKey:kAYServiceArgsInfo];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;

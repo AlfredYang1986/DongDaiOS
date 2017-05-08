@@ -13,12 +13,12 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
+#import "AYNoContentCell.h"
 
-#define headViewHeight		50
+#define HEADVIEWHEIGHT		50
 
 @implementation AYServantHistoryDelegate {
 	NSArray *querydata;
-	
 }
 
 @synthesize para = _para;
@@ -55,21 +55,31 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return querydata.count;
-	return 5;
+	return querydata.count == 0 ? 1 :querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServantHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	if (querydata.count == 0) {
+		static NSString *ID_nohisory = @"NOHistory";
+		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:ID_nohisory];
+		if (!cell) {
+			cell = [[AYNoContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID_nohisory];
+		}
+		cell.titleStr = @"您还没有完结的历史记录";
+		return cell;
+	} else {
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServantHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+		id tmp = [querydata objectAtIndex:indexPath.row];
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+		cell.controller = self.controller;
+		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+		return (UITableViewCell*)cell;
+	}
 	
-//	id tmp = [querydata objectAtIndex:indexPath.row];
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-	
-	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -88,19 +98,13 @@
 		make.left.equalTo(headView).offset(20);
 	}];
 	
-	[Tools creatCALayerWithFrame:CGRectMake(10, headViewHeight - 0.5, SCREEN_WIDTH - 10*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
+	[Tools creatCALayerWithFrame:CGRectMake(10, HEADVIEWHEIGHT - 0.5, SCREEN_WIDTH - 10*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (section == 0) {
-		
-		return headViewHeight;
-		
-	} else {
-		return 50.f;
-	}
+	return HEADVIEWHEIGHT;
 }
 
 #import "AYControllerActionDefines.h"
@@ -112,8 +116,8 @@
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
 	
-	//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];

@@ -490,7 +490,7 @@
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:service_info forKey:kAYServiceArgsServiceInfo];
+	[tmp setValue:service_info forKey:kAYServiceArgsInfo];
 	[tmp setValue:offer_date_mutable forKey:kAYServiceArgsOfferDate];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
 	

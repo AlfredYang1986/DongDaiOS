@@ -19,7 +19,7 @@
 
 @implementation AYMoreAppliController {
 	
-	NSArray *order_past;
+	NSDictionary *order_info;
 }
 
 #pragma mark -- commands
@@ -27,7 +27,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
+		order_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -49,31 +49,19 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	id tmp = [order_past copy];
-	kAYDelegatesSendMessage(@"ServantHistory", kAYDelegateChangeDataMessage, &tmp)
+	id tmp = [order_info copy];
+	kAYDelegatesSendMessage(@"MoreAppli", kAYDelegateChangeDataMessage, &tmp)
 	
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
 }
 
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	view.backgroundColor = [UIColor clearColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [UIColor clearColor];
-	//		NSString *title = @"历史记录";
-	//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
