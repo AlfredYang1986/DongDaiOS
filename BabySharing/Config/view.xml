@@ -910,7 +910,7 @@
 	   <command type="notify" message="delTimeDuration:" />
    </view>
    
-   <view type="BOApplyBack" name="BOApplyBack" factory="AYDefaultViewFactory" >
+   <view type="RemoteBack" name="RemoteBack" factory="AYDefaultViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
    </view>
    

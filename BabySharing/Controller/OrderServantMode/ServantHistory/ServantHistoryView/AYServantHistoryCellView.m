@@ -42,7 +42,7 @@
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
 		
-		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:614.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);
@@ -149,24 +149,28 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
 	
-//	NSDictionary *order_info = (NSDictionary*)args;
-//	
-//	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
-//	if (photo_name) {
-//		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//		NSString *pre = cmd.route;
-//		[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-//					 placeholderImage:IMGRESOURCE(@"default_user")];
-//	}
-//	
-//	NSString *titleStr = [NSString stringWithFormat:@"%@ · %@", [order_info objectForKey:@"screen_name"], [[order_info objectForKey:@"service"] objectForKey:@"title"]];
-//	if (titleStr && ![titleStr isEqualToString:@""]) {
-//		serviceTitleLabel.text = titleStr;
-//	}
-//	
-//	statesLabel.textColor = [Tools garyColor];
-//	statesLabel.text = @"待处理";
+	NSDictionary *order_info = args;
+	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
+	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *PRE = cmd.route;
+	[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, photo_name]]
+					 placeholderImage:IMGRESOURCE(@"default_user")];
+	
+	NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];
+	NSString *actionStr = @"FeedBack Info";
+	if (status.intValue == OrderStatusReject) {
+		actionStr = @"您拒绝了订单申请";
+	} else if (status.intValue == OrderStatusPaid) {
+		actionStr = @"订单完成";
+	} else if (status.intValue == OrderStatusCancel) {
+		actionStr = @"用户取消了订单";
+	}
+	statesLabel.text = actionStr;
+	
+	userNameLabel.text = [order_info objectForKey:kAYServiceArgsScreenName];
+	serviceTitleLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsTitle];
 	
 	return nil;
 }

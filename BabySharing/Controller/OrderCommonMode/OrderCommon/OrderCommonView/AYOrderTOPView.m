@@ -59,7 +59,7 @@
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
 		
-		noContentLabel = [Tools creatUILabelWithText:@"None Any Order" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		noContentLabel = [Tools creatUILabelWithText:@"暂时没有需要处理的订单" andTextColor:[Tools garyColor] andFontSize:15.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:noContentLabel];
 		[noContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView).offset(0);

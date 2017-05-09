@@ -119,7 +119,7 @@
 	
 	[cmd_cancel performWithResult:[dic_cancel_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			id<AYCommand> des = DEFAULTCONTROLLER(@"BOApplyBack");
+			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
 			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

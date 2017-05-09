@@ -1137,10 +1137,10 @@
         <delegate type="PickerViewDelegateAndDatasource" name="OrderTimes" />
     </controller>
 	
-	<controller type="DefaultController" name="BOApplyBack" factory="AYDefaultControllerFactoy" >
+	<controller type="DefaultController" name="RemoteBack" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
-		<view type="BOApplyBack"     name="BOApplyBack" />
+		<view type="RemoteBack"     name="RemoteBack" />
 	</controller>
 	
     <controller type="DefaultController" name="OrderService" factory="AYDefaultControllerFactoy" >

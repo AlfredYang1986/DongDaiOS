@@ -6,14 +6,14 @@
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYBOApplyBackView.h"
+#import "AYRemoteBackView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
 #import "AYFactoryManager.h"
 #import "AYFacadeBase.h"
 
-@implementation AYBOApplyBackView {
+@implementation AYRemoteBackView {
 	UILabel *tipsLabel;
 }
 

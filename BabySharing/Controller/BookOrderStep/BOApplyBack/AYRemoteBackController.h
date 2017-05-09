@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYBOApplyBackController : AYViewController
+@interface AYRemoteBackController : AYViewController
 
 @end

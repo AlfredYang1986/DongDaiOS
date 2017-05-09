@@ -14,6 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
+#import "AYNoContentCell.h"
 
 #define headViewHeight		50
 
@@ -64,26 +65,37 @@
 	NSArray *todoArr = [querydata objectForKey:@"todo"];
 	NSArray *feedbackArr = [querydata objectForKey:@"feedback"];
 	if (section == 0) {
-		return todoArr.count;
+		return todoArr.count == 0 ? 1 : todoArr.count;
 	} else
 		return feedbackArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	id tmp;
-	if (indexPath.section == 0) {
-		tmp = [[querydata objectForKey:@"todo"] objectAtIndex:indexPath.row];;
-	} else
-		tmp = [[querydata objectForKey:@"feedback"] objectAtIndex:indexPath.row];
-	
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-	
-	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	return (UITableViewCell*)cell;
+	if (indexPath.section == 0 && [[querydata objectForKey:@"todo"] count] == 0) {
+		AYNoContentCell *no_content_cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
+		if (!no_content_cell) {
+			no_content_cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
+		}
+		no_content_cell.titleStr = @"暂时没有需要处理的订单";
+		return no_content_cell;
+		
+	} else {
+		
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		id tmp;
+		if (indexPath.section == 0) {
+			tmp = [[querydata objectForKey:@"todo"] objectAtIndex:indexPath.row];
+		} else {
+			tmp = [[querydata objectForKey:@"feedback"] objectAtIndex:indexPath.row];
+		}
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+		cell.controller = self.controller;
+		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+		return (UITableViewCell*)cell;
+	}
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

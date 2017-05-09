@@ -215,6 +215,7 @@
 			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_accept, pred_reject]];
 			result_status_fb = [resultArr filteredArrayUsingPredicate:pred_fb];
 			
+			TOPView.userInteractionEnabled = result_status_fb.count != 0;
 			[TOPView setItemArgs:result_status_fb];
 			
 		} else {
