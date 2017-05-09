@@ -59,9 +59,9 @@
 		//	photoIcon.userInteractionEnabled = YES;
 		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
-		stateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:stateLabel];
-		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		orderNoLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:orderNoLabel];
+		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
 			make.left.equalTo(self).offset(20);
 		}];
@@ -70,15 +70,16 @@
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
-			make.bottom.equalTo(stateLabel.mas_top).offset(-5);
+			make.bottom.equalTo(orderNoLabel.mas_top).offset(-5);
 		}];
 		
-		orderNoLabel = [Tools creatUILabelWithText:@"Order NO" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:orderNoLabel];
-		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		stateLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:stateLabel];
+		[stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(stateLabel.mas_bottom).offset(5);
+			make.top.equalTo(orderNoLabel.mas_bottom).offset(5);
 		}];
+		
 		
 //		dateLabel = [Tools creatUILabelWithText:@"01-01 00:00-00:00" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 //		[self addSubview:dateLabel];
@@ -94,10 +95,6 @@
 		}
 	}
 	return self;
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
 }
 
 @synthesize para = _para;
@@ -165,26 +162,27 @@
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 	NSString *pre = cmd.route;
 	
-	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
+	NSString *photo_name = [[order_info objectForKey:kAYServiceArgsSelf]objectForKey:@"screen_photo"];
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
 						 placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	NSString *orderID = [order_info objectForKey:@"order_id"];
-	orderID = [orderID uppercaseString];
-	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
+	NSString *orderID = [order_info objectForKey:kAYOrderArgsID];
+	if (orderID && ![orderID isEqualToString:@""]) {
+		orderID = [orderID uppercaseString];
+		orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
+	}
 	
-	service_info = [order_info objectForKey:@"service"];
+	service_info = [order_info objectForKey:kAYServiceArgsSelf];
 	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
-	
-	NSString *aplyName = [order_info objectForKey:kAYServiceArgsScreenName];
-	NSString *titleStr = [NSString stringWithFormat:@"%@预订的%@", aplyName, completeTheme];
+	NSString *aplyName = [[order_info objectForKey:kAYServiceArgsSelf] objectForKey:kAYServiceArgsScreenName];
+	NSString *titleStr = [NSString stringWithFormat:@"%@的%@", aplyName, completeTheme];
 	if (titleStr && ![titleStr isEqualToString:@""]) {
 		titleLabel.text = titleStr;
 	}
 	
-	NSDictionary *order_date = [args objectForKey:@"order_date"];
-	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
+//	NSDictionary *order_date = [args objectForKey:@"order_date"];
+//	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
+//	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
 //	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
 //	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
 	
@@ -201,10 +199,28 @@
 	
 	OrderStatus OrderStatus = ((NSNumber*)[args objectForKey:@"status"]).intValue;
 	switch (OrderStatus) {
-		case OrderStatusConfirm:
+		case OrderStatusPosted:{
+			stateLabel.text = @"待确认";
+		}
+			break;
+		case OrderStatusAccepted:
+		{
+			stateLabel.text = @"已接受";
+		}
+			break;
+		case OrderStatusReject:
+		{
+			stateLabel.text = @"已拒绝";
+		}
+			break;
 		case OrderStatusPaid:
 		{
-			stateLabel.text = [Tools compareFutureTime:startDate];
+			stateLabel.text = @"已付款";
+		}
+			break;
+		case OrderStatusCancel:
+		{
+			stateLabel.text = @"已取消";
 		}
 			break;
 		case OrderStatusDone:
@@ -213,7 +229,6 @@
 		}
 			break;
 		default:
-//			stateLabel.text = @"Go On";
 			break;
 	}
 	return nil;

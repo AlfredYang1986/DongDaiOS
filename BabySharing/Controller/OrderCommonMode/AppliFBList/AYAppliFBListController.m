@@ -19,7 +19,7 @@
 
 @implementation AYAppliFBListController {
 	
-	NSArray *order_past;
+	NSArray *order_feedback;
 }
 
 #pragma mark -- commands
@@ -27,7 +27,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
+		order_feedback = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -49,8 +49,8 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	id tmp = [order_past copy];
-	kAYDelegatesSendMessage(@"ServantHistory", kAYDelegateChangeDataMessage, &tmp)
+	id tmp = [order_feedback copy];
+	kAYDelegatesSendMessage(@"AppliFBList", kAYDelegateChangeDataMessage, &tmp)
 	
 }
 

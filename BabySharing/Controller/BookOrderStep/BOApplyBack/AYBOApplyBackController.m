@@ -8,23 +8,31 @@
 
 #import "AYBOApplyBackController.h"
 
-@interface AYBOApplyBackController ()
+@implementation AYBOApplyBackController {
+	NSDictionary *dic_args;
+}
 
-@end
-
-@implementation AYBOApplyBackController
+#pragma mark -- commands
+- (void)performWithResult:(NSObject**)obj {
+	NSDictionary* dic = (NSDictionary*)*obj;
+	
+	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
+		
+		
+	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
+		
+	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		
+	}
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
+	id tmp = [dic_args copy];
+	kAYViewsSendMessage(@"BOApplyBack", kAYCellSetCellInfoMessage, &tmp)
+	
 }
 
 #pragma mark -- layouts

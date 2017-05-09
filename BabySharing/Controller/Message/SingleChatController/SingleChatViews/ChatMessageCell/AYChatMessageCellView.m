@@ -141,13 +141,7 @@
     
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-}
-
 - (void)setContentDate:(NSTimeInterval)date {
-    
     NSDate *date2 = [NSDate dateWithTimeIntervalSince1970:date*0.001];
     time_label.text = [Tools compareCurrentTime:date2];
 }

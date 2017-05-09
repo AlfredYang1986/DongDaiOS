@@ -19,7 +19,7 @@
 
 @implementation AYPAYPageController {
 	
-	NSString *order_id;
+	NSDictionary *order_info;
 	NSDictionary *service_info;
 	
 	UIView *payOptionSignView;
@@ -30,7 +30,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
+		order_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -51,9 +51,6 @@
 	/****************************************/
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
-//	id tmp = [order_past copy];
-//	kAYDelegatesSendMessage(@"PayWayCell", kAYDelegateChangeDataMessage, &tmp)
 	
 	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"Confirm Payment" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:ConfirmPayBtn];
@@ -93,52 +90,103 @@
 #pragma mark -- actions
 - (void)didConfirmPayBtnClick {
 	
-//#ifdef SANDBOX
-//	sumPrice = 1 * scaleUnit;
-//#endif
+	NSDictionary *args;
+	CURRENUSER(args);
 	
+	NSString *payway;
+	CGFloat totalfee = 1.f;
+	if (payOptionSignView.tag == PayWayOptionAlipay) {
+		payway = @"alipay";
+		totalfee = 0.01f;
+	} else if (payOptionSignView.tag == PayWayOptionWechat) {
+		payway = @"wechat";
+		
+		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
+		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
+		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
+		[cmd_login performWithResult:&IsInstalledWechat];
+		if (!IsInstalledWechat.boolValue ) {
+			NSString *title = @"未安装微信！";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			return;
+		}
+	}
 	
-	//		id<AYFacadeBase> f = [self.facades objectForKey:@"SNSWechat"];
-	//		id<AYCommand> cmd_login = [f.commands objectForKey:@"IsInstalledWechat"];
-	//		NSNumber *IsInstalledWechat = [NSNumber numberWithBool:NO];
-	//		[cmd_login performWithResult:&IsInstalledWechat];
-	//		if (!IsInstalledWechat.boolValue ) {
-	//			NSString *title = @"未安装微信！";
-	//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-	//			return;
-	//		}
+	NSMutableDictionary *dic_prepay = [[NSMutableDictionary alloc] initWithDictionary:args];
+	[dic_prepay setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[dic_prepay setValue:payway forKey:kAYOrderArgsPayMethod];
+	[dic_prepay setValue:[order_info objectForKey:kAYOrderArgsTotalFee] forKey:kAYOrderArgsTotalFee];
 	
+#ifdef SANDBOX
+	[dic_prepay setValue:[NSNumber numberWithFloat:totalfee] forKey:kAYOrderArgsTotalFee];
+#endif
 	
-	//			order_id = [result objectForKey:@"order_id"];
-	//
-	//			// 支付
-	//			switch (payOptionSignView.tag) {
-	//				case PayWayOptionWechat:
-	//				{
-	//					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
-	//					AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayWithWechat"];
-	//
-	//					NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-	//					[pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-	//					[cmd performWithResult:&pay];
-	//				}
-	//					break;
-	//				case PayWayOptionAlipay:
-	//				{
-	//                    id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
-	//                    AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"AlipayPay"];
-	//
-	//                    NSMutableDictionary* pay = [[NSMutableDictionary alloc]init];
-	////                    [pay setValue:[result objectForKey:@"prepay_id"] forKey:@"prepay_id"];
-	//                    [cmd performWithResult:&pay];
-	//				}
-	//					break;
-	//				default:
-	//					break;
-	//			}
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_prepay = [facade.commands objectForKey:@"PrePayOrder"];
+	[cmd_prepay performWithResult:[dic_prepay copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+
+			// 支付
+			AYRemoteCallCommand *cmd_pay;
+			
+			switch (payOptionSignView.tag) {
+				case PayWayOptionWechat:
+				{
+					id<AYFacadeBase> facade = [self.facades objectForKey:@"SNSWechat"];
+					cmd_pay = [facade.commands objectForKey:@"PayWithWechat"];
+				}
+					break;
+				case PayWayOptionAlipay:
+				{
+					id<AYFacadeBase> facade = [self.facades objectForKey:@"Alipay"];
+					cmd_pay = [facade.commands objectForKey:@"AlipayPay"];
+				}
+					break;
+					
+				default:
+					break;
+			} //switch
+			
+			id tmp = [result copy];
+			[cmd_pay performWithResult:&tmp];
+			
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	
 }
 
+- (void)successForPostPay:(PayWayOption)opt {
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	// 支付成功
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PostPayOrder"];
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc] initWithDictionary:user];
+	[dic setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	
+	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		if (success) {
+			NSString *title = @"支付完成，您已成功预订服务! 去日程查看?";
+			//            [self popToRootVCWithTip:title];
+			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+			
+		} else {
+			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+}
 
+- (void)BtmAlertOtherBtnClick {
+	// 两个super方法
+	[super BtmAlertOtherBtnClick];
+	[super tabBarVCSelectIndex:2];
+}
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
@@ -167,31 +215,7 @@
 
 #pragma mark -- payment notifies
 - (id)WechatPaySuccess:(id)args {
-	
-	NSDictionary* user = nil;
-	CURRENUSER(user)
-	
-	// 支付成功
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
-	
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:order_id forKey:@"order_id"];
-	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-	
-	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			NSString *title = @"服务预订成功! 去日程查看?";
-			//            [self popToRootVCWithTip:title];
-			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
-			
-		} else {
-			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-	}];
+	[self successForPostPay:PayWayOptionWechat];
 	return nil;
 }
 
@@ -209,31 +233,7 @@
 
 - (id)AlipaySuccess:(id)args {
 	NSLog(@"pay success");
-	
-	NSDictionary* user = nil;
-	CURRENUSER(user)
-	
-	// 支付成功
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PayOrder"];
-	
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:order_id forKey:@"order_id"];
-	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-	[dic setValue:[service_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-	[dic setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-	
-	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		if (success) {
-			NSString *title = @"服务预订成功,去日程查看";
-			//            [self popToRootVCWithTip:title];
-			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
-			
-		} else {
-			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-	}];
+	[self successForPostPay:PayWayOptionAlipay];
 	return nil;
 }
 

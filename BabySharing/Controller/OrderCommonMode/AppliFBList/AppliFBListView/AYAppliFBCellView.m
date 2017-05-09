@@ -13,6 +13,7 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
+#import "AYRemoteCallCommand.h"
 
 @implementation AYAppliFBCellView {
 	
@@ -133,8 +134,31 @@
 	return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSDictionary*)args {
+- (id)setCellInfo:(id)args {
 	
+	NSDictionary *order_info = args;
+	NSString *photo_name = [[order_info objectForKey:@"service"] objectForKey:@"screen_photo"];
+	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *PRE = cmd.route;
+	[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, photo_name]]
+					 placeholderImage:IMGRESOURCE(@"default_user")];
+	
+	NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];
+	NSString *actionStr = @"FeedBack Info";
+	if (status.intValue == OrderStatusAccepted) {
+		actionStr = @"已接受";
+	} else if (status.intValue == OrderStatusReject) {
+		actionStr = @"已拒绝";
+	}
+	
+	FBActionLabel.text = actionStr;
+	
+	userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsScreenName];
+	
+	NSString *compName = [Tools serviceCompleteNameFromSKUWith:[order_info objectForKey:@"service"]];
+	serviceTitleLabel.text = [NSString stringWithFormat:@"您的%@申请", compName];
 	
 	return nil;
 }

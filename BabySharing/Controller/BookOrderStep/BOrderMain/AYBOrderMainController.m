@@ -181,6 +181,7 @@
 			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:@{@"FBType":@"FBTypePostOrder", kAYCommArgsTips:@"申请已发送至服务方，请等待服务方处理"} forKey:kAYControllerChangeArgsKey];
 			
 			id<AYCommand> cmd_push = PUSH;
 			[cmd_push performWithResult:&dic];

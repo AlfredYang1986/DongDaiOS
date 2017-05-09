@@ -19,8 +19,9 @@
 
 @implementation AYUnSubsPageController {
 	
-	NSArray *order_past;
+	NSDictionary *order_info;
 	UIView *payOptionSignView;
+	NSString *further_message;
 }
 
 #pragma mark -- commands
@@ -28,7 +29,7 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		order_past = [dic objectForKey:kAYControllerChangeArgsKey];
+		order_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -106,6 +107,31 @@
 
 #pragma mark -- actions
 - (void)didConfirmPayBtnClick {
+	NSDictionary *args;
+	CURRENUSER(args);
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_cancel = [facade.commands objectForKey:@"CancelOrder"];
+	
+	NSMutableDictionary *dic_cancel_info = [[NSMutableDictionary alloc] initWithDictionary:args];
+	[dic_cancel_info setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[dic_cancel_info setValue:further_message forKey:kAYOrderArgsFurtherMessage];
+	
+	[cmd_cancel performWithResult:[dic_cancel_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			id<AYCommand> des = DEFAULTCONTROLLER(@"BOApplyBack");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:@{@"FBType":@"FBTypeCancelOrder", kAYCommArgsTips:@"已成功取消订单"} forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd_push = PUSH;
+			[cmd_push performWithResult:&dic];
+		} else {
+			
+		}
+	}];
 	
 }
 
@@ -127,8 +153,11 @@
 }
 
 - (id)didOptionClick:(id)args {
+	
+	further_message = [args objectForKey:@"string"];
+	
 	payOptionSignView.hidden = YES;
-	payOptionSignView = args;
+	payOptionSignView = [args objectForKey:@"view"];
 	payOptionSignView.hidden = NO;
 	
 	return nil;

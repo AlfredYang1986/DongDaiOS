@@ -228,11 +228,15 @@
         <command type="Remote" name="QueryRemind" />
 		
         <command type="Remote" name="PushOrder" />
-        <command type="Remote" name="PushOrderAlipay" />
         <command type="Remote" name="AcceptOrder" />
         <command type="Remote" name="RejectOrder" />
+		<command type="Remote" name="CancelOrder" />
+		<command type="Remote" name="PrePayOrder" />
+		<command type="Remote" name="PostPayOrder" />
+		
+		<command type="Remote" name="PushOrderAlipay" />
         <command type="Remote" name="AccomplishOrder" />
-        
+		
         <command type="Remote" name="PayOrder" />
        
         <command type="Remote" name="PushComments" />

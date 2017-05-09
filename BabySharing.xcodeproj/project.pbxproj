@@ -225,6 +225,10 @@
 		702B7A481DAF286700D8715B /* AYShowAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A471DAF286700D8715B /* AYShowAlertCommand.m */; };
 		702B7A4C1DAF2ABF00D8715B /* AYHideAlertCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */; };
 		702BD33D1CF55FAF0010F2BA /* AYKeyboardFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */; };
+		702BE8F21EC16DE500F20E41 /* AYCancelOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BE8F11EC16DE500F20E41 /* AYCancelOrderCommand.m */; };
+		702BE8F51EC16E3200F20E41 /* AYPostPayOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BE8F41EC16E3200F20E41 /* AYPostPayOrderCommand.m */; };
+		702BE8F81EC16E4000F20E41 /* AYPrePayOrderCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BE8F71EC16E4000F20E41 /* AYPrePayOrderCommand.m */; };
+		702BE8FB1EC1BD6C00F20E41 /* AYOTMHistoryCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702BE8FA1EC1BD6C00F20E41 /* AYOTMHistoryCellView.m */; };
 		702C04511EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C04501EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m */; };
 		702C3B991EAF25AB007F3303 /* AYOTMNurseCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B981EAF25AB007F3303 /* AYOTMNurseCellView.m */; };
 		702C3B9C1EAF2606007F3303 /* AYBOTimeTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9B1EAF2606007F3303 /* AYBOTimeTableDelegate.m */; };
@@ -1219,6 +1223,14 @@
 		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
+		702BE8F01EC16DE500F20E41 /* AYCancelOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCancelOrderCommand.h; sourceTree = "<group>"; };
+		702BE8F11EC16DE500F20E41 /* AYCancelOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCancelOrderCommand.m; sourceTree = "<group>"; };
+		702BE8F31EC16E3200F20E41 /* AYPostPayOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPostPayOrderCommand.h; sourceTree = "<group>"; };
+		702BE8F41EC16E3200F20E41 /* AYPostPayOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPostPayOrderCommand.m; sourceTree = "<group>"; };
+		702BE8F61EC16E4000F20E41 /* AYPrePayOrderCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPrePayOrderCommand.h; sourceTree = "<group>"; };
+		702BE8F71EC16E4000F20E41 /* AYPrePayOrderCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPrePayOrderCommand.m; sourceTree = "<group>"; };
+		702BE8F91EC1BD6C00F20E41 /* AYOTMHistoryCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOTMHistoryCellView.h; sourceTree = "<group>"; };
+		702BE8FA1EC1BD6C00F20E41 /* AYOTMHistoryCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOTMHistoryCellView.m; sourceTree = "<group>"; };
 		702C044F1EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYParseSTMForDayCourseCommand.h; sourceTree = "<group>"; };
 		702C04501EB1CD5600BE1518 /* AYParseSTMForDayCourseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYParseSTMForDayCourseCommand.m; sourceTree = "<group>"; };
 		702C04521EB1D19000BE1518 /* Readme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Readme.h; sourceTree = "<group>"; };
@@ -4167,6 +4179,33 @@
 			path = Keyboard;
 			sourceTree = "<group>";
 		};
+		702BE8ED1EC16DBB00F20E41 /* CancelOrder */ = {
+			isa = PBXGroup;
+			children = (
+				702BE8F01EC16DE500F20E41 /* AYCancelOrderCommand.h */,
+				702BE8F11EC16DE500F20E41 /* AYCancelOrderCommand.m */,
+			);
+			path = CancelOrder;
+			sourceTree = "<group>";
+		};
+		702BE8EE1EC16DBB00F20E41 /* PostPayOrder */ = {
+			isa = PBXGroup;
+			children = (
+				702BE8F31EC16E3200F20E41 /* AYPostPayOrderCommand.h */,
+				702BE8F41EC16E3200F20E41 /* AYPostPayOrderCommand.m */,
+			);
+			path = PostPayOrder;
+			sourceTree = "<group>";
+		};
+		702BE8EF1EC16DBB00F20E41 /* PrePayOrder */ = {
+			isa = PBXGroup;
+			children = (
+				702BE8F61EC16E4000F20E41 /* AYPrePayOrderCommand.h */,
+				702BE8F71EC16E4000F20E41 /* AYPrePayOrderCommand.m */,
+			);
+			path = PrePayOrder;
+			sourceTree = "<group>";
+		};
 		702E7A391CA14A480097867E = {
 			isa = PBXGroup;
 			children = (
@@ -5484,6 +5523,9 @@
 		7069A31F1D52F95C007821D4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				702BE8ED1EC16DBB00F20E41 /* CancelOrder */,
+				702BE8EE1EC16DBB00F20E41 /* PostPayOrder */,
+				702BE8EF1EC16DBB00F20E41 /* PrePayOrder */,
 				702B783E1EC0274F003E8104 /* QueryRemind */,
 				80CCABC31E5EDA5D0012F422 /* PushOrderAlipay */,
 				80C5890F1DB776CA00BCC8E9 /* PayOrder */,
@@ -7779,6 +7821,8 @@
 				70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */,
 				7009CAE81EBB33A000088A1D /* AYOrderTOPView.h */,
 				7009CAE91EBB33A000088A1D /* AYOrderTOPView.m */,
+				702BE8F91EC1BD6C00F20E41 /* AYOTMHistoryCellView.h */,
+				702BE8FA1EC1BD6C00F20E41 /* AYOTMHistoryCellView.m */,
 			);
 			path = OrderCommonView;
 			sourceTree = "<group>";
@@ -8915,6 +8959,7 @@
 				705195601E1B909000F1F761 /* AYServiceMapView.m in Sources */,
 				702510A61CC0F5CF00DADF2B /* AYChatSessionModelFacade.m in Sources */,
 				70C41E271DBA091F00C77B10 /* AYMyServiceInitCommand.m in Sources */,
+				702BE8F81EC16E4000F20E41 /* AYPrePayOrderCommand.m in Sources */,
 				703B4CF11DCC8A9300B1088C /* AYServiceTitleCellView.m in Sources */,
 				70C41EE01DBA122500C77B10 /* TZImageManager.m in Sources */,
 				70B820A31CAA6F9A001EEAF2 /* TmpFileStorageModel.m in Sources */,
@@ -8978,6 +9023,7 @@
 				70D9BE0E1DAF94C1006B77A8 /* AYOtherBtnClickCommand.m in Sources */,
 				70F607D01EBC31A800FD6ABD /* AYTitleOptCellView.m in Sources */,
 				70A1A5631D1D4A860063FC7F /* AYLogoutEMCommand.m in Sources */,
+				702BE8F21EC16DE500F20E41 /* AYCancelOrderCommand.m in Sources */,
 				700693361CC4F78E00B511FF /* AYReversModuleCommand.m in Sources */,
 				70EC72341D190D6F0012B123 /* TAAbstractDotView.m in Sources */,
 				80F059421E5C3F4C002B105F /* RSADataVerifier.m in Sources */,
@@ -9106,6 +9152,7 @@
 				707E7A271D07CD8800DFC198 /* AYAnnonation.m in Sources */,
 				70CDF6361CBD033900311841 /* QueryContent.m in Sources */,
 				70CB714F1D97D33B00C83985 /* AYCommentServiceController.m in Sources */,
+				702BE8FB1EC1BD6C00F20E41 /* AYOTMHistoryCellView.m in Sources */,
 				703B4D031DCC8C0600B1088C /* AYServiceCostCellView.m in Sources */,
 				70C69FFE1D9A4E9F0069E4EE /* AYPersonalInfoHeadCellView.m in Sources */,
 				7018924B1DF05236001CBBB3 /* AYOptionalInfoCellView.m in Sources */,
@@ -9126,6 +9173,7 @@
 				705E933D1DBDB2B100FA020B /* AYSerOrderCellView.m in Sources */,
 				70B8209C1CAA5B4A001EEAF2 /* AYOpenUIImagePickerCameraCommand.m in Sources */,
 				704697D61CE047F200DACD8A /* SDWebImageManager.m in Sources */,
+				702BE8F51EC16E3200F20E41 /* AYPostPayOrderCommand.m in Sources */,
 				700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */,
 				70A333761E095BE800C1517C /* AYFilterThemeDelegate.m in Sources */,
 				704D48DD1DAE18AE00A69AF4 /* AYUserAgreeDelegate.m in Sources */,

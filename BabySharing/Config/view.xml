@@ -714,6 +714,9 @@
 	<view type="OrderNewsreelCell" name="OrderNewsreelCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
+	<view type="OTMHistoryCell" name="OTMHistoryCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	
 	<view type="OSWaitCell" name="OSWaitCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
@@ -908,7 +911,7 @@
    </view>
    
    <view type="BOApplyBack" name="BOApplyBack" factory="AYDefaultViewFactory" >
-	   
+	   <command type="message"      message="setCellInfo:" />
    </view>
    
    <view type="TodoApplyCell" name="TodoApplyCell" factory="AYReuseViewFactory" >

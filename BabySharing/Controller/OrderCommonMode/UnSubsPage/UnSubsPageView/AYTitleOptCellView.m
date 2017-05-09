@@ -116,7 +116,7 @@
 
 #pragma mark -- actions
 - (void)didOptionClick {
-	id tmp = signView;
+	id tmp = @{@"view":signView, @"string":titleLabel.text};
 	id<AYCommand> cmd = [self.notifies objectForKey:@"didOptionClick:"];
 	[cmd performWithResult:&tmp];
 	
@@ -134,7 +134,7 @@
 	if (row == 0) {
 		
 		signView.hidden = NO;
-		id tmp = signView;
+		id tmp = @{@"view":signView, @"string":titleLabel.text};
 		id<AYCommand> cmd = [self.notifies objectForKey:@"didOptionClick:"];
 		[cmd performWithResult:&tmp];
 		

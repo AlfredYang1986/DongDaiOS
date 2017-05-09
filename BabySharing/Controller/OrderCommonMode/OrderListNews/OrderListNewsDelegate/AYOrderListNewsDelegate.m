@@ -59,14 +59,8 @@
 }
 
 #pragma mark -- table
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//	return 2;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-//	return querydata.count == 0 ? 1 : querydata.count;
-	return 5;
+	return querydata.count == 0 ? 1 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -75,19 +69,20 @@
 	id<AYViewBase> cell;
 	id tmp ;
 	
-//	if (querydata.count == 0) {
-//		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
-//		if (!cell) {
-//			cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
-//		}
-//		cell.titleStr = @"您没有新的动态";
-//		return cell;
-//	} else {
-//	}
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//	tmp = [querydata objectAtIndex:indexPath.row];
-	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	if (querydata.count == 0) {
+		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
+		if (!cell) {
+			cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
+		}
+		cell.titleStr = @"您没有新的动态";
+		return cell;
+	} else {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+		tmp = [querydata objectAtIndex:indexPath.row];
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	}
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;

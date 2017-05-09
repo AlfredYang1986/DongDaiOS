@@ -26,6 +26,11 @@
 	AYOrderTOPView *TOPView;
 	
 	NSArray *result_status_fb;
+	
+	NSArray *OrderOfAll;
+	NSTimeInterval queryTimespan;
+	NSInteger skipCount;
+	
 }
 
 #pragma mark -- commands
@@ -47,6 +52,8 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	skipCount = 0;
+	queryTimespan = [NSDate date].timeIntervalSince1970 * 1000;
 	
 	/****************************************/
 	UITableView *tableView = [self.views objectForKey:kAYTableView];
@@ -77,8 +84,10 @@
 	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	[self loadNewData];
 	
-//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	
+	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 }
@@ -149,11 +158,7 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	
-//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-//	[tmp setValue:result_status_ready forKey:@"wait"];
-//	[tmp setValue:result_status_confirm forKey:@"confirm"];
-//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	[dic setValue:[OrderOfAll copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
@@ -161,24 +166,50 @@
 }
 
 #pragma mark -- actions
-- (void)loadNewData {
+- (void)loadNewData { //queryReminds
 	
+	[self queryOrders];
+	
+	NSDictionary* info = nil;
+	CURRENUSER(info)
+	NSMutableDictionary *dic_query = [info mutableCopy];
+	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+	//	[dic_query setValue:[NSNumber numberWithDouble:queryTimespanRemind] forKey:@"date"];
+	//	[dic_query setValue:[NSNumber numberWithInteger:skipCountRemind] forKey:@"skin"];
+	//	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
+	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			id tmp = [result copy];
+			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		}
+	}];
+}
+
+- (void)queryOrders {
 	
 	NSDictionary *info;
 	CURRENUSER(info)
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryApplyOrders"];
-	NSMutableDictionary *dic_query = [info mutableCopy];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	
-	NSMutableDictionary *dic_conditon = [[NSMutableDictionary alloc]init];
-	[dic_conditon setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
+	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
 	
-	[dic_query setValue:[dic_conditon copy] forKey:@"condition"];
+	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan] forKey:@"date"];
+	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
+	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
 	
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
+			
 			NSArray *resultArr = [result objectForKey:@"result"];
+			OrderOfAll = [resultArr copy];
+			
 			NSPredicate *pred_accept = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusAccepted];
 			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
 			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_accept, pred_reject]];
@@ -187,7 +218,8 @@
 			[TOPView setItemArgs:result_status_fb];
 			
 		} else {
-			NSLog(@"query orders error: %@",result);
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_future = [self.views objectForKey:@"Table"];

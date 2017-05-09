@@ -60,13 +60,14 @@
     order.sign_type = (rsa2PrivateKey.length > 1)?@"RSA2":@"RSA";
     
     // NOTE: 商品数据
+	NSDictionary* args = (NSDictionary*)*obj;
     // TODO: 从传进来的地方获取 @孙飞
     order.biz_content = [BizContent new];
-    order.biz_content.body = @"我是测试数据";
-    order.biz_content.subject = @"1";
-    order.biz_content.out_trade_no = [self generateTradeNO]; //订单ID（由商家自行制定，同微信，从服务端获取, @孙飞）
+	order.biz_content.subject = @"咚哒服务费";
+    order.biz_content.body = @"咚哒服务费";
+    order.biz_content.out_trade_no = [args objectForKey:@"prepay_id"]; //订单ID（由商家自行制定，同微信，从服务端获取, @孙飞）
     order.biz_content.timeout_express = @"30m"; //超时时间设置
-    order.biz_content.total_amount = [NSString stringWithFormat:@"%.2f", 0.01]; //商品价格
+    order.biz_content.total_amount = [NSString stringWithFormat:@"%.2f", ((NSNumber*)[args objectForKey:kAYOrderArgsTotalFee]).floatValue * 0.01]; //商品价格
     // TODO: 商品价格需要特别注意，因为和微信的处理当位是不一样的 @孙飞
     
     //将商品信息拼接成字符串

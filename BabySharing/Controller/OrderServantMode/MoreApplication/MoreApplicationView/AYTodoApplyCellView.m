@@ -143,7 +143,7 @@
 		actionStr = @"申请预订";
 	} else if (status.intValue == OrderStatusPaid) {
 		actionStr = @"成功预订";
-	} else if (status.intValue == OrderStatusReject) {
+	} else if (status.intValue == OrderStatusCancel) {
 		actionStr = @"取消预订";
 	}
 	actionLabel.text = actionStr;

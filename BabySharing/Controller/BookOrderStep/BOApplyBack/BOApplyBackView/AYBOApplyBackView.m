@@ -13,9 +13,8 @@
 #import "AYFactoryManager.h"
 #import "AYFacadeBase.h"
 
-
 @implementation AYBOApplyBackView {
-	
+	UILabel *tipsLabel;
 }
 
 @synthesize para = _para;
@@ -28,6 +27,7 @@
 
 #pragma mark -- commands
 - (void)postPerform {
+	
 	UIImageView *iconView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"checked_icon")];
 	[self addSubview:iconView];
 	[iconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -36,7 +36,7 @@
 		make.size.mas_equalTo(CGSizeMake(30, 30));
 	}];
 	
-	UILabel *tipsLabel = [Tools creatUILabelWithText:@"申请已发送至服务方，请等待服务方处理" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	tipsLabel = [Tools creatUILabelWithText:@"This is Tips Context" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:tipsLabel];
 	[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
@@ -64,6 +64,14 @@
 
 
 #pragma mark -- messages
-
+- (id)setCellInfo:(id)args {
+		
+	NSString *tipsStr = [args objectForKey:kAYCommArgsTips];
+	if (tipsStr && ![tipsStr isEqualToString:@""]) {
+		tipsLabel.text = tipsStr;
+	}
+	
+	return nil;
+}
 
 @end

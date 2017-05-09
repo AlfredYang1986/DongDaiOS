@@ -12,10 +12,12 @@
 //common args
 static NSString* const kAYCommArgsUserID =               @"user_id";
 static NSString* const kAYCommArgsOwnerID =               @"owner_id";
-//static NSString* const kAYCommArgs =               @"user_id";
+static NSString* const kAYCommArgsTips =               @"args_tips";
+//static NSString* const kAYCommArgsTips =               @"user_id";
 
 
 //service args
+static NSString* const kAYServiceArgsSelf =               @"service";
 static NSString* const kAYServiceArgsInfo =               @"service_info";
 static NSString* const kAYServiceArgsID =               @"service_id";
 
@@ -39,7 +41,6 @@ static NSString* const kAYServiceArgsEnd =               @"end";
 static NSString* const kAYServiceArgsTPHandle =               @"timePointHandle";
 static NSString* const kAYServiceArgsStartHours =               @"starthours";
 static NSString* const kAYServiceArgsEndHours =               @"endhours";
-//static NSString* const kAYServiceArgs =               @"title";
 
 static NSString* const kAYServiceArgsNotice =                           @"other_words";
 static NSString* const kAYServiceArgsAllowLeave =               @"allow_leave";
@@ -75,10 +76,8 @@ static NSString* const kAYServiceArgsScreenName =               @"screen_name";
 static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
 
 static NSString* const kAYServiceArgsIsAdjustSKU =               @"is_adjust_SKU";
-//static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
-//static NSString* const kAYServiceArgsScreenName =               @"screen_name";
-//static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
-//static NSString* const kAYServiceArgsScreenName =               @"screen_name";
+//static NSString* const kAYServiceArgs =               @"screen_photo";
+//static NSString* const kAYServiceArgs =               @"screen_name";
 
 
 //order args
@@ -89,8 +88,8 @@ static NSString* const kAYOrderArgsTitle =               @"order_title";
 static NSString* const kAYOrderArgsDate =               @"order_date";
 static NSString* const kAYOrderArgsStatus =               @"status";
 static NSString* const kAYOrderArgsFurtherMessage =               @"further_message";
+static NSString* const kAYOrderArgsPayMethod =               @"pay_method";
 //static NSString* const kAYOrderArgs =               @"order_";
-
 
 
 

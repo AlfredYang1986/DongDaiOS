@@ -41,7 +41,7 @@
         }];
         
 
-         titleLabel = [Tools creatUILabelWithText:@"Pay Way Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+         titleLabel = [Tools creatUILabelWithText:@"PayWay Option" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
          [self addSubview:titleLabel];
          [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
              make.centerY.equalTo(payWayIcon);
@@ -64,7 +64,9 @@
             make.size.mas_equalTo(CGSizeMake(12.5, 12.5));
         }];
 		signView.hidden = YES;
-        [Tools creatCALayerWithFrame:CGRectMake(0, 49.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyBackgroundColor] inSuperView:self];
+		
+		
+		[Tools addBtmLineWithMargin:10.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:self];
 		
 		self.userInteractionEnabled = YES;
 		[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPayOptionClick)]];

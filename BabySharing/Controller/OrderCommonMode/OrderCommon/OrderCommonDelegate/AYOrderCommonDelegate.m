@@ -14,6 +14,7 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
+#import "AYNoContentCell.h"
 
 @implementation AYOrderCommonDelegate {
 	
@@ -59,34 +60,37 @@
 }
 
 #pragma mark -- table
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//	return 2;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//	return querydata.count;
-	return 1;
+	return querydata.count == 0 ? 1 :querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+		
+	if (querydata.count == 0) {
+		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NONewsCell"];
+		if (!cell) {
+			cell = [[AYNoContentCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NONewsCell"];
+		}
+		cell.titleStr = @"您目前还没有日程记录";
+		return cell;
+	}
+	else {
+		//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+		NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+		cell.controller = self.controller;
+		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+		return (UITableViewCell*)cell;
+	}
 	
-//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	
-//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-	
-	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//	if (indexPath.section == 0) {
-//		return 100.f;
-//	} else
-		return 120.f;
+	return 140.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

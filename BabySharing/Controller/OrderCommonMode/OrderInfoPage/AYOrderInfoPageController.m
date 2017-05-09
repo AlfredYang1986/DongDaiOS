@@ -63,13 +63,6 @@
 	UIView *BTMView = [UIView new];
 	BTMView.backgroundColor = [Tools whiteColor];
 	[self.view addSubview:BTMView];
-	CGFloat btmView_height = 64.f;
-	[BTMView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view);
-		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, btmView_height));
-	}];
-	[Tools creatCALayerWithFrame:CGRectMake(0,  0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:BTMView];
 	
 	OrderStatus status = ((NSNumber*)[order_info objectForKey:@"status"]).intValue;
 	AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
@@ -77,6 +70,9 @@
 	if (isNap) {
 		
 		if (status == OrderStatusPosted) {
+			
+			CGFloat btmView_height = 64.f;
+			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
 			
 			UIButton *rejectBtn  = [Tools creatUIButtonWithTitle:@"拒绝" andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
 			[Tools setViewBorder:rejectBtn withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
@@ -97,47 +93,74 @@
 			}];
 			[acceptBtn addTarget:self action:@selector(didAcceptBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		}
+		else if (status == OrderStatusCancel) {
+			
+			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
+			
+			NSString *resonStr = [NSString stringWithFormat:@"RESON:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
+			UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+			[BTMView addSubview:tipsLabel];
+			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.left.equalTo(BTMView).offset(20);
+				make.centerY.equalTo(BTMView);
+			}];
+		}
+		else {
+			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT , SCREEN_WIDTH, 0);
+		}
 		
 	} else {	//用户方
 		
-		UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"Go Pay" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
-		[self.view addSubview:gotoPayBtn];
-		[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(self.view);
-			make.centerX.equalTo(self.view);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
-		}];
-		[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
-		UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"cancel Application" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-		[self.view addSubview:cancelBtn];
-		[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(gotoPayBtn.mas_top);
-			make.centerX.equalTo(self.view);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
-		}];
-		[cancelBtn addTarget:self action:@selector(didCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
-		if (status == OrderStatusPaid) {
+		if (status == OrderStatusAccepted) {
+			CGFloat btmView_height = 110.f;
+			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
 			
-			[Tools creatCALayerWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-			UILabel *tipsLabel = [Tools creatUILabelWithText:@"您的订单正等待处理" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-			[self.view addSubview:tipsLabel];
-			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-				make.centerX.equalTo(self.view);
-				make.centerY.equalTo(self.view.mas_bottom).offset(-btmViewHeight * 0.5);
+			UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"Go Pay" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+			[BTMView addSubview:gotoPayBtn];
+			[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.bottom.equalTo(BTMView);
+				make.centerX.equalTo(BTMView);
+				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
 			}];
+			[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
+			
+			UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"cancel Application" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+			[BTMView addSubview:cancelBtn];
+			[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.bottom.equalTo(gotoPayBtn.mas_top);
+				make.centerX.equalTo(BTMView);
+				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
+			}];
+			[cancelBtn addTarget:self action:@selector(didCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+		}
+		else if (status == OrderStatusCancel) {
+			
+			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
+			
+			NSString *resonStr = [NSString stringWithFormat:@"STATUS:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
+			UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+			[BTMView addSubview:tipsLabel];
+			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.left.equalTo(BTMView).offset(20);
+				make.centerY.equalTo(BTMView);
+			}];
+		}
+		else {
+			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT , SCREEN_WIDTH, 0);
 		}
 	}
 	
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
+	//最后添线
+	[Tools creatCALayerWithFrame:CGRectMake(0,  0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:BTMView];
+	
+	UITableView *view_table = [self.views objectForKey:kAYTableView];
+	[view_table mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(self.view).offset(kStatusAndNavBarH);
+		make.left.equalTo(self.view);
+		make.right.equalTo(self.view);
+		make.bottom.equalTo(BTMView.mas_top);
+	}];
+	
 }
 
 #pragma mark -- layouts
@@ -148,8 +171,6 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	//	NSString *title = @"确认信息";
-	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -161,18 +182,18 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - btmViewHeight);
+//	view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - btmViewHeight);
 	return nil;
 }
 
-#pragma mark -- actions
+#pragma mark -- Common actions
 - (void)didGoPayBtnClick {
 	id<AYCommand> des = DEFAULTCONTROLLER(@"PAYPage");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	[dic setValue:order_info forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = PUSH;
 	[cmd performWithResult:&dic];
@@ -184,12 +205,13 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	//	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	[dic setValue:order_info forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = PUSH;
 	[cmd performWithResult:&dic];
 }
 
+#pragma mark -- Servant actions
 - (void)didRejectBtnClick {
 	NSDictionary *user_info;
 	CURRENUSER(user_info);

@@ -54,8 +54,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	//	return querydata.count;
-	return 5;
+	return querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,8 +62,8 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AppliFBCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	//	id tmp = [querydata objectAtIndex:indexPath.row];
-	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	id tmp = [querydata objectAtIndex:indexPath.row];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -84,8 +83,8 @@
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
 	
-	//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
