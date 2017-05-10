@@ -122,7 +122,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH+TOPHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH-TOPHEIGHT);
+	view.frame = CGRectMake(0, kStatusAndNavBarH+TOPHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH-TOPHEIGHT - kTabBarH);
 	//预设高度
 //	((UITableView*)view).estimatedRowHeight = 120;
 //	((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
@@ -172,11 +172,9 @@
 	
 	NSDictionary* info = nil;
 	CURRENUSER(info)
-	NSMutableDictionary *dic_query = [info mutableCopy];
-	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-	//	[dic_query setValue:[NSNumber numberWithDouble:queryTimespanRemind] forKey:@"date"];
-	//	[dic_query setValue:[NSNumber numberWithInteger:skipCountRemind] forKey:@"skin"];
-	//	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
+	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
+	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"]};
+	[dic_query setValue:condition forKey:@"condition"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
@@ -198,7 +196,9 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	
 	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
-	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"]};
+	[dic_query setValue:condition forKey:@"condition"];
 	
 	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan] forKey:@"date"];
 	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];

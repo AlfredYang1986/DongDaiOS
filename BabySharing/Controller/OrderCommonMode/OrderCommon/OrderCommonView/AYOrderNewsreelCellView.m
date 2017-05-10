@@ -17,10 +17,23 @@
 
 @implementation AYOrderNewsreelCellView {
 	
-	UILabel *titleLabel;
-	UILabel *positionLabel;
 	UILabel *dateLabel;
-	NSDictionary *service_info;
+	
+	UIView *pointSignView;
+	UILabel *titleLabel;
+	UIImageView *photoIcon;
+	
+	UIImageView *startTimeIcon;
+	UILabel *startTimeLabel;
+	UIImageView *endTimeIcon;
+	UILabel *endTimeLabel;
+	
+	UIImageView *positionIcon;
+	UILabel *positionLabel;
+	
+	/*****/
+	UIImageView *remindOlockIcon;
+	UILabel *remindLabel;
 	
 }
 
@@ -28,48 +41,113 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		self.backgroundColor = [UIColor clearColor];
-		[Tools creatCALayerWithFrame:CGRectMake(85, 0, 1, 90) andColor:[Tools lightGreyColor] inSuperView:self];
+		CGFloat marginLeft = 65.f;
+		UIView *leftLineView = [[UIView alloc] init];
 		
-		dateLabel = [Tools creatUILabelWithText:@"01/10\nEEEE" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		dateLabel.numberOfLines = 0;
+		leftLineView.backgroundColor = [Tools garyLineColor];
+		[self addSubview:leftLineView];
+		[leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self.mas_left).offset(marginLeft);
+			make.top.equalTo(self).offset(10);
+			make.bottom.equalTo(self);
+			make.width.mas_equalTo(1);
+		}];
+		
+		pointSignView = [UIView new];
+		[Tools setViewBorder:pointSignView withRadius:5.f andBorderWidth:0.f andBorderColor:nil andBackground:[Tools garyLineColor]];
+		[self addSubview:pointSignView];
+		[pointSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(leftLineView);
+			make.top.equalTo(leftLineView);
+			make.size.mas_equalTo(CGSizeMake(10, 10));
+		}];
+		
+		dateLabel = [Tools creatUILabelWithText:@"Today" andTextColor:[Tools blackColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self.mas_left).offset(85*0.5);
-			make.centerY.equalTo(self);
+			make.centerX.equalTo(self.mas_left).offset(marginLeft * 0.5);
+			make.centerY.equalTo(pointSignView);
 		}];
 		
-		UIImageView *payWayIcon = [UIImageView new];
-		payWayIcon.image = IMGRESOURCE(@"wechat");
-		[self addSubview:payWayIcon];
-		[payWayIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			//            make.top.equalTo(titleLabel.mas_bottom).offset(20);
-			make.centerX.equalTo(self.mas_left).offset(85);
-			make.top.equalTo(self).offset(25);
-			make.size.mas_equalTo(CGSizeMake(15, 15));
-		}];
-		
-		titleLabel = [Tools creatUILabelWithText:@"service title" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"service title" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(payWayIcon);
-			make.left.equalTo(payWayIcon.mas_right).offset(15);
+			make.left.equalTo(self).offset(marginLeft+15);
+			make.centerY.equalTo(pointSignView);
 		}];
 		
-		UIImageView *signView = [UIImageView new];
-		signView.image = IMGRESOURCE(@"checked_icon");
-		[self addSubview:signView];
-		[signView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(payWayIcon);
-			make.top.equalTo(payWayIcon.mas_bottom).offset(12);
+		CGFloat photoImageWidth = 45.f;
+		photoIcon = [[UIImageView alloc]init];
+		photoIcon.image = IMGRESOURCE(@"default_user");
+		photoIcon.contentMode = UIViewContentModeScaleAspectFill;
+		photoIcon.layer.cornerRadius = 2.f;
+		photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
+		photoIcon.layer.borderWidth = 1.f;
+		photoIcon.clipsToBounds = YES;
+		photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
+		[self addSubview:photoIcon];
+		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-40);
+			make.top.equalTo(titleLabel);
+			make.size.mas_equalTo(CGSizeMake(photoImageWidth, photoImageWidth));
+		}];
+		
+		remindOlockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_olock")];
+		[self addSubview:remindOlockIcon];
+		[remindOlockIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(pointSignView.mas_bottom).offset(15);
+			make.centerX.equalTo(pointSignView);
 			make.size.mas_equalTo(CGSizeMake(15, 15));
 		}];
+		remindLabel = [Tools creatUILabelWithText:@"Remind message" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:remindLabel];
+		[remindLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(remindOlockIcon);
+			make.left.equalTo(titleLabel);
+		}];
 		
-		positionLabel = [Tools creatUILabelWithText:@"service position" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		startTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
+		[self addSubview:startTimeIcon];
+		[startTimeIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);
+			make.centerX.equalTo(pointSignView);
+			make.size.mas_equalTo(CGSizeMake(15, 15));
+		}];
+		startTimeLabel = [Tools creatUILabelWithText:@"00:00 Start Olcok" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:startTimeLabel];
+		[startTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(startTimeIcon);
+			make.left.equalTo(titleLabel);
+		}];
+		
+		endTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
+		[self addSubview:endTimeIcon];
+		[endTimeIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(startTimeIcon.mas_bottom).offset(15);
+			make.centerX.equalTo(pointSignView);
+			make.size.mas_equalTo(CGSizeMake(15, 15));
+		}];
+		endTimeLabel = [Tools creatUILabelWithText:@"00:00 End Olcok" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:endTimeLabel];
+		[endTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(endTimeIcon);
+			make.left.equalTo(titleLabel);
+		}];
+		
+		positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_position")];
+		[self addSubview:positionIcon];
+		[positionIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(pointSignView);
+			make.top.equalTo(endTimeIcon.mas_bottom).offset(15);
+			make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
+		}];
+		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		positionLabel.numberOfLines = 0;
 		[self addSubview:positionLabel];
 		[positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(signView);
-			make.left.equalTo(signView.mas_right).offset(15);
+			make.top.equalTo(positionIcon.mas_centerY).offset(-10);
+			make.left.equalTo(titleLabel);
+			make.right.equalTo(photoIcon);
 		}];
 		
 		if (reuseIdentifier != nil) {
@@ -79,9 +157,7 @@
 	return self;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
+
 
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -140,7 +216,38 @@
 
 
 #pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)dic_args {
+- (id)setCellInfo:(id)args {
+	
+	NSDictionary *order_info = (NSDictionary*)args;
+	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *pre = cmd.route;
+	
+	NSString *photo_name = [[order_info objectForKey:@"owner"] objectForKey:kAYServiceArgsScreenPhoto];
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
+				 placeholderImage:IMGRESOURCE(@"default_user")];
+	
+	NSString *compName = [Tools serviceCompleteNameFromSKUWith:order_info];
+	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYServiceArgsScreenName];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
+	
+	NSString *addrStr = [order_info objectForKey:@"address"];
+	positionLabel.text = addrStr;
+	
+	
+	NSTimeInterval start = ((NSNumber*)[order_info objectForKey:@"start"]).longValue * 0.001;
+	NSTimeInterval end = ((NSNumber*)[order_info objectForKey:@"end"]).longValue * 0.001;
+	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
+	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
+	
+	NSDateFormatter *formatterTime = [Tools creatDateFormatterWithString:@"HH:mm"];
+	NSString *startStr = [formatterTime stringFromDate:startDate];
+	NSString *endStr = [formatterTime stringFromDate:endDate];
+	startTimeLabel.text = [NSString stringWithFormat:@"%@ 开始时间", startStr];
+	endTimeLabel.text = [NSString stringWithFormat:@"%@ 结束时间", endStr];
+	
+	remindLabel.text = @"课程即将开始，请合理安排日程";
 	
 	return nil;
 }

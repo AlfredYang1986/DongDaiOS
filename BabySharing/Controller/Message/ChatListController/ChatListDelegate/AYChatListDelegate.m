@@ -12,6 +12,8 @@
 #import "AYGroupListCellDefines.h"
 #import "AYNotifyDefines.h"
 
+#import "AYNoContentCell.h"
+
 #import "Targets.h"
 #import "EMConversation.h"
 #import "EMMessage.h"
@@ -48,23 +50,34 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return querydata.count == 0 ? 0 : querydata.count;
+    return querydata.count == 0 ? 1 : querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ChatListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	cell.controller = _controller;
-	
-    EMConversation *tmp = [querydata objectAtIndex:indexPath.row];
-	
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:tmp forKey:kAYGroupListCellContentKey];
-    [dic setValue:cell forKey:kAYGroupListCellCellKey];
-	kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &dic)
-    
-    return (UITableViewCell*)cell;
+	if (querydata.count == 0) {
+		NSString *noMessageID = @"NOMessageCell";
+		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:noMessageID];
+		if (!cell) {
+			cell = [[AYNoContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:noMessageID];
+		}
+		cell.titleStr = @"没有消息记录";
+		return cell;
+	}
+	else {
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ChatListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		cell.controller = _controller;
+		
+		EMConversation *tmp = [querydata objectAtIndex:indexPath.row];
+		
+		NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+		[dic setValue:tmp forKey:kAYGroupListCellContentKey];
+		[dic setValue:cell forKey:kAYGroupListCellCellKey];
+		kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &dic)
+		
+		return (UITableViewCell*)cell;
+	}
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

@@ -75,9 +75,16 @@
 		return cell;
 	}
 	else {
-		//	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		
+		NSString* class_name ;
+		id<AYViewBase> cell ;
+		if (indexPath.row == 0) {
+			class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		} else {
+			class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMHistoryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+		}
 		
 		NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
@@ -90,7 +97,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 140.f;
+	if (indexPath.row == 0) {
+		return 190.f;
+	} else
+		return 140.f;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

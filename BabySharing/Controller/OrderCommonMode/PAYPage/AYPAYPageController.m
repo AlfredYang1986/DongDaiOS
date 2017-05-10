@@ -171,9 +171,18 @@
 	
 	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			NSString *title = @"支付完成，您已成功预订服务! 去日程查看?";
-			//            [self popToRootVCWithTip:title];
-			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+//			NSString *title = @"支付完成，您已成功预订服务! 去日程查看?";
+//			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
+			
+			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:@{@"FBType":@"FBTypePaidOrder", kAYCommArgsTips:@"支付完成，您已成功预订服务"} forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd_push = PUSH;
+			[cmd_push performWithResult:&dic];
 			
 		} else {
 			NSString *title = @"当前网络太慢,服务预订发生错误,请联系客服!";

@@ -104,9 +104,6 @@
 	return self;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
 
 @synthesize para = _para;
 @synthesize controller = _controller;

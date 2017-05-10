@@ -226,7 +226,18 @@
 		if (success) {
 			
 			NSString *title = @"已拒绝订单申请";
-			[self popToRootVCWithTip:title];
+//			[self popToRootVCWithTip:title];
+			
+			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:@{@"FBType":@"FBTypeRejectOrder", kAYCommArgsTips:title} forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd_push = PUSH;
+			[cmd_push performWithResult:&dic];
+			
 		} else {
 			
 		}
@@ -245,8 +256,19 @@
 	[cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		NSString *message = nil;
 		if (success) {
-			message = @"您已经接受订单申请，请等待用户!";
-			[self popToRootVCWithTip:message];
+			message = @"您已经接受订单申请，请等待用户支付";
+//			[self popToRootVCWithTip:message];
+			
+			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
+			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+			[dic setValue:@{@"FBType":@"FBTypeAcceptOrder", kAYCommArgsTips:message} forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd_push = PUSH;
+			[cmd_push performWithResult:&dic];
+			
 		} else {
 			message = @"接受订单失败申请!\n请检查网络是否正常连接";
 			AYShowBtmAlertView(message, BtmAlertViewTypeHideWithTimer)

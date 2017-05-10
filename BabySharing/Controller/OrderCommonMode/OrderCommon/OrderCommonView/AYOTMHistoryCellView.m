@@ -30,9 +30,6 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-//		self.backgroundColor = [UIColor clearColor];
-//		[Tools creatCALayerWithFrame:CGRectMake(85, 0, 1, 90) andColor:[Tools lightGreyColor] inSuperView:self];
-		
 		CGFloat marginLeft = 65.f;
 		UIView *leftLineView = [[UIView alloc] init];
 		leftLineView.backgroundColor = [Tools garyLineColor];
@@ -73,7 +70,7 @@
 		bgView.image = bg;
 		[self addSubview:bgView];
 		[bgView mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 75, 25, 20));
+			make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 75, 25, 25));
 		}];
 		
 		CGFloat photoImageWidth = 45.f;
@@ -99,7 +96,7 @@
 			make.left.equalTo(bgView).offset(20);
 		}];
 		
-		UIImageView *olockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"timeflow_icon_olock")];
+		UIImageView *olockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"otm_history_time")];
 		[self addSubview:olockIcon];
 		[olockIcon mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(bgView).offset(20);
@@ -115,7 +112,7 @@
 			make.left.equalTo(bgView).offset(35);
 		}];
 		
-		UIImageView *positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"position")];
+		UIImageView *positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"otm_history_position")];
 		[self addSubview:positionIcon];
 		[positionIcon mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(olockIcon);
@@ -124,10 +121,12 @@
 		}];
 		
 		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		positionLabel.numberOfLines = 0;
 		[self addSubview:positionLabel];
 		[positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(positionIcon);
+			make.top.equalTo(positionIcon.mas_centerY).offset(-10);
 			make.left.equalTo(dateLabel);
+			make.right.equalTo(photoIcon);
 		}];
 		
 		if (reuseIdentifier != nil) {

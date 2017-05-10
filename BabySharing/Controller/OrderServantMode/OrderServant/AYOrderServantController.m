@@ -134,7 +134,9 @@
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [info mutableCopy];
-	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"]};
+	[dic_query setValue:condition forKey:@"condition"];
 	
 //	[dic_query setValue:[NSNumber numberWithDouble:queryTimespanRemind] forKey:@"date"];
 //	[dic_query setValue:[NSNumber numberWithInteger:skipCountRemind] forKey:@"skin"];
@@ -158,7 +160,9 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	
 	NSMutableDictionary *dic_query = [info mutableCopy];
-	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"]};
+	[dic_query setValue:condition forKey:@"condition"];
 	
 	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan] forKey:@"date"];
 	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
