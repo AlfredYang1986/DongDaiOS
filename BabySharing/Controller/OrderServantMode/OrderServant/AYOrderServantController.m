@@ -184,7 +184,7 @@
 			
 			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
 			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusDone];
-			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_reject, pred_cancel, pred_done]];
+			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_reject, pred_cancel, pred_done, pred_paid]];
 			result_status_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			
 		} else {

@@ -15,7 +15,10 @@
 
 - (instancetype)init {
 	if (self = [super init]) {
+		
 		self.bounds = CGRectMake(0, 0, SCREEN_WIDTH, 85);
+		self.backgroundColor = [Tools whiteColor];
+		
 		CGFloat margin = 10.f;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		

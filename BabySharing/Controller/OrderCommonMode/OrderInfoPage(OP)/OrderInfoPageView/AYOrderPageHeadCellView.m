@@ -16,6 +16,8 @@
 #import "AYRemoteCallCommand.h"
 #import "AYOrderPageTimeView.h"
 
+#define POSITIONHEIGHT			55
+
 @implementation AYOrderPageHeadCellView {
 	
 //	UIImageView *photoIcon;
@@ -69,42 +71,21 @@
 		
 		/*******************************/
 		
-//		unitPriceLabel = [Tools creatUILabelWithText:@"$100 * 1 Uint" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:unitPriceLabel];
-//		[unitPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.right.equalTo(self).offset(-15);
-//			make.bottom.equalTo(self.mas_bottom).offset(-15);
-//		}];
-//		
-//		sumPriceLabel = [Tools creatUILabelWithText:@"$100" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:sumPriceLabel];
-//		[sumPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.right.equalTo(unitPriceLabel);
-//			make.bottom.equalTo(unitPriceLabel.mas_top).offset(-10);
-//		}];
-//		
-//		UILabel *priceTitle = [Tools creatUILabelWithText:@"价格" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:priceTitle];
-//		[priceTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(titleLabel);
-//			make.centerY.equalTo(sumPriceLabel);
-//		}];
-		
-//		UIView *line_b_address_price = [[UIView alloc]init];
-//		line_b_address_price.backgroundColor = [Tools garyLineColor];
-//		[self addSubview:line_b_address_price];
-//		[line_b_address_price mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.bottom.equalTo(sumPriceLabel.mas_top).offset(-20);
-//			make.centerX.equalTo(self);
-//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
-//		}];
+		UIView *line_b_address_date = [[UIView alloc]init];
+		line_b_address_date.backgroundColor = [Tools garyLineColor];
+		[self addSubview:line_b_address_date];
+		[line_b_address_date mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self).offset(-POSITIONHEIGHT+0.5);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+		}];
 		
 		UIImageView *positionImage = [[UIImageView alloc]init];
 		[self addSubview:positionImage];
 		positionImage.image = IMGRESOURCE(@"location_icon");
 		[positionImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel).offset(0);
-			make.centerY.equalTo(self.mas_bottom).offset(-30);
+			make.centerY.equalTo(self.mas_bottom).offset(-POSITIONHEIGHT*0.5);
 			make.size.mas_equalTo(CGSizeMake(13, 13));
 		}];
 		
@@ -114,15 +95,6 @@
 			make.left.equalTo(positionImage.mas_right).offset(15);
 			make.centerY.equalTo(positionImage);
 			make.right.equalTo(self).offset(-15);
-		}];
-		
-		UIView *line_b_address_date = [[UIView alloc]init];
-		line_b_address_date.backgroundColor = [Tools garyLineColor];
-		[self addSubview:line_b_address_date];
-		[line_b_address_date mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(addressLabel.mas_top).offset(-20);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
 		}];
 		
 		UIView *line_btm = [[UIView alloc]init];
@@ -203,68 +175,9 @@
 	NSDictionary *order_info = (NSDictionary*)args;
 	service_info = [order_info objectForKey:@"service"];
 	
-	NSString *unitCat = @"UNIT";
-	NSNumber *leastTimesOrHours = @1;
-	
 	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
-	NSArray *options_title_cans;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
-	
-	if (service_cat.intValue == ServiceTypeNursery) {
-		unitCat = @"小时";
-		
-		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastHours];
-		if (![tmp isEqualToNumber:@0]) {
-			leastTimesOrHours = tmp;
-		}
-		options_title_cans = kAY_service_options_title_lookafter;
-		//服务主题分类
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			titleLabel.text = @"该服务主题待调整";
-		} else {
-			NSString *themeStr = options_title_cans[cans_cat.integerValue];
-			titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName,themeStr];
-		}
-		
-	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
-		unitCat = @"次";
-		
-		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastTimes];
-		if (![tmp isEqualToNumber:@0]) {
-			leastTimesOrHours = tmp;
-		}
-		
-		NSString *servCatStr = @"课程";
-		options_title_cans = kAY_service_options_title_course;
-		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
-		//服务主题分类
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			titleLabel.text = @"该服务主题待调整";
-		}
-		else {
-			
-			NSString *costomStr = [service_info objectForKey:kAYServiceArgsCourseCoustom];
-			if (costomStr && ![costomStr isEqualToString:@""]) {
-				titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, costomStr, servCatStr];
-				
-			} else {
-				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
-				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
-				if (cans.integerValue < signTitleArr.count) {
-					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
-					titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, courseSignStr, servCatStr];
-				} else {
-					titleLabel.text = @"该服务主题待调整";
-				}
-			}//是否自定义课程标签判断end
-		}
-	} else {
-		
-		NSLog(@"---null---");
-		titleLabel.text = @"该服务类型待调整";
-	}
+	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
 	
 	NSString *orderID = [order_info objectForKey:@"order_id"];
 	orderID = [orderID uppercaseString];

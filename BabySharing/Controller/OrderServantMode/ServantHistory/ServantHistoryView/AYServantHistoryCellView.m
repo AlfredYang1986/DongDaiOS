@@ -163,7 +163,7 @@
 	if (status.intValue == OrderStatusReject) {
 		actionStr = @"您拒绝了订单申请";
 	} else if (status.intValue == OrderStatusPaid) {
-		actionStr = @"订单完成";
+		actionStr = @"用户已预订订单";
 	} else if (status.intValue == OrderStatusCancel) {
 		actionStr = @"用户取消了订单";
 	}

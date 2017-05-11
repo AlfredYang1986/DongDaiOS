@@ -135,39 +135,30 @@
 	service_info = [order_info objectForKey:@"service"];
 	
 	NSString *unitCat = @"UNIT";
-	NSNumber *leastTimesOrHours = @1;
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	
+	CGFloat price = ((NSNumber*)[service_info objectForKey:kAYServiceArgsPrice]).floatValue;
+	
+	CGFloat totalFee = ((NSNumber*)[order_info objectForKey:kAYOrderArgsTotalFee]).floatValue * 0.01;
+	NSString *totalFeeStr = [NSString stringWithFormat:@"¥ %.2f", totalFee];
+	
+	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:totalFeeStr];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(2, totalFeeStr.length - 2)];
+	sumPriceLabel.attributedText = attributedText;
 	
 	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
-		
-		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastHours];
-		if (![tmp isEqualToNumber:@0]) {
-			leastTimesOrHours = tmp;
-		}
-		
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.2f／%@*%.2f", price, unitCat, totalFee/price];
 	}
 	else if (service_cat.intValue == ServiceTypeCourse) {
 		unitCat = @"次";
-		
-		NSNumber *tmp = [service_info objectForKey:kAYServiceArgsLeastTimes];
-		if (![tmp isEqualToNumber:@0]) {
-			leastTimesOrHours = tmp;
-		}
-		
-	} else {
-		
-		NSLog(@"---null---");
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.2f／%@*%d", price, unitCat, (int)(totalFee/price)];
 	}
-	
-	NSNumber *price = [order_info objectForKey:kAYOrderArgsTotalFee];
-	NSString *priceStr = [NSString stringWithFormat:@"¥ %@", price];
-	
-	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(2, priceStr.length - 2)];
-	sumPriceLabel.attributedText = attributedText;
-	unitPriceLabel.text = [NSString stringWithFormat:@"¥100／%@*%@", unitCat, leastTimesOrHours];
+	else {
+		NSLog(@"---null---");
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥Price／Unit * Count"];
+	}
 	
 	return nil;
 }
