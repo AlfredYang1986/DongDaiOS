@@ -123,33 +123,20 @@
 	//			"screen_photo" = "3B958915-E9D8-4D36-B995-A98C907EFEA0";
 	//		};
 	//	}
-	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+//	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//	
+//	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
+//	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+//	
+//	id<AYCommand> cmd_push = PUSH;
+//	[cmd_push performWithResult:&dic];
 	
-	NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
-	
-	NSMutableDictionary *dic_service = [[NSMutableDictionary alloc] init];
-	[dic_service setValue:[tmp objectForKey:@"address"] forKey:kAYServiceArgsAddress];
-	[dic_service setValue:[tmp objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
-	[dic_service setValue:[tmp objectForKey:kAYServiceArgsCourseSign] forKey:kAYServiceArgsCourseSign];
-	[dic_service setValue:[[tmp objectForKey:@"owner"] objectForKey:kAYServiceArgsScreenName] forKey:kAYServiceArgsScreenName];
-	[dic_service setValue:[[tmp objectForKey:@"owner"] objectForKey:kAYServiceArgsScreenPhoto] forKey:kAYServiceArgsScreenPhoto];
-	[dic_service setValue:[tmp objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
-	[dic_service setValue:[tmp objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
-	[dic_service setValue:[tmp objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
-//	[dic_service setValue:[tmp objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
-	
-	NSMutableDictionary *order_info = [[NSMutableDictionary alloc] init];
-	[order_info setValue:[dic_service copy] forKey:@"service"];
-//	order_info setValue:<#(nullable id)#> forKey:<#(nonnull NSString *)#>
-	
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_push = PUSH;
-	[cmd_push performWithResult:&dic];
+	id tmp = [NSNumber numberWithInteger:indexPath.row];
+	kAYViewSendNotify(self, @"didSelectedRow:", &tmp)
 }
 
 @end

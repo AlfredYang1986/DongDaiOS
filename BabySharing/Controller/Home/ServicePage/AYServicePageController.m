@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYPersonalPageController.h"
+#import "AYServicePageController.h"
 #import "TmpFileStorageModel.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
@@ -26,16 +26,14 @@
 
 //#define CarouseNumb			
 
-@implementation AYPersonalPageController {
+@implementation AYServicePageController {
     NSMutableDictionary *service_info;
     
     UIButton *shareBtn;
     CGFloat offset_y;
 	BOOL isBlackLeftBtn;
-    
-    UIButton *bar_unlike_btn;
+	
     UIButton *bar_like_btn;
-    
     UIView *flexibleView;
 	
 	/****/
@@ -148,12 +146,6 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
     class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-    
-    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-    
-    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
     class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];

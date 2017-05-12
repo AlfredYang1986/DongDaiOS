@@ -19,6 +19,7 @@
     UILabel *tipsTitleLabel;
 	UILabel *timeLabel;
 	UILabel *moreScheduleLabel;
+	UILabel *moreLabel;
 	
 	NSDictionary *service_info;
 }
@@ -51,7 +52,7 @@
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
 		}];
 		
-		UILabel *moreLabel = [Tools creatUILabelWithText:@"更多可预定时间" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		moreLabel = [Tools creatUILabelWithText:@"没有可预定时间" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:moreLabel];
 		[moreLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(timeLabel);
@@ -155,31 +156,10 @@
 	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
 	NSInteger sepNumb = theComponents.weekday;
 	
-//	NSArray *service_times = [service_info objectForKey:kAYServiceArgsTimes];
-//	[service_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//		NSTimeInterval startdate = ((NSNumber*)[obj objectForKey:kAYServiceArgsStartDate]).doubleValue;
-//		NSDate *date = [NSDate dateWithTimeIntervalSince1970:startdate];
-//		NSDateComponents *theComponentsOf = [calendar components:calendarUnit fromDate:date];
-//		NSInteger sepOfFromOne = theComponentsOf.weekday;
-//		if (sepNumb == sepOfFromOne-1) {
-//			NSNumber *stratNumb = [obj objectForKey:kAYServiceArgsStartHours];
-//			NSNumber *endNumb = [obj objectForKey:kAYServiceArgsEndHours];
-//			NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-//			[timesStr insertString:@":" atIndex:2];
-//			[timesStr insertString:@":" atIndex:8];
-//			
-//			NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
-//			NSString *dateStrPer = [formatter stringFromDate:date];
-//			timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-//			
-//			*stop = YES;
-//		}
-//	}];
-	
 	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
 	for (int i = 0; i < 7; ++i) {
 		
-		NSInteger weekday_offer_date = (sepNumb - 1 + i + 1) % 7;
+		NSInteger weekday_offer_date = (sepNumb + i) % 7;
 		NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday_offer_date];
 		NSArray *result_contains = [offer_date filteredArrayUsingPredicate:pred_contains];
 		if (result_contains.count != 0) {
@@ -206,6 +186,11 @@
 		}
 		
 	}
+	
+	if ([timeLabel.text isEqualToString:@"最近可预定时间"]) {
+		moreLabel.userInteractionEnabled = NO;
+	} else
+		moreLabel.text = @"查看可预定时间";
 	
     return nil;
 }

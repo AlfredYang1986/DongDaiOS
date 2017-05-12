@@ -211,6 +211,7 @@
     
     <command type="Remote" name="SearchFiltService" route="v3.1/kidnap/search" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMyService"    route="v3/kidnap/mine" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="QueryServiceDetail"    route="v3/kidnap/detail" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="CollectService"        route="v2/kidnap/collect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />

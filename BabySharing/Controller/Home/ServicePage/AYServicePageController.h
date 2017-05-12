@@ -10,6 +10,6 @@
 #import "AYViewBase.h"
 #import "SDCycleScrollView.h"
 
-@interface AYPersonalPageController : AYViewController<SDCycleScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface AYServicePageController : AYViewController<SDCycleScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end

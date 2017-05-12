@@ -128,20 +128,16 @@
 - (void)loadNewData {
 	[self queryOrders];
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
 	
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [info mutableCopy];
 //	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"]};
+	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
-//	[dic_query setValue:[NSNumber numberWithDouble:queryTimespanRemind] forKey:@"date"];
-//	[dic_query setValue:[NSNumber numberWithInteger:skipCountRemind] forKey:@"skin"];
-//	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
-	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			remindArr = [result copy];

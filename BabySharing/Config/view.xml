@@ -508,19 +508,9 @@
     <view type="ServiceTitleCell" name="ServiceTitleCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    <view type="ServiceOwnerInfoCell" name="ServiceOwnerInfoCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="showMoreOrHideDescription:" />
-    </view>
 	<view type="ServiceDescCell" name="ServiceDescCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
-    <view type="ServiceThemeCell" name="ServiceThemeCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
-    </view>
-    <view type="ServiceFacilityCell" name="ServiceFacilityCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
-    </view>
     <view type="ServiceMapCell" name="ServiceMapCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="showCansOrFacility" />
@@ -529,9 +519,6 @@
     <view type="ServiceCalendarCell" name="ServiceCalendarCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
         <command type="notify"      message="showServiceOfferDate" />
-    </view>
-    <view type="ServiceCostCell" name="ServiceCostCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
     </view>
 	<view type="ServiceNotiCell" name="ServiceNotiCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />

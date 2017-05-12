@@ -115,13 +115,13 @@
 		UIImageView *positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"otm_history_position")];
 		[self addSubview:positionIcon];
 		[positionIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(olockIcon);
+			make.centerX.equalTo(olockIcon);
 			make.top.equalTo(olockIcon.mas_bottom).offset(15);
-			make.size.mas_equalTo(CGSizeMake(10, 10));
+			make.size.mas_equalTo(CGSizeMake(8, 10));
 		}];
 		
 		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools whiteColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		positionLabel.numberOfLines = 0;
+		positionLabel.numberOfLines = 2;
 		[self addSubview:positionLabel];
 		[positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(positionIcon.mas_centerY).offset(-10);

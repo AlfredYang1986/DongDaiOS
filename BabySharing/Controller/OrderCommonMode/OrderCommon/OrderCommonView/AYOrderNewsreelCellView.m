@@ -142,7 +142,7 @@
 			make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
 		}];
 		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		positionLabel.numberOfLines = 0;
+		positionLabel.numberOfLines = 2;
 		[self addSubview:positionLabel];
 		[positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(positionIcon.mas_centerY).offset(-10);

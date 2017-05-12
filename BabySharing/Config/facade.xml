@@ -212,12 +212,13 @@
 <!--        <command type="Remote" name="RevertMyService" />-->
         <command type="Remote" name="UpdateMyService" />
         <command type="Remote" name="UpdateMyServiceTM" />
-        
         <command type="Remote" name="PopMyService" />
         
         <command type="Remote" name="CollectService" />
         <command type="Remote" name="UnCollectService" />
         <command type="Remote" name="AllCollectService" />
+		
+		<command type="Remote" name="QueryServiceDetail" />
     </facade>
     
     <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >

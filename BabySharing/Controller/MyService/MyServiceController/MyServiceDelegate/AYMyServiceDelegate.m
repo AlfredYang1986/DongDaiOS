@@ -84,7 +84,7 @@
     if ([[tmp objectForKey:@"owner_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
         des = DEFAULTCONTROLLER(@"MainInfo");
     } else {
-        des = DEFAULTCONTROLLER(@"PersonalPage");
+        des = DEFAULTCONTROLLER(@"ServicePage");
     }
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

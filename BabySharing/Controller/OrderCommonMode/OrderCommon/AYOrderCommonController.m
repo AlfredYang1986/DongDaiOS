@@ -25,8 +25,9 @@
 //	UILabel *leastNews;
 	AYOrderTOPView *TOPView;
 	
-	NSArray *result_status_fb;
+	NSArray *remindArr;
 	
+	NSArray *result_status_fb;
 	NSArray *OrderOfAll;
 	NSTimeInterval queryTimespan;
 	NSInteger skipCount;
@@ -173,13 +174,14 @@
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
-	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"]};
+	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
+			remindArr = [result copy];
 			id tmp = [result copy];
 			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
@@ -192,9 +194,6 @@
 	NSDictionary *info;
 	CURRENUSER(info)
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
-	
 	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
 //	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
 	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"]};
@@ -204,6 +203,8 @@
 	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
 	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
 	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
@@ -242,6 +243,73 @@
 }
 
 - (id)rightBtnSelected {
+	
+	return nil;
+}
+
+- (id)didSelectedRow:(NSNumber*)args {
+	
+	NSDictionary *dic_remind = [remindArr objectAtIndex:args.integerValue];
+	NSDictionary* info = nil;
+	CURRENUSER(info)
+	
+	if (args.integerValue == 0) {
+		
+		NSMutableDictionary *dic_query = [info mutableCopy];
+		NSDictionary *condition = @{kAYOrderArgsID:[dic_remind objectForKey:kAYOrderArgsID]};
+		[dic_query setValue:condition forKey:@"condition"];
+		
+		id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+		AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
+		[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				id tmp = [[result objectForKey:@"result"] firstObject];
+				
+				id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+				NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+				[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+				[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+				[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+				[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+				id<AYCommand> cmd_push = PUSH;
+				[cmd_push performWithResult:&dic];
+			} else {
+				NSString *title = @"请改善网络环境并重试";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+		
+	} else {
+		
+		NSMutableDictionary *dic_query = [info mutableCopy];
+		[dic_query setValue:[dic_remind objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+		
+		id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+		AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryServiceDetail"];
+		[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				id tmp = [result objectForKey:@"result"];
+				
+				id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+				NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+				[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+				[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+				[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+				[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+				
+				id<AYCommand> cmd_push = PUSH;
+				[cmd_push performWithResult:&dic];
+				
+			} else {
+				NSString *title = @"请改善网络环境并重试";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	}
+	
+	
+	
+	
 	
 	return nil;
 }

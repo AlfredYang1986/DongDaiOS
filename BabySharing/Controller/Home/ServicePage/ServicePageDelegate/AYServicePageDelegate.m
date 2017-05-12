@@ -57,7 +57,6 @@
 
 - (id)changeQueryData:(NSDictionary*)args{
     querydata = args;
-    
     return nil;
 }
 
@@ -102,19 +101,11 @@
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
     }
-    else if (indexPath.row == 4) {
+    else {
         class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
     }
-//    else if (indexPath.row == 5) {
-//        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//    }
-//    else if (indexPath.row == 6) {
-//        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//    }
 	
 	id tmp = [querydata copy];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)

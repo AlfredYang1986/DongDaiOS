@@ -304,13 +304,6 @@
 		}
 	}
 	
-//	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
-//	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//	NSString *pre = cmd.route;
-//	[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
-//				  placeholderImage:IMGRESOURCE(@"default_user")];
-	
     NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
     NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
     NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:@"lsl"]);
@@ -323,6 +316,9 @@
     NSNumber *servant = [service_info objectForKey:kAYServiceArgsServantNumb];
 	servantLabel.text = [NSString stringWithFormat:@"%@个%@", servant, servantCat];
 	
+	if (!ownerName || [ownerName isEqualToString:@""]) {
+		ownerPhoto.userInteractionEnabled = NO;
+	}
     return nil;
 }
 

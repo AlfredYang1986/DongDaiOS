@@ -358,18 +358,18 @@
         [maMapView setCenterCoordinate:location.coordinate animated:YES];
     }
     
-    NSArray *options_title_cans = kAY_service_options_title_cans;
+//    NSArray *options_title_cans = kAY_service_options_title_cans;
     NSArray *options_title_facility = kAY_service_options_title_facilities;
     
-    long options = ((NSNumber*)[service_info objectForKey:@"cans"]).longValue;
-    for (int i = 0; i < options_title_cans.count; ++i) {
-        long note_pow = pow(2, i);
-        if ((options & note_pow)) {
-            _cansLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-            break;
-        }
-    }
-    
+//    long options = ((NSNumber*)[service_info objectForKey:@"cans"]).longValue;
+//    for (int i = 0; i < options_title_cans.count; ++i) {
+//        long note_pow = pow(2, i);
+//        if ((options & note_pow)) {
+//            _cansLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
+//            break;
+//        }
+//    }
+	
     {
         long options = ((NSNumber*)[service_info objectForKey:@"facility"]).longValue;
         CGFloat offsetX = 15;

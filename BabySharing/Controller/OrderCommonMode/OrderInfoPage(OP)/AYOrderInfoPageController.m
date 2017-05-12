@@ -56,32 +56,9 @@
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	id comp = [order_info objectForKey:@"owner"];
-	if (comp) {
-		
-		NSDictionary* info = nil;
-		CURRENUSER(info)
-		NSMutableDictionary *dic_query = [info mutableCopy];
-		NSDictionary *condition = @{kAYOrderArgsID:[order_info objectForKey:kAYOrderArgsID]};
-		[dic_query setValue:condition forKey:@"condition"];
-		
-		id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-		AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
-		[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-			if (success) {
-				id tmp = [[result objectForKey:@"result"] firstObject];
-				kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
-				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-			} else {
-				NSString *title = @"请改善网络环境并重试";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			}
-		}];
-	}
-	else {
-		id tmp = [order_info copy];
-		kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
-	}
+	
+	id tmp = [order_info copy];
+	kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
 	
 	
 	UIView *BTMView = [UIView new];

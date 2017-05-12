@@ -144,19 +144,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	
 	return 55.f;
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-//	if (indexPath.section == 0) {
-//		return YES;
-//	} else
-		return NO;
-}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//	kAYDelegateSendNotify(self, @"showAppliFeedback", nil)
+//- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+//	return NO;
 //}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	id tmp = [NSNumber numberWithInteger:indexPath.row];
+	kAYViewSendNotify(self, @"didSelectedRow:", &tmp)
+}
 
 @end

@@ -35,6 +35,7 @@
 	UILabel *addressLabel;
 	UIImageView *addressBg;
 	
+	UIView *tapview;
 	UIButton *facalityBtn;
 }
 
@@ -68,7 +69,7 @@
 //		orderMapView.userInteractionEnabled = YES;
 //		[orderMapView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
 		
-		UIView *tapview = [[UIView alloc]init];
+		tapview = [[UIView alloc]init];
 		[self addSubview:tapview];
 		[tapview mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.edges.equalTo(orderMapView);
@@ -77,8 +78,8 @@
 		tapview.userInteractionEnabled = YES;
 		[tapview addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
 		
-		addressLabel = [Tools creatUILabelWithText:@"service address" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		addressLabel.numberOfLines = 0;
+		addressLabel = [Tools creatUILabelWithText:@"Service address info" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		addressLabel.numberOfLines = 2;
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
@@ -171,12 +172,17 @@
 	
 	NSDictionary *service_info = (NSDictionary*)args;
 	NSString *addressStr = [service_info objectForKey:@"address"];
-	addressLabel.text = addressStr;
+	if (addressStr && ![addressStr isEqualToString:@""]) {
+		addressLabel.text = addressStr;
+	}
 	
 	NSDictionary *dic_loc = [service_info objectForKey:@"location"];
 	NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
 	NSNumber *longtitude = [dic_loc objectForKey:@"longtitude"];
 	CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
+	if (!latitude || !longtitude) {
+		tapview.userInteractionEnabled = NO;
+	}
 	
 	if (currentAnno) {
 		[orderMapView removeAnnotation:currentAnno];

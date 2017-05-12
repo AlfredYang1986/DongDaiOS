@@ -476,7 +476,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 - (id)rightBtnSelected {
     
-    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
     NSMutableDictionary* dic_args = [[NSMutableDictionary alloc]init];
     [dic_args setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_args setValue:des forKey:kAYControllerActionDestinationControllerKey];

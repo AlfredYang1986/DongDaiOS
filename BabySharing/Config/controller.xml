@@ -580,7 +580,7 @@
 		<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" />
     </controller>
     
-    <controller type="DefaultController" name="PersonalPage" factory="AYDefaultControllerFactoy" >
+    <controller type="DefaultController" name="ServicePage" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade"    name="KidNapRemote" notification="true" />
         <facade type="DefaultFacade"    name="OrderRemote" notification="true" />
         <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
@@ -980,6 +980,7 @@
 	<controller type="DefaultController" name="OrderCommon" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />
 		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 <!--		<view type="FakeNavBar"     name="FakeNavBar" />-->

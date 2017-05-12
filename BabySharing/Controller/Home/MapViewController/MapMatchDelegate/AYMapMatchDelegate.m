@@ -82,7 +82,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	id tmp = [servicesData objectAtIndex:indexPath.row];
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

@@ -323,6 +323,7 @@
 	<delegate type="TableViewDelegateAndDatasource" name="OrderCommon" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="showAppliFeedback" />
+		<command type="notify" message="didSelectedRow:" />
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="OrderServant" factory="AYDefaultDelegateFactory" >
@@ -350,6 +351,7 @@
 	
 	<delegate type="TableViewDelegateAndDatasource" name="OrderListPending" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="didSelectedRow:" />
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="ServantHistory" factory="AYDefaultDelegateFactory" >

@@ -78,7 +78,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"ServiceOwnerInfoCell", @"ServiceOwnerInfoCell");
+	id<AYViewBase> cell = VIEW(@"ServiceDescCell", @"ServiceDescCell");
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
 		AYViewCommand* cmd = [cell.commands objectForKey:name];

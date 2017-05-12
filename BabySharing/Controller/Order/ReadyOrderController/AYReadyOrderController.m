@@ -373,7 +373,7 @@
 }
 
 - (id)didServiceDetailClick {
-    id<AYCommand> des = DEFAULTCONTROLLER(@"PersonalPage");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
