@@ -49,7 +49,7 @@
 		[leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset(marginLeft);
 			make.top.equalTo(self).offset(10);
-			make.bottom.equalTo(self);
+			make.bottom.equalTo(self).offset(10);
 			make.width.mas_equalTo(1);
 		}];
 		
@@ -62,7 +62,7 @@
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
 		
-		dateLabel = [Tools creatUILabelWithText:@"Today" andTextColor:[Tools blackColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		dateLabel = [Tools creatUILabelWithText:@"今天" andTextColor:[Tools blackColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset(marginLeft * 0.5);
@@ -94,61 +94,24 @@
 		
 		remindOlockIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_olock")];
 		[self addSubview:remindOlockIcon];
-		[remindOlockIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(pointSignView.mas_bottom).offset(15);
-			make.centerX.equalTo(pointSignView);
-			make.size.mas_equalTo(CGSizeMake(15, 15));
-		}];
 		remindLabel = [Tools creatUILabelWithText:@"Remind message" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:remindLabel];
-		[remindLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(remindOlockIcon);
-			make.left.equalTo(titleLabel);
-		}];
 		
 		startTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:startTimeIcon];
-		[startTimeIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);
-			make.centerX.equalTo(pointSignView);
-			make.size.mas_equalTo(CGSizeMake(15, 15));
-		}];
 		startTimeLabel = [Tools creatUILabelWithText:@"00:00 Start Olcok" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:startTimeLabel];
-		[startTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(startTimeIcon);
-			make.left.equalTo(titleLabel);
-		}];
 		
 		endTimeIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:endTimeIcon];
-		[endTimeIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(startTimeIcon.mas_bottom).offset(15);
-			make.centerX.equalTo(pointSignView);
-			make.size.mas_equalTo(CGSizeMake(15, 15));
-		}];
 		endTimeLabel = [Tools creatUILabelWithText:@"00:00 End Olcok" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:endTimeLabel];
-		[endTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(endTimeIcon);
-			make.left.equalTo(titleLabel);
-		}];
 		
 		positionIcon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_position")];
 		[self addSubview:positionIcon];
-		[positionIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(pointSignView);
-			make.top.equalTo(endTimeIcon.mas_bottom).offset(15);
-			make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
-		}];
 		positionLabel = [Tools creatUILabelWithText:@"service position address info" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		positionLabel.numberOfLines = 2;
 		[self addSubview:positionLabel];
-		[positionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(positionIcon.mas_centerY).offset(-10);
-			make.left.equalTo(titleLabel);
-			make.right.equalTo(photoIcon);
-		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -156,8 +119,6 @@
 	}
 	return self;
 }
-
-
 
 @synthesize para = _para;
 @synthesize controller = _controller;
@@ -219,6 +180,7 @@
 - (id)setCellInfo:(id)args {
 	
 	NSDictionary *order_info = (NSDictionary*)args;
+	NSTimeInterval nowNode = [NSDate date].timeIntervalSince1970;
 	
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
@@ -247,9 +209,143 @@
 	startTimeLabel.text = [NSString stringWithFormat:@"%@ 开始时间", startStr];
 	endTimeLabel.text = [NSString stringWithFormat:@"%@ 结束时间", endStr];
 	
-	remindLabel.text = @"课程即将开始，请合理安排日程";
+	if (nowNode < start) { //未开始
+		[self setWillBeginConstraints];
+	}
+	else if(nowNode >= start && nowNode < end) { //进行中
+		[self setIsOngoingConstraints];
+	}
+	else if(nowNode > end) { //结束
+		[self setWasEndConstraints];
+	}
+	else {
+		[self setOnErrorConstraints];
+	}
+	
+	
+	[positionLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(positionIcon.mas_centerY).offset(-10);
+		make.left.equalTo(titleLabel);
+		make.right.equalTo(photoIcon);
+	}];
+	[endTimeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(endTimeIcon);
+		make.left.equalTo(titleLabel);
+	}];
+	[startTimeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(startTimeIcon);
+		make.left.equalTo(titleLabel);
+	}];
+	[remindLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(remindOlockIcon);
+		make.left.equalTo(titleLabel);
+	}];
 	
 	return nil;
+}
+
+- (void)setWillBeginConstraints {
+	[remindOlockIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(pointSignView.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	remindLabel.text = @"课程即将开始，请合理安排日程";
+	
+	[startTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	[endTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(startTimeIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	
+	[positionIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(pointSignView);
+		make.top.equalTo(endTimeIcon.mas_bottom).offset(15);
+		make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
+	}];
+}
+
+- (void)setIsOngoingConstraints {
+	[startTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(pointSignView.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	[remindOlockIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(startTimeIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	remindLabel.text = @"服务正在进行";
+	
+	[endTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	
+	[positionIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(pointSignView);
+		make.top.equalTo(endTimeIcon.mas_bottom).offset(15);
+		make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
+	}];
+}
+
+- (void)setWasEndConstraints {
+	[startTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(pointSignView.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	[endTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(startTimeIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	
+	[remindOlockIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(endTimeIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	remindLabel.text = @"课程已结束，欢迎再次光顾";
+	
+	[positionIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(pointSignView);
+		make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);
+		make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
+	}];
+}
+
+- (void)setOnErrorConstraints {
+	[remindOlockIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(pointSignView.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	remindLabel.text = @"服务时间错乱，请重新核实";
+	
+	[startTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(remindOlockIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	[endTimeIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(startTimeIcon.mas_bottom).offset(15);
+		make.centerX.equalTo(pointSignView);
+		make.size.mas_equalTo(CGSizeMake(15, 15));
+	}];
+	
+	[positionIcon mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(pointSignView);
+		make.top.equalTo(endTimeIcon.mas_bottom).offset(15);
+		make.size.mas_equalTo(CGSizeMake(15.f, 15.f));
+	}];
 }
 
 @end

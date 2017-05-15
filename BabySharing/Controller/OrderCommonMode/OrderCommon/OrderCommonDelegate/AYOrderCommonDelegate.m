@@ -16,15 +16,16 @@
 #import "AYControllerActionDefines.h"
 #import "AYNoContentCell.h"
 
+typedef enum : NSUInteger {
+	PageToService = 0,
+	PageToOrder = 1
+} PageTo;
+
 @implementation AYOrderCommonDelegate {
 	
 	NSArray *querydata;
 	
-	BOOL isSetedDate;
-	BOOL isExpend;
-	
-	NSNumber *setedDate;
-	NSDictionary *setedTimes;
+	NSTimeInterval nowNode;
 }
 
 @synthesize para = _para;
@@ -34,7 +35,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	
+	nowNode = [NSDate date].timeIntervalSince1970;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -78,7 +79,7 @@
 		
 		NSString* class_name ;
 		id<AYViewBase> cell ;
-		if (indexPath.row == 0) {
+		if ([self isTodayRemindWithIndex:indexPath.row]) {
 			class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderNewsreelCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 			cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		} else {
@@ -97,10 +98,21 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 0) {
+	if ([self isTodayRemindWithIndex:indexPath.row]) {
 		return 190.f;
 	} else
 		return 140.f;
+}
+
+- (BOOL)isTodayRemindWithIndex:(NSInteger)index {
+	NSDictionary *index_args = [querydata objectAtIndex:index];
+	double start = ((NSNumber*)[index_args objectForKey:kAYServiceArgsStart]).doubleValue * 0.001;
+	
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:nil];
+	NSString *startStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:start]];
+	NSString *nowStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:nowNode]];
+//	double end = ((NSNumber*)[index_args objectForKey:kAYServiceArgsEnd]).doubleValue * 0.001;
+	return  [startStr isEqualToString:nowStr];
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -153,7 +165,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	id tmp = [NSNumber numberWithInteger:indexPath.row];
+	PageTo to = [self isTodayRemindWithIndex:indexPath.row] ? PageToOrder : PageToService;
+	NSDictionary *tmp = @{@"info":[querydata objectAtIndex:indexPath.row], @"type":[NSNumber numberWithInteger:to]};
 	kAYViewSendNotify(self, @"didSelectedRow:", &tmp)
 }
 

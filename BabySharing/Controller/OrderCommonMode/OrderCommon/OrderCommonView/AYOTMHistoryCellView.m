@@ -50,14 +50,14 @@
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
 		
-		mouthLabel = [Tools creatUILabelWithText:@"01月" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		mouthLabel = [Tools creatUILabelWithText:@"01月" andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:mouthLabel];
 		[mouthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self.mas_left).offset(marginLeft * 0.5);
 			make.top.equalTo(self);
 		}];
 		
-		dayLabel = [Tools creatUILabelWithText:@"01" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		dayLabel = [Tools creatUILabelWithText:@"01" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:dayLabel];
 		[dayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(mouthLabel.mas_bottom).offset(3);

@@ -247,13 +247,14 @@
 	return nil;
 }
 
-- (id)didSelectedRow:(NSNumber*)args {
+- (id)didSelectedRow:(NSDictionary*)args {
 	
-	NSDictionary *dic_remind = [remindArr objectAtIndex:args.integerValue];
+	NSDictionary *dic_remind = [args objectForKey:@"info"];
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	
-	if (args.integerValue == 0) {
+	NSNumber *type = [args objectForKey:@"type"];
+	if (type.integerValue == 0) {
 		
 		NSMutableDictionary *dic_query = [info mutableCopy];
 		NSDictionary *condition = @{kAYOrderArgsID:[dic_remind objectForKey:kAYOrderArgsID]};
@@ -306,10 +307,6 @@
 			}
 		}];
 	}
-	
-	
-	
-	
 	
 	return nil;
 }

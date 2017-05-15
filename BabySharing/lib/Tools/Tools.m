@@ -631,7 +631,11 @@
 + (NSDateFormatter*)creatDateFormatterWithString:(NSString*)formatter {
     
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:formatter];
+	if (formatter) {
+		[format setDateFormat:formatter];
+	} else
+		[format setDateFormat:@"yyyy年MM月dd日"];
+		
     NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
     [format setTimeZone:timeZone];
     return format;

@@ -7786,10 +7786,10 @@
 		70FE1C721E24D10200050FF0 /* OrderCommonView */ = {
 			isa = PBXGroup;
 			children = (
-				70FE1C791E24DBBB00050FF0 /* AYOrderNewsreelCellView.h */,
-				70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */,
 				7009CAE81EBB33A000088A1D /* AYOrderTOPView.h */,
 				7009CAE91EBB33A000088A1D /* AYOrderTOPView.m */,
+				70FE1C791E24DBBB00050FF0 /* AYOrderNewsreelCellView.h */,
+				70FE1C7A1E24DBBB00050FF0 /* AYOrderNewsreelCellView.m */,
 				702BE8F91EC1BD6C00F20E41 /* AYOTMHistoryCellView.h */,
 				702BE8FA1EC1BD6C00F20E41 /* AYOTMHistoryCellView.m */,
 			);

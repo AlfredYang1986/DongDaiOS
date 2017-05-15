@@ -161,7 +161,7 @@
 		
 	} else if (row == PayWayOptionAlipay) {
 		
-		payWayIcon.image = IMGRESOURCE(@"wechat");
+		payWayIcon.image = IMGRESOURCE(@"alipay");
 		titleLabel.text = @"支付宝";
 	} else {
 		
