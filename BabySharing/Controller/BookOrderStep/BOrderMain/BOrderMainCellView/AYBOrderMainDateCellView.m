@@ -22,27 +22,37 @@
     
     UILabel *dateLabel;
     UILabel *timeLabel;
-	
+	UIView *btmLineView;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
-		[Tools creatCALayerWithFrame:CGRectMake(0, 84.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+//		[Tools creatCALayerWithFrame:CGRectMake(0, 84.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
-        dateLabel =  [Tools creatUILabelWithText:@"Service Date" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        dateLabel =  [Tools creatUILabelWithText:@"Service Date" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:dateLabel];
 		[dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
-			make.top.equalTo(self).offset(20);
+			make.bottom.equalTo(self.mas_centerY).offset(-3);
 		}];
 		
-		timeLabel =  [Tools creatUILabelWithText:@"Service Time" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		timeLabel =  [Tools creatUILabelWithText:@"Service Time" andTextColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:timeLabel];
 		[timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
-			make.top.equalTo(dateLabel.mas_bottom).offset(12);
+			make.top.equalTo(self.mas_centerY).offset(3);
+		}];
+		
+		btmLineView = [[UIView alloc] init];
+		btmLineView.backgroundColor = [Tools garyLineColor];
+		[self addSubview:btmLineView];
+		[btmLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(15);
+			make.right.equalTo(self).offset(-15);
+			make.bottom.equalTo(self);
+			make.height.mas_equalTo(0.5);
 		}];
 		
         if (reuseIdentifier != nil) {
@@ -50,10 +60,6 @@
         }
     }
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
 }
 
 @synthesize para = _para;
@@ -131,10 +137,11 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	
-	NSNumber *start = [dic_args objectForKey:kAYServiceArgsStart];
-	NSNumber *end = [dic_args objectForKey:kAYServiceArgsEnd];
+	NSDictionary *dic_time = [dic_args objectForKey:@"order_time"];
+	NSNumber *start = [dic_time objectForKey:kAYServiceArgsStart];
+	NSNumber *end = [dic_time objectForKey:kAYServiceArgsEnd];
 	
-	NSDateFormatter *format = [Tools creatDateFormatterWithString:@"yyyy-MM-dd日, EEEE"];
+	NSDateFormatter *format = [Tools creatDateFormatterWithString:@"yyyy-MM-dd, EEEE"];
 	NSDateFormatter *format_time = [Tools creatDateFormatterWithString:@"HH:mm"];
 	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start.doubleValue * 0.001];
 	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end.doubleValue * 0.001];
@@ -145,6 +152,11 @@
 	NSString *startStr = [format_time stringFromDate:startDate];
 	NSString *endStr = [format_time stringFromDate:endDate];
 	timeLabel.text = [NSString stringWithFormat:@"%@-%@", startStr, endStr];
+	
+	NSNumber *is_last = [dic_args objectForKey:@"is_last"];
+	if (is_last.boolValue) {
+		[btmLineView removeFromSuperview];
+	}
 	
     return nil;
 }

@@ -32,26 +32,26 @@
         NSLog(@"init reuse identifier");
 		
 		coverPhoto = [[UIImageView alloc]init];
-		coverPhoto.contentMode = UIViewContentModeScaleAspectFit;
+		coverPhoto.contentMode = UIViewContentModeScaleAspectFill;
 		coverPhoto.image = IMGRESOURCE(@"default_image");
 		coverPhoto.backgroundColor = [Tools garyBackgroundColor];
 		[self addSubview:coverPhoto];
 		[coverPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self);
+			make.right.equalTo(self);
 			make.top.equalTo(self);
-			make.width.mas_equalTo(125);
+			make.width.mas_equalTo(126);
 			make.height.equalTo(self);
 		}];
 		
-        titleLabel = [Tools creatUILabelWithText:@"Service Title" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:@"Service Title" andTextColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self).offset(15);
-            make.left.equalTo(coverPhoto.mas_right).offset(15);
-            make.right.lessThanOrEqualTo(self.mas_right).offset(-65);
+            make.left.equalTo(self).offset(15);
+            make.right.lessThanOrEqualTo(coverPhoto.mas_left).offset(-30);
         }];
         
-        priceLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        priceLabel = [Tools creatUILabelWithText:@"Service Price" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:priceLabel];
         [priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(15);
@@ -143,13 +143,11 @@
 	service_info = args;
 	
     NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-    if (photo_name) {
-        id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-        NSString *pre = cmd.route;
-        [coverPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                      placeholderImage:IMGRESOURCE(@"default_image")];
-    }
+	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+	NSString *pre = cmd.route;
+	[coverPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
+				  placeholderImage:IMGRESOURCE(@"default_image")];
 	
 	NSString *unitCat = @"UNIT";
 	NSArray *options_title_cans;

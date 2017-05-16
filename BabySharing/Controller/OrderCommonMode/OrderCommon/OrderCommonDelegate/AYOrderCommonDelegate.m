@@ -105,6 +105,7 @@ typedef enum : NSUInteger {
 }
 
 - (BOOL)isTodayRemindWithIndex:(NSInteger)index {
+	
 	NSDictionary *index_args = [querydata objectAtIndex:index];
 	double start = ((NSNumber*)[index_args objectForKey:kAYServiceArgsStart]).doubleValue * 0.001;
 	

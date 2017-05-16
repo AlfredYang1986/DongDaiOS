@@ -18,6 +18,8 @@
 	
 	UIImageView *olockView;
 	UILabel *countRemindLabel;
+	
+	UILabel *subTitleLabel;
 }
 
 @synthesize para = _para;
@@ -39,7 +41,7 @@
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		UILabel *subTitleLabel = [Tools creatUILabelWithText:@"今日日程" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		subTitleLabel = [Tools creatUILabelWithText:@"没有任何提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -55,21 +57,21 @@
 		}];
 		olockView.hidden = YES;
 		
-		countRemindLabel = [Tools creatUILabelWithText:@"没有任何提醒" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+		countRemindLabel = [Tools creatUILabelWithText:@"0 个" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:countRemindLabel];
 		[countRemindLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(marginContent);
 			make.centerY.equalTo(subTitleLabel.mas_bottom).offset(40);
 		}];
 		
-		UIView *lineView = [UIView new];
-		lineView.backgroundColor = [Tools garyLineColor];
-		[self addSubview:lineView];
-		[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - marginLine * 2, 0.5));
-		}];
+//		UIView *lineView = [UIView new];
+//		lineView.backgroundColor = [Tools garyLineColor];
+//		[self addSubview:lineView];
+//		[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.centerX.equalTo(self);
+//			make.bottom.equalTo(self);
+//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - marginLine * 2, 0.5));
+//		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -130,10 +132,13 @@
 	
 	if (args.count == 0) {
 		olockView.hidden = YES;
-		countRemindLabel.text = @"没有任何提醒";
+		subTitleLabel.text = @"没有任何提醒";
+		countRemindLabel.hidden = YES;
 		
 	} else if (args.count >= 1) {
-		olockView.hidden = NO;
+		
+		subTitleLabel.text = @"今日日程";
+		olockView.hidden = countRemindLabel.hidden = NO;
 		
 		NSString *tmp = [NSString stringWithFormat:@"%ld 个", args.count];
 		int length = (int)tmp.length;

@@ -116,7 +116,7 @@
 			CGFloat btmView_height = 110.f;
 			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
 			
-			UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"Go Pay" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+			UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
 			[BTMView addSubview:gotoPayBtn];
 			[gotoPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.bottom.equalTo(BTMView);
@@ -125,7 +125,7 @@
 			}];
 			[gotoPayBtn addTarget:self action:@selector(didGoPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
 			
-			UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"cancel Application" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+			UIButton *cancelBtn = [Tools creatUIButtonWithTitle:@"取消预订申请" andTitleColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
 			[BTMView addSubview:cancelBtn];
 			[cancelBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.bottom.equalTo(gotoPayBtn.mas_top);
@@ -138,7 +138,7 @@
 			
 			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - kTabBarH, SCREEN_WIDTH, kTabBarH);
 			
-			NSString *resonStr = [NSString stringWithFormat:@"STATUS:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
+			NSString *resonStr = [NSString stringWithFormat:@"取消原因:%@", [order_info objectForKey:kAYOrderArgsFurtherMessage]];
 			UILabel *tipsLabel = [Tools creatUILabelWithText:resonStr andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 			[BTMView addSubview:tipsLabel];
 			[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -226,7 +226,7 @@
 	[cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
-			NSString *title = @"已拒绝订单申请";
+			NSString *title = @"订单已拒绝";
 //			[self popToRootVCWithTip:title];
 			
 			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
@@ -257,7 +257,7 @@
 	[cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		NSString *message = nil;
 		if (success) {
-			message = @"您已经接受订单申请，请等待用户支付";
+			message = @"订单已接受";
 //			[self popToRootVCWithTip:message];
 			
 			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");

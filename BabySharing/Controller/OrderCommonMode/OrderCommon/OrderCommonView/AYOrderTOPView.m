@@ -37,7 +37,7 @@
 			make.left.equalTo(self).offset(20);
 		}];
 		
-		countlabel = [Tools creatUILabelWithText:@"9+" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[UIColor redColor] andTextAlignment:NSTextAlignmentCenter];
+		countlabel = [Tools creatUILabelWithText:@"9+" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[Tools colorWithRED:255 GREEN:100 BLUE:100 ALPHA:1.f] andTextAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:countlabel withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		[self addSubview:countlabel];
 		[countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -67,24 +67,24 @@
 		}];
 		noContentLabel.hidden = YES;
 		
-		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);
-			make.bottom.equalTo(userPhotoView.mas_centerY);
+			make.bottom.equalTo(userPhotoView.mas_centerY).offset(-3);
 		}];
 		
-		FBActionLabel = [Tools creatUILabelWithText:@"Accept OR Reject" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		FBActionLabel = [Tools creatUILabelWithText:@"Accept OR Reject" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:FBActionLabel];
 		[FBActionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userNameLabel.mas_right).offset(5);
 			make.centerY.equalTo(userNameLabel);
 		}];
 		
-		serviceTitleLabel = [Tools creatUILabelWithText:@"The service's title" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+		serviceTitleLabel = [Tools creatUILabelWithText:@"The service's title" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:serviceTitleLabel];
 		[serviceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(userPhotoView.mas_centerY);
+			make.top.equalTo(userPhotoView.mas_centerY).offset(3);
 			make.left.equalTo(userNameLabel);
 		}];
 		

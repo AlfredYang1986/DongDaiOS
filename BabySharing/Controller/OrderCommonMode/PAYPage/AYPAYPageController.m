@@ -52,7 +52,7 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PayWayCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
-	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"Confirm Payment" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"确认支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:ConfirmPayBtn];
 	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);
@@ -60,6 +60,7 @@
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
 	}];
 	[ConfirmPayBtn addTarget:self action:@selector(didConfirmPayBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
 }
 
 #pragma mark -- layouts

@@ -89,7 +89,7 @@
 //    [cmd_nib performWithResult:&nib_contact_name];
 //    /****************************************/
     
-    UIButton *applyBtn = [Tools creatUIButtonWithTitle:@"提交预订申请" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
+    UIButton *applyBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:316.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:applyBtn];
     [applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view);
@@ -117,7 +117,7 @@
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	
-    NSString *title = @"确认信息";
+    NSString *title = @"订单详情";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
     UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -181,7 +181,7 @@
 			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-			[dic setValue:@{@"FBType":@"FBTypePostOrder", kAYCommArgsTips:@"申请已发送至服务方，请等待服务方处理"} forKey:kAYControllerChangeArgsKey];
+			[dic setValue:@{@"FBType":@"FBTypePostOrder", kAYCommArgsTips:@"申请发送成功"} forKey:kAYControllerChangeArgsKey];
 			
 			id<AYCommand> cmd_push = PUSH;
 			[cmd_push performWithResult:&dic];

@@ -49,7 +49,7 @@
 		make.size.mas_equalTo(CGSizeMake(20,20));
 	}];
 	
-	UILabel *titleH1 = [Tools creatUILabelWithText:@"Please Certain Unsubscribe" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleH1 = [Tools creatUILabelWithText:@"确认取消订单" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleH1];
 	[titleH1 mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(checkIcon.mas_right).offset(20);
@@ -69,7 +69,7 @@
 	//	id tmp = [order_past copy];
 	//	kAYDelegatesSendMessage(@"UnSubsPage", kAYDelegateChangeDataMessage, &tmp)
 	
-	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"Submit" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
+	UIButton *ConfirmPayBtn = [Tools creatUIButtonWithTitle:@"提交" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
 	[self.view addSubview:ConfirmPayBtn];
 	[ConfirmPayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(self.view);

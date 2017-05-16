@@ -57,7 +57,7 @@
 }
 
 - (id)RemoteBackLayout:(UIView*)view {
-	view.frame = CGRectMake(0, SCREEN_HEIGHT * 0.4, SCREEN_WIDTH, 100);
+	view.frame = CGRectMake(0, SCREEN_HEIGHT * 0.3, SCREEN_WIDTH, 100);
 	return nil;
 }
 

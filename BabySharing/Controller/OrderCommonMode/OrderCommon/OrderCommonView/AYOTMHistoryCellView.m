@@ -239,7 +239,7 @@
 	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
 	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
 	
-	NSDateFormatter *formatterM = [Tools creatDateFormatterWithString:@"MM月"];
+	NSDateFormatter *formatterM = [Tools creatDateFormatterWithString:@"M月"];
 	NSString *mouthStr = [formatterM stringFromDate:startDate];
 	mouthLabel.text = mouthStr;
 	

@@ -68,6 +68,7 @@
 		make.size.mas_equalTo(CGSizeMake(70, 30));
 	}];
 	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	readMoreBtn.hidden  = YES;
 	
 	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
 	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

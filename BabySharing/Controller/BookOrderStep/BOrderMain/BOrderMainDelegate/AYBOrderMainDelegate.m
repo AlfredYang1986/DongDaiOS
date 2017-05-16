@@ -35,7 +35,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	sectionTitles = @[@"服务时间", @"服务价格", @"支付方式"];
+	sectionTitles = @[@"服务时间", @"价格", @"支付方式"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -110,8 +110,13 @@
     } else if (indexPath.section == 1) {
         NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderMainDateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        NSDictionary *tmp = [order_times objectAtIndex:indexPath.row];
+		
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		[tmp setValue:[NSNumber numberWithBool:NO] forKey:@"is_last"];
+		[tmp setValue:[order_times objectAtIndex:indexPath.row] forKey:@"order_time"];
+		if (indexPath.row == order_times.count - 1) {
+			[tmp setValue:[NSNumber numberWithBool:YES] forKey:@"is_last"];
+		}
         kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
         
     } else {
@@ -131,7 +136,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
-		return 85.f;
+		return 84.f;
 	}
 	else if (indexPath.section == 1) {
 		return 85.f;
@@ -160,7 +165,7 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	
 	UIView *headView = [[UIView alloc]init];
-	headView.backgroundColor = [Tools whiteColor];
+	headView.backgroundColor = [Tools garyBackgroundColor];
 	if (section > 0) {
 		
 		UILabel *titleLabel = [Tools creatUILabelWithText:[sectionTitles objectAtIndex:section - 1] andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
@@ -178,7 +183,7 @@
 	if (section == 0) {
 		return 0.001f;
 	} else {
-		return 40.f;
+		return 64.f;
 	}
 }
 

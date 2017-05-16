@@ -35,34 +35,14 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-//		self.backgroundColor = [Tools whiteColor];
-//		[Tools creatCALayerWithFrame:CGRectMake(0, 99.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-		
-//		photoIcon = [[UIImageView alloc]init];
-//		photoIcon.image = IMGRESOURCE(@"default_user");
-//		photoIcon.contentMode = UIViewContentModeScaleAspectFill;
-//		photoIcon.layer.cornerRadius = 22.5;
-//		photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
-//		photoIcon.layer.borderWidth = 2.f;
-//		photoIcon.clipsToBounds = YES;
-//		photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
-//		[self addSubview:photoIcon];
-//		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(self).offset(20);
-//			make.top.equalTo(self).offset(20);
-//			make.size.mas_equalTo(CGSizeMake(45, 45));
-//		}];
-		//	photoIcon.userInteractionEnabled = YES;
-		//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
-		
-		titleLabel = [Tools creatUILabelWithText:@"Servant's Service With Theme" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"Servant's Service With Theme" andTextColor:[Tools blackColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(15);
 			make.top.equalTo(self).offset(15);
 		}];
 		
-		orderNoLabel = [Tools creatUILabelWithText:@"Order NO" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		orderNoLabel = [Tools creatUILabelWithText:@"Order NO" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:orderNoLabel];
 		[orderNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
@@ -89,7 +69,7 @@
 			make.size.mas_equalTo(CGSizeMake(13, 13));
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:@"0101 00110010011100" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatUILabelWithText:@"Services position address info" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(positionImage.mas_right).offset(15);

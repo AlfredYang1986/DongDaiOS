@@ -26,14 +26,14 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *sumTitleLabel =  [Tools creatUILabelWithText:@"总价" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *sumTitleLabel =  [Tools creatUILabelWithText:@"总价" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:sumTitleLabel];
 		[sumTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(15);
 			make.left.equalTo(self).offset(15);
 		}];
 		
-		priceLabel =  [Tools creatUILabelWithText:@"Total Price" andTextColor:[Tools themeColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		priceLabel =  [Tools creatUILabelWithText:@"Total Price" andTextColor:[Tools themeColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:priceLabel];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(sumTitleLabel);
@@ -54,7 +54,7 @@
 			make.right.equalTo(self).offset(-15);
 		}];
 		
-		[Tools creatCALayerWithFrame:CGRectMake(0, 55, SCREEN_WIDTH, 0.5) andColor:[Tools garyBackgroundColor] inSuperView:self];
+		[Tools creatCALayerWithFrame:CGRectMake(15, 55, SCREEN_WIDTH - 30, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -176,7 +176,7 @@
 	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
 	NSString *tmp = [NSString stringWithFormat:@"%@", price];
 	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@ * %d", price, unitCat, count_times];
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@ × %d", price, unitCat, count_times];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
@@ -184,7 +184,7 @@
 	unitPriceLabel.attributedText = attributedText;
 	
 	CGFloat total_price = price.floatValue * count_times;
-	priceLabel.text = [NSString stringWithFormat:@"¥%.1f", total_price];
+	priceLabel.text = [NSString stringWithFormat:@"¥%.f", total_price];
 	
     return nil;
 }

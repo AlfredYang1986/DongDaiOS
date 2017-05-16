@@ -254,7 +254,7 @@
 	CURRENUSER(info)
 	
 	NSNumber *type = [args objectForKey:@"type"];
-	if (type.integerValue == 0) {
+	if (type.integerValue == 1) {
 		
 		NSMutableDictionary *dic_query = [info mutableCopy];
 		NSDictionary *condition = @{kAYOrderArgsID:[dic_remind objectForKey:kAYOrderArgsID]};

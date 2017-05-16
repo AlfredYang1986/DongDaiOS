@@ -140,7 +140,7 @@
 	CGFloat price = ((NSNumber*)[service_info objectForKey:kAYServiceArgsPrice]).floatValue;
 	
 	CGFloat totalFee = ((NSNumber*)[order_info objectForKey:kAYOrderArgsTotalFee]).floatValue * 0.01;
-	NSString *totalFeeStr = [NSString stringWithFormat:@"¥ %.2f", totalFee];
+	NSString *totalFeeStr = [NSString stringWithFormat:@"¥ %.f", totalFee];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:totalFeeStr];
 	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
@@ -149,15 +149,15 @@
 	
 	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
-		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.2f／%@*%.2f", price, unitCat, totalFee/price];
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.f／%@ × %.f", price, unitCat, totalFee/price];
 	}
 	else if (service_cat.intValue == ServiceTypeCourse) {
 		unitCat = @"次";
-		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.2f／%@*%d", price, unitCat, (int)(totalFee/price)];
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.f／%@ × %d", price, unitCat, (int)(totalFee/price)];
 	}
 	else {
 		NSLog(@"---null---");
-		unitPriceLabel.text = [NSString stringWithFormat:@"¥Price／Unit * Count"];
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥Price／Unit × Count"];
 	}
 	
 	return nil;

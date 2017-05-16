@@ -42,28 +42,28 @@
 			make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
 		}];
 		
-		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:614.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
 		[userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userPhotoView.mas_right).offset(20);
 			make.bottom.equalTo(userPhotoView.mas_centerY);
 		}];
 		
-		UILabel *startTitleLabel = [Tools creatUILabelWithText:@"申请预定" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *startTitleLabel = [Tools creatUILabelWithText:@"申请预定" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:startTitleLabel];
 		[startTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userNameLabel.mas_right).offset(5);
 			make.centerY.equalTo(userNameLabel);
 		}];
 		
-		serviceTitleLabel = [Tools creatUILabelWithText:@"The service's title" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+		serviceTitleLabel = [Tools creatUILabelWithText:@"The service's title" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:1];
 		[self addSubview:serviceTitleLabel];
 		[serviceTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(userPhotoView.mas_centerY);
 			make.left.equalTo(userNameLabel);
 		}];
 		
-		statesLabel = [Tools creatUILabelWithText:@"申请状态" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		statesLabel = [Tools creatUILabelWithText:@"申请状态" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:statesLabel];
 		[statesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(serviceTitleLabel.mas_bottom).offset(3);
@@ -161,11 +161,11 @@
 	NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];
 	NSString *actionStr = @"FeedBack Info";
 	if (status.intValue == OrderStatusReject) {
-		actionStr = @"您拒绝了订单申请";
+		actionStr = @"已拒绝";
 	} else if (status.intValue == OrderStatusPaid) {
-		actionStr = @"用户已预订订单";
+		actionStr = @"已确认";
 	} else if (status.intValue == OrderStatusCancel) {
-		actionStr = @"用户取消了订单";
+		actionStr = @"已取消";
 	}
 	statesLabel.text = actionStr;
 	
