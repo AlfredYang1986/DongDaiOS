@@ -76,6 +76,7 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:@"queryOrders" forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POPTOROOT;
 	[cmd performWithResult:&dic];

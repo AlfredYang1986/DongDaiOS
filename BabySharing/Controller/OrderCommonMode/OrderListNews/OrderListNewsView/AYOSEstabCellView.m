@@ -168,7 +168,7 @@
 	
 	NSString *orderID = [order_info objectForKey:kAYOrderArgsID];
 	if (orderID && ![orderID isEqualToString:@""]) {
-		orderID = [orderID uppercaseString];
+		orderID = [Tools Bit64String:orderID];
 		orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	}
 	

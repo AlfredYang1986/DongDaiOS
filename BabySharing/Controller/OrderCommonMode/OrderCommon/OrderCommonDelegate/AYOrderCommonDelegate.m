@@ -105,15 +105,18 @@ typedef enum : NSUInteger {
 }
 
 - (BOOL)isTodayRemindWithIndex:(NSInteger)index {
-	
-	NSDictionary *index_args = [querydata objectAtIndex:index];
-	double start = ((NSNumber*)[index_args objectForKey:kAYServiceArgsStart]).doubleValue * 0.001;
-	
-	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:nil];
-	NSString *startStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:start]];
-	NSString *nowStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:nowNode]];
-//	double end = ((NSNumber*)[index_args objectForKey:kAYServiceArgsEnd]).doubleValue * 0.001;
-	return  [startStr isEqualToString:nowStr];
+	if (querydata.count != 0) {
+		
+		NSDictionary *index_args = [querydata objectAtIndex:index];
+		double start = ((NSNumber*)[index_args objectForKey:kAYServiceArgsStart]).doubleValue * 0.001;
+		
+		NSDateFormatter *formatter = [Tools creatDateFormatterWithString:nil];
+		NSString *startStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:start]];
+		NSString *nowStr = [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:nowNode]];
+		//	double end = ((NSNumber*)[index_args objectForKey:kAYServiceArgsEnd]).doubleValue * 0.001;
+		return  [startStr isEqualToString:nowStr];
+	} else
+		return NO;
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

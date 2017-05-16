@@ -35,7 +35,7 @@
         [tmpArr addObject:[NSString stringWithFormat:@"%.2d",tmpInt]];
     }
     hours = [tmpArr copy];
-    mins = @[@"00", @"15", @"30", @"45"];
+    mins = @[@"00", @"30"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -55,10 +55,14 @@
 }
 
 - (id)changeOptionData:(id)args {
-	hours = [args objectForKey:@"hours"];
-	id tmp = [args objectForKey:@"mins"];
-	if (tmp) {
-		mins = tmp;
+	NSArray *h = [args objectForKey:@"hours"];
+	if (h && h.count != 0) {
+		hours = h;
+	}
+		
+	NSArray *m = [args objectForKey:@"mins"];
+	if (m && m.count != 0) {
+		mins = m;
 	}
 	return nil;
 }

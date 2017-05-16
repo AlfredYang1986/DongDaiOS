@@ -112,21 +112,28 @@
 	UIView *BgView = [[UIView alloc] init];
 	UIView *circleView = [[UIView alloc] init];
 	[BgView addSubview:circleView];
-	[Tools setViewBorder:circleView withRadius:4.f andBorderWidth:0.5f andBorderColor:[Tools themeColor] andBackground:nil];
+//	[Tools setViewBorder:circleView withRadius:4.f andBorderWidth:0.5f andBorderColor:[Tools themeColor] andBackground:nil];
+	[Tools setViewBorder:circleView withRadius:20 andBorderWidth:0.f andBorderColor:nil andBackground:[Tools themeColor]];
 	[circleView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(BgView);
-		make.size.mas_equalTo(CGSizeMake(itemWidth - 10, itemWidth - 10));
+		make.size.mas_equalTo(CGSizeMake(40, 40));
 	}];
 	self.selectedBackgroundView = BgView;
 	
 	//	[self setUpReuseCell];
 }
 
+
 - (void)setDay:(int)day {
 	_day = day;
 	dayLabel.text = [NSString stringWithFormat:@"%d", day];
 }
 
+- (void)setDidSelected {
+	dayLabel.textColor = [Tools whiteColor];
+}
+
+#pragma mark -- status
 - (void)setInitStates {
 	_isEnAbled = NO;
 	dayLabel.textColor = [Tools garyColor];
@@ -135,11 +142,8 @@
 	todaySignLabel.hidden = YES;
 }
 
-- (void)setTodatStates {
-	_isEnAbled = YES;
-	dayLabel.textColor = [Tools themeColor];
+- (void)setTodayStates {
 	todaySignLabel.hidden = NO;
-	abledSignView.hidden = NO;
 }
 
 - (void)setEnAbleStates {

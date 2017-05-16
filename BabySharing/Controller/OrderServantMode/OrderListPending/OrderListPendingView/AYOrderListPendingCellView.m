@@ -175,8 +175,8 @@
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	
-	NSString *orderID = [order_info objectForKey:@"order_id"];
-	orderID = [orderID uppercaseString];
+	NSString *orderID = [order_info objectForKey:kAYOrderArgsID];
+	orderID = [Tools Bit64String:orderID];
 	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	
 	NSString *userName = [[order_info objectForKey:@"user"] objectForKey:kAYServiceArgsScreenName];

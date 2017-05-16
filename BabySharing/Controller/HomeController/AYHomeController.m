@@ -85,8 +85,8 @@ typedef void(^queryContentFinish)(void);
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 		if ([backArgs isKindOfClass:[NSString class]]) {
-			NSString *title = (NSString*)backArgs;
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//			NSString *title = (NSString*)backArgs;
+//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 		else if ([backArgs isKindOfClass:[NSDictionary class]]) {
 			NSString *key = [backArgs objectForKey:@"key"];

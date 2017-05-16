@@ -7,6 +7,7 @@
 //
 
 #import "Tools.h"
+#import <CommonCrypto/CommonDigest.h>
 
 @implementation Tools
 
@@ -692,6 +693,24 @@
     CGImageRef btm =CGImageCreateWithImageInRect(image.CGImage, btmImgFrame);
     *pImg = [UIImage imageWithCGImage:btm];
     return [UIImage imageWithCGImage:top];
+}
+
++ (NSString*)Bit64String:(NSString *)string {
+	/*1.
+	const char *cStr = [string UTF8String];
+	unsigned char result[CC_MD5_BLOCK_BYTES];
+	CC_MD5(cStr, (unsigned)strlen(cStr), result);
+	
+	return [[NSString stringWithFormat:@"%02X%02X%02X%02X%02X%02X%02X%02X",
+			 result[0], result[1], result[2], result[3],
+			 result[4], result[5], result[6], result[7]] uppercaseString];
+	*/
+	
+	/*2.
+	 */
+	const char *cStr = [string UTF8String];
+	return [[[NSString alloc] initWithBytes:cStr length:16 encoding:NSUTF8StringEncoding] uppercaseString];
+	
 }
 
 + (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary *)service_info {

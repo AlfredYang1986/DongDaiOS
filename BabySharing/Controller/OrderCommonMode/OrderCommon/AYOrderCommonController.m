@@ -17,6 +17,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 #import "AYOrderTOPView.h"
+#import <objc/runtime.h>
 
 #define TOPHEIGHT		165
 
@@ -43,11 +44,16 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
+		NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		id tmp = [args copy];
-		kAYDelegatesSendMessage(@"BOrderMain", @"changeQueryData:", &tmp)
-		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		SEL sel = NSSelectorFromString(method_name);
+		Method m = class_getInstanceMethod([self class], sel);
+		if (m) {
+			IMP imp = method_getImplementation(m);
+			id (*func)(id, SEL, ...) = imp;
+			func(self, sel);
+		}
+		
 	}
 }
 
@@ -174,7 +180,7 @@
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
-	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid]};
+	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid], @"only_history":[NSNumber numberWithInt:1]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
@@ -189,7 +195,7 @@
 	}];
 }
 
-- (void)queryOrders {
+- (id)queryOrders {
 	
 	NSDictionary *info;
 	CURRENUSER(info)
@@ -228,6 +234,8 @@
 		[((UITableView*)view_future).mj_header endRefreshing];
 		
 	}];
+	
+	return nil;
 }
 
 #pragma mark -- notifies

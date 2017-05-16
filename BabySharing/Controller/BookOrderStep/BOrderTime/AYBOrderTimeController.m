@@ -367,32 +367,6 @@
 		return;
 	}
 	
-//	NSMutableArray *orderTimeSpans = [NSMutableArray array];
-//	NSDate *nowDate = [NSDate date];
-//	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-//	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-//	[calendar setTimeZone: timeZone];
-//	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-//	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-//	NSInteger weekdaySep = theComponents.weekday - 1;
-//	
-//	[offer_date_mutable enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//		NSNumber *day = [obj objectForKey:kAYServiceArgsWeekday];
-//		NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-//		[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			NSNumber *select_pow = [obj objectForKey:@"select_pow"];
-//			int compA = select_pow.intValue;
-//			if (compA&1) {
-//				NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:0];
-//				[orderTimeSpans addObject:tmpSpan];
-//			}
-//			if (compA&2) {
-//				NSDictionary *tmpSpan = [self transTimeSpanWithDic:obj andDate:nowDate andDay:day andweektoday:weekdaySep andMultiple:1];
-//				[orderTimeSpans addObject:tmpSpan];
-//			}
-//		}];
-//	}];
-	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
 	[tmp setValue:order_times forKey:@"order_times"];
 	[tmp setValue:[service_info copy] forKey:kAYServiceArgsInfo];
@@ -436,7 +410,7 @@
 	
 	//1.判断Set中的数据是否可以响应 下一步btn
 	if (serviceType.intValue == ServiceTypeCourse) {
-		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.is_selected=%@", @1];
+		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"is_selected", @1];
 		NSArray *result = [timesArr filteredArrayUsingPredicate:pred];
 		[self checkTimesArrOrCheckOTMSetWithHandle:result];
 	} else {
@@ -497,26 +471,15 @@
 #pragma mark -- collection delegate notifies
 - (id)didSelectItemAtIndexPath:(id)args {
 	
+	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
 	UITableView *view_table = [self.views objectForKey:kAYTableView];
-	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
-	
-	//整合数据(如果有)
-//	if (timeSpanhandle) {
-//		if (serviceType.intValue == ServiceTypeCourse) {
-//			NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.is_selected=%@", @1];
-//			NSArray *result = [timesArr filteredArrayUsingPredicate:pred];
-//			if (result.count == 0) {
-//				[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
-//			}
-//		} else {
-//			if (timesArr.count == 0) {
-//				[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
-//			}
-//		}
-//		id tmp = [OTMSet copy];
-//		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
-//		[view_collec reloadItemsAtIndexPaths:@[indexPathHandle]];
-//	}
+	if (indexPathHandle) {
+		
+		id tmp_set = [OTMSet copy];
+		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
+		[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
+		//	[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+	}
 	
 	//替换 NSIndexPath handle数据
 	indexPathHandle = [args objectForKey:@"index_path"];
@@ -529,7 +492,7 @@
 		for (NSDictionary *dic_tm in serviceTMs) {
 			NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
 			NSTimeInterval enddate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
-			if (startdate <= timeSpanhandle.doubleValue && (enddate > timeSpanhandle.doubleValue || enddate == -0.001)) {
+			if (startdate <= timeSpanhandle.doubleValue + OneDayTimeInterval -1 && (enddate > timeSpanhandle.doubleValue || enddate == -0.001)) {
 				int starthours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue / 100;
 				int endhours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndHours]).intValue / 100;
 				if (starthours != 0 && starthours < minStart) {
@@ -541,7 +504,8 @@
 			}
 		}
 		NSMutableArray *tmpArr = [NSMutableArray array];
-		for (int i = 0; i<= maxEnd-minStart; ++i) {
+		int span = maxEnd-minStart;
+		for (int i = 0; i<= span; ++i) {
 			[tmpArr addObject:[NSString stringWithFormat:@"%.2d",minStart + i]];
 		}
 		NSMutableDictionary *dic_data = [[NSMutableDictionary alloc] init];
@@ -586,10 +550,10 @@
 	numb = 2;
 	CGFloat transHeight = itemWidth * (numb+1);
 	[UIView animateWithDuration:0.25 animations:^{
-		view_collec.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
+		view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
 		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + kBotButtonH));
 	}];
-	[view_collec scrollToItemAtIndexPath:indexPathHandle atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+	[view_collection scrollToItemAtIndexPath:indexPathHandle atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
 	return nil;
 }
 
@@ -618,12 +582,11 @@
 	[self checkCertainBtnStates];
 		
 	if (timesArr.count == 0) {
-//		[OTMSet removeObjectForKey:timeSpanhandle.stringValue];
-		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
-		id tmp_set = [OTMSet copy];
-		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
-		[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
-		[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+//		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
+//		id tmp_set = [OTMSet copy];
+//		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
+//		[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
+//		[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 	}
 	return nil;
 }
@@ -702,11 +665,11 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	[self checkCertainBtnStates];
 	
-	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
-	id tmp_set = [OTMSet copy];
-	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
-	[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
-	[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+//	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
+//	id tmp_set = [OTMSet copy];
+//	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
+//	[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
+//	[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 	
 	return nil;
 }

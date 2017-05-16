@@ -17,6 +17,7 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 #import "AYOrderTOPView.h"
+#import <objc/runtime.h>
 
 #define TOPHEIGHT		155
 #define HISTORYBTNHEIGHT		60
@@ -46,7 +47,15 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		NSString* method_name = [dic objectForKey:kAYControllerChangeArgsKey];
 		
+		SEL sel = NSSelectorFromString(method_name);
+		Method m = class_getInstanceMethod([self class], sel);
+		if (m) {
+			IMP imp = method_getImplementation(m);
+			id (*func)(id, SEL, ...) = imp;
+			func(self, sel);
+		}
 	}
 }
 
@@ -134,7 +143,7 @@
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [info mutableCopy];
 //	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid]};
+	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid], @"only_today":[NSNumber numberWithInt:1]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
@@ -149,7 +158,7 @@
 	}];
 }
 
-- (void)queryOrders {
+- (id)queryOrders {
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	
@@ -193,6 +202,7 @@
 		[((UITableView*)view_future).mj_header endRefreshing];
 	}];
 	
+	return nil;
 }
 
 - (void)showTodoApplyAndBack {

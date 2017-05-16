@@ -113,7 +113,7 @@
 	} else {	//用户方
 		
 		if (status == OrderStatusAccepted) {
-			CGFloat btmView_height = 110.f;
+			CGFloat btmView_height = 49.f;
 			BTMView.frame = CGRectMake(0, SCREEN_HEIGHT - btmView_height, SCREEN_WIDTH, btmView_height);
 			
 			UIButton *gotoPayBtn = [Tools creatUIButtonWithTitle:@"去支付" andTitleColor:[Tools whiteColor] andFontSize:314.f andBackgroundColor:[Tools themeColor]];
@@ -133,6 +133,7 @@
 				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kTabBarH));
 			}];
 			[cancelBtn addTarget:self action:@selector(didCancelBtnClick) forControlEvents:UIControlEventTouchUpInside];
+			cancelBtn.hidden = YES;
 		}
 		else if (status == OrderStatusCancel) {
 			
@@ -348,6 +349,11 @@
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];
+	return nil;
+}
+
+- (id)unsubsOrder {
+	[self didCancelBtnClick];
 	return nil;
 }
 

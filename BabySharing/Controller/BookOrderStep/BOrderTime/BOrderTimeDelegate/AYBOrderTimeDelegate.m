@@ -156,7 +156,7 @@
 		
 		cell.timeSpan = cellTimeSpan;
 		if ((int)cellTimeSpan == (int)todayTimeSpan) {
-			[cell setTodatStates];
+			[cell setTodayStates];
 		}
 		
 		for (NSString *k in [querydata allKeys]) {
@@ -208,6 +208,41 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
 	if (cell.isEnAbled) {
+		[cell setDidSelected];
+//		NSInteger sect = indexPath.section + theMonth -1;
+//		NSString *strYear = [NSString stringWithFormat:@"%ld", sect / 12 + theYear];
+//		NSString *strMonth = [NSString stringWithFormat:@"%ld", sect % 12 + 1];
+//		NSString *dateStr = [NSString stringWithFormat:@"%@-%@-01", strYear, strMonth];
+//		NSInteger weekNumb = [self.useTime timeFewWeekInMonth:dateStr];
+//		
+//		NSTimeInterval time_p = cell.timeSpan;
+////		NSNumber *tmp = [NSNumber numberWithDouble:time_p];
+//		
+//		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+//		[tmp setValue:[NSNumber numberWithInteger:weekNumb] forKey:@"numb_weeks"];
+//		[tmp setValue:[NSNumber numberWithDouble:time_p] forKey:@"interval"];
+//		[tmp setValue:indexPath forKey:@"index_path"];
+//		
+//		kAYDelegateSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+	}
+}
+
+#pragma mark -- cell反选
+//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+//	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
+//	if (cell.isEnAbled) {
+//		
+//		NSTimeInterval time_p = cell.timeSpan;
+//		NSNumber *tmp = [NSNumber numberWithDouble:time_p];
+//		kAYViewSendNotify(self, @"didDeselectItemAtIndexPath:", &tmp)
+//	}
+//}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
+	NSLog(@"%d", cell.isEnAbled);
+	if (cell.isEnAbled) {
 		
 		NSInteger sect = indexPath.section + theMonth -1;
 		NSString *strYear = [NSString stringWithFormat:@"%ld", sect / 12 + theYear];
@@ -216,7 +251,7 @@
 		NSInteger weekNumb = [self.useTime timeFewWeekInMonth:dateStr];
 		
 		NSTimeInterval time_p = cell.timeSpan;
-//		NSNumber *tmp = [NSNumber numberWithDouble:time_p];
+		//		NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 		
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 		[tmp setValue:[NSNumber numberWithInteger:weekNumb] forKey:@"numb_weeks"];
@@ -224,25 +259,10 @@
 		[tmp setValue:indexPath forKey:@"index_path"];
 		
 		kAYDelegateSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+		return YES;
+	} else {
+		return NO;
 	}
-}
-
-#pragma mark -- cell反选
-- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
-	if (cell.isEnAbled) {
-		
-		NSTimeInterval time_p = cell.timeSpan;
-		NSNumber *tmp = [NSNumber numberWithDouble:time_p];
-		kAYViewSendNotify(self, @"didDeselectItemAtIndexPath:", &tmp)
-	}
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	
-	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
-	NSLog(@"%d", cell.isEnAbled);
-	return cell.isEnAbled;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -281,16 +301,10 @@
 }
 
 #pragma mark -- UIScrollViewDelegate
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//	CGFloat offset_x = scrollView.contentOffset.x;
-//	NSNumber *tmp = [NSNumber numberWithFloat:offset_x];
-//	kAYDelegateSendNotify(self, @"scrollOffsetX:", &tmp)
-//}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	static CGFloat offset_origin_y = 0;
 	CGFloat offset_now_y = scrollView.contentOffset.y;
-	if (offset_origin_y - offset_now_y  > 10) {
+	if (offset_origin_y - offset_now_y  > 10) {		//下滑
 		id<AYCommand> cmd = [self.notifies objectForKey:@"scrollToShowMore"];
 		[cmd performWithResult:nil];
 	}

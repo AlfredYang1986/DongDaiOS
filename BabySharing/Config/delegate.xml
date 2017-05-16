@@ -363,6 +363,7 @@
 	
 	<delegate type="TableViewDelegateAndDatasource" name="OrderInfoPage" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+		<command type="notify" message="unsubsOrder" />
 	</delegate>
 	
     <delegate type="TableViewDelegateAndDatasource" name="ReadyOrder" factory="AYDefaultDelegateFactory" >

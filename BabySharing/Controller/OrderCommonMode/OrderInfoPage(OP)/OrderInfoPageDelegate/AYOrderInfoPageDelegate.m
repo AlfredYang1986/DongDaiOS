@@ -14,6 +14,8 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
+#import "AYNoContentCell.h"
+
 @implementation AYOrderInfoPageDelegate {
 	NSDictionary *querydata;
 }
@@ -52,7 +54,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 3;
+	return 3+1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -68,9 +70,18 @@
 		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OPPriceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
-	} else {
+	} else if(indexPath.row == 2){
 		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	} else {
+		AYNoContentCell *cancelCell = [tableView dequeueReusableCellWithIdentifier:@"CancelCell"];
+		if (!cancelCell) {
+			cancelCell = [[AYNoContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CancelCell"];
+		}
+		cancelCell.titleStr = @"取消预订申请";
+		cancelCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cancelCell.clipsToBounds = YES;
+		return cancelCell;
 	}
 	
 	id tmp = [querydata copy];
@@ -93,18 +104,23 @@
 	else if (indexPath.row == 1) {
 		return 90.f;
 	}
-	else {
+	else if(indexPath.row == 2){
 		return 110.f;
+	} else {
+		OrderStatus status = ((NSNumber*)[querydata objectForKey:@"status"]).intValue;
+		if (status == OrderStatusAccepted) {
+			return 49.f;
+		} else
+			return 0.001f;
 	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//	id tmp = [estabArrData objectAtIndex:indexPath.row];
-	
+	kAYDelegateSendNotify(self, @"unsubsOrder", nil)
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
+	return indexPath.row == 3 ? YES : NO;
 }
 
 @end

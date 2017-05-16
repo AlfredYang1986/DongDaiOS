@@ -160,7 +160,7 @@
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
 	
 	NSString *orderID = [order_info objectForKey:@"order_id"];
-	orderID = [orderID uppercaseString];
+	orderID = [Tools Bit64String:orderID];
 	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	
 	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
