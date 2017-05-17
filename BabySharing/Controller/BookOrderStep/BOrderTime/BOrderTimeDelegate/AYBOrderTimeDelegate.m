@@ -23,6 +23,8 @@
 	int theYear;
 	int theMonth;
 	int theDay;
+	
+	NSTimeInterval selectedItemHandle;
 }
 
 #pragma mark -- command
@@ -111,11 +113,14 @@
 	} else {
 		cell.hidden = NO;
 		[cell setInitStates];
-		
 		NSInteger gregoiain = indexPath.item - firstCorner+1;
 		NSString *cellDateStr = [NSString stringWithFormat:@"%ld-%ld-%d", sect/12 + theYear, (sect)%12 + 1, (int)gregoiain];
 		NSDate *cellDate = [_useTime strToDate:cellDateStr];
 		NSTimeInterval cellTimeSpan = cellDate.timeIntervalSince1970;
+		cell.timeSpan = cellTimeSpan;
+		if ((int)cellTimeSpan == (int)todayTimeSpan) {
+			[cell setTodayStates];
+		}
 		
 		for (NSDictionary *dic_tm in serviceTMs) {
 			NSNumber *pattern = [dic_tm objectForKey:kAYServiceArgsPattern];
@@ -152,18 +157,28 @@
 			else {
 				
 			}
-		} //forin
-		
-		cell.timeSpan = cellTimeSpan;
-		if ((int)cellTimeSpan == (int)todayTimeSpan) {
-			[cell setTodayStates];
-		}
+		} //forin item status
 		
 		for (NSString *k in [querydata allKeys]) {
 			double handle = k.doubleValue;
-			if (handle == cellTimeSpan && ((NSArray*)[querydata objectForKey:k]).count != 0) {
-				[cell setSelectedStates];
+			
+			NSArray *times = [querydata objectForKey:k];
+			if (handle == cellTimeSpan && times.count != 0) {
+				if ([times.firstObject count] == 2) {
+					[cell setSelectedStates];
+				}
+				else if([times.firstObject count] == 3){
+					NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"is_selected", 1];
+					NSArray *resultArr = [times filteredArrayUsingPredicate:pred];
+					if (resultArr.count != 0) {
+						[cell setSelectedStates];
+					}
+				}
 			}
+		}	//forin 是否选定当前日期
+		
+		if(cellTimeSpan == selectedItemHandle) {
+			[cell setDidSelected];
 		}
 	}
 	return cell;
@@ -207,24 +222,8 @@
 #pragma mark -- cell点击
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
-	if (cell.isEnAbled) {
-		[cell setDidSelected];
-//		NSInteger sect = indexPath.section + theMonth -1;
-//		NSString *strYear = [NSString stringWithFormat:@"%ld", sect / 12 + theYear];
-//		NSString *strMonth = [NSString stringWithFormat:@"%ld", sect % 12 + 1];
-//		NSString *dateStr = [NSString stringWithFormat:@"%@-%@-01", strYear, strMonth];
-//		NSInteger weekNumb = [self.useTime timeFewWeekInMonth:dateStr];
-//		
-//		NSTimeInterval time_p = cell.timeSpan;
-////		NSNumber *tmp = [NSNumber numberWithDouble:time_p];
-//		
-//		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-//		[tmp setValue:[NSNumber numberWithInteger:weekNumb] forKey:@"numb_weeks"];
-//		[tmp setValue:[NSNumber numberWithDouble:time_p] forKey:@"interval"];
-//		[tmp setValue:indexPath forKey:@"index_path"];
-//		
-//		kAYDelegateSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
-	}
+	
+	[cell setDidSelected];
 }
 
 #pragma mark -- cell反选
@@ -243,7 +242,7 @@
 	AYBOrderTimeItemView * cell = (AYBOrderTimeItemView *)[collectionView cellForItemAtIndexPath:indexPath];
 	NSLog(@"%d", cell.isEnAbled);
 	if (cell.isEnAbled) {
-		
+		selectedItemHandle = cell.timeSpan;
 		NSInteger sect = indexPath.section + theMonth -1;
 		NSString *strYear = [NSString stringWithFormat:@"%ld", sect / 12 + theYear];
 		NSString *strMonth = [NSString stringWithFormat:@"%ld", sect % 12 + 1];
@@ -266,7 +265,7 @@
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
+	return NO;
 }
 
 - (id)dateScrollToCenter:(NSString*)str {

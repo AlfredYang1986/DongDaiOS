@@ -27,7 +27,12 @@
 	NSArray *workDaySchedule = [time_brige_args objectForKey:@"schedule_workday"];
 	
 	NSDate *nowDate = [NSDate date];
-	NSTimeInterval nowInterval = nowDate.timeIntervalSince1970;
+	
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy-MM-dd"];
+	NSString *dateStr = [formatter stringFromDate:nowDate];
+	NSDate *todayDate = [formatter dateFromString:dateStr];
+	/*update: 之前是用的date是now，now存在匹配问题 =>转截成以“日”为标准的date*/
+	NSTimeInterval nowInterval = todayDate.timeIntervalSince1970;
 	
 	if (restDayScheduleArr.count != 0) {
 		

@@ -133,6 +133,10 @@
 	dayLabel.textColor = [Tools whiteColor];
 }
 
+//- (void)setSelectedItem {
+//	dayLabel.textColor = [Tools whiteColor];
+//}
+
 #pragma mark -- status
 - (void)setInitStates {
 	_isEnAbled = NO;

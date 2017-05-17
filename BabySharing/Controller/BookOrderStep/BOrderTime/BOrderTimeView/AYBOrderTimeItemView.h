@@ -22,10 +22,12 @@ typedef void(^touchUpInSubBtn)(NSDictionary*);
 @property (nonatomic, assign) BOOL isSelectedItem;
 
 - (void)setDidSelected;
+//- (void)setSelectedItem;
 
 - (void)setInitStates;
 - (void)setTodayStates;
 - (void)setSelectedStates;
 - (void)setEnAbleStates;
+
 
 @end
