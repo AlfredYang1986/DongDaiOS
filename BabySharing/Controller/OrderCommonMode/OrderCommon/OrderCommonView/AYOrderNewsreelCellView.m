@@ -186,7 +186,7 @@
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 	NSString *pre = cmd.route;
 	
-	NSString *photo_name = [[order_info objectForKey:@"owner"] objectForKey:kAYServiceArgsScreenPhoto];
+	NSString *photo_name = [order_info objectForKey:kAYOrderArgsThumbs];
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
