@@ -64,32 +64,32 @@
 	skipCount = skipCountRemind = 0;
 	queryTimespan = queryTimespanRemind = [NSDate date].timeIntervalSince1970 * 1000;
 	
-	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeServant];
-	[self.view addSubview:TOPView];
-	TOPView.userInteractionEnabled = YES;
-	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
-	
-	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-	[self.view addSubview:readMoreBtn];
-	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(TOPView).offset(-20);
-		make.top.equalTo(TOPView).offset(10);
-		make.size.mas_equalTo(CGSizeMake(70, 30));
-	}];
-	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-	readMoreBtn.hidden  = YES;
-	
-	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-	[historyBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,20, 0, 0)];
-	[self.view addSubview:historyBtn];
-	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(self.view);
-		make.top.equalTo(TOPView.mas_bottom).offset(0);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, HISTORYBTNHEIGHT));
-	}];
-	[historyBtn addTarget:self action:@selector(didHistoryBtnClick) forControlEvents:UIControlEventTouchUpInside];
-	[Tools creatCALayerWithFrame:CGRectMake(0, HISTORYBTNHEIGHT - 0.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
+//	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeServant];
+//	[self.view addSubview:TOPView];
+//	TOPView.userInteractionEnabled = YES;
+//	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
+//	
+//	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+//	[self.view addSubview:readMoreBtn];
+//	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.right.equalTo(TOPView).offset(-20);
+//		make.top.equalTo(TOPView).offset(10);
+//		make.size.mas_equalTo(CGSizeMake(70, 30));
+//	}];
+//	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//	readMoreBtn.hidden  = YES;
+//	
+//	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+//	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//	[historyBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,20, 0, 0)];
+//	[self.view addSubview:historyBtn];
+//	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.centerX.equalTo(self.view);
+//		make.top.equalTo(TOPView.mas_bottom).offset(0);
+//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, HISTORYBTNHEIGHT));
+//	}];
+//	[historyBtn addTarget:self action:@selector(didHistoryBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//	[Tools creatCALayerWithFrame:CGRectMake(0, HISTORYBTNHEIGHT - 0.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderServant"];
 	id obj = (id)delegate;
@@ -123,7 +123,8 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 40+TOPHEIGHT+HISTORYBTNHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kTabBarH - TOPHEIGHT - HISTORYBTNHEIGHT);
+//	view.frame = CGRectMake(0, 40+TOPHEIGHT+HISTORYBTNHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kTabBarH - TOPHEIGHT - HISTORYBTNHEIGHT);
+	view.frame = CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT - 40 - kTabBarH);
 	return nil;
 }
 
@@ -153,7 +154,10 @@
 			remindArr = [result copy];
 			id tmp = [result copy];
 			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryData:", &tmp)
-			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			
+			UITableView *view_table = [self.views objectForKey:kAYTableView];
+			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		}
 	}];
 }
@@ -181,7 +185,9 @@
 			
 			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPosted];
 			result_status_posted = [resultArr filteredArrayUsingPredicate:pred_ready];
-			[TOPView setItemArgs:result_status_posted];
+			
+			id data = [result_status_posted copy];
+			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryTodoData:", &data)
 			
 			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPaid];
 			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusCancel];
@@ -205,7 +211,7 @@
 	return nil;
 }
 
-- (void)showTodoApplyAndBack {
+- (id)showAppliListOrOne {
 	
 	id<AYCommand> des;
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -226,6 +232,8 @@
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
+	
+	return nil;
 }
 
 - (void)didHistoryBtnClick:(UIButton*)btn {

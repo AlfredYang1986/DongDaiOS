@@ -14,9 +14,15 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
+#import "AYOrderTOPView.h"
+
+#define TOPHEIGHT		155
+#define HISTORYBTNHEIGHT		60
 
 @implementation AYOrderServantDelegate {
 	NSArray *querydata;
+	
+	AYOrderTOPView *TOPView;
 	
 	NSArray *funcNameArr;
 //	NSArray *waitArrData;
@@ -30,7 +36,7 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
-	funcNameArr = @[/*@"showLeastOneAppli", @"showHistoryAppli",*/ @"showRemindMessage"];
+	funcNameArr = @[/*@"showAppliListOrOne", @"showHistoryAppli",*/ @"showRemindMessage"];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -52,6 +58,12 @@
 
 - (id)changeQueryData:(id)info {
 	querydata = info;
+	return nil;
+}
+
+- (id)changeQueryTodoData:(NSArray*)data {
+	TOPView.userInteractionEnabled = data.count != 0;
+	[TOPView setItemArgs:data];
 	return nil;
 }
 
@@ -99,42 +111,43 @@
 	return 180.f;
 }
 
-//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//	UIView *headView = [[UIView alloc] init];
-//	headView.backgroundColor = [Tools whiteColor];
-//	
-//	NSString *titleStr = @"待确认";
-//	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//	[headView addSubview:titleLabel];
-//	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.centerY.equalTo(headView);
-//		make.left.equalTo(headView).offset(20);
-//	}];
-//	
-//	UILabel *countlabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[UIColor redColor] andTextAlignment:NSTextAlignmentCenter];
-//	[Tools setViewBorder:countlabel withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-//	[headView addSubview:countlabel];
-//	[countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.left.equalTo(titleLabel.mas_right).offset(5);
-//		make.top.equalTo(titleLabel).offset(-2);
-//		make.size.mas_equalTo(CGSizeMake(20, 20));
-//	}];
-//	
-//	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-//	[headView addSubview:readMoreBtn];
-//	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.right.equalTo(headView).offset(-20);
-//		make.centerY.equalTo(headView);
-//		make.size.mas_equalTo(CGSizeMake(70, 30));
-//	}];
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	UIView *headView = [[UIView alloc] init];
+	headView.backgroundColor = [Tools whiteColor];
+	
+	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeServant];
+	[headView addSubview:TOPView];
+	TOPView.userInteractionEnabled = YES;
+	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
+	
+	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+	[headView addSubview:readMoreBtn];
+	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(TOPView).offset(-20);
+		make.top.equalTo(TOPView).offset(10);
+		make.size.mas_equalTo(CGSizeMake(70, 30));
+	}];
 //	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//	
-//	return headView;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//	return 55.f;
-//}
+	readMoreBtn.hidden  = YES;
+	
+	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
+	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+	[historyBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,20, 0, 0)];
+	[headView addSubview:historyBtn];
+	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(headView);
+		make.top.equalTo(TOPView.mas_bottom).offset(0);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, HISTORYBTNHEIGHT));
+	}];
+	[historyBtn addTarget:self action:@selector(didHistoryBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	[Tools creatCALayerWithFrame:CGRectMake(0, HISTORYBTNHEIGHT - 0.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
+	
+	return headView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+	return (TOPHEIGHT + HISTORYBTNHEIGHT);
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
@@ -147,8 +160,37 @@
 }
 
 #pragma mark -- actions
+- (void)showTodoApplyAndBack {
+	kAYDelegateSendNotify(self, @"showAppliListOrOne", nil)
+}
+
+- (void)didHistoryBtnClick {
+	kAYDelegateSendNotify(self, @"showHistoryAppli", nil)
+}
+
 //- (void)didReadMoreBtnClick {
 //	kAYDelegateSendNotify(self, @"showMoreAppli", nil)
 //}
+
+#pragma mark -- scroll delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	NSLog(@"%f",scrollView.contentOffset.y);
+//	if (scrollView.contentOffset.y <= 0) {
+//		scrollView.bounces = NO;
+//		
+//		NSLog(@"禁止下拉");
+//	}
+//	else if (scrollView.contentOffset.y >= 0){
+//			scrollView.bounces = YES;
+//			NSLog(@"允许上拉");
+//	}
+	
+	CGPoint offset = scrollView.contentOffset;
+	if (offset.y >= 0) {
+		offset.y = 0;
+	}
+	scrollView.contentOffset = offset;
+}
+
 
 @end

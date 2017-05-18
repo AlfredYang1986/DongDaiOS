@@ -19,12 +19,13 @@
 #import "AYOrderTOPView.h"
 #import <objc/runtime.h>
 
-#define TOPHEIGHT		165
+#define TOPHEIGHT		0
+//165
 
 @implementation AYOrderCommonController {
 	
 //	UILabel *leastNews;
-	AYOrderTOPView *TOPView;
+//	AYOrderTOPView *TOPView;
 	
 	NSArray *remindArr;
 	
@@ -67,19 +68,19 @@
 	[self.view bringSubviewToFront:tableView];
 	/****************************************/
 	
-	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
-	[self.view addSubview:allNewsBtn];
-	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(self.view.mas_top).offset(42);
-		make.right.equalTo(self.view).offset(-20);
-		make.size.mas_equalTo(CGSizeMake(70, 30));
-	}];
-	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-	
-	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeCommon];
-	[self.view addSubview:TOPView];
-	TOPView.userInteractionEnabled = YES;
-	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
+//	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+//	[self.view addSubview:allNewsBtn];
+//	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.centerY.equalTo(self.view.mas_top).offset(42);
+//		make.right.equalTo(self.view).offset(-20);
+//		make.size.mas_equalTo(CGSizeMake(70, 30));
+//	}];
+//	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//	
+//	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeCommon];
+//	[self.view addSubview:TOPView];
+//	TOPView.userInteractionEnabled = YES;
+//	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
 	id obj = (id)delegate;
@@ -129,7 +130,7 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, kStatusAndNavBarH+TOPHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH-TOPHEIGHT - kTabBarH);
+	view.frame = CGRectMake(0, 20+TOPHEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - 20 -TOPHEIGHT - kTabBarH);
 	//预设高度
 //	((UITableView*)view).estimatedRowHeight = 120;
 //	((UITableView*)view).rowHeight = UITableViewAutomaticDimension;
@@ -137,7 +138,7 @@
 }
 
 #pragma mark -- actions
-- (void)showAppliFeedback {
+- (id)showFBListOrOne {
 	id<AYCommand> des;
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	
@@ -155,10 +156,10 @@
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
-//	return nil;
+	return nil;
 }
 
-- (void)didAllNewsBtnClick:(UIButton*)btn {
+- (id)showOrderList {
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderListNews");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -169,7 +170,7 @@
 	
 	id<AYCommand> cmd_push = PUSH;
 	[cmd_push performWithResult:&dic];
-	
+	return nil;
 }
 
 #pragma mark -- actions
@@ -190,6 +191,18 @@
 			remindArr = [result copy];
 			id tmp = [result copy];
 			kAYDelegatesSendMessage(@"OrderCommon", kAYDelegateChangeDataMessage, &tmp)
+			
+//			NSMutableArray *indexPathArr = [NSMutableArray array];
+//			dispatch_block_notify(^{
+//				for (int i = 0; i < 2; ++i) {
+//					[indexPathArr addObject:[NSIndexPath indexPathForRow:i inSection:0]];
+//				}
+//			}, dispatch_get_main_queue(), ^{
+//				UITableView *view_table = [self.views objectForKey:kAYTableView];
+//				[view_table reloadRowsAtIndexPaths:indexPathArr withRowAnimation:UITableViewRowAnimationNone];
+//			});
+			
+			
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		}
 	}];
@@ -222,8 +235,11 @@
 			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_accept, pred_reject]];
 			result_status_fb = [resultArr filteredArrayUsingPredicate:pred_fb];
 			
-			TOPView.userInteractionEnabled = result_status_fb.count != 0;
-			[TOPView setItemArgs:result_status_fb];
+			id data = [result_status_fb copy];
+			kAYDelegatesSendMessage(@"OrderCommon", @"changeQueryFBData:", &data)
+			
+//			TOPView.userInteractionEnabled = result_status_fb.count != 0;
+//			[TOPView setItemArgs:result_status_fb];
 			
 		} else {
 			NSString *title = @"请改善网络环境并重试";

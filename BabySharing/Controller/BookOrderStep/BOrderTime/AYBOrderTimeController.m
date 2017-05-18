@@ -37,6 +37,8 @@
 	
 	NSArray *serviceTMs;
 	NSMutableArray *tms_mutable;
+	
+	BOOL isAnimateCompletion;
 }
 
 #pragma mark -- commands
@@ -363,12 +365,30 @@
 		return;
 	}
 	
-	NSInteger leastTimes = ((NSNumber*)[service_info objectForKey:kAYServiceArgsLeastTimes]).integerValue;
+	
+	NSNumber *leastNode;
 	NSArray *order_times = [self transDicWithOTMDictionary:nil];
-	if (order_times.count < leastTimes) {
-		NSString *title = [NSString stringWithFormat:@"该服务最少预定%d次",(int)leastTimes];
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		return;
+	if (serviceType.intValue == ServiceTypeCourse) {
+		leastNode = [service_info objectForKey:kAYServiceArgsLeastTimes];
+		if (order_times.count < leastNode.intValue) {
+			NSString *title = [NSString stringWithFormat:@"该服务最少预定%@次", leastNode];
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			return;
+		}
+	} else if (serviceType.intValue == ServiceTypeNursery) {
+		leastNode = [service_info objectForKey:kAYServiceArgsLeastHours];
+		double sum = 0;
+		for (NSDictionary *dic_time in order_times) {
+			double start = ((NSNumber*)[dic_time objectForKey:kAYServiceArgsStart]).doubleValue;
+			double end = ((NSNumber*)[dic_time objectForKey:kAYServiceArgsEnd]).doubleValue;
+			sum += end - start;
+		}
+		CGFloat sum_hours = sum *0.001 / 60 / 60;
+		if (sum_hours < leastNode.floatValue) {
+			NSString *title = [NSString stringWithFormat:@"该服务最少预定%@小时", leastNode];
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			return;
+		}
 	}
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
@@ -479,7 +499,6 @@
 	UITableView *view_table = [self.views objectForKey:kAYTableView];
 	if (indexPathHandle) {
 		
-		
 //		NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"is_selected", 1];
 //		NSArray *resultArr = [timesArr filteredArrayUsingPredicate:pred];
 //		if (resultArr.count == 0 || resultArr.count == 1) {
@@ -558,12 +577,9 @@
 			}
 			[OTMSet setValue:timesArr forKey:timeSpanhandle.stringValue];
 		} else {
-			NSLog(@"null");
+			NSLog(@"exist");
 		}
 	}
-	
-	
-	
 	
 	NSArray *tmp = [timesArr copy];
 	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
@@ -575,21 +591,34 @@
 	NSInteger numb = ((NSNumber*)[args objectForKey:@"numb_weeks"]).integerValue;
 	numb = 2;
 	CGFloat transHeight = itemWidth * (numb+1);
+	
+	isAnimateCompletion = NO;
+	/*
+	 frame变化时  会计算scrollView contentOffset，此处offset变化会触发 《uicollectionview的展示更多》
+	 现象：展示table时，uicollectionview再反复回弹 一次，最后uicollectioview展开了，table展不开
+	 isAnimateCompletion：保护table顺利展开
+	 */
 	[UIView animateWithDuration:0.25 animations:^{
 		view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, transHeight);
 		view_table.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40 + transHeight, SCREEN_WIDTH, SCREEN_HEIGHT - (kStatusAndNavBarH + 40 + 40 + transHeight + kBotButtonH));
+	} completion:^(BOOL finished) {
+		isAnimateCompletion = YES;
 	}];
 	[view_collection scrollToItemAtIndexPath:indexPathHandle atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+	
 	return nil;
 }
 
 - (id)scrollToShowMore {
-	UITableView *view_table = [self.views objectForKey:kAYTableView];
-	UICollectionView *view_collec = [self.views objectForKey:@"CollectionVer"];
-	[UIView animateWithDuration:0.25 animations:^{
-		view_collec.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
-		view_table.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
-	}];
+		
+	if (isAnimateCompletion) {
+		UITableView *view_table = [self.views objectForKey:kAYTableView];
+		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
+		[UIView animateWithDuration:0.25 animations:^{
+			view_collection.frame = CGRectMake(0, kStatusAndNavBarH + 40 + 40, SCREEN_WIDTH - screenPadding * 2, SCREEN_HEIGHT - kStatusAndNavBarH - 40 - 40 - kBotButtonH);
+			view_table.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
+		}];
+	}
 	return nil;
 }
 

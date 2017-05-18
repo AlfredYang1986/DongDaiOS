@@ -15,6 +15,10 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 #import "AYNoContentCell.h"
+#import "AYOrderTOPView.h"
+
+#define TOPHEIGHT		165
+
 
 typedef enum : NSUInteger {
 	PageToService = 0,
@@ -24,6 +28,7 @@ typedef enum : NSUInteger {
 @implementation AYOrderCommonDelegate {
 	
 	NSArray *querydata;
+	AYOrderTOPView *TOPView;
 	
 	NSTimeInterval nowNode;
 }
@@ -57,6 +62,12 @@ typedef enum : NSUInteger {
 
 - (id)changeQueryData:(id)info {
 	querydata = info;
+	return nil;
+}
+
+- (id)changeQueryFBData:(NSArray*)data {
+	TOPView.userInteractionEnabled = data.count != 0;
+	[TOPView setItemArgs:data];
 	return nil;
 }
 
@@ -123,55 +134,53 @@ typedef enum : NSUInteger {
 	UIView *headView = [[UIView alloc] init];
 	headView.backgroundColor = [Tools whiteColor];
 	
+	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
+	[headView addSubview:allNewsBtn];
+	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(headView.mas_top).offset(22);
+		make.right.equalTo(headView).offset(-20);
+		make.size.mas_equalTo(CGSizeMake(70, 30));
+	}];
+	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
+	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeCommon];
+	[headView addSubview:TOPView];
+	TOPView.userInteractionEnabled = YES;
+	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
+	
 	NSString *titleStr = @"日程";
 	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(headView);
+		make.bottom.equalTo(headView).offset(-12);
 		make.left.equalTo(headView).offset(20);
 	}];
-	
-//	if (section == 0) {
-//		UILabel *countlabel = [Tools creatUILabelWithText:@"9+" andTextColor:[Tools whiteColor] andFontSize:313.f andBackgroundColor:[UIColor redColor] andTextAlignment:NSTextAlignmentCenter];
-//		[Tools setViewBorder:countlabel withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-//		[headView addSubview:countlabel];
-//		[countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(titleLabel.mas_right).offset(5);
-//			make.top.equalTo(titleLabel).offset(-2);
-//			make.size.mas_equalTo(CGSizeMake(20, 20));
-//		}];
-//	} else {
-//		titleLabel.text = @"日程";
-//	}
-//	
-//	CGFloat margin = 10.f;
-//	[Tools creatCALayerWithFrame:CGRectMake(margin, 54.5f, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
-	
-//	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-//	[headView addSubview:readMoreBtn];
-//	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.right.equalTo(headView).offset(-20);
-//		make.centerY.equalTo(headView);
-//		make.size.mas_equalTo(CGSizeMake(70, 30));
-//	}];
-//	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 55.f;
+	return 55.f + 44.f + TOPHEIGHT;
 }
 
-//- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-//	return NO;
-//}
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	return querydata.count != 0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	PageTo to = [self isTodayRemindWithIndex:indexPath.row] ? PageToOrder : PageToService;
 	NSDictionary *tmp = @{@"info":[querydata objectAtIndex:indexPath.row], @"type":[NSNumber numberWithInteger:to]};
 	kAYViewSendNotify(self, @"didSelectedRow:", &tmp)
+}
+
+#pragma mark -- actions
+- (void)didAllNewsBtnClick {
+	kAYDelegateSendNotify(self, @"showOrderList", nil)
+}
+
+- (void)showAppliFeedback {
+	kAYDelegateSendNotify(self, @"showFBListOrOne", nil)
 }
 
 @end

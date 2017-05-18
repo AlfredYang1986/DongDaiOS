@@ -65,7 +65,7 @@
 			make.left.equalTo(userPhotoView).offset(0);
 			make.centerY.equalTo(userPhotoView);
 		}];
-		noContentLabel.hidden = YES;
+//		noContentLabel.hidden = YES;
 		
 		userNameLabel = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:userNameLabel];
@@ -87,6 +87,8 @@
 			make.top.equalTo(userPhotoView.mas_centerY).offset(3);
 			make.left.equalTo(userNameLabel);
 		}];
+		
+		userPhotoView.hidden = userNameLabel.hidden = FBActionLabel.hidden = serviceTitleLabel.hidden = YES;
 		
 		if (mode == OrderModeCommon) {
 			UIView *lineView = [UIView new];
@@ -116,7 +118,7 @@
 		[self isShowContent:YES];
 		countlabel.text = [NSString stringWithFormat:@"%ld", arr_args.count];
 		
-		NSDictionary *order_info = [args lastObject];
+		NSDictionary *order_info = [args firstObject];
 		NSString *photo_name;
 		
 		NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];

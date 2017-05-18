@@ -105,7 +105,8 @@
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
 //    view.backgroundColor = [Tools whiteColor];
-    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+//    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+	view.clipsToBounds = YES;
     return nil;
 }
 

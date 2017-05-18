@@ -25,7 +25,7 @@
 static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSignedTips";
 
 @implementation AYEditPhotosController{
-    BOOL isBePush;
+    BOOL isPush;
     
     NSMutableArray *selectedPhotos;
     //    NSMutableArray *_selectedAssets;
@@ -55,7 +55,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
             servicePhotoNames = [NSArray arrayWithArray:items];
         }
         
-        isBePush = YES;
+        isPush = YES;
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -91,7 +91,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     [self.view bringSubviewToFront:tipsView];
     tipsView.hidden = YES;
     
-    if (!isBePush) {
+    if (!isPush) {
         NSUserDefaults *default_info = [NSUserDefaults standardUserDefaults];
         BOOL isHadSignedTips = [default_info boolForKey:defaultKeyIsHadSignedTips];
         if (!isHadSignedTips) {
@@ -101,7 +101,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
             [self showActionSheet];
         }
         
-        isBePush = YES;
+        isPush = YES;
     }
     
 //    if (!_selectedAssets) {
@@ -146,11 +146,21 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
-    
+	[self setNavRightBtnEnableStatus];
+	
     kAYViewsSendMessage(@"FakeNavBar", @"setBarBotLine", nil)
     return nil;
+}
+
+- (void)setNavRightBtnEnableStatus {
+	if (selectedPhotos.count == 0 || !selectedPhotos) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+		bar_right_btn.userInteractionEnabled = NO;
+		kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
+	} else {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+		kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnWithBtn:", &bar_right_btn)
+	}
 }
 
 - (id)TipsCollectionLayout:(UIView*)view {
@@ -226,18 +236,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     
     [dic_cell_info setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"tag_index"];
     cell.cellInfo = dic_cell_info;
-    
-//    cell.imageBlock = ^(UIImage* img){
-//        @synchronized(self) {
-//            
-//            [_selectedPhotos addObject:img];
-//            if (_selectedPhotos.count == servicePhotoNames.count) {
-//                isAllImageDownload = YES;
-//            }
-//        }//解锁
-//    };
-    
-//    cell.deleteBtn.tag = indexPath.row;
+	
     [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
@@ -334,7 +333,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     NSInteger numbCount = selectedPhotos.count;
     if (numbCount == 0) {
         [_collectionView reloadData];
-        
+		[self setNavRightBtnEnableStatus];
     } else {
         _layout.itemCount = numbCount;
         
@@ -366,14 +365,13 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
         [selectedPhotos addObject:image];
         _layout.itemCount = selectedPhotos.count;
         [_collectionView reloadData];
-        
+		
+		[self setNavRightBtnEnableStatus];
+		
         // 保存图片，获取到asset
         [[TZImageManager manager] savePhotoWithImage:image completion:^{
             
             [tzImagePickerVc hideProgressHUD];
-//            [selectedPhotos addObject:image];
-//            _layout.itemCount = selectedPhotos.count;
-//            [_collectionView reloadData];
             
 //            [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
 ////                [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
@@ -386,29 +384,25 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 ////                    
 ////                }];
 //            }];
-        }];//
+        }];
     }
 }
 
 /// 用户选择好了图片，如果assets非空，则用户选择了原图。
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
-    
+	
 //    NSArray *subArrNetworkImage = [_selectedPhotos subarrayWithRange:NSMakeRange(0, networkImageCount)];
 //    _selectedPhotos = [NSMutableArray arrayWithArray:subArrNetworkImage];
     [selectedPhotos addObjectsFromArray:photos];
-    
-//    for (int i = 0; i < photos.count; ++i) {
-//        if (![_selectedPhotos containsObject:photos[i]]) {
-//            [_selectedPhotos addObject:photos[i]];
-//        }
-//    }
-//    _selectedPhotos
-    
+	
 //    _selectedAssets = [NSMutableArray arrayWithArray:assets];
     
     _isSelectOriginalPhoto = isSelectOriginalPhoto;
     _layout.itemCount = selectedPhotos.count;
     [_collectionView reloadData];
+	
+	[self setNavRightBtnEnableStatus];
+	
 }
 
 /// 用户选择好了视频
@@ -421,7 +415,6 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 
 #pragma mark -- collectionViewDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-//    TZTestCell *cell = (TZTestCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
     CGFloat margin = 2;
     CGFloat itemWH = (SCREEN_WIDTH - margin * 3) / 3;
@@ -429,11 +422,7 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
     if (indexPath.row == 0) {
         return CGSizeMake(width, 250);
         
-    }
-//    else if (indexPath.row == 1 && (_selectedPhotos.count == 0 || _selectedPhotos.count == 1)) {
-//        return CGSizeMake(width, itemWH);
-//    }
-    else {
+    } else {
         return CGSizeMake(itemWH, itemWH);
     }
 }
@@ -451,12 +440,12 @@ static NSString* const defaultKeyIsHadSignedTips =      @"default_key_IsHadSigne
 
 - (id)rightBtnSelected {
     
-    if (selectedPhotos.count == 0) {
-        NSString *title = @"您未选择图片,返回上一页请点击返回";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return nil;
-    }
-    
+//    if (selectedPhotos.count == 0) {
+//        NSString *title = @"您未选择图片,返回上一页请点击返回";
+//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//        return nil;
+//    }
+	
     NSArray *cover = [selectedPhotos copy];
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];

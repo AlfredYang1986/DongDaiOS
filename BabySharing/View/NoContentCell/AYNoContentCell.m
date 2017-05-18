@@ -20,7 +20,7 @@
 		_descLabel = [Tools creatUILabelWithText:@"没有内容" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:_descLabel];
 		[_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+			make.left.equalTo(self).offset(20);
 			make.centerY.equalTo(self);
 		}];
 		

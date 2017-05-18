@@ -163,80 +163,37 @@
 
 - (void)setService_info:(NSDictionary *)service_info {
 	_service_info = service_info;
-	NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
+	
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
 	NSString *pre = cmd.route;
-	if (photo_name) {
-		
-		[coverImage sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
+	
+	NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
+	[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
 					  placeholderImage:IMGRESOURCE(@"default_image")];
-	}
 	
 	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
-	if (screen_photo) {
-		
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:screen_photo]]
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 					 placeholderImage:IMGRESOURCE(@"default_user")];
-	}
 	
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	NSString *unitCat;
 	NSNumber *leastTimesOrHours;
-	
-	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
-	NSArray *options_title_cans;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
-	
 	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
 		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
-		
-		options_title_cans = kAY_service_options_title_lookafter;
-		//服务主题分类
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			titleLabel.text = @"该服务主题待调整";
-		} else {
-			NSString *themeStr = options_title_cans[cans_cat.integerValue];
-			titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName,themeStr];
-		}
-		
 	}
 	else if (service_cat.intValue == ServiceTypeCourse) {
 		unitCat = @"次";
 		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
-		
-		NSString *servCatStr = @"课程";
-		options_title_cans = kAY_service_options_title_course;
-		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
-		//服务主题分类
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			titleLabel.text = @"该服务主题待调整";
-		}
-		else {
-			
-			NSString *costomStr = [service_info objectForKey:kAYServiceArgsCourseCoustom];
-			if (costomStr && ![costomStr isEqualToString:@""]) {
-				titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, costomStr, servCatStr];
-				
-			} else {
-				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
-				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
-				if (cans.integerValue < signTitleArr.count) {
-					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
-					titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, courseSignStr, servCatStr];
-				} else {
-					titleLabel.text = @"该服务主题待调整";
-				}
-			}//是否自定义课程标签判断end
-		}
 	} else {
-		
-		NSLog(@"---null---");
 		unitCat = @"单价";
 		leastTimesOrHours = @1;
-		titleLabel.text = @"该服务类型待调整";
 	}
+	
+	NSString *userName = [service_info objectForKey:kAYServiceArgsScreenName];
+	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
 	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
 	NSString *tmp = [NSString stringWithFormat:@"%@", price];
@@ -256,7 +213,15 @@
 	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
 	NSInteger sepNumb = theComponents.weekday;
 	
-	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
+//	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
+	
+	id<AYControllerBase> controller = DEFAULTCONTROLLER(@"MapMatch");
+	id<AYFacadeBase> facade = [controller.facades objectForKey:@"Timemanagement"];
+	id<AYCommand> cmd_parse = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+	id args = [[service_info objectForKey:@"tms"] mutableCopy];
+	[cmd_parse performWithResult:&args];
+	NSArray *offer_date = (NSArray*)args;
+	
 	for (int i = 0; i < 7; ++i) {
 		
 		NSInteger weekday_offer_date = (sepNumb - 1 + i + 1) % 7;
