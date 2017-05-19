@@ -110,7 +110,7 @@
 	NSDictionary *args;
 	CURRENUSER(args);
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_cancel = [facade.commands objectForKey:@"CancelOrder"];
 	
 	NSMutableDictionary *dic_cancel_info = [[NSMutableDictionary alloc] initWithDictionary:args];

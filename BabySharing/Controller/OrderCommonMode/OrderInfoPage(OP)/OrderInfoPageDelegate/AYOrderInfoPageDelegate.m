@@ -73,15 +73,10 @@
 	} else if(indexPath.row == 2){
 		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	} else {
-		AYNoContentCell *cancelCell = [tableView dequeueReusableCellWithIdentifier:@"CancelCell"];
-		if (!cancelCell) {
-			cancelCell = [[AYNoContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CancelCell"];
-		}
-		cancelCell.titleStr = @"取消预订申请";
-		cancelCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		cancelCell.clipsToBounds = YES;
-		return cancelCell;
+	}
+	else {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"UnSubsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	}
 	
 	id tmp = [querydata copy];
@@ -109,7 +104,7 @@
 	} else {
 		OrderStatus status = ((NSNumber*)[querydata objectForKey:@"status"]).intValue;
 		if (status == OrderStatusAccepted) {
-			return 49.f;
+			return 64.f;
 		} else
 			return 0.001f;
 	}

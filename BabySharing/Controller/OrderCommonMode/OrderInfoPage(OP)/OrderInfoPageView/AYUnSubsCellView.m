@@ -6,7 +6,7 @@
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHistoryEnterCellView.h"
+#import "AYUnSubsCellView.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
 #import "AYResourceManager.h"
@@ -14,11 +14,9 @@
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
 
-@implementation AYHistoryEnterCellView {
+@implementation AYUnSubsCellView {
 	
-	UILabel *startLabel;
-	UILabel *endLabel;
-	UIButton *checkBtn;
+	UILabel *titleLabel;
 }
 
 @synthesize para = _para;
@@ -31,24 +29,24 @@
 	if (self) {
 		
 		self.backgroundColor = [UIColor clearColor];
-		CGFloat margin = 10.f;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-	
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"查看历史记录" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:1];
+		self.clipsToBounds = YES;
+		
+		titleLabel = [Tools creatUILabelWithText:@"取消预订申请" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
+			make.centerX.equalTo(self);
 			make.centerY.equalTo(self);
 		}];
 		
-		UIView *lineView = [UIView new];
-		lineView.backgroundColor = [Tools garyLineColor];
-		[self addSubview:lineView];
-		[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.bottom.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
-		}];
+//		UIView *lineView = [UIView new];
+//		lineView.backgroundColor = [Tools garyLineColor];
+//		[self addSubview:lineView];
+//		[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.centerX.equalTo(self);
+//			make.bottom.equalTo(self);
+//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
+//		}];
+		
 //		if (reuseIdentifier != nil) {
 //			[self setUpReuseCell];
 //		}
@@ -58,7 +56,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"DayRemindCell", @"DayRemindCell");
+	id<AYViewBase> cell = VIEW(@"UnSubsCell", @"UnSubsCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {

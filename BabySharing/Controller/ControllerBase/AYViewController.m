@@ -229,6 +229,18 @@
     return nil;
 }
 
+- (id)NotifyTheServant:(id)args {
+	NSString *title = @"您有订单状态发生改变，请及时处理";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	return nil;
+}
+
+- (id)NotifyTheCommon:(id)args {
+	NSString *title = @"您有订单状态发生改变，请及时处理";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+	return nil;
+}
+
 #pragma mark -- btm alert
 - (id)ShowBtmAlert:(id)args {
     

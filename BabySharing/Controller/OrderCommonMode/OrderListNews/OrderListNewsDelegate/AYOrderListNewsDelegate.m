@@ -129,12 +129,8 @@
 	[cmd_push performWithResult:&dic];
 }
 
-//- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-//	if ( querydata.count == 0) {
-//		return NO;
-//	} else {
-//		return YES;
-//	}
-//}
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	return querydata.count != 0;
+}
 
 @end

@@ -487,12 +487,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         [dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     } else {
         
-        if (napPhotos.count == 0) {
-            NSString *title = @"预览服务需要先添加图片";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            return nil;
-        }
-        
+//        if (napPhotos.count == 0) {
+//            NSString *title = @"预览服务需要先添加图片";
+//            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//            return nil;
+//        }
+		
         [tmp setValue:napPhotos forKey:@"images"];
         [dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     }

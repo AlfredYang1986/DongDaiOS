@@ -87,7 +87,7 @@
 			make.top.equalTo(themeLabel.mas_bottom).offset(10);
 			make.left.equalTo(themeLabel);
 			make.right.equalTo(self).offset(-20);
-			make.bottom.equalTo(self).offset(-40);
+			make.bottom.equalTo(self).offset(-25);
 		}];
 		
 		dateLabel = [Tools creatUILabelWithText:@"00:00" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -96,6 +96,8 @@
 			make.centerY.equalTo(themeLabel);
 			make.right.equalTo(self).offset(-15);
 		}];
+		
+		[Tools addBtmLineWithMargin:15.f andAlignment:NSTextAlignmentRight andColor:[Tools garyLineColor] inSuperView:self];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];

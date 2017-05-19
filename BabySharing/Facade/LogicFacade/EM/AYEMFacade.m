@@ -120,31 +120,39 @@
         
         if (message.isRead == NO && message.body.type == EMMessageBodyTypeText) {
             NSLog(@"message is : %@", ((EMTextMessageBody*)message.body).text);
-            
-            
+			
             NotificationActionType type = ((NSNumber*)[dic objectForKey:@"type"]).intValue;
-            
             switch (type) {
-                case NotificationActionTypeOrderPushed:
+                case NotificationActionTypeOrderPosted:
+				case NotificationActionTypeOrderPaid:
+				case NotificationActionTypeOrderCancel:
                 {
-//                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-//                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-//                    [notify setValue:kAYNotifyOrderAccomplished forKey:kAYNotifyFunctionKey];
-//                    
-//                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
-//                    [args setValue:dic forKey:@"notify_info"];
-//                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
-//                    [self performWithResult:&notify];
+                    NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+                    [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+                    [notify setValue:kAYNotifyTheServant forKey:kAYNotifyFunctionKey];
+                    
+                    NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+                    [args setValue:dic forKey:@"notify_info"];
+                    [notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+                    [self performWithResult:&notify];
                 }
                     break;
                     
-                case NotificationActionTypeOrderAccecpted:
+                case NotificationActionTypeOrderAccept:
+				case NotificationActionTypeOrderReject:
                 {
-                    
+					NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+					[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+					[notify setValue:kAYNotifyTheCommon forKey:kAYNotifyFunctionKey];
+					
+					NSMutableDictionary* args = [[NSMutableDictionary alloc]init];
+					[args setValue:dic forKey:@"notify_info"];
+					[notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+					[self performWithResult:&notify];
                 }
                     break;
-                    
-                case NotificationActionTypeOrderRejected:
+					
+                case NotificationActionTypeOrderDone:
                 {
                     
                 }

@@ -69,6 +69,8 @@ static NSString* const kAYNotifyWechatPaySuccess = @"WechatPaySuccess:";
 static NSString* const kAYNotifyWechatPayFailed = @"WechatPayFailed:";
 
 static NSString* const kAYNotifyOrderAccomplished = @"OrderAccomplished:";
+static NSString* const kAYNotifyTheServant = @"NotifyTheServant:";
+static NSString* const kAYNotifyTheCommon = @"NotifyTheCommon:";
 
 static NSString* const kAYAlipaySuccess = @"AlipaySuccess:";
 static NSString* const kAYAlipayFailed = @"AlipayFailed:";

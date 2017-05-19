@@ -122,7 +122,7 @@
 	[dic_prepay setValue:[NSNumber numberWithFloat:totalfee] forKey:kAYOrderArgsTotalFee];
 #endif
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_prepay = [facade.commands objectForKey:@"PrePayOrder"];
 	[cmd_prepay performWithResult:[dic_prepay copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
@@ -164,7 +164,7 @@
 	CURRENUSER(user)
 	
 	// 支付成功
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PostPayOrder"];
 	
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc] initWithDictionary:user];

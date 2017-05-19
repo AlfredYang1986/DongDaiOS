@@ -34,6 +34,8 @@
 	NSTimeInterval queryTimespan;
 	NSInteger skipCount;
 	
+	dispatch_semaphore_t semaphore;
+	
 }
 
 #pragma mark -- commands

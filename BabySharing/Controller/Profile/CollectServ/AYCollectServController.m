@@ -66,8 +66,8 @@
     tipsLabel = [Tools creatUILabelWithText:@"您还没有收藏过服务" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [tableView addSubview:tipsLabel];
     [tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(tableView);
-        make.top.equalTo(tableView).offset(80);
+        make.left.equalTo(tableView).offset(20);
+        make.top.equalTo(tableView).offset(60);
     }];
     tipsLabel.hidden = YES;
     

@@ -88,7 +88,7 @@
     UILabel* label = [Tools creatUILabelWithText:@"消息" andTextColor:[Tools blackColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [reVal addSubview:label];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(reVal).offset(30);
+        make.left.equalTo(reVal).offset(20);
         make.centerY.equalTo(reVal);
     }];
 	
@@ -103,6 +103,10 @@
 //	
 //    return 110.f;
 //}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	return querydata.count != 0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -137,10 +141,6 @@
     
     [dic_push setValue:[dic copy] forKey:kAYControllerChangeArgsKey];
     [_controller performWithResult:&dic_push];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	
 }
 
 #pragma mark -- messages

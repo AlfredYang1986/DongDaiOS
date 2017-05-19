@@ -55,7 +55,8 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OrderPageContactCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
+	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"UnSubsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 	id tmp = [order_info copy];
 	kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
@@ -218,7 +219,7 @@
 	NSDictionary *user_info;
 	CURRENUSER(user_info);
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:user_info];
@@ -253,7 +254,7 @@
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:user_info];
 	[dic setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"AcceptOrder"];
 	[cmd_update performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		NSString *message = nil;

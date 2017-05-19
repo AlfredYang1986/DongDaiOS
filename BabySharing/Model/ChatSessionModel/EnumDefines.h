@@ -44,5 +44,12 @@ typedef NS_ENUM(NSInteger, NotificationActionType) {
     NotificationActionTypeOrderAccecpted,
     NotificationActionTypeOrderRejected,
     NotificationActionTypeOrderAccomplished,
+	
+	NotificationActionTypeOrderPosted        = 20,
+	NotificationActionTypeOrderReject        = 21,
+	NotificationActionTypeOrderAccept        = 22,
+	NotificationActionTypeOrderPaid        = 23,
+	NotificationActionTypeOrderCancel        = 24,
+	NotificationActionTypeOrderDone        = 25,
 };
 #endif

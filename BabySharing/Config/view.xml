@@ -904,7 +904,7 @@
    <view type="TodoApplyCell" name="TodoApplyCell" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
    </view>
-   <view type="HistoryEnterCell" name="HistoryEnterCell" factory="AYReuseViewFactory" >
+   <view type="UnSubsCell" name="UnSubsCell" factory="AYReuseViewFactory" >
 	   <command type="message"      message="setCellInfo:" />
    </view>
    <view type="DayRemindCell" name="DayRemindCell" factory="AYReuseViewFactory" >

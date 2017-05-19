@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYHistoryEnterCellView : UITableViewCell <AYViewBase>
+@interface AYUnSubsCellView : UITableViewCell <AYViewBase>
 
 @end

@@ -228,23 +228,24 @@
         <command type="Remote" name="UpdateOrderInfo" />
         <command type="Remote" name="QueryRemind" />
 		
-        <command type="Remote" name="PushOrder" />
-        <command type="Remote" name="AcceptOrder" />
-        <command type="Remote" name="RejectOrder" />
-		<command type="Remote" name="CancelOrder" />
-		<command type="Remote" name="PrePayOrder" />
-		<command type="Remote" name="PostPayOrder" />
-		
 		<command type="Remote" name="PushOrderAlipay" />
         <command type="Remote" name="AccomplishOrder" />
-		
         <command type="Remote" name="PayOrder" />
        
         <command type="Remote" name="PushComments" />
         <command type="Remote" name="QueryComments" />
         <command type="Remote" name="QueryComment" />
     </facade>
-    
+	
+	<facade type="DefaultFacade" name="OrderNotification" factory="AYDefaultFacadeFactory" >
+		<command type="Remote" name="PushOrder" />
+		<command type="Remote" name="AcceptOrder" />
+		<command type="Remote" name="RejectOrder" />
+		<command type="Remote" name="CancelOrder" />
+		<command type="Remote" name="PrePayOrder" />
+		<command type="Remote" name="PostPayOrder" />
+	</facade>
+	
     <facade type="DefaultFacade" name="Timemanagement" factory="AYDefaultFacadeFactory" >
         <command type="Module" name="PushServiceTMProtocol" />
 		<command type="Module" name="PushServiceTMNurse" />

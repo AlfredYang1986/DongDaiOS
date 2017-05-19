@@ -17,6 +17,9 @@
 	if (self) {
 		
 		self.backgroundColor = [UIColor clearColor];
+		self.clipsToBounds = YES;
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
 		_descLabel = [Tools creatUILabelWithText:@"没有内容" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:_descLabel];
 		[_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {

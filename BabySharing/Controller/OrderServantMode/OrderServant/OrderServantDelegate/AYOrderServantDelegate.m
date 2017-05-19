@@ -23,6 +23,7 @@
 	NSArray *querydata;
 	
 	AYOrderTOPView *TOPView;
+	NSArray *feedbackData;
 	
 	NSArray *funcNameArr;
 //	NSArray *waitArrData;
@@ -62,8 +63,9 @@
 }
 
 - (id)changeQueryTodoData:(NSArray*)data {
-	TOPView.userInteractionEnabled = data.count != 0;
-	[TOPView setItemArgs:data];
+	feedbackData = data;
+	TOPView.userInteractionEnabled = feedbackData.count != 0;
+	[TOPView setItemArgs:feedbackData];
 	return nil;
 }
 
@@ -85,10 +87,6 @@
 //		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TodoApplyCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 //		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 //		
-//	} else if (indexPath.row == 1) {
-//		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HistoryEnterCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-//		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//	} else {
 //	}
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"DayRemindCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
@@ -117,8 +115,10 @@
 	
 	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeServant];
 	[headView addSubview:TOPView];
-	TOPView.userInteractionEnabled = YES;
+	TOPView.userInteractionEnabled = feedbackData.count != 0;
+	[TOPView setItemArgs:feedbackData];
 	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
+
 	
 	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
 	[headView addSubview:readMoreBtn];

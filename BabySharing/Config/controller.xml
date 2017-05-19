@@ -85,8 +85,7 @@
         <command type="Module" name="GernarateImgUUID" />
         <command type="Module" name="SaveImgLocal" />
         <command type="Module" name="LocalImageWithName" />
-        
-        <facade type="DefaultFacade" name="EM" notification="true"/>
+		
         <facade type="DefaultFacade" name="ProfileRemote" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
@@ -193,7 +192,6 @@
     </controller>
     
     <controller type="DefaultController" name="PersonalInfo" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="EM" notification="true" />
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
@@ -255,64 +253,10 @@
         <view type="Web"                name="Web" />
         
     </controller>
-    
-<!--    <controller type="DefaultController" name="Friends" factory="AYDefaultControllerFactoy" >-->
-<!--        -->
-<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="EM" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />-->
-<!--        -->
-<!--        <view type="Table" name="Table" />-->
-<!--        <view type="Table2" name="Table2" />-->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="DongDaSeg2" name="DongDaSeg2" />-->
-<!--        <view type="AddFriends" name="AddFriends" />-->
-<!--        <view type="Loading" name="Loading" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="Notification" />-->
-<!--    </controller>-->
-<!---->
-<!--    <controller type="DefaultController" name="AddFriend" factory="AYDefaultControllerFactoy" >-->
-<!--        -->
-<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="LandingRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="SendRemote" notification="true" />-->
-<!---->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="Table2" name="Table2" />-->
-<!--        <view type="SearchBar" name="SearchBar" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="ContacterList" />-->
-<!--    </controller>-->
-<!--    -->
-<!--    <controller type="DefaultController" name="SearchFriend" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="RelationshipRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="SearchRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="UserSearchRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="UserWithScreenName" notification="true" />-->
-<!---->
-<!--        <view type="Table" name="Table" />-->
-<!--        <view type="SearchBar" name="SearchBar" />-->
-<!--        <view type="Loading" name="Loading" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="UserRelations" />-->
-<!--    </controller>-->
 
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
-        <facade type="DefaultFacade" name="EM" notification="true" />
-
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
-<!--        <facade type="DefaultFacade" name="ContentQueryRemote" notification="true"/>-->
-<!--        <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>-->
-        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />
        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar" name="FakeNavBar" />
@@ -348,33 +292,8 @@
 
         <delegate type="TableViewDelegateAndDatasource" name="JoinedGroupList" />
     </controller>
-    
-<!--    <controller type="DefaultController" name="Found" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>-->
-<!--        -->
-<!--        <view type="Table" name="Table" />-->
-<!--        <view type="SearchBar" name="SearchBar" />-->
-<!--        <view type="FakeStatusBar" name="FakeStatusBar" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="FoundGrid" />-->
-<!--    </controller>-->
-<!--    -->
-<!--    <controller type="DefaultController" name="FoundSearch" factory="AYDefaultControllerFactoy" >-->
-<!---->
-<!--        <facade type="DefaultFacade" name="SearchRemote" notification="true" />-->
-<!--        -->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="Table" name="Table" />-->
-<!--        <view type="SearchBar" name="SearchBar" />-->
-<!--        <view type="FakeStatusBar" name="FakeStatusBar" />-->
-<!--        <view type="Loading" name="Loading" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="FoundRoleTag" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="FoundTags" />-->
-<!--    </controller>-->
 
     <controller type="DefaultController" name="CameraRoll" factory="AYDefaultControllerFactoy" >
-
         <facade type="DefaultFacade" name="PHAsset" notification="true" />
         
         <view type="FakeNavBar" name="FakeNavBar" />
@@ -519,32 +438,6 @@
         <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
-    
-<!--    <controller type="DefaultController" name="TagContent" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade" name="EM" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="TagContentModel" notification="true"/>-->
-<!--        <facade type="DefaultFacade" name="ContentPostRemote" notification="true"/>-->
-<!--        <facade type="DefaultFacade" name="ChatSessionModel" notification="true" />-->
-<!--        -->
-<!--        <view type="Table"          name="Table" />-->
-<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--        <view type="Image"          name="Image" />-->
-<!--        <view type="Label"          name="Label" />-->
-<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--        <view type="Loading"        name="Loading" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="HomeContent" />-->
-<!--    </controller>-->
-
-<!--    <controller type="DefaultController" name="UserPerview" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade" name="UserSearchRemote" notification="true" />-->
-<!--        -->
-<!--        <view type="Table"                      name="Table" />-->
-<!--        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />-->
-<!--        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="UserTablePreview" />-->
-<!--    </controller>-->
 
 <!--    <controller type="DefaultController" name="Location" factory="AYDefaultControllerFactoy" >-->
 <!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
@@ -922,7 +815,6 @@
     
     <controller type="DefaultController" name="OrderList" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
-        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
         
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
@@ -938,7 +830,7 @@
 	
 	<controller type="DefaultController" name="OrderInfoPage" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />
-		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderNotification" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
@@ -960,7 +852,6 @@
 	
 	<controller type="DefaultController" name="ServantHistory" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />
-		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
@@ -1017,7 +908,7 @@
 	</controller>
 	
 	<controller type="DefaultController" name="PAYPage" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderNotification" notification="true" />
 		<facade type="DefaultFacade" name="SNSWechat" notification="true"/>
 		<facade type="DefaultFacade" name="Alipay" notification="true"/>
 		
@@ -1028,7 +919,7 @@
 		<delegate type="TableViewDelegateAndDatasource" name="PAYPage" />
 	</controller>
 	<controller type="DefaultController" name="UnSubsPage" factory="AYDefaultControllerFactoy" >
-		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderNotification" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
@@ -1107,7 +998,7 @@
     
     <controller type="DefaultController" name="BOrderMain" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
-        <facade type="DefaultFacade" name="OrderRemote" notification="true" />
+        <facade type="DefaultFacade" name="OrderNotification" notification="true" />
 		
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />

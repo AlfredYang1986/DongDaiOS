@@ -30,20 +30,28 @@
 		
 		self.backgroundColor = [UIColor whiteColor];
 		
+		UIView *divView = [UIView new];
+		divView.backgroundColor  = [UIColor clearColor];
+		[self addSubview:divView];
+		[divView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.center.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(120, 40));
+		}];
+		
 		titleLabel = [Tools creatUILabelWithText:@"添加时间" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:0];
-		[self addSubview:titleLabel];
+		[divView addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-120);
-			make.centerY.equalTo(self);
+			make.right.equalTo(divView);
+			make.centerY.equalTo(divView);
 		}];
 		
 		UIButton *addSignBtn = [UIButton buttonWithType:UIButtonTypeContactAdd];
 		addSignBtn.tintColor = [Tools themeColor];
 		addSignBtn.userInteractionEnabled = NO;
-		[self addSubview:addSignBtn];
+		[divView addSubview:addSignBtn];
 		[addSignBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(120);
-			make.centerY.equalTo(self);
+			make.left.equalTo(divView);
+			make.centerY.equalTo(divView);
 			make.size.mas_equalTo(CGSizeMake(30, 30));
 		}];
 		

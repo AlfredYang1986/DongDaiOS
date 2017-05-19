@@ -28,7 +28,9 @@ typedef enum : NSUInteger {
 @implementation AYOrderCommonDelegate {
 	
 	NSArray *querydata;
+	
 	AYOrderTOPView *TOPView;
+	NSArray *feedbackData;
 	
 	NSTimeInterval nowNode;
 }
@@ -65,9 +67,10 @@ typedef enum : NSUInteger {
 	return nil;
 }
 
-- (id)changeQueryFBData:(NSArray*)data {
-	TOPView.userInteractionEnabled = data.count != 0;
-	[TOPView setItemArgs:data];
+- (id)changeQueryFBData:(id)data {
+	feedbackData = (NSArray*)data;
+	TOPView.userInteractionEnabled = feedbackData.count != 0;
+	[TOPView setItemArgs:feedbackData];
 	return nil;
 }
 
@@ -145,7 +148,8 @@ typedef enum : NSUInteger {
 	
 	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeCommon];
 	[headView addSubview:TOPView];
-	TOPView.userInteractionEnabled = YES;
+	TOPView.userInteractionEnabled = feedbackData.count != 0;
+	[TOPView setItemArgs:feedbackData];
 	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
 	
 	NSString *titleStr = @"日程";

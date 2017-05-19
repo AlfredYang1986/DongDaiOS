@@ -171,7 +171,7 @@
 	[dic_push setValue:[service_info objectForKey:kAYServiceArgsTitle] forKey:kAYOrderArgsTitle];
 	[dic_push setValue:[NSNumber numberWithInt:sumPrice] forKey:kAYOrderArgsTotalFee];
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];
 	[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
