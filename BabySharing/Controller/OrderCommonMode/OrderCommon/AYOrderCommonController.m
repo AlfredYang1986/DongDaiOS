@@ -233,9 +233,10 @@
 			OrderOfAll = [resultArr copy];
 			
 			NSPredicate *pred_accept = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusAccepted];
-			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
-			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_accept, pred_reject]];
-			result_status_fb = [resultArr filteredArrayUsingPredicate:pred_fb];
+			/*暂时没有已读功能，先不收集拒绝消息*/
+//			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
+//			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_accept, pred_reject]];
+			result_status_fb = [resultArr filteredArrayUsingPredicate:pred_accept];
 			
 			id data = [result_status_fb copy];
 			kAYDelegatesSendMessage(@"OrderCommon", @"changeQueryFBData:", &data)

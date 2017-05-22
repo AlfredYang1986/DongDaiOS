@@ -139,7 +139,7 @@
 				int cellWeekday = (int)cellComponents.weekday - 1;
 				NSDateComponents *startComponents = [calendarTools components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:start]];
 				int startWeekday = (int)startComponents.weekday - 1;
-				if (cellWeekday == startWeekday && cellTimeSpan < end && cellTimeSpan >= todayTimeSpan) {
+				if (cellWeekday == startWeekday && (cellTimeSpan < end || end == 0.001) && cellTimeSpan >= todayTimeSpan) {
 					[cell setEnAbleStates];
 					break;
 				}
