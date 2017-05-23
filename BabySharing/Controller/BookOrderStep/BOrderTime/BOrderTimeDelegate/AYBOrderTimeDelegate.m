@@ -129,7 +129,7 @@
 			int startHours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue;
 			
 			if (pattern.intValue == TMPatternTypeDaily) {
-				if (cellTimeSpan >= todayTimeSpan) {
+				if (cellTimeSpan >= todayTimeSpan && (cellTimeSpan <= end || end == -0.001) && start != 1) {
 					[cell setEnAbleStates];
 					break;
 				}
@@ -139,7 +139,7 @@
 				int cellWeekday = (int)cellComponents.weekday - 1;
 				NSDateComponents *startComponents = [calendarTools components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:start]];
 				int startWeekday = (int)startComponents.weekday - 1;
-				if (cellWeekday == startWeekday && (cellTimeSpan < end || end == -0.001) && cellTimeSpan >= todayTimeSpan) {
+				if (cellWeekday == startWeekday && (cellTimeSpan <= end || end == -0.001) && cellTimeSpan >= todayTimeSpan && start != 1) {
 					[cell setEnAbleStates];
 					break;
 				}
