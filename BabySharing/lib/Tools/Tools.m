@@ -635,7 +635,7 @@
 	if (formatter) {
 		[format setDateFormat:formatter];
 	} else
-		[format setDateFormat:@"yyyy年MM月dd日"];
+		[format setDateFormat:@"yyyy-MM-dd"];
 		
     NSTimeZone* timeZone = [NSTimeZone defaultTimeZone];
     [format setTimeZone:timeZone];

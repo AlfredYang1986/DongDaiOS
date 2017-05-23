@@ -118,7 +118,7 @@
 		NSDate *cellDate = [_useTime strToDate:cellDateStr];
 		NSTimeInterval cellTimeSpan = cellDate.timeIntervalSince1970;
 		cell.timeSpan = cellTimeSpan;
-		if ((int)cellTimeSpan == (int)todayTimeSpan) {
+		if (cellTimeSpan == todayTimeSpan) {
 			[cell setTodayStates];
 		}
 		
@@ -139,13 +139,13 @@
 				int cellWeekday = (int)cellComponents.weekday - 1;
 				NSDateComponents *startComponents = [calendarTools components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:start]];
 				int startWeekday = (int)startComponents.weekday - 1;
-				if (cellWeekday == startWeekday && (cellTimeSpan < end || end == 0.001) && cellTimeSpan >= todayTimeSpan) {
+				if (cellWeekday == startWeekday && (cellTimeSpan < end || end == -0.001) && cellTimeSpan >= todayTimeSpan) {
 					[cell setEnAbleStates];
 					break;
 				}
 			}
 			else if (pattern.intValue == TMPatternTypeOnce) {
-				if ((start >= cellTimeSpan) && (start < cellTimeSpan + OneDayTimeInterval -1) && (cellTimeSpan >= todayTimeSpan)) {
+				if ((cellTimeSpan >= start) && (cellTimeSpan < start + OneDayTimeInterval -1) && (cellTimeSpan >= todayTimeSpan)) {
 					if (startHours == 1) {
 						[cell setInitStates];
 					} else {

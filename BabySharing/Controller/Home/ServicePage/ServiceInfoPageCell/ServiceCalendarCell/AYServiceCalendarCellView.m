@@ -22,6 +22,9 @@
 	UILabel *moreLabel;
 	
 	NSDictionary *service_info;
+	
+	NSCalendar *calendar;
+	NSTimeInterval todayInterval;
 }
 
 @synthesize para = _para;
@@ -70,6 +73,8 @@
 //			make.size.mas_equalTo(CGSizeMake(15, 15));
 //		}];
 		
+		[self setInitDateInfo];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -77,8 +82,20 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)setInitDateInfo {
+	
+	NSDate *nowDate = [NSDate date];
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:nil];
+	NSString *todayDateStr = [formatter stringFromDate:nowDate];
+	todayInterval = [formatter dateFromString:todayDateStr].timeIntervalSince1970;
+	
+	calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+	[calendar setTimeZone: timeZone];
+	//	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+	//	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
+	//	NSInteger sepNumb = theComponents.weekday - 1; 		//sep
+	
 }
 
 #pragma mark -- life cycle
@@ -109,7 +126,7 @@
 
 #pragma mark -- commands
 - (void)postPerform {
-    
+
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -137,204 +154,64 @@
 - (id)setCellInfo:(id)args {
 	service_info = args;
 	
-	NSDate *nowDate = [NSDate date];
-	NSTimeInterval nowSpan = nowDate.timeIntervalSince1970;
-	
-	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-	[calendar setTimeZone: timeZone];
-	NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
-	NSDateComponents *theComponents = [calendar components:calendarUnit fromDate:nowDate];
-	NSInteger sepNumb = theComponents.weekday - 1; 		//sep
-	
 	NSArray *tms = [service_info objectForKey:kAYServiceArgsTimes];
-	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	if (service_cat.intValue == ServiceTypeNursery) {
-		tipsTitleLabel.text = @"看顾时间";
-		
-		for (int i = 0; i < 30; ++i) {
-			long comp = (nowSpan + OneDayTimeInterval * i) * 1000;
-			NSPredicate *pred_start = [NSPredicate predicateWithFormat:@"SELF.%@<%ld", @"startdate", comp];
-			NSPredicate *pred_end = [NSPredicate predicateWithFormat:@"SELF.%@>%ld", @"startdate", comp];
-			NSPredicate *pred_between = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_start, pred_end]];
-			NSArray *result_contains = [tms filteredArrayUsingPredicate:pred_between];
-			BOOL isComp = NO;
-			for (NSDictionary *dic_tm in result_contains) {
-				int startHours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue;
-				if (startHours != 1) {
-					NSNumber *stratNumb = [dic_tm objectForKey:kAYServiceArgsStartHours];
-					NSNumber *endNumb = [dic_tm objectForKey:kAYServiceArgsEndHours];
-					NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-					[timesStr insertString:@":" atIndex:2];
-					[timesStr insertString:@":" atIndex:8];
-	
-//					NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-					NSTimeInterval nextSpan = comp * 0.001;
-					NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:nextSpan];
-					NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
-					NSString *dateStrPer = [formatter stringFromDate:ableDate];
-	
-					timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-					isComp = YES;
-					break;
-				}
-			}
-			if (isComp) {
-				break;
-			}
-		}
-		
-	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
-		tipsTitleLabel.text = @"课程时间";
-		
-		for (int i = 0; i < 7; ++i) {
-			NSInteger compWeekday  = (sepNumb + i) % 7;
-			BOOL isBreak = NO;
-			for (NSDictionary *dic_tm in tms) {
-				//			NSNumber *pattern = [dic_tm objectForKey:kAYServiceArgsPattern];
-				NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-				NSTimeInterval enddate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
-				NSDateComponents *startComponents = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:startdate]];
-				NSInteger startWeekday = startComponents.weekday - 1;
-				if (compWeekday == startWeekday && (nowSpan < enddate)) {
-					NSNumber *stratNumb = [dic_tm objectForKey:kAYServiceArgsStartHours];
-					NSNumber *endNumb = [dic_tm objectForKey:kAYServiceArgsEndHours];
-					NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-					[timesStr insertString:@":" atIndex:2];
-					[timesStr insertString:@":" atIndex:8];
-					
-					NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-					NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:startdate];
-					NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
-					NSString *dateStrPer = [formatter stringFromDate:ableDate];
-					
-					timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
+	NSString *ableDateStr;
+	for (int i = 0; i < 30; ++i) {		//查找30天之内，30天之后还没有的 应该也不能算最近了
+		NSTimeInterval compInterval = todayInterval + OneDayTimeInterval * i;
+		BOOL isBreak = NO;
+		for (NSDictionary *dic_tm in tms) {
+			NSNumber *pattern = [dic_tm objectForKey:kAYServiceArgsPattern];
+			NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
+			NSTimeInterval enddate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
+			int startHours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue;		//startHours==1 用于标记当天时间不可用
+			
+			if (pattern.intValue == TMPatternTypeDaily) {
+				if (compInterval < enddate+OneDayTimeInterval-1 && startHours != 1) { 		//enddate+OneDayTimeInterval-1 :结束那天的最后一秒时间戳
+					ableDateStr = [self ableDateStringWithTM:dic_tm andTimeInterval:compInterval];
 					isBreak = YES;
 					break;
 				}
 			}
-			if (isBreak) {
-				break;
+			else if (pattern.intValue == TMPatternTypeWeekly) {
+				NSDateComponents *cellComponents = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:compInterval]];
+				int compWeekday = (int)cellComponents.weekday - 1;
+				NSDateComponents *startComponents = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:startdate]];
+				int startWeekday = (int)startComponents.weekday - 1;
+				if (compWeekday == startWeekday && (compInterval < enddate+OneDayTimeInterval-1 || enddate == -0.001) && startHours != 1) {
+					ableDateStr = [self ableDateStringWithTM:dic_tm andTimeInterval:compInterval];
+					isBreak = YES;
+					break;
+				}
 			}
+			else if (pattern.intValue == TMPatternTypeOnce) {
+				if ((startdate <= compInterval) && (startdate + OneDayTimeInterval -1 > compInterval) && startHours != 1) {
+					ableDateStr = [self ableDateStringWithTM:dic_tm andTimeInterval:compInterval];
+					isBreak = YES;
+					break;
+				}
+			}
+			else {
+				
+			}
+		} //forin status
+		
+		if (isBreak) {
+			if (ableDateStr) {
+				timeLabel.text = ableDateStr;
+			}
+			break;
 		}
-		
-		
+	}
+	
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	if (service_cat.intValue == ServiceTypeNursery) {
+		tipsTitleLabel.text = @"看顾时间";
+	}
+	else if (service_cat.intValue == ServiceTypeCourse) {
+		tipsTitleLabel.text = @"课程时间";
 	} else {
 		tipsTitleLabel.text = @"服务类型待调整";
 	}
-	
-	
-//	NSArray *offer_date = [service_info objectForKey:kAYServiceArgsOfferDate];
-//	for (int i = 0; i < 7; ++i) {
-//		
-//		NSInteger weekday_offer_date = (sepNumb + i) % 7;
-//		NSPredicate *pred_contains = [NSPredicate predicateWithFormat:@"SELF.day=%d",weekday_offer_date];
-//		NSArray *result_contains = [offer_date filteredArrayUsingPredicate:pred_contains];
-//		if (result_contains.count != 0) {
-//			
-//			NSDictionary *tmp = [result_contains firstObject];
-//			NSNumber *note = [tmp objectForKey:@"day"];
-//			if (note) {
-//				NSTimeInterval ableTimeSpan = nowSpan + 86400 * i;
-//				for (NSDictionary *dic_tm in tms) {
-//					NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-//					NSTimeInterval enddate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
-//					if (ableTimeSpan >= startdate && (ableTimeSpan <= enddate || enddate == 0.001)) {
-//						
-//					}
-//				}
-//				
-//				NSDictionary *dic_time = [[tmp objectForKey:kAYServiceArgsOccurance] firstObject];
-//				NSNumber *stratNumb = [dic_time objectForKey:kAYServiceArgsStart];
-//				NSNumber *endNumb = [dic_time objectForKey:kAYServiceArgsEnd];
-//				NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-//				[timesStr insertString:@":" atIndex:2];
-//				[timesStr insertString:@":" atIndex:8];
-//				
-//				//				NSTimeInterval nowSpan = nowDate.timeIntervalSince1970;
-//				//				NSTimeInterval ableTimeSpan = nowSpan + 86400 * (i + 1);
-//				NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:ableTimeSpan];
-//				NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
-//				NSString *dateStrPer = [formatter stringFromDate:ableDate];
-//				
-//				timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-//				break;
-//			}
-//		}
-//		
-//	}
-	
-//	for (NSDictionary *dic_tm in tms) {
-//		NSNumber *pattern = [dic_tm objectForKey:kAYServiceArgsPattern];
-//		double start = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-//		double end = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
-//		int startHours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue;
-//		
-//		if (pattern.intValue == TMPatternTypeDaily) {
-//			
-//		}
-//		else if (pattern.intValue == TMPatternTypeWeekly) {
-//			NSDateComponents *startComponents = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:start]];
-//			int startWeekday = (int)startComponents.weekday - 1;
-//			if (sepNumb == startWeekday && nowSpan < end ) {
-//				NSNumber *stratNumb = [dic_tm objectForKey:kAYServiceArgsStartHours];
-//				NSNumber *endNumb = [dic_tm objectForKey:kAYServiceArgsEndHours];
-//				NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-//				[timesStr insertString:@":" atIndex:2];
-//				[timesStr insertString:@":" atIndex:8];
-//				
-//				NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-//				NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:startdate];
-//				NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
-//				NSString *dateStrPer = [formatter stringFromDate:ableDate];
-//				
-//				timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-//				break;
-//			}
-//		}
-//		else if (pattern.intValue == TMPatternTypeOnce) {
-//			if ((start >= nowSpan) && (start < nowSpan + OneDayTimeInterval -1) ) {
-//				if (startHours == 1) {
-//					
-//				} else {
-//					
-//				}
-//				break;
-//			}
-//		}
-//		else {
-//			
-//		}
-//	} //forin status
-	
-//	NSTimeInterval timeHandle = MAXFLOAT;
-//	NSDictionary *dic_handle;
-//	for (NSDictionary *dic_t in tms) {
-//		NSTimeInterval startdate = ((NSNumber*)[dic_t objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-//		NSTimeInterval enddate = ((NSNumber*)[dic_t objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
-//		if (nowSpan >= startdate && (nowSpan <= enddate || enddate == 0.001)) {
-//			if (startdate < timeHandle && startdate >= nowSpan) {	//more nearly from today
-//				timeHandle = startdate;
-//				dic_handle = dic_t;
-//			}
-//		}
-//	}
-//	if (dic_handle) {
-//		NSNumber *stratNumb = [dic_handle objectForKey:kAYServiceArgsStartHours];
-//		NSNumber *endNumb = [dic_handle objectForKey:kAYServiceArgsEndHours];
-//		NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-//		[timesStr insertString:@":" atIndex:2];
-//		[timesStr insertString:@":" atIndex:8];
-//		
-//		NSTimeInterval startdate = ((NSNumber*)[dic_handle objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-//		NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:startdate];
-//		NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
-//		NSString *dateStrPer = [formatter stringFromDate:ableDate];
-//		
-//		timeLabel.text = [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-//	}
 	
 	
 	if ([timeLabel.text isEqualToString:@"最近可预定时间"]) {
@@ -343,6 +220,21 @@
 		moreLabel.text = @"查看可预定时间";
 	
     return nil;
+}
+
+- (NSString *)ableDateStringWithTM:(NSDictionary*)dic_tm andTimeInterval:(NSTimeInterval)interval {
+	NSNumber *stratNumb = [dic_tm objectForKey:kAYServiceArgsStartHours];
+	NSNumber *endNumb = [dic_tm objectForKey:kAYServiceArgsEndHours];
+	NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
+	[timesStr insertString:@":" atIndex:2];
+	[timesStr insertString:@":" atIndex:8];
+	
+	NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:interval];
+	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
+	NSString *dateStrPer = [formatter stringFromDate:ableDate];
+	
+	return [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
+	
 }
 
 @end
