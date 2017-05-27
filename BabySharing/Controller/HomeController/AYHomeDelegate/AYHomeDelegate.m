@@ -42,14 +42,14 @@
 			on = @"获取系统时间错误";
 		}
 		
-		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools blackColor] andFontSize:326.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *hello = [Tools creatUILabelWithText:on andTextColor:[Tools garyColor] andFontSize:330.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:hello];
 		[hello mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		UILabel *tipsLabel = [Tools creatUILabelWithText:@"为您的孩子找个好去处" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		UILabel *tipsLabel = [Tools creatUILabelWithText:@"为您的孩子找个好去处" andTextColor:[Tools garyColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsLabel];
 		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -57,10 +57,7 @@
 			make.top.equalTo(hello.mas_bottom).offset(10);
 		}];
 		
-		CALayer *sepLayer = [CALayer layer];
-		sepLayer.frame = CGRectMake(20, 119.5, 50, 0.5);
-		sepLayer.backgroundColor = [Tools garyLineColor].CGColor;
-		[self.layer addSublayer:sepLayer];
+		[Tools creatCALayerWithFrame:CGRectMake(20, 0, 22, 2) andColor:[Tools garyLineColor] inSuperView:self];
 	}
 	return self;
 }
@@ -134,7 +131,7 @@
     if (indexPath.row == 0) {
 		return 140;
     } else {
-		return 335;
+		return 352;
     }
 }
 

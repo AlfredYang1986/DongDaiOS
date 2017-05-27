@@ -161,7 +161,6 @@
 		7017F3371CB74F63002C416E /* AYSearchBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3351CB74F63002C416E /* AYSearchBarView.m */; };
 		7017F33A1CB74F73002C416E /* AYTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3391CB74F73002C416E /* AYTableView.m */; };
 		7017F3471CB79699002C416E /* AYReuseViewFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 7017F3461CB79699002C416E /* AYReuseViewFactory.m */; };
-		7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */; };
 		701842201D2399B2003154F1 /* AYEMClientInitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */; };
 		7018924B1DF05236001CBBB3 /* AYOptionalInfoCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7018924A1DF05236001CBBB3 /* AYOptionalInfoCellView.m */; };
 		701B9C3F1E5EBA33001B0517 /* AYSetCourseSignController.m in Sources */ = {isa = PBXBuildFile; fileRef = 701B9C381E5EBA33001B0517 /* AYSetCourseSignController.m */; };
@@ -1088,7 +1087,6 @@
 		7017F3391CB74F73002C416E /* AYTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTableView.m; sourceTree = "<group>"; };
 		7017F3451CB79699002C416E /* AYReuseViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYReuseViewFactory.h; sourceTree = "<group>"; };
 		7017F3461CB79699002C416E /* AYReuseViewFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYReuseViewFactory.m; sourceTree = "<group>"; };
-		7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DongDaBoundle.bundle; sourceTree = "<group>"; };
 		7017F3521CB7BA74002C416E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7018421E1D2399B2003154F1 /* AYEMClientInitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEMClientInitCommand.h; sourceTree = "<group>"; };
 		7018421F1D2399B2003154F1 /* AYEMClientInitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEMClientInitCommand.m; sourceTree = "<group>"; };
@@ -4447,7 +4445,6 @@
 			isa = PBXGroup;
 			children = (
 				7017F3521CB7BA74002C416E /* Info.plist */,
-				7017F34A1CB7B8A8002C416E /* DongDaBoundle.bundle */,
 				7060BDBE1CB63219001E4111 /* InfoPlist.strings */,
 			);
 			path = Resource;
@@ -8552,7 +8549,6 @@
 				702E7AB91CA169E30097867E /* command.xml in Resources */,
 				702E7AB31CA1698A0097867E /* facade.xml in Resources */,
 				70EAD80C1CA662EF007965D2 /* model.xml in Resources */,
-				7017F34C1CB7B8A8002C416E /* DongDaBoundle.bundle in Resources */,
 				70D2282D1D895AFC00EF4211 /* AYOrderDateCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

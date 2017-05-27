@@ -260,6 +260,7 @@
        
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar" name="FakeNavBar" />
+		<view type="DongDaSeg" name="DongDaSeg" />
 		<view type="Table"          name="Table" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />

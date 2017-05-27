@@ -346,21 +346,29 @@
     for (NSString* key in dic.allKeys) {
         if ([key isEqualToString:kAYSegViewMarginToEdgeKey]) {
             self.margin_to_edge = ((NSNumber*)[dic objectForKey:key]).floatValue;
-        } else if ([key isEqualToString:kAYSegViewMarginBetweenKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewMarginBetweenKey]) {
             self.margin_between_items = ((NSNumber*)[dic objectForKey:key]).floatValue;
-        } else if ([key isEqualToString:kAYSegViewNormalFontColorKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewNormalFontColorKey]) {
             self.font_color = (UIColor*)[dic objectForKey:key];
-        } else if ([key isEqualToString:kAYSegViewSelectedFontColorKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewSelectedFontColorKey]) {
             self.select_font_color = (UIColor*)[dic objectForKey:key];
-        } else if ([key isEqualToString:kAYSegViewLineHiddenKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewLineHiddenKey]) {
             self.isLayerHidden = ((NSNumber*)[dic objectForKey:key]).boolValue;
-        } else if ([key isEqualToString:kAYSegViewBackgroundColorKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewBackgroundColorKey]) {
             self.backgroundColor = (UIColor*)[dic objectForKey:key];
-        } else if ([key isEqualToString:kAYSegViewCornerRadiusKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewCornerRadiusKey]) {
             self.layer.cornerRadius = ((NSNumber*)[dic objectForKey:key]).floatValue;
-        } else if ([key isEqualToString:kAYSegViewCurrentSelectKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewCurrentSelectKey]) {
             self.selectedIndex = ((NSNumber*)[dic objectForKey:key]).intValue;
-        } else if ([key isEqualToString:kAYSegViewSelectedFontSizeKey]) {
+        }
+		else if ([key isEqualToString:kAYSegViewSelectedFontSizeKey]) {
             self.font_size = ((NSNumber*)[dic objectForKey:key]).floatValue;
         }
     }

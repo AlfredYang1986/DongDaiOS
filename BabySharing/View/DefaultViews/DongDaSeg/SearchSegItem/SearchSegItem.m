@@ -9,10 +9,9 @@
 #import "SearchSegItem.h"
 #import "Define.h"
 
-#define DEFAULT_MARGIN_HER          30
-#define ITEM_WIDTH                  (SCREEN_WIDTH * 0.5)
-#define ITEM_HEIGHT                 54
-#define ITME_LAYER_LINE_HEIGHT      4
+#define ITEM_WIDTH                  80
+#define ITEM_HEIGHT                 44
+#define ITME_LAYER_LINE_HEIGHT      2
 
 @implementation SearchSegItem {
 //    UILabel* label;
@@ -64,22 +63,19 @@
 - (void)setUpValues {
     
     if (_font_size == 0) {
-        _font_size = 16.f;
+        _font_size = 18.f;
     }
     
     UILabel* label = [[UILabel alloc]init];
-    label.font = kAYFontLight(_font_size);
+    label.font = [UIFont boldSystemFontOfSize:_font_size];
     label.tag = -1;
     [self addSubview:label];
     
     layer = [CALayer layer];
-//    NSString * bundlePath = [[ NSBundle mainBundle] pathForResource: @"DongDaBoundle" ofType :@"bundle"];
-//    NSBundle *resourceBundle = [NSBundle bundleWithPath:bundlePath];
-//    UIImage* img = [UIImage imageNamed:[resourceBundle pathForResource:@"dongda_seg_selected" ofType:@"png"]];
     UIImage* img = [UIImage imageNamed:@"dongda_seg_selected"];
     
     layer.contents = (id)img.CGImage;
-    layer.frame = CGRectMake(0, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, ITEM_WIDTH, ITME_LAYER_LINE_HEIGHT);
+    layer.frame = CGRectMake((self.frame.size.width-38)*0.5, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, 38, ITME_LAYER_LINE_HEIGHT);
     [self.layer addSublayer:layer];
     
     layer.hidden = _status == 0;
@@ -93,7 +89,7 @@
 - (void)resetFontSize:(CGFloat)font_size {
     _font_size = font_size;
     UILabel* label = [self viewWithTag:-1];
-    label.font = kAYFontLight(_font_size);
+    label.font = [UIFont boldSystemFontOfSize:_font_size];
 }
 
 - (void)resetFontColor:(UIColor *)font_color {

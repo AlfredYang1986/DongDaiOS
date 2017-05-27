@@ -354,8 +354,8 @@
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right)
 	
     bar_like_btn = [[UIButton alloc]init];
-    [bar_like_btn setImage:IMGRESOURCE(@"heart_unlike") forState:UIControlStateNormal];
-    [bar_like_btn setImage:IMGRESOURCE(@"heart") forState:UIControlStateSelected];
+    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
