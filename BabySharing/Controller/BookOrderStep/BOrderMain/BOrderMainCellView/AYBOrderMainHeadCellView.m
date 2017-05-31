@@ -158,7 +158,7 @@
 	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
 		
-		options_title_cans = kAY_service_options_title_lookafter;
+		options_title_cans = kAY_service_options_title_nursery;
 		//服务主题分类
 		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
 			titleLabel.text = @"该服务主题待调整";

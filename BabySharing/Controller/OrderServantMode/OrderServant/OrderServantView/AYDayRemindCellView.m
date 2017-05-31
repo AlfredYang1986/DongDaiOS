@@ -32,7 +32,6 @@
 	if (self) {
 		
 		self.backgroundColor = [UIColor clearColor];
-		CGFloat marginLine = 10.f;
 		CGFloat marginContent = 20.f;
 		UILabel *titleLabel = [Tools creatUILabelWithText:@"提醒" andTextColor:[Tools blackColor] andFontSize:625.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];

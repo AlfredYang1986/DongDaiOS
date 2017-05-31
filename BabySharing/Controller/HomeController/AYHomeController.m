@@ -30,10 +30,10 @@ typedef void(^queryContentFinish)(void);
 // 减速度
 #define DECELERATION 400.0
 
+#import "AYFilterCansCellView.h"
+#import "UICollectionViewLeftAlignedLayout.h"
+
 @implementation AYHomeController {
-	
-    NSArray* push_content;
-    NSNumber* start_index;
     
     CATextLayer* badge;
     UIButton* actionView;
@@ -43,11 +43,23 @@ typedef void(^queryContentFinish)(void);
     CALayer *maskLayer;
 	
     NSInteger skipCount;
-	NSTimeInterval timeSpan;
+	NSTimeInterval timeInterval;
 	NSDictionary *search_loc;
+	
+	/************旧版搜索************/
 	NSNumber *search_cansCat;
 	NSNumber *search_servCat;
 	NSMutableArray *servicesData;
+	/*************************/
+	
+	NSMutableArray *servDataOfCourse;
+	NSMutableArray *servDataOfNursery;
+	int DongDaSegIndex;		// == service_type
+	NSNumber *courseSubIndex;
+	NSNumber *nurserySubIndex;
+	NSArray *titleArr;
+	
+	UICollectionView *filterCollectionView;
 	
 	UILabel *addressLabel;
 	UILabel *themeCatlabel;
@@ -55,6 +67,8 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary *dic_location;
 	CLLocation *loc;
 }
+
+
 
 @synthesize manager = _manager;
 - (CLLocationManager *)manager{
@@ -70,10 +84,6 @@ typedef void(^queryContentFinish)(void);
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		
-        NSDictionary* args = [dic objectForKey:kAYControllerChangeArgsKey];
-        push_content = [args objectForKey:@"content"];
-        start_index = [args objectForKey:@"start_index"];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -100,7 +110,7 @@ typedef void(^queryContentFinish)(void);
 				search_cansCat = [backArgs objectForKey:kAYServiceArgsTheme];
 				search_servCat = [backArgs objectForKey:kAYServiceArgsServiceCat];
 				
-					themeCatlabel.text = [backArgs objectForKey:@"title"];
+				themeCatlabel.text = [backArgs objectForKey:@"title"];
 			}
 			[self loadNewData];
 			NSNumber *height = [NSNumber numberWithFloat:0.f];
@@ -110,10 +120,58 @@ typedef void(^queryContentFinish)(void);
     }
 }
 
+#pragma mark -- CollectionView delegate datasoure
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return titleArr.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	NSString *class_name = @"AYFilterCansCellView";
+	AYFilterCansCellView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
+	if (DongDaSegIndex == ServiceTypeCourse) {
+		[tmp setValue:[NSNumber numberWithBool:indexPath.row == courseSubIndex.integerValue && courseSubIndex] forKey:@"is_selected"];
+	} else {
+		[tmp setValue:[NSNumber numberWithBool:indexPath.row == nurserySubIndex.integerValue && nurserySubIndex] forKey:@"is_selected"];
+	}
+	
+	cell.itemInfo = tmp;
+	
+	return (UICollectionViewCell*)cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	CGFloat itemHeight = 40;
+	if (DongDaSegIndex == ServiceTypeCourse) {
+		//		NSString *title = [courseTitleArr objectAtIndex:indexPath.row];
+		return CGSizeMake(80, itemHeight);
+	} else {
+		return CGSizeMake(106, itemHeight);
+	}
+	
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	
+	if (DongDaSegIndex == ServiceTypeCourse) {
+		
+	} else {
+		
+	}
+}
+
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+	
+	DongDaSegIndex = ServiceTypeCourse;
+	timeInterval = [NSDate date].timeIntervalSince1970;
+	servDataOfCourse = [NSMutableArray array];
+	servDataOfNursery = [NSMutableArray array];
 	
 	UIView *filterViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, 44)];
 	filterViewBg.backgroundColor = [Tools whiteColor];
@@ -122,18 +180,45 @@ typedef void(^queryContentFinish)(void);
 	filterViewBg.layer.shadowOpacity = 0.15f;
 	[self.view addSubview:filterViewBg];
 	
+//	UIView *view_collect = [self.views objectForKey:kAYCollectionVerView];
+//	[self.view bringSubviewToFront:view_collect];
+	
+	titleArr = kAY_service_options_title_course;
+	UICollectionViewLeftAlignedLayout *layout = [[UICollectionViewLeftAlignedLayout alloc] init];
+	layout.minimumInteritemSpacing = 20.f;
+	layout.minimumLineSpacing = 25.f;
+	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+	filterCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90) collectionViewLayout:layout];
+	filterCollectionView.backgroundColor = [UIColor whiteColor];
+	filterCollectionView.showsHorizontalScrollIndicator = NO;
+	[self.view addSubview:filterCollectionView];
+	filterCollectionView.delegate =self;
+	filterCollectionView.dataSource =self;
+	filterCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+	
+	NSString *item_class_name = @"AYFilterCansCellView";
+	[filterCollectionView registerClass:NSClassFromString(item_class_name) forCellWithReuseIdentifier:item_class_name];
+	
+	[self.view bringSubviewToFront:filterCollectionView];
+	UIView *view_status = [self.views objectForKey:@"FakeStatusBar"];
+	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
+	[self.view bringSubviewToFront:filterViewBg];
+	[self.view bringSubviewToFront:view_nav];
+	[self.view bringSubviewToFront:view_status];
+	
 	UIButton *filterBtn = [[UIButton alloc]init];
 	[filterBtn setImage:IMGRESOURCE(@"home_icon_filter") forState:UIControlStateNormal];
+	[filterBtn setImage:IMGRESOURCE(@"home_icon_filter") forState:UIControlStateSelected];
 	[filterViewBg addSubview:filterBtn];
 	[filterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(filterViewBg);
 		make.centerX.equalTo(filterViewBg.mas_right).offset(-30);
 		make.size.mas_equalTo(CGSizeMake(28, 25));
 	}];
-	[filterBtn addTarget:self action:@selector(didFilterBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	[filterBtn addTarget:self action:@selector(didFilterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
 	UIView *segView = [self.views objectForKey:@"DongDaSeg"];
-	[self.view bringSubviewToFront:segView];
+	[filterViewBg addSubview:segView];
 	
 	id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
 	UITableView *tableView = (UITableView*)view_notify;
@@ -164,6 +249,20 @@ typedef void(^queryContentFinish)(void);
 	class_name = @"HomeTopTipCell";
 	[cmd_cell performWithResult:&class_name];
 	
+	id<AYDelegateBase> delegate_collect = [self.delegates objectForKey:@"HomeCollect"];
+	id dele = delegate_collect;
+	kAYViewsSendMessage(kAYCollectionVerView, kAYTableRegisterDelegateMessage, &dele)
+	dele = delegate_collect;
+	kAYViewsSendMessage(kAYCollectionVerView, kAYTableRegisterDatasourceMessage, &dele)
+	
+//	NSString *item_class_name = @"AYFilterCansCellView";
+//	kAYViewsSendMessage(kAYCollectionVerView, kAYTableRegisterCellWithClassMessage, &item_class_name)
+	
+//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+//	[tmp setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
+//	[tmp setValue:[NSNumber numberWithInt:-1] forKey:@"sub_index"];
+//	kAYDelegatesSendMessage(@"HomeCollect", kAYDelegateChangeDataMessage, &tmp)
+	
 	[self loadNewData];
 	[self startLocation];
 }
@@ -180,21 +279,22 @@ typedef void(^queryContentFinish)(void);
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
+	view.backgroundColor = [Tools whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
+	view.backgroundColor = [Tools whiteColor];
 	
-	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools themeColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(20);
 		make.centerY.equalTo(view);
 	}];
-	
-	addressLabel.userInteractionEnabled = YES;
-	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
+//	addressLabel.userInteractionEnabled = YES;
+//	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
 	
 	UIButton *mapBtn = [[UIButton alloc]init];
 	[mapBtn setImage:IMGRESOURCE(@"home_icon_mapfilter") forState:UIControlStateNormal];
@@ -219,7 +319,7 @@ typedef void(^queryContentFinish)(void);
 #import "AYDongDaSegDefines.h"
 - (id)DongDaSegLayout:(UIView*)view {
 	
-	view.frame = CGRectMake(0, kStatusAndNavBarH, 180, 44);
+	view.frame = CGRectMake(0, 0, 180, 44);		//重新加入了self.view 的子view   0,0,w,h
 	
 	id<AYViewBase> seg = (id<AYViewBase>)view;
 	id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
@@ -245,10 +345,18 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)TableLayout:(UIView*)view {
-	CGFloat topmargin = 136.f;
+	CGFloat topmargin = 108.f;
     view.frame = CGRectMake(0, topmargin, SCREEN_WIDTH, SCREEN_HEIGHT - topmargin - 49);
     ((UITableView*)view).backgroundColor = [UIColor whiteColor];
     return nil;
+}
+
+- (id)CollectionVerLayout:(UIView*)view {
+	CGFloat topMargin = 108.f;
+	view.frame = CGRectMake(0, topMargin, SCREEN_WIDTH, 90);
+//	view.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.75f];
+	view.backgroundColor = [UIColor whiteColor];
+	return nil;
 }
 
 #pragma mark -- controller actions
@@ -279,21 +387,20 @@ typedef void(^queryContentFinish)(void);
 	
 }
 
-- (void)didFilterBtnClick {
+- (void)didFilterBtnClick:(UIButton*)btn {
+//	UICollectionView *view_collect = [self.views objectForKey:kAYCollectionVerView];
+	btn.selected = !btn.selected;
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterTheme");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:search_cansCat forKey:kAYServiceArgsTheme];
-	[tmp setValue:search_servCat forKey:kAYServiceArgsServiceCat];
-	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_show_module = SHOWMODULEUP;
-	[cmd_show_module performWithResult:&dic];
+	if (btn.selected) {
+		[UIView animateWithDuration:0.25 animations:^{
+			filterCollectionView.frame = CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90);
+		}];
+	} else {
+		
+		[UIView animateWithDuration:0.25 animations:^{
+			filterCollectionView.frame = CGRectMake(0, 108.f, SCREEN_WIDTH, 90);
+		}];
+	}
 }
 
 - (void)loadMoreData {
@@ -306,7 +413,7 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
-	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
+	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
 	[dic_search setValue:search_servCat forKey:kAYServiceArgsServiceCat];
@@ -314,16 +421,29 @@ typedef void(^queryContentFinish)(void);
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			NSLog(@"query recommand tags result %@", result);
+			NSArray *remoteArr = [result objectForKey:@"result"];
 			
-			if (result.count == 0) {
+			if (remoteArr.count == 0) {
 				NSString *title = @"没有更多服务了";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			} else {
+			}
+			else {
 				
-				[servicesData addObjectsFromArray:(NSArray*)result];
-				skipCount = servicesData.count;
-				id arr = [servicesData copy];
-				kAYDelegatesSendMessage(@"Home", @"changeQueryData:", &arr)
+				NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
+				NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
+				NSArray *arr_course = [remoteArr filteredArrayUsingPredicate:pre_course];
+				NSArray *arr_nursery = [remoteArr filteredArrayUsingPredicate:pre_nursery];
+				[servDataOfCourse addObjectsFromArray:arr_course];
+				[servDataOfNursery addObjectsFromArray:arr_nursery];
+				
+				skipCount = servDataOfNursery.count + servDataOfNursery.count;
+				id tmp;
+				if (DongDaSegIndex == ServiceTypeCourse) {
+					tmp = [servDataOfCourse copy];
+				} else if(DongDaSegIndex == ServiceTypeNursery) {
+					tmp = [servDataOfNursery copy];
+				}
+				kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
 			
@@ -347,8 +467,7 @@ typedef void(^queryContentFinish)(void);
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	
 	NSMutableDictionary *dic_search = [user mutableCopy];
-	timeSpan = [NSDate date].timeIntervalSince1970;
-	[dic_search setValue:[NSNumber numberWithDouble:timeSpan * 1000] forKey:@"date"];
+	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
 	[dic_search setValue:search_servCat forKey:kAYServiceArgsServiceCat];
@@ -356,11 +475,21 @@ typedef void(^queryContentFinish)(void);
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			NSLog(@"query recommand tags result %@", result);
+			NSArray *remoteArr = [result objectForKey:@"result"];
 			
-			servicesData = [NSMutableArray arrayWithArray:(NSArray*)result];
-			skipCount = servicesData.count;
-			id arr = [servicesData copy];
-			kAYDelegatesSendMessage(@"Home", @"changeQueryData:", &arr) 
+			NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
+			NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
+			servDataOfCourse = [[remoteArr filteredArrayUsingPredicate:pre_course] mutableCopy];
+			servDataOfNursery = [[remoteArr filteredArrayUsingPredicate:pre_nursery] mutableCopy];
+			
+			skipCount = servDataOfNursery.count + servDataOfNursery.count;
+			id tmp;
+			if (DongDaSegIndex == ServiceTypeCourse) {
+				tmp = servDataOfCourse;
+			} else if(DongDaSegIndex == ServiceTypeNursery) {
+				tmp = servDataOfNursery;
+			}
+			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			
 		} else {
@@ -397,7 +526,12 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
 	[args setValue:loc forKey:@"location"];
-	[args setValue:[servicesData copy] forKey:@"result_data"];
+	if (DongDaSegIndex == ServiceTypeCourse) {
+		[args setValue:[servDataOfCourse copy] forKey:@"result_data"];
+	} else {
+		[args setValue:[servDataOfNursery copy] forKey:@"result_data"];
+	}
+	
 	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
@@ -413,12 +547,17 @@ typedef void(^queryContentFinish)(void);
 	[cmd performWithResult:&index];
 	NSLog(@"current index %@", index);
 	
+	DongDaSegIndex = index.intValue;
+	
 	id tmp;
-	if (index.intValue == 0){
-		
+	if (index.intValue == 0) {
+		tmp = [servDataOfCourse copy];
+		titleArr = kAY_service_options_title_course;
 	} else {
-		
+		tmp = [servDataOfNursery copy];
+		titleArr = kAY_service_options_title_nursery;
 	}
+	[filterCollectionView reloadData];
 	
 	kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)

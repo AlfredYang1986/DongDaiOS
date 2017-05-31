@@ -13,6 +13,7 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYCollectionView.h"
+#import "UICollectionViewLeftAlignedLayout.h"
 
 @implementation AYCollectionViewFactory
 
@@ -35,6 +36,7 @@
 		
 		NSArray* args = [_para objectForKey:@"args"];
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+//		UICollectionViewLeftAlignedLayout *layout = [[UICollectionViewLeftAlignedLayout alloc] init];
 		layout.scrollDirection = ((NSString*)[args objectAtIndex:0]).integerValue;
 		layout.minimumInteritemSpacing =  ((NSString*)[args objectAtIndex:1]).integerValue;
 		layout.minimumLineSpacing =  ((NSString*)[args objectAtIndex:2]).integerValue;

@@ -8,6 +8,6 @@
 
 #import "AYRemoteCallQueryCommand.h"
 
-@interface AYSearchFiltServiceCommand : AYRemoteCallCommand
+@interface AYSearchFiltServiceCommand : AYRemoteCallQueryCommand
 
 @end

@@ -51,7 +51,7 @@
 		coverImage.clipsToBounds = YES;
 		[self addSubview:coverImage];
 		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self).offset(5);
+			make.top.equalTo(self).offset(10);
 			make.left.equalTo(self).offset(20);
 			make.right.equalTo(self).offset(-20);
 			make.height.mas_equalTo(223);

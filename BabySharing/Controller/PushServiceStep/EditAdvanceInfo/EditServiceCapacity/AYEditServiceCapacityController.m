@@ -268,7 +268,7 @@
     NSNumber *service_cat = [service_info_part objectForKey:kAYServiceArgsServiceCat];
     if (service_cat.intValue == ServiceTypeNursery) {
         catStr = @"看顾服务";
-        options_title_cans = kAY_service_options_title_lookafter;
+        options_title_cans = kAY_service_options_title_nursery;
     }
     else if (service_cat.intValue == ServiceTypeCourse) {
         servantNumbTitle.text = @"老师数量";

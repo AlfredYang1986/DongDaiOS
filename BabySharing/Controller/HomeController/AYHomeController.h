@@ -11,7 +11,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface AYHomeController : AYViewController <CLLocationManagerDelegate>
+@interface AYHomeController : AYViewController <CLLocationManagerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) CLLocationManager  *manager;
 
 @end

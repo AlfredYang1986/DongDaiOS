@@ -32,7 +32,7 @@
 
 - (void)postPerform {
 	titleArr_course = kAY_service_options_title_course;
-	titleArr_lookafter = kAY_service_options_title_lookafter;
+	titleArr_lookafter = kAY_service_options_title_nursery;
 }
 
 - (void)performWithResult:(NSObject**)obj {
