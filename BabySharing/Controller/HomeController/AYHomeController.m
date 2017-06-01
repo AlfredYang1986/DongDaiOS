@@ -55,8 +55,9 @@ typedef void(^queryContentFinish)(void);
 	NSMutableArray *servDataOfCourse;
 	NSMutableArray *servDataOfNursery;
 	int DongDaSegIndex;		// == service_type
-	NSNumber *courseSubIndex;
-	NSNumber *nurserySubIndex;
+//	NSNumber *courseSubIndex;
+//	NSNumber *nurserySubIndex;
+	NSMutableDictionary *subIndexData;
 	NSArray *titleArr;
 	
 	UICollectionView *filterCollectionView;
@@ -132,12 +133,8 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
-	if (DongDaSegIndex == ServiceTypeCourse) {
-		[tmp setValue:[NSNumber numberWithBool:indexPath.row == courseSubIndex.integerValue && courseSubIndex] forKey:@"is_selected"];
-	} else {
-		[tmp setValue:[NSNumber numberWithBool:indexPath.row == nurserySubIndex.integerValue && nurserySubIndex] forKey:@"is_selected"];
-	}
-	
+	NSNumber *comp = [subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]];
+	[tmp setValue:[NSNumber numberWithBool:indexPath.row == comp.integerValue && comp] forKey:@"is_selected"];
 	cell.itemInfo = tmp;
 	
 	return (UICollectionViewCell*)cell;
@@ -157,11 +154,18 @@ typedef void(^queryContentFinish)(void);
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	if (DongDaSegIndex == ServiceTypeCourse) {
-		
-	} else {
-		
-	}
+	NSString *key_comp = [NSString stringWithFormat:@"%d", DongDaSegIndex];
+	NSNumber *index_comp = [subIndexData objectForKey:key_comp];
+	
+	NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
+	
+	if ([index_comp isEqualToNumber:index]) {
+		[subIndexData removeObjectForKey:key_comp];
+	} else
+		[subIndexData setValue:index forKey:[NSString stringWithFormat:@"%d", DongDaSegIndex]];
+	
+	[filterCollectionView reloadData];
+	[self loadNewData];
 }
 
 #pragma mark -- life cycle
@@ -169,6 +173,7 @@ typedef void(^queryContentFinish)(void);
     [super viewDidLoad];
 	
 	DongDaSegIndex = ServiceTypeCourse;
+	subIndexData = [[NSMutableDictionary alloc] init];
 	timeInterval = [NSDate date].timeIntervalSince1970;
 	servDataOfCourse = [NSMutableArray array];
 	servDataOfNursery = [NSMutableArray array];
@@ -195,6 +200,7 @@ typedef void(^queryContentFinish)(void);
 	filterCollectionView.delegate =self;
 	filterCollectionView.dataSource =self;
 	filterCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+	[Tools creatCALayerWithFrame:CGRectMake(-20, 89.5, SCREEN_WIDTH*10, 0.5) andColor:[Tools garyLineColor] inSuperView:filterCollectionView];
 	
 	NSString *item_class_name = @"AYFilterCansCellView";
 	[filterCollectionView registerClass:NSClassFromString(item_class_name) forCellWithReuseIdentifier:item_class_name];
@@ -215,6 +221,7 @@ typedef void(^queryContentFinish)(void);
 		make.centerX.equalTo(filterViewBg.mas_right).offset(-30);
 		make.size.mas_equalTo(CGSizeMake(28, 25));
 	}];
+	filterBtn.selected = NO;
 	[filterBtn addTarget:self action:@selector(didFilterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
 	UIView *segView = [self.views objectForKey:@"DongDaSeg"];
@@ -389,16 +396,17 @@ typedef void(^queryContentFinish)(void);
 
 - (void)didFilterBtnClick:(UIButton*)btn {
 //	UICollectionView *view_collect = [self.views objectForKey:kAYCollectionVerView];
-	btn.selected = !btn.selected;
 	
+	btn.selected = !btn.selected;
+	NSLog(@"%d", btn.selected);
 	if (btn.selected) {
 		[UIView animateWithDuration:0.25 animations:^{
-			filterCollectionView.frame = CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90);
+			filterCollectionView.frame = CGRectMake(0, 108.f, SCREEN_WIDTH, 90);
 		}];
 	} else {
 		
 		[UIView animateWithDuration:0.25 animations:^{
-			filterCollectionView.frame = CGRectMake(0, 108.f, SCREEN_WIDTH, 90);
+			filterCollectionView.frame = CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90);
 		}];
 	}
 }
@@ -414,9 +422,10 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
-	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
-	[dic_search setValue:search_servCat forKey:kAYServiceArgsServiceCat];
+	
+	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
+	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
@@ -429,20 +438,23 @@ typedef void(^queryContentFinish)(void);
 			}
 			else {
 				
-				NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
-				NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
-				NSArray *arr_course = [remoteArr filteredArrayUsingPredicate:pre_course];
-				NSArray *arr_nursery = [remoteArr filteredArrayUsingPredicate:pre_nursery];
-				[servDataOfCourse addObjectsFromArray:arr_course];
-				[servDataOfNursery addObjectsFromArray:arr_nursery];
-				
-				skipCount = servDataOfNursery.count + servDataOfNursery.count;
 				id tmp;
 				if (DongDaSegIndex == ServiceTypeCourse) {
+//					NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
+//					NSArray *arr_course = [remoteArr filteredArrayUsingPredicate:pre_course];
+					[servDataOfCourse addObjectsFromArray:remoteArr];
+					
 					tmp = [servDataOfCourse copy];
-				} else if(DongDaSegIndex == ServiceTypeNursery) {
+				} else {
+//					NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
+//					NSArray *arr_nursery = [remoteArr filteredArrayUsingPredicate:pre_nursery];
+					[servDataOfNursery addObjectsFromArray:remoteArr];
+					
 					tmp = [servDataOfNursery copy];
 				}
+				
+				skipCount = servDataOfNursery.count + servDataOfNursery.count;
+				
 				kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
@@ -468,37 +480,42 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
-	[dic_search setValue:search_cansCat forKey:kAYServiceArgsTheme];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
-	[dic_search setValue:search_servCat forKey:kAYServiceArgsServiceCat];
+	
+	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
+	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		UITableView *view_table = [self.views objectForKey:@"Table"];
 		if (success) {
 			NSLog(@"query recommand tags result %@", result);
 			NSArray *remoteArr = [result objectForKey:@"result"];
 			
-			NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
-			NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
-			servDataOfCourse = [[remoteArr filteredArrayUsingPredicate:pre_course] mutableCopy];
-			servDataOfNursery = [[remoteArr filteredArrayUsingPredicate:pre_nursery] mutableCopy];
+//			NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
+//			NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
+//			servDataOfCourse = [[remoteArr filteredArrayUsingPredicate:pre_course] mutableCopy];
+//			servDataOfNursery = [[remoteArr filteredArrayUsingPredicate:pre_nursery] mutableCopy];
 			
-			skipCount = servDataOfNursery.count + servDataOfNursery.count;
 			id tmp;
 			if (DongDaSegIndex == ServiceTypeCourse) {
-				tmp = servDataOfCourse;
+				servDataOfCourse = [remoteArr mutableCopy];
+				tmp = [servDataOfCourse copy];
 			} else if(DongDaSegIndex == ServiceTypeNursery) {
-				tmp = servDataOfNursery;
+				servDataOfNursery = [remoteArr mutableCopy];
+				tmp = [servDataOfNursery copy];
 			}
+			
+			skipCount = servDataOfNursery.count + servDataOfNursery.count;
+			
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-			
+			[view_table scrollsToTop];
 		} else {
 			NSString *title = @"请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
 		
-		id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-		[((UITableView*)view_table).mj_header endRefreshing];
+		[view_table.mj_header endRefreshing];
 		
 	}];
 }
@@ -550,17 +567,29 @@ typedef void(^queryContentFinish)(void);
 	DongDaSegIndex = index.intValue;
 	
 	id tmp;
-	if (index.intValue == 0) {
-		tmp = [servDataOfCourse copy];
+	if (index.intValue == ServiceTypeCourse) {
+		
 		titleArr = kAY_service_options_title_course;
+		if (servDataOfCourse.count != 0) {
+			tmp = [servDataOfCourse copy];
+			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		} else {
+			[self loadNewData];
+		}
+		
 	} else {
-		tmp = [servDataOfNursery copy];
 		titleArr = kAY_service_options_title_nursery;
+		if (servDataOfNursery.count != 0) {
+			tmp = [servDataOfNursery copy];
+			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		} else {
+			[self loadNewData];
+		}
 	}
-	[filterCollectionView reloadData];
 	
-	kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
-	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	[filterCollectionView reloadData];
 	
 	return nil;
 }

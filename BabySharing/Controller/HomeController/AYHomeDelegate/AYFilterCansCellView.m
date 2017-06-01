@@ -48,7 +48,7 @@
 	titleLabel.text = title;
 	
 	NSNumber *isSelected = [itemInfo objectForKey:@"is_selected"];
-	[self setSelected:isSelected.boolValue];
+	[self setStatusWith:isSelected.boolValue];
 	
 }
 
