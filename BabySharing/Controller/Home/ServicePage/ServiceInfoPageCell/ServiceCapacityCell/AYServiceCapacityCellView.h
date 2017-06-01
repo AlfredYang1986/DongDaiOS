@@ -1,5 +1,5 @@
 //
-//  AYServiceOwnerInfoCellVeiw.h
+//  AYServiceThemeCellView.h
 //  BabySharing
 //
 //  Created by Alfred Yang on 4/11/16.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYServiceOwnerInfoCellView : UITableViewCell <AYViewBase>
+@interface AYServiceCapacityCellView : UITableViewCell <AYViewBase>
 
 @end

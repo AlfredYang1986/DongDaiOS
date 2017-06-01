@@ -20,12 +20,11 @@
 
 @implementation AYServicePageDelegate {
     NSDictionary *querydata;
-//    NSString *personal_description;
     
     BOOL isExpend;
     CGFloat expendHeight;
-    
-//    BOOL has_comment;
+	
+	NSArray *CellNameArr;
 }
 
 @synthesize para = _para;
@@ -36,6 +35,13 @@
 #pragma mark -- life cycle
 - (void)postPerform {
     isExpend = NO;
+	CellNameArr = @[@"AYServiceTitleCellView",
+					@"AYServiceOwnerInfoCellView",
+					@"AYServiceCapacityCellView",
+					@"AYServiceDescCellView",
+					@"AYServiceMapCellView",
+					@"AYServiceFacilityCellView",
+					@"AYServiceNotiCellView", ];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -55,16 +61,10 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)changeQueryData:(NSDictionary*)args{
+- (id)changeQueryData:(NSDictionary*)args {
     querydata = args;
     return nil;
 }
-
-//- (id)changeDescription:(id)args {
-////    personal_description = (NSString*)args;
-//    has_comment = ((NSNumber*)args).boolValue;
-//    return nil;
-//}
 
 - (id)TransfromExpend:(NSNumber*)args {
     isExpend = YES;
@@ -74,38 +74,13 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 7;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString* class_name;
-    id<AYViewBase> cell;
-    
-    if (indexPath.row == 0) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		
-    }
-    else if (indexPath.row ==1) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		
-    }
-    else if (indexPath.row == 2) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCalendarCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		
-    }
-    else if (indexPath.row == 3) {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-		
-    }
-    else {
-        class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-    }
+	
+    NSString* class_name = [CellNameArr objectAtIndex:indexPath.row];
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
 	id tmp = [querydata copy];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
@@ -164,21 +139,6 @@
 }
 
 #pragma mark -- actions
-- (void)onesPhotoIconTap:(UITapGestureRecognizer*)tap {
-    
-    AYViewController* des = DEFAULTCONTROLLER(@"OneProfile");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[querydata objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
-
-
 -(void)didShowMoreClick:(UIButton*)btn{
     id<AYCommand> des = DEFAULTCONTROLLER(@"ContentList");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -232,30 +192,8 @@
     }
 }
 
-//* 1/1/1 *//
--(void)didDailyBtnClick:(UIButton*)btn {
-    
-}
-
--(void)didCostBtnClick:(UIButton*)btn {
-    
-}
-
-//2
--(void)didSafePolicyClick:(UIButton*)btn {
-    
-}
-
--(void)didTDPolicyClick:(UIButton*)btn {
-    
-}
-
 -(void)didXFriendImage:(UIGestureRecognizer*)tap {
     [[[UIAlertView alloc]initWithTitle:@"提示" message:@"共同好友" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
 }
 
--(void)didPopImage:(UIButton*)tap {
-    id<AYCommand> pop = [self.notifies objectForKey:@"sendPopMessage"];
-    [pop performWithResult:nil];
-}
 @end

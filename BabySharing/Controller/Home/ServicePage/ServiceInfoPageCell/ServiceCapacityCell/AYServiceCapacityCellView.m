@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServiceThemeCellView.h"
+#import "AYServiceCapacityCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -16,8 +16,12 @@
 #import "AYFacadeBase.h"
 #import "AYPlayItemsView.h"
 
-@implementation AYServiceThemeCellView {
-    UILabel *themeLabel;
+@implementation AYServiceCapacityCellView {
+	
+	UILabel *filtBabyArgsLabel;
+	UILabel *capacityLabel;
+	UILabel *servantLabel;
+	
 }
 
 @synthesize para = _para;
@@ -29,15 +33,51 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
-//        CGFloat margin = 0;
-        
-        themeLabel = [Tools creatUILabelWithText:@"service topic" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:themeLabel];
-        [themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.left.equalTo(self).offset(15);
-        }];
-        
+//        capacity_icon
+		UILabel *capacitySignLabel = [Tools creatUILabelWithText:@"Children" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:capacitySignLabel];
+		[capacitySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.bottom.equalTo(self).offset(-23);
+			make.top.equalTo(self).offset(58);
+		}];
+		
+		capacityLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:capacityLabel];
+		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(capacitySignLabel);
+			make.bottom.equalTo(capacitySignLabel.mas_top).offset(-13);
+		}];
+
+//        age_boundary_icon
+		UILabel *filtBabySignLabel = [Tools creatUILabelWithText:@"Children" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:filtBabySignLabel];
+		[filtBabySignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(capacitySignLabel).offset(-SCREEN_WIDTH/3);
+			make.bottom.equalTo(capacitySignLabel);
+		}];
+		
+		filtBabyArgsLabel = [Tools creatUILabelWithText:@"0-0 years old" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:filtBabyArgsLabel];
+		[filtBabyArgsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(filtBabySignLabel);
+			make.centerY.equalTo(capacityLabel);
+		}];
+
+//        allow_leave_icon
+		UILabel *servantSignLabel = [Tools creatUILabelWithText:@"Children" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:servantSignLabel];
+		[servantSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(capacitySignLabel).offset(SCREEN_WIDTH/3);
+			make.bottom.equalTo(capacitySignLabel);
+		}];
+		servantLabel = [Tools creatUILabelWithText:@"Numb of servant" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:servantLabel];
+		[servantLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(servantSignLabel);
+			make.centerY.equalTo(capacityLabel);
+		}];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -47,7 +87,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-    id<AYViewBase> cell = VIEW(@"ServiceThemeCell", @"ServiceThemeCell");
+    id<AYViewBase> cell = VIEW(@"ServiceCapacityCell", @"ServiceCapacityCell");
     NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
     for (NSString* name in cell.commands.allKeys) {
         AYViewCommand* cmd = [cell.commands objectForKey:name];

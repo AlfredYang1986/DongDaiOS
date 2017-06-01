@@ -508,6 +508,12 @@
     <view type="ServiceTitleCell" name="ServiceTitleCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
+	<view type="ServiceOwnerInfoCell" name="ServiceOwnerInfoCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="ServiceCapacityCell" name="ServiceCapacityCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	<view type="ServiceDescCell" name="ServiceDescCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
@@ -516,10 +522,14 @@
 		<command type="notify"      message="showCansOrFacility" />
 		<command type="notify"      message="showP2PMap" />
     </view>
-    <view type="ServiceCalendarCell" name="ServiceCalendarCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
-        <command type="notify"      message="showServiceOfferDate" />
-    </view>
+	<view type="ServiceFacilityCell" name="ServiceFacilityCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="showServiceOfferDate" />
+	</view>
+<!--    <view type="ServiceCalendarCell" name="ServiceCalendarCell" factory="AYReuseViewFactory" >-->
+<!--        <command type="message"     message="setCellInfo:" />-->
+<!--        <command type="notify"      message="showServiceOfferDate" />-->
+<!--    </view>-->
 	<view type="ServiceNotiCell" name="ServiceNotiCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
