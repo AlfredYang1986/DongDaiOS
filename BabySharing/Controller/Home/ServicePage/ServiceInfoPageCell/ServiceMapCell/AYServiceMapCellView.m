@@ -21,22 +21,13 @@
 
 @implementation AYServiceMapCellView {
 	
-	UILabel *tipsTitleLabel;
-	
 	MAMapView *orderMapView;
-	MAAnnotationView *tmp;
-	NSArray *arrayWithLoc;
 	AYAnnonation *currentAnno;
-	NSMutableArray *annoArray;
-	
-	NSDictionary *resultAndLoc;
-	NSArray *fiteResultData;
 	
 	UILabel *addressLabel;
 	UIImageView *addressBg;
 	
 	UIView *tapview;
-	UIButton *facalityBtn;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -46,20 +37,13 @@
 		CGFloat margin = 0;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"地理位置" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:tipsTitleLabel];
-		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.top.equalTo(self).offset(30);
-		}];
-		
 		orderMapView = [[MAMapView alloc]init];
 		[self addSubview:orderMapView];
 		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.top.equalTo(self);
 			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 175));
-			make.bottom.equalTo(self).offset(-90);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 235));
+			make.bottom.equalTo(self);
 		}];
 		orderMapView.delegate = self;
 		orderMapView.scrollEnabled = NO;
@@ -83,30 +67,19 @@
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);
-			make.bottom.equalTo(self.mas_top).offset(130);
-			make.width.mas_lessThanOrEqualTo(SCREEN_WIDTH - 30);
+			make.bottom.equalTo(self.mas_top).offset(95);
+			make.width.mas_equalTo(254);
 		}];
 		
 		addressBg = [[UIImageView alloc]init];
 		[self addSubview:addressBg];
-//		addressBg.contentMode = UIViewContentModeBottom;
-		addressBg.image =  [IMGRESOURCE(@"address_bg") resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10) resizingMode:UIImageResizingModeStretch];
+		addressBg.image =  [IMGRESOURCE(@"details _map_location_bg_single") resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10) resizingMode:UIImageResizingModeStretch];
 		[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-10, -15, -10, -15));
+			make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-2, -8, -9, -8));
 		}];
 		
 		[self bringSubviewToFront:addressBg];
 		[self bringSubviewToFront:addressLabel];
-		
-		//
-		facalityBtn = [Tools creatUIButtonWithTitle:nil andTitleColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil];
-		[facalityBtn addTarget:self action:@selector(didFacalityBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:facalityBtn];
-		[facalityBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(orderMapView.mas_bottom).offset(45);
-			make.right.equalTo(self).offset(-15);
-			make.size.mas_equalTo(CGSizeMake(30, 30));
-		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -193,7 +166,7 @@
 	currentAnno = [[AYAnnonation alloc]init];
 	currentAnno.coordinate = loc.coordinate;
 	currentAnno.title = @"定位位置";
-	currentAnno.imageName = @"location_self";
+	currentAnno.imageName = @"details_icon_maplocation";
 	currentAnno.index = 9999;
 	[orderMapView addAnnotation:currentAnno];
 	[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
@@ -204,50 +177,45 @@
 	[orderMapView setCenterCoordinate:loc.coordinate animated:YES];
 	
 	//facility
-	NSNumber *facility = [service_info objectForKey:kAYServiceArgsFacility];
-	if (facility.intValue != 0) {
-		
-		NSArray *options_title_facility = kAY_service_options_title_facilities;
-		
-		long options = facility.longValue;
-		CGFloat offsetX = 15;
-		int noteCount = 0;
-		int limitNumb =0;
-		if (SCREEN_WIDTH < 375) {
-			limitNumb = 3;
-		} else
-			limitNumb = 4;
-		
-		for (int i = 0; i < options_title_facility.count; ++i) {
-			
-			long note_pow = pow(2, i);
-			if ((options & note_pow)) {
-				
-				if (noteCount < limitNumb) {
-					
-					NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-					AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
-					[self addSubview:item];
-					[item mas_makeConstraints:^(MASConstraintMaker *make) {
-						make.left.mas_equalTo(self).offset(offsetX);
-						make.centerY.equalTo(facalityBtn);
-						make.size.mas_equalTo(CGSizeMake(50, 55));
-					}];
-					offsetX += 80;
-				}
-				noteCount ++;
-			}
-		}
-		
-		[facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
-	} else {		// == 0 未设置场地有好设置
-		[orderMapView mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(15);
-			make.centerX.equalTo(self);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 175));
-			make.bottom.equalTo(self).offset(0);
-		}];
-	}
+//	NSNumber *facility = [service_info objectForKey:kAYServiceArgsFacility];
+//	if (facility.intValue != 0) {
+//		
+//		NSArray *options_title_facility = kAY_service_options_title_facilities;
+//		
+//		long options = facility.longValue;
+//		CGFloat offsetX = 15;
+//		int noteCount = 0;
+//		int limitNumb =0;
+//		if (SCREEN_WIDTH < 375) {
+//			limitNumb = 3;
+//		} else
+//			limitNumb = 4;
+//		
+//		for (int i = 0; i < options_title_facility.count; ++i) {
+//			
+//			long note_pow = pow(2, i);
+//			if ((options & note_pow)) {
+//				
+//				if (noteCount < limitNumb) {
+//					
+//					NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
+//					AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
+//					[self addSubview:item];
+//					[item mas_makeConstraints:^(MASConstraintMaker *make) {
+//						make.left.mas_equalTo(self).offset(offsetX);
+//						make.centerY.equalTo(facalityBtn);
+//						make.size.mas_equalTo(CGSizeMake(50, 55));
+//					}];
+//					offsetX += 80;
+//				}
+//				noteCount ++;
+//			}
+//		}
+//		
+//		[facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
+//	} else {		// == 0 未设置场地有好设置
+//		
+//	}
 	
 	return nil;
 }
@@ -278,10 +246,6 @@
 - (void)didMapTap {
 	
 	kAYViewSendNotify(self, @"showP2PMap", nil)
-}
-
-- (void)didFacalityBtnClick {
-	kAYViewSendNotify(self, @"showCansOrFacility", nil)
 }
 
 @end

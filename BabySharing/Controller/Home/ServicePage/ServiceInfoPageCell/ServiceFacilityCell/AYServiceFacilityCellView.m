@@ -17,7 +17,8 @@
 #import "AYPlayItemsView.h"
 
 @implementation AYServiceFacilityCellView {
-    UIButton *facalityBtn;
+	
+	NSMutableArray *facilityArr;
 }
 
 @synthesize para = _para;
@@ -28,24 +29,36 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        CALayer *btm_seprtor = [CALayer layer];
-        CGFloat margin = 0;
-        btm_seprtor.frame = CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5);
-        btm_seprtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:btm_seprtor];
-        
-        facalityBtn = [Tools creatUIButtonWithTitle:nil andTitleColor:[Tools themeColor] andFontSize:20.f andBackgroundColor:nil];
-        [facalityBtn addTarget:self action:@selector(didFacalityBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:facalityBtn];
-        [facalityBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-        }];
-        
-        self.clipsToBounds = YES;
-        
+		
+		
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"友好性设施" andTextColor:[Tools garyColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:titleLabel];
+		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(20);
+			make.top.equalTo(self).offset(30);
+			make.bottom.equalTo(self).offset(-240);
+		}];
+		
+		CGFloat margin = 20.f;
+		CGFloat itemHeight = 80.f;
+		CGFloat itemWidth = 70.f;
+		CGFloat lineSpacing = 30.f;
+		CGFloat InteritemSpacing = (SCREEN_WIDTH - margin*2 - itemWidth*4)/3;
+		
+		facilityArr = [NSMutableArray array];
+		NSArray *facilityTitlesArr = kAY_service_options_title_facilities;
+		for (int i = 0; i < 8; ++i) {
+			AYPlayItemsView *facilityItem = [[AYPlayItemsView alloc] initWithTitle:[facilityTitlesArr objectAtIndex:i] andIconName:[NSString stringWithFormat:@"details_icon_facility_%d", i]];
+			[self addSubview:facilityItem];
+			[facilityItem mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(titleLabel.mas_bottom).offset(i/4 * (itemHeight+lineSpacing) + lineSpacing);
+				make.left.equalTo(self).offset(i%4 * (InteritemSpacing+itemWidth) + margin);
+				make.size.mas_equalTo(CGSizeMake(itemWidth, itemHeight));
+			}];
+			
+			[facilityArr addObject:facilityItem];
+		}
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

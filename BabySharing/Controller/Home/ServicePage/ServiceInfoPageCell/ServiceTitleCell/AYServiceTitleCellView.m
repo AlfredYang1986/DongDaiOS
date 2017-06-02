@@ -18,17 +18,10 @@
 
 @implementation AYServiceTitleCellView {
     UILabel *titleLabel;
-//    UIImageView *pointsImageView;
 	
 	UILabel *themeLabel;
 	UILabel *ownerNameLabel;
 	UIImageView *ownerPhoto;
-	
-    UILabel *filtBabyArgsLabel;
-    UILabel *capacityLabel;
-    
-    UIImageView *servantSign;
-    UILabel *servantLabel;
 	
 	NSDictionary *service_info;
 }
@@ -284,23 +277,6 @@
 //		[ownerPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 //						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
 //	}
-//	
-//    NSDictionary *age_boundary = [service_info objectForKey:@"age_boundary"];
-//    NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:@"usl"]);
-//    NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:@"lsl"]);
-//    NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
-//    filtBabyArgsLabel.text = [NSString stringWithFormat:@"%@",ages];
-//    
-//    NSNumber *capacity = [service_info objectForKey:@"capacity"];
-//    capacityLabel.text = [NSString stringWithFormat:@"可接纳%d个孩子",capacity.intValue];
-//	
-//	NSString *servantCat = @"服务者";
-//	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-//	 if (service_cat.intValue == ServiceTypeCourse) {
-//		servantCat = @"老师";
-//	}
-//    NSNumber *servant = [service_info objectForKey:kAYServiceArgsServantNumb];
-//	servantLabel.text = [NSString stringWithFormat:@"%@个%@", servant, servantCat];
 //	
 //	if (!ownerName || [ownerName isEqualToString:@""]) {
 //		ownerPhoto.userInteractionEnabled = NO;

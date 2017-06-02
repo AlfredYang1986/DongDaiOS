@@ -8,32 +8,39 @@
 
 #import "AYPlayItemsView.h"
 
-@implementation AYPlayItemsView
+@implementation AYPlayItemsView {
+	UIButton *iconBtn;
+}
 
 - (instancetype)initWithTitle:(NSString*)title andIconName:(NSString*)iconName {
     self = [super init];
     if (self) {
-        UIImageView *icon = [UIImageView new];
-        icon.image = [UIImage imageNamed:iconName];
-        [self addSubview:icon];
-        [icon mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(3.5);
+		
+		iconBtn = [[UIButton alloc] init];
+		[iconBtn setImage:[UIImage imageNamed:iconName] forState:UIControlStateNormal];
+		[iconBtn setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_enable", iconName]] forState:UIControlStateSelected];
+		iconBtn.userInteractionEnabled = NO;
+		[self addSubview:iconBtn];
+        [iconBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self).offset(0);
             make.centerX.equalTo(self);
-            make.size.mas_equalTo(CGSizeMake(25, 25));
+            make.size.mas_equalTo(CGSizeMake(50, 50));
         }];
         
-        UILabel *titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+        UILabel *titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(icon.mas_bottom).offset(7);
+            make.top.equalTo(iconBtn.mas_bottom).offset(12);
             make.centerX.equalTo(self);
         }];
     }
     return self;
 }
 
--(void)layoutSubviews{
-    [super layoutSubviews];
+- (void)setEnableStatusWith:(BOOL)isEnable {
+	
+	iconBtn.selected = isEnable;
+	
 }
 
 @end

@@ -19,9 +19,14 @@
 @implementation AYServiceDescCellView {
 	
 	UILabel *tipsTitleLabel;
-	UILabel *courseLengthLabel;
-	UILabel *serviceDescLabel;
 	
+	UIImageView *olock_icon;
+	UILabel *courseLengthLabel;
+//	UILabel *serviceDescLabel;
+	UITextView *descTextView;
+	UIButton *showhideBtn;
+	
+	NSDictionary *dic_attr;
 	NSDictionary *service_info;
 }
 
@@ -36,30 +41,56 @@
 		
 		self.clipsToBounds = YES;
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"Section Head" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+		paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
+		paraStyle.alignment = NSTextAlignmentLeft;
+		paraStyle.lineSpacing = 8.f;
+		dic_attr = @{NSKernAttributeName:@1, NSParagraphStyleAttributeName:paraStyle, NSForegroundColorAttributeName:[Tools blackColor], NSFontAttributeName:[UIFont systemFontOfSize:15.f]};
+		
+		tipsTitleLabel = [Tools creatUILabelWithText:@"服务介绍" andTextColor:[Tools garyColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		courseLengthLabel = [Tools creatUILabelWithText:@"Lection Length" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:courseLengthLabel withRadius:12.5f andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyBackgroundColor]];
+		courseLengthLabel = [Tools creatUILabelWithText:@"Lection Length" andTextColor:[Tools themeColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:courseLengthLabel];
 		[courseLengthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.size.mas_equalTo(CGSizeMake(140, 25));
+			make.right.equalTo(self).offset(-20);
+			make.centerY.equalTo(tipsTitleLabel);
 		}];
 		
-		serviceDescLabel = [Tools creatUILabelWithText:@"Service Description" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		serviceDescLabel.numberOfLines = 0;
-		[self addSubview:serviceDescLabel];
-		[serviceDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(65);
-			make.left.equalTo(self).offset(15);
-			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self).offset(-30);
+		olock_icon = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"lessondetails_icon_time")];
+		[self addSubview:olock_icon];
+		[olock_icon mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(courseLengthLabel.mas_left).offset(-3);
+			make.centerY.equalTo(courseLengthLabel);
+			make.size.mas_equalTo(CGSizeMake(12, 12));
+		}];
+		
+		descTextView = [[UITextView alloc] init];
+		[self addSubview:descTextView];
+		descTextView.textColor= [Tools blackColor];
+		descTextView.font = [UIFont systemFontOfSize:15.f];
+		descTextView.editable = NO;
+		descTextView.scrollEnabled = NO;
+		descTextView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
+		[descTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.left.equalTo(self).offset(20);
+			make.right.equalTo(self).offset(-20);
+			make.bottom.equalTo(self).offset(-60);
+//			make.height.mas_equalTo(60);
+		}];
+		
+		showhideBtn = [[UIButton alloc] init];
+		[showhideBtn setImage:IMGRESOURCE(@"details_icon_arrow_down") forState:UIControlStateNormal];
+		[self addSubview:showhideBtn];
+		[showhideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(descTextView.mas_bottom).offset(15);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(26, 26));
 		}];
 		
 		CGFloat margin = 0;
@@ -143,35 +174,34 @@
 	service_info = (NSDictionary*)args;
 	
 	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
-	serviceDescLabel.text = descStr;
+	if (descStr) {
+		
+		NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
+		descTextView.attributedText = descAttri;
+	}
 	
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	switch (service_cat.intValue) {
 	case ServiceTypeCourse:
 	{
-		tipsTitleLabel.text = @"课程描述";
-		NSNumber *course_length = [service_info objectForKey:kAYServiceArgsCourseduration];
-		courseLengthLabel.text = [NSString stringWithFormat:@"课程时长%@分钟", course_length];
 		
+		NSNumber *course_length = [service_info objectForKey:kAYServiceArgsCourseduration];
+		NSString *lengthStr = [NSString stringWithFormat:@"%@分钟", course_length];
+		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:lengthStr];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]} range:NSMakeRange(0, lengthStr.length - 2)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(lengthStr.length - 2, 2)];
+		courseLengthLabel.attributedText = attributedText;
 	}
 		break;
 	case ServiceTypeNursery:
 	{
-		tipsTitleLabel.text = @"服务描述";
-		courseLengthLabel.hidden = YES;
-		[serviceDescLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.left.equalTo(self).offset(15);
-			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self).offset(-30);
-		}];
+		olock_icon.hidden = courseLengthLabel.hidden = YES;
 	}
 		break;
 			
   default:
 			break;
 	}
-	
 	
 	return nil;
 }

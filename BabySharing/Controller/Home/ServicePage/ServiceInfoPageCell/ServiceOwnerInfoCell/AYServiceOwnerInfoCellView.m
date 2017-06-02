@@ -93,6 +93,14 @@
 			make.centerY.equalTo(phoneNoSign);
 		}];
 		
+		UIImageView *arrow_right = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"details_icon_arrow_right")];
+		[self addSubview:arrow_right];
+		[arrow_right mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(self);
+			make.right.equalTo(self).offset(-20);
+			make.size.mas_equalTo(CGSizeMake(8, 14));
+		}];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

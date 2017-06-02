@@ -10,4 +10,7 @@
 
 @interface AYPlayItemsView : UIView
 - (instancetype)initWithTitle:(NSString*)title andIconName:(NSString*)iconName;
+
+- (void)setEnableStatusWith:(BOOL)isEnable;
+
 @end

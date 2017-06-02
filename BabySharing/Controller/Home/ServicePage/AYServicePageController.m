@@ -20,8 +20,9 @@
 
 #define kLIMITEDSHOWNAVBAR  (-70.5)
 #define kFlexibleHeight     250
-#define btmViewHeight       70
-#define bookBtnTitleNormal  @"查看可预约时间"
+#define btmViewHeight       56
+#define chatBtnWidth				90
+#define bookBtnTitleNormal  @"查看可预订时间"
 #define bookBtnTitleSeted  @"申请预订"
 
 //#define CarouseNumb			
@@ -43,8 +44,8 @@
 	CGFloat HeadViewHeight;
 	/****/
 	
-//	UIButton *bookBtn;
-	UILabel *bookBtn;
+	UIButton *bookBtn;
+//	UILabel *bookBtn;
 	
 	NSMutableArray *offer_date_mutable;
 }
@@ -244,27 +245,32 @@
         [self.view bringSubviewToFront:bottom_view];
 		
 //		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1) andColor:[Tools garyLineColor] inSuperView:bottom_view];
-		[Tools creatCALayerWithFrame:CGRectMake(90, 0, 0.5, btmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+		[Tools creatCALayerWithFrame:CGRectMake(chatBtnWidth, 0, 0.5, btmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
 		
 		UIButton *chatBtn = [[UIButton alloc]init];
 		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
 		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
 		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.f];
 		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(29, -27, 0, 0)];
+//		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(29, -27, 0, 0)];
 		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 23, 0, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		[chatBtn.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(chatBtn);
+			make.bottom.equalTo(chatBtn).offset(-5);
+		}];
+//		chatBtn.imageView
 		[bottom_view addSubview:chatBtn];
 		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(bottom_view);
 			make.top.equalTo(bottom_view);
-			make.size.mas_equalTo(CGSizeMake(90, 80));
+			make.size.mas_equalTo(CGSizeMake(chatBtnWidth, btmViewHeight));
 		}];
 		
 		UILabel *priceLabel = [Tools creatUILabelWithText:@"服务价格" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[bottom_view addSubview:priceLabel];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(bottom_view).offset(115);
+			make.left.equalTo(chatBtn.mas_right).offset(chatBtnWidth);
 			make.bottom.equalTo(bottom_view.mas_centerY).offset(0);
 		}];
 		
@@ -305,25 +311,28 @@
 		
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-//        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
+        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
 //		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
 //		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-//        [bookBtn addTarget:self action:@selector(didBookBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//		bookBtn.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"details_button_checktime")];
+		UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
+		bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
+        [bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
-		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
-		bookBtn.userInteractionEnabled = YES;
-		[bookBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didBookBtnClick:)]];
+//		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+//		bookBtn.userInteractionEnabled = YES;
+//		[bookBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didBookBtnClick)]];
+		
         [bottom_view addSubview:bookBtn];
 		[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(bottom_view);
-			make.left.equalTo(bottom_view).offset(215);
-			make.right.equalTo(bottom_view).offset(-20);
-			make.height.equalTo(@44);
+			make.right.equalTo(bottom_view);
+			make.size.mas_equalTo(CGSizeMake(152, btmViewHeight));
 		}];
 		
 		if (SCREEN_WIDTH < 375) {
-			bookBtn.font = [UIFont systemFontOfSize:13.f];
+			bookBtn.titleLabel.font = [UIFont systemFontOfSize:13.f];
 			[bookBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.centerY.equalTo(bottom_view);
 				make.left.equalTo(bottom_view).offset(205);
@@ -513,7 +522,7 @@
     [cmd performWithResult:&dic];
 }
 
-- (void)didBookBtnClick:(UITapGestureRecognizer*)tap {
+- (void)didBookBtnClick {
 	[self showServiceOfferDate];
 }
 

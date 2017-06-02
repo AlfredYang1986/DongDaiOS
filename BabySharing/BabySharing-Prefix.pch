@@ -81,7 +81,7 @@ typedef enum : int {
     ModeExchangeTypeNapToCommon = 4,
 } ModeExchangeType;
 
-#define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏"]
+#define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
 
 #define kAY_service_options_title_nursery        @[@"日间看顾", @"课后看顾"]
 #define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学"]
