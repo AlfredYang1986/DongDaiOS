@@ -51,12 +51,12 @@
         [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
             make.top.equalTo(self).offset(15);
-			make.bottom.equalTo(self).offset(-15);
+			make.bottom.equalTo(self).offset(-25);
             make.size.mas_equalTo(CGSizeMake(64, 64));
         }];
-        userPhoto.userInteractionEnabled = YES;
-        [userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
-        
+//        userPhoto.userInteractionEnabled = YES;
+//        [userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
+		
         userName = [Tools creatUILabelWithText:@"Name" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:userName];
         [userName mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -100,6 +100,31 @@
 			make.right.equalTo(self).offset(-20);
 			make.size.mas_equalTo(CGSizeMake(8, 14));
 		}];
+		
+		UIView *bottom_view = [[UIView alloc] init];
+		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		[self addSubview:bottom_view];
+		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.bottom.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+		}];
+		
+		UIView *shadow_view = [[UIView alloc]init];
+		shadow_view.backgroundColor = [Tools whiteColor];
+		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
+		shadow_view.layer.shadowOpacity = 0.15f;
+		shadow_view.layer.shadowRadius = 2.f;
+		[self addSubview:shadow_view];
+		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self).offset(-10);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+		}];
+		
+		[self sendSubviewToBack:shadow_view];
+		[self sendSubviewToBack:bottom_view];
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

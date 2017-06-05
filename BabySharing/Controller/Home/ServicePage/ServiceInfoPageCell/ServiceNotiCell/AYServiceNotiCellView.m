@@ -17,7 +17,11 @@
 
 @implementation AYServiceNotiCellView {
 	UILabel *tipsTitleLabel;
+	
+	UIView *allowSignView;
 	UILabel *allowLabel;
+	
+	UIView *otherSignView;
 	UILabel *otherWordLabel;
 }
 
@@ -30,9 +34,6 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		CGFloat margin = 0;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-		
 		tipsTitleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools garyColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -40,20 +41,37 @@
 			make.top.equalTo(self).offset(30);
 		}];
 		
-		allowLabel = [Tools creatUILabelWithText:@"·  Is Allow leave" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		allowSignView = [[UIView alloc] init];
+		[Tools setViewBorder:allowSignView withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		[self addSubview:allowSignView];
+		[allowSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(tipsTitleLabel);
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(40);
+			make.size.mas_equalTo(CGSizeMake(4, 4));
+		}];
+		allowLabel = [Tools creatUILabelWithText:@"Is Allow leave" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:allowLabel];
 		[allowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.left.equalTo(allowSignView.mas_right).offset(10);
+			make.centerY.equalTo(allowSignView);
 		}];
 		
-		otherWordLabel = [Tools creatUILabelWithText:@"·  Other Words" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		otherSignView = [[UIView alloc] init];
+		[Tools setViewBorder:otherSignView withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		[self addSubview:otherSignView];
+		[otherSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(allowSignView);
+			make.top.equalTo(allowSignView.mas_bottom).offset(25);
+			make.size.equalTo(allowSignView);
+		}];
+		
+		otherWordLabel = [Tools creatUILabelWithText:@"Other Words" andTextColor:[Tools blackColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		otherWordLabel.numberOfLines = 0;
 		[self addSubview:otherWordLabel];
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
 			make.right.equalTo(self).offset(-15);
-			make.top.equalTo(allowLabel.mas_bottom).offset(12);
+			make.centerY.equalTo(otherSignView);
 			make.bottom.equalTo(self).offset(-20);
 		}];
 //		otherWordLabel.hidden = YES;
@@ -126,30 +144,30 @@
 	
 	NSDictionary *service_info = args;
 	
-	NSString *leaveStr = @"·  不需要家长陪同";
+	NSString *leaveStr = @"不需要家长陪同";
 	NSNumber *isAllow = [service_info objectForKey:kAYServiceArgsAllowLeave];
 	if (isAllow.boolValue) {
-		leaveStr = @"·  需要家长陪同";
+		leaveStr = @"需要家长陪同";
 	}
 	allowLabel.text = leaveStr;
 	
 	NSString *otherWords = [service_info objectForKey:kAYServiceArgsNotice];
 	if (!otherWords || [otherWords isEqualToString:@""]) {
 		[allowLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(15);
 			make.right.equalTo(self).offset(-15);
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.left.equalTo(allowSignView.mas_right).offset(10);
+			make.centerY.equalTo(allowSignView);
 			make.bottom.equalTo(self).offset(-30);
 		}];
 		
-		otherWordLabel.hidden = YES;
+		otherSignView.hidden = otherWordLabel.hidden = YES;
 	} else {
 		
-		NSString *noticeStr = [NSString stringWithFormat:@"·  %@", otherWords];
-		if ([noticeStr containsString:@"\n"]) {
-			noticeStr = [noticeStr stringByReplacingOccurrencesOfString:@"\n" withString:@"\n·  "];
-		}
-		otherWordLabel.text = noticeStr;
+//		NSString *noticeStr = [NSString stringWithFormat:@"·  %@", otherWords];
+//		if ([noticeStr containsString:@"\n"]) {
+//			noticeStr = [noticeStr stringByReplacingOccurrencesOfString:@"\n" withString:@"\n·  "];
+//		}
+		otherWordLabel.text = otherWords;
 	}
 	
 	return nil;

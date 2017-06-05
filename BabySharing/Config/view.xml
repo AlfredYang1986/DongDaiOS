@@ -516,6 +516,7 @@
 	</view>
 	<view type="ServiceDescCell" name="ServiceDescCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="showHideDescDetail:" />
 	</view>
     <view type="ServiceMapCell" name="ServiceMapCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />

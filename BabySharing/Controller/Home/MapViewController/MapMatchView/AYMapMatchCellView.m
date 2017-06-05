@@ -20,14 +20,12 @@
 
 @implementation AYMapMatchCellView {
 	
-	UIImageView *photoIcon;
+	UIImageView *userPhoto;
 	UILabel *titleLabel;
 	UILabel *priceLabel;
-//	UITableView *servTableView;
 	
 	UIImageView *coverImage;
-	UILabel *timeLine00;
-	UILabel *moreTips;
+	UILabel *descLabel;
 	
 }
 
@@ -75,28 +73,33 @@
 
 - (void)initialize {
 	
-	UIImageView *bgView= [[UIImageView alloc]init];
-	UIImage *bgImg = IMGRESOURCE(@"map_match_bg");
-	bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(50, 100, 10, 10) resizingMode:UIImageResizingModeStretch];
-	bgView.image = bgImg;
+//	UIImageView *bgView= [[UIImageView alloc]init];
+//	UIImage *bgImg = IMGRESOURCE(@"map_match_bg");
+//	bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(50, 100, 10, 10) resizingMode:UIImageResizingModeStretch];
+//	bgView.image = bgImg;
+//	[self addSubview:bgView];
+//	[bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 10, 0, 10));
+//	}];
+	
+	UIView *bgView = [UIView new];
+	bgView.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.95f];
+	[Tools setViewBorder:bgView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:bgView];
 	[bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 10, 0, 10));
+		make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 20, 0, 20));
 	}];
 	
-	photoIcon = [[UIImageView alloc]init];
-	photoIcon.image = IMGRESOURCE(@"default_user");
-	photoIcon.contentMode = UIViewContentModeScaleAspectFill;
-	photoIcon.layer.cornerRadius = 22.5;
-	photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
-	photoIcon.layer.borderWidth = 2.f;
-	photoIcon.clipsToBounds = YES;
-	photoIcon.layer.rasterizationScale = [UIScreen mainScreen].scale;
-	[self addSubview:photoIcon];
-	[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self).offset(47.5);
-		make.top.equalTo(self).offset(10);
-		make.size.mas_equalTo(CGSizeMake(45, 45));
+	CGFloat photowidth = 30.f;
+	userPhoto = [[UIImageView alloc]init];
+	userPhoto.image = IMGRESOURCE(@"default_user");
+	userPhoto.contentMode = UIViewContentModeScaleAspectFill;
+	[Tools setViewBorder:userPhoto withRadius:photowidth*0.5 andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
+	[self addSubview:userPhoto];
+	[userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(bgView).offset(10);
+		make.top.equalTo(bgView).offset(10);
+		make.size.mas_equalTo(CGSizeMake(photowidth, photowidth));
 	}];
 //	photoIcon.userInteractionEnabled = YES;
 //	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
@@ -104,57 +107,39 @@
 	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools blackColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self).offset(35);
-		make.top.equalTo(photoIcon.mas_bottom).offset(20);
-	}];
-	
-	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:priceLabel];
-	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(titleLabel);
-		make.top.equalTo(titleLabel.mas_bottom).offset(5);
-	}];
-	
-	timeLine00 = [Tools creatUILabelWithText:@"最近可预订时间" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:timeLine00];
-	[timeLine00 mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(titleLabel);
-		make.top.equalTo(priceLabel.mas_bottom).offset(15);
-	}];
-	
-	moreTips = [Tools creatUILabelWithText:@"更多时间" andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:moreTips];
-	[moreTips mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(timeLine00);
-		make.top.equalTo(timeLine00.mas_bottom).offset(10);
+		make.left.equalTo(userPhoto.mas_right).offset(6);
+		make.centerY.equalTo(userPhoto);
+		make.right.equalTo(bgView).offset(-15);
 	}];
 	
 	coverImage = [[UIImageView alloc]init];
 	coverImage.image = IMGRESOURCE(@"theme_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	coverImage.clipsToBounds = YES;
+	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(moreTips);
-		make.right.equalTo(self).offset(-35);
-		make.size.mas_equalTo(CGSizeMake(92, 62));
+		make.top.equalTo(userPhoto.mas_bottom).offset(20);
+		make.left.equalTo(userPhoto);
+		make.size.mas_equalTo(CGSizeMake(125, 89));
 	}];
 	
-//	servTableView = [[UITableView alloc]init];
-//	servTableView.delegate = self;
-//	servTableView.dataSource = self;
-//	servTableView.showsVerticalScrollIndicator = NO;
-//	servTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//	[self addSubview:servTableView];
-//	[servTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.centerX.equalTo(self);
-//		make.top.equalTo(titleLabel.mas_bottom).offset(15);
-//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 70, 160));
-//	}];
-//	
-//	[servTableView registerClass:NSClassFromString(@"AYPServsCellView") forCellReuseIdentifier:@"AYPServsCellView"];
+	descLabel = [Tools creatUILabelWithText:@"Service description" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	descLabel.numberOfLines = 3;
+	[self addSubview:descLabel];
+	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(coverImage.mas_right).offset(10);
+		make.right.equalTo(bgView).offset(-15);
+		make.top.equalTo(coverImage);
+	}];
 	
-//	[self setUpReuseCell];
+	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self addSubview:priceLabel];
+	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(bgView).offset(-15);
+		make.bottom.equalTo(coverImage);
+	}];
+	
 }
 
 - (void)layoutSubviews {
@@ -173,7 +158,7 @@
 					  placeholderImage:IMGRESOURCE(@"default_image")];
 	
 	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
-	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
+	[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 					 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
@@ -191,9 +176,12 @@
 		leastTimesOrHours = @1;
 	}
 	
-	NSString *userName = [service_info objectForKey:kAYServiceArgsScreenName];
-	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
-	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
+	
+	NSString *titleStr = [service_info objectForKey:kAYServiceArgsTitle];
+	titleLabel.text = titleStr;
+	
+	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
+	descLabel.text = descStr;
 	
 	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
 	NSString *tmp = [NSString stringWithFormat:@"%@", price];
@@ -201,68 +189,9 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:12.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
-	
-	
-	NSDate *nowDate = [NSDate date];
-	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:nil];
-	NSString *todayDateStr = [formatter stringFromDate:nowDate];
-	NSTimeInterval todayInterval = [formatter dateFromString:todayDateStr].timeIntervalSince1970;
-	
-	NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-	NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-	[calendar setTimeZone: timeZone];
-	
-	NSArray *tms = [service_info objectForKey:kAYServiceArgsTimes];
-	NSString *ableDateStr;
-	for (int i = 0; i < 30; ++i) {		//查找30天之内，30天之后还没有的 应该也不能算最近了
-		NSTimeInterval compInterval = todayInterval + OneDayTimeInterval * i;
-		BOOL isBreak = NO;
-		for (NSDictionary *dic_tm in tms) {
-			NSNumber *pattern = [dic_tm objectForKey:kAYServiceArgsPattern];
-			NSTimeInterval startdate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-			NSTimeInterval enddate = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEndDate]).doubleValue * 0.001;
-			int startHours = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartHours]).intValue;		//startHours==1 用于标记当天时间不可用
-			
-			if (pattern.intValue == TMPatternTypeDaily) {
-				if (compInterval < enddate+OneDayTimeInterval-1 && startHours != 1) { 		//enddate+OneDayTimeInterval-1 :结束那天的最后一秒时间戳
-					ableDateStr = [self ableDateStringWithTM:dic_tm andTimeInterval:compInterval];
-					isBreak = YES;
-					break;
-				}
-			}
-			else if (pattern.intValue == TMPatternTypeWeekly) {
-				NSDateComponents *cellComponents = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:compInterval]];
-				int compWeekday = (int)cellComponents.weekday - 1;
-				NSDateComponents *startComponents = [calendar components:NSCalendarUnitWeekday fromDate:[NSDate dateWithTimeIntervalSince1970:startdate]];
-				int startWeekday = (int)startComponents.weekday - 1;
-				if (compWeekday == startWeekday && (compInterval < enddate+OneDayTimeInterval-1 || enddate == -0.001) && startHours != 1) {
-					ableDateStr = [self ableDateStringWithTM:dic_tm andTimeInterval:compInterval];
-					isBreak = YES;
-					break;
-				}
-			}
-			else if (pattern.intValue == TMPatternTypeOnce) {
-				if ((startdate <= compInterval) && (startdate + OneDayTimeInterval -1 > compInterval) && startHours != 1) {
-					ableDateStr = [self ableDateStringWithTM:dic_tm andTimeInterval:compInterval];
-					isBreak = YES;
-					break;
-				}
-			}
-			else {
-				
-			}
-		} //forin status
-		
-		if (isBreak) {
-			if (ableDateStr) {
-				timeLine00.text = ableDateStr;
-			}
-			break;
-		}
-	}
 	
 }
 

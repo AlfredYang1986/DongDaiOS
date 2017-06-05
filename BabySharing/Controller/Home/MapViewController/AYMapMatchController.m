@@ -20,7 +20,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#define CollectionViewHeight				200
+#define kCollectionViewHeight				164
 
 @implementation AYMapMatchController {
     
@@ -56,7 +56,7 @@
     [super viewDidLoad];
     
     UIButton *closeBtn = [[UIButton alloc]init];
-    [closeBtn setImage:IMGRESOURCE(@"map_cancel") forState:UIControlStateNormal];
+    [closeBtn setImage:IMGRESOURCE(@"map_icon_close") forState:UIControlStateNormal];
     [self.view addSubview:closeBtn];
     [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(25);
@@ -104,15 +104,6 @@
     return nil;
 }
 
-- (id)ShowBoardLayout:(UIView*)view {
-    CGFloat margin = 0.f;
-    view.frame = CGRectMake(margin, SCREEN_HEIGHT - 130, SCREEN_WIDTH - 2* margin, 110);
-    view.backgroundColor = [UIColor clearColor];
-    ((UIScrollView*)view).showsVerticalScrollIndicator = NO;
-    ((UIScrollView*)view).showsHorizontalScrollIndicator = NO;
-    return nil;
-}
-
 - (id)MapViewLayout:(UIView*)view {
     CGFloat margin = 0.f;
     view.frame = CGRectMake(margin, 0, SCREEN_WIDTH - 2* margin, SCREEN_HEIGHT);
@@ -121,7 +112,7 @@
 }
 
 - (id)CollectionLayout:(UIView*)view {
-	view.frame = CGRectMake(0, SCREEN_HEIGHT - CollectionViewHeight + 2, SCREEN_WIDTH, CollectionViewHeight);
+	view.frame = CGRectMake(0, SCREEN_HEIGHT - kCollectionViewHeight - 20, SCREEN_WIDTH, kCollectionViewHeight);
 	view.backgroundColor = [UIColor clearColor];
 	
 	((UICollectionView*)view).pagingEnabled = YES;

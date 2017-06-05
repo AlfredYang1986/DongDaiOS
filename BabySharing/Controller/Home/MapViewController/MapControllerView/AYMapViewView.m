@@ -55,16 +55,11 @@
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    
-}
-
-#pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     
 }
 
+#pragma mark -- commands
 - (NSString*)getViewType {
     return kAYFactoryManagerCatigoryView;
 }
@@ -77,7 +72,7 @@
     return kAYFactoryManagerCatigoryView;
 }
 
--(id)changeResultData:(NSDictionary*)args {
+- (id)changeResultData:(NSDictionary*)args {
     resultAndLoc = args;
     
     if (annoArray.count != 0) {
@@ -92,19 +87,31 @@
     fiteResultData = [resultAndLoc objectForKey:@"result_data"];
     
     for (int i = 0; i < fiteResultData.count; ++i) {
-        NSDictionary *info = fiteResultData[i];
+        NSDictionary *service_info = fiteResultData[i];
         
-        NSDictionary *dic_loc = [info objectForKey:@"location"];
+        NSDictionary *dic_loc = [service_info objectForKey:@"location"];
         NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
         NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
         CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-        
-        AYAnnonation *anno = [[AYAnnonation alloc]init];
-        anno.coordinate = location.coordinate;
-		NSString *annoTitle = [info objectForKey:kAYServiceArgsAddress];
-        anno.title = annoTitle;
-        anno.imageName = @"position_normal";
-        anno.index = i;
+		
+		AYAnnonation *anno = [[AYAnnonation alloc]init];
+		anno.coordinate = location.coordinate;
+		NSString *annoTitle = [service_info objectForKey:kAYServiceArgsAddress];
+		anno.title = annoTitle;
+		anno.index = i;
+		
+		NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsServiceCat];
+		NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsTheme];
+		NSString *pre_map_icon_name;
+		if (serviceCat.intValue == ServiceTypeCourse) {
+			pre_map_icon_name = @"map_icon_nursery";
+		} else if(serviceCat.intValue == ServiceTypeNursery) {
+			pre_map_icon_name = @"map_icon_course";
+		}
+		
+		anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
+		anno.imageName_select = [NSString stringWithFormat:@"%@_%@_select",pre_map_icon_name, cansCat];
+		
         [self addAnnotation:anno];
         [annoArray addObject:anno];
     }
@@ -114,11 +121,11 @@
     currentAnno = [[AYAnnonation alloc]init];
     currentAnno.coordinate = loc.coordinate;
     currentAnno.title = @"定位位置";
-    currentAnno.imageName = @"location_self";
+    currentAnno.imageName_normal = @"location_self";
     currentAnno.index = 9999;
     [self addAnnotation:currentAnno];
 //    [self showAnnotations:@[currentAnno] animated:NO];
-//    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
+    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
     
     [self setCenterCoordinate:loc.coordinate animated:NO];
     
@@ -133,15 +140,15 @@
 #pragma mark -- MKMapViewDelegate
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
-        //默认红色小球
-        static NSString *ID = @"anno";
+		
+        static NSString *ID = @"AYMapAnnotationViewID";
         MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
         if (annotationView == nil) {
             annotationView = [[MAAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];
         }
         //设置属性 指定图片
         AYAnnonation *anno = (AYAnnonation *) annotation;
-        annotationView.image = [UIImage imageNamed:anno.imageName];
+        annotationView.image = [UIImage imageNamed:anno.imageName_normal];
         
         //展示详情界面
         annotationView.canShowCallout = NO;
@@ -153,7 +160,7 @@
 }
 
 #pragma mark -- mapView delegate
-- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {//MKAnnotation
+- (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {		//MKAnnotation
     AYAnnonation *anno = view.annotation;
     if (anno.index == 9999) {
         return;

@@ -18,12 +18,15 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
+#import "AYServiceImagesCell.h"
+
 #define kLIMITEDSHOWNAVBAR  (-70.5)
 #define kFlexibleHeight     250
-#define btmViewHeight       56
-#define chatBtnWidth				90
-#define bookBtnTitleNormal  @"查看可预订时间"
-#define bookBtnTitleSeted  @"申请预订"
+#define kBtmViewHeight       56
+#define kChatBtnWidth				69
+#define kBookBtnWidth			152
+#define kBookBtnTitleNormal  @"查看可预订时间"
+#define kBookBtnTitleSeted  @"申请预订"
 
 //#define CarouseNumb			
 
@@ -33,6 +36,7 @@
     UIButton *shareBtn;
     CGFloat offset_y;
 	BOOL isBlackLeftBtn;
+	BOOL isStatusHide;
 	
     UIButton *bar_like_btn;
     UIView *flexibleView;
@@ -56,6 +60,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		
+		isStatusHide = YES;
 		NSMutableDictionary *tmp_args = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 		id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
@@ -90,12 +95,8 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	
-	UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CarouselCell" forIndexPath:indexPath];
-	cell.backgroundColor = [UIColor clearColor];
-	[cell.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+	AYServiceImagesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYServiceImagesCell" forIndexPath:indexPath];
 	
-	UIImageView *tipView = [[UIImageView alloc]init];
-	tipView.contentMode = UIViewContentModeScaleAspectFill;
 	NSArray *images = [service_info objectForKey:@"images"];
 	if (images.count != 0) {
 		if ([[images firstObject] isKindOfClass:[NSString class]]) {
@@ -103,23 +104,19 @@
 			id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
 			AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
 			NSString *PRE = cmd_load.route;
-			[tipView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [images objectAtIndex:indexPath.row]]] placeholderImage:IMGRESOURCE(@"default_image")];
+			[cell setItemImageWithImageName:[NSString stringWithFormat:@"%@%@", PRE, [images objectAtIndex:indexPath.row]]];
 			
 		} else {
-			
-			tipView.image = [images objectAtIndex:indexPath.row];
+			[cell setItemImageWithImage:[images objectAtIndex:indexPath.row]];
 		}
 		
 	} else
-		tipView.image = IMGRESOURCE(@"default_image");
+		[cell setItemImageWithImage:IMGRESOURCE(@"default_image")];
 	
-	[cell addSubview:tipView];
-	tipView.frame = cell.bounds;
 	return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	
 		return CGSizeMake(SCREEN_WIDTH, HeadViewHeight);
 }
 
@@ -133,6 +130,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools whiteColor];
+//	[self setNeedsStatusBarAppearanceUpdate];
 	
 	HeadViewHeight = 250;
 	
@@ -173,6 +171,10 @@
             make.centerX.equalTo(tableView);
             make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
         }];
+		flexibleView.layer.shadowColor = [Tools garyColor].CGColor;
+		flexibleView.layer.shadowOffset = CGSizeMake(0, 3.f);
+		flexibleView.layer.shadowOpacity = 0.45f;
+		flexibleView.layer.shadowRadius = 3.f;
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 		layout.minimumLineSpacing = 0.f;
@@ -188,6 +190,7 @@
 		CarouselView.showsHorizontalScrollIndicator = NO;
 		CarouselView.showsVerticalScrollIndicator = NO;
 		CarouselView.bounces = NO;
+		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
 		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.edges.equalTo(flexibleView);
@@ -236,7 +239,7 @@
     NSNumber *per_mode = [service_info objectForKey:@"perview_mode"];
     if (!per_mode) {
         
-        UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - btmViewHeight, SCREEN_WIDTH, btmViewHeight)];
+        UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
         bottom_view.backgroundColor = [Tools whiteColor];
 		bottom_view.layer.shadowColor = [Tools garyColor].CGColor;
 		bottom_view.layer.shadowOffset = CGSizeMake(0, -0.5);
@@ -245,40 +248,22 @@
         [self.view bringSubviewToFront:bottom_view];
 		
 //		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1) andColor:[Tools garyLineColor] inSuperView:bottom_view];
-		[Tools creatCALayerWithFrame:CGRectMake(chatBtnWidth, 0, 0.5, btmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+		[Tools creatCALayerWithFrame:CGRectMake(kChatBtnWidth, 0, 0.5, kBtmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
 		
 		UIButton *chatBtn = [[UIButton alloc]init];
 		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
 		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
-		chatBtn.titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:12.f];
+		chatBtn.titleLabel.font = [UIFont systemFontOfSize:11.f];
 		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-//		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(29, -27, 0, 0)];
-		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-25, 23, 0, 0)];
+		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-17, 0, 0, -24)];
+		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, -31, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-		[chatBtn.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(chatBtn);
-			make.bottom.equalTo(chatBtn).offset(-5);
-		}];
 //		chatBtn.imageView
 		[bottom_view addSubview:chatBtn];
 		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(bottom_view);
 			make.top.equalTo(bottom_view);
-			make.size.mas_equalTo(CGSizeMake(chatBtnWidth, btmViewHeight));
-		}];
-		
-		UILabel *priceLabel = [Tools creatUILabelWithText:@"服务价格" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[bottom_view addSubview:priceLabel];
-		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(chatBtn.mas_right).offset(chatBtnWidth);
-			make.bottom.equalTo(bottom_view.mas_centerY).offset(0);
-		}];
-		
-		UILabel *capacityLabel = [Tools creatUILabelWithText:@"服务最少预定" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[bottom_view addSubview:capacityLabel];
-		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(bottom_view.mas_centerY).offset(4);
-			make.left.equalTo(priceLabel);
+			make.size.mas_equalTo(CGSizeMake(kChatBtnWidth, kBtmViewHeight));
 		}];
 		
 		NSString *unitCat;
@@ -305,13 +290,27 @@
 		NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
 		
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:17.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-		[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
-		priceLabel.attributedText = attributedText;
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 		
+		UILabel *priceLabel = [Tools creatUILabelWithText:@"Price 0f Serv" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[bottom_view addSubview:priceLabel];
+		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
+			make.bottom.equalTo(bottom_view.mas_centerY).offset(0);
+		}];
+		
+		UILabel *capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[bottom_view addSubview:capacityLabel];
+		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(bottom_view.mas_centerY).offset(4);
+			make.left.equalTo(priceLabel);
+		}];
+		
+		priceLabel.attributedText = attributedText;
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-        bookBtn = [Tools creatUIButtonWithTitle:bookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
+        bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
 //		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
 //		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 //		bookBtn.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"details_button_checktime")];
@@ -328,18 +327,18 @@
 		[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(bottom_view);
 			make.right.equalTo(bottom_view);
-			make.size.mas_equalTo(CGSizeMake(152, btmViewHeight));
+			make.size.mas_equalTo(CGSizeMake(kBookBtnWidth, kBtmViewHeight));
 		}];
 		
-		if (SCREEN_WIDTH < 375) {
-			bookBtn.titleLabel.font = [UIFont systemFontOfSize:13.f];
-			[bookBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-				make.centerY.equalTo(bottom_view);
-				make.left.equalTo(bottom_view).offset(205);
-				make.right.equalTo(bottom_view).offset(-15);
-				make.height.equalTo(@44);
-			}];
-		}
+//		if (SCREEN_WIDTH < 375) {
+//			bookBtn.titleLabel.font = [UIFont systemFontOfSize:13.f];
+//			[bookBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
+//				make.centerY.equalTo(bottom_view);
+//				make.left.equalTo(bottom_view).offset(205);
+//				make.right.equalTo(bottom_view).offset(-15);
+//				make.height.equalTo(@44);
+//			}];
+//		}
 		
     }
     else {
@@ -356,9 +355,6 @@
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	
-//    NSString *title = @"服务详情";
-//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
     UIImage* left = IMGRESOURCE(@"bar_left_white");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -384,7 +380,7 @@
     
     AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
     BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : btmViewHeight));
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : kBtmViewHeight));
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     ((UITableView*)view).estimatedRowHeight = 300;
@@ -411,23 +407,33 @@
 
 -(id)scrollOffsetY:(NSNumber*)y {
     offset_y = y.floatValue;
-//    [self setNeedsStatusBarAppearanceUpdate];
 	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
 	
-    if (offset_y <= -kStatusAndNavBarH && offset_y >= -kStatusAndNavBarH*2) { //偏移的绝对值 小于 abs(-64)
+    if (offset_y <= -kStatusAndNavBarH && offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
 		
-		CGFloat alp = (kStatusAndNavBarH*2 + offset_y)/(kStatusAndNavBarH);
+		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH) * 0.8;
 //		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
 		if (alp > 0.5 && !isBlackLeftBtn) {
 			UIImage* left = IMGRESOURCE(@"bar_left_black");
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 			isBlackLeftBtn = YES;
+			
+			NSString *titleStr = @"服务详情";
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+			isStatusHide = NO;
+			[self setNeedsStatusBarAppearanceUpdate];
+			
 		} else if (alp <  0.5 && isBlackLeftBtn) {
 			UIImage* left = IMGRESOURCE(@"bar_left_white");
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 			isBlackLeftBtn = NO;
+			NSString *titleStr = @"";
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+			
+			isStatusHide = YES;
+			[self setNeedsStatusBarAppearanceUpdate];
 		}
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
@@ -435,9 +441,10 @@
 	} else if (offset_y < - kStatusAndNavBarH * 2) {
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
 	} else {
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.8f];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	}
+	
 	
     CGFloat offsetH = kFlexibleHeight + offset_y;
     if (offsetH < 0) {
@@ -504,11 +511,14 @@
     return nil;
 }
 
-- (id)showMoreOrHideDescription:(NSNumber*)args {
+- (id)showHideDescDetail:(NSNumber*)args {
+	
 	UITableView *table = [self.views objectForKey:@"Table"];
-    [table beginUpdates];
 	kAYDelegatesSendMessage(@"ServicePage", @"TransfromExpend:", &args)
-    [table endUpdates];
+	[table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:3 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+	
+//	[table beginUpdates];
+//	[table endUpdates];
     return nil;
 }
 
@@ -591,6 +601,14 @@
         }];
     }
 }
+
+- (BOOL)prefersStatusBarHidden {
+	return isStatusHide;
+}
+
+//- (BOOL)prefersStatusBarHidden{
+//	return YES;
+//}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleDefault;

@@ -17,9 +17,9 @@
 
 //大标题
 @property (nonatomic, copy) NSString *title;
-
 @property (nonatomic, copy) NSString *subtitle;
-@property (nonatomic, strong) NSString *icon;
-@property (nonatomic, strong) NSString *imageName;
+
+@property (nonatomic, strong) NSString *imageName_normal;
+@property (nonatomic, strong) NSString *imageName_select;
 @property (nonatomic, assign) long index;
 @end

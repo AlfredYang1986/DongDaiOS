@@ -97,7 +97,7 @@
 	anno.coordinate = tp_location.coordinate;
 	NSString *annoTitle = [tpLoc objectForKey:kAYServiceArgsAddress];
 	anno.title = annoTitle;
-	anno.imageName = @"position_focus";
+	anno.imageName_normal = @"position_focus";
 	[self addAnnotation:anno];
 	[annoArray addObject:anno];
 	[self setCenterCoordinate:tp_location.coordinate animated:NO];
@@ -133,7 +133,7 @@
 		}
 		//设置属性 指定图片
 		AYAnnonation *anno = (AYAnnonation *) annotation;
-		annotationView.image = [UIImage imageNamed:anno.imageName];
+		annotationView.image = [UIImage imageNamed:anno.imageName_normal];
 		
 		//展示详情界面
 		annotationView.canShowCallout = NO;

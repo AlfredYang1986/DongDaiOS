@@ -46,93 +46,33 @@
             make.top.equalTo(self).offset(16);
             make.left.equalTo(themeLabel.mas_right).offset(6);
 			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self).offset(-14);
+			make.bottom.equalTo(self).offset(-25);
         }];
 		
-//		ownerNameLabel = [Tools creatUILabelWithText:@"Provider Name" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-//		[self addSubview:ownerNameLabel];
-//		[ownerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(titleLabel);
-//			make.top.equalTo(themeLabel.mas_bottom).offset(5);
-//			make.right.equalTo(self).offset(-80);
-//		}];
+		UIView *bottom_view = [[UIView alloc] init];
+		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		[self addSubview:bottom_view];
+		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.bottom.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+		}];
 		
-//		ownerPhoto = [[UIImageView alloc]init];
-//		ownerPhoto.image = IMGRESOURCE(@"default_user");
-//		ownerPhoto.contentMode = UIViewContentModeScaleAspectFill;
-//		[Tools setViewBorder:ownerPhoto withRadius:22.5f andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
-//		[self addSubview:ownerPhoto];
-//		[ownerPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.right.equalTo(self).offset(-20);
-//			make.top.equalTo(titleLabel.mas_bottom).offset(10);
-//			make.size.mas_equalTo(CGSizeMake(45, 45));
-//		}];
-//		ownerPhoto.userInteractionEnabled = YES;
-//		[ownerPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
-//		
-//		UIView *sepLine = [[UIView alloc]init];
-//		sepLine.backgroundColor = [Tools garyLineColor];
-//		[self addSubview:sepLine];
-//		[sepLine mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.centerX.equalTo(self);
-//			make.top.equalTo(ownerPhoto.mas_bottom).offset(25);
-//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 0.5));
-//		}];
-//		
-////        capacity_icon
-//        UIImageView *signCapacity = [[UIImageView alloc]init];
-//        signCapacity.image = IMGRESOURCE(@"service_page_capacity");
-//        [self addSubview:signCapacity];
-//        [signCapacity mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.top.equalTo(ownerPhoto.mas_bottom).offset(45);
-//            make.centerX.equalTo(self);
-//            make.bottom.equalTo(self).offset(-45);
-//            make.size.mas_equalTo(CGSizeMake(27, 27));
-//        }];
-//        
-//        capacityLabel = [Tools creatUILabelWithText:@"0 Children" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//        [self addSubview:capacityLabel];
-//        [capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(signCapacity);
-//            make.top.equalTo(signCapacity.mas_bottom).offset(10);
-//        }];
-//        
-//        //        age_boundary_icon
-//        UIImageView *signBabyAges = [[UIImageView alloc]init];
-//        signBabyAges.image = IMGRESOURCE(@"service_page_age_boundary");
-//        [self addSubview:signBabyAges];
-//        [signBabyAges mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(signCapacity).offset(-SCREEN_WIDTH * 0.3f);
-//            make.centerY.equalTo(signCapacity);
-//            make.size.equalTo(signCapacity);
-//        }];
-//        
-//        filtBabyArgsLabel = [Tools creatUILabelWithText:@"0-0 years old" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//        [self addSubview:filtBabyArgsLabel];
-//        [filtBabyArgsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(signBabyAges);
-//            make.centerY.equalTo(capacityLabel);
-//        }];
-//        
-//        //        allow_leave_icon
-//        servantSign = [[UIImageView alloc]init];
-//        servantSign.image = IMGRESOURCE(@"service_page_servant");
-//        [self addSubview:servantSign];
-//        [servantSign mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(signCapacity).offset(SCREEN_WIDTH * 0.3f);
-//            make.centerY.equalTo(signCapacity);
-//            make.size.equalTo(signCapacity);
-//        }];
-//        
-//        servantLabel = [Tools creatUILabelWithText:@"Numb of servant" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//        [self addSubview:servantLabel];
-//        [servantLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(servantSign);
-//            make.centerY.equalTo(capacityLabel);
-//        }];
+		UIView *shadow_view = [[UIView alloc]init];
+		shadow_view.backgroundColor = [Tools whiteColor];
+		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
+		shadow_view.layer.shadowOpacity = 0.15f;
+		shadow_view.layer.shadowRadius = 2.f;
+		[self addSubview:shadow_view];
+		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self).offset(-10);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+		}];
 		
-//        CGFloat margin = 0;
-//		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyColor] inSuperView:self];
+		[self sendSubviewToBack:shadow_view];
+		[self sendSubviewToBack:bottom_view];
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

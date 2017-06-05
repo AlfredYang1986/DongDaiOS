@@ -152,7 +152,7 @@
     currentAnno = [[AYAnnonation alloc]init];
     currentAnno.coordinate = loc.coordinate;
     currentAnno.title = @"定位位置";
-    currentAnno.imageName = @"location_self";
+    currentAnno.imageName_normal = @"location_self";
     currentAnno.index = 9999;
     [orderMapView addAnnotation:currentAnno];
     [orderMapView showAnnotations:@[currentAnno] animated:NO];
@@ -174,7 +174,7 @@
         }
         //设置属性 指定图片
         AYAnnonation *anno = (AYAnnonation *) annotation;
-        annotationView.image = [UIImage imageNamed:anno.imageName];
+        annotationView.image = [UIImage imageNamed:anno.imageName_normal];
         annotationView.tag = anno.index;
         //展示详情界面
         annotationView.canShowCallout = NO;

@@ -22,12 +22,13 @@
 	
 	UIImageView *olock_icon;
 	UILabel *courseLengthLabel;
-//	UILabel *serviceDescLabel;
 	UITextView *descTextView;
 	UIButton *showhideBtn;
 	
 	NSDictionary *dic_attr;
 	NSDictionary *service_info;
+	
+	BOOL isExpend;
 }
 
 @synthesize para = _para;
@@ -76,25 +77,17 @@
 		descTextView.editable = NO;
 		descTextView.scrollEnabled = NO;
 		descTextView.textContainerInset = UIEdgeInsetsMake(0, 0, 0, 0);
-		[descTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.left.equalTo(self).offset(20);
-			make.right.equalTo(self).offset(-20);
-			make.bottom.equalTo(self).offset(-60);
-//			make.height.mas_equalTo(60);
-		}];
 		
 		showhideBtn = [[UIButton alloc] init];
 		[showhideBtn setImage:IMGRESOURCE(@"details_icon_arrow_down") forState:UIControlStateNormal];
+		[showhideBtn setImage:IMGRESOURCE(@"details_icon_arrow_down") forState:UIControlStateSelected];
 		[self addSubview:showhideBtn];
 		[showhideBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(descTextView.mas_bottom).offset(15);
 			make.centerX.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(26, 26));
 		}];
-		
-		CGFloat margin = 0;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		[showhideBtn addTarget:self action:@selector(didShowhideBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -155,6 +148,21 @@
 }
 
 #pragma mark -- actions
+- (void)didShowhideBtnClick {
+	
+//	showhideBtn.selected = !showhideBtn.selected;
+//	if (showhideBtn.selected) {
+//	} else {
+//		showhideBtn.transform = CGAffineTransformMakeRotation(0 *M_PI / 180.0);
+//	}
+	static NSInteger ro = 1;
+	showhideBtn.transform = CGAffineTransformMakeRotation(ro * 180 *M_PI / 180.0);
+	ro ++;
+	NSNumber *tmp = [NSNumber numberWithBool:showhideBtn.selected];
+	kAYViewSendNotify(self, @"showHideDescDetail:", &tmp);
+	
+}
+
 - (void)didOwnerPhotoClick {
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
 	
@@ -201,6 +209,40 @@
 			
   default:
 			break;
+	}
+	
+	CGSize maxSize = CGSizeMake(SCREEN_WIDTH - 40, CGFLOAT_MAX);
+	CGSize newSize = [descTextView sizeThatFits:maxSize];
+	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
+	
+	if (newSize.height < 130) {
+		showhideBtn.hidden = YES;
+		[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+			make.left.equalTo(self).offset(20);
+			make.right.equalTo(self).offset(-20);
+			make.bottom.equalTo(self).offset(-30);
+		}];
+	} else {
+		showhideBtn.hidden = NO;
+		if (expend_args.boolValue) {
+			[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+				make.left.equalTo(self).offset(20);
+				make.right.equalTo(self).offset(-20);
+				make.bottom.equalTo(self).offset(-60);
+			}];
+//			[self layoutIfNeeded];
+		} else {
+			[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
+				make.left.equalTo(self).offset(20);
+				make.right.equalTo(self).offset(-20);
+				make.bottom.equalTo(self).offset(-60);
+				make.height.mas_equalTo(130);
+			}];
+//			[self layoutIfNeeded];
+		}
 	}
 	
 	return nil;

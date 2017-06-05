@@ -67,7 +67,8 @@
 }
 
 - (id)TransfromExpend:(NSNumber*)args {
-    isExpend = YES;
+//    isExpend = args.boolValue;
+	isExpend = !isExpend;
     expendHeight = args.floatValue;
     return nil;
 }
@@ -83,6 +84,12 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
 	id tmp = [querydata copy];
+	if (indexPath.row == 3) {
+		NSMutableDictionary *dic_desc = [querydata mutableCopy];
+		[dic_desc setValue:[NSNumber numberWithBool:isExpend] forKey:@"is_expend"];
+		tmp = [dic_desc copy];
+	}
+	
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -127,7 +134,23 @@
 //}
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+	if (indexPath.row == 1) {
+		return YES;
+	} else
+		return NO;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
+	
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	[dic_push setValue:[querydata objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -139,61 +162,6 @@
 }
 
 #pragma mark -- actions
--(void)didShowMoreClick:(UIButton*)btn{
-    id<AYCommand> des = DEFAULTCONTROLLER(@"ContentList");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
-    [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    //    [dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd_show_module = SHOWMODULEUP;
-    [cmd_show_module performWithResult:&dic];
-}
 
-//更多项目展示
-- (void)didMoreOptionsBtnClick:(UIButton*)btn {
-    if (btn.tag == 110) {   //cans
-        id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapCost");
-        
-        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        
-            NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-            [dic_info setValue:[querydata objectForKey:@"cans"] forKey:@"option_pow"];
-            [dic_info setValue:[NSString stringWithFormat:@"%@",[querydata objectForKey:@"price"]] forKey:@"cost"];
-            [dic_info setValue:@"自填项" forKey:@"option_custom"];
-            [dic_info setValue:[NSNumber numberWithBool:YES] forKey:@"show"];
-        
-        [dic_push setValue:dic_info forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
-    }else {                 //facility
-        
-        id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
-        
-        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        
-            NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-            [dic_info setValue:[querydata objectForKey:@"facility"] forKey:@"option_pow"];
-            [dic_info setValue:@"自填项" forKey:@"option_custom"];
-            [dic_info setValue:[NSNumber numberWithBool:YES] forKey:@"show"];
-        
-        [dic_push setValue:dic_info forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
-    }
-}
-
--(void)didXFriendImage:(UIGestureRecognizer*)tap {
-    [[[UIAlertView alloc]initWithTitle:@"提示" message:@"共同好友" delegate:nil cancelButtonTitle:@"确认" otherButtonTitles:nil, nil] show];
-}
 
 @end

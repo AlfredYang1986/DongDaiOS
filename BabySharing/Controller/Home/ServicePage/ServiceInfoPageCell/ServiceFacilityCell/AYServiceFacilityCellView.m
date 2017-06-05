@@ -30,13 +30,12 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
-		
 		UILabel *titleLabel = [Tools creatUILabelWithText:@"友好性设施" andTextColor:[Tools garyColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
 			make.top.equalTo(self).offset(30);
-			make.bottom.equalTo(self).offset(-240);
+			make.bottom.equalTo(self).offset(-250);
 		}];
 		
 		CGFloat margin = 20.f;
@@ -58,6 +57,31 @@
 			
 			[facilityArr addObject:facilityItem];
 		}
+		
+		UIView *bottom_view = [[UIView alloc] init];
+		bottom_view.backgroundColor = [Tools garyBackgroundColor];
+		[self addSubview:bottom_view];
+		[bottom_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self);
+			make.bottom.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+		}];
+		
+		UIView *shadow_view = [[UIView alloc]init];
+		shadow_view.backgroundColor = [Tools whiteColor];
+		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
+		shadow_view.layer.shadowOpacity = 0.15f;
+		shadow_view.layer.shadowRadius = 2.f;
+		[self addSubview:shadow_view];
+		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self).offset(-10);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 10));
+		}];
+		
+		[self sendSubviewToBack:shadow_view];
+		[self sendSubviewToBack:bottom_view];
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -120,48 +144,19 @@
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
-    
-//    for (UIView *sub in self.subviews) {
-//        if ([sub isKindOfClass:[AYPlayItemsView class]]) {
-//            [sub removeFromSuperview];
-//        }
-//    }
-//    
-//    NSNumber *facility = (NSNumber*)args;
-//    NSArray *options_title_facility = kAY_service_options_title_facilities;
-//    
-//    long options = facility.longValue;
-//    CGFloat offsetX = 15;
-//    int noteCount = 0;
-//    int limitNumb =0;
-//    if (SCREEN_WIDTH < 375) {
-//        limitNumb = 3;
-//    } else
-//        limitNumb = 4;
-//    
-//    for (int i = 0; i < options_title_facility.count; ++i) {
-//        
-//        long note_pow = pow(2, i);
-//        if ((options & note_pow)) {
-//            
-//            if (noteCount < limitNumb) {
-//                
-//                NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-//                AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
-//                [self addSubview:item];
-//                [item mas_makeConstraints:^(MASConstraintMaker *make) {
-//                    make.left.mas_equalTo(self).offset(offsetX);
-//                    make.centerY.equalTo(self);
-//                    make.size.mas_equalTo(CGSizeMake(50, 55));
-//                }];
-//                offsetX += 80;
-//            }
-//            
-//            noteCount ++;
-//        }
-//    }
-//    
-//    [facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
+	NSDictionary *service_info = args;
+	
+    NSNumber *facility = [service_info objectForKey:kAYServiceArgsFacility];
+	long options = facility.longValue;
+
+	NSArray *options_title_facility = kAY_service_options_title_facilities;		//仅用于取数组数量
+    for (int i = 0; i < options_title_facility.count; ++i) {
+        long note_pow = pow(2, i);
+		AYPlayItemsView *item = [facilityArr objectAtIndex:i];
+		[item setEnableStatusWith:options & note_pow];
+			
+    }
+	
     return nil;
 }
 
