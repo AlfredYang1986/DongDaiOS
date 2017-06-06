@@ -95,9 +95,10 @@
 	
 	NSNumber *index = [dic objectForKey:@"index"];
 	NSNumber *cellWidth = [dic objectForKey:@"unit_width"];
+	NSNumber *anima = [dic objectForKey:@"animated"];
 	
 //	[self setContentOffset:CGPointMake(index.intValue * cellWidth.floatValue, 0)];
-	[self setContentOffset:CGPointMake(index.intValue * cellWidth.floatValue, 0) animated:YES];
+	[self setContentOffset:CGPointMake(index.intValue * cellWidth.floatValue, 0) animated:anima.boolValue];
 	return nil;
 }
 

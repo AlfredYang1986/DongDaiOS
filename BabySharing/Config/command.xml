@@ -14,7 +14,8 @@
     <command type="ExchangeWindows" name="ExchangeWindows" factory="AYControllerExchangFactory" />
     <command type="PushFromBot" name="PushFromBot" factory="AYControllerExchangFactory" />
     <command type="PopFromBot" name="PopFromBot" factory="AYControllerExchangFactory" />
-
+	<command type="HomePush" name="HomePush" factory="AYControllerExchangFactory" />
+	
     <command type="Module" name="LoginSNSWithQQ" factory="AYDefaultModuleFactory" />
     <command type="Module" name="LoginSNSWithWechat" factory="AYDefaultModuleFactory" />
     <command type="Module" name="IsInstalledWechat" factory="AYDefaultModuleFactory" />

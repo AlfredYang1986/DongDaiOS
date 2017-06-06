@@ -10,13 +10,14 @@
 #import "AYCommandDefines.h"
 #import <MapKit/MapKit.h>
 #import "AYAnnonation.h"
+//#import "MAUserLocationView7.h"
 
 @interface AYMapViewView () <MKMapViewDelegate>
 @property (nonatomic,strong)CLLocationManager *manager;
 @end
 
 @implementation AYMapViewView{
-    MAAnnotationView *tmp;
+    MAAnnotationView *annoViewHandle;
     NSArray *arrayWithLoc;
     AYAnnonation *currentAnno;
     NSMutableArray *annoArray;
@@ -33,9 +34,10 @@
 
 #pragma mark -- life cycle
 - (void)postPerform {
+	
     self.delegate = self;
-    [self setZoomLevel:120.1];
-//    self.zoomLevel = 0.5;
+//    [self setZoomLevel:100.1];
+	[self setZoomLevel:60.1 animated:YES];
     annoArray = [[NSMutableArray alloc]init];
     
 //    self.userTrackingMode = MKUserTrackingModeFollow;
@@ -89,10 +91,10 @@
     for (int i = 0; i < fiteResultData.count; ++i) {
         NSDictionary *service_info = fiteResultData[i];
         
-        NSDictionary *dic_loc = [service_info objectForKey:@"location"];
-        NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-        NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+		NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsLocation];
+		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
+		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
+        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 		
 		AYAnnonation *anno = [[AYAnnonation alloc]init];
 		anno.coordinate = location.coordinate;
@@ -104,9 +106,9 @@
 		NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsTheme];
 		NSString *pre_map_icon_name;
 		if (serviceCat.intValue == ServiceTypeCourse) {
-			pre_map_icon_name = @"map_icon_nursery";
-		} else if(serviceCat.intValue == ServiceTypeNursery) {
 			pre_map_icon_name = @"map_icon_course";
+		} else if(serviceCat.intValue == ServiceTypeNursery) {
+			pre_map_icon_name = @"map_icon_nursery";
 		}
 		
 		anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
@@ -118,17 +120,17 @@
     
     //rang
     //    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
-    currentAnno = [[AYAnnonation alloc]init];
-    currentAnno.coordinate = loc.coordinate;
-    currentAnno.title = @"定位位置";
-    currentAnno.imageName_normal = @"location_self";
-    currentAnno.index = 9999;
-    [self addAnnotation:currentAnno];
-//    [self showAnnotations:@[currentAnno] animated:NO];
-    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-    
+//    currentAnno = [[AYAnnonation alloc]init];
+//    currentAnno.coordinate = loc.coordinate;
+//    currentAnno.title = @"定位位置";
+//    currentAnno.imageName_normal = @"location_self";
+//    currentAnno.index = 9999;
+//    [self addAnnotation:currentAnno];
+//    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
     [self setCenterCoordinate:loc.coordinate animated:NO];
-    
+	
+	self.showsUserLocation = YES;
+	
     return nil;
 }
 
@@ -161,58 +163,76 @@
 
 #pragma mark -- mapView delegate
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {		//MKAnnotation
+	
+//	if ([view isKindOfClass:[MAUserLocationView7 class]]) {
+//		return;
+//	}
+	
     AYAnnonation *anno = view.annotation;
-    if (anno.index == 9999) {
-        return;
+	if ([anno isKindOfClass:[MAUserLocation class]]) {
+		return;
+	}
+	
+//    if (anno.index == 9999) {
+//        return;
+//    }
+	
+    if (annoViewHandle) {		//判断当前 是否已经有高亮的item
+		if ( annoViewHandle != view) {		// 判断是否点击了已经是高亮的item
+			annoViewHandle.image = nil;
+			annoViewHandle.image = [UIImage imageNamed:anno.imageName_normal];
+		}
+		else
+			return;
     }
-    
-    if (tmp && tmp == view) {
-        return;
-    }
-    if (tmp && tmp != view) {
-        tmp.image = nil;
-        tmp.image = [UIImage imageNamed:@"position_normal"];
-    }
+	
     view.image = nil;
-    view.image = [UIImage imageNamed:@"position_focus"];
-    tmp = view;
-    [self setCenterCoordinate:anno.coordinate animated:YES];
-    
+    view.image = [UIImage imageNamed:anno.imageName_select];
+	[self setCenterCoordinate:anno.coordinate animated:YES];
+	
+    annoViewHandle = view;
+	
     id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
     NSNumber *index = [NSNumber numberWithFloat:(anno.index)];
     [cmd performWithResult:&index];
     
 }
 
--(id)changeAnnoView:(NSNumber*)index {
+- (id)changeAnnoView:(NSNumber*)index {
     
     if (index.longValue >= fiteResultData.count) {
         return nil;
     }
-    
-    NSDictionary *info = fiteResultData[index.longValue];
-    
-    NSDictionary *dic_loc = [info objectForKey:@"location"];
-    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-    NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
-    CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
-    [self setCenterCoordinate:location.coordinate animated:YES];
-    
+	
     for ( AYAnnonation *one in annoArray) {
         if (one.index == index.longValue) {
             
             MAAnnotationView *change_view = [self viewForAnnotation:one];
-            if (tmp && tmp == change_view) {
-                return nil;
-            }
-            if (tmp && tmp != change_view) {
-                tmp.image = nil;
-                tmp.image = [UIImage imageNamed:@"position_normal"];
-            }
-            change_view.image = nil;
-            change_view.image = [UIImage imageNamed:@"position_focus"];
-            tmp = change_view;
-            break;
+			
+			if (annoViewHandle) {		//判断当前 是否已经有高亮的item
+				if ( annoViewHandle != change_view) {		// 判断是否点击了已经是高亮的item
+					annoViewHandle.image = nil;
+					annoViewHandle.image = [UIImage imageNamed:one.imageName_normal];
+				}
+				else
+					break;
+			}
+			
+			NSDictionary *service_info = fiteResultData[index.longValue];
+			NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsLocation];
+			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
+			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
+			if (latitude && longitude) {
+				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+				change_view.image = nil;
+				change_view.image = [UIImage imageNamed:one.imageName_select];
+				
+				[self setCenterCoordinate:location.coordinate animated:YES];
+			}
+			
+			annoViewHandle = change_view;		//交接
+			
+			break;
         }
     }
     

@@ -37,6 +37,7 @@
     CGFloat offset_y;
 	BOOL isBlackLeftBtn;
 	BOOL isStatusHide;
+	NSNumber *cellMinY;
 	
     UIButton *bar_like_btn;
     UIView *flexibleView;
@@ -61,7 +62,15 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		
 		isStatusHide = YES;
-		NSMutableDictionary *tmp_args = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+		
+		NSMutableDictionary *tmp_args;
+		cellMinY = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"cell_min_y"];
+		if (cellMinY) {
+			tmp_args = [[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"service_info"] mutableCopy];
+		} else {
+			tmp_args = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+		}
+			
 		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 		id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
 		id args = [tmp_args objectForKey:@"tms"];
@@ -84,7 +93,6 @@
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         offer_date_mutable = [dic objectForKey:kAYControllerChangeArgsKey];
-//		bookBtn.text = bookBtnTitleSeted;
     }
 }
 
@@ -166,11 +174,19 @@
         UITableView *tableView = (UITableView*)view_table;
         flexibleView = [[UIView alloc]init];
         [tableView addSubview:flexibleView];
-        [flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(tableView).offset(-kFlexibleHeight);
-            make.centerX.equalTo(tableView);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
-        }];
+		
+		if (cellMinY) {
+			flexibleView.clipsToBounds = YES;
+			flexibleView.frame = CGRectMake(20, -kFlexibleHeight + cellMinY.floatValue, SCREEN_WIDTH - 40, kFlexibleHeight);
+			//		flexibleView.transform = CGAffineTransformMakeScale((SCREEN_WIDTH - 40)/SCREEN_WIDTH, 1.f);
+		}else {
+			[flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.top.equalTo(tableView).offset(-kFlexibleHeight);
+				make.centerX.equalTo(tableView);
+				make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight));
+			}];
+		}
+		
 		flexibleView.layer.shadowColor = [Tools garyColor].CGColor;
 		flexibleView.layer.shadowOffset = CGSizeMake(0, 3.f);
 		flexibleView.layer.shadowOpacity = 0.45f;
@@ -193,7 +209,9 @@
 		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
 		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(flexibleView);
+			make.center.equalTo(flexibleView);
+			make.width.mas_equalTo(SCREEN_WIDTH);
+			make.height.equalTo(flexibleView);
 		}];
 		
 		pageControl = [[UIPageControl alloc]init];
@@ -238,7 +256,6 @@
 	/***************************************/
     NSNumber *per_mode = [service_info objectForKey:@"perview_mode"];
     if (!per_mode) {
-        
         UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
         bottom_view.backgroundColor = [Tools whiteColor];
 		bottom_view.layer.shadowColor = [Tools garyColor].CGColor;
@@ -247,7 +264,6 @@
         [self.view addSubview:bottom_view];
         [self.view bringSubviewToFront:bottom_view];
 		
-//		[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1) andColor:[Tools garyLineColor] inSuperView:bottom_view];
 		[Tools creatCALayerWithFrame:CGRectMake(kChatBtnWidth, 0, 0.5, kBtmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
 		
 		UIButton *chatBtn = [[UIButton alloc]init];
@@ -258,7 +274,6 @@
 		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-17, 0, 0, -24)];
 		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, -31, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//		chatBtn.imageView
 		[bottom_view addSubview:chatBtn];
 		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(bottom_view);
@@ -272,14 +287,10 @@
 		if (service_cat.intValue == ServiceTypeNursery) {
 			unitCat = @"小时";
 			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
-			
-		}
-		else if (service_cat.intValue == ServiceTypeCourse) {
+		}else if (service_cat.intValue == ServiceTypeCourse) {
 			unitCat = @"次";
 			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
-			
 		} else {
-			
 			NSLog(@"---null---");
 			unitCat = @"单价";
 			leastTimesOrHours = @1;
@@ -311,17 +322,9 @@
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
         bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
-//		bookBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-//		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-//		bookBtn.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"details_button_checktime")];
 		UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
 		bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
         [bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
-//		bookBtn = [Tools creatUILabelWithText:bookBtnTitleNormal andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//		[Tools setViewBorder:bookBtn withRadius:2.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
-//		bookBtn.userInteractionEnabled = YES;
-//		[bookBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didBookBtnClick)]];
 		
         [bottom_view addSubview:bookBtn];
 		[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -329,22 +332,26 @@
 			make.right.equalTo(bottom_view);
 			make.size.mas_equalTo(CGSizeMake(kBookBtnWidth, kBtmViewHeight));
 		}];
-		
-//		if (SCREEN_WIDTH < 375) {
-//			bookBtn.titleLabel.font = [UIFont systemFontOfSize:13.f];
-//			[bookBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-//				make.centerY.equalTo(bottom_view);
-//				make.left.equalTo(bottom_view).offset(205);
-//				make.right.equalTo(bottom_view).offset(-15);
-//				make.height.equalTo(@44);
-//			}];
-//		}
-		
     }
     else {
         bar_like_btn.hidden = YES;
     }
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	if (cellMinY) {
+		[UIView animateWithDuration:0.25 animations:^{
+			flexibleView.frame = CGRectMake(0, -kFlexibleHeight, SCREEN_WIDTH, kFlexibleHeight);
+		}completion:^(BOOL finished) {
+			flexibleView.clipsToBounds = NO;
+		}];
+	}
 }
 
 #pragma mark -- layouts

@@ -25,7 +25,7 @@
 //		self.backgroundColor = [Tools randomColor];
 		
 		coverImage = [[UIImageView alloc]init];
-		coverImage.image = IMGRESOURCE(@"theme_image");
+		coverImage.image = IMGRESOURCE(@"default_image");
 		[self addSubview:coverImage];
 		[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);

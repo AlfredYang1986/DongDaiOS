@@ -16,6 +16,18 @@
 #import "AYFacadeBase.h"
 #import "AYControllerActionDefines.h"
 
+#import "AYRemoteCallCommand.h"
+#import "AYModelFacade.h"
+#import "AYViewController.h"
+
+static NSString* const isGettingCertData = @"正在获取信息";
+
+static NSString* const VerifiedRealName = @"实名认证";
+static NSString* const hasNoRealName = @"实名待认证";
+
+static NSString* const VerifiedPhoneNo = @"手机号码验证";
+static NSString* const hasNoPhoneNo = @"手机号码待验证";
+
 @implementation AYServiceOwnerInfoCellView {
 	
     UIImageView *userPhoto;
@@ -65,30 +77,30 @@
 			make.right.equalTo(self).offset(-40);
         }];
 		
-		realNameSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"checked_icon")];
+		realNameSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:realNameSign];
 		[realNameSign mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(userName);
 			make.top.equalTo(userName.mas_bottom).offset(8);
 			make.size.mas_equalTo(CGSizeMake(11, 11));
 		}];
-        realNameLabel = [Tools creatUILabelWithText:@"RealName Info" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:realNameLabel];
 		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(realNameSign.mas_right).offset(4);
 			make.centerY.equalTo(realNameSign);
         }];
 		
-		phoneNoSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"checked_icon")];
+		phoneNoSign = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"remind_time")];
 		[self addSubview:phoneNoSign];
 		[phoneNoSign mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(realNameLabel.mas_right).offset(16);
 			make.centerY.equalTo(realNameSign);
 			make.size.mas_equalTo(CGSizeMake(11, 11));
 		}];
-		realNameLabel = [Tools creatUILabelWithText:@"PhoneNo Info" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:realNameLabel];
-		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:phoneNoLabel];
+		[phoneNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(phoneNoSign.mas_right).offset(4);
 			make.centerY.equalTo(phoneNoSign);
 		}];
@@ -226,6 +238,41 @@
 		NSString *screen_photo = [service_info objectForKey:@"screen_photo"];
 		[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
+	}
+	
+	
+	if ([realNameLabel.text isEqualToString:isGettingCertData] && [phoneNoLabel.text isEqualToString:isGettingCertData]) {
+		
+		id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Home");
+		id<AYFacadeBase> remote = [controller.facades objectForKey:@"ProfileRemote"];
+		AYRemoteCallCommand* cmd_query_user = [remote.commands objectForKey:@"QueryUserProfile"];
+		
+		NSDictionary* user = nil;
+		CURRENUSER(user);
+		NSMutableDictionary* dic = [user mutableCopy];
+		[dic setValue:[service_info objectForKey:kAYCommArgsOwnerID] forKey:@"owner_user_id"];
+		
+		[cmd_query_user performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+			if (success) {
+				
+				NSNumber *is_real_name_cert = [result objectForKey:@"is_real_name_cert"];
+				NSNumber *has_phone = [result objectForKey:@"has_phone"];
+				
+				if (is_real_name_cert.boolValue) {
+					realNameLabel.text = VerifiedRealName;
+					realNameSign.image = IMGRESOURCE(@"checked_icon");
+				} else {
+					realNameLabel.text = hasNoRealName;
+				}
+				
+				if (has_phone.boolValue) {
+					phoneNoLabel.text = VerifiedPhoneNo;
+					phoneNoSign.image = IMGRESOURCE(@"checked_icon");
+				} else
+					phoneNoLabel.text = hasNoPhoneNo;
+				
+			}
+		}];
 	}
 	
     return nil;

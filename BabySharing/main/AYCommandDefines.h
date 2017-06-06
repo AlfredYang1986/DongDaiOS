@@ -29,6 +29,7 @@ static NSString* const kAYFactoryManagerCatigoryModel = @"Model";
 
 static NSString* const kAYFactoryManagerCommandTypeInit = @"Init";
 static NSString* const kAYFactoryManagerCommandTypePush = @"Push";
+static NSString* const kAYFactoryManagerCommandTypeHomePush = @"HomePush";
 static NSString* const kAYFactoryManagerCommandTypePushSplit = @"PushSplitAnimation";
 static NSString* const kAYFactoryManagerCommandTypePopSplit = @"PopSplitAnimation";
 static NSString* const kAYFactoryManagerCommandTypePop = @"Pop";
@@ -55,6 +56,7 @@ static NSString* const kAYFactoryManagerCommandTypePopFromBot = @"PopFromBot";
 #define MODULE(NAME)            COMMAND(kAYFactoryManagerCommandTypeModule, NAME)
 #define REMOTE(NAME)            COMMAND(kAYFactoryManagerCommandTypeRemote, NAME)
 #define PUSH                    COMMAND(kAYFactoryManagerCommandTypePush, kAYFactoryManagerCommandTypePush)
+#define HOMEPUSH			COMMAND(kAYFactoryManagerCommandTypeHomePush, kAYFactoryManagerCommandTypeHomePush)
 #define PUSHFROMBOT             COMMAND(kAYFactoryManagerCommandTypePushFromBot, kAYFactoryManagerCommandTypePushFromBot)
 #define POPFROMBOT              COMMAND(kAYFactoryManagerCommandTypePopFromBot, kAYFactoryManagerCommandTypePopFromBot)
 #define POP                     COMMAND(kAYFactoryManagerCommandTypePop, kAYFactoryManagerCommandTypePop)

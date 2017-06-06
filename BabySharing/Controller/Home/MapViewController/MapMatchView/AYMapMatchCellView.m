@@ -113,7 +113,7 @@
 	}];
 	
 	coverImage = [[UIImageView alloc]init];
-	coverImage.image = IMGRESOURCE(@"theme_image");
+	coverImage.image = IMGRESOURCE(@"default_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	coverImage.clipsToBounds = YES;
 	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];

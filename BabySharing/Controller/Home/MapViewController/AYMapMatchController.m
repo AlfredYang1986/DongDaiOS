@@ -151,15 +151,25 @@
 }
 
 - (id)sendChangeOffsetMessage:(NSNumber*)index {
-    id<AYViewBase> view = [self.views objectForKey:@"Collection"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"scrollToPostion:"];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:index forKey:@"index"];
-	[tmp setValue:[NSNumber numberWithInt:SCREEN_WIDTH] forKey:@"unit_width"];
+    UICollectionView *view_collection = [self.views objectForKey:@"Collection"];
+	CGRect frame_org = view_collection.frame;
 	
-    [cmd performWithResult:&tmp];
-    
+	[UIView animateWithDuration:0.25 animations:^{
+		view_collection.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kCollectionViewHeight);
+	} completion:^(BOOL finished) {
+		
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+		[tmp setValue:index forKey:@"index"];
+		[tmp setValue:[NSNumber numberWithInt:SCREEN_WIDTH] forKey:@"unit_width"];
+		[tmp setValue:[NSNumber numberWithBool:NO] forKey:@"animated"];
+		kAYViewsSendMessage(kAYCollectionView, @"scrollToPostion:", &tmp)
+		
+		[UIView animateWithDuration:0.15 animations:^{
+			view_collection.frame = frame_org;
+		}];
+	}];
+	
     return nil;
 }
 

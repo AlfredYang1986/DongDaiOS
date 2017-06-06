@@ -145,7 +145,7 @@
     NSString *title = @"看护妈妈";
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     
-    UIImage* left = IMGRESOURCE(@"bar_left_black");
+    UIImage* left = IMGRESOURCE(@"content_close");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
     UIImage *right = IMGRESOURCE(@"tips_off_black");
@@ -159,10 +159,10 @@
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+    [dic setValue:kAYControllerActionReversModuleValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    id<AYCommand> cmd = POP;
+    id<AYCommand> cmd = REVERSMODULE;
     [cmd performWithResult:&dic];
     return nil;
 }

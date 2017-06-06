@@ -27,6 +27,8 @@ typedef void(^queryContentFinish)(void);
 #define BACK_TO_TOP_TIME    3.0
 #define SHADOW_WIDTH 4
 #define TableContentInsetTop     120
+#define kFilterCollectionViewHeight 			90
+#define kDongDaSegHeight				44
 // 减速度
 #define DECELERATION 400.0
 
@@ -193,7 +195,7 @@ typedef void(^queryContentFinish)(void);
 	layout.minimumInteritemSpacing = 20.f;
 	layout.minimumLineSpacing = 25.f;
 	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-	filterCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90) collectionViewLayout:layout];
+	filterCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 108.f - kFilterCollectionViewHeight, SCREEN_WIDTH, kFilterCollectionViewHeight) collectionViewLayout:layout];
 	filterCollectionView.backgroundColor = [UIColor whiteColor];
 	filterCollectionView.showsHorizontalScrollIndicator = NO;
 	[self.view addSubview:filterCollectionView];
@@ -326,7 +328,7 @@ typedef void(^queryContentFinish)(void);
 #import "AYDongDaSegDefines.h"
 - (id)DongDaSegLayout:(UIView*)view {
 	
-	view.frame = CGRectMake(0, 0, 180, 44);		//重新加入了self.view 的子view   0,0,w,h
+	view.frame = CGRectMake(0, 0, 180, kDongDaSegHeight);		//重新加入了self.view 的子view   0,0,w,h
 	
 	id<AYViewBase> seg = (id<AYViewBase>)view;
 	id<AYCommand> cmd_add_item = [seg.commands objectForKey:@"addItem:"];
@@ -360,7 +362,7 @@ typedef void(^queryContentFinish)(void);
 
 - (id)CollectionVerLayout:(UIView*)view {
 	CGFloat topMargin = 108.f;
-	view.frame = CGRectMake(0, topMargin, SCREEN_WIDTH, 90);
+	view.frame = CGRectMake(0, topMargin, SCREEN_WIDTH, kFilterCollectionViewHeight);
 //	view.backgroundColor = [UIColor colorWithWhite:1.f alpha:0.75f];
 	view.backgroundColor = [UIColor whiteColor];
 	return nil;
@@ -521,6 +523,28 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- notifies
+- (id)didSelectedRow:(NSMutableDictionary*)args {
+	
+	UITableViewCell *cell = [args objectForKey:@"cell"];
+	
+	CGFloat cellImageMinY = (SCREEN_HEIGHT - 64 - 44 - 49 - cell.bounds.size.height) *0.5 + 64 + 44 - 10;
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	[args setValue:[NSNumber numberWithFloat:cellImageMinY] forKey:@"cell_min_y"];
+	
+	[dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+
+	id<AYCommand> cmd_show_module = HOMEPUSH;
+	[cmd_show_module performWithResult:&dic];
+	
+	return nil;
+}
+
 - (id)leftBtnSelected {
 	
 	return nil;

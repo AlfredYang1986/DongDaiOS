@@ -131,28 +131,38 @@
     if (indexPath.row == 0) {
 		return 140 + 28;
     } else {
-		return 352;
+		return 336;
     }
 }
-
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {
 		return;
 	}
 	
-	NSDictionary *tmp = [servicesData objectAtIndex:indexPath.row - 1];
+	[tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		
+		NSDictionary *service_info = [servicesData objectAtIndex:indexPath.row - 1];
+//
+//		id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+//		NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//		[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//		[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//		[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+//		[dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+//		
+//		id<AYCommand> cmd_show_module = PUSH;
+//		[cmd_show_module performWithResult:&dic];
+		
+		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		[tmp setValue:cell forKey:@"cell"];
+		[tmp setValue:service_info forKey:@"service_info"];
+		kAYDelegateSendNotify(self, @"didSelectedRow:", &tmp)
+		
+	});
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	[dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd_show_module = PUSH;
-	[cmd_show_module performWithResult:&dic];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {

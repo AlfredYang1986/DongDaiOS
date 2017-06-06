@@ -255,9 +255,10 @@
     </controller>
 
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
-        <facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+        <facade type="DefaultFacade" name="KidNapRemote" />
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
-       
+       <facade type="DefaultFacade" name="ProfileRemote" />
+	   
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar" name="FakeNavBar" />
 		<view type="DongDaSeg" name="DongDaSeg" />

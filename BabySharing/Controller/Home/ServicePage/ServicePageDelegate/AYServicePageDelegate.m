@@ -144,12 +144,12 @@
 	id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
 	
 	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
 	[dic_push setValue:[querydata objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd = PUSH;
+	id<AYCommand> cmd = SHOWMODULEUP;
 	[cmd performWithResult:&dic_push];
 }
 
