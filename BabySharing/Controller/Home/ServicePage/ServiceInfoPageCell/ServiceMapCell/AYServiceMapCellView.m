@@ -62,7 +62,7 @@
 		tapview.userInteractionEnabled = YES;
 		[tapview addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
 		
-		addressLabel = [Tools creatUILabelWithText:@"Service address info" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		addressLabel = [Tools creatUILabelWithText:@"Service address info" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		addressLabel.numberOfLines = 2;
 		[self addSubview:addressLabel];
 		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {

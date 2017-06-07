@@ -30,7 +30,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"友好性设施" andTextColor:[Tools garyColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"友好性设施" andTextColor:[Tools lightGaryColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -70,9 +70,9 @@
 		UIView *shadow_view = [[UIView alloc]init];
 		shadow_view.backgroundColor = [Tools whiteColor];
 		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
-		shadow_view.layer.shadowOpacity = 0.15f;
-		shadow_view.layer.shadowRadius = 2.f;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
+		shadow_view.layer.shadowOpacity = 0.05f;
+		shadow_view.layer.shadowRadius =1.f;
 		[self addSubview:shadow_view];
 		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self).offset(-10);

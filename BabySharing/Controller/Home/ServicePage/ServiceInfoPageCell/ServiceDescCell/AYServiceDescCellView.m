@@ -46,9 +46,9 @@
 		paraStyle.lineBreakMode = NSLineBreakByCharWrapping;
 		paraStyle.alignment = NSTextAlignmentLeft;
 		paraStyle.lineSpacing = 8.f;
-		dic_attr = @{NSKernAttributeName:@1, NSParagraphStyleAttributeName:paraStyle, NSForegroundColorAttributeName:[Tools blackColor], NSFontAttributeName:[UIFont systemFontOfSize:15.f]};
+		dic_attr = @{NSParagraphStyleAttributeName:paraStyle, NSForegroundColorAttributeName:[Tools blackColor], NSFontAttributeName:[UIFont systemFontOfSize:15.f]};
 		
-		tipsTitleLabel = [Tools creatUILabelWithText:@"服务介绍" andTextColor:[Tools garyColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipsTitleLabel = [Tools creatUILabelWithText:@"服务介绍" andTextColor:[Tools lightGaryColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:tipsTitleLabel];
 		[tipsTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(20);
@@ -149,15 +149,15 @@
 
 #pragma mark -- actions
 - (void)didShowhideBtnClick {
-	
-//	showhideBtn.selected = !showhideBtn.selected;
-//	if (showhideBtn.selected) {
+
+//	if (isExpend) {
+//		showhideBtn.transform = CGAffineTransformMakeRotation(M_PI);
+////		showhideBtn.transform = CGAffineTransformRotate(showhideBtn.transform, M_PI);
 //	} else {
-//		showhideBtn.transform = CGAffineTransformMakeRotation(0 *M_PI / 180.0);
+//		showhideBtn.transform = CGAffineTransformMakeRotation(0);
+////		showhideBtn.transform = CGAffineTransformRotate(showhideBtn.transform, M_PI);
 //	}
-	static NSInteger ro = 1;
-	showhideBtn.transform = CGAffineTransformMakeRotation(ro * 180 *M_PI / 180.0);
-	ro ++;
+	
 	NSNumber *tmp = [NSNumber numberWithBool:showhideBtn.selected];
 	kAYViewSendNotify(self, @"showHideDescDetail:", &tmp);
 	
@@ -196,7 +196,7 @@
 		NSNumber *course_length = [service_info objectForKey:kAYServiceArgsCourseduration];
 		NSString *lengthStr = [NSString stringWithFormat:@"%@分钟", course_length];
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:lengthStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]} range:NSMakeRange(0, lengthStr.length - 2)];
+		[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f)} range:NSMakeRange(0, lengthStr.length - 2)];
 		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(lengthStr.length - 2, 2)];
 		courseLengthLabel.attributedText = attributedText;
 	}
@@ -214,30 +214,32 @@
 	CGSize maxSize = CGSizeMake(SCREEN_WIDTH - 40, CGFLOAT_MAX);
 	CGSize newSize = [descTextView sizeThatFits:maxSize];
 	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
-	
+	isExpend = expend_args.boolValue;
 	if (newSize.height < 130) {
 		showhideBtn.hidden = YES;
 		[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-			make.left.equalTo(self).offset(20);
-			make.right.equalTo(self).offset(-20);
+			make.left.equalTo(self).offset(16);
+			make.right.equalTo(self).offset(-16);
 			make.bottom.equalTo(self).offset(-30);
 		}];
 	} else {
 		showhideBtn.hidden = NO;
 		if (expend_args.boolValue) {
+			showhideBtn.transform = CGAffineTransformMakeRotation(M_PI);
 			[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-				make.left.equalTo(self).offset(20);
-				make.right.equalTo(self).offset(-20);
+				make.left.equalTo(self).offset(16);
+				make.right.equalTo(self).offset(-16);
 				make.bottom.equalTo(self).offset(-60);
 			}];
 //			[self layoutIfNeeded];
 		} else {
+//			showhideBtn.transform = CGAffineTransformMakeRotation(M_PI);
 			[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(tipsTitleLabel.mas_bottom).offset(20);
-				make.left.equalTo(self).offset(20);
-				make.right.equalTo(self).offset(-20);
+				make.left.equalTo(self).offset(16);
+				make.right.equalTo(self).offset(-16);
 				make.bottom.equalTo(self).offset(-60);
 				make.height.mas_equalTo(130);
 			}];

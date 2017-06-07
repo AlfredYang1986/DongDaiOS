@@ -34,7 +34,7 @@
     self.dayDateLabel.text = gregoiainDay;
     self.dayDateLabel.textColor = [Tools blackColor];
     if (self.isGone) {
-        self.dayDateLabel.textColor = [Tools lightGreyColor];
+        self.dayDateLabel.textColor = [Tools lightGaryColor];
     }
 }
 

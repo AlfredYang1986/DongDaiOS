@@ -87,8 +87,21 @@
 	[Tools setViewBorder:bgView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:bgView];
 	[bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 20, 0, 20));
+		make.edges.equalTo(self).insets(UIEdgeInsetsMake(5, 20, 5, 20));
 	}];
+	
+//	UIView *shadowView = [[UIView alloc] init];
+//	shadowView.backgroundColor = [UIColor whiteColor];
+//	shadowView.layer.cornerRadius = 4.f;
+//	shadowView.layer.shadowColor = [Tools garyColor].CGColor;//shadowColor阴影颜色
+//	shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
+//	shadowView.layer.shadowOpacity = 0.45f;//阴影透明度，默认0
+//	shadowView.layer.shadowRadius = 3;//阴影半径，默认3
+//	[self addSubview:shadowView];
+//	[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.edges.equalTo(bgView);
+//	}];
+//	[self sendSubviewToBack:shadowView];
 	
 	CGFloat photowidth = 30.f;
 	userPhoto = [[UIImageView alloc]init];
@@ -119,7 +132,7 @@
 	[Tools setViewBorder:coverImage withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	[self addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(userPhoto.mas_bottom).offset(20);
+		make.bottom.equalTo(bgView).offset(-10);
 		make.left.equalTo(userPhoto);
 		make.size.mas_equalTo(CGSizeMake(125, 89));
 	}];
@@ -177,11 +190,13 @@
 	}
 	
 	
-	NSString *titleStr = [service_info objectForKey:kAYServiceArgsTitle];
-	titleLabel.text = titleStr;
+	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *adjstAddrStr = [service_info objectForKey:kAYServiceArgsAdjustAddress];
+	titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
 	
-	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
-	descLabel.text = descStr;
+//	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
+	NSString *titleStr = [service_info objectForKey:kAYServiceArgsTitle];
+	descLabel.text = titleStr;
 	
 	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
 	NSString *tmp = [NSString stringWithFormat:@"%@", price];

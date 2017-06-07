@@ -54,13 +54,13 @@ typedef void(^queryContentFinish)(void);
 	NSMutableArray *servicesData;
 	/*************************/
 	
+	UIButton *filterBtn;
 	NSMutableArray *servDataOfCourse;
 	NSMutableArray *servDataOfNursery;
 	int DongDaSegIndex;		// == service_type
-//	NSNumber *courseSubIndex;
-//	NSNumber *nurserySubIndex;
 	NSMutableDictionary *subIndexData;
 	NSArray *titleArr;
+	UIView *maskView;
 	
 	UICollectionView *filterCollectionView;
 	
@@ -72,8 +72,8 @@ typedef void(^queryContentFinish)(void);
 }
 
 
-
 @synthesize manager = _manager;
+
 - (CLLocationManager *)manager{
 	if (!_manager) {
 		_manager = [[CLLocationManager alloc]init];
@@ -167,6 +167,7 @@ typedef void(^queryContentFinish)(void);
 		[subIndexData setValue:index forKey:[NSString stringWithFormat:@"%d", DongDaSegIndex]];
 	
 	[filterCollectionView reloadData];
+	[self didFilterBtnClick:nil];
 	[self loadNewData];
 }
 
@@ -180,7 +181,7 @@ typedef void(^queryContentFinish)(void);
 	servDataOfCourse = [NSMutableArray array];
 	servDataOfNursery = [NSMutableArray array];
 	
-	UIView *filterViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, 44)];
+	UIView *filterViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, kDongDaSegHeight)];
 	filterViewBg.backgroundColor = [Tools whiteColor];
 	filterViewBg.layer.shadowColor = [Tools garyColor].CGColor;
 	filterViewBg.layer.shadowOffset = CGSizeMake(0, 3.5);
@@ -196,7 +197,7 @@ typedef void(^queryContentFinish)(void);
 	layout.minimumLineSpacing = 25.f;
 	layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 	filterCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 108.f - kFilterCollectionViewHeight, SCREEN_WIDTH, kFilterCollectionViewHeight) collectionViewLayout:layout];
-	filterCollectionView.backgroundColor = [UIColor whiteColor];
+	filterCollectionView.backgroundColor = [Tools garyBackgroundColor];
 	filterCollectionView.showsHorizontalScrollIndicator = NO;
 	[self.view addSubview:filterCollectionView];
 	filterCollectionView.delegate =self;
@@ -207,6 +208,14 @@ typedef void(^queryContentFinish)(void);
 	NSString *item_class_name = @"AYFilterCansCellView";
 	[filterCollectionView registerClass:NSClassFromString(item_class_name) forCellWithReuseIdentifier:item_class_name];
 	
+	maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+	maskView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.15f];
+	[self.view addSubview:maskView];
+	maskView.hidden = YES;
+	maskView.userInteractionEnabled = YES;
+	[maskView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMaskViewTap)]];
+	
+	/**********层级调整*******/
 	[self.view bringSubviewToFront:filterCollectionView];
 	UIView *view_status = [self.views objectForKey:@"FakeStatusBar"];
 	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
@@ -214,14 +223,14 @@ typedef void(^queryContentFinish)(void);
 	[self.view bringSubviewToFront:view_nav];
 	[self.view bringSubviewToFront:view_status];
 	
-	UIButton *filterBtn = [[UIButton alloc]init];
+	filterBtn = [[UIButton alloc]init];
 	[filterBtn setImage:IMGRESOURCE(@"home_icon_filter") forState:UIControlStateNormal];
 	[filterBtn setImage:IMGRESOURCE(@"home_icon_filter") forState:UIControlStateSelected];
 	[filterViewBg addSubview:filterBtn];
 	[filterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(filterViewBg);
 		make.centerX.equalTo(filterViewBg.mas_right).offset(-30);
-		make.size.mas_equalTo(CGSizeMake(28, 25));
+		make.size.mas_equalTo(CGSizeMake(60, kDongDaSegHeight));
 	}];
 	filterBtn.selected = NO;
 	[filterBtn addTarget:self action:@selector(didFilterBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -311,7 +320,7 @@ typedef void(^queryContentFinish)(void);
 	[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(view);
 		make.centerX.equalTo(view.mas_right).offset(-30);
-		make.size.mas_equalTo(CGSizeMake(28, 25));
+		make.size.mas_equalTo(CGSizeMake(kDongDaSegHeight, kDongDaSegHeight));
 	}];
 	[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -321,7 +330,7 @@ typedef void(^queryContentFinish)(void);
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
-	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools colorWithRED:242 GREEN:242 BLUE:242 ALPHA:1.f] inSuperView:view];
+	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:view];
 	return nil;
 }
 
@@ -396,17 +405,24 @@ typedef void(^queryContentFinish)(void);
 	
 }
 
+- (void)didMaskViewTap {
+	maskView.hidden = YES;
+	[self didFilterBtnClick:nil];
+}
+
 - (void)didFilterBtnClick:(UIButton*)btn {
 //	UICollectionView *view_collect = [self.views objectForKey:kAYCollectionVerView];
 	
-	btn.selected = !btn.selected;
-	NSLog(@"%d", btn.selected);
-	if (btn.selected) {
+	filterBtn.selected = !filterBtn.selected;
+	NSLog(@"%d", filterBtn.selected);
+	if (filterBtn.selected) {
+		maskView.hidden = NO;
 		[UIView animateWithDuration:0.25 animations:^{
 			filterCollectionView.frame = CGRectMake(0, 108.f, SCREEN_WIDTH, 90);
 		}];
-	} else {
+	} else {		//hide
 		
+		maskView.hidden = YES;
 		[UIView animateWithDuration:0.25 animations:^{
 			filterCollectionView.frame = CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90);
 		}];
@@ -523,11 +539,25 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- notifies
+- (id)scrollToShowTop {
+	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
+	UIView *view_seg = [self.views objectForKey:kAYDongDaSegVerView];
+	
+	return nil;
+}
+
+- (id)scrollToHideTop {
+	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
+	UIView *view_seg = [self.views objectForKey:kAYDongDaSegVerView];
+	
+	return nil;
+}
+
 - (id)didSelectedRow:(NSMutableDictionary*)args {
 	
 	UITableViewCell *cell = [args objectForKey:@"cell"];
 	
-	CGFloat cellImageMinY = (SCREEN_HEIGHT - 64 - 44 - 49 - cell.bounds.size.height) *0.5 + 64 + 44 - 10;
+	CGFloat cellImageMinY = (SCREEN_HEIGHT - 64 - 44 - 49 - cell.bounds.size.height) * 0.5 + 64 + 44 - 10;
 	
 	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -651,11 +681,12 @@ typedef void(^queryContentFinish)(void);
 
 //定位成功 调用代理方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-	
 	loc = [locations firstObject];
 	[manager stopUpdatingLocation];
 	
 }
+
+
 
 
 @end

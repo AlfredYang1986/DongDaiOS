@@ -131,7 +131,7 @@
     if (indexPath.row == 0) {
 		return 140 + 28;
     } else {
-		return 336;
+		return 331;
     }
 }
 
@@ -165,11 +165,21 @@
 	
 }
 
+#pragma mark -- UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    id<AYCommand> cmd = [self.notifies objectForKey:@"scrollOffsetY:"];
-//    CGFloat offset = scrollView.contentOffset.y;
-//    NSNumber *offset_y = [NSNumber numberWithFloat:offset];
-//    [cmd performWithResult:&offset_y];
+	
+	static CGFloat offset_origin_y = 0;
+	CGFloat offset_now_y = scrollView.contentOffset.y;
+	CGFloat offset_t = offset_origin_y - offset_now_y;
+	NSLog(@"%f", offset_t);
+	
+	if (offset_t  > 0.1) {		//下滑往上滚
+		kAYDelegateSendNotify(self, @"scrollToShowTop", nil)
+	}
+	else if(offset_t < - 0.1) {		//上滑往下滚
+		kAYDelegateSendNotify(self, @"scrollToHideTop", nil)
+	}
+	offset_origin_y = offset_now_y;
 }
 
 #pragma mark -- actions

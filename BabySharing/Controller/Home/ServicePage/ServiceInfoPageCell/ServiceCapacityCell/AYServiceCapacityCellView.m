@@ -44,7 +44,7 @@
 			make.top.equalTo(self).offset(58);
 		}];
 		
-		capacityLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:322.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		capacityLabel = [Tools creatUILabelWithText:@"0" andTextColor:[Tools themeColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:capacityLabel];
 		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(capacitySignLabel);
@@ -73,7 +73,7 @@
 			make.centerX.equalTo(capacitySignLabel).offset(SCREEN_WIDTH/3);
 			make.bottom.equalTo(capacitySignLabel);
 		}];
-		servantLabel = [Tools creatUILabelWithText:@"Numb" andTextColor:[Tools themeColor] andFontSize:322.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		servantLabel = [Tools creatUILabelWithText:@"Numb" andTextColor:[Tools themeColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:servantLabel];
 		[servantLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(servantSignLabel);
@@ -92,9 +92,9 @@
 		UIView *shadow_view = [[UIView alloc]init];
 		shadow_view.backgroundColor = [Tools whiteColor];
 		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
-		shadow_view.layer.shadowOpacity = 0.15f;
-		shadow_view.layer.shadowRadius = 2.f;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
+		shadow_view.layer.shadowOpacity = 0.05f;
+		shadow_view.layer.shadowRadius =1.f;
 		[self addSubview:shadow_view];
 		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self).offset(-10);
@@ -173,7 +173,7 @@
 	NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:ages];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:22.f]} range:NSMakeRange(0, ages.length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(22.f)} range:NSMakeRange(0, ages.length - 1)];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(ages.length - 1, 1)];
 	filtBabyArgsLabel.attributedText = attributedText;
 

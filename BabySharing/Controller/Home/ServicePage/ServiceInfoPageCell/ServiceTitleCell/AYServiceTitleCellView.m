@@ -35,19 +35,22 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 		
-		themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools whiteColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UIView *propView = [[UIView alloc] init];
+		[self addSubview:propView];
+		[propView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self);
+			make.bottom.equalTo(self);
+			make.center.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(0.01f, 82.f));
+		}];
+		
+		themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:themeLabel withRadius:8.f andBorderWidth:0.f andBorderColor:nil andBackground:[Tools themeColor]];
 		[self addSubview: themeLabel];
         
-        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:@"Service title is not set" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 2.f;
         [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(16);
-            make.left.equalTo(themeLabel.mas_right).offset(6);
-			make.right.equalTo(self).offset(-15);
-			make.bottom.equalTo(self).offset(-25);
-        }];
 		
 		UIView *bottom_view = [[UIView alloc] init];
 		bottom_view.backgroundColor = [Tools garyBackgroundColor];
@@ -61,9 +64,9 @@
 		UIView *shadow_view = [[UIView alloc]init];
 		shadow_view.backgroundColor = [Tools whiteColor];
 		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
-		shadow_view.layer.shadowOpacity = 0.15f;
-		shadow_view.layer.shadowRadius = 2.f;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
+		shadow_view.layer.shadowOpacity = 0.05f;
+		shadow_view.layer.shadowRadius =1.f;
 		[self addSubview:shadow_view];
 		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self).offset(-10);
@@ -177,10 +180,18 @@
 	
 	themeLabel.text = completeTheme;
 	[themeLabel sizeToFit];
+	CGFloat themeLabelWidth = themeLabel.bounds.size.width + 10;
+	
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(self);
+		make.left.equalTo(self).offset(26 + themeLabelWidth);
+		make.right.equalTo(self).offset(-15);
+	}];
+	
 	[themeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self).offset(20);
-		make.top.equalTo(self).offset(20);
-		make.size.mas_equalTo(CGSizeMake(themeLabel.bounds.size.width + 10, 16));
+		make.top.equalTo(titleLabel).offset(5);
+		make.size.mas_equalTo(CGSizeMake(themeLabelWidth, 16));
 	}];
 	
     NSString *titleStr = [service_info objectForKey:@"title"];

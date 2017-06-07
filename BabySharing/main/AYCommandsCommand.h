@@ -16,7 +16,7 @@ static NSString* const kAYTableView =                       @"Table";
 static NSString* const kAYPickerView =                       @"Picker";
 static NSString* const kAYCollectionView =                       @"Collection";
 static NSString* const kAYCollectionVerView =                       @"CollectionVer";
-
+static NSString* const kAYDongDaSegVerView =                       @"DongDaSeg";
 
 //FakeNavBar
 static NSString* const kAYNavBarSetTitleMessage =               @"setTitleText:";

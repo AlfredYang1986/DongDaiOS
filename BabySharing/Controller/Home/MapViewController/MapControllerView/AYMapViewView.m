@@ -36,12 +36,9 @@
 - (void)postPerform {
 	
     self.delegate = self;
-//    [self setZoomLevel:100.1];
 	[self setZoomLevel:60.1 animated:YES];
     annoArray = [[NSMutableArray alloc]init];
-    
-//    self.userTrackingMode = MKUserTrackingModeFollow;
-//    self.userTrackingMode = MKUserTrackingModeNone;
+	
 //    self.centerCoordinate = self.userLocation.location.coordinate;
 //    self.rotateEnabled = NO;
 	
@@ -52,7 +49,7 @@
 	[showMyself mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(self).offset(-20);
 		make.bottom.equalTo(self).offset(-220);
-		make.size.mas_equalTo(CGSizeMake(37, 37));
+		make.size.mas_equalTo(CGSizeMake(42, 42));
 	}];
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -164,10 +161,6 @@
 #pragma mark -- mapView delegate
 - (void)mapView:(MAMapView *)mapView didSelectAnnotationView:(MAAnnotationView *)view {		//MKAnnotation
 	
-//	if ([view isKindOfClass:[MAUserLocationView7 class]]) {
-//		return;
-//	}
-	
     AYAnnonation *anno = view.annotation;
 	if ([anno isKindOfClass:[MAUserLocation class]]) {
 		return;
@@ -181,8 +174,7 @@
 		if ( annoViewHandle != view) {		// 判断是否点击了已经是高亮的item
 			annoViewHandle.image = nil;
 			annoViewHandle.image = [UIImage imageNamed:anno.imageName_normal];
-		}
-		else
+		} else
 			return;
     }
 	

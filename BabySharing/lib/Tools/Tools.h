@@ -29,16 +29,22 @@
 + (CGSize)sizeWithString:(NSString*)str withFont:(UIFont*)font andMaxSize:(CGSize)sz;
 
 + (UIColor *)randomColor;
-+ (UIColor*)themeColor;
-+ (UIColor*)blackColor;
-+ (UIColor*)whiteColor;
-+ (UIColor*)garyColor;
-+ (UIColor*)lightGreyColor;
-+ (UIColor*)garyLineColor;
-+ (UIColor*)garyBackgroundColor;
-+ (UIColor*)darkBackgroundColor;
-+ (UIColor*)disableBackgroundColor;
-+ (UIColor*)borderAlphaColor;
++ (UIColor *)whiteColor;
+
++ (UIColor *)themeColor;
++ (UIColor *)themeBorderColor;
+
++ (UIColor *)blackColor;
++ (UIColor *)garyColor;
++ (UIColor *)lightGaryColor;
+
++ (UIColor *)garyLineColor;
++ (UIColor *)garyBackgroundColor;
++ (UIColor *)darkBackgroundColor;
+
++ (UIColor *)disableBackgroundColor;
+
++ (UIColor *)borderAlphaColor;
 
 #pragma mark -- UIView
 + (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;

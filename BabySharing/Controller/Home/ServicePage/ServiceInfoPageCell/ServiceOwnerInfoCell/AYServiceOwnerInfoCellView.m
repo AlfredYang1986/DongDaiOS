@@ -57,8 +57,8 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
         userPhoto.contentMode = UIViewContentModeScaleAspectFill;
         userPhoto.clipsToBounds = YES;
         userPhoto.layer.cornerRadius = 32.f;
-        userPhoto.layer.borderColor = [Tools borderAlphaColor].CGColor;
-        userPhoto.layer.borderWidth = 2.f;
+//        userPhoto.layer.borderColor = [Tools borderAlphaColor].CGColor;
+//        userPhoto.layer.borderWidth = 2.f;
         [self addSubview:userPhoto];
         [userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -69,7 +69,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 //        userPhoto.userInteractionEnabled = YES;
 //        [userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
 		
-        userName = [Tools creatUILabelWithText:@"Name" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        userName = [Tools creatUILabelWithText:@"Name" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:userName];
         [userName mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(23);
@@ -84,7 +84,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.top.equalTo(userName.mas_bottom).offset(8);
 			make.size.mas_equalTo(CGSizeMake(11, 11));
 		}];
-        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        realNameLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:realNameLabel];
 		[realNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(realNameSign.mas_right).offset(4);
@@ -98,7 +98,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.centerY.equalTo(realNameSign);
 			make.size.mas_equalTo(CGSizeMake(11, 11));
 		}];
-		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		phoneNoLabel = [Tools creatUILabelWithText:isGettingCertData andTextColor:[Tools garyColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:phoneNoLabel];
 		[phoneNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(phoneNoSign.mas_right).offset(4);
@@ -125,9 +125,9 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 		UIView *shadow_view = [[UIView alloc]init];
 		shadow_view.backgroundColor = [Tools whiteColor];
 		shadow_view.layer.shadowColor = [Tools garyColor].CGColor;
-		shadow_view.layer.shadowOffset = CGSizeMake(0, 3.f);
-		shadow_view.layer.shadowOpacity = 0.15f;
-		shadow_view.layer.shadowRadius = 2.f;
+		shadow_view.layer.shadowOffset = CGSizeMake(0, 2.f);
+		shadow_view.layer.shadowOpacity = 0.05f;
+		shadow_view.layer.shadowRadius =1.f;
 		[self addSubview:shadow_view];
 		[shadow_view mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self).offset(-10);

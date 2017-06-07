@@ -60,17 +60,17 @@
 		UIView *shadowView = [[UIView alloc] init];
 		shadowView.backgroundColor = [UIColor whiteColor];
 		shadowView.layer.cornerRadius = 4.f;
-		shadowView.layer.shadowColor = [Tools garyColor].CGColor;//shadowColor阴影颜色
+		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
 		shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
-		shadowView.layer.shadowOpacity = 0.75f;//阴影透明度，默认0
-		shadowView.layer.shadowRadius = 3;//阴影半径，默认3
+		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
+		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
 		[self addSubview:shadowView];
 		[self sendSubviewToBack:shadowView];
 		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.edges.equalTo(coverImage);
 		}];
 		
-		titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		titleLabel.numberOfLines = 2;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -96,7 +96,7 @@
 //		photoIcon.userInteractionEnabled = YES;
 //		[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 		
-		priceLabel = [Tools creatUILabelWithText:@"Servie Price" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		priceLabel = [Tools creatUILabelWithText:@"Servie Price" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceLabel];
 //		[priceLabel sizeToFit];
 //		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,7 +118,7 @@
 			make.size.mas_equalTo(CGSizeMake(10, 12));
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools blackColor] andFontSize:312.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
 		
 		likeBtn  = [[UIButton alloc] init];

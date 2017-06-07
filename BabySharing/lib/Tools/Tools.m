@@ -455,10 +455,14 @@
     }
 }
 
-
+//[UIColor colorWithRed:189.f/255.0 green:238.f/255.0 blue:233.f/255.0 alpha:1.0];
 + (UIColor*)themeColor {
-    return [UIColor colorWithRed:78.0/255.0 green:219.0/255.0 blue:202.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:89.0/255.0 green:213.0/255.0 blue:199.0/255.0 alpha:1.0];
 }
++ (UIColor*)themeBorderColor {
+	return [UIColor colorWithRed:189.f/255.0 green:238.f/255.0 blue:233.f/255.0 alpha:1.0];
+}
+
 + (UIColor*)blackColor {
     return [UIColor colorWithRed:89.0/255.0 green:89.0/255.0 blue:89.0/255.0 alpha:1.0];
 }
@@ -472,19 +476,19 @@
 }
 
 + (UIColor*)garyColor {
-    return [UIColor colorWithRed:155.f / 255.f green:155.f / 255.f blue:155.f / 255.f alpha:1.f];
+    return [UIColor colorWithRed:178.f / 255.f green:178.f / 255.f blue:178.f / 255.f alpha:1.f];
 }
 
-+ (UIColor*)lightGreyColor {
-    return [UIColor colorWithRed:192.f / 255.f green:192.f / 255.f blue:192.f / 255.f alpha:1.f];
++ (UIColor*)lightGaryColor {
+    return [UIColor colorWithRed:204.f / 255.f green:204.f / 255.f blue:204.f / 255.f alpha:1.f];
 }
 
 + (UIColor*)garyLineColor {
-    return [UIColor colorWithWhite:0.78f alpha:1.f];
+    return [UIColor colorWithRed:242.f / 255.f green:242.f / 255.f blue:242.f / 255.f alpha:1.f];
 }
 
 + (UIColor*)garyBackgroundColor {
-    return [UIColor colorWithRed:249.f / 255.f green:249.f / 255.f blue:249.f / 255.f alpha:1.f];
+    return [UIColor colorWithRed:246.f / 255.f green:249.f / 255.f blue:251.f / 255.f alpha:1.f];
 }
 
 + (UIColor*)disableBackgroundColor {
@@ -511,7 +515,7 @@
     label.textAlignment = align;
 	
 	if (font > 600.f) {
-		label.font = [UIFont boldSystemFontOfSize:(font - 600)];
+		label.font = kAYFontMedium(font - 600);
 	} else if (font < 600.f && font > 300.f) {
 			label.font = [UIFont systemFontOfSize:(font - 300)];
 	} else {
@@ -557,7 +561,7 @@
     [btn setTitleColor:TitleColor forState:UIControlStateNormal];
 	
 	if (font > 600.f) {
-		btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 600)];
+		btn.titleLabel.font = kAYFontMedium((font - 600));
 	} else if (font < 600.f && font > 300.f) {
 		btn.titleLabel.font = [UIFont systemFontOfSize:(font - 300)];
 	} else {

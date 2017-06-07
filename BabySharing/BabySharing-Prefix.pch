@@ -95,7 +95,7 @@ typedef enum : int {
 #define kAY_service_course_title_ofall              @[kAY_service_course_title_0, kAY_service_course_title_1, kAY_service_course_title_2]
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
-
+#define kAYFontMedium(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
 
 #define OneDayTimeInterval					86400
 

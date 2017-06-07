@@ -187,10 +187,10 @@
 			}];
 		}
 		
-		flexibleView.layer.shadowColor = [Tools garyColor].CGColor;
-		flexibleView.layer.shadowOffset = CGSizeMake(0, 3.f);
-		flexibleView.layer.shadowOpacity = 0.45f;
-		flexibleView.layer.shadowRadius = 3.f;
+//		flexibleView.layer.shadowColor = [Tools garyColor].CGColor;
+//		flexibleView.layer.shadowOffset = CGSizeMake(0, 3.f);
+//		flexibleView.layer.shadowOpacity = 0.45f;
+//		flexibleView.layer.shadowRadius = 3.f;
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 		layout.minimumLineSpacing = 0.f;
@@ -270,7 +270,7 @@
 		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
 		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
 		chatBtn.titleLabel.font = [UIFont systemFontOfSize:11.f];
-		[chatBtn setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+		[chatBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
 		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-17, 0, 0, -24)];
 		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, -31, 0)];
 		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -301,17 +301,17 @@
 		NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
 		
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+		[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools garyColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 		
 		UILabel *priceLabel = [Tools creatUILabelWithText:@"Price 0f Serv" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[bottom_view addSubview:priceLabel];
 		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
-			make.bottom.equalTo(bottom_view.mas_centerY).offset(0);
+			make.bottom.equalTo(bottom_view.mas_centerY).offset(2);
 		}];
 		
-		UILabel *capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[bottom_view addSubview:capacityLabel];
 		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(bottom_view.mas_centerY).offset(4);
@@ -321,7 +321,7 @@
 		priceLabel.attributedText = attributedText;
 		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
 		
-        bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:[Tools themeColor]];
+        bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:[Tools themeColor]];
 		UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
 		bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
         [bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -370,8 +370,8 @@
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right)
 	
     bar_like_btn = [[UIButton alloc]init];
-    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
-    [bar_like_btn setImage:IMGRESOURCE(@"home_icon_love_select") forState:UIControlStateSelected];
+    [bar_like_btn setImage:IMGRESOURCE(@"details_icon_love_normal") forState:UIControlStateNormal];
+    [bar_like_btn setImage:IMGRESOURCE(@"details_icon_love_select") forState:UIControlStateSelected];
     [bar_like_btn addTarget:self action:@selector(didCollectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:bar_like_btn];
     [bar_like_btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -417,11 +417,12 @@
 	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
-	
-    if (offset_y <= -kStatusAndNavBarH && offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
+	if (offset_y < - kStatusAndNavBarH * 2) {
+		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
+	}  else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
 		
-		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH) * 0.8;
-//		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
+		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
+		//		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
 		if (alp > 0.5 && !isBlackLeftBtn) {
 			UIImage* left = IMGRESOURCE(@"bar_left_black");
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -445,12 +446,44 @@
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
 		
-	} else if (offset_y < - kStatusAndNavBarH * 2) {
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
-	} else {
-		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.8f];
-		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	}
+//	else {
+//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//	}
+//    if (offset_y <= -kStatusAndNavBarH && offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
+//		
+//		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
+////		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
+//		if (alp > 0.5 && !isBlackLeftBtn) {
+//			UIImage* left = IMGRESOURCE(@"bar_left_black");
+//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//			isBlackLeftBtn = YES;
+//			
+//			NSString *titleStr = @"服务详情";
+//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+//			isStatusHide = NO;
+//			[self setNeedsStatusBarAppearanceUpdate];
+//			
+//		} else if (alp <  0.5 && isBlackLeftBtn) {
+//			UIImage* left = IMGRESOURCE(@"bar_left_white");
+//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
+//			isBlackLeftBtn = NO;
+//			NSString *titleStr = @"";
+//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
+//			
+//			isStatusHide = YES;
+//			[self setNeedsStatusBarAppearanceUpdate];
+//		}
+//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
+//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
+//		
+//	} else if (offset_y < - kStatusAndNavBarH * 2) {
+//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
+//	} else {
+//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
+//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//	}
 	
 	
     CGFloat offsetH = kFlexibleHeight + offset_y;
