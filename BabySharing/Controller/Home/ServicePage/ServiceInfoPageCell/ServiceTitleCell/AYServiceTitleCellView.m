@@ -183,7 +183,7 @@
 	CGFloat themeLabelWidth = themeLabel.bounds.size.width + 10;
 	
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(self);
+		make.centerY.equalTo(self).offset(-5);
 		make.left.equalTo(self).offset(26 + themeLabelWidth);
 		make.right.equalTo(self).offset(-15);
 	}];

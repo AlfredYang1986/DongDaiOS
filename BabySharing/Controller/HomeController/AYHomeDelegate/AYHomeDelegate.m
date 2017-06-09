@@ -172,14 +172,23 @@
 	CGFloat offset_now_y = scrollView.contentOffset.y;
 	CGFloat offset_t = offset_origin_y - offset_now_y;
 	NSLog(@"%f", offset_t);
-	
-	if (offset_t  > 0.1) {		//下滑往上滚
-		kAYDelegateSendNotify(self, @"scrollToShowTop", nil)
-	}
-	else if(offset_t < - 0.1) {		//上滑往下滚
-		kAYDelegateSendNotify(self, @"scrollToHideTop", nil)
-	}
+	NSNumber *tmp = [NSNumber numberWithFloat:offset_t];
+	kAYDelegateSendNotify(self, @"scrollToShowHideTop:", &tmp)
+//	if (offset_t  > 0.1) {		//下滑往上滚
+//		kAYDelegateSendNotify(self, @"scrollToShowTop:", &tmp)
+//	}
+//	else if(offset_t < - 0.1) {		//上滑往下滚
+//		kAYDelegateSendNotify(self, @"scrollToHideTop:", &tmp)
+//	}
 	offset_origin_y = offset_now_y;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+	kAYDelegateSendNotify(self, @"scrollViewWillBeginDrag", nil)
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+	kAYDelegateSendNotify(self, @"scrollViewWillEndDrag", nil)
 }
 
 #pragma mark -- actions

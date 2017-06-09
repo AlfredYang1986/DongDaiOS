@@ -172,8 +172,9 @@
 	
     if (annoViewHandle) {		//判断当前 是否已经有高亮的item
 		if ( annoViewHandle != view) {		// 判断是否点击了已经是高亮的item
+			AYAnnonation *anno_handleView = annoViewHandle.annotation;
 			annoViewHandle.image = nil;
-			annoViewHandle.image = [UIImage imageNamed:anno.imageName_normal];
+			annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
 		} else
 			return;
     }
@@ -203,8 +204,9 @@
 			
 			if (annoViewHandle) {		//判断当前 是否已经有高亮的item
 				if ( annoViewHandle != change_view) {		// 判断是否点击了已经是高亮的item
+					AYAnnonation *anno_handleView = annoViewHandle.annotation;
 					annoViewHandle.image = nil;
-					annoViewHandle.image = [UIImage imageNamed:one.imageName_normal];
+					annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
 				}
 				else
 					break;

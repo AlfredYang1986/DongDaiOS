@@ -26,6 +26,7 @@
 	
 	UILabel *addressLabel;
 	UIImageView *addressBg;
+	UIImageView *addressArrowBg;
 	
 	UIView *tapview;
 }
@@ -65,20 +66,14 @@
 		addressLabel = [Tools creatUILabelWithText:@"Service address info" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		addressLabel.numberOfLines = 2;
 		[self addSubview:addressLabel];
-		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
-			make.bottom.equalTo(self.mas_top).offset(95);
-			make.width.mas_equalTo(254);
-		}];
 		
 		addressBg = [[UIImageView alloc]init];
 		[self addSubview:addressBg];
-		addressBg.image =  [IMGRESOURCE(@"details _map_location_bg_single") resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10) resizingMode:UIImageResizingModeStretch];
-		[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-2, -8, -9, -8));
-		}];
 		
-		[self bringSubviewToFront:addressBg];
+		addressArrowBg = [[UIImageView alloc] init];
+		[self addSubview:addressArrowBg];
+		
+//		[self bringSubviewToFront:addressBg];
 		[self bringSubviewToFront:addressLabel];
 		
 		if (reuseIdentifier != nil) {
@@ -144,10 +139,34 @@
 - (id)setCellInfo:(id)args{
 	
 	NSDictionary *service_info = (NSDictionary*)args;
-	NSString *addressStr = [service_info objectForKey:@"address"];
+	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *adjustAddressStr = [service_info objectForKey:kAYServiceArgsAdjustAddress];
 	if (addressStr && ![addressStr isEqualToString:@""]) {
-		addressLabel.text = addressStr;
+		addressLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjustAddressStr];
 	}
+	
+	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(self);
+		make.bottom.equalTo(self.mas_top).offset(90);
+		make.width.mas_lessThanOrEqualTo(254);
+	}];
+	
+	UIImage *bg = IMGRESOURCE(@"map_address_bg_part_b");
+	bg = [bg resizableImageWithCapInsets:UIEdgeInsetsMake(15, 20, 15, 20) resizingMode:UIImageResizingModeTile];
+	addressBg.image =  bg;
+	[addressBg mas_remakeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(addressLabel).insets(UIEdgeInsetsMake(-4, -12, -10, -12));
+	}];
+	
+	UIImage *arrowBg = IMGRESOURCE(@"map_address_bg_part_a");
+	arrowBg = [arrowBg resizableImageWithCapInsets:UIEdgeInsetsMake(2, 0, 20, 0) resizingMode:UIImageResizingModeTile];
+	addressArrowBg.image = arrowBg;
+	[addressArrowBg mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(addressLabel).offset(0);
+		make.width.mas_equalTo(26);
+		make.bottom.equalTo(addressLabel).offset(16);
+		make.centerX.equalTo(addressLabel);
+	}];
 	
 	NSDictionary *dic_loc = [service_info objectForKey:@"location"];
 	NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
@@ -175,47 +194,6 @@
 	
 	//center
 	[orderMapView setCenterCoordinate:loc.coordinate animated:YES];
-	
-	//facility
-//	NSNumber *facility = [service_info objectForKey:kAYServiceArgsFacility];
-//	if (facility.intValue != 0) {
-//		
-//		NSArray *options_title_facility = kAY_service_options_title_facilities;
-//		
-//		long options = facility.longValue;
-//		CGFloat offsetX = 15;
-//		int noteCount = 0;
-//		int limitNumb =0;
-//		if (SCREEN_WIDTH < 375) {
-//			limitNumb = 3;
-//		} else
-//			limitNumb = 4;
-//		
-//		for (int i = 0; i < options_title_facility.count; ++i) {
-//			
-//			long note_pow = pow(2, i);
-//			if ((options & note_pow)) {
-//				
-//				if (noteCount < limitNumb) {
-//					
-//					NSString *imageName = [NSString stringWithFormat:@"facility_%d",i];
-//					AYPlayItemsView *item = [[AYPlayItemsView alloc]initWithTitle:options_title_facility[i] andIconName:imageName];
-//					[self addSubview:item];
-//					[item mas_makeConstraints:^(MASConstraintMaker *make) {
-//						make.left.mas_equalTo(self).offset(offsetX);
-//						make.centerY.equalTo(facalityBtn);
-//						make.size.mas_equalTo(CGSizeMake(50, 55));
-//					}];
-//					offsetX += 80;
-//				}
-//				noteCount ++;
-//			}
-//		}
-//		
-//		[facalityBtn setTitle:[NSString stringWithFormat:@"+%d",noteCount] forState:UIControlStateNormal];
-//	} else {		// == 0 未设置场地有好设置
-//		
-//	}
 	
 	return nil;
 }

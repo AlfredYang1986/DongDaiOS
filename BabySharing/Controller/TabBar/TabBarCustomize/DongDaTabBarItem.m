@@ -11,7 +11,7 @@
 #define LAYER_ICON_MID_WIDTH_S     32
 #define LAYER_ICON_MID_HEIGHT_S    LAYER_ICON_MID_WIDTH_S
 
-#define LAYER_ICON_NORMAL_WIDTH     23
+#define LAYER_ICON_NORMAL_WIDTH     28
 #define LAYER_ICON_NORMAL_HEIGHT    LAYER_ICON_NORMAL_WIDTH
 
 #define LAYER_ICON_MID_WIDHT    75
@@ -22,9 +22,6 @@
 #define LAYER_TITLE_WIDTH       22
 #define LAYER_TITLE_HEIGHT      11
 
-#define NORMAL_COLOR            [UIColor colorWithWhite:0.6078 alpha:1.f].CGColor
-#define SELECT_COLOR            [UIColor colorWithRed:0.0784 green:0.8588 blue:0.7922 alpha:1.f].CGColor
-
 @implementation DongDaTabBarItem {
     
     CALayer* img_layer;
@@ -33,14 +30,6 @@
 
 @synthesize img = _img;
 @synthesize select_img = _select_img;
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 - (id)initWithMidImage:(UIImage*)image {
     self = [super init];
@@ -97,7 +86,7 @@
         title_layer.string = title;
         title_layer.contentsScale = 2.f;
         title_layer.fontSize = 9.f;
-        title_layer.foregroundColor = NORMAL_COLOR;
+        title_layer.foregroundColor = [Tools RGB153GaryColor].CGColor;
         title_layer.frame = CGRectMake(0, 0, LAYER_TITLE_WIDTH, LAYER_TITLE_HEIGHT);
         title_layer.alignmentMode = @"center";
         [self.layer addSublayer:title_layer];
@@ -110,8 +99,8 @@
         img_layer.position = CGPointMake(self.frame.size.width / 2, self.frame.size.height/ 2);
         
         if (title_layer != nil) {
-            img_layer.position = CGPointMake(img_layer.position.x, img_layer.position.y - 5);
-            title_layer.position = CGPointMake(img_layer.position.x, img_layer.position.y + LAYER_ICON_NORMAL_HEIGHT / 2  + 7);
+            img_layer.position = CGPointMake(img_layer.position.x, img_layer.position.y - 4.5);
+            title_layer.position = CGPointMake(img_layer.position.x, img_layer.position.y + LAYER_ICON_NORMAL_HEIGHT / 2  + 7.5);
         }
     }
 }
@@ -128,10 +117,10 @@
 
     if (selected) {
         img_layer.contents = (id)_select_img.CGImage;
-        title_layer.foregroundColor = SELECT_COLOR;
+        title_layer.foregroundColor = [Tools themeColor].CGColor;
     } else {
         img_layer.contents = (id)_img.CGImage;
-        title_layer.foregroundColor = NORMAL_COLOR;
+        title_layer.foregroundColor = [Tools RGB153GaryColor].CGColor;
     }
 }
 @end

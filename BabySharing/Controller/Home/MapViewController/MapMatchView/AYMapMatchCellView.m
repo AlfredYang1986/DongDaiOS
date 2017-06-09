@@ -20,7 +20,7 @@
 
 @implementation AYMapMatchCellView {
 	
-	UIImageView *userPhoto;
+//	UIImageView *userPhoto;
 	UILabel *titleLabel;
 	UILabel *priceLabel;
 	
@@ -103,25 +103,34 @@
 //	}];
 //	[self sendSubviewToBack:shadowView];
 	
-	CGFloat photowidth = 30.f;
-	userPhoto = [[UIImageView alloc]init];
-	userPhoto.image = IMGRESOURCE(@"default_user");
-	userPhoto.contentMode = UIViewContentModeScaleAspectFill;
-	[Tools setViewBorder:userPhoto withRadius:photowidth*0.5 andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
-	[self addSubview:userPhoto];
-	[userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(bgView).offset(10);
-		make.top.equalTo(bgView).offset(10);
-		make.size.mas_equalTo(CGSizeMake(photowidth, photowidth));
-	}];
+//	CGFloat photowidth = 30.f;
+//	userPhoto = [[UIImageView alloc]init];
+//	userPhoto.image = IMGRESOURCE(@"default_user");
+//	userPhoto.contentMode = UIViewContentModeScaleAspectFill;
+//	[Tools setViewBorder:userPhoto withRadius:photowidth*0.5 andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
+//	[self addSubview:userPhoto];
+//	[userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.left.equalTo(bgView).offset(10);
+//		make.top.equalTo(bgView).offset(10);
+//		make.size.mas_equalTo(CGSizeMake(photowidth, photowidth));
+//	}];
 //	photoIcon.userInteractionEnabled = YES;
 //	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
 	
-	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools blackColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UIImageView *positionSignView = [[UIImageView alloc]init];
+	[self addSubview:positionSignView];
+	positionSignView.image = IMGRESOURCE(@"home_icon_location");
+	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(bgView).offset(10);
+		make.top.equalTo(bgView).offset(18);
+		make.size.mas_equalTo(CGSizeMake(10, 12));
+	}];
+	
+	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(userPhoto.mas_right).offset(6);
-		make.centerY.equalTo(userPhoto);
+		make.left.equalTo(positionSignView.mas_right).offset(6);
+		make.centerY.equalTo(positionSignView);
 		make.right.equalTo(bgView).offset(-15);
 	}];
 	
@@ -133,11 +142,11 @@
 	[self addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(bgView).offset(-10);
-		make.left.equalTo(userPhoto);
+		make.left.equalTo(positionSignView);
 		make.size.mas_equalTo(CGSizeMake(125, 89));
 	}];
 	
-	descLabel = [Tools creatUILabelWithText:@"Service description" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	descLabel = [Tools creatUILabelWithText:@"Service description" andTextColor:[Tools RGB89GaryColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	descLabel.numberOfLines = 3;
 	[self addSubview:descLabel];
 	[descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -170,9 +179,9 @@
 	[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
 					  placeholderImage:IMGRESOURCE(@"default_image")];
 	
-	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
-	[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
-					 placeholderImage:IMGRESOURCE(@"default_user")];
+//	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
+//	[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
+//					 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	NSString *unitCat;
@@ -195,8 +204,12 @@
 	titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
 	
 //	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
-	NSString *titleStr = [service_info objectForKey:kAYServiceArgsTitle];
-	descLabel.text = titleStr;
+	NSString *nameStr = [service_info objectForKey:kAYServiceArgsScreenName];
+	if (!nameStr || [nameStr isEqualToString:@""]) {
+		nameStr = @"DongDaUser";
+	}
+	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
+	descLabel.text = [NSString stringWithFormat:@"%@的%@", nameStr, compName];
 	
 	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
 	NSString *tmp = [NSString stringWithFormat:@"%@", price];

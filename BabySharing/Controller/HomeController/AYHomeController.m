@@ -66,11 +66,14 @@ typedef void(^queryContentFinish)(void);
 	
 	UILabel *addressLabel;
 	UILabel *themeCatlabel;
+	UIView *filterViewBg;
+	CGFloat dynamicOffsetY;
+	BOOL isDargging;
 	
 	NSDictionary *dic_location;
 	CLLocation *loc;
-}
 
+}
 
 @synthesize manager = _manager;
 
@@ -175,13 +178,14 @@ typedef void(^queryContentFinish)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	dynamicOffsetY = 0.f;
 	DongDaSegIndex = ServiceTypeCourse;
 	subIndexData = [[NSMutableDictionary alloc] init];
 	timeInterval = [NSDate date].timeIntervalSince1970;
 	servDataOfCourse = [NSMutableArray array];
 	servDataOfNursery = [NSMutableArray array];
 	
-	UIView *filterViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, kDongDaSegHeight)];
+	filterViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, kDongDaSegHeight)];
 	filterViewBg.backgroundColor = [Tools whiteColor];
 	filterViewBg.layer.shadowColor = [Tools garyColor].CGColor;
 	filterViewBg.layer.shadowOffset = CGSizeMake(0, 3.5);
@@ -418,13 +422,13 @@ typedef void(^queryContentFinish)(void);
 	if (filterBtn.selected) {
 		maskView.hidden = NO;
 		[UIView animateWithDuration:0.25 animations:^{
-			filterCollectionView.frame = CGRectMake(0, 108.f, SCREEN_WIDTH, 90);
+			filterCollectionView.frame = CGRectMake(0, 108.f + dynamicOffsetY, SCREEN_WIDTH, kFilterCollectionViewHeight);
 		}];
 	} else {		//hide
 		
 		maskView.hidden = YES;
 		[UIView animateWithDuration:0.25 animations:^{
-			filterCollectionView.frame = CGRectMake(0, 108.f - 90, SCREEN_WIDTH, 90);
+			filterCollectionView.frame = CGRectMake(0, 108.f - 90 + dynamicOffsetY, SCREEN_WIDTH, kFilterCollectionViewHeight);
 		}];
 	}
 }
@@ -539,17 +543,36 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- notifies
-- (id)scrollToShowTop {
-	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
-	UIView *view_seg = [self.views objectForKey:kAYDongDaSegVerView];
-	
+- (id)scrollToShowHideTop:(NSNumber*)args {	//
+	if (isDargging) {
+		
+		UITableView *view_table = [self.views objectForKey:kAYTableView];
+		if (view_table.contentOffset.y > view_table.contentSize.height - view_table.frame.size.height || view_table.contentOffset.y < 0 ) {
+			return nil;
+		}
+		
+		UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
+		dynamicOffsetY = dynamicOffsetY + args.floatValue;
+		NSLog(@"%f", dynamicOffsetY);
+		if (dynamicOffsetY > 0) {
+			dynamicOffsetY = 0.f;
+		} else if (dynamicOffsetY < - 44) {
+			dynamicOffsetY = -44.f;
+		}
+		view_table.frame = CGRectMake(0, 108 + dynamicOffsetY, SCREEN_WIDTH, SCREEN_HEIGHT - 108 - 49 - dynamicOffsetY);
+		view_nav.frame = CGRectMake(0, 20 + dynamicOffsetY, SCREEN_WIDTH, 44);
+		filterViewBg.frame = CGRectMake(0, kStatusAndNavBarH + dynamicOffsetY, SCREEN_WIDTH, kDongDaSegHeight);
+		filterCollectionView.frame = CGRectMake(0, 108 - (filterBtn.selected ? 0 : kFilterCollectionViewHeight) + dynamicOffsetY, SCREEN_WIDTH, kFilterCollectionViewHeight);
+	}
 	return nil;
 }
 
-- (id)scrollToHideTop {
-	UIView *view_nav = [self.views objectForKey:kAYFakeNavBarView];
-	UIView *view_seg = [self.views objectForKey:kAYDongDaSegVerView];
-	
+- (id)scrollViewWillBeginDrag {
+	isDargging = YES;
+	return nil;
+}
+- (id)scrollViewWillEndDrag {
+	isDargging = NO;
 	return nil;
 }
 

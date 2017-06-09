@@ -177,16 +177,31 @@
 	
 }
 
+- (BOOL)isEmpty:(NSString *)str {
+	
+	if (!str || [str isEqualToString:@""]) {
+		return YES;
+	} else {
+		//A character set containing only the whitespace characters space (U+0020) and tab (U+0009) and the newline and nextline characters (U+000A–U+000D, U+0085).
+//		NSCharacterSet *set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+//		NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"@／：；（）¥「」＂、[]{}#%-*+=_//|~＜＞$€^•'@#$%^&*()_+'/"""];
+		NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@" \n	"];
+		//Returns a new string made by removing from both ends of the receiver characters contained in a given character set.
+		NSString *trimedString = [str stringByTrimmingCharactersInSet:set];
+		return [trimedString length] == 0;
+	}
+}
+
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
 	service_info = (NSDictionary*)args;
 	
 	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
-	if (descStr) {
-		
-		NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
-		descTextView.attributedText = descAttri;
+	if ([self isEmpty:descStr]) {
+		descStr = @"服务者还没来得及介绍服务，你可以通过沟通向他咨询。";
 	}
+	NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
+	descTextView.attributedText = descAttri;
 	
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
 	switch (service_cat.intValue) {

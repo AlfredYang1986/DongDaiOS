@@ -144,10 +144,6 @@
     }
 }
 
-+ (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA {
-    return [UIColor colorWithRed:RED / 255.0 green:GREEN / 255.0 blue:BLUE / 255.0 alpha:ALPHA];
-}
-
 + (UIImage *)addPortraitToImage:(UIImage *)image userHead:(UIImage *)userhead userName:(NSString *)userName{
     UIGraphicsBeginImageContextWithOptions(image.size, NO, 1.0);
     CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
@@ -370,50 +366,6 @@
     }
     
     return topVC;
-    
-//    UIViewController* activityViewController = nil;
-//    
-//    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-//    if(window.windowLevel != UIWindowLevelNormal)
-//    {
-//        NSArray *windows = [[UIApplication sharedApplication] windows];
-//        for(UIWindow *tmpWin in windows)
-//        {
-//            if(tmpWin.windowLevel == UIWindowLevelNormal)
-//            {
-//                window = tmpWin;
-//                break;
-//            }
-//        }
-//    }
-//    
-//    NSArray *viewsArray = [window subviews];
-//    if([viewsArray count] > 0)
-//    {
-//        UIView *frontView = [viewsArray objectAtIndex:0];
-//        
-//        id nextResponder = [frontView nextResponder];
-//        
-//        if([nextResponder isKindOfClass:[UIViewController class]])
-//        {
-//            activityViewController = nextResponder;
-//        }
-//        else
-//        {
-//            activityViewController = window.rootViewController;
-//        }
-//    }
-//   
-//    if ([activityViewController isKindOfClass:[UINavigationController class]]) {
-//        activityViewController = ((UINavigationController*)activityViewController).viewControllers.lastObject;
-//    }
-//    
-//    return activityViewController;
-    
-//    NSArray *appRootVC = [UIApplication sharedApplication].windows;
-//    
-//    UIViewController *topVC = appRootVC.firstObject;
-    
 
 }
 
@@ -455,7 +407,11 @@
     }
 }
 
-//[UIColor colorWithRed:189.f/255.0 green:238.f/255.0 blue:233.f/255.0 alpha:1.0];
+
++ (UIColor *)colorWithRED:(CGFloat)RED GREEN:(CGFloat)GREEN BLUE:(CGFloat)BLUE ALPHA:(CGFloat)ALPHA {
+	return [UIColor colorWithRed:RED / 255.0 green:GREEN / 255.0 blue:BLUE / 255.0 alpha:ALPHA];
+}
+
 + (UIColor*)themeColor {
     return [UIColor colorWithRed:89.0/255.0 green:213.0/255.0 blue:199.0/255.0 alpha:1.0];
 }
@@ -467,10 +423,6 @@
     return [UIColor colorWithRed:89.0/255.0 green:89.0/255.0 blue:89.0/255.0 alpha:1.0];
 }
 
-+ (UIColor*)darkBackgroundColor {
-    return [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:42.0/255.0 alpha:1.0];
-}
-
 + (UIColor*)whiteColor {
     return [UIColor whiteColor];
 }
@@ -478,19 +430,28 @@
 + (UIColor*)garyColor {
     return [UIColor colorWithRed:178.f / 255.f green:178.f / 255.f blue:178.f / 255.f alpha:1.f];
 }
-
 + (UIColor*)lightGaryColor {
     return [UIColor colorWithRed:204.f / 255.f green:204.f / 255.f blue:204.f / 255.f alpha:1.f];
 }
-
 + (UIColor*)garyLineColor {
     return [UIColor colorWithRed:242.f / 255.f green:242.f / 255.f blue:242.f / 255.f alpha:1.f];
 }
++ (UIColor*)RGB153GaryColor {
+	return [UIColor colorWithRed:153.f / 255.f green:153.f / 255.f blue:153.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB89GaryColor {
+	return [UIColor colorWithRed:89.f / 255.f green:89.f / 255.f blue:89.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB127GaryColor {
+	return [UIColor colorWithRed:127.f / 255.f green:127.f / 255.f blue:127.f / 255.f alpha:1.f];
+}
 
++ (UIColor*)darkBackgroundColor {
+	return [UIColor colorWithRed:42.0/255.0 green:42.0/255.0 blue:42.0/255.0 alpha:1.0];
+}
 + (UIColor*)garyBackgroundColor {
     return [UIColor colorWithRed:246.f / 255.f green:249.f / 255.f blue:251.f / 255.f alpha:1.f];
 }
-
 + (UIColor*)disableBackgroundColor {
 	return [UIColor colorWithRed:144.f / 255.f green:144.f / 255.f blue:144.f / 255.f alpha:1.f];
 }

@@ -69,7 +69,7 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 //        userPhoto.userInteractionEnabled = YES;
 //        [userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
 		
-        userName = [Tools creatUILabelWithText:@"Name" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        userName = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:userName];
         [userName mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(23);
@@ -234,7 +234,10 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 	} else {
 
 		userPhoto.userInteractionEnabled = YES;
-		userName.text = [service_info objectForKey:@"screen_name"];
+		NSString *userNameStr = [service_info objectForKey:@"screen_name"];
+		if (userNameStr && ![userNameStr isEqualToString:@""]) {
+			userName.text = userNameStr;
+		}
 		NSString *screen_photo = [service_info objectForKey:@"screen_photo"];
 		[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
