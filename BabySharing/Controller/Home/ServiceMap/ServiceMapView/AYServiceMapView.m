@@ -85,7 +85,8 @@
 	}
 	
 	selfLoc = [dic_p2p objectForKey:@"self"];
-	tpLoc = [dic_p2p objectForKey:@"2p"];
+	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
+	tpLoc = [[args objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsLocation];
 //	NSDictionary *dic_loc = [tpLoc objectForKey:@"location"];
 	NSDictionary *dic_loc = tpLoc;
 	NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
@@ -93,15 +94,25 @@
 	CLLocation *tp_location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
 	loc = tp_location;
 	
+	NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsTheme];
+	NSString *pre_map_icon_name;
+	if (serviceCat.intValue == ServiceTypeCourse) {
+		pre_map_icon_name = @"map_icon_course";
+	} else if(serviceCat.intValue == ServiceTypeNursery) {
+		pre_map_icon_name = @"map_icon_nursery";
+	}
+	
+//	anno.imageName_select = [NSString stringWithFormat:@"%@_%@_select",pre_map_icon_name, cansCat];
+	
 	AYAnnonation *anno = [[AYAnnonation alloc]init];
 	anno.coordinate = tp_location.coordinate;
 	NSString *annoTitle = [tpLoc objectForKey:kAYServiceArgsAddress];
 	anno.title = annoTitle;
-	anno.imageName_normal = @"position_focus";
+	anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
 	[self addAnnotation:anno];
 	[annoArray addObject:anno];
 	[self setCenterCoordinate:tp_location.coordinate animated:NO];
-	
 	
 	//rang
 //	currentAnno = [[AYAnnonation alloc]init];

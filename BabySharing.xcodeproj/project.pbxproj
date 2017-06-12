@@ -374,7 +374,6 @@
 		70501C871D2F4A490050E0C8 /* AYCollectServController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C861D2F4A490050E0C8 /* AYCollectServController.m */; };
 		70501C8F1D2F4E690050E0C8 /* AYCollectServDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C8E1D2F4E690050E0C8 /* AYCollectServDelegate.m */; };
 		70501C931D2F4F140050E0C8 /* AYCollectServCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C911D2F4F140050E0C8 /* AYCollectServCellView.m */; };
-		70501C941D2F4F140050E0C8 /* AYCollectServCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70501C921D2F4F140050E0C8 /* AYCollectServCellView.xib */; };
 		705195591E1B8DAB00F1F761 /* AYServiceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705195581E1B8DAB00F1F761 /* AYServiceMapController.m */; };
 		7051955D1E1B905D00F1F761 /* AYMAMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7051955C1E1B905D00F1F761 /* AYMAMapView.m */; };
 		705195601E1B909000F1F761 /* AYServiceMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7051955F1E1B909000F1F761 /* AYServiceMapView.m */; };
@@ -1524,7 +1523,6 @@
 		70501C8E1D2F4E690050E0C8 /* AYCollectServDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCollectServDelegate.m; sourceTree = "<group>"; };
 		70501C901D2F4F140050E0C8 /* AYCollectServCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCollectServCellView.h; sourceTree = "<group>"; };
 		70501C911D2F4F140050E0C8 /* AYCollectServCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCollectServCellView.m; sourceTree = "<group>"; };
-		70501C921D2F4F140050E0C8 /* AYCollectServCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYCollectServCellView.xib; sourceTree = "<group>"; };
 		705195571E1B8DAB00F1F761 /* AYServiceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceMapController.h; sourceTree = "<group>"; };
 		705195581E1B8DAB00F1F761 /* AYServiceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceMapController.m; sourceTree = "<group>"; };
 		7051955B1E1B905D00F1F761 /* AYMAMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMAMapView.h; sourceTree = "<group>"; };
@@ -5261,7 +5259,6 @@
 			children = (
 				70501C901D2F4F140050E0C8 /* AYCollectServCellView.h */,
 				70501C911D2F4F140050E0C8 /* AYCollectServCellView.m */,
-				70501C921D2F4F140050E0C8 /* AYCollectServCellView.xib */,
 			);
 			path = CollectServView;
 			sourceTree = "<group>";
@@ -8584,7 +8581,6 @@
 				704336321CF5D88600F9B73B /* Assets.xcassets in Resources */,
 				7000CD291D7E8A5200DA98F2 /* MJRefresh.bundle in Resources */,
 				80F058D61E5C2FD7002B105F /* AlipaySDK.bundle in Resources */,
-				70501C941D2F4F140050E0C8 /* AYCollectServCellView.xib in Resources */,
 				70C41F1E1DBA190F00C77B10 /* area.plist in Resources */,
 				702E7AB71CA169C00097867E /* color.xml in Resources */,
 				70F428761CC7B18F00A69977 /* Info.plist in Resources */,

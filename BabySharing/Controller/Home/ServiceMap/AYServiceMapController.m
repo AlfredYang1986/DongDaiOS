@@ -40,9 +40,7 @@
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		p2pData = [dic objectForKey:kAYControllerChangeArgsKey];
-		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
-		
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
 		

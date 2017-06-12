@@ -55,9 +55,10 @@ typedef void(^queryContentFinish)(void);
 	/*************************/
 	
 	UIButton *filterBtn;
-	NSMutableArray *servDataOfCourse;
-	NSMutableArray *servDataOfNursery;
+//	NSMutableArray *servDataOfCourse;
+//	NSMutableArray *servDataOfNursery;
 	int DongDaSegIndex;		// == service_type
+	NSMutableDictionary *serviceData;
 	NSMutableDictionary *subIndexData;
 	NSArray *titleArr;
 	UIView *maskView;
@@ -181,9 +182,10 @@ typedef void(^queryContentFinish)(void);
 	dynamicOffsetY = 0.f;
 	DongDaSegIndex = ServiceTypeCourse;
 	subIndexData = [[NSMutableDictionary alloc] init];
+	serviceData = [[NSMutableDictionary alloc] init];
 	timeInterval = [NSDate date].timeIntervalSince1970;
-	servDataOfCourse = [NSMutableArray array];
-	servDataOfNursery = [NSMutableArray array];
+//	servDataOfCourse = [NSMutableArray array];
+//	servDataOfNursery = [NSMutableArray array];
 	
 	filterViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, kDongDaSegHeight)];
 	filterViewBg.backgroundColor = [Tools whiteColor];
@@ -433,22 +435,24 @@ typedef void(^queryContentFinish)(void);
 	}
 }
 
+- (NSString*)serviceDataHandleKey {
+	return [NSString stringWithFormat:@"%d", DongDaSegIndex];
+}
+
 - (void)loadMoreData {
 	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
-	
-	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
-	
+	/*condition*/
 	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
 	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
+	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			NSLog(@"query recommand tags result %@", result);
@@ -457,26 +461,13 @@ typedef void(^queryContentFinish)(void);
 			if (remoteArr.count == 0) {
 				NSString *title = @"没有更多服务了";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			}
-			else {
+			} else {
 				
-				id tmp;
-				if (DongDaSegIndex == ServiceTypeCourse) {
-//					NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
-//					NSArray *arr_course = [remoteArr filteredArrayUsingPredicate:pre_course];
-					[servDataOfCourse addObjectsFromArray:remoteArr];
-					
-					tmp = [servDataOfCourse copy];
-				} else {
-//					NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
-//					NSArray *arr_nursery = [remoteArr filteredArrayUsingPredicate:pre_nursery];
-					[servDataOfNursery addObjectsFromArray:remoteArr];
-					
-					tmp = [servDataOfNursery copy];
-				}
+				NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+				[handArr addObjectsFromArray:remoteArr];
+				skipCount += handArr.count;
 				
-				skipCount = servDataOfNursery.count + servDataOfNursery.count;
-				
+				id tmp = [handArr copy];
 				kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
@@ -496,42 +487,30 @@ typedef void(^queryContentFinish)(void);
 	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
-	
-	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
-	
+	/*condition*/
 	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
 	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
+	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		UITableView *view_table = [self.views objectForKey:@"Table"];
 		if (success) {
-			NSLog(@"query recommand tags result %@", result);
+			
 			NSArray *remoteArr = [result objectForKey:@"result"];
-			
 //			NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
-//			NSPredicate *pre_nursery = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeNursery];
 //			servDataOfCourse = [[remoteArr filteredArrayUsingPredicate:pre_course] mutableCopy];
-//			servDataOfNursery = [[remoteArr filteredArrayUsingPredicate:pre_nursery] mutableCopy];
 			
-			id tmp;
-			if (DongDaSegIndex == ServiceTypeCourse) {
-				servDataOfCourse = [remoteArr mutableCopy];
-				tmp = [servDataOfCourse copy];
-			} else if(DongDaSegIndex == ServiceTypeNursery) {
-				servDataOfNursery = [remoteArr mutableCopy];
-				tmp = [servDataOfNursery copy];
-			}
+			[serviceData setValue:[remoteArr mutableCopy] forKey:[NSString stringWithFormat:@"%d", DongDaSegIndex]];
+			skipCount = remoteArr.count;			//刷新重置 计数为当前请求service数据个数
 			
-			skipCount = servDataOfNursery.count + servDataOfNursery.count;
-			
+			id tmp = [remoteArr copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-			[view_table scrollsToTop];
+			[view_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 		} else {
 			NSString *title = @"请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -543,6 +522,68 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- notifies
+- (id)willCollectWithRow:(id)args {
+	
+	NSString *service_id = [args objectForKey:kAYServiceArgsID];
+	UIButton *likeBtn = [args objectForKey:@"btn"];
+	
+	NSDictionary *info = nil;
+	CURRENUSER(info);
+	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+	NSArray *resultArr = [handArr filteredArrayUsingPredicate:pre_id];
+	if (resultArr.count != 1) {
+		return nil;
+	}
+	NSMutableDictionary *dic = [info mutableCopy];
+	[dic setValue:[resultArr.firstObject objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+	if (!likeBtn.selected) {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = YES;
+				[resultArr.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
+			} else {
+				NSString *title = @"收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	} else {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = NO;
+				[resultArr.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
+			} else {
+				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	}
+	return nil;
+}
+
+- (id)collectCompleteWithRow:(NSString*)args {
+	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, args];
+	NSArray *result = [handArr filteredArrayUsingPredicate:pre_id];
+	if (result.count == 1) {
+		[result.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
+	}
+	return nil;
+}
+- (id)unCollectCompleteWithRow:(NSString*)args {
+	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, args];
+	NSArray *result = [handArr filteredArrayUsingPredicate:pre_id];
+	if (result.count == 1) {
+		[result.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
+	}
+	return nil;
+}
+
 - (id)scrollToShowHideTop:(NSNumber*)args {	//
 	if (isDargging) {
 		
@@ -620,11 +661,7 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
 	[args setValue:loc forKey:@"location"];
-	if (DongDaSegIndex == ServiceTypeCourse) {
-		[args setValue:[servDataOfCourse copy] forKey:@"result_data"];
-	} else {
-		[args setValue:[servDataOfNursery copy] forKey:@"result_data"];
-	}
+	[args setValue:[[serviceData objectForKey:[self serviceDataHandleKey]] copy] forKey:@"result_data"];
 	
 	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	
@@ -642,30 +679,20 @@ typedef void(^queryContentFinish)(void);
 	NSLog(@"current index %@", index);
 	
 	DongDaSegIndex = index.intValue;
-	
-	id tmp;
-	if (index.intValue == ServiceTypeCourse) {
-		
-		titleArr = kAY_service_options_title_course;
-		if (servDataOfCourse.count != 0) {
-			tmp = [servDataOfCourse copy];
-			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
-			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-		} else {
-			[self loadNewData];
-		}
-		
+	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+	if (handArr.count != 0) {
+		id tmp = [handArr copy];
+		kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	} else {
-		titleArr = kAY_service_options_title_nursery;
-		if (servDataOfNursery.count != 0) {
-			tmp = [servDataOfNursery copy];
-			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
-			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-		} else {
-			[self loadNewData];
-		}
+		[self loadNewData];
 	}
 	
+	if (index.intValue == ServiceTypeCourse) {
+		titleArr = kAY_service_options_title_course;
+	} else {
+		titleArr = kAY_service_options_title_nursery;
+	}
 	[filterCollectionView reloadData];
 	
 	return nil;

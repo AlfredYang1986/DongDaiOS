@@ -41,7 +41,7 @@
 - (NSString*)getViewName {
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
-- (id)changeQueryData:(id)array{
+- (id)changeQueryData:(id)array {
     querydata = (NSArray*)array;
     return nil;
 }

@@ -18,10 +18,7 @@
 @implementation AYCollectServController{
     
     UILabel *tipsLabel;
-}
-
-- (void)postPerform{
-    
+	NSMutableArray *resultArr;
 }
 
 #pragma mark -- commands
@@ -30,7 +27,6 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        serviceType = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -41,7 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+	
+	resultArr = [NSMutableArray array];
     
     UIView* view_nav = [self.views objectForKey:@"FakeNavBar"];
     id<AYViewBase> view_title = [self.views objectForKey:@"SetNevigationBarTitle"];
@@ -123,6 +120,7 @@
         if (success) {
             
             NSArray *data = [result objectForKey:@"result"];
+			resultArr = [data mutableCopy];
             if (data.count == 0) {
                 tipsLabel.hidden = NO;
             } else {
@@ -146,6 +144,73 @@
 }
 
 #pragma mark -- notifies
+- (id)willCollectWithRow:(id)args {
+	
+	NSString *service_id = [args objectForKey:kAYServiceArgsID];
+	UIButton *likeBtn = [args objectForKey:@"btn"];
+	
+	NSDictionary *info = nil;
+	CURRENUSER(info);
+	
+	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+	NSArray *result_pred = [resultArr filteredArrayUsingPredicate:pre_id];
+	if (result_pred.count != 1) {
+		return nil;
+	}
+	NSMutableDictionary *dic = [info mutableCopy];
+	[dic setValue:[result_pred.firstObject objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+	if (!likeBtn.selected) {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = YES;
+			} else {
+				NSString *title = @"收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	} else {
+		
+		UIAlertController *alertController= [UIAlertController alertControllerWithTitle:@"取消收藏" message:@"您确认要从我心仪的服务中移除\n当前服务吗？" preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+		UIAlertAction *certainAction = [UIAlertAction actionWithTitle:@"移除" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+			
+			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
+			[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+				if (success) {
+					NSInteger row = [resultArr indexOfObject:result_pred.firstObject];
+					[resultArr removeObject:result_pred.firstObject];
+					id data = [resultArr copy];
+					kAYDelegatesSendMessage(@"CollectServ", @"changeQueryData:", &data)
+//					kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+					dispatch_async(dispatch_get_main_queue(), ^{
+						UITableView *view_table = [self.views objectForKey:kAYTableView];
+						[view_table deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:row inSection:0]] withRowAnimation:UITableViewRowAnimationLeft];
+					});
+				} else {
+					NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+					AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				}
+			}];
+			
+		}];
+		[alertController addAction:cancelAction];
+		[alertController addAction:certainAction];
+		[self presentViewController:alertController animated:YES completion:nil];
+		
+	}
+	return nil;
+}
+
+- (id)collectCompleteWithRow:(NSString*)args {
+	return nil;
+}
+- (id)unCollectCompleteWithRow:(NSString*)args {
+	return nil;
+}
+
 - (id)leftBtnSelected {
     NSLog(@"pop view controller");
     

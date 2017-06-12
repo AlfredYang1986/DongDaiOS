@@ -510,7 +510,7 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *dic_p2p = [[NSMutableDictionary alloc]init];
-	[dic_p2p setValue:[service_info objectForKey:kAYServiceArgsLocation] forKey:@"2p"];
+	[dic_p2p setValue:[service_info copy] forKey:kAYServiceArgsInfo];
 //	dic_p2p [setValue: forKey:@"self"];
 	[dic setValue:[dic_p2p copy] forKey:kAYControllerChangeArgsKey];
 	

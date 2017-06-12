@@ -173,14 +173,17 @@
     if (annoViewHandle) {		//判断当前 是否已经有高亮的item
 		if ( annoViewHandle != view) {		// 判断是否点击了已经是高亮的item
 			AYAnnonation *anno_handleView = annoViewHandle.annotation;
-			annoViewHandle.image = nil;
+			annoViewHandle.highlighted = NO;
+//			annoViewHandle.image = nil;
 			annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
 		} else
 			return;
     }
 	
-    view.image = nil;
+	view.highlighted = YES;
+//    view.image = nil;
     view.image = [UIImage imageNamed:anno.imageName_select];
+	
 	[self setCenterCoordinate:anno.coordinate animated:YES];
 	
     annoViewHandle = view;
@@ -205,7 +208,8 @@
 			if (annoViewHandle) {		//判断当前 是否已经有高亮的item
 				if ( annoViewHandle != change_view) {		// 判断是否点击了已经是高亮的item
 					AYAnnonation *anno_handleView = annoViewHandle.annotation;
-					annoViewHandle.image = nil;
+					annoViewHandle.highlighted = NO;
+//					annoViewHandle.image = nil;
 					annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
 				}
 				else
@@ -218,8 +222,10 @@
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {
 				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
-				change_view.image = nil;
+				change_view.highlighted = YES;
+//				change_view.image = nil;
 				change_view.image = [UIImage imageNamed:one.imageName_select];
+//				[self bringSubviewToFront:change_view];
 				
 				[self setCenterCoordinate:location.coordinate animated:YES];
 			}

@@ -204,47 +204,21 @@
 }
 
 - (void)didLikeBtnClick {
-	NSDictionary *info = nil;
-	CURRENUSER(info);
 	
 	NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+	[dic setValue:likeBtn forKey:@"btn"];
 	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
 	
-	id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Home");
-	if (!likeBtn.selected) {
-		id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
-		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
-		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-			if (success) {
-				
-				likeBtn.selected = YES;
-			} else {
-				
-				NSString *title = @"收藏失败!请检查网络链接是否正常";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			}
-		}];
-	} else {
-		id<AYFacadeBase> facade = [controller.facades objectForKey:@"KidNapRemote"];
-		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
-		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-			if (success) {
-				
-				likeBtn.selected = NO;
-			} else {
-				
-				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			}
-		}];
-	}
+//	if (likeBtn.selected) {
+//		kAYViewSendNotify(self, @"willUnCollectWithRow:", &dic)
+//	} else {
+//	}
+	kAYViewSendNotify(self, @"willCollectWithRow:", &dic)
 }
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
-//	capacityLabel.alpha = 1.f;
 	
 	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
 	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
@@ -329,7 +303,7 @@
 		make.centerY.equalTo(positionSignView);
 	}];
 	
-	NSNumber *iscollect = [service_info objectForKey:@"iscollect"];
+	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	likeBtn.selected = iscollect.boolValue;
 	
 	return nil;
