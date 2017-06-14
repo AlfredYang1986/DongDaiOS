@@ -55,8 +55,6 @@ typedef void(^queryContentFinish)(void);
 	/*************************/
 	
 	UIButton *filterBtn;
-//	NSMutableArray *servDataOfCourse;
-//	NSMutableArray *servDataOfNursery;
 	int DongDaSegIndex;		// == service_type
 	NSMutableDictionary *serviceData;
 	NSMutableDictionary *subIndexData;
@@ -110,18 +108,34 @@ typedef void(^queryContentFinish)(void);
 			if ([key isEqualToString:@"filterLocation"]) {
 				addressLabel.text = [backArgs objectForKey:kAYServiceArgsAddress];
 				search_loc = [backArgs objectForKey:kAYServiceArgsLocation];
-				
+				[self loadNewData];
+				NSNumber *height = [NSNumber numberWithFloat:0.f];
+				kAYViewsSendMessage(kAYTableView, @"scrollToPostion:", &height)
 			}
 			else if ([key isEqualToString:@"filterTheme"]) {
-				
 				search_cansCat = [backArgs objectForKey:kAYServiceArgsTheme];
 				search_servCat = [backArgs objectForKey:kAYServiceArgsServiceCat];
-				
 				themeCatlabel.text = [backArgs objectForKey:@"title"];
+				[self loadNewData];
+				NSNumber *height = [NSNumber numberWithFloat:0.f];
+				kAYViewsSendMessage(kAYTableView, @"scrollToPostion:", &height)
 			}
-			[self loadNewData];
-			NSNumber *height = [NSNumber numberWithFloat:0.f];
-			kAYViewsSendMessage(kAYTableView, @"scrollToPostion:", &height)
+			else if ([key isEqualToString:@"is_change_collect"]) {
+				id service_info = [backArgs objectForKey:@"args"];
+				NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
+				NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+				NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
+				NSArray *result = [handArr filteredArrayUsingPredicate:pre_id];
+				if (result.count == 1) {
+					NSInteger index = [handArr indexOfObject:result.firstObject];
+					[handArr replaceObjectAtIndex:index withObject:service_info];
+					UITableView *view_table = [self.views objectForKey:kAYTableView];
+					id tmp = [handArr copy];
+					kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
+					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index+1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+				}
+			}
+			
 		}
 			
     }
@@ -631,7 +645,7 @@ typedef void(^queryContentFinish)(void);
 	
 	[args setValue:[NSNumber numberWithFloat:cellImageMinY] forKey:@"cell_min_y"];
 	
-	[dic setValue:[args copy] forKey:kAYControllerChangeArgsKey];
+	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 
 	id<AYCommand> cmd_show_module = HOMEPUSH;
 	[cmd_show_module performWithResult:&dic];

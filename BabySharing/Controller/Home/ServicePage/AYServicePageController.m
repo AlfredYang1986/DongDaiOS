@@ -41,7 +41,7 @@
 	
     UIButton *bar_like_btn;
     UIView *flexibleView;
-	
+	BOOL isChangeCollect;
 	/****/
 	UICollectionView *CarouselView;
 	UIPageControl *pageControl;
@@ -77,7 +77,7 @@
 		[cmd performWithResult:&args];
 		
 		[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
-		service_info = [tmp_args copy];
+		service_info = tmp_args;
 		
 		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
 		
@@ -397,13 +397,16 @@
 
 #pragma mark -- notifies
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	if (isChangeCollect) {
+		NSDictionary *back_args = @{@"args":service_info, @"key":@"is_change_collect"};
+		[dic setValue:back_args forKey:kAYControllerChangeArgsKey];
+	}
+	
+	id<AYCommand> cmd = POP;
+	[cmd performWithResult:&dic];
     return nil;
 }
 
@@ -413,21 +416,21 @@
 }
 
 -(id)scrollOffsetY:(NSNumber*)y {
-    offset_y = y.floatValue;
 	
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
+	
+	offset_y = y.floatValue;
 	if (offset_y < - kStatusAndNavBarH * 2) {
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
-	}  else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
+	}
+	else if ( offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
 		
 		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
-		//		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
 		if (alp > 0.5 && !isBlackLeftBtn) {
 			UIImage* left = IMGRESOURCE(@"bar_left_black");
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 			isBlackLeftBtn = YES;
-			
 			NSString *titleStr = @"服务详情";
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
 			isStatusHide = NO;
@@ -439,52 +442,13 @@
 			isBlackLeftBtn = NO;
 			NSString *titleStr = @"";
 			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-			
 			isStatusHide = YES;
 			[self setNeedsStatusBarAppearanceUpdate];
 		}
+		
 		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
 		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
-		
 	}
-//	else {
-//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
-//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
-//	}
-//    if (offset_y <= -kStatusAndNavBarH && offset_y >= -kStatusAndNavBarH * 2) { //偏移的绝对值 小于 abs(-64)
-//		
-//		CGFloat alp = (kStatusAndNavBarH*2 + offset_y) / (kStatusAndNavBarH);
-////		NSLog(@"(64*2 + %f) / 64 = %f",offset_y, alp);
-//		if (alp > 0.5 && !isBlackLeftBtn) {
-//			UIImage* left = IMGRESOURCE(@"bar_left_black");
-//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-//			isBlackLeftBtn = YES;
-//			
-//			NSString *titleStr = @"服务详情";
-//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-//			isStatusHide = NO;
-//			[self setNeedsStatusBarAppearanceUpdate];
-//			
-//		} else if (alp <  0.5 && isBlackLeftBtn) {
-//			UIImage* left = IMGRESOURCE(@"bar_left_white");
-//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
-//			isBlackLeftBtn = NO;
-//			NSString *titleStr = @"";
-//			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
-//			
-//			isStatusHide = YES;
-//			[self setNeedsStatusBarAppearanceUpdate];
-//		}
-//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:alp];
-//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
-//		
-//	} else if (offset_y < - kStatusAndNavBarH * 2) {
-//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
-//	} else {
-//		((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:1.f];
-//		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
-//	}
-	
 	
     CGFloat offsetH = kFlexibleHeight + offset_y;
     if (offsetH < 0) {
@@ -563,15 +527,6 @@
 }
 
 #pragma mark -- actions
-- (void)didPOPClick {
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
-}
-
 - (void)didBookBtnClick {
 	[self showServiceOfferDate];
 }
@@ -610,30 +565,30 @@
     NSDictionary *info = nil;
     CURRENUSER(info);
     
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+    NSMutableDictionary *dic = [info mutableCopy];
     [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     if (!bar_like_btn.selected) {
-        
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                
+				isChangeCollect = YES;
                 bar_like_btn.selected = YES;
+				[service_info setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
             } else {
                 NSString *title = @"收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
-    }else {
-        id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+    }
+	else {
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
         [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
             if (success) {
-                
+				isChangeCollect = YES;
                 bar_like_btn.selected = NO;
+				[service_info setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
             } else {
                 NSString *title = @"取消收藏失败!请检查网络链接是否正常";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
