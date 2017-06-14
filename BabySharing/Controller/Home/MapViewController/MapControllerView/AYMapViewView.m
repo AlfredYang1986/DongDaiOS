@@ -116,7 +116,7 @@
     }
     
     //rang
-    //    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
+//    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
 //    currentAnno = [[AYAnnonation alloc]init];
 //    currentAnno.coordinate = loc.coordinate;
 //    currentAnno.title = @"定位位置";
@@ -127,6 +127,8 @@
     [self setCenterCoordinate:loc.coordinate animated:NO];
 	
 	self.showsUserLocation = YES;
+//	self.showsUserLocation.loca
+	self.centerCoordinate = self.userLocation.location.coordinate;
 	
     return nil;
 }
@@ -225,7 +227,6 @@
 				change_view.highlighted = YES;
 //				change_view.image = nil;
 				change_view.image = [UIImage imageNamed:one.imageName_select];
-//				[self bringSubviewToFront:change_view];
 				
 				[self setCenterCoordinate:location.coordinate animated:YES];
 			}
