@@ -39,12 +39,8 @@
 	[self setZoomLevel:60.1 animated:YES];
     annoArray = [[NSMutableArray alloc]init];
 	
-//    self.centerCoordinate = self.userLocation.location.coordinate;
-//    self.rotateEnabled = NO;
-	
 	UIButton *showMyself = [[UIButton alloc]init];
 	[showMyself setImage:IMGRESOURCE(@"position_myself") forState:UIControlStateNormal];
-//	[Tools setViewRadius:showMyself withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 	[self addSubview:showMyself];
 	[showMyself mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(self).offset(-20);
@@ -52,6 +48,7 @@
 		make.size.mas_equalTo(CGSizeMake(42, 42));
 	}];
 	[showMyself addTarget:self action:@selector(didShowMyselfBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -114,21 +111,12 @@
         [self addAnnotation:anno];
         [annoArray addObject:anno];
     }
-    
-    //rang
-//    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
-//    currentAnno = [[AYAnnonation alloc]init];
-//    currentAnno.coordinate = loc.coordinate;
-//    currentAnno.title = @"定位位置";
-//    currentAnno.imageName_normal = @"location_self";
-//    currentAnno.index = 9999;
-//    [self addAnnotation:currentAnno];
-//    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-    [self setCenterCoordinate:loc.coordinate animated:NO];
 	
+//    self.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 60000, loc.coordinate.longitude - 90000, 120000, 180000);
+//    [self regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
+	[self setCenterCoordinate:loc.coordinate animated:NO];
 	self.showsUserLocation = YES;
-//	self.showsUserLocation.loca
-	self.centerCoordinate = self.userLocation.location.coordinate;
+//	self.centerCoordinate = self.userLocation.location.coordinate;
 	
     return nil;
 }
@@ -139,23 +127,21 @@
 }
 
 #pragma mark -- MKMapViewDelegate
-- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
+- (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation {
+	
     if ([annotation isKindOfClass:[AYAnnonation class]]) {
-		
         static NSString *ID = @"AYMapAnnotationViewID";
         MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
         if (annotationView == nil) {
             annotationView = [[MAAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];
         }
-        //设置属性 指定图片
+		
         AYAnnonation *anno = (AYAnnonation *) annotation;
         annotationView.image = [UIImage imageNamed:anno.imageName_normal];
-        
-        //展示详情界面
         annotationView.canShowCallout = NO;
         return annotationView;
+		
     } else {
-        //采用系统默认蓝色大头针
         return nil;
     }
 }
@@ -168,24 +154,17 @@
 		return;
 	}
 	
-//    if (anno.index == 9999) {
-//        return;
-//    }
-	
     if (annoViewHandle) {		//判断当前 是否已经有高亮的item
 		if ( annoViewHandle != view) {		// 判断是否点击了已经是高亮的item
 			AYAnnonation *anno_handleView = annoViewHandle.annotation;
 			annoViewHandle.highlighted = NO;
-//			annoViewHandle.image = nil;
 			annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
 		} else
 			return;
     }
 	
 	view.highlighted = YES;
-//    view.image = nil;
     view.image = [UIImage imageNamed:anno.imageName_select];
-	
 	[self setCenterCoordinate:anno.coordinate animated:YES];
 	
     annoViewHandle = view;
@@ -203,15 +182,15 @@
     }
 	
     for ( AYAnnonation *one in annoArray) {
+		
         if (one.index == index.longValue) {
             
             MAAnnotationView *change_view = [self viewForAnnotation:one];
-			
 			if (annoViewHandle) {		//判断当前 是否已经有高亮的item
+				
 				if ( annoViewHandle != change_view) {		// 判断是否点击了已经是高亮的item
 					AYAnnonation *anno_handleView = annoViewHandle.annotation;
 					annoViewHandle.highlighted = NO;
-//					annoViewHandle.image = nil;
 					annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
 				}
 				else
@@ -225,7 +204,6 @@
 			if (latitude && longitude) {
 				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 				change_view.highlighted = YES;
-//				change_view.image = nil;
 				change_view.image = [UIImage imageNamed:one.imageName_select];
 				
 				[self setCenterCoordinate:location.coordinate animated:YES];
