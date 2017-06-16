@@ -82,15 +82,20 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    
-    if (timer_loding) {
-        [timer_loding invalidate];
-    }
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    });
-    
-    [self didBtmAlertViewCloseBtnClick];
+	
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	
+	if (timer_loding) {
+		[timer_loding invalidate];
+	}
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[MBProgressHUD hideHUDForView:self.view animated:YES];
+	});
+	
+	[self deallocBtmAlertWithVCWillDisapper];
 }
 
 - (void)dealloc {
@@ -313,7 +318,6 @@
             maskView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
             maskView.backgroundColor = [Tools borderAlphaColor];
             [rootVC.view addSubview:maskView];
-//            [rootVC.view bringSubviewToFront:btmAlertView];
             
             [titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(btmAlertView).offset(15);
@@ -323,7 +327,6 @@
             
             NSString *btnTitleStr = @"确认";
             UIButton *otherBtn = [Tools creatUIButtonWithTitle:btnTitleStr andTitleColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil];
-//            [otherBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -65, 0, 0)];
             [otherBtn addTarget:self action:@selector(BtmAlertOtherBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [btmAlertView addSubview:otherBtn];
             [otherBtn sizeToFit];
@@ -345,16 +348,16 @@
 
 - (void)didBtmAlertViewCloseBtnClick {
 	
-    if (btmAlertView.frame.origin.y == SCREEN_HEIGHT - btmAlertViewH) {
-		NSLog(@"BtmAlertViewClose");
-        [UIView animateWithDuration:0.25 animations:^{
-            btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
-            maskView.alpha = 0;
-        } completion:^(BOOL finished) {
-            [btmAlertView removeFromSuperview];
-            [maskView removeFromSuperview];
-        }];
-    }
+	NSLog(@"BtmAlertViewClose");
+	[UIView animateWithDuration:0.25 animations:^{
+		btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
+		maskView.alpha = 0;
+	} completion:^(BOOL finished) {
+		[btmAlertView removeFromSuperview];
+		[maskView removeFromSuperview];
+		btmAlertView = nil;
+	}];
+		
 }
 
 - (void)BtmAlertOtherBtnClick {
@@ -364,6 +367,12 @@
 - (id)HideBtmAlert:(id)args {
     [self didBtmAlertViewCloseBtnClick];
     return nil;
+}
+
+- (void)deallocBtmAlertWithVCWillDisapper {
+	[btmAlertView removeFromSuperview];
+	[maskView removeFromSuperview];
+	btmAlertView = nil;
 }
 
 #pragma mark -- tabBarViewController selectedIndex

@@ -187,10 +187,13 @@
         AYRemoteCallCommand* cmd = [expose_remote.commands objectForKey:@"ExposeUser"];
         [cmd performWithResult:expose andFinishBlack:^(BOOL success, NSDictionary * result) {
             if (success) {
-                
-                NSString *title = @"我们将尽快审查您举报的用户！\n感谢您的监督和支持！";
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            }else {
+				NSString *title = @"我们将尽快审查您举报的用户！\n感谢您的监督和支持！";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//					dispatch_async(dispatch_get_main_queue(), ^{
+//					});
+//				});
+            } else {
                 
             }
         }];

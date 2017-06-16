@@ -21,7 +21,7 @@
 #import "AYServiceImagesCell.h"
 
 #define kLIMITEDSHOWNAVBAR  (-70.5)
-#define kFlexibleHeight     250
+#define kFlexibleHeight     300
 #define kBtmViewHeight       56
 #define kChatBtnWidth				69
 #define kBookBtnWidth			152
@@ -138,12 +138,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools whiteColor];
-//	[self setNeedsStatusBarAppearanceUpdate];
 	
-	HeadViewHeight = 250;
+	HeadViewHeight = kFlexibleHeight;
 	
     id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServicePage"];
-    
     id obj = (id)cmd_recommend;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
     obj = (id)cmd_recommend;
@@ -187,11 +185,6 @@
 			}];
 		}
 		
-//		flexibleView.layer.shadowColor = [Tools garyColor].CGColor;
-//		flexibleView.layer.shadowOffset = CGSizeMake(0, 3.f);
-//		flexibleView.layer.shadowOpacity = 0.45f;
-//		flexibleView.layer.shadowRadius = 3.f;
-		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 		layout.minimumLineSpacing = 0.f;
 		layout.minimumInteritemSpacing = 0.f;
@@ -217,13 +210,14 @@
 		pageControl = [[UIPageControl alloc]init];
 		pageControl.numberOfPages = carouselNumb;
 		CGSize size = [pageControl sizeForNumberOfPages:carouselNumb];
-		pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.75f];
-		pageControl.currentPageIndicatorTintColor = [Tools themeColor];
+		pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+		pageControl.currentPageIndicatorTintColor = [Tools whiteColor];
+		pageControl.transform = CGAffineTransformMakeScale(0.6, 0.6);
 		[flexibleView addSubview:pageControl];
 		[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(flexibleView).offset(-10);
+			make.bottom.equalTo(flexibleView).offset(-5);
 			make.centerX.equalTo(flexibleView);
-			make.size.mas_equalTo(size);
+			make.size.mas_equalTo(CGSizeMake(size.width, 10));
 		}];
 		pageControl.hidden = carouselNumb == 1;
 		

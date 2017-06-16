@@ -40,6 +40,7 @@
 + (UIColor*)RGB153GaryColor;
 + (UIColor*)RGB89GaryColor;
 + (UIColor*)RGB127GaryColor;
++ (UIColor*)RGB225GaryColor;
 
 + (UIColor *)garyLineColor;
 + (UIColor *)garyBackgroundColor;

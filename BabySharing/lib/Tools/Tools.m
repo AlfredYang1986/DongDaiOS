@@ -347,7 +347,7 @@
         UIViewController* appRootVC = w.rootViewController;
         topVC = appRootVC;
         
-        if (topVC.presentedViewController) {
+        if (topVC.presentedViewController && ![topVC isKindOfClass:[UIAlertController class]]) {
             topVC = topVC.presentedViewController;
         }
         
@@ -444,6 +444,9 @@
 }
 + (UIColor*)RGB127GaryColor {
 	return [UIColor colorWithRed:127.f / 255.f green:127.f / 255.f blue:127.f / 255.f alpha:1.f];
+}
++ (UIColor*)RGB225GaryColor {
+	return [UIColor colorWithRed:225.f / 255.f green:225.f / 255.f blue:225.f / 255.f alpha:1.f];
 }
 
 + (UIColor*)darkBackgroundColor {
