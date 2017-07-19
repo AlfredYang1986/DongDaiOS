@@ -66,6 +66,8 @@
 
 @implementation AYHomeDelegate{
     NSArray *servicesData;
+	
+	NSIndexPath *autoIndexPath;
 }
 
 #pragma mark -- command
@@ -75,7 +77,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
+//	autoIndexPath = [[NSIndexPath alloc]init];
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -140,19 +142,33 @@
 		return;
 	}
 	
-	[tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.19 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-		
-		NSDictionary *service_info = [servicesData objectAtIndex:indexPath.row - 1];
-		
-		UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
-		[tmp setValue:cell forKey:@"cell"];
-		[tmp setValue:service_info forKey:@"service_info"];
-		kAYDelegateSendNotify(self, @"didSelectedRow:", &tmp)
-		
-	});
+//	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+	UIView *divView = [tableView superview];
+	CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];
+	CGRect rect = [tableView convertRect:rectInTableView toView:divView];
+	NSLog(@"\n   cy:%f\n   y:%f\n    h:%f\n   y+h/2:%f",divView.center.y, rect.origin.y, rect.size.height, rect.origin.y+rect.size.height*0.5);
 	
+	autoIndexPath = indexPath;
+	if ( abs((int)divView.center.y - (int)(rect.origin.y+rect.size.height*0.5)) <= 30) {
+		[self scrollViewDidEndScrollingAnimation:tableView];
+		NSLog(@"\nhand");
+	} else {
+		NSLog(@"\nauto");
+		[tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+	}
+	
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+	
+	if (autoIndexPath) {
+		NSDictionary *service_info = [servicesData objectAtIndex:autoIndexPath.row - 1];
+		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+		[tmp setValue:[autoIndexPath copy] forKey:@"indexpath"];
+		[tmp setValue:service_info forKey:@"service_info"];
+		autoIndexPath = nil;
+		kAYDelegateSendNotify(self, @"didSelectedRow:", &tmp)
+	}
 }
 
 #pragma mark -- UIScrollViewDelegate
@@ -161,7 +177,7 @@
 	static CGFloat offset_origin_y = 0;
 	CGFloat offset_now_y = scrollView.contentOffset.y;
 	CGFloat offset_t = offset_origin_y - offset_now_y;
-	NSLog(@"%f", offset_t);
+//	NSLog(@"%f", offset_t);
 	NSNumber *tmp = [NSNumber numberWithFloat:offset_t];
 	kAYDelegateSendNotify(self, @"scrollToShowHideTop:", &tmp)
 //	if (offset_t  > 0.1) {		//下滑往上滚

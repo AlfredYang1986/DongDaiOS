@@ -83,8 +83,8 @@ typedef enum : int {
 
 #define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
 
-#define kAY_service_options_title_nursery        @[@"日间看顾", @"课后看顾"]
 #define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学"]
+#define kAY_service_options_title_nursery        @[@"日间看顾", @"课后看顾"]
 
 #define kAY_service_course_title_0              @[@"钢琴", @"舞蹈", @"书法", @"中国画", @"绘画", @"尤克丽丽", @"戏剧"]
 #define kAY_service_course_title_1              @[@"瑜伽健身", @"篮球", @"马术", @"围棋", @"击剑", @"桌游"]

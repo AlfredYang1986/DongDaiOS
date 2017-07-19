@@ -633,7 +633,9 @@ typedef void(^queryContentFinish)(void);
 
 - (id)didSelectedRow:(NSMutableDictionary*)args {
 	
-	UITableViewCell *cell = [args objectForKey:@"cell"];
+	NSIndexPath *indexPath = [args objectForKey:@"indexpath"];
+	UITableView *view_table = [self.views objectForKey:kAYTableView];
+	UITableViewCell *cell = [view_table cellForRowAtIndexPath:indexPath];
 	
 	CGFloat cellImageMinY = (SCREEN_HEIGHT - 64 - 44 - 49 - cell.bounds.size.height) * 0.5 + 64 + 44 - 10;
 	
