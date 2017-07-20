@@ -309,6 +309,7 @@
 		7048AEA41F209E9500C7BE8D /* AYHomeAssortmentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEA31F209E9500C7BE8D /* AYHomeAssortmentCellView.m */; };
 		7048AEA71F20A51000C7BE8D /* AYHomeAssortmentCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEA61F20A51000C7BE8D /* AYHomeAssortmentCellItem.m */; };
 		7048AEAA1F20AC0100C7BE8D /* AYHomeMoreTitleCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEA91F20AC0100C7BE8D /* AYHomeMoreTitleCellView.m */; };
+		7048AEAD1F20CCE500C7BE8D /* AYHomeSortDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7048AEAC1F20CCE500C7BE8D /* AYHomeSortDelegate.m */; };
 		70490DA01CA2225F0093D5DA /* AYAPNNotificationCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */; };
 		70490DA41CA222990093D5DA /* AYAPNNotificationCommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 70490DA31CA222990093D5DA /* AYAPNNotificationCommandFactory.m */; };
 		70490DBD1CA2339D0093D5DA /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70490DA71CA2339D0093D5DA /* TencentOpenAPI.framework */; };
@@ -1411,6 +1412,8 @@
 		7048AEA61F20A51000C7BE8D /* AYHomeAssortmentCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeAssortmentCellItem.m; sourceTree = "<group>"; };
 		7048AEA81F20AC0100C7BE8D /* AYHomeMoreTitleCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeMoreTitleCellView.h; sourceTree = "<group>"; };
 		7048AEA91F20AC0100C7BE8D /* AYHomeMoreTitleCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeMoreTitleCellView.m; sourceTree = "<group>"; };
+		7048AEAB1F20CCE500C7BE8D /* AYHomeSortDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHomeSortDelegate.h; sourceTree = "<group>"; };
+		7048AEAC1F20CCE500C7BE8D /* AYHomeSortDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHomeSortDelegate.m; sourceTree = "<group>"; };
 		70490D9E1CA2225F0093D5DA /* AYAPNNotificationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommand.h; sourceTree = "<group>"; };
 		70490D9F1CA2225F0093D5DA /* AYAPNNotificationCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAPNNotificationCommand.m; sourceTree = "<group>"; };
 		70490DA21CA222990093D5DA /* AYAPNNotificationCommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAPNNotificationCommandFactory.h; sourceTree = "<group>"; };
@@ -5189,6 +5192,8 @@
 				70397FD41F1F4AB30055F75F /* AYHomeAroundDelegate.m */,
 				7056B9101F1F29F900386E3A /* AYHomeDelegate.h */,
 				7056B9111F1F29F900386E3A /* AYHomeDelegate.m */,
+				7048AEAB1F20CCE500C7BE8D /* AYHomeSortDelegate.h */,
+				7048AEAC1F20CCE500C7BE8D /* AYHomeSortDelegate.m */,
 			);
 			path = AYHomeDelegate;
 			sourceTree = "<group>";
@@ -9243,6 +9248,7 @@
 				706E460C1CFC107A00CC7C53 /* AYInputCoderController.m in Sources */,
 				7056BA131F1F2BF400386E3A /* AYTodoApplyCellView.m in Sources */,
 				7056B9E31F1F2BF400386E3A /* AYFutureOrderSerDelegate.m in Sources */,
+				7048AEAD1F20CCE500C7BE8D /* AYHomeSortDelegate.m in Sources */,
 				80D5E7C11CCC7C2000A82117 /* AYPhotoTagView.m in Sources */,
 				70120A181E6EA8AF00136B8E /* AYServiceTimesPickDelegate.m in Sources */,
 				700047501D9BB7A9000AE1C9 /* AYPushRealNameCommand.m in Sources */,

@@ -54,6 +54,7 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary *dic_location;
 	CLLocation *loc;
 
+	int currentIndex;
 }
 
 @synthesize manager = _manager;
@@ -115,6 +116,7 @@ typedef void(^queryContentFinish)(void);
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	currentIndex = 1;
 	dynamicOffsetY = 0.f;
 	DongDaSegIndex = ServiceTypeCourse;
 	subIndexData = [[NSMutableDictionary alloc] init];
@@ -143,25 +145,47 @@ typedef void(^queryContentFinish)(void);
 //	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
 	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
-	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Home"];
-	id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-	id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
+	{
+		id<AYDelegateBase> delegate_found = [self.delegates objectForKey:@"Home"];
+		id obj = (id)delegate_found;
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+		obj = (id)delegate_found;
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+		
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeBannerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+		class_name = @"AYHomeTopicsCellView";
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+		class_name = @"AYHomeAssortmentCellView";
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+		class_name = @"AYHomeMoreTitleCellView";
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	}
 	
-	id obj = (id)cmd_notify;
-	[cmd_datasource performWithResult:&obj];
-	obj = (id)cmd_notify;
-	[cmd_delegate performWithResult:&obj];
+	{
+		id<AYDelegateBase> delegate_around = [self.delegates objectForKey:@"HomeAround"];
+		id obj = (id)delegate_around;
+		kAYViewsSendMessage(@"Table2", kAYTableRegisterDatasourceMessage, &obj)
+		obj = (id)delegate_around;
+		kAYViewsSendMessage(@"Table2", kAYTableRegisterDelegateMessage, &obj)
+		
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(@"Table2", kAYTableRegisterCellWithClassMessage, &class_name)
+	}
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeBannerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = @"AYHomeTopicsCellView";
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = @"AYHomeAssortmentCellView";
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = @"AYHomeMoreTitleCellView";
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	{
+		id<AYDelegateBase> delegate_sort = [self.delegates objectForKey:@"HomeSort"];
+		id obj = (id)delegate_sort;
+		kAYViewsSendMessage(@"Table3", kAYTableRegisterDatasourceMessage, &obj)
+		obj = (id)delegate_sort;
+		kAYViewsSendMessage(@"Table3", kAYTableRegisterDelegateMessage, &obj)
+		
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(@"Table3", kAYTableRegisterCellWithClassMessage, &class_name)
+	}
+	
 	
 	[self loadNewData];
 	[self startLocation];
@@ -241,7 +265,7 @@ typedef void(^queryContentFinish)(void);
 	[cmd_add_item performWithResult:&dic_add_item_2];
 	
 	NSMutableDictionary* dic_user_info = [[NSMutableDictionary alloc]init];
-	[dic_user_info setValue:[NSNumber numberWithInt:0] forKey:kAYSegViewCurrentSelectKey];
+	[dic_user_info setValue:[NSNumber numberWithInt:1] forKey:kAYSegViewCurrentSelectKey];
 	[dic_user_info setValue:[NSNumber numberWithFloat:40] forKey:kAYSegViewMarginBetweenKey];
 	
 	id<AYCommand> cmd_info = [seg.commands objectForKey:@"setSegInfo:"];
@@ -540,16 +564,56 @@ typedef void(^queryContentFinish)(void);
 	[cmd performWithResult:&index];
 	NSLog(@"current index %@", index);
 	
-	DongDaSegIndex = index.intValue;
-	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
-	if (handArr.count != 0) {
-		id tmp = [handArr copy];
-		kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
-		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-	} else {
-		[self loadNewData];
+	int changeIndex = index.intValue;
+	if(changeIndex == currentIndex)
+		return nil;
+	
+	UIView *table_around = [self.views objectForKey:@"Table2"];
+	UIView *table_found = [self.views objectForKey:kAYTableView];
+	UIView *table_sort = [self.views objectForKey:@"Table3"];
+	
+	if(changeIndex == 0) {
+		
+		if (currentIndex == 1) {
+			[UIView animateWithDuration:0.25 animations:^{
+				table_found.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_around.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+			}];
+		} else {
+			[UIView animateWithDuration:0.25 animations:^{
+				table_sort.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_around.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+			}];
+		}
+	} else if (changeIndex == 1) {
+		
+		if (currentIndex == 0) {
+			[UIView animateWithDuration:0.25 animations:^{
+				table_around.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_found.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+			}];
+		} else {
+			[UIView animateWithDuration:0.25 animations:^{
+				table_sort.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_found.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+			}];
+		}
+	} else {//change 2
+		
+		if (currentIndex == 0) {
+			[UIView animateWithDuration:0.25 animations:^{
+				table_around.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_sort.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+			}];
+		} else {
+			[UIView animateWithDuration:0.25 animations:^{
+				table_found.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_sort.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+			}];
+		}
 	}
 	
+	currentIndex = changeIndex;
 	return nil;
 }
 

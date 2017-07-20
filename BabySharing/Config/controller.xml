@@ -268,6 +268,9 @@
 		<view type="Table3"          name="Table3" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
+		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />
+		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
+		
 <!--		<delegate type="CollectionViewDelegateAndDatasource" name="HomeCollect" />-->
     </controller>
 	
