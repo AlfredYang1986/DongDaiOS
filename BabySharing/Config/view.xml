@@ -85,18 +85,28 @@
         <command type="message" message="registerHeaderAndFooterWithNib:" />
         <command type="message" message="scrollToPostion:" />
     </view>
-    
-    <view type="Table2" name="Table2" factory="AYDefaultViewFactory" >
-        <command type="message" message="refresh" />
-        <command type="message" message="registerDatasource:" />
-        <command type="message" message="registerDelegate:" />
-        <command type="message" message="registerCellWithClass:" />
-        <command type="message" message="registerCellWithNib:" />
-        <command type="message" message="registerHeaderAndFooterWithClass:" />
-        <command type="message" message="registerHeaderAndFooterWithNib:" />
-        <command type="message" message="scrollToPostion:" />
-    </view>
-    
+	
+	<view type="Table2" name="Table2" factory="AYDefaultViewFactory" >
+		<command type="message" message="refresh" />
+		<command type="message" message="registerDatasource:" />
+		<command type="message" message="registerDelegate:" />
+		<command type="message" message="registerCellWithClass:" />
+		<command type="message" message="registerCellWithNib:" />
+		<command type="message" message="registerHeaderAndFooterWithClass:" />
+		<command type="message" message="registerHeaderAndFooterWithNib:" />
+		<command type="message" message="scrollToPostion:" />
+	</view>
+	<view type="Table3" name="Table3" factory="AYDefaultViewFactory" >
+		<command type="message" message="refresh" />
+		<command type="message" message="registerDatasource:" />
+		<command type="message" message="registerDelegate:" />
+		<command type="message" message="registerCellWithClass:" />
+		<command type="message" message="registerCellWithNib:" />
+		<command type="message" message="registerHeaderAndFooterWithClass:" />
+		<command type="message" message="registerHeaderAndFooterWithNib:" />
+		<command type="message" message="scrollToPostion:" />
+	</view>
+	
     <view type="AddFriends" name="AddFriends" factory="AYDefaultViewFactory" >
         <command type="notify" message="touchUpInside" />
     </view>
@@ -390,11 +400,24 @@
 		<command type="notify"      message="collectCompleteWithRow:" />
 		<command type="notify"      message="unCollectCompleteWithRow:" />
 	</view>
+	<view type="HomeBannerCell" name="HomeBannerCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="HomeTopicsCell" name="HomeTopicsCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="HomeAssortmentCell" name="HomeAssortmentCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="HomeMoreTitleCell" name="HomeMoreTitleCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	
     <view type="HomeTipCell" name="HomeTipCell" factory="AYReuseViewFactory" >
         <command type="message"     message="resetPush:" />
         <command type="notify"      message="didPushInfo" />
     </view>
+	
 	
 	<view type="FilterLocationCell" name="FilterLocationCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />

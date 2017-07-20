@@ -420,7 +420,7 @@
 }
 
 + (UIColor*)blackColor {
-    return [UIColor colorWithRed:89.0/255.0 green:89.0/255.0 blue:89.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:64.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];
 }
 
 + (UIColor*)whiteColor {

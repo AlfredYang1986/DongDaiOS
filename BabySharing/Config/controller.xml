@@ -264,6 +264,8 @@
 		<view type="DongDaSeg" name="DongDaSeg" />
 <!--		<view type="CollectionVer" name="CollectionVer" />-->
 		<view type="Table"          name="Table" />
+		<view type="Table2"          name="Table2" />
+		<view type="Table3"          name="Table3" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
 <!--		<delegate type="CollectionViewDelegateAndDatasource" name="HomeCollect" />-->

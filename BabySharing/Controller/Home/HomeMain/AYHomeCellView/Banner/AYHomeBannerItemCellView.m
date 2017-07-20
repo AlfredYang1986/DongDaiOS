@@ -1,15 +1,15 @@
 //
-//  AYServiceImagesCell.m
+//  AYHomeBannerItemCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 5/6/17.
+//  Created by Alfred Yang on 20/7/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYServiceImagesCell.h"
+#import "AYHomeBannerItemCellView.h"
 #import "AYCommandDefines.h"
 
-@implementation AYServiceImagesCell {
+@implementation AYHomeBannerItemCellView{
 	UIImageView *imageView;
 }
 
@@ -32,6 +32,7 @@
 - (void)initialize {
 	
 	self.backgroundColor = [UIColor clearColor];
+	self.clipsToBounds = YES;
 	
 	imageView = [[UIImageView alloc] init];
 	imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -43,13 +44,16 @@
 	
 }
 
-- (void)setItemImageWithImageName:(NSString *)imageName {
-	
-	[imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageHighPriority];
+- (void)setItemImageWithImageUrl:(NSString *)imageUrl {
+	[imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageHighPriority];
 }
 
 - (void)setItemImageWithImage:(UIImage *)image {
 	imageView.image = image;
+}
+
+- (void)setItemImageWithImageName:(NSString*)imageName {
+	imageView.image = [UIImage imageNamed:imageName];
 }
 
 @end
