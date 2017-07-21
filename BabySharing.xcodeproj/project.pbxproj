@@ -451,6 +451,8 @@
 		705D66ED1F21F6CF0069BF42 /* AYAssortmentListCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D66EC1F21F6CF0069BF42 /* AYAssortmentListCellView.m */; };
 		705D66F21F21F7190069BF42 /* AYTopicsListCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D66F11F21F7190069BF42 /* AYTopicsListCellView.m */; };
 		705D66F51F21F72B0069BF42 /* AYTopicsListDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D66F41F21F72B0069BF42 /* AYTopicsListDelegate.m */; };
+		705D66FB1F220C130069BF42 /* AYTopicContentDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D66FA1F220C130069BF42 /* AYTopicContentDelegate.m */; };
+		705D66FE1F220C280069BF42 /* AYTopicContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705D66FD1F220C280069BF42 /* AYTopicContentController.m */; };
 		705EC8831CE4BC1D0008D5EA /* AYTagContentModelFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EC8771CE4BC1D0008D5EA /* AYTagContentModelFacade.m */; };
 		705EC8841CE4BC1D0008D5EA /* AYAppendTagContentDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EC87A1CE4BC1D0008D5EA /* AYAppendTagContentDataCommand.m */; };
 		705EC8851CE4BC1D0008D5EA /* AYEnumTagContentDataCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 705EC87C1CE4BC1D0008D5EA /* AYEnumTagContentDataCommand.m */; };
@@ -1698,6 +1700,10 @@
 		705D66F11F21F7190069BF42 /* AYTopicsListCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTopicsListCellView.m; sourceTree = "<group>"; };
 		705D66F31F21F72B0069BF42 /* AYTopicsListDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTopicsListDelegate.h; sourceTree = "<group>"; };
 		705D66F41F21F72B0069BF42 /* AYTopicsListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTopicsListDelegate.m; sourceTree = "<group>"; };
+		705D66F91F220C130069BF42 /* AYTopicContentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTopicContentDelegate.h; sourceTree = "<group>"; };
+		705D66FA1F220C130069BF42 /* AYTopicContentDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTopicContentDelegate.m; sourceTree = "<group>"; };
+		705D66FC1F220C280069BF42 /* AYTopicContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTopicContentController.h; sourceTree = "<group>"; };
+		705D66FD1F220C280069BF42 /* AYTopicContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTopicContentController.m; sourceTree = "<group>"; };
 		705EC8761CE4BC1D0008D5EA /* AYTagContentModelFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTagContentModelFacade.h; sourceTree = "<group>"; };
 		705EC8771CE4BC1D0008D5EA /* AYTagContentModelFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTagContentModelFacade.m; sourceTree = "<group>"; };
 		705EC8791CE4BC1D0008D5EA /* AYAppendTagContentDataCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAppendTagContentDataCommand.h; sourceTree = "<group>"; };
@@ -5988,6 +5994,33 @@
 			path = TopicsListView;
 			sourceTree = "<group>";
 		};
+		705D66F61F220BF10069BF42 /* TopicContent */ = {
+			isa = PBXGroup;
+			children = (
+				705D66F71F220BF10069BF42 /* TopicContentDelegate */,
+				705D66F81F220BF10069BF42 /* TopicContentView */,
+				705D66FC1F220C280069BF42 /* AYTopicContentController.h */,
+				705D66FD1F220C280069BF42 /* AYTopicContentController.m */,
+			);
+			path = TopicContent;
+			sourceTree = "<group>";
+		};
+		705D66F71F220BF10069BF42 /* TopicContentDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				705D66F91F220C130069BF42 /* AYTopicContentDelegate.h */,
+				705D66FA1F220C130069BF42 /* AYTopicContentDelegate.m */,
+			);
+			path = TopicContentDelegate;
+			sourceTree = "<group>";
+		};
+		705D66F81F220BF10069BF42 /* TopicContentView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TopicContentView;
+			sourceTree = "<group>";
+		};
 		705EC8751CE4BC1D0008D5EA /* TagContentModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -6235,6 +6268,7 @@
 		707E79C41D06733100DFC198 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				705D66F61F220BF10069BF42 /* TopicContent */,
 				705D66DE1F21F17E0069BF42 /* AssortmentList */,
 				705D66DF1F21F17E0069BF42 /* TopicsList */,
 				70A3336C1E095BE800C1517C /* FilterTheme */,
@@ -9268,6 +9302,7 @@
 				70125A171E0AAC030082C76B /* AYMapMatchCellView.m in Sources */,
 				70FE54DA1D98E78F0077A3E9 /* AYCommentServiceCommand.m in Sources */,
 				70168F471E23657C00FD5B6A /* AYBOrderMainDateCellView.m in Sources */,
+				705D66FE1F220C280069BF42 /* AYTopicContentController.m in Sources */,
 				7000CD281D7E8A5200DA98F2 /* MJRefreshStateHeader.m in Sources */,
 				70F428781CC7B18F00A69977 /* MASConstraint.m in Sources */,
 				702F79DB1E1215A10062F2EA /* AYBOrderTimeController.m in Sources */,
@@ -9464,6 +9499,7 @@
 				7056BA001F1F2BF400386E3A /* AYOrderInfoPageController.m in Sources */,
 				70A27C0D1D0EFBE300B131AB /* AYPublishServiceCommand.m in Sources */,
 				7056BA0D1F1F2BF400386E3A /* AYPayWayCellView.m in Sources */,
+				705D66FB1F220C130069BF42 /* AYTopicContentDelegate.m in Sources */,
 				70360B5F1E57125A00D5332F /* AYSMSSendCommand.m in Sources */,
 				705D66F21F21F7190069BF42 /* AYTopicsListCellView.m in Sources */,
 				7000CD2B1D7E8A5200DA98F2 /* UIScrollView+MJExtension.m in Sources */,

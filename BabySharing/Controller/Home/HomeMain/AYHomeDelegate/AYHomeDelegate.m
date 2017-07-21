@@ -144,10 +144,10 @@
 		return 160;
 	}
 	else if (indexPath.row == 1) {
-		return 250.f;
+		return 260.f;
 	}
 	else if (indexPath.row == 2) {
-		return 180.f;
+		return 160.f;
 	}
 	else if (indexPath.row == 3) {
 		return 50.f;

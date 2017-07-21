@@ -68,7 +68,7 @@
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	view.backgroundColor = [Tools whiteColor];
 	
-	NSString *title = @"全部分类";
+	NSString *title = @"热门分类";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_black");

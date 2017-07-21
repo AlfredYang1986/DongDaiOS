@@ -32,14 +32,21 @@
 - (void)initialize {
 	
 	self.backgroundColor = [UIColor clearColor];
-	self.clipsToBounds = YES;
 	
 	imageView = [[UIImageView alloc] init];
 	imageView.contentMode = UIViewContentModeScaleAspectFill;
+	imageView.clipsToBounds = YES;
 	imageView.image = IMGRESOURCE(@"default_image");
 	[self addSubview:imageView];
 	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self);
+		make.edges.equalTo(self).insets(UIEdgeInsetsMake(22, 27, 22, 27));
+	}];
+	
+	UIView *borderView = [[UIView alloc] init];
+	[Tools setViewBorder:borderView withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:[UIColor clearColor]];
+	[self addSubview:borderView];
+	[borderView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(self).insets(UIEdgeInsetsMake(15, 20, 15, 20));
 	}];
 	
 }

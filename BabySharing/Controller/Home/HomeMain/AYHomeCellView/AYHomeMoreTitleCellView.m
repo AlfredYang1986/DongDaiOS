@@ -29,7 +29,7 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"More" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		UILabel *titleLabel = [Tools creatUILabelWithText:@"更多服务" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.center.equalTo(self);

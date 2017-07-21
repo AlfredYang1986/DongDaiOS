@@ -63,12 +63,12 @@
 	pageControl = [[UIPageControl alloc]init];
 	pageControl.numberOfPages = imagesArray.count - 2;
 	CGSize size = [pageControl sizeForNumberOfPages:imagesArray.count - 2];
-	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-	pageControl.currentPageIndicatorTintColor = [Tools whiteColor];
+	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:0.75f alpha:0.5f];
+	pageControl.currentPageIndicatorTintColor = [Tools garyColor];
 	pageControl.transform = CGAffineTransformMakeScale(0.6, 0.6);
 	[self addSubview:pageControl];
 	[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self).offset(-5);
+		make.bottom.equalTo(self).offset(0);
 		make.centerX.equalTo(self);
 		make.size.mas_equalTo(CGSizeMake(size.width, 10));
 	}];
