@@ -1,12 +1,12 @@
 //
-//  AYHomeMoreTitleCellView.m
+//  AYAssortmentListCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 20/7/17.
+//  Created by Alfred Yang on 21/7/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHomeMoreTitleCellView.h"
+#import "AYAssortmentListCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -16,8 +16,10 @@
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
 
-@implementation AYHomeMoreTitleCellView {
-	
+@implementation AYAssortmentListCellView {
+	UIImageView *imageView;
+	UILabel *assortmentTitle;
+	UILabel *skipedCount;
 }
 
 @synthesize para = _para;
@@ -29,29 +31,29 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"More" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.center.equalTo(self);
+		
+		imageView = [[UIImageView alloc]init];
+		imageView.backgroundColor = [Tools randomColor];
+		[self addSubview: imageView];
+		[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(self);
 		}];
 		
-		UIView *leftLine = [UIView new];
-		UIView *rightLine = [UIView new];
-		[self addSubview:leftLine];
-		[self addSubview:rightLine];
-		leftLine.backgroundColor = rightLine.backgroundColor = [Tools garyLineColor];
-		
-		[leftLine mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.centerY.equalTo(titleLabel);
-			make.right.equalTo(titleLabel.mas_left).offset(-30);
-			make.height.mas_equalTo(0.5);
+		assortmentTitle = [Tools creatUILabelWithText:@"# Assortment' title #" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[self addSubview:assortmentTitle];
+		[assortmentTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(imageView).offset(-30);
+			make.centerX.equalTo(self);
 		}];
 		
-		[rightLine mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-20);
-			make.centerY.equalTo(titleLabel);
-			make.size.equalTo(leftLine);
+		skipedCount = [Tools creatUILabelWithText:@"Skiped' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:skipedCount withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
+		[self addSubview:skipedCount];
+		[skipedCount sizeToFit];
+		[skipedCount mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(assortmentTitle.mas_bottom).offset(10);
+			make.centerX.equalTo(self);
+			make.size.mas_equalTo(CGSizeMake(skipedCount.bounds.size.width + 20, 20));
 		}];
 		
 		if (reuseIdentifier != nil) {
@@ -63,7 +65,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeMoreTitleCell", @"HomeMoreTitleCell");
+	id<AYViewBase> cell = VIEW(@"AssortmentListCell", @"AssortmentListCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {

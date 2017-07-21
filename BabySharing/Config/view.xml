@@ -400,16 +400,36 @@
 		<command type="notify"      message="collectCompleteWithRow:" />
 		<command type="notify"      message="unCollectCompleteWithRow:" />
 	</view>
+	
 	<view type="HomeBannerCell" name="HomeBannerCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	<view type="HomeTopicsCell" name="HomeTopicsCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didTopicsMoreBtnClick" />
 	</view>
 	<view type="HomeAssortmentCell" name="HomeAssortmentCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didAssortmentMoreBtnClick" />
 	</view>
 	<view type="HomeMoreTitleCell" name="HomeMoreTitleCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
+	<view type="HomeAroundCell" name="HomeAroundCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="HomeSortCourseCell" name="HomeSortCourseCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="HomeSortNurseryCell" name="HomeSortNurseryCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
+	<view type="AssortmentListCell" name="AssortmentListCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="TopicsListCell" name="TopicsListCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
 	

@@ -1,12 +1,12 @@
 //
-//  AYHomeMoreTitleCellView.m
+//  AYHomeSortNurseryCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 20/7/17.
+//  Created by Alfred Yang on 21/7/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHomeMoreTitleCellView.h"
+#import "AYHomeSortNurseryCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -16,7 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
 
-@implementation AYHomeMoreTitleCellView {
+@implementation AYHomeSortNurseryCellView {
 	
 }
 
@@ -29,29 +29,28 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"More" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.center.equalTo(self);
+//		self.backgroundColor = [UIColor orangeColor];
+		
+		CGFloat margin = 20.f;
+		
+		UIImageView *nurseryDailySignView = [[UIImageView alloc]init];
+		nurseryDailySignView.backgroundColor = [Tools randomColor];
+		[Tools setViewBorder:nurseryDailySignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+		[self addSubview:nurseryDailySignView];
+		[nurseryDailySignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(margin);
+			make.top.equalTo(self).offset(10);
+			make.size.mas_equalTo(CGSizeMake((SCREEN_WIDTH - margin*2 - 15)/2, 95));
 		}];
 		
-		UIView *leftLine = [UIView new];
-		UIView *rightLine = [UIView new];
-		[self addSubview:leftLine];
-		[self addSubview:rightLine];
-		leftLine.backgroundColor = rightLine.backgroundColor = [Tools garyLineColor];
-		
-		[leftLine mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.centerY.equalTo(titleLabel);
-			make.right.equalTo(titleLabel.mas_left).offset(-30);
-			make.height.mas_equalTo(0.5);
-		}];
-		
-		[rightLine mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-20);
-			make.centerY.equalTo(titleLabel);
-			make.size.equalTo(leftLine);
+		UIImageView *nurseryAfterClassSignView = [[UIImageView alloc]init];
+		[Tools setViewBorder:nurseryAfterClassSignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+		nurseryAfterClassSignView.backgroundColor = [Tools randomColor];
+		[self addSubview:nurseryAfterClassSignView];
+		[nurseryAfterClassSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-margin);
+			make.top.equalTo(self).offset(10);
+			make.size.equalTo(nurseryDailySignView);
 		}];
 		
 		if (reuseIdentifier != nil) {
@@ -63,7 +62,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeMoreTitleCell", @"HomeMoreTitleCell");
+	id<AYViewBase> cell = VIEW(@"HomeSortNurseryCell", @"HomeSortNurseryCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -111,9 +110,10 @@
 
 #pragma mark -- actions
 
-
 #pragma mark -- messages
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSDictionary*)dic_args {
+	
+	
 	
 	return nil;
 }

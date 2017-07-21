@@ -171,8 +171,23 @@ typedef void(^queryContentFinish)(void);
 		obj = (id)delegate_around;
 		kAYViewsSendMessage(@"Table2", kAYTableRegisterDelegateMessage, &obj)
 		
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		kAYViewsSendMessage(@"Table2", kAYTableRegisterCellWithClassMessage, &class_name)
+		
+		UITableView *view_table_around = [self.views objectForKey:@"Table2"];
+		UIButton *mapBtn = [[UIButton alloc] init];
+		[mapBtn setTitle:@"Map" forState:UIControlStateNormal];
+		[mapBtn setImage:IMGRESOURCE(@"") forState:UIControlStateNormal];
+		[Tools setViewBorder:mapBtn withRadius:19.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		
+		[self.view addSubview:mapBtn];
+		[self.view bringSubviewToFront:mapBtn];
+		[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.size.mas_equalTo(CGSizeMake(90, 38));
+			make.right.equalTo(view_table_around).offset(-30);
+			make.bottom.equalTo(self.view).offset(-68);
+		}];
+		
 	}
 	
 	{
@@ -182,7 +197,9 @@ typedef void(^queryContentFinish)(void);
 		obj = (id)delegate_sort;
 		kAYViewsSendMessage(@"Table3", kAYTableRegisterDelegateMessage, &obj)
 		
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeSortNurseryCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(@"Table3", kAYTableRegisterCellWithClassMessage, &class_name)
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeSortCourseCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		kAYViewsSendMessage(@"Table3", kAYTableRegisterCellWithClassMessage, &class_name)
 	}
 	
@@ -283,10 +300,13 @@ typedef void(^queryContentFinish)(void);
 }
 - (id)Table2Layout:(UIView*)view {
 	view.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+//	((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
 	return nil;
 }
 - (id)Table3Layout:(UIView*)view {
 	view.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+	((UITableView*)view).contentOffset = CGPointMake(0, -20);
+	view.backgroundColor = [Tools whiteColor];
 	return nil;
 }
 
@@ -572,48 +592,76 @@ typedef void(^queryContentFinish)(void);
 	UIView *table_found = [self.views objectForKey:kAYTableView];
 	UIView *table_sort = [self.views objectForKey:@"Table3"];
 	
+	CGFloat table_found_y = table_found.frame.origin.y;
+	CGFloat table_found_height = table_found.bounds.size.height;
+	
 	if(changeIndex == 0) {
 		
 		if (currentIndex == 1) {
 			[UIView animateWithDuration:0.25 animations:^{
-				table_found.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-				table_around.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_found.frame = CGRectMake(SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
+				table_around.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		} else {
 			[UIView animateWithDuration:0.25 animations:^{
-				table_sort.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-				table_around.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_sort.frame = CGRectMake(SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
+				table_around.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		}
 	} else if (changeIndex == 1) {
 		
 		if (currentIndex == 0) {
 			[UIView animateWithDuration:0.25 animations:^{
-				table_around.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-				table_found.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_around.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
+				table_found.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		} else {
 			[UIView animateWithDuration:0.25 animations:^{
-				table_sort.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-				table_found.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_sort.frame = CGRectMake(SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
+				table_found.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		}
 	} else {//change 2
 		
 		if (currentIndex == 0) {
 			[UIView animateWithDuration:0.25 animations:^{
-				table_around.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-				table_sort.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_around.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
+				table_sort.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		} else {
 			[UIView animateWithDuration:0.25 animations:^{
-				table_found.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-				table_sort.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+				table_found.frame = CGRectMake(-SCREEN_WIDTH, table_found_y, SCREEN_WIDTH, table_found_height);
+				table_sort.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		}
 	}
 	
 	currentIndex = changeIndex;
+	return nil;
+}
+
+- (id)didTopicsMoreBtnClick {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"TopicsList");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
+	return nil;
+}
+- (id)didAssortmentMoreBtnClick {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"AssortmentList");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
 	return nil;
 }
 

@@ -1,16 +1,16 @@
 //
-//  AYHomeCollectDelegate.m
+//  AYTopicsListDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 31/5/17.
+//  Created by Alfred Yang on 21/7/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHomeAroundDelegate.h"
+#import "AYTopicsListDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYModelFacade.h"
 
-@implementation AYHomeAroundDelegate {
+@implementation AYTopicsListDelegate {
 	
 }
 
@@ -52,19 +52,19 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"TopicsListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	cell.controller = self.controller;
 	
-//	id tmp;
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	//	id tmp;
+	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 130.f;
+	return 175.f;
 }
 
 @end

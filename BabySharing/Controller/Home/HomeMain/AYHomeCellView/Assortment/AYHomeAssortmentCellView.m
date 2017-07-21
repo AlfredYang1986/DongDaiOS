@@ -45,7 +45,7 @@
 			make.centerY.equalTo(titleLabel);
 			make.size.mas_equalTo(CGSizeMake(60, 20));
 		}];
-		
+		[moreBtn addTarget:self action:@selector(didAssortmentMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		
 		UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
 		flowLayout.itemSize  = CGSizeMake(140, 90);
@@ -83,7 +83,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeTopicsCell", @"HomeTopicsCell");
+	id<AYViewBase> cell = VIEW(@"HomeAssortmentCell", @"HomeAssortmentCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -130,7 +130,9 @@
 }
 
 #pragma mark -- actions
-
+- (void)didAssortmentMoreBtnClick {
+	kAYViewSendNotify(self, @"didAssortmentMoreBtnClick", nil)
+}
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {

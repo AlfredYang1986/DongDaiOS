@@ -1,12 +1,12 @@
 //
-//  AYHomeMoreTitleCellView.m
+//  AYHomeSortCourseCellView.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 20/7/17.
+//  Created by Alfred Yang on 21/7/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYHomeMoreTitleCellView.h"
+#import "AYHomeSortCourseCellView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
 #import "AYViewCommand.h"
@@ -16,7 +16,7 @@
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
 
-@implementation AYHomeMoreTitleCellView {
+@implementation AYHomeSortCourseCellView {
 	
 }
 
@@ -29,30 +29,34 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		UILabel *titleLabel = [Tools creatUILabelWithText:@"More" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[self addSubview:titleLabel];
-		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.center.equalTo(self);
-		}];
+//		self.backgroundColor = [UIColor brownColor];
 		
-		UIView *leftLine = [UIView new];
-		UIView *rightLine = [UIView new];
-		[self addSubview:leftLine];
-		[self addSubview:rightLine];
-		leftLine.backgroundColor = rightLine.backgroundColor = [Tools garyLineColor];
+		int courseSortCount = 11;
+		CGFloat marginLeft = 20.f;
+		CGFloat marginBetween = 15.f;
+		CGFloat marginTop = 10.f;
+		CGFloat itemWidth = (SCREEN_WIDTH - marginLeft*2 - marginBetween)/2;
+		CGFloat itemHeight = 96.f;
 		
-		[leftLine mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(20);
-			make.centerY.equalTo(titleLabel);
-			make.right.equalTo(titleLabel.mas_left).offset(-30);
-			make.height.mas_equalTo(0.5);
-		}];
-		
-		[rightLine mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(self).offset(-20);
-			make.centerY.equalTo(titleLabel);
-			make.size.equalTo(leftLine);
-		}];
+		for (int i = 0; i < courseSortCount; ++i) {
+			int low = i%2;
+			int row = i/2;
+			
+			UIImageView *courseSignView = [[UIImageView alloc]init];
+			courseSignView.backgroundColor = [Tools randomColor];
+			[Tools setViewBorder:courseSignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+			
+			courseSignView.tag = i;
+			courseSignView.userInteractionEnabled = YES;
+			[courseSignView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSignViewTap:)]];
+			
+			[self addSubview:courseSignView];
+			[courseSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+				make.left.equalTo(self).offset(marginLeft + (itemWidth+marginBetween)*low);
+				make.top.equalTo(self).offset(marginTop + (itemHeight+marginBetween)*row);
+				make.size.mas_equalTo(CGSizeMake(itemWidth, itemHeight));
+			}];
+		}
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -63,7 +67,7 @@
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
-	id<AYViewBase> cell = VIEW(@"HomeMoreTitleCell", @"HomeMoreTitleCell");
+	id<AYViewBase> cell = VIEW(@"HomeSortCourseCell", @"HomeSortCourseCell");
 	
 	NSMutableDictionary* arr_commands = [[NSMutableDictionary alloc]initWithCapacity:cell.commands.count];
 	for (NSString* name in cell.commands.allKeys) {
@@ -110,10 +114,15 @@
 }
 
 #pragma mark -- actions
-
+- (void)didSignViewTap:(UITapGestureRecognizer*)tap {
+	UIView *tapView = tap.view;
+	
+	
+}
 
 #pragma mark -- messages
-- (id)setCellInfo:(id)args {
+- (id)setCellInfo:(NSDictionary*)dic_args {
+	
 	
 	return nil;
 }

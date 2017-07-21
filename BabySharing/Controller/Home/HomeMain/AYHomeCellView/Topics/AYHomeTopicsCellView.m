@@ -45,6 +45,7 @@
 		}];
 		
 		UIButton *moreBtn = [Tools creatUIButtonWithTitle:@"More" andTitleColor:[Tools RGB153GaryColor] andFontSize:13.f andBackgroundColor:nil];
+		[moreBtn addTarget:self action:@selector(didTopicsMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:moreBtn];
 		[moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
@@ -163,7 +164,9 @@
 }
 
 #pragma mark -- actions
-
+- (void)didTopicsMoreBtnClick {
+	kAYViewSendNotify(self, @"didTopicsMoreBtnClick", nil)
+}
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {

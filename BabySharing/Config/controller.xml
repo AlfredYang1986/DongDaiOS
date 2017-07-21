@@ -274,6 +274,21 @@
 <!--		<delegate type="CollectionViewDelegateAndDatasource" name="HomeCollect" />-->
     </controller>
 	
+	<controller type="DefaultController" name="TopicsList" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="TopicsList" />
+	</controller>
+	<controller type="DefaultController" name="AssortmentList" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="AssortmentList" />
+	</controller>
+	
 	<controller type="DefaultController" name="FilterLocation" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />

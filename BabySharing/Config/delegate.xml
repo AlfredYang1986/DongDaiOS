@@ -82,6 +82,13 @@
 		<command type="notify"  message="scrollViewWillEndDrag" />
 	</delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="AssortmentList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	<delegate type="TableViewDelegateAndDatasource" name="TopicsList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
 	<delegate type="TableViewDelegateAndDatasource" name="HomeAround" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify"  message="scrollToShowHideTop:" />
