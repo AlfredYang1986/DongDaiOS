@@ -262,7 +262,6 @@
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar" name="FakeNavBar" />
 		<view type="DongDaSeg" name="DongDaSeg" />
-<!--		<view type="CollectionVer" name="CollectionVer" />-->
 		<view type="Table"          name="Table" />
 		<view type="Table2"          name="Table2" />
 		<view type="Table3"          name="Table3" />
@@ -270,9 +269,15 @@
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
 		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />
 		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
-		
-<!--		<delegate type="CollectionViewDelegateAndDatasource" name="HomeCollect" />-->
     </controller>
+	
+	<controller type="DefaultController" name="SearchSKU" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" />
+	</controller>
 	
 	<controller type="DefaultController" name="TopicsList" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
@@ -281,12 +286,28 @@
 		
 		<delegate type="TableViewDelegateAndDatasource" name="TopicsList" />
 	</controller>
+	
 	<controller type="DefaultController" name="AssortmentList" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Table"          name="Table" />
 		
 		<delegate type="TableViewDelegateAndDatasource" name="AssortmentList" />
+	</controller>
+	<controller type="DefaultController" name="Assortment" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />
+	</controller>
+	
+	<controller type="DefaultController" name="AssortmentSKU" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />
 	</controller>
 	
 	<controller type="DefaultController" name="FilterLocation" factory="AYDefaultControllerFactoy" >

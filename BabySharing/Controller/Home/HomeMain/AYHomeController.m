@@ -179,7 +179,7 @@ typedef void(^queryContentFinish)(void);
 		[mapBtn setTitle:@"Map" forState:UIControlStateNormal];
 		[mapBtn setImage:IMGRESOURCE(@"") forState:UIControlStateNormal];
 		[Tools setViewBorder:mapBtn withRadius:19.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
-		
+		[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:mapBtn];
 		[self.view bringSubviewToFront:mapBtn];
 		[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -237,15 +237,15 @@ typedef void(^queryContentFinish)(void);
 //	addressLabel.userInteractionEnabled = YES;
 //	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
 	
-	UIButton *mapBtn = [[UIButton alloc]init];
-	[mapBtn setImage:IMGRESOURCE(@"home_icon_mapfilter") forState:UIControlStateNormal];
-	[view addSubview:mapBtn];
-	[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+	UIButton *searchBtn = [[UIButton alloc]init];
+	[searchBtn setImage:IMGRESOURCE(@"home_icon_mapfilter") forState:UIControlStateNormal];
+	[view addSubview:searchBtn];
+	[searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(view);
 		make.centerX.equalTo(view.mas_right).offset(-30);
 		make.size.mas_equalTo(CGSizeMake(kDongDaSegHeight, kDongDaSegHeight));
 	}];
-	[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+	[searchBtn addTarget:self action:@selector(didSearchBtnClick) forControlEvents:UIControlEventTouchUpInside];
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
@@ -300,13 +300,19 @@ typedef void(^queryContentFinish)(void);
 }
 - (id)Table2Layout:(UIView*)view {
 	view.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-//	((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+//		((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+	view.backgroundColor = [Tools garyBackgroundColor];
 	return nil;
 }
 - (id)Table3Layout:(UIView*)view {
 	view.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-	((UITableView*)view).contentOffset = CGPointMake(0, -20);
 	view.backgroundColor = [Tools whiteColor];
+//	((UITableView*)view).contentOffset = CGPointMake(0, -20);
+//	((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+//	UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 10)];
+//	topView.backgroundColor = [Tools whiteColor];
+//	[view addSubview:topView];
+//	[view bringSubviewToFront:topView];
 	return nil;
 }
 
@@ -325,15 +331,15 @@ typedef void(^queryContentFinish)(void);
 }
 
 #pragma mark -- actions
-- (void)didAddressLabelTap {
+- (void)didSearchBtnClick {
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"FilterLocation");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"SearchSKU");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-	[dic setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	id<AYCommand> cmd_show_module = SHOWMODULEUP;
+	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];
 	
 }

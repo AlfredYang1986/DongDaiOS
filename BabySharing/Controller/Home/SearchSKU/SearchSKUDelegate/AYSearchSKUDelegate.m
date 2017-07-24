@@ -1,16 +1,17 @@
 //
-//  AYAssortmentListDelegate.m
+//  AYSearchSKUDelegate.m
 //  BabySharing
 //
-//  Created by Alfred Yang on 21/7/17.
+//  Created by Alfred Yang on 24/7/17.
 //  Copyright © 2017年 Alfred Yang. All rights reserved.
 //
 
-#import "AYAssortmentListDelegate.h"
+#import "AYSearchSKUDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYModelFacade.h"
+#import "AYControllerActionDefines.h"
 
-@implementation AYAssortmentListDelegate {
+@implementation AYSearchSKUDelegate {
 	
 }
 
@@ -52,7 +53,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"AssortmentListCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SearchSKUResultCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	cell.controller = self.controller;
 	
@@ -64,7 +65,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 152.f;
+	return 48.f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"AssortmentSKU");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
 }
 
 @end

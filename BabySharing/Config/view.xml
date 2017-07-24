@@ -429,6 +429,9 @@
 	<view type="AssortmentListCell" name="AssortmentListCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
+	<view type="AssortmentCell" name="AssortmentCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	<view type="TopicsListCell" name="TopicsListCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 	</view>
@@ -438,6 +441,9 @@
         <command type="notify"      message="didPushInfo" />
     </view>
 	
+	<view type="SearchSKUResultCell" name="SearchSKUResultCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	
 	<view type="FilterLocationCell" name="FilterLocationCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
