@@ -11,23 +11,24 @@
 
 #pragma mark --  default views define
 //default views and views'messages  define
-static NSString* const kAYFakeNavBarView =                  @"FakeNavBar";
-static NSString* const kAYTableView =                       @"Table";
-static NSString* const kAYPickerView =                       @"Picker";
-static NSString* const kAYCollectionView =                       @"Collection";
-static NSString* const kAYCollectionVerView =                       @"CollectionVer";
-static NSString* const kAYDongDaSegVerView =                       @"DongDaSeg";
+static NSString* const kAYFakeStatusBarView =					@"FakeStatusBar";
+static NSString* const kAYFakeNavBarView =          	        @"FakeNavBar";
+static NSString* const kAYTableView =							@"Table";
+static NSString* const kAYPickerView =							@"Picker";
+static NSString* const kAYCollectionView =						@"Collection";
+static NSString* const kAYCollectionVerView =					@"CollectionVer";
+static NSString* const kAYDongDaSegVerView =					@"DongDaSeg";
 
 //FakeNavBar
-static NSString* const kAYNavBarSetTitleMessage =               @"setTitleText:";
-static NSString* const kAYNavBarSetTitleColorMessage =               @"setTitleTextColor:";
+static NSString* const kAYNavBarSetTitleMessage =				@"setTitleText:";
+static NSString* const kAYNavBarSetTitleColorMessage =			@"setTitleTextColor:";
 static NSString* const kAYNavBarSetLeftBtnImgMessage =          @"setLeftBtnImg:";
 static NSString* const kAYNavBarSetRightBtnImgMessage =         @"setRightBtnImg:";
 static NSString* const kAYNavBarSetRightBtnWithBtnMessage =     @"setRightBtnWithBtn:";
 static NSString* const kAYNavBarSetLeftBtnVisibilityMessage =   @"setLeftBtnVisibility:";
 static NSString* const kAYNavBarSetRightBtnVisibilityMessage =  @"setRightBtnVisibility:";
 static NSString* const kAYNavBarSetBarBotLineMessage =          @"setBarBotLine";
-static NSString* const kAYNavBarHideBarBotLineMessage =          @"hideBarBotLine";
+static NSString* const kAYNavBarHideBarBotLineMessage =			@"hideBarBotLine";
 
 //Table
 static NSString* const kAYTableRegisterDatasourceMessage =      @"registerDatasource:";
@@ -37,15 +38,15 @@ static NSString* const kAYTableRegisterCellWithNibMessage =     @"registerCellWi
 static NSString* const kAYTableRefreshMessage =                 @"refresh";
 
 //Picker
-static NSString* const kAYPickerShowViewMessage =                 @"showPickerView";
-static NSString* const kAYPickerRegisterDatasourceMessage =      @"registerDatasource:";
-static NSString* const kAYPickerRegisterDelegateMessage =        @"registerDelegate:";
+static NSString* const kAYPickerShowViewMessage =				@"showPickerView";
+static NSString* const kAYPickerRegisterDatasourceMessage =		@"registerDatasource:";
+static NSString* const kAYPickerRegisterDelegateMessage =		@"registerDelegate:";
 
 //Delegate message
-static NSString* const kAYDelegateChangeDataMessage =                 @"changeQueryData:";
+static NSString* const kAYDelegateChangeDataMessage =			@"changeQueryData:";
 
 //Cell common message
-static NSString* const kAYCellSetCellInfoMessage =                 @"setCellInfo:";
+static NSString* const kAYCellSetCellInfoMessage =				@"setCellInfo:";
 
 #pragma mark -- VC中的views发消息 / 发通知
 #define kAYViewsSendMessage(VIEW,MESSAGE,ARGS)              {\

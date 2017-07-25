@@ -33,6 +33,19 @@
 	
 	self.backgroundColor = [UIColor clearColor];
 	
+	UIView *borderView = [[UIView alloc] init];
+//	[Tools setViewBorder:borderView withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:[UIColor clearColor]];
+	borderView.layer.borderColor = [Tools themeColor].CGColor;
+	borderView.layer.borderWidth = 1.5f;
+	borderView.layer.shadowColor = [Tools garyColor].CGColor;
+	borderView.layer.shadowOffset = CGSizeMake(6.5, 6.5);
+	borderView.layer.shadowOpacity = 0.5f;
+	borderView.layer.shadowRadius = 1.5f;
+	[self addSubview:borderView];
+	[borderView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(self).insets(UIEdgeInsetsMake(15, 20, 15, 20));
+	}];
+	
 	imageView = [[UIImageView alloc] init];
 	imageView.contentMode = UIViewContentModeScaleAspectFill;
 	imageView.clipsToBounds = YES;
@@ -40,13 +53,6 @@
 	[self addSubview:imageView];
 	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.edges.equalTo(self).insets(UIEdgeInsetsMake(22, 27, 22, 27));
-	}];
-	
-	UIView *borderView = [[UIView alloc] init];
-	[Tools setViewBorder:borderView withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:[UIColor clearColor]];
-	[self addSubview:borderView];
-	[borderView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self).insets(UIEdgeInsetsMake(15, 20, 15, 20));
 	}];
 	
 }

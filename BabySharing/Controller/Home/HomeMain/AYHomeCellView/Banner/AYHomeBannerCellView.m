@@ -33,7 +33,7 @@
 	
 	imagesArray = [NSMutableArray array];
 	for (int i = 0; i < kBANNERCOUNT; ++i) {
-		UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"version_nav_cover_%d", i]];
+		UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"dongda_choice_%d", i]];
 		[imagesArray addObject:img];
 	}
 	[imagesArray insertObject:imagesArray[imagesArray.count - 1] atIndex:0];

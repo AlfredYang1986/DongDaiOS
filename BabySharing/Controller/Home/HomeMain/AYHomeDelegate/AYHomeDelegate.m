@@ -103,7 +103,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return servicesData.count + 4;
+    return servicesData.count + 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -113,15 +113,15 @@
 		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeBannerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	}
+//	else if (indexPath.row == 1) {
+//		NSString* class_name = @"AYHomeTopicsCellView";
+//		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+//	}
 	else if (indexPath.row == 1) {
-		NSString* class_name = @"AYHomeTopicsCellView";
-		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-	}
-	else if (indexPath.row == 2) {
 		NSString* class_name = @"AYHomeAssortmentCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	}
-	else if (indexPath.row == 3) {
+	else if (indexPath.row == 2) {
 		NSString* class_name = @"AYHomeMoreTitleCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	}
@@ -130,7 +130,7 @@
 		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 		
-		id tmp = [servicesData objectAtIndex:indexPath.row - 4];
+		id tmp = [servicesData objectAtIndex:indexPath.row - 3];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	}
 	
@@ -143,13 +143,13 @@
     if (indexPath.row == 0) {
 		return 160;
 	}
+//	else if (indexPath.row == 1) {
+//		return 260.f;
+//	}
 	else if (indexPath.row == 1) {
-		return 260.f;
-	}
-	else if (indexPath.row == 2) {
 		return 160.f;
 	}
-	else if (indexPath.row == 3) {
+	else if (indexPath.row == 2) {
 		return 50.f;
 	}
 	else

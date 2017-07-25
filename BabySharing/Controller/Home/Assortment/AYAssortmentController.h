@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYAssortmentController : AYViewController
+@interface AYAssortmentController : AYViewController <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end

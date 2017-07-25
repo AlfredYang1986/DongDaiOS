@@ -647,6 +647,8 @@
 		70D657091D1D410F003D1D7D /* AYExposeRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D657081D1D410F003D1D7D /* AYExposeRemoteFacade.m */; };
 		70D9BE0E1DAF94C1006B77A8 /* AYOtherBtnClickCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D9BE0D1DAF94C1006B77A8 /* AYOtherBtnClickCommand.m */; };
 		70DCA6961D6E949700D417FE /* AYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DCA6951D6E949700D417FE /* AYAlertView.m */; };
+		70E105CA1F26EB5E00470C70 /* AYAssortmentReviseDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E105C91F26EB5E00470C70 /* AYAssortmentReviseDelegate.m */; };
+		70E105CD1F26EF6C00470C70 /* AYAssortmentItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */; };
 		70E77CE31D8E812B00C882DD /* AYUpdateOrderInfoCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E77CE21D8E812B00C882DD /* AYUpdateOrderInfoCommand.m */; };
 		70E9AB701CF3FE960019D33A /* AYNotifyFollowBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB6F1CF3FE960019D33A /* AYNotifyFollowBtnView.m */; };
 		70E9AB7D1CF401DB0019D33A /* AYNotifyFollowedBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E9AB791CF401DB0019D33A /* AYNotifyFollowedBtnView.m */; };
@@ -2133,6 +2135,10 @@
 		70D9BE0D1DAF94C1006B77A8 /* AYOtherBtnClickCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOtherBtnClickCommand.m; sourceTree = "<group>"; };
 		70DCA6941D6E949700D417FE /* AYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlertView.h; sourceTree = "<group>"; };
 		70DCA6951D6E949700D417FE /* AYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlertView.m; sourceTree = "<group>"; };
+		70E105C81F26EB5E00470C70 /* AYAssortmentReviseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAssortmentReviseDelegate.h; sourceTree = "<group>"; };
+		70E105C91F26EB5E00470C70 /* AYAssortmentReviseDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAssortmentReviseDelegate.m; sourceTree = "<group>"; };
+		70E105CB1F26EF6C00470C70 /* AYAssortmentItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAssortmentItemView.h; sourceTree = "<group>"; };
+		70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAssortmentItemView.m; sourceTree = "<group>"; };
 		70E77CE11D8E812B00C882DD /* AYUpdateOrderInfoCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateOrderInfoCommand.h; sourceTree = "<group>"; };
 		70E77CE21D8E812B00C882DD /* AYUpdateOrderInfoCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateOrderInfoCommand.m; sourceTree = "<group>"; };
 		70E9AB6E1CF3FE960019D33A /* AYNotifyFollowBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNotifyFollowBtnView.h; sourceTree = "<group>"; };
@@ -3981,6 +3987,8 @@
 			children = (
 				70228D4C1F25C3EF0099B028 /* AYAssortmentDelegate.h */,
 				70228D4D1F25C3EF0099B028 /* AYAssortmentDelegate.m */,
+				70E105C81F26EB5E00470C70 /* AYAssortmentReviseDelegate.h */,
+				70E105C91F26EB5E00470C70 /* AYAssortmentReviseDelegate.m */,
 			);
 			path = AssortmentDelegate;
 			sourceTree = "<group>";
@@ -3990,6 +3998,8 @@
 			children = (
 				70228D4F1F25C3EF0099B028 /* AYAssortmentCellView.h */,
 				70228D501F25C3EF0099B028 /* AYAssortmentCellView.m */,
+				70E105CB1F26EF6C00470C70 /* AYAssortmentItemView.h */,
+				70E105CC1F26EF6C00470C70 /* AYAssortmentItemView.m */,
 			);
 			path = AssortmentView;
 			sourceTree = "<group>";
@@ -9378,6 +9388,7 @@
 				70120A1B1E6EA8AF00136B8E /* AYServiceAddTimesCellView.m in Sources */,
 				70C6A0011D9A4F100069E4EE /* AYPersonalDescCellView.m in Sources */,
 				7048AE9A1F208A0300C7BE8D /* AYHomeBannerCellView.m in Sources */,
+				70E105CD1F26EF6C00470C70 /* AYAssortmentItemView.m in Sources */,
 				8048C0041D9D02860026436E /* AYPhoneCheckInputView.m in Sources */,
 				80D5E7C41CCC7C2000A82117 /* WKFRadarView.m in Sources */,
 				702BE9031EC1E4C400F20E41 /* AYRemoteBackController.m in Sources */,
@@ -9406,6 +9417,7 @@
 				7056BA101F1F2BF400386E3A /* AYTitleOptCellView.m in Sources */,
 				7000CD201D7E8A5200DA98F2 /* MJRefreshAutoStateFooter.m in Sources */,
 				7082F1E41D1D4DFA00E64496 /* AYEMEnterBackgroundCommand.m in Sources */,
+				70E105CA1F26EB5E00470C70 /* AYAssortmentReviseDelegate.m in Sources */,
 				700BE5AE1CBA583800A09B3A /* AYShowModuleCommand.m in Sources */,
 				7012C9741E16156800C8F510 /* OrderTimesOptionView.m in Sources */,
 				7056BA171F1F2BF400386E3A /* AYRemindDateHeaderView.m in Sources */,

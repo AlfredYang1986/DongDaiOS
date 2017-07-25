@@ -297,9 +297,9 @@
 	<controller type="DefaultController" name="Assortment" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />
-		<view type="Table"          name="Table" />
+<!--		<view type="Table"          name="Table" />-->
 		
-		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />
+<!--		<delegate type="TableViewDelegateAndDatasource" name="Assortment" />-->
 	</controller>
 	
 	<controller type="DefaultController" name="AssortmentSKU" factory="AYDefaultControllerFactoy" >

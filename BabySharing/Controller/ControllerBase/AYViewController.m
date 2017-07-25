@@ -18,8 +18,6 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModel.h"
 #import "AYFactoryManager.h"
-
-#import "Tools.h"
 #import "AYCommentServiceController.h"
 
 #import "MBProgressHUD.h"
