@@ -74,7 +74,7 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(15);
 			make.left.equalTo(coverImage.mas_right).offset(16);
-			make.right.equalTo(self).offset(15);
+			make.right.equalTo(self).offset(-15);
 		}];
 		
 		priceLabel = [Tools creatUILabelWithText:@"Servie Price" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];

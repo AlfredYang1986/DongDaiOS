@@ -76,6 +76,11 @@
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="ChoiceContent" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify"  message="scrollOffsetYNoyify:" />
+	</delegate>
+	
 	<delegate type="TableViewDelegateAndDatasource" name="HomeSort" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify"  message="scrollToShowHideTop:" />

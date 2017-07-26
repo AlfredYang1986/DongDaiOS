@@ -176,16 +176,15 @@ typedef void(^queryContentFinish)(void);
 		
 		UITableView *view_table_around = [self.views objectForKey:@"Table2"];
 		UIButton *mapBtn = [[UIButton alloc] init];
-		[mapBtn setTitle:@"Map" forState:UIControlStateNormal];
-		[mapBtn setImage:IMGRESOURCE(@"") forState:UIControlStateNormal];
-		[Tools setViewBorder:mapBtn withRadius:19.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
+		[mapBtn setImage:IMGRESOURCE(@"home_icon_map") forState:UIControlStateNormal];
+//		[Tools setViewBorder:mapBtn withRadius:19.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 		[self.view addSubview:mapBtn];
 		[self.view bringSubviewToFront:mapBtn];
 		[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.size.mas_equalTo(CGSizeMake(90, 38));
-			make.right.equalTo(view_table_around).offset(-30);
-			make.bottom.equalTo(self.view).offset(-68);
+			make.size.mas_equalTo(CGSizeMake(123, 70));	//123 70
+			make.right.equalTo(view_table_around).offset(-10);
+			make.bottom.equalTo(self.view).offset(-48);
 		}];
 		
 	}
@@ -238,7 +237,7 @@ typedef void(^queryContentFinish)(void);
 //	[addressLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddressLabelTap)]];
 	
 	UIButton *searchBtn = [[UIButton alloc]init];
-	[searchBtn setImage:IMGRESOURCE(@"home_icon_mapfilter") forState:UIControlStateNormal];
+	[searchBtn setImage:IMGRESOURCE(@"icon_search") forState:UIControlStateNormal];
 	[view addSubview:searchBtn];
 	[searchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(view);
@@ -646,6 +645,19 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
+- (id)didSomeOneChoiceClick:(id)args {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ChoiceContent");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
+	return nil;
+}
+
 - (id)didTopicsMoreBtnClick {
 	id<AYCommand> des = DEFAULTCONTROLLER(@"TopicsList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -660,6 +672,32 @@ typedef void(^queryContentFinish)(void);
 }
 - (id)didAssortmentMoreBtnClick {
 	id<AYCommand> des = DEFAULTCONTROLLER(@"AssortmentList");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
+	return nil;
+}
+
+- (id)didNursarySortTapAtIndex:(id)args {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
+	return nil;
+}
+
+- (id)didCourseSortTapAtIndex:(id)args {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];

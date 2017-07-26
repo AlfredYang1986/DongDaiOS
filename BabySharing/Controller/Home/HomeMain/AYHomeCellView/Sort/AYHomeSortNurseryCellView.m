@@ -34,7 +34,8 @@
 		CGFloat margin = 20.f;
 		
 		UIImageView *nurseryDailySignView = [[UIImageView alloc]init];
-		nurseryDailySignView.backgroundColor = [Tools randomColor];
+		nurseryDailySignView.tag = 0;
+		nurseryDailySignView.image = IMGRESOURCE(@"home_sort_nursary_daily");
 		[Tools setViewBorder:nurseryDailySignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		[self addSubview:nurseryDailySignView];
 		[nurseryDailySignView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -44,14 +45,19 @@
 		}];
 		
 		UIImageView *nurseryAfterClassSignView = [[UIImageView alloc]init];
+		nurseryAfterClassSignView.tag = 1;
 		[Tools setViewBorder:nurseryAfterClassSignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-		nurseryAfterClassSignView.backgroundColor = [Tools randomColor];
+		nurseryAfterClassSignView.image = IMGRESOURCE(@"home_sort_nursary_afterclass");
 		[self addSubview:nurseryAfterClassSignView];
 		[nurseryAfterClassSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-margin);
 			make.top.equalTo(self).offset(10);
 			make.size.equalTo(nurseryDailySignView);
 		}];
+		
+		nurseryDailySignView.userInteractionEnabled = nurseryAfterClassSignView.userInteractionEnabled = YES;
+		[nurseryDailySignView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didNursarySignTap:)]];
+		[nurseryAfterClassSignView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didNursarySignTap:)]];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -109,6 +115,11 @@
 }
 
 #pragma mark -- actions
+- (void)didNursarySignTap:(UITapGestureRecognizer*)tap {
+	UIView *tapView = tap.view;
+	NSNumber *tag = [NSNumber numberWithInteger:tapView.tag];
+	kAYViewSendNotify(self, @"didNursarySortTapAtIndex:", &tag)
+}
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {

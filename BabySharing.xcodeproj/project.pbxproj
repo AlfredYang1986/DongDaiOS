@@ -358,6 +358,8 @@
 		70501C871D2F4A490050E0C8 /* AYCollectServController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C861D2F4A490050E0C8 /* AYCollectServController.m */; };
 		70501C8F1D2F4E690050E0C8 /* AYCollectServDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C8E1D2F4E690050E0C8 /* AYCollectServDelegate.m */; };
 		70501C931D2F4F140050E0C8 /* AYCollectServCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70501C911D2F4F140050E0C8 /* AYCollectServCellView.m */; };
+		7050353B1F28728800B3119A /* AYChoiceContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7050353A1F28728800B3119A /* AYChoiceContentController.m */; };
+		7050353E1F2872C400B3119A /* AYChoiceContentDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7050353D1F2872C400B3119A /* AYChoiceContentDelegate.m */; };
 		705195591E1B8DAB00F1F761 /* AYServiceMapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 705195581E1B8DAB00F1F761 /* AYServiceMapController.m */; };
 		7051955D1E1B905D00F1F761 /* AYMAMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7051955C1E1B905D00F1F761 /* AYMAMapView.m */; };
 		705195601E1B909000F1F761 /* AYServiceMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7051955F1E1B909000F1F761 /* AYServiceMapView.m */; };
@@ -1518,6 +1520,10 @@
 		70501C8E1D2F4E690050E0C8 /* AYCollectServDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCollectServDelegate.m; sourceTree = "<group>"; };
 		70501C901D2F4F140050E0C8 /* AYCollectServCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYCollectServCellView.h; sourceTree = "<group>"; };
 		70501C911D2F4F140050E0C8 /* AYCollectServCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYCollectServCellView.m; sourceTree = "<group>"; };
+		705035391F28728800B3119A /* AYChoiceContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChoiceContentController.h; sourceTree = "<group>"; };
+		7050353A1F28728800B3119A /* AYChoiceContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChoiceContentController.m; sourceTree = "<group>"; };
+		7050353C1F2872C400B3119A /* AYChoiceContentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChoiceContentDelegate.h; sourceTree = "<group>"; };
+		7050353D1F2872C400B3119A /* AYChoiceContentDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChoiceContentDelegate.m; sourceTree = "<group>"; };
 		705195571E1B8DAB00F1F761 /* AYServiceMapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceMapController.h; sourceTree = "<group>"; };
 		705195581E1B8DAB00F1F761 /* AYServiceMapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYServiceMapController.m; sourceTree = "<group>"; };
 		7051955B1E1B905D00F1F761 /* AYMAMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMAMapView.h; sourceTree = "<group>"; };
@@ -5220,6 +5226,33 @@
 			path = CollectServView;
 			sourceTree = "<group>";
 		};
+		705035361F28726200B3119A /* ChoiceContent */ = {
+			isa = PBXGroup;
+			children = (
+				705035371F28726200B3119A /* ChoiceContentDelegate */,
+				705035381F28726200B3119A /* ChoiceContentView */,
+				705035391F28728800B3119A /* AYChoiceContentController.h */,
+				7050353A1F28728800B3119A /* AYChoiceContentController.m */,
+			);
+			path = ChoiceContent;
+			sourceTree = "<group>";
+		};
+		705035371F28726200B3119A /* ChoiceContentDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				7050353C1F2872C400B3119A /* AYChoiceContentDelegate.h */,
+				7050353D1F2872C400B3119A /* AYChoiceContentDelegate.m */,
+			);
+			path = ChoiceContentDelegate;
+			sourceTree = "<group>";
+		};
+		705035381F28726200B3119A /* ChoiceContentView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ChoiceContentView;
+			sourceTree = "<group>";
+		};
 		705195551E1B8D7A00F1F761 /* ServiceMap */ = {
 			isa = PBXGroup;
 			children = (
@@ -6361,6 +6394,7 @@
 		707E79C41D06733100DFC198 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				705035361F28726200B3119A /* ChoiceContent */,
 				70228D651F25D8170099B028 /* SearchSKU */,
 				70228D4A1F25C3EF0099B028 /* Assortment */,
 				70228D531F25C3EF0099B028 /* AssortmentList */,
@@ -8996,6 +9030,7 @@
 				70203D951E78EB900086FDF1 /* AYChatListCellView.m in Sources */,
 				707B4D3D1CA819D900F6256E /* Tools.m in Sources */,
 				70EC72351D190D6F0012B123 /* TAAnimatedDotView.m in Sources */,
+				7050353B1F28728800B3119A /* AYChoiceContentController.m in Sources */,
 				7056BA091F1F2BF400386E3A /* AYOSEstabCellView.m in Sources */,
 				704697CF1CE047F200DACD8A /* MKAnnotationView+WebCache.m in Sources */,
 				703C7E391DABA723003F58C1 /* WXSTransitionManager+BoomAnimation.m in Sources */,
@@ -9394,6 +9429,7 @@
 				702BE9031EC1E4C400F20E41 /* AYRemoteBackController.m in Sources */,
 				7082360C1CA2D09E00658531 /* AYDefaultModuleFactory.m in Sources */,
 				7000CD1D1D7E8A5200DA98F2 /* MJRefreshHeader.m in Sources */,
+				7050353E1F2872C400B3119A /* AYChoiceContentDelegate.m in Sources */,
 				706E46131CFC107A00CC7C53 /* AYLandingController.m in Sources */,
 				70EC72381D190D6F0012B123 /* SDCollectionViewCell.m in Sources */,
 				70125A171E0AAC030082C76B /* AYMapMatchCellView.m in Sources */,

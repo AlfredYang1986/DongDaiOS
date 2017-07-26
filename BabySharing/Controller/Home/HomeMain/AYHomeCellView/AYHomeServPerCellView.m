@@ -20,16 +20,18 @@
 @implementation AYHomeServPerCellView {
 	
 	UIImageView *coverImage;
-	UILabel *titleLabel;
-//	UIImageView *photoIcon;
+	UILabel *themeLabel;
+	UILabel *ageBoundaryLabel;
 	
-	UILabel *priceLabel;
-//	UILabel *capacityLabel;
+	UILabel *titleLabel;
 	
 	UIImageView *positionSignView;
 	UILabel *addressLabel;
+	UILabel *priceLabel;
 	
 	UIButton *likeBtn;
+	UIImageView *choiceSignView;
+	UIImageView *hotSignView;
 	
 	NSDictionary *service_info;
 }
@@ -42,10 +44,21 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
-		
-//		self.backgroundColor = [UIColor clearColor];
+//		UIView *shadowView = [[UIView alloc] init];
+//		shadowView.backgroundColor = [UIColor whiteColor];
+//		shadowView.layer.cornerRadius = 4.f;
+//		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
+//		shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
+//		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
+//		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
+//		[self addSubview:shadowView];
+//		[self sendSubviewToBack:shadowView];
+//		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.edges.equalTo(coverImage);
+//		}];
 		
 		coverImage = [[UIImageView alloc]init];
+		coverImage.image = IMGRESOURCE(@"default_image");
 		coverImage.contentMode = UIViewContentModeScaleAspectFill;
 		coverImage.layer.cornerRadius = 4.f;
 		coverImage.clipsToBounds = YES;
@@ -57,69 +70,73 @@
 			make.height.mas_equalTo(223);
 		}];
 		
-		UIView *shadowView = [[UIView alloc] init];
-		shadowView.backgroundColor = [UIColor whiteColor];
-		shadowView.layer.cornerRadius = 4.f;
-		shadowView.layer.shadowColor = [Tools colorWithRED:43 GREEN:65 BLUE:114 ALPHA:1].CGColor;//shadowColor阴影颜色
-		shadowView.layer.shadowOffset = CGSizeMake(0,0);//shadowOffset阴影偏移，默认(0, -3),这个跟shadowRadius配合使用
-		shadowView.layer.shadowOpacity = 0.18f;//阴影透明度，默认0
-		shadowView.layer.shadowRadius = 4;//阴影半径，默认3
-		[self addSubview:shadowView];
-		[self sendSubviewToBack:shadowView];
-		[shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.edges.equalTo(coverImage);
+		choiceSignView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"service_icon_choice")];
+		[self addSubview:choiceSignView];
+		[choiceSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(coverImage);
+			make.left.equalTo(coverImage).offset(20);
+			make.size.mas_equalTo(CGSizeMake(26, 40));
+		}];
+		
+		hotSignView = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"service_icon_hot")];
+		[self addSubview:hotSignView];
+		[hotSignView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(coverImage).offset(20);
+			make.left.equalTo(coverImage);
+			make.size.mas_equalTo(CGSizeMake(45, 26));
+		}];
+		
+		themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools themeColor] andFontSize:611.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+		[self addSubview:themeLabel];
+		[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(coverImage);
+			make.top.equalTo(coverImage.mas_bottom).offset(15);
+			make.size.mas_equalTo(CGSizeMake(72, 26));
+		}];
+		
+		ageBoundaryLabel = [Tools creatUILabelWithText:@"0-0" andTextColor:[Tools themeColor] andFontSize:611.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
+		[self addSubview:ageBoundaryLabel];
+		[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(themeLabel.mas_right).offset(10);
+			make.centerY.equalTo(themeLabel);
+			make.size.mas_equalTo(CGSizeMake(60, 26));
 		}];
 		
 		titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		titleLabel.numberOfLines = 2;
+		titleLabel.numberOfLines = 1;
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);
 			make.right.equalTo(coverImage);
-			make.top.equalTo(coverImage.mas_bottom).offset(18);
+			make.top.equalTo(themeLabel.mas_bottom).offset(15);
 		}];
-		
-//		photoIcon = [[UIImageView alloc]init];
-//		photoIcon.layer.cornerRadius = 17.f;
-//		photoIcon.layer.borderColor = [Tools borderAlphaColor].CGColor;
-//		photoIcon.layer.borderWidth = 2.f;
-//		photoIcon.clipsToBounds = YES;
-//		photoIcon.layer.rasterizationScale = UIScreenScale;
-//		photoIcon.contentMode = UIViewContentModeScaleAspectFill;
-//		[self addSubview:photoIcon];
-//		[photoIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.right.equalTo(coverImage);
-//			make.centerY.equalTo(titleLabel);
-//			make.size.mas_equalTo(CGSizeMake(34, 34));
-//		}];
-//		
-//		photoIcon.userInteractionEnabled = YES;
-//		[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
-		
-		priceLabel = [Tools creatUILabelWithText:@"Servie Price" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[self addSubview:priceLabel];
-//		[priceLabel sizeToFit];
-//		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(coverImage);
-//			make.top.equalTo(titleLabel.mas_bottom).offset(15);
-//		}];
-		
-//		capacityLabel = [Tools creatUILabelWithText:@"服务最少预定" andTextColor:[Tools blackColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//		[self addSubview:capacityLabel];
-//		capacityLabel.layer.borderWidth = 0.5f;
-//		capacityLabel.layer.borderColor = [Tools blackColor].CGColor;
 		
 		positionSignView = [[UIImageView alloc]init];
 		[self addSubview:positionSignView];
 		positionSignView.image = IMGRESOURCE(@"home_icon_location");
 		[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(12);
+			make.top.equalTo(titleLabel.mas_bottom).offset(10);
 			make.size.mas_equalTo(CGSizeMake(10, 12));
 		}];
 		
-		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools blackColor] andFontSize:312.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
+		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(positionSignView);
+			make.left.equalTo(positionSignView.mas_right).offset(5);
+		}];
+		
+		
+		priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools themeColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:priceLabel];
+		[priceLabel sizeToFit];
+		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(coverImage);
+			make.centerY.equalTo(positionSignView);
+		}];
 		
 		likeBtn  = [[UIButton alloc] init];
 		[likeBtn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
@@ -209,10 +226,6 @@
 	[dic setValue:likeBtn forKey:@"btn"];
 	[dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
 	
-//	if (likeBtn.selected) {
-//		kAYViewSendNotify(self, @"willUnCollectWithRow:", &dic)
-//	} else {
-//	}
 	kAYViewSendNotify(self, @"willCollectWithRow:", &dic)
 }
 

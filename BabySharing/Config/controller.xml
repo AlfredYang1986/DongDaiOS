@@ -271,6 +271,14 @@
 		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
     </controller>
 	
+	<controller type="DefaultController" name="ChoiceContent" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"  name="FakeStatusBar" />
+		<view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Table"          name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="ChoiceContent" />
+	</controller>
+	
 	<controller type="DefaultController" name="SearchSKU" factory="AYDefaultControllerFactoy" >
 		<view type="FakeStatusBar"  name="FakeStatusBar" />
 		<view type="FakeNavBar"     name="FakeNavBar" />

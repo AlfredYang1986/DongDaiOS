@@ -52,7 +52,7 @@
 	imageView.image = IMGRESOURCE(@"default_image");
 	[self addSubview:imageView];
 	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self).insets(UIEdgeInsetsMake(22, 27, 22, 27));
+		make.edges.equalTo(self).insets(UIEdgeInsetsMake(16, 27, 16, 27));
 	}];
 	
 }

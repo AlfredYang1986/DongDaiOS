@@ -16,7 +16,7 @@
 #import "AYHomeBannerFlowLayout.h"
 
 #define TimeInterval 5
-#define kBANNERCOUNT 3
+#define kBANNERCOUNT 4
 
 @implementation AYHomeBannerCellView {
 	UICollectionView *bannerCollectionView;
@@ -33,7 +33,7 @@
 	
 	imagesArray = [NSMutableArray array];
 	for (int i = 0; i < kBANNERCOUNT; ++i) {
-		UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"dongda_choice_%d", i]];
+		UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"home_dongda_choice_%d", i]];
 		[imagesArray addObject:img];
 	}
 	[imagesArray insertObject:imagesArray[imagesArray.count - 1] atIndex:0];
@@ -146,8 +146,11 @@
 	return cell;
 }
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-	
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSInteger row = indexPath.row - 1;
+	NSLog(@"%ld", row);
+	NSNumber *index = [NSNumber numberWithInteger:row];
+	kAYViewSendNotify(self, @"didSomeOneChoiceClick:", &index)
 }
 
 -(void)setupCollectionView {

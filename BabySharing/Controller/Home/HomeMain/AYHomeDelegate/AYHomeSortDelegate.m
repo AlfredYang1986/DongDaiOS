@@ -71,10 +71,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 0) {
-		return 150.f;
+		return 120.f;
 	} else {
 //		(count/2 + (count%2 == 0 ? 0 : 1)) * (96+15) + 10 + 20
-		return 6 * (96+15) + 10 + 20;
+		return 10 + 6 * (96+15) + 20;
 	}
 }
 
@@ -88,14 +88,17 @@
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);
-		make.centerY.equalTo(headView);
+		make.bottom.equalTo(headView).offset(-8);
 	}];
 	
 	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	return 48.f;
+//	if (section == 0) {
+//	} else
+//		return 48.f;
+	return 68.f;
 }
 
 @end

@@ -166,7 +166,7 @@
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
 	view.layer.shadowColor = [Tools garyColor].CGColor;
-	view.layer.shadowOffset = CGSizeMake(0, 3.5);
+	view.layer.shadowOffset = CGSizeMake(0, 3);
 	view.layer.shadowOpacity = 0.25f;
 	return nil;
 }

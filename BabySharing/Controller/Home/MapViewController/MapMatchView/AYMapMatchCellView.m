@@ -22,6 +22,7 @@
 	
 //	UIImageView *userPhoto;
 	UILabel *titleLabel;
+	UILabel *distanceLabel;
 	UILabel *priceLabel;
 	
 	UIImageView *coverImage;
@@ -103,23 +104,9 @@
 //	}];
 //	[self sendSubviewToBack:shadowView];
 	
-//	CGFloat photowidth = 30.f;
-//	userPhoto = [[UIImageView alloc]init];
-//	userPhoto.image = IMGRESOURCE(@"default_user");
-//	userPhoto.contentMode = UIViewContentModeScaleAspectFill;
-//	[Tools setViewBorder:userPhoto withRadius:photowidth*0.5 andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
-//	[self addSubview:userPhoto];
-//	[userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.left.equalTo(bgView).offset(10);
-//		make.top.equalTo(bgView).offset(10);
-//		make.size.mas_equalTo(CGSizeMake(photowidth, photowidth));
-//	}];
-//	photoIcon.userInteractionEnabled = YES;
-//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
-	
 	UIImageView *positionSignView = [[UIImageView alloc]init];
 	[self addSubview:positionSignView];
-	positionSignView.image = IMGRESOURCE(@"home_icon_location");
+	positionSignView.image = IMGRESOURCE(@"home_icon_location_theme");
 	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(bgView).offset(10);
 		make.top.equalTo(bgView).offset(18);
@@ -132,6 +119,13 @@
 		make.left.equalTo(positionSignView.mas_right).offset(6);
 		make.centerY.equalTo(positionSignView);
 		make.right.equalTo(bgView).offset(-15);
+	}];
+	
+	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	[self addSubview:distanceLabel];
+	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(bgView).offset(-10);
+		make.centerY.equalTo(titleLabel);
 	}];
 	
 	coverImage = [[UIImageView alloc]init];

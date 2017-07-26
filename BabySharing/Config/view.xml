@@ -403,6 +403,7 @@
 	
 	<view type="HomeBannerCell" name="HomeBannerCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didSomeOneChoiceClick:" />
 	</view>
 	<view type="HomeTopicsCell" name="HomeTopicsCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
@@ -421,9 +422,11 @@
 	</view>
 	<view type="HomeSortCourseCell" name="HomeSortCourseCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didCourseSortTapAtIndex:" />
 	</view>
 	<view type="HomeSortNurseryCell" name="HomeSortNurseryCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didNursarySortTapAtIndex:" />
 	</view>
 	
 	<view type="AssortmentListCell" name="AssortmentListCell" factory="AYReuseViewFactory" >

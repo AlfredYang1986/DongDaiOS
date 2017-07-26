@@ -31,7 +31,6 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
 		
 	}
-	
 }
 
 - (void)viewDidLoad {

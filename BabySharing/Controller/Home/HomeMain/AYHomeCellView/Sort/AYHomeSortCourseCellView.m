@@ -28,22 +28,32 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		NSArray *sort_name_s = @[
+								@"draw",
+								@"music",
+								@"dnace",
+								@"drama",
+								@"ball",
+								@"kungfu",
+								@"athletics",
+								@"yoga",
+								@"steam",
+								@"science",
+								@"brain",];
 		
-//		self.backgroundColor = [UIColor brownColor];
-		
-		int courseSortCount = 11;
 		CGFloat marginLeft = 20.f;
 		CGFloat marginBetween = 15.f;
 		CGFloat marginTop = 10.f;
 		CGFloat itemWidth = (SCREEN_WIDTH - marginLeft*2 - marginBetween)/2;
 		CGFloat itemHeight = 96.f;
 		
-		for (int i = 0; i < courseSortCount; ++i) {
+		for (int i = 0; i < sort_name_s.count; ++i) {
 			int low = i%2;
 			int row = i/2;
 			
 			UIImageView *courseSignView = [[UIImageView alloc]init];
-			courseSignView.backgroundColor = [Tools randomColor];
+			NSString *imageName = [NSString stringWithFormat:@"home_sort_course_%@", [sort_name_s objectAtIndex:i]];
+			courseSignView.image = IMGRESOURCE(imageName);
 			[Tools setViewBorder:courseSignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 			
 			courseSignView.tag = i;
@@ -116,8 +126,8 @@
 #pragma mark -- actions
 - (void)didSignViewTap:(UITapGestureRecognizer*)tap {
 	UIView *tapView = tap.view;
-	
-	
+	NSNumber *index = [NSNumber numberWithInteger:tapView.tag];
+	kAYViewSendNotify(self, @"didCourseSortTapAtIndex:", &index)
 }
 
 #pragma mark -- messages

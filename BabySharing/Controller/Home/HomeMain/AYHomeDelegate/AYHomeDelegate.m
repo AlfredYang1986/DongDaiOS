@@ -153,7 +153,7 @@
 		return 50.f;
 	}
 	else
-		return 331;
+		return 370.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
