@@ -10,8 +10,10 @@
 #import "AYFactoryManager.h"
 #import "AYModelFacade.h"
 
+#import "AYNoContentCell.h"
+
 @implementation AYHomeAroundDelegate {
-	
+	NSArray *querydata;
 }
 
 #pragma mark -- command
@@ -41,26 +43,38 @@
 }
 
 - (id)changeQueryData:(id)args {
-	
+	querydata = args;
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 8;
+	NSInteger count = querydata.count;
+	return count == 0 ? 1 : count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
-	cell.controller = self.controller;
-	
-//	id tmp;
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-	
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	return (UITableViewCell*)cell;
+	if (querydata.count == 0) {
+		NSString *identifier = @"HomeAroundNOContentCell";
+		AYNoContentCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+		if (!cell) {
+			cell = [[AYNoContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+		}
+		[cell setTitleStr:@"附近暂无可用服务"];
+		return cell;
+	}
+	else {
+		
+		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
+		
+		id tmp = [querydata objectAtIndex:indexPath.row];
+		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		
+		cell.controller = self.controller;
+		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+		return (UITableViewCell*)cell;
+	}
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

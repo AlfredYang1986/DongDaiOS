@@ -17,7 +17,35 @@
 #import "AYThumbsAndPushDefines.h"
 #import "AYModelFacade.h"
 
-@implementation AYAssortmentSKUController
+#import "AYAssortmentSKUItem.h"
+
+@implementation AYAssortmentSKUController {
+	UICollectionView *SKUCollectionView;
+	NSInteger focusSKUIndex;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return 5;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	AYAssortmentSKUItem *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYAssortmentSKUItem" forIndexPath:indexPath];
+	
+	return item;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.row == focusSKUIndex) {
+		return CGSizeMake(136, 50);
+	} else
+		return CGSizeMake(88, 32);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	focusSKUIndex = indexPath.row;
+//	[collectionView reloadItemsAtIndexPaths:@[indexPath]];
+	[collectionView reloadData];
+}
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
@@ -35,6 +63,20 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
+	UICollectionViewFlowLayout *flowLayout = [UICollectionViewFlowLayout new];
+	flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
+	flowLayout.minimumInteritemSpacing = 15.f;
+	flowLayout.minimumLineSpacing = 0;
+	
+	SKUCollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 80, SCREEN_WIDTH, 50) collectionViewLayout:flowLayout];
+	SKUCollectionView.delegate = self;
+	SKUCollectionView.dataSource = self;
+	SKUCollectionView.showsHorizontalScrollIndicator = NO;
+	[SKUCollectionView setBackgroundColor:[UIColor clearColor]];
+	[SKUCollectionView registerClass:NSClassFromString(@"AYAssortmentSKUItem") forCellWithReuseIdentifier:@"AYAssortmentSKUItem"];
+	[self.view addSubview:SKUCollectionView];
+	SKUCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"Assortment"];
 	id obj = (id)delegate;
@@ -80,7 +122,8 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+	CGFloat marginTop = 140.f;
+	view.frame = CGRectMake(0, marginTop, SCREEN_WIDTH, SCREEN_HEIGHT - marginTop);
 	return nil;
 }
 

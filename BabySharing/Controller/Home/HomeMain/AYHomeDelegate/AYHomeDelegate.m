@@ -14,6 +14,8 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
+#define kLAYOUTCELLCOUNT 3
+
 @interface HomeTopTipCell : UITableViewCell
 
 @end
@@ -103,7 +105,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return servicesData.count + 3;
+    return servicesData.count + kLAYOUTCELLCOUNT;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -130,7 +132,7 @@
 		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 		
-		id tmp = [servicesData objectAtIndex:indexPath.row - 3];
+		id tmp = [servicesData objectAtIndex:indexPath.row - kLAYOUTCELLCOUNT];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	}
 	
@@ -157,11 +159,10 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 0) {
+	if (indexPath.row < kLAYOUTCELLCOUNT) {
 		return;
 	}
 	
-//	UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 	UIView *divView = [tableView superview];
 	CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];
 	CGRect rect = [tableView convertRect:rectInTableView toView:divView];
@@ -181,7 +182,7 @@
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
 	
 	if (autoIndexPath) {
-		NSDictionary *service_info = [servicesData objectAtIndex:autoIndexPath.row - 1];
+		NSDictionary *service_info = [servicesData objectAtIndex:autoIndexPath.row - kLAYOUTCELLCOUNT];
 		NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 		[tmp setValue:[autoIndexPath copy] forKey:@"indexpath"];
 		[tmp setValue:service_info forKey:@"service_info"];

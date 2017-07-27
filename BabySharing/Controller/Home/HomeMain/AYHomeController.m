@@ -53,6 +53,10 @@ typedef void(^queryContentFinish)(void);
 	
 	NSDictionary *dic_location;
 	CLLocation *loc;
+	
+	NSMutableArray *serviceDataAround;
+	NSInteger skipCountAround;
+	NSTimeInterval timeIntervalAround;
 
 	int currentIndex;
 }
@@ -102,7 +106,7 @@ typedef void(^queryContentFinish)(void);
 					UITableView *view_table = [self.views objectForKey:kAYTableView];
 					id tmp = [handArr copy];
 					kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
-					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index+1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 				}
 			}
 			
@@ -131,21 +135,18 @@ typedef void(^queryContentFinish)(void);
 	[self.view bringSubviewToFront:view_status];
 	[self.view bringSubviewToFront:view_seg];
 
-	id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-	UITableView *tableView = (UITableView*)view_notify;
-	
-	UILabel *tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[tableView addSubview:tipsLabel];
-	[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(tableView).offset(180);
-		make.centerX.equalTo(tableView);
-	}];
-	[tableView sendSubviewToBack:tipsLabel];
-	
-//	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
-	tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-	
 	{
+		id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+		UITableView *tableView = (UITableView*)view_notify;
+		
+		UILabel *tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		[tableView addSubview:tipsLabel];
+		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(tableView).offset(480);
+			make.centerX.equalTo(tableView);
+		}];
+		[tableView sendSubviewToBack:tipsLabel];
+		
 		id<AYDelegateBase> delegate_found = [self.delegates objectForKey:@"Home"];
 		id obj = (id)delegate_found;
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
@@ -162,6 +163,9 @@ typedef void(^queryContentFinish)(void);
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 		class_name = @"AYHomeMoreTitleCellView";
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+		
+		//	tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+		tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	}
 	
 	{
@@ -187,6 +191,8 @@ typedef void(^queryContentFinish)(void);
 			make.bottom.equalTo(self.view).offset(-48);
 		}];
 		
+		view_table_around.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewAroundData)];
+		view_table_around.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreAroundData)];
 	}
 	
 	{
@@ -308,10 +314,6 @@ typedef void(^queryContentFinish)(void);
 	view.backgroundColor = [Tools whiteColor];
 //	((UITableView*)view).contentOffset = CGPointMake(0, -20);
 //	((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-//	UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, SCREEN_WIDTH, 10)];
-//	topView.backgroundColor = [Tools whiteColor];
-//	[view addSubview:topView];
-//	[view bringSubviewToFront:topView];
 	return nil;
 }
 
@@ -345,6 +347,58 @@ typedef void(^queryContentFinish)(void);
 
 - (NSString*)serviceDataHandleKey {
 	return [NSString stringWithFormat:@"%d", DongDaSegIndex];
+}
+
+- (void)loadNewAroundData {
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [user mutableCopy];
+	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
+	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
+	
+	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
+	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		UITableView *view_table = [self.views objectForKey:@"Table2"];
+		if (success) {
+			NSArray *remoteArr = [result objectForKey:@"result"];
+			serviceDataAround = [remoteArr mutableCopy];
+			skipCountAround = remoteArr.count;			//刷新重置 计数为当前请求service数据个数
+			id tmp = [remoteArr copy];
+			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+		[view_table.mj_header endRefreshing];
+	}];
+}
+- (void)loadMoreAroundData {
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [user mutableCopy];
+	[dic_search setValue:[NSNumber numberWithInteger:skipCountAround] forKey:@"skip"];
+	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
+	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
+	
+	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
+	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		UITableView *view_table = [self.views objectForKey:@"Table2"];
+		if (success) {
+			NSArray *remoteArr = [result objectForKey:@"result"];
+			[serviceDataAround addObjectsFromArray:remoteArr];
+			skipCountAround = serviceDataAround.count;			//加载 累加计数
+			id tmp = [serviceDataAround copy];
+			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+		[view_table.mj_footer endRefreshing];
+	}];
 }
 
 - (void)loadMoreData {
@@ -409,9 +463,6 @@ typedef void(^queryContentFinish)(void);
 		if (success) {
 			
 			NSArray *remoteArr = [result objectForKey:@"result"];
-//			NSPredicate *pre_course = [NSPredicate predicateWithFormat:@"self.%@=%d", kAYServiceArgsServiceCat, ServiceTypeCourse];
-//			servDataOfCourse = [[remoteArr filteredArrayUsingPredicate:pre_course] mutableCopy];
-			
 			[serviceData setValue:[remoteArr mutableCopy] forKey:[NSString stringWithFormat:@"%d", DongDaSegIndex]];
 			skipCount = remoteArr.count;			//刷新重置 计数为当前请求service数据个数
 			
@@ -613,6 +664,11 @@ typedef void(^queryContentFinish)(void);
 				table_around.frame = CGRectMake(0, table_found_y, SCREEN_WIDTH, table_found_height);
 			}];
 		}
+		
+		if (!serviceDataAround) {
+			[self loadNewAroundData];
+		}
+		
 	} else if (changeIndex == 1) {
 		
 		if (currentIndex == 0) {

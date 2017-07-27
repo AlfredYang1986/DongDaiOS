@@ -132,11 +132,11 @@
 		
 		priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools themeColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:priceLabel];
-		[priceLabel sizeToFit];
-		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.right.equalTo(coverImage);
-			make.centerY.equalTo(positionSignView);
-		}];
+//		[priceLabel sizeToFit];
+//		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.right.equalTo(coverImage);
+//			make.centerY.equalTo(positionSignView);
+//		}];
 		
 		likeBtn  = [[UIButton alloc] init];
 		[likeBtn setImage:IMGRESOURCE(@"home_icon_love_normal") forState:UIControlStateNormal];
@@ -283,8 +283,8 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	[priceLabel sizeToFit];
 	[priceLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -293,16 +293,6 @@
 		make.width.mas_equalTo(priceLabel.bounds.size.width);
 	}];
 	
-//	capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
-//	[capacityLabel sizeToFit];
-//	[capacityLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//		make.left.equalTo(priceLabel.mas_right).offset(8);
-//		make.centerY.equalTo(priceLabel);
-//		make.size.mas_equalTo(CGSizeMake(capacityLabel.bounds.size.width + 8, capacityLabel.bounds.size.height + 4));
-//	}];
-//	if ([leastTimesOrHours isEqualToNumber:@1] || [leastTimesOrHours isEqualToNumber:@0]) {
-//		capacityLabel.alpha = 0;
-//	}
 	
 	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
 	NSString *stringPre = @"中国北京市";

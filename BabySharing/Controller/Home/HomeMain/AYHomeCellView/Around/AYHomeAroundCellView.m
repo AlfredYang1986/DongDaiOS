@@ -203,8 +203,8 @@
 	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	
 	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
