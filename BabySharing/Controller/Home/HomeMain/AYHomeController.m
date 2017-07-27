@@ -623,7 +623,7 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
 	[args setValue:loc forKey:@"location"];
-	[args setValue:[[serviceData objectForKey:[self serviceDataHandleKey]] copy] forKey:@"result_data"];
+	[args setValue:[serviceDataAround copy] forKey:@"result_data"];
 	
 	[dic_show_module setValue:[args copy] forKey:kAYControllerChangeArgsKey];
 	

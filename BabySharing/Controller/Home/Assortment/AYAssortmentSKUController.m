@@ -30,7 +30,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYAssortmentSKUItem *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYAssortmentSKUItem" forIndexPath:indexPath];
-	
+	[item setCornerRadius:(indexPath.row == focusSKUIndex ? 25 : 16)];
 	return item;
 }
 
@@ -76,7 +76,7 @@
 	[SKUCollectionView setBackgroundColor:[UIColor clearColor]];
 	[SKUCollectionView registerClass:NSClassFromString(@"AYAssortmentSKUItem") forCellWithReuseIdentifier:@"AYAssortmentSKUItem"];
 	[self.view addSubview:SKUCollectionView];
-	SKUCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+	SKUCollectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 20);
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"Assortment"];
 	id obj = (id)delegate;

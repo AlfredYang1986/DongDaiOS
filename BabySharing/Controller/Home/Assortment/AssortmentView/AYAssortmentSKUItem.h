@@ -13,4 +13,6 @@
 @property (nonatomic, strong) UIImage *backgroundImage;
 @property (nonatomic, strong) NSString *titleStr;
 
+- (void)setCornerRadius:(CGFloat)radius;
+
 @end

@@ -31,7 +31,6 @@
 
 - (void)initialize {
 	
-	[Tools setViewBorder:self withRadius:self.bounds.size.height * 0.5 andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	
 	backgroundImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"default_image"]];
 	[self addSubview:backgroundImageView];
@@ -55,6 +54,11 @@
 - (void)setBackgroundImage:(UIImage *)backgroundImage {
 	_backgroundImage = backgroundImage;
 	backgroundImageView.image = backgroundImage;
+}
+
+-(void)setCornerRadius:(CGFloat)radius {
+	
+	[Tools setViewBorder:self withRadius:radius andBorderWidth:0 andBorderColor:nil andBackground:nil];
 }
 
 @end
