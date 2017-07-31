@@ -55,6 +55,7 @@ typedef void(^queryContentFinish)(void);
 	CLLocation *loc;
 	
 	NSMutableArray *serviceDataAround;
+	BOOL isLocationAuth;
 	NSInteger skipCountAround;
 	NSTimeInterval timeIntervalAround;
 
@@ -350,6 +351,16 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (void)loadNewAroundData {
+	
+	NSNumber *tmp = [NSNumber numberWithBool:isLocationAuth];
+	kAYDelegatesSendMessage(@"HomeAround", @"changeLocationAuthData:", &tmp)
+	UITableView *view_table = [self.views objectForKey:@"Table2"];
+	if (!isLocationAuth) {
+		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
+		[view_table.mj_header endRefreshing];
+		return;
+	}
+	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
@@ -359,22 +370,31 @@ typedef void(^queryContentFinish)(void);
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		UITableView *view_table = [self.views objectForKey:@"Table2"];
 		if (success) {
 			NSArray *remoteArr = [result objectForKey:@"result"];
 			serviceDataAround = [remoteArr mutableCopy];
 			skipCountAround = remoteArr.count;			//刷新重置 计数为当前请求service数据个数
 			id tmp = [remoteArr copy];
 			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
-			kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
 		} else {
 			NSString *title = @"请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
+		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
 		[view_table.mj_header endRefreshing];
 	}];
 }
 - (void)loadMoreAroundData {
+	
+	NSNumber *tmp = [NSNumber numberWithBool:isLocationAuth];
+	kAYDelegatesSendMessage(@"HomeAround", @"changeLocationAuthData:", &tmp)
+	UITableView *view_table = [self.views objectForKey:@"Table2"];
+	if (!isLocationAuth) {
+		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
+		[view_table.mj_footer endRefreshing];
+		return;
+	}
+	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
@@ -385,18 +405,17 @@ typedef void(^queryContentFinish)(void);
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-		UITableView *view_table = [self.views objectForKey:@"Table2"];
 		if (success) {
 			NSArray *remoteArr = [result objectForKey:@"result"];
 			[serviceDataAround addObjectsFromArray:remoteArr];
 			skipCountAround = serviceDataAround.count;			//加载 累加计数
 			id tmp = [serviceDataAround copy];
 			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
-			kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
 		} else {
 			NSString *title = @"请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
+		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
 		[view_table.mj_footer endRefreshing];
 	}];
 }
@@ -408,7 +427,6 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
-	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
 	/*condition*/
 	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
 	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
@@ -451,7 +469,6 @@ typedef void(^queryContentFinish)(void);
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
-	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
 	/*condition*/
 	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
 	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
@@ -739,6 +756,19 @@ typedef void(^queryContentFinish)(void);
 	return nil;
 }
 
+- (id)didSelectAssortmentAtIndex:(id)args {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
+	return nil;
+}
+
 - (id)didNursarySortTapAtIndex:(id)args {
 	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -786,12 +816,13 @@ typedef void(^queryContentFinish)(void);
 	[self.manager requestWhenInUseAuthorization];
 	self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 	self.manager.delegate = self;
-	if ([CLLocationManager locationServicesEnabled]) {
-		
+	
+	BOOL isEnabled = [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways;
+	if ([CLLocationManager locationServicesEnabled] && isEnabled) {
+		isLocationAuth = YES;
 		[self.manager startUpdatingLocation];
 	} else {
-		NSString *title = @"请在iPhone的\"设置-隐私-定位\"中允许-咚哒-定位服务";
-		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		isLocationAuth = NO;
 //        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 	}
 }
@@ -799,11 +830,33 @@ typedef void(^queryContentFinish)(void);
 //定位成功 调用代理方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
 	loc = [locations firstObject];
+	NSMutableDictionary *l = [[NSMutableDictionary alloc] init];
+	[l setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+	[l setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
+	search_loc = [l copy];
 	[manager stopUpdatingLocation];
-	
 }
 
-
-
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+	switch (status) {
+		case kCLAuthorizationStatusAuthorizedAlways:
+		case kCLAuthorizationStatusAuthorizedWhenInUse: {
+			isLocationAuth = YES;
+			[self.manager startUpdatingLocation];
+		}
+			break;
+		case kCLAuthorizationStatusDenied:
+		case kCLAuthorizationStatusNotDetermined:
+		case kCLAuthorizationStatusRestricted: {
+			NSLog(@"status:%d",status);
+			isLocationAuth = NO;
+			loc = nil;
+			search_loc = nil;
+		}
+			break;
+		default:
+			break;
+	}
+}
 
 @end

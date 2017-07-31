@@ -182,47 +182,46 @@
     <command type="Remote" name="PostPhotos" factory="AYDefaultModuleFactory" />
     <command type="Remote" name="PostMovie" factory="AYDefaultModuleFactory" />
     
-    <command type="Remote" name="LandingReqConfirmCode" route="v2/phone/code/send" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="AuthWithSNS" route="v2/auth/third" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="AuthSignOut" route="v2/auth/signout" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="LandingReqConfirmCode" route="al/code/send" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="AuthPhoneCode"			route="al/auth/code" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="AuthWithSNS"			route="v2/auth/third" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="AuthSignOut"			route="v2/auth/signout" factory="AYRemoteCallFactory" />
+	
+	<command type="Remote" name="RequireCode"			route="al/code/send" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="CheckCode"				route="al/code/check" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="PushRealName"			route="auth/realname/push" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="ApproveRealName"		route="auth/realname/approve" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="RejectRealName"		route="auth/realname/reject" factory="AYRemoteCallFactory" />
 
-    <command type="Remote" name="AuthPhoneCode" route="v2/auth/code" factory="AYRemoteCallFactory" />
-    
-    <command type="Remote" name="RequireCode"       route="v2/phone/code/send" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="CheckCode"         route="v2/phone/code/check" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UpdateUserDetail" route="v2/profile/update" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="PushRealName"      route="auth/realname/push" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="ApproveRealName"      route="auth/realname/approve" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="RejectRealName"      route="auth/realname/reject" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="UpdateUserDetail"		route="v2/profile/update" factory="AYRemoteCallFactory" />
+	
+    <command type="Remote" name="QueryUserProfile"		route="v2/profile/query" factory="AYRemoteCallFactory" />
 
-
-    <command type="Remote" name="QueryUserProfile" route="v2/profile/query" factory="AYRemoteCallFactory" />
-
-    <command type="Remote" name="UploadUserImage" route="post/uploadFile" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UploadFile" route="post/uploadFile" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="DownloadUserFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="DownloadMovieFiles" route="query/downloadFile/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UploadUserImage"		route="post/uploadFile" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UploadFile"			route="post/uploadFile" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="DownloadUserFiles"		route="query/downloadFile/" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="DownloadMovieFiles"	route="query/downloadFile/" factory="AYRemoteCallFactory" />
 
 <!--    <command type="Remote" name="PushServiceInfo"   route="v2/kidnap/push"     factory="AYRemoteCallFactory" />-->
-    <command type="Remote" name="PushServiceInfo"   route="v3/kidnap/push"     factory="AYRemoteCallFactory" />
-    <command type="Remote" name="PopMyService"      route="v2/kidnap/pop" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PushServiceInfo"		route="v3/kidnap/push"     factory="AYRemoteCallFactory" />
+    <command type="Remote" name="PopMyService"			route="v2/kidnap/pop" factory="AYRemoteCallFactory" />
 <!--    <command type="Remote" name="UpdateMyService"   route="v2/kidnap/update" factory="AYRemoteCallFactory" />-->
-    <command type="Remote" name="UpdateMyService"   route="v3/kidnap/update" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UpdateMyServiceTM" route="v3/tm/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateMyService"		route="v3/kidnap/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateMyServiceTM"		route="v3/tm/update" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="SearchFiltService" route="v3.1/kidnap/search" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryMyService"    route="v3/kidnap/mine" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="QueryServiceDetail"    route="v3/kidnap/detail" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="SearchFiltService"		route="v3.1/kidnap/search" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryMyService"		route="v3/kidnap/mine" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="QueryServiceDetail"	route="v3/kidnap/detail" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="CollectService"        route="v2/kidnap/collect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AllCollectService"     route="v3/kidnap/collect/lst" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="QueryOrders"   route="v3/order/query" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryOwnOrders"   route="v2.1/order/query/owner" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="QueryApplyOrders"   route="v2.1/order/query/apply" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UpdateOrderInfo"   route="v2/order/update" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="QueryRemind"   route="v3/order/split" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOrders"			route="v3/order/query" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOwnOrders"		route="v2.1/order/query/owner" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryApplyOrders"		route="v2.1/order/query/apply" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateOrderInfo"		route="v2/order/update" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="QueryRemind"			route="v3/order/split" factory="AYRemoteCallFactory" />
 	
 <!--    <command type="Remote" name="PushOrder"         route="v2/order/push" factory="AYRemoteCallFactory" />-->
 <!--    <command type="Remote" name="AcceptOrder"       route="v2/order/accept" factory="AYRemoteCallFactory" />-->

@@ -103,12 +103,7 @@
 	
 	<delegate type="TableViewDelegateAndDatasource" name="HomeAround" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
-		<command type="notify"  message="scrollToShowHideTop:" />
-		<command type="notify"  message="scrollToShowTop:" />
-		<command type="notify"  message="scrollToHideTop:" />
-		<command type="notify"  message="didSelectedRow:" />
-		<command type="notify"  message="scrollViewWillBeginDrag" />
-		<command type="notify"  message="scrollViewWillEndDrag" />
+		<command type="message"  message="changeLocationAuthData:" />
 	</delegate>
 	
 	

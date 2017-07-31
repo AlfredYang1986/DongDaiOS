@@ -14,6 +14,8 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
+		self.backgroundColor = [UIColor clearColor];
+		
 		UIImageView *noAuthSign = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"near_none_location"]];
 		[self addSubview:noAuthSign];
 		[noAuthSign mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -24,6 +26,7 @@
 		
 		NSString *tipStr = @"请在iPhone的\"设置-隐私-定位\"中\n允许-咚哒-定位服务";
 		UILabel *tipLabel = [Tools creatUILabelWithText:tipStr andTextColor:[Tools RGB153GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		tipLabel.numberOfLines = 0;
 		[self addSubview:tipLabel];
 		[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerX.equalTo(self);

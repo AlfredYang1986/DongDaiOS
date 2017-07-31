@@ -124,24 +124,25 @@
     [cmd_coder performWithResult:&input_coder];
     
     NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
-    [dic_auth setValue:self.phoneNo forKey:@"phoneNo"];
+    [dic_auth setValue:self.phoneNo forKey:@"phone"];
     [dic_auth setValue:self.reg_token forKey:@"reg_token"];
-    [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     [dic_auth setValue:input_coder forKey:@"code"];
-   
     
     AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"AuthPhoneCode"];
     [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-           
-            NSDictionary* args = [result copy];
-            
+			
+			NSMutableDictionary *user = [[NSMutableDictionary alloc] initWithDictionary:[result objectForKey:@"user"]];
+			[user setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
+			NSDictionary* args = [user copy];
+			NSDictionary *back_result =[user copy];
+			
             AYModel* m = MODEL;
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];
             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
-            [cmd performWithResult:&result];
-           
+            [cmd performWithResult:&back_result];
+			
             NSString* screen_name = [args objectForKey:@"screen_name"];
             if ([screen_name isEqualToString:@""]) {
                 id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
@@ -162,8 +163,8 @@
             
         } else {
             NSString* msg = [result objectForKey:@"message"];
-            if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]) {
-                NSString *title = @"动态密码错误,请重试";
+            if([msg isEqualToString:@"电话号码或者验证码出错"]) {
+                NSString *title = @"动态密码不匹配,请重试";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             } else {
                 NSString *title = @"验证动态密码失败，请检查网络是否正常连接";
@@ -179,7 +180,7 @@
     _phoneNo = [args_dic objectForKey:@"phoneNo"];
     
     NSMutableDictionary* dic_coder = [[NSMutableDictionary alloc]init];
-    [dic_coder setValue:[args_dic objectForKey:@"phoneNo"] forKey:@"phoneNo"];
+    [dic_coder setValue:[args_dic objectForKey:@"phoneNo"] forKey:@"phone"];
     
     AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_coder = [f.commands objectForKey:@"LandingReqConfirmCode"];
@@ -190,7 +191,7 @@
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];
             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
             [cmd performWithResult:&result];
-            _reg_token = [result objectForKey:@"reg_token"];
+            _reg_token = [[result objectForKey:@"reg"] objectForKey:@"reg_token"];
             
             id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
             id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"startConfirmCodeTimer"];

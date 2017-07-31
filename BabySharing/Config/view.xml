@@ -412,6 +412,7 @@
 	<view type="HomeAssortmentCell" name="HomeAssortmentCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="didAssortmentMoreBtnClick" />
+		<command type="notify"      message="didSelectAssortmentAtIndex:" />
 	</view>
 	<view type="HomeMoreTitleCell" name="HomeMoreTitleCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />

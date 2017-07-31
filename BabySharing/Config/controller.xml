@@ -257,7 +257,8 @@
     <controller type="DefaultController" name="Home" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="KidNapRemote" />
         <facade type="DefaultFacade" name="HomeQueryModel" notification="true"/>
-       <facade type="DefaultFacade" name="ProfileRemote" />
+		<facade type="DefaultFacade" name="ProfileRemote" />
+		<command type="Module" name="LocationAuth" />
 	   
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar" name="FakeNavBar" />

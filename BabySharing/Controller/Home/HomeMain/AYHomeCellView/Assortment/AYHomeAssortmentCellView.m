@@ -81,6 +81,11 @@
 	return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
+	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &index)
+}
+
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
 	id<AYViewBase> cell = VIEW(@"HomeAssortmentCell", @"HomeAssortmentCell");

@@ -11,6 +11,7 @@
 
 @implementation AYHomeBannerItemCellView{
 	UIImageView *imageView;
+	NSArray *borderColors;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -32,6 +33,8 @@
 - (void)initialize {
 	
 	self.backgroundColor = [UIColor clearColor];
+	borderColors = @[[Tools colorWithRED:140 GREEN:140 BLUE:240 ALPHA:1.f], [Tools colorWithRED:140 GREEN:140 BLUE:240 ALPHA:1.f],
+					 [Tools colorWithRED:140 GREEN:140 BLUE:240 ALPHA:1.f], [Tools colorWithRED:140 GREEN:140 BLUE:240 ALPHA:1.f]];
 	
 	UIView *borderView = [[UIView alloc] init];
 //	[Tools setViewBorder:borderView withRadius:0 andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:[UIColor clearColor]];
