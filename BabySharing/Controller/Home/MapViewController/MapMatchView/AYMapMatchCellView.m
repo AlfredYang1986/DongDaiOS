@@ -177,7 +177,7 @@
 //	[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 //					 placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	NSString *unitCat;
 	NSNumber *leastTimesOrHours;
 	if (service_cat.intValue == ServiceTypeNursery) {
@@ -198,7 +198,7 @@
 	titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
 	
 //	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
-	NSString *nameStr = [service_info objectForKey:kAYServiceArgsScreenName];
+	NSString *nameStr = [service_info objectForKey:kAYProfileArgsScreenName];
 	if (!nameStr || [nameStr isEqualToString:@""]) {
 		nameStr = @"DongDaUser";
 	}

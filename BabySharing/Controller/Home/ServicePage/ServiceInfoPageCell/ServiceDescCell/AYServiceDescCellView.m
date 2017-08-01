@@ -203,7 +203,7 @@
 	NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
 	descTextView.attributedText = descAttri;
 	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	switch (service_cat.intValue) {
 	case ServiceTypeCourse:
 	{

@@ -50,7 +50,7 @@
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
 		service_info = [tmp objectForKey:kAYServiceArgsInfo];
-		serviceType = [service_info objectForKey:kAYServiceArgsServiceCat];
+		serviceType = [service_info objectForKey:kAYServiceArgsCat];
 		serviceTMs = [service_info objectForKey:kAYServiceArgsTimes];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {

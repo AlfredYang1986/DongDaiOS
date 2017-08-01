@@ -191,7 +191,7 @@
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:order_info];
-	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYServiceArgsScreenName];
+	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
 	NSString *addrStr = [order_info objectForKey:@"address"];

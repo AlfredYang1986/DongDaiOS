@@ -31,7 +31,7 @@
             service_type = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
 			
 			dic_cat_cans = [[NSMutableDictionary alloc]init];
-			[dic_cat_cans setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYServiceArgsServiceCat];
+			[dic_cat_cans setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYServiceArgsCat];
 			
         } else if ([tmp isKindOfClass:[NSString class]]) {
             isEdit = YES;

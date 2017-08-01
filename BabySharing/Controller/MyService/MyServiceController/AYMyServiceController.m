@@ -200,7 +200,7 @@
     
     id<AYCommand> dest;
 	
-	NSNumber *service_cat = [args objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [args objectForKey:kAYServiceArgsCat];
 	switch (service_cat.intValue) {
 	  case ServiceTypeCourse:
 			dest = DEFAULTCONTROLLER(@"NapScheduleMain");

@@ -49,7 +49,7 @@
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsCat] forKey:kAYServiceArgsCat];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
             //[service_info setValue:[dic_args objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsIsAdjustSKU] forKey:kAYServiceArgsIsAdjustSKU];
@@ -219,7 +219,7 @@
     [tmp setValue:[service_info objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
+    [tmp setValue:[service_info objectForKey:kAYServiceArgsCat] forKey:kAYServiceArgsCat];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
     [tmp setValue:[service_info objectForKey:kAYServiceArgsIsAdjustSKU] forKey:kAYServiceArgsIsAdjustSKU];
     

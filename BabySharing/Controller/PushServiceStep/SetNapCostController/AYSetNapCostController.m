@@ -49,7 +49,7 @@
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
             setedCostString = [dic_cost objectForKey:kAYServiceArgsPrice];
-            service_type = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsServiceCat]).intValue;
+            service_type = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCat]).intValue;
             
             if (service_type == ServiceTypeCourse) {
                 NSNumber *count_note =  [dic_cost objectForKey:kAYServiceArgsLeastTimes];

@@ -81,10 +81,10 @@
 	} else {
 		[tmp setValue:[titleArr_lookafter objectAtIndex:indexPath.row] forKey:@"title"];
 	}
-	[tmp setValue:[NSNumber numberWithInteger:indexPath.section] forKey:kAYServiceArgsServiceCat];
+	[tmp setValue:[NSNumber numberWithInteger:indexPath.section] forKey:kAYServiceArgsCat];
 	[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:kAYServiceArgsTheme];
 	
-	NSNumber *service_cat = [filterInfo objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [filterInfo objectForKey:kAYServiceArgsCat];
 	NSNumber *theme_cat = [filterInfo objectForKey:kAYServiceArgsTheme];
 	BOOL isFilterOpt = service_cat && service_cat.floatValue == indexPath.section  && theme_cat && theme_cat.floatValue == indexPath.row;
 	[tmp setValue:[NSNumber numberWithBool:isFilterOpt] forKey:@"is_selected"];

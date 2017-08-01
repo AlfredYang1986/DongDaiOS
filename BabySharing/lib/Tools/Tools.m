@@ -684,7 +684,7 @@
 + (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary *)service_info {
 	NSString *completeTheme;
 	NSArray *options_title_cans;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
 	
 	if (service_cat.intValue == ServiceTypeNursery) {

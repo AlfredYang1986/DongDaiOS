@@ -277,7 +277,7 @@
 		
 		NSString *unitCat;
 		NSNumber *leastTimesOrHours;
-		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 		if (service_cat.intValue == ServiceTypeNursery) {
 			unitCat = @"小时";
 			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];

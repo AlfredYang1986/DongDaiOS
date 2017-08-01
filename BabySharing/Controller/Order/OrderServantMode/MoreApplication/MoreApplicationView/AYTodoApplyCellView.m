@@ -148,7 +148,7 @@
 	}
 	actionLabel.text = actionStr;
 	
-	userNameLabel.text = [order_info objectForKey:kAYServiceArgsScreenName];
+	userNameLabel.text = [order_info objectForKey:kAYProfileArgsScreenName];
 	serviceTitleLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsTitle];
 	
 	return nil;

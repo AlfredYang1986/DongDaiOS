@@ -155,7 +155,7 @@
 	NSDictionary *order_info = (NSDictionary*)args;
 	service_info = [order_info objectForKey:@"service"];
 	
-	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
+	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
 	

@@ -99,8 +99,8 @@
         service_info = [dic objectForKey:kAYServiceArgsInfo];
         napThemeNote = [[dic objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsCourseCat];
     }
-    else if ([key isEqualToString:kAYServiceArgsServiceCat]) {
-        service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsServiceCat]).intValue;
+    else if ([key isEqualToString:kAYServiceArgsCat]) {
+        service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsCat]).intValue;
         napThemeNote = [dic objectForKey:kAYServiceArgsCourseCat];
     }
     else if ([key isEqualToString:@"nap_cover"]) {
@@ -147,7 +147,7 @@
                   @"编辑价格",
                   @"编辑《服务守则》",
                   @"更多信息",  nil];
-    service_cat = ((NSNumber*)[info objectForKey:kAYServiceArgsServiceCat]).intValue;
+    service_cat = ((NSNumber*)[info objectForKey:kAYServiceArgsCat]).intValue;
     napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
     napTitle = [info objectForKey:kAYServiceArgsTitle];
     
@@ -351,7 +351,7 @@
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
 //    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napTitleInfo];
-//    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
+//    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsCat];
 //    [tmp setValue:napThemeNote forKey:kAYServiceArgsCourseCat];
     [dic_push setValue:napTitle forKey:kAYControllerChangeArgsKey];
     
@@ -395,7 +395,7 @@
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napCostInfo];
-    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
+    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsCat];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
@@ -460,7 +460,7 @@
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:service_info];
-        [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsServiceCat];
+        [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsCat];
         [tmp setValue:napThemeNote forKey:kAYServiceArgsCourseCat];
         [dic_push setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
         

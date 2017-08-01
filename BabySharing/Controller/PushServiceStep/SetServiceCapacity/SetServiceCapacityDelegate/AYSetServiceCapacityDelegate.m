@@ -47,7 +47,7 @@
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
     NSDictionary *args_info = (NSDictionary*)args;
-    ServiceType service_type = ((NSNumber*)[args_info objectForKey:kAYServiceArgsServiceCat]).intValue;
+    ServiceType service_type = ((NSNumber*)[args_info objectForKey:kAYServiceArgsCat]).intValue;
     if (service_type == ServiceTypeCourse) {
         [titleArr replaceObjectAtIndex:3 withObject:@"老师数量"];
     }

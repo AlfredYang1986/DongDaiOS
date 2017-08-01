@@ -143,7 +143,7 @@ typedef void(^queryContentFinish)(void);
 		UILabel *tipsLabel = [Tools creatUILabelWithText:@"没有匹配的结果" andTextColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[tableView addSubview:tipsLabel];
 		[tipsLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(tableView).offset(480);
+			make.top.equalTo(tableView).offset(400);
 			make.centerX.equalTo(tableView);
 		}];
 		[tableView sendSubviewToBack:tipsLabel];
@@ -428,7 +428,7 @@ typedef void(^queryContentFinish)(void);
 	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	/*condition*/
-	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
+	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsCat];
 	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
@@ -470,7 +470,7 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *dic_search = [user mutableCopy];
 	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	/*condition*/
-	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsServiceCat];
+	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsCat];
 	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];

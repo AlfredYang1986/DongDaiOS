@@ -167,7 +167,7 @@
 	service_info = [order_info objectForKey:@"service"];
 	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
 	
-	NSString *aplyName = [order_info objectForKey:kAYServiceArgsScreenName];
+	NSString *aplyName = [order_info objectForKey:kAYProfileArgsScreenName];
 	NSString *titleStr = [NSString stringWithFormat:@"%@预订的%@", aplyName, completeTheme];
 	if (titleStr && ![titleStr isEqualToString:@""]) {
 		titleLabel.text = titleStr;

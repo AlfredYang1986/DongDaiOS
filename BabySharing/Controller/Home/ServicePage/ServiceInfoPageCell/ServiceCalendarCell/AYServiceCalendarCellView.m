@@ -203,7 +203,7 @@
 		}
 	}
 	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	if (service_cat.intValue == ServiceTypeNursery) {
 		tipsTitleLabel.text = @"看顾时间";
 	}

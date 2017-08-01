@@ -174,7 +174,7 @@
 	
 	service_info = [order_info objectForKey:kAYServiceArgsSelf];
 	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
-	NSString *aplyName = [[order_info objectForKey:kAYServiceArgsSelf] objectForKey:kAYServiceArgsScreenName];
+	NSString *aplyName = [[order_info objectForKey:kAYServiceArgsSelf] objectForKey:kAYProfileArgsScreenName];
 	NSString *titleStr = [NSString stringWithFormat:@"%@的%@", aplyName, completeTheme];
 	if (titleStr && ![titleStr isEqualToString:@""]) {
 		titleLabel.text = titleStr;

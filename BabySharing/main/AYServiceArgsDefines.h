@@ -10,9 +10,16 @@
 #define AYServiceArgsDefines_h
 
 //common args
-static NSString* const kAYCommArgsUserID =               @"user_id";
-static NSString* const kAYCommArgsOwnerID =               @"owner_id";
-static NSString* const kAYCommArgsTips =               @"args_tips";
+static NSString* const kAYCommArgsCondition =				@"condition";
+static NSString* const kAYCommArgsUserID =					@"user_id";
+static NSString* const kAYCommArgsOwnerID =					@"owner_id";
+static NSString* const kAYCommArgsTips =					@"args_tips";
+
+//user profile args
+static NSString* const kAYProfileArgsScreenName =			@"screen_name";
+static NSString* const kAYProfileArgsScreenPhoto =			@"screen_photo";
+static NSString* const kAYProfileArgsAuthToken =			@"auth_token";
+//static NSString* const kAYCommArgsTips =               @"user_id";
 //static NSString* const kAYCommArgsTips =               @"user_id";
 
 
@@ -21,7 +28,7 @@ static NSString* const kAYServiceArgsSelf =               @"service";
 static NSString* const kAYServiceArgsInfo =               @"service_info";
 static NSString* const kAYServiceArgsID =               @"service_id";
 
-static NSString* const kAYServiceArgsServiceCat =               @"service_cat";
+static NSString* const kAYServiceArgsCat =               @"service_cat";
 
 static NSString* const kAYServiceArgsImages =               @"images";
 static NSString* const kAYServiceArgsTitle =               @"title";
@@ -71,9 +78,6 @@ static NSString* const kAYServiceArgsCourseCat =               @"cans_cat";
 static NSString* const kAYServiceArgsTheme =               @"cans_cat";
 static NSString* const kAYServiceArgsCourseSign =               @"cans";
 static NSString* const kAYServiceArgsCourseCoustom =               @"reserve1";
-
-static NSString* const kAYServiceArgsScreenName =               @"screen_name";
-static NSString* const kAYServiceArgsScreenPhoto =               @"screen_photo";
 
 static NSString* const kAYServiceArgsIsAdjustSKU =               @"is_adjust_SKU";
 //static NSString* const kAYServiceArgs =               @"screen_photo";

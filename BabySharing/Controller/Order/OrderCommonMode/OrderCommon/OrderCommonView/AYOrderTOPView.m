@@ -138,15 +138,15 @@
 			case OrderStatusCancel:
 			{
 				photo_name = [order_info objectForKey:@"screen_photo"];
-				userNameLabel.text = [order_info objectForKey:kAYServiceArgsScreenName];
+				userNameLabel.text = [order_info objectForKey:kAYProfileArgsScreenName];
 				serviceTitleLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsTitle];
 			}
 				break;
 			case OrderStatusAccepted:
 			case OrderStatusReject:
 			{
-				photo_name = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsScreenPhoto];
-				userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsScreenName];
+				photo_name = [[order_info objectForKey:@"service"] objectForKey:kAYProfileArgsScreenPhoto];
+				userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYProfileArgsScreenName];
 				NSString *compName = [Tools serviceCompleteNameFromSKUWith:[order_info objectForKey:@"service"]];
 				serviceTitleLabel.text = [NSString stringWithFormat:@"您的%@申请", compName];
 			}

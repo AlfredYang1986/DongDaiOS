@@ -45,7 +45,7 @@
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
 	queryData = args;
-    NSNumber *type = [args objectForKey:kAYServiceArgsServiceCat];
+    NSNumber *type = [args objectForKey:kAYServiceArgsCat];
     if (type.intValue == ServiceTypeNursery) {
         titleArr = @[@"日间看顾", @"课后看顾"];
     } else if (type.intValue == ServiceTypeCourse) {

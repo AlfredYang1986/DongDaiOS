@@ -151,8 +151,8 @@
 	
 	NSString *unitCat = @"UNIT";
 	NSArray *options_title_cans;
-	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
 	
 	if (service_cat.intValue == ServiceTypeNursery) {

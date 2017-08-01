@@ -175,7 +175,8 @@
 }
 
 #pragma mark -- view notification
-- (void)updateProfileImpl:(NSDictionary*) dic {
+- (void)updateProfileImpl:(NSDictionary*)dic {
+	
     id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
     AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
     [cmd_profile performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary * result) {
@@ -190,8 +191,8 @@
                 [cmd performWithResult:&args];
                 
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络错误,请退出重试" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
-                [alert show];
+				NSString *title = @"网络错误,请改善网络环境并重试";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         });
     }];
@@ -204,13 +205,18 @@
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
-	
     //通用参数
-    NSMutableDictionary* dic_update = [[NSMutableDictionary alloc]init];
-    [dic_update setValue:[_login_attr objectForKey:@"screen_name"] forKey:@"screen_name"];
-    [dic_update setValue:[_login_attr objectForKey:@"auth_token"] forKey:@"auth_token"];
-    [dic_update setValue:[_login_attr objectForKey:@"user_id"] forKey:@"user_id"];
-    
+    NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
+	[dic_update setValue:[_login_attr objectForKey:kAYProfileArgsAuthToken] forKey:@"token"];
+	NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
+	[condition setValue:[_login_attr objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic_update setValue:condition forKey:kAYCommArgsCondition];
+	
+	NSMutableDictionary *profile = [[NSMutableDictionary alloc] init];
+	[profile setValue:[_login_attr objectForKey:kAYProfileArgsScreenName] forKey:kAYProfileArgsScreenName];
+	[profile setValue:[_login_attr objectForKey:kAYProfileArgsScreenPhoto] forKey:kAYProfileArgsScreenPhoto];
+	[dic_update setValue:profile forKey:@"profile"];
+	
     if (isChangeImg) {
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
         [photo_dic setValue:screen_photo forKey:@"image"];
@@ -221,11 +227,12 @@
         [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"upload result are %d", success);
             if (success) {
-                
-                [dic_update setValue:screen_photo forKey:@"screen_photo"];
+                [profile setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
                 [self updateProfileImpl:[dic_update copy]];
+				
+				//已成功上传头像，如果更新用户信息出错，跳过头像上传，直接重试更新用户信息
+				isChangeImg = NO;
             } else {
-                
                 NSString *title = @"真相上传失败!请改善网络环境重试";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
@@ -273,7 +280,6 @@
 }
 
 - (id)tapGestureScreenPhoto {
-    
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"去相册选择", nil];
     [sheet showInView:self.view];
     return nil;
@@ -281,7 +287,7 @@
 
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
+	
     id<AYCommand> cmd;
     if (buttonIndex == 0) { // take photo / 去拍照
         cmd = OpenCamera;

@@ -151,7 +151,7 @@
 	NSArray *order_times = [args objectForKey:@"order_times"];
 	
 	NSString *unitCat = @"UNIT";
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	__block int count_times = 0;
 	
 	if (service_cat.intValue == ServiceTypeNursery) {

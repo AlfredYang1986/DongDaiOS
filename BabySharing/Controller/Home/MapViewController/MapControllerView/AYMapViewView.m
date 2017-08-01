@@ -96,7 +96,7 @@
 		anno.title = annoTitle;
 		anno.index = i;
 		
-		NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsServiceCat];
+		NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
 		NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsTheme];
 		NSString *pre_map_icon_name;
 		if (serviceCat.intValue == ServiceTypeCourse) {

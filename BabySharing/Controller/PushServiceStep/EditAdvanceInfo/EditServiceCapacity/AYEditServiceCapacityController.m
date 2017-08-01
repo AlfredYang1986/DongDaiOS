@@ -265,7 +265,7 @@
 	
     NSString *catStr;
     NSArray *options_title_cans;
-    NSNumber *service_cat = [service_info_part objectForKey:kAYServiceArgsServiceCat];
+    NSNumber *service_cat = [service_info_part objectForKey:kAYServiceArgsCat];
     if (service_cat.intValue == ServiceTypeNursery) {
         catStr = @"看顾服务";
         options_title_cans = kAY_service_options_title_nursery;

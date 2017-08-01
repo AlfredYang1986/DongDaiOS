@@ -155,7 +155,7 @@
 	
 	FBActionLabel.text = actionStr;
 	
-	userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsScreenName];
+	userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYProfileArgsScreenName];
 	
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:[order_info objectForKey:@"service"]];
 	serviceTitleLabel.text = [NSString stringWithFormat:@"您的%@申请", compName];

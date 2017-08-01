@@ -252,11 +252,11 @@
 	NSString *unitCat = @"UNIT";
 //	NSNumber *leastTimesOrHours = @1;
 	
-	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
+	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
 	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	
 	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";

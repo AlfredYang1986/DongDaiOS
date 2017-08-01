@@ -181,7 +181,7 @@
 	capacityLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue];
 
 	NSString *servantCat = @"服务者数量";
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 	 if (service_cat.intValue == ServiceTypeCourse) {
 		servantCat = @"老师数量";
 	}
