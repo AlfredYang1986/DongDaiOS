@@ -32,8 +32,8 @@
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     
     NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [cur setValue:tmp.who.user_id forKey:@"user_id"];
-    [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+    [cur setValue:tmp.who.user_id forKey:kAYCommArgsUserID];
+    [cur setValue:tmp.who.auth_token forKey:kAYCommArgsToken];
     
     *obj = [cur copy];
 }

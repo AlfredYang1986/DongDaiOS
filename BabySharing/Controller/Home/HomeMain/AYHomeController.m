@@ -38,21 +38,16 @@ typedef void(^queryContentFinish)(void);
 
 @implementation AYHomeController {
 	
-    NSInteger skipCount;
-	NSTimeInterval timeInterval;
-	NSDictionary *search_loc;
-	
-	int DongDaSegIndex;		// == service_type
-	NSMutableDictionary *serviceData;
-	NSMutableDictionary *subIndexData;
+	NSMutableArray *serviceDataFound;
+    NSInteger skipCountFound;
+	NSTimeInterval timeIntervalFound;
 	
 	UILabel *addressLabel;
-	UILabel *themeCatlabel;
 	CGFloat dynamicOffsetY;
 	BOOL isDargging;
 	
-	NSDictionary *dic_location;
 	CLLocation *loc;
+	NSDictionary *search_pin;
 	
 	NSMutableArray *serviceDataAround;
 	BOOL isLocationAuth;
@@ -97,15 +92,14 @@ typedef void(^queryContentFinish)(void);
 			if ([key isEqualToString:@"is_change_collect"]) {
 				id service_info = [backArgs objectForKey:@"args"];
 				NSString *service_id = [service_info objectForKey:kAYServiceArgsID];
-				NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
 				NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-				NSArray *result = [handArr filteredArrayUsingPredicate:pre_id];
+				NSArray *result = [serviceDataFound filteredArrayUsingPredicate:pre_id];
 				
 				if (result.count == 1) {
-					NSInteger index = [handArr indexOfObject:result.firstObject];
-					[handArr replaceObjectAtIndex:index withObject:service_info];
+					NSInteger index = [serviceDataFound indexOfObject:result.firstObject];
+					[serviceDataFound replaceObjectAtIndex:index withObject:service_info];
 					UITableView *view_table = [self.views objectForKey:kAYTableView];
-					id tmp = [handArr copy];
+					id tmp = [serviceDataFound copy];
 					kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 				}
@@ -123,10 +117,9 @@ typedef void(^queryContentFinish)(void);
 	
 	currentIndex = 1;
 	dynamicOffsetY = 0.f;
-	DongDaSegIndex = ServiceTypeCourse;
-	subIndexData = [[NSMutableDictionary alloc] init];
-	serviceData = [[NSMutableDictionary alloc] init];
-	timeInterval = [NSDate date].timeIntervalSince1970;
+	
+	serviceDataFound = [[NSMutableDictionary alloc] init];
+	timeIntervalFound = timeIntervalAround = [NSDate date].timeIntervalSince1970;
 	
 	/**********层级调整*******/
 	UIView *view_status = [self.views objectForKey:@"FakeStatusBar"];
@@ -346,10 +339,6 @@ typedef void(^queryContentFinish)(void);
 	
 }
 
-- (NSString*)serviceDataHandleKey {
-	return [NSString stringWithFormat:@"%d", DongDaSegIndex];
-}
-
 - (void)loadNewAroundData {
 	
 	NSNumber *tmp = [NSNumber numberWithBool:isLocationAuth];
@@ -364,17 +353,19 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
-	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
-	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
+	NSMutableDictionary *dic_condition = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
+	[dic_location setValue:[search_pin copy] forKey:kAYServiceArgsPin];
+	[dic_search setValue:[dic_condition copy] forKey:kAYServiceArgsLocationInfo];
+//	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			NSArray *remoteArr = [result objectForKey:@"result"];
-			serviceDataAround = [remoteArr mutableCopy];
-			skipCountAround = remoteArr.count;			//刷新重置 计数为当前请求service数据个数
-			id tmp = [remoteArr copy];
+			serviceDataAround = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
+			skipCountAround = serviceDataAround.count;			//刷新 重置计数为此次请求service数据个数
+			id tmp = [serviceDataAround copy];
 			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
 		} else {
 			NSString *title = @"请改善网络环境并重试";
@@ -398,15 +389,18 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
-	[dic_search setValue:[NSNumber numberWithInteger:skipCountAround] forKey:@"skip"];
-	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
-	[dic_search setValue:search_loc forKey:kAYServiceArgsLocation];
+	NSMutableDictionary *dic_condition = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
+	[dic_location setValue:[search_pin copy] forKey:kAYServiceArgsPin];
+	[dic_search setValue:[dic_condition copy] forKey:kAYServiceArgsLocationInfo];
+//	[dic_search setValue:[NSNumber numberWithInteger:skipCountAround] forKey:@"skip"];
+//	[dic_search setValue:[NSNumber numberWithDouble:timeIntervalAround * 1000] forKey:@"date"];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			NSArray *remoteArr = [result objectForKey:@"result"];
+			NSArray *remoteArr = [[result objectForKey:@"result"] objectForKey:@"services"];
 			[serviceDataAround addObjectsFromArray:remoteArr];
 			skipCountAround = serviceDataAround.count;			//加载 累加计数
 			id tmp = [serviceDataAround copy];
@@ -425,29 +419,26 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
-	[dic_search setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skip"];
-	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
+	[dic_search setValue:[NSNumber numberWithInteger:skipCountFound] forKey:@"skip"];
+	[dic_search setValue:[NSNumber numberWithDouble:timeIntervalFound * 1000] forKey:@"date"];
 	/*condition*/
-	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsCat];
-	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			NSLog(@"query recommand tags result %@", result);
-			NSArray *remoteArr = [result objectForKey:@"result"];
+			NSArray *remoteArr = [[result objectForKey:@"result"] objectForKey:@"services"];
 			
 			if (remoteArr.count == 0) {
 				NSString *title = @"没有更多服务了";
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			} else {
 				
-				NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
-				[handArr addObjectsFromArray:remoteArr];
-				skipCount += handArr.count;
+				[serviceDataFound addObjectsFromArray:remoteArr];
+				skipCountFound += serviceDataFound.count;
 				
-				id tmp = [handArr copy];
+				id tmp = [serviceDataFound copy];
 				kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
@@ -468,22 +459,20 @@ typedef void(^queryContentFinish)(void);
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	NSMutableDictionary *dic_search = [user mutableCopy];
-	[dic_search setValue:[NSNumber numberWithDouble:timeInterval * 1000] forKey:@"date"];
+	[dic_search setValue:[NSNumber numberWithDouble:timeIntervalFound * 1000] forKey:@"date"];
 	/*condition*/
-	[dic_search setValue:[NSNumber numberWithInt:DongDaSegIndex] forKey:kAYServiceArgsCat];
-	[dic_search setValue:[subIndexData objectForKey:[NSString stringWithFormat:@"%d",DongDaSegIndex]] forKey:kAYServiceArgsTheme];
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
 	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+		
 		UITableView *view_table = [self.views objectForKey:@"Table"];
 		if (success) {
 			
-			NSArray *remoteArr = [result objectForKey:@"result"];
-			[serviceData setValue:[remoteArr mutableCopy] forKey:[NSString stringWithFormat:@"%d", DongDaSegIndex]];
-			skipCount = remoteArr.count;			//刷新重置 计数为当前请求service数据个数
+			serviceDataFound = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
+			skipCountFound = serviceDataFound.count;			//刷新重置 计数为当前请求service数据个数
 			
-			id tmp = [remoteArr copy];
+			id tmp = [serviceDataFound copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			[view_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
@@ -505,9 +494,8 @@ typedef void(^queryContentFinish)(void);
 	
 	NSDictionary *info = nil;
 	CURRENUSER(info);
-	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
 	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
-	NSArray *resultArr = [handArr filteredArrayUsingPredicate:pre_id];
+	NSArray *resultArr = [serviceDataFound filteredArrayUsingPredicate:pre_id];
 	if (resultArr.count != 1) {
 		return nil;
 	}
@@ -542,18 +530,18 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)collectCompleteWithRow:(NSString*)args {
-	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+	
 	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, args];
-	NSArray *result = [handArr filteredArrayUsingPredicate:pre_id];
+	NSArray *result = [serviceDataFound filteredArrayUsingPredicate:pre_id];
 	if (result.count == 1) {
 		[result.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
 	}
 	return nil;
 }
 - (id)unCollectCompleteWithRow:(NSString*)args {
-	NSMutableArray *handArr = [serviceData objectForKey:[self serviceDataHandleKey]];
+	
 	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, args];
-	NSArray *result = [handArr filteredArrayUsingPredicate:pre_id];
+	NSArray *result = [serviceDataFound filteredArrayUsingPredicate:pre_id];
 	if (result.count == 1) {
 		[result.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
 	}
@@ -833,7 +821,7 @@ typedef void(^queryContentFinish)(void);
 	NSMutableDictionary *l = [[NSMutableDictionary alloc] init];
 	[l setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
 	[l setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
-	search_loc = [l copy];
+	search_pin = [l copy];
 	[manager stopUpdatingLocation];
 }
 
@@ -851,7 +839,7 @@ typedef void(^queryContentFinish)(void);
 			NSLog(@"status:%d",status);
 			isLocationAuth = NO;
 			loc = nil;
-			search_loc = nil;
+			search_pin = nil;
 		}
 			break;
 		default:

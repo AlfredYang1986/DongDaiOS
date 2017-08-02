@@ -168,46 +168,45 @@
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
-	
-	NSArray *images = [service_info objectForKey:@"images"];
+	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
 	NSString* photo_name ;
 	if (images.count != 0) {
 		photo_name = [images objectAtIndex:0];
 	}
-	[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
-				  placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
+	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	
-	
+	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
 	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
-	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
-	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
-	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
+	NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
 	
 	NSString *unitCat = @"UNIT";
-	if (service_cat.intValue == ServiceTypeNursery) {
+	if ([service_cat isEqualToString:kAYStringNursery]) {
 		unitCat = @"小时";
 	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
+	else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
 	} else {
 		NSLog(@"---null---");
 	}
 	
-	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%@", price];
+	
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	
+	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
+	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
 	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
 	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	
-	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
 	NSString *stringPre = @"中国北京市";
 	if ([addressStr hasPrefix:stringPre]) {
 		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];

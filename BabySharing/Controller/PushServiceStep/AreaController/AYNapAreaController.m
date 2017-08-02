@@ -330,14 +330,14 @@
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
-        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
         
         NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
         [tmp setValue:location forKey:@"location"];
-        [tmp setValue:navTitleStr forKey:@"distinct"];
+        [tmp setValue:navTitleStr forKey:kAYServiceArgsDistrict];
         [tmp setValue:adressLabel.text forKey:@"address"];
-        [tmp setValue:adjustAdress.text forKey:@"adjust_address"];
+        [tmp setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
         [dic setValue:tmp forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = POP;
@@ -352,13 +352,13 @@
         [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:@"latitude"];
-        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:@"longtitude"];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
         
         [service_info setValue:location forKey:@"location"];
-        [service_info setValue:navTitleStr forKey:@"distinct"];
+        [service_info setValue:navTitleStr forKey:kAYServiceArgsDistrict];
         [service_info setValue:adressLabel.text forKey:@"address"];
-        [service_info setValue:adjustAdress.text forKey:@"adjust_address"];
+        [service_info setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
         [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;

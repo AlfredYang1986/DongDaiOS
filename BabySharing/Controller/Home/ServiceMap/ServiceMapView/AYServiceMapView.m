@@ -86,11 +86,11 @@
 	
 	selfLoc = [dic_p2p objectForKey:@"self"];
 	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
-	tpLoc = [[args objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsLocation];
+	tpLoc = [[args objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsPin];
 //	NSDictionary *dic_loc = [tpLoc objectForKey:@"location"];
 	NSDictionary *dic_loc = tpLoc;
-	NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-	NSNumber *longitude = [dic_loc objectForKey:@"longtitude"];
+	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
+	NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 	CLLocation *tp_location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
 	loc = tp_location;
 	

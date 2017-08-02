@@ -138,8 +138,8 @@
     addressLabel.text = addressStr;
     
     NSDictionary *dic_loc = [info objectForKey:@"location"];
-    NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-    NSNumber *longtitude = [dic_loc objectForKey:@"longtitude"];
+    NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
+    NSNumber *longtitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
     loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
     
     if (currentAnno) {

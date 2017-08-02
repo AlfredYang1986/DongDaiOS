@@ -85,7 +85,7 @@
     for (int i = 0; i < fiteResultData.count; ++i) {
         NSDictionary *service_info = fiteResultData[i];
         
-		NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsLocation];
+		NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsPin];
 		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
         CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
@@ -198,7 +198,7 @@
 			}
 			
 			NSDictionary *service_info = fiteResultData[index.longValue];
-			NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsLocation];
+			NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsPin];
 			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {

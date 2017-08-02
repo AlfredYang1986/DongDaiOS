@@ -169,8 +169,8 @@
 	}];
 	
 	NSDictionary *dic_loc = [service_info objectForKey:@"location"];
-	NSNumber *latitude = [dic_loc objectForKey:@"latitude"];
-	NSNumber *longtitude = [dic_loc objectForKey:@"longtitude"];
+	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
+	NSNumber *longtitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 	CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
 	if (!latitude || !longtitude) {
 		tapview.userInteractionEnabled = NO;

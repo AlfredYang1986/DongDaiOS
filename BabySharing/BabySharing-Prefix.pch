@@ -21,6 +21,7 @@
 static NSString* const kAMapApiKey =                @"7d5d988618fd8a707018941f8cd52931";
 static NSString* const kAYEMIDDongDaMaster =                @"dongda_master";
 
+
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
 #define UIScreenScale											[UIScreen mainScreen].scale
@@ -81,6 +82,10 @@ typedef enum : int {
     ModeExchangeTypeNapToCommon = 4,
 } ModeExchangeType;
 
+
+#define kAYStringCourse					@"课程"
+#define kAYStringNursery				@"看护"
+
 #define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
 
 #define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学"]
@@ -101,8 +106,10 @@ typedef enum : int {
 
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)
+static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9000/query/downloadFile/";
 #else
 #define NSLog(...) {}
+static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9000/query/downloadFile/";
 #endif
 
 #endif /* BabySharing_Prefix_pch */

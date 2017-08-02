@@ -62,8 +62,8 @@
         
         NSString *addressStr = [dic_args objectForKey:kAYServiceArgsAddress];
         if (addressStr) {
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsDistinct] forKey:kAYServiceArgsDistinct];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsPin] forKey:kAYServiceArgsPin];
+            [service_info setValue:[dic_args objectForKey:kAYServiceArgsDistrict] forKey:kAYServiceArgsDistrict];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
             positionTitle.subTitleLabel.text = addressStr;
             [service_info setValue:addressStr forKey:kAYServiceArgsAddress];

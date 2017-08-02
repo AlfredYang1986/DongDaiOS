@@ -175,7 +175,7 @@
     napCostInfo = [dic_cost copy];
     
     NSMutableDictionary *dic_address = [[NSMutableDictionary alloc]init];
-    [dic_address setValue:[info objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
+    [dic_address setValue:[info objectForKey:kAYServiceArgsPin] forKey:kAYServiceArgsPin];
     [dic_address setValue:[info objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
     [dic_address setValue:[info objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
     napAdressInfo = [dic_address copy];
@@ -427,9 +427,9 @@
     
     NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
     [dic_args setValue:[napAdressInfo objectForKey:@"address"] forKey:@"address"];
-    [dic_args setValue:[napAdressInfo objectForKey:@"adjust_address"] forKey:@"adjust_address"];
+    [dic_args setValue:[napAdressInfo objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
     NSDictionary *loc_dic = [napAdressInfo objectForKey:@"location"];
-    CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:@"latitude"]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:@"longtitude"]).doubleValue];
+    CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:kAYServiceArgsLatitude]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:kAYServiceArgsLongtitude]).doubleValue];
     [dic_args setValue:napLoc forKey:@"location"];
     [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
