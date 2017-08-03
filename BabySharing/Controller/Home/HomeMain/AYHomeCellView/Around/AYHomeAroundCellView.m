@@ -168,17 +168,14 @@
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
 	
-	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
-	NSString* photo_name ;
-	if (images.count != 0) {
-		photo_name = [images objectAtIndex:0];
-	}
+	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
 	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	
 	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
-	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
+	NSDictionary *info_ower = [service_info objectForKey:@"owner"];
+	NSString *ownerName = [info_ower objectForKey:kAYProfileArgsScreenName];
 	NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
 	

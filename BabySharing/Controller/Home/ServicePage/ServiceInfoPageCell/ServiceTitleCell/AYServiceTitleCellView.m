@@ -152,36 +152,21 @@
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
-    
     service_info = (NSDictionary*)args;
 	
-	NSString *completeTheme;
-	NSArray *options_title_cans;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
-	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
+	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	
-	if (service_cat.intValue == ServiceTypeNursery) {
-		options_title_cans = kAY_service_options_title_nursery;
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			completeTheme = @"待调整";
-		} else
-			completeTheme = options_title_cans[cans_cat.integerValue];
+	NSString *cans = [info_categ objectForKey:kAYServiceArgsCourseSign];
+	if (cans && ![cans isEqualToString:@""]) {
+		themeLabel.text = cans;
 	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
-		options_title_cans = kAY_service_options_title_course;
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			completeTheme = @"待调整";
-		}
-		else
-			completeTheme = options_title_cans[cans_cat.integerValue];
-	} else {
-		completeTheme = @"待调整";
-	}
-	
-	themeLabel.text = completeTheme;
 	[themeLabel sizeToFit];
 	CGFloat themeLabelWidth = themeLabel.bounds.size.width + 10;
 	
+	NSString *titleStr = [service_info objectForKey:kAYServiceArgsTitle];
+	if (titleStr && ![titleStr isEqualToString:@""]) {
+		titleLabel.text = titleStr;
+	}
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(self).offset(-5);
 		make.left.equalTo(self).offset(26 + themeLabelWidth);
@@ -194,10 +179,6 @@
 		make.size.mas_equalTo(CGSizeMake(themeLabelWidth, 16));
 	}];
 	
-    NSString *titleStr = [service_info objectForKey:@"title"];
-    if (titleStr) {
-        titleLabel.text = titleStr;
-    }
 	
 	
 //	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];

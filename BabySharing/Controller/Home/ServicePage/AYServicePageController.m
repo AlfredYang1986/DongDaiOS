@@ -20,17 +20,18 @@
 
 #import "AYServiceImagesCell.h"
 
-#define kLIMITEDSHOWNAVBAR  (-70.5)
-#define kFlexibleHeight     300
-#define kBtmViewHeight       56
+#define kLIMITEDSHOWNAVBAR			(-70.5)
+#define kFlexibleHeight				300
+#define kBtmViewHeight				56
 #define kChatBtnWidth				69
-#define kBookBtnWidth			152
-#define kBookBtnTitleNormal  @"查看可预订时间"
-#define kBookBtnTitleSeted  @"申请预订"
+#define kBookBtnWidth				152
+#define kBookBtnTitleNormal			@"查看可预订时间"
+#define kBookBtnTitleSeted			@"申请预订"
 
 //#define CarouseNumb			
 
 @implementation AYServicePageController {
+	NSDictionary *receiveData;
     NSMutableDictionary *service_info;
     
     UIButton *shareBtn;
@@ -50,49 +51,24 @@
 	/****/
 	
 	UIButton *bookBtn;
-//	UILabel *bookBtn;
-	
 	NSMutableArray *offer_date_mutable;
+}
+
+-(void)postPerform {
+	[super postPerform];
+	isStatusHide = YES;
 }
 
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-    
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		
-		isStatusHide = YES;
-		
-		NSMutableDictionary *tmp_args;
-		cellMinY = [[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"cell_min_y"];
-		if (cellMinY) {
-			tmp_args = [[[dic objectForKey:kAYControllerChangeArgsKey] objectForKey:@"service_info"] mutableCopy];
-		} else {
-			tmp_args = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
-		}
-			
-		id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-		id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
-		id args = [tmp_args objectForKey:@"tms"];
-		[cmd performWithResult:&args];
-		
-		[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
-		service_info = tmp_args;
-		
-		carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
-		
-		offer_date_mutable = [args mutableCopy];
-		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-			NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
-			[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-				[obj setValue:[NSNumber numberWithBool:NO] forKey:@"is_selected"];
-			}];
-		}];
+		receiveData = [dic objectForKey:kAYControllerChangeArgsKey];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        offer_date_mutable = [dic objectForKey:kAYControllerChangeArgsKey];
+		
     }
 }
 
@@ -102,25 +78,18 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	
 	AYServiceImagesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYServiceImagesCell" forIndexPath:indexPath];
 	
 	NSArray *images = [service_info objectForKey:@"images"];
-	if (images.count != 0) {
+	if (images) {
 		if ([[images firstObject] isKindOfClass:[NSString class]]) {
-			
-			id<AYFacadeBase> f_load = DEFAULTFACADE(@"FileRemote");
-			AYRemoteCallCommand* cmd_load = [f_load.commands objectForKey:@"DownloadUserFiles"];
-			NSString *PRE = cmd_load.route;
-			[cell setItemImageWithImageName:[NSString stringWithFormat:@"%@%@", PRE, [images objectAtIndex:indexPath.row]]];
-			
+			[cell setItemImageWithImageName:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, [images objectAtIndex:indexPath.row]]];
 		} else {
 			[cell setItemImageWithImage:[images objectAtIndex:indexPath.row]];
 		}
 		
 	} else
 		[cell setItemImageWithImage:IMGRESOURCE(@"default_image")];
-	
 	return cell;
 }
 
@@ -130,7 +99,6 @@
 
 //设置页码
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-	
 	int page = (int)(scrollView.contentOffset.x / SCREEN_WIDTH + 0.5)%carouselNumb;
 	pageControl.currentPage = page;
 }
@@ -167,17 +135,18 @@
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
 	/*********************************************/
+	
 	{
 		id<AYViewBase> view_table = [self.views objectForKey:kAYTableView];
-        UITableView *tableView = (UITableView*)view_table;
-        flexibleView = [[UIView alloc]init];
-        [tableView addSubview:flexibleView];
+		UITableView *tableView = (UITableView*)view_table;
+		flexibleView = [[UIView alloc]init];
+		[tableView addSubview:flexibleView];
 		
 		if (cellMinY) {
 			flexibleView.clipsToBounds = YES;
 			flexibleView.frame = CGRectMake(20, -kFlexibleHeight + cellMinY.floatValue, SCREEN_WIDTH - 40, kFlexibleHeight);
-			//		flexibleView.transform = CGAffineTransformMakeScale((SCREEN_WIDTH - 40)/SCREEN_WIDTH, 1.f);
-		}else {
+		}
+		else {
 			[flexibleView mas_makeConstraints:^(MASConstraintMaker *make) {
 				make.top.equalTo(tableView).offset(-kFlexibleHeight);
 				make.centerX.equalTo(tableView);
@@ -194,10 +163,8 @@
 		CarouselView.backgroundColor = [UIColor clearColor];
 		CarouselView.delegate = self;
 		CarouselView.dataSource = self;
-		[CarouselView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"CarouselCell"];
 		CarouselView.pagingEnabled = YES;
 		CarouselView.showsHorizontalScrollIndicator = NO;
-		CarouselView.showsVerticalScrollIndicator = NO;
 		CarouselView.bounces = NO;
 		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
@@ -207,130 +174,86 @@
 			make.height.equalTo(flexibleView);
 		}];
 		
-		pageControl = [[UIPageControl alloc]init];
-		pageControl.numberOfPages = carouselNumb;
-		CGSize size = [pageControl sizeForNumberOfPages:carouselNumb];
-		pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.5f];
-		pageControl.currentPageIndicatorTintColor = [Tools whiteColor];
-		pageControl.transform = CGAffineTransformMakeScale(0.6, 0.6);
-		[flexibleView addSubview:pageControl];
-		[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.bottom.equalTo(flexibleView).offset(-5);
-			make.centerX.equalTo(flexibleView);
-			make.size.mas_equalTo(CGSizeMake(size.width, 10));
-		}];
-		pageControl.hidden = carouselNumb == 1;
-		
-        UIImageView *topMaskVeiw = [[UIImageView alloc]init];
-        topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
+		UIImageView *topMaskVeiw = [[UIImageView alloc]init];
+		topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
 		topMaskVeiw.contentMode = UIViewContentModeTopLeft;
-        topMaskVeiw.userInteractionEnabled = NO;
-        [flexibleView addSubview:topMaskVeiw];
-        [topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(flexibleView);
-            make.centerX.equalTo(flexibleView);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
-        }];
+		topMaskVeiw.userInteractionEnabled = NO;
+		[flexibleView addSubview:topMaskVeiw];
+		[topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(flexibleView);
+			make.centerX.equalTo(flexibleView);
+			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
+		}];
 		
-        BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
+		BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
 		bar_like_btn.selected = isLike;
-    }
-    
-    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServicePage"];
-    id<AYCommand> cmd_change_data = [cmd_notify.commands objectForKey:@"changeQueryData:"];
-    NSDictionary *tmp = [service_info copy];
-    [cmd_change_data performWithResult:&tmp];
-    
+	}
+	
+	
+	cellMinY = [receiveData objectForKey:@"cell_min_y"];		//首页跳转动画关键值
+	
+	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
+	if (per_mode) {
+		bar_like_btn.hidden = YES;
+		bookBtn.userInteractionEnabled = NO;
+		service_info = [receiveData mutableCopy];
+		[self layoutPageControllAndBtmView];
+		NSDictionary *tmp = [service_info copy];
+		kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
+		
+	} else {
+		NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
+		NSDictionary *user;
+		CURRENUSER(user);
+		NSMutableDictionary *dic_detail = [user mutableCopy];
+//		NSDictionary *dic_condt = @{service_id:kAYServiceArgsID};
+		NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
+		[dic_condt setValue:service_id forKey:kAYServiceArgsID];
+		[dic_detail setValue:dic_condt forKey:kAYCommArgsCondition];
+		
+		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+		AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"QueryServiceDetail"];
+		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+			if(success) {
+				
+				NSMutableDictionary *tmp_args = [[result objectForKey:@"service"] mutableCopy];
+				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+				id args = [tmp_args objectForKey:@"tms"];
+				[cmd performWithResult:&args];
+				
+				[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
+				service_info = tmp_args;
+				
+				[self layoutPageControllAndBtmView];
+				
+				offer_date_mutable = [args mutableCopy];
+				[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+					NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
+					[occurance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+						[obj setValue:[NSNumber numberWithBool:NO] forKey:@"is_selected"];
+					}];
+				}];
+				
+				NSDictionary *tmp = [service_info copy];
+				kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
+				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+				[CarouselView reloadData];
+				
+			} else {
+				NSString *title = @"请改善网络环境并重试";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+		
+	}
+	
+	/***************************************/
     id<AYViewBase> navBar = [self.views objectForKey:@"FakeNavBar"];
 	id<AYViewBase> statusBar = [self.views objectForKey:@"FakeStatusBar"];
     [self.view bringSubviewToFront:(UIView*)navBar];
 	[self.view bringSubviewToFront:(UIView*)statusBar];
     ((UIView*)navBar).backgroundColor = ((UIView*)statusBar).backgroundColor = [UIColor colorWithWhite:1.f alpha:0.f];
-	
-	/***************************************/
-    NSNumber *per_mode = [service_info objectForKey:@"perview_mode"];
-    if (!per_mode) {
-        UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
-        bottom_view.backgroundColor = [Tools whiteColor];
-		bottom_view.layer.shadowColor = [Tools garyColor].CGColor;
-		bottom_view.layer.shadowOffset = CGSizeMake(0, -0.5);
-		bottom_view.layer.shadowOpacity = 0.4f;
-        [self.view addSubview:bottom_view];
-        [self.view bringSubviewToFront:bottom_view];
-		
-		[Tools creatCALayerWithFrame:CGRectMake(kChatBtnWidth, 0, 0.5, kBtmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
-		
-		UIButton *chatBtn = [[UIButton alloc]init];
-		[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
-		[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
-		chatBtn.titleLabel.font = [UIFont systemFontOfSize:11.f];
-		[chatBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
-		[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-17, 0, 0, -24)];
-		[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, -31, 0)];
-		[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-		[bottom_view addSubview:chatBtn];
-		[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(bottom_view);
-			make.top.equalTo(bottom_view);
-			make.size.mas_equalTo(CGSizeMake(kChatBtnWidth, kBtmViewHeight));
-		}];
-		
-		NSString *unitCat;
-		NSNumber *leastTimesOrHours;
-		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
-		if (service_cat.intValue == ServiceTypeNursery) {
-			unitCat = @"小时";
-			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
-		}else if (service_cat.intValue == ServiceTypeCourse) {
-			unitCat = @"次";
-			leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
-		} else {
-			NSLog(@"---null---");
-			unitCat = @"单价";
-			leastTimesOrHours = @1;
-		}
-		NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
-		NSString *tmp = [NSString stringWithFormat:@"%@", price];
-		int length = (int)tmp.length;
-		NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
-		
-		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-		[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools garyColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
-		
-		UILabel *priceLabel = [Tools creatUILabelWithText:@"Price 0f Serv" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-		[bottom_view addSubview:priceLabel];
-		[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
-			make.bottom.equalTo(bottom_view.mas_centerY).offset(2);
-		}];
-		
-		UILabel *capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-		[bottom_view addSubview:capacityLabel];
-		[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(bottom_view.mas_centerY).offset(4);
-			make.left.equalTo(priceLabel);
-		}];
-		
-		priceLabel.attributedText = attributedText;
-		capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
-		
-        bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:[Tools themeColor]];
-		UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
-		bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
-        [bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
-		
-        [bottom_view addSubview:bookBtn];
-		[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(bottom_view);
-			make.right.equalTo(bottom_view);
-			make.size.mas_equalTo(CGSizeMake(kBookBtnWidth, kBtmViewHeight));
-		}];
-    }
-    else {
-        bar_like_btn.hidden = YES;
-    }
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -521,6 +444,102 @@
 }
 
 #pragma mark -- actions
+- (void)layoutPageControllAndBtmView {
+	carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
+	
+	pageControl = [[UIPageControl alloc]init];
+	pageControl.pageIndicatorTintColor = [UIColor colorWithWhite:1.f alpha:0.5f];
+	pageControl.currentPageIndicatorTintColor = [Tools whiteColor];
+	pageControl.transform = CGAffineTransformMakeScale(0.6, 0.6);
+	[flexibleView addSubview:pageControl];
+	pageControl.numberOfPages = carouselNumb;
+	CGSize size = [pageControl sizeForNumberOfPages:carouselNumb];
+	[pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.bottom.equalTo(flexibleView).offset(-5);
+		make.centerX.equalTo(flexibleView);
+		make.size.mas_equalTo(CGSizeMake(size.width, 10));
+	}];
+	pageControl.hidden = carouselNumb == 1;
+	
+	/*-------------------------*/
+	UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
+	bottom_view.backgroundColor = [Tools whiteColor];
+	bottom_view.layer.shadowColor = [Tools garyColor].CGColor;
+	bottom_view.layer.shadowOffset = CGSizeMake(0, -0.5);
+	bottom_view.layer.shadowOpacity = 0.4f;
+	[self.view addSubview:bottom_view];
+	[self.view bringSubviewToFront:bottom_view];
+	
+	[Tools creatCALayerWithFrame:CGRectMake(kChatBtnWidth, 0, 0.5, kBtmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
+	
+	UIButton *chatBtn = [[UIButton alloc]init];
+	[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
+	[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
+	chatBtn.titleLabel.font = [UIFont systemFontOfSize:11.f];
+	[chatBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
+	[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-17, 0, 0, -24)];
+	[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, -31, 0)];
+	[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+	[bottom_view addSubview:chatBtn];
+	[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(bottom_view);
+		make.top.equalTo(bottom_view);
+		make.size.mas_equalTo(CGSizeMake(kChatBtnWidth, kBtmViewHeight));
+	}];
+	
+	NSString *unitCat;
+	NSNumber *leastTimesOrHours;
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
+	if (service_cat.intValue == ServiceTypeNursery) {
+		unitCat = @"小时";
+		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
+	}else if (service_cat.intValue == ServiceTypeCourse) {
+		unitCat = @"次";
+		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
+	} else {
+		NSLog(@"---null---");
+		unitCat = @"单价";
+		leastTimesOrHours = @1;
+	}
+	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
+	NSString *tmp = [NSString stringWithFormat:@"%@", price];
+	int length = (int)tmp.length;
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
+	
+	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools garyColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	
+	UILabel *priceLabel = [Tools creatUILabelWithText:@"Price 0f Serv" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[bottom_view addSubview:priceLabel];
+	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerX.equalTo(chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
+		make.bottom.equalTo(bottom_view.mas_centerY).offset(2);
+	}];
+	
+	UILabel *capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[bottom_view addSubview:capacityLabel];
+	[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(bottom_view.mas_centerY).offset(4);
+		make.left.equalTo(priceLabel);
+	}];
+	
+	priceLabel.attributedText = attributedText;
+	capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
+	
+	bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:[Tools themeColor]];
+	UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
+	bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
+	[bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
+	
+	[bottom_view addSubview:bookBtn];
+	[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(bottom_view);
+		make.right.equalTo(bottom_view);
+		make.size.mas_equalTo(CGSizeMake(kBookBtnWidth, kBtmViewHeight));
+	}];
+}
+
 - (void)didBookBtnClick {
 	[self showServiceOfferDate];
 }

@@ -194,24 +194,21 @@
 	<command type="Remote" name="RejectRealName"		route="auth/realname/reject" factory="AYRemoteCallFactory" />
 
 	<command type="Remote" name="UpdateUserDetail"		route="al/profile/update" factory="AYRemoteCallFactory" />
-	
     <command type="Remote" name="QueryUserProfile"		route="v2/profile/query" factory="AYRemoteCallFactory" />
 
     <command type="Remote" name="UploadUserImage"		route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UploadFile"			route="post/uploadFile" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadUserFiles"		route="query/downloadFile/" factory="AYRemoteCallFactory" />
     <command type="Remote" name="DownloadMovieFiles"	route="query/downloadFile/" factory="AYRemoteCallFactory" />
-
-<!--    <command type="Remote" name="PushServiceInfo"   route="v2/kidnap/push"     factory="AYRemoteCallFactory" />-->
+	
     <command type="Remote" name="PushServiceInfo"		route="v3/kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PopMyService"			route="v2/kidnap/pop" factory="AYRemoteCallFactory" />
-<!--    <command type="Remote" name="UpdateMyService"   route="v2/kidnap/update" factory="AYRemoteCallFactory" />-->
     <command type="Remote" name="UpdateMyService"		route="v3/kidnap/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateMyServiceTM"		route="v3/tm/update" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="SearchFiltService"		route="al/kidnap/search" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryMyService"		route="v3/kidnap/mine" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="QueryServiceDetail"	route="v3/kidnap/detail" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="QueryServiceDetail"	route="al/kidnap/detail" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="CollectService"        route="v2/kidnap/collect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />

@@ -146,38 +146,8 @@
 		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"BOrderTimeItem"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		[cmd_cell performWithResult:&class_name];
 		[(UICollectionView*)view_collection registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"AYDayCollectionHeader"];
-		
-//		[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//			
-//			NSArray *occrance = [obj objectForKey:kAYServiceArgsOccurance];
-//			[occrance enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//				NSNumber *is_select = [obj objectForKey:@"select_pow"];
-//				
-//				int compA = is_select.intValue;
-//				if (compA&1) {
-//					timesCount ++;
-//				}
-//				if (compA&2) {
-//					timesCount ++;
-//				}
-//				
-//			}];
-//		}];
 		id args = [serviceTMs copy];
-//		if (serviceType.intValue == ServiceTypeCourse) {
-//			double max = 0.0;
-//			for (NSDictionary *dic_tm in serviceTMs) {
-//				double t = ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStartDate]).doubleValue * 0.001;
-//				max = t > max ? t : max;
-//			}
-//			NSMutableArray *weekdayArr = [NSMutableArray array];
-//			for (NSDictionary *dic_date in offer_date_mutable) {
-//				[weekdayArr addObject:[dic_date objectForKey:kAYServiceArgsWeekday]];
-//			}
-//			args = @{@"max":[NSNumber numberWithDouble:max], @"day":[weekdayArr copy]};
-//		} else {
-//			
-//		}
+		
 		kAYDelegatesSendMessage(@"BOrderTime", @"setInitStatesData:", &args)
 	}
 	
@@ -476,7 +446,6 @@
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-//	[dic setValue:offer_date_mutable forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];
@@ -498,16 +467,6 @@
 	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
 	UITableView *view_table = [self.views objectForKey:kAYTableView];
 	if (indexPathHandle) {
-		
-//		NSPredicate* pred = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"is_selected", 1];
-//		NSArray *resultArr = [timesArr filteredArrayUsingPredicate:pred];
-//		if (resultArr.count == 0 || resultArr.count == 1) {
-//			UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
-//			id tmp = [OTMSet copy];
-//			kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp)
-//			[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
-//			[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//		}
 		
 		id tmp_set = [OTMSet copy];
 		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)

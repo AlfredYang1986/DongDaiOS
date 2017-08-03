@@ -80,76 +80,12 @@
 
         <model notification="true" />
     </controller>
-    
-<!--    <controller type="DefaultController" name="UserInfoInput" factory="AYDefaultControllerFactoy" >-->
-<!--        <command type="Module" name="OpenUIImagePickerCamera" />-->
-<!--        <command type="Module" name="OpenUIImagePickerPicRoll" />-->
-<!--        <command type="Module" name="GernarateImgUUID" />-->
-<!--        <command type="Module" name="SaveImgLocal" />-->
-<!--        <command type="Module" name="LocalImageWithName" />-->
-<!--        -->
-<!--        <facade type="DefaultFacade" name="ProfileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="LoginModel" notification="true"/>-->
-<!--       -->
-<!--        <view type="UserScreenPhoteSelect"      name="UserScreenPhoteSelect" />-->
-<!--        <view type="UserInfoInput"              name="UserInfoInput" />-->
-<!--        <view type="SetNevigationBarLeftBtn"    name="SetNevigationBarLeftBtn" />-->
-<!--        <view type="SetNevigationBarTitle"      name="SetNevigationBarTitle" />-->
-<!--       -->
-<!--        <model notification="true" />-->
-<!--    </controller>-->
-
-<!--    <controller type="DefaultController" name="OthersLogin" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="LandingRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="LoginModel" notification="true"/>-->
-<!---->
-<!--        <view type="UserScreenPhoteSelect" name="UserScreenPhoteSelect" />-->
-<!--        -->
-<!--        <model notification="true" />-->
-<!--    </controller>-->
-<!---->
-<!--    <controller type="DefaultController" name="RoleTagSearch" factory="AYDefaultControllerFactoy" >-->
-<!--        -->
-<!--        <facade type="DefaultFacade" name="SearchRemote" notification="true" />-->
-<!---->
-<!--        <view type="SearchBar" name="SearchBar" />-->
-<!--        <view type="Table" name="Table" />-->
-<!--        <view type="SetNevigationBarLeftBtn" name="SetNevigationBarLeftBtn" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="TagAdd" />-->
-<!--        <delegate type="SearchBarDelegate" name="SearchBar" />-->
-<!--    </controller>-->
-<!---->
-<!--    <controller type="DefaultController" name="TagSearch" factory="AYDefaultControllerFactoy" >-->
-<!--        -->
-<!--        <facade type="DefaultFacade" name="SearchRemote" notification="true" />-->
-<!--        -->
-<!--        <view type="SearchBar" name="SearchBar" />-->
-<!--        <view type="Table" name="Table" />-->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!---->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="TagRecommend" />-->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="TagAdd" />-->
-<!--        <delegate type="SearchBarDelegate" name="SearchBar" />-->
-<!--    </controller>-->
 
     <controller type="DefaultController" name="TabBar" factory="AYDefaultControllerFactoy" >
         <command type="Module" name="HomeInit" />
         <command type="Module" name="MessageInit" />
         <command type="Module" name="OrderCommonInit" />
         <command type="Module" name="ProfileInit" />
-        
-<!--        <command type="Module" name="FoundInit" />-->
-<!--        <command type="Module" name="FriendsInit" />-->
-<!--        <command type="Module" name="PlaceHolderInit" />-->
-<!--        <command type="Module" name="CameraRollInit" />-->
-<!--        <command type="Module" name="CameraInit" />-->
-<!--        <command type="Module" name="MovieInit" />-->
     </controller>
     
     <controller type="DefaultController" name="TabBarService" factory="AYDefaultControllerFactoy" >
@@ -343,86 +279,6 @@
 
         <delegate type="TableViewDelegateAndDatasource" name="Album" />
     </controller>
-   
-<!--    <controller type="DefaultController" name="Camera" factory="AYDefaultControllerFactoy" >-->
-<!---->
-<!--        <facade type="DefaultFacade" name="StillImageCapture" notification="true" />-->
-<!--       -->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="FunctionBar" name="FunctionBar" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--    </controller>-->
-<!---->
-<!--    <controller type="DefaultController" name="Movie" factory="AYDefaultControllerFactoy" >-->
-<!---->
-<!--        <facade type="DefaultFacade" name="MovieRecord" notification="true" />-->
-<!--        -->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="FunctionBar" name="FunctionBar" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--    </controller>-->
-    
-<!--    <controller type="DefaultController" name="PostPhotoPreview" factory="AYDefaultControllerFactoy" >-->
-<!---->
-<!--        <command type="Module" name="PhotoTagInit" />-->
-<!--        <command type="Module" name="TagEditInit" />-->
-<!---->
-<!--        <facade type="DefaultFacade" name="GPUFilter" notification="true" />-->
-<!--        -->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        <view type="TagPreview" name="TagPreview" />-->
-<!--        <view type="TagEntry" name="TagEntry" />-->
-<!--        <view type="FilterPreview" name="FilterPreview" />-->
-<!--    </controller>-->
-<!--    -->
-<!--    <controller type="DefaultController" name="PostMoviePreview" factory="AYDefaultControllerFactoy" >-->
-<!---->
-<!--        <command type="Module" name="PhotoTagInit" />-->
-<!--        <command type="Module" name="TagEditInit" />-->
-<!---->
-<!--        <facade type="DefaultFacade" name="GPUFilter" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />-->
-<!--        -->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="DongDaSeg" name="DongDaSeg" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        <view type="MovieCover" name="MovieCover" />-->
-<!--        <view type="TagEntry" name="TagEntry" />-->
-<!--        <view type="FilterPreview" name="FilterPreview" />-->
-<!--    </controller>-->
-<!--    -->
-<!--    <controller type="DefaultController" name="PostPhotoPublish" factory="AYDefaultControllerFactoy" >-->
-<!---->
-<!--        <facade type="DefaultFacade" name="PostRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="FileRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="SNSQQ" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>-->
-<!--        <facade type="DefaultFacade" name="SNSWeibo" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="Keyboard" notification="true" />-->
-<!--        -->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        <view type="SharingSNS" name="SharingSNS" />-->
-<!--        <view type="PublishContainer" name="PublishContainer" />-->
-<!--    </controller>-->
-<!--    -->
-<!--    <controller type="DefaultController" name="PostMoviePublish" factory="AYDefaultControllerFactoy" >-->
-<!--        -->
-<!--        <facade type="DefaultFacade" name="MoviePlayer" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="PostRemote" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="SNSQQ" notification="true" />-->
-<!--        <facade type="DefaultFacade" name="SNSWechat" notification="true"/>-->
-<!--        <facade type="DefaultFacade" name="SNSWeibo" notification="true" />-->
-<!--        -->
-<!--        <view type="FakeNavBar" name="FakeNavBar" />-->
-<!--        <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" />-->
-<!--        <view type="SharingSNS" name="SharingSNS" />-->
-<!--        <view type="PublishContainer" name="PublishContainer" />-->
-<!--    </controller>-->
 
 	<controller type="DefaultController" name="SingleChat" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="EM" notification="true" />
@@ -478,24 +334,6 @@
         <delegate type="TableViewDelegateAndDatasource" name="SelfSetting" />
     </controller>
 
-<!--    <controller type="DefaultController" name="Location" factory="AYDefaultControllerFactoy" >-->
-<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--        <view type="SearchBar"  name="SearchBar" />-->
-<!--        <view type="Table"      name="Table" />-->
-<!--        -->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="Location" />-->
-<!--    </controller>-->
-<!--    -->
-<!--    <controller type="DefaultController" name="LocationResult" factory="AYDefaultControllerFactoy" >-->
-<!--        <facade type="DefaultFacade"        name="KidNapRemote" notification="true" />-->
-<!--        -->
-<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
-<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
-<!--        <view type="Table"          name="Table" />-->
-<!---->
-<!--        <delegate type="TableViewDelegateAndDatasource" name="LocationResult" />-->
-<!--    </controller>-->
-
     <controller type="DefaultController" name="Fiter" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
@@ -516,7 +354,7 @@
         <facade type="DefaultFacade"    name="KidNapRemote" notification="true" />
         <facade type="DefaultFacade"    name="OrderRemote" notification="true" />
         <facade type="DefaultFacade"    name="ProfileRemote" notification="true" />
-        <facade type="DefaultFacade"		name="Timemanagement" notification="true" />
+        <facade type="DefaultFacade"	name="Timemanagement" notification="true" />
 		
         <view type="FakeStatusBar"      name="FakeStatusBar" />
         <view type="FakeNavBar"         name="FakeNavBar" />
