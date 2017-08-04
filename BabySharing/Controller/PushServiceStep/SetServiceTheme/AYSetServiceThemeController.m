@@ -204,7 +204,7 @@
 		switch (service_type) {
 			case ServiceTypeNursery:
 			{
-				[dic_cat_cans setValue:args forKey:kAYServiceArgsTheme];
+				[dic_cat_cans setValue:args forKey:kAYServiceArgsCatSecondary];
 				[self didServiceThemeNextBtnClick];
 			}
 				break;

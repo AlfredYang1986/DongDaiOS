@@ -209,6 +209,7 @@
 //		NSDictionary *dic_condt = @{service_id:kAYServiceArgsID};
 		NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
 		[dic_condt setValue:service_id forKey:kAYServiceArgsID];
+		[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 		[dic_detail setValue:dic_condt forKey:kAYCommArgsCondition];
 		
 		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
@@ -216,7 +217,7 @@
 		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 			if(success) {
 				
-				NSMutableDictionary *tmp_args = [[result objectForKey:@"service"] mutableCopy];
+				NSMutableDictionary *tmp_args = [[result objectForKey:@"services"] mutableCopy];
 				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
 				id args = [tmp_args objectForKey:@"tms"];
@@ -487,24 +488,26 @@
 		make.size.mas_equalTo(CGSizeMake(kChatBtnWidth, kBtmViewHeight));
 	}];
 	
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	NSDictionary *inf0_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSString *unitCat;
 	NSNumber *leastTimesOrHours;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
-	if (service_cat.intValue == ServiceTypeNursery) {
+	NSString *service_cat = [inf0_categ objectForKey:kAYServiceArgsCat];
+	if ([service_cat containsString:@"看"]) {
 		unitCat = @"小时";
-		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
-	}else if (service_cat.intValue == ServiceTypeCourse) {
+		leastTimesOrHours = [info_detail objectForKey:kAYServiceArgsLeastHours];
+	}else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
-		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
+		leastTimesOrHours = [info_detail objectForKey:kAYServiceArgsLeastTimes];
 	} else {
 		NSLog(@"---null---");
 		unitCat = @"单价";
 		leastTimesOrHours = @1;
 	}
-	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%@", price];
+	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
+	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
 	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
 	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];

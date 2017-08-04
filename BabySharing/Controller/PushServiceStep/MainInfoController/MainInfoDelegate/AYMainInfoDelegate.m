@@ -155,7 +155,7 @@
     [dic_title setValue:[info objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
     [dic_title setValue:[info objectForKey:kAYServiceArgsCourseSign] forKey:kAYServiceArgsCourseSign];
     [dic_title setValue:[info objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
-    napThemeNote = [info objectForKey:kAYServiceArgsTheme];
+    napThemeNote = [info objectForKey:kAYServiceArgsCatSecondary];
     napTitleInfo = [dic_title copy];
     
     napDesc = [info objectForKey:kAYServiceArgsDescription];

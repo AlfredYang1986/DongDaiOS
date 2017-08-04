@@ -139,8 +139,10 @@
 - (id)setCellInfo:(id)args{
 	
 	NSDictionary *service_info = (NSDictionary*)args;
-	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
-	NSString *adjustAddressStr = [service_info objectForKey:kAYServiceArgsAdjustAddress];
+	
+	NSDictionary *info_loc = [service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addressStr = [info_loc objectForKey:kAYServiceArgsAddress];
+	NSString *adjustAddressStr = [info_loc objectForKey:kAYServiceArgsAdjustAddress];
 	if (addressStr && ![addressStr isEqualToString:@""]) {
 		addressLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjustAddressStr];
 	}
@@ -168,7 +170,7 @@
 		make.centerX.equalTo(addressLabel);
 	}];
 	
-	NSDictionary *dic_loc = [service_info objectForKey:@"location"];
+	NSDictionary *dic_loc = [info_loc objectForKey:kAYServiceArgsPin];
 	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 	NSNumber *longtitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 	CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];

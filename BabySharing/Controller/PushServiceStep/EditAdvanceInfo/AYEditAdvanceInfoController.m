@@ -51,7 +51,7 @@
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsCat] forKey:kAYServiceArgsCat];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
-            //[service_info setValue:[dic_args objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
+            //[service_info setValue:[dic_args objectForKey:kAYServiceArgsCatSecondary] forKey:kAYServiceArgsCatSecondary];
             [service_info setValue:[dic_args objectForKey:kAYServiceArgsIsAdjustSKU] forKey:kAYServiceArgsIsAdjustSKU];
         }
         

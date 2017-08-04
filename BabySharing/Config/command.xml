@@ -214,7 +214,7 @@
     <command type="Remote" name="UnCollectService"      route="v2/kidnap/uncollect" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AllCollectService"     route="v3/kidnap/collect/lst" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="QueryOrders"			route="v3/order/query" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOrders"			route="al/order/search" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOwnOrders"		route="v2.1/order/query/owner" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryApplyOrders"		route="v2.1/order/query/apply" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateOrderInfo"		route="v2/order/update" factory="AYRemoteCallFactory" />

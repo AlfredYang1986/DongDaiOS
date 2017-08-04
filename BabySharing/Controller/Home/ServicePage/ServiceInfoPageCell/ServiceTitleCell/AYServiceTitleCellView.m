@@ -155,10 +155,19 @@
     service_info = (NSDictionary*)args;
 	
 	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
 	
-	NSString *cans = [info_categ objectForKey:kAYServiceArgsCourseSign];
-	if (cans && ![cans isEqualToString:@""]) {
-		themeLabel.text = cans;
+	NSString *themeStr;
+	if ([service_cat containsString:@"看"]) {
+		themeStr = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+	} else if ([service_cat isEqualToString:kAYStringCourse]) {
+		themeStr = [info_categ objectForKey:kAYServiceArgsCourseSign];
+	} else {
+		NSLog(@"---null---");
+	}
+	
+	if (themeStr && ![themeStr isEqualToString:@""]) {
+		themeLabel.text = themeStr;
 	}
 	[themeLabel sizeToFit];
 	CGFloat themeLabelWidth = themeLabel.bounds.size.width + 10;
@@ -167,9 +176,9 @@
 	if (titleStr && ![titleStr isEqualToString:@""]) {
 		titleLabel.text = titleStr;
 	}
-	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(self).offset(-5);
-		make.left.equalTo(self).offset(26 + themeLabelWidth);
+		make.left.equalTo(self).offset(30 + themeLabelWidth);
 		make.right.equalTo(self).offset(-15);
 	}];
 	

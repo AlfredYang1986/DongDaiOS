@@ -143,15 +143,16 @@
 - (id)setCellInfo:(id)args {
 	
 	NSDictionary *service_info = args;
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
 	
 	NSString *leaveStr = @"不需要家长陪同";
-	NSNumber *isAllow = [service_info objectForKey:kAYServiceArgsAllowLeave];
+	NSNumber *isAllow = [info_detail objectForKey:kAYServiceArgsAllowLeave];
 	if (isAllow.boolValue) {
 		leaveStr = @"需要家长陪同";
 	}
 	allowLabel.text = leaveStr;
 	
-	NSString *otherWords = [service_info objectForKey:kAYServiceArgsNotice];
+	NSString *otherWords = [info_detail objectForKey:kAYServiceArgsNotice];
 	if (!otherWords || [otherWords isEqualToString:@""]) {
 		[allowLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);

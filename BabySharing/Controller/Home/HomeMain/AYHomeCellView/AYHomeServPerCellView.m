@@ -265,21 +265,28 @@
 	
 	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
-	
 	NSDictionary *info_ower = [service_info objectForKey:@"owner"];
 	NSString *ownerName = [info_ower objectForKey:kAYProfileArgsScreenName];
-	NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
-	titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
-	if(compName && ![compName isEqualToString:@""]) {
-		themeLabel.text = compName;
-	}
 	
 	NSString *unitCat = @"UNIT";
-	if ([service_cat isEqualToString:kAYStringNursery]) {
+//	if ([service_cat isEqualToString:kAYStringNursery]) {
+	if ([service_cat containsString:@"看"]) {
 		unitCat = @"小时";
+		
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
+		if(compName && ![compName isEqualToString:@""]) {
+			themeLabel.text = compName;
+		}
 	}
 	else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
+		
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsCourseSign];
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
+		if(compName && ![compName isEqualToString:@""]) {
+			themeLabel.text = compName;
+		}
 	} else {
 		NSLog(@"---null---");
 	}
@@ -319,16 +326,18 @@
 	
 	NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
 	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
-	NSString *stringPre = @"中国北京市";
-	if ([addressStr hasPrefix:stringPre]) {
-		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
+	if (addressStr && ![addressStr isEqualToString:@""]) {
+		NSString *stringPre = @"中国北京市";
+		if ([addressStr hasPrefix:stringPre]) {
+			addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
+		}
+		addressLabel.text = addressStr;
+		[addressLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(positionSignView.mas_right).offset(3);
+			make.right.equalTo(priceLabel.mas_left).offset(-10);
+			make.centerY.equalTo(positionSignView);
+		}];
 	}
-	addressLabel.text = addressStr;
-	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(positionSignView.mas_right).offset(3);
-		make.right.equalTo(priceLabel.mas_left).offset(-10);
-		make.centerY.equalTo(positionSignView);
-	}];
 	
 	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	likeBtn.selected = iscollect.boolValue;

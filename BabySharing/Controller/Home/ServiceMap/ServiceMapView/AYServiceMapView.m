@@ -95,7 +95,7 @@
 	loc = tp_location;
 	
 	NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
-	NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsTheme];
+	NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsCatSecondary];
 	NSString *pre_map_icon_name;
 	if (serviceCat.intValue == ServiceTypeCourse) {
 		pre_map_icon_name = @"map_icon_course";

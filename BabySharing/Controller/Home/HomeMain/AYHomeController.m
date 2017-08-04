@@ -339,6 +339,28 @@ typedef void(^queryContentFinish)(void);
 	
 }
 
+- (NSDictionary*)sortDataForSearchAround {
+	
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];
+	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	[dic_search setValue:[NSNumber numberWithInteger:skipCountAround] forKey:kAYCommArgsRemoteDataSkip];
+	/*condition*/
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
+	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
+	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
+	[dic_location setValue:[search_pin copy] forKey:kAYServiceArgsPin];
+	[dic_condt setValue:[dic_location copy] forKey:kAYServiceArgsLocationInfo];
+	
+	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
+	
+	return [dic_search copy];
+}
+
 - (void)loadNewAroundData {
 	
 	NSNumber *tmp = [NSNumber numberWithBool:isLocationAuth];
@@ -350,26 +372,9 @@ typedef void(^queryContentFinish)(void);
 		return;
 	}
 	
-	NSDictionary* user = nil;
-	CURRENUSER(user);
-	
-	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];;
-	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-	/*condition*/
-	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	[dic_search setValue:[NSNumber numberWithInteger:skipCountAround] forKey:kAYCommArgsRemoteDataSkip];
-	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
-	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	
-	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
-	[dic_location setValue:[search_pin copy] forKey:kAYServiceArgsPin];
-	[dic_condt setValue:[dic_location copy] forKey:kAYServiceArgsLocationInfo];
-	
-	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
-	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[cmd_tags performWithResult:[self sortDataForSearchAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			serviceDataAround = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
@@ -395,26 +400,9 @@ typedef void(^queryContentFinish)(void);
 		return;
 	}
 	
-	NSDictionary* user = nil;
-	CURRENUSER(user);
-	
-	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];;
-	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-	/*condition*/
-	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	[dic_condt setValue:[NSNumber numberWithInteger:skipCountAround] forKey:kAYCommArgsRemoteDataSkip];
-	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
-	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
-	
-	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
-	[dic_location setValue:[search_pin copy] forKey:kAYServiceArgsPin];
-	[dic_condt setValue:[dic_location copy] forKey:kAYServiceArgsLocationInfo];
-	
-	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
-	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_tags performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[cmd_tags performWithResult:[self sortDataForSearchAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			NSArray *remoteArr = [[result objectForKey:@"result"] objectForKey:@"services"];
@@ -438,9 +426,9 @@ typedef void(^queryContentFinish)(void);
 	
 	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];;
 	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	[dic_search setValue:[NSNumber numberWithInteger:skipCountFound] forKey:kAYCommArgsRemoteDataSkip];
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	[dic_condt setValue:[NSNumber numberWithInteger:skipCountFound] forKey:kAYCommArgsRemoteDataSkip];
 	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalFound*1000] forKey:kAYCommArgsRemoteDate];
 	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];

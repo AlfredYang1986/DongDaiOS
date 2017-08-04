@@ -26,8 +26,8 @@ static NSString* const kAYCommArgsRemoteDataSkip =			@"skip";
 static NSString* const kAYProfileArgsScreenName =			@"screen_name";
 static NSString* const kAYProfileArgsScreenPhoto =			@"screen_photo";
 static NSString* const kAYProfileArgsAuthToken =			@"auth_token";
-//static NSString* const kAYCommArgsTips =               @"user_id";
-//static NSString* const kAYCommArgsTips =               @"user_id";
+static NSString* const kAYProfileArgsToken =				@"token";
+static NSString* const kAYProfileArgsContactNo =			@"contact_no";
 
 
 //service args
@@ -38,7 +38,7 @@ static NSString* const kAYServiceArgsID =					@"service_id";
 static NSString* const kAYServiceArgsCategoryInfo =			@"category";
 static NSString* const kAYServiceArgsCat =					@"service_cat";
 static NSString* const kAYServiceArgsCourseCat =			@"cans_cat";
-static NSString* const kAYServiceArgsTheme =				@"cans_cat";
+static NSString* const kAYServiceArgsCatSecondary =			@"cans_cat";
 static NSString* const kAYServiceArgsCourseSign =			@"cans";
 static NSString* const kAYServiceArgsNurserySign =			@"cans";
 static NSString* const kAYServiceArgsConcert =				@"concert";
@@ -64,7 +64,7 @@ static NSString* const kAYServiceArgsStartHours =			@"starthours";
 static NSString* const kAYServiceArgsEndHours =				@"endhours";
 
 static NSString* const kAYServiceArgsNotice =				@"other_words";
-static NSString* const kAYServiceArgsAllowLeave =			@"allow_leave";
+static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
 static NSString* const kAYServiceArgsIsCollect =			@"iscollect";
 static NSString* const kAYServiceArgsPoints =				@"points";
 

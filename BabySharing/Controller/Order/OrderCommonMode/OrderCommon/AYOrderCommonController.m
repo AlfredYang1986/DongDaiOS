@@ -24,9 +24,6 @@
 
 @implementation AYOrderCommonController {
 	
-//	UILabel *leastNews;
-//	AYOrderTOPView *TOPView;
-	
 	NSArray *remindArr;
 	
 	NSArray *result_status_fb;
@@ -35,7 +32,6 @@
 	NSInteger skipCount;
 	
 	dispatch_semaphore_t semaphore;
-	
 }
 
 #pragma mark -- commands
@@ -63,26 +59,12 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	skipCount = 0;
-	queryTimespan = [NSDate date].timeIntervalSince1970 * 1000;
+	queryTimespan = [NSDate date].timeIntervalSince1970;
 	
 	/****************************************/
 	UITableView *tableView = [self.views objectForKey:kAYTableView];
 	[self.view bringSubviewToFront:tableView];
 	/****************************************/
-	
-//	UIButton *allNewsBtn  = [Tools creatUIButtonWithTitle:@"全部订单" andTitleColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil];
-//	[self.view addSubview:allNewsBtn];
-//	[allNewsBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.centerY.equalTo(self.view.mas_top).offset(42);
-//		make.right.equalTo(self.view).offset(-20);
-//		make.size.mas_equalTo(CGSizeMake(70, 30));
-//	}];
-//	[allNewsBtn addTarget:self action:@selector(didAllNewsBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//	
-//	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeCommon];
-//	[self.view addSubview:TOPView];
-//	TOPView.userInteractionEnabled = YES;
-//	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showAppliFeedback)]];
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderCommon"];
 	id obj = (id)delegate;
@@ -183,7 +165,9 @@
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
-	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid], @"only_history":[NSNumber numberWithInt:1]};
+	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"],
+								@"status"		:[NSNumber numberWithInt:OrderStatusPaid],
+								@"only_history"	:[NSNumber numberWithInt:1]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
@@ -220,7 +204,7 @@
 	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
-	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan] forKey:@"date"];
+	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan * 1000] forKey:@"date"];
 	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
 	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
 	
