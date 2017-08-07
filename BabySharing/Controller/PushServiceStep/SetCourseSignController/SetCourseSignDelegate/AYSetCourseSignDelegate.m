@@ -14,7 +14,8 @@
 @implementation AYSetCourseSignDelegate {
     NSMutableArray *titleArr;
     NSString *coustomStr;
-    NSNumber *courseSign;
+	
+	NSString *thridlyCatStr;
 }
 
 #pragma mark -- command
@@ -46,28 +47,14 @@
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
     
-    NSDictionary *args_info = (NSDictionary*)args;
-    NSNumber *courseCat = [args_info objectForKey:kAYServiceArgsCourseCat];
-    if (courseCat.intValue == -1) {
-        return nil;
-    }
+    NSDictionary *info_categ = (NSDictionary*)args;
+    NSString *cat_secondary = [info_categ objectForKey:kAYServiceArgsCatSecondary];
     
-//    long sepNumb = log2(type.longValue);
-//    long testArgs = pow(2, 2) * pow(2, 8) + pow(2, 3);
-//    long f_sep = log2(testArgs/pow(2, 8));
-//    long s_sep = log2(testArgs - pow(2, f_sep) * pow(2, 8));
+    thridlyCatStr = [info_categ objectForKey:kAYServiceArgsCatThirdly];		//be or not
     
-    courseSign = [args_info objectForKey:kAYServiceArgsCourseSign];
-    
-    NSArray *courseAllArr = kAY_service_course_title_ofall;
+    NSDictionary *thridlyData = kAY_service_course_title_ofall;
     titleArr = [NSMutableArray array];
-    [titleArr addObjectsFromArray:[courseAllArr objectAtIndex:courseCat.integerValue]];
-//    [titleArr insertObject:@"添加我自己的服务标签" atIndex:0];
-	
-//    coustomStr = [args_info objectForKey:kAYServiceArgsCourseCoustom];
-//    if (coustomStr && ![coustomStr isEqualToString:@""]) {
-//        [titleArr insertObject:coustomStr atIndex:1];
-//    }
+    [titleArr addObjectsFromArray:[thridlyData objectForKey:cat_secondary]];
     return nil;
 }
 
@@ -77,46 +64,19 @@
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    NSString* class_name;
-//    id<AYViewBase> cell;
-//    if (indexPath.row == 0) {
-//        class_name = @"AYSetServiceThemeCellView";
-//        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//        NSString *title = titleArr[indexPath.row];
-//        kAYViewSendMessage(cell, @"setCellInfo:", &title)
-//    } else {
-//        
-//        class_name = @"AYSetCourseSignCellView";
-//        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-//        
-//        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-//        [tmp setValue:[NSNumber numberWithBool:NO] forKey:@"is_set"];
-//        [tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
-//        
-//        if (indexPath.row == 1 && coustomStr && ![coustomStr isEqualToString:@""]) {
-//            [tmp setValue:[NSNumber numberWithBool:YES] forKey:@"is_set"];
-//        }
-//        else if (courseSign && indexPath.row - (coustomStr && ![coustomStr isEqualToString:@""] ? 2 : 1) == courseSign.integerValue ) {
-//            [tmp setValue:[NSNumber numberWithBool:YES] forKey:@"is_set"];
-//        }
-//        
-//        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-//    }
 	
 	NSString* class_name = @"AYSetCourseSignCellView";
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[NSNumber numberWithBool:NO] forKey:@"is_set"];
 	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
-	if (courseSign && indexPath.row == courseSign.integerValue ) {
+	if (thridlyCatStr && [titleArr indexOfObject:thridlyCatStr] == indexPath.row) {
 		[tmp setValue:[NSNumber numberWithBool:YES] forKey:@"is_set"];
 	}
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
     cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
@@ -126,38 +86,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	NSNumber *tmp = [NSNumber numberWithInteger:indexPath.row];
+	NSString *tmp = [titleArr objectAtIndex:indexPath.row];
 	kAYDelegateSendNotify(self, @"courseCansSeted:", &tmp)
 	
-//    if (indexPath.row == 0) {
-//        id<AYCommand> dest = DEFAULTCONTROLLER(@"InputCoustom");
-//        
-//        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-//        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-//        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//        
-////        [dic_push setValue:titleAndCourseSignInfo forKey:kAYControllerChangeArgsKey];
-//        id<AYCommand> cmd = PUSH;
-//        [cmd performWithResult:&dic_push];
-//    }
-//    else if (indexPath.row == 1 && coustomStr && ![coustomStr isEqualToString:@""]) {
-//        
-//        return;
-//    }
-//    else {
-//        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//        [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-//        [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//        
-//        NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-//        [dic_info setValue:[NSNumber numberWithInteger:indexPath.row - ((coustomStr && ![coustomStr isEqualToString:@""]) ? 2 : 1)] forKey:kAYServiceArgsCourseSign];
-//        [dic_info setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"signStr"];
-//        [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
-//        
-//        id<AYCommand> cmd = POP;
-//        [cmd performWithResult:&dic];
-//    }
 }
 
 #pragma mark -- notifies set service info

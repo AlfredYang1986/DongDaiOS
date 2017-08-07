@@ -161,7 +161,7 @@
 	if ([service_cat containsString:@"看"]) {
 		themeStr = [info_categ objectForKey:kAYServiceArgsCatSecondary];
 	} else if ([service_cat isEqualToString:kAYStringCourse]) {
-		themeStr = [info_categ objectForKey:kAYServiceArgsCourseSign];
+		themeStr = [info_categ objectForKey:kAYServiceArgsCatThirdly];
 	} else {
 		NSLog(@"---null---");
 	}

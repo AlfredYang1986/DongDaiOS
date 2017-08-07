@@ -46,7 +46,7 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         sepNumb = [dic objectForKey:kAYControllerChangeArgsKey];
         
-        [service_info_part setValue:sepNumb forKey:kAYServiceArgsCourseCat];
+        [service_info_part setValue:sepNumb forKey:kAYServiceArgsCatSecondary];
         [service_info_part setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsAdjustSKU];
         
         NSArray *options_title_cans = kAY_service_options_title_course;
@@ -282,7 +282,7 @@
 //	serThemeLabel.text = CompleteName;
 	
     //服务主题分类
-    NSNumber *cans_cat = [service_info_part objectForKey:kAYServiceArgsCourseCat];
+    NSNumber *cans_cat = [service_info_part objectForKey:kAYServiceArgsCatSecondary];
     if (cans_cat.intValue == -1) {
         serThemeLabel.text = @"请调整服务主题";
         serThemeLabel.textColor = [Tools themeColor];

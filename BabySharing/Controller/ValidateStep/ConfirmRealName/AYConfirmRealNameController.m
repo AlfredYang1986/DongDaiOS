@@ -18,10 +18,6 @@
 #import "AYModelFacade.h"
 
 
-@interface AYConfirmRealNameController ()
-
-@end
-
 @implementation AYConfirmRealNameController{
     UITextField *nameTextField;
     UITextField *coderTextField;
@@ -122,13 +118,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	view.backgroundColor = [UIColor clearColor];
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -163,43 +157,41 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PushRealName"];
     
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+    [dic_push setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
     [dic_push setValue:nameTextField.text forKey:@"real_name"];
     [dic_push setValue:coderTextField.text forKey:@"social_id"];
 	
     [cmd performWithResult:dic_push andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            
-            /**
-             *  save to coredata
-             */
-            id<AYFacadeBase> facade = LOGINMODEL;
-            id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-            
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//            [dic setValue:tmp forKey:@"contact_no"];
-            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_real_name_cert"];
-            
-            [cmd_profile performWithResult:&dic];
-            
-            /**
-             *  go on
-             */
-            AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
-            NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-            [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-            [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-            [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-            
-            NSString *tip = @"您的信息已成功提交";
-            [dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
-            
-            id<AYCommand> cmd = PUSH;
-            [cmd performWithResult:&dic_push];
-        }
-        
+		
+		// go on
+		AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
+		NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+		[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+		[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+		[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+		
+		NSString *tip = @"您的信息已成功提交（骗你的）";
+		[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
+		
+		id<AYCommand> cmd = PUSH;
+		[cmd performWithResult:&dic_push];
+		
+//        if (success) {
+//            //save to coredata
+//            id<AYFacadeBase> facade = LOGINMODEL;
+//            id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+//            
+//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_real_name_cert"];
+//            [cmd_profile performWithResult:&dic];
+//			
+//		} else {
+//			NSString *title = @"请改善网络环境并重试";
+//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//		}
+		
     }];
-    
+	
     return nil;
 }
 

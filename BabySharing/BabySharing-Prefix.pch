@@ -83,21 +83,22 @@ typedef enum : int {
 } ModeExchangeType;
 
 
-#define kAYStringCourse					@"课程"
-#define kAYStringNursery				@"看顾"
+#define kAYStringCourse							@"课程"
+#define kAYStringNursery						@"看顾"
 
-#define kAY_service_options_title_facilities        @[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
+#define kAY_service_options_title_course		@[@"艺术", @"运动", @"科学"]
+#define kAY_service_options_title_nursery		@[@"日间看顾", @"课后看顾"]
 
-#define kAY_service_options_title_course              @[@"艺术", @"运动", @"科学"]
-#define kAY_service_options_title_nursery        @[@"日间看顾", @"课后看顾"]
+#define kAY_service_course_title_0				@[@"美术", @"音乐", @"舞蹈", @"舞台艺术"]
+#define kAY_service_course_title_1              @[@"球类运动", @"武术", @"竞技运动", @"形体"]
+#define kAY_service_course_title_2              @[@"STEAM", @"自然科学", @"潜能开发"]
+#define kAY_service_course_title_ofall			@{@"艺术":kAY_service_course_title_0, @"运动":kAY_service_course_title_1, @"科学":kAY_service_course_title_2}
 
-#define kAY_service_course_title_0              @[@"钢琴", @"舞蹈", @"书法", @"中国画", @"绘画", @"尤克丽丽", @"戏剧"]
-#define kAY_service_course_title_1              @[@"瑜伽健身", @"篮球", @"马术", @"围棋", @"击剑", @"桌游"]
-#define kAY_service_course_title_2              @[@"3D打印", @"机器人", @"心理学", @"行为习惯"]
-#define kAY_service_course_title_3              @[@"英语"]
-#define kAY_service_course_title_4              @[@"绘本"]
-#define kAY_service_course_title_5              @[@"烘焙", @"陶艺"]
-#define kAY_service_course_title_ofall              @[kAY_service_course_title_0, kAY_service_course_title_1, kAY_service_course_title_2]
+
+#define kAY_service_options_title_facilities	@[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
+
+
+
 
 #define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
 #define kAYFontMedium(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]

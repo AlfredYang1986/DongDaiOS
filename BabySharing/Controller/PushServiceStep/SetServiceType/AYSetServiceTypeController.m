@@ -35,7 +35,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//	self.view.backgroundColor = [Tools themeColor];
 	
     UILabel *titleLabel = [Tools creatUILabelWithText:@"选择您即将发布\n的服务类型?" andTextColor:[Tools themeColor] andFontSize:624.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
@@ -58,15 +57,13 @@
     }];
 	[Tools creatCALayerWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:locBGView];
 	
-    UILabel *norseLabel = [Tools creatUILabelWithText:@"看顾服务" andTextColor:[Tools themeColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *norseLabel = [Tools creatUILabelWithText:kAYStringNursery andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [locBGView addSubview:norseLabel];
     [norseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(locBGView.mas_top).offset(unitHeight * 0.5);
         make.left.equalTo(locBGView).offset(20);
         make.right.equalTo(locBGView).offset(-20);
     }];
-    norseLabel.userInteractionEnabled = YES;
-    [norseLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didNorseLabelTap)]];
     
     UIImageView *access = [[UIImageView alloc]init];
     [locBGView addSubview:access];
@@ -78,15 +75,18 @@
     }];
 	[Tools creatCALayerWithFrame:CGRectMake(10, unitHeight, SCREEN_WIDTH - 20, 0.5) andColor:[Tools garyLineColor] inSuperView:locBGView];
     
-    UILabel *courseLabel = [Tools creatUILabelWithText:@"课程" andTextColor:[Tools themeColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *courseLabel = [Tools creatUILabelWithText:kAYStringCourse andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [locBGView addSubview:courseLabel];
     [courseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(locBGView.mas_bottom).offset(-unitHeight * 0.5);
         make.left.equalTo(locBGView).offset(20);
         make.right.equalTo(locBGView).offset(-20);
-    }];
+	}];
+	
+	norseLabel.userInteractionEnabled = YES;
+	[norseLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceCategLabelTap:)]];
     courseLabel.userInteractionEnabled = YES;
-    [courseLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCourseLabelTap)]];
+	[courseLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didServiceCategLabelTap:)]];
     
     UIImageView *access2 = [[UIImageView alloc]init];
     [locBGView addSubview:access2];
@@ -110,13 +110,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-//    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-//    view.backgroundColor = [UIColor whiteColor];
     
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -132,27 +130,22 @@
 }
 
 #pragma mark -- actions
-- (void)didNorseLabelTap {
+- (void)didServiceCategLabelTap:(UITapGestureRecognizer*)tap {
+	UIView *tapL = tap.view;
+	
     id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceTheme");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[NSNumber numberWithInt:ServiceTypeNursery] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
-
-- (void)didCourseLabelTap {
-    id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceTheme");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[NSNumber numberWithInt:ServiceTypeCourse] forKey:kAYControllerChangeArgsKey];
+	
+	NSMutableDictionary *service_info = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *info_categ = [[NSMutableDictionary alloc] init];
+	[info_categ setValue:((UILabel*)tapL).text forKey:kAYServiceArgsCat];
+	[service_info setValue:info_categ forKey:kAYServiceArgsCategoryInfo];
+	
+    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

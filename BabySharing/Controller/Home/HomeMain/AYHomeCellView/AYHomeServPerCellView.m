@@ -282,7 +282,7 @@
 	else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
 		
-		NSString *compName = [info_cat objectForKey:kAYServiceArgsCourseSign];
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
 		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
 		if(compName && ![compName isEqualToString:@""]) {
 			themeLabel.text = compName;

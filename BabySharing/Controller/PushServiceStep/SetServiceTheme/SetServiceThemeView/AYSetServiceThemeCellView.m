@@ -26,7 +26,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:318.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(20);
@@ -42,7 +42,7 @@
             make.size.mas_equalTo(CGSizeMake(15, 15));
         }];
 		
-		subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		subTitlelabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:subTitlelabel];
 		[subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(access.mas_left).offset(-10);
@@ -51,6 +51,8 @@
 		
         CGFloat margin = 10;
 		[Tools creatCALayerWithFrame:CGRectMake(margin, 99.5, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
+		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
@@ -122,6 +124,7 @@
     titleLabel.text = titleStr;
 	
 	NSString *subTitleStr = [args objectForKey:@"sub_title"];
+	
 	if (subTitleStr && ![subTitleStr isEqualToString:@""]) {
 		subTitlelabel.hidden = NO;
 		subTitlelabel.text = subTitleStr;

@@ -12,7 +12,7 @@
 #import "AYServiceArgsDefines.h"
 
 @implementation AYSetCourseSignController {
-    NSMutableDictionary *dic_cat_cans;
+    NSMutableDictionary *info_categ;
 }
 
 #pragma mark -- commands
@@ -21,9 +21,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
-        dic_cat_cans = [dic objectForKey:kAYControllerChangeArgsKey];
-//        course_sign_index = [dic_course objectForKey:kAYServiceArgsCourseSign];
-//        course_coustom = [dic_course objectForKey:kAYServiceArgsCourseCoustom];
+        info_categ = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -54,7 +52,7 @@
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
 //    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-    id tmp = [dic_cat_cans copy];
+    id tmp = [info_categ copy];
     kAYDelegatesSendMessage(@"SetCourseSign", @"changeQueryData:", &tmp);
     
 }
@@ -127,7 +125,7 @@
 }
 
 - (id)courseCansSeted:(id)args {
-	[dic_cat_cans setValue:args forKey:kAYServiceArgsCourseSign];
+	[info_categ setValue:args forKey:kAYServiceArgsCatThirdly];
 	
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];

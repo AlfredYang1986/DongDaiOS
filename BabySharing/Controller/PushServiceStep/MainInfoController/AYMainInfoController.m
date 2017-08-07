@@ -81,16 +81,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             else if([key isEqualToString:kAYServiceArgsTitle]) {  //1
                 
                 NSString *title = [dic_info objectForKey:kAYServiceArgsTitle];
-//                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsCourseSign];
-//                NSString *coustom = [dic_info objectForKey:kAYServiceArgsCourseCoustom];
 				
                 [_service_change_dic setValue:title forKey:kAYServiceArgsTitle];
-//                [_service_change_dic setValue:course_sign forKey:kAYServiceArgsCourseSign];
-//                [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
 				
                 //title constain and course_sign or coustom constain and or service_cat == 0
 				if(title && ![title isEqualToString:@""]) {
-//                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCat]).intValue == ServiceTypeNursery)) {
                     [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 
@@ -247,7 +242,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
         [dic_info setValue:kAYServiceArgsCat forKey:@"key"];
         [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsCat] forKey:kAYServiceArgsCat];
-        [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
+        [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsCatSecondary] forKey:kAYServiceArgsCatSecondary];
         kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
         
         NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
@@ -259,7 +254,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         
     }
     
-    if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCat]).intValue == ServiceTypeCourse && ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
+    if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCat]).intValue == ServiceTypeCourse && ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCatSecondary]).intValue == -1) {
         kAYUIAlertView(@"提示", @"因需求变更，我们在服务主题的基础上添加了服务标签项，请：\n1.在“更多信息”中重新设置服务主题.\n2.在“编辑标题页”下设置您的服务标签.\n\n请务必完成以上操作以确保您的服务信息完整无误");
     }
     

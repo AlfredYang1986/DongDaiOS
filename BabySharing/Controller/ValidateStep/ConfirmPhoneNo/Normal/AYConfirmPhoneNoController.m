@@ -98,13 +98,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor clearColor];
     
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -153,19 +151,15 @@
         id<AYCommand> cmd = [view.commands objectForKey:@"queryCodeInput:"];
         [cmd performWithResult:&code];
     }
-    
-    NSDictionary* user = nil;
-    CURRENUSER(user);
+	
     id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"CheckCode"];
     
-    NSMutableDictionary *dic_check = [[NSMutableDictionary alloc]initWithCapacity:1];
-    [dic_check setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
+    NSMutableDictionary *dic_check = [[NSMutableDictionary alloc] init];
     [dic_check setValue:reg_token forKey:@"reg_token"];
     [dic_check setValue:code forKey:@"code"];
-    [dic_check setValue:[Tools getDeviceUUID] forKey:@"uuid"];
     tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [dic_check setValue:tmp forKey:@"phoneNo"];
+    [dic_check setValue:tmp forKey:@"phone"];
     
     [cmd performWithResult:[dic_check copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
@@ -215,11 +209,11 @@
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]initWithCapacity:1];
     
     tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [dic_push setValue:tmp forKey:@"phoneNo"];
+    [dic_push setValue:tmp forKey:@"phone"];
     
     [cmd performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            reg_token = [result objectForKey:@"reg_token"];
+            reg_token = [[result objectForKey:@"reg"] objectForKey:@"reg_token"];
 
             id<AYViewBase> view = [self.views objectForKey:@"PhoneCheckInput"];
             

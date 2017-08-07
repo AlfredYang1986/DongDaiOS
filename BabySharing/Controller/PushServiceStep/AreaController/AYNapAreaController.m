@@ -19,14 +19,15 @@
 
 #import <AMapSearchKit/AMapSearchKit.h>
 
-#define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
-#define FAKE_BAR_HEIGHT             44
-#define locBGViewHeight                 175
-#define nextBtnHeight                   50
+#define SHOW_OFFSET_Y				SCREEN_HEIGHT - 196
+#define FAKE_BAR_HEIGHT				44
+#define locBGViewHeight				175
+#define nextBtnHeight				50
 
-@implementation AYNapAreaController{
+@implementation AYNapAreaController {
     
     NSMutableDictionary *service_info;
+	
     UILabel *areaLabel;
     CLLocation *loc;
     
@@ -55,17 +56,15 @@
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-//    navTitleStr = @"";
-    
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        id args = [dic objectForKey:kAYControllerChangeArgsKey];
+		
+		id args = [dic objectForKey:kAYControllerChangeArgsKey];
         if ([args isKindOfClass:[NSDictionary class]]) {
-            
             service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         } else if ([args isKindOfClass:[NSString class]]) {
             editMode = @"确定";
         }
-//        service_info = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:kAYControllerChangeArgsKey]];
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -78,7 +77,7 @@
             
             id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
             id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
-            CLLocation *loction = loc;
+            CLLocation *loction = [loc copy];
             [cmd performWithResult:&loction];
         }
     }
@@ -151,10 +150,6 @@
         make.left.equalTo(adressLabel);
         make.right.equalTo(locBGView).offset(-10);
     }];
-	
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidShow:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWasChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHidden:) name:UIKeyboardWillHideNotification object:nil];
 	
     UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     [locBGView addSubview:nextBtn];
@@ -307,7 +302,7 @@
 - (void)didAdressLabeTap {
     id<AYCommand> des = DEFAULTCONTROLLER(@"NapLocation");
     
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
+    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -350,17 +345,20 @@
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic_push setValue:dist forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-        
-        NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
-        [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
-        [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
-        
-        [service_info setValue:location forKey:@"location"];
-        [service_info setValue:navTitleStr forKey:kAYServiceArgsDistrict];
-        [service_info setValue:adressLabel.text forKey:@"address"];
-        [service_info setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
-        [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
-        
+		
+		NSMutableDictionary *info_location = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *pin = [[NSMutableDictionary alloc]init];
+        [pin setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+        [pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
+		[info_location setValue:pin forKey:kAYServiceArgsPin];
+		
+        [info_location setValue:navTitleStr forKey:kAYServiceArgsDistrict];
+        [info_location setValue:adressLabel.text forKey:kAYServiceArgsAddress];
+        [info_location setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
+		
+		[service_info setValue:info_location forKey:kAYServiceArgsLocationInfo];
+		[dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
+		
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
     }
@@ -403,15 +401,7 @@
 - (id)KeyboardShowKeyboard:(id)args {
     
     NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-//    [UIView animateWithDuration:0.25f animations:^{
-////        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
-////		locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight + nextBtnHeight - step.floatValue, SCREEN_WIDTH, locBGViewHeight);
-//		self.view.frame = CGRectMake(0, - step.floatValue + nextBtnHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
-//    }];
-	
 	[UIView animateWithDuration:0.25 animations:^{
-//		UIView *view = [self.views objectForKey:@"NapAreaMap"];
-//		view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - locBGViewHeight);
 		[locBGView mas_updateConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self.view).offset(-step.floatValue+nextBtnHeight);
 		}];
@@ -423,13 +413,7 @@
 
 - (id)KeyboardHideKeyboard:(id)args {
 	
-//    [UIView animateWithDuration:0.25f animations:^{
-////        locBGView.frame = CGRectMake(0, SCREEN_HEIGHT - locBGViewHeight, SCREEN_WIDTH, locBGViewHeight);
-//		self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-//    }];
 	[UIView animateWithDuration:0.25 animations:^{
-//		UIView *view = [self.views objectForKey:@"NapAreaMap"];
-//		view.frame = CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH, SCREEN_HEIGHT - kStatusAndNavBarH - 175);
 		[locBGView mas_updateConstraints:^(MASConstraintMaker *make) {
 			make.bottom.equalTo(self.view);
 		}];

@@ -153,7 +153,7 @@
 	NSArray *options_title_cans;
 	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
 	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
-	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
+	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCatSecondary];
 	
 	if (service_cat.intValue == ServiceTypeNursery) {
 		unitCat = @"小时";
@@ -173,7 +173,7 @@
 		
 		NSString *servCatStr = @"课程";
 		options_title_cans = kAY_service_options_title_course;
-		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
+		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCatThirdly];
 		//服务主题分类
 		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
 			titleLabel.text = @"该服务主题待调整";
@@ -185,8 +185,8 @@
 				titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, costomStr, servCatStr];
 				
 			} else {
-				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
-				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
+				NSDictionary *courseTitleOfAll = kAY_service_course_title_ofall;
+				NSArray *signTitleArr = [courseTitleOfAll objectForKey:cans_cat];
 				if (cans.integerValue < signTitleArr.count) {
 					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
 					titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, courseSignStr, servCatStr];

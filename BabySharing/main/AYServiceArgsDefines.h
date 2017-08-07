@@ -37,10 +37,9 @@ static NSString* const kAYServiceArgsID =					@"service_id";
 
 static NSString* const kAYServiceArgsCategoryInfo =			@"category";
 static NSString* const kAYServiceArgsCat =					@"service_cat";
-static NSString* const kAYServiceArgsCourseCat =			@"cans_cat";
 static NSString* const kAYServiceArgsCatSecondary =			@"cans_cat";
-static NSString* const kAYServiceArgsCourseSign =			@"cans";
 static NSString* const kAYServiceArgsNurserySign =			@"cans";
+static NSString* const kAYServiceArgsCatThirdly =			@"cans";
 static NSString* const kAYServiceArgsConcert =				@"concert";
 static NSString* const kAYServiceArgsCourseCoustom =		@"reserve1";
 

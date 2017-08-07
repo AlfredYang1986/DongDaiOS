@@ -12,12 +12,15 @@
 #define CellHeight			100
 
 @implementation AYSetServiceThemeController {
-    ServiceType service_type;
+	
     BOOL isEdit;
 	
 	NSInteger backArgsOfRowNumb;
-	NSMutableDictionary *dic_cat_cans;
-	NSMutableDictionary *dic_note;
+	
+	NSMutableDictionary *service_info;
+	NSMutableDictionary *info_categ;
+	NSString *CatStr;
+	NSString *secondaryTmp;
 }
 
 #pragma mark -- commands
@@ -27,11 +30,10 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
         id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([tmp isKindOfClass:[NSNumber class]]) {
-            service_type = ((NSNumber*)[dic objectForKey:kAYControllerChangeArgsKey]).intValue;
-			
-			dic_cat_cans = [[NSMutableDictionary alloc]init];
-			[dic_cat_cans setValue:[dic objectForKey:kAYControllerChangeArgsKey] forKey:kAYServiceArgsCat];
+        if ([tmp isKindOfClass:[NSMutableDictionary class]]) {
+			service_info = tmp;
+			info_categ  = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+			CatStr = [info_categ objectForKey:kAYServiceArgsCat];
 			
         } else if ([tmp isKindOfClass:[NSString class]]) {
             isEdit = YES;
@@ -43,7 +45,7 @@
 		NSNumber *is_change = [dic objectForKey:kAYControllerChangeArgsKey];
 		if (is_change.boolValue) {
 			
-			NSMutableDictionary *tmp = [dic_cat_cans copy];
+			NSMutableDictionary *tmp = [info_categ copy];
 			kAYDelegatesSendMessage(@"SetServiceTheme", @"changeQueryData:", &tmp);
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			
@@ -52,11 +54,11 @@
 				tableView.frame = CGRectMake(0, SCREEN_HEIGHT - backArgsOfRowNumb * CellHeight - 49, SCREEN_WIDTH, backArgsOfRowNumb * CellHeight);
 			}];
 		} else {
-			if (dic_note) {
-				dic_cat_cans = dic_note;
+			if (secondaryTmp) {
+				[info_categ setValue:secondaryTmp forKey:kAYServiceArgsCatSecondary];
 			}
 		}
-		dic_note = nil;
+		
     }
 }
 
@@ -76,12 +78,11 @@
     
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceThemeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
-    
-    NSNumber *type = [NSNumber numberWithInt:service_type];
+	
 	NSString *titleStr;
-	if (type.intValue == ServiceTypeNursery) {
+	if ([CatStr isEqualToString:kAYStringNursery]) {
 		titleStr = @"您的看顾是什么类型?";
-	} else if (type.intValue == ServiceTypeCourse) {
+	} else if ([CatStr isEqualToString:kAYStringCourse]) {
 		titleStr = @"您的课程是什么类型?";
 	} else {
 		titleStr = @"参数设置错误";
@@ -96,7 +97,7 @@
 		make.width.mas_equalTo(240);
 	}];
 	
-	NSMutableDictionary *tmp = [dic_cat_cans copy];
+	NSMutableDictionary *tmp = [info_categ copy];
     kAYDelegatesSendMessage(@"SetServiceTheme", @"changeQueryData:", &tmp);
 	
 	backArgsOfRowNumb = ((NSNumber*)tmp).integerValue;
@@ -127,17 +128,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-//    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-//    view.backgroundColor = [UIColor whiteColor];
-	
-//    NSString *title = @"服务主题";
-//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
     UIImage* left = IMGRESOURCE(@"bar_left_theme");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -162,7 +157,7 @@
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 
-	[dic_push setValue:dic_cat_cans forKey:kAYControllerChangeArgsKey];
+	[dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
 
 	id<AYCommand> cmd = PUSH;
 	[cmd performWithResult:&dic_push];
@@ -186,9 +181,7 @@
     return nil;
 }
 
-- (id)serviceThemeSeted:(NSNumber*)args {
-//    notePow = pow(2, btn.tag);
-//    long option = pow(2, args.longValue);
+- (id)serviceThemeSeted:(NSString*)args {
     
     if (isEdit) {
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -200,50 +193,29 @@
         [cmd performWithResult:&dic];
         
     } else {
-		
-		switch (service_type) {
-			case ServiceTypeNursery:
-			{
-				[dic_cat_cans setValue:args forKey:kAYServiceArgsCatSecondary];
-				[self didServiceThemeNextBtnClick];
-			}
-				break;
-			case ServiceTypeCourse:
-			{
-				
-				// 变换选项
-				NSNumber *cans_cat = [[NSNumber alloc]init];
-				cans_cat = [dic_cat_cans objectForKey:kAYServiceArgsCourseCat];
-				
-				if (![cans_cat isEqualToNumber:args]) {
-					
-					dic_note = [[NSMutableDictionary alloc]initWithDictionary:dic_cat_cans];
-					[dic_cat_cans setValue:args forKey:kAYServiceArgsCourseCat];
-					NSNumber *cans = [dic_cat_cans objectForKey:kAYServiceArgsCourseSign];
-					if (cans) {
-						[dic_cat_cans removeObjectForKey:kAYServiceArgsCourseSign];
-					}
-				}
-				else {
-					[dic_cat_cans setValue:args forKey:kAYServiceArgsCourseCat];
-				}
-				
-				id<AYCommand> des = DEFAULTCONTROLLER(@"SetCourseSign");
-				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-				
-				[dic_push setValue:dic_cat_cans forKey:kAYControllerChangeArgsKey];
-				
-				id<AYCommand> cmd = PUSH;
-				[cmd performWithResult:&dic_push];
-			}
-				break;
-			default:
-				break;
+		if ([CatStr isEqualToString:kAYStringNursery]) {
+			[info_categ setValue:args forKey:kAYServiceArgsCatSecondary];
+			[self didServiceThemeNextBtnClick];
+			
+		} else if ([CatStr isEqualToString:kAYStringCourse]) {
+			// 变换选项:修改/仅浏览
+			secondaryTmp = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+			[info_categ setValue:args forKey:kAYServiceArgsCatSecondary];
+			
+			id<AYCommand> des = DEFAULTCONTROLLER(@"SetCourseSign");
+			NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+			[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+			
+			[dic_push setValue:info_categ forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd = PUSH;
+			[cmd performWithResult:&dic_push];
+			
+		} else {
+			
 		}
-		
     }
     return nil;
 }

@@ -677,7 +677,6 @@
         <!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
         <view type="Table"      name="Table" />
         <view type="SearchBar"  name="SearchBar" />
-        <view type="Loading"    name="Loading" />
         
         <delegate type="TableViewDelegateAndDatasource" name="NapLocation" />
     </controller>
