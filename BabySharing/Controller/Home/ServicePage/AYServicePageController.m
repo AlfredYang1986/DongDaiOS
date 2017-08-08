@@ -81,7 +81,7 @@
 	AYServiceImagesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYServiceImagesCell" forIndexPath:indexPath];
 	
 	NSArray *images = [service_info objectForKey:@"images"];
-	if (images) {
+	if (images.count != 0) {
 		if ([[images firstObject] isKindOfClass:[NSString class]]) {
 			[cell setItemImageWithImageName:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, [images objectAtIndex:indexPath.row]]];
 		} else {
@@ -217,7 +217,7 @@
 		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 			if(success) {
 				
-				NSMutableDictionary *tmp_args = [[result objectForKey:@"services"] mutableCopy];
+				NSMutableDictionary *tmp_args = [[result objectForKey:@"service"] mutableCopy];
 				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
 				id args = [tmp_args objectForKey:@"tms"];

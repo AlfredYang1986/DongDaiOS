@@ -145,6 +145,8 @@
 	[info_categ setValue:((UILabel*)tapL).text forKey:kAYServiceArgsCat];
 	[service_info setValue:info_categ forKey:kAYServiceArgsCategoryInfo];
 	
+	[service_info setValue:@"kidnapPush" forKey:@"push"];		//用于信息主页判断是修改还是发布
+	
     [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;

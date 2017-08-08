@@ -22,7 +22,7 @@
 @implementation AYMainInfoDelegate {
     NSMutableArray *titles;
     NSMutableArray *sub_titles;
-    ServiceType service_cat;
+    NSString *service_cat;
     
     UIImage *napPhoto;
     NSString *napPhotoName;
@@ -32,21 +32,19 @@
     
     NSString *napDesc;
     
-    NSDictionary *napAges;
-    NSDictionary *napBabyArgsInfo;
-    
-    NSNumber *napThemeNote;
+    NSString *catSecondary;
     NSDictionary *napThemeInfo;
     
 //    NSNumber *napCost;
     NSDictionary *napCostInfo;
-    
-    NSDictionary *serviceNoticeInfo;
+	
+	NSNumber *isAllowLeaves;
+	NSString *otherWords;
     
     NSDictionary *napAdressInfo;
     
 //    NSDictionary *dic_device;
-    NSNumber *napDeviceNote;
+    NSArray *napFacilities;
     NSString *customDeviceName;
     
     BOOL isEditModel;
@@ -90,56 +88,54 @@
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
     
-    NSDictionary *dic = (NSDictionary*)args;
-    
-    NSString *key = [dic objectForKey:@"key"];
-    
-    
-    if ([key isEqualToString:kAYServiceArgsInfo]) {
-        service_info = [dic objectForKey:kAYServiceArgsInfo];
-        napThemeNote = [[dic objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsCatSecondary];
-    }
-    else if ([key isEqualToString:kAYServiceArgsCat]) {
-        service_cat = ((NSNumber*)[dic objectForKey:kAYServiceArgsCat]).intValue;
-        napThemeNote = [dic objectForKey:kAYServiceArgsCatSecondary];
-    }
-    else if ([key isEqualToString:@"nap_cover"]) {
-        napPhoto = [[dic objectForKey:@"content"] objectAtIndex:0];
-        
-    } else if([key isEqualToString:kAYServiceArgsTitle]) {
-        napTitle = [dic objectForKey:kAYServiceArgsTitle];
-        napTitleInfo = [dic copy];
-        
-    } else if([key isEqualToString:@"nap_desc"]) {
-        napDesc = [dic objectForKey:@"content"];
-        
-    } else if([key isEqualToString:@"nap_ages"]) {
-        napAges = [dic objectForKey:@"age_boundary"];
-        napBabyArgsInfo = [dic copy];
-        
-    } else if([key isEqualToString:@"nap_cost"]) {
-//        napCost = [dic objectForKey:@"price"];
-        napCostInfo = [dic copy];
-        
-    } else if([key isEqualToString:@"nap_adress"]) {
-        napAdressInfo = [dic copy];
-        
-    } else if([key isEqualToString:kAYServiceArgsFacility]) {
-        napDeviceNote = [dic objectForKey:@"facility"];
-        
-    }
-    else if ([key isEqualToString:kAYServiceArgsNotice]) {
-        serviceNoticeInfo = [dic copy];
-    }
-    
+    NSDictionary *info = (NSDictionary*)args;
+	service_info = info;
+	
+	NSDictionary *info_categ = [info objectForKey:kAYServiceArgsCategoryInfo];
+	service_cat = [info_categ objectForKey:kAYServiceArgsCat];
+	catSecondary = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+	napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
+	napTitle = [info objectForKey:kAYServiceArgsTitle];
+	
+	NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
+	[dic_title setValue:[info objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
+	[dic_title setValue:[[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCatThirdly] forKey:kAYServiceArgsCatThirdly];
+	[dic_title setValue:[[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
+	napTitleInfo = [dic_title copy];
+	
+	napDesc = [info objectForKey:kAYServiceArgsDescription];
+	
+	NSDictionary *info_detail = [info objectForKey:kAYServiceArgsDetailInfo];
+	
+	NSMutableDictionary *dic_cost = [[NSMutableDictionary alloc]init];
+	[dic_cost setValue:[info_detail objectForKey:kAYServiceArgsPrice] forKey:kAYServiceArgsPrice];
+	[dic_cost setValue:[info_detail objectForKey:kAYServiceArgsLeastHours] forKey:kAYServiceArgsLeastHours];
+	[dic_cost setValue:[info_detail objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
+	[dic_cost setValue:[info_detail objectForKey:kAYServiceArgsCourseduration] forKey:kAYServiceArgsCourseduration];
+	napCostInfo = [dic_cost copy];
+	
+	NSMutableDictionary *dic_address = [[NSMutableDictionary alloc]init];
+	[dic_address setValue:[[info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin] forKey:kAYServiceArgsPin];
+	[dic_address setValue:[[info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
+	[dic_address setValue:[[info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
+	napAdressInfo = [dic_address copy];
+	
+	napFacilities = [info_detail objectForKey:kAYServiceArgsFacility];
+	
+	NSNumber *isAllowLev = [info_detail objectForKey:kAYServiceArgsAllowLeave];
+	if (isAllowLev) {
+		isAllowLeaves = isAllowLev;
+	}
+	otherWords = [info_detail objectForKey:kAYServiceArgsNotice];
+	
     return nil;
 }
 
 - (id)changeQueryInfo:(NSDictionary*)info {
-    
+	
     isEditModel = YES;
     service_info = info;
-    
+	
     titles = [NSMutableArray arrayWithObjects:
                   @"编辑图片",
                   @"编辑标题",
@@ -147,46 +143,38 @@
                   @"编辑价格",
                   @"编辑《服务守则》",
                   @"更多信息",  nil];
-    service_cat = ((NSNumber*)[info objectForKey:kAYServiceArgsCat]).intValue;
+    service_cat = [[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	catSecondary = [[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCatSecondary];
     napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
     napTitle = [info objectForKey:kAYServiceArgsTitle];
-    
+	
     NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
     [dic_title setValue:[info objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
-    [dic_title setValue:[info objectForKey:kAYServiceArgsCatThirdly] forKey:kAYServiceArgsCatThirdly];
-    [dic_title setValue:[info objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
-    napThemeNote = [info objectForKey:kAYServiceArgsCatSecondary];
+    [dic_title setValue:[[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCatThirdly] forKey:kAYServiceArgsCatThirdly];
+    [dic_title setValue:[[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCourseCoustom] forKey:kAYServiceArgsCourseCoustom];
     napTitleInfo = [dic_title copy];
     
     napDesc = [info objectForKey:kAYServiceArgsDescription];
-    
-    NSMutableDictionary *dic_baby_args = [[NSMutableDictionary alloc]init];
-    [dic_baby_args setValue:[info objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
-    [dic_baby_args setValue:[info objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
-    [dic_baby_args setValue:[info objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
-    napBabyArgsInfo = [dic_baby_args copy];
-    napAges = [info objectForKey:kAYServiceArgsAgeBoundary];
+	
+	NSDictionary *info_detail = [info objectForKey:kAYServiceArgsDetailInfo];
     
     NSMutableDictionary *dic_cost = [[NSMutableDictionary alloc]init];
-    [dic_cost setValue:[info objectForKey:kAYServiceArgsPrice] forKey:kAYServiceArgsPrice];
-    [dic_cost setValue:[info objectForKey:kAYServiceArgsLeastHours] forKey:kAYServiceArgsLeastHours];
-    [dic_cost setValue:[info objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
-    [dic_cost setValue:[info objectForKey:kAYServiceArgsCourseduration] forKey:kAYServiceArgsCourseduration];
+    [dic_cost setValue:[info_detail objectForKey:kAYServiceArgsPrice] forKey:kAYServiceArgsPrice];
+    [dic_cost setValue:[info_detail objectForKey:kAYServiceArgsLeastHours] forKey:kAYServiceArgsLeastHours];
+    [dic_cost setValue:[info_detail objectForKey:kAYServiceArgsLeastTimes] forKey:kAYServiceArgsLeastTimes];
+    [dic_cost setValue:[info_detail objectForKey:kAYServiceArgsCourseduration] forKey:kAYServiceArgsCourseduration];
     napCostInfo = [dic_cost copy];
-    
+	
     NSMutableDictionary *dic_address = [[NSMutableDictionary alloc]init];
-    [dic_address setValue:[info objectForKey:kAYServiceArgsPin] forKey:kAYServiceArgsPin];
-    [dic_address setValue:[info objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
-    [dic_address setValue:[info objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
+    [dic_address setValue:[[info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin] forKey:kAYServiceArgsPin];
+    [dic_address setValue:[[info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
+    [dic_address setValue:[[info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
     napAdressInfo = [dic_address copy];
     
-    napDeviceNote = [info objectForKey:kAYServiceArgsFacility];
-    
-    NSMutableDictionary *dic_notice = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [dic_notice setValue:[info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
-    [dic_notice setValue:[info objectForKey:kAYServiceArgsNotice] forKey:kAYServiceArgsNotice];
-    serviceNoticeInfo = [dic_notice copy];
-    
+    napFacilities = [info_detail objectForKey:kAYServiceArgsFacility];
+	
+	isAllowLeaves = [info_detail objectForKey:kAYServiceArgsAllowLeave];
+	otherWords = [info_detail objectForKey:kAYServiceArgsNotice];
     return nil;
 }
 
@@ -204,11 +192,11 @@
         
         id info = nil;
         if (napPhoto) {
-            info = napPhoto;
+            info = [napPhoto copy];
             kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
         else if (napPhotoName) {
-            info = napPhotoName;
+            info = [napPhotoName copy];
             kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
         
@@ -233,9 +221,7 @@
         
         if (napTitle && ![napTitle isEqualToString:@""] && indexPath.row == 1) {
             [cell_info setValue:napTitle forKey:@"sub_title"];
-            
-            //constain of title and course_sign or coustom and or service_cat == 0
-//            if (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || service_cat == ServiceTypeNursery) {
+			
 			if(napTitle && ![napTitle isEqualToString:@""]) {
                 [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
             }
@@ -254,13 +240,13 @@
             if (price && price.floatValue != 0) {
                 NSString *priceTitleStr ;
                 
-                if (service_cat == ServiceTypeNursery) {
-					priceTitleStr = [NSString stringWithFormat:@"￥ %@/小时",price];
+                if ([service_cat isEqualToString:kAYStringNursery]) {
+					priceTitleStr = [NSString stringWithFormat:@"￥ %f/小时",price.floatValue * 0.01];
                     if ( leastHours && leastHours.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
                     }
                 } else {
-					priceTitleStr = [NSString stringWithFormat:@"￥ %@/次",price];
+					priceTitleStr = [NSString stringWithFormat:@"￥ %f/次",price.floatValue * 0.01];
                     if (duration && duration.floatValue != 0 && leastTimes && leastTimes.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
                     }
@@ -271,10 +257,8 @@
             }
 			
         }
-        else if (serviceNoticeInfo && indexPath.row == 4) {
-//            NSNumber *isAllowLeave = [serviceNoticeInfo objectForKey:kAYServiceArgsAllowLeave];
-            BOOL isAllowLeave = ((NSNumber*) [serviceNoticeInfo objectForKey:kAYServiceArgsAllowLeave]).boolValue;
-            NSString *notice =  isAllowLeave ? @"需要家长陪伴" : @"不需要家长陪伴";
+        else if (isAllowLeaves && indexPath.row == 4) {
+            NSString *notice =  isAllowLeaves.boolValue ? @"需要家长陪伴" : @"不需要家长陪伴";
             [cell_info setValue:notice forKey:@"sub_title"];
             [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
         }
@@ -356,20 +340,6 @@
     [cmd performWithResult:&dic_push];
 }
 
-- (void)setNapBabyAges {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"SetNapAges");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    
-    [dic_push setValue:[napBabyArgsInfo copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
-
 - (void)setNapTheme {
     id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapTheme");
     
@@ -392,7 +362,7 @@
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napCostInfo];
-    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsCat];
+    [tmp setValue:service_cat forKey:kAYServiceArgsCat];
     [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
@@ -407,8 +377,11 @@
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
     
-//    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:[serviceNoticeInfo copy] forKey:kAYControllerChangeArgsKey];
+    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
+	[dic_args setValue:isAllowLeaves forKey:kAYServiceArgsAllowLeave];
+	[dic_args setValue:otherWords forKey:kAYServiceArgsNotice];
+	
+    [dic_push setValue:[dic_args copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -457,8 +430,8 @@
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:service_info];
-        [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsCat];
-        [tmp setValue:napThemeNote forKey:kAYServiceArgsCatSecondary];
+        [tmp setValue:service_cat forKey:kAYServiceArgsCat];
+        [tmp setValue:catSecondary forKey:kAYServiceArgsCatSecondary];
         [dic_push setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;
@@ -472,7 +445,7 @@
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-        [dic_args setValue:[napDeviceNote copy] forKey:@"facility"];
+        [dic_args setValue:napFacilities forKey:@"facility"];
         [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;

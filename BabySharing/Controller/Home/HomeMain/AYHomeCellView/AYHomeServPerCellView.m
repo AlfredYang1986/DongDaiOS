@@ -282,7 +282,13 @@
 	else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
 		
-		NSString *compName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
+		if (!compName || [compName isEqualToString:@""]) {
+			compName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
+			if (!compName || [compName isEqualToString:@""]) {
+				compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+			}
+		}
 		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
 		if(compName && ![compName isEqualToString:@""]) {
 			themeLabel.text = compName;
@@ -341,6 +347,12 @@
 	
 	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	likeBtn.selected = iscollect.boolValue;
+	
+	NSNumber *isChoice = [service_info objectForKey:kAYServiceArgsIsChoice];
+	choiceSignView.hidden = !isChoice.boolValue;
+	
+	NSNumber *isTopSort = [service_info objectForKey:kAYServiceArgsIsTopCategories];
+	hotSignView.hidden = !isTopSort.boolValue;
 	
 	return nil;
 }

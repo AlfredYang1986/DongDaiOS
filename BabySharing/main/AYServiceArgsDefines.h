@@ -35,13 +35,17 @@ static NSString* const kAYServiceArgsSelf =					@"service";
 static NSString* const kAYServiceArgsInfo =					@"service_info";
 static NSString* const kAYServiceArgsID =					@"service_id";
 
+static NSString* const kAYServiceArgsIsChoice =				@"isSelected";
+static NSString* const kAYServiceArgsIsTopCategories =		@"isAssortment";
+
 static NSString* const kAYServiceArgsCategoryInfo =			@"category";
 static NSString* const kAYServiceArgsCat =					@"service_cat";
 static NSString* const kAYServiceArgsCatSecondary =			@"cans_cat";
 static NSString* const kAYServiceArgsNurserySign =			@"cans";
 static NSString* const kAYServiceArgsCatThirdly =			@"cans";
 static NSString* const kAYServiceArgsConcert =				@"concert";
-static NSString* const kAYServiceArgsCourseCoustom =		@"reserve1";
+static NSString* const kAYServiceArgsCourseCoustom =		@"concert";
+//static NSString* const kAYServiceArgsCourseCoustom =		@"reserve1";
 
 static NSString* const kAYServiceArgsImages =				@"images";
 static NSString* const kAYServiceArgsTitle =				@"title";

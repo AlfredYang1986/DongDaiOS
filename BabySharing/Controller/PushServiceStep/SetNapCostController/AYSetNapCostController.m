@@ -30,10 +30,10 @@
     
     UITextField *costTextField;
     UITextField *timeTextField;
-    NSString *setedCostString;
+    NSNumber *setedCost;
     
     int course_duration;
-    ServiceType service_type;
+    NSString *service_type;
     
     NSInteger currentNumbCount;
     
@@ -48,15 +48,15 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSDictionary *dic_cost = [dic objectForKey:kAYControllerChangeArgsKey];
         if (dic_cost) {
-            setedCostString = [dic_cost objectForKey:kAYServiceArgsPrice];
-            service_type = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCat]).intValue;
+            setedCost = [dic_cost objectForKey:kAYServiceArgsPrice];
+            service_type = [dic_cost objectForKey:kAYServiceArgsCat];
             
-            if (service_type == ServiceTypeCourse) {
+            if ([service_type isEqualToString:kAYStringCourse]) {
                 NSNumber *count_note =  [dic_cost objectForKey:kAYServiceArgsLeastTimes];
                 currentNumbCount = count_note.integerValue;
                 course_duration = ((NSNumber*)[dic_cost objectForKey:kAYServiceArgsCourseduration]).intValue;
                 
-            } else if(service_type == ServiceTypeNursery) {
+            } else if([service_type isEqualToString:kAYStringNursery]) {
                 
                 NSNumber *count_note = [dic_cost objectForKey:kAYServiceArgsLeastHours];
                 currentNumbCount = count_note.integerValue;
@@ -101,8 +101,8 @@
     [costTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(h1).insets(UIEdgeInsetsMake(0, 115, 0, 35));
     }];
-    if (setedCostString) {
-        NSString *price = [NSString stringWithFormat:@"%@",setedCostString];
+    if (setedCost) {
+        NSString *price = [NSString stringWithFormat:@"%f",setedCost.floatValue * 0.01];
         costTextField.text = price;
     }
     
@@ -159,74 +159,65 @@
 	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
 	
     NSString *titleStr;
-    switch (service_type) {
-            case ServiceTypeNursery:
-        {
-            h1.text = @"每小时价格";
-            titleStr = @"看顾价格";
-            
-            [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(h1.mas_bottom).offset(1);
-                make.centerX.equalTo(h1);
-                make.size.equalTo(h1);
-            }];
-			
-			[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-			[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight * 2, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-        }
-            break;
-            case ServiceTypeCourse:
-        {
-            h1.text = @"单次课程价格";
-            titleStr = @"课程价格";
-            
-            AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-            h2.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-            [self.view addSubview:h2];
-            [h2 mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(h1.mas_bottom).offset(1);
-                make.centerX.equalTo(self.view);
-                make.size.equalTo(h1);
-            }];
-            
-            timeTextField = [[UITextField alloc]init];
-            [self.view addSubview:timeTextField];
-            timeTextField.font = [UIFont boldSystemFontOfSize:16.f];
-            timeTextField.textColor = [Tools themeColor];
-            timeTextField.textAlignment = NSTextAlignmentRight;
-            timeTextField.keyboardType = UIKeyboardTypeNumberPad;
-            [timeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(h2).insets(UIEdgeInsetsMake(0, 115, 0, 50));
-            }];
-            if (course_duration != 0) {
-                NSString *duration = [NSString stringWithFormat:@"%d", course_duration];
-                timeTextField.text = duration;
-            }
-            
-            UILabel *TIMESign = [Tools creatUILabelWithText:@"分钟" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-            [self.view addSubview:TIMESign];
-            [TIMESign mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(h2);
-                make.right.equalTo(h2).offset(-15);
-            }];
-            
-            /*********************/
-            h3.text = @"最少预定次数";
-            iconLael.text = @"次";
-            [h3 mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(h2.mas_bottom);
-                make.centerX.equalTo(h1);
-                make.size.equalTo(h1);
-            }];
-			
-			[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-			[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight * 2, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-			[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight * 3, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-        }
-            break;
-        default:
-            break;
-    }
+	if ([service_type isEqualToString:kAYStringCourse]) {
+		h1.text = @"单次课程价格";
+		titleStr = @"课程价格";
+		
+		AYInsetLabel *h2 = [[AYInsetLabel alloc]initWithTitle:@"课程时长" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
+		h2.textInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+		[self.view addSubview:h2];
+		[h2 mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(h1.mas_bottom).offset(1);
+			make.centerX.equalTo(self.view);
+			make.size.equalTo(h1);
+		}];
+		
+		timeTextField = [[UITextField alloc]init];
+		[self.view addSubview:timeTextField];
+		timeTextField.font = [UIFont boldSystemFontOfSize:16.f];
+		timeTextField.textColor = [Tools themeColor];
+		timeTextField.textAlignment = NSTextAlignmentRight;
+		timeTextField.keyboardType = UIKeyboardTypeNumberPad;
+		[timeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(h2).insets(UIEdgeInsetsMake(0, 115, 0, 50));
+		}];
+		if (course_duration != 0) {
+			NSString *duration = [NSString stringWithFormat:@"%d", course_duration];
+			timeTextField.text = duration;
+		}
+		
+		UILabel *TIMESign = [Tools creatUILabelWithText:@"分钟" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		[self.view addSubview:TIMESign];
+		[TIMESign mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerY.equalTo(h2);
+			make.right.equalTo(h2).offset(-15);
+		}];
+		
+		/*********************/
+		h3.text = @"最少预定次数";
+		iconLael.text = @"次";
+		[h3 mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(h2.mas_bottom);
+			make.centerX.equalTo(h1);
+			make.size.equalTo(h1);
+		}];
+		
+		[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+		[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight * 2, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+		[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight * 3, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	} else if([service_type isEqualToString:kAYStringNursery]) {
+		h1.text = @"每小时价格";
+		titleStr = @"看顾价格";
+		
+		[h3 mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(h1.mas_bottom).offset(1);
+			make.centerX.equalTo(h1);
+			make.size.equalTo(h1);
+		}];
+		
+		[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+		[Tools creatCALayerWithFrame:CGRectMake(20, 115 + insetLabelHeight * 2, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	}
     
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &titleStr)
 	titleLabel.text = titleStr;
@@ -303,28 +294,6 @@
 	}
 }
 
-//-(id)didOptionBtnClick:(NSDictionary*)args{
-//    
-//    int index = ((NSNumber*)[args objectForKey:@"index"]).intValue;
-//    BOOL isSelected = ((NSNumber*)[args objectForKey:@"isSelected"]).boolValue;
-//    if (isSelected) {
-//        notePow += pow(2, index);
-//    }else {
-//        notePow -= pow(2, index);
-//    }
-//    return nil;
-//}
-
-//-(id)didOptionBtnClick:(UIButton*)btn{
-//    btn.selected = !btn.selected;
-//    if (btn.selected) {
-//        notePow += pow(2, btn.tag);
-//    }else {
-//        notePow -= pow(2, btn.tag);
-//    }
-//    return nil;
-//}
-
 #pragma mark -- notification
 - (id)leftBtnSelected {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -337,13 +306,6 @@
 }
 
 - (id)rightBtnSelected {
-    
-//    if (!costTextField.text || [costTextField.text isEqualToString:@""] || !timeTextField.text || [timeTextField.text isEqualToString:@""]) {
-//        NSString *title = @"参数缺省";
-//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//        return nil;
-//    }
-    
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -352,13 +314,12 @@
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
     [dic_info setValue:[NSNumber numberWithFloat:costTextField.text.floatValue] forKey:kAYServiceArgsPrice];
     [dic_info setValue:[NSNumber numberWithFloat:timeTextField.text.floatValue] forKey:kAYServiceArgsCourseduration];
-    
-    if (service_type == ServiceTypeNursery) {
-        [dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastHours];
-    }
-    else if (service_type == ServiceTypeCourse) {
-        [dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastTimes];
-    }
+	
+	if ([service_type isEqualToString:kAYStringCourse]) {
+		[dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastTimes];
+	} else if([service_type isEqualToString:kAYStringNursery]) {
+		[dic_info setValue:[NSNumber numberWithInteger:currentNumbCount] forKey:kAYServiceArgsLeastHours];
+	}
     
     [dic_info setValue:@"nap_cost" forKey:@"key"];
     
