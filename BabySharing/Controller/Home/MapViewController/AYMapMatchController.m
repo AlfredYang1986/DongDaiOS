@@ -70,22 +70,19 @@
     NSDictionary *dic_map = [resultAndLoc mutableCopy];
     [cmd_map performWithResult:&dic_map];
 	
+	
+	id<AYDelegateBase> deleg = [self.delegates objectForKey:@"MapMatch"];
+	id obj = (id)deleg;
+	kAYViewsSendMessage(@"Collection", kAYTableRegisterDatasourceMessage, &obj)
+	obj = (id)deleg;
+	kAYViewsSendMessage(@"Collection", kAYTableRegisterDelegateMessage, &obj)
+	
 	id<AYViewBase> view_notify = [self.views objectForKey:@"Collection"];
-	
-	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MapMatch"];
-	id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-	id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-	
-	id obj = (id)cmd_notify;
-	[cmd_datasource performWithResult:&obj];
-	obj = (id)cmd_notify;
-	[cmd_delegate performWithResult:&obj];
-	
 	id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
 	
-	id tmp = [resultAndLoc objectForKey:@"result_data"];
+	id tmp = [[resultAndLoc objectForKey:@"result_data"] copy];
 	kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
 }
 

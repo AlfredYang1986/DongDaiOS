@@ -297,21 +297,11 @@
 		NSLog(@"---null---");
 	}
 	
-	/*
-	detail =     {
-		"age_boundary" =         {
-			lsl = 2;
-			usl = 11;
-		};
-		price = 31800;
-	};
-	*/
 	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
 	NSDictionary *age_boundary = [info_detail objectForKey:kAYServiceArgsAgeBoundary];
 	NSNumber *low = [age_boundary objectForKey:kAYServiceArgsAgeBoundaryLow];
 	NSNumber *up = [age_boundary objectForKey:kAYServiceArgsAgeBoundaryUp];
 	ageBoundaryLabel.text = [NSString stringWithFormat:@"%@-%@岁", low, up];
-	
 	
 	
 	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];

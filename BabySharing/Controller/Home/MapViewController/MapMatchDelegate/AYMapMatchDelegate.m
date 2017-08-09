@@ -61,7 +61,6 @@
 	cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
 		
 	};
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	return (UICollectionViewCell*)cell;
 }

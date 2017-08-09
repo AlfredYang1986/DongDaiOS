@@ -85,7 +85,7 @@
     for (int i = 0; i < fiteResultData.count; ++i) {
         NSDictionary *service_info = fiteResultData[i];
         
-		NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsPin];
+		NSDictionary *dic_loc = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin];
 		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
         CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
@@ -96,17 +96,22 @@
 		anno.title = annoTitle;
 		anno.index = i;
 		
-		NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
-		NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsCatSecondary];
+		NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+		NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
+		NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
 		NSString *pre_map_icon_name;
-		if (serviceCat.intValue == ServiceTypeCourse) {
+		NSArray *optios_title_arr;
+		if ([serviceCat isEqualToString:kAYStringCourse]) {
 			pre_map_icon_name = @"map_icon_course";
-		} else if(serviceCat.intValue == ServiceTypeNursery) {
+			optios_title_arr = kAY_service_options_title_course;
+			
+		} else if([serviceCat isEqualToString:kAYStringNursery]) {
 			pre_map_icon_name = @"map_icon_nursery";
+			optios_title_arr = kAY_service_options_title_nursery;
 		}
 		
-		anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
-		anno.imageName_select = [NSString stringWithFormat:@"%@_%@_select",pre_map_icon_name, cansCat];
+		anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+		anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
 		
         [self addAnnotation:anno];
         [annoArray addObject:anno];
