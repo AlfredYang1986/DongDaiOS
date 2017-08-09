@@ -18,10 +18,6 @@
 #import "AYRemoteCallDefines.h"
 
 #import "AYModelFacade.h"
-#import "LoginToken+CoreDataClass.h"
-#import "LoginToken+ContextOpt.h"
-#import "CurrentToken.h"
-#import "CurrentToken+ContextOpt.h"
 
 #define STATUS_BAR_HEIGHT       20
 #define FAKE_BAR_HEIGHT        44
@@ -55,10 +51,9 @@
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
     
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -121,8 +116,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools whiteColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
@@ -169,7 +162,6 @@
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
@@ -197,7 +189,6 @@
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - kTabBarH);
     view.backgroundColor = [UIColor clearColor];
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-    //    ((UITableView*)view).style = UITableViewStyleGrouped;
     return nil;
 }
 

@@ -24,8 +24,7 @@
     NSMutableArray *sub_titles;
     NSString *service_cat;
     
-    UIImage *napPhoto;
-    NSString *napPhotoName;
+    id napPhoto;
     
     NSString *napTitle;
     NSDictionary *napTitleInfo;
@@ -94,7 +93,7 @@
 	NSDictionary *info_categ = [info objectForKey:kAYServiceArgsCategoryInfo];
 	service_cat = [info_categ objectForKey:kAYServiceArgsCat];
 	catSecondary = [info_categ objectForKey:kAYServiceArgsCatSecondary];
-	napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
+	napPhoto = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
 	napTitle = [info objectForKey:kAYServiceArgsTitle];
 	
 	NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
@@ -145,7 +144,7 @@
                   @"更多信息",  nil];
     service_cat = [[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
 	catSecondary = [[info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCatSecondary];
-    napPhotoName = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
+    napPhoto = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
     napTitle = [info objectForKey:kAYServiceArgsTitle];
 	
     NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
@@ -189,14 +188,9 @@
     if (indexPath.row == 0) {
         NSString* class_name = @"AYNapPhotosCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        id info = nil;
+		
         if (napPhoto) {
-            info = [napPhoto copy];
-            kAYViewSendMessage(cell, @"setCellInfo:", &info)
-        }
-        else if (napPhotoName) {
-            info = [napPhotoName copy];
+            id info = [napPhoto copy];
             kAYViewSendMessage(cell, @"setCellInfo:", &info)
         }
         
@@ -321,7 +315,6 @@
     return 0.001f;
 }
 
-
 #pragma mark -- notifies set service info
 - (void)setNapTitle {
     id<AYCommand> setting = DEFAULTCONTROLLER(@"InputNapTitle");
@@ -330,24 +323,8 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    
-//    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:napTitleInfo];
-//    [tmp setValue:[NSNumber numberWithInt:service_cat] forKey:kAYServiceArgsCat];
-//    [tmp setValue:napThemeNote forKey:kAYServiceArgsCatSecondary];
+	
     [dic_push setValue:napTitle forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
-
-- (void)setNapTheme {
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapTheme");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[napThemeInfo copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -382,26 +359,6 @@
 	[dic_args setValue:otherWords forKey:kAYServiceArgsNotice];
 	
     [dic_push setValue:[dic_args copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
-
-- (void)setNapAdress {
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"InputNapAdress");
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[napAdressInfo objectForKey:@"address"] forKey:@"address"];
-    [dic_args setValue:[napAdressInfo objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
-    NSDictionary *loc_dic = [napAdressInfo objectForKey:@"location"];
-    CLLocation *napLoc = [[CLLocation alloc]initWithLatitude:((NSNumber*)[loc_dic objectForKey:kAYServiceArgsLatitude]).doubleValue longitude:((NSNumber*)[loc_dic objectForKey:kAYServiceArgsLongtitude]).doubleValue];
-    [dic_args setValue:napLoc forKey:@"location"];
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -445,7 +402,7 @@
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         
         NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-        [dic_args setValue:napFacilities forKey:@"facility"];
+        [dic_args setValue:napFacilities forKey:kAYServiceArgsFacility];
         [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;

@@ -207,7 +207,7 @@
 	}
     //通用参数
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
-	[dic_update setValue:[_login_attr objectForKey:kAYProfileArgsAuthToken] forKey:@"token"];
+	[dic_update setValue:[_login_attr objectForKey:kAYCommArgsAuthToken] forKey:@"token"];
 	NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
 	[condition setValue:[_login_attr objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic_update setValue:condition forKey:kAYCommArgsCondition];

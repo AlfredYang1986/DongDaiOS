@@ -60,9 +60,6 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
     id tmp = [querydata objectAtIndex:indexPath.row];
-//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//    [cmd performWithResult:&tmp];
-    
     kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     
     cell.controller = self.controller;
@@ -71,7 +68,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 285;
+    return 370;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

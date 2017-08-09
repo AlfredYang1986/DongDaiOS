@@ -610,7 +610,6 @@
 		70C41F151DBA17B800C77B10 /* AYMyServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C41F051DBA17B800C77B10 /* AYMyServiceController.m */; };
 		70C41F161DBA17B800C77B10 /* AYMyServiceDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C41F081DBA17B800C77B10 /* AYMyServiceDelegate.m */; };
 		70C41F171DBA17B800C77B10 /* AYMyServiceCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C41F0B1DBA17B800C77B10 /* AYMyServiceCellView.m */; };
-		70C41F181DBA17B800C77B10 /* AYMyServiceCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 70C41F0C1DBA17B800C77B10 /* AYMyServiceCellView.xib */; };
 		70C41F1E1DBA190F00C77B10 /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70C41F1C1DBA190F00C77B10 /* area.plist */; };
 		70C41F1F1DBA190F00C77B10 /* privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = 70C41F1D1DBA190F00C77B10 /* privacy.html */; };
 		70C564151D8FB6C400DA9581 /* AYPushFromBotCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C564141D8FB6C400DA9581 /* AYPushFromBotCommand.m */; };
@@ -2067,7 +2066,6 @@
 		70C41F081DBA17B800C77B10 /* AYMyServiceDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMyServiceDelegate.m; sourceTree = "<group>"; };
 		70C41F0A1DBA17B800C77B10 /* AYMyServiceCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYMyServiceCellView.h; sourceTree = "<group>"; };
 		70C41F0B1DBA17B800C77B10 /* AYMyServiceCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYMyServiceCellView.m; sourceTree = "<group>"; };
-		70C41F0C1DBA17B800C77B10 /* AYMyServiceCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYMyServiceCellView.xib; sourceTree = "<group>"; };
 		70C41F1C1DBA190F00C77B10 /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
 		70C41F1D1DBA190F00C77B10 /* privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = privacy.html; sourceTree = "<group>"; };
 		70C564131D8FB6C400DA9581 /* AYPushFromBotCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushFromBotCommand.h; sourceTree = "<group>"; };
@@ -7406,7 +7404,6 @@
 			children = (
 				70C41F0A1DBA17B800C77B10 /* AYMyServiceCellView.h */,
 				70C41F0B1DBA17B800C77B10 /* AYMyServiceCellView.m */,
-				70C41F0C1DBA17B800C77B10 /* AYMyServiceCellView.xib */,
 			);
 			path = MyServiceView;
 			sourceTree = "<group>";
@@ -8932,7 +8929,6 @@
 				702E7AB71CA169C00097867E /* color.xml in Resources */,
 				70F428761CC7B18F00A69977 /* Info.plist in Resources */,
 				70490DC01CA2339D0093D5DA /* read_me.txt in Resources */,
-				70C41F181DBA17B800C77B10 /* AYMyServiceCellView.xib in Resources */,
 				701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */,
 				700BE59A1CBA1B4E00A09B3A /* delegate.xml in Resources */,
 				70F967861E28F8EE00B3805B /* AYDayCollectionCellView.xib in Resources */,

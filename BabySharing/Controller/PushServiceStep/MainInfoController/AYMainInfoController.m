@@ -235,8 +235,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //		[dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsCatSecondary] forKey:kAYServiceArgsCatSecondary];
 //		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
 		
-		NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &babyAgeCell)
+		NSString* napPushInfo = @"AYNapBabyAgeCellView";
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &napPushInfo)
 		
 		confirmSerBtn.hidden = NO;
 		[confirmSerBtn setTitle:@"下一步" forState:UIControlStateNormal];
@@ -244,10 +244,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 		
 	} else {
 		update_service_info = [[NSMutableDictionary alloc] init];
-//		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsCategoryInfo];
 		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
-//		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
-//		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
+		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsLocationInfo];
+		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsCategoryInfo];
 		
 		NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &editCell)
@@ -353,7 +352,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return;
-    
 }
 
 - (void)updateMyService {

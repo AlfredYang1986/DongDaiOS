@@ -118,7 +118,7 @@ typedef void(^queryContentFinish)(void);
 	currentIndex = 1;
 	dynamicOffsetY = 0.f;
 	
-	serviceDataFound = [[NSMutableDictionary alloc] init];
+	serviceDataFound = [[NSMutableArray alloc] init];
 	timeIntervalFound = timeIntervalAround = [NSDate date].timeIntervalSince1970;
 	
 	/**********层级调整*******/

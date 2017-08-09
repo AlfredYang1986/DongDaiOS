@@ -15,15 +15,10 @@
 #import "AYProfileOrigCellView.h"
 #import "AYProfileServCellView.h"
 
-@interface AYSetNapCostDelegate ()
-@property (nonatomic, strong) NSDictionary* querydata;
-@end
-
 @implementation AYSetNapCostDelegate {
     NSArray *options_title_facilities;
+	NSArray* querydata;
 }
-
-@synthesize querydata = _querydata;
 
 #pragma mark -- command
 @synthesize para = _para;
@@ -51,8 +46,8 @@
     return [NSString stringWithUTF8String:object_getClassName([self class])];
 }
 
--(id)queryData:(NSDictionary*)args {
-    _querydata = args;
+-(id)changeQueryData:(id)args {
+    querydata = args;
     return nil;
 }
 
@@ -66,17 +61,15 @@
     
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-    
-    cell.controller = _controller;
+	cell.controller = _controller;
+	
     NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
     [dic setValue:[options_title_facilities objectAtIndex:indexPath.row] forKey:@"title"];
-    [dic setValue:[_querydata objectForKey:@"options"] forKey:@"options"];
-    [dic setValue:[NSNumber numberWithFloat:indexPath.row] forKey:@"index"];
+    [dic setValue:querydata forKey:@"options"];
     
     id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
     [set_cmd performWithResult:&dic];
     
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 

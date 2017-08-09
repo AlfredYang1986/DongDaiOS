@@ -351,7 +351,7 @@
 	NSNumber *isChoice = [service_info objectForKey:kAYServiceArgsIsChoice];
 	choiceSignView.hidden = !isChoice.boolValue;
 	
-	NSNumber *isTopSort = [service_info objectForKey:kAYServiceArgsIsTopCategories];
+	NSNumber *isTopSort = [service_info objectForKey:kAYServiceArgsIsTopCateg];
 	hotSignView.hidden = !isTopSort.boolValue;
 	
 	return nil;

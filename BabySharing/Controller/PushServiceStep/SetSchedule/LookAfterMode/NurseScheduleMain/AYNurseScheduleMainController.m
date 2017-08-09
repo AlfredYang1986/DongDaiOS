@@ -30,7 +30,7 @@
 //	NSArray *restDayScheduleArr;
 	
 	NSDictionary *offer_date;
-	NSString *service_id;
+	NSDictionary *service_info;
 	
 	//back args
 	NSArray *restDayScheduleArr;
@@ -44,11 +44,13 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-		
-		if ([tmp objectForKey:@"service_id"]) {
+		if ([tmp objectForKey:@"push"]) {
+			push_service_info = [tmp mutableCopy];
 			
+		} else {
+			service_info = [tmp copy];
 			if ([tmp objectForKey:@"tms"]) {
 				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMNurse"];
@@ -60,10 +62,6 @@
 				workDaySchedule = [[args objectForKey:@"schedule_workday"] mutableCopy];
 				restDayScheduleArr = [args objectForKey:@"schedule_restday"];
 			}
-			
-			service_id = [tmp objectForKey:@"service_id"];
-		} else {
-			push_service_info = [tmp mutableCopy];
 		}
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -84,7 +82,7 @@
 	
 	NSString *pushBtnTitleStr ;
 	NSString *titleStr;
-	if (service_id) {
+	if (service_info) {
 		titleStr = @"重新设定您的看顾时间";
 		pushBtnTitleStr = @"确定";
 	} else {
@@ -206,7 +204,7 @@
 }
 
 - (void)didPushNurseBtnClick {
-	if (service_id) {
+	if (service_info) {
 		[self updateServiceSchedule];
 	} else {
 		[self pushService];
@@ -232,8 +230,9 @@
 }
 
 - (void)updateServiceSchedule {
-	NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
-	[update_info setValue:service_id forKey:@"service_id"];
+	
+	NSMutableDictionary *update_info = [[NSMutableDictionary alloc] init];
+	[update_info setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
 	
 	NSArray *result = [self reorganizeTM];
 	[update_info setValue:result forKey:@"tms"];

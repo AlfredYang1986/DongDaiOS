@@ -135,7 +135,7 @@
 }
 
 - (void)loadNewData {
-	[self queryOrders];
+//	[self queryOrders];
 	
 	
 	NSDictionary* info = nil;

@@ -151,44 +151,60 @@
         return nil;
     }
     
-    NSDictionary* user = nil;
-    CURRENUSER(user);
-    id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PushRealName"];
-    
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-    [dic_push setValue:nameTextField.text forKey:@"real_name"];
-    [dic_push setValue:coderTextField.text forKey:@"social_id"];
+	NSDictionary* user = nil;
+	CURRENUSER(user);
 	
-    [cmd performWithResult:dic_push andFinishBlack:^(BOOL success, NSDictionary *result) {
+//	id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
+//	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"PushRealName"];
+//	
+//	NSMutableDictionary *dic_update = [[NSMutableDictionary alloc]initWithCapacity:3];
+//	[dic_update setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+//	[dic_update setValue:nameTextField.text forKey:@"real_name"];
+//	[dic_update setValue:coderTextField.text forKey:@"social_id"];
+	
+	id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
+	
+	NSMutableDictionary *dic_update = [[NSMutableDictionary alloc]initWithCapacity:3];
+	[dic_update setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	
+	NSDictionary *dic_condt = @{kAYCommArgsUserID:[user objectForKey:kAYCommArgsUserID]};
+	[dic_update setValue:dic_condt forKey:kAYCommArgsCondition];
+	
+	NSMutableDictionary *info_profile = [[NSMutableDictionary alloc] init];
+	[info_profile setValue:nameTextField.text forKey:kAYProfileArgsOwnerName];
+	[info_profile setValue:coderTextField.text forKey:kAYProfileArgsSocialId];
+	
+	[dic_update setValue:info_profile forKey:@"profile"];
+	
+    [cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		
-		// go on
-		AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
-		NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-		[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-		[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-		[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-		
-		NSString *tip = @"您的信息已成功提交（骗你的）";
-		[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
-		
-		id<AYCommand> cmd = PUSH;
-		[cmd performWithResult:&dic_push];
-		
-//        if (success) {
-//            //save to coredata
-//            id<AYFacadeBase> facade = LOGINMODEL;
-//            id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-//            
-//            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-//            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_real_name_cert"];
-//            [cmd_profile performWithResult:&dic];
-//			
-//		} else {
-//			NSString *title = @"请改善网络环境并重试";
-//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//		}
+        if (success) {
+            //save to coredata
+            id<AYFacadeBase> facade = LOGINMODEL;
+            id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+            
+            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+            [dic setValue:[NSNumber numberWithInt:1] forKey:@"is_real_name_cert"];
+            [cmd_profile performWithResult:&dic];
+			
+			// go on
+			AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
+			NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+			[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+			[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+			[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+			
+			NSString *tip = @"您的信息已成功提交";
+			[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
+			
+			id<AYCommand> cmd = PUSH;
+			[cmd performWithResult:&dic_push];
+			
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
 		
     }];
 	

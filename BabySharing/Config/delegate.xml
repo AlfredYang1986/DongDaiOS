@@ -312,7 +312,7 @@
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
-        <command type="message" message="queryData:" />
+        <command type="message" message="changeQueryData:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" factory="AYDefaultDelegateFactory" >

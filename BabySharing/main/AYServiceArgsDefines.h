@@ -12,6 +12,7 @@
 //common args
 static NSString* const kAYCommArgsCondition =				@"condition";
 static NSString* const kAYCommArgsUserID =					@"user_id";
+static NSString* const kAYCommArgsAuthToken =				@"auth_token";
 static NSString* const kAYCommArgsToken =					@"token";
 static NSString* const kAYCommArgsOwnerID =					@"owner_id";
 static NSString* const kAYCommArgsTips =					@"args_tips";
@@ -25,9 +26,9 @@ static NSString* const kAYCommArgsRemoteDataSkip =			@"skip";
 //user profile args
 static NSString* const kAYProfileArgsScreenName =			@"screen_name";
 static NSString* const kAYProfileArgsScreenPhoto =			@"screen_photo";
-static NSString* const kAYProfileArgsAuthToken =			@"auth_token";
-static NSString* const kAYProfileArgsToken =				@"token";
 static NSString* const kAYProfileArgsContactNo =			@"contact_no";
+static NSString* const kAYProfileArgsSocialId =				@"social_id";
+static NSString* const kAYProfileArgsOwnerName =			@"owner_name";
 
 
 //service args
@@ -36,7 +37,9 @@ static NSString* const kAYServiceArgsInfo =					@"service_info";
 static NSString* const kAYServiceArgsID =					@"service_id";
 
 static NSString* const kAYServiceArgsIsChoice =				@"isSelected";
-static NSString* const kAYServiceArgsIsTopCategories =		@"isAssortment";
+static NSString* const kAYServiceArgsIsTopCateg =			@"isHotCat";
+static NSString* const kAYServiceArgsChoiced =				@"selected";
+static NSString* const kAYServiceArgsTopCateg =				@"hotcate";
 
 static NSString* const kAYServiceArgsCategoryInfo =			@"category";
 static NSString* const kAYServiceArgsCat =					@"service_cat";

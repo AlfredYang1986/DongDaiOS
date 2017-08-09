@@ -26,7 +26,8 @@
 	
 	NSMutableDictionary *push_service_info;
 	NSMutableArray *offer_date;
-	NSString *service_id;
+	
+	NSDictionary *service_info;
 	
 	BOOL isChange;
 }
@@ -36,9 +37,13 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		if ([tmp objectForKey:@"service_id"]) {
+		if ([tmp objectForKey:@"push"]) {
+			push_service_info = [tmp mutableCopy];
+			
+		} else {
+			service_info = [tmp copy];
 			
 			if ([tmp objectForKey:@"tms"]) {
 				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
@@ -52,10 +57,6 @@
 				[cmd performWithResult:&args];
 				offer_date = [args mutableCopy];
 			}
-			
-			service_id = [tmp objectForKey:@"service_id"];
-		} else {
-			push_service_info = [tmp mutableCopy];
 		}
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -72,7 +73,7 @@
 	
 	NSString *pushBtnTitleStr ;
 	NSString *titleStr;
-	if (service_id) {
+	if (service_info) {
 		titleStr = @"重新设定您的课程时间";
 		pushBtnTitleStr = @"确定";
 	} else {
@@ -238,7 +239,7 @@
 }
 
 - (void)didPushBtnClick {
-	if (service_id) {
+	if (service_info) {
 		[self updateServiceSchedule];
 	} else {
 		[self pushService];
@@ -271,7 +272,7 @@
 - (void)updateServiceSchedule {
 	
 	NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
-	[update_info setValue:service_id forKey:@"service_id"];
+	[update_info setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
 	
 	NSArray *reorganizeArr = [self reorganizeTM];
 	[update_info setValue:reorganizeArr forKey:@"tms"];

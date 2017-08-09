@@ -18,7 +18,6 @@
 @implementation AYProfileDelegate{
     NSArray *origs;
 //    NSArray *confirmData;
-    
 }
 
 @synthesize querydata = _querydata;
@@ -30,9 +29,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    
-//    confirmData = @[@"身份验证",@"社交账号",@"手机号码",@"实名认证"];
-    
+	
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -52,12 +49,7 @@
 }
 
 - (id)changeModel:(NSNumber*)args {
-    
-//    isNapModel = args.boolValue;
-//    if (isNapModel) {
-//        origs = [NSMutableArray arrayWithObjects:@"切换到被服务者", @"发布服务", @"设置", nil];
-//    } else
-//        origs = [NSMutableArray arrayWithObjects:@"成为服务者", @"我心仪的服务", @"设置", nil];
+	
     return nil;
 }
 
@@ -124,32 +116,8 @@
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (indexPath.section == 0) {
-//        [self infoSetting];             // 个人信息设置
-//    } else if (indexPath.section == 1){
-//        if (indexPath.row == 0) {
-//            // 服务者
-//            [self servicerOptions];
-//        }else if (indexPath.row == 999){
-//            // 看护家庭
-//            [self napFamilyOptions];
-//        }else if (indexPath.row == 1){  // 心仪的服务
-//            [self collectService];
-//        }else                           // 系统设置
-//            [self setting];
-//        
-//    } else {                            // 验证
-//        if (indexPath.row == 0) {
-//            return;
-//        }else if (indexPath.row == 1){
-//            [self confirmSNS];          // 验证第三方
-//        }else if (indexPath.row == 2){
-//            [self confirmPhoneNo];      // 验证手机号码
-//        }else {
-//            [self confirmRealName];     // 验证实名
-//        }
-//    }
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
     if (indexPath.row == 0) {
         [self showPersonalInfo];
         
@@ -246,7 +214,6 @@
 }
 
 - (void)pushNewService {
-//    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
 	
     id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];

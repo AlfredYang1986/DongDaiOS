@@ -247,7 +247,7 @@
 - (id)ShowBtmAlert:(id)args {
     
     if (btmAlertView) {
-        [self didBtmAlertViewCloseBtnClick];
+        [self deallocBtmAlertWithVCWillDisapper];
     }
     
     btmAlertView = [[UIView alloc]init];
@@ -263,7 +263,7 @@
     
     btmAlertView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, btmAlertViewH);
     [UIView animateWithDuration:0.25 animations:^{
-        btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y - btmAlertViewH);
+        btmAlertView.center = CGPointMake(btmAlertView.center.x, SCREEN_HEIGHT - btmAlertViewH*0.5);
     }];
     
     UIButton *closeBtn = [UIButton new];
@@ -300,8 +300,11 @@
         {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [UIView animateWithDuration:0.25 animations:^{
-                    btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
-                }];
+                    btmAlertView.center = CGPointMake(btmAlertView.center.x, SCREEN_HEIGHT + btmAlertViewH*0.5);
+				} completion:^(BOOL finished) {
+					[btmAlertView removeFromSuperview];
+					btmAlertView = nil;
+				}];
             });
         }
             break;
@@ -347,7 +350,7 @@
 	
 	NSLog(@"BtmAlertViewClose");
 	[UIView animateWithDuration:0.25 animations:^{
-		btmAlertView.center = CGPointMake(btmAlertView.center.x, btmAlertView.center.y + btmAlertViewH);
+		btmAlertView.center = CGPointMake(btmAlertView.center.x, SCREEN_HEIGHT + btmAlertViewH*0.5);
 		maskView.alpha = 0;
 	} completion:^(BOOL finished) {
 		[btmAlertView removeFromSuperview];
