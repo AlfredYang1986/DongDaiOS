@@ -218,7 +218,6 @@
 	
     [cmd performWithResult:[dic_check copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            
             {
                 id<AYFacadeBase> facade = LOGINMODEL;
                 id<AYCommand> cmd = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
@@ -262,17 +261,15 @@
         [cmd performWithResult:&tmp];
     }
     
-    id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"RequireCode"];
-    
     NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]initWithCapacity:1];
-    
     tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [dic_push setValue:tmp forKey:@"phoneNo"];
-    
+    [dic_push setValue:tmp forKey:@"phone"];
+	
+	id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"RequireCode"];
     [cmd performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            reg_token = [result objectForKey:@"reg_token"];
+            reg_token = [[result objectForKey:@"reg"] objectForKey:@"reg_token"];
             
             id<AYViewBase> view = [self.views objectForKey:@"PhoneCheckInput"];
             

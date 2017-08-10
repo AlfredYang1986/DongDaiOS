@@ -30,14 +30,13 @@
     NSLog(@"change tmp user in local db: %@", *obj);
     
     NSDictionary* dic = (NSDictionary*)*obj;
-//    NSString* reg_token = [dic objectForKey:@"reg_token"];
     
     AYModelFacade* f = LOGINMODEL;
 #pragma mark -- 写操作必须在主线程，界面读取也在主线程，理论上不会出现race condition，如果有bug再行修改
     dispatch_async(dispatch_get_main_queue(), ^{
        
-        NSString* newID = (NSString*)[dic objectForKey:@"user_id"];
-        NSString* phoneNo = [dic objectForKey:@"phoneNo"];
+        NSString* newID = (NSString*)[dic objectForKey:kAYCommArgsUserID];
+        NSString* phoneNo = [dic objectForKey:kAYProfileArgsPhone];
         
         if (phoneNo && ![phoneNo isEqualToString:@""]) {
             [LoginToken unbindTokenInContext:f.doc.managedObjectContext WithPhoneNum:phoneNo];
@@ -48,7 +47,9 @@
         
         [CurrentToken changeCurrentLoginUser:token inContext:f.doc.managedObjectContext];
         [f.doc.managedObjectContext save:nil];
-        
+		
+		
+		// notify
         NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
         [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
         [notify setValue:kAYCurrentLoginUserChanged forKey:kAYNotifyFunctionKey];
@@ -56,8 +57,8 @@
         NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:2];
        
         CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
-        [cur setValue:tmp.who.user_id forKey:@"user_id"];
-        [cur setValue:tmp.who.auth_token forKey:@"auth_token"];
+        [cur setValue:tmp.who.user_id forKey:kAYCommArgsUserID];
+        [cur setValue:tmp.who.auth_token forKey:kAYCommArgsToken];
         
         [notify setValue:[cur copy] forKey:kAYNotifyArgsKey];
         AYModel* m = MODEL;

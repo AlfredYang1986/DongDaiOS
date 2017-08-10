@@ -115,24 +115,18 @@
     obj = (id)cmd_recommend;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTitleCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceOwnerInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceCapacityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
-    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceMapCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceFacilityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-	
-	
-    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceNotiCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	NSArray *cell_class_name_arr = @[@"ServiceTitleCell",
+									 @"ServiceOwnerInfoCell",
+									 @"ServiceCapacityCell",
+									 @"ServiceDescCell",
+									 @"ServiceMapCell",
+									 @"ServiceFacilityCell",
+									 @"ServiceNotiCell"];
+	NSString* class_name;
+	for (NSString *class_name_str in cell_class_name_arr) {
+		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:class_name_str] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	}
 	
 	/*********************************************/
 	

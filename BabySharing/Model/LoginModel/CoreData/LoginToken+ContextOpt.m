@@ -104,11 +104,11 @@
         else if ([iter isEqualToString:kAYProfileArgsPhone]) {
             tmp.phoneNo = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"screen_name"]) {
+        else if ([iter isEqualToString:kAYProfileArgsScreenName]) {
 //        } else if ([iter isEqualToString:@"name"]) {
             tmp.screen_name = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"screen_photo"]) {
+        else if ([iter isEqualToString:kAYProfileArgsScreenPhoto]) {
             tmp.screen_image = [dic objectForKey:iter];
         }
         else if ([iter isEqualToString:@"connectWith"]) {
@@ -117,26 +117,26 @@
         else if ([iter isEqualToString:@"role_tag"]) {
             tmp.role_tag = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"is_real_name_cert"]) {
-            tmp.is_real_name_cert = [dic objectForKey:@"is_real_name_cert"];
+        else if ([iter isEqualToString:kAYProfileArgsIsValidtRealName]) {
+            tmp.is_real_name_cert = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"contact_no"]) {
-            tmp.contact_no = [dic objectForKey:@"contact_no"];
+        else if ([iter isEqualToString:kAYProfileArgsContactNo]) {
+            tmp.contact_no = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"personal_description"]) {
-            tmp.personal_description = [dic objectForKey:@"personal_description"];
+        else if ([iter isEqualToString:kAYProfileArgsDescription]) {
+            tmp.personal_description = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"date"]) {
-            tmp.date = [dic objectForKey:@"date"];
+        else if ([iter isEqualToString:kAYProfileArgsRegistDate]) {
+            tmp.date = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"is_service_provider"]) {
-            tmp.is_service_provider = [dic objectForKey:@"is_service_provider"];
+        else if ([iter isEqualToString:kAYProfileArgsIsProvider]) {
+            tmp.is_service_provider = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"has_phone"]) {
-            tmp.has_phone = [dic objectForKey:@"has_phone"];
+        else if ([iter isEqualToString:kAYProfileArgsIsHasPhone]) {
+            tmp.has_phone = [dic objectForKey:iter];
         }
         
-        else if ([iter isEqualToString:@"user_id"]) {
+        else if ([iter isEqualToString:kAYCommArgsUserID]) {
             if (tmp.user_id == nil) {
                 tmp.user_id = [dic objectForKey:iter];
             }
