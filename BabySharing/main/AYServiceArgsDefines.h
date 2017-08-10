@@ -24,11 +24,19 @@ static NSString* const kAYCommArgsRemoteDate =				@"date";
 static NSString* const kAYCommArgsRemoteDataSkip =			@"skip";
 
 //user profile args
+static NSString* const kAYProfileArgsSelf =					@"profile";
 static NSString* const kAYProfileArgsScreenName =			@"screen_name";
 static NSString* const kAYProfileArgsScreenPhoto =			@"screen_photo";
 static NSString* const kAYProfileArgsContactNo =			@"contact_no";
 static NSString* const kAYProfileArgsSocialId =				@"social_id";
 static NSString* const kAYProfileArgsOwnerName =			@"owner_name";
+static NSString* const kAYProfileArgsPhone =				@"phone";
+
+static NSString* const kAYProfileArgsIsProvider =			@"is_service_provider";
+static NSString* const kAYProfileArgsIsValidtRealName =		@"is_real_name_cert";
+static NSString* const kAYProfileArgsDescription =			@"personal_description";
+static NSString* const kAYProfileArgsRegistDate =			@"date";
+static NSString* const kAYProfileArgsIsHasPhone =			@"has_phone";
 
 
 //service args
@@ -71,7 +79,7 @@ static NSString* const kAYServiceArgsEndHours =				@"endhours";
 
 static NSString* const kAYServiceArgsNotice =				@"other_words";
 static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
-static NSString* const kAYServiceArgsIsCollect =			@"iscollect";
+static NSString* const kAYServiceArgsIsCollect =			@"isCollections";
 static NSString* const kAYServiceArgsPoints =				@"points";
 
 static NSString* const kAYServiceArgsDetailInfo =			@"detail";
@@ -102,6 +110,7 @@ static NSString* const kAYServiceArgsIsAdjustSKU =			@"is_adjust_SKU";
 
 
 //order args
+static NSString* const kAYOrderArgsSelf =					@"order";
 static NSString* const kAYOrderArgsID =						@"order_id";
 static NSString* const kAYOrderArgsTotalFee =				@"total_fee";
 static NSString* const kAYOrderArgsThumbs =					@"order_thumbs";

@@ -151,10 +151,10 @@
 	NSArray *order_times = [args objectForKey:@"order_times"];
 	
 	NSString *unitCat = @"UNIT";
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
+	NSString *service_cat = [[service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
 	__block int count_times = 0;
 	
-	if (service_cat.intValue == ServiceTypeNursery) {
+	if ([service_cat isEqualToString:kAYStringNursery]) {
 		
 		unitCat = @"小时";
 		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -166,24 +166,24 @@
 			count_times += (duration / 60 / 60);
 		}];
 		
-	} else if (service_cat.intValue == ServiceTypeCourse) {
+	} else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
 		count_times = (int)order_times.count;
 	} else {
 		
 	}
 	
-	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%@", price];
+	NSNumber *price = [[service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsPrice];
+	NSString *tmp = [NSString stringWithFormat:@"%.f", price.floatValue * 0.01];
 	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@ × %d", price, unitCat, count_times];
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@ × %d", tmp, unitCat, count_times];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
 	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	unitPriceLabel.attributedText = attributedText;
 	
-	CGFloat total_price = price.floatValue * count_times;
+	CGFloat total_price = price.floatValue * 0.01 * count_times;
 	priceLabel.text = [NSString stringWithFormat:@"¥%.f", total_price];
 	
     return nil;

@@ -44,6 +44,8 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 //		UIView *shadowView = [[UIView alloc] init];
 //		shadowView.backgroundColor = [UIColor whiteColor];
 //		shadowView.layer.cornerRadius = 4.f;
@@ -232,32 +234,6 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
-	/*{
-		images =     ();
-		description = "\U6559\U4f1a\U5b69\U5b50\U5982";
-		"owner_id" = 89027dfbb4147bf3083ccdb2f21c9956;
-		"service_id" = 5b83b4c12ab63f98446c09cfb0eb7fac;
-		title = 89027dfbb4147bf3083ccdb2f21c9956;
-		category =     {
-			 concert = "\U82ad\U857e";
-			 "service_cat" = "\U8bfe\U7a0b";
-		};
-		detail =     {
-			"age_boundary" =         {
-				lsl = 2;
-				usl = 11;
-			};
-			price = 31800;
-		};
-		location =     {
-			address = "\U671d\U9633\U533a\U5de6\U5bb6\U5e84\U5317\U91cc58\U53f7\U5929\U8679\U5546\U573a2\U5c42";
-			adjust = "";
-			pin =         {
-				latitude = 0;
-				longitude = 0;
-			};
-		};
-	}*/
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];

@@ -66,8 +66,6 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.bottom.equalTo(self).offset(-25);
             make.size.mas_equalTo(CGSizeMake(64, 64));
         }];
-//        userPhoto.userInteractionEnabled = YES;
-//        [userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
 		
         userName = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:userName];
@@ -197,19 +195,6 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 }
 
 #pragma mark -- actions
-- (void)didOwnerPhotoClick {
-    id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
-}
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {

@@ -264,7 +264,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	if (cellMinY) {
-		[UIView animateWithDuration:0.25 animations:^{
+		[UIView animateWithDuration:0.45 animations:^{
 			flexibleView.frame = CGRectMake(0, -kFlexibleHeight, SCREEN_WIDTH, kFlexibleHeight);
 		}completion:^(BOOL finished) {
 			flexibleView.clipsToBounds = NO;
@@ -462,6 +462,9 @@
 	}];
 	pageControl.hidden = carouselNumb == 1;
 	
+	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
+	bar_like_btn.selected = iscollect.boolValue;
+	
 	/*-------------------------*/
 	UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
 	bottom_view.backgroundColor = [Tools whiteColor];
@@ -544,30 +547,45 @@
 }
 
 - (void)didBookBtnClick {
+	if ([self isOwnerUserSelf]) {
+		return;
+	}
 	[self showServiceOfferDate];
 }
 
-- (void)didChatBtnClick:(UIButton*)btn{
-    NSDictionary* user = nil;
-    CURRENUSER(user);
+- (BOOL)isOwnerUserSelf {
+	NSDictionary* user = nil;
+	CURRENUSER(user);
 	
-    NSString *user_id = [user objectForKey:@"user_id"];
-    NSString *owner_id = [service_info objectForKey:@"owner_id"];
-    if ([user_id isEqualToString:owner_id]) {
-        NSString *title = @"该服务是您自己发布";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return;
-    }
-    
+	NSString *user_id = [user objectForKey:@"user_id"];
+	NSString *owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
+	if ([user_id isEqualToString:owner_id]) {
+		NSString *title = @"该服务是您自己发布";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return YES;
+	} else
+		return NO;
+}
+
+- (void)didChatBtnClick:(UIButton*)btn{
+	if ([self isOwnerUserSelf]) {
+		return;
+	}
+	
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	NSString *user_id = [user objectForKey:@"user_id"];
+	NSString *owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
+	
     id<AYCommand> des = DEFAULTCONTROLLER(@"SingleChat");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-        NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
-        [dic_chat setValue:user_id forKey:@"user_id"];
-        [dic_chat setValue:owner_id forKey:@"owner_id"];
+	NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
+	[dic_chat setValue:user_id forKey:@"user_id"];
+	[dic_chat setValue:owner_id forKey:@"owner_id"];
     
     [dic setValue:dic_chat forKey:kAYControllerChangeArgsKey];
     

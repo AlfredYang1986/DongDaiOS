@@ -9,6 +9,10 @@
 #import "Tools.h"
 #import <CommonCrypto/CommonDigest.h>
 
+#import "AYCommandDefines.h"
+#import "AYFacadeBase.h"
+#import "AYFactoryManager.h"
+
 @implementation Tools
 
 + (NSString *)subStringWithByte:(NSInteger)byte str:(NSString *)str{
@@ -664,6 +668,49 @@
 	
 }
 
++ (NSDictionary*)montageServiceInfoWithServiceData:(NSDictionary*)serviceData {
+	
+	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+	
+	NSDictionary *info_cat = [serviceData objectForKey:kAYServiceArgsCategoryInfo];
+	
+	NSString *ownerName = [[serviceData objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+	
+	[data setValue:ownerName forKey:kAYProfileArgsScreenName];
+	NSString *motageName = @"SERVICE";
+	NSString *unitCat = @"UNIT";
+	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
+	if ([service_cat containsString:@"看"]) {
+		unitCat = @"小时";
+		motageName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+	}
+	else if ([service_cat isEqualToString:kAYStringCourse]) {
+		unitCat = @"次";
+		
+		motageName = [info_cat objectForKey:kAYServiceArgsConcert];
+		if (!motageName || [motageName isEqualToString:@""]) {
+			motageName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
+			if (!motageName || [motageName isEqualToString:@""]) {
+				motageName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+			}
+		}
+		motageName = [NSString stringWithFormat:@"%@%@", motageName, service_cat];
+
+	} else {
+		NSLog(@"---null---");
+	}
+	
+	NSDictionary *info_detail = [serviceData objectForKey:kAYServiceArgsDetailInfo];
+	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
+	NSString *priceStr = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
+	
+	[data setValue:motageName forKey:@"montage"];
+	[data setValue:priceStr forKey:kAYServiceArgsPrice];
+	[data setValue:unitCat forKey:@"unit"];
+	
+	return [data copy];
+}
+
 + (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary *)service_info {
 	NSString *completeTheme;
 	NSArray *options_title_cans;
@@ -714,4 +761,18 @@
 	}
 	return completeTheme;
 }
+
+
++ (NSMutableDictionary*)getBaseRemoteData {
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic_remote = [[NSMutableDictionary alloc] init];;
+	[dic_remote setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	/*condition*/
+	[dic_remote setValue:[[NSMutableDictionary alloc] init] forKey:kAYCommArgsCondition];
+	
+	return dic_remote;
+}
+
 @end

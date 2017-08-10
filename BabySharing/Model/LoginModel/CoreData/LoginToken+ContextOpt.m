@@ -76,11 +76,11 @@
 + (NSDictionary*)userToken2Attr:(LoginToken*)user {
     NSMutableDictionary* reVal = [[NSMutableDictionary alloc]init];
    
-    [reVal setValue:user.user_id forKey:@"user_id"];
-    [reVal setValue:user.auth_token forKey:@"auth_token"];
+    [reVal setValue:user.user_id forKey:kAYCommArgsUserID];
+    [reVal setValue:user.auth_token forKey:kAYCommArgsToken];
     [reVal setValue:user.phoneNo forKey:@"phoneNo"];
-    [reVal setValue:user.screen_name forKey:@"screen_name"];
-    [reVal setValue:user.screen_image forKey:@"screen_photo"];
+    [reVal setValue:user.screen_name forKey:kAYProfileArgsScreenName];
+    [reVal setValue:user.screen_image forKey:kAYProfileArgsScreenPhoto];
     [reVal setValue:user.role_tag forKey:@"role_tag"];
     [reVal setValue:user.is_service_provider forKey:@"is_service_provider"];
     [reVal setValue:user.is_real_name_cert forKey:@"is_real_name_cert"];
@@ -98,10 +98,10 @@
     id iter = nil;
     
     while ((iter = [enumerator nextObject]) != nil) {
-        if ([iter isEqualToString:@"auth_token"]) {
+        if ([iter isEqualToString:kAYCommArgsToken]) {
             tmp.auth_token = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"phoneNo"]) {
+        else if ([iter isEqualToString:kAYProfileArgsPhone]) {
             tmp.phoneNo = [dic objectForKey:iter];
         }
         else if ([iter isEqualToString:@"screen_name"]) {

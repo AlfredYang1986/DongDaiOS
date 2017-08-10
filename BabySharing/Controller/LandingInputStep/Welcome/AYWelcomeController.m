@@ -14,41 +14,26 @@
 #import "AYModel.h"
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
-#import "OBShapedButton.h"
 
-
-#define SCREEN_PHOTO_WIDTH                      100
-#define WELCOMEY        83
-#define PHOTOY          145
-#define ENTERBTNY       PHOTOY + 151
-
-@interface AYWelcomeController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-@property (nonatomic, strong) NSMutableDictionary* login_attr;
-@property (nonatomic, strong) UIImage *changeImage;
-//@property (nonatomic, strong) UITextField *invateCode;
-@end
+#define SCREEN_PHOTO_WIDTH						100
+#define WELCOMEY								83
+#define PHOTOY									145
+#define ENTERBTNY								PHOTOY + 151
 
 @implementation AYWelcomeController {
-    BOOL isChangeImg;
-    CGRect keyBoardFrame;
-    UIButton *enterBtn;
-    UILabel *tips;
-    
-    BOOL isFirst;
-    BOOL isFirstPhone;
-}
+	NSMutableDictionary* login_attr;
+	UIImage *changedImage;
 
-@synthesize login_attr = _login_attr;
-@synthesize changeImage = _changeImage;
-//@synthesize invateCode = _invateCode;
+    BOOL isChangeImg;
+    UIButton *enterBtn;
+}
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
    
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        _login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
-        isFirst = YES;
+        login_attr = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
     }
 }
 
@@ -56,10 +41,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools whiteColor];
    
-    NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
-    
+    NSString* screen_photo = [login_attr objectForKey:@"screen_photo"];
     if (screen_photo && ![screen_photo isEqualToString:@""]) {
         
         id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
@@ -78,7 +61,7 @@
     id<AYViewBase> photo_view = [self.views objectForKey:@"UserScreenPhote"];
     UIView *photoView = (UIView*)photo_view;
     
-    NSString *user_name = [_login_attr objectForKey:@"screen_name"];
+    NSString *user_name = [login_attr objectForKey:@"screen_name"];
     UILabel *nameLabel = [Tools creatUILabelWithText:user_name andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -154,13 +137,13 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     isChangeImg = YES;
-    _changeImage = image;
+    changedImage = image;
     
     // get image name
     id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
     NSString* img_name = nil;
     [uuid_cmd performWithResult:&img_name];
-    [_login_attr setValue:img_name forKey:@"screen_photo"];
+    [login_attr setValue:img_name forKey:@"screen_photo"];
     
     // sava image to local
     id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
@@ -184,7 +167,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (success) {
-                id args = _login_attr;
+                id args = login_attr;
                 AYModel* m = MODEL;
                 AYFacade* f = [m.facades objectForKey:@"LoginModel"];
                 id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
@@ -199,28 +182,29 @@
 }
 
 - (void)updateUserProfile {
-    NSString* screen_photo = [_login_attr objectForKey:@"screen_photo"];
-	if ([screen_photo isEqualToString:@""] && !_changeImage) {
+    NSString* screen_photo = [login_attr objectForKey:@"screen_photo"];
+	if ([screen_photo isEqualToString:@""] && !changedImage) {
 		NSString *title = @"请求真相!";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return;
 	}
     //通用参数
     NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
-	[dic_update setValue:[_login_attr objectForKey:kAYCommArgsAuthToken] forKey:@"token"];
+	[dic_update setValue:[login_attr objectForKey:kAYCommArgsToken] forKey:@"token"];
+	
 	NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
-	[condition setValue:[_login_attr objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[condition setValue:[login_attr objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic_update setValue:condition forKey:kAYCommArgsCondition];
 	
 	NSMutableDictionary *profile = [[NSMutableDictionary alloc] init];
-	[profile setValue:[_login_attr objectForKey:kAYProfileArgsScreenName] forKey:kAYProfileArgsScreenName];
-	[profile setValue:[_login_attr objectForKey:kAYProfileArgsScreenPhoto] forKey:kAYProfileArgsScreenPhoto];
+	[profile setValue:[login_attr objectForKey:kAYProfileArgsScreenName] forKey:kAYProfileArgsScreenName];
+	[profile setValue:[login_attr objectForKey:kAYProfileArgsScreenPhoto] forKey:kAYProfileArgsScreenPhoto];
 	[dic_update setValue:profile forKey:@"profile"];
 	
     if (isChangeImg) {
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
         [photo_dic setValue:screen_photo forKey:@"image"];
-        [photo_dic setValue:_changeImage forKey:@"upload_image"];
+        [photo_dic setValue:changedImage forKey:@"upload_image"];
         
         id<AYFacadeBase> up_facade = [self.facades objectForKey:@"FileRemote"];
         AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
@@ -260,7 +244,7 @@
 - (id)CurrentRegUserProfileChanged:(id)args {
     NSLog(@"args: %@", args);
     NSString* screen_photo = [args objectForKey:@"screen_photo"];
-    [_login_attr setValue:screen_photo forKey:@"screen_photo"];
+    [login_attr setValue:screen_photo forKey:@"screen_photo"];
     id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
     id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
     [cmd performWithResult:&screen_photo];

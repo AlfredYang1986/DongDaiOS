@@ -397,8 +397,6 @@
 		<command type="notify"      message="didCellAction" />
 		<command type="notify"      message="willCollectWithRow:" />
 		<command type="notify"      message="willUnCollectWithRow:" />
-		<command type="notify"      message="collectCompleteWithRow:" />
-		<command type="notify"      message="unCollectCompleteWithRow:" />
 	</view>
 	
 	<view type="HomeBannerCell" name="HomeBannerCell" factory="AYReuseViewFactory" >

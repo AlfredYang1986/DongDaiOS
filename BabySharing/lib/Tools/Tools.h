@@ -51,7 +51,6 @@
 + (UIColor *)borderAlphaColor;
 
 #pragma mark -- UIView
-+ (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 
@@ -73,9 +72,11 @@
 #pragma mark -- service SKU -> complete name
 + (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary*)service_info;
 
++ (NSDictionary*)montageServiceInfoWithServiceData:(NSDictionary*)serviceData;
+
 + (NSString*)Bit64String:(NSString*)string;
 
-
++ (NSMutableDictionary*)getBaseRemoteData;
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;
 + (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg;

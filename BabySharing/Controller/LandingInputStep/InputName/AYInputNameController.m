@@ -18,29 +18,20 @@
 #import "TmpFileStorageModel.h"
 
 
-@interface AYInputNameController () <UINavigationControllerDelegate>
-@property (nonatomic, strong) NSMutableDictionary* dic_userinfo;
-@property (nonatomic, strong) NSString* userName;
-@end
-
 @implementation AYInputNameController {
-    BOOL isChangeImg;
-    CGRect keyBoardFrame;
-    
+    NSMutableDictionary* login_attr;
+	NSString* userName;
 }
-
-@synthesize dic_userinfo = _dic_userinfo;
-@synthesize userName = _userName;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     NSDictionary* dic = (NSDictionary*)*obj;
 
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        _dic_userinfo = [(NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
-        NSString* nameString = [_dic_userinfo objectForKey:@"screen_name"];
+        login_attr = [(NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        NSString* nameString = [login_attr objectForKey:kAYProfileArgsScreenName];
         if (nameString) {
-            _userName = nameString;
+            userName = nameString;
         }
     }
 }
@@ -48,7 +39,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools whiteColor];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -56,7 +46,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 #pragma mark -- views layouts
@@ -105,7 +94,7 @@
 }
 
 - (id)rightBtnSelected {
-    NSLog(@"setting view controller");
+	
     id<AYViewBase> view = [self.views objectForKey:@"LandingInputName"];
     id<AYCommand> cmd_hiden = [view.commands objectForKey:@"hideKeyboard"];
     [cmd_hiden performWithResult:nil];
@@ -121,15 +110,15 @@
         return nil;
     }
     
-    [_dic_userinfo setValue:@"未设置角色名" forKey:@"role_tag"];
-    [_dic_userinfo setValue:input_name forKey:@"screen_name"];
+    [login_attr setValue:@"未设置角色名" forKey:@"role_tag"];
+    [login_attr setValue:input_name forKey:kAYProfileArgsScreenName];
     
     id<AYCommand> destin = DEFAULTCONTROLLER(@"Welcome");
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:4];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic setValue:destin forKey:kAYControllerActionDestinationControllerKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:_dic_userinfo forKey:kAYControllerChangeArgsKey];
+    [dic setValue:login_attr forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd_push = PUSH;
     [cmd_push performWithResult:&dic];
@@ -137,7 +126,7 @@
 }
 
 -(id)queryCurUserName:(NSString*)args{
-    return _userName;
+    return userName;
 }
 
 - (BOOL)prefersStatusBarHidden{

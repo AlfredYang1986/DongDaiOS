@@ -134,9 +134,9 @@
         if (success) {
 			
 			NSMutableDictionary *user = [[NSMutableDictionary alloc] initWithDictionary:[result objectForKey:@"user"]];
-			[user setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
+			[user setValue:[result objectForKey:kAYCommArgsAuthToken] forKey:kAYCommArgsToken];
 			NSDictionary* args = [user copy];
-			NSDictionary *back_result =[user copy];
+			NSDictionary *back_result = [user copy];
 			
             AYModel* m = MODEL;
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];

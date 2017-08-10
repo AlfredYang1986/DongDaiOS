@@ -124,8 +124,7 @@
     
     if ([user_id isEqualToString:[info objectForKey:@"user_id"]]) {
         
-        UIButton* bar_right_btn = [[UIButton alloc]init];
-        bar_right_btn = [Tools setButton:bar_right_btn withTitle:@"编辑" andTitleColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil];
+        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"编辑" andTitleColor:[Tools blackColor] andFontSize:316.f andBackgroundColor:nil];
         [bar_right_btn sizeToFit];
         bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
         kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)

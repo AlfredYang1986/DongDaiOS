@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-@interface AYInputNameController : AYViewController
+@interface AYInputNameController : AYViewController <UINavigationControllerDelegate>
 
 @end

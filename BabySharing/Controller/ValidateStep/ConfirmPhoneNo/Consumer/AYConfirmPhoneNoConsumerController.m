@@ -92,18 +92,14 @@
         CURRENPROFILE(user);
         NSString* photo_name = [user objectForKey:@"screen_photo"];
        
-        NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+        NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
         [dic setValue:photo_name forKey:@"image"];
-        [dic setValue:@"img_thum" forKey:@"expect_size"];
         
         id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
         AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            UIImage* img = (UIImage*)result;
-            if (img == nil) {
-                img = IMGRESOURCE(@"default_user");
-            }
-           
+			UIImage* img = (UIImage*)result;
+			
             id<AYViewBase> face_view = [self.views objectForKey:@"ServiceConsumerFace"];
             id<AYCommand> cmd = [face_view.commands objectForKey:@"lhsImage:"];
             [cmd performWithResult:&img];
@@ -111,42 +107,30 @@
     }
     
     {
-        NSString* owner_id = [service_info objectForKey:@"owner_id"];
+		NSMutableDictionary* dic = [Tools getBaseRemoteData];
+		NSString* owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
+		[[dic objectForKey:kAYCommArgsCondition] setValue:owner_id  forKey:kAYCommArgsUserID];
         
         id<AYFacadeBase> facade = [self.facades objectForKey:@"ProfileRemote"];
         AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
-        
-        NSDictionary* user = nil;
-        CURRENUSER(user);
-        
-        NSMutableDictionary* dic = [user mutableCopy];
-        [dic setValue:owner_id  forKey:@"owner_user_id"];
-        
-        void (^queryScreenPhoto)(BOOL, NSDictionary*) = ^(BOOL success, NSDictionary* result) {
-            UIImage* img = (UIImage*)result;
-            if (img == nil) {
-                img = IMGRESOURCE(@"default_user");
-            }
-            
-            id<AYViewBase> face_view = [self.views objectForKey:@"ServiceConsumerFace"];
-            id<AYCommand> cmd = [face_view.commands objectForKey:@"rhsImage:"];
-            [cmd performWithResult:&img];
-        };
-        
-        void (^queryProfileCallback)(BOOL, NSDictionary*) = ^(BOOL success, NSDictionary* result) {
-            if (success) {
-                NSString* photo_name = [result objectForKey:@"screen_photo"];
-
-                NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-                [dic setValue:photo_name forKey:@"image"];
-                [dic setValue:@"img_thum" forKey:@"expect_size"];
-                
-                id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-                AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-                [cmd performWithResult:[dic copy] andFinishBlack:queryScreenPhoto];
-            }
-        };
-        [cmd performWithResult:[dic copy] andFinishBlack:queryProfileCallback];
+		[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
+			if (success) {
+				NSString* photo_name = [[result objectForKey:kAYProfileArgsSelf ] objectForKey:@"screen_photo"];
+				
+				NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+				[dic setValue:photo_name forKey:@"image"];
+				
+				id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
+				AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
+				[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
+					UIImage* img = (UIImage*)result;
+					
+					id<AYViewBase> face_view = [self.views objectForKey:@"ServiceConsumerFace"];
+					id<AYCommand> cmd = [face_view.commands objectForKey:@"rhsImage:"];
+					[cmd performWithResult:&img];
+				}];
+			}
+		}];
     }
 }
 
@@ -226,14 +210,12 @@
     id<AYFacadeBase> f = [self.facades objectForKey:@"AuthRemote"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"CheckCode"];
     
-    NSMutableDictionary *dic_check = [[NSMutableDictionary alloc]initWithCapacity:1];
-    [dic_check setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
-    [dic_check setValue:reg_token forKey:@"reg_token"];
-    [dic_check setValue:code forKey:@"code"];
-    [dic_check setValue:[Tools getDeviceUUID] forKey:@"uuid"];
-    tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [dic_check setValue:tmp forKey:@"phoneNo"];
-    
+	NSMutableDictionary *dic_check = [[NSMutableDictionary alloc] init];
+	[dic_check setValue:reg_token forKey:@"reg_token"];
+	[dic_check setValue:code forKey:@"code"];
+	tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
+	[dic_check setValue:tmp forKey:@"phone"];
+	
     [cmd performWithResult:[dic_check copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             

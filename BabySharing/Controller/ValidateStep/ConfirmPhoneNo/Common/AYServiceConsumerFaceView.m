@@ -111,12 +111,20 @@
 
 #pragma mark -- actions
 - (id)lhsImage:(id)args {
-    lhs.image = (UIImage*)args;
+	UIImage *img = (UIImage*)args;
+	if (!img) {
+		img = IMGRESOURCE(@"default_user");
+	}
+	lhs.image = img;
     return nil;
 }
 
 - (id)rhsImage:(id)args {
-    rhs.image = (UIImage*)args;
+	UIImage *img = (UIImage*)args;
+	if (!img) {
+		img = IMGRESOURCE(@"default_user");
+	}
+    rhs.image = img;
     return nil;
 }
 

@@ -30,11 +30,9 @@
     NSLog(@"query tmp user in local db: %@", *obj);
     
     NSDictionary* dic = (NSDictionary*)*obj;
-//    NSString* phoneNo = [dic objectForKey:@"phoneNo"];
     
     AYModelFacade* f = LOGINMODEL;
     
-//    [RegTmpToken removeTokenInContext:f.doc.managedObjectContext WithToken:reg_token];
     LoginToken *user = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:[dic objectForKey:@"user_id"] andAttrs:dic];
     *obj = [RegCurrentToken changeCurrentRegLoginUser:user inContext:f.doc.managedObjectContext];
 }

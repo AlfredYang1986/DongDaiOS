@@ -138,38 +138,47 @@
 - (void)didApplyBtnClick:(UIButton*)btn {
 	
 	CGFloat sumPrice = 0;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
-	__block CGFloat count_times = 0;
 	
-	if (service_cat.intValue == ServiceTypeNursery) {
+	NSString *service_cat = [[service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	__block int count_times = 0;
+	if ([service_cat isEqualToString:kAYStringNursery]) {
 		[order_times enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+			
 			NSNumber *start = [obj objectForKey:kAYServiceArgsStart];
 			NSNumber *end = [obj objectForKey:kAYServiceArgsEnd];
+			
 			double duration = end.doubleValue * 0.001 - start.doubleValue * 0.001 ;
 			count_times += (duration / 60 / 60);
 		}];
-	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
+		
+	} else if ([service_cat isEqualToString:kAYStringCourse]) {
 		count_times = (int)order_times.count;
+	} else {
+		
 	}
 	
-	NSNumber *unit_price = [service_info objectForKey:kAYServiceArgsPrice];
-	sumPrice += (unit_price.floatValue * count_times) * 100;		// /元 -> /分
+	NSNumber *unit_price = [[service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsPrice];
+	sumPrice = unit_price.floatValue * count_times;		// /元 -> /分
 	
-	NSDictionary* args = nil;
-	CURRENUSER(args)
+	NSDictionary* user = nil;
+	CURRENUSER(user)
 	
-	NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-	[dic_push setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
-	[dic_push setValue:[service_info objectForKey:kAYCommArgsOwnerID] forKey:kAYCommArgsOwnerID];
-	[dic_push setValue:[args objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	NSMutableDictionary *dic_push = [Tools getBaseRemoteData];
+	[[dic_push objectForKey:kAYCommArgsCondition] setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[[dic_push objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_order = [[NSMutableDictionary alloc] init];
+	[dic_order setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic_order setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_order setValue:[NSNumber numberWithInt:sumPrice] forKey:kAYOrderArgsTotalFee];
+	[dic_order setValue:[service_info objectForKey:kAYServiceArgsTitle] forKey:kAYOrderArgsTitle];
 	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
 	if (images.count != 0) {
-		[dic_push setValue:[images firstObject] forKey:kAYOrderArgsThumbs];
+		[dic_order setValue:[images firstObject] forKey:kAYOrderArgsThumbs];
 	}
-	[dic_push setValue:[order_times copy] forKey:kAYOrderArgsDate];
-	[dic_push setValue:[service_info objectForKey:kAYServiceArgsTitle] forKey:kAYOrderArgsTitle];
-	[dic_push setValue:[NSNumber numberWithInt:sumPrice] forKey:kAYOrderArgsTotalFee];
+	[dic_order setValue:[order_times copy] forKey:kAYOrderArgsDate];
+	
+	[dic_push setValue:[dic_order copy] forKey:kAYOrderArgsSelf];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushOrder"];

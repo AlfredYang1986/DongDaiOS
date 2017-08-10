@@ -174,28 +174,28 @@
 	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 	NSNumber *longtitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 	CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
-	if (!latitude || !longtitude) {
+	if (latitude && longtitude) {
+		if (currentAnno) {
+			[orderMapView removeAnnotation:currentAnno];
+		}
+		tapview.userInteractionEnabled = YES;
+		//rang
+		//	orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
+		currentAnno = [[AYAnnonation alloc]init];
+		currentAnno.coordinate = loc.coordinate;
+		currentAnno.title = @"定位位置";
+		currentAnno.imageName_normal = @"details_icon_maplocation";
+		currentAnno.index = 9999;
+		[orderMapView addAnnotation:currentAnno];
+		[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
+		//	[orderMapView showAnnotations:@[currentAnno] animated:NO];
+		NSLog(@"add current_anno");
+		
+		//center
+		[orderMapView setCenterCoordinate:loc.coordinate animated:YES];
+	} else {
 		tapview.userInteractionEnabled = NO;
 	}
-	
-	if (currentAnno) {
-		[orderMapView removeAnnotation:currentAnno];
-	}
-	
-	//rang
-//	orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
-	currentAnno = [[AYAnnonation alloc]init];
-	currentAnno.coordinate = loc.coordinate;
-	currentAnno.title = @"定位位置";
-	currentAnno.imageName_normal = @"details_icon_maplocation";
-	currentAnno.index = 9999;
-	[orderMapView addAnnotation:currentAnno];
-	[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-//	[orderMapView showAnnotations:@[currentAnno] animated:NO];
-	NSLog(@"add current_anno");
-	
-	//center
-	[orderMapView setCenterCoordinate:loc.coordinate animated:YES];
 	
 	return nil;
 }

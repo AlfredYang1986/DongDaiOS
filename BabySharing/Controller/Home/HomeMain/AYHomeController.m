@@ -473,7 +473,7 @@ typedef void(^queryContentFinish)(void);
 	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalFound*1000] forKey:kAYCommArgsRemoteDate];
+//	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalFound*1000] forKey:kAYCommArgsRemoteDate];
 	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
 	
@@ -508,15 +508,24 @@ typedef void(^queryContentFinish)(void);
 	NSString *service_id = [args objectForKey:kAYServiceArgsID];
 	UIButton *likeBtn = [args objectForKey:@"btn"];
 	
-	NSDictionary *info = nil;
-	CURRENUSER(info);
 	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
 	NSArray *resultArr = [serviceDataFound filteredArrayUsingPredicate:pre_id];
 	if (resultArr.count != 1) {
 		return nil;
 	}
-	NSMutableDictionary *dic = [info mutableCopy];
-	[dic setValue:[resultArr.firstObject objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	id service_data = resultArr.firstObject;
+	
+	NSDictionary *user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	
+	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
+	[dic_collect setValue:[service_data objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic setValue:dic_collect forKey:@"collections"];
+	
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] initWithDictionary:dic_collect];
+	[dic setValue:dic_condt forKey:kAYCommArgsCondition];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 	if (!likeBtn.selected) {
@@ -541,25 +550,6 @@ typedef void(^queryContentFinish)(void);
 				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			}
 		}];
-	}
-	return nil;
-}
-
-- (id)collectCompleteWithRow:(NSString*)args {
-	
-	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, args];
-	NSArray *result = [serviceDataFound filteredArrayUsingPredicate:pre_id];
-	if (result.count == 1) {
-		[result.firstObject setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsCollect];
-	}
-	return nil;
-}
-- (id)unCollectCompleteWithRow:(NSString*)args {
-	
-	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, args];
-	NSArray *result = [serviceDataFound filteredArrayUsingPredicate:pre_id];
-	if (result.count == 1) {
-		[result.firstObject setValue:[NSNumber numberWithBool:NO] forKey:kAYServiceArgsIsCollect];
 	}
 	return nil;
 }

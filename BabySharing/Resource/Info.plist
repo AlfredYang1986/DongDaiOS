@@ -121,7 +121,7 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>microphoneDesciption</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photoLibraryDesciption</string>
+	<string>咚哒需要您授权访问图片库</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
