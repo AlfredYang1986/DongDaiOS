@@ -105,11 +105,11 @@
         return 100;
     } else if (indexPath.section == 1) {
         
-        NSString *descStr = [querydata objectForKey:@"personal_description"];
+        NSString *descStr = [querydata objectForKey:kAYProfileArgsDescription];
         if (!descStr || [descStr isEqualToString:@""]) {
             return 0.001;
 		} else {
-			NSString *descStr = [querydata objectForKey:@"personal_description"];
+			NSString *descStr = [querydata objectForKey:kAYProfileArgsDescription];
 			CGSize filtSize = [Tools sizeWithString:descStr withFont:kAYFontLight(14.f) andMaxSize:CGSizeMake(SCREEN_WIDTH - 30, CGFLOAT_MAX)];
 			return filtSize.height + 60;
 //			return 135;
@@ -124,11 +124,11 @@
             
         } else if (indexPath.row == 2) {
             
-            NSNumber *has_phone = [querydata objectForKey:@"has_phone"];
+            NSNumber *has_phone = [querydata objectForKey:kAYProfileArgsIsHasPhone];
             return has_phone.boolValue?64:0.001;
         } else {
             
-            NSNumber *is_real_name_cert = [querydata objectForKey:@"is_real_name_cert"];
+            NSNumber *is_real_name_cert = [querydata objectForKey:kAYProfileArgsIsValidtRealName];
             return is_real_name_cert.boolValue?64:0.001;
         }
     }

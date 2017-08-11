@@ -473,12 +473,12 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             [cmd_sign_out_local performWithResult:nil];
         }
         
-        void (^handle)(void) = ^(void){
-            if ([Tools activityViewController].navigationController != self.navigationController)
-                [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
-        };
-        
-        [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
+//        void (^handle)(void) = ^(void){
+//            if ([Tools activityViewController].navigationController != self.navigationController)
+//                [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
+//        };
+//        [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
+		
         self.landing_status = RemoteControllerStatusReady;
     }];
     

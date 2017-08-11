@@ -140,17 +140,8 @@
     changedImage = image;
     
     // get image name
-    id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
-    NSString* img_name = nil;
-    [uuid_cmd performWithResult:&img_name];
-    [login_attr setValue:img_name forKey:@"screen_photo"];
-    
-    // sava image to local
-    id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:img_name forKey:@"img_name"];
-    [dic setValue:image forKey:@"image"];
-    [save_cmd performWithResult:&dic];
+    NSString* img_name = [Tools getUUIDString];
+    [login_attr setValue:img_name forKey:kAYProfileArgsScreenPhoto];
     
     id<AYViewBase> view = [self.views objectForKey:@"UserScreenPhote"];
     id<AYCommand> cmd = [view.commands objectForKey:@"changeScreenPhoto:"];
@@ -167,7 +158,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (success) {
-                id args = login_attr;
+				id args = [result objectForKey:@"profile"];
                 AYModel* m = MODEL;
                 AYFacade* f = [m.facades objectForKey:@"LoginModel"];
                 id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
@@ -182,7 +173,7 @@
 }
 
 - (void)updateUserProfile {
-    NSString* screen_photo = [login_attr objectForKey:@"screen_photo"];
+    NSString* screen_photo = [login_attr objectForKey:kAYProfileArgsScreenPhoto];
 	if ([screen_photo isEqualToString:@""] && !changedImage) {
 		NSString *title = @"请求真相!";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -203,7 +194,7 @@
 	
     if (isChangeImg) {
         NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-        [photo_dic setValue:screen_photo forKey:@"image"];
+        [photo_dic setValue:[login_attr objectForKey:kAYProfileArgsScreenPhoto] forKey:@"image"];
         [photo_dic setValue:changedImage forKey:@"upload_image"];
         
         id<AYFacadeBase> up_facade = [self.facades objectForKey:@"FileRemote"];

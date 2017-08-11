@@ -23,8 +23,6 @@
 #define HISTORYBTNHEIGHT		60
 
 @implementation AYOrderServantController {
-//	UILabel *noticeNews;
-	AYOrderTOPView *TOPView;
 	
 	NSArray *remindArr;
 	NSArray *result_status_posted;
@@ -62,34 +60,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	skipCount = skipCountRemind = 0;
-	queryTimespan = queryTimespanRemind = [NSDate date].timeIntervalSince1970 * 1000;
-	
-//	TOPView = [[AYOrderTOPView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, TOPHEIGHT) andMode:OrderModeServant];
-//	[self.view addSubview:TOPView];
-//	TOPView.userInteractionEnabled = YES;
-//	[TOPView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showTodoApplyAndBack)]];
-//	
-//	UIButton *readMoreBtn = [Tools creatUIButtonWithTitle:@"查看全部" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-//	[self.view addSubview:readMoreBtn];
-//	[readMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.right.equalTo(TOPView).offset(-20);
-//		make.top.equalTo(TOPView).offset(10);
-//		make.size.mas_equalTo(CGSizeMake(70, 30));
-//	}];
-//	[readMoreBtn addTarget:self action:@selector(didReadMoreBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//	readMoreBtn.hidden  = YES;
-//	
-//	UIButton *historyBtn = [Tools creatUIButtonWithTitle:@"查看历史记录" andTitleColor:[Tools themeColor] andFontSize:15.f andBackgroundColor:nil];
-//	historyBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//	[historyBtn setTitleEdgeInsets:UIEdgeInsetsMake(0,20, 0, 0)];
-//	[self.view addSubview:historyBtn];
-//	[historyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.centerX.equalTo(self.view);
-//		make.top.equalTo(TOPView.mas_bottom).offset(0);
-//		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, HISTORYBTNHEIGHT));
-//	}];
-//	[historyBtn addTarget:self action:@selector(didHistoryBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//	[Tools creatCALayerWithFrame:CGRectMake(0, HISTORYBTNHEIGHT - 0.5, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:historyBtn];
+	queryTimespan = queryTimespanRemind = [NSDate date].timeIntervalSince1970;
 	
 	id<AYDelegateBase> delegate = [self.delegates objectForKey:@"OrderServant"];
 	id obj = (id)delegate;
@@ -135,13 +106,15 @@
 }
 
 - (void)loadNewData {
-//	[self queryOrders];
-	
-	
+	[self queryOrders];
+//	[self queryReminds];
+}
+
+- (void)queryReminds {
 	NSDictionary* info = nil;
 	CURRENUSER(info)
 	NSMutableDictionary *dic_query = [info mutableCopy];
-//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
+	//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
 	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid], @"only_today":[NSNumber numberWithInt:1]};
 	[dic_query setValue:condition forKey:@"condition"];
 	
@@ -155,45 +128,42 @@
 			
 			UITableView *view_table = [self.views objectForKey:kAYTableView];
 			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		}
 	}];
 }
 
 - (id)queryOrders {
-	NSDictionary* info = nil;
-	CURRENUSER(info)
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970 * 1000)] forKey:@"date"];
+	
+	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:kAYCommArgsRemoteDataSkip];
+	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
-	
-	NSMutableDictionary *dic_query = [info mutableCopy];
-//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"]};
-	[dic_query setValue:condition forKey:@"condition"];
-	
-	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan] forKey:@"date"];
-	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
-	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
-	
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			NSArray *resultArr = [result objectForKey:@"result"];
+			NSArray *resultArr = [[result objectForKey:@"result"] objectForKey:@"orders"];
 			queryTimespan = ((NSNumber*)[result objectForKey:@"date"]).doubleValue;
 			
-			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPosted];
+			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusPosted];
 			result_status_posted = [resultArr filteredArrayUsingPredicate:pred_ready];
 			
 			id data = [result_status_posted copy];
 			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryTodoData:", &data)
 			
-			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusPaid];
-			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusCancel];
+			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusPaid];
+			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusCancel];
 			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_paid, pred_cancel]];
 			result_status_paid_cancel = [resultArr filteredArrayUsingPredicate:pred_fb];
 			
-			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusReject];
-			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.%@=%d", @"status", OrderStatusDone];
+			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusReject];
+			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusDone];
 			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_reject, pred_cancel, pred_done, pred_paid]];
 			result_status_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			

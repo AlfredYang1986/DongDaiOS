@@ -23,6 +23,8 @@
 + (NSString *)compareFutureTime:(NSDate *)compareDate;
 
 + (NSString*)getDeviceUUID;
++ (NSString*)getUUIDString;
+
 + (UIViewController *)activityViewController;
 + (UIViewController *)activityViewController2;
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;

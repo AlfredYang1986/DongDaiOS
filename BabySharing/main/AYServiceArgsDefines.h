@@ -22,6 +22,7 @@ static NSString* const kAYCommArgsTips =					@"args_tips";
  */
 static NSString* const kAYCommArgsRemoteDate =				@"date";
 static NSString* const kAYCommArgsRemoteDataSkip =			@"skip";
+static NSString* const kAYCommArgsRemoteTake =				@"take";
 
 //user profile args
 static NSString* const kAYProfileArgsSelf =					@"profile";
@@ -34,9 +35,9 @@ static NSString* const kAYProfileArgsPhone =				@"phone";
 
 static NSString* const kAYProfileArgsIsProvider =			@"is_service_provider";
 static NSString* const kAYProfileArgsIsValidtRealName =		@"is_real_name_cert";
-static NSString* const kAYProfileArgsDescription =			@"personal_description";
+static NSString* const kAYProfileArgsDescription =			@"description";
 static NSString* const kAYProfileArgsRegistDate =			@"date";
-static NSString* const kAYProfileArgsIsHasPhone =			@"has_phone";
+static NSString* const kAYProfileArgsIsHasPhone =			@"has_auth_phone";
 
 
 //service args
@@ -119,7 +120,7 @@ static NSString* const kAYOrderArgsDate =					@"order_date";
 static NSString* const kAYOrderArgsStatus =					@"status";
 static NSString* const kAYOrderArgsFurtherMessage =			@"further_message";
 static NSString* const kAYOrderArgsPayMethod =				@"pay_method";
-//static NSString* const kAYOrderArgs =               @"order_";
+static NSString* const kAYOrderArgsPrepayId =               @"prepay_id";
 
 
 

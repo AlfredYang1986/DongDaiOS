@@ -102,34 +102,14 @@
 }
 
 -(id)setCellInfo:(NSDictionary*)args{
-    
-    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[args objectForKey:@"screen_photo"] forKey:@"image"];
-    [dic setValue:@"img_thum" forKey:@"expect_size"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-        UIImage* img = (UIImage*)result;
-        if (img != nil) {
-            [_user_screen setImage:img];
-        }
-    }];
+	
+	NSString *screen_photo = [args objectForKey:kAYProfileArgsScreenPhoto];
+	[_user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
     
     NSString *name = [args objectForKey:@"screen_name"];
     if (name && ![name isEqualToString:@""]) {
         _user_name.text = name;
     }
-    
-//    NSString *address = [args objectForKey:@"address"];
-//    if (address && ![address isEqualToString:@""]) {
-//        _addressLabel.text = address;
-//    }
-//    
-//    NSDictionary *info = nil;
-//    CURRENUSER(info)
-//    if ([[args objectForKey:@"user_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
-//        _allowEditIcon.hidden = NO;
-//    }else _allowEditIcon.hidden = YES;
     
     return nil;
 }

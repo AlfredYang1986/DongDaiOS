@@ -78,16 +78,16 @@
    
     [reVal setValue:user.user_id forKey:kAYCommArgsUserID];
     [reVal setValue:user.auth_token forKey:kAYCommArgsToken];
-    [reVal setValue:user.phoneNo forKey:@"phoneNo"];
+    [reVal setValue:user.phoneNo forKey:kAYProfileArgsPhone];
     [reVal setValue:user.screen_name forKey:kAYProfileArgsScreenName];
     [reVal setValue:user.screen_image forKey:kAYProfileArgsScreenPhoto];
     [reVal setValue:user.role_tag forKey:@"role_tag"];
     [reVal setValue:user.is_service_provider forKey:@"is_service_provider"];
-    [reVal setValue:user.is_real_name_cert forKey:@"is_real_name_cert"];
-    [reVal setValue:user.personal_description forKey:@"personal_description"];
+    [reVal setValue:user.is_real_name_cert forKey:kAYProfileArgsIsValidtRealName];
+    [reVal setValue:user.personal_description forKey:kAYProfileArgsDescription];
     [reVal setValue:user.date forKey:@"date"];
     [reVal setValue:user.contact_no forKey:@"contact_no"];
-    [reVal setValue:user.has_phone forKey:@"has_phone"];
+    [reVal setValue:user.has_phone forKey:kAYProfileArgsIsHasPhone];
     
     return [reVal copy];
 }
@@ -152,9 +152,6 @@
     
     /*
     NSManagedObjectContext（托管对象上下文）：数据库
-    NSEntityDescription（实体描述）：表
-    NSFetchRequest（请求）：命令集
-    NSPredicate（谓词）：查询语句
      
     在书中给出的例子中的一些语句可以用数据库的常用操作来理解
     NSManagedObjectContext *context = [appDelegate managedObjectContext];           //指定一个“数据库”
@@ -176,28 +173,27 @@
     NSArray* matches = [context executeFetchRequest:request error:&error];
    
     NSLog(@"dic : %@", dic);
-    if (!matches || matches.count > 1) {
-        for (LoginToken* tmp in matches) {
-            NSLog(@"primary tmp %@", tmp);
-            NSLog(@"primary tmp user id %@", tmp.user_id);
-            for (LoginToken* tmp in matches) {
-                [context deleteObject:tmp];
-            }
-            [self createTokenInContext:context withUserID:user_id andAttrs:dic];
-        }
-        NSLog(@"error with primary key");
+	if (!matches || matches.count == 0) {
+		LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
+		[LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+		[context save:nil];
+		return tmp;
+	}
+	else if (matches.count == 1) {
+		LoginToken *tmp = [matches lastObject];
+		[LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+		[context save:nil];
+		return tmp;
+	}
+    else if ( matches.count > 1) {
+		for (int i = 0; matches.count; ++i) {
+			[context deleteObject:[matches objectAtIndex:i]];
+		}
+		[self createTokenInContext:context withUserID:user_id andAttrs:dic];
         return nil;
-    } else if (matches.count == 1) {
-        LoginToken *tmp = [matches lastObject];
-        [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
-        [context save:nil];
-        return tmp;
-    } else {
-        LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
-        [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
-        [context save:nil];
-        return tmp;
     }
+	else
+		return nil;
 }
 
 + (void)removeTokenInContext:(NSManagedObjectContext*)context withUserID:(NSString*)user_id {

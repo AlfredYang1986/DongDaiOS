@@ -16,8 +16,8 @@
 #import "AYControllerActionDefines.h"
 #import "AYOrderTOPView.h"
 
-#define TOPHEIGHT		155
-#define HISTORYBTNHEIGHT		60
+#define TOPHEIGHT					155
+#define HISTORYBTNHEIGHT			60
 
 @implementation AYOrderServantDelegate {
 	NSArray *querydata;
@@ -26,8 +26,6 @@
 	NSArray *feedbackData;
 	
 	NSArray *funcNameArr;
-//	NSArray *waitArrData;
-//	NSArray *estabArrData;
 }
 
 @synthesize para = _para;
@@ -70,10 +68,6 @@
 }
 
 #pragma mark -- table
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//	return 2;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return 1;
 }

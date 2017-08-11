@@ -16,17 +16,18 @@
 #import "AYSelfSettingCellDefines.h"
 #import "AYSelfSettingCellView.h"
 
-#define SHOW_OFFSET_Y               SCREEN_HEIGHT - 196
-static NSString* const descInitStr =                @"描述一下自己的经历";
+#define SHOW_OFFSET_Y							SCREEN_HEIGHT - 196
+static NSString* const descInitStr =			@"描述一下自己的经历";
 
 @implementation AYPersonalSettingController {
     
     NSMutableDictionary* profile_dic;
-    NSMutableDictionary* change_profile_dic;
     
     UIImage *changeOwnerImage;
     NSString *changeImageName;
     BOOL isUserPhotoChanged;
+	
+	BOOL isChangedAlready;
     
     UIImageView *user_photo;
     UITextField *nameTextField;
@@ -41,7 +42,7 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        profile_dic = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        profile_dic = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         NSString* personal_desc = [dic objectForKey:kAYControllerChangeArgsKey];
@@ -51,18 +52,13 @@ static NSString* const descInitStr =                @"描述一下自己的经�
         } else {
             descLabel.text = personal_desc;
         }
-        
-        [change_profile_dic setValue:personal_desc forKey:@"personal_description"];
-        [profile_dic setValue:personal_desc forKey:@"personal_description"];
+		[self setRightBtnEnable];
     }
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    change_profile_dic = [[NSMutableDictionary alloc]init];
     
     UIScrollView *mainView = [[UIScrollView alloc]init];
     mainView.contentSize = CGSizeMake(SCREEN_WIDTH, 555.f);
@@ -153,34 +149,13 @@ static NSString* const descInitStr =                @"描述一下自己的经�
         make.height.mas_greaterThanOrEqualTo(30);
     }];
     
-    NSString *descStr = [profile_dic objectForKey:@"personal_description"];
+    NSString *descStr = [profile_dic objectForKey:kAYProfileArgsDescription];
     if (descStr && ![descStr isEqualToString:@""]) {
         descLabel.text = descStr;
     } else
         descLabel.text = descInitStr;
-    
     descLabel.userInteractionEnabled = YES;
     [descLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(didDescLabelTap:)]];
-    
-//    id<AYViewBase> setting = [self.views objectForKey:@"SelfSetting"];
-//    id<AYCommand> set_cmd = [setting.commands objectForKey:@"setPersonalInfo:"];
-//    NSDictionary *info = profile_dic;
-//    [set_cmd performWithResult:&info];
-    
-//    {
-//        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-//        pickerView = (UIView*)view_picker;
-//        [self.view bringSubviewToFront:pickerView];
-//        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
-//        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
-//        
-//        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"NapArea"];
-//        
-//        id obj = (id)cmd_recommend;
-//        [cmd_datasource performWithResult:&obj];
-//        obj = (id)cmd_recommend;
-//        [cmd_delegate performWithResult:&obj];
-//    }
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
@@ -212,9 +187,8 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-    [bar_right_btn sizeToFit];
-    bar_right_btn.center = CGPointMake(SCREEN_WIDTH - 15.5 - bar_right_btn.frame.size.width / 2, 44 / 2);
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
     
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
@@ -234,6 +208,15 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 }
 
 #pragma mark -- actions
+- (void)setRightBtnEnable {
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+}
+- (void)setRightBtnUnable {
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+}
 
 -(void)didSelfPhotoClick {
     [self tapElseWhere:nil];
@@ -277,13 +260,6 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 - (id)rightBtnSelected {
 	
 	[nameTextField resignFirstResponder];
-	
-    NSInteger length = [Tools bityWithStr:nameTextField.text];
-    if (length > 32 || length < 4) {
-        NSString *title = @"姓名长度应在4-32个字符之间\n*汉字／大写字母长度为2";
-        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        return nil;
-    }
     
     if (isUserPhotoChanged) {
         AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
@@ -291,17 +267,14 @@ static NSString* const descInitStr =                @"描述一下自己的经�
         [up_dic setValue:changeImageName forKey:@"image"];
         [up_dic setValue:changeOwnerImage forKey:@"upload_image"];
         [up_cmd performWithResult:[up_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-            NSLog(@"upload result are %d", success);
             if (success) {
                 isUserPhotoChanged = NO;
                 [self updatePersonalInfo];
             } else {
-                
                 NSString *title = @"头像上传失败,请重试";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             }
         }];
-        
     } else {
         [self updatePersonalInfo];
     }
@@ -309,30 +282,45 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 }
 
 - (void)updatePersonalInfo {
+	
+	NSString *screenName = [profile_dic objectForKey:kAYProfileArgsScreenName];
+	NSString *description = [profile_dic objectForKey:kAYProfileArgsDescription];
+	
     NSDictionary* user = nil;
     CURRENUSER(user);
+	
+	NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
+	[dic_update setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	
+	NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
+	[condition setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic_update setValue:condition forKey:kAYCommArgsCondition];
+	
+	NSMutableDictionary *profile = [[NSMutableDictionary alloc] init];
+	if (![screenName isEqualToString:nameTextField.text]) {
+		[profile setValue:nameTextField.text forKey:kAYProfileArgsScreenName];
+	}
+	if (![description isEqualToString:descLabel.text]) {
+		[profile setValue:descLabel.text forKey:kAYProfileArgsDescription];
+	}
+	
+	[profile setValue:changeImageName forKey:kAYProfileArgsScreenPhoto];
+	
+	[dic_update setValue:profile forKey:@"profile"];
+	
     id<AYFacadeBase> f = [self.facades objectForKey:@"ProfileRemote"];
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"UpdateUserDetail"];
-    [change_profile_dic setValue:[user objectForKey:@"user_id"] forKeyPath:@"user_id"];
-    [change_profile_dic setValue:[user objectForKey:@"auth_token"] forKeyPath:@"auth_token"];
-    [change_profile_dic setValue:nameTextField.text forKey:@"screen_name"];
-    [cmd performWithResult:[change_profile_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+    [cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            
+			
+			id tmp = [result objectForKey:kAYProfileArgsSelf];
+			
             id<AYFacadeBase> facade = LOGINMODEL;
             id<AYCommand> cmd_profle = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-            
-            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            [dic setValue:[result objectForKey:@"screen_name"] forKey:@"screen_name"];
-            
-            if ([result objectForKey:@"screen_photo"]) {
-                [dic setValue:[result objectForKey:@"screen_photo"] forKey:@"screen_photo"];
-            }
-            if ([result objectForKey:@"personal_description"]) {
-                [dic setValue:[result objectForKey:@"personal_description"] forKey:@"personal_description"];
-            }
-            [cmd_profle performWithResult:&dic];
-            
+            [cmd_profle performWithResult:&tmp];
+			
+//			[self setRightBtnUnable];
+			
             NSString *title = @"个人信息修改成功";
             [self popToRootVCWithTip:title];
         } else {
@@ -344,15 +332,6 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 }
 
 - (void)popToPreviousWithSave {
-    
-//    NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
-//    [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-//    [dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [profile_dic setValue:nameTextField.text forKey:@"screen_name"];
-//    [dic_pop setValue:[profile_dic copy] forKey:kAYControllerChangeArgsKey];
-//    
-//    id<AYCommand> cmd = POP;
-//    [cmd performWithResult:&dic_pop];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
@@ -377,7 +356,6 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 
 #pragma mark -- pickerviewDelegate
 - (id)showPickerView {
-    
     kAYViewsSendMessage(@"Picker", @"showPickerView", nil)
     return nil;
 }
@@ -390,11 +368,7 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     [cmd_index performWithResult:&address];
     
     if (address) {
-        [change_profile_dic setValue:address forKey:@"address"];
-        [profile_dic setValue:address forKey:@"address"];
-        id<AYViewBase> view_picker = [self.views objectForKey:@"SelfSetting"];
-        id<AYCommand> change = [view_picker.commands objectForKey:@"changeAdrss:"];
-        [change performWithResult:&address];
+		
     }
     
     return nil;
@@ -406,15 +380,9 @@ static NSString* const descInitStr =                @"描述一下自己的经�
 
 #pragma mark -- notifies
 - (id)screenNameChanged:(NSString*)args {
-    [change_profile_dic setValue:args forKey:@"screen_name"];
-    [profile_dic setValue:args forKey:@"screen_name"];
     return nil;
 }
 
-- (id)addressChanged:(NSString*)args {
-    [change_profile_dic setValue:args forKey:@"role_tag"];
-    return nil;
-}
 
 - (id)scrollToHideKeyBoard {
     return nil;
@@ -427,23 +395,11 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     changeOwnerImage = image;
     user_photo.image = image;
     isUserPhotoChanged = YES;
-    // get image name
-    id<AYCommand> uuid_cmd = [self.commands objectForKey:@"GernarateImgUUID"];
-    NSString* img_name = nil;
-    [uuid_cmd performWithResult:&img_name];
+	
+    NSString* img_name = [Tools getUUIDString];
     changeImageName = img_name;
-    NSLog(@"new image name is %@", img_name);
-//    [_login_attr setValue:img_name forKey:@"screen_photo"];
-
-    // sava image to local
-    id<AYCommand> save_cmd = [self.commands objectForKey:@"SaveImgLocal"];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:img_name forKey:@"img_name"];
-    [dic setValue:image forKey:@"image"];
-    [save_cmd performWithResult:&dic];
-    
-    [change_profile_dic setValue:img_name forKey:@"screen_photo"];
-    [profile_dic setValue:img_name forKey:@"screen_photo"];
+	
+	[self setRightBtnEnable];
 }
 
 //用户取消拍照
@@ -468,13 +424,13 @@ static NSString* const descInitStr =                @"描述一下自己的经�
     
     NSString *tmp = textField.text;
     NSInteger len = [Tools bityWithStr:tmp];
-    
     if (len > 32 && ![string isEqualToString:@""]) {
         [textField resignFirstResponder];
         NSString *title = @"姓名长度应在4-32个字符之间\n*汉字／大写字母长度为2";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return NO;
     } else
+		[self setRightBtnEnable];
         return YES;
 }
 

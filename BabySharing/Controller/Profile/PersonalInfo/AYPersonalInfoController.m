@@ -49,7 +49,6 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"PersonalInfo"];
     id obj = (id)cmd_collect;

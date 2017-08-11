@@ -314,6 +314,15 @@
     
     return result;
 }
++ (NSString*)getUUIDString {
+	
+	CFUUIDRef puuid = CFUUIDCreate( nil );
+	CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
+	NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
+	CFRelease(puuid);
+	CFRelease(uuidString);
+	return result;
+}
 
 + (NSString*)getDeviceUUID {
     return [[UIDevice currentDevice].identifierForVendor UUIDString];

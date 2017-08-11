@@ -37,6 +37,7 @@
     
     AYModelFacade* f = LOGINMODEL;
     Providers* tmp = [Providers createProviderInContext:f.doc.managedObjectContext ByName:provide_name andProviderUserId:provide_user_id andProviderToken:provide_token andProviderScreenName:provide_screen_name];
+	
     LoginToken* user = [LoginToken enumLoginUserInContext:f.doc.managedObjectContext withUserID:user_id];
     [user addConnectWithObject:tmp];
 }

@@ -11,16 +11,10 @@
 #import "Notifications.h"
 #import "AYModelFacade.h"
 
-@interface AYProfileDelegate ()
-@property (nonatomic, strong) NSDictionary* querydata;
-@end
-
 @implementation AYProfileDelegate{
     NSArray *origs;
-//    NSArray *confirmData;
+	NSDictionary* querydata;
 }
-
-@synthesize querydata = _querydata;
 
 #pragma mark -- command
 @synthesize para = _para;
@@ -54,12 +48,12 @@
 }
 
 -(id)changeQueryData:(NSDictionary*)args {
-    _querydata = args;
+    querydata = args;
     
 	NSMutableArray *tmp;
-	NSNumber *is_real_name = [_querydata objectForKey:@"is_real_name_cert"];
-    NSNumber *is_servant = [_querydata objectForKey:@"is_service_provider"];
-	NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
+	NSNumber *is_real_name = [querydata objectForKey:@"is_real_name_cert"];
+    NSNumber *is_servant = [querydata objectForKey:@"is_service_provider"];
+	NSNumber *is_nap = [querydata objectForKey:@"is_nap"];
 	
 	if (is_nap.boolValue) {
 		tmp = [NSMutableArray arrayWithObjects:@"切换为预订模式", @"发布服务", @"设置", nil];
@@ -89,7 +83,7 @@
         NSString* class_name = @"AYProfileHeadCellView";
         cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
         
-        NSDictionary *info = [_querydata copy];
+        NSDictionary *info = [querydata copy];
         kAYViewSendMessage(cell, @"setCellInfo:", &info)
         
         ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -125,7 +119,7 @@
         [self servicerOptions];
         
     } else if (indexPath.row == 2) {
-        NSNumber *is_nap = [_querydata objectForKey:@"is_nap"];
+        NSNumber *is_nap = [querydata objectForKey:@"is_nap"];
         is_nap.boolValue ? [self pushNewService] : [self collectService];
         
     } else
@@ -140,7 +134,7 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[_querydata copy] forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[querydata copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
@@ -148,7 +142,7 @@
 
 - (void)servicerOptions {
     
-    NSNumber *model = [_querydata objectForKey:@"is_service_provider"];
+    NSNumber *model = [querydata objectForKey:@"is_service_provider"];
     
     if (model.boolValue) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
@@ -156,18 +150,15 @@
         [cmd performWithResult:&args];
         
     } else {
-        NSNumber *is_has_phone = [_querydata objectForKey:@"has_phone"];
-        NSNumber *is_real_name = [_querydata objectForKey:@"is_real_name_cert"];
+        NSNumber *is_has_phone = [querydata objectForKey:@"has_phone"];
+        NSNumber *is_real_name = [querydata objectForKey:@"is_real_name_cert"];
         id<AYCommand> des;
         
         if (!is_has_phone.boolValue ) {
             des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
-            
         } else if (!is_real_name.boolValue) {
             des = DEFAULTCONTROLLER(@"ConfirmRealName");
-//            des = DEFAULTCONTROLLER(@"ConfirmPhoneNo");
         } else {
-//            des = DEFAULTCONTROLLER(@"NapArea");
             des = DEFAULTCONTROLLER(@"SetServiceType");
         }
         
@@ -181,24 +172,6 @@
         [cmd performWithResult:&dic_push];
     }
 }
-
-//- (void)napFamilyOptions {
-//    NSNumber *model = [_querydata objectForKey:@""];
-//    NSNumber *args = [NSNumber numberWithInt:2];
-//    if (model.intValue == 1) {
-//        id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
-//        [cmd performWithResult:&args];
-//    } else {
-//        id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-//        NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-//        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//        [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-//        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-//        [dic_push setValue:args forKey:kAYControllerChangeArgsKey];
-//        id<AYCommand> cmd = PUSH;
-//        [cmd performWithResult:&dic_push];
-//    }
-//}
 
 - (void)collectService {
     
@@ -234,7 +207,7 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[_querydata copy] forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:[querydata copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

@@ -134,7 +134,7 @@
         titleLabel.text = [NSString stringWithFormat:@"关于%@",nameStr];
     }
     
-    NSString *descStr = [args objectForKey:@"personal_description"];
+    NSString *descStr = [args objectForKey:kAYProfileArgsDescription];
     if (descStr && ![descStr isEqualToString:@""]) {
         descLabel.text = descStr;
     }
