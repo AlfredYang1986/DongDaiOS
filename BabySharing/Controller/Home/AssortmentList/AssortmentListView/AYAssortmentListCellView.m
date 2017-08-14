@@ -116,7 +116,9 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	
+	NSDictionary *cellInfo = args;
+	NSString *titleStr = [cellInfo objectForKey:@"title"];
+	assortmentTitle.text = titleStr;
 	return nil;
 }
 

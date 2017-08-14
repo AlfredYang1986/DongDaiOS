@@ -231,14 +231,17 @@
 	<command type="Remote" name="PushOrderAlipay"		route="v2/order/push/alipay" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="AccomplishOrder"		route="v2/order/accomplish" factory="AYRemoteCallFactory" />
 
-
     <command type="Remote" name="PushComments"   route="v2/order/comment/push" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryComments"   route="v2/order/comment/overall" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryComment"   route="v2/order/comment/query" factory="AYRemoteCallFactory" />
 	
-	<command type="Remote" name="EmailSend" route="email/sendPrivacy" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="SMSSend" route="connections/sentSMSInvitation" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="ChoicePush"			route="al/selected/push" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="ChoicePop"				route="al/selected/pop" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="ChoiceSearch"			route="al/selected/search" factory="AYRemoteCallFactory" />
 	
-    <command type="Remote" name="ExposeUser"        route="expose/user" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="ExposeContent"     route="expose/content" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="EmailSend"				route="email/sendPrivacy" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="SMSSend"				route="connections/sentSMSInvitation" factory="AYRemoteCallFactory" />
+	
+    <command type="Remote" name="ExposeUser"			route="expose/user" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="ExposeContent"			route="expose/content" factory="AYRemoteCallFactory" />
 </commands>

@@ -20,6 +20,7 @@
 @implementation AYHomeAssortmentCellView {
 	
 	UICollectionView *assortmentCollectionView;
+	NSArray *assortmentArr;
 }
 
 @synthesize para = _para;
@@ -30,6 +31,8 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		
+		assortmentArr = kAY_top_assortment_titles;
 		
 		UILabel *titleLabel = [Tools creatUILabelWithText:@"热门分类" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
@@ -71,19 +74,24 @@
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-	return 6 ;
+	return assortmentArr.count ;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYHomeAssortmentCellItem *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYHomeAssortmentCellItem" forIndexPath:indexPath];
 	
-	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
+	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
+	[tmp setValue:@"" forKey:@"assortment_img"];
+	[cell setItemInfo:[tmp copy]];
 	return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
-	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &index)
+//	NSNumber *index = [NSNumber numberWithInteger:indexPath.row];
+	NSString *sort = [assortmentArr objectAtIndex:indexPath.row];
+	kAYViewSendNotify(self, @"didSelectAssortmentAtIndex:", &sort)
 }
 
 #pragma mark -- life cycle

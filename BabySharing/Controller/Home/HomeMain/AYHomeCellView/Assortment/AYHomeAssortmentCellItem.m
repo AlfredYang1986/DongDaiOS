@@ -11,6 +11,7 @@
 
 @implementation AYHomeAssortmentCellItem {
 	UIImageView *imageView;
+	UILabel *titleLabel;
 	UILabel *skipCountLabel;
 }
 
@@ -44,7 +45,14 @@
 		make.edges.equalTo(self);
 	}];
 	
-	skipCountLabel = [Tools creatUILabelWithText:@"skip' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	titleLabel = [Tools creatUILabelWithText:@"Assortment Title" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(imageView).offset(30);
+		make.centerX.equalTo(imageView);
+	}];
+	
+	skipCountLabel = [Tools creatUILabelWithText:@"skiped' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:skipCountLabel];
 	[skipCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(imageView).offset(-15);
@@ -54,7 +62,9 @@
 }
 
 - (void)setItemInfo:(NSDictionary*)itemInfo {
-	
+//	itemInfo = itemInfo;
+	NSString *titleStr = [itemInfo objectForKey:@"title"];
+	titleLabel.text = titleStr;
 }
 
 @end

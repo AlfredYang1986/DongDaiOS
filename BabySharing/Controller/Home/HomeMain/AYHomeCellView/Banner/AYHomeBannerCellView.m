@@ -22,6 +22,8 @@
 	UICollectionView *bannerCollectionView;
 	NSMutableArray *imagesArray;
 	UIPageControl *pageControl;
+	
+	NSArray *topCategArr;
 }
 
 @synthesize para = _para;
@@ -149,8 +151,9 @@
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	NSInteger row = indexPath.row - 1;
 	NSLog(@"%ld", row);
-	NSNumber *index = [NSNumber numberWithInteger:row];
-	kAYViewSendNotify(self, @"didSomeOneChoiceClick:", &index)
+//	NSNumber *index = [NSNumber numberWithInteger:row];
+	NSString *categ = [topCategArr objectAtIndex:row];
+	kAYViewSendNotify(self, @"didSomeOneChoiceClick:", &categ)
 }
 
 -(void)setupCollectionView {
@@ -161,7 +164,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
-		
+		topCategArr = @[@"艺术", @"运动", @"科学", @"看顾"];
 		[self initView];
 		
 		if (reuseIdentifier != nil) {

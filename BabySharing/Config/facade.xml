@@ -204,10 +204,8 @@
     
     <facade type="DefaultFacade" name="KidNapRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="PushServiceInfo" />
-<!--        <command type="Remote" name="PublishService" />-->
         <command type="Remote" name="SearchFiltService" />
         <command type="Remote" name="QueryMyService" />
-<!--        <command type="Remote" name="RevertMyService" />-->
         <command type="Remote" name="UpdateMyService" />
         <command type="Remote" name="UpdateMyServiceTM" />
         <command type="Remote" name="PopMyService" />
@@ -231,8 +229,8 @@
         <command type="Remote" name="PayOrder" />
        
         <command type="Remote" name="PushComments" />
-        <command type="Remote" name="QueryComments" />
         <command type="Remote" name="QueryComment" />
+		<command type="Remote" name="QueryComments" />
     </facade>
 	
 	<facade type="DefaultFacade" name="OrderNotification" factory="AYDefaultFacadeFactory" >
@@ -256,4 +254,10 @@
         <command type="Module" name="QueryAliCallBackHandler" />
         <command type="Module" name="AlipayPay" />
     </facade>
+	
+	<facade type="DefaultFacade" name="ChoiceRemote" factory="AYDefaultFacadeFactory" >
+		<command type="Remote" name="ChoiceSearch" />
+		<command type="Remote" name="ChoicePush" />
+		<command type="Remote" name="ChoicePop" />
+	</facade>
 </facades>

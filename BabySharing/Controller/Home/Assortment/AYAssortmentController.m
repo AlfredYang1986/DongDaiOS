@@ -34,24 +34,42 @@
 	
 	UILabel *navTitleLabel;
 	UILabel *navCountLabel;
+	
+	NSString *sortCateg;
+	NSInteger skipedCount;
+	NSMutableArray *remoteDataArr;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return 8;
+	return remoteDataArr.count;
 }
 
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYAssortmentItemView *item = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYAssortmentItemView" forIndexPath:indexPath];
-	
+	id tmp = [remoteDataArr objectAtIndex:indexPath.row];
+	[item setItemInfo:tmp];
 	return item;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	[dic setValue:[remoteDataArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
-	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		sortCateg = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -67,7 +85,6 @@
 	bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kCOLLECTIONVIEWTOP + 30)];
 	[self.view addSubview:bannerView];
 	[self.view bringSubviewToFront:bannerView];
-//	[servCollectionView addSubview:bannerView];
 	UIImageView *cover = [[UIImageView alloc] initWithFrame:bannerView.bounds];
 	cover.image = IMGRESOURCE(@"version_nav_cover_0");
 	[bannerView addSubview:cover];
@@ -95,8 +112,27 @@
 		make.centerX.equalTo(bannerView);
 		make.top.equalTo(bannerView).offset(75);
 	}];
+	if (sortCateg) {
+		NSString *categStr = [NSString stringWithFormat:@"#%@#", sortCateg];
+		
+		NSShadow *sdw = [[NSShadow alloc] init];
+		sdw.shadowColor = [Tools garyColor];
+		sdw.shadowOffset = CGSizeMake(1, 3);
+		sdw.shadowBlurRadius = 5.f;
+		
+		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:categStr];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, 1)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f],
+										NSForegroundColorAttributeName :[Tools whiteColor],
+										NSShadowAttributeName:sdw,
+										NSVerticalGlyphFormAttributeName:@(0.5)} range:NSMakeRange(1, categStr.length - 2)];
+		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(categStr.length - 1, 1)];
+		bannerTitle.attributedText = attributedText;
+		
+//		bannerTitle.text = [NSString stringWithFormat:@"# %@ #", sortCateg];
+	}
 	
-	bannerCount = [Tools creatUILabelWithText:@"Assortment count" andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerCount = [Tools creatUILabelWithText:@"为您准备了8888个儿童服务" andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerCount];
 	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(bannerView);
@@ -117,15 +153,63 @@
 	servCollectionView.contentInset = UIEdgeInsetsMake(kCOLLECTIONVIEWTOP - kStatusAndNavBarH, 0, 0, 0);
 	[self.view addSubview:servCollectionView];
 	[servCollectionView registerClass:NSClassFromString(@"AYAssortmentItemView") forCellWithReuseIdentifier:@"AYAssortmentItemView"];
+	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+	
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			NSArray* tmp = [result objectForKey:@"services"];
+			remoteDataArr = [tmp mutableCopy];
+			skipedCount = remoteDataArr.count;
+			[servCollectionView reloadData];
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
 	
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
--(void)viewDidAppear:(BOOL)animated{
-	[super viewDidAppear:animated];
+#pragma mark -- actions
+- (void)loadMoreData {
+	
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+//	[dic_search setValue:[NSNumber numberWithInteger:skipedCount] forKey:kAYCommArgsRemoteDataSkip];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			NSArray *reArr = [result objectForKey:@"services"];
+			if (reArr.count != 0) {
+				[remoteDataArr addObjectsFromArray:reArr];
+				skipedCount = remoteDataArr.count;
+				
+				[servCollectionView reloadData];
+			} else {
+				NSString *title = @"没有更多服务了";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+		[servCollectionView reloadData];
+		[servCollectionView.mj_footer endRefreshing];
+	}];
 }
 
 #pragma mark -- layouts
@@ -139,7 +223,7 @@
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	view.backgroundColor = [Tools whiteColor];
 	
-	NSString *title = @"热门分类001";
+	NSString *title = sortCateg;
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 //	UIImage* left = IMGRESOURCE(@"bar_left_black");
@@ -152,7 +236,7 @@
 		make.centerX.equalTo(view);
 	}];
 	
-	navCountLabel = [Tools creatUILabelWithText:@"service count" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navCountLabel = [Tools creatUILabelWithText:@"8888个服务" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];
 	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(view.mas_centerY).offset(0);

@@ -89,6 +89,7 @@
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(positionSignView);
 		make.left.equalTo(positionSignView.mas_right).offset(3);
+		make.right.equalTo(self).offset(-10);
 	}];
 	
 	
@@ -134,7 +135,81 @@
 
 -(void)setItemInfo:(NSDictionary *)args {
 	
+	service_info = args;
 	
+	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
+	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
+	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	
+	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
+	NSDictionary *info_ower = [service_info objectForKey:@"owner"];
+	NSString *ownerName = [info_ower objectForKey:kAYProfileArgsScreenName];
+	
+	NSString *unitCat = @"UNIT";
+	//	if ([service_cat isEqualToString:kAYStringNursery]) {
+	if ([service_cat containsString:@"看"]) {
+		unitCat = @"小时";
+		
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
+		if(compName && ![compName isEqualToString:@""]) {
+			themeLabel.text = compName;
+		}
+	}
+	else if ([service_cat isEqualToString:kAYStringCourse]) {
+		unitCat = @"次";
+		
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
+		if (!compName || [compName isEqualToString:@""]) {
+			compName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
+			if (!compName || [compName isEqualToString:@""]) {
+				compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+			}
+		}
+		titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, compName, service_cat];
+		if(compName && ![compName isEqualToString:@""]) {
+			themeLabel.text = compName;
+		}
+	} else {
+		NSLog(@"---null---");
+	}
+	
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	NSDictionary *age_boundary = [info_detail objectForKey:kAYServiceArgsAgeBoundary];
+	NSNumber *low = [age_boundary objectForKey:kAYServiceArgsAgeBoundaryLow];
+	NSNumber *up = [age_boundary objectForKey:kAYServiceArgsAgeBoundaryUp];
+	ageBoundaryLabel.text = [NSString stringWithFormat:@"%@-%@岁", low, up];
+	
+	
+	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
+	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
+	int length = (int)tmp.length;
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
+	
+	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(12.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	priceLabel.attributedText = attributedText;
+	
+	NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
+	if (addressStr && ![addressStr isEqualToString:@""]) {
+		NSString *stringPre = @"中国北京市";
+		if ([addressStr hasPrefix:stringPre]) {
+			addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
+		}
+		addressLabel.text = addressStr;
+	}
+	
+	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
+	likeBtn.selected = iscollect.boolValue;
+	
+//	NSNumber *isChoice = [service_info objectForKey:kAYServiceArgsIsChoice];
+//	choiceSignView.hidden = !isChoice.boolValue;
+//	
+//	NSNumber *isTopSort = [service_info objectForKey:kAYServiceArgsIsTopCateg];
+//	hotSignView.hidden = !isTopSort.boolValue;
 	
 }
 

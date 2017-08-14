@@ -29,14 +29,18 @@
 	
 	UILabel *navTitleLabel;
 	UILabel *navCountLabel;
+	
+	NSString *theTopCateg;
+	NSMutableArray *queryChioceArr;
+	NSInteger skipCount;
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
-	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		theTopCateg = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
@@ -58,6 +62,7 @@
 		make.centerX.equalTo(view_table);
 		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kCHOICESIGNHEIGHT));
 	}];
+	view_table.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
 	
 	UIImageView *choice_logo = [[UIImageView alloc] initWithImage:IMGRESOURCE(@"dongda_choice_logo")];
 	[bannerView addSubview:choice_logo];
@@ -67,7 +72,7 @@
 		make.top.equalTo(bannerView);
 		make.size.mas_equalTo(CGSizeMake(137, 214));
 	}];
-	bannerTitle = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerTitle = [Tools creatUILabelWithText:theTopCateg andTextColor:[Tools themeColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerTitle];
 	[bannerTitle mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(choice_logo.mas_bottom).offset(5);
@@ -125,6 +130,28 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:theTopCateg forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			NSArray* tmp = [result objectForKey:@"services"];
+			queryChioceArr = [tmp mutableCopy];
+			skipCount = queryChioceArr.count;
+			kAYDelegatesSendMessage(@"ChoiceContent", kAYDelegateChangeDataMessage, &tmp)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+	}];
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -177,6 +204,42 @@
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	((UITableView*)view).contentInset = UIEdgeInsetsMake(kCHOICESIGNHEIGHT, 0, 0, 0);
 	return nil;
+}
+
+#pragma mark -- actions
+- (void)loadMoreData {
+	
+	NSDictionary *user;
+	CURRENUSER(user);
+	NSMutableDictionary *dic_search = [Tools getBaseRemoteData];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:theTopCateg forKey:kAYServiceArgsCategoryInfo];
+	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
+	
+	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
+	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
+	[cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			NSArray *reArr = [result objectForKey:@"services"];
+			if (reArr.count != 0) {
+				[queryChioceArr addObjectsFromArray:reArr];
+				skipCount = queryChioceArr.count;
+				
+				id tmp = [queryChioceArr copy];
+				kAYDelegatesSendMessage(@"ChoiceContent", kAYDelegateChangeDataMessage, &tmp)
+				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			} else {
+				NSString *title = @"没有更多服务了";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		} else {
+			NSString *title = @"请改善网络环境并重试";
+			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		}
+		UITableView *view_table = [self.views objectForKey:@"Table2"];
+		kAYViewsSendMessage(@"Table", kAYTableRefreshMessage, nil)
+		[view_table.mj_footer endRefreshing];
+	}];
 }
 
 #pragma mark -- notifies

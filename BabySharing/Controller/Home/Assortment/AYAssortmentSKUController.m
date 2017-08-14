@@ -51,7 +51,6 @@
 - (void)performWithResult:(NSObject**)obj {
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
-	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {

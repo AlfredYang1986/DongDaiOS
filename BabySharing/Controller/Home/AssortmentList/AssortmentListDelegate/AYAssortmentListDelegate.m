@@ -13,7 +13,7 @@
 #import "AYControllerActionDefines.h"
 
 @implementation AYAssortmentListDelegate {
-	
+	NSArray *assortmentArr;
 }
 
 #pragma mark -- command
@@ -23,7 +23,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-	
+	assortmentArr = kAY_top_assortment_titles;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -49,7 +49,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 8;
+	return assortmentArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -58,8 +58,11 @@
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	cell.controller = self.controller;
 	
-	//	id tmp;
-	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
+	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
+	[tmp setValue:@"" forKey:@"assortment_img"];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
@@ -76,7 +79,7 @@
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	[dic setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];

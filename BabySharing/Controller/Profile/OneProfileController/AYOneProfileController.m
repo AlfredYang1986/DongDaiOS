@@ -109,10 +109,9 @@
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
             
             NSString* photo_name = [info_prifole objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+			if(photo_name) {
+				[coverImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+			}
         }
     }];
     

@@ -9,9 +9,12 @@
 #import "AYChoiceContentDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYModelFacade.h"
+#import "AYControllerBase.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYChoiceContentDelegate {
 	NSArray *sectionTitleArr;
+	NSArray *querydata;
 }
 
 #pragma mark -- command
@@ -41,13 +44,13 @@
 }
 
 - (id)changeQueryData:(id)args {
-	
+	querydata = args;
 	return nil;
 }
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 4;
+	return querydata.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -56,19 +59,30 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 	
+	id tmp = [querydata objectAtIndex:indexPath.row];
+	kAYViewSendMessage(cell, kAYCellSetCellInfoMessage, &tmp)
 	
 	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//	if (indexPath.row == 0) {
-//		return 285.f;
-//	} else {
-//	}
 	return 370.f;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+	
+	[dic setValue:[querydata objectAtIndex:indexPath.row] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic];
+}
+
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 	

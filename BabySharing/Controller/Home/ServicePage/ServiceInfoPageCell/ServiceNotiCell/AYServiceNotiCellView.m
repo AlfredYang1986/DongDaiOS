@@ -71,7 +71,7 @@
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
 			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(otherSignView);
+			make.top.equalTo(otherSignView.mas_centerY).offset(-8);
 			make.bottom.equalTo(self).offset(-20);
 		}];
 //		otherWordLabel.hidden = YES;
@@ -160,14 +160,9 @@
 			make.centerY.equalTo(allowSignView);
 			make.bottom.equalTo(self).offset(-30);
 		}];
-		
 		otherSignView.hidden = otherWordLabel.hidden = YES;
-	} else {
-		
-//		NSString *noticeStr = [NSString stringWithFormat:@"·  %@", otherWords];
-//		if ([noticeStr containsString:@"\n"]) {
-//			noticeStr = [noticeStr stringByReplacingOccurrencesOfString:@"\n" withString:@"\n·  "];
-//		}
+	}
+	else {
 		otherWordLabel.text = otherWords;
 	}
 	
