@@ -121,7 +121,7 @@
 					id<AYFacadeBase> facade = LOGINMODEL;
 					id<AYCommand> cmd = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
 					NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-					[dic setValue:[NSNumber numberWithBool:YES] forKey:@"is_service_provider"];
+					[dic setValue:[NSNumber numberWithBool:YES] forKey:kAYProfileArgsIsProvider];
 					[cmd performWithResult:&dic];
 					
 					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");

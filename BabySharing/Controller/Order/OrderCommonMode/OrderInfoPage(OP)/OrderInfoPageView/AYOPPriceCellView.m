@@ -33,6 +33,7 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		/*******************************/
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		unitPriceLabel = [Tools creatUILabelWithText:@"$100 * 1 Uint" andTextColor:[Tools blackColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:unitPriceLabel];

@@ -127,14 +127,10 @@
 }
 
 - (id)setCellInfo:(id)args {
-
-	NSDictionary *order_info = args;
-	NSString *photo_name = [order_info objectForKey:@"screen_photo"];
-
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *PRE = cmd.route;
-	[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, photo_name]]
+	
+	NSDictionary *order_info = [args objectForKey:kAYOrderArgsSelf];
+	NSString *photo_name = [[order_info objectForKey:@"user"] objectForKey:kAYProfileArgsScreenPhoto];
+	[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];
@@ -148,8 +144,8 @@
 	}
 	actionLabel.text = actionStr;
 	
-	userNameLabel.text = [order_info objectForKey:kAYProfileArgsScreenName];
-	serviceTitleLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsTitle];
+	userNameLabel.text = [[order_info objectForKey:@"user"] objectForKey:kAYProfileArgsScreenName];
+	serviceTitleLabel.text = [order_info objectForKey:kAYOrderArgsTitle];
 	
 	return nil;
 }

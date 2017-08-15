@@ -214,15 +214,16 @@
     <command type="Remote" name="UnCollectService"      route="al/collections/pop" factory="AYRemoteCallFactory" />
     <command type="Remote" name="AllCollectService"     route="al/user/collected/services" factory="AYRemoteCallFactory" />
     
-    <command type="Remote" name="QueryOrders"			route="al/order/search" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="QueryOrders"			route="al/order/date/lst" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="QueryOrderDetail"			route="al/order/detail" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryOwnOrders"		route="v2.1/order/query/owner" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryApplyOrders"		route="v2.1/order/query/apply" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateOrderInfo"		route="v2/order/update" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="QueryRemind"			route="v3/order/split" factory="AYRemoteCallFactory" />
 	
 	<command type="Remote" name="PushOrder"				route="al/order/push" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="AcceptOrder"			route="v3/order/accept" factory="AYRemoteCallFactory" />
-	<command type="Remote" name="RejectOrder"			route="v3/order/reject" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="AcceptOrder"			route="al/order/accept" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="RejectOrder"			route="al/order/reject" factory="AYRemoteCallFactory" />
 	
     <command type="Remote" name="PayOrder"				route="v2/order/pay" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="CancelOrder"			route="v3/order/cancel" factory="AYRemoteCallFactory" />

@@ -219,6 +219,7 @@
     
     <facade type="DefaultFacade" name="OrderRemote" factory="AYDefaultFacadeFactory" >
         <command type="Remote" name="QueryOrders" />
+		<command type="Remote" name="QueryOrderDetail" />
         <command type="Remote" name="QueryOwnOrders" />
         <command type="Remote" name="QueryApplyOrders" />
         <command type="Remote" name="UpdateOrderInfo" />

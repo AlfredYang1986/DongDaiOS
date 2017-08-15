@@ -58,9 +58,21 @@
 	class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"UnSubsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
 	
+//	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
+//	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[[order_info objectForKey:kAYOrderArgsSelf] objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+//	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+//	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrderDetail"];
+//	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//		if (success) {
+//			
+//		} else {
+//			NSString *title = @"请改善网络环境并重试";
+//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//		}
+//	}];
+	
 	id tmp = [order_info copy];
 	kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
-	
 	
 	UIView *BTMView = [UIView new];
 	BTMView.backgroundColor = [Tools whiteColor];
@@ -216,15 +228,19 @@
 
 #pragma mark -- Servant actions
 - (void)didRejectBtnClick {
-	NSDictionary *user_info;
-	CURRENUSER(user_info);
+	NSDictionary *user;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	[[dic objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[[dic objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_status = [[NSMutableDictionary alloc] init];
+	[dic_status setValue:[NSNumber numberWithInt:OrderStatusReject] forKey:kAYOrderArgsStatus];
+	[dic setValue:dic_status forKey:kAYOrderArgsSelf];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_reject = [facade.commands objectForKey:@"RejectOrder"];
-	
-	NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:user_info];
-	[dic setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
-	
 	[cmd_reject performWithResult:dic andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			
@@ -242,17 +258,23 @@
 			[cmd_push performWithResult:&dic];
 			
 		} else {
-			
+			NSString *message = @"拒绝订单申请失败!\n请检查网络是否正常连接";
+			AYShowBtmAlertView(message, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 }
 
 - (void)didAcceptBtnClick {
-	NSDictionary *user_info;
-	CURRENUSER(user_info);
+	NSDictionary *user;
+	CURRENUSER(user);
 	
-	NSMutableDictionary *dic = [[NSMutableDictionary alloc] initWithDictionary:user_info];
-	[dic setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	[[dic objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[[dic objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_status = [[NSMutableDictionary alloc] init];
+	[dic_status setValue:[NSNumber numberWithInt:OrderStatusAccepted] forKey:kAYOrderArgsStatus];
+	[dic setValue:dic_status forKey:kAYOrderArgsSelf];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"AcceptOrder"];
@@ -273,7 +295,7 @@
 			[cmd_push performWithResult:&dic];
 			
 		} else {
-			message = @"接受订单失败申请!\n请检查网络是否正常连接";
+			message = @"接受订单申请失败!\n请检查网络是否正常连接";
 			AYShowBtmAlertView(message, BtmAlertViewTypeHideWithTimer)
 		}
 	}];

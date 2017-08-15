@@ -83,7 +83,6 @@
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
 	return (UITableViewCell*)cell;
 }
 

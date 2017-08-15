@@ -234,6 +234,7 @@
 		702C3B9C1EAF2606007F3303 /* AYBOTimeTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9B1EAF2606007F3303 /* AYBOTimeTableDelegate.m */; };
 		702C3B9F1EAF27C6007F3303 /* AYAddOTimeCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C3B9E1EAF27C6007F3303 /* AYAddOTimeCellView.m */; };
 		702C4DED1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */; };
+		702D84DF1F42E9C900418D8D /* AYQueryOrderDetailCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702D84DE1F42E9C900418D8D /* AYQueryOrderDetailCommand.m */; };
 		702E7A601CA14A490097867E /* BabySharingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A5F1CA14A490097867E /* BabySharingTests.m */; };
 		702E7A6B1CA14A490097867E /* BabySharingUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A6A1CA14A490097867E /* BabySharingUITests.m */; };
 		702E7A821CA150A00097867E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702E7A7B1CA1502C0097867E /* AppDelegate.m */; };
@@ -1279,6 +1280,8 @@
 		702C3B9E1EAF27C6007F3303 /* AYAddOTimeCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAddOTimeCellView.m; sourceTree = "<group>"; };
 		702C4DEB1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushServiceTMNurseCommand.h; sourceTree = "<group>"; };
 		702C4DEC1E6D3FA500A8EE9F /* AYPushServiceTMNurseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPushServiceTMNurseCommand.m; sourceTree = "<group>"; };
+		702D84DD1F42E9C900418D8D /* AYQueryOrderDetailCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryOrderDetailCommand.h; sourceTree = "<group>"; };
+		702D84DE1F42E9C900418D8D /* AYQueryOrderDetailCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryOrderDetailCommand.m; sourceTree = "<group>"; };
 		702E7A421CA14A480097867E /* BabySharing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabySharing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5B1CA14A490097867E /* BabySharingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BabySharingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		702E7A5F1CA14A490097867E /* BabySharingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BabySharingTests.m; sourceTree = "<group>"; };
@@ -4348,6 +4351,15 @@
 			path = RemoteBackView;
 			sourceTree = "<group>";
 		};
+		702D84DC1F42E9A100418D8D /* QueryOrderDetail */ = {
+			isa = PBXGroup;
+			children = (
+				702D84DD1F42E9C900418D8D /* AYQueryOrderDetailCommand.h */,
+				702D84DE1F42E9C900418D8D /* AYQueryOrderDetailCommand.m */,
+			);
+			path = QueryOrderDetail;
+			sourceTree = "<group>";
+		};
 		702E7A391CA14A480097867E = {
 			isa = PBXGroup;
 			children = (
@@ -6180,6 +6192,7 @@
 		7069A31F1D52F95C007821D4 /* Order */ = {
 			isa = PBXGroup;
 			children = (
+				702D84DC1F42E9A100418D8D /* QueryOrderDetail */,
 				70160EFB1ECECD9E00D1CF6D /* QueryOrders */,
 				702B783E1EC0274F003E8104 /* QueryRemind */,
 				80CCABC31E5EDA5D0012F422 /* PushOrderAlipay */,
@@ -9168,6 +9181,7 @@
 				70AC5BAB1CC8C6B600E2568F /* AYPostLikeContentCommand.m in Sources */,
 				70F428801CC7B18F00A69977 /* ViewController+MASAdditions.m in Sources */,
 				7025FE5D1DF660A200044CD9 /* AYOtherNoticeTextController.m in Sources */,
+				702D84DF1F42E9C900418D8D /* AYQueryOrderDetailCommand.m in Sources */,
 				70D657091D1D410F003D1D7D /* AYExposeRemoteFacade.m in Sources */,
 				700693141CC4A3AF00B511FF /* DropDownItem.m in Sources */,
 				70360B501E56F0A300D5332F /* AYNewVersionNavController.m in Sources */,

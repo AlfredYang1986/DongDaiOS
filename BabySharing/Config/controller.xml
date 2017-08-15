@@ -710,6 +710,7 @@
 	
 	<controller type="DefaultController" name="OrderInfoPage" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="OrderRemote" notification="true" />
 		<facade type="DefaultFacade" name="OrderNotification" notification="true" />
 		
 		<view type="FakeStatusBar"  name="FakeStatusBar" />

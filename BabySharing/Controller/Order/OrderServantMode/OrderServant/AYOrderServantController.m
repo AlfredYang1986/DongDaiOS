@@ -107,19 +107,19 @@
 
 - (void)loadNewData {
 	[self queryOrders];
-//	[self queryReminds];
+	[self queryReminds];
 }
 
 - (void)queryReminds {
-	NSDictionary* info = nil;
-	CURRENUSER(info)
-	NSMutableDictionary *dic_query = [info mutableCopy];
-	//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"owner_id"];
-	NSDictionary *condition = @{kAYCommArgsOwnerID:[info objectForKey:@"user_id"], @"status":[NSNumber numberWithInt:OrderStatusPaid], @"only_today":[NSNumber numberWithInt:1]};
-	[dic_query setValue:condition forKey:@"condition"];
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithInt:1] forKey:@"only_today"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			remindArr = [result copy];
@@ -148,22 +148,22 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			NSArray *resultArr = [[result objectForKey:@"result"] objectForKey:@"orders"];
+			NSArray *resultArr = [result objectForKey:@"lst"];
 			queryTimespan = ((NSNumber*)[result objectForKey:@"date"]).doubleValue;
 			
-			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusPosted];
+			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusPosted];
 			result_status_posted = [resultArr filteredArrayUsingPredicate:pred_ready];
 			
 			id data = [result_status_posted copy];
 			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryTodoData:", &data)
 			
-			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusPaid];
-			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusCancel];
+			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusPaid];
+			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusCancel];
 			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_paid, pred_cancel]];
 			result_status_paid_cancel = [resultArr filteredArrayUsingPredicate:pred_fb];
 			
-			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusReject];
-			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusDone];
+			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusReject];
+			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusDone];
 			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_reject, pred_cancel, pred_done, pred_paid]];
 			result_status_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			

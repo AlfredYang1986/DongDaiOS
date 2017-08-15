@@ -300,7 +300,7 @@ static NSString* const descInitStr =			@"描述一下自己的经历";
 	if (![screenName isEqualToString:nameTextField.text]) {
 		[profile setValue:nameTextField.text forKey:kAYProfileArgsScreenName];
 	}
-	if (![description isEqualToString:descLabel.text]) {
+	if (![description isEqualToString:descLabel.text] && ![descInitStr isEqualToString:descLabel.text]) {
 		[profile setValue:descLabel.text forKey:kAYProfileArgsDescription];
 	}
 	

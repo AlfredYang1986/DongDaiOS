@@ -30,7 +30,8 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-//		self.backgroundColor = [UIColor clearColor];
+		//		self.backgroundColor = [UIColor clearColor];
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		[Tools creatCALayerWithFrame:CGRectMake(0, 109.5f, SCREEN_WIDTH, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
 		
 		titleLabel = [Tools creatUILabelWithText:@"联系人" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -155,29 +156,27 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-	NSDictionary* info = nil;
-	CURRENUSER(info)
-	NSString *user_id = [info objectForKey:@"user_id"];
 	
-	NSString *order_user_id = [args objectForKey:@"user_id"];     //发单的人
-	NSString *servant_owner_id = [[args objectForKey:@"service"] objectForKey:@"owner_id"];
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	NSString *current_user_id = [user objectForKey:kAYCommArgsUserID];
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *PRE = cmd.route;
+	NSString *order_user_id = [[args objectForKey:@"user"] objectForKey:kAYCommArgsUserID];
+	NSString *order_owner_id = [[args objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
 	
-	if ([user_id isEqualToString:servant_owner_id]) {     //我发的服务 : -> 要看发单人的头像
-		
+	NSString *screen_photo;
+	if ([current_user_id isEqualToString:order_owner_id]) {     //发我的服务 : -> 要看发单人的头像
 		ones_id = order_user_id;
-		nameLabel.text = [args objectForKey:@"screen_name"];
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [args objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
-		
+		nameLabel.text = [[args objectForKey:@"user"] objectForKey:kAYProfileArgsScreenName];
+		screen_photo = [[args objectForKey:@"user"] objectForKey:kAYProfileArgsScreenPhoto];
 	} else {
+		ones_id = order_owner_id;
+		nameLabel.text = [[args objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+		screen_photo = [[args objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenPhoto];
+	}
 		
-		ones_id = servant_owner_id;
-		nameLabel.text = [[args objectForKey:@"service"] objectForKey:@"screen_name"];
-		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, [[args objectForKey:@"service"] objectForKey:@"screen_photo"]]] placeholderImage:IMGRESOURCE(@"default_user")];
-		
+	if (screen_photo) {
+		[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
 	}
 	
 	return nil;

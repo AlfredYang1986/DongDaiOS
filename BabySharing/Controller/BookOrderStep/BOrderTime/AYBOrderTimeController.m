@@ -33,7 +33,7 @@
 	NSIndexPath *indexPathHandle;
 	NSNumber *timeSpanhandle;
 	
-	NSNumber *serviceType;
+	NSString *serviceCat;
 	
 	NSArray *serviceTMs;
 	NSMutableArray *tms_mutable;
@@ -50,7 +50,7 @@
 		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		offer_date_mutable = [tmp objectForKey:kAYServiceArgsOfferDate];
 		service_info = [tmp objectForKey:kAYServiceArgsInfo];
-		serviceType = [service_info objectForKey:kAYServiceArgsCat];
+		serviceCat = [[service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
 		serviceTMs = [service_info objectForKey:kAYServiceArgsTimes];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -183,7 +183,7 @@
 		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OTMCourseCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		[cmd_class performWithResult:&cell_name];
 		
-		id t = [serviceType copy];
+		id t = [serviceCat copy];
 		kAYDelegatesSendMessage(@"BOTimeTable", @"setDelegateType:", &t)
 	}
 	
@@ -198,23 +198,6 @@
 	
 	UIView* picker = [self.views objectForKey:@"Picker"];
 	[self.view bringSubviewToFront:picker];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-	
-//	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
-//	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
-//	NSNumber *offset = [NSNumber numberWithInt:6];
-//	[cmd_scroll_center performWithResult:&offset];
 }
 
 #pragma mark -- layouts
@@ -253,20 +236,11 @@
 	view.backgroundColor = [Tools garyBackgroundColor];
 	view.frame = CGRectMake(0, SCREEN_HEIGHT - kBotButtonH, SCREEN_WIDTH, 0);
 		
-	if (serviceType.intValue == ServiceTypeCourse) {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		UIView *libgView = [[UIView alloc] initWithFrame:CGRectMake(26.5, 0, 1.f, 736)];
 		libgView.backgroundColor = [Tools themeColor];
 		[view addSubview:libgView];
-//		[libgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.centerX.equalTo(view.mas_left).offset(27);
-//			make.top.equalTo(view);
-//			make.width.mas_equalTo(1.5);
-//			make.height.mas_equalTo(736);
-//		}];
 		[view sendSubviewToBack:libgView];
-		
-//		((UITableView*)view).backgroundView.backgroundColor = [UIColor redColor];
-		
 	}
 	return nil;
 }
@@ -288,7 +262,7 @@
 		
 		NSArray *order_times = [OTMSet objectForKey:iter];
 		for (NSDictionary *dic_tm in order_times) {
-			if (serviceType.intValue == ServiceTypeCourse) {
+			if ([serviceCat isEqualToString:kAYStringCourse]) {
 				if (((NSNumber*)[dic_tm objectForKey:@"is_selected"]).boolValue) {
 					NSString *date_start = [NSString stringWithFormat:@"%@%.4d", dateStr, ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsStart]).intValue];
 					NSString *date_end = [NSString stringWithFormat:@"%@%.4d", dateStr, ((NSNumber*)[dic_tm objectForKey:kAYServiceArgsEnd]).intValue];
@@ -338,14 +312,14 @@
 	
 	NSNumber *leastNode;
 	NSArray *order_times = [self transDicWithOTMDictionary:nil];
-	if (serviceType.intValue == ServiceTypeCourse) {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		leastNode = [service_info objectForKey:kAYServiceArgsLeastTimes];
 		if (order_times.count < leastNode.intValue) {
 			NSString *title = [NSString stringWithFormat:@"该服务最少预定%@次", leastNode];
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			return;
 		}
-	} else if (serviceType.intValue == ServiceTypeNursery) {
+	} else if ([serviceCat isEqualToString:kAYStringNursery]) {
 		leastNode = [service_info objectForKey:kAYServiceArgsLeastHours];
 		double sum = 0;
 		for (NSDictionary *dic_time in order_times) {
@@ -368,7 +342,7 @@
 	/**
 	 * 2. check profile has_phone, if not, go confirmNoConsumer
 	 */
-	if (((NSNumber*)[user objectForKey:@"has_phone"]).boolValue) {
+	if (((NSNumber*)[user objectForKey:kAYProfileArgsIsHasPhone]).boolValue) {
 		
 		id<AYCommand> des = DEFAULTCONTROLLER(@"BOrderMain");
 		NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
@@ -403,7 +377,7 @@
 - (void)checkCertainBtnStates {
 	
 	//1.判断Set中的数据是否可以响应 下一步btn
-	if (serviceType.intValue == ServiceTypeCourse) {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.%@=%@", @"is_selected", @1];
 		NSArray *result = [timesArr filteredArrayUsingPredicate:pred];
 		[self checkTimesArrOrCheckOTMSetWithHandle:result];
@@ -479,7 +453,7 @@
 	timeSpanhandle = [args objectForKey:@"interval"];
 	timesArr = [OTMSet objectForKey:timeSpanhandle.stringValue];
 	
-	if (serviceType.intValue == ServiceTypeNursery) {
+	if ([serviceCat isEqualToString:kAYStringNursery]) {
 		if (!timesArr || timesArr.count == 0) {
 			timesArr = [NSMutableArray array];
 			[OTMSet setValue:timesArr forKey:timeSpanhandle.stringValue];
@@ -511,7 +485,7 @@
 		kAYDelegatesSendMessage(@"ServiceTimesPick", @"changeOptionData:", &dic_data);
 		kAYViewsSendMessage(kAYPickerView, kAYTableRefreshMessage, nil);
 	}
-	else if (serviceType.intValue == ServiceTypeCourse) {
+	else if ([serviceCat isEqualToString:kAYStringCourse]) {
 		if (!timesArr) {
 			
 			NSDate *handleDate = [NSDate dateWithTimeIntervalSince1970:timeSpanhandle.doubleValue];
@@ -594,14 +568,7 @@
 	kAYDelegatesSendMessage(@"BOTimeTable", @"changeQueryData:", &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	[self checkCertainBtnStates];
-		
-//	if (timesArr.count == 0) {
-//		UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
-//		id tmp_set = [OTMSet copy];
-//		kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
-//		[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
-//		[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//	}
+	
 	return nil;
 }
 
@@ -618,8 +585,6 @@
 	BOOL isSelected = ((NSNumber*)[dic_op objectForKey:@"is_selected"]).boolValue;
 	[dic_op setValue:[NSNumber numberWithBool:!isSelected] forKey:@"is_selected"];
 	[self checkCertainBtnStates];
-	
-	
 	
 	UITableView *view_table = [self.views objectForKey:kAYTableView];
 	[view_table reloadRowsAtIndexPaths:@[args] withRowAnimation:UITableViewRowAnimationNone];
@@ -669,12 +634,6 @@
 	kAYDelegatesSendMessage(@"BOTimeTable", kAYDelegateChangeDataMessage, &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 	[self checkCertainBtnStates];
-	
-//	UICollectionView *view_collection = [self.views objectForKey:@"CollectionVer"];
-//	id tmp_set = [OTMSet copy];
-//	kAYDelegatesSendMessage(@"BOrderTime", kAYDelegateChangeDataMessage, &tmp_set)
-//	[view_collection reloadItemsAtIndexPaths:@[indexPathHandle]];
-//	[view_collection selectItemAtIndexPath:indexPathHandle animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 	
 	return nil;
 }

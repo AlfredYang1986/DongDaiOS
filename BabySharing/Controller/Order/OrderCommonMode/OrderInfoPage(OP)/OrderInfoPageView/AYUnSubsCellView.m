@@ -30,6 +30,7 @@
 		
 		self.backgroundColor = [UIColor clearColor];
 		self.clipsToBounds = YES;
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		titleLabel = [Tools creatUILabelWithText:@"取消预订申请" andTextColor:[Tools garyColor] andFontSize:13.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];

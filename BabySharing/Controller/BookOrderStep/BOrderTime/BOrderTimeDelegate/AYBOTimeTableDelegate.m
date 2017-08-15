@@ -10,7 +10,7 @@
 
 @implementation AYBOTimeTableDelegate {
 	NSArray *querydata;
-	ServiceType service_type;
+	NSString* serviceCat;
 }
 
 #pragma mark -- command
@@ -40,7 +40,7 @@
 }
 
 - (id)setDelegateType:(id)args {
-	service_type = ((NSNumber*)args).intValue;
+	serviceCat = args;
 	return nil;
 }
 
@@ -51,9 +51,8 @@
 
 #pragma mark -- table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	if (service_type == ServiceTypeCourse) {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		return querydata.count;
-//		return 3;
 	} else
 		return querydata.count + 1;
 }
@@ -66,7 +65,7 @@
 	
 	NSString* class_name;
 	id<AYViewBase> cell;
-	if (service_type == ServiceTypeCourse) {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		class_name = @"AYOTMCourseCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		id tmp = [querydata objectAtIndex:indexPath.section];
@@ -92,27 +91,27 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (service_type == ServiceTypeCourse) {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		return 85.f;
 	} else
 		return 65.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (service_type == ServiceTypeNursery) {
-		NSNumber *row = [NSNumber numberWithInteger:indexPath.section];
-		kAYDelegateSendNotify(self, @"cellShowPickerView:", &row)
-	} else {
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		NSIndexPath *row = indexPath;
 		kAYDelegateSendNotify(self, @"didClickTheCellRow:", &row)
+	} else {
+		NSNumber *row = [NSNumber numberWithInteger:indexPath.section];
+		kAYDelegateSendNotify(self, @"cellShowPickerView:", &row)
 	}
 	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	if (service_type == ServiceTypeNursery) {
+	if ([serviceCat isEqualToString:kAYStringNursery]) {
 		return 6.f;
-	} else if (service_type == ServiceTypeCourse && section == 0) {
+	} else if ([serviceCat isEqualToString:kAYStringCourse] && section == 0) {
 		return 6.f;
 	} else
 		return 0.001f;
@@ -121,25 +120,12 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 	UIView *headView = [UIView new];
 	headView.backgroundColor = [Tools garyBackgroundColor];
-		
-//	if (service_type == ServiceTypeCourse && section == 0) {
-//		UIView *libgView = [[UIView alloc] init];
-//		libgView.backgroundColor = [Tools themeColor];
-//		[headView addSubview:libgView];
-//		[libgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.centerX.equalTo(headView.mas_left).offset(27);
-//			make.top.equalTo(headView);
-//			make.width.mas_equalTo(1.5);
-//			make.height.mas_equalTo(6.f);
-//		}];
-//	}
-	
 	return headView;
 }
 
 //左划删除
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == querydata.count || service_type == ServiceTypeCourse) {
+	if (indexPath.section == querydata.count || [serviceCat isEqualToString:kAYStringCourse]) {
 		return NO;
 	} else
 		return YES;

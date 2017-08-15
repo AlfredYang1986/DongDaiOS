@@ -118,11 +118,12 @@
 		[self isShowContent:YES];
 		countlabel.text = [NSString stringWithFormat:@"%ld", arr_args.count];
 		
-		NSDictionary *order_info = [args firstObject];
+		NSDictionary *order_info = [[arr_args firstObject] objectForKey:kAYOrderArgsSelf];
 		NSString *photo_name;
 		
 		NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];
 		NSString *actionStr = @"FeedBack Info";
+		
 		if (status.intValue == OrderStatusPosted) {
 			actionStr = @"申请预订";
 		} else if (status.intValue == OrderStatusAccepted) {
@@ -137,18 +138,19 @@
 			case OrderStatusPaid:
 			case OrderStatusCancel:
 			{
-				photo_name = [order_info objectForKey:@"screen_photo"];
-				userNameLabel.text = [order_info objectForKey:kAYProfileArgsScreenName];
-				serviceTitleLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYServiceArgsTitle];
+				photo_name = [[order_info objectForKey:@"user"] objectForKey:kAYProfileArgsScreenPhoto];
+				userNameLabel.text = [[order_info objectForKey:@"user"] objectForKey:kAYProfileArgsScreenName];
+				serviceTitleLabel.text = [order_info objectForKey:kAYOrderArgsTitle];
 			}
 				break;
 			case OrderStatusAccepted:
 			case OrderStatusReject:
 			{
-				photo_name = [[order_info objectForKey:@"service"] objectForKey:kAYProfileArgsScreenPhoto];
-				userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYProfileArgsScreenName];
-				NSString *compName = [Tools serviceCompleteNameFromSKUWith:[order_info objectForKey:@"service"]];
-				serviceTitleLabel.text = [NSString stringWithFormat:@"您的%@申请", compName];
+				photo_name = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenPhoto];
+				userNameLabel.text = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+//				NSString *compName = [Tools serviceCompleteNameFromSKUWith:[order_info objectForKey:@"service"]];
+//				serviceTitleLabel.text = [NSString stringWithFormat:@"您的%@申请", compName];
+				serviceTitleLabel.text = [order_info objectForKey:kAYOrderArgsTitle];
 			}
 				break;
 			case OrderStatusExpired:
@@ -159,12 +161,10 @@
 			default:
 				break;
 		}
-		
-		id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-		NSString *PRE = cmd.route;
-		[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, photo_name]]
-						 placeholderImage:IMGRESOURCE(@"default_user")];
+		if (photo_name) {
+			[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+							 placeholderImage:IMGRESOURCE(@"default_user")];
+		}
 		
 	}
 }

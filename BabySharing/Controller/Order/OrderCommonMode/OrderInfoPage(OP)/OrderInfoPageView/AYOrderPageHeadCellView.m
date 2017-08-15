@@ -34,6 +34,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		titleLabel = [Tools creatUILabelWithText:@"Servant's Service With Theme" andTextColor:[Tools blackColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];

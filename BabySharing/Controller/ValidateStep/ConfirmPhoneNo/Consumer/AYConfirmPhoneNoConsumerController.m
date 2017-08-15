@@ -129,6 +129,8 @@
 					id<AYCommand> cmd = [face_view.commands objectForKey:@"rhsImage:"];
 					[cmd performWithResult:&img];
 				}];
+			} else {
+			
 			}
 		}];
     }

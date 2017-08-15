@@ -142,7 +142,7 @@
 
 - (void)servicerOptions {
     
-    NSNumber *model = [querydata objectForKey:@"is_service_provider"];
+    NSNumber *model = [querydata objectForKey:kAYProfileArgsIsProvider];
     
     if (model.boolValue) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
@@ -150,8 +150,8 @@
         [cmd performWithResult:&args];
         
     } else {
-        NSNumber *is_has_phone = [querydata objectForKey:@"has_phone"];
-        NSNumber *is_real_name = [querydata objectForKey:@"is_real_name_cert"];
+        NSNumber *is_has_phone = [querydata objectForKey:kAYProfileArgsIsHasPhone];
+        NSNumber *is_real_name = [querydata objectForKey:kAYProfileArgsIsValidtRealName];
         id<AYCommand> des;
         
         if (!is_has_phone.boolValue ) {

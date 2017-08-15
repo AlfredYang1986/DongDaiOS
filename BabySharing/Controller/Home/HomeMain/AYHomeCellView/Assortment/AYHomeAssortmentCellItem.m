@@ -33,38 +33,47 @@
 
 - (void)initialize {
 	
-	self.backgroundColor = [UIColor clearColor];
+	self.backgroundColor = [Tools randomColor];
 	self.clipsToBounds = YES;
+	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	
-	imageView = [[UIImageView alloc] init];
-	imageView.contentMode = UIViewContentModeScaleAspectFill;
-	imageView.image = IMGRESOURCE(@"default_image");
-	[Tools setViewBorder:imageView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-	[self addSubview:imageView];
-	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.edges.equalTo(self);
-	}];
+//	imageView = [[UIImageView alloc] init];
+//	imageView.contentMode = UIViewContentModeScaleAspectFill;
+//	imageView.image = IMGRESOURCE(@"default_image");
+//	[Tools setViewBorder:imageView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+//	[self addSubview:imageView];
+//	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.edges.equalTo(self);
+//	}];
 	
 	titleLabel = [Tools creatUILabelWithText:@"Assortment Title" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(imageView).offset(30);
-		make.centerX.equalTo(imageView);
+		make.bottom.equalTo(self.mas_centerY).offset(10);
+		make.centerX.equalTo(self);
 	}];
 	
 	skipCountLabel = [Tools creatUILabelWithText:@"skiped' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:skipCountLabel];
 	[skipCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(imageView).offset(-15);
-		make.centerX.equalTo(imageView);
+		make.top.equalTo(self.mas_centerY).offset(15);
+		make.centerX.equalTo(self);
 	}];
 	
 }
 
 - (void)setItemInfo:(NSDictionary*)itemInfo {
-//	itemInfo = itemInfo;
+	
 	NSString *titleStr = [itemInfo objectForKey:@"title"];
 	titleLabel.text = titleStr;
+	
+//	NSNumber *skipedCount = [itemInfo objectForKey:@"count_skiped"];
+//	if (skipedCount) {
+//		skipCountLabel.hidden = NO;
+//		skipCountLabel.text = [NSString stringWithFormat:@"%@人浏览过", skipedCount];
+//	} else {
+//		skipCountLabel.hidden  =YES;
+//	}
 }
 
 @end
