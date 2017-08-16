@@ -195,17 +195,14 @@
 }
 
 - (id)queryOrders {
+	NSDictionary* user = nil;
+	CURRENUSER(user)
 	
-	NSDictionary *info;
-	CURRENUSER(info)
+	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithDouble:([NSDate date].timeIntervalSince1970 * 1000)] forKey:@"date"];
 	
-	NSMutableDictionary *dic_query = [[NSMutableDictionary alloc] initWithDictionary:info];
-//	[dic_query setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
-	NSDictionary *condition = @{@"order_user_id":[info objectForKey:@"user_id"]};
-	[dic_query setValue:condition forKey:@"condition"];
-	
-	[dic_query setValue:[NSNumber numberWithDouble:queryTimespan * 1000] forKey:@"date"];
-	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:@"skin"];
+	[dic_query setValue:[NSNumber numberWithInteger:skipCount] forKey:kAYCommArgsRemoteDataSkip];
 	[dic_query setValue:[NSNumber numberWithInt:20] forKey:@"take"];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];

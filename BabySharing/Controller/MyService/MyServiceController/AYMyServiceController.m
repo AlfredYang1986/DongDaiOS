@@ -36,21 +36,11 @@
         
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
         if (backArgs) {
-            
-            [self loadRefreshData];
-            
             if ([backArgs isKindOfClass:[NSString class]]) {
-                
-                NSString *title = (NSString*)backArgs;
-                id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-                
-                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-                [dic_alert setValue:title forKey:@"title"];
-                [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-                [cmd_alert performWithResult:&dic_alert];
+                AYShowBtmAlertView(backArgs, BtmAlertViewTypeHideWithTimer)
             }
-            //backargs if end
+			//backargs string? end
+			[self loadRefreshData];
         }
     }
 }

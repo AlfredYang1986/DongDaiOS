@@ -233,6 +233,10 @@
         <command type="Remote" name="QueryComment" />
 		<command type="Remote" name="QueryComments" />
     </facade>
+	<facade type="DefaultFacade" name="Alipay" factory="AYDefaultFacadeFactory" >
+		<command type="Module" name="QueryAliCallBackHandler" />
+		<command type="Module" name="AlipayPay" />
+	</facade>
 	
 	<facade type="DefaultFacade" name="OrderNotification" factory="AYDefaultFacadeFactory" >
 		<command type="Remote" name="PushOrder" />
@@ -250,11 +254,11 @@
 		<command type="Module" name="ParseSTMForDayCourse" />
 		<command type="Module" name="ParseServiceTMNurse" />
     </facade>
-    
-    <facade type="DefaultFacade" name="Alipay" factory="AYDefaultFacadeFactory" >
-        <command type="Module" name="QueryAliCallBackHandler" />
-        <command type="Module" name="AlipayPay" />
-    </facade>
+	
+	<facade type="DefaultFacade" name="TimeManagerRemote" factory="AYDefaultFacadeFactory" >
+		<command type="Remote" name="TMsUpdate" />
+		<command type="Remote" name="TMsQuery" />
+	</facade>
 	
 	<facade type="DefaultFacade" name="ChoiceRemote" factory="AYDefaultFacadeFactory" >
 		<command type="Remote" name="ChoiceSearch" />

@@ -129,6 +129,8 @@
 			UITableView *view_table = [self.views objectForKey:kAYTableView];
 			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 			//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		} else {
+		
 		}
 	}];
 }

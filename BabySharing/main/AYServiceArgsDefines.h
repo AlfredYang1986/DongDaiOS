@@ -67,6 +67,9 @@ static NSString* const kAYServiceArgsTimes =				@"tms";
 static NSString* const kAYServiceArgsStartDate =			@"startdate";
 static NSString* const kAYServiceArgsEndDate =				@"enddate";
 static NSString* const kAYServiceArgsPattern =				@"pattern";
+static NSString* const kAYServiceArgsTPHandle =				@"timePointHandle";
+static NSString* const kAYServiceArgsStartHours =			@"starthours";
+static NSString* const kAYServiceArgsEndHours =				@"endhours";
 
 static NSString* const kAYServiceArgsOfferDate =			@"offer_date";
 static NSString* const kAYServiceArgsWeekday =				@"day";
@@ -74,9 +77,6 @@ static NSString* const kAYServiceArgsOccurance =			@"occurance";
 static NSString* const kAYServiceArgsStart =				@"start";
 static NSString* const kAYServiceArgsEnd =					@"end";
 
-static NSString* const kAYServiceArgsTPHandle =				@"timePointHandle";
-static NSString* const kAYServiceArgsStartHours =			@"starthours";
-static NSString* const kAYServiceArgsEndHours =				@"endhours";
 
 static NSString* const kAYServiceArgsNotice =				@"other_words";
 static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
@@ -109,6 +109,14 @@ static NSString* const kAYServiceArgsIsAdjustSKU =			@"is_adjust_SKU";
 //static NSString* const kAYServiceArgs =               @"screen_photo";
 //static NSString* const kAYServiceArgs =               @"screen_name";
 
+//timemanager args
+static NSString* const kAYTimeManagerArgsSelf =				@"timemanager";
+static NSString* const kAYTimeManagerArgsTMs =				@"tms";
+static NSString* const kAYTimeManagerArgsPattern =			@"pattern";
+static NSString* const kAYTimeManagerArgsStartDate =		@"startdate";
+static NSString* const kAYTimeManagerArgsEndDate =			@"enddate";
+static NSString* const kAYTimeManagerArgsStartHours =		@"starthours";
+static NSString* const kAYTimeManagerArgsEndHours =			@"endhours";
 
 //order args
 static NSString* const kAYOrderArgsSelf =					@"order";

@@ -51,17 +51,28 @@
 			
 		} else {
 			service_info = [tmp copy];
-			if ([tmp objectForKey:@"tms"]) {
-				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMNurse"];
-				id args = [tmp objectForKey:@"tms"];
-				
-				[cmd performWithResult:&args];
-				
-				offer_date = [args copy];
-				workDaySchedule = [[args objectForKey:@"schedule_workday"] mutableCopy];
-				restDayScheduleArr = [args objectForKey:@"schedule_restday"];
-			}
+			NSMutableDictionary *dic_query_tms = [Tools getBaseRemoteData];
+			[[dic_query_tms objectForKey:kAYCommArgsCondition] setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+			
+			id<AYFacadeBase> facade = [self.facades objectForKey:@"TimeManagerRemote"];
+			AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"TMsQuery"];
+			[cmd_query performWithResult:[dic_query_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+				if (success) {
+					id args = [[result objectForKey:kAYTimeManagerArgsSelf] objectForKey:kAYTimeManagerArgsTMs];
+					
+					id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+					id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMNurse"];
+					[cmd performWithResult:&args];
+					
+					offer_date = [args copy];
+					workDaySchedule = [[args objectForKey:@"schedule_workday"] mutableCopy];
+					restDayScheduleArr = [args objectForKey:@"schedule_restday"];
+					
+				} else {
+					
+				}
+			}];
+			
 		}
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
