@@ -134,9 +134,9 @@
 
 	id tmp;
 	if (indexPath.section == 0) {
-		tmp = [[[querydata objectForKey:@"todo"] objectAtIndex:indexPath.row] objectForKey:kAYOrderArgsSelf];
+		tmp = [[querydata objectForKey:@"todo"] objectAtIndex:indexPath.row];
 	} else
-		tmp = [[[querydata objectForKey:@"feedback"] objectAtIndex:indexPath.row] objectForKey:kAYOrderArgsSelf];
+		tmp = [[querydata objectForKey:@"feedback"] objectAtIndex:indexPath.row];
 	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
 
 	id<AYCommand> cmd_push = PUSH;

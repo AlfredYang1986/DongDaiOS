@@ -107,17 +107,21 @@
 
 #pragma mark -- actions
 - (void)didConfirmPayBtnClick {
-	NSDictionary *args;
-	CURRENUSER(args);
+	NSDictionary *user;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic_cancel = [Tools getBaseRemoteData];
+	[[dic_cancel objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[[dic_cancel objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_order = [[NSMutableDictionary alloc] init];
+	[dic_order setValue:[NSNumber numberWithInt:OrderStatusCancel] forKey:kAYOrderArgsStatus];
+	[dic_order setValue:further_message forKey:kAYOrderArgsFurtherMessage];
+	[dic_cancel setValue:dic_order forKey:kAYOrderArgsSelf];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_cancel = [facade.commands objectForKey:@"CancelOrder"];
-	
-	NSMutableDictionary *dic_cancel_info = [[NSMutableDictionary alloc] initWithDictionary:args];
-	[dic_cancel_info setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
-	[dic_cancel_info setValue:further_message forKey:kAYOrderArgsFurtherMessage];
-	
-	[cmd_cancel performWithResult:[dic_cancel_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	[cmd_cancel performWithResult:[dic_cancel copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
 			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
 			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

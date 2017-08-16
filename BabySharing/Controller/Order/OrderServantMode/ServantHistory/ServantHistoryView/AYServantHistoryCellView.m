@@ -149,7 +149,7 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
 	
-	NSDictionary *order_info = [args objectForKey:kAYOrderArgsSelf];
+	NSDictionary *order_info = args;
 	NSString *photo_name = [[order_info objectForKey:@"user"] objectForKey:kAYProfileArgsScreenPhoto];
 	[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 					 placeholderImage:IMGRESOURCE(@"default_user")];

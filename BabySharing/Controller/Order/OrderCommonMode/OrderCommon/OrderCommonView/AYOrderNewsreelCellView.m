@@ -179,15 +179,11 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
 	
-	NSDictionary *order_info = (NSDictionary*)args;
+	NSDictionary *order_info = [args objectForKey:kAYOrderArgsSelf];
 	NSTimeInterval nowNode = [NSDate date].timeIntervalSince1970;
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
-	
 	NSString *photo_name = [order_info objectForKey:kAYOrderArgsThumbs];
-	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:order_info];
@@ -195,8 +191,9 @@
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
 	NSString *addrStr = [order_info objectForKey:@"address"];
-	positionLabel.text = addrStr;
-	
+	if (addrStr && ![addrStr isEqualToString:@""]) {
+		positionLabel.text = addrStr;
+	}
 	
 	NSTimeInterval start = ((NSNumber*)[order_info objectForKey:@"start"]).longValue * 0.001;
 	NSTimeInterval end = ((NSNumber*)[order_info objectForKey:@"end"]).longValue * 0.001;

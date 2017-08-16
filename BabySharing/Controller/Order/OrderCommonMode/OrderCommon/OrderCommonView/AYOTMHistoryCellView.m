@@ -194,36 +194,11 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-//	{
-//		address = "Beijing Haidian Driving School Registration Office (Dongsheng Student Accommodation Unit Southwest)";
-//		cans = "-1";
-//		"cans_cat" = 0;
-//		end = 1494637200000;
-//		"order_id" = 5ec0d0e954acebfecbc617eab87d08c8;
-//		"order_thumbs" = "EAC8BAE9-46FB-4054-94E0-70B32E2C82E1";
-//		"order_title" = "Sunfei' Service";
-//		owner =     {
-//			"screen_name" = Singer;
-//			"screen_photo" = "A25F3F2C-9619-484D-8EB6-B7B187BA4F9A";
-//		};
-//		reserve1 = "";
-//		"service_cat" = 1;
-//		"service_id" = 4b99af39a03c518f794f4f1ff799f66c;
-//		start = 1494633600000;
-//		user =     {
-//			"screen_name" = "\U827e\U4f26\U4e36\U7c73\U4fee\U65af";
-//			"screen_photo" = "3B958915-E9D8-4D36-B995-A98C907EFEA0";
-//		};
-//	}
 	
-	NSDictionary *order_info = (NSDictionary*)args;
-	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
+	NSDictionary *order_info = [args objectForKey:kAYOrderArgsSelf];
 	
 	NSString *photo_name = [order_info objectForKey:kAYOrderArgsThumbs];
-	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:order_info];
@@ -231,11 +206,12 @@
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
 	NSString *addrStr = [order_info objectForKey:@"address"];
-	positionLabel.text = addrStr;
+	if (addrStr && ![addrStr isEqualToString:@""]) {
+		positionLabel.text = addrStr;
+	}
 	
-	
-	NSTimeInterval start = ((NSNumber*)[order_info objectForKey:@"start"]).longValue * 0.001;
-	NSTimeInterval end = ((NSNumber*)[order_info objectForKey:@"end"]).longValue * 0.001;
+	NSTimeInterval start = ((NSNumber*)[args objectForKey:@"start"]).longValue * 0.001;
+	NSTimeInterval end = ((NSNumber*)[args objectForKey:@"end"]).longValue * 0.001;
 	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
 	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
 	

@@ -77,17 +77,15 @@
 		cell.titleStr = @"您没有新的动态";
 		return cell;
 	} else {
-		class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OSEstabCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		class_name = @"AYOSEstabCellView";
 		cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 		
 		tmp = [querydata objectAtIndex:indexPath.row];
 		kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+		cell.controller = self.controller;
+		((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
+		return (UITableViewCell*)cell;
 	}
-	
-	cell.controller = self.controller;
-	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
-	return (UITableViewCell*)cell;
-	
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,7 +108,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-	
 	return 55.f;
 }
 

@@ -18,7 +18,6 @@
 #import "AYModelFacade.h"
 
 @implementation AYOrderListNewsController {
-	
 	NSArray *orderData;
 }
 
@@ -28,9 +27,6 @@
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		orderData = [dic objectForKey:kAYControllerChangeArgsKey];
-		
-//		@"wait"];
-//		[tmp setValue:result_status_confirm forKey:@"confirm"];
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {

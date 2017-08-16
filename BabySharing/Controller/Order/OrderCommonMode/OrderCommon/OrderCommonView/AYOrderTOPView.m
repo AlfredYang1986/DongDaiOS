@@ -118,7 +118,7 @@
 		[self isShowContent:YES];
 		countlabel.text = [NSString stringWithFormat:@"%ld", arr_args.count];
 		
-		NSDictionary *order_info = [[arr_args firstObject] objectForKey:kAYOrderArgsSelf];
+		NSDictionary *order_info = [arr_args firstObject];
 		NSString *photo_name;
 		
 		NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];

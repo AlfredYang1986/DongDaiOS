@@ -22,9 +22,6 @@
 	UILabel *stateLabel;
 	UILabel *orderNoLabel;
 	UILabel *dateLabel;
-	
-	NSDictionary *service_info;
-	
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -156,14 +153,10 @@
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
 	
-	NSDictionary *order_info = (NSDictionary*)args;
-	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
+	NSDictionary *order_info = args;
 	
 	NSString *photo_name = [order_info objectForKey:kAYOrderArgsThumbs];
-	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
+	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 						 placeholderImage:IMGRESOURCE(@"default_user")];
 	
 	NSString *orderID = [order_info objectForKey:kAYOrderArgsID];
@@ -172,7 +165,7 @@
 		orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	}
 	
-	service_info = [order_info objectForKey:kAYServiceArgsSelf];
+	NSDictionary *service_info = [order_info objectForKey:kAYServiceArgsSelf];
 	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
 	NSString *aplyName = [[order_info objectForKey:kAYServiceArgsSelf] objectForKey:kAYProfileArgsScreenName];
 	NSString *titleStr = [NSString stringWithFormat:@"%@的%@", aplyName, completeTheme];
@@ -180,24 +173,7 @@
 		titleLabel.text = titleStr;
 	}
 	
-//	NSDictionary *order_date = [args objectForKey:@"order_date"];
-//	NSTimeInterval start = ((NSNumber*)[order_date objectForKey:@"start"]).longValue;
-//	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start * 0.001];
-//	NSTimeInterval end = ((NSNumber*)[order_date objectForKey:@"end"]).longValue;
-//	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end * 0.001];
-	
-//	NSDateFormatter *formatterDay = [[NSDateFormatter alloc]init];
-//	[formatterDay setDateFormat:@"MM月dd日"];
-//	NSString *dayStr = [formatterDay stringFromDate:startDate];
-//	
-//	NSDateFormatter *formatterTime = [[NSDateFormatter alloc]init];
-//	[formatterTime setDateFormat:@"HH:mm"];
-//	NSString *startStr = [formatterTime stringFromDate:startDate];
-//	NSString *endStr = [formatterTime stringFromDate:endDate];
-	
-//	dateLabel.text = [NSString stringWithFormat:@"%@, %@ - %@",dayStr, startStr, endStr];
-	
-	OrderStatus OrderStatus = ((NSNumber*)[args objectForKey:@"status"]).intValue;
+	OrderStatus OrderStatus = ((NSNumber*)[order_info objectForKey:@"status"]).intValue;
 	switch (OrderStatus) {
 		case OrderStatusPosted:{
 			stateLabel.text = @"待确认";

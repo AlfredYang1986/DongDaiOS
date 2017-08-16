@@ -18,7 +18,6 @@
 #import "AYModelFacade.h"
 
 @implementation AYAppliFBListController {
-	
 	NSArray *order_feedback;
 }
 

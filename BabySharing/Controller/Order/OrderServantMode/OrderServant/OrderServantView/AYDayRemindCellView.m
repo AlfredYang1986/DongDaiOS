@@ -131,7 +131,7 @@
 	
 	if (args.count == 0) {
 		olockView.hidden = YES;
-		subTitleLabel.text = @"没有任何提醒";
+		subTitleLabel.text = @"今日没有日程提醒";
 		countRemindLabel.hidden = YES;
 		
 	} else if (args.count >= 1) {

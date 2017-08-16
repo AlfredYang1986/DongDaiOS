@@ -35,6 +35,7 @@
 	if (self) {
 		
 		self.backgroundColor = [UIColor whiteColor];
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		CGFloat imageWidth = 45.f;
 		CGFloat margin = 10.f;
@@ -137,13 +138,12 @@
 - (id)setCellInfo:(id)args {
 	
 	NSDictionary *order_info = args;
-	NSString *photo_name = [[order_info objectForKey:@"service"] objectForKey:@"screen_photo"];
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *PRE = cmd.route;
-	[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", PRE, photo_name]]
-					 placeholderImage:IMGRESOURCE(@"default_user")];
+	NSString *photo_name = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenPhoto];
+	if (photo_name) {
+		[userPhotoView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+						 placeholderImage:IMGRESOURCE(@"default_user")];
+	}
 	
 	NSNumber *status = [order_info objectForKey:kAYOrderArgsStatus];
 	NSString *actionStr = @"FeedBack Info";
@@ -152,10 +152,9 @@
 	} else if (status.intValue == OrderStatusReject) {
 		actionStr = @"已拒绝";
 	}
-	
 	FBActionLabel.text = actionStr;
 	
-	userNameLabel.text = [[order_info objectForKey:@"service"] objectForKey:kAYProfileArgsScreenName];
+	userNameLabel.text = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	
 	NSString *compName = [Tools serviceCompleteNameFromSKUWith:[order_info objectForKey:@"service"]];
 	serviceTitleLabel.text = [NSString stringWithFormat:@"您的%@申请", compName];

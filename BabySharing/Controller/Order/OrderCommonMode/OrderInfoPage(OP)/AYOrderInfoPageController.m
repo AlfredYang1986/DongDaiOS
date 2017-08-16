@@ -275,6 +275,7 @@
 	NSMutableDictionary *dic_status = [[NSMutableDictionary alloc] init];
 	[dic_status setValue:[NSNumber numberWithInt:OrderStatusAccepted] forKey:kAYOrderArgsStatus];
 	[dic setValue:dic_status forKey:kAYOrderArgsSelf];
+	NSLog(@"dic_accept-%@", dic);
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"AcceptOrder"];

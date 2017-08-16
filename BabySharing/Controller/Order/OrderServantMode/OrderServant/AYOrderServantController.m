@@ -110,31 +110,6 @@
 	[self queryReminds];
 }
 
-- (void)queryReminds {
-	NSDictionary* user = nil;
-	CURRENUSER(user)
-	
-	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
-	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
-	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithInt:1] forKey:@"only_today"];
-	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
-	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-		if (success) {
-			remindArr = [result copy];
-			id tmp = [result copy];
-			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryData:", &tmp)
-			
-			UITableView *view_table = [self.views objectForKey:kAYTableView];
-			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-			//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-		} else {
-		
-		}
-	}];
-}
-
 - (id)queryOrders {
 	NSDictionary* user = nil;
 	CURRENUSER(user)
@@ -150,22 +125,22 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			NSArray *resultArr = [result objectForKey:@"lst"];
+			NSArray *resultArr = [result objectForKey:@"orders"];
 			queryTimespan = ((NSNumber*)[result objectForKey:@"date"]).doubleValue;
 			
-			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusPosted];
+			NSPredicate *pred_ready = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusPosted];
 			result_status_posted = [resultArr filteredArrayUsingPredicate:pred_ready];
 			
 			id data = [result_status_posted copy];
 			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryTodoData:", &data)
 			
-			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusPaid];
-			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusCancel];
+			NSPredicate *pred_paid = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusPaid];
+			NSPredicate *pred_cancel = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusCancel];
 			NSPredicate *pred_fb = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_paid, pred_cancel]];
 			result_status_paid_cancel = [resultArr filteredArrayUsingPredicate:pred_fb];
 			
-			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusReject];
-			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.order.%@=%d", kAYOrderArgsStatus, OrderStatusDone];
+			NSPredicate *pred_reject = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusReject];
+			NSPredicate *pred_done = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYOrderArgsStatus, OrderStatusDone];
 			NSPredicate *pred_past = [NSCompoundPredicate orPredicateWithSubpredicates:@[pred_reject, pred_cancel, pred_done, pred_paid]];
 			result_status_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			
@@ -179,6 +154,31 @@
 	}];
 	
 	return nil;
+}
+
+- (void)queryReminds {
+	NSDictionary* user = nil;
+	CURRENUSER(user)
+	
+	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
+	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithInt:1] forKey:@"only_today"];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryRemind"];
+	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			remindArr = [[result objectForKey:@"lst"] copy];
+			id tmp = [remindArr copy];
+			kAYDelegatesSendMessage(@"OrderServant", @"changeQueryData:", &tmp)
+			
+			UITableView *view_table = [self.views objectForKey:kAYTableView];
+			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+			//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		} else {
+		
+		}
+	}];
 }
 
 - (id)showAppliListOrOne {
