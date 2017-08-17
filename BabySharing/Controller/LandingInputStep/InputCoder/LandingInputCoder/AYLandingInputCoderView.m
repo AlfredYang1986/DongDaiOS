@@ -38,6 +38,7 @@
 	UIButton *nextBtn;
     
     BOOL isNewUser;
+	BOOL isAlreadyreReqCode;
 }
 
 @synthesize para = _para;
@@ -152,7 +153,7 @@
 //    [enterBtn setImage:[UIImage imageNamed:@"enter_selected"] forState:UIControlStateNormal];
 //    [enterBtn setImage:[UIImage imageNamed:@"enter"] forState:UIControlStateDisabled];
 //    enterBtn.enabled = NO;
-    enterBtn.alpha = 0;
+    enterBtn.hidden = YES;
     [enterBtn addTarget:self action:@selector(requestCoder:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:enterBtn];
     [enterBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -169,7 +170,7 @@
 		make.right.equalTo(self);
 		make.size.mas_equalTo(CGSizeMake(50, 50));
 	}];
-	nextBtn.alpha = 0;
+	nextBtn.hidden = YES;
 	[nextBtn addTarget:self action:@selector(requestCoder:) forControlEvents:UIControlEventTouchUpInside];
 	
     timer = [NSTimer scheduledTimerWithTimeInterval: 1.0
@@ -196,16 +197,6 @@
     return kAYFactoryManagerCatigoryView;
 }
 
--(void)layoutSubviews{
-    [super layoutSubviews];
-}
-
--(void)requestCoder:(UIButton*)sender {
-    
-    id<AYCommand> cmd = [self.notifies objectForKey:@"rightBtnSelected"];
-    [cmd performWithResult:nil];
-}
-
 - (void)areaCodeBtnSelected:(UIButton*)sender {
     [_controller performForView:self andFacade:nil andMessage:@"LandingAreaCode" andArgs:nil];
 }
@@ -213,7 +204,7 @@
 - (void)textFieldTextDidChange:(NSNotification*)tf {
 	
     if (tf.object == coder_area ) {
-        if ( coder_area.text.length == 4) {
+        if ( coder_area.text.length == 4 && isAlreadyreReqCode) {
             [self showEnterOrNextBtn];
 			[coder_area resignFirstResponder];
         } else {
@@ -237,9 +228,7 @@
         
         if (inputPhoneNo.text.length >= kPhoneNoLimit) {
             if (![[NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"^1[3,4,5,7,8]\\d{1} \\d{4} \\d{4}$"] evaluateWithObject:inputPhoneNo.text]) {
-                
                 [inputPhoneNo resignFirstResponder];
-				
                 NSString *title = @"手机号码输入错误";
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithAction)
                 return;
@@ -255,15 +244,14 @@
 		}
     }
 }
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
+	/*
+	 *控制格式
+	 */
     if (textField == inputPhoneNo) {
-        
         if ( inputPhoneNo.text.length >= kPhoneNoLimit && ![string isEqualToString:@""]){
             return NO;
         } else {
-            
             NSString *tmp = inputPhoneNo.text;
             if ((tmp.length == 3 || tmp.length == 8) && ![string isEqualToString:@""]) {
                 tmp = [tmp stringByAppendingString:@" "];
@@ -271,33 +259,13 @@
             }
             return YES;
         }
-    } else return YES;
-    
+    } else
+		return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     
     AYHideBtmAlertView
-}
-
--(void)areaBtnClick{
-    
-    NSString *title = @"目前只支持中国地区电话号码";
-    AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-}
-
-- (void)getcodeBtnClick {
-    
-    coder_area.text = @"";
-    [self hideEnterOrNextBtn];
-    [self hideKeyboard];
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSString *tmp = inputPhoneNo.text;
-    tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [dic setValue:tmp forKey:@"phoneNo"];
-    id<AYCommand> cmd = [self.notifies objectForKey:@"reReqConfirmCode:"];
-    [cmd performWithResult:&dic];
 }
 
 #pragma mark -- handle
@@ -332,47 +300,49 @@
 }
 
 #pragma mark -- actions
-//- (void)showAYAlertViewWithTitle:(NSString*)title {
-//    AYAlertView *alertView = [[AYAlertView alloc]initWithTitle:title andTitleColor:nil];
-//    [self addSubview:alertView];
-//    [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(inputCodeView.mas_bottom).offset(60);
-//        make.centerX.equalTo(self);
-//        make.size.mas_equalTo(CGSizeMake(alertView.titleSize.width+60, 40));
-//    }];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [UIView animateWithDuration:1.f animations:^{
-//            alertView.alpha = 0;
-//        } completion:^(BOOL finished) {
-//            [alertView removeFromSuperview];
-//        }];
-//    });
-//}
+-(void)areaBtnClick{
+	
+	NSString *title = @"目前只支持中国地区电话号码";
+	AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+}
+
+- (void)getcodeBtnClick {
+	
+	coder_area.text = @"";
+	[self hideEnterOrNextBtn];
+	[self hideKeyboard];
+	
+	NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+	NSString *tmp = inputPhoneNo.text;
+	tmp = [tmp stringByReplacingOccurrencesOfString:@" " withString:@""];
+	[dic setValue:tmp forKey:kAYProfileArgsPhone];
+	id<AYCommand> cmd = [self.notifies objectForKey:@"reReqConfirmCode:"];
+	[cmd performWithResult:&dic];
+}
+
+-(void)requestCoder:(UIButton*)sender {
+	[self hideKeyboard];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[inputPhoneNo.text stringByReplacingOccurrencesOfString:@" " withString:@""] forKey:kAYProfileArgsPhone];
+	[tmp setValue:coder_area.text forKey:@"code"];
+	id<AYCommand> cmd = [self.notifies objectForKey:@"AuthWithPhoneNoAndCode:"];
+	[cmd performWithResult:&tmp];
+}
 
 -(void)hideEnterOrNextBtn {
-	[UIView animateWithDuration:0.25 animations:^{
-		enterBtn.alpha = 0;
-		nextBtn.alpha = 0;
-	}];
+	enterBtn.hidden = YES;
+	nextBtn.hidden = YES;
 }
 -(void)showEnterOrNextBtn {
     if (isNewUser) {
-        [UIView animateWithDuration:0.25 animations:^{
-			nextBtn.alpha = 1;
-        }];
+		nextBtn.hidden = NO;
 	} else {
-		[UIView animateWithDuration:0.25 animations:^{
-			enterBtn.alpha = 1;
-		}];
+		enterBtn.hidden = NO;
 	}
 }
 
 #pragma mark -- view commands
-//- (id)showAYAlertVeiw:(NSString*)args {
-//    [self showAYAlertViewWithTitle:args];
-//    return nil;
-//}
-
 - (id)hideKeyboard {
     if ([coder_area isFirstResponder]) {
         [coder_area resignFirstResponder];
@@ -384,17 +354,15 @@
 }
 
 -(id)showEnterBtnForOldUser {
+	isAlreadyreReqCode = YES;
     isNewUser = NO;
     return nil;
 }
 
 -(id)showNextBtnForNewUser {
+	isAlreadyreReqCode = YES;
     isNewUser = YES;
     return nil;
-}
-
--(id)queryCurCoder:(NSString*)args{
-    return coder_area.text;
 }
 
 @end

@@ -18,9 +18,8 @@
         <command type="message" message="showNextBtnForNewUser" />
         <command type="message" message="showEnterBtnForOldUser" />
         <command type="message" message="showAYAlertVeiw:" />
-        <command type="notify"  message="queryCurPhoneNo:" />
         <command type="notify"  message="reReqConfirmCode:" />
-        <command type="notify"  message="rightBtnSelected" />
+        <command type="notify"  message="AuthWithPhoneNoAndCode:" />
     </view>
     
     <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >
