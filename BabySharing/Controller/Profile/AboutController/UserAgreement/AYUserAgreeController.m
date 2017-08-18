@@ -160,13 +160,12 @@
     NSString* email = tf.text;
     
     if ([self isValidateEmail:email]) {
-        
-        AYFacade* f = [self.facades objectForKey:@"SendRemote"];
-        AYRemoteCallCommand* cmd = [f.commands objectForKey:@"EmailSend"];
-        
+		
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setObject:email forKey:@"email"];
-        
+		
+		AYFacade* f = [self.facades objectForKey:@"SendRemote"];
+		AYRemoteCallCommand* cmd = [f.commands objectForKey:@"EmailSend"];
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             NSLog(@"Update user detail remote result: %@", result);
             if (success) {
@@ -175,8 +174,7 @@
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"网络错误" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-                [alert show];
+                AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
             }
         }];
     }

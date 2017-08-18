@@ -244,7 +244,7 @@
 	<command type="Remote" name="TMsUpdate"				route="al/tm/update" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="TMsQuery"				route="al/tm/query" factory="AYRemoteCallFactory" />
 	
-	<command type="Remote" name="EmailSend"				route="email/sendPrivacy" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="EmailSend"				route="al/email/privacy" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="SMSSend"				route="connections/sentSMSInvitation" factory="AYRemoteCallFactory" />
 	
     <command type="Remote" name="ExposeUser"			route="expose/user" factory="AYRemoteCallFactory" />

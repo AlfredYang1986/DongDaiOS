@@ -93,19 +93,18 @@
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [view_table addGestureRecognizer:tap];
     
-    NSDictionary* user = nil;
-    CURRENUSER(user);
-    
-    id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:owner_id forKey:@"user_id"];
-    
+	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            NSString* user_name = [result objectForKey:@"screen_name"];
-            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &user_name)
+            NSString* user_name = [result objectForKey:kAYProfileArgsScreenName];
+			if (user_name) {
+				kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &user_name)
+			}
         }
     }];
     
