@@ -143,8 +143,8 @@
 	NSString *totalFeeStr = [NSString stringWithFormat:@"¥%.f", totalFee];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:totalFeeStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(2, totalFeeStr.length - 2)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(1, totalFeeStr.length - 1)];
 	sumPriceLabel.attributedText = attributedText;
 	
 	NSString *unitCat = @"UNIT";
@@ -158,7 +158,7 @@
 	}
 	else {
 		NSLog(@"---null---");
-		unitPriceLabel.text = [NSString stringWithFormat:@"¥Price／Unit × Count"];
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥Price/Unit×Count"];
 	}
 	
 	return nil;

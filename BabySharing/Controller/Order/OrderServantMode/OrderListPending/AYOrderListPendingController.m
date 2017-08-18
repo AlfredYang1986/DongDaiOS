@@ -112,33 +112,36 @@
 - (id)didSelectedRow:(NSNumber*)args {
 	
 	NSDictionary *dic_remind = [orderData objectAtIndex:args.integerValue];
-	NSDictionary* info = nil;
-	CURRENUSER(info)
-		
-	NSMutableDictionary *dic_query = [info mutableCopy];
-	NSDictionary *condition = @{kAYOrderArgsID:[dic_remind objectForKey:kAYOrderArgsID]};
-	[dic_query setValue:condition forKey:@"condition"];
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
-	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
-	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-		if (success) {
-			id tmp = [[result objectForKey:@"result"] firstObject];
-			
-			id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
-			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-			[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-			[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
-			[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-			[dic setValue:tmp forKey:kAYControllerChangeArgsKey];
-			
-			id<AYCommand> cmd_push = PUSH;
-			[cmd_push performWithResult:&dic];
-		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-		}
-	}];
+	id<AYCommand> des = DEFAULTCONTROLLER(@"OrderInfoPage");
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:dic_remind forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_push = PUSH;
+	[cmd_push performWithResult:&dic];
+	
+//	NSDictionary* info = nil;
+//	CURRENUSER(info)
+//		
+//	NSMutableDictionary *dic_query = [info mutableCopy];
+//	NSDictionary *condition = @{kAYOrderArgsID:[dic_remind objectForKey:kAYOrderArgsID]};
+//	[dic_query setValue:condition forKey:@"condition"];
+//	
+//	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
+//	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrders"];
+//	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+//		if (success) {
+//			id tmp = [[result objectForKey:@"result"] firstObject];
+//			
+//			
+//		} else {
+//			NSString *title = @"请改善网络环境并重试";
+//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//		}
+//	}];
 	
 	return nil;
 }

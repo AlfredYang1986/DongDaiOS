@@ -22,15 +22,24 @@
 @implementation AYOrderInfoPageController {
 	
 	NSDictionary *order_info;
+	
+	NSNumber *remindDateStart;
+	NSNumber *remindDateEnd;
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
-	NSDictionary* dic = (NSDictionary*)*obj;
 	
+	NSDictionary* dic = (NSDictionary*)*obj;
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		order_info = [dic objectForKey:kAYControllerChangeArgsKey];
-		
+		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		if ([tmp objectForKey:@"start"]) {
+			remindDateStart = [tmp objectForKey:@"start"];
+			remindDateEnd = [tmp objectForKey:@"end"];
+			order_info = [tmp objectForKey:kAYOrderArgsSelf];
+		} else {
+			order_info = tmp;
+		}
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -67,7 +76,15 @@
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrderDetail"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			order_info = [result objectForKey:kAYOrderArgsSelf];
+			id info_result = [result objectForKey:kAYOrderArgsSelf];
+			if (remindDateStart) {
+				NSMutableDictionary *dic_transfrom = [[NSMutableDictionary alloc] initWithDictionary:info_result];
+				[dic_transfrom setValue:@{kAYTimeManagerArgsStart:remindDateStart, kAYTimeManagerArgsEnd:remindDateEnd} forKey:kAYOrderArgsDate];
+				order_info = [dic_transfrom copy];
+			} else {
+				order_info = info_result;
+			}
+			
 			id tmp = [order_info copy];
 			kAYDelegatesSendMessage(@"OrderInfoPage", @"changeQueryData:", &tmp)
 			
