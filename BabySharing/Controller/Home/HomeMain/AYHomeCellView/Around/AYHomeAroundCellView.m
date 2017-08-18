@@ -95,17 +95,9 @@
 		
 		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
-		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(positionSignView.mas_right).offset(2);
-			make.centerY.equalTo(positionSignView);
-		}];
 		
 		distanceLabel = [Tools creatUILabelWithText:@"distance" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:distanceLabel];
-		[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(addressLabel);
-			make.right.equalTo(self).offset(-15);
-		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -209,6 +201,18 @@
 		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
 	}
 	addressLabel.text = addressStr;
+	
+	[distanceLabel sizeToFit];
+	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(addressLabel);
+		make.right.equalTo(self).offset(-15);
+		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+	}];
+	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(positionSignView.mas_right).offset(2);
+		make.centerY.equalTo(positionSignView);
+		make.right.equalTo(distanceLabel.mas_left).offset(-5);
+	}];
 	
 	return nil;
 }

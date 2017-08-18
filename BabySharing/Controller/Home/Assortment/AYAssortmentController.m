@@ -81,6 +81,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	skipedCount = 0;
 	
 	bannerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kCOLLECTIONVIEWTOP + 30)];
 	[self.view addSubview:bannerView];
@@ -128,8 +129,6 @@
 										NSVerticalGlyphFormAttributeName:@(0.5)} range:NSMakeRange(1, categStr.length - 2)];
 		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(categStr.length - 1, 1)];
 		bannerTitle.attributedText = attributedText;
-		
-//		bannerTitle.text = [NSString stringWithFormat:@"# %@ #", sortCateg];
 	}
 	
 	bannerCount = [Tools creatUILabelWithText:@"为您准备了8888个儿童服务" andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
@@ -145,12 +144,13 @@
 	layout.minimumInteritemSpacing = 8.f;
 	layout.minimumLineSpacing = 8.f;
 	
-	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, kStatusAndNavBarH, SCREEN_WIDTH - 20, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
+	servCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kStatusAndNavBarH, SCREEN_WIDTH - 10, SCREEN_HEIGHT-kStatusAndNavBarH) collectionViewLayout:layout];
 	servCollectionView.delegate = self;
 	servCollectionView.dataSource = self;
 	servCollectionView.backgroundColor = [UIColor clearColor];
 	servCollectionView.showsVerticalScrollIndicator = NO;
-	servCollectionView.contentInset = UIEdgeInsetsMake(kCOLLECTIONVIEWTOP - kStatusAndNavBarH, 0, 0, 0);
+	
+	servCollectionView.contentInset = UIEdgeInsetsMake(kCOLLECTIONVIEWTOP - kStatusAndNavBarH, 10, 0, 0);
 	[self.view addSubview:servCollectionView];
 	[servCollectionView registerClass:NSClassFromString(@"AYAssortmentItemView") forCellWithReuseIdentifier:@"AYAssortmentItemView"];
 	servCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
@@ -187,7 +187,7 @@
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:sortCateg forKey:kAYServiceArgsCategoryInfo];
 	[[dic_search objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970 * 1000)] forKey:kAYCommArgsRemoteDate];
-//	[dic_search setValue:[NSNumber numberWithInteger:skipedCount] forKey:kAYCommArgsRemoteDataSkip];
+	[dic_search setValue:[NSNumber numberWithInteger:skipedCount] forKey:kAYCommArgsRemoteDataSkip];
 	
 	id<AYFacadeBase> f_choice = [self.facades objectForKey:@"ChoiceRemote"];
 	AYRemoteCallCommand *cmd_search = [f_choice.commands objectForKey:@"ChoiceSearch"];
@@ -207,7 +207,7 @@
 			NSString *title = @"请改善网络环境并重试";
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		}
-		[servCollectionView reloadData];
+//		[servCollectionView reloadData];
 		[servCollectionView.mj_footer endRefreshing];
 	}];
 }

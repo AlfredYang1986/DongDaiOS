@@ -54,7 +54,7 @@
 		flowLayout.itemSize  = CGSizeMake(140, 90);
 		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
 		flowLayout.minimumInteritemSpacing = 10;
-		flowLayout.minimumLineSpacing = 20;
+		flowLayout.minimumLineSpacing = 8;
 		
 		assortmentCollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
 		assortmentCollectionView.delegate = self;

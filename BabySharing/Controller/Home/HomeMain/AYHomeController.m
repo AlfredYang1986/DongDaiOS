@@ -227,7 +227,7 @@ typedef void(^queryContentFinish)(void);
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	view.backgroundColor = [Tools whiteColor];
 	
-	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(20);
@@ -252,7 +252,7 @@ typedef void(^queryContentFinish)(void);
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
-	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:view];
+//	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:view];
 	return nil;
 }
 
@@ -454,8 +454,7 @@ typedef void(^queryContentFinish)(void);
 			}
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_table = [self.views objectForKey:@"Table"];

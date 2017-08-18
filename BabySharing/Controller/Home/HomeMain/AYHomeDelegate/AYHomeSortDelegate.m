@@ -84,7 +84,7 @@
 	UIView *headView = [UIView new];
 	headView.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:[sectionTitleArr objectAtIndex:section] andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:[sectionTitleArr objectAtIndex:section] andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[headView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(headView).offset(20);
