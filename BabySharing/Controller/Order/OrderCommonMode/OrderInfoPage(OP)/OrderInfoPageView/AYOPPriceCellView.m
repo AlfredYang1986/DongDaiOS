@@ -135,26 +135,26 @@
 	NSDictionary *order_info = (NSDictionary*)args;
 	service_info = [order_info objectForKey:@"service"];
 	
-	NSString *unitCat = @"UNIT";
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
+	NSString *service_cat = [[service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
 	
-	CGFloat price = ((NSNumber*)[service_info objectForKey:kAYServiceArgsPrice]).floatValue;
+	CGFloat price = ((NSNumber*)[[service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsPrice]).floatValue * 0.01;
 	
 	CGFloat totalFee = ((NSNumber*)[order_info objectForKey:kAYOrderArgsTotalFee]).floatValue * 0.01;
-	NSString *totalFeeStr = [NSString stringWithFormat:@"¥ %.f", totalFee];
+	NSString *totalFeeStr = [NSString stringWithFormat:@"¥%.f", totalFee];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:totalFeeStr];
 	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(13.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, 2)];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(2, totalFeeStr.length - 2)];
 	sumPriceLabel.attributedText = attributedText;
 	
-	if (service_cat.intValue == ServiceTypeNursery) {
+	NSString *unitCat = @"UNIT";
+	if ([service_cat isEqualToString:kAYStringNursery]) {
 		unitCat = @"小时";
-		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.f／%@ × %.f", price, unitCat, totalFee/price];
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.f/%@×%.f", price, unitCat, totalFee/price];
 	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
+	else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
-		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.f／%@ × %d", price, unitCat, (int)(totalFee/price)];
+		unitPriceLabel.text = [NSString stringWithFormat:@"¥%.f/%@×%d", price, unitCat, (int)(totalFee/price)];
 	}
 	else {
 		NSLog(@"---null---");

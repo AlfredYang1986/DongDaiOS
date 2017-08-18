@@ -77,13 +77,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"我的服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
@@ -100,7 +98,6 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
-    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
     return nil;
 }
 
