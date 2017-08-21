@@ -82,7 +82,7 @@
 	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	[cmd_cell performWithResult:&class_name];
 	
-	id tmp = [[resultAndLoc objectForKey:@"result_data"] copy];
+	id tmp = [resultAndLoc copy];
 	kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
 }
 

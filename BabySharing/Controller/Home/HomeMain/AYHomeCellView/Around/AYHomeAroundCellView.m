@@ -158,7 +158,7 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
-	service_info = dic_args;
+	service_info = [dic_args objectForKey:kAYServiceArgsInfo];
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
@@ -201,6 +201,17 @@
 		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
 	}
 	addressLabel.text = addressStr;
+
+//	CLLocation *current=[[CLLocation alloc] initWithLatitude:32.178722 longitude:119.508619];
+//	CLLocation *before=[[CLLocation alloc] initWithLatitude:32.206340 longitude:119.425600];
+//	CLLocationDistance meters =[current distanceFromLocation:before];
+	
+	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
+	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
+	CLLocation *location_self = [dic_args objectForKey:@"location_self"];
+	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
+	distanceLabel.text = [NSString stringWithFormat:@"%.lfm", meters];
 	
 	[distanceLabel sizeToFit];
 	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
