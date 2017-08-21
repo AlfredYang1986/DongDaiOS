@@ -181,7 +181,6 @@
 	}
 	NSLog(@"%@",user_id);
 	
-	
 	NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc] init];
 	[dic_owner_id setValue:user_id forKey:@"user_id"];
 	
@@ -189,12 +188,9 @@
 	AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
 	[cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			
 			themeLabel.text = [result objectForKey:kAYProfileArgsScreenName];
-			
 			NSString *screen_photo = [result objectForKey:kAYProfileArgsScreenPhoto];
 			[themeImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user") options:SDWebImageRefreshCached];
-			
 		}
 	}];
 	

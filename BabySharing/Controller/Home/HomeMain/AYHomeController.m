@@ -768,12 +768,12 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)didNursarySortTapAtIndex:(id)args {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"SortServiceList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];
@@ -781,12 +781,12 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)didCourseSortTapAtIndex:(id)args {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"SortServiceList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];

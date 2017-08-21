@@ -17,7 +17,7 @@
 #import "AYModelFacade.h"
 
 @implementation AYHomeSortCourseCellView {
-	
+	NSArray *titleArr;
 }
 
 @synthesize para = _para;
@@ -25,9 +25,32 @@
 @synthesize commands = _commands;
 @synthesize notifies = _notiyies;
 
+#pragma mark -- commands
+- (void)postPerform {
+	titleArr = @[@"美术", @"音乐", @"舞蹈", @"舞台艺术", @"球类运动", @"武术", @"竞技运动", @"形体", @"STEAM", @"自然科学", @"潜能开发"];
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryView;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCatigoryView;
+}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		titleArr = @[@"美术", @"音乐", @"舞蹈", @"舞台艺术", @"球类运动", @"武术", @"竞技运动", @"形体", @"STEAM", @"自然科学", @"潜能开发"];
 		NSArray *sort_name_s = @[
 								@"draw",
 								@"music",
@@ -102,32 +125,12 @@
 	self.notifies = [arr_notifies copy];
 }
 
-#pragma mark -- commands
-- (void)postPerform {
-	
-}
-
-- (void)performWithResult:(NSObject**)obj {
-	
-}
-
-- (NSString*)getViewType {
-	return kAYFactoryManagerCatigoryView;
-}
-
-- (NSString*)getViewName {
-	return [NSString stringWithUTF8String:object_getClassName([self class])];
-}
-
-- (NSString*)getCommandType {
-	return kAYFactoryManagerCatigoryView;
-}
-
 #pragma mark -- actions
 - (void)didSignViewTap:(UITapGestureRecognizer*)tap {
 	UIView *tapView = tap.view;
-	NSNumber *index = [NSNumber numberWithInteger:tapView.tag];
-	kAYViewSendNotify(self, @"didCourseSortTapAtIndex:", &index)
+//	NSNumber *index = [NSNumber numberWithInteger:tapView.tag];
+	NSString *tmp = [titleArr objectAtIndex:tapView.tag];
+	kAYViewSendNotify(self, @"didCourseSortTapAtIndex:", &tmp)
 }
 
 #pragma mark -- messages

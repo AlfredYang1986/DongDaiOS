@@ -118,9 +118,10 @@
 	}];
 	
 	NSShadow *sdw = [[NSShadow alloc] init];
-	sdw.shadowColor = [Tools blackColor];
-	sdw.shadowOffset = CGSizeMake(1, 2);
-	sdw.shadowBlurRadius = 1.f;
+	sdw.shadowColor = [Tools colorWithRED:173 GREEN:186 BLUE:222 ALPHA:1.f];
+	sdw.shadowOffset = CGSizeMake(1, 1);
+	sdw.shadowBlurRadius = 2.f;
+	
 	if (sortCateg) {
 		NSString *categStr = [NSString stringWithFormat:@"#%@#", sortCateg];
 		

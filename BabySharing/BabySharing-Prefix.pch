@@ -100,6 +100,7 @@ typedef enum : int {
 #define kAYFontMedium(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
 
 #define OneDayTimeInterval						86400
+#define HOMECOMMONCELLHEIGHT					350
 
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)
