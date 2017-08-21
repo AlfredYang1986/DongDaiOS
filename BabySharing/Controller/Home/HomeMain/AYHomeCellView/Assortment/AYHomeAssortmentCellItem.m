@@ -33,18 +33,18 @@
 
 - (void)initialize {
 	
-	self.backgroundColor = [Tools randomColor];
+//	self.backgroundColor = [Tools randomColor];
 	self.clipsToBounds = YES;
 	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 	
-//	imageView = [[UIImageView alloc] init];
-//	imageView.contentMode = UIViewContentModeScaleAspectFill;
+	imageView = [[UIImageView alloc] init];
+	imageView.contentMode = UIViewContentModeScaleAspectFill;
 //	imageView.image = IMGRESOURCE(@"default_image");
-//	[Tools setViewBorder:imageView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-//	[self addSubview:imageView];
-//	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.edges.equalTo(self);
-//	}];
+	[Tools setViewBorder:imageView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
+	[self addSubview:imageView];
+	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(self);
+	}];
 	
 	titleLabel = [Tools creatUILabelWithText:@"Assortment Title" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:titleLabel];
@@ -53,7 +53,7 @@
 		make.centerX.equalTo(self);
 	}];
 	
-	skipCountLabel = [Tools creatUILabelWithText:@"skiped' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	skipCountLabel = [Tools creatUILabelWithText:@"skiped' count" andTextColor:[Tools whiteColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[self addSubview:skipCountLabel];
 	[skipCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.mas_centerY).offset(15);
@@ -66,6 +66,9 @@
 	
 	NSString *titleStr = [itemInfo objectForKey:@"title"];
 	titleLabel.text = titleStr;
+	
+	NSString *img_name = [itemInfo objectForKey:@"assortment_img"];
+	imageView.image = IMGRESOURCE(img_name);
 	
 //	NSNumber *skipedCount = [itemInfo objectForKey:@"count_skiped"];
 //	if (skipedCount) {

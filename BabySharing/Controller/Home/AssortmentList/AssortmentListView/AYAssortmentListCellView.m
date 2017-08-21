@@ -33,7 +33,7 @@
 		
 		
 		imageView = [[UIImageView alloc]init];
-		imageView.backgroundColor = [Tools randomColor];
+//		imageView.backgroundColor = [Tools randomColor];
 		[self addSubview: imageView];
 		[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.edges.equalTo(self);
@@ -42,11 +42,11 @@
 		assortmentTitle = [Tools creatUILabelWithText:@"# Assortment' title #" andTextColor:[Tools whiteColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:assortmentTitle];
 		[assortmentTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(imageView).offset(-30);
+			make.centerY.equalTo(imageView).offset(-5);
 			make.centerX.equalTo(self);
 		}];
 		
-		skipedCount = [Tools creatUILabelWithText:@"Skiped' count" andTextColor:[Tools RGB127GaryColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+		skipedCount = [Tools creatUILabelWithText:@"Skiped' count" andTextColor:[Tools whiteColor] andFontSize:11.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[Tools setViewBorder:skipedCount withRadius:10.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools borderAlphaColor]];
 		[self addSubview:skipedCount];
 		[skipedCount sizeToFit];
@@ -119,6 +119,10 @@
 	NSDictionary *cellInfo = args;
 	NSString *titleStr = [cellInfo objectForKey:@"title"];
 	assortmentTitle.text = titleStr;
+	
+	NSString *img_name = [cellInfo objectForKey:@"assortment_img"];
+	imageView.image = IMGRESOURCE(img_name);
+	
 	return nil;
 }
 

@@ -182,7 +182,7 @@
 	NSLog(@"%@",user_id);
 	
 	
-	NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+	NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc] init];
 	[dic_owner_id setValue:user_id forKey:@"user_id"];
 	
 	id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");

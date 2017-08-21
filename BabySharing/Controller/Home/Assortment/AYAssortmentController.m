@@ -87,7 +87,10 @@
 	[self.view addSubview:bannerView];
 	[self.view bringSubviewToFront:bannerView];
 	UIImageView *cover = [[UIImageView alloc] initWithFrame:bannerView.bounds];
-	cover.image = IMGRESOURCE(@"version_nav_cover_0");
+	
+	NSArray *assortmentArr = kAY_top_assortment_titles;
+	NSString *coverImgName = [NSString stringWithFormat:@"topsort_list_%ld", [assortmentArr indexOfObject:sortCateg]];
+	cover.image = IMGRESOURCE(coverImgName);
 	[bannerView addSubview:cover];
 	
 	UIView *navBar = [self.views objectForKey:kAYFakeNavBarView];
@@ -113,25 +116,33 @@
 		make.centerX.equalTo(bannerView);
 		make.top.equalTo(bannerView).offset(75);
 	}];
+	
+	NSShadow *sdw = [[NSShadow alloc] init];
+	sdw.shadowColor = [Tools blackColor];
+	sdw.shadowOffset = CGSizeMake(1, 2);
+	sdw.shadowBlurRadius = 1.f;
 	if (sortCateg) {
 		NSString *categStr = [NSString stringWithFormat:@"#%@#", sortCateg];
 		
-		NSShadow *sdw = [[NSShadow alloc] init];
-		sdw.shadowColor = [Tools garyColor];
-		sdw.shadowOffset = CGSizeMake(1, 3);
-		sdw.shadowBlurRadius = 5.f;
-		
+		NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f],
+									 NSForegroundColorAttributeName :[Tools whiteColor],
+									 NSShadowAttributeName:sdw};
+
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:categStr];
 		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, 1)];
-		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f],
-										NSForegroundColorAttributeName :[Tools whiteColor],
-										NSShadowAttributeName:sdw,
-										NSVerticalGlyphFormAttributeName:@(0.5)} range:NSMakeRange(1, categStr.length - 2)];
+		[attributedText setAttributes:shadowAttr range:NSMakeRange(1, categStr.length - 2)];
 		[attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:22.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(categStr.length - 1, 1)];
 		bannerTitle.attributedText = attributedText;
 	}
 	
-	bannerCount = [Tools creatUILabelWithText:@"为您准备了8888个儿童服务" andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerCount = [Tools creatUILabelWithText:nil andTextColor:[Tools whiteColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	NSString *countstr = @"为您准备了6个儿童服务";
+	NSDictionary *shadowAttr = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15.f],
+								 NSForegroundColorAttributeName :[Tools whiteColor],
+								 NSShadowAttributeName:sdw};
+
+	NSAttributedString *countAttrStr = [[NSAttributedString alloc] initWithString:countstr attributes:shadowAttr];
+	bannerCount.attributedText = countAttrStr;
 	[bannerView addSubview:bannerCount];
 	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(bannerView);
@@ -236,7 +247,7 @@
 		make.centerX.equalTo(view);
 	}];
 	
-	navCountLabel = [Tools creatUILabelWithText:@"8888个服务" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navCountLabel = [Tools creatUILabelWithText:@"6个服务" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];
 	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(view.mas_centerY).offset(0);
