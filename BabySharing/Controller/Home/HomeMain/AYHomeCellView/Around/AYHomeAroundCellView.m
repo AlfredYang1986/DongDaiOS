@@ -217,7 +217,8 @@
 	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(addressLabel);
 		make.right.equalTo(self).offset(-15);
-		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+//		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+		make.width.mas_equalTo(0);
 	}];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(positionSignView.mas_right).offset(2);
