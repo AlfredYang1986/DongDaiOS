@@ -78,7 +78,7 @@
 		make.top.equalTo(choice_logo.mas_bottom).offset(5);
 		make.centerX.equalTo(bannerView);
 	}];
-	bannerCount = [Tools creatUILabelWithText:@"choice count" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	bannerCount = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[bannerView addSubview:bannerCount];
 	[bannerCount mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(bannerTitle.mas_bottom).offset(0);
@@ -181,7 +181,7 @@
 		make.centerX.equalTo(view);
 	}];
 	
-	navCountLabel = [Tools creatUILabelWithText:@"service count" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	navCountLabel = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];
 	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(view.mas_centerY).offset(0);
@@ -192,7 +192,7 @@
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 	is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnVisibilityMessage, &is_hidden)
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarHideBarBotLineMessage, nil)
 	
 	view.layer.shadowColor = [Tools garyColor].CGColor;
 	view.layer.shadowOffset = CGSizeMake(0, 3);
