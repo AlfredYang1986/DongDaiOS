@@ -168,16 +168,16 @@
 			make.height.equalTo(flexibleView);
 		}];
 		
-		UIImageView *topMaskVeiw = [[UIImageView alloc]init];
-		topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
-		topMaskVeiw.contentMode = UIViewContentModeTopLeft;
-		topMaskVeiw.userInteractionEnabled = NO;
-		[flexibleView addSubview:topMaskVeiw];
-		[topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(flexibleView);
-			make.centerX.equalTo(flexibleView);
-			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
-		}];
+//		UIImageView *topMaskVeiw = [[UIImageView alloc]init];
+//		topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
+//		topMaskVeiw.contentMode = UIViewContentModeTopLeft;
+//		topMaskVeiw.userInteractionEnabled = NO;
+//		[flexibleView addSubview:topMaskVeiw];
+//		[topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.top.equalTo(flexibleView);
+//			make.centerX.equalTo(flexibleView);
+//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
+//		}];
 		
 		BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
 		bar_like_btn.selected = isLike;

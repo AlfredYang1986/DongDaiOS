@@ -91,14 +91,11 @@
 #pragma mark -- actions
 - (void)didConfirmPayBtnClick {
 	
-	NSDictionary *args;
-	CURRENUSER(args);
-	
 	NSString *payway;
-	CGFloat totalfee = 1.f;
+	CGFloat totalfee_test = 1.f;
 	if (payOptionSignView.tag == PayWayOptionAlipay) {
 		payway = @"alipay";
-		totalfee = 0.01f;
+		totalfee_test = 0.01f;
 	} else if (payOptionSignView.tag == PayWayOptionWechat) {
 		payway = @"wechat";
 		
@@ -113,15 +110,16 @@
 		}
 	}
 	
-	NSMutableDictionary *dic_prepay = [[NSMutableDictionary alloc] initWithDictionary:args];
-	[dic_prepay setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
-	[dic_prepay setValue:payway forKey:kAYOrderArgsPayMethod];
-	[dic_prepay setValue:[order_info objectForKey:kAYOrderArgsTotalFee] forKey:kAYOrderArgsTotalFee];
+	
+	NSMutableDictionary *dic_prepay = [Tools getBaseRemoteData];
+	[[dic_prepay objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[[dic_prepay objectForKey:kAYCommArgsCondition] setValue:payway forKey:kAYOrderArgsPayMethod];
+	[[dic_prepay objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsTotalFee] forKey:kAYOrderArgsTotalFee];
 	
 #ifdef SANDBOX
-	[dic_prepay setValue:[NSNumber numberWithFloat:totalfee] forKey:kAYOrderArgsTotalFee];
+	[[dic_prepay objectForKey:kAYCommArgsCondition] setValue:[NSNumber numberWithFloat:totalfee_test] forKey:kAYOrderArgsTotalFee];
 #endif
-	
+	NSLog(@"dic_prepay:\n%@",dic_prepay);
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd_prepay = [facade.commands objectForKey:@"PrePayOrder"];
 	[cmd_prepay performWithResult:[dic_prepay copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
@@ -148,7 +146,7 @@
 					break;
 			} //switch
 			
-			id tmp = [result copy];
+			id tmp = [result objectForKey:kAYOrderArgsSelf];
 			[cmd_pay performWithResult:&tmp];
 			
 		} else {
@@ -160,20 +158,22 @@
 }
 
 - (void)successForPostPay:(PayWayOption)opt {
-	NSDictionary* user = nil;
-	CURRENUSER(user)
+	NSDictionary *user;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic_paid = [Tools getBaseRemoteData];
+	[[dic_paid objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
+	[[dic_paid objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
+	NSMutableDictionary *dic_status = [[NSMutableDictionary alloc] init];
+	[dic_status setValue:[NSNumber numberWithInt:OrderStatusPaid] forKey:kAYOrderArgsStatus];
+	[dic_paid setValue:dic_status forKey:kAYOrderArgsSelf];
 	
 	// 支付成功
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderNotification"];
 	AYRemoteCallCommand *cmd = [facade.commands objectForKey:@"PostPayOrder"];
-	
-	NSMutableDictionary* dic = [[NSMutableDictionary alloc] initWithDictionary:user];
-	[dic setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
-	
-	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[cmd performWithResult:[dic_paid copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-//			NSString *title = @"支付完成，您已成功预订服务! 去日程查看?";
-//			AYShowBtmAlertView(title, BtmAlertViewTypeWitnBtn)
 			
 			id<AYCommand> des = DEFAULTCONTROLLER(@"RemoteBack");
 			NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];

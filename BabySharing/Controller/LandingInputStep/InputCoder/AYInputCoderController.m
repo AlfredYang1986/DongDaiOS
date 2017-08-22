@@ -140,7 +140,9 @@
                 id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
                 [show_cmd performWithResult:nil];
             }
-        }
+		} else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+		}
     }];
     return nil;
 }

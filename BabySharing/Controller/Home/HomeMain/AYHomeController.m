@@ -227,7 +227,7 @@ typedef void(^queryContentFinish)(void);
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	view.backgroundColor = [Tools whiteColor];
 	
-	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	addressLabel = [Tools creatUILabelWithText:@"北京市" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[view addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(view).offset(20);
@@ -252,7 +252,7 @@ typedef void(^queryContentFinish)(void);
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	
-	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:view];
+//	[Tools addBtmLineWithMargin:0 andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:view];
 	return nil;
 }
 
@@ -339,14 +339,14 @@ typedef void(^queryContentFinish)(void);
 	
 }
 
-- (NSDictionary*)sortDataForSearchAround {
+- (NSDictionary*)sortDataForSearchAroundWithSkiped:(NSInteger)skiped {
 	
 	NSDictionary* user = nil;
 	CURRENUSER(user);
 	
 	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];
 	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-	[dic_search setValue:[NSNumber numberWithInteger:skipCountAround] forKey:kAYCommArgsRemoteDataSkip];
+	[dic_search setValue:[NSNumber numberWithInteger:skiped] forKey:kAYCommArgsRemoteDataSkip];
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
 	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
@@ -363,8 +363,11 @@ typedef void(^queryContentFinish)(void);
 
 - (void)loadNewAroundData {
 	
-	NSNumber *tmp = [NSNumber numberWithBool:isLocationAuth];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:loc forKey:@"location"];
+	[tmp setValue:[NSNumber numberWithBool:isLocationAuth] forKey:@"is_auth"];
 	kAYDelegatesSendMessage(@"HomeAround", @"changeLocationAuthData:", &tmp)
+	
 	UITableView *view_table = [self.views objectForKey:@"Table2"];
 	if (!isLocationAuth) {
 		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
@@ -374,7 +377,7 @@ typedef void(^queryContentFinish)(void);
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_tags performWithResult:[self sortDataForSearchAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[cmd_tags performWithResult:[self sortDataForSearchAroundWithSkiped:0] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			serviceDataAround = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
@@ -382,8 +385,7 @@ typedef void(^queryContentFinish)(void);
 			id tmp = [serviceDataAround copy];
 			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
 		[view_table.mj_header endRefreshing];
@@ -391,7 +393,9 @@ typedef void(^queryContentFinish)(void);
 }
 - (void)loadMoreAroundData {
 	
-	NSNumber *tmp = [NSNumber numberWithBool:isLocationAuth];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:loc forKey:@"location"];
+	[tmp setValue:[NSNumber numberWithBool:isLocationAuth] forKey:@"is_auth"];
 	kAYDelegatesSendMessage(@"HomeAround", @"changeLocationAuthData:", &tmp)
 	UITableView *view_table = [self.views objectForKey:@"Table2"];
 	if (!isLocationAuth) {
@@ -402,7 +406,7 @@ typedef void(^queryContentFinish)(void);
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_tags performWithResult:[self sortDataForSearchAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[cmd_tags performWithResult:[self sortDataForSearchAroundWithSkiped:skipCountAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			NSArray *remoteArr = [[result objectForKey:@"result"] objectForKey:@"services"];
@@ -411,8 +415,7 @@ typedef void(^queryContentFinish)(void);
 			id tmp = [serviceDataAround copy];
 			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		kAYViewsSendMessage(@"Table2", kAYTableRefreshMessage, nil)
 		[view_table.mj_footer endRefreshing];
@@ -454,8 +457,7 @@ typedef void(^queryContentFinish)(void);
 			}
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
@@ -766,12 +768,12 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)didNursarySortTapAtIndex:(id)args {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"SortServiceList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];
@@ -779,12 +781,12 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)didCourseSortTapAtIndex:(id)args {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"Assortment");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"SortServiceList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-	//	[dic setValue:args forKey:kAYControllerChangeArgsKey];
+	[dic setValue:args forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;
 	[cmd_show_module performWithResult:&dic];
@@ -792,18 +794,6 @@ typedef void(^queryContentFinish)(void);
 }
 
 - (id)scrollOffsetY:(NSNumber*)args {
-//    CGFloat offset_y = args.floatValue;
-//    CGFloat offsetH = SCREEN_WIDTH + offset_y;
-//
-//    if (offsetH < 0) {
-//        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-//        UITableView *tableView = (UITableView*)view_notify;
-//        [coverImg mas_remakeConstraints:^(MASConstraintMaker *make) {
-//            make.centerX.equalTo(tableView);
-//            make.top.equalTo(tableView).offset(-SCREEN_WIDTH + offsetH);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - offsetH, SCREEN_WIDTH - offsetH));
-//        }];
-//    }
     return nil;
 }
 

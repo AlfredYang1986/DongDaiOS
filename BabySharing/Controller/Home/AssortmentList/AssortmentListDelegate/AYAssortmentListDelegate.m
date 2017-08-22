@@ -61,7 +61,7 @@
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
 	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
-	[tmp setValue:@"" forKey:@"assortment_img"];
+	[tmp setValue:[NSString stringWithFormat:@"topsort_contbg_%ld", indexPath.row] forKey:@"assortment_img"];
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;

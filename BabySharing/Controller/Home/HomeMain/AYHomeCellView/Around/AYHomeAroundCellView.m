@@ -95,17 +95,9 @@
 		
 		addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:addressLabel];
-		[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(positionSignView.mas_right).offset(2);
-			make.centerY.equalTo(positionSignView);
-		}];
 		
 		distanceLabel = [Tools creatUILabelWithText:@"distance" andTextColor:[Tools RGB153GaryColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:distanceLabel];
-		[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerY.equalTo(addressLabel);
-			make.right.equalTo(self).offset(-15);
-		}];
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];
@@ -166,7 +158,7 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
-	service_info = dic_args;
+	service_info = [dic_args objectForKey:kAYServiceArgsInfo];
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
@@ -209,6 +201,30 @@
 		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
 	}
 	addressLabel.text = addressStr;
+
+//	CLLocation *current=[[CLLocation alloc] initWithLatitude:32.178722 longitude:119.508619];
+//	CLLocation *before=[[CLLocation alloc] initWithLatitude:32.206340 longitude:119.425600];
+//	CLLocationDistance meters =[current distanceFromLocation:before];
+	
+	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
+	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
+	CLLocation *location_self = [dic_args objectForKey:@"location_self"];
+	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
+	distanceLabel.text = [NSString stringWithFormat:@"%.lfm", meters];
+	
+	[distanceLabel sizeToFit];
+	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(addressLabel);
+		make.right.equalTo(self).offset(-15);
+//		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+		make.width.mas_equalTo(0);
+	}];
+	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(positionSignView.mas_right).offset(2);
+		make.centerY.equalTo(positionSignView);
+		make.right.equalTo(distanceLabel.mas_left).offset(-5);
+	}];
 	
 	return nil;
 }

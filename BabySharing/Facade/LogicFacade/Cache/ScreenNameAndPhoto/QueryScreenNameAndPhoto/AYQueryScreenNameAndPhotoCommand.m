@@ -34,21 +34,19 @@
     } else if (arr.count == 1) {
         block(YES, arr.lastObject);
     } else {
-        id<AYFacadeBase> f_profile = DEFAULTFACADE(@"ProfileRemote");
-        AYRemoteCallCommand* cmd = [f_profile.commands objectForKey:@"QueryUserProfile"];
-        
-        NSDictionary* user = nil;
-        CURRENUSER(user);
-        
-        NSMutableDictionary* dic = [user mutableCopy];
-        [dic setValue:user_id forKey:@"owner_user_id"];
-        
+		
+		NSMutableDictionary* dic = [Tools getBaseRemoteData];
+		[[dic objectForKey:kAYCommArgsCondition] setValue:user_id  forKey:kAYCommArgsUserID];
+		
+		id<AYFacadeBase> f_profile = DEFAULTFACADE(@"ProfileRemote");
+		AYRemoteCallCommand* cmd = [f_profile.commands objectForKey:@"QueryUserProfile"];
         [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
             if (success) {
+				NSDictionary *info_prifole = [result objectForKey:kAYProfileArgsSelf];
                 NSMutableDictionary* reVal = [[NSMutableDictionary alloc]init];
                 [reVal setValue:user_id forKey:@"user_id"];
-                [reVal setValue:[result objectForKey:@"screen_name"] forKey:@"screen_name"];
-                [reVal setValue:[result objectForKey:@"screen_photo"] forKey:@"screen_photo"];
+                [reVal setValue:[info_prifole objectForKey:@"screen_name"] forKey:@"screen_name"];
+                [reVal setValue:[info_prifole objectForKey:@"screen_photo"] forKey:@"screen_photo"];
                 
                 id<AYCommand> cmd_push = [f.commands objectForKey:@"PushScreenNameAndPhoto"];
                 id arg_push = [reVal copy];

@@ -133,7 +133,7 @@
 			id<AYCommand> cmd_push = PUSH;
 			[cmd_push performWithResult:&dic];
 		} else {
-			
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 	

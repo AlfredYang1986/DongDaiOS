@@ -155,7 +155,7 @@
 		return 50.f;
 	}
 	else
-		return 370.f;
+		return HOMECOMMONCELLHEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

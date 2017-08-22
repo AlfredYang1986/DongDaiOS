@@ -58,7 +58,7 @@ typedef enum : int {
     OrderStatusReject = 2,
 	OrderStatusAccepted = 3,
 	OrderStatusPaid = 4,
-    OrderStatusCancel = 5,
+    OrderStatusCancel = -2,
 	OrderStatusDone = 9,
     OrderStatusReady = 10,
     OrderStatusConfirm = 11,
@@ -96,14 +96,20 @@ typedef enum : int {
 #define kAY_service_options_title_facilities	@[@"无烟", @"急救包", @"防摔地板", @"安全桌角", @"安全插座", @"安全护栏", @"消防设备", @"空气净化器"]
 #define kAY_top_assortment_titles				@[@"国际高端看顾", @"名师团队", @"环境优雅", @"资深外教", @"时间灵活"];
 
-#define kAYFontLight(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
-#define kAYFontMedium(FONTSIZE)                      [UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
+#define kAYFontLight(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Light" size:FONTSIZE]
+#define kAYFontMedium(FONTSIZE)					[UIFont fontWithName:@"STHeitiSC-Medium" size:FONTSIZE]
 
-#define OneDayTimeInterval					86400
+#define OneDayTimeInterval						86400
+#define HOMECOMMONCELLHEIGHT					350
 
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)
+<<<<<<< HEAD
 //static NSString* const kAYDongDaDownloadURL =                @"http://10.6.20.180:9000/query/downloadFile/";
+=======
+//static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9999/query/downloadFile/";
+//static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9000/query/downloadFile/";
+>>>>>>> 11c45eae7d52a65d8d58398d57fc9234838fe24c
 static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
 #else
 #define NSLog(...) {}

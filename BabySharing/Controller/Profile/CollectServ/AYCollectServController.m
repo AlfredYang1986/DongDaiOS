@@ -156,8 +156,7 @@
             }
         } else {
             tipsLabel.hidden = YES;
-            NSString *title = @"请改善网络环境并重试";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
         }
         
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];

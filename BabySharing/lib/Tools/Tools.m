@@ -550,6 +550,17 @@
 	}
 }
 
++ (void)setShadowOfView:(UIView*)view withViewRadius:(CGFloat)radius_v andColor:(UIColor*)color andOffset:(CGSize)size andOpacity:(CGFloat)opacity andShadowRadius:(CGFloat)radius_s {
+	
+	if (radius_v != 0) {
+		view.layer.cornerRadius = radius_v;
+	}
+	view.layer.shadowColor = color.CGColor;
+	view.layer.shadowOffset = size;
+	view.layer.shadowRadius = radius_s;
+	view.layer.shadowOpacity = opacity;
+}
+
 #pragma mark -- CALayer
 + (void)addBtmLineWithMargin:(CGFloat)margin andAlignment:(NSInteger)alignment andColor:(UIColor*)lineColor inSuperView:(UIView*)superView {
 	UIView *line_btm = [[UIView alloc]init];

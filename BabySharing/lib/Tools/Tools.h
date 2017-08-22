@@ -57,6 +57,7 @@
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 
 + (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor;
++ (void)setShadowOfView:(UIView*)view withViewRadius:(CGFloat)radius_v andColor:(UIColor*)color andOffset:(CGSize)size andOpacity:(CGFloat)opacity andShadowRadius:(CGFloat)radius_s;
 
 #pragma mark -- CALayer
 + (void)addBtmLineWithMargin:(CGFloat)margin andAlignment:(NSInteger)alignment andColor:(UIColor*)lineColor inSuperView:(UIView*)superView;

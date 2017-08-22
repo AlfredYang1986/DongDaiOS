@@ -51,13 +51,24 @@
 
 - (void)initialize {
 	
-	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0.5 andBorderColor:[Tools RGB225GaryColor] andBackground:nil];
+	self.layer.shadowColor = [Tools garyColor].CGColor;
+	self.layer.shadowOffset = CGSizeMake(0, 0);
+	self.layer.shadowRadius = 3.f;
+	self.layer.shadowOpacity = 0.5f;
+	self.layer.cornerRadius = 4.f;
+	
+	UIView *radiusView = [[UIView alloc] init];
+	[Tools setViewBorder:radiusView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
+	[self addSubview:radiusView];
+	[radiusView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.edges.equalTo(self);
+	}];
 	
 	coverImage = [[UIImageView alloc]init];
 	coverImage.image = IMGRESOURCE(@"default_image");
 	coverImage.contentMode = UIViewContentModeScaleAspectFill;
 	coverImage.clipsToBounds = YES;
-	[self addSubview:coverImage];
+	[radiusView addSubview:coverImage];
 	[coverImage mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self);
 		make.left.equalTo(self);
@@ -68,7 +79,7 @@
 	
 	titleLabel = [Tools creatUILabelWithText:@"Service Belong to Servant" andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	titleLabel.numberOfLines = 2;
-	[self addSubview:titleLabel];
+	[radiusView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(self).offset(10);
 		make.right.equalTo(self).offset(-10);
@@ -76,7 +87,7 @@
 	}];
 	
 	positionSignView = [[UIImageView alloc]init];
-	[self addSubview:positionSignView];
+	[radiusView addSubview:positionSignView];
 	positionSignView.image = IMGRESOURCE(@"home_icon_location");
 	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(titleLabel);
@@ -85,7 +96,7 @@
 	}];
 	
 	addressLabel = [Tools creatUILabelWithText:@"Address Info" andTextColor:[Tools RGB153GaryColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:addressLabel];
+	[radiusView addSubview:addressLabel];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerY.equalTo(positionSignView);
 		make.left.equalTo(positionSignView.mas_right).offset(3);
@@ -94,7 +105,7 @@
 	
 	
 	priceLabel = [Tools creatUILabelWithText:@"¥Price/Unit" andTextColor:[Tools themeColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[self addSubview:priceLabel];
+	[radiusView addSubview:priceLabel];
 	[priceLabel sizeToFit];
 	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(titleLabel);
@@ -103,7 +114,7 @@
 	
 	ageBoundaryLabel = [Tools creatUILabelWithText:@"0-0 old" andTextColor:[Tools themeColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:ageBoundaryLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
-	[self addSubview:ageBoundaryLabel];
+	[radiusView addSubview:ageBoundaryLabel];
 	[ageBoundaryLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(titleLabel);
 		make.bottom.equalTo(self).offset(-10);
@@ -112,7 +123,7 @@
 	
 	themeLabel = [Tools creatUILabelWithText:@"Theme" andTextColor:[Tools themeColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[Tools setViewBorder:themeLabel withRadius:4.f andBorderWidth:1.f andBorderColor:[Tools themeColor] andBackground:nil];
-	[self addSubview:themeLabel];
+	[radiusView addSubview:themeLabel];
 	[themeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(ageBoundaryLabel.mas_left).offset(-8);
 		make.centerY.equalTo(ageBoundaryLabel);

@@ -307,37 +307,21 @@
     [imgView setImage:IMGRESOURCE(@"default_user")];
     
     sender_user_id = _message.from;
-    id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:sender_user_id forKey:@"user_id"];
-    
+	
+	id<AYFacadeBase> f = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"QueryScreenNameAndPhoto"];
     [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         if (success) {
-            //            NSLog(@"%@",result);
-            //            NSString *photo_name = [result objectForKey:@"screen_photo"];
-            //            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            //            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            //            NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-            //            [dic setValue:photo_name forKey:@"image"];
-            //            [dic setValue:@"img_icon" forKey:@"expect_size"];
-            //            [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-            //                UIImage* img = (UIImage*)result;
-            //                if (img != nil) {
-            //                    [imgView setImage:img];
-            //                } else [imgView setImage:IMGRESOURCE(@"default_user")];
-            //            }];
             
             NSString* photo_name = [result objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [imgView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-                       placeholderImage:IMGRESOURCE(@"default_user")];
-            
+			if (photo_name) {
+				[imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
+						   placeholderImage:IMGRESOURCE(@"default_user")];
+			}
         }
-        
     }];
 }
 

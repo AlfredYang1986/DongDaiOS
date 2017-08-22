@@ -29,11 +29,19 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-//		self.backgroundColor = [UIColor orangeColor];
-		
 		CGFloat margin = 20.f;
 		
-		UIImageView *nurseryDailySignView = [[UIImageView alloc]init];
+		UIView *dailyBgView = [[UIView alloc] init];
+		dailyBgView.backgroundColor = [Tools whiteColor];
+		[Tools setShadowOfView:dailyBgView withViewRadius:4.f andColor:[Tools colorWithRED:240 GREEN:176 BLUE:58 ALPHA:1.f] andOffset:CGSizeMake(0, 3) andOpacity:0.3f andShadowRadius:3.f];
+		[self addSubview:dailyBgView];
+		[dailyBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(self).offset(margin);
+			make.top.equalTo(self).offset(10);
+			make.size.mas_equalTo(CGSizeMake((SCREEN_WIDTH - margin*2 - 15)/2, 95));
+		}];
+		
+		UIImageView *nurseryDailySignView = [[UIImageView alloc] init];
 		nurseryDailySignView.tag = 0;
 		nurseryDailySignView.image = IMGRESOURCE(@"home_sort_nursary_daily");
 		[Tools setViewBorder:nurseryDailySignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
@@ -44,7 +52,17 @@
 			make.size.mas_equalTo(CGSizeMake((SCREEN_WIDTH - margin*2 - 15)/2, 95));
 		}];
 		
-		UIImageView *nurseryAfterClassSignView = [[UIImageView alloc]init];
+		UIView *afterclassBgView = [[UIView alloc] init];
+		afterclassBgView.backgroundColor = [Tools whiteColor];
+		[Tools setShadowOfView:afterclassBgView withViewRadius:4.f andColor:[Tools colorWithRED:78 GREEN:128 BLUE:238 ALPHA:1.f] andOffset:CGSizeMake(0, 3) andOpacity:0.3f andShadowRadius:3.f];
+		[self addSubview:afterclassBgView];
+		[afterclassBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-margin);
+			make.top.equalTo(self).offset(10);
+			make.size.equalTo(nurseryDailySignView);
+		}];
+		
+		UIImageView *nurseryAfterClassSignView = [[UIImageView alloc] init];
 		nurseryAfterClassSignView.tag = 1;
 		[Tools setViewBorder:nurseryAfterClassSignView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
 		nurseryAfterClassSignView.image = IMGRESOURCE(@"home_sort_nursary_afterclass");

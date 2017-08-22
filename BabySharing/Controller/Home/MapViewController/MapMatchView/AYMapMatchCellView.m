@@ -116,10 +116,6 @@
 	
 	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 	[self addSubview:distanceLabel];
-	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.right.equalTo(bgView).offset(-10);
-		make.centerY.equalTo(positionSignView);
-	}];
 	
 	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self addSubview:titleLabel];
@@ -164,9 +160,23 @@
 }
 
 - (void)setService_info:(NSDictionary *)service_info {
-	_service_info = service_info;
+	_service_info = [service_info objectForKey:kAYServiceArgsInfo];
 	
-	NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSDictionary *info_location = [_service_info objectForKey:kAYServiceArgsLocationInfo];
+	CLLocation *location_self = [service_info objectForKey:@"location_self"];
+	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
+	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
+	
+	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
+	distanceLabel.text = [NSString stringWithFormat:@"%.lfm", meters];
+	[distanceLabel sizeToFit];
+	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(self).offset(-35);
+		make.centerY.equalTo(positionSignView);
+		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+	}];
+	
 	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
 	NSString *adjstAddrStr = [info_location objectForKey:kAYServiceArgsAdjustAddress];
 	if (addressStr && ![addressStr isEqualToString:@""]) {
@@ -182,14 +192,14 @@
 		}];
 	}
 	
-	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
+	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
 	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
 	
-	NSDictionary *info_cat = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSDictionary *info_cat = [_service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
 	NSString *unitCat = @"UNIT";
-	NSString *nameStr = [[service_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+	NSString *nameStr = [[_service_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	if ([service_cat containsString:@"看"]) {
 		unitCat = @"小时";
 		
@@ -213,7 +223,7 @@
 		NSLog(@"---null---");
 	}
 	
-	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	NSDictionary *info_detail = [_service_info objectForKey:kAYServiceArgsDetailInfo];
 	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
 	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
 	int length = (int)tmp.length;

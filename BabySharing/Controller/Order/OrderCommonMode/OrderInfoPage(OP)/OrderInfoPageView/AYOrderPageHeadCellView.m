@@ -156,15 +156,18 @@
 	NSDictionary *order_info = (NSDictionary*)args;
 	service_info = [order_info objectForKey:@"service"];
 	
-	NSString *ownerName = [service_info objectForKey:kAYProfileArgsScreenName];
-	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
-	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, compName];
+	NSString *ownerName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+	
+	NSDictionary *info_montage = [Tools montageServiceInfoWithServiceData:service_info];
+	
+	NSString *montageName = [info_montage objectForKey:@"montage"];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName, montageName];
 	
 	NSString *orderID = [order_info objectForKey:@"order_id"];
 	orderID = [Tools Bit64String:orderID];
 	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	
-	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *addressStr = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAddress];
 	NSString *stringPre = @"中国北京市";
 	if ([addressStr hasPrefix:stringPre]) {
 		addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];

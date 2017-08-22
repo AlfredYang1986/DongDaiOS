@@ -117,6 +117,8 @@ static NSString* const kAYTimeManagerArgsStartDate =		@"startdate";
 static NSString* const kAYTimeManagerArgsEndDate =			@"enddate";
 static NSString* const kAYTimeManagerArgsStartHours =		@"starthours";
 static NSString* const kAYTimeManagerArgsEndHours =			@"endhours";
+static NSString* const kAYTimeManagerArgsStart =			@"start";
+static NSString* const kAYTimeManagerArgsEnd =				@"end";
 
 //order args
 static NSString* const kAYOrderArgsSelf =					@"order";

@@ -54,7 +54,7 @@
 		flowLayout.itemSize  = CGSizeMake(140, 90);
 		flowLayout.scrollDirection  = UICollectionViewScrollDirectionHorizontal;
 		flowLayout.minimumInteritemSpacing = 10;
-		flowLayout.minimumLineSpacing = 20;
+		flowLayout.minimumLineSpacing = 8;
 		
 		assortmentCollectionView = [[UICollectionView  alloc]initWithFrame:CGRectMake(0, 50, SCREEN_WIDTH, 90) collectionViewLayout:flowLayout];
 		assortmentCollectionView.delegate = self;
@@ -83,7 +83,7 @@
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[assortmentArr objectAtIndex:indexPath.row] forKey:@"title"];
 //	[tmp setValue:[NSNumber numberWithInteger:100] forKey:@"count_skiped"];
-	[tmp setValue:@"" forKey:@"assortment_img"];
+	[tmp setValue:[NSString stringWithFormat:@"topsort_home_%ld", indexPath.row] forKey:@"assortment_img"];
 	[cell setItemInfo:[tmp copy]];
 	return cell;
 }

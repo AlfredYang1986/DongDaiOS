@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import <CoreLocation/CoreLocation.h>
 
 typedef void(^touchUpInSubCell)(NSDictionary*);
 

@@ -12,9 +12,12 @@
 
 #import "AYNoContentCell.h"
 #import "AYHomeAroundNoAuthCell.h"
+#import <CoreLocation/CoreLocation.h>
 
 @implementation AYHomeAroundDelegate {
 	NSArray *querydata;
+	
+	CLLocation *loc;
 	BOOL isAuthLocation;
 }
 
@@ -50,7 +53,8 @@
 }
 
 - (id)changeLocationAuthData:(id)args {
-	isAuthLocation = ((NSNumber*)args).boolValue;
+	loc = [args objectForKey:@"location"];
+	isAuthLocation = ((NSNumber*)[args objectForKey:@"is_auth"]).boolValue;
 	return nil;
 }
 
@@ -83,7 +87,9 @@
 			NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 			id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name];
 			
-			id tmp = [querydata objectAtIndex:indexPath.row];
+			NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+			[tmp setValue:[querydata objectAtIndex:indexPath.row] forKey:kAYServiceArgsInfo];
+			[tmp setValue:loc forKey:@"location_self"];
 			kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 			
 			cell.controller = self.controller;

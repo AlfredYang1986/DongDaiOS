@@ -87,6 +87,7 @@
 		<command type="notify"  message="scrollToShowTop:" />
 		<command type="notify"  message="scrollToHideTop:" />
 		<command type="notify"  message="didSelectedRow:" />
+		<command type="notify"  message="didNursarySortTapAtIndex:" />
 		<command type="notify"  message="scrollViewWillBeginDrag" />
 		<command type="notify"  message="scrollViewWillEndDrag" />
 	</delegate>
@@ -98,6 +99,10 @@
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	<delegate type="TableViewDelegateAndDatasource" name="TopicsList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SortServiceList" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	

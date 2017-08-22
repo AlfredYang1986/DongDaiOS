@@ -112,7 +112,7 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(coverImage);
 			make.right.equalTo(coverImage);
-			make.top.equalTo(themeLabel.mas_bottom).offset(15);
+			make.top.equalTo(themeLabel.mas_bottom).offset(10);
 		}];
 		
 		positionSignView = [[UIImageView alloc]init];
@@ -120,7 +120,7 @@
 		positionSignView.image = IMGRESOURCE(@"home_icon_location");
 		[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(titleLabel);
-			make.top.equalTo(titleLabel.mas_bottom).offset(10);
+			make.top.equalTo(titleLabel.mas_bottom).offset(7);
 			make.size.mas_equalTo(CGSizeMake(10, 12));
 		}];
 		
