@@ -254,6 +254,48 @@
 	return nil;
 }
 
+- (id)willCollectWithRow:(id)args {
+	
+	NSString *service_id = [args objectForKey:kAYServiceArgsID];
+	UIButton *likeBtn = [args objectForKey:@"btn"];
+	
+	NSDictionary *user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	
+	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
+	[dic_collect setValue:service_id forKey:kAYServiceArgsID];
+	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic setValue:dic_collect forKey:@"collections"];
+	
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] initWithDictionary:dic_collect];
+	[dic setValue:dic_condt forKey:kAYCommArgsCondition];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+	if (!likeBtn.selected) {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = YES;
+			} else {
+				NSString *title = @"收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	} else {
+		AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"UnCollectService"];
+		[cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				likeBtn.selected = NO;
+			} else {
+				NSString *title = @"取消收藏失败!请检查网络链接是否正常";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+	}
+	return nil;
+}
+
 #pragma scroll delegate
 - (id)scrollOffsetYNoyify:(id)args {
 	CGFloat offset_y = ((NSNumber*)args).floatValue;

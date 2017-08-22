@@ -45,7 +45,15 @@
 
 - (void)setItemImageWithImageName:(NSString *)imageName {
 	
-	[imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageHighPriority];
+//	[[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:imageName] options:SDWebImageDownloaderLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+//		
+//	} completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+//		if (!error) {
+//			imageView.image = image;
+//		}
+//	}];
+	
+	[imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
 }
 
 - (void)setItemImageWithImage:(UIImage *)image {

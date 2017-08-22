@@ -167,20 +167,6 @@
 			make.width.mas_equalTo(SCREEN_WIDTH);
 			make.height.equalTo(flexibleView);
 		}];
-		
-//		UIImageView *topMaskVeiw = [[UIImageView alloc]init];
-//		topMaskVeiw.image = IMGRESOURCE(@"service_page_mask");
-//		topMaskVeiw.contentMode = UIViewContentModeTopLeft;
-//		topMaskVeiw.userInteractionEnabled = NO;
-//		[flexibleView addSubview:topMaskVeiw];
-//		[topMaskVeiw mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.top.equalTo(flexibleView);
-//			make.centerX.equalTo(flexibleView);
-//			make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 78.5));
-//		}];
-		
-		BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
-		bar_like_btn.selected = isLike;
 	}
 	
 	
@@ -234,6 +220,9 @@
 				kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 				[CarouselView reloadData];
+				
+				BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
+				bar_like_btn.selected = isLike;
 				
 			} else {
 				NSString *title = @"请改善网络环境并重试";
@@ -589,13 +578,18 @@
 }
 
 -(void)didCollectionBtnClick:(UIButton*)btn{
-    
-    NSDictionary *info = nil;
-    CURRENUSER(info);
-    
-    NSMutableDictionary *dic = [info mutableCopy];
-    [dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    
+	NSDictionary *user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	
+	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
+	[dic_collect setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic setValue:dic_collect forKey:@"collections"];
+	
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] initWithDictionary:dic_collect];
+	[dic setValue:dic_condt forKey:kAYCommArgsCondition];
+	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     if (!bar_like_btn.selected) {
         AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"CollectService"];
