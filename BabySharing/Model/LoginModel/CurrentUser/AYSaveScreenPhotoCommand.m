@@ -29,25 +29,13 @@
 }
 
 - (void)performWithResult:(NSObject**)obj {
-    /**
-     * 1. xml 下找到 LOGINMODEL
-     * 2. 添加一个Command 叫什么随便，功能如下
-     *     2.1  读取当前user（CurrentToken） （已有）
-     *     2.2  拿到当前user的LoginToken
-     *     2.3  修改LoginToken中screen_image值（值为screen_photo）
-     *     2.4  保存context
-     * 3. 返回打印log
-     */
+	
     NSDictionary* dic = (NSDictionary*)*obj;
-//    NSString* screen_photo = [(NSDictionary*)*obj objectForKey:@"screenImageKey"];
     
     AYModelFacade* f = LOGINMODEL;
     CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
     NSString* user_id = tmp.who.user_id;
-    
-//    LoginToken* login_token = tmp.who;
-//    login_token.screen_image = screen_photo;
-    
+	
     LoginToken* token = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:user_id andAttrs:dic];
     
     [CurrentToken changeCurrentLoginUser:token inContext:f.doc.managedObjectContext];

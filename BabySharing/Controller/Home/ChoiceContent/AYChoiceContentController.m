@@ -84,6 +84,8 @@
 		make.top.equalTo(bannerTitle.mas_bottom).offset(0);
 		make.centerX.equalTo(bannerView);
 	}];
+	bannerCount.hidden = YES;
+	
 	UIView *leftLine = [UIView new];
 	UIView *rightLine = [UIView new];
 	[bannerView addSubview:leftLine];
@@ -174,12 +176,14 @@
 	view.backgroundColor = [Tools themeColor];
 	
 	NSString *title = @"咚哒严选";
-	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[view addSubview:navTitleLabel];
-	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(view.mas_centerY).offset(0);
-		make.centerX.equalTo(view);
-	}];
+//	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//	[view addSubview:navTitleLabel];
+//	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.bottom.equalTo(view.mas_centerY).offset(0);
+//		make.centerX.equalTo(view);
+//	}];
+	
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	navCountLabel = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];
@@ -187,6 +191,7 @@
 		make.top.equalTo(view.mas_centerY).offset(0);
 		make.centerX.equalTo(view);
 	}];
+	navCountLabel.hidden = YES;
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)

@@ -391,6 +391,7 @@ typedef void(^queryContentFinish)(void);
 		[view_table.mj_header endRefreshing];
 	}];
 }
+
 - (void)loadMoreAroundData {
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
@@ -493,10 +494,8 @@ typedef void(^queryContentFinish)(void);
 			id tmp = [serviceDataFound copy];
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-			[view_table scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		[view_table.mj_header endRefreshing];

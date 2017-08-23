@@ -104,12 +104,9 @@ typedef enum : int {
 
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)
-<<<<<<< HEAD
 //static NSString* const kAYDongDaDownloadURL =                @"http://10.6.20.180:9000/query/downloadFile/";
-=======
 //static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9999/query/downloadFile/";
 //static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9000/query/downloadFile/";
->>>>>>> 11c45eae7d52a65d8d58398d57fc9234838fe24c
 static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
 #else
 #define NSLog(...) {}

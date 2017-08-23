@@ -818,7 +818,7 @@
 	</view>
 	<view type="OrderPageContactCell" name="OrderPageContactCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
-		<command type="notify"      message="didContactBtnClick" />
+		<command type="notify"      message="didContactBtnClick:" />
 	</view>
 	
 	<view type="OrderListPendingCell" name="OrderListPendingCell" factory="AYReuseViewFactory" >

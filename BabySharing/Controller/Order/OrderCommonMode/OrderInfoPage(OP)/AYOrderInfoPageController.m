@@ -363,30 +363,19 @@
 	return nil;
 }
 
-- (id)didContactBtnClick {
+- (id)didContactBtnClick:(id)args {
 	
 	AYViewController* des = DEFAULTCONTROLLER(@"SingleChat");
-	//    id<AYCommand> des = DEFAULTCONTROLLER(@"GroupList");
 	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
 	[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
-	[dic_chat setValue:[order_info objectForKey:@"owner_id"] forKey:@"owner_id"];
-	
 	NSDictionary* info = nil;
 	CURRENUSER(info)
-	NSString *user_id = [info objectForKey:@"user_id"];
-	NSString *order_user_id = [order_info objectForKey:@"user_id"];
-	NSString *order_owner_id = [order_info objectForKey:@"owner_id"];
-	
-	if ([user_id isEqualToString:order_owner_id]) {     //我发的服务
-		[dic_chat setValue:order_user_id forKey:@"owner_id"];
-	} else {
-		[dic_chat setValue:order_owner_id forKey:@"owner_id"];
-	}
-	
+	NSMutableDictionary *dic_chat = [[NSMutableDictionary alloc]init];
+	[dic_chat setValue:args forKey:@"owner_id"];
+	[dic_chat setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
 	[dic setValue:dic_chat forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd_show_module = PUSH;

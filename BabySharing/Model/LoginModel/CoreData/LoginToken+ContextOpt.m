@@ -164,7 +164,7 @@
     */
     
     NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"LoginToken"];
-    request.predicate = [NSPredicate predicateWithFormat:@"user_id = %@", user_id];
+    request.predicate = [NSPredicate predicateWithFormat:@"user_id=%@", user_id];
     NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
     request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
     [request setReturnsObjectsAsFaults:NO];

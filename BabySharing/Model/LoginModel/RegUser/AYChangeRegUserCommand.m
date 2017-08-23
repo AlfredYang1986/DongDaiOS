@@ -32,7 +32,6 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     AYModelFacade* f = LOGINMODEL;
-    
     LoginToken *user = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:[dic objectForKey:@"user_id"] andAttrs:dic];
 	
     *obj = [RegCurrentToken changeCurrentRegLoginUser:user inContext:f.doc.managedObjectContext];

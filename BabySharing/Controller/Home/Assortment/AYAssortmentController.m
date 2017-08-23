@@ -149,6 +149,7 @@
 		make.centerX.equalTo(bannerView);
 		make.top.equalTo(bannerTitle.mas_bottom).offset(15);
 	}];
+	bannerCount.hidden  = YES;
 	
 	UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 	layout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -236,24 +237,24 @@
 	view.backgroundColor = [Tools whiteColor];
 	
 	NSString *title = sortCateg;
-//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 //	UIImage* left = IMGRESOURCE(@"bar_left_black");
 //	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[view addSubview:navTitleLabel];
-	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(view.mas_centerY).offset(0);
-		make.centerX.equalTo(view);
-	}];
-	
-	navCountLabel = [Tools creatUILabelWithText:@"6个服务" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[view addSubview:navCountLabel];
-	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(view.mas_centerY).offset(0);
-		make.centerX.equalTo(view);
-	}];
+//	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools blackColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//	[view addSubview:navTitleLabel];
+//	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.bottom.equalTo(view.mas_centerY).offset(0);
+//		make.centerX.equalTo(view);
+//	}];
+//	
+//	navCountLabel = [Tools creatUILabelWithText:@"6个服务" andTextColor:[Tools blackColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+//	[view addSubview:navCountLabel];
+//	[navCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.top.equalTo(view.mas_centerY).offset(0);
+//		make.centerX.equalTo(view);
+//	}];
 	
 	NSNumber *is_hidden = [NSNumber numberWithBool:YES];
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)

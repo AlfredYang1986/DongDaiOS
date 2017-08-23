@@ -150,8 +150,9 @@
 }
 
 - (void)didChatBtnClick {
-	id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick"];
-	[cmd performWithResult:nil];
+	id tmp = [ones_id copy];
+	id<AYCommand> cmd = [self.notifies objectForKey:@"didContactBtnClick:"];
+	[cmd performWithResult:&tmp];
 }
 
 #pragma mark -- messages

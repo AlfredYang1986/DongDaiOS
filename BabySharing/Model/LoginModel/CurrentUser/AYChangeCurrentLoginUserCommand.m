@@ -41,21 +41,18 @@
         if (phoneNo && ![phoneNo isEqualToString:@""]) {
             [LoginToken unbindTokenInContext:f.doc.managedObjectContext WithPhoneNum:phoneNo];
         }
-        
-//        LoginToken* token = [LoginToken enumLoginUserInContext:f.doc.managedObjectContext withUserID:newID];
+		
         LoginToken* token = [LoginToken createTokenInContext:f.doc.managedObjectContext withUserID:newID andAttrs:dic];
         
         [CurrentToken changeCurrentLoginUser:token inContext:f.doc.managedObjectContext];
         [f.doc.managedObjectContext save:nil];
 		
-		
 		// notify
         NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
         [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
         [notify setValue:kAYCurrentLoginUserChanged forKey:kAYNotifyFunctionKey];
-       
-        NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:2];
-       
+		
+		NSMutableDictionary* cur = [[NSMutableDictionary alloc]initWithCapacity:2];
         CurrentToken* tmp = [CurrentToken enumCurrentLoginUserInContext:f.doc.managedObjectContext];
         [cur setValue:tmp.who.user_id forKey:kAYCommArgsUserID];
         [cur setValue:tmp.who.auth_token forKey:kAYCommArgsToken];

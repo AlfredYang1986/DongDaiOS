@@ -68,7 +68,7 @@
     name_area.delegate = self;
     name_area.font = [UIFont boldSystemFontOfSize:20.f];
     name_area.textColor = [Tools themeColor];
-    name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
+//    name_area.clearButtonMode = UITextFieldViewModeWhileEditing;
     name_area.placeholder = @"您的姓名";
     [inputView addSubview:name_area];
     [name_area mas_makeConstraints:^(MASConstraintMaker *make) {
