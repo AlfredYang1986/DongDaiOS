@@ -119,7 +119,7 @@ typedef void(^queryContentFinish)(void);
 	dynamicOffsetY = 0.f;
 	
 	serviceDataFound = [[NSMutableArray alloc] init];
-	timeIntervalFound = timeIntervalAround = [NSDate date].timeIntervalSince1970;
+	timeIntervalFound = [NSDate date].timeIntervalSince1970;
 	
 	/**********层级调整*******/
 	UIView *view_status = [self.views objectForKey:@"FakeStatusBar"];
@@ -349,7 +349,10 @@ typedef void(^queryContentFinish)(void);
 	[dic_search setValue:[NSNumber numberWithInteger:skiped] forKey:kAYCommArgsRemoteDataSkip];
 	/*condition*/
 	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
-	[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
+	if (skiped == 0) {
+		[dic_condt setValue:[NSNumber numberWithLong:([NSDate date].timeIntervalSince1970)*1000] forKey:kAYCommArgsRemoteDate];
+	} else
+		[dic_condt setValue:[NSNumber numberWithLong:timeIntervalAround*1000] forKey:kAYCommArgsRemoteDate];
 	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	
 	NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
@@ -376,8 +379,8 @@ typedef void(^queryContentFinish)(void);
 	}
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_tags performWithResult:[self sortDataForSearchAroundWithSkiped:0] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"SearchFiltService"];
+	[cmd_search performWithResult:[self sortDataForSearchAroundWithSkiped:0] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			serviceDataAround = [[[result objectForKey:@"result"] objectForKey:@"services"] mutableCopy];
@@ -406,8 +409,8 @@ typedef void(^queryContentFinish)(void);
 	}
 	
 	id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand* cmd_tags = [f_search.commands objectForKey:@"SearchFiltService"];
-	[cmd_tags performWithResult:[self sortDataForSearchAroundWithSkiped:skipCountAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"SearchFiltService"];
+	[cmd_search performWithResult:[self sortDataForSearchAroundWithSkiped:skipCountAround] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
 			timeIntervalAround = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:kAYCommArgsRemoteDate]).longValue * 0.001;
 			NSArray *remoteArr = [[result objectForKey:@"result"] objectForKey:@"services"];

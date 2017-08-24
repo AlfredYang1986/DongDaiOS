@@ -48,7 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	remoteTimespan = [NSDate date].timeIntervalSince1970;
 	skipedCount = 0;
     
     id<AYDelegateBase> deleg = [self.delegates objectForKey:@"MyService"];
@@ -131,27 +130,13 @@
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
         } else {
-            NSString *title = @"请改善网络环境并重试";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
         }
         
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         [((UITableView*)view_table).mj_header endRefreshing];
     }];
     
-}
-
-
-- (void)didPushNewSerBtnClick {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- notifies

@@ -197,8 +197,9 @@
 	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
 	NSDictionary *info_deatil = [service_info objectForKey:kAYServiceArgsDetailInfo];
 	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
-	if([service_cat isEqualToString:kAYStringCourse])
-	{
+	if([service_cat isEqualToString:kAYStringCourse]) {
+		olock_icon.hidden = courseLengthLabel.hidden = NO;
+		
 		NSNumber *course_length = [info_deatil objectForKey:kAYServiceArgsCourseduration];
 		NSString *lengthStr = [NSString stringWithFormat:@"%@分钟", course_length];
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:lengthStr];

@@ -155,8 +155,10 @@
 	
 	
 	NSString *orderID = [order_info objectForKey:kAYOrderArgsID];
-	orderID = [Tools Bit64String:orderID];
-	orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
+	if (orderID) {
+		orderID = [Tools Bit64String:orderID];
+		orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
+	}
 	
 	NSString *userName = [[order_info objectForKey:@"user"] objectForKey:kAYProfileArgsScreenName];
 	userNameLabel.text = userName;

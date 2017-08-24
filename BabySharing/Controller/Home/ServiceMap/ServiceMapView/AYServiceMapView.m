@@ -12,11 +12,11 @@
 #import "AYAnnonation.h"
 
 @interface AYServiceMapView () <MKMapViewDelegate>
-@property (nonatomic,strong)CLLocationManager *manager;
+@property (nonatomic, strong) CLLocationManager *manager;
 @end
 
 @implementation AYServiceMapView {
-	MAAnnotationView *tmp;
+	
 	NSArray *arrayWithLoc;
 	AYAnnonation *currentAnno;
 	NSMutableArray *annoArray;
@@ -51,11 +51,6 @@
 	
 }
 
-- (void)layoutSubviews{
-	[super layoutSubviews];
-	
-}
-
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
 	
@@ -86,30 +81,38 @@
 	
 	selfLoc = [dic_p2p objectForKey:@"self"];
 	NSDictionary *service_info = [args objectForKey:kAYServiceArgsInfo];
-	tpLoc = [[args objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsPin];
-//	NSDictionary *dic_loc = [tpLoc objectForKey:@"location"];
-	NSDictionary *dic_loc = tpLoc;
+	tpLoc = [[args objectForKey:kAYServiceArgsInfo] objectForKey:kAYServiceArgsLocationInfo];
+	
+	NSDictionary *dic_loc = [tpLoc objectForKey:kAYServiceArgsPin];
 	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 	NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-	CLLocation *tp_location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+//	CLLocation *tp_location = [[CLLocation alloc]initWithLatitude:latitude.floatValue longitude:longitude.floatValue];
+	CLLocation *tp_location = [[CLLocation alloc]initWithLatitude:longitude.floatValue longitude:latitude.floatValue];
+	
 	loc = tp_location;
 	
-	NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsCat];
-	NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsCatSecondary];
+	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
+	NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
 	NSString *pre_map_icon_name;
-	if (serviceCat.intValue == ServiceTypeCourse) {
+	NSArray *optios_title_arr;
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		pre_map_icon_name = @"map_icon_course";
-	} else if(serviceCat.intValue == ServiceTypeNursery) {
+		optios_title_arr = kAY_service_options_title_course;
+		
+	} else if([serviceCat isEqualToString:kAYStringNursery]) {
 		pre_map_icon_name = @"map_icon_nursery";
+		optios_title_arr = kAY_service_options_title_nursery;
 	}
 	
-//	anno.imageName_select = [NSString stringWithFormat:@"%@_%@_select",pre_map_icon_name, cansCat];
 	
 	AYAnnonation *anno = [[AYAnnonation alloc]init];
 	anno.coordinate = tp_location.coordinate;
 	NSString *annoTitle = [tpLoc objectForKey:kAYServiceArgsAddress];
 	anno.title = annoTitle;
-	anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
+	anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+	anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+//	anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
 	[self addAnnotation:anno];
 	[annoArray addObject:anno];
 	[self setCenterCoordinate:tp_location.coordinate animated:NO];
@@ -162,21 +165,9 @@
 		return;
 	}
 	
-	if (tmp && tmp == view) {
-		return;
-	}
-	if (tmp && tmp != view) {
-		tmp.image = nil;
-		tmp.image = [UIImage imageNamed:@"position_normal"];
-	}
-	view.image = nil;
-	view.image = [UIImage imageNamed:@"position_focus"];
-	tmp = view;
+	view.highlighted = YES;
+	view.image = [UIImage imageNamed:anno.imageName_select];
 	[self setCenterCoordinate:anno.coordinate animated:YES];
-	
-	id<AYCommand> cmd = [self.notifies objectForKey:@"sendChangeOffsetMessage:"];
-	NSNumber *index = [NSNumber numberWithFloat:(anno.index)];
-	[cmd performWithResult:&index];
 	
 }
 

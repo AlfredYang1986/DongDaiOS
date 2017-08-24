@@ -186,7 +186,7 @@
 	[photoIcon sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]]
 				 placeholderImage:IMGRESOURCE(@"default_user")];
 	
-	NSString *compName = [Tools serviceCompleteNameFromSKUWith:order_info];
+	NSString *compName = [order_info objectForKey:kAYOrderArgsTitle];
 	NSString *userName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
 	titleLabel.text = [NSString stringWithFormat:@"%@的%@", userName, compName];
 	
@@ -195,8 +195,8 @@
 		positionLabel.text = addrStr;
 	}
 	
-	NSTimeInterval start = ((NSNumber*)[order_info objectForKey:@"start"]).longValue * 0.001;
-	NSTimeInterval end = ((NSNumber*)[order_info objectForKey:@"end"]).longValue * 0.001;
+	NSTimeInterval start = ((NSNumber*)[args objectForKey:@"start"]).longValue * 0.001;
+	NSTimeInterval end = ((NSNumber*)[args objectForKey:@"end"]).longValue * 0.001;
 	NSDate *startDate = [NSDate dateWithTimeIntervalSince1970:start];
 	NSDate *endDate = [NSDate dateWithTimeIntervalSince1970:end];
 	

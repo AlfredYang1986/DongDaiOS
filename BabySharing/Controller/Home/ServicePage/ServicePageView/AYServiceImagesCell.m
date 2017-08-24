@@ -35,6 +35,7 @@
 	
 	imageView = [[UIImageView alloc] init];
 	imageView.contentMode = UIViewContentModeScaleAspectFill;
+	imageView.clipsToBounds = YES;
 	imageView.image = IMGRESOURCE(@"default_image");
 	[self addSubview:imageView];
 	[imageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -53,7 +54,7 @@
 //		}
 //	}];
 	
-	[imageView sd_setImageWithURL:[NSURL URLWithString:imageName] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
+	[imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, imageName]] placeholderImage:IMGRESOURCE(@"default_image") options:SDWebImageLowPriority];
 }
 
 - (void)setItemImageWithImage:(UIImage *)image {

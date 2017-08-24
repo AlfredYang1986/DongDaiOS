@@ -35,10 +35,7 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
-		CGFloat margin = 0;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-		
-		orderMapView = [[MAMapView alloc]init];
+		orderMapView = [[MAMapView alloc] init];
 		[self addSubview:orderMapView];
 		[orderMapView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self);
@@ -49,10 +46,7 @@
 		orderMapView.delegate = self;
 		orderMapView.scrollEnabled = NO;
 		orderMapView.zoomEnabled = NO;
-		//配置用户Key
 		[AMapSearchServices sharedServices].apiKey = kAMapApiKey;
-//		orderMapView.userInteractionEnabled = YES;
-//		[orderMapView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didMapTap)]];
 		
 		tapview = [[UIView alloc]init];
 		[self addSubview:tapview];
@@ -69,7 +63,6 @@
 		
 		addressBg = [[UIImageView alloc]init];
 		[self addSubview:addressBg];
-		
 		addressArrowBg = [[UIImageView alloc] init];
 		[self addSubview:addressArrowBg];
 		
@@ -146,7 +139,7 @@
 	if (addressStr && ![addressStr isEqualToString:@""]) {
 		addressLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjustAddressStr];
 	}
-	
+	[addressLabel sizeToFit];
 	[addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(self);
 		make.bottom.equalTo(self.mas_top).offset(90);
@@ -172,27 +165,27 @@
 	
 	NSDictionary *dic_loc = [info_loc objectForKey:kAYServiceArgsPin];
 	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
-	NSNumber *longtitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-	CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
-	if (latitude && longtitude) {
+	NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
+//	CLLocation *loc = [[CLLocation alloc] initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
+	CLLocation *loc = [[CLLocation alloc] initWithLatitude:longitude.doubleValue longitude:latitude.doubleValue];
+	
+	if (latitude && longitude) {
 		if (currentAnno) {
 			[orderMapView removeAnnotation:currentAnno];
 		}
 		tapview.userInteractionEnabled = YES;
 		//rang
-		//	orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
+//		orderMapView.visibleMapRect = MAMapRectMake(loc.coordinate.latitude - 2000, loc.coordinate.longitude - 1000, 4000, 2000);
 		currentAnno = [[AYAnnonation alloc]init];
 		currentAnno.coordinate = loc.coordinate;
 		currentAnno.title = @"定位位置";
 		currentAnno.imageName_normal = @"details_icon_maplocation";
 		currentAnno.index = 9999;
 		[orderMapView addAnnotation:currentAnno];
-		[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
-		//	[orderMapView showAnnotations:@[currentAnno] animated:NO];
-		NSLog(@"add current_anno");
-		
+//		[orderMapView regionThatFits:MACoordinateRegionMake(loc.coordinate, MACoordinateSpanMake(loc.coordinate.latitude,loc.coordinate.longitude))];
+//		CLLocationCoordinate2D amapcoord = AMapCoordinateConvert(CLLocationCoordinate2DMake(39.989612,116.480972), AMapCoordinateType);
 		//center
-		[orderMapView setCenterCoordinate:loc.coordinate animated:YES];
+		[orderMapView setCenterCoordinate:currentAnno.coordinate animated:YES];
 	} else {
 		tapview.userInteractionEnabled = NO;
 	}
@@ -203,28 +196,26 @@
 #pragma mark -- MKMapViewDelegate
 - (MAAnnotationView *)mapView:(MAMapView *)mapView viewForAnnotation:(id<MAAnnotation>)annotation{
 	if ([annotation isKindOfClass:[AYAnnonation class]]) {
-		//默认红色小球
+		
 		static NSString *ID = @"anno";
 		MAAnnotationView *annotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:ID];
 		if (annotationView == nil) {
 			annotationView = [[MAAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:ID];
 		}
-		//设置属性 指定图片
+		
 		AYAnnonation *anno = (AYAnnonation *) annotation;
-		annotationView.image = [UIImage imageNamed:anno.imageName_normal];
+		annotationView.image = [UIImage imageNamed:anno.imageName_normal];	//设置属性 指定图片
 		annotationView.tag = anno.index;
-		//展示详情界面
-		annotationView.canShowCallout = NO;
+		annotationView.canShowCallout = NO;	//展示详情界面
 		return annotationView;
 	} else {
-		//采用系统默认蓝色大头针
+		
 		return nil;
 	}
 }
 
 #pragma mark -- actions
 - (void)didMapTap {
-	
 	kAYViewSendNotify(self, @"showP2PMap", nil)
 }
 

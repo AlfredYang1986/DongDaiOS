@@ -312,15 +312,16 @@
 	
 	NSNumber *leastNode;
 	NSArray *order_times = [self transDicWithOTMDictionary:nil];
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
 	if ([serviceCat isEqualToString:kAYStringCourse]) {
-		leastNode = [service_info objectForKey:kAYServiceArgsLeastTimes];
+		leastNode = [info_detail objectForKey:kAYServiceArgsLeastTimes];
 		if (order_times.count < leastNode.intValue) {
 			NSString *title = [NSString stringWithFormat:@"该服务最少预定%@次", leastNode];
 			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			return;
 		}
 	} else if ([serviceCat isEqualToString:kAYStringNursery]) {
-		leastNode = [service_info objectForKey:kAYServiceArgsLeastHours];
+		leastNode = [info_detail objectForKey:kAYServiceArgsLeastHours];
 		double sum = 0;
 		for (NSDictionary *dic_time in order_times) {
 			double start = ((NSNumber*)[dic_time objectForKey:kAYServiceArgsStart]).doubleValue;
@@ -503,9 +504,9 @@
 			timesArr = [NSMutableArray array];
 			for (NSDictionary *dic in f) {
 				NSMutableDictionary *dic_div = [[NSMutableDictionary alloc] init];
-				[dic_div setValue:[NSNumber numberWithInt:((NSNumber*)[dic objectForKey:kAYServiceArgsStart]).intValue] forKey:kAYServiceArgsStart];
-				[dic_div setValue:[NSNumber numberWithInt:((NSNumber*)[dic objectForKey:kAYServiceArgsEnd]).intValue] forKey:kAYServiceArgsEnd];
-				[dic_div setValue:[NSNumber numberWithBool:((NSNumber*)[dic objectForKey:@"is_selected"]).boolValue] forKey:@"is_selected"];
+				[dic_div setValue:[NSNumber numberWithInt:[[dic objectForKey:kAYServiceArgsStart] intValue]] forKey:kAYServiceArgsStart];
+				[dic_div setValue:[NSNumber numberWithInt:[[dic objectForKey:kAYServiceArgsEnd] intValue]] forKey:kAYServiceArgsEnd];
+				[dic_div setValue:[NSNumber numberWithBool:[[dic objectForKey:@"is_selected"] boolValue]] forKey:@"is_selected"];
 				[timesArr addObject:dic_div];
 			}
 			[OTMSet setValue:timesArr forKey:timeSpanhandle.stringValue];

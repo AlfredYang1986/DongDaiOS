@@ -165,13 +165,12 @@
 		orderNoLabel.text = [NSString stringWithFormat:@"订单号 %@", orderID];
 	}
 	
-	NSDictionary *service_info = [order_info objectForKey:kAYServiceArgsSelf];
-	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
-	NSString *aplyName = [[order_info objectForKey:kAYServiceArgsSelf] objectForKey:kAYProfileArgsScreenName];
-	NSString *titleStr = [NSString stringWithFormat:@"%@的%@", aplyName, completeTheme];
-	if (titleStr && ![titleStr isEqualToString:@""]) {
-		titleLabel.text = titleStr;
-	}
+//	NSDictionary *service_info = [order_info objectForKey:kAYServiceArgsSelf];
+//	NSString *completeTheme = [Tools serviceCompleteNameFromSKUWith:service_info];
+	NSString *orderTitle = [order_info objectForKey:kAYOrderArgsTitle];
+	NSString *aplyName = [[order_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+	NSString *titleStr = [NSString stringWithFormat:@"%@的%@", aplyName, orderTitle];
+	titleLabel.text = titleStr;
 	
 	OrderStatus OrderStatus = ((NSNumber*)[order_info objectForKey:@"status"]).intValue;
 	switch (OrderStatus) {

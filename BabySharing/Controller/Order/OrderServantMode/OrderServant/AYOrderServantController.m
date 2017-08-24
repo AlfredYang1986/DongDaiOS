@@ -145,8 +145,7 @@
 			result_status_past = [resultArr filteredArrayUsingPredicate:pred_past];
 			
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_future = [self.views objectForKey:@"Table"];

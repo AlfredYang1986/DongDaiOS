@@ -53,16 +53,13 @@
 			[cmd_query performWithResult:[dic_query_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 				if (success) {
 					id args = [[result objectForKey:kAYTimeManagerArgsSelf] objectForKey:kAYTimeManagerArgsTMs];
-//					NSNumber *enddate = [[args firstObject] objectForKey:@"enddate"];
-//					NSNumber *startdate = [[args firstObject] objectForKey:@"startdate"];
-//					currentNumbCount = (enddate.doubleValue - startdate.doubleValue) * 0.001 / OneDayTimeInterval / 7;
 					
 					id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
 					id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
 					[cmd performWithResult:&args];
 					offer_date = [args mutableCopy];
 				} else {
-				
+					AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 				}
 			}];
 			
@@ -290,12 +287,10 @@
 	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"TMsUpdate"];
 	[cmd_update performWithResult:[dic_update_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			
 			NSString *title = @"日程已修改";
-//			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 			[self popToRootVCWithTip:title];
-//			NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-//			kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
+		} else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 }

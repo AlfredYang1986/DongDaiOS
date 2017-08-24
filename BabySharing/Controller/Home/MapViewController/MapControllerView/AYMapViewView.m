@@ -88,7 +88,8 @@
 		NSDictionary *dic_loc = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin];
 		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+//		CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+		CLLocation *location = [[CLLocation alloc] initWithLatitude:longitude.doubleValue longitude:latitude.doubleValue];
 		
 		AYAnnonation *anno = [[AYAnnonation alloc]init];
 		anno.coordinate = location.coordinate;

@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import <MAMapKit/MAMapKit.h>
 #import <AMapSearchKit/AMapSearchKit.h>
+//#import <AMapFoundationKit.h>
 
 @interface AYServiceMapCellView : UITableViewCell <AYViewBase, MAMapViewDelegate>
 

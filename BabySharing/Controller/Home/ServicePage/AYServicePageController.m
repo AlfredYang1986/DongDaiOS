@@ -19,6 +19,7 @@
 #import "AYModelFacade.h"
 
 #import "AYServiceImagesCell.h"
+#import "AYServicePageBtmView.h"
 
 #define kLIMITEDSHOWNAVBAR			(-70.5)
 #define kFlexibleHeight				300
@@ -50,7 +51,6 @@
 	CGFloat HeadViewHeight;
 	/****/
 	
-	UIButton *bookBtn;
 	NSMutableArray *offer_date_mutable;
 }
 
@@ -83,7 +83,7 @@
 	NSArray *images = [service_info objectForKey:@"images"];
 	if (images.count != 0) {
 		if ([[images firstObject] isKindOfClass:[NSString class]]) {
-			[cell setItemImageWithImageName:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, [images objectAtIndex:indexPath.row]]];
+			[cell setItemImageWithImageName:[images objectAtIndex:indexPath.row]];
 		} else {
 			[cell setItemImageWithImage:[images objectAtIndex:indexPath.row]];
 		}
@@ -151,6 +151,7 @@
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
 		layout.minimumLineSpacing = 0.f;
 		layout.minimumInteritemSpacing = 0.f;
+		layout.itemSize = CGSizeMake(SCREEN_WIDTH, HeadViewHeight);
 		layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 		
 		CarouselView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, kFlexibleHeight) collectionViewLayout:layout];
@@ -162,26 +163,32 @@
 		CarouselView.bounces = NO;
 		[CarouselView registerClass:NSClassFromString(@"AYServiceImagesCell") forCellWithReuseIdentifier:@"AYServiceImagesCell"];
 		[flexibleView addSubview:CarouselView];
-		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.center.equalTo(flexibleView);
-			make.width.mas_equalTo(SCREEN_WIDTH);
-			make.height.equalTo(flexibleView);
-		}];
+//		[CarouselView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.center.equalTo(flexibleView);
+//			make.width.mas_equalTo(SCREEN_WIDTH);
+//			make.height.equalTo(flexibleView);
+//		}];
 	}
 	
 	
 	cellMinY = [receiveData objectForKey:@"cell_min_y"];		//首页跳转动画关键值
-	
 	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
 	if (per_mode) {
 		bar_like_btn.hidden = YES;
-		bookBtn.userInteractionEnabled = NO;
+		
 		service_info = [receiveData mutableCopy];
-		[self layoutPageControllAndBtmView];
+		[self layoutServicePageBannerImages];
 		NSDictionary *tmp = [service_info copy];
 		kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
 		
 	} else {
+		
+		AYServicePageBtmView *btmView = [[AYServicePageBtmView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
+		[self.view addSubview:btmView];
+		[self.view bringSubviewToFront:btmView];
+		[btmView.bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
+		[btmView.chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		
 		NSString *service_id = [receiveData objectForKey:kAYServiceArgsID];
 		NSDictionary *user;
 		CURRENUSER(user);
@@ -203,11 +210,6 @@
 				id args = [tmp_args objectForKey:@"tms"];
 				[cmd performWithResult:&args];
 				
-				[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
-				service_info = tmp_args;
-				
-				[self layoutPageControllAndBtmView];
-				
 				offer_date_mutable = [args mutableCopy];
 				[offer_date_mutable enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
 					NSArray *occurance = [obj objectForKey:kAYServiceArgsOccurance];
@@ -216,17 +218,19 @@
 					}];
 				}];
 				
+				[tmp_args setValue:[args copy] forKey:kAYServiceArgsOfferDate];
+				service_info = tmp_args;
+				
+				[btmView setViewWithData:service_info];
+				[self layoutServicePageBannerImages];
+				
 				NSDictionary *tmp = [service_info copy];
 				kAYDelegatesSendMessage(@"ServicePage", kAYDelegateChangeDataMessage, &tmp)
 				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 				[CarouselView reloadData];
 				
-				BOOL isLike = ((NSNumber*)[service_info objectForKey:kAYServiceArgsIsCollect]).boolValue;
-				bar_like_btn.selected = isLike;
-				
 			} else {
-				NSString *title = @"请改善网络环境并重试";
-				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 			}
 		}];
 		
@@ -285,10 +289,8 @@
 }
 
 - (id)TableLayout:(UIView*)view {
-    
-    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-    BOOL isNap = ![self.tabBarController isKindOfClass:[comp class]];
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (isNap ? 0 : kBtmViewHeight));
+	NSNumber *per_mode = [receiveData objectForKey:@"perview_mode"];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - (per_mode ? 0 : kBtmViewHeight));
     
     ((UITableView*)view).contentInset = UIEdgeInsetsMake(kFlexibleHeight, 0, 0, 0);
     ((UITableView*)view).estimatedRowHeight = 300;
@@ -354,13 +356,14 @@
     CGFloat offsetH = kFlexibleHeight + offset_y;
     if (offsetH < 0) {
         id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        UITableView *tableView = (UITableView*)view_notify;
+		UITableView *tableView = (UITableView*)view_notify;
+		HeadViewHeight = kFlexibleHeight - offsetH;
         [flexibleView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(tableView);
             make.top.equalTo(tableView).offset(-kFlexibleHeight + offsetH);
-            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, kFlexibleHeight - offsetH));
+            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, HeadViewHeight));
         }];
-		HeadViewHeight = kFlexibleHeight - offsetH;
+		CarouselView.frame = CGRectMake(0, 0, SCREEN_WIDTH, HeadViewHeight);
 		[CarouselView reloadData];
     }
 	
@@ -428,7 +431,7 @@
 }
 
 #pragma mark -- actions
-- (void)layoutPageControllAndBtmView {
+- (void)layoutServicePageBannerImages {
 	carouselNumb = (int)((NSArray*)[service_info objectForKey:@"images"]).count;
 	
 	pageControl = [[UIPageControl alloc]init];
@@ -448,85 +451,6 @@
 	NSNumber *iscollect = [service_info objectForKey:kAYServiceArgsIsCollect];
 	bar_like_btn.selected = iscollect.boolValue;
 	
-	/*-------------------------*/
-	UIView *bottom_view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - kBtmViewHeight, SCREEN_WIDTH, kBtmViewHeight)];
-	bottom_view.backgroundColor = [Tools whiteColor];
-	bottom_view.layer.shadowColor = [Tools garyColor].CGColor;
-	bottom_view.layer.shadowOffset = CGSizeMake(0, -0.5);
-	bottom_view.layer.shadowOpacity = 0.4f;
-	[self.view addSubview:bottom_view];
-	[self.view bringSubviewToFront:bottom_view];
-	
-	[Tools creatCALayerWithFrame:CGRectMake(kChatBtnWidth, 0, 0.5, kBtmViewHeight) andColor:[Tools garyLineColor] inSuperView:bottom_view];
-	
-	UIButton *chatBtn = [[UIButton alloc]init];
-	[chatBtn setImage:IMGRESOURCE(@"service_chat") forState:UIControlStateNormal];
-	[chatBtn setTitle:@"沟通" forState:UIControlStateNormal];
-	chatBtn.titleLabel.font = [UIFont systemFontOfSize:11.f];
-	[chatBtn setTitleColor:[Tools garyColor] forState:UIControlStateNormal];
-	[chatBtn setImageEdgeInsets:UIEdgeInsetsMake(-17, 0, 0, -24)];
-	[chatBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -25, -31, 0)];
-	[chatBtn addTarget:self action:@selector(didChatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-	[bottom_view addSubview:chatBtn];
-	[chatBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(bottom_view);
-		make.top.equalTo(bottom_view);
-		make.size.mas_equalTo(CGSizeMake(kChatBtnWidth, kBtmViewHeight));
-	}];
-	
-	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
-	NSDictionary *inf0_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
-	NSString *unitCat;
-	NSNumber *leastTimesOrHours;
-	NSString *service_cat = [inf0_categ objectForKey:kAYServiceArgsCat];
-	if ([service_cat containsString:@"看"]) {
-		unitCat = @"小时";
-		leastTimesOrHours = [info_detail objectForKey:kAYServiceArgsLeastHours];
-	}else if ([service_cat isEqualToString:kAYStringCourse]) {
-		unitCat = @"次";
-		leastTimesOrHours = [info_detail objectForKey:kAYServiceArgsLeastTimes];
-	} else {
-		NSLog(@"---null---");
-		unitCat = @"单价";
-		leastTimesOrHours = @1;
-	}
-	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
-	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
-	
-	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f], NSForegroundColorAttributeName :[Tools garyColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
-	
-	UILabel *priceLabel = [Tools creatUILabelWithText:@"Price 0f Serv" andTextColor:[Tools blackColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[bottom_view addSubview:priceLabel];
-	[priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerX.equalTo(chatBtn.mas_right).offset((SCREEN_WIDTH - kBookBtnWidth - kChatBtnWidth) * 0.5);
-		make.bottom.equalTo(bottom_view.mas_centerY).offset(2);
-	}];
-	
-	UILabel *capacityLabel = [Tools creatUILabelWithText:@"MIN Book Times" andTextColor:[Tools garyColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-	[bottom_view addSubview:capacityLabel];
-	[capacityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(bottom_view.mas_centerY).offset(4);
-		make.left.equalTo(priceLabel);
-	}];
-	
-	priceLabel.attributedText = attributedText;
-	capacityLabel.text = [NSString stringWithFormat:@"最少预定%@%@", leastTimesOrHours, unitCat];
-	
-	bookBtn = [Tools creatUIButtonWithTitle:kBookBtnTitleNormal andTitleColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:[Tools themeColor]];
-	UIImage *bgimage = IMGRESOURCE(@"details_button_checktime");
-	bookBtn.layer.contents = (__bridge id _Nullable)(bgimage.CGImage);
-	[bookBtn addTarget:self action:@selector(didBookBtnClick) forControlEvents:UIControlEventTouchUpInside];
-	
-	[bottom_view addSubview:bookBtn];
-	[bookBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(bottom_view);
-		make.right.equalTo(bottom_view);
-		make.size.mas_equalTo(CGSizeMake(kBookBtnWidth, kBtmViewHeight));
-	}];
 }
 
 - (void)didBookBtnClick {
