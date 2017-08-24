@@ -59,6 +59,7 @@
 		make.top.equalTo(self.mas_centerY).offset(15);
 		make.centerX.equalTo(self);
 	}];
+	skipCountLabel.hidden = YES;
 	
 }
 

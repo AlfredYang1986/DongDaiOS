@@ -180,7 +180,7 @@
 	filtBabyArgsLabel.attributedText = attributedText;
 
 	NSNumber *capacity = [info_detail objectForKey:kAYServiceArgsCapacity];
-	capacityLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue];
+	capacityLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue == 0 ? 1 : capacity.intValue];
 
 	NSString *servantCat = @"服务者数量";
 	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
@@ -191,7 +191,7 @@
 	servantSignLabel.text = servantCat;
 	
 	NSNumber *servant = [info_detail objectForKey:kAYServiceArgsServantNumb];
-	servantLabel.text = [NSString stringWithFormat:@"%d", servant.intValue];
+	servantLabel.text = [NSString stringWithFormat:@"%d", servant.intValue == 0 ? 1 : servant.intValue];
     
     return nil;
 }

@@ -541,7 +541,7 @@
         <command type="notify"      message="sendChangeAnnoMessage:" />
         <command type="notify"      message="queryResultDate:" />
     </view>
-    <view type="MapView" name="MapView" factory="AYReuseViewFactory" >
+    <view type="MapView" name="MapView" factory="AYDefaultViewFactory" >
         <command type="message"     message="changeAnnoView:" />
         <command type="message"     message="changeResultData:" />
         <command type="notify"      message="queryTheLoc:" />

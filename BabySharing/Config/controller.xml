@@ -181,15 +181,17 @@
 		<facade type="DefaultFacade" name="ProfileRemote" />
 		<command type="Module" name="LocationAuth" />
 	   
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="FakeNavBar" name="FakeNavBar" />
-		<view type="DongDaSeg" name="DongDaSeg" />
-		<view type="Table"          name="Table" />
-		<view type="Table2"          name="Table2" />
-		<view type="Table3"          name="Table3" />
+        <view type="FakeStatusBar"		name="FakeStatusBar" />
+        <view type="FakeNavBar"			name="FakeNavBar" />
+		<view type="DongDaSeg"			name="DongDaSeg" />
+		<view type="Table"				name="Table" />
+<!--		<view type="Table2"          name="Table2" />-->
+		<view type="MapView"			name="MapView" />
+		<view type="Collection"			name="Collection" />
+		<view type="Table3"				name="Table3" />
 		
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
-		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />
+<!--		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />-->
 		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
     </controller>
 	

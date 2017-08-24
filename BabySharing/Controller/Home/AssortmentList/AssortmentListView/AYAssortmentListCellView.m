@@ -55,6 +55,7 @@
 			make.centerX.equalTo(self);
 			make.size.mas_equalTo(CGSizeMake(skipedCount.bounds.size.width + 20, 20));
 		}];
+		skipedCount.hidden = YES;
 		
 		if (reuseIdentifier != nil) {
 			[self setUpReuseCell];

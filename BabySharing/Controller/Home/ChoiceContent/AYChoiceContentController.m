@@ -176,14 +176,15 @@
 	view.backgroundColor = [Tools themeColor];
 	
 	NSString *title = @"咚哒严选";
-//	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
-//	[view addSubview:navTitleLabel];
-//	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+	navTitleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[view addSubview:navTitleLabel];
+	[navTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //		make.bottom.equalTo(view.mas_centerY).offset(0);
 //		make.centerX.equalTo(view);
-//	}];
+		make.center.equalTo(view);
+	}];
 	
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	navCountLabel = [Tools creatUILabelWithText:@"20个服务" andTextColor:[Tools whiteColor] andFontSize:311.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	[view addSubview:navCountLabel];

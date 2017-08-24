@@ -17,7 +17,7 @@
 #import "AYModelFacade.h"
 
 @implementation AYHomeSortNurseryCellView {
-	
+	NSArray *titleArr;
 }
 
 @synthesize para = _para;
@@ -29,6 +29,7 @@
 	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
 	if (self) {
 		
+		titleArr = kAY_service_options_title_nursery;
 		CGFloat margin = 20.f;
 		
 		UIView *dailyBgView = [[UIView alloc] init];
@@ -135,7 +136,7 @@
 #pragma mark -- actions
 - (void)didNursarySignTap:(UITapGestureRecognizer*)tap {
 	UIView *tapView = tap.view;
-	NSNumber *tag = [NSNumber numberWithInteger:tapView.tag];
+	NSString *tag = [titleArr objectAtIndex:tapView.tag];
 	kAYViewSendNotify(self, @"didNursarySortTapAtIndex:", &tag)
 }
 

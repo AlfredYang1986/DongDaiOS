@@ -31,6 +31,7 @@ typedef void(^queryContentFinish)(void);
 #define kDongDaSegHeight				44
 
 #define kTABLEMARGINTOP			108.f
+#define kCollectionViewHeight				164
 // 减速度
 #define DECELERATION 400.0
 
@@ -104,7 +105,6 @@ typedef void(^queryContentFinish)(void);
 					[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index + 3 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 				}
 			}
-			
 		}
 			
     }
@@ -163,30 +163,29 @@ typedef void(^queryContentFinish)(void);
 	}
 	
 	{
-		id<AYDelegateBase> delegate_around = [self.delegates objectForKey:@"HomeAround"];
-		id obj = (id)delegate_around;
-		kAYViewsSendMessage(@"Table2", kAYTableRegisterDatasourceMessage, &obj)
-		obj = (id)delegate_around;
-		kAYViewsSendMessage(@"Table2", kAYTableRegisterDelegateMessage, &obj)
-		
-		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-		kAYViewsSendMessage(@"Table2", kAYTableRegisterCellWithClassMessage, &class_name)
-		
-		UITableView *view_table_around = [self.views objectForKey:@"Table2"];
-		UIButton *mapBtn = [[UIButton alloc] init];
-		[mapBtn setImage:IMGRESOURCE(@"home_icon_map") forState:UIControlStateNormal];
-//		[Tools setViewBorder:mapBtn withRadius:19.f andBorderWidth:0 andBorderColor:nil andBackground:nil];
-		[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
-		[self.view addSubview:mapBtn];
-		[self.view bringSubviewToFront:mapBtn];
-		[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.size.mas_equalTo(CGSizeMake(123, 70));	//123 70
-			make.right.equalTo(view_table_around).offset(-10);
-			make.bottom.equalTo(self.view).offset(-48);
-		}];
-		
-		view_table_around.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewAroundData)];
-		view_table_around.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreAroundData)];
+//		id<AYDelegateBase> delegate_around = [self.delegates objectForKey:@"HomeAround"];
+//		id obj = (id)delegate_around;
+//		kAYViewsSendMessage(@"Table2", kAYTableRegisterDatasourceMessage, &obj)
+//		obj = (id)delegate_around;
+//		kAYViewsSendMessage(@"Table2", kAYTableRegisterDelegateMessage, &obj)
+//		
+//		NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeAroundCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+//		kAYViewsSendMessage(@"Table2", kAYTableRegisterCellWithClassMessage, &class_name)
+//		
+//		UITableView *view_table_around = [self.views objectForKey:@"Table2"];
+//		UIButton *mapBtn = [[UIButton alloc] init];
+//		[mapBtn setImage:IMGRESOURCE(@"home_icon_map") forState:UIControlStateNormal];
+//		[mapBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+//		[self.view addSubview:mapBtn];
+//		[self.view bringSubviewToFront:mapBtn];
+//		[mapBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.size.mas_equalTo(CGSizeMake(123, 70));	//123 70
+//			make.right.equalTo(view_table_around).offset(-10);
+//			make.bottom.equalTo(self.view).offset(-48);
+//		}];
+//		
+//		view_table_around.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewAroundData)];
+//		view_table_around.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreAroundData)];
 	}
 	
 	{
@@ -297,12 +296,23 @@ typedef void(^queryContentFinish)(void);
 	view.frame = CGRectMake(0, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
 	return nil;
 }
-- (id)Table2Layout:(UIView*)view {
+- (id)MapViewLayout:(UIView*)view {
 	view.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
-//		((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
-	view.backgroundColor = [Tools garyBackgroundColor];
 	return nil;
 }
+- (id)CollectionLayout:(UIView*)view {
+	view.frame = CGRectMake(-SCREEN_WIDTH, SCREEN_HEIGHT - kCollectionViewHeight - 20, SCREEN_WIDTH, kCollectionViewHeight);
+	view.backgroundColor = [UIColor clearColor];
+	
+	((UICollectionView*)view).pagingEnabled = YES;
+	return nil;
+}
+//- (id)Table2Layout:(UIView*)view {
+//	view.frame = CGRectMake(-SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
+////		((UITableView*)view).contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
+//	view.backgroundColor = [Tools garyBackgroundColor];
+//	return nil;
+//}
 - (id)Table3Layout:(UIView*)view {
 	view.frame = CGRectMake(SCREEN_WIDTH, kTABLEMARGINTOP, SCREEN_WIDTH, SCREEN_HEIGHT - kTABLEMARGINTOP - 49);
 	view.backgroundColor = [Tools whiteColor];
