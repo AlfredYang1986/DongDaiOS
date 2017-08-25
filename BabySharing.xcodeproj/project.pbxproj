@@ -218,6 +218,7 @@
 		7025FE631DF692D200044CD9 /* AYSetServiceOptInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE601DF692D200044CD9 /* AYSetServiceOptInfoController.m */; };
 		7025FE671DF6B0A300044CD9 /* AYEditAdvanceInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */; };
 		7025FE6B1DF6ECA000044CD9 /* AYEditServiceCapacityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7025FE6A1DF6ECA000044CD9 /* AYEditServiceCapacityController.m */; };
+		702627D51F501E5900879810 /* AYTabBarBasicController.m in Sources */ = {isa = PBXBuildFile; fileRef = 702627D41F501E5900879810 /* AYTabBarBasicController.m */; };
 		702A30D81E693713005DFCD1 /* AYRestDayScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 702A30D71E693713005DFCD1 /* AYRestDayScheduleController.m */; };
 		702A30DB1E693838005DFCD1 /* AYRestDayTableDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 702A30DA1E693838005DFCD1 /* AYRestDayTableDelegate.m */; };
 		702B78411EC02774003E8104 /* AYQueryRemindCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 702B78401EC02774003E8104 /* AYQueryRemindCommand.m */; };
@@ -1250,6 +1251,8 @@
 		7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEditAdvanceInfoController.m; sourceTree = "<group>"; };
 		7025FE691DF6ECA000044CD9 /* AYEditServiceCapacityController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEditServiceCapacityController.h; sourceTree = "<group>"; };
 		7025FE6A1DF6ECA000044CD9 /* AYEditServiceCapacityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEditServiceCapacityController.m; sourceTree = "<group>"; };
+		702627D31F501E5900879810 /* AYTabBarBasicController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTabBarBasicController.h; sourceTree = "<group>"; };
+		702627D41F501E5900879810 /* AYTabBarBasicController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTabBarBasicController.m; sourceTree = "<group>"; };
 		702A30D61E693713005DFCD1 /* AYRestDayScheduleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRestDayScheduleController.h; sourceTree = "<group>"; };
 		702A30D71E693713005DFCD1 /* AYRestDayScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRestDayScheduleController.m; sourceTree = "<group>"; };
 		702A30D91E693838005DFCD1 /* AYRestDayTableDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRestDayTableDelegate.h; sourceTree = "<group>"; };
@@ -4252,8 +4255,8 @@
 		7025FE641DF6B09000044CD9 /* EditAdvanceInfo */ = {
 			isa = PBXGroup;
 			children = (
-				7045B6181E6038F300A0ED30 /* AdvanceOptView */,
 				7025FE681DF6EC8800044CD9 /* EditServiceCapacity */,
+				7045B6181E6038F300A0ED30 /* AdvanceOptView */,
 				7025FE651DF6B0A300044CD9 /* AYEditAdvanceInfoController.h */,
 				7025FE661DF6B0A300044CD9 /* AYEditAdvanceInfoController.m */,
 			);
@@ -7474,6 +7477,8 @@
 				70C41EF71DBA129D00C77B10 /* AYTabBarController.m */,
 				70C41EF81DBA129D00C77B10 /* AYTabBarServiceController.h */,
 				70C41EF91DBA129D00C77B10 /* AYTabBarServiceController.m */,
+				702627D31F501E5900879810 /* AYTabBarBasicController.h */,
+				702627D41F501E5900879810 /* AYTabBarBasicController.m */,
 			);
 			path = TabBarController;
 			sourceTree = "<group>";
@@ -9437,6 +9442,7 @@
 				70F369B21CC378650067B62E /* AYRemoteCallQueryCommand.m in Sources */,
 				701D8A961CA7E06700B5D4C1 /* Providers.m in Sources */,
 				705EC8851CE4BC1D0008D5EA /* AYEnumTagContentDataCommand.m in Sources */,
+				702627D51F501E5900879810 /* AYTabBarBasicController.m in Sources */,
 				707E7A211D07B8F300DFC198 /* AYMapViewView.m in Sources */,
 				70EAD8671CA68437007965D2 /* AYQueryTmpUserCommand.m in Sources */,
 				703C7E3B1DABA723003F58C1 /* WXSTransitionManager+CoverAnimation.m in Sources */,

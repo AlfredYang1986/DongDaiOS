@@ -59,7 +59,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         if ([push_args objectForKey:@"push"]) {
 			push_service_info = [push_args mutableCopy];
         } else {
-			show_service_info = [push_args mutableCopy];
+			show_service_info = push_args;
         }
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -161,10 +161,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 			
 			NSDictionary *tmp;
             if (show_service_info) {
-				tmp = [show_service_info copy];
+				tmp = [show_service_info mutableCopy];
                 [self ServiceInfoChanged];
 			} else {
-				tmp = [push_service_info copy];
+				tmp = [push_service_info mutableCopy];
 			}
 			
             kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &tmp)
@@ -251,11 +251,33 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 		NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &editCell)
 		
-		NSDictionary *dic_info = [show_service_info copy];
-		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
 		
+		NSDictionary *dic_info;
+		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
 		[confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
 		[confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
+		
+		NSDictionary *user;
+		CURRENUSER(user);
+		NSMutableDictionary *dic_detail = [user mutableCopy];
+		NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
+		[dic_condt setValue:[show_service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+		[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+		[dic_detail setValue:dic_condt forKey:kAYCommArgsCondition];
+		
+		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+		AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"QueryServiceDetail"];
+		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+			if(success) {
+				show_service_info = [result objectForKey:kAYServiceArgsSelf];
+				NSDictionary *dic_info = [show_service_info copy];
+				kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
+				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			} else {
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+		
 	}
 	
 }
@@ -313,7 +335,6 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
-    
 }
 
 #pragma mark -- alert actions
@@ -374,7 +395,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 			NSMutableArray* arr_items = [[NSMutableArray alloc]init];
 			for (int index = 0; index < napPhotos.count; ++index) {
 				UIImage* iter = [napPhotos objectAtIndex:index];
-				NSString* extent = [TmpFileStorageModel generateFileName];
+				NSString* extent = [Tools getUUIDString];
 				
 				NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
 				[photo_dic setValue:extent forKey:@"image"];
@@ -396,7 +417,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 			NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
 			NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
 			if (image_result.count == 0) {
-				[update_service_info setValue:arr_items forKey:kAYServiceArgsImages];
+//				[update_service_info setValue:arr_items forKey:kAYServiceArgsImages];
+				[show_service_info setValue:arr_items forKey:kAYServiceArgsImages];
 				[self updateServiceInfo];
 			}
 		});
@@ -409,13 +431,10 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     NSDictionary* user = nil;
     CURRENUSER(user)
 	
-	NSMutableDictionary *dic_update = [[NSMutableDictionary alloc] init];
-	[dic_update setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
-	NSDictionary *dic_condt = @{kAYCommArgsUserID:[user objectForKey:kAYCommArgsUserID]};
-	[dic_update setValue:dic_condt forKey:kAYCommArgsCondition];
-	
-    [update_service_info setValue:[show_service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
-	[dic_update setValue:update_service_info forKey:kAYServiceArgsSelf];
+	NSMutableDictionary *dic_update = [Tools getBaseRemoteData];
+//	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[show_service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_update setValue:show_service_info forKey:kAYServiceArgsSelf];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
@@ -425,6 +444,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 //            [_service_change_dic removeObjectForKey:kAYServiceArgsIsAdjustSKU];
 			
             isChangeServiceInfo = YES;		//pop VC 是否刷新
+			
             confirmSerBtn.hidden = YES;
             UIView *view = [self.views objectForKey:kAYTableView];
             view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
@@ -434,7 +454,8 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
             
         } else {
             
-            NSString *title = @"服务信息更新失败";
+            NSString *title = [@"服务信息更新失败," stringByAppendingString:kAYNetworkSlowTip];
+//			[title stringByAppendingString:kAYNetworkSlowTip];
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];

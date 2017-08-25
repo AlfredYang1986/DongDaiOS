@@ -155,10 +155,6 @@
 	
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
-
 - (void)setService_info:(NSDictionary *)service_info {
 	_service_info = [service_info objectForKey:kAYServiceArgsInfo];
 	
@@ -179,13 +175,14 @@
 	}];
 	
 	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
-	NSString *adjstAddrStr = [info_location objectForKey:kAYServiceArgsAdjustAddress];
+//	NSString *adjstAddrStr = [info_location objectForKey:kAYServiceArgsAdjustAddress];
 	if (addressStr && ![addressStr isEqualToString:@""]) {
 		NSString *stringPre = @"中国北京市";
 		if ([addressStr hasPrefix:stringPre]) {
 			addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
 		}
-		titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
+//		titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
+		titleLabel.text = addressStr;
 		[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(positionSignView.mas_right).offset(6);
 			make.centerY.equalTo(positionSignView);

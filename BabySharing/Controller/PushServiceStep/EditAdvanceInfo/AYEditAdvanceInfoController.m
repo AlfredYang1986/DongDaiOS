@@ -34,8 +34,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
-        service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         

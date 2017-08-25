@@ -222,6 +222,9 @@
 }
 
 - (void)dealloc {
-    [self clearDisk];
+	UIViewController *vc = [Tools activityViewController];
+	if (vc == _controller) {
+		[self clearDisk];
+	}
 }
 @end

@@ -203,7 +203,7 @@
 	
     <command type="Remote" name="PushServiceInfo"		route="al/kidnap/push"     factory="AYRemoteCallFactory" />
     <command type="Remote" name="PopMyService"			route="v2/kidnap/pop" factory="AYRemoteCallFactory" />
-    <command type="Remote" name="UpdateMyService"		route="v3/kidnap/update" factory="AYRemoteCallFactory" />
+    <command type="Remote" name="UpdateMyService"		route="al/kidnap/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="UpdateMyServiceTM"		route="v3/tm/update" factory="AYRemoteCallFactory" />
     
     <command type="Remote" name="SearchFiltService"		route="al/kidnap/search" factory="AYRemoteCallFactory" />

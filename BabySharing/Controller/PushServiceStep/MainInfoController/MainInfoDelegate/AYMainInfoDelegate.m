@@ -47,7 +47,7 @@
     NSString *customDeviceName;
     
     BOOL isEditModel;
-    NSDictionary *service_info;
+    NSMutableDictionary *service_info;
 }
 
 #pragma mark -- command
@@ -88,13 +88,20 @@
 - (id)changeQueryData:(id)args {
     
     NSDictionary *info = (NSDictionary*)args;
-	service_info = info;
+	service_info = args;
 	
 	NSDictionary *info_categ = [info objectForKey:kAYServiceArgsCategoryInfo];
 	service_cat = [info_categ objectForKey:kAYServiceArgsCat];
 	catSecondary = [info_categ objectForKey:kAYServiceArgsCatSecondary];
-	napPhoto = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
-	napTitle = [info objectForKey:kAYServiceArgsTitle];
+	
+	id photo = [[info objectForKey:kAYServiceArgsImages] objectAtIndex:0];
+	if (photo) {
+		napPhoto = photo;
+	}
+	id title = [info objectForKey:kAYServiceArgsTitle];
+	if(title) {
+		napTitle = title;
+	}
 	
 	NSMutableDictionary *dic_title = [[NSMutableDictionary alloc]init];
 	[dic_title setValue:[info objectForKey:kAYServiceArgsTitle] forKey:kAYServiceArgsTitle];
@@ -130,7 +137,7 @@
     return nil;
 }
 
-- (id)changeQueryInfo:(NSDictionary*)info {
+- (id)changeQueryInfo:(id)info {
 	
     isEditModel = YES;
     service_info = info;
@@ -284,22 +291,16 @@
         return;
     }
     else if (indexPath.row == 1) {
-//        [self setNapTheme];         //服务主题
         [self setNapTitle];
     }
     else if (indexPath.row == 2) {
         [self setServiceDesc];
-        
-    }
-    else if (indexPath.row == 3) {
+    }else if (indexPath.row == 3) {
         [self setNapCost];
-        
     } else if (indexPath.row == 4) {        //notice
-//        [self setNapBabyAges];
         [self setServiceNotice];
     } else if (indexPath.row == 5) {
-        [self setNapDevice];
-        
+        [self setNapDeviceOrUpdateAdvance];
     } else {
         
     }
@@ -377,24 +378,22 @@
     [cmd performWithResult:&dic_push];
 }
 
-- (void)setNapDevice {
+- (void)setNapDeviceOrUpdateAdvance {
     if (isEditModel) {
-        
-        id<AYCommand> dest = DEFAULTCONTROLLER(@"EditAdvanceInfo");
-        NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-        [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-        [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-        [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        
-        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:service_info];
-        [tmp setValue:service_cat forKey:kAYServiceArgsCat];
-        [tmp setValue:catSecondary forKey:kAYServiceArgsCatSecondary];
-        [dic_push setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
-        
-        id<AYCommand> cmd = PUSH;
-        [cmd performWithResult:&dic_push];
-    }
-    else {
+		id<AYCommand> dest = DEFAULTCONTROLLER(@"EditAdvanceInfo");
+		NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+		[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+		[dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+		[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+		
+		id tmp = [service_info mutableCopy];
+		[dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
+		
+		id<AYCommand> cmd = PUSH;
+		[cmd performWithResult:&dic_push];
+		
+    } else {
+		
         id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
         NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

@@ -77,12 +77,7 @@
     NSDictionary* info = nil;
     CURRENUSER(info)
     
-    id<AYCommand> des = nil;
-    if ([[tmp objectForKey:@"owner_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
-        des = DEFAULTCONTROLLER(@"MainInfo");
-    } else {
-        des = DEFAULTCONTROLLER(@"ServicePage");
-    }
+    id<AYCommand> des = DEFAULTCONTROLLER(@"MainInfo");;
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

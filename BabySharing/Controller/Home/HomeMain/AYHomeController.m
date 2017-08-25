@@ -229,6 +229,7 @@ typedef void(^queryContentFinish)(void);
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+	self.tabBarController.tabBar.hidden = currentIndex == 0;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -416,6 +417,12 @@ typedef void(^queryContentFinish)(void);
 //		[view_table.mj_header endRefreshing];
 		return;
 	}
+	
+	NSMutableDictionary *args = [[NSMutableDictionary alloc]init];
+	[args setValue:loc forKey:@"location"];
+	[args setValue:[serviceDataAround copy] forKey:@"result_data"];
+	kAYViewsSendMessage(kAYMapViewView, @"changeResultData:", &args)
+	
 	NSDictionary *dic_search = [self sortDataForSearchAroundWithSkiped:0];
 	if (!dic_search) {
 		return;
@@ -893,6 +900,7 @@ typedef void(^queryContentFinish)(void);
 	[l setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
 	[l setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
 	search_pin = [l copy];
+	
 	[manager stopUpdatingLocation];
 }
 
