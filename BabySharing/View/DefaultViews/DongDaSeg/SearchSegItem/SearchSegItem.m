@@ -9,7 +9,7 @@
 #import "SearchSegItem.h"
 #import "Define.h"
 
-#define ITEM_WIDTH                  80
+#define ITEM_WIDTH                  77
 #define ITEM_HEIGHT                 44
 #define ITME_LAYER_LINE_HEIGHT      2
 
@@ -70,12 +70,12 @@
     label.font = [UIFont boldSystemFontOfSize:_font_size];
     label.tag = -1;
     [self addSubview:label];
-    
+	
+	CGFloat layWidth = 20.f;
     layer = [CALayer layer];
     UIImage* img = [UIImage imageNamed:@"dongda_seg_selected"];
-    
     layer.contents = (id)img.CGImage;
-    layer.frame = CGRectMake((self.frame.size.width-38)*0.5, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, 38, ITME_LAYER_LINE_HEIGHT);
+    layer.frame = CGRectMake((self.frame.size.width - layWidth)*0.5, self.frame.size.height - ITME_LAYER_LINE_HEIGHT, layWidth, ITME_LAYER_LINE_HEIGHT);
     [self.layer addSublayer:layer];
     
     layer.hidden = _status == 0;

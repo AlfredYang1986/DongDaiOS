@@ -94,9 +94,9 @@
 
 #pragma mark -- operation with user id (primary key)
 + (void)handlerAttrInLoginToken:(LoginToken*)tmp withAttrs:(NSDictionary*)dic {
+	
     NSEnumerator* enumerator = dic.keyEnumerator;
     id iter = nil;
-    
     while ((iter = [enumerator nextObject]) != nil) {
         if ([iter isEqualToString:kAYCommArgsToken]) {
             tmp.auth_token = [dic objectForKey:iter];
@@ -105,7 +105,6 @@
             tmp.phoneNo = [dic objectForKey:iter];
         }
         else if ([iter isEqualToString:kAYProfileArgsScreenName]) {
-//        } else if ([iter isEqualToString:@"name"]) {
             tmp.screen_name = [dic objectForKey:iter];
         }
         else if ([iter isEqualToString:kAYProfileArgsScreenPhoto]) {
@@ -135,11 +134,8 @@
         else if ([iter isEqualToString:kAYProfileArgsIsHasPhone]) {
             tmp.has_phone = [dic objectForKey:iter];
         }
-        
         else if ([iter isEqualToString:kAYCommArgsUserID]) {
-            if (tmp.user_id == nil) {
-                tmp.user_id = [dic objectForKey:iter];
-            }
+			tmp.user_id = [dic objectForKey:iter];
         } else {
             // user id, do nothing
         }

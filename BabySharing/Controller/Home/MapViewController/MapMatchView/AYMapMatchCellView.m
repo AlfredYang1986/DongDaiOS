@@ -174,7 +174,8 @@
 	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.right.equalTo(self).offset(-35);
 		make.centerY.equalTo(positionSignView);
-		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+//		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+		make.width.mas_equalTo(0);
 	}];
 	
 	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];

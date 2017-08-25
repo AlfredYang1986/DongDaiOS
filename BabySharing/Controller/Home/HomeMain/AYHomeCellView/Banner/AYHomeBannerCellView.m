@@ -149,7 +149,7 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-	NSInteger row = indexPath.row - 1;
+	NSInteger row = (indexPath.row - 1) % 4;
 	NSLog(@"%ld", row);
 //	NSNumber *index = [NSNumber numberWithInteger:row];
 	NSString *categ = [topCategArr objectAtIndex:row];

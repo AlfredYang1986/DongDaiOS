@@ -190,33 +190,30 @@
     for ( AYAnnonation *one in annoArray) {
 		
         if (one.index == index.longValue) {
-            
             MAAnnotationView *change_view = [self viewForAnnotation:one];
 			if (annoViewHandle) {		//判断当前 是否已经有高亮的item
-				
 				if ( annoViewHandle != change_view) {		// 判断是否点击了已经是高亮的item
-					AYAnnonation *anno_handleView = annoViewHandle.annotation;
+					AYAnnonation *anno_handle = annoViewHandle.annotation;
 					annoViewHandle.highlighted = NO;
-					annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
-				}
-				else
+					annoViewHandle.image = [UIImage imageNamed:anno_handle.imageName_normal];
+				} else
 					break;
 			}
 			
 			NSDictionary *service_info = fiteResultData[index.longValue];
-			NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsPin];
+			NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
+			NSDictionary *dic_loc = [info_location objectForKey:kAYServiceArgsPin];
 			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {
-				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+//				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+				CLLocation *location = [[CLLocation alloc]initWithLatitude:longitude.doubleValue longitude:latitude.doubleValue];
 				change_view.highlighted = YES;
 				change_view.image = [UIImage imageNamed:one.imageName_select];
 				
 				[self setCenterCoordinate:location.coordinate animated:YES];
 			}
-			
 			annoViewHandle = change_view;		//交接
-			
 			break;
         }
     }

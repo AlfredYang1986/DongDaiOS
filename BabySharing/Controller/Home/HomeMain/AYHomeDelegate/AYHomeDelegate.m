@@ -166,7 +166,7 @@
 	UIView *divView = [tableView superview];
 	CGRect rectInTableView = [tableView rectForRowAtIndexPath:indexPath];
 	CGRect rect = [tableView convertRect:rectInTableView toView:divView];
-	NSLog(@"\n   cy:%f\n   y:%f\n    h:%f\n   y+h/2:%f",divView.center.y, rect.origin.y, rect.size.height, rect.origin.y+rect.size.height*0.5);
+	NSLog(@"\ncy :%f\ny  :%f\nh  :%f\ny+h/2:%f",divView.center.y, rect.origin.y, rect.size.height, rect.origin.y+rect.size.height*0.5);
 	
 	autoIndexPath = indexPath;
 	if ( abs((int)divView.center.y - (int)(rect.origin.y+rect.size.height*0.5)) <= 30) {

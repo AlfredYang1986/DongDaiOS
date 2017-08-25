@@ -182,7 +182,7 @@
 		<command type="Module" name="LocationAuth" />
 	   
         <view type="FakeStatusBar"		name="FakeStatusBar" />
-        <view type="FakeNavBar"			name="FakeNavBar" />
+<!--        <view type="FakeNavBar"			name="FakeNavBar" />-->
 		<view type="DongDaSeg"			name="DongDaSeg" />
 		<view type="Table"				name="Table" />
 <!--		<view type="Table2"          name="Table2" />-->
@@ -193,6 +193,7 @@
         <delegate type="TableViewDelegateAndDatasource" name="Home" />
 <!--		<delegate type="TableViewDelegateAndDatasource" name="HomeAround" />-->
 		<delegate type="TableViewDelegateAndDatasource" name="HomeSort" />
+		<delegate type="CollectionViewDelegateAndDatasource" name="MapMatch" />
     </controller>
 	
 	<controller type="DefaultController" name="ChoiceContent" factory="AYDefaultControllerFactoy" >
@@ -578,7 +579,7 @@
 		<view type="FakeNavBar"     name="FakeNavBar" />
 		<view type="Schedule"       name="Schedule" />
 		
-		<!--		<view type="CollectionVer" name="CollectionVer" />-->
+<!--		<view type="CollectionVer" name="CollectionVer" />-->
 <!--		<delegate type="CollectionViewDelegateAndDatasource" name="NurseCalendar" />-->
 	</controller>
 	
