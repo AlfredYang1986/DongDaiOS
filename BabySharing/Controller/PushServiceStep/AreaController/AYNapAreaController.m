@@ -28,15 +28,19 @@
     
     NSMutableDictionary *service_info;
 	
+	NSDictionary *show_service_info;
+	NSMutableDictionary *note_update_info;
+	
     UILabel *areaLabel;
     CLLocation *loc;
     
     //new
     NSString *navTitleStr;
+	NSString *distinctStr;
     UIView *locBGView;
     UILabel *adressLabel;
     UITextField *adjustAdress;
-    NSString *editMode;
+	
 }
 
 - (CLLocationManager *)manager {
@@ -59,10 +63,11 @@
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
 		
 		id args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args isKindOfClass:[NSDictionary class]]) {
-            service_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        } else if ([args isKindOfClass:[NSString class]]) {
-            editMode = @"确定";
+        if ([args objectForKey:@"push"]) {
+            service_info = args;
+        } else {
+			show_service_info = args;
+			note_update_info = [[NSMutableDictionary alloc] init];
         }
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -135,8 +140,7 @@
     centerLine.backgroundColor = [Tools garyLineColor].CGColor;
     centerLine.frame = CGRectMake(10, 60, SCREEN_WIDTH - 20, 0.5);
     [locBGView.layer addSublayer:centerLine];
-    
-//    adjustAdress = [Tools creatUILabelWithText:@"门牌号" andTextColor:[Tools garyColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	
     adjustAdress = [[UITextField alloc]init];
     adjustAdress.font = kAYFontLight(17.f);
     adjustAdress.placeholder = @"门牌号";
@@ -150,6 +154,10 @@
         make.left.equalTo(adressLabel);
         make.right.equalTo(locBGView).offset(-10);
     }];
+	NSString *adjustStr = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAdjustAddress];
+	if (adjustStr) {
+		adjustAdress.text = adjustStr;
+	}
 	
     UIButton *nextBtn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools whiteColor] andFontSize:17.f andBackgroundColor:[Tools themeColor]];
     [locBGView addSubview:nextBtn];
@@ -159,8 +167,8 @@
         make.centerX.equalTo(locBGView);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 50));
     }];
-    if (editMode) {
-        [nextBtn setTitle:editMode forState:UIControlStateNormal];
+    if (show_service_info) {
+        [nextBtn setTitle:@"确定" forState:UIControlStateNormal];
     }
     
     self.view.userInteractionEnabled = YES;
@@ -251,14 +259,14 @@
     [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *pl = [placemarks firstObject];
         NSString *city = pl.locality;
-        
+		NSString *subCity = pl.subLocality;
         if (city == nil) {
-            
             return ;
         } else {
             
             navTitleStr = city;
-            NSLog(@"%@",city);
+			distinctStr = subCity;
+            NSLog(@"city:%@--subcity:%@",city, subCity);
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &city)
             
             if (![navTitleStr isEqualToString:@"北京市"] && ![navTitleStr isEqualToString:@"Beijing"]) {
@@ -266,8 +274,7 @@
                 AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
                 return ;
             }
-            
-//            NSString *address = pl.name;
+			
 			NSString *addressStr = pl.name;
 			NSString *stringPre = @"中国北京市";
 			if ([addressStr hasPrefix:stringPre]) {
@@ -319,7 +326,7 @@
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         return;
     }
-    if (editMode) {
+    if (show_service_info) {
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
         [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
         [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
@@ -327,13 +334,12 @@
         NSMutableDictionary *location = [[NSMutableDictionary alloc]init];
         [location setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
         [location setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
-        
-        NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-        [tmp setValue:location forKey:@"location"];
-        [tmp setValue:navTitleStr forKey:kAYServiceArgsDistrict];
-        [tmp setValue:adressLabel.text forKey:@"address"];
-        [tmp setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
-        [dic setValue:tmp forKey:kAYControllerChangeArgsKey];
+		
+        [note_update_info setValue:location forKey:kAYServiceArgsPin];
+        [note_update_info setValue:distinctStr forKey:kAYServiceArgsDistrict];
+        [note_update_info setValue:adressLabel.text forKey:kAYServiceArgsAddress];
+        [note_update_info setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
+        [dic setValue:[note_update_info copy] forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = POP;
         [cmd performWithResult:&dic];
@@ -352,7 +358,7 @@
         [pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
 		[info_location setValue:pin forKey:kAYServiceArgsPin];
 		
-        [info_location setValue:navTitleStr forKey:kAYServiceArgsDistrict];
+        [info_location setValue:distinctStr forKey:kAYServiceArgsDistrict];
         [info_location setValue:adressLabel.text forKey:kAYServiceArgsAddress];
         [info_location setValue:adjustAdress.text forKey:kAYServiceArgsAdjustAddress];
 		

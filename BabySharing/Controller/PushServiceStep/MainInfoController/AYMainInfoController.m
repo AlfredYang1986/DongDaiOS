@@ -150,14 +150,30 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 				[[push_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:notice forKey:kAYServiceArgsNotice];
 				
                 [handleIsCompileArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
-            }
-            else if([key isEqualToString:kAYServiceArgsFacility]) {     //5
+			}
+			else if([key isEqualToString:kAYServiceArgsFacility]) {     //5
 				NSArray *facilities = [dic_info objectForKey:kAYServiceArgsFacility];
 				[[update_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:facilities forKey:kAYServiceArgsFacility];
 				[[show_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:facilities forKey:kAYServiceArgsFacility];
 				[[push_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:facilities forKey:kAYServiceArgsFacility];
-//                [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-            }
+				//                [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
+			}
+			else if([key isEqualToString:kAYServiceArgsSelf]) {     //opt
+				
+				show_service_info = [[dic_info objectForKey:kAYServiceArgsSelf] mutableCopy];
+				NSDictionary *note_update_info = [dic_info objectForKey:@"handle"];
+				for (NSString *key in note_update_info.allKeys) {
+					if ([key isEqualToString:kAYServiceArgsAddress] || [key isEqualToString:kAYServiceArgsAdjustAddress] || [key isEqualToString:kAYServiceArgsPin] || [key isEqualToString:kAYServiceArgsDistrict]) {
+						[[update_service_info objectForKey:kAYServiceArgsLocationInfo] setValue:[note_update_info objectForKey:key] forKey:key];
+					}
+					else if ([key isEqualToString:kAYServiceArgsAgeBoundary] || [key isEqualToString:kAYServiceArgsCapacity] || [key isEqualToString:kAYServiceArgsServantNumb] || [key isEqualToString:kAYServiceArgsFacility]) {
+						[[update_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:[note_update_info objectForKey:key] forKey:key];
+					}
+					else {
+						
+					}
+				}
+			}
 			
 			NSDictionary *tmp;
             if (show_service_info) {
@@ -417,8 +433,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 			NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
 			NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
 			if (image_result.count == 0) {
-//				[update_service_info setValue:arr_items forKey:kAYServiceArgsImages];
-				[show_service_info setValue:arr_items forKey:kAYServiceArgsImages];
+				[update_service_info setValue:arr_items forKey:kAYServiceArgsImages];
 				[self updateServiceInfo];
 			}
 		});
@@ -434,14 +449,12 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 	NSMutableDictionary *dic_update = [Tools getBaseRemoteData];
 //	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
 	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[show_service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
-	[dic_update setValue:show_service_info forKey:kAYServiceArgsSelf];
+	[dic_update setValue:[update_service_info copy] forKey:kAYServiceArgsSelf];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 	AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
     [cmd_publish performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            
-//            [_service_change_dic removeObjectForKey:kAYServiceArgsIsAdjustSKU];
 			
             isChangeServiceInfo = YES;		//pop VC 是否刷新
 			

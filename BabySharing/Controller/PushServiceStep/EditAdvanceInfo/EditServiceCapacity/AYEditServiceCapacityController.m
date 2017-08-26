@@ -21,7 +21,8 @@
 
 @implementation AYEditServiceCapacityController {
     
-    NSMutableDictionary *service_info_part;
+    NSMutableDictionary *note_service_info;
+	NSDictionary *service_info;
     
     UILabel *agesNumbLabel;
     UITextField *babyNumb;
@@ -35,37 +36,23 @@
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
     
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        //        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
-        service_info_part = [dic objectForKey:kAYControllerChangeArgsKey];
-        
+		NSDictionary *info = [dic objectForKey:kAYControllerChangeArgsKey];
+		service_info = [info objectForKey:kAYServiceArgsSelf];
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        sepNumb = [dic objectForKey:kAYControllerChangeArgsKey];
-        
-        [service_info_part setValue:sepNumb forKey:kAYServiceArgsCatSecondary];
-        [service_info_part setValue:[NSNumber numberWithBool:YES] forKey:kAYServiceArgsIsAdjustSKU];
-        
-        NSArray *options_title_cans = kAY_service_options_title_course;
-        NSString *themeStr = options_title_cans[sepNumb.integerValue];
-        serThemeLabel.text = themeStr;
-        
-        if (!isAlreadyEnable) {
-            UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-            isAlreadyEnable = YES;
-        }
-        
+		
     }
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+	note_service_info = [[NSMutableDictionary alloc] init];
     {
         id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
          UIView* picker = (UIView*)view_picker;
@@ -116,14 +103,15 @@
     babyAgesTitle.userInteractionEnabled = YES;
     [babyAgesTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editBabyAgesClick:)]];
     
-    agesNumbLabel = [Tools creatUILabelWithText:@"2岁 - 11岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+    agesNumbLabel = [Tools creatUILabelWithText:@"0岁 - 0岁" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
     [tableView addSubview:agesNumbLabel];
     [agesNumbLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(babyAgesTitle).offset(-rightMargin);
         make.centerY.equalTo(babyAgesTitle);
     }];
-    
-    NSDictionary *dic_ages = [service_info_part objectForKey:kAYServiceArgsAgeBoundary];
+	
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+    NSDictionary *dic_ages = [info_detail objectForKey:kAYServiceArgsAgeBoundary];
     NSNumber *age_lsl = [dic_ages objectForKey:kAYServiceArgsAgeBoundaryLow];
     NSNumber *age_usl = [dic_ages objectForKey:kAYServiceArgsAgeBoundaryUp];
     if (age_lsl && age_usl) {
@@ -160,11 +148,9 @@
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     
-    NSNumber *capacityNumb = [service_info_part objectForKey:kAYServiceArgsCapacity];
-    if (capacityNumb) {
-        babyNumb.text = [NSString stringWithFormat:@"%@", capacityNumb];
-    }
-    
+    NSNumber *capacityNumb = [info_detail objectForKey:kAYServiceArgsCapacity];
+	babyNumb.text = [NSString stringWithFormat:@"%d", capacityNumb.intValue];
+	
     /*servant*/
     AYInsetLabel *servantNumbTitle = [[AYInsetLabel alloc]initWithTitle:@"服务者数量" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
     servantNumbTitle.textInsets = labelInset;
@@ -196,7 +182,7 @@
     servantNumb.textColor  = [Tools themeColor];
     servantNumb.font  = kAYFontLight(14.f);
     servantNumb.textAlignment  = NSTextAlignmentRight;
-//    servantNumb.keyboardType  = UIKeyboardTypeNumberPad;
+    servantNumb.keyboardType  = UIKeyboardTypeNumberPad;
     servantNumb.delegate = self;
     [tableView addSubview:servantNumb];
     [servantNumb mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -204,10 +190,8 @@
         make.centerY.equalTo(servantNumbTitle);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
-    NSNumber *servant_no = [service_info_part objectForKey:kAYServiceArgsServantNumb];
-    if (servant_no) {
-        servantNumb.text = [NSString stringWithFormat:@"%@", servant_no];
-    }
+    NSNumber *servant_no = [note_service_info objectForKey:kAYServiceArgsServantNumb];
+	servantNumb.text = [NSString stringWithFormat:@"%d", servant_no.intValue];
     
     /*categary*/
     AYInsetLabel *serviceCatTitle = [[AYInsetLabel alloc]initWithTitle:@"服务类型" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
@@ -264,47 +248,31 @@
 	[tableView sendSubviewToBack:serviceThemeBg];
 	
     NSString *catStr;
-    NSArray *options_title_cans;
-    NSNumber *service_cat = [service_info_part objectForKey:kAYServiceArgsCat];
-    if (service_cat.intValue == ServiceTypeNursery) {
+	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
+	serCatLabel.text = service_cat;
+	
+    if ([service_cat isEqualToString:kAYStringNursery]) {
         catStr = @"看顾服务";
-        options_title_cans = kAY_service_options_title_nursery;
     }
-    else if (service_cat.intValue == ServiceTypeCourse) {
+    else if ([service_cat isEqualToString:kAYStringCourse]) {
         servantNumbTitle.text = @"老师数量";
         catStr = @"课程";
-        options_title_cans = kAY_service_options_title_course;
     }
-    
-    serCatLabel.text = catStr;
-	
-//	NSString *CompleteName = [Tools serviceCompleteNameFromSKUWith:service_info_part];
-//	serThemeLabel.text = CompleteName;
 	
     //服务主题分类
-    NSNumber *cans_cat = [service_info_part objectForKey:kAYServiceArgsCatSecondary];
-    if (cans_cat.intValue == -1) {
-        serThemeLabel.text = @"请调整服务主题";
-        serThemeLabel.textColor = [Tools themeColor];
-        serviceThemeTitle.userInteractionEnabled = YES;
-        [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
-    }
-    else if (cans_cat.integerValue < options_title_cans.count) {
-        NSString *themeStr = options_title_cans[cans_cat.integerValue];
-        serThemeLabel.text = themeStr;
-		
-    }
-    
-    NSNumber *isadjust = [service_info_part objectForKey:kAYServiceArgsIsAdjustSKU];
-    if (isadjust.boolValue) {
-        serThemeLabel.textColor = [Tools themeColor];
-        serviceThemeTitle.userInteractionEnabled = YES;
-        [serviceThemeTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServiceThemeTitle:)]];
-    }
+    NSString *cans_cat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+	if (!cans_cat || [cans_cat isEqualToString:@""]) {
+		cans_cat = [info_categ objectForKey:kAYServiceArgsCourseCoustom];
+		if (!cans_cat || [cans_cat isEqualToString:@""]) {
+			cans_cat = [info_categ objectForKey:kAYServiceArgsCatThirdly];
+		}
+	}
+	serThemeLabel.text = cans_cat;
+	
     
     babyNumbTitle.userInteractionEnabled = YES;
     servantNumbTitle.userInteractionEnabled = YES;
-    
     [babyNumbTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBabyNumbTitle:)]];
     [servantNumbTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapServantNumbTitle:)]];
     
@@ -360,6 +328,7 @@
 }
 
 - (void)tapServiceThemeTitle:(UIGestureRecognizer*)tap {
+	
     id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceTheme");
     
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
@@ -381,29 +350,20 @@
     [servantNumb becomeFirstResponder];
 }
 
-#pragma mark -- textfied delegate
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    if (textField == babyNumb) {
-        [service_info_part setValue:[NSNumber numberWithInt:textField.text.intValue] forKey:kAYServiceArgsCapacity];
-    }
-    else if (textField == servantNumb) {
-        [service_info_part setValue:[NSNumber numberWithInt:textField.text.intValue] forKey:kAYServiceArgsServantNumb];
-    }
-    
+- (void)resetRightAbleStatus {
+	if (!isAlreadyEnable) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = YES;
+	}
 }
 
+#pragma mark -- textfied delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    
-//    int numb = string.intValue;
-//    if (numb == 0) {
-//        
-//    }
-    
-    if (!isAlreadyEnable) {
-        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-        isAlreadyEnable = YES;
-    }
+		
+	if (![string isEqualToString:@""] && ![[textField.text stringByAppendingString:string] isEqualToString:@""]) {
+		[self resetRightAbleStatus];
+	}
     return YES;
 }
 
@@ -421,25 +381,21 @@
 - (id)rightBtnSelected {
     
     //整合数据
-    if ([babyNumb isFirstResponder]) {
-        [service_info_part setValue:[NSNumber numberWithInt:babyNumb.text.intValue] forKey:kAYServiceArgsCapacity];
-    }
-    else if ([servantNumb isFirstResponder]) {
-        [service_info_part setValue:[NSNumber numberWithInt:servantNumb.text.intValue] forKey:kAYServiceArgsServantNumb];
-    }
-	
-	NSNumber *babyNumbArgs = [service_info_part objectForKey:kAYServiceArgsCapacity];
-	NSNumber *servantNumbArgs = [service_info_part objectForKey:kAYServiceArgsServantNumb];
-	if ([babyNumbArgs  isEqualToNumber:@0] || [servantNumbArgs  isEqualToNumber:@0]) {
+	NSNumber *babyNumbArgs = [NSNumber numberWithInt:babyNumb.text.intValue];
+	NSNumber *servantNumbArgs = [NSNumber numberWithInt:servantNumb.text.intValue];
+	if ([babyNumbArgs isEqualToNumber:@0] || [servantNumbArgs isEqualToNumber:@0]) {
 		NSString *tipsTitle = @"限制数量不能设置为 0 ";
 		AYShowBtmAlertView(tipsTitle, BtmAlertViewTypeHideWithTimer)
 		return nil;
 	}
 	
+	[note_service_info setValue:babyNumbArgs forKey:kAYServiceArgsCapacity];
+	[note_service_info setValue:servantNumbArgs forKey:kAYServiceArgsServantNumb];
+	
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic setValue:service_info_part forKey:kAYControllerChangeArgsKey];
+    [dic setValue:[note_service_info copy] forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
@@ -462,16 +418,11 @@
             return nil;
         }
         
-        [service_info_part setValue:dic forKey:kAYServiceArgsAgeBoundary];
-        
-        NSString *ages = [NSString stringWithFormat:@"%@ - %@ 岁",lsl, usl];
+        [note_service_info setValue:dic forKey:kAYServiceArgsAgeBoundary];
+        NSString *ages = [NSString stringWithFormat:@"%@岁 - %@岁",lsl, usl];
         agesNumbLabel.text = ages;
         
-        if (!isAlreadyEnable) {
-            UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-            isAlreadyEnable = YES;
-        }
+		[self resetRightAbleStatus];
     }
     
     return nil;

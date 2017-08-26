@@ -21,6 +21,9 @@
 @implementation AYSetNapDeviceController {
 	
     NSMutableArray *optionsData;
+	
+	NSDictionary *show_service_info;
+	NSMutableDictionary *note_update_info;
 }
 
 #pragma mark --  commands
@@ -28,12 +31,13 @@
     
 	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
-		NSArray *facilities = [dic_facility objectForKey:kAYServiceArgsFacility];
-        if (facilities) {
-			optionsData = [NSMutableArray arrayWithArray:facilities];
-        } else
-			optionsData = [NSMutableArray array];
+        id args = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([args isKindOfClass:[NSArray class]]) {
+			optionsData = [NSMutableArray arrayWithArray:args];
+		} else {
+			show_service_info = args;
+			optionsData = [NSMutableArray arrayWithArray:[[args objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility]];
+		}
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -45,6 +49,10 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	if (!optionsData) {
+		optionsData = [NSMutableArray array];
+	}
 	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
 	id obj = (id)cmd_notify;
@@ -126,12 +134,17 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	if (optionsData.count != 0) {
-		NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-		[dic_info setValue:[optionsData copy] forKey:kAYServiceArgsFacility];
-		[dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
-		
-		[dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+	if (show_service_info) {
+		[note_update_info setValue:optionsData forKey:kAYServiceArgsFacility];
+		[dic setValue:[note_update_info copy] forKey:kAYControllerChangeArgsKey];
+	} else {
+		if (optionsData.count != 0) {
+			NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+			[dic_info setValue:[optionsData copy] forKey:kAYServiceArgsFacility];
+			[dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
+			
+			[dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+		}
 	}
 	
     id<AYCommand> cmd = POP;

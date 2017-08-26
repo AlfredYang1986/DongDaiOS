@@ -399,10 +399,8 @@
         [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
         [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
         [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-        
-        NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-        [dic_args setValue:napFacilities forKey:kAYServiceArgsFacility];
-        [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
+		
+        [dic_push setValue:napFacilities forKey:kAYControllerChangeArgsKey];
         
         id<AYCommand> cmd = PUSH;
         [cmd performWithResult:&dic_push];
