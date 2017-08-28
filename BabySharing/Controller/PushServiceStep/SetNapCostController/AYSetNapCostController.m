@@ -102,7 +102,7 @@
         make.edges.equalTo(h1).insets(UIEdgeInsetsMake(0, 115, 0, 35));
     }];
     if (setedCost) {
-        NSString *price = [NSString stringWithFormat:@"%f",setedCost.floatValue * 0.01];
+        NSString *price = [NSString stringWithFormat:@"%.f",setedCost.floatValue * 0.01];
         costTextField.text = price;
     }
     

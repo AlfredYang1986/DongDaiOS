@@ -222,7 +222,7 @@
     
     if (isChanged) {		//整合数据
         NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-        [dic_info setValue:kAYServiceArgsInfo forKey:@"key"];
+        [dic_info setValue:kAYServiceArgsSelf forKey:@"key"];
         [dic_info setValue:service_info forKey:kAYServiceArgsSelf];
 		[dic_info setValue:note_service_info forKey:@"handle"];
         [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];

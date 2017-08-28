@@ -154,7 +154,7 @@
         make.left.equalTo(adressLabel);
         make.right.equalTo(locBGView).offset(-10);
     }];
-	NSString *adjustStr = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAdjustAddress];
+	NSString *adjustStr = [[show_service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAdjustAddress];
 	if (adjustStr) {
 		adjustAdress.text = adjustStr;
 	}
@@ -246,15 +246,15 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    
-    loc = [locations firstObject];
-    
+	
+	loc = [locations firstObject];
+	[manager stopUpdatingLocation];
+	
     id<AYViewBase> map = [self.views objectForKey:@"NapAreaMap"];
     id<AYCommand> cmd = [map.commands objectForKey:@"queryOnesLocal:"];
     CLLocation *loction = loc;
     [cmd performWithResult:&loction];
-    
-    [manager stopUpdatingLocation];
+	
     
     [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *pl = [placemarks firstObject];

@@ -242,12 +242,12 @@
                 NSString *priceTitleStr ;
                 
                 if ([service_cat isEqualToString:kAYStringNursery]) {
-					priceTitleStr = [NSString stringWithFormat:@"￥ %f/小时",price.floatValue * 0.01];
+					priceTitleStr = [NSString stringWithFormat:@"￥%.f/小时",price.floatValue * 0.01];
                     if ( leastHours && leastHours.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
                     }
                 } else {
-					priceTitleStr = [NSString stringWithFormat:@"￥ %f/次",price.floatValue * 0.01];
+					priceTitleStr = [NSString stringWithFormat:@"￥%.f/次",price.floatValue * 0.01];
                     if (duration && duration.floatValue != 0 && leastTimes && leastTimes.floatValue != 0) {
                         [cell_info setValue:[NSNumber numberWithBool:YES] forKey:@"is_seted"];
                     }

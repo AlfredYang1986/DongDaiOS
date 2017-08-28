@@ -166,8 +166,7 @@
 	NSDictionary *dic_loc = [info_loc objectForKey:kAYServiceArgsPin];
 	NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 	NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-//	CLLocation *loc = [[CLLocation alloc] initWithLatitude:latitude.doubleValue longitude:longtitude.doubleValue];
-	CLLocation *loc = [[CLLocation alloc] initWithLatitude:longitude.doubleValue longitude:latitude.doubleValue];
+	CLLocation *loc = [[CLLocation alloc] initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 	
 	if (latitude && longitude) {
 		if (currentAnno) {

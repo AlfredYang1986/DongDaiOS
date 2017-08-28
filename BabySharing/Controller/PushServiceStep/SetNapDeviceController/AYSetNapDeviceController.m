@@ -36,6 +36,7 @@
 			optionsData = [NSMutableArray arrayWithArray:args];
 		} else {
 			show_service_info = args;
+			note_update_info = [[NSMutableDictionary alloc] init];
 			optionsData = [NSMutableArray arrayWithArray:[[args objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility]];
 		}
 		
@@ -86,8 +87,8 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-//	bar_right_btn.userInteractionEnabled = NO;
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
@@ -108,10 +109,14 @@
 }
 
 -(id)didOptionBtnClick:(NSString*)args {
+	
 	if ([optionsData containsObject:args]) {
 		[optionsData removeObject:args];
 	} else
 		[optionsData addObject:args];
+	
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
     return nil;
 }

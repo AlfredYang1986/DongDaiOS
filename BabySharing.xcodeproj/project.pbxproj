@@ -5289,9 +5289,9 @@
 				704D48CD1DAE18AE00A69AF4 /* AboutController */,
 				705489791D34DA9F007FCDA1 /* BabyInfoController */,
 				7053614B1D5C8929006BB95E /* OneProfileController */,
-				700047461D9B9960000AE1C9 /* PersonalDesc */,
 				70C69FF01D9A49450069E4EE /* PersonalInfo */,
 				70C41E291DBA11AD00C77B10 /* PersonalSettingController */,
+				700047461D9B9960000AE1C9 /* PersonalDesc */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

@@ -441,12 +441,17 @@ typedef void(^queryContentFinish)(void);
 			[args setValue:[serviceDataAround copy] forKey:@"result_data"];
 			
 			id tmp = [args copy];
-			kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
-			kAYViewsSendMessage(kAYCollectionView, kAYTableRefreshMessage, nil)
-			
 			kAYViewsSendMessage(kAYMapViewView, @"changeResultData:", &args)
-//			id tmp = [serviceDataAround copy];
-//			kAYDelegatesSendMessage(@"HomeAround", kAYDelegateChangeDataMessage, &tmp)
+			
+			if (serviceDataAround.count == 0) {
+				NSString *tip = @"附近暂时没有可用服务";
+				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+			} else {
+				tmp = [args copy];
+				kAYDelegatesSendMessage(@"MapMatch", @"changeQueryData:", &tmp)
+				kAYViewsSendMessage(kAYCollectionView, kAYTableRefreshMessage, nil)
+			}
+			
 		} else {
 			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}

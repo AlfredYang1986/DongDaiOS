@@ -56,15 +56,13 @@
     
     obj = (id)cmd_collect;
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
-    
-    NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalInfoHeadCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-    
-    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalDescCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-    
-    class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"PersonalValidateCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	
+	NSArray *claa_name_arr = @[@"PersonalInfoHeadCell", @"PersonalDescCell", @"PersonalValidateCell"];
+	NSString *cell_name;
+	for (NSString *class_name in claa_name_arr) {
+		cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:class_name] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
+	}
     
     NSDictionary *tmp = [personal_info copy];
     kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
@@ -88,7 +86,24 @@
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
     [coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
-    
+	
+	{
+		NSMutableDictionary* dic = [Tools getBaseRemoteData];
+		//	NSString* owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
+		[[dic objectForKey:kAYCommArgsCondition] setValue:[personal_info objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+		
+		id<AYFacadeBase> facade = [self.facades objectForKey:@"ProfileRemote"];
+		AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
+		[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
+			if (success) {
+				NSDictionary *info_prifole = [result objectForKey:kAYProfileArgsSelf];
+				personal_info = info_prifole;
+				NSDictionary *tmp = [personal_info copy];
+				kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
+			}
+		}];
+	}
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -37,9 +37,8 @@
 }
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
-    
-    NSDictionary* dic = (NSDictionary*)*obj;
-    
+	
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -51,7 +50,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
     [AMapSearchServices sharedServices].apiKey = kAMapApiKey;

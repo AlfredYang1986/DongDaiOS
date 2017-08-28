@@ -80,7 +80,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AYServiceImagesCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AYServiceImagesCell" forIndexPath:indexPath];
 	
-	NSArray *images = [service_info objectForKey:@"images"];
+	NSArray *images = [service_info objectForKey:kAYServiceArgsImages];
 	if (images.count != 0) {
 		if ([[images firstObject] isKindOfClass:[NSString class]]) {
 			[cell setItemImageWithImageName:[images objectAtIndex:indexPath.row]];

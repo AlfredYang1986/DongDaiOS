@@ -39,8 +39,7 @@
     
 	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		NSDictionary *info = [dic objectForKey:kAYControllerChangeArgsKey];
-		service_info = [info objectForKey:kAYServiceArgsSelf];
+		service_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -190,7 +189,7 @@
         make.centerY.equalTo(servantNumbTitle);
         make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
-    NSNumber *servant_no = [note_service_info objectForKey:kAYServiceArgsServantNumb];
+    NSNumber *servant_no = [info_detail objectForKey:kAYServiceArgsServantNumb];
 	servantNumb.text = [NSString stringWithFormat:@"%d", servant_no.intValue];
     
     /*categary*/

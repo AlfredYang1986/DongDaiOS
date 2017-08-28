@@ -38,9 +38,7 @@
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         NSString *str = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (str) {
-            setedStr = str;
-        }
+		setedStr = str;
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -184,8 +182,8 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:descTextView.text forKey:@"content"];
-    [dic_info setValue:@"nap_desc" forKey:@"key"];
+    [dic_info setValue:descTextView.text forKey:kAYServiceArgsDescription];
+    [dic_info setValue:kAYServiceArgsDescription forKey:@"key"];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;

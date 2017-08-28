@@ -114,6 +114,7 @@
     
     <controller type="DefaultController" name="PersonalInfo" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="FileRemote" notification="true" />
+		<facade type="DefaultFacade" name="ProfileRemote" />
         <facade type="DefaultFacade" name="LoginModel" notification="true"/>
         
         <view type="FakeStatusBar"      name="FakeStatusBar" />

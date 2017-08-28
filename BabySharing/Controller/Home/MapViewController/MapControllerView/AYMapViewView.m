@@ -88,8 +88,7 @@
 		NSDictionary *dic_loc = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin];
 		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-//		CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
-		CLLocation *location = [[CLLocation alloc] initWithLatitude:longitude.doubleValue longitude:latitude.doubleValue];
+		CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 		
 		AYAnnonation *anno = [[AYAnnonation alloc]init];
 		anno.coordinate = location.coordinate;
@@ -206,8 +205,7 @@
 			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {
-//				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
-				CLLocation *location = [[CLLocation alloc]initWithLatitude:longitude.doubleValue longitude:latitude.doubleValue];
+				CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 				change_view.highlighted = YES;
 				change_view.image = [UIImage imageNamed:one.imageName_select];
 				
