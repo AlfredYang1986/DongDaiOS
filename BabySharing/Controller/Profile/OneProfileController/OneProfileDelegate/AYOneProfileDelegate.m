@@ -128,7 +128,7 @@
             return has_phone.boolValue?64:0.001;
         } else {
             
-            NSNumber *is_real_name_cert = [querydata objectForKey:kAYProfileArgsIsValidtRealName];
+            NSNumber *is_real_name_cert = [querydata objectForKey:kAYProfileArgsIsProvider];
             return is_real_name_cert.boolValue?64:0.001;
         }
     }

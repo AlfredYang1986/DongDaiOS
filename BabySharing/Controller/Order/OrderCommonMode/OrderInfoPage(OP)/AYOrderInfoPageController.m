@@ -72,6 +72,7 @@
 	NSMutableDictionary *dic_query = [Tools getBaseRemoteData];
 	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[order_info objectForKey:kAYOrderArgsID] forKey:kAYOrderArgsID];
 	[[dic_query objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"OrderRemote"];
 	AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"QueryOrderDetail"];
 	[cmd_query performWithResult:[dic_query copy] andFinishBlack:^(BOOL success, NSDictionary *result) {

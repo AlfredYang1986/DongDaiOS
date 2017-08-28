@@ -279,7 +279,7 @@
 	NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
 	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+//	[dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic_pop];

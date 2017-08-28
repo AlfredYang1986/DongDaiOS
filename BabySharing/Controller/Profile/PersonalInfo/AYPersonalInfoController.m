@@ -96,10 +96,10 @@
 		AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
 		[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
 			if (success) {
-				NSDictionary *info_prifole = [result objectForKey:kAYProfileArgsSelf];
-				personal_info = info_prifole;
+				personal_info = [result objectForKey:kAYProfileArgsSelf];
 				NSDictionary *tmp = [personal_info copy];
 				kAYDelegatesSendMessage(@"PersonalInfo", @"changeQueryData:", &tmp)
+				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 			}
 		}];
 	}

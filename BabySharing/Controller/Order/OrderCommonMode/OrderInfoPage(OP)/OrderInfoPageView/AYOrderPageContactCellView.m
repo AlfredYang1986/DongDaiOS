@@ -140,12 +140,12 @@
 	UIViewController* des = DEFAULTCONTROLLER(@"OneProfile");
 	
 	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
 	[dic_push setValue:ones_id forKey:kAYControllerChangeArgsKey];
 	
-	id<AYCommand> cmd_push = PUSH;
+	id<AYCommand> cmd_push = SHOWMODULEUP;
 	[cmd_push performWithResult:&dic_push];
 }
 
