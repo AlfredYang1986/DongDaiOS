@@ -271,6 +271,7 @@
 		}
 	} else {
 		NSLog(@"---null---");
+//		titleLabel.text = @"服务数据待调整";
 	}
 	
 	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];

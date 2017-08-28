@@ -103,6 +103,10 @@ typedef enum : int {
 #define OneDayTimeInterval						86400
 #define HOMECOMMONCELLHEIGHT					363
 
+
+
+
+
 #ifndef __OPTIMIZE__
 #define NSLog(...) NSLog(__VA_ARGS__)
 //static NSString* const kAYDongDaDownloadURL =                @"http://10.6.20.180:9000/query/downloadFile/";
@@ -111,7 +115,8 @@ typedef enum : int {
 static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
 #else
 #define NSLog(...) {}
-static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9000/query/downloadFile/";
+//static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9000/query/downloadFile/";
+static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
 #endif
 
 #endif /* BabySharing_Prefix_pch */
