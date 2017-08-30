@@ -107,7 +107,7 @@
 
 
 
-- (void)controller:(UIViewController *)controller Title:(NSString *)title tabBarItemImage:(NSString *)imageName tabBarItemSelectedImage:(NSString *)selectedImageName {
+- (void)controller:(UIViewController *)controller Title:(NSString *)title tabBarItemImage:(NSString *)imageName {
 	
 	[controller.tabBarItem setTitle:title];
 	NSDictionary *attr_color_normal = @{NSFontAttributeName:[UIFont systemFontOfSize:10.f], NSForegroundColorAttributeName:[Tools garyColor]};
@@ -120,7 +120,7 @@
 	image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 	[controller.tabBarItem setImage:image];
 	
-	UIImage *selectedImage = [UIImage imageNamed:selectedImageName];
+	UIImage *selectedImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected", imageName]];
 	selectedImage = [selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 	[controller.tabBarItem setSelectedImage:selectedImage];
 	

@@ -107,9 +107,20 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.row == 0){
-        NSLog(@"go discuss");
-    }else if(indexPath.row == 1){
-        NSLog(@"aboutdongda view controller");
+//		//跳转到应用
+//		NSString *appItuensURL = @"itms-apps://itunes.apple.com/cn/app/dong-da/id1095143390?mt=8";
+//		[[UIApplication sharedApplication]openURL:[NSURL URLWithString:appItuensURL]];
+		
+//		//跳转到应用评论页
+//		NSString *appID = @"1095143390";
+//		NSString *urlStr = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%@&pageNumber=0&sortOrdering=2&mt=8", appID];
+//		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+		
+		//APP内置AppStore
+		[self loadAppStoreController];
+		
+    } else if(indexPath.row == 1) {
+		
         id<AYCommand> AboutDD = DEFAULTCONTROLLER(@"AboutDD");
         
         NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:1];
@@ -118,12 +129,40 @@
         [dic setValue:_controller forKey:kAYControllerActionSourceControllerKey];
         [_controller performWithResult:&dic];
         
-    }else {
+    } else {
         [TmpFileStorageModel deleteBMTmpImageDir];
         [TmpFileStorageModel deleteBMTmpMovieDir];
         NSIndexPath *currentIndex = indexPath;
         [tableView reloadRowsAtIndexPaths:@[currentIndex] withRowAnimation:UITableViewRowAnimationNone];
     }
+}
+
+
+- (void)loadAppStoreController {
+	
+	SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc]init];
+	
+	storeProductViewContorller.delegate=self;
+	
+	NSString *appID = @"1095143390";
+	[storeProductViewContorller loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:appID} completionBlock:^(BOOL result,NSError *error)   {
+		
+		if(error)  {
+			NSLog(@"error %@ with userInfo %@",error,[error userInfo]);
+			
+		} else{
+			[_controller presentViewController:storeProductViewContorller animated:YES completion:nil];
+			
+		}
+	}];
+	
+}
+
+//AppStore取消按钮监听
+- (void)productViewControllerDidFinish:(SKStoreProductViewController*)viewController {
+	
+	[_controller dismissViewControllerAnimated:YES completion:nil];
+	
 }
 
 @end

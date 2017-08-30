@@ -487,6 +487,7 @@
 		706CA97A1F4145F7005B168F /* AYChoiceSearchCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CA9791F4145F7005B168F /* AYChoiceSearchCommand.m */; };
 		706CA97D1F41460C005B168F /* AYChoicePushCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CA97C1F41460C005B168F /* AYChoicePushCommand.m */; };
 		706CA9801F41461C005B168F /* AYChoicePopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CA97F1F41461C005B168F /* AYChoicePopCommand.m */; };
+		706CD7AE1F56928900936870 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 706CD7AD1F56928900936870 /* StoreKit.framework */; };
 		706E460C1CFC107A00CC7C53 /* AYInputCoderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E45EB1CFC107A00CC7C53 /* AYInputCoderController.m */; };
 		706E460D1CFC107A00CC7C53 /* AYLandingInputCoderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E45EE1CFC107A00CC7C53 /* AYLandingInputCoderView.m */; };
 		706E460E1CFC107A00CC7C53 /* AYInputNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 706E45F11CFC107A00CC7C53 /* AYInputNameController.m */; };
@@ -1796,6 +1797,7 @@
 		706CA97C1F41460C005B168F /* AYChoicePushCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChoicePushCommand.m; sourceTree = "<group>"; };
 		706CA97E1F41461C005B168F /* AYChoicePopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYChoicePopCommand.h; sourceTree = "<group>"; };
 		706CA97F1F41461C005B168F /* AYChoicePopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChoicePopCommand.m; sourceTree = "<group>"; };
+		706CD7AD1F56928900936870 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		706E45EA1CFC107A00CC7C53 /* AYInputCoderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYInputCoderController.h; sourceTree = "<group>"; };
 		706E45EB1CFC107A00CC7C53 /* AYInputCoderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInputCoderController.m; sourceTree = "<group>"; };
 		706E45ED1CFC107A00CC7C53 /* AYLandingInputCoderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingInputCoderView.h; sourceTree = "<group>"; };
@@ -2539,6 +2541,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				706CD7AE1F56928900936870 /* StoreKit.framework in Frameworks */,
 				80F059911E5C47E3002B105F /* CoreMotion.framework in Frameworks */,
 				80F058D71E5C2FD7002B105F /* AlipaySDK.framework in Frameworks */,
 				70490DCC1CA23A6E0093D5DA /* CoreLocation.framework in Frameworks */,
@@ -8931,6 +8934,7 @@
 		80F0598F1E5C47E3002B105F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				706CD7AD1F56928900936870 /* StoreKit.framework */,
 				80F059901E5C47E3002B105F /* CoreMotion.framework */,
 			);
 			name = Frameworks;

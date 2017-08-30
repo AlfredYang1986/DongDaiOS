@@ -234,6 +234,7 @@
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)dic_args {
 	service_info = dic_args;
+	NSLog(@"%@", [service_info objectForKey:kAYServiceArgsID]);
 	
 	NSString* photo_name = [service_info objectForKey:kAYServiceArgsImages];
 	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
