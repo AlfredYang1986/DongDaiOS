@@ -237,6 +237,11 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     }];
 	
 	if (push_service_info) {
+		
+		NSDictionary *tmp = [push_service_info mutableCopy];
+		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &tmp)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		
 		handleIsCompileArgs = [[NSMutableArray alloc] init];
 		for (int i = 0; i < requiredInfoNumb; ++i) {
 			[handleIsCompileArgs addObject:[NSNumber numberWithBool:NO]];
@@ -268,8 +273,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 		NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &editCell)
 		
-		NSDictionary *dic_info;
+		NSDictionary *dic_info;		/*没有数据 只确认修改模式*/
 		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
+		
 		[confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
 		[confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
 		
