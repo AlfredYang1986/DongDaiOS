@@ -71,6 +71,48 @@
 		<command type="notify"  message="scrollViewWillBeginDrag" />
 		<command type="notify"  message="scrollViewWillEndDrag" />
     </delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SearchSKU" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="ChoiceContent" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify"  message="scrollOffsetYNoyify:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="HomeSort" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="notify"  message="scrollToShowHideTop:" />
+		<command type="notify"  message="scrollToShowTop:" />
+		<command type="notify"  message="scrollToHideTop:" />
+		<command type="notify"  message="didSelectedRow:" />
+		<command type="notify"  message="didNursarySortTapAtIndex:" />
+		<command type="notify"  message="scrollViewWillBeginDrag" />
+		<command type="notify"  message="scrollViewWillEndDrag" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="AssortmentList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	<delegate type="TableViewDelegateAndDatasource" name="Assortment" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	<delegate type="TableViewDelegateAndDatasource" name="TopicsList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="SortServiceList" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="TableViewDelegateAndDatasource" name="HomeAround" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message"  message="changeLocationAuthData:" />
+	</delegate>
+	
+	
+	
 	<delegate type="CollectionViewDelegateAndDatasource" name="HomeCollect" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="notify" message="didSelectedRow:" />
@@ -275,7 +317,7 @@
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
-        <command type="message" message="queryData:" />
+        <command type="message" message="changeQueryData:" />
     </delegate>
     
     <delegate type="TableViewDelegateAndDatasource" name="SetServiceOptInfo" factory="AYDefaultDelegateFactory" >

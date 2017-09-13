@@ -369,7 +369,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 /**
- * 跟换 环信
+ * 环信
  */
 - (id)LoginEMSuccess:(id)args {
     AYFacade* f = LOGINMODEL;
@@ -450,7 +450,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (id)LogoutCurrentUser {
     NSLog(@"current user logout");
-//    [_lm signOutCurrentUser];
    
     NSDictionary* current_login_user = nil;
     CURRENUSER(current_login_user);
@@ -472,13 +471,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             id<AYCommand> cmd_sign_out_local = [f.commands objectForKey:@"SignOutLocal"];
             [cmd_sign_out_local performWithResult:nil];
         }
-        
-        void (^handle)(void) = ^(void){
-            if ([Tools activityViewController].navigationController != self.navigationController)
-                [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
-        };
-        
-        [[Tools activityViewController] dismissViewControllerAnimated:YES completion:handle];
+		
         self.landing_status = RemoteControllerStatusReady;
     }];
     
@@ -545,35 +538,22 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             case RegisterResultSuccess: {
                 
                 NSMutableDictionary *dic_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
-                NSString* role_name = [dic_info objectForKey:@"role_tag"];
-                if ([role_name isEqualToString:@""] || !role_name) {
-                    
-                    [dic_info setValue:@"未设置角色名" forKey:@"role_tag"];
-                    AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
-                    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-                    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-                    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-                    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-                    [dic_push setValue:[dic_info copy] forKey:kAYControllerChangeArgsKey];
-                    id<AYCommand> cmd = PUSH;
-                    [cmd performWithResult:&dic_push];
-                } else {
-//                    NSDictionary *args = [dic objectForKey:kAYControllerChangeArgsKey];
-                    id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-                    AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-                    [cmd_profile performWithResult:[dic_info copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                        NSLog(@"Update user detail remote result: %@", result);
-                        if (success) {
-                            AYModel* m = MODEL;
-                            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-                            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-                            [cmd performWithResult:&result];
-                        } else {
-                            
-                            NSString *title = @"无法登录，参数设置错误";
-                            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-                        }
-                    }];
+				BOOL is_reg = ((NSNumber*)[dic_info objectForKey:@"is_registered"]).boolValue;
+                if (is_reg) {
+					AYModel* m = MODEL;
+					AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+					id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+					[cmd performWithResult:&dic_info];
+                }
+				else {
+					AYViewController* des = DEFAULTCONTROLLER(@"Welcome");
+					NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+					[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+					[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+					[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+					[dic_push setValue:[dic_info copy] forKey:kAYControllerChangeArgsKey];
+					id<AYCommand> cmd = PUSH;
+					[cmd performWithResult:&dic_push];
                 }
             }
                 break;
@@ -614,7 +594,10 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 - (id)CurrentLoginUserChanged:(id)args {
-    [self LoginSuccess];
+	UIViewController* cv = [Tools activityViewController];
+	if (cv == self) {
+		[self LoginSuccess];
+	}
     return nil;
 }
 

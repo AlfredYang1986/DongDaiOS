@@ -20,206 +20,214 @@
 
 #import "AYServiceArgsDefines.h"
 
-#define STATUS_BAR_HEIGHT           20
-#define FAKE_BAR_HEIGHT             44
-#define requiredInfoNumb                5
+#define STATUS_BAR_HEIGHT						20
+#define FAKE_BAR_HEIGHT							44
+#define requiredInfoNumb						5
 
-#define becomeNapNormalModelFitHeight               (64+49)
-#define becomeNapAllreadyModelFitHeight               (64+49 + 44)
-#define servInfoNormalModelFitHeight                           (64)
-#define servInfoChangedModelFitHeight                           (64+44)
-#define napPushServNormalModelFitHeight               (64+44)
-#define napPushServAllreadyModelFitHeight               (64+44)
+#define becomeNapNormalModelFitHeight			(64 + 49)
+#define becomeNapAllreadyModelFitHeight			(64 + 49 + 44)
+#define servInfoNormalModelFitHeight			(64)
+#define servInfoChangedModelFitHeight			(64 + 44)
+#define napPushServNormalModelFitHeight			(64 + 44)
+#define napPushServAllreadyModelFitHeight		(64 + 44)
 
 typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 
 @implementation AYMainInfoController {
     
     NSArray *napPhotos;
-    NSString *napDesc;
-    NSString *napAges;
-    NSDictionary *service_info;
-    
-    UIButton *confirmSerBtn;
+	
+    NSMutableDictionary *push_service_info;
+    NSMutableDictionary *update_service_info;
+	NSMutableDictionary *show_service_info;
+	
     NSMutableDictionary* dic_push_photos;
-    
-    BOOL isNapModel;
+	UIButton *confirmSerBtn;
+	
     BOOL isChangeServiceInfo;
+	
+	//handle
+	NSMutableArray *handleIsCompileArgs;
 }
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
     
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary *args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args objectForKey:@"owner_id"]) {
-            service_info = args;
-            
-        } else if ([args objectForKey:@"location"]) {
-            _service_change_dic = [args mutableCopy];
+        id push_args = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([push_args objectForKey:@"push"]) {
+			push_service_info = [push_args mutableCopy];
+        } else {
+			show_service_info = [push_args mutableCopy];
         }
-        
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        id dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([dic_info isKindOfClass:[NSNumber class]]) {
-            return;
-        }
-        else if (dic_info) {
-            NSString *key = [dic_info objectForKey:@"key"];
-            if ([key isEqualToString:kAYServiceArgsInfo]) {       //-1
-                
-                _service_change_dic = [dic_info objectForKey:kAYServiceArgsInfo];
-                
+		id dic_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		if (![dic_info isKindOfClass:[NSDictionary class]]) {
+			return;
+		}
+		id key = [dic_info objectForKey:@"key"];
+		
+        if (key && [key isKindOfClass:[NSString class]]) {
+            if ([key isEqualToString:kAYServiceArgsInfo]) {			//-1
+                show_service_info = [dic_info objectForKey:kAYServiceArgsInfo];
             }
-            else if ([key isEqualToString:@"nap_cover"]) {       //0
-                napPhotos = [dic_info objectForKey:@"content"];
-                [_noteAllArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
+            else if ([key isEqualToString:@"nap_cover"]) {			//0
+				napPhotos = [dic_info objectForKey:@"content"];
+				[push_service_info setValue:[napPhotos copy] forKey:kAYServiceArgsImages];
+                [handleIsCompileArgs replaceObjectAtIndex:0 withObject:[NSNumber numberWithBool:YES]];
             }
-            else if([key isEqualToString:kAYServiceArgsTitle]) {  //1
+            else if([key isEqualToString:kAYServiceArgsTitle]) {	//1
                 
-                NSString *title = [dic_info objectForKey:kAYServiceArgsTitle];
-//                NSNumber *course_sign = [dic_info objectForKey:kAYServiceArgsCourseSign];
-//                NSString *coustom = [dic_info objectForKey:kAYServiceArgsCourseCoustom];
-				
-                [_service_change_dic setValue:title forKey:kAYServiceArgsTitle];
-//                [_service_change_dic setValue:course_sign forKey:kAYServiceArgsCourseSign];
-//                [_service_change_dic setValue:coustom forKey:kAYServiceArgsCourseCoustom];
-				
+                NSString *title = [dic_info objectForKey:key];
                 //title constain and course_sign or coustom constain and or service_cat == 0
 				if(title && ![title isEqualToString:@""]) {
-//                if (title && ![title isEqualToString:@""] && (coustom || (![course_sign isEqualToNumber:@-1] && course_sign) || ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeNursery)) {
-                    [_noteAllArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
+					[self aCoderWithData:title ForKey:kAYServiceArgsTitle andSubKey:nil];
+                    [handleIsCompileArgs replaceObjectAtIndex:1 withObject:[NSNumber numberWithBool:YES]];
                 }
                 
             }
-            else if([key isEqualToString:@"nap_desc"]) {    //2
-                napDesc = [dic_info objectForKey:@"content"];
-                [_service_change_dic setValue:[dic_info objectForKey:@"content"] forKey:@"description"];
-                [_noteAllArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
+            else if([key isEqualToString:kAYServiceArgsDescription]) {			//2
+                NSString *napDesc = [dic_info objectForKey:kAYServiceArgsDescription];
+				if (napDesc && ![napDesc isEqualToString:@""]) {
+					[self aCoderWithData:napDesc ForKey:kAYServiceArgsDescription andSubKey:nil];
+					[handleIsCompileArgs replaceObjectAtIndex:2 withObject:[NSNumber numberWithBool:YES]];
+				}
             }
-//            else if([key isEqualToString:@"nap_ages"]) {     //3
-//                
-//                [_service_change_dic setValue:[dic_info objectForKey:@"age_boundary"] forKey:@"age_boundary"];
-//                [_service_change_dic setValue:[dic_info objectForKey:@"capacity"] forKey:@"capacity"];
-//                [_service_change_dic setValue:[dic_info objectForKey:@"servant_no"] forKey:@"servant_no"];
-//                
-//                [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
-//            }
-            else if([key isEqualToString:@"nap_cost"]) {   //3
+            else if([key isEqualToString:@"nap_cost"]) {			//3
                 
                 NSNumber *price = [dic_info objectForKey:kAYServiceArgsPrice];
                 if (price && price.floatValue != 0) {
-                    [_service_change_dic setValue:price forKey:kAYServiceArgsPrice];
+					[self aCoderWithData:[NSNumber numberWithFloat:(price.floatValue * 100)] ForKey:kAYServiceArgsPrice andSubKey:kAYServiceArgsDetailInfo];
                 }
                 NSNumber *leastHours = [dic_info objectForKey:kAYServiceArgsLeastHours];
                 if (leastHours && leastHours.floatValue != 0) {
-                    [_service_change_dic setValue:leastHours forKey:kAYServiceArgsLeastHours];
+					[self aCoderWithData:leastHours ForKey:kAYServiceArgsLeastHours andSubKey:kAYServiceArgsDetailInfo];
                 }
                 
                 NSNumber *duration = [dic_info objectForKey:kAYServiceArgsCourseduration];
-                if (duration && duration.floatValue != 0) {
-                    [_service_change_dic setValue:duration forKey:kAYServiceArgsCourseduration];
+                if (duration && duration.intValue != 0) {
+					[self aCoderWithData:duration ForKey:kAYServiceArgsCourseduration andSubKey:kAYServiceArgsDetailInfo];
                 }
                 NSNumber *leastTimes = [dic_info objectForKey:kAYServiceArgsLeastTimes];
-                if (leastTimes && leastTimes.floatValue != 0) {
-                    [_service_change_dic setValue:leastTimes forKey:kAYServiceArgsLeastTimes];
+                if (leastTimes && leastTimes.intValue != 0) {
+					[self aCoderWithData:leastTimes ForKey:kAYServiceArgsLeastTimes andSubKey:kAYServiceArgsDetailInfo];
                 }
-                
-                if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeNursery) {
+				
+				NSString *serviceCat = [[push_service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+                if ([serviceCat isEqualToString:kAYStringNursery]) {
                     if (price && price.floatValue != 0 && leastHours && leastHours.floatValue != 0) {
-                        [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                        [handleIsCompileArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
                 } else {
-                    if (price && price.floatValue != 0 && duration && duration.floatValue != 0 && leastTimes && leastTimes.floatValue != 0) {
-                        [_noteAllArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
+                    if (price && price.floatValue != 0 && duration && duration.intValue != 0 && leastTimes && leastTimes.intValue != 0) {
+                        [handleIsCompileArgs replaceObjectAtIndex:3 withObject:[NSNumber numberWithBool:YES]];
                     }
                 }
             }
             else if([key isEqualToString:kAYServiceArgsNotice]) {   //4
-                
-                [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsAllowLeave] forKey:kAYServiceArgsAllowLeave];
-                [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsNotice] forKey:kAYServiceArgsNotice];
-//                [_service_change_dic removeObjectForKey:@"key"];
-                [_noteAllArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
-            }
-            else if([key isEqualToString:kAYServiceArgsFacility]) {     //5
-                
-                [_service_change_dic setValue:[dic_info objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];
-                [_service_change_dic setValue:[dic_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-            }
-            
-            if (service_info) {
+				NSNumber *isAllowLeaves = [dic_info objectForKey:kAYServiceArgsAllowLeave];
+				NSString *notice = [dic_info objectForKey:kAYServiceArgsNotice];
+				
+				[self aCoderWithData:isAllowLeaves ForKey:kAYServiceArgsAllowLeave andSubKey:kAYServiceArgsDetailInfo];
+				
+				[self aCoderWithData:notice ForKey:kAYServiceArgsNotice andSubKey:kAYServiceArgsDetailInfo];
+				
+                [handleIsCompileArgs replaceObjectAtIndex:4 withObject:[NSNumber numberWithBool:YES]];
+			}
+			else if([key isEqualToString:kAYServiceArgsFacility]) {     //5 opt
+				NSArray *facilities = [dic_info objectForKey:kAYServiceArgsFacility];
+				[self aCoderWithData:facilities ForKey:kAYServiceArgsFacility andSubKey:kAYServiceArgsDetailInfo];
+			}
+			else if([key isEqualToString:kAYServiceArgsSelf]) {     //update advance
+				
+				show_service_info = [[dic_info objectForKey:kAYServiceArgsSelf] mutableCopy];
+				NSDictionary *note_update_info = [dic_info objectForKey:@"handle"];
+				for (NSString *key in note_update_info.allKeys) {
+					if ([key isEqualToString:kAYServiceArgsAddress] || [key isEqualToString:kAYServiceArgsAdjustAddress] || [key isEqualToString:kAYServiceArgsPin] || [key isEqualToString:kAYServiceArgsDistrict]) {
+						[[update_service_info objectForKey:kAYServiceArgsLocationInfo] setValue:[note_update_info objectForKey:key] forKey:key];
+					}
+					else if ([key isEqualToString:kAYServiceArgsAgeBoundary] || [key isEqualToString:kAYServiceArgsCapacity] || [key isEqualToString:kAYServiceArgsServantNumb] || [key isEqualToString:kAYServiceArgsFacility]) {
+						[[update_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:[note_update_info objectForKey:key] forKey:key];
+					}
+					else {
+						
+					}
+				}
+			}
+			
+			NSDictionary *tmp;
+            if (show_service_info) {
+				tmp = [show_service_info mutableCopy];
                 [self ServiceInfoChanged];
-            }
-            kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
-            kAYViewsSendMessage(@"Table", @"refresh", nil)
+			} else {
+				tmp = [push_service_info mutableCopy];
+			}
+			
+            kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &tmp)
+            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
         }
+		else {
+			//isnot back service data
+		}
     }
+}
+
+- (void)aCoderWithData:(id)data ForKey:(NSString*)key andSubKey:(NSString*)subKey {
+	if (subKey) {
+		[[update_service_info objectForKey:subKey] setValue:data forKey:key];
+		[[show_service_info objectForKey:subKey] setValue:data forKey:key];
+		[[push_service_info objectForKey:subKey] setValue:data forKey:key];
+	} else {
+		[update_service_info setValue:data forKey:key];
+		[show_service_info setValue:data forKey:key];
+		[push_service_info setValue:data forKey:key];
+	}
 }
 
 - (void)ServiceInfoChanged {
     confirmSerBtn.hidden = NO;
-    UIView *view = [self.views objectForKey:@"Table"];
+    UIView *view = [self.views objectForKey:kAYTableView];
     view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoChangedModelFitHeight);
 }
 
 - (BOOL)isAllArgsReady {
     NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-    NSArray* isAllResady = [_noteAllArgs filteredArrayUsingPredicate:p];
+    NSArray* isAllResady = [handleIsCompileArgs filteredArrayUsingPredicate:p];
     return isAllResady.count == 0 ? YES : NO;
+}
+
+- (NSMutableDictionary*)expectNodeWithKey:(NSString*)key {
+	id dic_expect = [update_service_info objectForKey:key];
+	if (dic_expect) {
+		return dic_expect;
+	} else {
+		NSMutableDictionary *dic_div = [[NSMutableDictionary alloc] init];
+		[update_service_info setValue:dic_div forKey:key];
+		return  dic_div;
+	}
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    if (!_service_change_dic) {
-        if (service_info) {
-            _service_change_dic = [service_info mutableCopy];
-        }
-        else {
-            _service_change_dic = [[NSMutableDictionary alloc]init];
-        }
-    } else {
-        _noteAllArgs = [[NSMutableArray alloc]init];
-        for (int i = 0; i < requiredInfoNumb; ++i) {
-            [_noteAllArgs addObject:[NSNumber numberWithBool:NO]];
-        }
-        
-        NSNumber *args_cat = [_service_change_dic objectForKey:kAYServiceArgsServiceCat];
-        if (args_cat.intValue == ServiceTypeNursery) {
-            NSString *title = @"我的看顾服务";
-            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-        } else if (args_cat.intValue == ServiceTypeCourse) {
-            NSString *title = @"我的课程";
-            kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
-        }
-    }
-    
-    
-    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"MainInfo"];
-    
-    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-    
     id obj = (id)cmd_notify;
-    [cmd_datasource performWithResult:&obj];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapPhotosCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&cell_name];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&cell_name];
+	cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"OptionalInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
-    confirmSerBtn = [Tools creatUIButtonWithTitle:@"" andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[Tools themeColor]];
+    confirmSerBtn = [Tools creatUIButtonWithTitle:nil andTitleColor:[Tools whiteColor] andFontSize:16.f andBackgroundColor:[Tools themeColor]];
     [self.view addSubview:confirmSerBtn];
     confirmSerBtn.hidden = YES;
     [confirmSerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -227,47 +235,77 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 44));
     }];
-    
-//    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-//    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
-    
-    if (service_info) {
-        
-        NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_class performWithResult:&editCell];
-        
-        NSDictionary *dic_info = [service_info copy];
-        kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
-        
-        [confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
-        
-    } else {
-        
-        NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-        [dic_info setValue:kAYServiceArgsServiceCat forKey:@"key"];
-        [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
-        [dic_info setValue:[_service_change_dic objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
-        kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &dic_info)
-        
-        NSString* babyAgeCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapBabyAgeCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-        [cmd_class performWithResult:&babyAgeCell];
-        
-        confirmSerBtn.hidden = NO;
-        [confirmSerBtn setTitle:@"下一步" forState:UIControlStateNormal];
-        [confirmSerBtn addTarget:self action:@selector(pushServiceTodoNext) forControlEvents:UIControlEventTouchUpInside];
-        
-    }
-    
-    if (((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue == ServiceTypeCourse && ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
-        kAYUIAlertView(@"提示", @"因需求变更，我们在服务主题的基础上添加了服务标签项，请：\n1.在“更多信息”中重新设置服务主题.\n2.在“编辑标题页”下设置您的服务标签.\n\n请务必完成以上操作以确保您的服务信息完整无误");
-    }
-    
+	
+	if (push_service_info) {
+		
+		NSDictionary *tmp = [push_service_info mutableCopy];
+		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryData:", &tmp)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		
+		handleIsCompileArgs = [[NSMutableArray alloc] init];
+		for (int i = 0; i < requiredInfoNumb; ++i) {
+			[handleIsCompileArgs addObject:[NSNumber numberWithBool:NO]];
+		}
+		
+		NSDictionary *info_categ = [push_service_info objectForKey:kAYServiceArgsCategoryInfo];
+		NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
+		if ([serviceCat isEqualToString:kAYStringNursery]) {
+			NSString *title = @"我的看顾服务";
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+		} else if ([serviceCat isEqualToString:kAYStringCourse]) {
+			NSString *title = @"我的课程";
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+		}
+		
+		NSString* napPushInfo = @"AYNapBabyAgeCellView";
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &napPushInfo)
+		
+		confirmSerBtn.hidden = NO;
+		[confirmSerBtn setTitle:@"下一步" forState:UIControlStateNormal];
+		[confirmSerBtn addTarget:self action:@selector(pushServiceTodoNext) forControlEvents:UIControlEventTouchUpInside];
+		
+	} else {
+		update_service_info = [[NSMutableDictionary alloc] init];
+		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
+		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsLocationInfo];
+		[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsCategoryInfo];
+		
+		NSString* editCell = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"NapEditInfoCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+		kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &editCell)
+		
+		NSDictionary *dic_info;		/*没有数据 只确认修改模式*/
+		kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
+		
+		[confirmSerBtn setTitle:@"修改服务信息" forState:UIControlStateNormal];
+		[confirmSerBtn addTarget:self action:@selector(updateMyService) forControlEvents:UIControlEventTouchUpInside];
+		
+		NSDictionary *user;
+		CURRENUSER(user);
+		NSMutableDictionary *dic_detail = [user mutableCopy];
+		NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
+		[dic_condt setValue:[show_service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+		[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+		[dic_detail setValue:dic_condt forKey:kAYCommArgsCondition];
+		
+		id<AYFacadeBase> f_search = [self.facades objectForKey:@"KidNapRemote"];
+		AYRemoteCallCommand* cmd_search = [f_search.commands objectForKey:@"QueryServiceDetail"];
+		[cmd_search performWithResult:[dic_detail copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+			if(success) {
+				show_service_info = [[result objectForKey:kAYServiceArgsSelf] mutableCopy];
+				NSDictionary *dic_info = [show_service_info copy];
+				kAYDelegatesSendMessage(@"MainInfo", @"changeQueryInfo:", &dic_info)
+				kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			} else {
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			}
+		}];
+		
+	}
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
 }
 
 #pragma mark -- layout
@@ -293,11 +331,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
 }
 
 - (id)TableLayout:(UIView*)view {
-    
-//    AYViewController* comp = DEFAULTCONTROLLER(@"TabBar");
-//    isNapModel = ![self.tabBarController isKindOfClass:[comp class]];
+	
     CGFloat fit_height = 0;
-    if (service_info) {
+    if (show_service_info) {
         fit_height = servInfoNormalModelFitHeight;
     } else {
         fit_height = napPushServNormalModelFitHeight;
@@ -321,23 +357,9 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     
     id<AYCommand> cmd = POPTOROOT;
     [cmd performWithResult:&dic];
-    
 }
 
 #pragma mark -- alert actions
-- (void)didMeBtnClick {
-    
-    NSString *title = [NSString stringWithFormat:@"您确认放弃发布当前服务吗？"];
-    
-    id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-    id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-    
-    NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-    [dic_alert setValue:title forKey:@"title"];
-    [dic_alert setValue:[NSNumber numberWithInt:3] forKey:@"type"];
-    [cmd_alert performWithResult:&dic_alert];
-}
-
 - (void)BtmAlertOtherBtnClick {
     NSLog(@"didOtherBtnClick");
     
@@ -354,108 +376,111 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         return;
     }
 	
-	ServiceType type = ((NSNumber*)[_service_change_dic objectForKey:kAYServiceArgsServiceCat]).intValue;
-	
     id<AYCommand> dest ;
-	if (type == ServiceTypeCourse) {
+	NSString *serviceCat = [[push_service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
 		dest = DEFAULTCONTROLLER(@"NapScheduleMain");
-	} else if (type == ServiceTypeNursery) {
+	} else if ([serviceCat isEqualToString:kAYStringNursery]) {
 		dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
 	}
 	
-    NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [_service_change_dic setValue:napPhotos forKey:@"images"];
-    [dic_push setValue:[_service_change_dic copy] forKey:kAYControllerChangeArgsKey];
+	[push_service_info setValue:napPhotos forKey:kAYServiceArgsImages];
+	
+	NSMutableDictionary *dic_push = [[NSMutableDictionary alloc]init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
     return;
-    
 }
 
 - (void)updateMyService {
-    //修改服务需两步：1 撤销服务 -> 2更新 -> 3再次发布
-    NSDictionary* args = nil;
-    CURRENUSER(args)
-    NSMutableDictionary *dic_revert = [[NSMutableDictionary alloc]init];
-    [dic_revert setValue:[args objectForKey:@"user_id"] forKey:@"owner_id"];
-    [dic_revert setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
     
-        if (napPhotos.count != 0) {
-            NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
-            for (int index = 0; index < napPhotos.count; ++index) {
-                dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
-                [semaphores_upload_photos addObject:tmp];
-            }
-            
-            NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
-            for (int index = 0; index < napPhotos.count; ++index) {
-                [post_image_result addObject:[NSNumber numberWithBool:NO]];
-            }
-            
-            dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
-            dispatch_async(qp, ^{
-                
-                NSMutableArray* arr_items = [[NSMutableArray alloc]init];
-                for (int index = 0; index < napPhotos.count; ++index) {
-					UIImage* iter = [napPhotos objectAtIndex:index];
-//					NSString* extent = [TmpFileStorageModel saveToTmpDirWithImage:iter];
-					NSString* extent = [TmpFileStorageModel generateFileName];
-					
-                    NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
-                    [photo_dic setValue:extent forKey:@"image"];
-                    [photo_dic setValue:iter forKey:@"upload_image"];
-                    AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
-                    [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                        NSLog(@"upload result are %d", success);
-                        [post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
-                        dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
-                    }];
-                    [arr_items addObject:extent];
-                }
-                
-                // 4. 等待图片进程全部处理完成
-                for (dispatch_semaphore_t iter in semaphores_upload_photos) {
-                    dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
-                }
-                
-                NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
-                NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
-                if (image_result.count == 0) {
-                    [_service_change_dic setValue:arr_items forKey:@"images"];
-                    [self updateServiceInfo];
-                }
-            });
-        } else {
-            [self updateServiceInfo];
-        }
+	if (napPhotos.count != 0) {
+		NSMutableArray* semaphores_upload_photos = [[NSMutableArray alloc]init];   // 一个图片是一个上传线程，需要一个semaphores等待上传完成
+		for (int index = 0; index < napPhotos.count; ++index) {
+			dispatch_semaphore_t tmp = dispatch_semaphore_create(0);
+			[semaphores_upload_photos addObject:tmp];
+		}
+		
+		NSMutableArray* post_image_result = [[NSMutableArray alloc]init];           // 记录每一个图片在线中上传的结果
+		for (int index = 0; index < napPhotos.count; ++index) {
+			[post_image_result addObject:[NSNumber numberWithBool:NO]];
+		}
+		
+		dispatch_queue_t qp = dispatch_queue_create("post thread", nil);
+		dispatch_async(qp, ^{
+			
+			NSMutableArray* arr_items = [[NSMutableArray alloc]init];
+			for (int index = 0; index < napPhotos.count; ++index) {
+				UIImage* iter = [napPhotos objectAtIndex:index];
+				NSString* extent = [Tools getUUIDString];
+				
+				NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:1];
+				[photo_dic setValue:extent forKey:@"image"];
+				[photo_dic setValue:iter forKey:@"upload_image"];
+				AYRemoteCallCommand* up_cmd = COMMAND(@"Remote", @"UploadUserImage");
+				[up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+					NSLog(@"upload result are %d", success);
+					[post_image_result replaceObjectAtIndex:index withObject:[NSNumber numberWithBool:success]];
+					dispatch_semaphore_signal([semaphores_upload_photos objectAtIndex:index]);
+				}];
+				[arr_items addObject:extent];
+			}
+			
+			// 4. 等待图片进程全部处理完成
+			for (dispatch_semaphore_t iter in semaphores_upload_photos) {
+				dispatch_semaphore_wait(iter, dispatch_time(DISPATCH_TIME_NOW, 30.f * NSEC_PER_SEC));
+			}
+			
+			NSPredicate* p = [NSPredicate predicateWithFormat:@"SELF.boolValue=NO"];
+			NSArray* image_result = [post_image_result filteredArrayUsingPredicate:p];
+			if (image_result.count == 0) {
+				[update_service_info setValue:arr_items forKey:kAYServiceArgsImages];
+				[self updateServiceInfo];
+			}
+		});
+	} else {
+		[self updateServiceInfo];
+	}
 }
 
 - (void)updateServiceInfo {
-    NSDictionary* args = nil;
-    CURRENUSER(args)
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
-    [_service_change_dic setValue:[service_info objectForKey:@"service_id"] forKey:@"service_id"];
-    [cmd_publish performWithResult:[_service_change_dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+    NSDictionary* user = nil;
+    CURRENUSER(user)
+	
+	NSMutableDictionary *dic_update = [Tools getBaseRemoteData];
+//	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[[dic_update objectForKey:kAYCommArgsCondition] setValue:[show_service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_update setValue:[update_service_info copy] forKey:kAYServiceArgsSelf];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
+	AYRemoteCallCommand *cmd_publish = [facade.commands objectForKey:@"UpdateMyService"];
+    [cmd_publish performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            
-            [_service_change_dic removeObjectForKey:kAYServiceArgsIsAdjustSKU];
-            
-            isChangeServiceInfo = YES;
+			
+            isChangeServiceInfo = YES;		//pop VC 是否刷新
+			
             confirmSerBtn.hidden = YES;
-            UIView *view = [self.views objectForKey:@"Table"];
+            UIView *view = [self.views objectForKey:kAYTableView];
             view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - servInfoNormalModelFitHeight);
-            
+			
+			/*重置update参数，二次更新准备*/
+			update_service_info = [[NSMutableDictionary alloc] init];
+			[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
+			[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsLocationInfo];
+			[update_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsCategoryInfo];
+			
             NSString *title = @"服务信息已更新";
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
             
         } else {
             
-            NSString *title = @"服务信息更新失败";
+            NSString *title = [@"服务信息更新失败," stringByAppendingString:kAYNetworkSlowTip];
+//			[title stringByAppendingString:kAYNetworkSlowTip];
             AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
         }
     }];
@@ -481,24 +506,22 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
     [dic_args setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_args setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_args setValue:self forKey:kAYControllerActionSourceControllerKey];
-    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]initWithDictionary:_service_change_dic];
-    [tmp setValue:[NSNumber numberWithInt:1] forKey:@"perview_mode"];
-    if (service_info) {
-        [dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+	
+    NSMutableDictionary *tmp;
+    if (push_service_info) {
+		tmp = [[NSMutableDictionary alloc] initWithDictionary:push_service_info];
     } else {
-        
-//        if (napPhotos.count == 0) {
-//            NSString *title = @"预览服务需要先添加图片";
-//            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//            return nil;
-//        }
-		
-        [tmp setValue:napPhotos forKey:@"images"];
-        [dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+		tmp = [[NSMutableDictionary alloc] initWithDictionary:show_service_info];
+		if (napPhotos.count != 0) {
+			[tmp setValue:napPhotos forKey:kAYServiceArgsImages];
+		}
     }
-    id<AYCommand> cmd_show_module = PUSH;
-    [cmd_show_module performWithResult:&dic_args];
+	
+	[tmp setValue:[NSNumber numberWithInt:1] forKey:@"perview_mode"];
+	[dic_args setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
     
+	id<AYCommand> cmd_show_module = PUSH;
+	[cmd_show_module performWithResult:&dic_args];
     return nil;
 }
 
@@ -518,7 +541,7 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         NSDictionary *tmp = [dic_push_photos copy];
         [cmd performWithResult:&tmp];
         
-    } else if(service_info) {
+    } else if(show_service_info) {
         
         UIView *HUBView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         HUBView.backgroundColor = [UIColor colorWithWhite:0.f alpha:0.25f];
@@ -538,19 +561,18 @@ typedef void(^asynUploadImages)(BOOL, NSDictionary*);
         }];
         
         NSMutableArray *tmp = [[NSMutableArray alloc]init];
-        NSArray *namesArr = [service_info objectForKey:@"images"];
+        NSArray *namesArr = [show_service_info objectForKey:kAYServiceArgsImages];
         
         for (int i = 0; i < namesArr.count; ++i) {
-            NSString* photo_name = namesArr[i];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[cmd.route stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+			
+			NSString* photo_name = namesArr[i];
+            [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:[NSURL URLWithString:[kAYDongDaDownloadURL stringByAppendingString:photo_name]] options:SDWebImageDownloaderHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 
             } completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
                 if (finished) {
                     [tmp addObject:image];
                     if (tmp.count == namesArr.count) {  //所有图片准备完毕
-                        
+						[NSThread sleepForTimeInterval:1.5f];
                         [HUBView removeFromSuperview];
                         
                         [dic_push_photos setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];

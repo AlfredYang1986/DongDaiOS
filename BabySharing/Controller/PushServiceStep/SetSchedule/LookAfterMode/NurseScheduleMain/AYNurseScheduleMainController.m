@@ -30,7 +30,7 @@
 //	NSArray *restDayScheduleArr;
 	
 	NSDictionary *offer_date;
-	NSString *service_id;
+	NSDictionary *service_info;
 	
 	//back args
 	NSArray *restDayScheduleArr;
@@ -44,26 +44,37 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
-		
-		if ([tmp objectForKey:@"service_id"]) {
-			
-			if ([tmp objectForKey:@"tms"]) {
-				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMNurse"];
-				id args = [tmp objectForKey:@"tms"];
-				
-				[cmd performWithResult:&args];
-				
-				offer_date = [args copy];
-				workDaySchedule = [[args objectForKey:@"schedule_workday"] mutableCopy];
-				restDayScheduleArr = [args objectForKey:@"schedule_restday"];
-			}
-			
-			service_id = [tmp objectForKey:@"service_id"];
-		} else {
+		if ([tmp objectForKey:@"push"]) {
 			push_service_info = [tmp mutableCopy];
+			
+		} else {
+			service_info = [tmp copy];
+			NSMutableDictionary *dic_query_tms = [Tools getBaseRemoteData];
+			[[dic_query_tms objectForKey:kAYCommArgsCondition] setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+			
+			id<AYFacadeBase> facade = [self.facades objectForKey:@"TimeManagerRemote"];
+			AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"TMsQuery"];
+			[cmd_query performWithResult:[dic_query_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+				if (success) {
+					id args = [[result objectForKey:kAYTimeManagerArgsSelf] objectForKey:kAYTimeManagerArgsTMs];
+					
+					id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+					id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMNurse"];
+					[cmd performWithResult:&args];
+					
+					offer_date = [args copy];
+					workDaySchedule = [[args objectForKey:@"schedule_workday"] mutableCopy];
+					restDayScheduleArr = [args objectForKey:@"schedule_restday"];
+					id tmp = [workDaySchedule copy];
+					kAYDelegatesSendMessage(@"NurseScheduleTable", kAYDelegateChangeDataMessage, &tmp)
+					kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+				} else {
+					
+				}
+			}];
+			
 		}
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -84,7 +95,7 @@
 	
 	NSString *pushBtnTitleStr ;
 	NSString *titleStr;
-	if (service_id) {
+	if (service_info) {
 		titleStr = @"重新设定您的看顾时间";
 		pushBtnTitleStr = @"确定";
 	} else {
@@ -206,7 +217,7 @@
 }
 
 - (void)didPushNurseBtnClick {
-	if (service_id) {
+	if (service_info) {
 		[self updateServiceSchedule];
 	} else {
 		[self pushService];
@@ -232,34 +243,43 @@
 }
 
 - (void)updateServiceSchedule {
-	NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
-	[update_info setValue:service_id forKey:@"service_id"];
+	NSMutableDictionary *dic_update_tms = [Tools getBaseRemoteData];
+	[[dic_update_tms objectForKey:kAYCommArgsCondition] setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
 	
-	NSArray *result = [self reorganizeTM];
-	[update_info setValue:result forKey:@"tms"];
+	NSArray *reorganizeArr = [self reorganizeTM];
+	NSMutableDictionary *dic_tmng = [[NSMutableDictionary alloc] init];
+	[dic_tmng setValue:reorganizeArr forKey:kAYTimeManagerArgsTMs];
+	[dic_update_tms setValue:dic_tmng forKey:kAYTimeManagerArgsSelf];
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyServiceTM"];
-	[cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"TimeManagerRemote"];
+	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"TMsUpdate"];
+	[cmd_update performWithResult:[dic_update_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			
 			NSString *title = @"日程已修改";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			
-			NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-			kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
-			
+			[self popToRootVCWithTip:title];
+		} else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 }
-
+- (void)popToRootVCWithTip:(NSString*)tip {
+	
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopToRootValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic setValue:tip forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = POPTOROOT;
+	[cmd performWithResult:&dic];
+	
+}
 #pragma mark -- notifies
 - (id)leftBtnSelected {
 	
 	NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
 	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+//	[dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic_pop];
@@ -309,19 +329,23 @@
 		[workDaySchedule addObject:args];
 	}
 	
-	NSArray *tmpArr = [workDaySchedule sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-		
-		int first = ((NSNumber*)[obj1 objectForKey:kAYServiceArgsStart]).intValue;
-		int second = ((NSNumber*)[obj2 objectForKey:kAYServiceArgsStart]).intValue;
-		
-		if (first < second) return  NSOrderedAscending;
-		else if (first > second) return NSOrderedDescending;
-		else return NSOrderedSame;
+	[workDaySchedule sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [[obj1 objectForKey:kAYServiceArgsStart] intValue] > [[obj2 objectForKey:kAYServiceArgsStart] intValue];
 	}];
 	
-	
-	[workDaySchedule removeAllObjects];
-	[workDaySchedule addObjectsFromArray:tmpArr];
+//	NSArray *tmpArr = [workDaySchedule sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//		
+//		int first = ((NSNumber*)[obj1 objectForKey:kAYServiceArgsStart]).intValue;
+//		int second = ((NSNumber*)[obj2 objectForKey:kAYServiceArgsStart]).intValue;
+//		
+//		if (first < second) return  NSOrderedAscending;
+//		else if (first > second) return NSOrderedDescending;
+//		else return NSOrderedSame;
+//	}];
+//	
+//	
+//	[workDaySchedule removeAllObjects];
+//	[workDaySchedule addObjectsFromArray:tmpArr];
 	
 	if (![self isCurrentTimesLegal]) {
 		[workDaySchedule removeObject:args];

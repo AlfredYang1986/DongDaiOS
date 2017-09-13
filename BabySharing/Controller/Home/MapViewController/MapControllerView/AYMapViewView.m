@@ -85,10 +85,10 @@
     for (int i = 0; i < fiteResultData.count; ++i) {
         NSDictionary *service_info = fiteResultData[i];
         
-		NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsLocation];
+		NSDictionary *dic_loc = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsPin];
 		NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 		NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
-        CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
+		CLLocation *location = [[CLLocation alloc]initWithLatitude:latitude.doubleValue longitude:longitude.doubleValue];
 		
 		AYAnnonation *anno = [[AYAnnonation alloc]init];
 		anno.coordinate = location.coordinate;
@@ -96,17 +96,22 @@
 		anno.title = annoTitle;
 		anno.index = i;
 		
-		NSNumber *serviceCat = [service_info objectForKey:kAYServiceArgsServiceCat];
-		NSNumber *cansCat = [service_info objectForKey:kAYServiceArgsTheme];
+		NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+		NSString *serviceCat = [info_categ objectForKey:kAYServiceArgsCat];
+		NSString *cansCat = [info_categ objectForKey:kAYServiceArgsCatSecondary];
 		NSString *pre_map_icon_name;
-		if (serviceCat.intValue == ServiceTypeCourse) {
+		NSArray *optios_title_arr;
+		if ([serviceCat isEqualToString:kAYStringCourse]) {
 			pre_map_icon_name = @"map_icon_course";
-		} else if(serviceCat.intValue == ServiceTypeNursery) {
+			optios_title_arr = kAY_service_options_title_course;
+			
+		} else if([serviceCat isEqualToString:kAYStringNursery]) {
 			pre_map_icon_name = @"map_icon_nursery";
+			optios_title_arr = kAY_service_options_title_nursery;
 		}
 		
-		anno.imageName_normal = [NSString stringWithFormat:@"%@_%@_normal",pre_map_icon_name, cansCat];
-		anno.imageName_select = [NSString stringWithFormat:@"%@_%@_select",pre_map_icon_name, cansCat];
+		anno.imageName_normal = [NSString stringWithFormat:@"%@_%ld_normal",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
+		anno.imageName_select = [NSString stringWithFormat:@"%@_%ld_select",pre_map_icon_name, [optios_title_arr indexOfObject:cansCat]];
 		
         [self addAnnotation:anno];
         [annoArray addObject:anno];
@@ -184,21 +189,19 @@
     for ( AYAnnonation *one in annoArray) {
 		
         if (one.index == index.longValue) {
-            
             MAAnnotationView *change_view = [self viewForAnnotation:one];
 			if (annoViewHandle) {		//判断当前 是否已经有高亮的item
-				
 				if ( annoViewHandle != change_view) {		// 判断是否点击了已经是高亮的item
-					AYAnnonation *anno_handleView = annoViewHandle.annotation;
+					AYAnnonation *anno_handle = annoViewHandle.annotation;
 					annoViewHandle.highlighted = NO;
-					annoViewHandle.image = [UIImage imageNamed:anno_handleView.imageName_normal];
-				}
-				else
+					annoViewHandle.image = [UIImage imageNamed:anno_handle.imageName_normal];
+				} else
 					break;
 			}
 			
 			NSDictionary *service_info = fiteResultData[index.longValue];
-			NSDictionary *dic_loc = [service_info objectForKey:kAYServiceArgsLocation];
+			NSDictionary *info_location = [service_info objectForKey:kAYServiceArgsLocationInfo];
+			NSDictionary *dic_loc = [info_location objectForKey:kAYServiceArgsPin];
 			NSNumber *latitude = [dic_loc objectForKey:kAYServiceArgsLatitude];
 			NSNumber *longitude = [dic_loc objectForKey:kAYServiceArgsLongtitude];
 			if (latitude && longitude) {
@@ -208,9 +211,7 @@
 				
 				[self setCenterCoordinate:location.coordinate animated:YES];
 			}
-			
 			annoViewHandle = change_view;		//交接
-			
 			break;
         }
     }
@@ -219,6 +220,9 @@
 }
 
 - (void)dealloc {
-    [self clearDisk];
+	UIViewController *vc = [Tools activityViewController];
+	if (vc == _controller) {
+		[self clearDisk];
+	}
 }
 @end

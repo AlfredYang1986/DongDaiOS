@@ -17,10 +17,10 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-@implementation AYMyServiceController
-
-- (void)postPerform{
-    
+@implementation AYMyServiceController {
+	
+	NSTimeInterval remoteTimespan;
+	NSInteger skipedCount;
 }
 
 #pragma mark -- commands
@@ -36,72 +36,33 @@
         
         id backArgs = [dic objectForKey:kAYControllerChangeArgsKey];
         if (backArgs) {
-            
-            [self syncQueryData];
-            
             if ([backArgs isKindOfClass:[NSString class]]) {
-                
-                NSString *title = (NSString*)backArgs;
-                id<AYFacadeBase> f_alert = DEFAULTFACADE(@"Alert");
-                id<AYCommand> cmd_alert = [f_alert.commands objectForKey:@"ShowAlert"];
-                
-                NSMutableDictionary *dic_alert = [[NSMutableDictionary alloc]init];
-                [dic_alert setValue:title forKey:@"title"];
-                [dic_alert setValue:[NSNumber numberWithInt:2] forKey:@"type"];
-                [cmd_alert performWithResult:&dic_alert];
+                AYShowBtmAlertView(backArgs, BtmAlertViewTypeHideWithTimer)
             }
-            //backargs if end
+			//backargs string? end
+			[self loadRefreshData];
         }
     }
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+	
+	skipedCount = 0;
     
-    id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
-    id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_table.commands objectForKey:@"registerDelegate:"];
-    
-    id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"MyService"];
-    
-    id obj = (id)cmd_collect;
-    [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_collect;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_search = [view_table.commands objectForKey:@"registerCellWithNib:"];
-    NSString* nib_search_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MyServiceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_search performWithResult:&nib_search_name];
-    
+    id<AYDelegateBase> deleg = [self.delegates objectForKey:@"MyService"];
+	id obj = (id)deleg;
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	obj = (id)deleg;
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	
+	NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MyServiceCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	
+	id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     ((UITableView*)view_table).mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadRefreshData)];
     
-    [self syncQueryData];
-}
-
-- (void)syncQueryData {
-    
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[info objectForKey:@"user_id"]  forKey:@"owner_id"];
-    [dic setValue:[info objectForKey:@"user_id"]  forKey:@"user_id"];
-    id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"QueryMyService"];
-    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-            
-            NSArray *data = [result objectForKey:@"result"];
-            kAYDelegatesSendMessage(@"MyService", @"changeQueryData:", &data)
-            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-            
-        } else {
-            NSString *title = @"请检查网络链接是否正常";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-        }
-    }];
+    [self loadRefreshData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -115,13 +76,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-    view.backgroundColor = [UIColor whiteColor];
     return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-    view.backgroundColor = [UIColor whiteColor];
     
     NSString *title = @"我的服务";
     kAYViewsSendMessage(@"FakeNavBar", @"setTitleText:", &title)
@@ -138,50 +97,46 @@
 
 - (id)TableLayout:(UIView*)view {
     view.frame = CGRectMake(0, 64 , SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49);
-    view.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.f];
     return nil;
 }
 
 #pragma mark -- actions
 - (void)loadRefreshData {
     
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[info objectForKey:@"user_id"]  forKey:@"owner_id"];
-    [dic setValue:[info objectForKey:@"user_id"]  forKey:@"user_id"];
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic_search = [[NSMutableDictionary alloc] init];;
+	[dic_search setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+//	[dic_search setValue:[NSNumber numberWithInteger:skipedCount] forKey:kAYCommArgsRemoteDataSkip];
+	/*condition*/
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] init];
+//	[dic_condt setValue:[NSNumber numberWithLong:remoteTimespan*1000] forKey:kAYCommArgsRemoteDate];
+	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
+	[dic_condt setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic_search setValue:dic_condt forKey:kAYCommArgsCondition];
+	NSLog(@"search-\n%@", dic_search);
+	
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-    AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"QueryMyService"];
-    [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+    AYRemoteCallCommand *cmd_search = [facade.commands objectForKey:@"SearchFiltService"];
+    [cmd_search performWithResult:[dic_search copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
-            
-            NSArray *data = [result objectForKey:@"result"];
-            kAYDelegatesSendMessage(@"MyService", @"changeQueryData:", &data)
-            kAYViewsSendMessage(@"Table", @"refresh", nil)
+			
+			remoteTimespan = ((NSNumber*)[[result objectForKey:@"result"] objectForKey:@"date"]).longValue * 0.001;
+			
+            NSArray *data = [[result objectForKey:@"result"] objectForKey:@"services"];
+			skipedCount = data.count;
+            kAYDelegatesSendMessage(@"MyService", kAYDelegateChangeDataMessage, &data)
+            kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
         } else {
-            NSString *title = @"请检查网络链接是否正常";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
         }
         
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
         [((UITableView*)view_table).mj_header endRefreshing];
     }];
     
-}
-
-
-- (void)didPushNewSerBtnClick {
-    id<AYCommand> setting = DEFAULTCONTROLLER(@"NapArea");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:setting forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//    [dic_push setValue:@"" forKey:kAYControllerChangeArgsKey];
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
 }
 
 #pragma mark -- notifies
@@ -199,17 +154,11 @@
 - (id)didManagerBtnClick:(id)args {
     
     id<AYCommand> dest;
-	
-	NSNumber *service_cat = [args objectForKey:kAYServiceArgsServiceCat];
-	switch (service_cat.intValue) {
-	  case ServiceTypeCourse:
-			dest = DEFAULTCONTROLLER(@"NapScheduleMain");
-			break;
-		case ServiceTypeNursery:
-			dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
-			break;
-	  default:
-				break;
+	NSString *serviceCat = [[args objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	if ([serviceCat isEqualToString:kAYStringCourse]) {
+		dest = DEFAULTCONTROLLER(@"NapScheduleMain");
+	} else {
+		dest = DEFAULTCONTROLLER(@"NurseScheduleMain");
 	}
 	
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];

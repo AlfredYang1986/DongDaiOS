@@ -56,7 +56,6 @@
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"HomeServPerCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     
     id tmp = [querydata objectAtIndex:indexPath.row];
     id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
@@ -66,21 +65,13 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 335;
+    return HOMECOMMONCELLHEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *tmp = [querydata objectAtIndex:indexPath.row];
     
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    
-    id<AYCommand> des = nil;
-    if ([[tmp objectForKey:@"owner_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
-        des = DEFAULTCONTROLLER(@"MainInfo");
-    } else {
-        des = DEFAULTCONTROLLER(@"ServicePage");
-    }
+    id<AYCommand> des = DEFAULTCONTROLLER(@"ServicePage");
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

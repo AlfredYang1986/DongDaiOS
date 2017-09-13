@@ -10,9 +10,11 @@
 #import "AYFactoryManager.h"
 #import "AYModelFacade.h"
 #import "AYMapMatchCellView.h"
+#import <CoreLocation/CoreLocation.h>
 
 @implementation AYMapMatchDelegate {
 	NSArray *servicesData;
+	CLLocation *loc;
 }
 
 #pragma mark -- command
@@ -42,7 +44,8 @@
 }
 
 - (id)changeQueryData:(id)args {
-	servicesData = (NSArray*)args;
+	servicesData = [args objectForKey:@"result_data"];
+	loc  = [args objectForKey:@"location"];
 	return nil;
 }
 
@@ -56,12 +59,13 @@
 	NSString *class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"MapMatchCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	AYMapMatchCellView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:class_name forIndexPath:indexPath];
 	
-	id tmp = [servicesData objectAtIndex:indexPath.row];
-	cell.service_info = tmp;
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[servicesData objectAtIndex:indexPath.row] forKey:kAYServiceArgsInfo];
+	[tmp setValue:loc forKey:@"location_self"];
+	cell.service_info = [tmp copy];
 	cell.didTouchUpInSubCell = ^(NSDictionary *service_info) {
 		
 	};
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	return (UICollectionViewCell*)cell;
 }

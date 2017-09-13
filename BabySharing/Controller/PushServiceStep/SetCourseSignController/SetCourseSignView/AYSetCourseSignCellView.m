@@ -52,7 +52,9 @@
 //            make.centerY.equalTo(self);
 //            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 1.f));
 //        }];
-        
+		
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }

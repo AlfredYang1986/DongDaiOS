@@ -162,100 +162,119 @@ static NSString* const kWechatDescription = @"wechat";
 
 - (void)loginSuccessWithWeChatAsUser:(NSString *)whchat_openID accessToken:(NSString*)accessToken infoDic:(NSDictionary *)infoDic {
     // 保存 accessToken 和 qq_openID 到本地 coreData 和服务器
-    
-    /**
-     *  2. sent user screen name to server and create auth_token
-     */
     NSString* screen_name = [infoDic valueForKey:@"nickname"];
     NSLog(@"user name is %@", screen_name);
-    
-    /**
-     *  3. save auth_toke and weibo user profile in local DB
-     */
-    id<AYFacadeBase> landing_facade = DEFAULTFACADE(@"LandingRemote");
-    AYRemoteCallCommand* cmd_sns = [landing_facade.commands objectForKey:@"AuthWithSNS"];
-    
+	
+	NSMutableDictionary *dic_authsns = [[NSMutableDictionary alloc] init];
+	
     NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
     [dic setValue:@"wechat" forKey:@"provide_name"];
-    [dic setValue:screen_name forKey:@"provide_screen_name"];
-    [dic setValue:@"" forKey:@"provide_screen_photo"];
-    [dic setValue:whchat_openID forKey:@"provide_uid"];
-    [dic setValue:accessToken forKey:@"provide_token"];
-    [dic setValue:[Tools getDeviceUUID] forKey:@"uuid"];
-   
-    [cmd_sns performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	[dic setValue:whchat_openID forKey:@"provide_uid"];
+	[dic setValue:screen_name forKey:@"provide_screen_name"];
+	[dic setValue:[infoDic objectForKey:@"headimgurl"] forKey:@"provide_screen_photo"];
+	[dic setValue:accessToken forKey:@"provide_token"];
+	
+	[dic_authsns setValue:dic forKey:@"third"];
+	
+	id<AYFacadeBase> landing_facade = DEFAULTFACADE(@"LandingRemote");
+	AYRemoteCallCommand* cmd_sns = [landing_facade.commands objectForKey:@"AuthWithSNS"];
+    [cmd_sns performWithResult:[dic_authsns copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"new user info %@", result);
-   
-        NSMutableDictionary* reVal = [result mutableCopy];
-        
-//        AYModel* m = MODEL;
-//        id<AYFacadeBase> f = [m.facades objectForKey:@"LoginModel"];
-        id<AYFacadeBase> f = LOGINMODEL;
-        id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
-
-        id dic = [result copy];
-        [cmd performWithResult:&dic];
-        NSLog(@"change tmp reg user %@", dic);
-        
-        NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
-        [dic_result setValue:@"wechat" forKey:@"provide_name"];
-        [dic_result setValue:whchat_openID forKey:@"provide_user_id"];
-        [dic_result setValue:accessToken forKey:@"provide_token"];
-        [dic_result setValue:screen_name forKey:@"provide_screen_name"];
-        [dic_result setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
-        
-        id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
-        [cmd_provider performWithResult:&dic_result];
-        
-        NSString* screen_photo = [result objectForKey:@"screen_photo"];
-        
-        if (screen_photo == nil || [screen_photo isEqualToString:@""]) {
-            NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"headimgurl"]]];
-            UIImage* img = [UIImage imageWithData:data];
-
-            screen_photo = [TmpFileStorageModel generateFileName];
-            [TmpFileStorageModel saveToTmpDirWithImage:img withName:screen_photo];
-
-            NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:3];
-            [photo_dic setValue:screen_photo forKey:@"image"];
-            [photo_dic setValue:img forKey:@"upload_image"];
-
-            id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
-            [up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * re) {
-                NSLog(@"upload result are %d", success);
-                NSMutableDictionary* dic_up = [[NSMutableDictionary alloc]init];
-                [dic_up setValue:[result objectForKey:@"auth_token"] forKey:@"auth_token"];
-                [dic_up setValue:[result objectForKey:@"user_id"] forKey:@"user_id"];
-                [dic_up setValue:screen_photo forKey:@"screen_photo"];
-                [reVal setValue:screen_photo forKey:@"screen_photo"];
-
-                id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
-                AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
-                [cmd_profile performWithResult:[dic_up copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-                    NSLog(@"Update user detail remote result: %@", result);
-                    if (success) {
-                        NSDictionary* args = [result copy];
-                        id<AYCommand> cmd2 = [f.commands objectForKey:@"UpdateRegUserProfile"];
-                        [cmd2 performWithResult:&args];
-                    } else {
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"错误" message:@"昵称设置错误" delegate:self cancelButtonTitle:@"确认" otherButtonTitles:nil];
-                        [alert show];
-                    }
-                }];
-            }];
-        }
-        
-        /**
-         *  4. push notification to the controller
-         *      and controller to refresh the view
-         */
-        NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
-        [notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
-        [notify setValue:kAYNotifySNSLoginSuccess forKey:kAYNotifyFunctionKey];
-        
-        [notify setValue:[reVal copy] forKey:kAYNotifyArgsKey];
-        [self performWithResult:&notify];
+		if (success) {
+			
+			NSMutableDictionary *reVal = [[NSMutableDictionary alloc] initWithDictionary:[result objectForKey:@"user"]];
+			[reVal setValue:[result objectForKey:kAYCommArgsAuthToken] forKey:kAYCommArgsToken];
+			
+			id<AYFacadeBase> f = LOGINMODEL;
+			
+			NSString* screen_photo = [reVal objectForKey:kAYProfileArgsScreenPhoto];
+			if (!screen_photo || [screen_photo isEqualToString:@""]) {
+				NSData* data = [RemoteInstance remoteDownDataFromUrl:[NSURL URLWithString:[infoDic valueForKey:@"headimgurl"]]];
+				UIImage* img = [UIImage imageWithData:data];
+				
+				screen_photo = [Tools getUUIDString];
+				
+				NSMutableDictionary* photo_dic = [[NSMutableDictionary alloc]initWithCapacity:3];
+				[photo_dic setValue:screen_photo forKey:@"image"];
+				[photo_dic setValue:img forKey:@"upload_image"];
+				
+				id<AYFacadeBase> up_facade = DEFAULTFACADE(@"FileRemote");
+				AYRemoteCallCommand* up_cmd = [up_facade.commands objectForKey:@"UploadUserImage"];
+				[up_cmd performWithResult:[photo_dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+					if (success) {
+						//update profile screenphoto
+						NSMutableDictionary* dic_update = [[NSMutableDictionary alloc] init];
+						[dic_update setValue:[reVal objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+						
+						NSMutableDictionary *condition = [[NSMutableDictionary alloc] init];
+						[condition setValue:[reVal objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+						[dic_update setValue:condition forKey:kAYCommArgsCondition];
+						
+						NSMutableDictionary *profile = [[NSMutableDictionary alloc] init];
+						[profile setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
+						[dic_update setValue:profile forKey:@"profile"];
+						
+						id<AYFacadeBase> profileRemote = DEFAULTFACADE(@"ProfileRemote");
+						AYRemoteCallCommand* cmd_profile = [profileRemote.commands objectForKey:@"UpdateUserDetail"];
+						[cmd_profile performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+							if (success) {
+								[reVal setValue:screen_photo forKey:kAYProfileArgsScreenPhoto];
+								id tmp = [reVal copy];
+								id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+								[cmd performWithResult:&tmp];
+								
+								NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
+								[dic_result setValue:@"wechat" forKey:@"provide_name"];
+								[dic_result setValue:whchat_openID forKey:@"provide_user_id"];
+								[dic_result setValue:accessToken forKey:@"provide_token"];
+								[dic_result setValue:screen_name forKey:@"provide_screen_name"];
+								[dic_result setValue:[reVal objectForKey:@"user_id"] forKey:kAYCommArgsUserID];	//user_id by connect
+								
+								id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
+								[cmd_provider performWithResult:&dic_result];
+								
+								[reVal setValue:[NSNumber numberWithBool:NO] forKey:@"is_registered"];
+								[self notifyLandingSNSLoginSuccessWithArgs:[reVal copy]];
+							} else {
+								AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+							}
+						}];
+					} else {
+						
+					}
+				}];
+			} else {
+				
+				id tmp = [reVal copy];
+				id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+				[cmd performWithResult:&tmp];
+				
+				NSMutableDictionary* dic_result = [[NSMutableDictionary alloc]init];
+				[dic_result setValue:@"wechat" forKey:@"provide_name"];
+				[dic_result setValue:whchat_openID forKey:@"provide_user_id"];
+				[dic_result setValue:accessToken forKey:@"provide_token"];
+				[dic_result setValue:screen_name forKey:@"provide_screen_name"];
+				[dic_result setValue:[reVal objectForKey:@"user_id"] forKey:kAYCommArgsUserID];	//user_id by connect
+				
+				id<AYCommand> cmd_provider = [f.commands objectForKey:@"ChangeSNSProviders"];
+				[cmd_provider performWithResult:&dic_result];
+				
+				[reVal setValue:[NSNumber numberWithBool:YES] forKey:@"is_registered"];
+				[self notifyLandingSNSLoginSuccessWithArgs:[reVal copy]];
+			}
+			
+		}
     }];
 }
+
+- (void)notifyLandingSNSLoginSuccessWithArgs:(NSDictionary*)args {
+	NSMutableDictionary* notify = [[NSMutableDictionary alloc]init];
+	[notify setValue:kAYNotifyActionKeyNotify forKey:kAYNotifyActionKey];
+	[notify setValue:kAYNotifySNSLoginSuccess forKey:kAYNotifyFunctionKey];
+	
+	[notify setValue:[args copy] forKey:kAYNotifyArgsKey];
+	[self performWithResult:&notify];
+	
+}
+
 @end

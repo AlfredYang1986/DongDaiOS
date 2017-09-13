@@ -169,9 +169,6 @@
 	NSDictionary* dic = (NSDictionary*)args;
 	
 	EMConversation *sation = [dic objectForKey:kAYGroupListCellContentKey];
-	//    AYGroupListCellView* cell = [dic objectForKey:kAYGroupListCellCellKey];
-	//    cell.current_session = t;
-	
 	EMMessage *last_message = sation.latestMessage;
 	
 	isReadSign.hidden = last_message.isRead;
@@ -184,22 +181,16 @@
 	}
 	NSLog(@"%@",user_id);
 	
-	id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
-	AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
-	
-	NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc]init];
+	NSMutableDictionary* dic_owner_id = [[NSMutableDictionary alloc] init];
 	[dic_owner_id setValue:user_id forKey:@"user_id"];
 	
+	id<AYFacadeBase> f_name_photo = DEFAULTFACADE(@"ScreenNameAndPhotoCache");
+	AYRemoteCallCommand* cmd_name_photo = [f_name_photo.commands objectForKey:@"QueryScreenNameAndPhoto"];
 	[cmd_name_photo performWithResult:[dic_owner_id copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
 		if (success) {
-			
-			themeLabel.text = [result objectForKey:@"screen_name"];
-			
-			id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-			AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-			NSString *screen_photo = [result objectForKey:@"screen_photo"];
-			[themeImg sd_setImageWithURL:[NSURL URLWithString:[cmd.route stringByAppendingString:screen_photo]] placeholderImage:IMGRESOURCE(@"default_user") options:SDWebImageRefreshCached];
-			
+			themeLabel.text = [result objectForKey:kAYProfileArgsScreenName];
+			NSString *screen_photo = [result objectForKey:kAYProfileArgsScreenPhoto];
+			[themeImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user") options:SDWebImageRefreshCached];
 		}
 	}];
 	

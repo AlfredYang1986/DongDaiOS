@@ -19,26 +19,27 @@
 #define LIMITNUMB                   228
 
 @implementation AYSetNapDeviceController {
-    
-    NSString *customString;
-    UITextField *customField;
-//    NSMutableArray *optionsData;
-    long notePow;
-    CGFloat setY;
-    
+	
+    NSMutableArray *optionsData;
+	
+	NSDictionary *show_service_info;
+	NSMutableDictionary *note_update_info;
 }
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
     
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
-        if (dic_facility) {
-            customString = [dic_facility objectForKey:@"option_custom"];
-            notePow = ((NSNumber*)[dic_facility objectForKey:kAYServiceArgsFacility]).longValue;
-            
-        }
+        id args = [dic objectForKey:kAYControllerChangeArgsKey];
+        if ([args isKindOfClass:[NSArray class]]) {
+			optionsData = [NSMutableArray arrayWithArray:args];
+		} else {
+			show_service_info = args;
+			note_update_info = [[NSMutableDictionary alloc] init];
+			optionsData = [NSMutableArray arrayWithArray:[[args objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility]];
+		}
+		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
@@ -49,36 +50,22 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+	
+	if (!optionsData) {
+		optionsData = [NSMutableArray array];
+	}
+	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
-    
-    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-    
-    id obj = (id)cmd_notify;
-    [cmd_datasource performWithResult:&obj];
-    obj = (id)cmd_notify;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithClass:"];
+	id obj = (id)cmd_notify;
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	obj = (id)cmd_notify;
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_cell performWithResult:&class_name];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
-    id<AYCommand> cmd_query = [cmd_notify.commands objectForKey:@"queryData:"];
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    if (notePow) {
-        NSNumber *numb = [NSNumber numberWithLong:notePow];
-        [dic setValue:numb forKey:@"options"];
-    }
-    if (customString) {
-        [dic setValue:customString forKey:@"custom"];
-    }
-    [cmd_query performWithResult:&dic];
-    
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
-//    [self.view addGestureRecognizer:tap];
+	id data = [optionsData copy];
+    kAYDelegatesSendMessage(@"SetNapCost", kAYDelegateChangeDataMessage, &data)
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -100,8 +87,8 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-//	bar_right_btn.userInteractionEnabled = NO;
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
@@ -111,8 +98,7 @@
 - (id)TableLayout:(UIView*)view {
     CGFloat margin = 0;
     view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
-    
-//    ((UITableView*)view).contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+	
     ((UITableView*)view).backgroundColor = [UIColor clearColor];
     return nil;
 }
@@ -120,18 +106,18 @@
 #pragma mark -- actions
 - (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
     NSLog(@"tap esle where");
-//    if ([customField isFirstResponder]) {
-//        [customField resignFirstResponder];
-//    }
 }
 
--(id)didOptionBtnClick:(UIButton*)btn{
-    btn.selected = !btn.selected;
-    if (btn.selected) {
-        notePow += pow(2, btn.tag);
-    }else {
-        notePow -= pow(2, btn.tag);
-    }
+-(id)didOptionBtnClick:(NSString*)args {
+	
+	if ([optionsData containsObject:args]) {
+		[optionsData removeObject:args];
+	} else
+		[optionsData addObject:args];
+	
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+	
     return nil;
 }
 
@@ -145,38 +131,38 @@
     [cmd performWithResult:&dic];
     return nil;
 }
+
 - (id)rightBtnSelected {
-    
-//    if (notePow == 0) {
-//        
-//        NSString *title = @"您还没有添加友好设施";
-//        AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-//        return nil;
-//    }
     
     //整合数据
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:[NSNumber numberWithLong:notePow] forKey:kAYServiceArgsFacility];
-    [dic_info setValue:customString forKey:@"option_custom"];
-    [dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
-    
-    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
-    
+	
+	if (show_service_info) {
+		[note_update_info setValue:optionsData forKey:kAYServiceArgsFacility];
+		[dic setValue:[note_update_info copy] forKey:kAYControllerChangeArgsKey];
+	} else {
+		if (optionsData.count != 0) {
+			NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+			[dic_info setValue:[optionsData copy] forKey:kAYServiceArgsFacility];
+			[dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
+			
+			[dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+		}
+	}
+	
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
-    
-//    if ([customField isFirstResponder]) {
-//        [customField resignFirstResponder];
-//    }
+	
     return nil;
 }
 
+
+
+
 -(id)textChange:(NSString*)text {
-    customString = text;
+	
     return nil;
 }
 

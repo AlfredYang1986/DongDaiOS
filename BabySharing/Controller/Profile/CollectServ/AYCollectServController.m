@@ -135,17 +135,17 @@
 #pragma mark -- actions
 - (void)loadNewData {
     
-    NSDictionary* info = nil;
-    CURRENUSER(info)
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[info objectForKey:@"user_id"] forKey:@"user_id"];
+    NSDictionary* user = nil;
+    CURRENUSER(user)
+    NSMutableDictionary *dic = [Tools getBaseRemoteData];
+    [[dic objectForKey:kAYCommArgsCondition] setValue:[user objectForKey:@"user_id"] forKey:@"user_id"];
     
     id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
     AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"AllCollectService"];
     [cmd_push performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             
-            NSArray *data = [result objectForKey:@"result"];
+            NSArray *data = [[result objectForKey:@"result"] objectForKey:@"services"];
 			resultArr = [data mutableCopy];
             if (data.count == 0) {
                 tipsLabel.hidden = NO;
@@ -156,8 +156,7 @@
             }
         } else {
             tipsLabel.hidden = YES;
-            NSString *title = @"请改善网络环境并重试";
-            AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+            AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
         }
         
         id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
@@ -175,16 +174,24 @@
 	NSString *service_id = [args objectForKey:kAYServiceArgsID];
 	UIButton *likeBtn = [args objectForKey:@"btn"];
 	
-	NSDictionary *info = nil;
-	CURRENUSER(info);
-	
 	NSPredicate *pre_id = [NSPredicate predicateWithFormat:@"self.%@=%@", kAYServiceArgsID, service_id];
 	NSArray *result_pred = [resultArr filteredArrayUsingPredicate:pre_id];
 	if (result_pred.count != 1) {
 		return nil;
 	}
-	NSMutableDictionary *dic = [info mutableCopy];
-	[dic setValue:[result_pred.firstObject objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	id service_data = result_pred.firstObject;
+	
+	NSDictionary *user = nil;
+	CURRENUSER(user);
+	NSMutableDictionary *dic = [Tools getBaseRemoteData];
+	
+	NSMutableDictionary *dic_collect = [[NSMutableDictionary alloc] init];
+	[dic_collect setValue:[service_data objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+	[dic_collect setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsUserID];
+	[dic setValue:dic_collect forKey:@"collections"];
+	
+	NSMutableDictionary *dic_condt = [[NSMutableDictionary alloc] initWithDictionary:dic_collect];
+	[dic setValue:dic_condt forKey:kAYCommArgsCondition];
 	
 	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 	if (!likeBtn.selected) {
@@ -227,13 +234,6 @@
 		[self presentViewController:alertController animated:YES completion:nil];
 		
 	}
-	return nil;
-}
-
-- (id)collectCompleteWithRow:(NSString*)args {
-	return nil;
-}
-- (id)unCollectCompleteWithRow:(NSString*)args {
 	return nil;
 }
 

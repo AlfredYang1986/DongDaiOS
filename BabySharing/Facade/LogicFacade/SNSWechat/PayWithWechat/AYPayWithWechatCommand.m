@@ -23,7 +23,11 @@
 
 - (void)performWithResult:(NSObject**)obj {
     NSDictionary* args = (NSDictionary*)*obj;
+	
     NSString *prepay_id = [args objectForKey:@"prepay_id"];
+	if (!prepay_id || [prepay_id isEqualToString:@""]) {
+		return;
+	}
     NSString* nonce_str = [AYWechatFuncHelper randomNonceStr];
     UInt32 date = [[NSDate date] timeIntervalSince1970];
     

@@ -182,7 +182,7 @@
 			CLPlacemark *pl = [placemarks firstObject];
 			NSString *name = pl.name;
 			NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-			[tmp setValue:dic_loc forKey:kAYServiceArgsLocation];
+			[tmp setValue:dic_loc forKey:kAYServiceArgsPin];
 			[tmp setValue:name forKey:kAYServiceArgsAddress];
 			
 			kAYDelegatesSendMessage(@"FilterLocation", @"changeQueryData:", &tmp)

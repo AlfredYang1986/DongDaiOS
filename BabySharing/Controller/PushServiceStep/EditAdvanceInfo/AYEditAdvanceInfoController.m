@@ -26,7 +26,8 @@
     UILabel *addressLabel;
 	AYAdvanceOptView *positionTitle;
 	
-    BOOL isHaveChanged;
+    BOOL isChanged;
+	NSMutableDictionary *note_service_info;
 }
 
 #pragma mark --  commands
@@ -34,47 +35,43 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-//        NSDictionary *dic_facility = [dic objectForKey:kAYControllerChangeArgsKey];
-        service_info = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
         
-        isHaveChanged = YES;
+        isChanged = YES;
         
         NSDictionary *dic_args = [dic objectForKey:kAYControllerChangeArgsKey];
-        NSNumber *capacity = [dic_args objectForKey:kAYServiceArgsCapacity];
-        if (capacity) {
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
-            //[service_info setValue:[dic_args objectForKey:kAYServiceArgsTheme] forKey:kAYServiceArgsTheme];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsIsAdjustSKU] forKey:kAYServiceArgsIsAdjustSKU];
-        }
-        
-        NSNumber *facility = [dic_args objectForKey:kAYServiceArgsFacility];
-        if (facility) {
-            [service_info setValue:facility forKey:kAYServiceArgsFacility];
-        }
-        
-        NSString *addressStr = [dic_args objectForKey:kAYServiceArgsAddress];
-        if (addressStr) {
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsLocation] forKey:kAYServiceArgsLocation];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsDistinct] forKey:kAYServiceArgsDistinct];
-            [service_info setValue:[dic_args objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
-            positionTitle.subTitleLabel.text = addressStr;
-            [service_info setValue:addressStr forKey:kAYServiceArgsAddress];
-        }
+		for (NSString *key in dic_args.allKeys) {
+			
+			[note_service_info setValue:[dic_args objectForKey:key] forKey:key];
+			
+			if ([key isEqualToString:kAYServiceArgsAddress] || [key isEqualToString:kAYServiceArgsAdjustAddress] || [key isEqualToString:kAYServiceArgsPin] || [key isEqualToString:kAYServiceArgsDistrict]) {
+				[[service_info objectForKey:kAYServiceArgsLocationInfo] setValue:[dic_args objectForKey:key] forKey:key];
+				
+				positionTitle.subTitleLabel.text = [note_service_info objectForKey:kAYServiceArgsAddress];
+				
+			}
+			else if ([key isEqualToString:kAYServiceArgsAgeBoundary] || [key isEqualToString:kAYServiceArgsCapacity] || [key isEqualToString:kAYServiceArgsServantNumb] || [key isEqualToString:kAYServiceArgsFacility]) {
+				[[service_info objectForKey:kAYServiceArgsDetailInfo] setValue:[dic_args objectForKey:key] forKey:key];
+			}
+//			else if ([key isEqualToString:kAYServiceArgs]) {
+//				
+//			}
+			else {
+				
+			}
+		}
     }
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
+	
+	note_service_info = [[NSMutableDictionary alloc] init];
     
     id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
     UITableView *tableView = (UITableView*)view_notify;
@@ -100,7 +97,7 @@
 	positionTitle.userInteractionEnabled = YES;
 	[positionTitle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPositionLabelTap)]];
 	
-	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
+	NSString *addressStr = [[service_info objectForKey:kAYServiceArgsLocationInfo] objectForKey:kAYServiceArgsAddress];
 	if (addressStr && ![addressStr isEqualToString:@""]) {
 		positionTitle.subTitleLabel.text = addressStr;
 	} else {
@@ -180,10 +177,9 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-//    NSMutableDictionary *service_info = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:@"editMode" forKey:kAYControllerChangeArgsKey];
-    
+	
+	[dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+	
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
@@ -196,12 +192,9 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_args = [[NSMutableDictionary alloc]init];
-    [dic_args setValue:[service_info objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];
-    //    [dic_args setValue:[service_info objectForKey:@"option_custom"] forKey:@"option_custom"];
-    [dic_push setValue:dic_args forKey:kAYControllerChangeArgsKey];
-    
+	
+	[dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+	
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
@@ -214,17 +207,9 @@
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsAgeBoundary] forKey:kAYServiceArgsAgeBoundary];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsCapacity] forKey:kAYServiceArgsCapacity];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsServantNumb] forKey:kAYServiceArgsServantNumb];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsServiceCat] forKey:kAYServiceArgsServiceCat];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsCourseCat] forKey:kAYServiceArgsCourseCat];
-    [tmp setValue:[service_info objectForKey:kAYServiceArgsIsAdjustSKU] forKey:kAYServiceArgsIsAdjustSKU];
-    
-    [dic_push setValue:tmp forKey:kAYControllerChangeArgsKey];
-    
+	
+	[dic_push setValue:[service_info copy] forKey:kAYControllerChangeArgsKey];
+	
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];
 }
@@ -235,10 +220,11 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    if (isHaveChanged) {
+    if (isChanged) {		//整合数据
         NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-        [dic_info setValue:kAYServiceArgsInfo forKey:@"key"];
-        [dic_info setValue:service_info forKey:kAYServiceArgsInfo];
+        [dic_info setValue:kAYServiceArgsSelf forKey:@"key"];
+        [dic_info setValue:service_info forKey:kAYServiceArgsSelf];
+		[dic_info setValue:note_service_info forKey:@"handle"];
         [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     }
     id<AYCommand> cmd = POP;
@@ -249,13 +235,11 @@
 - (id)rightBtnSelected {
     
     //整合数据
+	NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+	
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:kAYServiceArgsInfo forKey:@"key"];
-    [dic_info setValue:service_info forKey:kAYServiceArgsInfo];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;

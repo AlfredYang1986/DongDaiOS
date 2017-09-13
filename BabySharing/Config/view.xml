@@ -18,9 +18,8 @@
         <command type="message" message="showNextBtnForNewUser" />
         <command type="message" message="showEnterBtnForOldUser" />
         <command type="message" message="showAYAlertVeiw:" />
-        <command type="notify"  message="queryCurPhoneNo:" />
         <command type="notify"  message="reReqConfirmCode:" />
-        <command type="notify"  message="rightBtnSelected" />
+        <command type="notify"  message="AuthWithPhoneNoAndCode:" />
     </view>
     
     <view type="LandingInputName" name="LandingInputName" factory="AYDefaultViewFactory" >
@@ -85,18 +84,28 @@
         <command type="message" message="registerHeaderAndFooterWithNib:" />
         <command type="message" message="scrollToPostion:" />
     </view>
-    
-    <view type="Table2" name="Table2" factory="AYDefaultViewFactory" >
-        <command type="message" message="refresh" />
-        <command type="message" message="registerDatasource:" />
-        <command type="message" message="registerDelegate:" />
-        <command type="message" message="registerCellWithClass:" />
-        <command type="message" message="registerCellWithNib:" />
-        <command type="message" message="registerHeaderAndFooterWithClass:" />
-        <command type="message" message="registerHeaderAndFooterWithNib:" />
-        <command type="message" message="scrollToPostion:" />
-    </view>
-    
+	
+	<view type="Table2" name="Table2" factory="AYDefaultViewFactory" >
+		<command type="message" message="refresh" />
+		<command type="message" message="registerDatasource:" />
+		<command type="message" message="registerDelegate:" />
+		<command type="message" message="registerCellWithClass:" />
+		<command type="message" message="registerCellWithNib:" />
+		<command type="message" message="registerHeaderAndFooterWithClass:" />
+		<command type="message" message="registerHeaderAndFooterWithNib:" />
+		<command type="message" message="scrollToPostion:" />
+	</view>
+	<view type="Table3" name="Table3" factory="AYDefaultViewFactory" >
+		<command type="message" message="refresh" />
+		<command type="message" message="registerDatasource:" />
+		<command type="message" message="registerDelegate:" />
+		<command type="message" message="registerCellWithClass:" />
+		<command type="message" message="registerCellWithNib:" />
+		<command type="message" message="registerHeaderAndFooterWithClass:" />
+		<command type="message" message="registerHeaderAndFooterWithNib:" />
+		<command type="message" message="scrollToPostion:" />
+	</view>
+	
     <view type="AddFriends" name="AddFriends" factory="AYDefaultViewFactory" >
         <command type="notify" message="touchUpInside" />
     </view>
@@ -387,14 +396,55 @@
 		<command type="notify"      message="didCellAction" />
 		<command type="notify"      message="willCollectWithRow:" />
 		<command type="notify"      message="willUnCollectWithRow:" />
-		<command type="notify"      message="collectCompleteWithRow:" />
-		<command type="notify"      message="unCollectCompleteWithRow:" />
+	</view>
+	
+	<view type="HomeBannerCell" name="HomeBannerCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didSomeOneChoiceClick:" />
+	</view>
+	<view type="HomeTopicsCell" name="HomeTopicsCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didTopicsMoreBtnClick" />
+	</view>
+	<view type="HomeAssortmentCell" name="HomeAssortmentCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didAssortmentMoreBtnClick" />
+		<command type="notify"      message="didSelectAssortmentAtIndex:" />
+	</view>
+	<view type="HomeMoreTitleCell" name="HomeMoreTitleCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
+	<view type="HomeAroundCell" name="HomeAroundCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="HomeSortCourseCell" name="HomeSortCourseCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didCourseSortTapAtIndex:" />
+	</view>
+	<view type="HomeSortNurseryCell" name="HomeSortNurseryCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didNursarySortTapAtIndex:" />
+	</view>
+	
+	<view type="AssortmentListCell" name="AssortmentListCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="AssortmentCell" name="AssortmentCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="TopicsListCell" name="TopicsListCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
 	</view>
 	
     <view type="HomeTipCell" name="HomeTipCell" factory="AYReuseViewFactory" >
         <command type="message"     message="resetPush:" />
         <command type="notify"      message="didPushInfo" />
     </view>
+	
+	<view type="SearchSKUResultCell" name="SearchSKUResultCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
 	
 	<view type="FilterLocationCell" name="FilterLocationCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
@@ -491,7 +541,7 @@
         <command type="notify"      message="sendChangeAnnoMessage:" />
         <command type="notify"      message="queryResultDate:" />
     </view>
-    <view type="MapView" name="MapView" factory="AYReuseViewFactory" >
+    <view type="MapView" name="MapView" factory="AYDefaultViewFactory" >
         <command type="message"     message="changeAnnoView:" />
         <command type="message"     message="changeResultData:" />
         <command type="notify"      message="queryTheLoc:" />
@@ -768,7 +818,7 @@
 	</view>
 	<view type="OrderPageContactCell" name="OrderPageContactCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
-		<command type="notify"      message="didContactBtnClick" />
+		<command type="notify"      message="didContactBtnClick:" />
 	</view>
 	
 	<view type="OrderListPendingCell" name="OrderListPendingCell" factory="AYReuseViewFactory" >

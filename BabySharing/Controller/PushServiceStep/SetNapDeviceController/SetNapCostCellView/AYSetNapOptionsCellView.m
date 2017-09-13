@@ -34,9 +34,10 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSLog(@"init reuse identifier");
-        self.backgroundColor = [UIColor whiteColor];
         
+        self.backgroundColor = [UIColor whiteColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+		
         titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -51,8 +52,8 @@
         [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-25);
-            make.size.mas_equalTo(CGSizeMake(25, 25));
+            make.right.equalTo(self).offset(-15);
+            make.size.mas_equalTo(CGSizeMake(44, 44));
         }];
 		
 		CGFloat margin = 20.f;
@@ -119,76 +120,25 @@
 
 #pragma mark -- actions
 -(void)didOptionBtnClick:(UIButton*)btn {
-    
+	btn.selected = !btn.selected;
+	
+	NSString *titleStr = titleLabel.text;
     id<AYCommand> cmd = [self.notifies objectForKey:@"didOptionBtnClick:"];
-    [cmd performWithResult:&btn];
+    [cmd performWithResult:&titleStr];
 }
 
 #pragma mark -- messages
 - (id)setCellInfo:(NSDictionary*)args {
     
-    NSNumber *options = [args objectForKey:@"options"];
-    
-    NSInteger index_tag = ((NSNumber*)[args objectForKey:@"index"]).integerValue;
-    optionBtn.tag = index_tag;
-    
-    NSInteger notePow = options.integerValue;
-    optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
-    
-    titleLabel.text = [args objectForKey:@"title"];
-    
+    NSArray *options = [args objectForKey:@"options"];
+	NSString *titleStr = [args objectForKey:@"title"];
+	
+    titleLabel.text = titleStr;
+	optionBtn.selected = [options containsObject:titleStr];
+	
     return nil;
 }
 
-//- (id)setCellInfo:(NSDictionary*)args {
-//    
-//    BOOL isCustom = [args objectForKey:@"isCustom"];
-//    NSDictionary *options = [args objectForKey:@"options"];
-//    
-//    NSInteger index_tag = ((NSNumber*)[args objectForKey:@"index"]).integerValue;
-//    
-//    BOOL isShow = ((NSNumber*)[options objectForKey:@"isShow"]).boolValue;
-//    if (isCustom) {
-//        customField = [[UITextField alloc]init];
-//        [self addSubview:customField];
-//        NSString *customString = [options objectForKey:@"custom"];
-//        if (customString) {
-//            customField.text = customString;
-//        }
-//        customField.textColor = [Tools blackColor];
-//        customField.font = [UIFont systemFontOfSize:14.f];
-//        customField.backgroundColor = [UIColor whiteColor];
-//        customField.layer.cornerRadius = 4.f;
-//        customField.clipsToBounds = YES;
-//        customField.delegate = self;
-//        UILabel*paddingView= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10, 30)];
-//        paddingView.backgroundColor= [UIColor clearColor];
-//        customField.leftView = paddingView;
-//        customField.leftViewMode = UITextFieldViewModeAlways;
-//        customField.clearButtonMode = UITextFieldViewModeWhileEditing;
-//        if (isShow) {
-//            customField.enabled = NO;
-//        }
-//        [customField mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.equalTo(self);
-//            make.left.equalTo(self).offset(80);
-//            make.right.equalTo(self).offset(-15);
-//            make.height.mas_equalTo(30);
-//        }];
-//        
-//    } else {
-//        
-//        if (isShow) {
-//            optionBtn.userInteractionEnabled = NO;
-//        }
-//        optionBtn.tag = index_tag;
-//        NSInteger notePow = ((NSNumber*)[options objectForKey:@"option"]).integerValue;
-//        optionBtn.selected = ((notePow & (long)pow(2, index_tag)) != 0);
-//    }
-//    titleLabel.text = [[options objectForKey:@"title"] objectAtIndex:index_tag];
-//    
-//    return nil;
-//}
 #pragma mark -- UITextFieldDelegate
 //- (void)textFieldDidEndEditing:(UITextField *)textField{
 //    id<AYCommand> cmd_textchange = [self.notifies objectForKey:@"textChange:"];

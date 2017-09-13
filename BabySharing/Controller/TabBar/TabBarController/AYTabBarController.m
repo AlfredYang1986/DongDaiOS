@@ -22,7 +22,6 @@
 }
 
 @synthesize para = _para;
-
 @synthesize commands = _commands;
 @synthesize facades = _facades;
 @synthesize views = _views;
@@ -46,35 +45,47 @@
     id<AYCommand> cmd_home_init = [self.commands objectForKey:@"HomeInit"];
     AYViewController* home = nil;
     [cmd_home_init performWithResult:&home];
-    home.tabBarItem.title = @"Home";
 
     id<AYCommand> cmd_friends_init = [self.commands objectForKey:@"MessageInit"];
     AYViewController* friends = nil;
     [cmd_friends_init performWithResult:&friends];
-    friends.tabBarItem.title = @"Message";
     
     id<AYCommand> cmd_order_init = [self.commands objectForKey:@"OrderCommonInit"];
     AYViewController* order = nil;
     [cmd_order_init performWithResult:&order];
-    order.tabBarItem.title = @"order";
     
     id<AYCommand> cmd_profile_init = [self.commands objectForKey:@"ProfileInit"];
     AYViewController* profile = nil;
     [cmd_profile_init performWithResult:&profile];
-    profile.tabBarItem.title = @"Profile";
     
     self.viewControllers = [NSArray arrayWithObjects:home, friends, order, profile, nil];
     self.delegate = self;
     
     img_home_with_no_message = IMGRESOURCE(@"tab_home");
     img_home_with_unread_message = IMGRESOURCE(@"tab_home_unread");
-    
+	
     _dongda_tabbar = [[DongDaTabBar alloc]initWithBar:self];
-    [_dongda_tabbar addItemWithImg:img_home_with_no_message andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"主页"];
+    [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_home") andSelectedImg:IMGRESOURCE(@"tab_home_selected") andTitle:@"首页"];
     [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_message") andSelectedImg:IMGRESOURCE(@"tab_message_selected") andTitle:@"消息"];
     [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_order") andSelectedImg:IMGRESOURCE(@"tab_order_selected") andTitle:@"日程"];
     [_dongda_tabbar addItemWithImg:IMGRESOURCE(@"tab_profile") andSelectedImg:IMGRESOURCE(@"tab_profile_selected") andTitle:@"我的"];
-    
+	
+//	home.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"首页" image:[IMGRESOURCE(@"tab_home") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_home_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//	friends.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"消息" image:[IMGRESOURCE(@"tab_message") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_message_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//	order.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"日程" image:[IMGRESOURCE(@"tab_order") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_order_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//	profile.tabBarItem = [[UITabBarItem alloc]initWithTitle:@"我的" image:[IMGRESOURCE(@"tab_profile") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[IMGRESOURCE(@"tab_profile_selected") imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+//	
+//	NSDictionary *attr_titleColor_normal = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools garyColor], NSForegroundColorAttributeName, nil];
+//	NSDictionary *attr_titleColor_select = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:10.f], NSFontAttributeName, [Tools themeColor], NSForegroundColorAttributeName, nil];
+//	[[UITabBarItem appearance] setTitleTextAttributes:attr_titleColor_normal forState:UIControlStateNormal];
+//	[[UITabBarItem appearance] setTitleTextAttributes:attr_titleColor_select forState:UIControlStateSelected];
+//	
+//	CALayer* shadow = [CALayer layer];
+//	shadow.borderColor = [UIColor colorWithRed:0.5922 green:0.5922 blue:0.5922 alpha:0.25].CGColor;
+//	shadow.borderWidth = 1.f;
+//	shadow.frame = CGRectMake(0, 0, SCREEN_WIDTH, 1);
+//	[self.tabBar.layer addSublayer:shadow];
+	
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6) {
         [[UITabBar appearance] setShadowImage:[UIImage new]];
         [[UITabBar appearance] setBackgroundImage:[[UIImage alloc]init]];

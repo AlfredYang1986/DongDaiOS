@@ -26,7 +26,7 @@
 @end
 
 @implementation AYNapLocationController {
-    NSMutableArray *loading_status;
+	
     CLLocation *loc;
     AMapSearchAPI *search;
     AMapBusLine *aBusMapTip;
@@ -37,9 +37,8 @@
 }
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
-    
-    NSDictionary* dic = (NSDictionary*)*obj;
-    
+	
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -51,7 +50,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
     [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
@@ -59,13 +57,6 @@
     //初始化检索对象
     search = [[AMapSearchAPI alloc] init];
     search.delegate = self;
-    
-    loading_status = [[NSMutableArray alloc]init];
-    {
-        UIView* view_loading = [self.views objectForKey:@"Loading"];
-        [self.view bringSubviewToFront:view_loading];
-        view_loading.hidden = YES;
-    }
     
     id<AYViewBase> view_table = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_datasource = [view_table.commands objectForKey:@"registerDatasource:"];
@@ -151,11 +142,6 @@
     
     id<AYCommand> cmd_apperence = [((id<AYViewBase>)view).commands objectForKey:@"foundSearchBar"];
     [cmd_apperence performWithResult:nil];
-    return nil;
-}
-
-- (id)LoadingLayout:(UIView*)view {
-    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     return nil;
 }
 

@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "AYViewController.h"
 
-@interface AYWelcomeController : AYViewController <UIActionSheetDelegate>
+@interface AYWelcomeController : AYViewController <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @end

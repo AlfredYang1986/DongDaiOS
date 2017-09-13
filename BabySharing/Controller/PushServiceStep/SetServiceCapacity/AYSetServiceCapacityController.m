@@ -8,22 +8,17 @@
 
 #import "AYSetServiceCapacityController.h"
 
-@interface AYSetServiceCapacityController ()
-
-@end
-
 @implementation AYSetServiceCapacityController {
-    NSMutableDictionary *service_info;
     
-    NSMutableDictionary *ages_dic;
+	NSMutableDictionary *service_info;
+    NSMutableDictionary *info_detail;
 }
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
     
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
         service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -36,24 +31,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    ages_dic = [[NSMutableDictionary alloc]init];
-    [ages_dic setValue:[NSNumber numberWithInt:2] forKey:@"lsl"];
-    [ages_dic setValue:[NSNumber numberWithInt:11] forKey:@"usl"];
-    [service_info setValue:[ages_dic copy] forKey:@"age_boundary"];
-    [service_info setValue:[NSNumber numberWithInt:4] forKey:@"capacity"];
-    [service_info setValue:[NSNumber numberWithInt:1] forKey:@"servant_no"];
-    
-    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+	
+	//default args
+    info_detail = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *dic_boundary = [[NSMutableDictionary alloc] init];
+    [dic_boundary setValue:[NSNumber numberWithInt:2] forKey:kAYServiceArgsAgeBoundaryLow];
+    [dic_boundary setValue:[NSNumber numberWithInt:11] forKey:kAYServiceArgsAgeBoundaryUp];
+	[info_detail setValue:dic_boundary forKey:kAYServiceArgsAgeBoundary];
+	[info_detail setValue:[NSNumber numberWithInt:4] forKey:kAYServiceArgsCapacity];
+	[info_detail setValue:[NSNumber numberWithInt:1] forKey:kAYServiceArgsServantNumb];
+	
+    [service_info setValue:info_detail forKey:kAYServiceArgsDetailInfo];
+	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceCapacity"];
-    
-    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-    
     id obj = (id)cmd_notify;
-    [cmd_datasource performWithResult:&obj];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
-    [cmd_delegate performWithResult:&obj];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
     
     NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetServiceCapacityCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
@@ -148,18 +142,16 @@
     NSNumber *count = [args objectForKey:@"count"];
     
     if (index.intValue == 0) {      //lsl
-        [ages_dic setValue:count forKey:@"lsl"];
-        [service_info setValue:ages_dic forKey:@"age_boundary"];
+        [[info_detail objectForKey:kAYServiceArgsAgeBoundary] setValue:count forKey:kAYServiceArgsAgeBoundaryLow];
     }
     else if (index.intValue == 1) {     //usl
-        [ages_dic setValue:count forKey:@"usl"];
-        [service_info setValue:ages_dic forKey:@"age_boundary"];
+        [[info_detail objectForKey:kAYServiceArgsAgeBoundary] setValue:count forKey:kAYServiceArgsAgeBoundaryUp];
     }
     else if (index.intValue == 2) {     //capacity
-        [service_info setValue:count forKey:@"capacity"];
+        [info_detail setValue:count forKey:kAYServiceArgsCapacity];
     }
     else if (index.intValue == 3) {     //servant_no
-        [service_info setValue:count forKey:@"servant_no"];
+        [service_info setValue:count forKey:kAYServiceArgsServantNumb];
     }
     else {
         

@@ -72,13 +72,11 @@
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 20);
-	//    view.backgroundColor = [UIColor whiteColor];
 	return nil;
 }
 
 - (id)FakeNavBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
-	//    view.backgroundColor = [UIColor whiteColor];
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
@@ -100,25 +98,31 @@
 	AYRemoteCallCommand* cmd_upload = MODULE(@"PostPhotos");
 	[cmd_upload performWithResult:(NSDictionary*)napPhotos andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			NSDictionary* user_info = nil;
-			CURRENUSER(user_info)
 			
-			[push_service_info setValue:[user_info objectForKey:@"user_id"]  forKey:@"owner_id"];
-			[push_service_info setValue:(NSArray*)result forKey:@"images"];
+			NSDictionary* user = nil;
+			CURRENUSER(user)
+			
+			NSMutableDictionary *dic_push = [[NSMutableDictionary alloc] init];
+			[dic_push setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+			
+			NSDictionary *dic_condt = @{kAYCommArgsUserID:[user objectForKey:kAYCommArgsUserID]};
+			[dic_push setValue:dic_condt forKey:kAYCommArgsCondition];
+			
+			[push_service_info setValue:(NSArray*)result forKey:kAYServiceArgsImages];
+			[push_service_info setValue:[user objectForKey:kAYCommArgsUserID] forKey:kAYCommArgsOwnerID];
+			[dic_push setValue:push_service_info forKey:kAYServiceArgsSelf];
+			NSLog(@"kidpan/push-%@", dic_push);
 			
 			id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
 			AYRemoteCallCommand *cmd_push = [facade.commands objectForKey:@"PushServiceInfo"];
-			[cmd_push performWithResult:[push_service_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			[cmd_push performWithResult:[dic_push copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 				if (success) {
 					
 					id<AYFacadeBase> facade = LOGINMODEL;
 					id<AYCommand> cmd = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
 					NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-					[dic setValue:[NSNumber numberWithBool:YES] forKey:@"is_service_provider"];
+					[dic setValue:[NSNumber numberWithBool:YES] forKey:kAYProfileArgsIsProvider];
 					[cmd performWithResult:&dic];
-					
-					//                    NSString *tip = @"服务发布成功,去管理服务?";
-					//                    [self popToRootVCWithTip:tip];
 					
 					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
 					BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];

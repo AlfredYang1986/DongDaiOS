@@ -28,7 +28,6 @@
 	NSDictionary *dic_attr;
 	NSDictionary *service_info;
 	
-	BOOL isExpend;
 }
 
 @synthesize para = _para;
@@ -149,14 +148,6 @@
 
 #pragma mark -- actions
 - (void)didShowhideBtnClick {
-
-//	if (isExpend) {
-//		showhideBtn.transform = CGAffineTransformMakeRotation(M_PI);
-////		showhideBtn.transform = CGAffineTransformRotate(showhideBtn.transform, M_PI);
-//	} else {
-//		showhideBtn.transform = CGAffineTransformMakeRotation(0);
-////		showhideBtn.transform = CGAffineTransformRotate(showhideBtn.transform, M_PI);
-//	}
 	
 	NSNumber *tmp = [NSNumber numberWithBool:showhideBtn.selected];
 	kAYViewSendNotify(self, @"showHideDescDetail:", &tmp);
@@ -203,33 +194,28 @@
 	NSAttributedString *descAttri = [[NSAttributedString alloc] initWithString:descStr attributes:dic_attr];
 	descTextView.attributedText = descAttri;
 	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	switch (service_cat.intValue) {
-	case ServiceTypeCourse:
-	{
+	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSDictionary *info_deatil = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
+	if([service_cat isEqualToString:kAYStringCourse]) {
+		olock_icon.hidden = courseLengthLabel.hidden = NO;
 		
-		NSNumber *course_length = [service_info objectForKey:kAYServiceArgsCourseduration];
+		NSNumber *course_length = [info_deatil objectForKey:kAYServiceArgsCourseduration];
 		NSString *lengthStr = [NSString stringWithFormat:@"%@分钟", course_length];
 		NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:lengthStr];
 		[attributedText setAttributes:@{NSFontAttributeName:kAYFontMedium(18.f)} range:NSMakeRange(0, lengthStr.length - 2)];
 		[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(lengthStr.length - 2, 2)];
 		courseLengthLabel.attributedText = attributedText;
-	}
-		break;
-	case ServiceTypeNursery:
-	{
+		
+	} else {
 		olock_icon.hidden = courseLengthLabel.hidden = YES;
 	}
-		break;
-			
-  default:
-			break;
-	}
+		
 	
 	CGSize maxSize = CGSizeMake(SCREEN_WIDTH - 40, CGFLOAT_MAX);
 	CGSize newSize = [descTextView sizeThatFits:maxSize];
 	NSNumber *expend_args = [service_info objectForKey:@"is_expend"];
-	isExpend = expend_args.boolValue;
+
 	if (newSize.height < 130) {
 		showhideBtn.hidden = YES;
 		[descTextView mas_remakeConstraints:^(MASConstraintMaker *make) {

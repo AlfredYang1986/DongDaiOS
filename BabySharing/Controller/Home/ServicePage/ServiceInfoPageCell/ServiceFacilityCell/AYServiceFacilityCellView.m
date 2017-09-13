@@ -146,15 +146,19 @@
 - (id)setCellInfo:(id)args {
 	NSDictionary *service_info = args;
 	
-    NSNumber *facility = [service_info objectForKey:kAYServiceArgsFacility];
-	long options = facility.longValue;
-
-	NSArray *options_title_facility = kAY_service_options_title_facilities;		//仅用于取数组数量
-    for (int i = 0; i < options_title_facility.count; ++i) {
-        long note_pow = pow(2, i);
-		AYPlayItemsView *item = [facilityArr objectAtIndex:i];
-		[item setEnableStatusWith:options & note_pow];
+	NSArray *facilities = [[service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility];;
+	NSArray *options_title_facility = kAY_service_options_title_facilities;
+    for (int i = 0; i < facilities.count; ++i) {
+		NSString *f = [facilities objectAtIndex:i];
+		
+		if ([options_title_facility containsObject:f]) {
 			
+			NSInteger index = [options_title_facility indexOfObject:f];
+			
+			AYPlayItemsView *item = [facilityArr objectAtIndex:index];
+			[item setEnableStatusWith:YES];
+		}
+		
     }
 	
     return nil;

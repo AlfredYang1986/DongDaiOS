@@ -17,3 +17,7 @@
 @interface AYTable2View : AYTableView
 
 @end
+
+@interface AYTable3View : AYTableView
+
+@end

@@ -76,39 +76,38 @@
 + (NSDictionary*)userToken2Attr:(LoginToken*)user {
     NSMutableDictionary* reVal = [[NSMutableDictionary alloc]init];
    
-    [reVal setValue:user.user_id forKey:@"user_id"];
-    [reVal setValue:user.auth_token forKey:@"auth_token"];
-    [reVal setValue:user.phoneNo forKey:@"phoneNo"];
-    [reVal setValue:user.screen_name forKey:@"screen_name"];
-    [reVal setValue:user.screen_image forKey:@"screen_photo"];
+    [reVal setValue:user.user_id forKey:kAYCommArgsUserID];
+    [reVal setValue:user.auth_token forKey:kAYCommArgsToken];
+    [reVal setValue:user.phoneNo forKey:kAYProfileArgsPhone];
+    [reVal setValue:user.screen_name forKey:kAYProfileArgsScreenName];
+    [reVal setValue:user.screen_image forKey:kAYProfileArgsScreenPhoto];
     [reVal setValue:user.role_tag forKey:@"role_tag"];
     [reVal setValue:user.is_service_provider forKey:@"is_service_provider"];
-    [reVal setValue:user.is_real_name_cert forKey:@"is_real_name_cert"];
-    [reVal setValue:user.personal_description forKey:@"personal_description"];
+    [reVal setValue:user.is_real_name_cert forKey:kAYProfileArgsIsValidtRealName];
+    [reVal setValue:user.personal_description forKey:kAYProfileArgsDescription];
     [reVal setValue:user.date forKey:@"date"];
     [reVal setValue:user.contact_no forKey:@"contact_no"];
-    [reVal setValue:user.has_phone forKey:@"has_phone"];
+    [reVal setValue:user.has_phone forKey:kAYProfileArgsIsHasPhone];
     
     return [reVal copy];
 }
 
 #pragma mark -- operation with user id (primary key)
 + (void)handlerAttrInLoginToken:(LoginToken*)tmp withAttrs:(NSDictionary*)dic {
+	
     NSEnumerator* enumerator = dic.keyEnumerator;
     id iter = nil;
-    
     while ((iter = [enumerator nextObject]) != nil) {
-        if ([iter isEqualToString:@"auth_token"]) {
+        if ([iter isEqualToString:kAYCommArgsToken]) {
             tmp.auth_token = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"phoneNo"]) {
+        else if ([iter isEqualToString:kAYProfileArgsPhone]) {
             tmp.phoneNo = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"screen_name"]) {
-//        } else if ([iter isEqualToString:@"name"]) {
+        else if ([iter isEqualToString:kAYProfileArgsScreenName]) {
             tmp.screen_name = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"screen_photo"]) {
+        else if ([iter isEqualToString:kAYProfileArgsScreenPhoto]) {
             tmp.screen_image = [dic objectForKey:iter];
         }
         else if ([iter isEqualToString:@"connectWith"]) {
@@ -117,29 +116,26 @@
         else if ([iter isEqualToString:@"role_tag"]) {
             tmp.role_tag = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"is_real_name_cert"]) {
-            tmp.is_real_name_cert = [dic objectForKey:@"is_real_name_cert"];
+        else if ([iter isEqualToString:kAYProfileArgsIsValidtRealName]) {
+            tmp.is_real_name_cert = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"contact_no"]) {
-            tmp.contact_no = [dic objectForKey:@"contact_no"];
+        else if ([iter isEqualToString:kAYProfileArgsContactNo]) {
+            tmp.contact_no = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"personal_description"]) {
-            tmp.personal_description = [dic objectForKey:@"personal_description"];
+        else if ([iter isEqualToString:kAYProfileArgsDescription]) {
+            tmp.personal_description = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"date"]) {
-            tmp.date = [dic objectForKey:@"date"];
+        else if ([iter isEqualToString:kAYProfileArgsRegistDate]) {
+            tmp.date = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"is_service_provider"]) {
-            tmp.is_service_provider = [dic objectForKey:@"is_service_provider"];
+        else if ([iter isEqualToString:kAYProfileArgsIsProvider]) {
+            tmp.is_service_provider = [dic objectForKey:iter];
         }
-        else if ([iter isEqualToString:@"has_phone"]) {
-            tmp.has_phone = [dic objectForKey:@"has_phone"];
+        else if ([iter isEqualToString:kAYProfileArgsIsHasPhone]) {
+            tmp.has_phone = [dic objectForKey:iter];
         }
-        
-        else if ([iter isEqualToString:@"user_id"]) {
-            if (tmp.user_id == nil) {
-                tmp.user_id = [dic objectForKey:iter];
-            }
+        else if ([iter isEqualToString:kAYCommArgsUserID]) {
+			tmp.user_id = [dic objectForKey:iter];
         } else {
             // user id, do nothing
         }
@@ -152,9 +148,6 @@
     
     /*
     NSManagedObjectContext（托管对象上下文）：数据库
-    NSEntityDescription（实体描述）：表
-    NSFetchRequest（请求）：命令集
-    NSPredicate（谓词）：查询语句
      
     在书中给出的例子中的一些语句可以用数据库的常用操作来理解
     NSManagedObjectContext *context = [appDelegate managedObjectContext];           //指定一个“数据库”
@@ -167,7 +160,7 @@
     */
     
     NSFetchRequest* request = [NSFetchRequest fetchRequestWithEntityName:@"LoginToken"];
-    request.predicate = [NSPredicate predicateWithFormat:@"user_id = %@", user_id];
+    request.predicate = [NSPredicate predicateWithFormat:@"user_id=%@", user_id];
     NSSortDescriptor* des = [NSSortDescriptor sortDescriptorWithKey:@"user_id" ascending:YES];
     request.sortDescriptors = [NSArray arrayWithObjects: des, nil];
     [request setReturnsObjectsAsFaults:NO];
@@ -176,28 +169,27 @@
     NSArray* matches = [context executeFetchRequest:request error:&error];
    
     NSLog(@"dic : %@", dic);
-    if (!matches || matches.count > 1) {
-        for (LoginToken* tmp in matches) {
-            NSLog(@"primary tmp %@", tmp);
-            NSLog(@"primary tmp user id %@", tmp.user_id);
-            for (LoginToken* tmp in matches) {
-                [context deleteObject:tmp];
-            }
-            [self createTokenInContext:context withUserID:user_id andAttrs:dic];
-        }
-        NSLog(@"error with primary key");
+	if (!matches || matches.count == 0) {
+		LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
+		[LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+		[context save:nil];
+		return tmp;
+	}
+	else if (matches.count == 1) {
+		LoginToken *tmp = [matches lastObject];
+		[LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
+		[context save:nil];
+		return tmp;
+	}
+    else if ( matches.count > 1) {
+		for (int i = 0; matches.count; ++i) {
+			[context deleteObject:[matches objectAtIndex:i]];
+		}
+		[self createTokenInContext:context withUserID:user_id andAttrs:dic];
         return nil;
-    } else if (matches.count == 1) {
-        LoginToken *tmp = [matches lastObject];
-        [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
-        [context save:nil];
-        return tmp;
-    } else {
-        LoginToken* tmp = [NSEntityDescription insertNewObjectForEntityForName:@"LoginToken" inManagedObjectContext:context];
-        [LoginToken handlerAttrInLoginToken:tmp withAttrs:dic];
-        [context save:nil];
-        return tmp;
     }
+	else
+		return nil;
 }
 
 + (void)removeTokenInContext:(NSManagedObjectContext*)context withUserID:(NSString*)user_id {

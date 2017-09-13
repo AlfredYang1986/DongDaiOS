@@ -44,33 +44,7 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-//        NSDictionary *args_info = [dic objectForKey:kAYControllerChangeArgsKey];
-//        NSString *coustom = [args_info objectForKey:kAYServiceArgsCourseCoustom];
-//        NSNumber *courseSignIndex = [args_info objectForKey:kAYServiceArgsCourseSign];
-//        if (coustom) {
-//            [titleAndCourseSignInfo setValue:coustom forKey:kAYServiceArgsCourseCoustom];
-////            [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseSign];
-//			[titleAndCourseSignInfo setValue:@-1 forKey:kAYServiceArgsCourseSign];		//服务器默认返回-1，兼容设置-1
-//        }
-//        else if (courseSignIndex) {
-//            [titleAndCourseSignInfo setValue:courseSignIndex forKey:kAYServiceArgsCourseSign];
-//            [titleAndCourseSignInfo removeObjectForKey:kAYServiceArgsCourseCoustom];
-//            coustom = [args_info objectForKey:@"signStr"];
-//        }
-//        
-//        if (coustom && ![coustom isEqualToString:@""]) {
-//            
-//            access.hidden = YES;
-//            signLabel.hidden = NO;
-//            signLabel.text = coustom;
-//            
-//            if (!isAlreadyEnable) {
-//                UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-//                kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-//                isAlreadyEnable = YES;
-//            }
-//            
-//        }
+		
     }
 }
 
@@ -118,83 +92,6 @@
 		placeHolder.hidden = YES;
 	}
 	
-//    NSString *setedTitleStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsTitle];
-//    if (setedTitleStr) {
-//        NSInteger count = setedTitleStr.length;
-//        inputTitleTextView.text = setedTitleStr;
-//        countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count) >= 0 ? (LIMITNUMB - count) : 0];
-//    }
-//    
-//    ServiceType service_type = ((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsServiceCat]).intValue;
-//    switch (service_type) {
-//        case ServiceTypeNursery:
-//        {
-//            
-//            self.view.backgroundColor = [Tools whiteColor];
-//        }
-//            break;
-//        case ServiceTypeCourse:
-//        {
-//            AYInsetLabel *courseSignLabel = [[AYInsetLabel alloc]initWithTitle:@"添加服务标签" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:[Tools whiteColor]];
-//            courseSignLabel.textInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-//            [self.view addSubview:courseSignLabel];
-//            [courseSignLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.top.equalTo(inputTitleTextView.mas_bottom).offset(20);
-//                make.centerX.equalTo(self.view);
-//                make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 44));
-//            }];
-//            courseSignLabel.userInteractionEnabled = YES;
-//            [courseSignLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didCourseSignLabelTap)]];
-//            
-//            access = [[UIImageView alloc]init];
-//            [self.view addSubview:access];
-//            access.image = IMGRESOURCE(@"plan_time_icon");
-//            [access mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.right.equalTo(courseSignLabel.mas_right).offset(-15);
-//                make.centerY.equalTo(courseSignLabel);
-//                make.size.mas_equalTo(CGSizeMake(15, 15));
-//            }];
-//            
-//            signLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
-//            [self.view addSubview:signLabel];
-//            [signLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.right.equalTo(access);
-//                make.centerY.equalTo(courseSignLabel);
-//            }];
-//            
-//            //服务标签show
-//            if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
-//                
-//            } else {
-//                
-//                NSString* coustomStr = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCoustom];
-//                if (coustomStr && ![coustomStr isEqualToString:@""]) {
-//                    access.hidden = YES;
-//                    signLabel.text = coustomStr;
-//                } else {
-//                    NSNumber* courseSign = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseSign];
-//                    if (courseSign) {
-//                        NSNumber *type = [titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat];
-//                        NSArray *courseAllArr = kAY_service_course_title_ofall;
-//                        NSArray *titleArr = [courseAllArr objectAtIndex:type.integerValue];
-//                        
-//                        if (courseSign.integerValue < titleArr.count) {
-//                            NSString *courseTitle = [titleArr objectAtIndex:courseSign.integerValue];
-//                            access.hidden = YES;
-//                            signLabel.text = courseTitle;
-//                        }
-//                    } else {
-//                        signLabel.hidden = YES;
-//                    }
-//                }
-//            }
-//            
-//            
-//        }
-//            break;
-//        default:
-//            break;
-//    }
 	self.view.userInteractionEnabled = YES;
 	UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere)];
 	[self.view addGestureRecognizer:tap];
@@ -252,7 +149,7 @@
 #pragma mark -- actions
 - (void)didCourseSignLabelTap {
     
-//    if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCourseCat]).intValue == -1) {
+//    if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCatSecondary]).intValue == -1) {
 //        kAYUIAlertView(@"提示", @"您需要重新设置服务主题，才能进行服务标签设置");
 //        return;
 //    }

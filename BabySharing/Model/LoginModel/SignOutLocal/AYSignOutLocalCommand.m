@@ -45,7 +45,6 @@
     
     NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc]init];
     [dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
-    //            [dic_show_module setValue:kAYControllerActionShowModuleValue forKey:kAYControllerActionKey];
     [dic_show_module setValue:rootContorller forKey:kAYControllerActionDestinationControllerKey];
     [dic_show_module setValue:self forKey:kAYControllerActionSourceControllerKey];
     

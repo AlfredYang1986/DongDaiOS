@@ -143,72 +143,20 @@
 	service_info = args;
 	
     NSString* photo_name = [[args objectForKey:@"images"] objectAtIndex:0];
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
-	[coverPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
-				  placeholderImage:IMGRESOURCE(@"default_image")];
-	
-	NSString *unitCat = @"UNIT";
-	NSArray *options_title_cans;
-	NSString *ownerName = [service_info objectForKey:kAYServiceArgsScreenName];
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
-	
-	if (service_cat.intValue == ServiceTypeNursery) {
-		unitCat = @"小时";
-		
-		options_title_cans = kAY_service_options_title_nursery;
-		//服务主题分类
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			titleLabel.text = @"该服务主题待调整";
-		} else {
-			NSString *themeStr = options_title_cans[cans_cat.integerValue];
-			titleLabel.text = [NSString stringWithFormat:@"%@的%@", ownerName,themeStr];
-		}
-		
-	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
-		unitCat = @"次";
-		
-		NSString *servCatStr = @"课程";
-		options_title_cans = kAY_service_options_title_course;
-		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
-		//服务主题分类
-		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
-			titleLabel.text = @"该服务主题待调整";
-		}
-		else {
-			
-			NSString *costomStr = [service_info objectForKey:kAYServiceArgsCourseCoustom];
-			if (costomStr && ![costomStr isEqualToString:@""]) {
-				titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, costomStr, servCatStr];
-				
-			} else {
-				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
-				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
-				if (cans.integerValue < signTitleArr.count) {
-					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
-					titleLabel.text = [NSString stringWithFormat:@"%@的%@%@", ownerName, courseSignStr, servCatStr];
-				} else {
-					titleLabel.text = @"该服务主题待调整";
-				}
-			}//是否自定义课程标签判断end
-		}
-	} else {
-		
-		NSLog(@"---null---");
-		titleLabel.text = @"该服务类型待调整";
+	if (photo_name) {
+		[coverPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
 	}
 	
-	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%@", price];
-	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
+	NSDictionary *data = [Tools montageServiceInfoWithServiceData:service_info];
+	titleLabel.text = [NSString stringWithFormat:@"%@的%@", [data objectForKey:kAYProfileArgsScreenName], [data objectForKey:@"montage"]];
+	
+	NSString *price = [data objectForKey:kAYServiceArgsPrice];
+	int length = (int)price.length;
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, [data objectForKey:@"unit"]];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
-	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
-	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
+	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.f], NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(0, length+1)];
+	[attributedText setAttributes:@{NSFontAttributeName:kAYFontLight(14.f), NSForegroundColorAttributeName :[Tools themeColor]} range:NSMakeRange(length + 1, priceStr.length - length - 1)];
 	priceLabel.attributedText = attributedText;
 	
     return nil;

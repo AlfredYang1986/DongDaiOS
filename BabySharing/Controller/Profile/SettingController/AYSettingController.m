@@ -20,6 +20,7 @@
 #import "AppDelegate.h"
 
 @implementation AYSettingController
+
 #pragma mark -- commands
 - (void)performWithResult:(NSObject**)obj {
     

@@ -60,9 +60,6 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
     id tmp = [querydata objectAtIndex:indexPath.row];
-//    id<AYCommand> cmd = [cell.commands objectForKey:@"setCellInfo:"];
-//    [cmd performWithResult:&tmp];
-    
     kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     
     cell.controller = self.controller;
@@ -71,7 +68,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 285;
+    return HOMECOMMONCELLHEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -80,12 +77,7 @@
     NSDictionary* info = nil;
     CURRENUSER(info)
     
-    id<AYCommand> des = nil;
-    if ([[tmp objectForKey:@"owner_id"] isEqualToString:[info objectForKey:@"user_id"]]) {
-        des = DEFAULTCONTROLLER(@"MainInfo");
-    } else {
-        des = DEFAULTCONTROLLER(@"ServicePage");
-    }
+    id<AYCommand> des = DEFAULTCONTROLLER(@"MainInfo");;
     
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];

@@ -143,7 +143,9 @@
 	dayLabel.textColor = [Tools garyColor];
 	abledSignView.hidden = YES;
 	selectedSignLabel.hidden = YES;
-	todaySignLabel.hidden = YES;
+	if (!todaySignLabel.hidden) {
+		todaySignLabel.hidden = NO;
+	}
 }
 
 - (void)setTodayStates {

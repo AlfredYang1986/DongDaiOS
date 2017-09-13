@@ -18,40 +18,33 @@
 
 
 @interface AYInputCoderController () <UINavigationControllerDelegate>
-@property (nonatomic, strong) NSString* phoneNo;
 @property (nonatomic, strong) NSString* reg_token;
 @end
 
 @implementation AYInputCoderController {
-    BOOL isChangeImg;
     CGRect keyBoardFrame;
 }
 
-@synthesize phoneNo = _phoneNo;
 @synthesize reg_token = _reg_token;
 
 #pragma mark -- commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary* argsValue = (NSDictionary*)[dic objectForKey:kAYControllerChangeArgsKey];
-        _phoneNo = [argsValue objectForKey:@"phoneNo"];
-        _reg_token = [argsValue objectForKey:@"reg_token"];
     }
 }
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools whiteColor];
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapElseWhere:)];
     [self.view addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	[super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
@@ -101,7 +94,6 @@
 }
 
 - (id)leftBtnSelected {
-    NSLog(@"pop view controller");
     
     NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
     [dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
@@ -113,118 +105,110 @@
 }
 
 - (id)rightBtnSelected {
-    
-    id<AYViewBase> view = [self.views objectForKey:@"LandingInputCoder"];
-    id<AYCommand> cmd = [view.commands objectForKey:@"hideKeyboard"];
-    [cmd performWithResult:nil];
-    
-    id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
-    id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"queryCurCoder:"];
-    NSString* input_coder = nil;
-    [cmd_coder performWithResult:&input_coder];
-    
-    NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
-    [dic_auth setValue:self.phoneNo forKey:@"phoneNo"];
-    [dic_auth setValue:self.reg_token forKey:@"reg_token"];
-    [dic_auth setValue:[Tools getDeviceUUID] forKey:@"uuid"];
-    [dic_auth setValue:input_coder forKey:@"code"];
-   
-    
-    AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
-    AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"AuthPhoneCode"];
-    [cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-           
-            NSDictionary* args = [result copy];
-            
-            AYModel* m = MODEL;
-            AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-            id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
-            [cmd performWithResult:&result];
-           
-            NSString* screen_name = [args objectForKey:@"screen_name"];
-            if ([screen_name isEqualToString:@""]) {
-                id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
-                NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
-                [dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-                [dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
-                [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-                [dic setValue:args forKey:kAYControllerChangeArgsKey];
-                id<AYCommand> cmd_push = PUSH;
-                [cmd_push performWithResult:&dic];
-
-            } else {
-                AYModel* m = MODEL;
-                AYFacade* f = [m.facades objectForKey:@"LoginModel"];
-                id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
-                [cmd performWithResult:&args];
-            }
-            
-        } else {
-            NSString* msg = [result objectForKey:@"message"];
-            if([msg isEqualToString:@"inputing validation code is not valid or not match to this phone number"]) {
-                NSString *title = @"动态密码错误,请重试";
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            } else {
-                NSString *title = @"验证动态密码失败，请检查网络是否正常连接";
-                AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-            }
-        }
-    }];
     return nil;
 }
 
 -(id)reReqConfirmCode:(id)args {
     NSDictionary *args_dic = (NSDictionary*)args;
-    _phoneNo = [args_dic objectForKey:@"phoneNo"];
     
     NSMutableDictionary* dic_coder = [[NSMutableDictionary alloc]init];
-    [dic_coder setValue:[args_dic objectForKey:@"phoneNo"] forKey:@"phoneNo"];
+    [dic_coder setValue:[args_dic objectForKey:kAYProfileArgsPhone] forKey:kAYProfileArgsPhone];
     
     AYFacade* f = [self.facades objectForKey:@"LandingRemote"];
     AYRemoteCallCommand* cmd_coder = [f.commands objectForKey:@"LandingReqConfirmCode"];
     [cmd_coder performWithResult:[dic_coder copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
         if (success) {
             NSLog(@"验证码已发送");//is_reg
+			NSDictionary *reg_info = [result objectForKey:@"reg"];
             AYModel* m = MODEL;
             AYFacade* f = [m.facades objectForKey:@"LoginModel"];
             id<AYCommand> cmd = [f.commands objectForKey:@"ChangeTmpUser"];
             [cmd performWithResult:&result];
-            _reg_token = [result objectForKey:@"reg_token"];
+            _reg_token = [reg_info objectForKey:@"reg_token"];
             
             id<AYViewBase> coder_view = [self.views objectForKey:@"LandingInputCoder"];
             id<AYCommand> cmd_coder = [coder_view.commands objectForKey:@"startConfirmCodeTimer"];
             [cmd_coder performWithResult:nil];
             
             id<AYViewBase> input = [self.views objectForKey:@"LandingInputCoder"];
-            NSNumber *is_reg = [result objectForKey:@"is_reg"];
+            NSNumber *is_reg = [reg_info objectForKey:@"is_reg"];
             if (is_reg.intValue == 0) {
-				
                 id<AYCommand> hide_cmd = [input.commands objectForKey:@"showNextBtnForNewUser"];
                 [hide_cmd performWithResult:nil];
-                
-            } else if (is_reg.intValue == 1) {
-				
+            }
+			else if (is_reg.intValue == 1) {
                 id<AYCommand> show_cmd = [input.commands objectForKey:@"showEnterBtnForOldUser"];
                 [show_cmd performWithResult:nil];
             }
-        }
+		} else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+		}
     }];
     return nil;
 }
 
--(id)queryCurPhoneNo:(NSString*)args {
-    return _phoneNo;
+- (id)AuthWithPhoneNoAndCode:(id)args {
+	
+	NSMutableDictionary* dic_auth = [[NSMutableDictionary alloc]init];
+	[dic_auth setValue:[args objectForKey:kAYProfileArgsPhone] forKey:kAYProfileArgsPhone];
+	[dic_auth setValue:self.reg_token forKey:@"reg_token"];
+	[dic_auth setValue:[args objectForKey:@"code"] forKey:@"code"];
+	
+	AYFacade* f_auth = [self.facades objectForKey:@"LandingRemote"];
+	AYRemoteCallCommand* cmd_auth = [f_auth.commands objectForKey:@"AuthPhoneCode"];
+	[cmd_auth performWithResult:[dic_auth copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+		if (success) {
+			
+			NSMutableDictionary *user = [[NSMutableDictionary alloc] initWithDictionary:[result objectForKey:@"user"]];
+			[user setValue:[result objectForKey:kAYCommArgsAuthToken] forKey:kAYCommArgsToken];
+			NSDictionary* args = [user copy];
+			NSDictionary *back_result = [user copy];
+			
+			AYModel* m = MODEL;
+			AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+			id<AYCommand> cmd = [f.commands objectForKey:@"ChangeRegUser"];
+			[cmd performWithResult:&back_result];
+			
+			NSString* screen_name = [args objectForKey:@"screen_name"];
+			if ([screen_name isEqualToString:@""]) {
+				id<AYCommand> inputName = DEFAULTCONTROLLER(@"InputName");
+				NSMutableDictionary* dic = [[NSMutableDictionary alloc]initWithCapacity:3];
+				[dic setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+				[dic setValue:inputName forKey:kAYControllerActionDestinationControllerKey];
+				[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+				[dic setValue:args forKey:kAYControllerChangeArgsKey];
+				id<AYCommand> cmd_push = PUSH;
+				[cmd_push performWithResult:&dic];
+				
+			} else {
+				AYModel* m = MODEL;
+				AYFacade* f = [m.facades objectForKey:@"LoginModel"];
+				id<AYCommand> cmd = [f.commands objectForKey:@"ChangeCurrentLoginUser"];
+				[cmd performWithResult:&args];
+			}
+			
+		} else {
+			NSString* msg = [result objectForKey:@"message"];
+			if([msg isEqualToString:@"电话号码或者验证码出错"]) {
+				NSString *title = @"动态密码不匹配,请重试";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			} else {
+				NSString *title = @"验证动态密码失败，请检查网络是否正常连接";
+				AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+			}
+		}
+	}];
+	return nil;
 }
 
-- (BOOL)prefersStatusBarHidden{
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
 - (id)CurrentLoginUserChanged:(id)args {
     NSLog(@"Notify args: %@", args);
     //    NSLog(@"TODO: 进入咚哒");
-   
+	
     UIViewController* cv = [Tools activityViewController];
     if (cv == self) {
         NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];

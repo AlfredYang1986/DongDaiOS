@@ -147,7 +147,7 @@
 	[dic_push setValue:kAYControllerActionShowModuleUpValue forKey:kAYControllerActionKey];
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-	[dic_push setValue:[querydata objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
+	[dic_push setValue:[[querydata objectForKey:@"owner"]objectForKey:kAYCommArgsUserID] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = SHOWMODULEUP;
 	[cmd performWithResult:&dic_push];

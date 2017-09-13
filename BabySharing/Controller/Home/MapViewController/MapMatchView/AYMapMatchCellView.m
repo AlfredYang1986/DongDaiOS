@@ -21,7 +21,9 @@
 @implementation AYMapMatchCellView {
 	
 //	UIImageView *userPhoto;
+	UIImageView *positionSignView;
 	UILabel *titleLabel;
+	UILabel *distanceLabel;
 	UILabel *priceLabel;
 	
 	UIImageView *coverImage;
@@ -103,35 +105,24 @@
 //	}];
 //	[self sendSubviewToBack:shadowView];
 	
-//	CGFloat photowidth = 30.f;
-//	userPhoto = [[UIImageView alloc]init];
-//	userPhoto.image = IMGRESOURCE(@"default_user");
-//	userPhoto.contentMode = UIViewContentModeScaleAspectFill;
-//	[Tools setViewBorder:userPhoto withRadius:photowidth*0.5 andBorderWidth:2.f andBorderColor:[Tools borderAlphaColor] andBackground:nil];
-//	[self addSubview:userPhoto];
-//	[userPhoto mas_makeConstraints:^(MASConstraintMaker *make) {
-//		make.left.equalTo(bgView).offset(10);
-//		make.top.equalTo(bgView).offset(10);
-//		make.size.mas_equalTo(CGSizeMake(photowidth, photowidth));
-//	}];
-//	photoIcon.userInteractionEnabled = YES;
-//	[photoIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(ownerIconTap:)]];
-	
-	UIImageView *positionSignView = [[UIImageView alloc]init];
+	positionSignView = [[UIImageView alloc]init];
 	[self addSubview:positionSignView];
-	positionSignView.image = IMGRESOURCE(@"home_icon_location");
+	positionSignView.image = IMGRESOURCE(@"home_icon_location_theme");
 	[positionSignView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(bgView).offset(10);
 		make.top.equalTo(bgView).offset(18);
 		make.size.mas_equalTo(CGSizeMake(10, 12));
 	}];
 	
+	distanceLabel = [Tools creatUILabelWithText:@"00m" andTextColor:[Tools RGB127GaryColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+	[self addSubview:distanceLabel];
+	
 	titleLabel = [Tools creatUILabelWithText:@"服务妈妈的主题服务" andTextColor:[Tools RGB127GaryColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(positionSignView.mas_right).offset(6);
 		make.centerY.equalTo(positionSignView);
-		make.right.equalTo(bgView).offset(-15);
+		make.right.equalTo(distanceLabel.mas_left).offset(-10);
 	}];
 	
 	coverImage = [[UIImageView alloc]init];
@@ -164,57 +155,77 @@
 	
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-}
-
 - (void)setService_info:(NSDictionary *)service_info {
-	_service_info = service_info;
+	_service_info = [service_info objectForKey:kAYServiceArgsInfo];
 	
-	id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-	AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-	NSString *pre = cmd.route;
+	NSDictionary *info_location = [_service_info objectForKey:kAYServiceArgsLocationInfo];
+	CLLocation *location_self = [service_info objectForKey:@"location_self"];
+	NSNumber *lat = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLatitude];
+	NSNumber *lon = [[info_location objectForKey:kAYServiceArgsPin] objectForKey:kAYServiceArgsLongtitude];
 	
-	NSString* photo_name = [[service_info objectForKey:@"images"] objectAtIndex:0];
-	[coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, photo_name]]
-					  placeholderImage:IMGRESOURCE(@"default_image")];
+	CLLocation *pinLocation = [[CLLocation alloc] initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+	CLLocationDistance meters = [location_self distanceFromLocation:pinLocation];
+	distanceLabel.text = [NSString stringWithFormat:@"%.lfm", meters];
+	[distanceLabel sizeToFit];
+	[distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.right.equalTo(self).offset(-35);
+		make.centerY.equalTo(positionSignView);
+//		make.width.mas_equalTo(distanceLabel.bounds.size.width);
+		make.width.mas_equalTo(0);
+	}];
 	
-//	NSString *screen_photo = [service_info objectForKey:kAYServiceArgsScreenPhoto];
-//	[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
-//					 placeholderImage:IMGRESOURCE(@"default_user")];
+	NSString *addressStr = [info_location objectForKey:kAYServiceArgsAddress];
+//	NSString *adjstAddrStr = [info_location objectForKey:kAYServiceArgsAdjustAddress];
+	if (addressStr && ![addressStr isEqualToString:@""]) {
+		NSString *stringPre = @"中国北京市";
+		if ([addressStr hasPrefix:stringPre]) {
+			addressStr = [addressStr stringByReplacingOccurrencesOfString:stringPre withString:@""];
+		}
+//		titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
+		titleLabel.text = addressStr;
+		[titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(positionSignView.mas_right).offset(6);
+			make.centerY.equalTo(positionSignView);
+			make.right.equalTo(distanceLabel.mas_left).offset(-10);
+		}];
+	}
 	
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	NSString *unitCat;
-	NSNumber *leastTimesOrHours;
-	if (service_cat.intValue == ServiceTypeNursery) {
+	NSString* photo_name = [_service_info objectForKey:kAYServiceArgsImages];
+	NSString *urlStr = [NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name];
+	[coverImage sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:IMGRESOURCE(@"default_image") /*options:SDWebImageRefreshCached*/];
+	
+	NSDictionary *info_cat = [_service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
+	NSString *unitCat = @"UNIT";
+	NSString *nameStr = [[_service_info objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+	if ([service_cat containsString:@"看"]) {
 		unitCat = @"小时";
-		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastHours];
+		
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+		descLabel.text = [NSString stringWithFormat:@"%@的%@", nameStr, compName];
+
 	}
-	else if (service_cat.intValue == ServiceTypeCourse) {
+	else if ([service_cat isEqualToString:kAYStringCourse]) {
 		unitCat = @"次";
-		leastTimesOrHours = [service_info objectForKey:kAYServiceArgsLeastTimes];
+		
+		NSString *compName = [info_cat objectForKey:kAYServiceArgsConcert];
+		if (!compName || [compName isEqualToString:@""]) {
+			compName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
+			if (!compName || [compName isEqualToString:@""]) {
+				compName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+			}
+		}
+		descLabel.text = [NSString stringWithFormat:@"%@的%@%@", nameStr, compName, service_cat];
+
 	} else {
-		unitCat = @"单价";
-		leastTimesOrHours = @1;
+		NSLog(@"---null---");
 	}
 	
-	
-	NSString *addressStr = [service_info objectForKey:kAYServiceArgsAddress];
-	NSString *adjstAddrStr = [service_info objectForKey:kAYServiceArgsAdjustAddress];
-	titleLabel.text = [NSString stringWithFormat:@"%@%@", addressStr, adjstAddrStr];
-	
-//	NSString *descStr = [service_info objectForKey:kAYServiceArgsDescription];
-	NSString *nameStr = [service_info objectForKey:kAYServiceArgsScreenName];
-	if (!nameStr || [nameStr isEqualToString:@""]) {
-		nameStr = @"DongDaUser";
-	}
-	NSString *compName = [Tools serviceCompleteNameFromSKUWith:service_info];
-	descLabel.text = [NSString stringWithFormat:@"%@的%@", nameStr, compName];
-	
-	NSNumber *price = [service_info objectForKey:kAYServiceArgsPrice];
-	NSString *tmp = [NSString stringWithFormat:@"%@", price];
+	NSDictionary *info_detail = [_service_info objectForKey:kAYServiceArgsDetailInfo];
+	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
+	NSString *tmp = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
 	int length = (int)tmp.length;
-	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", price, unitCat];
+	NSString *priceStr = [NSString stringWithFormat:@"¥%@/%@", tmp, unitCat];
 	
 	NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:priceStr];
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f], NSForegroundColorAttributeName :[Tools blackColor]} range:NSMakeRange(0, length+1)];
@@ -224,23 +235,12 @@
 }
 
 - (NSString *)ableDateStringWithTM:(NSDictionary*)dic_tm andTimeInterval:(NSTimeInterval)interval {
-//	NSNumber *stratNumb = [dic_tm objectForKey:kAYServiceArgsStartHours];
-//	NSNumber *endNumb = [dic_tm objectForKey:kAYServiceArgsEndHours];
-//	NSMutableString *timesStr = [NSMutableString stringWithFormat:@"%.4d-%.4d", stratNumb.intValue, endNumb.intValue];
-//	[timesStr insertString:@":" atIndex:2];
-//	[timesStr insertString:@":" atIndex:8];
 	
 	NSDate *ableDate = [NSDate dateWithTimeIntervalSince1970:interval];
 	NSDateFormatter *formatter = [Tools creatDateFormatterWithString:@"yyyy年MM月dd日,  EEE"];
 	NSString *dateStrPer = [formatter stringFromDate:ableDate];
 	return dateStrPer;
-//	return [NSString stringWithFormat:@"%@\n%@", dateStrPer, timesStr];
-	
 }
-
-//- (void)setServiceData:(NSArray *)serviceData {
-//	_serviceData = serviceData;
-//}
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {

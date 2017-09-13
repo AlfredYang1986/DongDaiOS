@@ -12,6 +12,8 @@
 #import <UIKit/UIKit.h>
 #import "AYViewController.h"
 
-@interface AYAppSettingDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+#import <StoreKit/StoreKit.h>
+
+@interface AYAppSettingDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource, SKStoreProductViewControllerDelegate>
 
 @end

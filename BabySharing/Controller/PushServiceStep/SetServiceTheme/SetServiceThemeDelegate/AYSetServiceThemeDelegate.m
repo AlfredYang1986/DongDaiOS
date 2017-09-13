@@ -11,9 +11,10 @@
 #import "AYFactoryManager.h"
 
 @implementation AYSetServiceThemeDelegate {
+	NSString *secondaryCat;
+	
     NSArray *titleArr;
 	NSString *setedCourseStr;
-	NSDictionary *queryData;
 }
 
 #pragma mark -- command
@@ -44,27 +45,21 @@
 
 #pragma marlk -- commands
 - (id)changeQueryData:(id)args {
-	queryData = args;
-    NSNumber *type = [args objectForKey:kAYServiceArgsServiceCat];
-    if (type.intValue == ServiceTypeNursery) {
-        titleArr = @[@"日间看顾", @"课后看顾"];
-    } else if (type.intValue == ServiceTypeCourse) {
-        titleArr = kAY_service_options_title_course;
+	
+    NSString *CatStr = [args objectForKey:kAYServiceArgsCat];
+	if ([CatStr isEqualToString:kAYStringNursery]) {
+		titleArr = kAY_service_options_title_nursery;
+	} else if ([CatStr isEqualToString:kAYStringCourse]) {
+		titleArr = kAY_service_options_title_course;
 		
-		NSNumber *canCatSep = [queryData objectForKey:kAYServiceArgsCourseCat];
-		if (canCatSep) {
-			NSArray *courseAllArr = kAY_service_course_title_ofall;
-			NSArray *cansArr = [courseAllArr objectAtIndex:canCatSep.integerValue];
-			
-			NSNumber *cansSep = [queryData objectForKey:kAYServiceArgsCourseSign];
-			if (cansSep) {
-				setedCourseStr = [cansArr objectAtIndex:cansSep.integerValue];
-			}
+		secondaryCat = [args objectForKey:kAYServiceArgsCatSecondary];
+		if (secondaryCat) {
+			setedCourseStr = [args objectForKey:kAYServiceArgsCatThirdly];
 		}
 		
-    } else {
-        titleArr = @[@"参数设置错误"];
-    }
+	} else {
+		titleArr = @[@"参数设置错误"];
+	}
 	
 	NSNumber *backArgs= [NSNumber numberWithInteger:titleArr.count];
     return backArgs;
@@ -81,17 +76,16 @@
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
     
     NSString *title = titleArr[indexPath.row];
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:title forKey:@"title"];
 		
-	if (((NSNumber*)[queryData objectForKey:kAYServiceArgsCourseCat]).integerValue == indexPath.row) {
+	if (secondaryCat && [titleArr indexOfObject:secondaryCat] == indexPath.row) {
 		[tmp setValue:setedCourseStr forKey:@"sub_title"];
 	}
 	
     kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     
     cell.controller = self.controller;
-    ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
 }
 
@@ -100,7 +94,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSNumber *tmp = [NSNumber numberWithInteger:indexPath.row];
+	NSString *tmp = [titleArr objectAtIndex:indexPath.row];
     kAYDelegateSendNotify(self, @"serviceThemeSeted:", &tmp)
 }
 

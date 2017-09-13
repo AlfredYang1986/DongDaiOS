@@ -26,7 +26,8 @@
 	
 	NSMutableDictionary *push_service_info;
 	NSMutableArray *offer_date;
-	NSString *service_id;
+	
+	NSDictionary *service_info;
 	
 	BOOL isChange;
 }
@@ -36,26 +37,32 @@
 	NSDictionary* dic = (NSDictionary*)*obj;
 	
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		NSDictionary *tmp = [dic objectForKey:kAYControllerChangeArgsKey];
+		id tmp = [dic objectForKey:kAYControllerChangeArgsKey];
 		
-		if ([tmp objectForKey:@"service_id"]) {
-			
-			if ([tmp objectForKey:@"tms"]) {
-				id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-				id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
-				id args = [tmp objectForKey:@"tms"];
-				
-				NSNumber *enddate = [[args firstObject] objectForKey:@"enddate"];
-				NSNumber *startdate = [[args firstObject] objectForKey:@"startdate"];
-				currentNumbCount = (enddate.doubleValue - startdate.doubleValue) * 0.001 / OneDayTimeInterval / 7;
-				
-				[cmd performWithResult:&args];
-				offer_date = [args mutableCopy];
-			}
-			
-			service_id = [tmp objectForKey:@"service_id"];
-		} else {
+		if ([tmp objectForKey:@"push"]) {
 			push_service_info = [tmp mutableCopy];
+			
+		} else {
+			service_info = [tmp copy];
+			
+			NSMutableDictionary *dic_query_tms = [Tools getBaseRemoteData];
+			[[dic_query_tms objectForKey:kAYCommArgsCondition] setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
+			
+			id<AYFacadeBase> facade = [self.facades objectForKey:@"TimeManagerRemote"];
+			AYRemoteCallCommand *cmd_query = [facade.commands objectForKey:@"TMsQuery"];
+			[cmd_query performWithResult:[dic_query_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+				if (success) {
+					id args = [[result objectForKey:kAYTimeManagerArgsSelf] objectForKey:kAYTimeManagerArgsTMs];
+					
+					id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+					id<AYCommand> cmd = [facade.commands objectForKey:@"ParseServiceTMProtocol"];
+					[cmd performWithResult:&args];
+					offer_date = [args mutableCopy];
+				} else {
+					AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+				}
+			}];
+			
 		}
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
@@ -68,11 +75,10 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	// Do any additional setup after loading the view.
 	
 	NSString *pushBtnTitleStr ;
 	NSString *titleStr;
-	if (service_id) {
+	if (service_info) {
 		titleStr = @"重新设定您的课程时间";
 		pushBtnTitleStr = @"确定";
 	} else {
@@ -238,7 +244,7 @@
 }
 
 - (void)didPushBtnClick {
-	if (service_id) {
+	if (service_info) {
 		[self updateServiceSchedule];
 	} else {
 		[self pushService];
@@ -269,41 +275,37 @@
 }
 
 - (void)updateServiceSchedule {
-	
-	NSMutableDictionary *update_info = [[NSMutableDictionary alloc]init];
-	[update_info setValue:service_id forKey:@"service_id"];
+	NSMutableDictionary *dic_update_tms = [Tools getBaseRemoteData];
+	[[dic_update_tms objectForKey:kAYCommArgsCondition] setValue:[service_info objectForKey:kAYServiceArgsID] forKey:kAYServiceArgsID];
 	
 	NSArray *reorganizeArr = [self reorganizeTM];
-	[update_info setValue:reorganizeArr forKey:@"tms"];
+	NSMutableDictionary *dic_tmng = [[NSMutableDictionary alloc] init];
+	[dic_tmng setValue:reorganizeArr forKey:kAYTimeManagerArgsTMs];
+	[dic_update_tms setValue:dic_tmng forKey:kAYTimeManagerArgsSelf];
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"KidNapRemote"];
-	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"UpdateMyServiceTM"];
-	[cmd_update performWithResult:[update_info copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"TimeManagerRemote"];
+	AYRemoteCallCommand *cmd_update = [facade.commands objectForKey:@"TMsUpdate"];
+	[cmd_update performWithResult:[dic_update_tms copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
 		if (success) {
-			
 			NSString *title = @"日程已修改";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
-			
-			NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-			kAYViewsSendMessage(@"FakeNavBar", @"setRightBtnVisibility:", &right_hidden);
-			
+			[self popToRootVCWithTip:title];
+		} else {
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 	}];
 }
 
 - (NSArray*) reorganizeTM {
 	
-	id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
-	id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
-	
 	NSMutableDictionary *args = [[NSMutableDictionary alloc] init];
 	[args setValue:[offer_date copy] forKey:@"offer_date"];
 	[args setValue:[NSNumber numberWithDouble:currentNumbCount * 7 * OneDayTimeInterval] forKey:@"timeinterval_start_end"];
 	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"Timemanagement"];
+	id<AYCommand> cmd = [facade.commands objectForKey:@"PushServiceTMProtocol"];
 	[cmd performWithResult:&args];
-	NSArray* result = (NSArray*)args;
-	NSLog(@"result is %@", result);
-	return result;
+	
+	return (NSArray*)args;
 }
 
 - (void)popToRootVCWithTip:(NSString*)tip {
@@ -331,7 +333,7 @@
 	NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
 	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
+//	[dic_pop setValue:[NSNumber numberWithBool:YES] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic_pop];

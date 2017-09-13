@@ -166,8 +166,10 @@
 - (id)setCellInfo:(id)args {
     
     NSDictionary *service_info = (NSDictionary*)args;
-    
-	NSDictionary *age_boundary = [service_info objectForKey:kAYServiceArgsAgeBoundary];
+	
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
+	
+	NSDictionary *age_boundary = [info_detail objectForKey:kAYServiceArgsAgeBoundary];
 	NSNumber *usl = ((NSNumber *)[age_boundary objectForKey:kAYServiceArgsAgeBoundaryUp]);
 	NSNumber *lsl = ((NSNumber *)[age_boundary objectForKey:kAYServiceArgsAgeBoundaryLow]);
 	NSString *ages = [NSString stringWithFormat:@"%d-%d岁",lsl.intValue,usl.intValue];
@@ -177,30 +179,19 @@
 	[attributedText setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11.f]} range:NSMakeRange(ages.length - 1, 1)];
 	filtBabyArgsLabel.attributedText = attributedText;
 
-	NSNumber *capacity = [service_info objectForKey:kAYServiceArgsCapacity];
-	capacityLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue];
+	NSNumber *capacity = [info_detail objectForKey:kAYServiceArgsCapacity];
+	capacityLabel.text = [NSString stringWithFormat:@"%d",capacity.intValue == 0 ? 1 : capacity.intValue];
 
 	NSString *servantCat = @"服务者数量";
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	 if (service_cat.intValue == ServiceTypeCourse) {
+	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *service_cat = [info_categ objectForKey:kAYServiceArgsCat];
+	if ([service_cat isEqualToString:kAYStringCourse]) {
 		servantCat = @"老师数量";
 	}
 	servantSignLabel.text = servantCat;
 	
-	NSNumber *servant = [service_info objectForKey:kAYServiceArgsServantNumb];
-	servantLabel.text = [NSString stringWithFormat:@"%d", servant.intValue];
-	
-//    NSNumber *cans = (NSNumber*)args;
-//    NSArray *options_title_cans = kAY_service_options_title_course;
-//    
-//    long options = cans.longValue;
-//    for (int i = 0; i < options_title_cans.count; ++i) {
-//        long note_pow = pow(2, i);
-//        if ((options & note_pow)) {
-//            themeLabel.text = [NSString stringWithFormat:@"%@",options_title_cans[i]];
-//            break;
-//        }
-//    }
+	NSNumber *servant = [info_detail objectForKey:kAYServiceArgsServantNumb];
+	servantLabel.text = [NSString stringWithFormat:@"%d", servant.intValue == 0 ? 1 : servant.intValue];
     
     return nil;
 }

@@ -66,8 +66,6 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 			make.bottom.equalTo(self).offset(-25);
             make.size.mas_equalTo(CGSizeMake(64, 64));
         }];
-//        userPhoto.userInteractionEnabled = YES;
-//        [userPhoto addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOwnerPhotoClick)]];
 		
         userName = [Tools creatUILabelWithText:@"UserName" andTextColor:[Tools blackColor] andFontSize:618.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:userName];
@@ -197,25 +195,12 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 }
 
 #pragma mark -- actions
-- (void)didOwnerPhotoClick {
-    id<AYCommand> des = DEFAULTCONTROLLER(@"OneProfile");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:[service_info objectForKey:@"owner_id"] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-    
-}
 
 #pragma mark -- notifies
 - (id)setCellInfo:(id)args {
     
     service_info = (NSDictionary*)args;
-    
+	
     id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
     AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
     NSString *pre = cmd.route;
@@ -227,55 +212,40 @@ static NSString* const hasNoPhoneNo = @"手机号码待验证";
 
 		userName.text = [user_info objectForKey:@"screen_name"];
 		NSString* photo_name = [user_info objectForKey:@"screen_photo"];
-		[userPhoto sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]]
-					 placeholderImage:IMGRESOURCE(@"default_user")];
+		if (photo_name && ![photo_name isEqualToString:@""]) {
+			[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",pre, photo_name]]
+						 placeholderImage:IMGRESOURCE(@"default_user")];
+		}
 		userPhoto.userInteractionEnabled = NO;
 
 	} else {
-
+		
+		NSDictionary *info_owner = [service_info objectForKey:@"owner"];
 		userPhoto.userInteractionEnabled = YES;
-		NSString *userNameStr = [service_info objectForKey:@"screen_name"];
+		NSString *userNameStr = [info_owner objectForKey:@"screen_name"];
 		if (userNameStr && ![userNameStr isEqualToString:@""]) {
 			userName.text = userNameStr;
 		}
-		NSString *screen_photo = [service_info objectForKey:@"screen_photo"];
-		[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
+		NSString *screen_photo = [info_owner objectForKey:kAYProfileArgsScreenPhoto];
+		if (screen_photo && ![screen_photo isEqualToString:@""]) {
+			[userPhoto sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", pre, screen_photo]]
 						 placeholderImage:IMGRESOURCE(@"default_user") /*options:SDWebImageRefreshCached*/];
-	}
-	
-	
-	if ([realNameLabel.text isEqualToString:isGettingCertData] && [phoneNoLabel.text isEqualToString:isGettingCertData]) {
+		}
 		
-		id<AYControllerBase> controller = DEFAULTCONTROLLER(@"Home");
-		id<AYFacadeBase> remote = [controller.facades objectForKey:@"ProfileRemote"];
-		AYRemoteCallCommand* cmd_query_user = [remote.commands objectForKey:@"QueryUserProfile"];
+		NSString *ownerName = [info_owner objectForKey:@"owner_name"];
+		if (ownerName && ![ownerName isEqualToString:@""]) {
+			realNameLabel.text = VerifiedRealName;
+			realNameSign.image = IMGRESOURCE(@"checked_icon");
+		} else {
+			realNameLabel.text = hasNoRealName;
+		}
 		
-		NSDictionary* user = nil;
-		CURRENUSER(user);
-		NSMutableDictionary* dic = [user mutableCopy];
-		[dic setValue:[service_info objectForKey:kAYCommArgsOwnerID] forKey:@"owner_user_id"];
-		
-		[cmd_query_user performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
-			if (success) {
-				
-				NSNumber *is_real_name_cert = [result objectForKey:@"is_real_name_cert"];
-				NSNumber *has_phone = [result objectForKey:@"has_phone"];
-				
-				if (is_real_name_cert.boolValue) {
-					realNameLabel.text = VerifiedRealName;
-					realNameSign.image = IMGRESOURCE(@"checked_icon");
-				} else {
-					realNameLabel.text = hasNoRealName;
-				}
-				
-				if (has_phone.boolValue) {
-					phoneNoLabel.text = VerifiedPhoneNo;
-					phoneNoSign.image = IMGRESOURCE(@"checked_icon");
-				} else
-					phoneNoLabel.text = hasNoPhoneNo;
-				
-			}
-		}];
+		NSString *contcatNo = [info_owner objectForKey:kAYProfileArgsContactNo];
+		if (contcatNo && ![contcatNo isEqualToString:@""]) {
+			phoneNoLabel.text = VerifiedPhoneNo;
+			phoneNoSign.image = IMGRESOURCE(@"checked_icon");
+		} else
+			phoneNoLabel.text = hasNoPhoneNo;
 	}
 	
     return nil;

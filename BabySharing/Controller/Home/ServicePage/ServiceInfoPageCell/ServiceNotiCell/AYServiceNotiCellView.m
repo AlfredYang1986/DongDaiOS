@@ -71,7 +71,7 @@
 		[otherWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(allowLabel);
 			make.right.equalTo(self).offset(-15);
-			make.centerY.equalTo(otherSignView);
+			make.top.equalTo(otherSignView.mas_centerY).offset(-8);
 			make.bottom.equalTo(self).offset(-20);
 		}];
 //		otherWordLabel.hidden = YES;
@@ -143,15 +143,16 @@
 - (id)setCellInfo:(id)args {
 	
 	NSDictionary *service_info = args;
+	NSDictionary *info_detail = [service_info objectForKey:kAYServiceArgsDetailInfo];
 	
 	NSString *leaveStr = @"不需要家长陪同";
-	NSNumber *isAllow = [service_info objectForKey:kAYServiceArgsAllowLeave];
+	NSNumber *isAllow = [info_detail objectForKey:kAYServiceArgsAllowLeave];
 	if (isAllow.boolValue) {
 		leaveStr = @"需要家长陪同";
 	}
 	allowLabel.text = leaveStr;
 	
-	NSString *otherWords = [service_info objectForKey:kAYServiceArgsNotice];
+	NSString *otherWords = [info_detail objectForKey:kAYServiceArgsNotice];
 	if (!otherWords || [otherWords isEqualToString:@""]) {
 		[allowLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
 			make.right.equalTo(self).offset(-15);
@@ -159,14 +160,9 @@
 			make.centerY.equalTo(allowSignView);
 			make.bottom.equalTo(self).offset(-30);
 		}];
-		
 		otherSignView.hidden = otherWordLabel.hidden = YES;
-	} else {
-		
-//		NSString *noticeStr = [NSString stringWithFormat:@"·  %@", otherWords];
-//		if ([noticeStr containsString:@"\n"]) {
-//			noticeStr = [noticeStr stringByReplacingOccurrencesOfString:@"\n" withString:@"\n·  "];
-//		}
+	}
+	else {
 		otherWordLabel.text = otherWords;
 	}
 	

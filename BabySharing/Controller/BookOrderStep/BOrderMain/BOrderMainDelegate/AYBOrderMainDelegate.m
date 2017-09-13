@@ -190,7 +190,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //	if (indexPath.section == 1) {
 //		
-//		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
+//		NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
 //		if (service_cat.intValue == ServiceTypeCourse) {
 //			return;
 //		}

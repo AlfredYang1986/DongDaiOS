@@ -83,8 +83,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     //配置用户Key
     [AMapSearchServices sharedServices].apiKey = kAMapApiKey;
@@ -275,7 +273,6 @@
 - (void)startLocation {
     
     //授权使用定位服务
-//    [self.manager requestAlwaysAuthorization];
     [self.manager requestWhenInUseAuthorization];
     //定位精度
     self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;

@@ -9,6 +9,10 @@
 #import "Tools.h"
 #import <CommonCrypto/CommonDigest.h>
 
+#import "AYCommandDefines.h"
+#import "AYFacadeBase.h"
+#import "AYFactoryManager.h"
+
 @implementation Tools
 
 + (NSString *)subStringWithByte:(NSInteger)byte str:(NSString *)str{
@@ -310,6 +314,15 @@
     
     return result;
 }
++ (NSString*)getUUIDString {
+	
+	CFUUIDRef puuid = CFUUIDCreate( nil );
+	CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
+	NSString * result = (NSString *)CFBridgingRelease(CFStringCreateCopy( NULL, uuidString));
+	CFRelease(puuid);
+	CFRelease(uuidString);
+	return result;
+}
 
 + (NSString*)getDeviceUUID {
     return [[UIDevice currentDevice].identifierForVendor UUIDString];
@@ -420,7 +433,7 @@
 }
 
 + (UIColor*)blackColor {
-    return [UIColor colorWithRed:89.0/255.0 green:89.0/255.0 blue:89.0/255.0 alpha:1.0];
+    return [UIColor colorWithRed:64.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];
 }
 
 + (UIColor*)whiteColor {
@@ -474,7 +487,9 @@
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align {
     
     UILabel *label = [UILabel new];
-    label.text = text;
+	if (text){
+		label.text = text;
+	}
     label.textColor = color;
     label.textAlignment = align;
 	
@@ -497,31 +512,12 @@
 /**
  *  设置btn的 title color fontSize(正常数值为细体,大于100为粗体,-负数为正常粗细) background align
  */
-+ (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
-    
-    [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:TitleColor forState:UIControlStateNormal];
-    
-    if (font < 0) {
-        btn.titleLabel.font = [UIFont systemFontOfSize:-font];
-    } else if (font > 100.f) {
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:(font - 100)];
-    } else {
-        btn.titleLabel.font = kAYFontLight(font);
-    }
-    
-    if (backgroundColor) {
-        btn.backgroundColor = backgroundColor;
-    } else
-        btn.backgroundColor = [UIColor clearColor];
-    
-    return btn;
-}
-
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor {
     
     UIButton *btn = [UIButton new];
-    [btn setTitle:title forState:UIControlStateNormal];
+	if (title) {
+		[btn setTitle:title forState:UIControlStateNormal];
+	}
     [btn setTitleColor:TitleColor forState:UIControlStateNormal];
 	
 	if (font > 600.f) {
@@ -552,6 +548,17 @@
 	if (backColor) {
 		view.backgroundColor = backColor;
 	}
+}
+
++ (void)setShadowOfView:(UIView*)view withViewRadius:(CGFloat)radius_v andColor:(UIColor*)color andOffset:(CGSize)size andOpacity:(CGFloat)opacity andShadowRadius:(CGFloat)radius_s {
+	
+	if (radius_v != 0) {
+		view.layer.cornerRadius = radius_v;
+	}
+	view.layer.shadowColor = color.CGColor;
+	view.layer.shadowOffset = size;
+	view.layer.shadowRadius = radius_s;
+	view.layer.shadowOpacity = opacity;
 }
 
 #pragma mark -- CALayer
@@ -681,11 +688,54 @@
 	
 }
 
++ (NSDictionary*)montageServiceInfoWithServiceData:(NSDictionary*)serviceData {
+	
+	NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+	
+	NSDictionary *info_cat = [serviceData objectForKey:kAYServiceArgsCategoryInfo];
+	
+	NSString *ownerName = [[serviceData objectForKey:@"owner"] objectForKey:kAYProfileArgsScreenName];
+	
+	[data setValue:ownerName forKey:kAYProfileArgsScreenName];
+	NSString *motageName = @"SERVICE";
+	NSString *unitCat = @"UNIT";
+	NSString *service_cat = [info_cat objectForKey:kAYServiceArgsCat];
+	if ([service_cat containsString:@"看"]) {
+		unitCat = @"小时";
+		motageName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+	}
+	else if ([service_cat isEqualToString:kAYStringCourse]) {
+		unitCat = @"次";
+		
+		motageName = [info_cat objectForKey:kAYServiceArgsConcert];
+		if (!motageName || [motageName isEqualToString:@""]) {
+			motageName = [info_cat objectForKey:kAYServiceArgsCatThirdly];
+			if (!motageName || [motageName isEqualToString:@""]) {
+				motageName = [info_cat objectForKey:kAYServiceArgsCatSecondary];
+			}
+		}
+		motageName = [NSString stringWithFormat:@"%@%@", motageName, service_cat];
+
+	} else {
+		NSLog(@"---null---");
+	}
+	
+	NSDictionary *info_detail = [serviceData objectForKey:kAYServiceArgsDetailInfo];
+	NSNumber *price = [info_detail objectForKey:kAYServiceArgsPrice];
+	NSString *priceStr = [NSString stringWithFormat:@"%.f", price.intValue * 0.01];
+	
+	[data setValue:motageName forKey:@"montage"];
+	[data setValue:priceStr forKey:kAYServiceArgsPrice];
+	[data setValue:unitCat forKey:@"unit"];
+	
+	return [data copy];
+}
+
 + (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary *)service_info {
 	NSString *completeTheme;
 	NSArray *options_title_cans;
-	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsServiceCat];
-	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCourseCat];
+	NSNumber *service_cat = [service_info objectForKey:kAYServiceArgsCat];
+	NSNumber *cans_cat = [service_info objectForKey:kAYServiceArgsCatSecondary];
 	
 	if (service_cat.intValue == ServiceTypeNursery) {
 		
@@ -702,7 +752,7 @@
 		
 		NSString *servCatStr = @"课程";
 		options_title_cans = kAY_service_options_title_course;
-		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCourseSign];
+		NSNumber *cans = [service_info objectForKey:kAYServiceArgsCatThirdly];
 		//kecheng服务主题分类
 		if (cans_cat.intValue == -1 || cans_cat.integerValue >= options_title_cans.count) {
 			completeTheme = @"待调整主题服务";
@@ -714,8 +764,8 @@
 				completeTheme = [NSString stringWithFormat:@"%@%@", costomStr, servCatStr];
 				
 			} else {
-				NSArray *courseTitleOfAll = kAY_service_course_title_ofall;
-				NSArray *signTitleArr = [courseTitleOfAll objectAtIndex:cans_cat.integerValue];
+				NSDictionary *courseTitleOfAll = kAY_service_course_title_ofall;
+				NSArray *signTitleArr = [courseTitleOfAll objectForKey:cans_cat];
 				if (cans.integerValue < signTitleArr.count) {
 					NSString *courseSignStr = [signTitleArr objectAtIndex:cans.integerValue];
 					completeTheme = [NSString stringWithFormat:@"%@%@", courseSignStr, servCatStr];
@@ -731,4 +781,18 @@
 	}
 	return completeTheme;
 }
+
+
++ (NSMutableDictionary*)getBaseRemoteData {
+	NSDictionary* user = nil;
+	CURRENUSER(user);
+	
+	NSMutableDictionary *dic_remote = [[NSMutableDictionary alloc] init];;
+	[dic_remote setValue:[user objectForKey:kAYCommArgsToken] forKey:kAYCommArgsToken];
+	/*condition*/
+	[dic_remote setValue:[[NSMutableDictionary alloc] init] forKey:kAYCommArgsCondition];
+	
+	return dic_remote;
+}
+
 @end

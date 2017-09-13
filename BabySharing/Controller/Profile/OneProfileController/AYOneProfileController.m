@@ -59,8 +59,6 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [Tools garyBackgroundColor];
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
     id<AYDelegateBase> cmd_collect = [self.delegates objectForKey:@"OneProfile"];
     id obj = (id)cmd_collect;
@@ -93,28 +91,27 @@
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, userPhotoInitHeight));
     }];
     
-    id<AYFacadeBase> remote = [self.facades objectForKey:@"ProfileRemote"];
-    AYRemoteCallCommand* cmd = [remote.commands objectForKey:@"QueryUserProfile"];
-    NSDictionary* user = nil;
-    CURRENUSER(user);
-    
-    NSMutableDictionary* dic = [user mutableCopy];
-    [dic setValue:owner_id forKey:@"owner_user_id"];
-    [cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+	NSMutableDictionary* dic = [Tools getBaseRemoteData];
+//	NSString* owner_id = [[service_info objectForKey:@"owner"] objectForKey:kAYCommArgsUserID];
+	[[dic objectForKey:kAYCommArgsCondition] setValue:owner_id  forKey:kAYCommArgsUserID];
+	
+	id<AYFacadeBase> facade = [self.facades objectForKey:@"ProfileRemote"];
+	AYRemoteCallCommand* cmd = [facade.commands objectForKey:@"QueryUserProfile"];
+	[cmd performWithResult:[dic copy] andFinishBlack:^(BOOL success, NSDictionary* result) {
         if (success) {
-            
-            NSDictionary *tmp = [result copy];
+			NSDictionary *info_prifole = [result objectForKey:kAYProfileArgsSelf];
+			
+            id tmp = [info_prifole copy];
             kAYDelegatesSendMessage(@"OneProfile", @"changeQueryData:", &tmp)
             kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
             
-            NSString *title = [result objectForKey:@"screen_name"];
+            NSString *title = [info_prifole objectForKey:@"screen_name"];
             kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
             
-            NSString* photo_name = [result objectForKey:@"screen_photo"];
-            id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-            AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-            NSString *pre = cmd.route;
-            [coverImg sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+            NSString* photo_name = [info_prifole objectForKey:@"screen_photo"];
+			if(photo_name) {
+				[coverImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
+			}
         }
     }];
     

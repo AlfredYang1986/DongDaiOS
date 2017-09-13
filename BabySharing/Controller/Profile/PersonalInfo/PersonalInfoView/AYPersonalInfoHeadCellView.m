@@ -33,17 +33,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-//        userImageView = [UIImageView new];
-//        userImageView.image = IMGRESOURCE(@"default_image");
-//        userImageView.contentMode = UIViewContentModeScaleAspectFill;
-//        userImageView.clipsToBounds = YES;
-//        [self addSubview:userImageView];
-//        [userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self);
-//            make.centerX.equalTo(self);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 250));
-//        }];
-        
         nameLabel = [Tools creatUILabelWithText:@"服务者" andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:nameLabel];
         [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -51,7 +40,7 @@
             make.top.equalTo(self).offset(20);
         }];
 		
-        registTimeLabel = [Tools creatUILabelWithText:@"注册时间：2015年7月" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        registTimeLabel = [Tools creatUILabelWithText:@"Registration date" andTextColor:[Tools garyColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:registTimeLabel];
         [registTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
@@ -136,13 +125,6 @@
 
 #pragma mark -- messages
 - (id)setCellInfo:(id)args {
-    
-//    NSString* photo_name = [args objectForKey:@"screen_photo"];
-//    
-//    id<AYFacadeBase> f = DEFAULTFACADE(@"FileRemote");
-//    AYRemoteCallCommand* cmd = [f.commands objectForKey:@"DownloadUserFiles"];
-//    NSString *pre = cmd.route;
-//    [userImageView sd_setImageWithURL:[NSURL URLWithString:[pre stringByAppendingString:photo_name]] placeholderImage:IMGRESOURCE(@"default_image")];
     
     nameLabel.text = [args objectForKey:@"screen_name"];
     

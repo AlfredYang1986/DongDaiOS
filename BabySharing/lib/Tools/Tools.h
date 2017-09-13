@@ -23,6 +23,8 @@
 + (NSString *)compareFutureTime:(NSDate *)compareDate;
 
 + (NSString*)getDeviceUUID;
++ (NSString*)getUUIDString;
+
 + (UIViewController *)activityViewController;
 + (UIViewController *)activityViewController2;
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
@@ -51,11 +53,11 @@
 + (UIColor *)borderAlphaColor;
 
 #pragma mark -- UIView
-+ (UIButton*)setButton:(UIButton*)btn withTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 + (UILabel*)creatUILabelWithText:(NSString*)text andTextColor:(UIColor*)color andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor andTextAlignment:(NSTextAlignment)align;
 + (UIButton*)creatUIButtonWithTitle:(NSString*)title andTitleColor:(UIColor*)TitleColor andFontSize:(CGFloat)font andBackgroundColor:(UIColor*)backgroundColor;
 
 + (void)setViewBorder:(UIView*)view withRadius:(CGFloat)radius andBorderWidth:(CGFloat)width andBorderColor:(UIColor*)color andBackground:(UIColor*)backColor;
++ (void)setShadowOfView:(UIView*)view withViewRadius:(CGFloat)radius_v andColor:(UIColor*)color andOffset:(CGSize)size andOpacity:(CGFloat)opacity andShadowRadius:(CGFloat)radius_s;
 
 #pragma mark -- CALayer
 + (void)addBtmLineWithMargin:(CGFloat)margin andAlignment:(NSInteger)alignment andColor:(UIColor*)lineColor inSuperView:(UIView*)superView;
@@ -73,9 +75,11 @@
 #pragma mark -- service SKU -> complete name
 + (NSString*)serviceCompleteNameFromSKUWith:(NSDictionary*)service_info;
 
++ (NSDictionary*)montageServiceInfoWithServiceData:(NSDictionary*)serviceData;
+
 + (NSString*)Bit64String:(NSString*)string;
 
-
++ (NSMutableDictionary*)getBaseRemoteData;
 
 + (UIImage*)SourceImageWithRect:(CGRect)rc fromView:(UIView*)view;
 + (UIImage*)splitImage:(UIImage *)image from:(CGFloat)height left:(UIImage**)pImg;
