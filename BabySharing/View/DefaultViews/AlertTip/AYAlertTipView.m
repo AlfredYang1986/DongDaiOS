@@ -9,7 +9,6 @@
 #import "AYAlertTipView.h"
 #import "AYCommandDefines.h"
 #import "AYResourceManager.h"
-#import "Tools.h"
 #import "AYAlertView.h"
 
 @implementation AYAlertTipView

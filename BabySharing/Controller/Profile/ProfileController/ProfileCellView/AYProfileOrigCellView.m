@@ -31,28 +31,21 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:17.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+        titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:317.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
             make.left.equalTo(self).offset(20);
         }];
         
-        CALayer *separtor = [CALayer layer];
-        separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
-        separtor.backgroundColor = [Tools garyLineColor].CGColor;
-        [self.layer addSublayer:separtor];
-        
+		[Tools addBtmLineWithMargin:20.f andAlignment:NSTextAlignmentCenter andColor:[Tools garyLineColor] inSuperView:self];
+		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
     }
     
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
 }
 
 #pragma mark -- life cycle

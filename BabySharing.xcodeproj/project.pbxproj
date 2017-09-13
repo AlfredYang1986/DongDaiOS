@@ -147,6 +147,7 @@
 		701B9C401E5EBA33001B0517 /* AYSetCourseSignDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 701B9C3B1E5EBA33001B0517 /* AYSetCourseSignDelegate.m */; };
 		701B9C411E5EBA33001B0517 /* AYSetCourseSignCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701B9C3E1E5EBA33001B0517 /* AYSetCourseSignCellView.m */; };
 		701BB6051E0BC88D00319A54 /* AYPServsCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701BB6041E0BC88D00319A54 /* AYPServsCellView.m */; };
+		701CA4341F694E7300C2112D /* AYValidatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 701CA4331F694E7300C2112D /* AYValidatingView.m */; };
 		701D8A321CA7999A00B5D4C1 /* remote.xml in Resources */ = {isa = PBXBuildFile; fileRef = 701D8A311CA7999A00B5D4C1 /* remote.xml */; };
 		701D8A361CA7A96200B5D4C1 /* AYRemoteCallFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */; };
 		701D8A561CA7B9C200B5D4C1 /* AYFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 701D8A431CA7B9C200B5D4C1 /* AYFacade.m */; };
@@ -448,7 +449,6 @@
 		7056BA221F1F2BF400386E3A /* AYServantHistoryCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056B9DB1F1F2BF400386E3A /* AYServantHistoryCellView.m */; };
 		7056BA311F1F2C1900386E3A /* AYProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056BA251F1F2C1900386E3A /* AYProfileController.m */; };
 		7056BA321F1F2C1900386E3A /* AYProfileHeadCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056BA281F1F2C1900386E3A /* AYProfileHeadCellView.m */; };
-		7056BA331F1F2C1900386E3A /* AYProfileHeadCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7056BA291F1F2C1900386E3A /* AYProfileHeadCellView.xib */; };
 		7056BA341F1F2C1900386E3A /* AYProfileOrigCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056BA2B1F1F2C1900386E3A /* AYProfileOrigCellView.m */; };
 		7056BA351F1F2C1900386E3A /* AYProfileServCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056BA2D1F1F2C1900386E3A /* AYProfileServCellView.m */; };
 		7056BA361F1F2C1900386E3A /* AYProfileDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7056BA301F1F2C1900386E3A /* AYProfileDelegate.m */; };
@@ -1110,6 +1110,8 @@
 		701B9C3E1E5EBA33001B0517 /* AYSetCourseSignCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetCourseSignCellView.m; sourceTree = "<group>"; };
 		701BB6031E0BC88D00319A54 /* AYPServsCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPServsCellView.h; sourceTree = "<group>"; };
 		701BB6041E0BC88D00319A54 /* AYPServsCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYPServsCellView.m; sourceTree = "<group>"; };
+		701CA4321F694E7300C2112D /* AYValidatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYValidatingView.h; sourceTree = "<group>"; };
+		701CA4331F694E7300C2112D /* AYValidatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYValidatingView.m; sourceTree = "<group>"; };
 		701D8A311CA7999A00B5D4C1 /* remote.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = remote.xml; sourceTree = "<group>"; };
 		701D8A341CA7A96200B5D4C1 /* AYRemoteCallFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallFactory.h; sourceTree = "<group>"; };
 		701D8A351CA7A96200B5D4C1 /* AYRemoteCallFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteCallFactory.m; sourceTree = "<group>"; };
@@ -1719,7 +1721,6 @@
 		7056BA251F1F2C1900386E3A /* AYProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfileController.m; sourceTree = "<group>"; };
 		7056BA271F1F2C1900386E3A /* AYProfileHeadCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfileHeadCellView.h; sourceTree = "<group>"; };
 		7056BA281F1F2C1900386E3A /* AYProfileHeadCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfileHeadCellView.m; sourceTree = "<group>"; };
-		7056BA291F1F2C1900386E3A /* AYProfileHeadCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYProfileHeadCellView.xib; sourceTree = "<group>"; };
 		7056BA2A1F1F2C1900386E3A /* AYProfileOrigCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfileOrigCellView.h; sourceTree = "<group>"; };
 		7056BA2B1F1F2C1900386E3A /* AYProfileOrigCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYProfileOrigCellView.m; sourceTree = "<group>"; };
 		7056BA2C1F1F2C1900386E3A /* AYProfileServCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYProfileServCellView.h; sourceTree = "<group>"; };
@@ -3635,6 +3636,7 @@
 		7017F32F1CB74F31002C416E /* DefaultViews */ = {
 			isa = PBXGroup;
 			children = (
+				701CA4311F694E1E00C2112D /* ValidateView */,
 				70125A0C1E0AA0770082C76B /* CollectionView */,
 				700F15CC1D73D4E800B1CACF /* AlertTip */,
 				70CDF6091CBCBD8C00311841 /* Album */,
@@ -3716,6 +3718,15 @@
 				701B9C3E1E5EBA33001B0517 /* AYSetCourseSignCellView.m */,
 			);
 			path = SetCourseSignView;
+			sourceTree = "<group>";
+		};
+		701CA4311F694E1E00C2112D /* ValidateView */ = {
+			isa = PBXGroup;
+			children = (
+				701CA4321F694E7300C2112D /* AYValidatingView.h */,
+				701CA4331F694E7300C2112D /* AYValidatingView.m */,
+			);
+			path = ValidateView;
 			sourceTree = "<group>";
 		};
 		701D8A331CA7A95000B5D4C1 /* RemoteCallFactory */ = {
@@ -6041,7 +6052,6 @@
 			children = (
 				7056BA271F1F2C1900386E3A /* AYProfileHeadCellView.h */,
 				7056BA281F1F2C1900386E3A /* AYProfileHeadCellView.m */,
-				7056BA291F1F2C1900386E3A /* AYProfileHeadCellView.xib */,
 				7056BA2A1F1F2C1900386E3A /* AYProfileOrigCellView.h */,
 				7056BA2B1F1F2C1900386E3A /* AYProfileOrigCellView.m */,
 				7056BA2C1F1F2C1900386E3A /* AYProfileServCellView.h */,
@@ -6473,16 +6483,8 @@
 			children = (
 				7074A45E1F382B6900BFFB48 /* AYConfirmRealNameController.h */,
 				7074A45F1F382B6900BFFB48 /* AYConfirmRealNameController.m */,
-				7074A4601F382B6900BFFB48 /* confirmRealNameView */,
 			);
 			path = ConfirmRealName;
-			sourceTree = "<group>";
-		};
-		7074A4601F382B6900BFFB48 /* confirmRealNameView */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = confirmRealNameView;
 			sourceTree = "<group>";
 		};
 		7074A4611F382B6900BFFB48 /* ConfirmSNS */ = {
@@ -9070,7 +9072,6 @@
 				7053F4CD1D62E4B700947F0C /* AYOneProfileContentCellView.xib in Resources */,
 				7056B9ED1F1F2BF400386E3A /* AYOrderDateCellView.xib in Resources */,
 				70C41F1F1DBA190F00C77B10 /* privacy.html in Resources */,
-				7056BA331F1F2C1900386E3A /* AYProfileHeadCellView.xib in Resources */,
 				702E7AB91CA169E30097867E /* command.xml in Resources */,
 				702E7AB31CA1698A0097867E /* facade.xml in Resources */,
 				70EAD80C1CA662EF007965D2 /* model.xml in Resources */,
@@ -9311,6 +9312,7 @@
 				702510A01CC0F5AB00DADF2B /* Notifications+CoreDataProperties.m in Sources */,
 				70231ADD1E3061150025E087 /* AYNapLocationDelegate.m in Sources */,
 				70DCA6961D6E949700D417FE /* AYAlertView.m in Sources */,
+				701CA4341F694E7300C2112D /* AYValidatingView.m in Sources */,
 				7000CD1A1D7E8A5200DA98F2 /* MJRefreshBackFooter.m in Sources */,
 				70CAEC581DEDA8F700542C1D /* AYSetServiceThemeDelegate.m in Sources */,
 				7056BA311F1F2C1900386E3A /* AYProfileController.m in Sources */,

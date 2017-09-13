@@ -51,39 +51,31 @@
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGesture:)];
     [self.view addGestureRecognizer:tap];
     
-    UILabel *title = [Tools creatUILabelWithText:@"首先,我们需要通过手机验证" andTextColor:[Tools blackColor] andFontSize:320.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    UILabel *title = [Tools creatUILabelWithText:@"手机号码验证" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:title];
     [title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(100);
         make.left.equalTo(self.view).offset(20);
     }];
-    
-    UILabel *descLabel = [Tools creatUILabelWithText:@"手机验证可以让您及时和家长沟通" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    descLabel.numberOfLines = 0;
-    [self.view addSubview:descLabel];
-    [descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(title.mas_bottom).offset(8);
-        make.left.equalTo(title);
-    }];
    
     UIView* input_view = [self.views objectForKey:@"PhoneCheckInput"];
     input_view.backgroundColor = [UIColor clearColor];
     [input_view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(descLabel.mas_bottom).offset(50);
+        make.top.equalTo(title.mas_bottom).offset(60);
         make.left.equalTo(self.view).offset(20);
         make.right.equalTo(self.view).offset(-20);
         make.height.mas_equalTo(input_view.frame.size.height);
     }];
 	
-	UIButton *nextBtn = [[UIButton alloc]init];
-	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
-	[self.view addSubview:nextBtn];
-	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(input_view.mas_bottom).offset(30);
-		make.right.equalTo(input_view);
-		make.size.mas_equalTo(CGSizeMake(50, 50));
-	}];
-	[nextBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
+//	UIButton *nextBtn = [[UIButton alloc]init];
+//	[nextBtn setImage:IMGRESOURCE(@"loginstep_next_icon") forState:UIControlStateNormal];
+//	[self.view addSubview:nextBtn];
+//	[nextBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//		make.top.equalTo(input_view.mas_bottom).offset(30);
+//		make.right.equalTo(input_view);
+//		make.size.mas_equalTo(CGSizeMake(50, 50));
+//	}];
+//	[nextBtn addTarget:self action:@selector(rightBtnSelected) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -107,8 +99,12 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
+	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
+	btn_right.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+	
+//	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
+//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
 	
     return nil;
 }
@@ -243,6 +239,12 @@
     }
 
     return nil;
+}
+
+- (id)setRightBtnEnabled {
+	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
+	return nil;
 }
 
 #pragma mark -- Keyboard facade

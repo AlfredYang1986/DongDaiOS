@@ -563,7 +563,12 @@ typedef void(^queryContentFinish)(void);
 			kAYDelegatesSendMessage(@"Home", kAYDelegateChangeDataMessage, &tmp)
 			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			NSString *message = [result objectForKey:@"message"];
+			if([message isEqualToString:@"token过期"]) {
+				NSString *tip = @"当前用户登录实效已过期，请重新登录";
+				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+			} else
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		[view_table.mj_header endRefreshing];

@@ -67,6 +67,7 @@
             
             AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
             BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
+			
             NSMutableDictionary *tmp = [user_info mutableCopy];
             [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
             kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
@@ -116,37 +117,27 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    {
-        id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
-        id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
-        
-        id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-        id obj = (id)cmd_notify;
-        [cmd_datasource performWithResult:&obj];
-        
-        id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-        obj = (id)cmd_notify;
-        [cmd_delegate performWithResult:&obj];
-        
-        id<AYCommand> cmd_cell = [view_notify.commands objectForKey:@"registerCellWithNib:"];
-        NSString* nib_name = @"AYProfileHeadCellView";
-        [cmd_cell performWithResult:&nib_name];
-        
-        id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-        NSString* class_name = @"AYProfileOrigCellView";
-        [cmd_class performWithResult:&class_name];
-        
-        AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
-        BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
-        
-        NSDictionary *user_info = nil;
-        CURRENPROFILE(user_info)
-        
-        NSMutableDictionary *tmp = [user_info mutableCopy];
-        [tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
-        kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
-    }
+	
+	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"Profile"];
+	id obj = (id)cmd_notify;
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
+	obj = (id)cmd_notify;
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	
+	NSString* class_name = @"AYProfileHeadCellView";
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	class_name = @"AYProfileOrigCellView";
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
+	
+	AYViewController* des = DEFAULTCONTROLLER(@"TabBar");
+	BOOL isNap = ![self.tabBarController isKindOfClass:[des class]];
+	
+	NSDictionary *user_info = nil;
+	CURRENPROFILE(user_info)
+	
+	NSMutableDictionary *tmp = [user_info mutableCopy];
+	[tmp setValue:[NSNumber numberWithBool:isNap] forKey:@"is_nap"];
+	kAYDelegatesSendMessage(@"Profile", @"changeQueryData:", &tmp)
 }
 
 - (void)viewWillAppear:(BOOL)animated {

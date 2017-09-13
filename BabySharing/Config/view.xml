@@ -124,7 +124,13 @@
     <view type="SetNevigationBarTitle" name="SetNevigationBarTitle" factory="AYDefaultViewFactory" >
         <command type="message" message="changeNevigationBarTitle:" />
     </view>
-    
+	
+	<view type="Validating" name="Validating" factory="AYDefaultViewFactory" >
+		<command type="message" message="setTipContext:" />
+		<command type="message" message="showValidatingView" />
+		<command type="message" message="hideValidatingView" />
+	</view>
+	
     <view type="FoundSearchHeader" name="FoundSearchHeader" factory="AYReuseViewFactory" >
         <command type="message" message="changeHeaderTitle:" />
         <command type="message" message="queryHeaderHeight" />
@@ -914,6 +920,7 @@
        <command type="message"      message="resetCodeInput" />
        <command type="message"      message="setCodeBtnTitle" />
        <command type="notify"       message="requeryForCode" />
+	   <command type="notify"       message="setRightBtnEnabled" />
    </view>
    
    <view type="ServiceConsumerFace" name="ServiceConsumerFace" factory="AYDefaultViewFactory" >

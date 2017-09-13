@@ -18,34 +18,54 @@
 #import "QueryContent.h"
 #import "QueryContentItem.h"
 
-@interface AYProfileHeadCellView ()
-@property (weak, nonatomic) IBOutlet UIImageView *user_screen;
-@property (weak, nonatomic) IBOutlet UILabel *user_name;
-@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
-//@property (weak, nonatomic) IBOutlet UILabel *bobyLabel;
-//@property (weak, nonatomic) IBOutlet UILabel *rigistimeLabel;
-//@property (weak, nonatomic) IBOutlet UIImageView *allowEditIcon;
-
-@end
-
-@implementation AYProfileHeadCellView
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-    _user_screen.layer.cornerRadius = 30.f;
-    _user_screen.clipsToBounds = YES;
-    _user_screen.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
-    _user_screen.layer.borderWidth = 2.f;
-    _user_screen.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    
-    [self setUpReuseCell];
+@implementation AYProfileHeadCellView {
+	UIImageView *user_screen;
+	UILabel *user_name;
+	UILabel *editEnter;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+	if (self) {
+		
+		user_name = [Tools creatUILabelWithText:@"User Name" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:user_name];
+		[user_name mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(self).offset(20);
+			make.left.equalTo(self).offset(20);
+		}];
+		
+		editEnter = [Tools creatUILabelWithText:@"查看并编辑个人资料" andTextColor:[Tools blackColor] andFontSize:313.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:editEnter];
+		[editEnter mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.left.equalTo(user_name);
+			make.top.equalTo(user_name.mas_bottom).offset(8);
+		}];
+		
+		user_screen = [[UIImageView alloc] init];
+		[self addSubview:user_screen];
+		[user_screen mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.top.equalTo(user_name);
+			make.right.equalTo(self).offset(-20);
+			make.size.mas_equalTo(CGSizeMake(64, 64));
+		}];
+		user_screen.layer.cornerRadius = 32.f;
+		user_screen.clipsToBounds = YES;
+		user_screen.layer.borderColor = [UIColor colorWithWhite:1.f alpha:0.25].CGColor;
+		user_screen.layer.borderWidth = 2.f;
+		user_screen.layer.rasterizationScale = [UIScreen mainScreen].scale;
+		
+//		CALayer *separtor = [CALayer layer];
+//		separtor.frame = CGRectMake(15, 79.5, SCREEN_WIDTH - 30, 0.5);
+//		separtor.backgroundColor = [Tools garyLineColor].CGColor;
+//		[self.layer addSublayer:separtor];
+		
+		if (reuseIdentifier != nil) {
+			[self setUpReuseCell];
+		}
+	}
+	
+	return self;
 }
 
 @synthesize para = _para;
@@ -104,11 +124,11 @@
 -(id)setCellInfo:(NSDictionary*)args{
 	
 	NSString *screen_photo = [args objectForKey:kAYProfileArgsScreenPhoto];
-	[_user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
+	[user_screen sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, screen_photo]] placeholderImage:IMGRESOURCE(@"default_user")];
     
     NSString *name = [args objectForKey:@"screen_name"];
     if (name && ![name isEqualToString:@""]) {
-        _user_name.text = name;
+        user_name.text = name;
     }
     
     return nil;

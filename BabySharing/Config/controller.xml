@@ -474,6 +474,7 @@
 		
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
+		<view type="Validating"     name="Validating" />
     </controller>
     
     <controller type="DefaultController" name="ConfirmFinish" factory="AYDefaultControllerFactoy" >
