@@ -125,7 +125,7 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.mode = DongDaAppModeNapPersonal;
+    self.mode = DongDaAppModeServant;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -136,17 +136,17 @@
         [self.view addSubview:cover];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeNapPersonal] forKey:@"dongda_app_mode"];
+        [defaults setValue:[NSNumber numberWithInt:DongDaAppModeServant] forKey:@"dongda_app_mode"];
         [defaults synchronize];
         
         self.selectedIndex = expectIndex;
         DongDaTabBarItem* btn = (DongDaTabBarItem*)[_dongda_tabbar viewWithTag:expectIndex];
         [_dongda_tabbar itemSelected:btn];
         
-        if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
+        if (isExchangeModel == ModeExchangeTypeCommonToServant || isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
             
             NSString *tipString ;
-            if (isExchangeModel == ModeExchangeTypeCommonToNapPersonal) {
+            if (isExchangeModel == ModeExchangeTypeCommonToServant) {
                 tipString = @"切换为服务者";
             } else if (isExchangeModel == ModeExchangeTypeCommonToNapFamily) {
                 tipString = @"切换为看护家庭";

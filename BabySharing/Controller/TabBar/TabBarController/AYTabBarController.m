@@ -164,7 +164,7 @@
         UIView *cover = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         [self.view addSubview:cover];
         
-        if (isExchangeModel == ModeExchangeTypeNapToCommon) {
+        if (isExchangeModel == ModeExchangeTypeServantToCommon) {
             
             cover.backgroundColor = [Tools darkBackgroundColor];
             UILabel *tipsLabel = [Tools creatUILabelWithText:@"切换为预订模式" andTextColor:[UIColor whiteColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:1];

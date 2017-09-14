@@ -70,10 +70,9 @@
     id<AYViewBase> view_reg = [self.views objectForKey:@"DongDaSeg"];
     [view_nav addSubview:(UIView*)view_reg];
     [view_nav bringSubviewToFront:(UIView*)view_reg];
-    
-    AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-    isSer = [self.tabBarController isKindOfClass:[compare class]];
-    
+	
+	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+	isSer = mode == DongDaAppModeServant;
     if (isSer) {
         {
             id<AYViewBase> view_future = [self.views objectForKey:@"Table"];

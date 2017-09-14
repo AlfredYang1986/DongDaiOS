@@ -129,6 +129,9 @@
 		<command type="message" message="setTipContext:" />
 		<command type="message" message="showValidatingView" />
 		<command type="message" message="hideValidatingView" />
+		<command type="message" message="showValidatingViewWithAnimate" />
+		<command type="message" message="hideValidatingViewWithAnimate" />
+		<command type="message" message="changeStatusWithSuccessTip:" />
 	</view>
 	
     <view type="FoundSearchHeader" name="FoundSearchHeader" factory="AYReuseViewFactory" >
@@ -713,7 +716,8 @@
     </view>
     
     <view type="SetCourseSignCell" name="SetCourseSignCell" factory="AYReuseViewFactory" >
-        <command type="message"     message="setCellInfo:" />
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didCourseSignViewTap:" />
     </view>
     
     <view type="NapCostCell" name="NapCostCell" factory="AYReuseViewFactory" >

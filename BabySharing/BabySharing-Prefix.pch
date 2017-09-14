@@ -22,6 +22,8 @@ static NSString* const kAMapApiKey =					@"7d5d988618fd8a707018941f8cd52931";
 static NSString* const kAYEMIDDongDaMaster =			@"dongda_master";
 static NSString* const kAYNetworkSlowTip =				@"请改善网络环境并重试";
 
+static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
+
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
 #define UIScreenScale									[UIScreen mainScreen].scale
@@ -68,7 +70,7 @@ typedef enum : int {
 typedef enum : int {
     DongDaAppModeUnLogin = 0,
     DongDaAppModeCommon = 1,
-    DongDaAppModeNapPersonal,
+    DongDaAppModeServant = 2,
     DongDaAppModeNapFamily,
 } DongDaAppMode;
 
@@ -76,9 +78,9 @@ typedef enum : int {
 typedef enum : int {
     ModeExchangeTypeDissVC = 0,
     ModeExchangeTypeUnloginToAllModel = 1,
-    ModeExchangeTypeCommonToNapPersonal = 2,
+    ModeExchangeTypeCommonToServant = 2,
     ModeExchangeTypeCommonToNapFamily = 3,
-    ModeExchangeTypeNapToCommon = 4,
+    ModeExchangeTypeServantToCommon = 4,
 } ModeExchangeType;
 
 

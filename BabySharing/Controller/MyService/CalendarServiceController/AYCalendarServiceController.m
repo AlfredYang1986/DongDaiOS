@@ -39,13 +39,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [Tools whiteColor];
-    
-    AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-    isSer = [self.tabBarController isKindOfClass:[compare class]];
+	
+	DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+	isSer = mode == DongDaAppModeServant;
     if (!isSer) {
-        
         NSString *title = @"可预约日期";
         kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
     }

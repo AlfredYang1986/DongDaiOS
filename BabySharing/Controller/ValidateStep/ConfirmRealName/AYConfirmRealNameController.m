@@ -17,7 +17,6 @@
 #import "AYRemoteCallDefines.h"
 #import "AYModelFacade.h"
 
-const static NSString *kValidatingView = @"Validating";
 
 @implementation AYConfirmRealNameController {
     UITextField *nameTextField;
@@ -138,14 +137,15 @@ const static NSString *kValidatingView = @"Validating";
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
 	UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools RGB225GaryColor] andFontSize:316 andBackgroundColor:nil];
-//	btn_right.userInteractionEnabled = NO;
+	btn_right.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 	
     return nil;
 }
 
 - (id)ValidatingLayout:(UIView*)view {
-	
+	NSString *tip = @"身份验证中";
+	kAYViewsSendMessage(kValidatingView, @"setTipContext:", &tip)
 	return nil;
 }
 
@@ -195,39 +195,50 @@ const static NSString *kValidatingView = @"Validating";
 	[dic_update setValue:info_profile forKey:@"profile"];
 	
 	[self.view endEditing:YES];
-	kAYViewsSendMessage(kValidatingView, @"showValidatingView", nil);
+	kAYViewsSendMessage(kValidatingView, @"showValidatingViewWithAnimate", nil);
 	
-    [cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
-        if (success) {
-			
-			kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
-			
-            //save to coredata
-//            id<AYFacadeBase> facade = LOGINMODEL;
-//            id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
-//            
-//            NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
-//            [dic setValue:[NSNumber numberWithInt:1] forKey:kAYProfileArgsIsProvider];
-//            [cmd_profile performWithResult:&dic];
-//			
-//			// go on
-//			AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
-//			NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
-//			[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-//			[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-//			[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-//			
-//			NSString *tip = @"您的信息已成功提交";
-//			[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
-//			
-//			id<AYCommand> cmd = PUSH;
-//			[cmd performWithResult:&dic_push];
-			
-		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
-		}
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		
-    }];
+		[cmd performWithResult:[dic_update copy] andFinishBlack:^(BOOL success, NSDictionary *result) {
+			if (success) {
+				
+//				kAYViewsSendMessage(kValidatingView, @"hideValidatingView", nil);
+				NSString *tip = @"身份验证成功";
+				kAYViewsSendMessage(kValidatingView, @"changeStatusWithSuccessTip:", &tip);
+				
+				//save to coredata
+				id<AYFacadeBase> facade = LOGINMODEL;
+				id<AYCommand> cmd_profile = [facade.commands objectForKey:@"UpdateLocalCurrentUserProfile"];
+	
+				NSMutableDictionary* dic = [[NSMutableDictionary alloc] init];
+				[dic setValue:[NSNumber numberWithInt:1] forKey:kAYProfileArgsIsProvider];
+				[cmd_profile performWithResult:&dic];
+				
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+					id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+					[self exchangeWindowsWithDest:des];
+				});
+				
+				// go on
+//				AYViewController* des = DEFAULTCONTROLLER(@"ConfirmFinish");
+//				NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]init];
+//				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+//				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+//				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	
+//				NSString *tip = @"您的信息已成功提交";
+//				[dic_push setValue:tip forKey:kAYControllerChangeArgsKey];
+//	
+//				id<AYCommand> cmd = PUSH;
+//				[cmd performWithResult:&dic_push];
+				
+			} else {
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			}
+			
+		}];
+	});
+	
 	
     return nil;
 }
@@ -235,7 +246,22 @@ const static NSString *kValidatingView = @"Validating";
 - (void)tapGesture:(UITapGestureRecognizer*)gesture {
 	[self.view endEditing:YES];
 }
-
+- (void)exchangeWindowsWithDest:(id)dest {
+	AYViewController *des = dest;
+	NSMutableDictionary* dic_show_module = [[NSMutableDictionary alloc] init];
+	[dic_show_module setValue:kAYControllerActionExchangeWindowsModuleValue forKey:kAYControllerActionKey];
+	[dic_show_module setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_show_module setValue:self.tabBarController forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *dic_exchange = [[NSMutableDictionary alloc] init];
+	[dic_exchange setValue:[NSNumber numberWithInteger:3] forKey:@"index"];
+	[dic_exchange setValue:[NSNumber numberWithInteger:ModeExchangeTypeUnloginToAllModel] forKey:@"type"];
+	[dic_show_module setValue:dic_exchange forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd_show_module = EXCHANGEWINDOWS;
+	[cmd_show_module performWithResult:&dic_show_module];
+	
+}
 #pragma mark -- UITextFiled Delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
 	

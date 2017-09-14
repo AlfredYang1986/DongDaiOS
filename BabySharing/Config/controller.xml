@@ -493,9 +493,9 @@
     <controller type="DefaultController" name="SetServiceTheme" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="Table"              name="Table" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" />
+<!--        <view type="Table"              name="Table" />-->
+
+<!--        <delegate type="TableViewDelegateAndDatasource" name="SetServiceTheme" />-->
     </controller>
     
     <controller type="DefaultController" name="SetServiceCapacity" factory="AYDefaultControllerFactoy" >
@@ -510,10 +510,11 @@
 		<command type="Module" name="LocationAuth" />
         <facade type="DefaultFacade" name="Keyboard" notification="true" />
 
-        <view type="FakeStatusBar"  name="FakeStatusBar" />
-        <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="NapAreaMap"     name="NapAreaMap" />
+<!--        <view type="FakeStatusBar"  name="FakeStatusBar" />-->
+<!--        <view type="FakeNavBar"     name="FakeNavBar" />-->
+<!--        <view type="NapAreaMap"     name="NapAreaMap" />-->
 <!--        <view type="Picker"         name="Picker" />-->
+		<view type="Validating"     name="Validating" />
 
 <!--        <delegate type="PickerViewDelegateAndDatasource" name="NapArea" />-->
     </controller>

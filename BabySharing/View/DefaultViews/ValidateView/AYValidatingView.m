@@ -47,6 +47,7 @@
 	rightLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0.5, SCREEN_HEIGHT)];
 	[rightView addSubview:rightLine];
 	
+//	leftView.userInteractionEnabled = rightView.userInteractionEnabled = YES;
 	leftView.backgroundColor = rightView.backgroundColor = [Tools whiteColor];
 	leftLine.backgroundColor = rightLine.backgroundColor = [Tools garyLineColor];
 	
@@ -74,7 +75,7 @@
 	[centerView addSubview:loadingView];
 	[loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.centerX.equalTo(centerView);
-		make.top.equalTo(centerView);
+		make.centerY.equalTo(centerView.mas_top).offset(15);
 		make.size.mas_equalTo(CGSizeMake(34, 6));
 	}];
 	centerView.alpha = 0;
@@ -105,14 +106,51 @@
 }
 
 #pragma mark -- commands
+- (id)hideValidatingView {
+	
+	[loadingView stopAnimating];
+	leftLine.hidden = rightLine.hidden = NO;
+	self.userInteractionEnabled = NO;
+	
+	leftView.frame = CGRectMake(-SCREEN_WIDTH * 0.5, 0, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT);
+	rightView.frame = CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT);
+	centerView.alpha = 0.f;
+	
+	return nil;
+}
+- (id)showValidatingView {
+	
+	[loadingView startAnimating];
+	leftLine.hidden = rightLine.hidden = YES;
+	self.userInteractionEnabled = YES;
+	
+	leftView.frame = CGRectMake(0, 0, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT);
+	rightView.frame = CGRectMake(SCREEN_WIDTH*0.5, 0, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT);
+	centerView.alpha = 1.f;
+	
+	return nil;
+}
+
 - (id)setTipContext:(id)args {
 	tipLabel.text = args;
 	return nil;
 }
 
-- (id)showValidatingView {
+- (id)changeStatusWithSuccessTip:(id)args {
+	
+	[loadingView stopAnimating];
+	[loadingView mas_updateConstraints:^(MASConstraintMaker *make) {
+		make.size.mas_equalTo(CGSizeMake(30, 30));
+	}];
+	loadingView.image = IMGRESOURCE(@"checked_icon");
+	tipLabel.text = args;
+	return nil;
+}
+
+- (id)showValidatingViewWithAnimate {
 	
 	[loadingView startAnimating];
+	self.userInteractionEnabled = YES;
 	
 	[UIView animateWithDuration:0.5 animations:^{
 		leftView.frame = CGRectMake(0, 0, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT);
@@ -124,10 +162,11 @@
 	return nil;
 }
 
-- (id)hideValidatingView {
+- (id)hideValidatingViewWithAnimate {
 	
 	[loadingView stopAnimating];
 	leftLine.hidden = rightLine.hidden = NO;
+	self.userInteractionEnabled = NO;
 	
 	[UIView animateWithDuration:0.5 animations:^{
 		leftView.frame = CGRectMake(-SCREEN_WIDTH * 0.5, 0, SCREEN_WIDTH * 0.5, SCREEN_HEIGHT);

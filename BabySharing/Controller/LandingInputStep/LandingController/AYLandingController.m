@@ -394,7 +394,7 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                     des = DEFAULTCONTROLLER(@"TabBar");
                 }
                     break;
-                case DongDaAppModeNapPersonal:
+                case DongDaAppModeServant:
                 {
                     des = DEFAULTCONTROLLER(@"TabBarService");
                 }

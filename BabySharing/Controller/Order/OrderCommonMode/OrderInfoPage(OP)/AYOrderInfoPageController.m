@@ -94,9 +94,9 @@
 			[self.view addSubview:BTMView];
 			
 			OrderStatus status = ((NSNumber*)[order_info objectForKey:@"status"]).intValue;
-			AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-			BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
-			if (isNap) {
+			DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+			BOOL isServantMode = mode == DongDaAppModeServant;
+			if (isServantMode) {
 				
 				if (status == OrderStatusPosted) {
 					

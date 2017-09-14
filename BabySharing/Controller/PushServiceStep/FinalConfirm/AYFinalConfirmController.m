@@ -124,12 +124,13 @@
 					[dic setValue:[NSNumber numberWithBool:YES] forKey:kAYProfileArgsIsProvider];
 					[cmd performWithResult:&dic];
 					
-					AYViewController* compare = DEFAULTCONTROLLER(@"TabBarService");
-					BOOL isNap = [self.tabBarController isKindOfClass:[compare class]];
-					if (isNap) {
+					DongDaAppMode mode = [[[NSUserDefaults standardUserDefaults] valueForKey:kAYDongDaAppMode] intValue];
+					BOOL isServantMode = mode == DongDaAppModeServant;
+					if (isServantMode) {
 						[super tabBarVCSelectIndex:2];
 					} else {
-						[self exchangeWindowsWithDest:compare];
+						id<AYCommand> des = DEFAULTCONTROLLER(@"TabBarService");
+						[self exchangeWindowsWithDest:des];
 					}
 					
 				} else {

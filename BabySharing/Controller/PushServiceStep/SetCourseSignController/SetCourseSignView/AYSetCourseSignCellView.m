@@ -13,45 +13,16 @@
 #import "AYViewCommand.h"
 #import "AYViewNotifyCommand.h"
 #import "AYFacadeBase.h"
-#import "AYControllerActionDefines.h"
+#import "AYCourseSignView.h"
 
 @implementation AYSetCourseSignCellView {
-    UILabel *titleLabel;
-    UIImageView *accessCheck;
+	
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(20);
-            make.centerY.equalTo(self);
-        }];
-        
-        accessCheck = [[UIImageView alloc]init];
-        [self addSubview:accessCheck];
-        accessCheck.image = IMGRESOURCE(@"checked_icon_iphone");
-        [accessCheck mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self).offset(-20);
-            make.centerY.equalTo(titleLabel);
-            make.size.mas_equalTo(CGSizeMake(15, 15));
-        }];
-        accessCheck.hidden = YES;
 		
-        CGFloat margin = 10;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 64.5, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-        
-//        UIView *lineView = [[UIView alloc]init];
-//        lineView.backgroundColor = [Tools garyLineColor];
-//        [self addSubview:lineView];
-//        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self);
-//            make.centerY.equalTo(self);
-//            make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 1.f));
-//        }];
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
@@ -60,10 +31,6 @@
         }
     }
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
 }
 
 @synthesize para = _para;
@@ -119,12 +86,36 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-- (id)setCellInfo:(NSDictionary*)args {
-    NSString *titleStr = [args objectForKey:@"title"];
-    titleLabel.text = titleStr;
-    
-    NSNumber *isSet = [args objectForKey:@"is_set"];
-    accessCheck.hidden = !isSet.boolValue;
+#pragma mark -- actions
+- (void)didSignViewTap:(UITapGestureRecognizer*)tap {
+	UIView *tapView = tap.view;
+	NSString *sign = ((AYCourseSignView*)tapView).sign;
+//	kAYViewSendMessage(self, @"didCourseSignViewTap:", &sign)
+	kAYViewSendNotify(self, @"didCourseSignViewTap:", &sign)
+}
+
+- (id)setCellInfo:(id)args {
+	
+	NSArray *courseSignArr = [args objectForKey:@"model"];
+	NSString *comphandle = [args objectForKey:@"handle"];
+	
+	int row = 0, col = 0;
+	CGFloat itemWith = (SCREEN_WIDTH - 40 - 24)/4;
+	CGFloat itemHeight = 33;
+	for (int i = 0; i < courseSignArr.count; ++i) {
+		row = i/4;
+		col = i%4;
+		AYCourseSignView *signView = [[AYCourseSignView alloc] initWithFrame:CGRectMake(20+col*(8+itemWith), 10+row*(8+itemHeight), itemWith, itemHeight) andTitle:[courseSignArr objectAtIndex:i]];
+		[self addSubview:signView];
+		
+		signView.userInteractionEnabled = YES;
+		[signView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSignViewTap:)]];
+		
+		if ([comphandle isEqualToString:[courseSignArr objectAtIndex:i]]) {
+			[signView setSelectStatus];
+		}
+		
+	}
     
     return nil;
 }

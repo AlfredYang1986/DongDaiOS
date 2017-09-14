@@ -20,6 +20,7 @@ static NSString* const kAYCollectionVerView =					@"CollectionVer";
 static NSString* const kAYDongDaSegVerView =					@"DongDaSeg";
 static NSString* const kAYMapViewView =							@"MapView";
 
+static NSString* const kValidatingView = 						@"Validating";
 //FakeNavBar
 static NSString* const kAYNavBarSetTitleMessage =				@"setTitleText:";
 static NSString* const kAYNavBarSetTitleColorMessage =			@"setTitleTextColor:";

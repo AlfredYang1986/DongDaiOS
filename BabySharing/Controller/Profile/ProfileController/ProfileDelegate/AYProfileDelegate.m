@@ -141,7 +141,7 @@
     
     NSNumber *model = [querydata objectForKey:kAYProfileArgsIsProvider];
     
-    if (!model.boolValue) {
+    if (model.boolValue) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"sendRegMessage:"];
         NSNumber *args = [NSNumber numberWithInt:1];
         [cmd performWithResult:&args];
@@ -180,7 +180,7 @@
 
 - (void)pushNewService {
 	
-    id<AYCommand> des = DEFAULTCONTROLLER(@"SetServiceType");
+    id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
     NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:3];
     [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
