@@ -529,6 +529,13 @@
         <delegate type="TableViewDelegateAndDatasource" name="MainInfo" />
     </controller>
 	
+	<controller type="DefaultController" name="PushServiceMain" factory="AYDefaultControllerFactoy" >
+		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
+		
+		<view type="FakeStatusBar"		name="FakeStatusBar" />
+		<view type="FakeNavBar"			name="FakeNavBar" />
+	</controller>
+	
 	<controller type="DefaultController" name="FinalConfirm" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
 		<facade type="DefaultFacade" name="Timemanagement" notification="true" />

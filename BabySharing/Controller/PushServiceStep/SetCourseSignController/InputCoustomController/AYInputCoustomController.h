@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYInputCoustomController : AYViewController <UITextViewDelegate>
+@interface AYInputCoustomController : AYViewController <UITextFieldDelegate>
 
 @end

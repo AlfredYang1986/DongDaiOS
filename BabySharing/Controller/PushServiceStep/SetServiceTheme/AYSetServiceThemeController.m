@@ -45,28 +45,28 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		NSNumber *is_change = [dic objectForKey:kAYControllerChangeArgsKey];
-		if (is_change.boolValue) {
+		
+		id back_args = [dic objectForKey:kAYControllerChangeArgsKey];
+		if (([back_args isKindOfClass:[NSNumber class]] && [back_args boolValue]) || [back_args isKindOfClass:[NSString class]]) {
+			NSString *args;
+			if([back_args isKindOfClass:[NSString class]]) {
+				args = [dic objectForKey:kAYControllerChangeArgsKey];
+				[info_categ setValue:args forKey:kAYServiceArgsCourseCoustom];
+				[info_categ removeObjectForKey:kAYServiceArgsCatThirdly];
+			} else
+				args = [info_categ objectForKey:kAYServiceArgsCatThirdly];
 			
 			for (AYServiceCategOptView *opt in optViewArr) {
 				if ([opt.optArgs isEqualToString:[info_categ objectForKey:kAYServiceArgsCatSecondary]]) {
-					opt.subArgs = [info_categ objectForKey:kAYServiceArgsCatThirdly];
+					opt.subArgs = args;
 				} else
 					opt.subArgs = nil;
 			}
+			UIButton *btn_right = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:316 andBackgroundColor:nil];
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &btn_right)
 			
-//			NSMutableDictionary *tmp = [info_categ copy];
-//			kAYDelegatesSendMessage(@"SetServiceTheme", @"changeQueryData:", &tmp);
-//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-//			
-//			UIView *tableView = [self.views objectForKey:kAYTableView];
-//			[UIView animateWithDuration:0.25 animations:^{
-//				tableView.frame = CGRectMake(0, SCREEN_HEIGHT - backArgsOfRowNumb * CellHeight - 49, SCREEN_WIDTH, backArgsOfRowNumb * CellHeight);
-//			}];
 		} else {
-			if (secondaryTmp) {
-				[info_categ setValue:secondaryTmp forKey:kAYServiceArgsCatSecondary];
-			}
+			[info_categ setValue:secondaryTmp forKey:kAYServiceArgsCatSecondary];
 		}
 		
     }
@@ -227,7 +227,7 @@
 }
 
 - (id)rightBtnSelected {
-	id<AYCommand> des = DEFAULTCONTROLLER(@"NapArea");
+	id<AYCommand> des = DEFAULTCONTROLLER(@"InputNapTitle");
 	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
 	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];

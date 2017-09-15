@@ -18,8 +18,6 @@
 #import "TmpFileStorageModel.h"
 #import <CoreLocation/CoreLocation.h>
 
-#import "AYServiceArgsDefines.h"
-
 #define STATUS_BAR_HEIGHT						20
 #define FAKE_BAR_HEIGHT							44
 #define requiredInfoNumb						5

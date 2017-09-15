@@ -90,7 +90,6 @@
 - (void)didSignViewTap:(UITapGestureRecognizer*)tap {
 	UIView *tapView = tap.view;
 	NSString *sign = ((AYCourseSignView*)tapView).sign;
-//	kAYViewSendMessage(self, @"didCourseSignViewTap:", &sign)
 	kAYViewSendNotify(self, @"didCourseSignViewTap:", &sign)
 }
 

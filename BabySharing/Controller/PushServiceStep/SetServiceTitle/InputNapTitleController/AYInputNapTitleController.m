@@ -14,21 +14,18 @@
 #import "AYResourceManager.h"
 #import "AYFacadeBase.h"
 #import "AYInsetLabel.h"
-#import "AYServiceArgsDefines.h"
 
 #define STATUS_BAR_HEIGHT           20
 #define FAKE_BAR_HEIGHT             44
-#define LIMITNUMB                   18
+#define LIMITNUMB                   20
 
 @implementation AYInputNapTitleController {
     UITextView *inputTitleTextView;
 	UILabel *placeHolder;
-    UILabel *countlabel;
-    UIImageView *access;
-    UILabel *signLabel;
-    
-//    NSMutableDictionary *titleAndCourseSignInfo;
+//    UILabel *countlabel;
+	
 	NSString *setedTitleStr;
+	NSMutableDictionary *service_info;
 	
     BOOL isAlreadyEnable;
 }
@@ -38,8 +35,7 @@
     NSDictionary* dic = (NSDictionary*)*obj;
     
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-        setedTitleStr = [dic objectForKey:kAYControllerChangeArgsKey];
+        service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -51,44 +47,62 @@
 #pragma mark -- life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"标题" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"Servant' Servcie" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
+	NSDictionary *profile;
+	CURRENPROFILE(profile);
+	NSString *name = [profile objectForKey:kAYProfileArgsScreenName];
+	
+	NSDictionary *info_categ = [service_info objectForKey:kAYServiceArgsCategoryInfo];
+	NSString *cat = [info_categ objectForKey:kAYServiceArgsCat];
+	NSString *titleStr;
+	if ([cat isEqualToString:kAYStringNursery]) {
+		NSString *cat_secondary = [info_categ objectForKey:kAYServiceArgsCatSecondary];
+		titleStr = [NSString stringWithFormat:@"%@的%@",name, cat_secondary];
+	} else if([cat isEqualToString:kAYStringCourse]){
+		NSString *cat_thirdly = [info_categ objectForKey:kAYServiceArgsCourseCoustom];
+		if (cat_thirdly.length == 0) {
+			cat_thirdly = [info_categ objectForKey:kAYServiceArgsCatThirdly];
+		}
+		titleStr = [NSString stringWithFormat:@"%@的%@%@",name, cat_thirdly, cat];
+	}
+	titleLabel.text = titleStr;
+	
+	[Tools creatCALayerWithFrame:CGRectMake(20, 125, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
 	
     inputTitleTextView = [[UITextView alloc]init];
     [self.view addSubview:inputTitleTextView];
-    inputTitleTextView.font = [UIFont systemFontOfSize:14.f];
+    inputTitleTextView.font = [UIFont systemFontOfSize:15.f];
     inputTitleTextView.textColor = [Tools blackColor];
     inputTitleTextView.delegate = self;
     [inputTitleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(titleLabel.mas_bottom).offset(30);
+        make.top.equalTo(titleLabel.mas_bottom).offset(40);
         make.centerX.equalTo(self.view);
         make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 90));
     }];
-	placeHolder = [Tools creatUILabelWithText:@"一个有吸引力的标题" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHolder = [Tools creatUILabelWithText:@"请用一句话来描述您的服务" andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[inputTitleTextView addSubview:placeHolder];
 	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(inputTitleTextView).offset(5);
 		make.top.equalTo(inputTitleTextView).offset(8);
 	}];
 	
-    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
-    [self.view addSubview:countlabel];
-    [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(inputTitleTextView.mas_bottom).offset(-10);
-        make.right.equalTo(inputTitleTextView).offset(-10);
-    }];
+//    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+//    [self.view addSubview:countlabel];
+//    [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(inputTitleTextView.mas_bottom).offset(-10);
+//        make.right.equalTo(inputTitleTextView).offset(-10);
+//    }];
 	
 	if (setedTitleStr && ![setedTitleStr isEqualToString:@""]) {
 		inputTitleTextView.text = setedTitleStr;
-		countlabel.text = [NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedTitleStr.length];
+//		countlabel.text = [NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedTitleStr.length];
 		placeHolder.hidden = YES;
 	}
 	
@@ -122,7 +136,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+    UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
     bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
@@ -135,7 +149,7 @@
     NSInteger count = textView.text.length;
 	placeHolder.hidden = count != 0;
     if (!isAlreadyEnable) {
-        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
+        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
         kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
         isAlreadyEnable = YES;
     }
@@ -143,7 +157,7 @@
     if (count > LIMITNUMB) {
         inputTitleTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }
-    countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
+//    countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
 }
 
 #pragma mark -- actions
@@ -178,35 +192,46 @@
     return nil;
 }
 - (id)rightBtnSelected {
-    
-    [inputTitleTextView resignFirstResponder];
-    
-    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
-    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
-	[tmp setValue:kAYServiceArgsTitle forKey:@"key"];
+//    NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+//    [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+//    [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
+//	
+//	NSMutableDictionary *tmp = [[NSMutableDictionary alloc]init];
+//	[tmp setValue:kAYServiceArgsTitle forKey:@"key"];
+//	
+//    if (![inputTitleTextView.text isEqualToString:@""]) {
+//        [tmp setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
+//    }
+//    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
+//    
+//    id<AYCommand> cmd = POP;
+//    [cmd performWithResult:&dic];
 	
-    if (![inputTitleTextView.text isEqualToString:@""]) {
-        [tmp setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
-    }
-    [dic setValue:[tmp copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = POP;
-    [cmd performWithResult:&dic];
-    
+	[service_info setValue:inputTitleTextView.text forKey:kAYServiceArgsTitle];
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(@"PushServiceMain");
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	[dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
+	
     return nil;
 }
 
 #pragma mark -- Keyboard facade
 - (id)KeyboardShowKeyboard:(id)args {
 	
-	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-	[countlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view).offset(- step.floatValue - 10);
-		make.right.equalTo(self.view).offset(-20);
-	}];
+//	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+//	[countlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//		make.bottom.equalTo(self.view).offset(- step.floatValue - 10);
+//		make.right.equalTo(self.view).offset(-20);
+//	}];
 	
 	return nil;
 }
