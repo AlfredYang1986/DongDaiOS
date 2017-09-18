@@ -714,7 +714,19 @@
     <view type="OptionalInfoCell" name="OptionalInfoCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />
     </view>
-    
+	
+	<view type="SetServiceImagesCell" name="SetServiceImagesCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="beginImagePicker" />
+		<command type="notify"      message="deletedImageWithIndex:" />
+	</view>
+	<view type="SetServiceDescCell" name="SetServiceDescCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="SetServiceCharactCell" name="SetServiceCharactCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	
     <view type="SetCourseSignCell" name="SetCourseSignCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="didCourseSignViewTap:" />

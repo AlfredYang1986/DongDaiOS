@@ -1,0 +1,95 @@
+//
+//  AYSetBasicInfoDelegate.m
+//  BabySharing
+//
+//  Created by Alfred Yang on 18/9/17.
+//  Copyright © 2017年 Alfred Yang. All rights reserved.
+//
+
+#import "AYSetBasicInfoDelegate.h"
+#import "AYCommandDefines.h"
+#import "AYFactoryManager.h"
+#import "AYServiceArgsDefines.h"
+
+@implementation AYSetBasicInfoDelegate {
+	NSArray *titleArr;
+	
+	NSDictionary *querydata;
+}
+
+#pragma mark -- command
+@synthesize para = _para;
+@synthesize controller = _controller;
+@synthesize commands = _commands;
+@synthesize notifies = _notiyies;
+
+- (void)postPerform {
+	titleArr = @[@"服务场景图片", @"服务描述", @"服务专业特色"];
+}
+
+- (void)performWithResult:(NSObject**)obj {
+	
+}
+
+- (NSString*)getCommandType {
+	return kAYFactoryManagerCommandTypeModule;
+}
+
+- (NSString*)getViewType {
+	return kAYFactoryManagerCatigoryDelegate;
+}
+
+- (NSString*)getViewName {
+	return [NSString stringWithUTF8String:object_getClassName([self class])];
+}
+
+#pragma marlk -- commands
+- (id)changeQueryData:(id)args {
+	querydata = args;
+	return nil;
+}
+
+#pragma mark -- table
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	return titleArr.count;
+}
+
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+	NSString* class_name = [[querydata objectForKey:kAYDefineArgsCellNames] objectAtIndex:indexPath.row];
+	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	
+	cell.controller = self.controller;
+	return (UITableViewCell*)cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.row == 0) {
+		return 232;
+	} else if (indexPath.row == 1) {
+		return 102;
+	} else {
+		return 169;
+	}
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.row == 1) {
+		return YES;
+	} else
+		return NO;
+}
+
+#pragma mark -- notifies set service info
+
+
+
+@end

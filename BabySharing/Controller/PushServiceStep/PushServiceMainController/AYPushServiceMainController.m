@@ -26,7 +26,7 @@
 	NSMutableDictionary *push_service_info;
 	
 	
-	AYMainServInfoView *priceSubView;
+ 	AYMainServInfoView *priceSubView;
 	AYMainServInfoView *basicSubView;
 	AYMainServInfoView *locationSubView;
 	AYMainServInfoView *capacitySubView;
@@ -110,37 +110,47 @@
 	CGFloat sameWidth = (SCREEN_WIDTH - margin*2 - kBETWEENMARGIN) * 0.5;
 	CGFloat rightX = margin + sameWidth + kBETWEENMARGIN;
 	
-	basicSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX, sameWidth, leftHeight) andTitle:@"Basic"];
+	basicSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX, sameWidth, leftHeight) andTitle:@"服务基本信息" andTapBlock:^{
+		
+		id<AYCommand> des = DEFAULTCONTROLLER(@"SetBasicInfo");
+		NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+		[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+		[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+		[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+		[dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
+		
+		id<AYCommand> cmd = PUSH;
+		[cmd performWithResult:&dic_push];
+		
+	}];
 	[self.view addSubview:basicSubView];
 	
 	
-	basicSubView.tapBlocak = ^{
-		[priceSubView setTitleWithString:@"$12/H"];
-	};
-	
-	locationSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX+kBETWEENMARGIN+leftHeight, sameWidth, leftHeight) andTitle:@"Basic"];
+	locationSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX+kBETWEENMARGIN+leftHeight, sameWidth, leftHeight) andTitle:@"场地" andTapBlock:^{
+	}];
 	[self.view addSubview:locationSubView];
-	locationSubView.tapBlocak = ^{
-		
-	};
+//	locationSubView.tapBlocak = ^{
+//		
+//	};
 	
-	capacitySubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX, sameWidth, rightHeight) andTitle:@"Basic"];
+	capacitySubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX, sameWidth, rightHeight) andTitle:@"师生设定" andTapBlock:^{
+	}];
 	[self.view addSubview:capacitySubView];
-	capacitySubView.tapBlocak = ^{
-		
-	};
+//	capacitySubView.tapBlocak = ^{
+//		
+//	};
 	
-	TMsSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+rightHeight+kBETWEENMARGIN, sameWidth, rightHeight) andTitle:@"Basic"];
+	TMsSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+rightHeight+kBETWEENMARGIN, sameWidth, rightHeight) andTitle:@"服务时间" andTapBlock:^{
+	}];
 	[self.view addSubview:TMsSubView];
-	TMsSubView.tapBlocak = ^{
-		
-	};
+//	TMsSubView.tapBlocak = ^{
+//		
+//	};
 	
-	noticeSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+(rightHeight+kBETWEENMARGIN)*2, sameWidth, rightHeight) andTitle:@"Basic"];
+	noticeSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+(rightHeight+kBETWEENMARGIN)*2, sameWidth, rightHeight) andTitle:@"服务守则" andTapBlock:^{
+	}];
 	[self.view addSubview:noticeSubView];
-	noticeSubView.tapBlocak = ^{
-		
-	};
+	
 	
 	/****************************************************************/
 	
@@ -150,10 +160,22 @@
 	[Tools creatCALayerWithFrame:CGRectMake(margin, 0, SCREEN_WIDTH - margin*2, 0.5) andColor:[Tools garyLineColor] inSuperView:partBtmView];
 	
 	CGFloat priceViewWidth = (SCREEN_WIDTH - 40 - kBETWEENMARGIN) * 0.5;
-	priceSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, kBETWEENMARGIN, priceViewWidth, 49) andTitle:@"Price"];
+	priceSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, kBETWEENMARGIN, priceViewWidth, 49) andTitle:@"Price" andTapBlock:^{
+	}];
 	[partBtmView addSubview:priceSubView];
 	[priceSubView hideCheckSign];
 	
+	UIButton *pushBtn = [[UIButton alloc] init]; //362  142
+//	UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"PUSH" andTitleColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil]; //362  142
+	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice") forState:UIControlStateNormal];
+	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice_disable") forState:UIControlStateDisabled];
+	[self.view addSubview:pushBtn];
+	[pushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(priceSubView).offset(-5);
+		make.right.equalTo(self.view).offset(-10);
+		make.size.mas_equalTo(CGSizeMake(181, 71));
+	}];
+	pushBtn.enabled = NO;
 	
 }
 

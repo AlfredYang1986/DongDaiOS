@@ -297,7 +297,11 @@
         <command type="notify" message="setNapCost" />
         <command type="notify" message="setNapAdress" />
     </delegate>
-    
+	
+	<delegate type="PickerViewDelegateAndDatasource" name="SetBasicInfo" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
     <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >
         <command type="message" message="queryCurrentSelected:" />
     </delegate>

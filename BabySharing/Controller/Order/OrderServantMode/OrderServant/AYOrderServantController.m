@@ -175,7 +175,13 @@
 			[view_table reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 			//			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
 		} else {
-			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			NSString *message = [result objectForKey:@"message"];
+			if([message isEqualToString:@"token过期"]) {
+				NSString *tip = @"当前用户登录实效已过期，请重新登录";
+				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+			} else {
+				AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
+			}
 		}
 	}];
 }

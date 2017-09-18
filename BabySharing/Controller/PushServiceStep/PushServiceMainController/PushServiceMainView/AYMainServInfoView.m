@@ -16,14 +16,16 @@
 	UIView *radiusBGView;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame andTitle:(NSString *)title {
+- (instancetype)initWithFrame:(CGRect)frame andTitle:(NSString *)title andTapBlock:(didViewTap)block{
 	self = [super initWithFrame:frame];
 	if (self) {
+		
+		_tapBlocak = block;
 		
 		self.layer.cornerRadius = 4.f;
 		self.layer.shadowColor = [Tools garyColor].CGColor;
 		self.layer.shadowRadius = 4.f;
-		self.layer.shadowOpacity = 1.f;
+		self.layer.shadowOpacity = 0.5f;
 		self.layer.shadowOffset = CGSizeMake(0, 0);
 		self.backgroundColor = [Tools whiteColor];
 		
@@ -55,7 +57,8 @@
 }
 
 - (void)didViewTap {
-	self.tapBlocak();
+//	self.tapBlocak();
+	_tapBlocak();
 }
 
 - (void)markSetedStatus {

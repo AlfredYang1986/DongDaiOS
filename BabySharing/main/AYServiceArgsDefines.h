@@ -9,6 +9,10 @@
 #ifndef AYServiceArgsDefines_h
 #define AYServiceArgsDefines_h
 
+//defines args
+static NSString* const kAYDefineArgsCellNames =				@"cell_class_name_arr";
+
+
 //common args
 static NSString* const kAYCommArgsCondition =				@"condition";
 static NSString* const kAYCommArgsUserID =					@"user_id";

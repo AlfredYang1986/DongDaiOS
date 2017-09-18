@@ -536,6 +536,15 @@
 		<view type="FakeNavBar"			name="FakeNavBar" />
 	</controller>
 	
+	<controller type="DefaultController" name="SetBasicInfo" factory="AYDefaultControllerFactoy" >
+		<view type="FakeStatusBar"		name="FakeStatusBar" />
+		<view type="FakeNavBar"			name="FakeNavBar" />
+		<view type="Table"				name="Table" />
+		
+		<delegate type="TableViewDelegateAndDatasource" name="SetBasicInfo" />
+	</controller>
+	
+	
 	<controller type="DefaultController" name="FinalConfirm" factory="AYDefaultControllerFactoy" >
 		<facade type="DefaultFacade" name="KidNapRemote" notification="true" />
 		<facade type="DefaultFacade" name="Timemanagement" notification="true" />
