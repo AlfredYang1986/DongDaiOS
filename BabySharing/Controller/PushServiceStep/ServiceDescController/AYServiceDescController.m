@@ -52,7 +52,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [Tools whiteColor];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"描述" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务描述" andTextColor:[Tools blackColor] andFontSize:622 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
@@ -76,7 +76,7 @@
 		make.height.mas_greaterThanOrEqualTo(20);
     }];
 	
-	placeHolder = [Tools creatUILabelWithText:@"描述服务内容、特点以及理念和目的等" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	placeHolder = [Tools creatUILabelWithText:@"服务的计划和安排；预期目标；师资介绍" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[descTextView addSubview:placeHolder];
 	[placeHolder mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.left.equalTo(descTextView).offset(5);
@@ -181,10 +181,12 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:descTextView.text forKey:kAYServiceArgsDescription];
-    [dic_info setValue:kAYServiceArgsDescription forKey:@"key"];
-    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+//    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+//    [dic_info setValue:descTextView.text forKey:kAYServiceArgsDescription];
+//    [dic_info setValue:kAYServiceArgsDescription forKey:@"key"];
+//    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+	
+	[dic setValue:descTextView.text forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];

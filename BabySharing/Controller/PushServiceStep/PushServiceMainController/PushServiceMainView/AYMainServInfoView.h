@@ -14,9 +14,10 @@ typedef void(^didViewTap)();
 
 @property (nonatomic, copy) didViewTap tapBlocak;
 
+@property (nonatomic, assign) BOOL isReady;
+
 - (instancetype)initWithFrame:(CGRect)frame andTitle:(NSString *)title andTapBlock:(didViewTap)block;
 
-- (void)markSetedStatus;
 - (void)hideCheckSign;
 - (void)setTitleWithString:(NSString*)title;
 

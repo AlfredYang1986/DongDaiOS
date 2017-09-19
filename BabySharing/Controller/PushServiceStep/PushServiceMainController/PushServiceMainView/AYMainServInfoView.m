@@ -40,14 +40,15 @@
 		}];
 		
 		statusBtn = [[UIButton alloc] init];
-		[statusBtn setImage:IMGRESOURCE(@"icon_infocard_non") forState:UIControlStateNormal];
-		[statusBtn setImage:IMGRESOURCE(@"checked_icon") forState:UIControlStateSelected];
+		[statusBtn setImage:IMGRESOURCE(@"icon_infocard_non") forState:UIControlStateDisabled];
+		[statusBtn setImage:IMGRESOURCE(@"checked_icon") forState:UIControlStateNormal];
 		[self addSubview:statusBtn];
 		[statusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(self).offset(10);
 			make.right.equalTo(self).offset(-10);
 			make.size.mas_equalTo(CGSizeMake(18, 18));
 		}];
+		statusBtn.enabled = NO;
 		statusBtn.userInteractionEnabled = NO;
 		
 		self.userInteractionEnabled = YES;
@@ -61,10 +62,16 @@
 	_tapBlocak();
 }
 
-- (void)markSetedStatus {
-	statusBtn.selected = YES;
-	[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:1 andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
+- (void)setIsReady:(BOOL)isReady {
+	_isReady = isReady;
+	statusBtn.enabled = isReady;
+		
+	if (_isReady) {
+		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:1 andBorderColor:[Tools themeColor] andBackground:[Tools whiteColor]];
+	} else
+		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 }
+
 
 - (void)hideCheckSign {
 	statusBtn.hidden = YES;

@@ -9,7 +9,7 @@
 #import "AYSetBasicInfoDelegate.h"
 #import "AYCommandDefines.h"
 #import "AYFactoryManager.h"
-#import "AYServiceArgsDefines.h"
+#import "AYControllerActionDefines.h"
 
 @implementation AYSetBasicInfoDelegate {
 	NSArray *titleArr;
@@ -59,8 +59,9 @@
 	NSString* class_name = [[querydata objectForKey:kAYDefineArgsCellNames] objectAtIndex:indexPath.row];
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] initWithDictionary:[querydata copy]];
 	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
+	
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -79,6 +80,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	id<AYCommand> dest = DEFAULTCONTROLLER(@"ServiceDesc");
+
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:_controller forKey:kAYControllerActionSourceControllerKey];
+
+	[dic_push setValue:[querydata objectForKey:kAYServiceArgsDescription] forKey:kAYControllerChangeArgsKey];
+
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {

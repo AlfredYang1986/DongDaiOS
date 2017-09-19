@@ -298,8 +298,13 @@
         <command type="notify" message="setNapAdress" />
     </delegate>
 	
-	<delegate type="PickerViewDelegateAndDatasource" name="SetBasicInfo" factory="AYDefaultDelegateFactory" >
+	<delegate type="TableViewDelegateAndDatasource" name="SetBasicInfo" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
+	</delegate>
+	
+	<delegate type="PickerViewDelegateAndDatasource" name="SetAgeBoundary" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="queryCurrentSelected:" />
 	</delegate>
 	
     <delegate type="PickerViewDelegateAndDatasource" name="SetNapAges" factory="AYDefaultDelegateFactory" >

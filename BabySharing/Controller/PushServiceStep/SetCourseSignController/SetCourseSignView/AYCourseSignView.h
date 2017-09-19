@@ -15,5 +15,6 @@
 - (instancetype)initWithFrame:(CGRect)frame andTitle:(NSString*)title;
 
 - (void)setSelectStatus;
+- (void)setUnselectStatus;
 
 @end

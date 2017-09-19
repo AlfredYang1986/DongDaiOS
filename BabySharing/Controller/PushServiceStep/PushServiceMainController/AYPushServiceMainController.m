@@ -25,13 +25,14 @@
 @implementation AYPushServiceMainController {
 	NSMutableDictionary *push_service_info;
 	
-	
- 	AYMainServInfoView *priceSubView;
 	AYMainServInfoView *basicSubView;
 	AYMainServInfoView *locationSubView;
 	AYMainServInfoView *capacitySubView;
 	AYMainServInfoView *TMsSubView;
 	AYMainServInfoView *noticeSubView;
+	
+	AYMainServInfoView *priceSubView;
+	UIButton *pushBtn;
 }
 
 #pragma mark --  commands
@@ -44,9 +45,28 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		
+		id back_args = [dic objectForKey:kAYControllerChangeArgsKey];
+		if ([back_args isKindOfClass:[NSDictionary class]]) {
+			NSString *note_key = [back_args objectForKey:@"key"];
+			if ([note_key isEqualToString:@"part_basic"]) {
+				basicSubView.isReady = [[back_args objectForKey:kAYServiceArgsImages] count] != 0 && [[back_args objectForKey:kAYServiceArgsDescription] length] != 0 && [[back_args objectForKey:kAYServiceArgsCharact] count] != 0;
+			} else if ([note_key isEqualToString:@"part_capacity"]) {
+				capacitySubView.isReady = [back_args objectForKey:kAYServiceArgsAgeBoundary] && [back_args objectForKey:kAYServiceArgsCapacity] && [back_args objectForKey:kAYServiceArgsServantNumb];
+			}
+			for (NSString *key in [back_args allKeys]) {
+				if ([key isEqualToString:kAYServiceArgsImages] || [key isEqualToString:kAYServiceArgsDescription] || [key isEqualToString:kAYServiceArgsCharact]) {
+					[push_service_info setValue:[back_args objectForKey:key] forKey:key];
+				}
+			}
+			[self isAllArgsReady];
+		}
 	}
 }
+
+- (void)isAllArgsReady {
+	pushBtn.enabled = basicSubView.isReady && locationSubView.isReady && capacitySubView.isReady && TMsSubView.isReady && noticeSubView.isReady;
+}
+
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
@@ -112,40 +132,23 @@
 	
 	basicSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX, sameWidth, leftHeight) andTitle:@"服务基本信息" andTapBlock:^{
 		
-		id<AYCommand> des = DEFAULTCONTROLLER(@"SetBasicInfo");
-		NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-		[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-		[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-		[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-		[dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
-		
-		id<AYCommand> cmd = PUSH;
-		[cmd performWithResult:&dic_push];
-		
+		[self pushDestControllerWithName:@"SetBasicInfo"];
 	}];
 	[self.view addSubview:basicSubView];
-	
 	
 	locationSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX+kBETWEENMARGIN+leftHeight, sameWidth, leftHeight) andTitle:@"场地" andTapBlock:^{
 	}];
 	[self.view addSubview:locationSubView];
-//	locationSubView.tapBlocak = ^{
-//		
-//	};
 	
 	capacitySubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX, sameWidth, rightHeight) andTitle:@"师生设定" andTapBlock:^{
+		
+		[self pushDestControllerWithName:@"SetServiceCapacity"];
 	}];
 	[self.view addSubview:capacitySubView];
-//	capacitySubView.tapBlocak = ^{
-//		
-//	};
 	
 	TMsSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+rightHeight+kBETWEENMARGIN, sameWidth, rightHeight) andTitle:@"服务时间" andTapBlock:^{
 	}];
 	[self.view addSubview:TMsSubView];
-//	TMsSubView.tapBlocak = ^{
-//		
-//	};
 	
 	noticeSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+(rightHeight+kBETWEENMARGIN)*2, sameWidth, rightHeight) andTitle:@"服务守则" andTapBlock:^{
 	}];
@@ -165,7 +168,7 @@
 	[partBtmView addSubview:priceSubView];
 	[priceSubView hideCheckSign];
 	
-	UIButton *pushBtn = [[UIButton alloc] init]; //362  142
+	pushBtn = [[UIButton alloc] init]; //362  142
 //	UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"PUSH" andTitleColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil]; //362  142
 	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice") forState:UIControlStateNormal];
 	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice_disable") forState:UIControlStateDisabled];
@@ -179,6 +182,18 @@
 	
 }
 
+- (void)pushDestControllerWithName:(NSString*)dest {
+	
+	id<AYCommand> des = DEFAULTCONTROLLER(dest);
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
+}
 
 #pragma mark -- layout
 - (id)FakeStatusBarLayout:(UIView*)view {

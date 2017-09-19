@@ -76,15 +76,23 @@
 	if (index == 0) {
 		addSignView.hidden = NO;
 		_delBtn.hidden = YES;
+		coverLabel.hidden = YES;
 	} else if(index == 1) {
-		
+		addSignView.hidden = YES;
+		_delBtn.hidden = NO;
 		coverLabel.hidden = NO;
-		
 	} else {
-		
+		addSignView.hidden = YES;
+		_delBtn.hidden = NO;
+		coverLabel.hidden = YES;
 	}
 	
-	
+	id image = [_itemInfo objectForKey:@"image"];
+	if ([image isKindOfClass:[NSString class]]) {
+		[coverImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, image]] placeholderImage:[UIImage imageNamed:@"default_image"] options:SDWebImageLowPriority];
+	} else if ([image isKindOfClass:[UIImage class]]) {
+		coverImageView.image = image;
+	}
 	
 }
 

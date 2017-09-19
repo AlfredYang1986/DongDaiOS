@@ -501,9 +501,12 @@
     <controller type="DefaultController" name="SetServiceCapacity" factory="AYDefaultControllerFactoy" >
         <view type="FakeStatusBar"  name="FakeStatusBar" />
         <view type="FakeNavBar"     name="FakeNavBar" />
-        <view type="Table"              name="Table" />
-        
-        <delegate type="TableViewDelegateAndDatasource" name="SetServiceCapacity" />
+<!--        <view type="Table"              name="Table" />-->
+
+		<view type="Picker"         name="Picker" />
+
+		<delegate type="PickerViewDelegateAndDatasource" name="SetAgeBoundary" />
+<!--        <delegate type="TableViewDelegateAndDatasource" name="SetServiceCapacity" />-->
     </controller>
     
     <controller type="DefaultController" name="NapArea" factory="AYDefaultControllerFactoy" >

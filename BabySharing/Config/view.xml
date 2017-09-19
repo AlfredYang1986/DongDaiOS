@@ -725,6 +725,7 @@
 	</view>
 	<view type="SetServiceCharactCell" name="SetServiceCharactCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="didCharactViewTap:" />
 	</view>
 	
     <view type="SetCourseSignCell" name="SetCourseSignCell" factory="AYReuseViewFactory" >

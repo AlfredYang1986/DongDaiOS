@@ -34,4 +34,9 @@
 	titleLabel.textColor = [Tools whiteColor];
 }
 
+- (void)setUnselectStatus {
+	[Tools setViewBorder:self withRadius:4.f andBorderWidth:1 andBorderColor:[Tools garyLineColor] andBackground:[Tools whiteColor]];
+	titleLabel.textColor = [Tools garyColor];
+}
+
 @end

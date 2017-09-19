@@ -35,7 +35,7 @@
 	
 	pickBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight)];
 	[self addSubview:pickBgView];
-	pickBgView.backgroundColor = [Tools whiteColor];
+	pickBgView.backgroundColor = [Tools garyBackgroundColor];
     pickBgView.clipsToBounds = YES;
     
     UIButton *save = [[UIButton alloc]init];
@@ -83,7 +83,6 @@
     return kAYFactoryManagerCatigoryView;
 }
 
-
 - (void)didSaveClick:(UIButton*)btn {
     
     [self hidePickerView];
@@ -119,7 +118,6 @@
     [UIView animateWithDuration:0.25 animations:^{
         pickBgView.frame = CGRectMake(0, SHOW_OFFSET_Y, SCREEN_WIDTH, kPickBgHeight);
     }];
-    
     return nil;
 }
 
@@ -127,16 +125,19 @@
 	
     [UIView animateWithDuration:0.25 animations:^{
         pickBgView.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight);
-		
 	} completion:^(BOOL finished) {
 		self.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}];
-    
     return nil;
 }
 
 - (id)refresh {
 	[_pickerView reloadAllComponents];
+	return nil;
+}
+
+- (id)setPickerBackground:(id)color {
+	pickBgView.backgroundColor = color;
 	return nil;
 }
 

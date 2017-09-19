@@ -387,6 +387,8 @@
 		705195601E1B909000F1F761 /* AYServiceMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7051955F1E1B909000F1F761 /* AYServiceMapView.m */; };
 		705361501D5C8971006BB95E /* AYOneProfileController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053614F1D5C8971006BB95E /* AYOneProfileController.m */; };
 		705361531D5C9A53006BB95E /* AYOneProfileDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 705361521D5C9A53006BB95E /* AYOneProfileDelegate.m */; };
+		7053E9761F70FC57006CBB1B /* AYSetCapacityOptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053E9751F70FC57006CBB1B /* AYSetCapacityOptView.m */; };
+		7053E9791F711107006CBB1B /* AYSetAgeBoundaryDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053E9781F711107006CBB1B /* AYSetAgeBoundaryDelegate.m */; };
 		7053F4CC1D62E4B700947F0C /* AYOneProfileContentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */; };
 		7053F4CD1D62E4B700947F0C /* AYOneProfileContentCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */; };
 		7053F4D01D62E5AF00947F0C /* AYOneProfileAboutCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7053F4CF1D62E5AF00947F0C /* AYOneProfileAboutCellView.m */; };
@@ -1604,6 +1606,10 @@
 		7053614F1D5C8971006BB95E /* AYOneProfileController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileController.m; sourceTree = "<group>"; };
 		705361511D5C9A53006BB95E /* AYOneProfileDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileDelegate.h; sourceTree = "<group>"; };
 		705361521D5C9A53006BB95E /* AYOneProfileDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileDelegate.m; sourceTree = "<group>"; };
+		7053E9741F70FC57006CBB1B /* AYSetCapacityOptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetCapacityOptView.h; sourceTree = "<group>"; };
+		7053E9751F70FC57006CBB1B /* AYSetCapacityOptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetCapacityOptView.m; sourceTree = "<group>"; };
+		7053E9771F711107006CBB1B /* AYSetAgeBoundaryDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetAgeBoundaryDelegate.h; sourceTree = "<group>"; };
+		7053E9781F711107006CBB1B /* AYSetAgeBoundaryDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetAgeBoundaryDelegate.m; sourceTree = "<group>"; };
 		7053F4C91D62E4B700947F0C /* AYOneProfileContentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOneProfileContentCellView.h; sourceTree = "<group>"; };
 		7053F4CA1D62E4B700947F0C /* AYOneProfileContentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOneProfileContentCellView.m; sourceTree = "<group>"; };
 		7053F4CB1D62E4B700947F0C /* AYOneProfileContentCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYOneProfileContentCellView.xib; sourceTree = "<group>"; };
@@ -7364,11 +7370,11 @@
 				70C41EAF1DBA122500C77B10 /* SetNapDeviceController */,
 				70F82C541DF5698F006EBDD2 /* SetServiceNotice */,
 				70C41EAA1DBA122500C77B10 /* SetNapCostController */,
-				7001C8701DD2CCD9009EDC59 /* ServiceDescController */,
 				70C41E841DBA122500C77B10 /* NapImagePickerController */,
 				70C41E5D1DBA122500C77B10 /* MainInfoController */,
-				70F967991E29003800B3805B /* SetServiceCapacity */,
 				70231AD61E3061150025E087 /* NapLocationController */,
+				70F967991E29003800B3805B /* SetServiceCapacity */,
+				7001C8701DD2CCD9009EDC59 /* ServiceDescController */,
 				702787C81F6FAE0200AD57F6 /* SetBasicInfoController */,
 				702505241F6BD3BD00BA77E0 /* PushServiceMainController */,
 				70CB48251DFAAB6D003D38FB /* SetServiceTitle */,
@@ -8343,6 +8349,8 @@
 			children = (
 				70F9679D1E29003800B3805B /* AYSetServiceCapacityDelegate.h */,
 				70F9679E1E29003800B3805B /* AYSetServiceCapacityDelegate.m */,
+				7053E9771F711107006CBB1B /* AYSetAgeBoundaryDelegate.h */,
+				7053E9781F711107006CBB1B /* AYSetAgeBoundaryDelegate.m */,
 			);
 			path = SetServiceCapacityDelegate;
 			sourceTree = "<group>";
@@ -8352,6 +8360,8 @@
 			children = (
 				70F967A01E29003800B3805B /* AYSetServiceCapacityCellView.h */,
 				70F967A11E29003800B3805B /* AYSetServiceCapacityCellView.m */,
+				7053E9741F70FC57006CBB1B /* AYSetCapacityOptView.h */,
+				7053E9751F70FC57006CBB1B /* AYSetCapacityOptView.m */,
 			);
 			path = SetServiceCapacityView;
 			sourceTree = "<group>";
@@ -9484,6 +9494,7 @@
 				702510A31CC0F5AB00DADF2B /* Targets.m in Sources */,
 				70FCB17B1E66BB0C00A79499 /* AYNurseScheduleMainController.m in Sources */,
 				7021B4A31DB480E8004420E0 /* AYIsInstalledWechatCommand.m in Sources */,
+				7053E9791F711107006CBB1B /* AYSetAgeBoundaryDelegate.m in Sources */,
 				705B4A381D644AA4006273E7 /* AYUnCollectServiceCommand.m in Sources */,
 				70A333751E095BE800C1517C /* AYFilterThemeController.m in Sources */,
 				705C450E1CA8E4ED00921799 /* AYQueryRegUserCommand.m in Sources */,
@@ -9733,6 +9744,7 @@
 				70CDF60F1CBCBD8C00311841 /* AYAlbumTableCellView.m in Sources */,
 				8086A2551CCE983B006186D4 /* AYUserSearchRemoteFacade.m in Sources */,
 				707ABD101D55CEF10042332A /* AYQueryApplyOrdersCommand.m in Sources */,
+				7053E9761F70FC57006CBB1B /* AYSetCapacityOptView.m in Sources */,
 				70F57E5F1D8693CC003D493E /* MBProgressHUD.m in Sources */,
 				70160F131ECECDA800D1CF6D /* AYCancelOrderCommand.m in Sources */,
 				70EBBC621DEC361D00968083 /* AYLocationAuthCommand.m in Sources */,

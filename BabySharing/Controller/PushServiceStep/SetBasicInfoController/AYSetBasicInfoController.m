@@ -16,10 +16,11 @@
 
 
 #define kMaxImagesCount             9
+static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 
 @implementation AYSetBasicInfoController {
 	
-	NSMutableDictionary *service_info;
+	NSMutableDictionary *push_service_info;
 	
 	NSMutableArray *selectImageArr;
 	NSMutableDictionary *tmp_service_info;
@@ -32,12 +33,19 @@
 	
 	NSDictionary* dic = (NSDictionary*)*obj;
 	if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		push_service_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
+		NSString *desc = [dic objectForKey:kAYControllerChangeArgsKey];
+		[tmp_service_info setValue:desc forKey:kAYServiceArgsDescription];
 		
+		id tmp = [tmp_service_info copy];
+		kAYDelegatesSendMessage(kSetBasicInfoDelegate, kAYDelegateChangeDataMessage, &tmp)
+		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+		
+		[self setNavRightBtnEnableStatus];
 	}
 }
 
@@ -45,14 +53,14 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"Basic Servcie" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"基本信息" andTextColor:[Tools blackColor] andFontSize:622.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetBasicInfo"];
+	id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:kSetBasicInfoDelegate];
 	id obj = (id)cmd_notify;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	obj = (id)cmd_notify;
@@ -65,8 +73,10 @@
 	}
 	
 	tmp_service_info = [[NSMutableDictionary alloc] init];
-	selectImageArr = [NSMutableArray array];
-	[tmp_service_info setValue:selectImageArr forKey:kAYServiceArgsImages];
+	[tmp_service_info setValue:[push_service_info objectForKey:kAYServiceArgsImages] forKey:kAYServiceArgsImages];
+	[tmp_service_info setValue:[push_service_info objectForKey:kAYServiceArgsDescription] forKey:kAYServiceArgsDescription];
+	[tmp_service_info setValue:[push_service_info objectForKey:kAYServiceArgsCharact] forKey:kAYServiceArgsCharact];
+	
 	[tmp_service_info setValue:class_name_arr forKey:kAYDefineArgsCellNames];
 	
 	id tmp = [tmp_service_info copy];
@@ -90,7 +100,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
@@ -105,11 +115,7 @@
 - (void)pushImagePickerController {
 	TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount - 1 delegate:self];
 	
-	//四类个性化设置，这些参数都可以不传，此时会走默认设置
 	imagePickerVc.isSelectOriginalPhoto = NO/*_isSelectOriginalPhoto*/;
-	
-	// 1.如果你需要将拍照按钮放在外面，不要传这个参数
-	//    imagePickerVc.selectedAssets = _selectedAssets; // optional, 可选的
 	imagePickerVc.allowTakePicture = YES; // 是否显示拍照按钮
 	
 	// 2. 在这里设置imagePickerVc的外观
@@ -124,6 +130,7 @@
 	
 	[self presentViewController:imagePickerVc animated:YES completion:nil];
 }
+
 #pragma mark TZImagePickerControllerDelegate
 // 用户点击了取消
 - (void)imagePickerControllerDidCancel:(TZImagePickerController *)picker {
@@ -155,46 +162,32 @@
 /// 用户选择好了图片，如果assets非空，则用户选择了原图。
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
 	
-//	[selectedPhotos addObjectsFromArray:photos];
-//	
-//	_isSelectOriginalPhoto = isSelectOriginalPhoto;
-//	_layout.itemCount = selectedPhotos.count;
-//	[_collectionView reloadData];
-//	
-//	[self setNavRightBtnEnableStatus];
+	selectImageArr = [tmp_service_info objectForKey:kAYServiceArgsImages];
+	if (!selectImageArr) {
+		selectImageArr = [NSMutableArray array];
+		[tmp_service_info setValue:selectImageArr forKey:kAYServiceArgsImages];
+	}
+	[selectImageArr addObjectsFromArray:photos];
+	[self refreshMainDelegate];
 	
 }
 
 #pragma mark -- actions
 - (void)setNavRightBtnEnableStatus {
-//	if (selectedPhotos.count == 0 || !selectedPhotos) {
-//		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
-//		bar_right_btn.userInteractionEnabled = NO;
-//		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-//	} else {
-//		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-//		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-//	}
+	if (!isAlreadyEnable) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = YES;
+	}
 }
 
-- (void)didCourseSignLabelTap {
+- (void)refreshMainDelegate {
 	
-	//    if (((NSNumber*)[titleAndCourseSignInfo objectForKey:kAYServiceArgsCatSecondary]).intValue == -1) {
-	//        kAYUIAlertView(@"提示", @"您需要重新设置服务主题，才能进行服务标签设置");
-	//        return;
-	//    }
-	//
-	//    id<AYCommand> dest = DEFAULTCONTROLLER(@"SetCourseSign");
-	//
-	//    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-	//    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	//    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-	//    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-	//
-	//    [dic_push setValue:titleAndCourseSignInfo forKey:kAYControllerChangeArgsKey];
-	//
-	//    id<AYCommand> cmd = PUSH;
-	//    [cmd performWithResult:&dic_push];
+	id tmp = [tmp_service_info copy];
+	kAYDelegatesSendMessage(kSetBasicInfoDelegate, kAYDelegateChangeDataMessage, &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+	
+	[self setNavRightBtnEnableStatus];
 }
 
 #pragma mark -- notification
@@ -209,28 +202,41 @@
 }
 	
 - (id)rightBtnSelected {
+	NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
+	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
+	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	id<AYCommand> des = DEFAULTCONTROLLER(@"PushServiceMain");
-	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-	[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
-	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	[tmp_service_info setValue:@"part_basic" forKey:@"key"];
+	[dic setValue:[tmp_service_info copy] forKey:kAYControllerChangeArgsKey];
 	
-	[dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
-	
-	id<AYCommand> cmd = PUSH;
-	[cmd performWithResult:&dic_push];
-	
+	id<AYCommand> cmd = POP;
+	[cmd performWithResult:&dic];
 	return nil;
 }
 
-- (id)didCharactViewTap:(id)charact {
+- (id)didCharactViewTap:(id)args {
+	NSMutableArray *charArr = [tmp_service_info objectForKey:kAYServiceArgsCharact];
+	if (!charArr) {
+		charArr = [NSMutableArray array];
+		[tmp_service_info setValue:charArr forKey:kAYServiceArgsCharact];
+	}
 	
+	NSString *charStr = args;
+	if ([charArr containsObject:charStr]) {
+		[charArr removeObject:charStr];
+	} else if(charArr.count < 3){
+		[charArr addObject:charStr];
+	} else {
+		NSLog(@"Limited off 3");
+	}
+	
+	[self refreshMainDelegate];
 	return nil;
 }
 
 - (id)deletedImageWithIndex:(id)args {
-	
+	[selectImageArr removeObjectAtIndex:[args integerValue]];
+	[self refreshMainDelegate];
 	return nil;
 }
 - (id)beginImagePicker {

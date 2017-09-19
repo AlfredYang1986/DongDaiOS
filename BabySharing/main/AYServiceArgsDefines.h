@@ -65,6 +65,7 @@ static NSString* const kAYServiceArgsCourseCoustom =		@"concert";
 static NSString* const kAYServiceArgsImages =				@"images";
 static NSString* const kAYServiceArgsTitle =				@"title";
 static NSString* const kAYServiceArgsDescription =			@"description";
+static NSString* const kAYServiceArgsCharact =				@"charact";
 
 static NSString* const kAYServiceArgsTimes =				@"tms";
 static NSString* const kAYServiceArgsStartDate =			@"startdate";

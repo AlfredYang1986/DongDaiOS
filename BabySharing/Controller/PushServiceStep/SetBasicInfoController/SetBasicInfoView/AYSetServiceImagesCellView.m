@@ -142,13 +142,16 @@
 - (id)setCellInfo:(id)args {
 	NSString *title = [args objectForKey:@"title"];
 	titleLabel.text = title;
+	
+	imagesData = [args objectForKey:kAYServiceArgsImages];
+	[imagesCollectionView reloadData];
 	return nil;
 }
 
 
 #pragma mark -- collectionView Delegate
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	return imagesData.count == 0 ? 2 :imagesData.count;
+	return imagesData.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -157,6 +160,10 @@
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"index"];
+		
+	if (indexPath.row > 0) {
+		[tmp setValue:[imagesData objectAtIndex:indexPath.row-1] forKey:@"image"];
+	}
 	item.itemInfo = [tmp copy];
 	[item.delBtn addTarget:self action:@selector(didItemDelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 	
@@ -164,7 +171,7 @@
 }
 
 - (void)didItemDelBtnClick:(UIButton*)btn {
-	NSNumber *index = [NSNumber numberWithInteger:btn.tag];
+	NSNumber *index = [NSNumber numberWithInteger:btn.tag-1];
 	kAYViewSendNotify(self, @"deletedImageWithIndex:", &index)
 }
 

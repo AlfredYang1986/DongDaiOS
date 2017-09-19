@@ -94,7 +94,7 @@
         self.allowPickingVideo = NO;
         self.allowPickingImage = YES;
         self.allowTakePicture = YES;
-        self.timeout = 30;
+        self.timeout = 60;
         self.photoWidth = 828.0;
         self.photoPreviewMaxWidth = 600;
         
@@ -126,7 +126,7 @@
     if (self) {
         self.selectedAssets = [NSMutableArray arrayWithArray:selectedAssets];
         self.allowPickingOriginalPhoto = YES;
-        self.timeout = 30;
+        self.timeout = 60;
         self.photoWidth = 828.0;
         self.maxImagesCount = selectedAssets.count;
         self.photoPreviewMaxWidth = 600;

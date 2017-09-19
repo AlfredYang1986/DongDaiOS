@@ -56,6 +56,7 @@
 		}];
 		
 		charactArr = kAY_service_options_characters;
+		charactViewArr = [NSMutableArray array];
 		int row = 0, col = 0;
 		CGFloat margin = 16;
 		CGFloat itemWith = (SCREEN_WIDTH - 70 - margin*2)/3;
@@ -143,10 +144,13 @@
 	NSString *title = [args objectForKey:@"title"];
 	titleLabel.text = title;
 	
-	NSString *char_args = [args objectForKey:@"args"];
-	if (char_args.length != 0) {
-		NSInteger index = [charactArr indexOfObject:char_args];
-		[[charactViewArr objectAtIndex:index] setSelectStatus];
+	NSArray *charArr = [args objectForKey:kAYServiceArgsCharact];
+	for (AYCourseSignView *view in charactViewArr) {
+		if ([charArr containsObject:view.sign]) {
+			[view setSelectStatus];
+		} else {
+			[view setUnselectStatus];
+		}
 	}
 	
 	return nil;
