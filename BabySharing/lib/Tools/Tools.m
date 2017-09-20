@@ -410,7 +410,7 @@
         [st addLayoutManager:m];
         
         [st addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, st.length)];
-        con.lineFragmentPadding = 4;
+//        con.lineFragmentPadding = 4;
         //    con.lineBreakMode = NSLineBreakByWordWrapping;
         con.lineBreakMode = NSLineBreakByCharWrapping;
         

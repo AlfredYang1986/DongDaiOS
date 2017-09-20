@@ -137,6 +137,7 @@
 	[self.view addSubview:basicSubView];
 	
 	locationSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, subOrigX+kBETWEENMARGIN+leftHeight, sameWidth, leftHeight) andTitle:@"场地" andTapBlock:^{
+		[self pushDestControllerWithName:@"SetLocationInfo"];
 	}];
 	[self.view addSubview:locationSubView];
 	

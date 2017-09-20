@@ -84,6 +84,7 @@ static NSString* const kAYServiceArgsEnd =					@"end";
 
 static NSString* const kAYServiceArgsNotice =				@"other_words";
 static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
+static NSString* const kAYServiceArgsIsHealth =				@"health";
 static NSString* const kAYServiceArgsIsCollect =			@"isCollections";
 static NSString* const kAYServiceArgsPoints =				@"points";
 
@@ -96,12 +97,15 @@ static NSString* const kAYServiceArgsLeastTimes =			@"least_times";
 static NSString* const kAYServiceArgsFacility =				@"facility";
 
 static NSString* const kAYServiceArgsLocationInfo =			@"location";
-static NSString* const kAYServiceArgsAddress =				@"address";
+static NSString* const kAYServiceArgsYardType =				@"yard_type";
 static NSString* const kAYServiceArgsDistrict =				@"district";
+static NSString* const kAYServiceArgsAddress =				@"address";
 static NSString* const kAYServiceArgsAdjustAddress =		@"adjust";
 static NSString* const kAYServiceArgsPin =					@"pin";
 static NSString* const kAYServiceArgsLatitude =				@"latitude";
 static NSString* const kAYServiceArgsLongtitude =			@"longitude";
+static NSString* const kAYServiceArgsYardImages =			@"loc_images";
+//static NSString* const kAYServiceArgsLongtitude =			@"longitude";
 
 static NSString* const kAYServiceArgsAgeBoundary =			@"age_boundary";
 static NSString* const kAYServiceArgsAgeBoundaryUp =		@"usl";

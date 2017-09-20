@@ -302,6 +302,17 @@
 		<command type="message" message="changeQueryData:" />
 	</delegate>
 	
+	<delegate type="TableViewDelegateAndDatasource" name="SetLocationInfo" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="resetCellHeight:" />
+		<command type="notify" message="pickYardType" />
+		<command type="notify" message="setServiceFacility" />
+	</delegate>
+	<delegate type="PickerViewDelegateAndDatasource" name="YardTypePick" factory="AYDefaultDelegateFactory" >
+		<command type="message" message="changeQueryData:" />
+		<command type="message" message="queryCurrentSelected:" />
+	</delegate>
+	
 	<delegate type="PickerViewDelegateAndDatasource" name="SetAgeBoundary" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
 		<command type="message" message="queryCurrentSelected:" />

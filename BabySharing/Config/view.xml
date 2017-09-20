@@ -728,6 +728,24 @@
 		<command type="notify"      message="didCharactViewTap:" />
 	</view>
 	
+	<view type="SetServiceYardTypeCell" name="SetServiceYardTypeCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="SetServiceAddressCell" name="SetServiceAddressCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="sendTransHeight:" />
+		<command type="notify"      message="didAddressLabelTap" />
+	</view>
+	<view type="SetServiceFacilityCell" name="SetServiceFacilityCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+	</view>
+	<view type="SetServiceYardImagesCell" name="SetServiceYardImagesCell" factory="AYReuseViewFactory" >
+		<command type="message"     message="setCellInfo:" />
+		<command type="notify"      message="beginImagePicker" />
+		<command type="notify"      message="deletedImageWithIndex:" />
+		<command type="notify"      message="editYardImagesTag:" />
+	</view>
+	
     <view type="SetCourseSignCell" name="SetCourseSignCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="didCourseSignViewTap:" />
