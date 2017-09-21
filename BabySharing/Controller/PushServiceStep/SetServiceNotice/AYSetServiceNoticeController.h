@@ -8,6 +8,6 @@
 
 #import "AYViewController.h"
 
-@interface AYSetServiceNoticeController : AYViewController
+@interface AYSetServiceNoticeController : AYViewController <UITextViewDelegate>
 
 @end

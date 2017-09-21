@@ -162,7 +162,7 @@
 	[tmp setValue:[NSNumber numberWithInteger:indexPath.row] forKey:@"index"];
 	
 	if (indexPath.row > 0) {
-		[tmp setValue:[imagesData objectAtIndex:indexPath.row-1] forKey:@"image"];
+		[tmp setValue:[imagesData objectAtIndex:indexPath.row-1] forKey:@"data_image"];
 	}
 	item.itemInfo = [tmp copy];
 	[item.delBtn addTarget:self action:@selector(didItemDelBtnClick:) forControlEvents:UIControlEventTouchUpInside];

@@ -55,7 +55,7 @@
 		optionsData = [NSMutableArray array];
 	}
 	
-    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetNapCost"];
+    id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceFacility"];
 	id obj = (id)cmd_notify;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
 	obj = (id)cmd_notify;
@@ -65,7 +65,7 @@
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
     
 	id data = [optionsData copy];
-    kAYDelegatesSendMessage(@"SetNapCost", kAYDelegateChangeDataMessage, &data)
+    kAYDelegatesSendMessage(@"SetServiceFacility", kAYDelegateChangeDataMessage, &data)
 }
 
 - (void)viewWillAppear:(BOOL)animated {

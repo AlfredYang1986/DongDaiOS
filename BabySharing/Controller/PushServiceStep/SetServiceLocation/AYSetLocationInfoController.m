@@ -37,14 +37,14 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
 		
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-		NSString *desc = [dic objectForKey:kAYControllerChangeArgsKey];
-		[tmp_service_info setValue:desc forKey:kAYServiceArgsDescription];
+		NSDictionary *back_args = [dic objectForKey:kAYControllerChangeArgsKey];
+		for (NSString *key in [back_args allKeys]) {
+//			if ([key isEqualToString:kAYServiceArgsAddress]) {
+//			}
+			[tmp_service_info setValue:[back_args objectForKey:key] forKey:key];
+		}
 		
-		id tmp = [tmp_service_info copy];
-		kAYDelegatesSendMessage(kTableDelegate, kAYDelegateChangeDataMessage, &tmp)
-		kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-		
-		[self setNavRightBtnEnableStatus];
+		[self refreshMainDelegate];
 	}
 }
 
@@ -186,7 +186,14 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 		selectImageArr = [NSMutableArray array];
 		[tmp_service_info setValue:selectImageArr forKey:kAYServiceArgsYardImages];
 	}
-	[selectImageArr addObjectsFromArray:photos];
+	
+	for (UIImage *img in photos) {
+		NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+		[dic setValue:img forKey:@"pic"];
+		[selectImageArr addObject:dic];
+	}
+	
+//	[selectImageArr addObjectsFromArray:photos];
 	[self refreshMainDelegate];
 	
 }
@@ -265,7 +272,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 
 - (id)setServiceFacility {
 	
-	id<AYCommand> dest = DEFAULTCONTROLLER(@"EditServiceCapacity");
+	id<AYCommand> dest = DEFAULTCONTROLLER(@"SetNapDevice");
 	
 	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc] init];
 	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
@@ -289,7 +296,20 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	return nil;
 }
 - (id)editYardImagesTag:(id)args {
+	id<AYCommand> dest = DEFAULTCONTROLLER(@"SetYardImagesTag");
 	
+	NSMutableDictionary* dic_push = [[NSMutableDictionary alloc] init];
+	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
+	[dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
+	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+	
+	NSMutableDictionary *dic_imgs = [[NSMutableDictionary alloc] init];
+	[dic_imgs setValue:[tmp_service_info objectForKey:kAYServiceArgsYardImages] forKey:kAYServiceArgsYardImages];
+	[dic_imgs setValue:args forKey:@"index"];
+	[dic_push setValue:[dic_imgs copy] forKey:kAYControllerChangeArgsKey];
+	
+	id<AYCommand> cmd = PUSH;
+	[cmd performWithResult:&dic_push];
 	return nil;
 }
 
@@ -307,9 +327,11 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	id brige = [self.views objectForKey:kAYPickerView];
 	[cmd_index performWithResult:&brige];
 	
-	NSDictionary *args = (NSDictionary*)brige;
-	
-	[self setNavRightBtnEnableStatus];
+	NSString *args = (NSString*)brige;
+	if (args.length != 0) {
+		[tmp_service_info setValue:args forKey:kAYServiceArgsYardType];
+		[self refreshMainDelegate];
+	}
 	return nil;
 }
 

@@ -26,6 +26,11 @@
     BOOL isAllowLeave;
     
     UISwitch *isALeaveSwitch;
+	UISwitch *isHealth;
+	
+	UILabel *placeHold;
+	UITextView *noticeTextView;
+	BOOL isAlreadyEnable;
 }
 
 #pragma mark --  commands
@@ -40,8 +45,6 @@
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
-        NSDictionary *notice_args = [dic objectForKey:kAYControllerChangeArgsKey];
-        setedNoticeStr = [notice_args objectForKey:kAYServiceArgsNotice];
         
     }
 }
@@ -50,71 +53,84 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	UILabel *titleLabel = [Tools creatUILabelWithText:@"服务守则" andTextColor:[Tools themeColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(self.view).offset(80);
 		make.left.equalTo(self.view).offset(20);
 	}];
 	
-	[Tools creatCALayerWithFrame:CGRectMake(20, 115, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self.view];
-	
-	CGFloat insetLabelHeight = 64.f;
-	
-	UIView *allowView = [[UIView alloc]init];
-	[self.view addSubview:allowView];
-	[allowView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(self.view).offset(116);
-		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, insetLabelHeight));
-	}];
-	[Tools creatCALayerWithFrame:CGRectMake(0, insetLabelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:allowView];
-	
-	UILabel *h1 = [Tools creatUILabelWithText:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-	[allowView addSubview:h1];
+	UILabel *h1 = [Tools creatUILabelWithText:@"需要家长陪同" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:h1];
 	[h1 mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(allowView);
-		make.left.equalTo(allowView).offset(5);
+		make.top.equalTo(titleLabel.mas_bottom).offset(30);
+		make.left.equalTo(titleLabel);
 	}];
-    
-    isALeaveSwitch = [[UISwitch alloc]init];
-    isALeaveSwitch.onTintColor = [Tools themeColor];
-//    isALeaveSwitch.transform= CGAffineTransformMakeScale(0.69, 0.69);
-    [allowView addSubview:isALeaveSwitch];
-    [isALeaveSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(allowView);
-        make.right.equalTo(allowView).offset(-10);
-        make.size.mas_equalTo(CGSizeMake(49, 31));
-    }];
-    isALeaveSwitch.on = isAllowLeave;
 	
-	UIView *otherNoticeView = [[UIView alloc]init];
-	[self.view addSubview:otherNoticeView];
-	[otherNoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(allowView.mas_bottom);
-		make.centerX.equalTo(allowView);
-		make.size.equalTo(allowView);
+	isALeaveSwitch = [[UISwitch alloc]init];
+	isALeaveSwitch.onTintColor = [Tools themeColor];
+	//    isALeaveSwitch.transform= CGAffineTransformMakeScale(0.69, 0.69);
+	[self.view addSubview:isALeaveSwitch];
+	[isALeaveSwitch mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(h1);
+		make.right.equalTo(self.view).offset(-20);
+		make.size.mas_equalTo(CGSizeMake(49, 31));
 	}];
-	[Tools creatCALayerWithFrame:CGRectMake(0, insetLabelHeight - 0.5, SCREEN_WIDTH - 20 * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:otherNoticeView];
+	isALeaveSwitch.on = isAllowLeave;
 	
-	UILabel *otherLabel = [Tools creatUILabelWithText:@"其他守则" andTextColor:[Tools blackColor] andFontSize:16.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [otherNoticeView addSubview:otherLabel];
+	UILabel *h2 = [Tools creatUILabelWithText:@"需要孩子健康证明" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:h2];
+	[h2 mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(h1.mas_bottom).offset(30);
+		make.left.equalTo(titleLabel);
+	}];
+	
+	isHealth = [[UISwitch alloc]init];
+	isHealth.onTintColor = [Tools themeColor];
+	//    isHealth.transform= CGAffineTransformMakeScale(0.69, 0.69);
+	[self.view addSubview:isHealth];
+	[isHealth mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(h2);
+		make.right.equalTo(self.view).offset(-20);
+		make.size.mas_equalTo(CGSizeMake(49, 31));
+	}];
+	isHealth.on = isAllowLeave;
+	
+	UIView *lineView = [[UIView alloc] init];
+	lineView.backgroundColor = [Tools garyLineColor];
+	[self.view addSubview:lineView];
+	[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(h2.mas_bottom).offset(25);
+		make.centerX.equalTo(self.view);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 0.5));
+	}];
+	
+	UILabel *otherLabel = [Tools creatUILabelWithText:@"更多守则" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+    [self.view addSubview:otherLabel];
     [otherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.centerY.equalTo(otherNoticeView);
-		make.left.equalTo(otherNoticeView).offset(5);
+		make.top.equalTo(lineView.mas_bottom).offset(20);
+		make.left.equalTo(titleLabel);
     }];
-    otherNoticeView.userInteractionEnabled = YES;
-    [otherNoticeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didOtherNoticeTap)]];
-    
-    UIImageView *access = [[UIImageView alloc]init];
-    [otherNoticeView addSubview:access];
-    access.image = IMGRESOURCE(@"plan_time_icon");
-    [access mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(otherNoticeView).offset(-10);
-        make.centerY.equalTo(otherNoticeView);
-        make.size.mas_equalTo(CGSizeMake(23, 23));
-    }];
-    
+	
+	noticeTextView = [[UITextView alloc] init];
+	noticeTextView.font = [UIFont systemFontOfSize:15];
+	noticeTextView.textColor = [Tools blackColor];
+	noticeTextView.scrollEnabled = NO;
+	[noticeTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
+	noticeTextView.delegate = self;
+	[self.view addSubview:noticeTextView];
+	[noticeTextView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(otherLabel.mas_bottom).offset(20);
+		make.left.equalTo(titleLabel);
+		make.right.equalTo(self.view).offset(-20);
+	}];
+	
+	placeHold = [Tools creatUILabelWithText:@"请输入" andTextColor:[Tools garyColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[self.view addSubview:placeHold];
+	[placeHold mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.left.equalTo(noticeTextView).offset(2);
+		make.top.equalTo(noticeTextView).offset(2);
+	}];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -134,9 +150,9 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
 	
-    NSNumber *is_hidden = [NSNumber numberWithBool:YES];
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &is_hidden)
-    
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 //    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
@@ -146,11 +162,19 @@
     return nil;
 }
 
-#pragma mark -- actions
-//- (void)didYesBtnClick {
-//    optionBtn.selected = !optionBtn.selected;
-//}
+- (void)textViewDidChange:(UITextView *)textView {
+	placeHold.hidden = textView.text.length != 0;
+	[self setNavRightBtnEnableStatus];
+}
 
+#pragma mark -- actions
+- (void)setNavRightBtnEnableStatus {
+	if (!isAlreadyEnable) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = YES;
+	}
+}
 - (void)didOtherNoticeTap {
     
     id<AYCommand> dest = DEFAULTCONTROLLER(@"OtherNoticeText");

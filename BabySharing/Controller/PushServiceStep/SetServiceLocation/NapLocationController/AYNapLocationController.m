@@ -172,12 +172,12 @@
 - (void)onInputTipsSearchDone:(AMapInputTipsSearchRequest *)request response:(AMapInputTipsSearchResponse *)response
 {
     //    [self.tips setArray:response.tips];
-    id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
     id<AYDelegateBase> cmd_relations = [self.delegates objectForKey:@"NapLocation"];
     id<AYCommand> cmd = [cmd_relations.commands objectForKey:@"changeLocationResultData:"];
     NSArray* tmp = response.tips;
     [cmd performWithResult:&tmp];
-    
+	
+	id<AYViewBase> view_friend = [self.views objectForKey:@"Table"];
     id<AYCommand> cmd_refresh = [view_friend.commands objectForKey:@"refresh"];
     [cmd_refresh performWithResult:nil];
 }

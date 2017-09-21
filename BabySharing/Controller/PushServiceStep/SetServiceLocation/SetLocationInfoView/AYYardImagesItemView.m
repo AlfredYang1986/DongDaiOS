@@ -81,7 +81,7 @@
 		_delBtn.hidden = NO;
 	}
 	
-	id image = [_itemInfo objectForKey:@"image"];
+	id image = [[_itemInfo objectForKey:@"data_image"] objectForKey:kAYServiceArgsPic];
 	if ([image isKindOfClass:[NSString class]]) {
 		[coverImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAYDongDaDownloadURL, image]] placeholderImage:[UIImage imageNamed:@"default_image"] options:SDWebImageLowPriority];
 	} else if ([image isKindOfClass:[UIImage class]]) {

@@ -6,16 +6,14 @@
 //  Copyright © 2016年 Alfred Yang. All rights reserved.
 //
 
-#import "AYSetNapCostDelegate.h"
+#import "AYSetServiceFacilityDelegate.h"
 #import "AYFactoryManager.h"
 #import "AYProfileHeadCellView.h"
 #import "Notifications.h"
 #import "AYModelFacade.h"
 
-#import "AYProfileOrigCellView.h"
-#import "AYProfileServCellView.h"
 
-@implementation AYSetNapCostDelegate {
+@implementation AYSetServiceFacilityDelegate {
     NSArray *options_title_facilities;
 	NSArray* querydata;
 }
@@ -27,7 +25,11 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-    options_title_facilities = kAY_service_options_title_facilities;
+	
+	
+	options_title_facilities = @[@{@"友好性设施":@[@"新风系统", @"加湿器", @"鞋套", @"无线wifi", @"无烟", @"纯净水过滤系统", @"安全护栏", @"安全插座", @"安全桌角", @"防摔地板", @"环保玩具"]},
+								 @{@"安全性设施":@[@"消防设备", @"安全通道", @"监控设备"]},
+								 @{@"应急设施":@[@"急救包"]}];
 }
 
 - (void)performWithResult:(NSObject**)obj {

@@ -206,7 +206,7 @@
 	}
 	addressLabel.text = address;
 	
-	NSString *adjust = [args objectForKey:kAYServiceArgsAddress];
+	NSString *adjust = [args objectForKey:kAYServiceArgsAdjustAddress];
 	if (adjust.length == 0) {
 		adjustLabel.hidden = NO;
 	} else {

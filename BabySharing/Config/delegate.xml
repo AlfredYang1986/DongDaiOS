@@ -336,7 +336,7 @@
         <command type="message" message="changeEditMode:" />
     </delegate>
     
-    <delegate type="TableViewDelegateAndDatasource" name="SetNapCost" factory="AYDefaultDelegateFactory" >
+    <delegate type="TableViewDelegateAndDatasource" name="SetServiceFacility" factory="AYDefaultDelegateFactory" >
         <command type="message" message="changeQueryData:" />
     </delegate>
     

@@ -89,7 +89,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSArray *items = [[[modeArr objectAtIndex:indexPath.section] allValues] firstObject];
-	int row = (int)items.count/4;
+	int row = (int)items.count / 4;
 	if (items.count % 4 != 0) {
 		row++;
 	}

@@ -83,12 +83,15 @@
     NSMutableDictionary *dic_location = [[NSMutableDictionary alloc]init];
     
     AMapTip *tip = previewDic[indexPath.row];
-    [dic_location setValue:tip.name forKey:@"location_name"];
-    [dic_location setValue:tip.district forKey:@"district"];
+    [dic_location setValue:tip.name forKey:kAYServiceArgsAddress];
+    [dic_location setValue:tip.district forKey:kAYServiceArgsDistrict];
     double latitude = tip.location.latitude;
     double longitude = tip.location.longitude;
-    CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
-    [dic_location setValue:loc forKey:@"location"];
+//    CLLocation *loc = [[CLLocation alloc]initWithLatitude:latitude longitude:longitude];
+	NSMutableDictionary *loc = [[NSMutableDictionary alloc] init];
+	[loc setValue:[NSNumber numberWithDouble:latitude] forKey:kAYServiceArgsLatitude];
+	[loc setValue:[NSNumber numberWithDouble:longitude] forKey:kAYServiceArgsLongtitude];
+    [dic_location setValue:loc forKey:kAYServiceArgsPin];
     
     if (tip.uid != nil && tip.location == nil) {
         id<AYCommand> cmd = [self.notifies objectForKey:@"hideKeyBoard"];

@@ -152,6 +152,7 @@
 	[self.view addSubview:TMsSubView];
 	
 	noticeSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+(rightHeight+kBETWEENMARGIN)*2, sameWidth, rightHeight) andTitle:@"服务守则" andTapBlock:^{
+		[self pushDestControllerWithName:@"SetServiceNotice"];
 	}];
 	[self.view addSubview:noticeSubView];
 	

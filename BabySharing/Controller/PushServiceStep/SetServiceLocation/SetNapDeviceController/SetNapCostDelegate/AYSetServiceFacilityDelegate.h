@@ -12,6 +12,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewController.h"
 
-@interface AYSetNapCostDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
+@interface AYSetServiceFacilityDelegate : NSObject <AYDelegateBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

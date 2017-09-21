@@ -105,7 +105,8 @@ static NSString* const kAYServiceArgsPin =					@"pin";
 static NSString* const kAYServiceArgsLatitude =				@"latitude";
 static NSString* const kAYServiceArgsLongtitude =			@"longitude";
 static NSString* const kAYServiceArgsYardImages =			@"loc_images";
-//static NSString* const kAYServiceArgsLongtitude =			@"longitude";
+static NSString* const kAYServiceArgsPic =					@"pic";
+static NSString* const kAYServiceArgsTag =					@"tag";
 
 static NSString* const kAYServiceArgsAgeBoundary =			@"age_boundary";
 static NSString* const kAYServiceArgsAgeBoundaryUp =		@"usl";
