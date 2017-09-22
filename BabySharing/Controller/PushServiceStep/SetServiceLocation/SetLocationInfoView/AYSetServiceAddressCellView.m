@@ -82,6 +82,9 @@
 		
 		self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
+		self.userInteractionEnabled = YES;
+		[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didViewTapKeyBroad)]];
+		
 		UIView *shadowBGView = [[UIView alloc] init];
 		shadowBGView.layer.cornerRadius = 4.f;
 		shadowBGView.layer.shadowColor = [Tools garyColor].CGColor;
@@ -148,14 +151,14 @@
 		editAdjustTextView.textColor = [Tools blackColor];
 		editAdjustTextView.scrollEnabled = NO;
 		editAdjustTextView.delegate = self;
-		[editAdjustTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
+//		[editAdjustTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
 //		[editAdjustTextView addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
 		
 		adjustLabel = [Tools creatUILabelWithText:@"请填写具体地址" andTextColor:[Tools garyColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:adjustLabel];
 		[adjustLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(editAdjustTextView).offset(2);
-			make.top.equalTo(editAdjustTextView).offset(2);
+			make.left.equalTo(editAdjustTextView).offset(5);
+			make.top.equalTo(editAdjustTextView).offset(7);
 			make.right.equalTo(radiusBGView).offset(-45);
 		}];
 		
@@ -176,6 +179,8 @@
 - (void)textViewDidChange:(UITextView *)textView {	//52
 	adjustLabel.hidden = textView.text.length != 0;
 	
+	id tmp = [textView.text copy];
+	kAYViewSendNotify(self, @"adjustTextDidChange:", &tmp)
 //	CGFloat textViewContentH = textView.contentSize.height;
 //	if (textViewContentH > 54) {
 //		textView.text = [textView.text substringToIndex:[textView.text length] - 1];
@@ -195,6 +200,10 @@
 }
 
 #pragma mark -- actions
+- (void)didViewTapKeyBroad {
+	[editAdjustTextView resignFirstResponder];
+}
+
 - (id)setCellInfo:(id)args {
 	NSString *title = [args objectForKey:@"title"];
 	titleLabel.text = title;
@@ -211,7 +220,7 @@
 		adjustLabel.hidden = NO;
 	} else {
 		adjustLabel.hidden = YES;
-		editAdjustTextView.text = address;
+		editAdjustTextView.text = adjust;
 	}
 	
 	return nil;

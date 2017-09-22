@@ -735,6 +735,7 @@
 		<command type="message"     message="setCellInfo:" />
 		<command type="notify"      message="sendTransHeight:" />
 		<command type="notify"      message="didAddressLabelTap" />
+		<command type="notify"      message="adjustTextDidChange:" />
 	</view>
 	<view type="SetServiceFacilityCell" name="SetServiceFacilityCell" factory="AYReuseViewFactory" >
 		<command type="message"     message="setCellInfo:" />
@@ -775,6 +776,7 @@
         <command type="notify"      message="didOptionBtnClick:" />
         <command type="notify"      message="didSetNoteBtn:" />
         <command type="notify"      message="textChange:" />
+		<command type="notify"      message="didFacilityOptViewTap:" />
     </view>
     
     <view type="ServiceTimesCell" name="ServiceTimesCell" factory="AYReuseViewFactory" >

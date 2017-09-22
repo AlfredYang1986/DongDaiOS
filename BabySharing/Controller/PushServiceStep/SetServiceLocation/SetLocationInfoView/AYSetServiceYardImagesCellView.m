@@ -18,6 +18,7 @@
 
 @implementation AYSetServiceYardImagesCellView {
 	UILabel *titleLabel;
+	UILabel *tipLabel;
 	
 	UICollectionView *imagesCollectionView;
 	NSArray *imagesData;
@@ -57,6 +58,15 @@
 			make.left.equalTo(radiusBGView).offset(15);
 			make.top.equalTo(radiusBGView).offset(12);
 		}];
+		
+		tipLabel = [Tools creatUILabelWithText:@"🏷️您有图片还未设置标签" andTextColor:[Tools themeColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+		[self addSubview:tipLabel];
+		[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(radiusBGView).offset(15);
+			make.centerY.equalTo(titleLabel);
+			make.right.equalTo(radiusBGView.mas_right).offset(-10);
+		}];
+		tipLabel.hidden = YES;
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 		layout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -144,6 +154,15 @@
 	titleLabel.text = title;
 	
 	imagesData = [args objectForKey:kAYServiceArgsYardImages];
+	
+	int count = 0;
+	for (NSDictionary *info in imagesData) {
+		if ([info objectForKey:kAYServiceArgsTag]) {
+			count ++;
+		}
+	}
+	tipLabel.hidden = count >= imagesData.count;
+	
 	[imagesCollectionView reloadData];
 	return nil;
 }

@@ -16,14 +16,16 @@
 #import "AYRemoteCallCommand.h"
 #import "AYServiceArgsDefines.h"
 
+#import "AYCourseSignView.h"
+
 #define LIMITNUMB                   228
 
 @implementation AYSetNapDeviceController {
 	
-    NSMutableArray *optionsData;
+    NSArray *push_options_data;
+	NSMutableArray *tmp_options_data;
 	
-	NSDictionary *show_service_info;
-	NSMutableDictionary *note_update_info;
+	BOOL isAlreadyEnable;
 }
 
 #pragma mark --  commands
@@ -31,14 +33,7 @@
     
 	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        id args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args isKindOfClass:[NSArray class]]) {
-			optionsData = [NSMutableArray arrayWithArray:args];
-		} else {
-			show_service_info = args;
-			note_update_info = [[NSMutableDictionary alloc] init];
-			optionsData = [NSMutableArray arrayWithArray:[[args objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsFacility]];
-		}
+        push_options_data = [dic objectForKey:kAYControllerChangeArgsKey];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -51,9 +46,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	if (!optionsData) {
-		optionsData = [NSMutableArray array];
-	}
 	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"SetServiceFacility"];
 	id obj = (id)cmd_notify;
@@ -63,9 +55,13 @@
 	
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &class_name)
-    
-	id data = [optionsData copy];
-    kAYDelegatesSendMessage(@"SetServiceFacility", kAYDelegateChangeDataMessage, &data)
+	
+	if (push_options_data) {
+		tmp_options_data = [[NSMutableArray alloc] initWithArray:push_options_data];
+		id data = [push_options_data copy];
+		kAYDelegatesSendMessage(@"SetServiceFacility", kAYDelegateChangeDataMessage, &data)
+	}
+	
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -81,13 +77,13 @@
 - (id)FakeNavBarLayout:(UIView*)view{
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
 	
-	//    NSString *title = @"场地友好性";
-	//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	NSString *title = @"场地友好性和安全设施";
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
 	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:16.f andBackgroundColor:nil];
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
@@ -98,27 +94,20 @@
 - (id)TableLayout:(UIView*)view {
     CGFloat margin = 0;
     view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, SCREEN_HEIGHT - 64);
-	
-    ((UITableView*)view).backgroundColor = [UIColor clearColor];
     return nil;
 }
 
 #pragma mark -- actions
-- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
-    NSLog(@"tap esle where");
+- (void)setNavRightBtnEnableStatus {
+	if (!isAlreadyEnable) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = YES;
+	}
 }
 
--(id)didOptionBtnClick:(NSString*)args {
-	
-	if ([optionsData containsObject:args]) {
-		[optionsData removeObject:args];
-	} else
-		[optionsData addObject:args];
-	
-	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:16.f andBackgroundColor:nil];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-	
-    return nil;
+- (void)tapElseWhere:(UITapGestureRecognizer*)gusture {
+    NSLog(@"tap esle where");
 }
 
 #pragma mark -- notification
@@ -139,31 +128,33 @@
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	if (show_service_info) {
-		[note_update_info setValue:optionsData forKey:kAYServiceArgsFacility];
-		[dic setValue:[note_update_info copy] forKey:kAYControllerChangeArgsKey];
-	} else {
-		if (optionsData.count != 0) {
-			NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-			[dic_info setValue:[optionsData copy] forKey:kAYServiceArgsFacility];
-			[dic_info setValue:kAYServiceArgsFacility forKey:@"key"];
-			
-			[dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
-		}
-	}
+	NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+	[dic_info setValue:[tmp_options_data copy] forKey:kAYServiceArgsFacility];
+	[dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
 	
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
-	
     return nil;
 }
 
 
-
-
--(id)textChange:(NSString*)text {
+-(id)didFacilityOptViewTap:(id)args {
+	AYCourseSignView *tapView = args;
+	NSString *opt = tapView.sign;
 	
-    return nil;
+	if (!tmp_options_data) {
+		tmp_options_data = [NSMutableArray array];
+	}
+	if ([tmp_options_data containsObject:opt]) {
+		[tmp_options_data removeObject:opt];
+		[tapView setUnselectStatus];
+	} else {
+		[tmp_options_data addObject:opt];
+		[tapView setSelectStatus];
+	}
+	
+	[self setNavRightBtnEnableStatus];
+	return nil;
 }
 
 @end

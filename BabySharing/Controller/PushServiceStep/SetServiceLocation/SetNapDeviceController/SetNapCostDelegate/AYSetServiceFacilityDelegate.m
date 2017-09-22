@@ -27,7 +27,7 @@
 - (void)postPerform {
 	
 	
-	options_title_facilities = @[@{@"友好性设施":@[@"新风系统", @"加湿器", @"鞋套", @"无线wifi", @"无烟", @"纯净水过滤系统", @"安全护栏", @"安全插座", @"安全桌角", @"防摔地板", @"环保玩具"]},
+	options_title_facilities = @[@{@"友好性设施":@[@"防摔地板", @"新风系统", @"纯净水过滤系统", @"安全插座", @"加湿器", @"提供WiFi", @"安全护栏", @"无烟", @"环保玩具", @"安全桌角", @"鞋套"]},
 								 @{@"安全性设施":@[@"消防设备", @"安全通道", @"监控设备"]},
 								 @{@"应急设施":@[@"急救包"]}];
 }
@@ -54,30 +54,36 @@
 }
 
 #pragma mark -- table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return options_title_facilities.count;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return options_title_facilities.count;
+    return 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString* class_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"SetNapOptionsCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-	cell.controller = _controller;
+	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    [dic setValue:[options_title_facilities objectAtIndex:indexPath.row] forKey:@"title"];
-    [dic setValue:querydata forKey:@"options"];
-    
-    id<AYCommand> set_cmd = [cell.commands objectForKey:@"setCellInfo:"];
-    [set_cmd performWithResult:&dic];
-    
-    return (UITableViewCell*)cell;
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
+	[tmp setValue:[querydata copy] forKey:@"handle"];
+	[tmp setValue:[[[options_title_facilities objectAtIndex:indexPath.section] allValues] firstObject] forKey:@"model"];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	
+	cell.controller = self.controller;
+	return (UITableViewCell*)cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 64;
+	NSArray *items = [[[options_title_facilities objectAtIndex:indexPath.section] allValues] firstObject];
+	int row = (int)items.count / 3;
+	if (items.count % 3 != 0) {
+		row++;
+	}
+	return row*41 + 10 + 20;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -85,21 +91,22 @@
 }
 
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headView = [[UIView alloc]init];
-    headView.backgroundColor = [Tools whiteColor];
-    
-    UILabel *titleLabel = [Tools creatUILabelWithText:@"场地友好性" andTextColor:[Tools themeColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
-    [headView addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(headView).offset(20);
-        make.centerY.equalTo(headView);
-    }];
-	[Tools creatCALayerWithFrame:CGRectMake(20, 49.5, SCREEN_WIDTH - 40, 0.5) andColor:[Tools garyLineColor] inSuperView:headView];
-    return headView;
+	UIView *headView = [[UIView alloc]init];
+	headView.backgroundColor = [Tools whiteColor];
+	NSString *titleStr = [[[options_title_facilities objectAtIndex:section] allKeys] firstObject];
+	
+	UILabel *titleLabel = [Tools creatUILabelWithText:titleStr andTextColor:[Tools blackColor] andFontSize:617.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+	[headView addSubview:titleLabel];
+	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.centerY.equalTo(headView).offset(10);
+		make.left.equalTo(headView).offset(20);
+	}];
+	
+	return headView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     
-    return 50;
+    return 60;
 }
 @end

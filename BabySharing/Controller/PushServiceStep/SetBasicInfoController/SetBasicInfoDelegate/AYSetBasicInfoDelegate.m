@@ -70,7 +70,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {
-		return 232;
+		NSArray *imagesData = [querydata objectForKey:kAYServiceArgsYardImages];
+		NSInteger row = (imagesData.count + 1) / 4;
+		if ((imagesData.count + 1) % 4 != 0) {
+			row ++;
+		}
+		return 175 + (row - 1)*78;
 	} else if (indexPath.row == 1) {
 		return 102;
 	} else {

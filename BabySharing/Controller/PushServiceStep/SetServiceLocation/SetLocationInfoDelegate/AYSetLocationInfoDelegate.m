@@ -79,7 +79,13 @@
 	} else if (indexPath.row == 1) {
 		return  175;
 	} else {
-		return 234;
+		
+		NSArray *imagesData = [querydata objectForKey:kAYServiceArgsYardImages];
+		NSInteger row = (imagesData.count + 1) / 4;
+		if ((imagesData.count + 1) % 4 != 0) {
+			row ++;
+		}
+		return 175 + (row - 1)*78;
 	}
 }
 
@@ -98,5 +104,8 @@
 		return NO;
 }
 
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	
+	kAYDelegateSendNotify(self, @"didScrollHideKeyBroad", nil)
+}
 @end

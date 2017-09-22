@@ -73,11 +73,12 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	
 	tmp_service_info = [[NSMutableDictionary alloc] init];
 	NSDictionary *info_location = [push_service_info objectForKey:kAYServiceArgsLocationInfo];
+	NSDictionary *info_detail = [push_service_info objectForKey:kAYServiceArgsDetailInfo];
 	[tmp_service_info setValue:[info_location objectForKey:kAYServiceArgsYardType] forKey:kAYServiceArgsYardType];
 	[tmp_service_info setValue:[info_location objectForKey:kAYServiceArgsAddress] forKey:kAYServiceArgsAddress];
 	[tmp_service_info setValue:[info_location objectForKey:kAYServiceArgsAdjustAddress] forKey:kAYServiceArgsAdjustAddress];
-//	[tmp_service_info setValue:[info_location objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];
-//	[tmp_service_info setValue:[info_location objectForKey:kAYServiceArgsLocImages] forKey:kAYServiceArgsLocImages];
+	[tmp_service_info setValue:[info_detail objectForKey:kAYServiceArgsFacility] forKey:kAYServiceArgsFacility];
+	[tmp_service_info setValue:[info_location objectForKey:kAYServiceArgsYardImages] forKey:kAYServiceArgsYardImages];
 	
 	[tmp_service_info setValue:class_name_arr forKey:kAYDefineArgsCellNames];
 	
@@ -99,6 +100,8 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 //		NSNumber *index = [NSNumber numberWithInteger:0];
 //		kAYDelegatesSendMessage(@"SetAgeBoundary", kAYDelegateChangeDataMessage, &index)
 	}
+//	self.view.userInteractionEnabled = YES;
+//	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didScrollHideKeyBroad)]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -130,6 +133,12 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	view.frame = CGRectMake(0, 130, SCREEN_WIDTH, SCREEN_HEIGHT - 130);
 	return nil;
 }
+	
+- (id)PickerLayout:(UIView*)view {
+	view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
+	return nil;
+}
+
 #pragma mark - TZImagePickerController
 - (void)pushImagePickerController {
 	TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount - 1 delegate:self];
@@ -173,7 +182,6 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 		[[TZImageManager manager] savePhotoWithImage:image completion:^{
 			
 			[tzImagePickerVc hideProgressHUD];
-			
 		}];
 	}
 }
@@ -193,13 +201,13 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 		[selectImageArr addObject:dic];
 	}
 	
-//	[selectImageArr addObjectsFromArray:photos];
 	[self refreshMainDelegate];
 	
 }
 
 #pragma mark -- actions
 - (void)setNavRightBtnEnableStatus {
+	
 	if (!isAlreadyEnable) {
 		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
 		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
@@ -232,7 +240,7 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	[tmp_service_info setValue:@"part_basic" forKey:@"key"];
+	[tmp_service_info setValue:@"part_location" forKey:@"key"];
 	[dic setValue:[tmp_service_info copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
@@ -262,11 +270,28 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 	[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 	[dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
 	[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-	
 //	[dic_push setValue:[tmp_service_info objectForKey:kAYServiceArgsFacility] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = PUSH;
 	[cmd performWithResult:&dic_push];
+	return nil;
+}
+
+- (id)adjustTextDidChange:(id)args {
+		
+	if ([(NSString*)args length] != 0) {
+		[tmp_service_info setValue:args forKey:kAYServiceArgsAdjustAddress];
+	} else {
+		[tmp_service_info removeObjectForKey:kAYServiceArgsAdjustAddress];
+	}
+	
+	[self setNavRightBtnEnableStatus];
+	return nil;
+}
+
+- (id)didScrollHideKeyBroad {
+	[self.view endEditing:YES];
+//	[self refreshMainDelegate];
 	return nil;
 }
 
@@ -315,11 +340,6 @@ static NSString* const kTableDelegate =					@"SetLocationInfo";
 
 
 
-- (id)PickerLayout:(UIView*)view {
-	
-	view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, view.bounds.size.height);
-	return nil;
-}
 - (id)didSaveClick {
 	
 	id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"YardTypePick"];

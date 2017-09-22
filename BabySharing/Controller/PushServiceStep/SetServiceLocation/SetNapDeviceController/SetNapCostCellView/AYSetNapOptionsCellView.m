@@ -16,14 +16,10 @@
 #import "AYRemoteCallCommand.h"
 #import "AYModelFacade.h"
 
+#import "AYCourseSignView.h"
+
 @implementation AYSetNapOptionsCellView {
-    
-    UILabel *titleLabel;
-    UIButton *optionBtn;
-    int index;
-    UITextField *customField;
-    
-    NSDictionary *service;
+	
 }
 
 @synthesize para = _para;
@@ -38,27 +34,6 @@
         self.backgroundColor = [UIColor whiteColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-        titleLabel = [Tools creatUILabelWithText:@"" andTextColor:[Tools blackColor] andFontSize:14.f andBackgroundColor:nil andTextAlignment:0];
-        [self addSubview:titleLabel];
-        [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(25);
-            make.centerY.equalTo(self);
-        }];
-        
-        optionBtn = [[UIButton alloc]init];
-        [self addSubview:optionBtn];
-        [optionBtn setImage:[UIImage imageNamed:@"icon_pick"] forState:UIControlStateNormal];
-        [optionBtn setImage:[UIImage imageNamed:@"icon_pick_selected"] forState:UIControlStateSelected];
-        [optionBtn addTarget:self action:@selector(didOptionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [optionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self);
-            make.right.equalTo(self).offset(-15);
-            make.size.mas_equalTo(CGSizeMake(44, 44));
-        }];
-		
-		CGFloat margin = 20.f;
-		[Tools creatCALayerWithFrame:CGRectMake(margin, 63.5, SCREEN_WIDTH - margin * 2, 0.5) andColor:[Tools garyLineColor] inSuperView:self];
-		
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];
         }
@@ -66,9 +41,6 @@
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-}
 
 #pragma mark -- life cycle
 - (void)setUpReuseCell {
@@ -118,43 +90,50 @@
     return kAYFactoryManagerCatigoryView;
 }
 
+
 #pragma mark -- actions
--(void)didOptionBtnClick:(UIButton*)btn {
-	btn.selected = !btn.selected;
+- (void)didSignViewTap:(UITapGestureRecognizer*)tap {
+	UIView *tapView = tap.view;
+	kAYViewSendNotify(self, @"didFacilityOptViewTap:", &tapView)
+}
+
+- (id)setCellInfo:(id)args {
 	
-	NSString *titleStr = titleLabel.text;
-    id<AYCommand> cmd = [self.notifies objectForKey:@"didOptionBtnClick:"];
-    [cmd performWithResult:&titleStr];
-}
-
-#pragma mark -- messages
-- (id)setCellInfo:(NSDictionary*)args {
-    
-    NSArray *options = [args objectForKey:@"options"];
-	NSString *titleStr = [args objectForKey:@"title"];
+	NSArray *courseSignArr = [args objectForKey:@"model"];
+	NSArray *comphandle = [args objectForKey:@"handle"];
 	
-    titleLabel.text = titleStr;
-	optionBtn.selected = [options containsObject:titleStr];
+	int row = 0, col = 0, colNumbInRow = 3;
 	
-    return nil;
+	CGFloat itemWith = 77;
+	CGFloat itemHeight = 33;
+	CGFloat marginX = 25;
+	CGFloat marginY = 12;
+	
+	for (int i = 0; i < courseSignArr.count; ++i) {
+		row = i / colNumbInRow;
+		col = i % colNumbInRow;
+		NSString *title = [courseSignArr objectAtIndex:i];
+		AYCourseSignView *signView;
+		if ([title isEqualToString:@"纯净水过滤系统"]) {
+			itemWith = 125;
+			signView = [[AYCourseSignView alloc] initWithFrame:CGRectMake(20+col*(marginX+77), 10+row*(marginY+itemHeight), itemWith, itemHeight) andTitle:title];
+		} else {
+			itemWith = 77;
+			signView = [[AYCourseSignView alloc] initWithFrame:CGRectMake(20+col*(marginX+itemWith), 10+row*(marginY+itemHeight), itemWith, itemHeight) andTitle:title];
+		}
+		
+		[self addSubview:signView];
+		
+		signView.userInteractionEnabled = YES;
+		[signView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSignViewTap:)]];
+		
+		if ([comphandle containsObject:title]) {
+			[signView setSelectStatus];
+		}
+		
+	}
+	
+	return nil;
 }
 
-#pragma mark -- UITextFieldDelegate
-//- (void)textFieldDidEndEditing:(UITextField *)textField{
-//    id<AYCommand> cmd_textchange = [self.notifies objectForKey:@"textChange:"];
-//    NSString *text = textField.text;
-//    [cmd_textchange performWithResult:&text];
-//}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    id<AYCommand> cmd_textchange = [self.notifies objectForKey:@"textChange:"];
-    NSString *text = textField.text;
-    text = [text stringByAppendingString:string];
-    [cmd_textchange performWithResult:&text];
-    return YES;
-}
-
-- (id)queryCustom:(NSString*)args {
-    return customField.text;
-}
 @end

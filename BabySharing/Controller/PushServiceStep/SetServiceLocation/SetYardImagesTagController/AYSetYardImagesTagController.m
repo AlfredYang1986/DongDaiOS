@@ -212,8 +212,8 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *dic_img_tag = [[NSMutableDictionary alloc] init];
-	[dic_img_tag setValue:[imagesData copy] forKey:kAYServiceArgsYardImages];
-	[dic setValue:[dic_img_tag copy] forKey:kAYControllerChangeArgsKey];
+	[dic_img_tag setValue:imagesData forKey:kAYServiceArgsYardImages];
+	[dic setValue:dic_img_tag forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic];

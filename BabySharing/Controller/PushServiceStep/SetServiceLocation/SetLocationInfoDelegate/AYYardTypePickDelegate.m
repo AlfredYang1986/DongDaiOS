@@ -24,7 +24,7 @@
 @synthesize notifies = _notiyies;
 
 - (void)postPerform {
-	yardTypeArr = @[@"outdoor", @"indoor", @"out/indoor"];
+	yardTypeArr = @[@"室内", @"室外", @"室内+室外"];
 	
 }
 

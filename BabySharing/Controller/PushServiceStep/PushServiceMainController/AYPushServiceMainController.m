@@ -33,6 +33,10 @@
 	
 	AYMainServInfoView *priceSubView;
 	UIButton *pushBtn;
+	
+	NSArray *locationKeyArr;
+	NSArray *detailKeyArr;
+	NSArray *rootKeyArr;
 }
 
 #pragma mark --  commands
@@ -50,13 +54,26 @@
 			NSString *note_key = [back_args objectForKey:@"key"];
 			if ([note_key isEqualToString:@"part_basic"]) {
 				basicSubView.isReady = [[back_args objectForKey:kAYServiceArgsImages] count] != 0 && [[back_args objectForKey:kAYServiceArgsDescription] length] != 0 && [[back_args objectForKey:kAYServiceArgsCharact] count] != 0;
-			} else if ([note_key isEqualToString:@"part_capacity"]) {
+			}
+			else if ([note_key isEqualToString:@"part_capacity"]) {
 				capacitySubView.isReady = [back_args objectForKey:kAYServiceArgsAgeBoundary] && [back_args objectForKey:kAYServiceArgsCapacity] && [back_args objectForKey:kAYServiceArgsServantNumb];
 			}
+			else if ([note_key isEqualToString:@"part_notice"]) {
+				noticeSubView.isReady = [back_args objectForKey:kAYServiceArgsAgeBoundary] && [back_args objectForKey:kAYServiceArgsCapacity] && [back_args objectForKey:kAYServiceArgsServantNumb];
+			}
+			else if ([note_key isEqualToString:@"part_location"]) {
+				/*
+				 *adress	*pin	*distrct
+				 *adjust
+				 *facility
+				 *yard_type
+				 *loc_iamges
+				 */
+				locationSubView.isReady = [back_args objectForKey:kAYServiceArgsAddress] && [back_args objectForKey:kAYServiceArgsAdjustAddress] && [back_args objectForKey:kAYServiceArgsPin] && [back_args objectForKey:kAYServiceArgsDistrict] && [[back_args objectForKey:kAYServiceArgsFacility] count] != 0 && [back_args objectForKey:kAYServiceArgsYardType] && [[back_args objectForKey:kAYServiceArgsYardImages] count] != 0;
+			}
+			
 			for (NSString *key in [back_args allKeys]) {
-				if ([key isEqualToString:kAYServiceArgsImages] || [key isEqualToString:kAYServiceArgsDescription] || [key isEqualToString:kAYServiceArgsCharact]) {
-					[push_service_info setValue:[back_args objectForKey:key] forKey:key];
-				}
+				[self encodeServiceInfoWithArgs:[back_args objectForKey:key] andKey:key];
 			}
 			[self isAllArgsReady];
 		}
@@ -67,12 +84,43 @@
 	pushBtn.enabled = basicSubView.isReady && locationSubView.isReady && capacitySubView.isReady && TMsSubView.isReady && noticeSubView.isReady;
 }
 
+- (void)encodeServiceInfoWithArgs:(id)args andKey:(NSString*)key {
+	//root
+	if ([rootKeyArr containsObject:key]) {
+		[push_service_info setValue:args forKey:key];
+	}
+	//detail
+	else if ([detailKeyArr containsObject:key]) {
+		[[push_service_info objectForKey:kAYServiceArgsDetailInfo] setValue:args forKey:key];
+	}
+	//location
+	else if ([locationKeyArr containsObject:key]) {
+		[[push_service_info objectForKey:kAYServiceArgsLocationInfo] setValue:args forKey:key];
+	}
+	else {
+		
+	}
+}
+
+- (void)enCoderWithData:(id)data ForKey:(NSString*)key andSubKey:(NSString*)subKey {
+	if (subKey) {
+		[[push_service_info objectForKey:subKey] setValue:data forKey:key];
+	} else {
+		[push_service_info setValue:data forKey:key];
+	}
+}
 
 #pragma mark -- life cycle
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
 	CGFloat margin = 20.f;
+	[push_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
+	[push_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsLocationInfo];
+	
+	locationKeyArr = @[kAYServiceArgsDistrict, kAYServiceArgsAddress, kAYServiceArgsAdjustAddress, kAYServiceArgsPin, kAYServiceArgsYardType, kAYServiceArgsYardImages];
+	detailKeyArr = @[kAYServiceArgsAgeBoundary, kAYServiceArgsCapacity, kAYServiceArgsFacility, kAYServiceArgsServantNumb, kAYServiceArgsPrice, kAYServiceArgsAllowLeave, kAYServiceArgsLeastHours, kAYServiceArgsLeastTimes, kAYServiceArgsCourseduration, kAYServiceArgsNotice, kAYServiceArgsIsHealth, kAYServiceArgsCharact];
+	rootKeyArr = @[kAYServiceArgsImages, kAYServiceArgsTitle, kAYProfileArgsDescription, kAYTimeManagerArgsTMs];
 	
 	UIView *sloganShadow = [[UIView alloc] initWithFrame:CGRectMake(margin, 80, SCREEN_WIDTH - margin*2, 86)];
 	sloganShadow.layer.cornerRadius = 4.f;

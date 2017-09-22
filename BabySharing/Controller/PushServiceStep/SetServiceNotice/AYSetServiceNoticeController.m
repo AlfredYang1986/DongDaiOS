@@ -214,6 +214,7 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+	[dic setValue:@1 forKey:@"part_notice"];
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;

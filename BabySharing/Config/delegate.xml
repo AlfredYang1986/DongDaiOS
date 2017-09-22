@@ -303,10 +303,11 @@
 	</delegate>
 	
 	<delegate type="TableViewDelegateAndDatasource" name="SetLocationInfo" factory="AYDefaultDelegateFactory" >
-		<command type="message" message="changeQueryData:" />
-		<command type="message" message="resetCellHeight:" />
-		<command type="notify" message="pickYardType" />
-		<command type="notify" message="setServiceFacility" />
+		<command type="message"		message="changeQueryData:" />
+		<command type="message"		message="resetCellHeight:" />
+		<command type="notify"		message="pickYardType" />
+		<command type="notify"		message="setServiceFacility" />
+		<command type="notify"		message="didScrollHideKeyBroad" />
 	</delegate>
 	<delegate type="PickerViewDelegateAndDatasource" name="YardTypePick" factory="AYDefaultDelegateFactory" >
 		<command type="message" message="changeQueryData:" />
