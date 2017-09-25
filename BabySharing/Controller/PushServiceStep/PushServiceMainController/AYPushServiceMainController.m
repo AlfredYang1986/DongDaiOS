@@ -32,7 +32,11 @@
 	AYMainServInfoView *noticeSubView;
 	
 	AYMainServInfoView *priceSubView;
+	UIView *pushBtnBG;
 	UIButton *pushBtn;
+	UILabel *pushBtnTitle;
+	CAGradientLayer *ableGradi;
+	CAGradientLayer *unAbleGradi;
 	
 	NSArray *locationKeyArr;
 	NSArray *detailKeyArr;
@@ -59,7 +63,7 @@
 				capacitySubView.isReady = [back_args objectForKey:kAYServiceArgsAgeBoundary] && [back_args objectForKey:kAYServiceArgsCapacity] && [back_args objectForKey:kAYServiceArgsServantNumb];
 			}
 			else if ([note_key isEqualToString:@"part_notice"]) {
-				noticeSubView.isReady = [back_args objectForKey:kAYServiceArgsAgeBoundary] && [back_args objectForKey:kAYServiceArgsCapacity] && [back_args objectForKey:kAYServiceArgsServantNumb];
+				noticeSubView.isReady = [back_args objectForKey:kAYServiceArgsAllowLeave] && [back_args objectForKey:kAYServiceArgsIsHealth];
 			}
 			else if ([note_key isEqualToString:@"part_location"]) {
 				/*
@@ -81,7 +85,20 @@
 }
 
 - (void)isAllArgsReady {
-	pushBtn.enabled = basicSubView.isReady && locationSubView.isReady && capacitySubView.isReady && TMsSubView.isReady && noticeSubView.isReady;
+		
+	if (basicSubView.isReady && locationSubView.isReady && capacitySubView.isReady && TMsSubView.isReady && noticeSubView.isReady) {
+		pushBtn.enabled = YES;
+		pushBtnBG.layer.shadowColor = [Tools themeColor].CGColor;
+		[unAbleGradi removeFromSuperlayer];
+		[pushBtn.layer addSublayer:ableGradi];
+		pushBtnTitle.text = @"发布服务";
+	} else {
+		pushBtn.enabled = NO;
+		pushBtnBG.layer.shadowColor = [Tools garyColor].CGColor;
+		[ableGradi removeFromSuperlayer];
+		[pushBtn.layer addSublayer:unAbleGradi];
+		pushBtnTitle.text = @"准备发布";
+	}
 }
 
 - (void)encodeServiceInfoWithArgs:(id)args andKey:(NSString*)key {
@@ -139,14 +156,16 @@
 	[sloganView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(sloganView).offset(kBETWEENMARGIN);
-		make.left.equalTo(sloganView).offset(kBETWEENMARGIN);
+//		make.left.equalTo(sloganView).offset(kBETWEENMARGIN);
+		make.centerX.equalTo(sloganView);
 	}];
 	
 	UILabel *sloganLabel = [Tools creatUILabelWithText:@"Servant' Servcie" andTextColor:[Tools blackColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[sloganView addSubview:sloganLabel];
 	[sloganLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(sloganView).offset(-kBETWEENMARGIN);
-		make.left.equalTo(sloganView).offset(kBETWEENMARGIN);
+//		make.left.equalTo(sloganView).offset(kBETWEENMARGIN);
+		make.centerX.equalTo(sloganView);
 	}];
 	
 	NSDictionary *profile;
@@ -196,6 +215,12 @@
 	[self.view addSubview:capacitySubView];
 	
 	TMsSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+rightHeight+kBETWEENMARGIN, sameWidth, rightHeight) andTitle:@"服务时间" andTapBlock:^{
+		
+		pushBtn.enabled = NO;
+		pushBtnBG.layer.shadowColor = [Tools garyColor].CGColor;
+		[ableGradi removeFromSuperlayer];
+		[pushBtn.layer addSublayer:unAbleGradi];
+		pushBtnTitle.text = @"准备发布";
 	}];
 	[self.view addSubview:TMsSubView];
 	
@@ -214,21 +239,63 @@
 	
 	CGFloat priceViewWidth = (SCREEN_WIDTH - 40 - kBETWEENMARGIN) * 0.5;
 	priceSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, kBETWEENMARGIN, priceViewWidth, 49) andTitle:@"Price" andTapBlock:^{
+		
+		pushBtn.enabled = YES;
+		pushBtnBG.layer.shadowColor = [Tools themeColor].CGColor;
+		[unAbleGradi removeFromSuperlayer];
+		[pushBtn.layer addSublayer:ableGradi];
+		pushBtnTitle.text = @"发布服务";
 	}];
 	[partBtmView addSubview:priceSubView];
-	[priceSubView hideCheckSign];
+//	[priceSubView hideCheckSign];
+	
+	pushBtnBG = [[UIView alloc] initWithFrame:CGRectMake(margin+kBETWEENMARGIN+priceViewWidth, kBETWEENMARGIN, priceViewWidth, 49)];
+	[partBtmView addSubview:pushBtnBG];
+	pushBtnBG.layer.cornerRadius = 4.f;
+	pushBtnBG.layer.shadowColor = [Tools garyColor].CGColor;
+	pushBtnBG.layer.shadowRadius = 4.f;
+	pushBtnBG.layer.shadowOpacity = 0.5f;
+	pushBtnBG.layer.shadowOffset = CGSizeMake(0, 2);
+	pushBtnBG.backgroundColor = [Tools whiteColor];
 	
 	pushBtn = [[UIButton alloc] init]; //362  142
 //	UIButton *pushBtn = [Tools creatUIButtonWithTitle:@"PUSH" andTitleColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil]; //362  142
-	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice") forState:UIControlStateNormal];
-	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice_disable") forState:UIControlStateDisabled];
-	[self.view addSubview:pushBtn];
+//	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice") forState:UIControlStateNormal];
+//	[pushBtn setImage:IMGRESOURCE(@"icon_btn_pushservice_disable") forState:UIControlStateDisabled];
+	[Tools setViewBorder:pushBtn withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
+	[pushBtn setTitle:@"发布服务" forState:UIControlStateNormal];
+	[pushBtn setTitle:@"准备发布" forState:UIControlStateDisabled];
+	pushBtn.titleLabel.font = kAYFontMedium(17);
+	[pushBtn setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];
+	[pushBtn setTitleColor:[Tools whiteColor] forState:UIControlStateDisabled];
+	[partBtmView addSubview:pushBtn];
 	[pushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.top.equalTo(priceSubView).offset(-5);
-		make.right.equalTo(self.view).offset(-10);
-		make.size.mas_equalTo(CGSizeMake(181, 71));
+		make.edges.equalTo(pushBtnBG);
 	}];
 	pushBtn.enabled = NO;
+	
+	pushBtnTitle = [Tools creatUILabelWithText:@"准备发布" andTextColor:[Tools whiteColor] andFontSize:617 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
+	[self.view addSubview:pushBtnTitle];
+	[pushBtnTitle mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.center.equalTo(pushBtn);
+	}];
+	[self.view bringSubviewToFront:pushBtnTitle];
+	
+	ableGradi = [CAGradientLayer layer];
+	unAbleGradi = [CAGradientLayer layer];
+	ableGradi.frame = unAbleGradi.frame = pushBtnBG.bounds;
+	
+	[pushBtn.layer addSublayer:unAbleGradi];
+	
+	ableGradi.startPoint = unAbleGradi.startPoint = CGPointMake(0, 0);
+	ableGradi.endPoint = unAbleGradi.endPoint = CGPointMake(0, 1);
+	
+	ableGradi.colors = @[(__bridge id)[Tools colorWithRED:146 GREEN:236 BLUE:229 ALPHA:1].CGColor,
+						(__bridge id)[Tools colorWithRED:89 GREEN:213 BLUE:199 ALPHA:1].CGColor];
+	unAbleGradi.colors = @[(__bridge id)[Tools colorWithRED:223 GREEN:250 BLUE:248 ALPHA:1].CGColor,
+						   (__bridge id)[Tools colorWithRED:205 GREEN:243 BLUE:239 ALPHA:1].CGColor];
+	//设置颜色分割点（范围：0-1）
+	ableGradi.locations = unAbleGradi.locations = @[@(0.1f), @(0.9f)];
 	
 }
 

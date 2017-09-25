@@ -214,7 +214,11 @@
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
     
     NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-	[dic setValue:@1 forKey:@"part_notice"];
+	[dic_info setValue:[NSNumber numberWithBool:isHealth.on] forKey:kAYServiceArgsIsHealth];
+	[dic_info setValue:[NSNumber numberWithBool:isALeaveSwitch.on] forKey:kAYServiceArgsAllowLeave];
+	[dic_info setValue:noticeTextView.text forKey:kAYServiceArgsNotice];
+	[dic_info setValue:@"part_notice" forKey:@"key"];
+	
     [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = POP;

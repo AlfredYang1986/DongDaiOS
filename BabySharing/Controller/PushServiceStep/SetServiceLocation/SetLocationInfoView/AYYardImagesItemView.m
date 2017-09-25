@@ -76,6 +76,7 @@
 	if (index == 0) {
 		addSignView.hidden = NO;
 		_delBtn.hidden = YES;
+		coverImageView.image = nil;
 	} else {
 		addSignView.hidden = YES;
 		_delBtn.hidden = NO;

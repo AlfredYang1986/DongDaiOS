@@ -499,6 +499,7 @@
 		7060BDB41CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7060BDB31CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m */; };
 		7060BDBD1CB631E2001E4111 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7060BDBC1CB631E2001E4111 /* LaunchScreen.storyboard */; };
 		7060BDBF1CB63219001E4111 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7060BDBE1CB63219001E4111 /* InfoPlist.strings */; };
+		7063190A1F79315C00109ACE /* AYOnceTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 706319091F79315C00109ACE /* AYOnceTipView.m */; };
 		706942C81D59779C00D0BBB4 /* AYQueryEMSationsCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 706942C71D59779C00D0BBB4 /* AYQueryEMSationsCommand.m */; };
 		7069A31E1D52F87C007821D4 /* AYOrderRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 7069A31D1D52F87C007821D4 /* AYOrderRemoteFacade.m */; };
 		706CA9731F4144E2005B168F /* AYChoiceRemoteFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 706CA9721F4144E2005B168F /* AYChoiceRemoteFacade.m */; };
@@ -1845,6 +1846,8 @@
 		7060BDB31CB60F05001E4111 /* AYChangeCurrentLoginUserCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChangeCurrentLoginUserCommand.m; sourceTree = "<group>"; };
 		7060BDBC1CB631E2001E4111 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7060BDBE1CB63219001E4111 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		706319081F79315C00109ACE /* AYOnceTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOnceTipView.h; sourceTree = "<group>"; };
+		706319091F79315C00109ACE /* AYOnceTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYOnceTipView.m; sourceTree = "<group>"; };
 		706942C61D59779C00D0BBB4 /* AYQueryEMSationsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryEMSationsCommand.h; sourceTree = "<group>"; };
 		706942C71D59779C00D0BBB4 /* AYQueryEMSationsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryEMSationsCommand.m; sourceTree = "<group>"; };
 		7069A31C1D52F87C007821D4 /* AYOrderRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYOrderRemoteFacade.h; sourceTree = "<group>"; };
@@ -4771,6 +4774,7 @@
 		702E7AC71CA171D30097867E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				706319071F79311E00109ACE /* OnceTip */,
 				70F9675E1E287E0E00B3805B /* NoContentCell */,
 				7051955A1E1B904B00F1F761 /* MAMap */,
 				70882D231E07CD3D00513AA2 /* InsetLabel */,
@@ -6446,6 +6450,15 @@
 				705EC8821CE4BC1D0008D5EA /* AYRefrashTagContentDataCommand.m */,
 			);
 			path = RefrashTagContentData;
+			sourceTree = "<group>";
+		};
+		706319071F79311E00109ACE /* OnceTip */ = {
+			isa = PBXGroup;
+			children = (
+				706319081F79315C00109ACE /* AYOnceTipView.h */,
+				706319091F79315C00109ACE /* AYOnceTipView.m */,
+			);
+			path = OnceTip;
 			sourceTree = "<group>";
 		};
 		706942C51D59778300D0BBB4 /* QueryEMSations */ = {
@@ -9731,6 +9744,7 @@
 				7045EFEC1E08F3CD00341E14 /* AYFilterLocationDelegate.m in Sources */,
 				705D66F51F21F72B0069BF42 /* AYTopicsListDelegate.m in Sources */,
 				706E460F1CFC107A00CC7C53 /* AYLandingInputNameView.m in Sources */,
+				7063190A1F79315C00109ACE /* AYOnceTipView.m in Sources */,
 				702F79E61E1269970062F2EA /* AYServTimesBtn.m in Sources */,
 				7000CD211D7E8A5200DA98F2 /* BSRefreshAnimationFooter.m in Sources */,
 				70EC723A1D190D6F0012B123 /* UIView+SDExtension.m in Sources */,

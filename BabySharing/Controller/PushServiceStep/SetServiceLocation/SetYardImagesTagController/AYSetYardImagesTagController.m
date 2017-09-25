@@ -9,10 +9,13 @@
 #import "AYSetYardImagesTagController.h"
 
 #import "AYCourseSignView.h"
+#import "AYOnceTipView.h"
 
 @implementation AYSetYardImagesTagController {
 	NSArray *imagesData;
 	NSInteger pageIndex;
+	
+	AYOnceTipView *tipView;
 	
 	NSArray *tagArr;
 	NSMutableArray *tagViewArr;
@@ -45,6 +48,19 @@
 		make.top.equalTo(self.view).offset(80);
 		make.left.equalTo(self.view).offset(40);
 	}];
+	
+	NSNumber *isHide = [[NSUserDefaults standardUserDefaults] objectForKey:@"dongda_oncetip_service_yard_images"];
+	if (!isHide.boolValue) {
+		tipView = [[AYOnceTipView alloc] initWithTitle:@"请为您的场地图片添加区域标签"];
+		[self.view addSubview:tipView];
+		[tipView mas_makeConstraints:^(MASConstraintMaker *make) {
+//			make.left.equalTo(titleLabel.mas_right).offset(10);
+			make.right.equalTo(self.view).offset(-5);
+			make.centerY.equalTo(titleLabel);
+			make.height.equalTo(@26);
+		}];
+		[tipView.delBtn addTarget:self action:@selector(didOnceTipViewClick) forControlEvents:UIControlEventTouchUpInside];
+	}
 	
 	pageFlowView = [[NewPagedFlowView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT*144/667, SCREEN_WIDTH, 200)];
 	pageFlowView.delegate = self;
@@ -91,6 +107,12 @@
 }
 
 #pragma mark -- actios
+- (void)didOnceTipViewClick {
+	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"dongda_oncetip_service_yard_images"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	tipView.hidden = YES;
+}
+
 - (void)didTagViewTap:(UITapGestureRecognizer*)tap {
 	AYCourseSignView *tapView = (AYCourseSignView*)tap.view;
 	if (tapView == tmpTagView) {
@@ -99,6 +121,7 @@
 	NSString *key = tapView.sign;
 	NSInteger currentIndex= [pageFlowView currentPageIndex];
 	[imagesData[currentIndex] setValue:key forKey:kAYServiceArgsTag];
+	[imagesData[currentIndex] setValue:tapView forKey:@"tag_view"];
 	
 	[tapView setSelectStatus];
 	[tmpTagView setUnselectStatus];
@@ -155,15 +178,15 @@
 }
 
 - (void)didScrollToPage:(NSInteger)pageNumber inFlowView:(NewPagedFlowView *)flowView {
-	NSLog(@"ViewController 滚动到了第%ld页",pageNumber);
+	NSLog(@"ViewController 滚动到了第%d页", (int)pageNumber);
 	NSString *tag = [imagesData[pageNumber] objectForKey:kAYServiceArgsTag];
+	
+	[tmpTagView setUnselectStatus];
 	if (tag.length != 0) {
-		AYCourseSignView *currentView = [tagViewArr objectAtIndex:[tagArr indexOfObject:tag]];
+		AYCourseSignView *currentView = [imagesData[pageNumber] objectForKey:@"tag_view"];
 		[currentView setSelectStatus];
-		[tmpTagView setUnselectStatus];
 		tmpTagView = currentView;
 	} else {
-		[tmpTagView setUnselectStatus];
 		tmpTagView = nil;
 	}
 	
@@ -212,6 +235,9 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *dic_img_tag = [[NSMutableDictionary alloc] init];
+//	[imagesData enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//		[obj removeObjectForKey:@"tag_view"];
+//	}];
 	[dic_img_tag setValue:imagesData forKey:kAYServiceArgsYardImages];
 	[dic setValue:dic_img_tag forKey:kAYControllerChangeArgsKey];
 	

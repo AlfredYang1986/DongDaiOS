@@ -143,8 +143,8 @@
 		[radiusBGView addSubview:editAdjustTextView];
 		[editAdjustTextView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.top.equalTo(lineView.mas_bottom).offset(15);
-			make.left.equalTo(radiusBGView).offset(15);
-			make.right.equalTo(radiusBGView).offset(-15);
+			make.left.equalTo(radiusBGView).offset(10);
+			make.right.equalTo(radiusBGView).offset(-10);
 //			make.height.mas_equalTo(54);55
 		}];
 		editAdjustTextView.font = [UIFont systemFontOfSize:15];

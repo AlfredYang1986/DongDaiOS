@@ -61,7 +61,6 @@
 	
 	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] initWithDictionary:[querydata copy]];
 	[tmp setValue:[titleArr objectAtIndex:indexPath.row] forKey:@"title"];
-	
 	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
@@ -70,7 +69,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) {
-		NSArray *imagesData = [querydata objectForKey:kAYServiceArgsYardImages];
+		NSArray *imagesData = [querydata objectForKey:kAYServiceArgsImages];
 		NSInteger row = (imagesData.count + 1) / 4;
 		if ((imagesData.count + 1) % 4 != 0) {
 			row ++;

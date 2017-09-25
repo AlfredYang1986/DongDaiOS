@@ -16,8 +16,11 @@
 
 #import "AYImageItemCellView.h"
 
+#import "AYOnceTipView.h"
+
 @implementation AYSetServiceImagesCellView {
 	UILabel *titleLabel;
+	AYOnceTipView *tipView;
 	
 	UICollectionView *imagesCollectionView;
 	NSArray *imagesData;
@@ -51,12 +54,26 @@
 		}];
 		[Tools setViewBorder:radiusBGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
 		
+		
 		titleLabel = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:317 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(radiusBGView).offset(15);
 			make.top.equalTo(radiusBGView).offset(12);
 		}];
+		
+		NSNumber *isHide = [[NSUserDefaults standardUserDefaults] objectForKey:@"dongda_oncetip_service_images"];
+		if (!isHide.boolValue) {
+			tipView = [[AYOnceTipView alloc] initWithTitle:@"第一张图片将成为封面"];
+			[self addSubview:tipView];
+			[tipView mas_makeConstraints:^(MASConstraintMaker *make) {
+//				make.left.equalTo(titleLabel.mas_right).offset(10);
+				make.right.equalTo(radiusBGView).offset(-5);
+				make.centerY.equalTo(titleLabel);
+				make.height.equalTo(@26);
+			}];
+			[tipView.delBtn addTarget:self action:@selector(didOnceTipViewClick) forControlEvents:UIControlEventTouchUpInside];
+		}
 		
 		UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
 		layout.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -139,6 +156,14 @@
 }
 
 #pragma mark -- actions
+- (void)didOnceTipViewClick {
+	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"dongda_oncetip_service_images"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	tipView.hidden = YES;
+}
+
+
+
 - (id)setCellInfo:(id)args {
 	NSString *title = [args objectForKey:@"title"];
 	titleLabel.text = title;

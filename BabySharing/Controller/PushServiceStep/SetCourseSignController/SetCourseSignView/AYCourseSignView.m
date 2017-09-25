@@ -22,6 +22,9 @@
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.center.equalTo(self);
 		}];
+		if(SCREEN_WIDTH < 375) {
+			titleLabel.font = [UIFont systemFontOfSize:13];
+		}
 		
 		self.sign = title;
 		

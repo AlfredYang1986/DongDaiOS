@@ -75,6 +75,7 @@
 		make.width.mas_equalTo(SCREEN_WIDTH - 40);
 		make.height.mas_greaterThanOrEqualTo(20);
     }];
+	[descTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
 	
 	placeHolder = [Tools creatUILabelWithText:@"服务的计划和安排；预期目标；师资介绍" andTextColor:[Tools garyColor] andFontSize:314.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[descTextView addSubview:placeHolder];
@@ -83,16 +84,16 @@
 		make.top.equalTo(descTextView).offset(8);
 	}];
 	
-	if (setedStr && ![setedStr isEqualToString:@""]) {
+	if (setedStr.length != 0) {
 		descTextView.text = setedStr;
 		placeHolder.hidden  = YES;
 	}
 	
-    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"还可以输入%d个字符",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools themeColor] andFontSize:12.f andBackgroundColor:nil andTextAlignment:0];
+    countlabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"%d",LIMITNUMB - (int)setedStr.length] andTextColor:[Tools garyColor] andFontSize:315.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
     [self.view addSubview:countlabel];
     [countlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(descTextView.mas_bottom).offset(25);
-        make.right.equalTo(descTextView).offset(-10);
+        make.top.equalTo(descTextView.mas_bottom).offset(12);
+        make.left.equalTo(descTextView).offset(2);
     }];
 	
 	
@@ -161,7 +162,7 @@
     if (count > LIMITNUMB) {
         descTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }
-    countlabel.text = [NSString stringWithFormat:@"还可以输入%ld个字符",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
+    countlabel.text = [NSString stringWithFormat:@"%ld",(LIMITNUMB - count)>=0?(LIMITNUMB - count):0];
 }
 
 #pragma mark -- notification
@@ -200,11 +201,11 @@
 //	if (!isAlyetRemake) {
 //		isAlyetRemake = YES;
 //	}
-	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
-	[countlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-		make.bottom.equalTo(self.view).offset(- step.floatValue - 10);
-		make.right.equalTo(self.view).offset(-20);
-	}];
+//	NSNumber* step = [(NSDictionary*)args objectForKey:kAYNotifyKeyboardArgsHeightKey];
+//	[countlabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//		make.bottom.equalTo(self.view).offset(- step.floatValue - 10);
+//		make.right.equalTo(self.view).offset(-20);
+//	}];
 	return nil;
 }
 

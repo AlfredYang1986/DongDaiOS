@@ -78,6 +78,7 @@ static CGSize AssetGridThumbnailSize;
     if ([_model.name isEqualToString:@"相机胶卷"] || [_model.name isEqualToString:@"Camera Roll"] ||  [_model.name isEqualToString:@"所有照片"] || !iOS8Later) {
         [[TZImageManager manager] getAssetsFromFetchResult:_model.result allowPickingVideo:tzImagePickerVc.allowPickingVideo allowPickingImage:tzImagePickerVc.allowPickingImage completion:^(NSArray<TZAssetModel *> *models) {
             _models = [NSMutableArray arrayWithArray:models];
+			_models = (NSMutableArray *)[[_models reverseObjectEnumerator] allObjects];
             [self initSubviews];
         }];
     } else {
@@ -311,14 +312,14 @@ static CGSize AssetGridThumbnailSize;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     // the cell lead to take a picture / 去拍照的cell
-    if (indexPath.row >= _models.count) {
+    if (indexPath.row == 0) {
         TZAssetCameraCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZAssetCameraCell" forIndexPath:indexPath];
         cell.imageView.image = [UIImage imageNamedFromMyBundle:@"takePicture.png"];
         return cell;
     }
     // the cell dipaly photo or video / 展示照片或视频的cell
     TZAssetCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZAssetCell" forIndexPath:indexPath];
-    TZAssetModel *model = _models[indexPath.row];
+    TZAssetModel *model = _models[indexPath.row - 1];
     cell.model = model;
     
     __weak typeof(cell) weakCell = cell;
@@ -355,11 +356,12 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     // take a picture / 去拍照
-    if (indexPath.row >= _models.count) {
-        [self takePicture]; return;
+    if (indexPath.row == 0) {
+        [self takePicture];
+		return;
     }
     // preview phote or video / 预览照片或视频
-    TZAssetModel *model = _models[indexPath.row];
+    TZAssetModel *model = _models[indexPath.row - 1];
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     if (model.type == TZAssetModelMediaTypeVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
@@ -463,7 +465,7 @@ static CGSize AssetGridThumbnailSize;
                 item += 1;
             }
         }
-        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+//        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:item inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
         _shouldScrollToBottom = NO;
     }
 }

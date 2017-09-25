@@ -16,6 +16,7 @@
     NSMutableDictionary *dic_detail;
 	
 	NSMutableArray *optViewArr;
+	UIView *contentView;
 	
 	BOOL isAlreadyEnable;
 }
@@ -37,12 +38,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	contentView = [[UIView alloc] initWithFrame:self.view.frame];
+	contentView.backgroundColor = self.view.backgroundColor;
+	[self.view addSubview:contentView];
+	[self.view sendSubviewToBack:contentView];
+	
 	UILabel *titleLabel = [Tools creatUILabelWithText:@"师生设定" andTextColor:[Tools blackColor] andFontSize:630.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 	titleLabel.numberOfLines = 0;
-	[self.view addSubview:titleLabel];
+	[contentView addSubview:titleLabel];
 	[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-		make.left.equalTo(self.view).offset(40);
-		make.top.equalTo(self.view).offset(SCREEN_HEIGHT * 168/667);
+		make.left.equalTo(contentView).offset(40);
+		make.top.equalTo(contentView).offset(SCREEN_HEIGHT * 168/667);
 	}];
 	
 	CGFloat unitHeight = 56.f;
@@ -54,14 +60,14 @@
 	optViewArr = [NSMutableArray array];
 	for (int i = 0; i < titles.count; ++i) {
 		AYSetCapacityOptView *optView = [[AYSetCapacityOptView alloc] initWithTitle:[titles objectAtIndex:i] andSubTitle:[subTitles objectAtIndex:i]];
-		[self.view addSubview:optView];
+		[contentView addSubview:optView];
 		optView.tag = i;
 		optView.userInteractionEnabled = YES;
 		[optView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didSetCapacityLabelTap:)]];
 		[optView mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.top.equalTo(self.view).offset(topMargin + i*(unitHeight+betMargin));
-			make.left.equalTo(self.view).offset(40);
-			make.right.equalTo(self.view).offset(-40);
+			make.top.equalTo(contentView).offset(topMargin + i*(unitHeight+betMargin));
+			make.left.equalTo(contentView).offset(40);
+			make.right.equalTo(contentView).offset(-40);
 			make.height.mas_equalTo(unitHeight);
 		}];
 		[optViewArr addObject:optView];
@@ -150,6 +156,16 @@
 #pragma mark -- actions
 - (void)didSetCapacityLabelTap:(UITapGestureRecognizer*)tap {
 	NSNumber *index = [NSNumber numberWithInteger:tap.view.tag];
+	
+	AYSetCapacityOptView *optView = [optViewArr objectAtIndex:index.intValue];
+	CGFloat optViewMaxY = CGRectGetMaxY(optView.frame);
+	CGFloat pickerViewMinY = SCREEN_HEIGHT - 196;
+	if (optViewMaxY > pickerViewMinY) {
+		[UIView animateWithDuration:0.25 animations:^{
+			contentView.frame = CGRectMake(0, - (optViewMaxY - pickerViewMinY)-10, SCREEN_WIDTH, SCREEN_HEIGHT);
+		}];
+	}
+	
 	kAYDelegatesSendMessage(@"SetAgeBoundary", kAYDelegateChangeDataMessage, &index)
 	kAYViewsSendMessage(kAYPickerView, kAYTableRefreshMessage, nil)
 	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
@@ -226,11 +242,15 @@
 		[[optViewArr objectAtIndex:2] setSubTitleWithString:[NSString stringWithFormat:@"%@", [args objectForKey:kAYServiceArgsServantNumb]]];
 	}
 	
+	[self didCancelClick];
 	[self setNavRightBtnEnableStatus];
 	return nil;
 }
 
 - (id)didCancelClick {
+	[UIView animateWithDuration:0.25 animations:^{
+		contentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	}];
 	//do nothing else ,but be have to invoke this methed
 	return nil;
 }

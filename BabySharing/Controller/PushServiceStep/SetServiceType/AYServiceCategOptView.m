@@ -26,7 +26,8 @@
 		}];
 		
 		UIImageView *accessView = [[UIImageView alloc] init];
-		accessView.image = [UIImage imageNamed:@"chan_group_back"];
+		accessView.image = [UIImage imageNamed:@"icon_arrow_back"];
+		accessView.transform = CGAffineTransformMakeRotation(M_PI);
 		[self addSubview:accessView];
 		[accessView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
