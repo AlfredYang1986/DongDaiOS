@@ -64,11 +64,11 @@
 		
 		NSNumber *isHide = [[NSUserDefaults standardUserDefaults] objectForKey:@"dongda_oncetip_service_images"];
 		if (!isHide.boolValue) {
-			tipView = [[AYOnceTipView alloc] initWithTitle:@"第一张图片将成为封面"];
+			tipView = [[AYOnceTipView alloc] initWithTitle:@"首张图片将成为服务封面"];
 			[self addSubview:tipView];
 			[tipView mas_makeConstraints:^(MASConstraintMaker *make) {
-//				make.left.equalTo(titleLabel.mas_right).offset(10);
-				make.right.equalTo(radiusBGView).offset(-5);
+				make.left.equalTo(titleLabel.mas_right).offset(5);
+//				make.right.equalTo(radiusBGView).offset(-5);
 				make.centerY.equalTo(titleLabel);
 				make.height.equalTo(@26);
 			}];

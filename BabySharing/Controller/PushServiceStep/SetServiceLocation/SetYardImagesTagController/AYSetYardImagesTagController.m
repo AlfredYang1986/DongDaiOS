@@ -51,11 +51,11 @@
 	
 	NSNumber *isHide = [[NSUserDefaults standardUserDefaults] objectForKey:@"dongda_oncetip_service_yard_images"];
 	if (!isHide.boolValue) {
-		tipView = [[AYOnceTipView alloc] initWithTitle:@"请为您的场地图片添加区域标签"];
+		tipView = [[AYOnceTipView alloc] initWithTitle:@"设置图片对应的区域"];
 		[self.view addSubview:tipView];
 		[tipView mas_makeConstraints:^(MASConstraintMaker *make) {
-//			make.left.equalTo(titleLabel.mas_right).offset(10);
-			make.right.equalTo(self.view).offset(-5);
+			make.left.equalTo(titleLabel.mas_right).offset(5);
+//			make.right.equalTo(self.view).offset(-5);
 			make.centerY.equalTo(titleLabel);
 			make.height.equalTo(@26);
 		}];

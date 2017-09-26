@@ -75,8 +75,7 @@ static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 	tmp_service_info = [[NSMutableDictionary alloc] init];
 	[tmp_service_info setValue:[push_service_info objectForKey:kAYServiceArgsImages] forKey:kAYServiceArgsImages];
 	[tmp_service_info setValue:[push_service_info objectForKey:kAYServiceArgsDescription] forKey:kAYServiceArgsDescription];
-	[tmp_service_info setValue:[push_service_info objectForKey:kAYServiceArgsCharact] forKey:kAYServiceArgsCharact];
-	
+	[tmp_service_info setValue:[[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsCharact] forKey:kAYServiceArgsCharact];
 	[tmp_service_info setValue:class_name_arr forKey:kAYDefineArgsCellNames];
 	
 	id tmp = [tmp_service_info copy];

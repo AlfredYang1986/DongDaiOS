@@ -62,7 +62,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools darkBackgroundColor];
-	
 }
 
 - (void)viewWillAppear:(BOOL)animated {

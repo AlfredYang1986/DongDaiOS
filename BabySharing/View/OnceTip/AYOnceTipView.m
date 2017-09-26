@@ -17,7 +17,7 @@
 	self = [super init];
 	if (self) {
 		
-		self.backgroundColor = [Tools garyBackgroundColor];
+//		self.backgroundColor = [Tools garyBackgroundColor];
 		
 		_delBtn = [[UIButton alloc] init];
 		[_delBtn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
@@ -31,10 +31,20 @@
 		titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools garyColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentCenter];
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.left.equalTo(self).offset(5);
+			make.left.equalTo(self).offset(15);
 			make.centerY.equalTo(self);
 			make.right.equalTo(_delBtn.mas_left).offset(-5);
 		}];
+		
+		UIImageView *BGView = [[UIImageView alloc] init];
+		UIImage *bgImage = [UIImage imageNamed:@"arrow_sign_left_triangle"];
+		bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 7, 0, 2) resizingMode:UIImageResizingModeTile];
+		[self addSubview:BGView];
+		[BGView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(self);
+		}];
+		BGView.image = bgImage;
+		[self sendSubviewToBack:BGView];
 		
 //		[_delBtn addTarget:self action:@selector(didViewTap) forControlEvents:UIControlEventTouchUpInside];
 	}
