@@ -55,7 +55,7 @@
 	[self addSubview:centerView];
 	[centerView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.center.equalTo(self);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 60));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH, 80));
 	}];
 	
 	loadingView = [[UIImageView alloc] init];

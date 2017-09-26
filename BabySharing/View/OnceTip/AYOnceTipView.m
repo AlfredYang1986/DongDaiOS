@@ -17,7 +17,7 @@
 	self = [super init];
 	if (self) {
 		
-//		self.backgroundColor = [Tools garyBackgroundColor];
+		self.backgroundColor = [Tools garyBackgroundColor];
 		
 		_delBtn = [[UIButton alloc] init];
 		[_delBtn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
