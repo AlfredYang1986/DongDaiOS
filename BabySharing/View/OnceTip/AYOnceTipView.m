@@ -17,11 +17,13 @@
 	self = [super init];
 	if (self) {
 		
+//		self.backgroundColor = [Tools garyBackgroundColor];
+		
 		_delBtn = [[UIButton alloc] init];
 		[_delBtn setImage:IMGRESOURCE(@"content_close") forState:UIControlStateNormal];
 		[self addSubview:_delBtn];
 		[_delBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self);
+			make.centerY.equalTo(self);
 			make.right.equalTo(self).offset(-5);
 			make.size.mas_equalTo(CGSizeMake(10, 10));
 		}];
@@ -30,7 +32,7 @@
 		[self addSubview:titleLabel];
 		[titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.left.equalTo(self).offset(5);
-			make.centerX.equalTo(self);
+			make.centerY.equalTo(self);
 			make.right.equalTo(_delBtn.mas_left).offset(-5);
 		}];
 		

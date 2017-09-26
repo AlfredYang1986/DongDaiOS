@@ -10,7 +10,7 @@
 #import "AYServiceCategOptView.h"
 
 @implementation AYSetServiceTypeController {
-	
+	NSMutableDictionary *push_service_info;
 }
 
 #pragma mark -- commands
@@ -18,6 +18,7 @@
     
 	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
+		push_service_info = [dic objectForKey:kAYControllerChangeArgsKey];
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -91,14 +92,11 @@
     [dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
     [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
-	NSMutableDictionary *service_info = [[NSMutableDictionary alloc] init];
 	NSMutableDictionary *info_categ = [[NSMutableDictionary alloc] init];
 	[info_categ setValue:((AYServiceCategOptView*)tapL).optArgs forKey:kAYServiceArgsCat];
-	[service_info setValue:info_categ forKey:kAYServiceArgsCategoryInfo];
+	[push_service_info setValue:info_categ forKey:kAYServiceArgsCategoryInfo];
 	
-	[service_info setValue:@"kidnapPush" forKey:@"push"];		//用于信息主页判断是修改还是发布
-	
-    [dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
+    [dic_push setValue:push_service_info forKey:kAYControllerChangeArgsKey];
     
     id<AYCommand> cmd = PUSH;
     [cmd performWithResult:&dic_push];

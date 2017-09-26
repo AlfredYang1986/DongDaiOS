@@ -25,8 +25,6 @@
 #define nextBtnHeight				50
 
 @implementation AYNapAreaController {
-    
-    NSMutableDictionary *service_info;
 	
 	NSDictionary *show_service_info;
 	NSMutableDictionary *note_update_info;
@@ -53,14 +51,6 @@
     
     NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-		
-		id args = [dic objectForKey:kAYControllerChangeArgsKey];
-        if ([args objectForKey:@"push"]) {
-            service_info = args;
-        } else {
-			show_service_info = args;
-			note_update_info = [[NSMutableDictionary alloc] init];
-        }
 		
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -135,7 +125,12 @@
     [self.gecoder reverseGeocodeLocation:loc completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *pl = [placemarks firstObject];
         NSString *city = pl.locality;
-//		NSString *subCity = pl.subLocality;
+		NSString *district = pl.subLocality;
+		NSString *prov = pl.administrativeArea;
+		NSString *tree = pl.thoroughfare;
+//		NSString *name = pl.name;
+//		NSString *subTree = pl.subThoroughfare;
+		
         if (city && ([city isEqualToString:@"北京市"] || [city isEqualToString:@"Beijing"])) {
 			
 			NSString *tip = @"地理位置验证成功";
@@ -149,6 +144,17 @@
 				[dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
 				[dic_push setValue:des forKey:kAYControllerActionDestinationControllerKey];
 				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
+				
+				NSMutableDictionary *service_info = [[NSMutableDictionary alloc] init];
+				NSMutableDictionary *info_location = [[NSMutableDictionary alloc] init];
+				[info_location setValue:prov forKey:kAYServiceArgsProvince];
+				[info_location setValue:city forKey:kAYServiceArgsCity];
+				[info_location setValue:district forKey:kAYServiceArgsDistrict];
+				[info_location setValue:tree forKey:kAYServiceArgsAddress];
+				[service_info setValue:info_location forKey:kAYServiceArgsLocationInfo];
+				
+				[service_info setValue:@"kidnapPush" forKey:@"push"];		//用于信息主页判断是修改还是发布
+				[dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];
 				
 				id<AYCommand> cmd = PUSH;
 				[cmd performWithResult:&dic_push];

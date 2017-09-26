@@ -66,7 +66,7 @@
 	pageFlowView.delegate = self;
 	pageFlowView.dataSource = self;
 	pageFlowView.minimumPageAlpha = 0.5;
-	pageFlowView.isCarousel = YES;
+	pageFlowView.isCarousel = NO;
 	pageFlowView.orientation = NewPagedFlowViewOrientationHorizontal;
 	pageFlowView.isOpenAutoScroll = NO;
 	
@@ -82,10 +82,13 @@
 	[pageFlowView scrollToPage:pageIndex];
 	
 	tagViewArr = [NSMutableArray array];
-	tagArr = @[@"家长休息区", @"阅读区", @"教学区", @"生活区", @"寄存区", @"户外区"];
+	tagArr = kAY_service_options_yard_images_tag;
 	int row = 0, col = 0;
 	int colInRow = 3;
 	CGFloat margin = 16;
+	if (SCREEN_WIDTH < 375) {
+		margin = 12;
+	}
 	CGFloat itemWith = (SCREEN_WIDTH - 80 - margin*(colInRow-1)) / colInRow;
 	CGFloat itemHeight = 33;
 	for (int i = 0; i < tagArr.count; ++i) {
@@ -121,7 +124,7 @@
 	NSString *key = tapView.sign;
 	NSInteger currentIndex= [pageFlowView currentPageIndex];
 	[imagesData[currentIndex] setValue:key forKey:kAYServiceArgsTag];
-	[imagesData[currentIndex] setValue:tapView forKey:@"tag_view"];
+	[imagesData[currentIndex] setValue:[NSNumber numberWithInt:tapView.tag] forKey:@"tag_index"];
 	
 	[tapView setSelectStatus];
 	[tmpTagView setUnselectStatus];
@@ -183,7 +186,7 @@
 	
 	[tmpTagView setUnselectStatus];
 	if (tag.length != 0) {
-		AYCourseSignView *currentView = [imagesData[pageNumber] objectForKey:@"tag_view"];
+		AYCourseSignView *currentView = [tagViewArr objectAtIndex:[[imagesData[pageNumber] objectForKey:@"tag_index"] integerValue]];
 		[currentView setSelectStatus];
 		tmpTagView = currentView;
 	} else {
@@ -235,9 +238,6 @@
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
 	NSMutableDictionary *dic_img_tag = [[NSMutableDictionary alloc] init];
-//	[imagesData enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//		[obj removeObjectForKey:@"tag_view"];
-//	}];
 	[dic_img_tag setValue:imagesData forKey:kAYServiceArgsYardImages];
 	[dic setValue:dic_img_tag forKey:kAYControllerChangeArgsKey];
 	

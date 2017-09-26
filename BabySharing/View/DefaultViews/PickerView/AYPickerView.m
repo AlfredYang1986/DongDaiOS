@@ -31,7 +31,7 @@
 	self.backgroundColor = [UIColor clearColor];
 	
 	self.userInteractionEnabled = YES;
-	[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePickerView)]];
+	[self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapElse)]];
 	
 	pickBgView = [[UIView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, kPickBgHeight)];
 	[self addSubview:pickBgView];
@@ -81,6 +81,12 @@
 
 - (NSString*)getCommandType {
     return kAYFactoryManagerCatigoryView;
+}
+
+
+#pragma mark -- actions
+- (void)didTapElse {
+	[self didCancelClick:nil];
 }
 
 - (void)didSaveClick:(UIButton*)btn {

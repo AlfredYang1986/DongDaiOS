@@ -133,7 +133,6 @@
 	
 	CGFloat margin = 20.f;
 	[push_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
-	[push_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsLocationInfo];
 	
 	locationKeyArr = @[kAYServiceArgsDistrict, kAYServiceArgsAddress, kAYServiceArgsAdjustAddress, kAYServiceArgsPin, kAYServiceArgsYardType, kAYServiceArgsYardImages];
 	detailKeyArr = @[kAYServiceArgsAgeBoundary, kAYServiceArgsCapacity, kAYServiceArgsFacility, kAYServiceArgsServantNumb, kAYServiceArgsPrice, kAYServiceArgsAllowLeave, kAYServiceArgsLeastHours, kAYServiceArgsLeastTimes, kAYServiceArgsCourseduration, kAYServiceArgsNotice, kAYServiceArgsIsHealth, kAYServiceArgsCharact];

@@ -98,6 +98,8 @@ static NSString* const kAYServiceArgsFacility =				@"facility";
 
 static NSString* const kAYServiceArgsLocationInfo =			@"location";
 static NSString* const kAYServiceArgsYardType =				@"location_type";
+static NSString* const kAYServiceArgsProvince =				@"province";
+static NSString* const kAYServiceArgsCity =					@"city";
 static NSString* const kAYServiceArgsDistrict =				@"district";
 static NSString* const kAYServiceArgsAddress =				@"address";
 static NSString* const kAYServiceArgsAdjustAddress =		@"adjust";
