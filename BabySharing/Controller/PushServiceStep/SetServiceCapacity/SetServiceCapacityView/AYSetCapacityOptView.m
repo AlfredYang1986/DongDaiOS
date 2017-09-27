@@ -13,7 +13,7 @@
 	UILabel *subTitleLabel;
 }
 
-- (instancetype)initWithTitle:(NSString*)titleStr andSubTitle:(NSString *)subTitle {
+- (instancetype)initWithTitle:(NSString*)titleStr andSubTitle:(NSString *)subTitle andtionArgs:(NSString *)args {
 	if (self = [super init]) {
 		
 		[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools garyBackgroundColor]];
@@ -25,11 +25,18 @@
 			make.left.equalTo(self).offset(15);
 		}];
 		
+		UILabel *andtionLabel = [Tools creatUILabelWithText:args andTextColor:[Tools blackColor] andFontSize:313 andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
+		[self addSubview:andtionLabel];
+		[andtionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-15);
+			make.centerY.equalTo(self);
+		}];
+		
 		subTitleLabel = [Tools creatUILabelWithText:subTitle andTextColor:[Tools RGB225GaryColor] andFontSize:624 andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];
 		[self addSubview:subTitleLabel];
 		[subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
-			make.right.equalTo(self).offset(-15);
+			make.right.equalTo(andtionLabel.mas_left).offset(-7);
 		}];
 		
 	}

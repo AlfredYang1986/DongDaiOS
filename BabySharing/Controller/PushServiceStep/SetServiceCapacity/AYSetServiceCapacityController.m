@@ -57,9 +57,10 @@
 	
 	NSArray *titles = @[@"孩子年龄范围", @"接待孩子数量", @"服务者数量"];
 	NSArray *subTitles = @[@"2-11", @"8", @"8"];
+	NSArray *andtions = @[@"岁", @"个", @"个"];
 	optViewArr = [NSMutableArray array];
 	for (int i = 0; i < titles.count; ++i) {
-		AYSetCapacityOptView *optView = [[AYSetCapacityOptView alloc] initWithTitle:[titles objectAtIndex:i] andSubTitle:[subTitles objectAtIndex:i]];
+		AYSetCapacityOptView *optView = [[AYSetCapacityOptView alloc] initWithTitle:[titles objectAtIndex:i] andSubTitle:[subTitles objectAtIndex:i] andtionArgs:[andtions objectAtIndex:i]];
 		[contentView addSubview:optView];
 		optView.tag = i;
 		optView.userInteractionEnabled = YES;

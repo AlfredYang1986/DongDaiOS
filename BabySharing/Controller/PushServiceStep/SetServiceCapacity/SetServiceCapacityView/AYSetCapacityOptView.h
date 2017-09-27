@@ -10,7 +10,7 @@
 
 @interface AYSetCapacityOptView : UIView
 
-- (instancetype)initWithTitle:(NSString*)titleStr andSubTitle:(NSString*)subTitle;
+- (instancetype)initWithTitle:(NSString*)titleStr andSubTitle:(NSString*)subTitle andtionArgs:(NSString*)args;
 
 - (void)setSubTitleWithString:(NSString*)subString;
 

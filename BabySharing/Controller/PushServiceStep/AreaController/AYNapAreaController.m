@@ -145,12 +145,17 @@
 				[dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
 				
 				NSMutableDictionary *service_info = [[NSMutableDictionary alloc] init];
-				NSMutableDictionary *info_location = [[NSMutableDictionary alloc] init];
-				[info_location setValue:prov forKey:kAYServiceArgsProvince];
-				[info_location setValue:city forKey:kAYServiceArgsCity];
-				[info_location setValue:district forKey:kAYServiceArgsDistrict];
-				[info_location setValue:tree forKey:kAYServiceArgsAddress];
-				[service_info setValue:info_location forKey:kAYServiceArgsLocationInfo];
+				NSMutableDictionary *dic_location = [[NSMutableDictionary alloc] init];
+				[dic_location setValue:prov forKey:kAYServiceArgsProvince];
+				[dic_location setValue:city forKey:kAYServiceArgsCity];
+				[dic_location setValue:district forKey:kAYServiceArgsDistrict];
+				[dic_location setValue:tree forKey:kAYServiceArgsAddress];
+				[service_info setValue:dic_location forKey:kAYServiceArgsLocationInfo];
+				
+				NSMutableDictionary *pin = [[NSMutableDictionary alloc] init];
+				[pin setValue:[NSNumber numberWithDouble:loc.coordinate.latitude] forKey:kAYServiceArgsLatitude];
+				[pin setValue:[NSNumber numberWithDouble:loc.coordinate.longitude] forKey:kAYServiceArgsLongtitude];
+				[dic_location setValue:pin forKey:kAYServiceArgsPin];
 				
 				[service_info setValue:@"kidnapPush" forKey:@"push"];		//用于信息主页判断是修改还是发布
 				[dic_push setValue:service_info forKey:kAYControllerChangeArgsKey];

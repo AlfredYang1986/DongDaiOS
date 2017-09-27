@@ -55,6 +55,11 @@
 	} else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPopBackValue]) {
 		id back_args = [dic objectForKey:kAYControllerChangeArgsKey];
 		if ([back_args isKindOfClass:[NSDictionary class]]) {
+			
+			for (NSString *key in [back_args allKeys]) {
+				[self encodeServiceInfoWithArgs:[back_args objectForKey:key] andKey:key];
+			}
+			
 			NSString *note_key = [back_args objectForKey:@"key"];
 			if ([note_key isEqualToString:@"part_basic"]) {
 				basicSubView.isReady = [[back_args objectForKey:kAYServiceArgsImages] count] != 0 && [[back_args objectForKey:kAYServiceArgsDescription] length] != 0 && [[back_args objectForKey:kAYServiceArgsCharact] count] != 0;
@@ -70,15 +75,12 @@
 				 *adress	*pin	*distrct
 				 *adjust
 				 *facility
-				 *yard_type
+				 *location_type
 				 *loc_iamges
 				 */
 				locationSubView.isReady = [back_args objectForKey:kAYServiceArgsAddress] && [back_args objectForKey:kAYServiceArgsAdjustAddress] && [back_args objectForKey:kAYServiceArgsPin] && [back_args objectForKey:kAYServiceArgsDistrict] && [[back_args objectForKey:kAYServiceArgsFacility] count] != 0 && [back_args objectForKey:kAYServiceArgsYardType] && [[back_args objectForKey:kAYServiceArgsYardImages] count] != 0;
 			}
 			
-			for (NSString *key in [back_args allKeys]) {
-				[self encodeServiceInfoWithArgs:[back_args objectForKey:key] andKey:key];
-			}
 			[self isAllArgsReady];
 		}
 	}

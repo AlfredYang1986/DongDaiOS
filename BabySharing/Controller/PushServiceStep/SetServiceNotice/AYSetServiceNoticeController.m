@@ -20,27 +20,29 @@
 #define LIMITNUMB                   228
 #define kTableFrameY                218
 
-@implementation AYSetServiceNoticeController{
-    
-    NSString *setedNoticeStr;
-    BOOL isAllowLeave;
-    
+@implementation AYSetServiceNoticeController {
+	
+	NSMutableDictionary *push_service_info;
+	BOOL isFirstEnter;
+	BOOL isValueChanged;
+	
     UISwitch *isALeaveSwitch;
 	UISwitch *isHealth;
-	
-	UILabel *placeHold;
 	UITextView *noticeTextView;
+	UILabel *placeHold;
+	
 	BOOL isAlreadyEnable;
 }
 
 #pragma mark --  commands
 - (void)performWithResult:(NSObject *__autoreleasing *)obj {
-    NSDictionary* dic = (NSDictionary*)*obj;
-    
+	
+	NSDictionary* dic = (NSDictionary*)*obj;
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        NSDictionary *notice_args = [dic objectForKey:kAYControllerChangeArgsKey];
-        setedNoticeStr = [notice_args objectForKey:kAYServiceArgsNotice];
-        isAllowLeave = ((NSNumber*)[notice_args objectForKey:kAYServiceArgsAllowLeave]).boolValue;
+        push_service_info = [dic objectForKey:kAYControllerChangeArgsKey];
+		if(![[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsAllowLeave]) {
+			isFirstEnter = YES;
+		}
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -76,7 +78,7 @@
 		make.right.equalTo(self.view).offset(-20);
 		make.size.mas_equalTo(CGSizeMake(49, 31));
 	}];
-	isALeaveSwitch.on = isAllowLeave;
+	isALeaveSwitch.on = [[[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsAllowLeave] boolValue];
 	
 	UILabel *h2 = [Tools creatUILabelWithText:@"需要孩子健康证明" andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 	[self.view addSubview:h2];
@@ -94,7 +96,10 @@
 		make.right.equalTo(self.view).offset(-20);
 		make.size.mas_equalTo(CGSizeMake(49, 31));
 	}];
-	isHealth.on = isAllowLeave;
+	isHealth.on = [[[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsIsHealth] boolValue];;
+	
+	[isALeaveSwitch addTarget:self action:@selector(didSwithClick) forControlEvents:UIControlEventValueChanged];
+	[isHealth addTarget:self action:@selector(didSwithClick) forControlEvents:UIControlEventValueChanged];
 	
 	UIView *lineView = [[UIView alloc] init];
 	lineView.backgroundColor = [Tools garyLineColor];
@@ -131,11 +136,16 @@
 		make.left.equalTo(noticeTextView).offset(2);
 		make.top.equalTo(noticeTextView).offset(2);
 	}];
+	
+	NSString *notice = [[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsNotice];
+	if (notice.length != 0) {
+		placeHold.hidden = YES;
+		noticeTextView.text = notice;
+	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
 }
 
 #pragma mark -- layout
@@ -150,6 +160,7 @@
 	UIImage* left = IMGRESOURCE(@"bar_left_theme");
 	kAYViewsSendMessage(@"FakeNavBar", @"setLeftBtnImg:", &left)
 	
+//	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
 	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
 	bar_right_btn.userInteractionEnabled = NO;
 	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
@@ -168,6 +179,11 @@
 }
 
 #pragma mark -- actions
+- (void)didSwithClick {
+	isValueChanged = YES;
+	[self setNavRightBtnEnableStatus];
+}
+
 - (void)setNavRightBtnEnableStatus {
 	if (!isAlreadyEnable) {
 		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
@@ -175,33 +191,21 @@
 		isAlreadyEnable = YES;
 	}
 }
-- (void)didOtherNoticeTap {
-    
-    id<AYCommand> dest = DEFAULTCONTROLLER(@"OtherNoticeText");
-    
-    NSMutableDictionary* dic_push = [[NSMutableDictionary alloc]initWithCapacity:4];
-    [dic_push setValue:kAYControllerActionPushValue forKey:kAYControllerActionKey];
-    [dic_push setValue:dest forKey:kAYControllerActionDestinationControllerKey];
-    [dic_push setValue:self forKey:kAYControllerActionSourceControllerKey];
-    [dic_push setValue:setedNoticeStr forKey:kAYControllerChangeArgsKey];
-//    [dic_push setValue:[napBabyArgsInfo copy] forKey:kAYControllerChangeArgsKey];
-    
-    id<AYCommand> cmd = PUSH;
-    [cmd performWithResult:&dic_push];
-}
 
 #pragma mark -- notification
 - (id)leftBtnSelected {
     NSMutableDictionary* dic = [[NSMutableDictionary alloc]init];
     [dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
     [dic setValue:self forKey:kAYControllerActionSourceControllerKey];
-    
-    NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
-    [dic_info setValue:[NSNumber numberWithBool:isALeaveSwitch.on] forKey:kAYServiceArgsAllowLeave];
-    [dic_info setValue:setedNoticeStr forKey:kAYServiceArgsNotice];
-    [dic_info setValue:kAYServiceArgsNotice forKey:@"key"];
-    [dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
-    
+	
+	if (isFirstEnter) {
+		NSMutableDictionary *dic_info = [[NSMutableDictionary alloc]init];
+		[dic_info setValue:[NSNumber numberWithBool:isALeaveSwitch.on] forKey:kAYServiceArgsAllowLeave];
+		[dic_info setValue:[NSNumber numberWithBool:isHealth.on] forKey:kAYServiceArgsIsHealth];
+		[dic_info setValue:@"part_notice" forKey:@"key"];
+		[dic setValue:dic_info forKey:kAYControllerChangeArgsKey];
+	}
+	
     id<AYCommand> cmd = POP;
     [cmd performWithResult:&dic];
     return nil;
