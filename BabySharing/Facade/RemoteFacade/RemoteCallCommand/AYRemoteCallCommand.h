@@ -10,6 +10,8 @@
 #import "AYCommand.h"
 #import "AYCommandDefines.h"
 
+#import "AYFacade.h"
+
 @interface AYRemoteCallCommand : NSObject <AYCommand>
 
 @property (nonatomic, strong) NSString* route;

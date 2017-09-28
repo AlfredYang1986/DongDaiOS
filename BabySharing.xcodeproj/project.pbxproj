@@ -981,8 +981,6 @@
 		700BE5DE1CBA6E5800A09B3A /* AYUploadUserImageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUploadUserImageCommand.m; sourceTree = "<group>"; };
 		700BE5E11CBA6E5800A09B3A /* AYUpdateUserDetailCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateUserDetailCommand.h; sourceTree = "<group>"; };
 		700BE5E21CBA6E5800A09B3A /* AYUpdateUserDetailCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUpdateUserDetailCommand.m; sourceTree = "<group>"; };
-		700BE5E61CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryRecommandRoleTagsCommand.h; sourceTree = "<group>"; };
-		700BE5E71CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryRecommandRoleTagsCommand.m; sourceTree = "<group>"; };
 		700BE5F21CBA6E7D00A09B3A /* AYFileRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFileRemoteFacade.h; sourceTree = "<group>"; };
 		700BE5F31CBA6E7D00A09B3A /* AYFileRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFileRemoteFacade.m; sourceTree = "<group>"; };
 		700BE5F41CBA6E7D00A09B3A /* AYLandingRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingRemoteFacade.h; sourceTree = "<group>"; };
@@ -1060,16 +1058,6 @@
 		7012C9691E16156800C8F510 /* OrderTimesOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderTimesOptionView.m; sourceTree = "<group>"; };
 		701524131CBF4960005B4C5B /* AYRelationshipRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRelationshipRemoteFacade.h; sourceTree = "<group>"; };
 		701524141CBF4960005B4C5B /* AYRelationshipRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRelationshipRemoteFacade.m; sourceTree = "<group>"; };
-		701524171CBF499C005B4C5B /* AYFollowCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYFollowCommand.h; sourceTree = "<group>"; };
-		701524181CBF499C005B4C5B /* AYFollowCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYFollowCommand.m; sourceTree = "<group>"; };
-		7015241A1CBF49CD005B4C5B /* AYUnfollowCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUnfollowCommand.h; sourceTree = "<group>"; };
-		7015241B1CBF49CD005B4C5B /* AYUnfollowCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUnfollowCommand.m; sourceTree = "<group>"; };
-		7015241D1CBF49F2005B4C5B /* AYQueryFriendsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryFriendsCommand.h; sourceTree = "<group>"; };
-		7015241E1CBF49F2005B4C5B /* AYQueryFriendsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryFriendsCommand.m; sourceTree = "<group>"; };
-		701524201CBF4A14005B4C5B /* AYQueryFollowingCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryFollowingCommand.h; sourceTree = "<group>"; };
-		701524211CBF4A14005B4C5B /* AYQueryFollowingCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryFollowingCommand.m; sourceTree = "<group>"; };
-		701524231CBF4A3D005B4C5B /* AYQueryFollowedCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryFollowedCommand.h; sourceTree = "<group>"; };
-		701524241CBF4A3D005B4C5B /* AYQueryFollowedCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryFollowedCommand.m; sourceTree = "<group>"; };
 		701524341CBF60E6005B4C5B /* AYUserDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserDisplayView.h; sourceTree = "<group>"; };
 		701524351CBF60E6005B4C5B /* AYUserDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserDisplayView.m; sourceTree = "<group>"; };
 		701524361CBF60E6005B4C5B /* AYUserDisplayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AYUserDisplayView.xib; sourceTree = "<group>"; };
@@ -1322,10 +1310,6 @@
 		702B7A471DAF286700D8715B /* AYShowAlertCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYShowAlertCommand.m; sourceTree = "<group>"; };
 		702B7A4A1DAF2ABF00D8715B /* AYHideAlertCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYHideAlertCommand.h; sourceTree = "<group>"; };
 		702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYHideAlertCommand.m; sourceTree = "<group>"; };
-		702B84B41CCA998000CDEB3C /* AYQueryChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryChatGroupCommand.h; sourceTree = "<group>"; };
-		702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryChatGroupCommand.m; sourceTree = "<group>"; };
-		702B84B71CCA999600CDEB3C /* AYEnterChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYEnterChatGroupCommand.h; sourceTree = "<group>"; };
-		702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnterChatGroupCommand.m; sourceTree = "<group>"; };
 		702BD33B1CF55FAF0010F2BA /* AYKeyboardFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYKeyboardFacade.h; sourceTree = "<group>"; };
 		702BD33C1CF55FAF0010F2BA /* AYKeyboardFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYKeyboardFacade.m; sourceTree = "<group>"; };
 		702BE8FE1EC1E4C400F20E41 /* AYRemoteBackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteBackController.h; sourceTree = "<group>"; };
@@ -1398,8 +1382,6 @@
 		70305FAE1F4AE38400E402A7 /* AYSortServiceListDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSortServiceListDelegate.m; sourceTree = "<group>"; };
 		70305FB01F4AE39E00E402A7 /* AYSortServiceListCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSortServiceListCellView.h; sourceTree = "<group>"; };
 		70305FB11F4AE39E00E402A7 /* AYSortServiceListCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSortServiceListCellView.m; sourceTree = "<group>"; };
-		703291C11CC492B700028DF2 /* AYContatcerInSystemCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContatcerInSystemCommand.h; sourceTree = "<group>"; };
-		703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContatcerInSystemCommand.m; sourceTree = "<group>"; };
 		70343E481DC08634007531A4 /* AYTipsCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYTipsCollectionView.h; sourceTree = "<group>"; };
 		70343E491DC08634007531A4 /* AYTipsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYTipsCollectionView.m; sourceTree = "<group>"; };
 		70360B4E1E56F0A300D5332F /* AYNewVersionNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNewVersionNavController.h; sourceTree = "<group>"; };
@@ -2326,20 +2308,12 @@
 		70F34D6A1CA5274B00CEF7C1 /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
 		70F34D7B1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYLandingAreaCodeCommand.h; sourceTree = "<group>"; };
 		70F34D7C1CA549B900CEF7C1 /* AYLandingAreaCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYLandingAreaCodeCommand.m; sourceTree = "<group>"; };
-		70F3699D1CC361930067B62E /* AYQueryAllRoleTagsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryAllRoleTagsCommand.h; sourceTree = "<group>"; };
-		70F3699E1CC361930067B62E /* AYQueryAllRoleTagsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryAllRoleTagsCommand.m; sourceTree = "<group>"; };
-		70F369A21CC361F90067B62E /* AYQueryRecommandTagsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYQueryRecommandTagsCommand.h; sourceTree = "<group>"; };
-		70F369A31CC361F90067B62E /* AYQueryRecommandTagsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYQueryRecommandTagsCommand.m; sourceTree = "<group>"; };
 		70F369A81CC362950067B62E /* AYAlbumDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlbumDelegate.h; sourceTree = "<group>"; };
 		70F369A91CC362950067B62E /* AYAlbumDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlbumDelegate.m; sourceTree = "<group>"; };
 		70F369AC1CC3641C0067B62E /* AYContentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYContentDelegate.h; sourceTree = "<group>"; };
 		70F369AD1CC3641C0067B62E /* AYContentDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYContentDelegate.m; sourceTree = "<group>"; };
 		70F369B01CC378650067B62E /* AYRemoteCallQueryCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYRemoteCallQueryCommand.h; sourceTree = "<group>"; };
 		70F369B11CC378650067B62E /* AYRemoteCallQueryCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYRemoteCallQueryCommand.m; sourceTree = "<group>"; };
-		70F369B51CC38E610067B62E /* AYSearchTagWithPreviewsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchTagWithPreviewsCommand.h; sourceTree = "<group>"; };
-		70F369B61CC38E610067B62E /* AYSearchTagWithPreviewsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchTagWithPreviewsCommand.m; sourceTree = "<group>"; };
-		70F369B81CC38EA90067B62E /* AYSearchRoleTagWithPreviewsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSearchRoleTagWithPreviewsCommand.h; sourceTree = "<group>"; };
-		70F369B91CC38EA90067B62E /* AYSearchRoleTagWithPreviewsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSearchRoleTagWithPreviewsCommand.m; sourceTree = "<group>"; };
 		70F4285C1CC7B18F00A69977 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70F4285D1CC7B18F00A69977 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		70F4285E1CC7B18F00A69977 /* MASCompositeConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MASCompositeConstraint.m; sourceTree = "<group>"; };
@@ -2441,12 +2415,6 @@
 		8086A23C1CCE80A9006186D4 /* AYEnumHomeTimeSpanCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYEnumHomeTimeSpanCommand.m; sourceTree = "<group>"; };
 		8086A2531CCE983B006186D4 /* AYUserSearchRemoteFacade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserSearchRemoteFacade.h; sourceTree = "<group>"; };
 		8086A2541CCE983B006186D4 /* AYUserSearchRemoteFacade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserSearchRemoteFacade.m; sourceTree = "<group>"; };
-		8086A25A1CCE98F0006186D4 /* AYUserWithRoleTagCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserWithRoleTagCommand.h; sourceTree = "<group>"; };
-		8086A25B1CCE98F0006186D4 /* AYUserWithRoleTagCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserWithRoleTagCommand.m; sourceTree = "<group>"; };
-		8086A25D1CCE9901006186D4 /* AYUserRecommandCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserRecommandCommand.h; sourceTree = "<group>"; };
-		8086A25E1CCE9901006186D4 /* AYUserRecommandCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserRecommandCommand.m; sourceTree = "<group>"; };
-		8086A2601CCE9914006186D4 /* AYUserWithScreenNameCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUserWithScreenNameCommand.h; sourceTree = "<group>"; };
-		8086A2611CCE9914006186D4 /* AYUserWithScreenNameCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYUserWithScreenNameCommand.m; sourceTree = "<group>"; };
 		809597051D65DC0800CBB732 /* AYExchangeWindowsCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYExchangeWindowsCommand.h; sourceTree = "<group>"; };
 		809597061D65DC0800CBB732 /* AYExchangeWindowsCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYExchangeWindowsCommand.m; sourceTree = "<group>"; };
 		80BB1EC81D793BA600B1E17A /* AYPushSplitAnimationCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYPushSplitAnimationCommand.h; sourceTree = "<group>"; };
@@ -2504,8 +2472,6 @@
 		80D5E7F21CCCD41000A82117 /* AYInvitationBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYInvitationBtnView.m; sourceTree = "<group>"; };
 		80D5E7F51CCCE2E300A82117 /* AYNoneRelationBtnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYNoneRelationBtnView.h; sourceTree = "<group>"; };
 		80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYNoneRelationBtnView.m; sourceTree = "<group>"; };
-		80E249531CD32E6100277130 /* AYJoinChatGroupCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYJoinChatGroupCommand.h; sourceTree = "<group>"; };
-		80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYJoinChatGroupCommand.m; sourceTree = "<group>"; };
 		80E2FB531DD3108700B822FE /* AYAuthPhoneCodeCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAuthPhoneCodeCommand.h; sourceTree = "<group>"; };
 		80E2FB541DD3108700B822FE /* AYAuthPhoneCodeCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAuthPhoneCodeCommand.m; sourceTree = "<group>"; };
 		80ECF0DB1E55C1DF0020DBC8 /* AYUpdateMyServiceTMCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYUpdateMyServiceTMCommand.h; sourceTree = "<group>"; };
@@ -3036,15 +3002,11 @@
 				7069A31F1D52F95C007821D4 /* Order */,
 				70A27C011D0EBBC500B131AB /* KidNap */,
 				70D657001D1D3DDE003D1D7D /* expose */,
-				703291C01CC4927A00028DF2 /* ContatcerInSystem */,
 				700BE5C91CBA6E5800A09B3A /* Auth */,
-				702510851CC0F2EC00DADF2B /* ChatSession */,
 				700BE5D81CBA6E5800A09B3A /* Files */,
 				702510601CC0BAAB00DADF2B /* Post */,
 				700BE5DF1CBA6E5800A09B3A /* Profiles */,
 				70CDF6141CBCC35400311841 /* Query */,
-				701524161CBF498B005B4C5B /* Relations */,
-				700BE5E31CBA6E5800A09B3A /* Search */,
 				706CA9741F414502005B168F /* Choice */,
 				702EBAFA1F43E8F000CD2783 /* TMs */,
 			);
@@ -3151,35 +3113,6 @@
 				700BE5E21CBA6E5800A09B3A /* AYUpdateUserDetailCommand.m */,
 			);
 			path = UpdateUserDetail;
-			sourceTree = "<group>";
-		};
-		700BE5E31CBA6E5800A09B3A /* Search */ = {
-			isa = PBXGroup;
-			children = (
-				8086A2561CCE98C1006186D4 /* Users */,
-				70F369A01CC361EE0067B62E /* Tags */,
-				700BE5E41CBA6E5800A09B3A /* RoleTags */,
-			);
-			path = Search;
-			sourceTree = "<group>";
-		};
-		700BE5E41CBA6E5800A09B3A /* RoleTags */ = {
-			isa = PBXGroup;
-			children = (
-				70F369B41CC38E4A0067B62E /* SearchRoleTagWithPreviews */,
-				70F3699C1CC361860067B62E /* QueryAllRoleTags */,
-				700BE5E51CBA6E5800A09B3A /* QueryRecommandRoleTags */,
-			);
-			path = RoleTags;
-			sourceTree = "<group>";
-		};
-		700BE5E51CBA6E5800A09B3A /* QueryRecommandRoleTags */ = {
-			isa = PBXGroup;
-			children = (
-				700BE5E61CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.h */,
-				700BE5E71CBA6E5800A09B3A /* AYQueryRecommandRoleTagsCommand.m */,
-			);
-			path = QueryRecommandRoleTags;
 			sourceTree = "<group>";
 		};
 		700BE5F11CBA6E7D00A09B3A /* Facades */ = {
@@ -3490,23 +3423,6 @@
 				7012C9691E16156800C8F510 /* OrderTimesOptionView.m */,
 			);
 			path = OrderTimesView;
-			sourceTree = "<group>";
-		};
-		701524161CBF498B005B4C5B /* Relations */ = {
-			isa = PBXGroup;
-			children = (
-				701524171CBF499C005B4C5B /* AYFollowCommand.h */,
-				701524181CBF499C005B4C5B /* AYFollowCommand.m */,
-				7015241A1CBF49CD005B4C5B /* AYUnfollowCommand.h */,
-				7015241B1CBF49CD005B4C5B /* AYUnfollowCommand.m */,
-				7015241D1CBF49F2005B4C5B /* AYQueryFriendsCommand.h */,
-				7015241E1CBF49F2005B4C5B /* AYQueryFriendsCommand.m */,
-				701524201CBF4A14005B4C5B /* AYQueryFollowingCommand.h */,
-				701524211CBF4A14005B4C5B /* AYQueryFollowingCommand.m */,
-				701524231CBF4A3D005B4C5B /* AYQueryFollowedCommand.h */,
-				701524241CBF4A3D005B4C5B /* AYQueryFollowedCommand.m */,
-			);
-			path = Relations;
 			sourceTree = "<group>";
 		};
 		7015242B1CBF6024005B4C5B /* UserDisplay */ = {
@@ -4311,16 +4227,6 @@
 			path = RefreshPushData;
 			sourceTree = "<group>";
 		};
-		702510851CC0F2EC00DADF2B /* ChatSession */ = {
-			isa = PBXGroup;
-			children = (
-				80E249521CD32E5000277130 /* JoinChatGroup */,
-				702B84B21CCA998000CDEB3C /* EnterChatGroup */,
-				702B84B31CCA998000CDEB3C /* QueryChatGroup */,
-			);
-			path = ChatSession;
-			sourceTree = "<group>";
-		};
 		702510891CC0F5AB00DADF2B /* ChatSessionModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -4500,24 +4406,6 @@
 				702B7A4B1DAF2ABF00D8715B /* AYHideAlertCommand.m */,
 			);
 			path = HideAlert;
-			sourceTree = "<group>";
-		};
-		702B84B21CCA998000CDEB3C /* EnterChatGroup */ = {
-			isa = PBXGroup;
-			children = (
-				702B84B71CCA999600CDEB3C /* AYEnterChatGroupCommand.h */,
-				702B84B81CCA999600CDEB3C /* AYEnterChatGroupCommand.m */,
-			);
-			path = EnterChatGroup;
-			sourceTree = "<group>";
-		};
-		702B84B31CCA998000CDEB3C /* QueryChatGroup */ = {
-			isa = PBXGroup;
-			children = (
-				702B84B41CCA998000CDEB3C /* AYQueryChatGroupCommand.h */,
-				702B84B51CCA998000CDEB3C /* AYQueryChatGroupCommand.m */,
-			);
-			path = QueryChatGroup;
 			sourceTree = "<group>";
 		};
 		702BD33A1CF55F700010F2BA /* Keyboard */ = {
@@ -4913,15 +4801,6 @@
 				70305FB11F4AE39E00E402A7 /* AYSortServiceListCellView.m */,
 			);
 			path = SortServiceListView;
-			sourceTree = "<group>";
-		};
-		703291C01CC4927A00028DF2 /* ContatcerInSystem */ = {
-			isa = PBXGroup;
-			children = (
-				703291C11CC492B700028DF2 /* AYContatcerInSystemCommand.h */,
-				703291C21CC492B700028DF2 /* AYContatcerInSystemCommand.m */,
-			);
-			path = ContatcerInSystem;
 			sourceTree = "<group>";
 		};
 		70343E471DC08611007531A4 /* TipsCollectionView */ = {
@@ -8269,33 +8148,6 @@
 			path = LandingAreaCode;
 			sourceTree = "<group>";
 		};
-		70F3699C1CC361860067B62E /* QueryAllRoleTags */ = {
-			isa = PBXGroup;
-			children = (
-				70F3699D1CC361930067B62E /* AYQueryAllRoleTagsCommand.h */,
-				70F3699E1CC361930067B62E /* AYQueryAllRoleTagsCommand.m */,
-			);
-			path = QueryAllRoleTags;
-			sourceTree = "<group>";
-		};
-		70F369A01CC361EE0067B62E /* Tags */ = {
-			isa = PBXGroup;
-			children = (
-				70F369B31CC38E440067B62E /* SearchTagWithPreviews */,
-				70F369A11CC361EE0067B62E /* QueryRecommandTags */,
-			);
-			path = Tags;
-			sourceTree = "<group>";
-		};
-		70F369A11CC361EE0067B62E /* QueryRecommandTags */ = {
-			isa = PBXGroup;
-			children = (
-				70F369A21CC361F90067B62E /* AYQueryRecommandTagsCommand.h */,
-				70F369A31CC361F90067B62E /* AYQueryRecommandTagsCommand.m */,
-			);
-			path = QueryRecommandTags;
-			sourceTree = "<group>";
-		};
 		70F369A51CC3622C0067B62E /* Delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -8331,24 +8183,6 @@
 				70F369AD1CC3641C0067B62E /* AYContentDelegate.m */,
 			);
 			path = CardContentDelegate;
-			sourceTree = "<group>";
-		};
-		70F369B31CC38E440067B62E /* SearchTagWithPreviews */ = {
-			isa = PBXGroup;
-			children = (
-				70F369B51CC38E610067B62E /* AYSearchTagWithPreviewsCommand.h */,
-				70F369B61CC38E610067B62E /* AYSearchTagWithPreviewsCommand.m */,
-			);
-			path = SearchTagWithPreviews;
-			sourceTree = "<group>";
-		};
-		70F369B41CC38E4A0067B62E /* SearchRoleTagWithPreviews */ = {
-			isa = PBXGroup;
-			children = (
-				70F369B81CC38EA90067B62E /* AYSearchRoleTagWithPreviewsCommand.h */,
-				70F369B91CC38EA90067B62E /* AYSearchRoleTagWithPreviewsCommand.m */,
-			);
-			path = SearchRoleTagWithPreviews;
 			sourceTree = "<group>";
 		};
 		70F4285B1CC7B18F00A69977 /* Masonry */ = {
@@ -8724,43 +8558,6 @@
 			path = EnumHomeTimeSpan;
 			sourceTree = "<group>";
 		};
-		8086A2561CCE98C1006186D4 /* Users */ = {
-			isa = PBXGroup;
-			children = (
-				8086A2571CCE98C1006186D4 /* UserRecommand */,
-				8086A2581CCE98C1006186D4 /* UserWithRoleTag */,
-				8086A2591CCE98C1006186D4 /* UserWithScreenName */,
-			);
-			path = Users;
-			sourceTree = "<group>";
-		};
-		8086A2571CCE98C1006186D4 /* UserRecommand */ = {
-			isa = PBXGroup;
-			children = (
-				8086A25D1CCE9901006186D4 /* AYUserRecommandCommand.h */,
-				8086A25E1CCE9901006186D4 /* AYUserRecommandCommand.m */,
-			);
-			path = UserRecommand;
-			sourceTree = "<group>";
-		};
-		8086A2581CCE98C1006186D4 /* UserWithRoleTag */ = {
-			isa = PBXGroup;
-			children = (
-				8086A25A1CCE98F0006186D4 /* AYUserWithRoleTagCommand.h */,
-				8086A25B1CCE98F0006186D4 /* AYUserWithRoleTagCommand.m */,
-			);
-			path = UserWithRoleTag;
-			sourceTree = "<group>";
-		};
-		8086A2591CCE98C1006186D4 /* UserWithScreenName */ = {
-			isa = PBXGroup;
-			children = (
-				8086A2601CCE9914006186D4 /* AYUserWithScreenNameCommand.h */,
-				8086A2611CCE9914006186D4 /* AYUserWithScreenNameCommand.m */,
-			);
-			path = UserWithScreenName;
-			sourceTree = "<group>";
-		};
 		80C5890F1DB776CA00BCC8E9 /* PayOrder */ = {
 			isa = PBXGroup;
 			children = (
@@ -8979,15 +8776,6 @@
 				80D5E7F61CCCE2E300A82117 /* AYNoneRelationBtnView.m */,
 			);
 			path = NoneRelationBtn;
-			sourceTree = "<group>";
-		};
-		80E249521CD32E5000277130 /* JoinChatGroup */ = {
-			isa = PBXGroup;
-			children = (
-				80E249531CD32E6100277130 /* AYJoinChatGroupCommand.h */,
-				80E249541CD32E6100277130 /* AYJoinChatGroupCommand.m */,
-			);
-			path = JoinChatGroup;
 			sourceTree = "<group>";
 		};
 		80E2FB521DD30E7F00B822FE /* AuthPhoneCode */ = {

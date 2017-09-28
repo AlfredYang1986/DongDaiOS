@@ -191,8 +191,12 @@
 			id data = [result_status_fb copy];
 			kAYDelegatesSendMessage(@"OrderCommon", @"changeQueryFBData:", &data)
 		} else {
-			NSString *title = @"请改善网络环境并重试";
-			AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+//			NSString *message = [result objectForKey:@"message"];
+//			if([message isEqualToString:@"token过期"]) {
+//				NSString *tip = @"当前用户登录实效已过期，请重新登录";
+//				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+//			} else
+			AYShowBtmAlertView(kAYNetworkSlowTip, BtmAlertViewTypeHideWithTimer)
 		}
 		
 		id<AYViewBase> view_future = [self.views objectForKey:@"Table"];

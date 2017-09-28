@@ -122,19 +122,15 @@
     AYRemoteCallCommand* cmd_sign_out = [f_login_remote.commands objectForKey:@"AuthSignOut"];
     [cmd_sign_out performWithResult:current_login_user andFinishBlack:^(BOOL success, NSDictionary * result) {
         NSLog(@"login out %@", result);
-        NSLog(@"current login user %@", current_login_user);
-        
-        {
-            AYFacade* f = [self.facades objectForKey:@"EM"];
-            id<AYCommand> cmd_xmpp_logout = [f.commands objectForKey:@"LogoutEM"];
-            [cmd_xmpp_logout performWithResult:nil];
-        }
-        
-        {
-            AYFacade* f = LOGINMODEL;
-            id<AYCommand> cmd_sign_out_local = [f.commands objectForKey:@"SignOutLocal"];
-            [cmd_sign_out_local performWithResult:nil];
-        }
+		
+		AYFacade* f_em = [self.facades objectForKey:@"EM"];
+		id<AYCommand> cmd_xmpp_logout = [f_em.commands objectForKey:@"LogoutEM"];
+		[cmd_xmpp_logout performWithResult:nil];
+		
+		AYFacade* f_login = LOGINMODEL;
+		id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+		[cmd_sign_out_local performWithResult:nil];
+		
     }];
     
     return nil;

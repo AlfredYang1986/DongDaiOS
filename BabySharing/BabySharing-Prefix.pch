@@ -117,8 +117,8 @@ typedef enum : int {
 //static NSString* const kAYDongDaDownloadURL =                @"http://10.6.20.180:9000/query/downloadFile/";
 //static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9999/query/downloadFile/";
 //static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9000/query/downloadFile/";
-//static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.174:9000/query/downloadFile/";
-static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
+static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.174:9000/query/downloadFile/";
+//static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
 #else
 #define NSLog(...) {}
 //static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9000/query/downloadFile/";

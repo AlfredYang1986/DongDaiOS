@@ -22,6 +22,9 @@
 #import "EMSDK.h"
 #import "EMError.h"
 
+#import "RemoteInstance.h"
+#import "AYViewController.h"
+
 static NSString* const kAYEMAppKey = @"blackmirror#dongda";
 
 @interface AppDelegate ()
@@ -118,6 +121,8 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
     AYFacade* em = DEFAULTFACADE(@"EM");
     id<AYCommand> cmd = [em.commands objectForKey:@"EMEnterFront"];
     [cmd performWithResult:nil];
+	[self authTokenAndChangeWindow];
+	
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -202,5 +207,38 @@ static NSString* const kAYEMAppKey = @"blackmirror#dongda";
         [WeiboSDK handleOpenURL:url delegate:(id<WeiboSDKDelegate>)weibo_delegate] ||
         [WXApi handleOpenURL:url delegate:(id<WXApiDelegate>)wechat_delegate];
     }
+}
+
+- (void)authTokenAndChangeWindow {
+	
+	UIViewController *vc = [Tools activityViewController];
+	[(AYViewController*)vc startRemoteCall:nil];
+	NSDictionary *user;
+	CURRENUSER(user);
+	
+	dispatch_queue_t rq = dispatch_queue_create("remote call", nil);
+	dispatch_async(rq, ^{
+		NSError * error = nil;
+		NSData* jsonData =[NSJSONSerialization dataWithJSONObject:user options:NSJSONWritingPrettyPrinted error:&error];
+		
+		NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:@"http://192.168.100.174:9000/al/auth/isExpired"]];
+		NSLog(@"request result from sever: %@", result);
+		
+		dispatch_async(dispatch_get_main_queue(), ^{
+			
+			if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
+				NSNumber* isExpired = [[result objectForKey:@"result"] objectForKey:@"isExpired"];
+				if (isExpired && isExpired.boolValue) {
+					AYFacade* f_login = LOGINMODEL;
+					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+					[cmd_sign_out_local performWithResult:nil];
+				}
+			} else {
+				
+			}
+			
+			[(AYViewController*)vc endRemoteCall:nil];
+		});
+	});
 }
 @end

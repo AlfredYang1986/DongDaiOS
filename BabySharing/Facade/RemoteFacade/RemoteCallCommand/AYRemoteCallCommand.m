@@ -17,6 +17,7 @@
 #import "AYFacadeBase.h"
 #import "AYRemoteCallCommand.h"
 
+
 @implementation AYRemoteCallCommand
 
 @synthesize para = _para;
@@ -78,7 +79,15 @@
                 block(YES, reVal);
             } else {
                 NSDictionary* reError = [result objectForKey:@"error"];
-                block(NO, reError);
+				if ([[reError objectForKey:@"message"] isEqualToString:@"token过期"]) {
+					AYFacade* f_login = LOGINMODEL;
+					id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+					[cmd_sign_out_local performWithResult:nil];
+					
+					NSString *tip = @"当前用户登录实效已过期，请重新登录";
+					AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+				} else
+					block(NO, reError);
             }
            
             [self endAsyncCall];

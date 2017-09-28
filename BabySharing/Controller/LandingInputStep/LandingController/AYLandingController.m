@@ -13,9 +13,10 @@
 #import "AYModel.h"
 #import "AYFactoryManager.h"
 #import "AYRemoteCallCommand.h"
-#import "Tools.h"
 #import "AYRemoteCallDefines.h"
 #import "AYAlertView.h"
+
+#import "RemoteInstance.h"
 
 typedef NS_ENUM(NSInteger, RegisterResult) {
     RegisterResultSuccess,
@@ -24,10 +25,6 @@ typedef NS_ENUM(NSInteger, RegisterResult) {
 };
 
 static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult";
-
-#define LOGO_TOP_MARGIN 144
-#define INPUT_VIEW_TOP_MARGIN       ([UIScreen mainScreen].bounds.size.height / 6.0)
-#define INPUT_VIEW_START_POINT      (title.frame.origin.y + title.frame.size.height + INPUT_VIEW_TOP_MARGIN)
 
 @interface AYLandingController ()
 @property (nonatomic, setter=setCurrentStatus:) RemoteControllerStatus landing_status;
@@ -76,7 +73,36 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSLog(@"app is ready");
                 if (obj != nil && ((NSDictionary*)obj).count != 0) {
-                    [self LoginSuccess];
+					
+					
+					[super startRemoteCall:nil];
+					NSDictionary *user;
+					CURRENUSER(user);
+					
+					dispatch_queue_t rq = dispatch_queue_create("remote call", nil);
+					dispatch_async(rq, ^{
+						NSError * error = nil;
+						NSData* jsonData =[NSJSONSerialization dataWithJSONObject:user options:NSJSONWritingPrettyPrinted error:&error];
+						
+						NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:@"http://192.168.100.174:9000/al/auth/isExpired"]];
+						NSLog(@"request result from sever: %@", result);
+						
+						dispatch_async(dispatch_get_main_queue(), ^{
+							
+							if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
+								NSNumber* isExpired = [[result objectForKey:@"result"] objectForKey:@"isExpired"];
+								if (isExpired && isExpired.boolValue) {
+									AYFacade* f_login = LOGINMODEL;
+									id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+									[cmd_sign_out_local performWithResult:nil];
+								} else if(isExpired && !isExpired.boolValue){
+									[self LoginSuccess];
+								}
+							}
+							
+							[super endRemoteCall:nil];
+						});
+					});
                 } else {
                     self.landing_status = RemoteControllerStatusReady;
                 }
@@ -216,47 +242,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 }
 
 #pragma mark -- move views
-- (void)keyBoardWillShow:(NSNotification *)notification {
-    if (isUpAnimation) {
-        return;
-    }
-    
-    UIView* inputView = [self.views objectForKey:@"LandingInput"];
-    UIView* title = [self.views objectForKey:@"LandingTitle"];
-    
-    isUpAnimation = !isUpAnimation;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
-    CGFloat maxY = CGRectGetMaxY(inputView.frame);
-    diff = self.view.frame.size.height - maxY - keyBoardFrame.size.height;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        inputView.center = CGPointMake(inputView.center.x, inputView.center.y + diff);
-        title.alpha = 0.f;
-//        title.center = CGPointMake(title.center.x, title.center.y + diff);
-//        slg.center = CGPointMake(slg.center.x, slg.center.y + diff);
-    }];
-}
-
-- (void)keyBoardWillHide:(NSNotification *)notification {
-    if (!isUpAnimation) {
-        return;
-    }
-    UIView* inputView = [self.views objectForKey:@"LandingInput"];
-    UIView* title = [self.views objectForKey:@"LandingTitle"];
-
-    isUpAnimation = !isUpAnimation;
-    NSDictionary *userInfo = [notification userInfo];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    keyBoardFrame = value.CGRectValue;
-    [UIView animateWithDuration:0.3 animations:^{
-        inputView.center = CGPointMake(inputView.center.x, inputView.center.y - diff);
-        title.alpha = 1.f;
-//        title.center = CGPointMake(title.center.x, title.center.y - diff);
-//        slg.center = CGPointMake(slg.center.x, slg.center.y - diff);
-    }];
-}
 
 #pragma mark -- actions
 -(void)pri_btnDidClick {
