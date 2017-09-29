@@ -10,6 +10,8 @@
 	
     <controller type="DefaultController" name="Landing" factory="AYDefaultControllerFactoy" >
         <facade type="DefaultFacade" name="LandingRemote" notification="true" />
+<!--		<facade type="DefaultFacade" name="AuthRemote" />-->
+
         <facade type="DefaultFacade" name="SNSQQ" notification="true" />
         <facade type="DefaultFacade" name="SNSWechat" notification="true"/>
         <facade type="DefaultFacade" name="SNSWeibo" notification="true"/>

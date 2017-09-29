@@ -87,6 +87,7 @@ typedef enum : int {
 #define kAYStringCourse							@"课程"
 #define kAYStringNursery						@"看顾"
 #define kAYStringNull							@""
+#define kAYStringLineFeed						@"\n"
 
 #define kAY_service_options_title_course		@[@"艺术", @"运动", @"科学"]
 #define kAY_service_options_title_nursery		@[@"日间看顾", @"课后看顾"]
@@ -117,8 +118,8 @@ typedef enum : int {
 //static NSString* const kAYDongDaDownloadURL =                @"http://10.6.20.180:9000/query/downloadFile/";
 //static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9999/query/downloadFile/";
 //static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.12:9000/query/downloadFile/";
-static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.174:9000/query/downloadFile/";
-//static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
+//static NSString* const kAYDongDaDownloadURL =                @"http://192.168.100.174:9000/query/downloadFile/";
+static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9999/query/downloadFile/";
 #else
 #define NSLog(...) {}
 //static NSString* const kAYDongDaDownloadURL =                @"http://altlys.com:9000/query/downloadFile/";

@@ -94,6 +94,7 @@
 		700F04C11E795EC9008AB01E /* AYChatInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F04B81E795EC9008AB01E /* AYChatInputView.m */; };
 		700F04C21E795EC9008AB01E /* AYChatMessageCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F04BC1E795EC9008AB01E /* AYChatMessageCellView.m */; };
 		700F15CF1D73D51600B1CACF /* AYAlertTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700F15CE1D73D51600B1CACF /* AYAlertTipView.m */; };
+		7010F0A41F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 7010F0A31F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.m */; };
 		70120A171E6EA8AF00136B8E /* AYSetNapScheduleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120A081E6EA8AF00136B8E /* AYSetNapScheduleController.m */; };
 		70120A181E6EA8AF00136B8E /* AYServiceTimesPickDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120A0B1E6EA8AF00136B8E /* AYServiceTimesPickDelegate.m */; };
 		70120A191E6EA8AF00136B8E /* AYServiceTimesShowDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70120A0D1E6EA8AF00136B8E /* AYServiceTimesShowDelegate.m */; };
@@ -1015,6 +1016,8 @@
 		700F04BC1E795EC9008AB01E /* AYChatMessageCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYChatMessageCellView.m; sourceTree = "<group>"; };
 		700F15CD1D73D51600B1CACF /* AYAlertTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYAlertTipView.h; sourceTree = "<group>"; };
 		700F15CE1D73D51600B1CACF /* AYAlertTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYAlertTipView.m; sourceTree = "<group>"; };
+		7010F0A21F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AYIsTokenExpiredCommand.h; sourceTree = "<group>"; };
+		7010F0A31F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AYIsTokenExpiredCommand.m; sourceTree = "<group>"; };
 		70120A061E6EA8AF00136B8E /* AYServiceTimesRule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYServiceTimesRule.h; sourceTree = "<group>"; };
 		70120A071E6EA8AF00136B8E /* AYSetNapScheduleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AYSetNapScheduleController.h; sourceTree = "<group>"; };
 		70120A081E6EA8AF00136B8E /* AYSetNapScheduleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AYSetNapScheduleController.m; sourceTree = "<group>"; };
@@ -3016,6 +3019,7 @@
 		700BE5C91CBA6E5800A09B3A /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				7010F0A11F7E149E00F0EF5A /* IsTokenExpired */,
 				80E2FB521DD30E7F00B822FE /* AuthPhoneCode */,
 				700047551D9BDF12000AE1C9 /* ApproveRealName */,
 				700047561D9BDF12000AE1C9 /* CheckCode */,
@@ -3260,6 +3264,15 @@
 				700F15CE1D73D51600B1CACF /* AYAlertTipView.m */,
 			);
 			path = AlertTip;
+			sourceTree = "<group>";
+		};
+		7010F0A11F7E149E00F0EF5A /* IsTokenExpired */ = {
+			isa = PBXGroup;
+			children = (
+				7010F0A21F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.h */,
+				7010F0A31F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.m */,
+			);
+			path = IsTokenExpired;
 			sourceTree = "<group>";
 		};
 		70120A031E6EA8AF00136B8E /* NapScheduleMain */ = {
@@ -9821,6 +9834,7 @@
 				7074A4651F382B6900BFFB48 /* AYPhoneCheckInputView.m in Sources */,
 				70A1A5621D1D4A860063FC7F /* AYLoginEMCommand.m in Sources */,
 				70CDF6381CBD033900311841 /* QueryContentChaters.m in Sources */,
+				7010F0A41F7E14BE00F0EF5A /* AYIsTokenExpiredCommand.m in Sources */,
 				7027DE291F6A5F4700AA84EA /* AYServiceCategOptView.m in Sources */,
 				7056BA001F1F2BF400386E3A /* AYOrderInfoPageController.m in Sources */,
 				70A27C0D1D0EFBE300B131AB /* AYPublishServiceCommand.m in Sources */,

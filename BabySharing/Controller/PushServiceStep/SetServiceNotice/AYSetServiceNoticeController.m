@@ -174,8 +174,19 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-	placeHold.hidden = textView.text.length != 0;
-	[self setNavRightBtnEnableStatus];
+	if (textView.text.length != 0) {
+		placeHold.hidden = YES;
+		[self setNavRightBtnEnableStatus];
+	} else {
+		placeHold.hidden = NO;
+		
+		if (!isValueChanged) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+			bar_right_btn.userInteractionEnabled = NO;
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = NO;
+		}
+	}
 }
 
 #pragma mark -- actions
@@ -185,6 +196,7 @@
 }
 
 - (void)setNavRightBtnEnableStatus {
+	isFirstEnter = NO;
 	if (!isAlreadyEnable) {
 		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
 		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)

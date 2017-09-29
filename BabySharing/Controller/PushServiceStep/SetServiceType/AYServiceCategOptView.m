@@ -26,13 +26,13 @@
 		}];
 		
 		UIImageView *accessView = [[UIImageView alloc] init];
-		accessView.image = [UIImage imageNamed:@"icon_arrow_back"];
-		accessView.transform = CGAffineTransformMakeRotation(M_PI);
+		accessView.image = [UIImage imageNamed:@"icon_arrow_r_white"];
+//		accessView.transform = CGAffineTransformMakeRotation(M_PI);
 		[self addSubview:accessView];
 		[accessView mas_makeConstraints:^(MASConstraintMaker *make) {
 			make.centerY.equalTo(self);
 			make.right.equalTo(self).offset(-13);
-			make.size.mas_equalTo(CGSizeMake(13, 13));
+			make.size.mas_equalTo(CGSizeMake(8, 14));
 		}];
 		
 		subTitleLabel = [Tools creatUILabelWithText:@"Sub" andTextColor:[Tools whiteColor] andFontSize:315 andBackgroundColor:nil andTextAlignment:NSTextAlignmentRight];

@@ -147,13 +147,22 @@
 #pragma mark -- UITextDelegate
 - (void)textViewDidChange:(UITextView *)textView {
     NSInteger count = textView.text.length;
-	placeHolder.hidden = count != 0;
-    if (!isAlreadyEnable) {
-        UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
-        kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
-        isAlreadyEnable = YES;
-    }
-    
+	
+	if (count != 0) {
+		placeHolder.hidden = YES;
+		if (!isAlreadyEnable) {
+			UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+			kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+			isAlreadyEnable = YES;
+		}
+	} else {
+		
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"下一步" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+		bar_right_btn.userInteractionEnabled = NO;
+		kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = NO;
+	}
+	
     if (count > LIMITNUMB) {
         inputTitleTextView.text = [textView.text substringToIndex:LIMITNUMB];
     }

@@ -15,7 +15,7 @@
 #import "AYFacadeBase.h"
 
 
-#define kMaxImagesCount             9
+#define kMaxImagesCount             8
 static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 
 @implementation AYSetBasicInfoController {
@@ -112,7 +112,7 @@ static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 }
 #pragma mark - TZImagePickerController
 - (void)pushImagePickerController {
-	TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount - 1 delegate:self];
+	TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount - selectImageArr.count delegate:self];
 	
 	imagePickerVc.isSelectOriginalPhoto = NO/*_isSelectOriginalPhoto*/;
 	imagePickerVc.allowTakePicture = YES; // 是否显示拍照按钮
@@ -143,7 +143,7 @@ static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 	NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
 	if ([type isEqualToString:@"public.image"]) {
 		
-		TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount delegate:self];
+		TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:kMaxImagesCount - selectImageArr.count delegate:self];
 		[tzImagePickerVc showProgressHUD];
 		UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 		
@@ -239,7 +239,12 @@ static NSString* const kSetBasicInfoDelegate =					@"SetBasicInfo";
 	return nil;
 }
 - (id)beginImagePicker {
-	[self pushImagePickerController];
+	if (selectImageArr.count >= kMaxImagesCount) {
+		NSString *tip = [NSString stringWithFormat:@"最多只能选择%d张图片", kMaxImagesCount];
+		AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer);
+	} else {
+		[self pushImagePickerController];
+	}
 	return nil;
 }
 @end

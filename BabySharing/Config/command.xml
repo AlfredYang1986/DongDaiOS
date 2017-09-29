@@ -192,6 +192,7 @@
 	<command type="Remote" name="PushRealName"			route="auth/realname/push" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="ApproveRealName"		route="auth/realname/approve" factory="AYRemoteCallFactory" />
 	<command type="Remote" name="RejectRealName"		route="auth/realname/reject" factory="AYRemoteCallFactory" />
+	<command type="Remote" name="IsTokenExpired"		route="al/auth/isExpired" factory="AYRemoteCallFactory" />
 
 	<command type="Remote" name="UpdateUserDetail"		route="al/profile/update" factory="AYRemoteCallFactory" />
     <command type="Remote" name="QueryUserProfile"		route="al/profile/query" factory="AYRemoteCallFactory" />

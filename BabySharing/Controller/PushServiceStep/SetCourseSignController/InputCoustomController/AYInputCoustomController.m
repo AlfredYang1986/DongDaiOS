@@ -48,7 +48,7 @@
 	coustomField = [[UITextField alloc] init];
 	coustomField.font = [UIFont systemFontOfSize:17.f];
 	coustomField.textColor = [Tools blackColor];
-	coustomField.placeholder = @"desc a word";
+	coustomField.placeholder = @"创建标签";
 	coustomField.delegate = self;
 	[self.view addSubview:coustomField];
 	[coustomField mas_makeConstraints:^(MASConstraintMaker *make) {

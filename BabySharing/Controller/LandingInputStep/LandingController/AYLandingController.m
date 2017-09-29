@@ -74,35 +74,30 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 NSLog(@"app is ready");
                 if (obj != nil && ((NSDictionary*)obj).count != 0) {
 					
-					
-					[super startRemoteCall:nil];
+					self.landing_status = RemoteControllerStatusLoading;
 					NSDictionary *user;
 					CURRENUSER(user);
 					
-					dispatch_queue_t rq = dispatch_queue_create("remote call", nil);
-					dispatch_async(rq, ^{
-						NSError * error = nil;
-						NSData* jsonData =[NSJSONSerialization dataWithJSONObject:user options:NSJSONWritingPrettyPrinted error:&error];
-						
-						NSDictionary* result = [RemoteInstance remoteSeverRequestData:jsonData toUrl:[NSURL URLWithString:@"http://192.168.100.174:9000/al/auth/isExpired"]];
-						NSLog(@"request result from sever: %@", result);
-						
-						dispatch_async(dispatch_get_main_queue(), ^{
-							
-							if ([[result objectForKey:@"status"] isEqualToString:@"ok"]) {
-								NSNumber* isExpired = [[result objectForKey:@"result"] objectForKey:@"isExpired"];
-								if (isExpired && isExpired.boolValue) {
-									AYFacade* f_login = LOGINMODEL;
-									id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
-									[cmd_sign_out_local performWithResult:nil];
-								} else if(isExpired && !isExpired.boolValue){
-									[self LoginSuccess];
-								}
+					id<AYFacadeBase> auth_facade = DEFAULTFACADE(@"AuthRemote");
+					AYRemoteCallCommand* auth_cmd = [auth_facade.commands objectForKey:@"IsTokenExpired"];
+					[auth_cmd performWithResult:[user copy] andFinishBlack:^(BOOL success, NSDictionary * result) {
+						if (success) {
+							NSNumber* isExpired = [result objectForKey:@"isExpired"];
+							if (isExpired && isExpired.boolValue) {
+								AYFacade* f_login = LOGINMODEL;
+								id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
+								[cmd_sign_out_local performWithResult:nil];
+								
+								self.landing_status = RemoteControllerStatusReady;
+								
+							} else if(isExpired && !isExpired.boolValue) {
+								[self LoginSuccess];
 							}
-							
-							[super endRemoteCall:nil];
-						});
-					});
+						} else {
+							[self LoginSuccess];
+						}
+					}];
+					
                 } else {
                     self.landing_status = RemoteControllerStatusReady;
                 }

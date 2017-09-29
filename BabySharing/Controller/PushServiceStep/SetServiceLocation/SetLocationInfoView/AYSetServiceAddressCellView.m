@@ -151,6 +151,7 @@
 		editAdjustTextView.textColor = [Tools blackColor];
 		editAdjustTextView.scrollEnabled = NO;
 		editAdjustTextView.delegate = self;
+		editAdjustTextView.returnKeyType = UIReturnKeyDone;
 //		[editAdjustTextView setContentInset:UIEdgeInsetsMake(-5, -3, -5, -3)];
 //		[editAdjustTextView addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:nil];
 		
@@ -190,11 +191,17 @@
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
 	if (text.length != 0) {
-		CGSize newsize = [Tools sizeWithString:[textView.text stringByAppendingString:text] withFont:textView.font andMaxSize:CGSizeMake(SCREEN_WIDTH-70, MAXFLOAT)];
-		if (newsize.height > 52) {
+		if([text isEqualToString:kAYStringLineFeed]) {
+			[textView resignFirstResponder];
 			return NO;
-		} else
-			return YES;
+		} else {
+			
+			CGSize newsize = [Tools sizeWithString:[textView.text stringByAppendingString:text] withFont:textView.font andMaxSize:CGSizeMake(SCREEN_WIDTH-70, MAXFLOAT)];
+			if (newsize.height > 52) {
+				return NO;
+			} else
+				return YES;
+		}
 	}
 	return YES;
 }

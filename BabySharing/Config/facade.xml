@@ -143,6 +143,7 @@
         <command type="Remote" name="RejectRealName" />
         <command type="Remote" name="RequireCode" />
         <command type="Remote" name="CheckCode" />
+		<command type="Remote" name="IsTokenExpired" />
     </facade>
     
     <facade type="DefaultFacade" name="FileRemote" factory="AYDefaultFacadeFactory" >
