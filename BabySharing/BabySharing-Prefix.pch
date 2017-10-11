@@ -27,9 +27,11 @@ static NSString* const kAYDongDaAppMode =				@"dongda_app_mode";
 #define SCREEN_WIDTH                                    [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT                                   [UIScreen mainScreen].bounds.size.height
 #define UIScreenScale									[UIScreen mainScreen].scale
+#define kStatusBarH										20
+#define kNavBarH										44
+#define kStatusAndNavBarH								64
 #define kTabBarH										49
 #define kBotButtonH										49
-#define kStatusAndNavBarH								64
 
 //PayWayOption
 typedef enum : int {

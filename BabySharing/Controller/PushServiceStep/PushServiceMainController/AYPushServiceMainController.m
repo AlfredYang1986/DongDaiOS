@@ -216,12 +216,11 @@
 	[self.view addSubview:capacitySubView];
 	
 	TMsSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+rightHeight+kBETWEENMARGIN, sameWidth, rightHeight) andTitle:@"服务时间" andTapBlock:^{
-		
-		pushBtn.enabled = NO;
-		pushBtnBG.layer.shadowColor = [Tools garyColor].CGColor;
-		[ableGradi removeFromSuperlayer];
-		[pushBtn.layer addSublayer:unAbleGradi];
-		pushBtnTitle.text = @"准备发布";
+//		pushBtn.enabled = NO;
+//		pushBtnBG.layer.shadowColor = [Tools garyColor].CGColor;
+//		[ableGradi removeFromSuperlayer];
+//		[pushBtn.layer addSublayer:unAbleGradi];
+//		pushBtnTitle.text = @"准备发布";
 	}];
 	[self.view addSubview:TMsSubView];
 	
@@ -241,11 +240,12 @@
 	CGFloat priceViewWidth = (SCREEN_WIDTH - 40 - kBETWEENMARGIN) * 0.5;
 	priceSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(margin, kBETWEENMARGIN, priceViewWidth, 49) andTitle:@"Price" andTapBlock:^{
 		
-		pushBtn.enabled = YES;
-		pushBtnBG.layer.shadowColor = [Tools themeColor].CGColor;
-		[unAbleGradi removeFromSuperlayer];
-		[pushBtn.layer addSublayer:ableGradi];
-		pushBtnTitle.text = @"发布服务";
+		[self pushDestControllerWithName:@"SetServicePrice"];
+//		pushBtn.enabled = YES;
+//		pushBtnBG.layer.shadowColor = [Tools themeColor].CGColor;
+//		[unAbleGradi removeFromSuperlayer];
+//		[pushBtn.layer addSublayer:ableGradi];
+//		pushBtnTitle.text = @"发布服务";
 	}];
 	[partBtmView addSubview:priceSubView];
 //	[priceSubView hideCheckSign];
