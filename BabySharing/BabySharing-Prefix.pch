@@ -59,14 +59,23 @@ typedef enum : int {
 typedef enum : int {
 	OrderStatusExpired = -1,
 	OrderStatusPosted = 1,
-    OrderStatusReject = 2,
+	OrderStatusReject = 2,
 	OrderStatusAccepted = 3,
 	OrderStatusPaid = 4,
-    OrderStatusCancel = -2,
+	OrderStatusCancel = -2,
 	OrderStatusDone = 9,
-    OrderStatusReady = 10,
-    OrderStatusConfirm = 11,
+	OrderStatusReady = 10,
+	OrderStatusConfirm = 11,
 } OrderStatus;
+
+//priceType
+typedef enum : int {
+	AYPriceTypeHours = 0,
+	AYPriceTypeDay = 1,
+	AYPriceTypeMonth = 2,
+	AYPriceTypeTimes = 4,
+	AYPriceTypeStage = 5,
+} AYPriceType;
 
 //DongDaAppMode
 typedef enum : int {

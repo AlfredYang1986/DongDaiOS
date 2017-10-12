@@ -45,25 +45,16 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return timesArr.count + 1;
+	return timesArr.count == 0 ? 3 : timesArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    NSString* class_name;
-    id<AYViewBase> cell;
-    
-    if (indexPath.row == timesArr.count) {
-        class_name = @"AYServiceAddTimesCellView";
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-    } else {
-        class_name = @"AYServiceTimesCellView";
-        cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
-        
-        id tmp = [timesArr objectAtIndex:indexPath.row];
-        kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-    }
+    NSString* class_name = @"AYServiceTimesCellView";
+    id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	
+//	id tmp = [timesArr objectAtIndex:indexPath.row];
+//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
     
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -71,7 +62,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 90.f;
+    return 49;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

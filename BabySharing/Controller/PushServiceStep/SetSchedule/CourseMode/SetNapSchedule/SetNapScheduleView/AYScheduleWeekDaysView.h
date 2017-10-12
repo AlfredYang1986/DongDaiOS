@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 #import "AYWeekDayBtn.h"
+#import "AYCalendarDate.h"
 
-@interface AYScheduleWeekDaysView : UIView <AYViewBase>
+@interface AYScheduleWeekDaysView : UIView <AYViewBase, UICollectionViewDelegate, UICollectionViewDataSource>
+
+/** 处理时间的方法 */
+@property (nonatomic, strong) AYCalendarDate *useTime;
 
 @end

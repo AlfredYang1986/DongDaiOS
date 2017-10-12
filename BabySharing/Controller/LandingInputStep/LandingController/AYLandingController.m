@@ -74,7 +74,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
                 NSLog(@"app is ready");
                 if (obj != nil && ((NSDictionary*)obj).count != 0) {
 					
-//					self.landing_status = RemoteControllerStatusLoading;
 					NSDictionary *user;
 					CURRENUSER(user);
 					
@@ -87,8 +86,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 								AYFacade* f_login = LOGINMODEL;
 								id<AYCommand> cmd_sign_out_local = [f_login.commands objectForKey:@"SignOutLocal"];
 								[cmd_sign_out_local performWithResult:nil];
-								
-//								self.landing_status = RemoteControllerStatusReady;
 								
 							} else if(isExpired && !isExpired.boolValue) {
 								[self LoginSuccess];
@@ -214,7 +211,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 
 - (void)postPerform {
     [super postPerform];
-//    self.landing_status = RemoteControllerStatusPrepare;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -580,18 +576,6 @@ static NSString* const kAYLandingControllerRegisterResultKey = @"RegisterResult"
 	}
     return nil;
 }
-
-//- (id)startRemoteCall:(id)obj {
-////    [super startRemoteCall:nil];
-//    self.landing_status = RemoteControllerStatusLoading;
-//    return nil;
-//}
-//
-//- (id)endRemoteCall:(id)obj {
-////    [super endRemoteCall:nil];
-//    self.landing_status = RemoteControllerStatusReady;
-//    return nil;
-//}
 
 - (BOOL)prefersStatusBarHidden{
     return YES;

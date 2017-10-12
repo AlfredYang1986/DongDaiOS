@@ -30,20 +30,23 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         
-        titleLabel = [Tools creatUILabelWithText:@"00:00 - 00:00" andTextColor:[Tools blackColor] andFontSize:18.f andBackgroundColor:nil andTextAlignment:0];
+        titleLabel = [Tools creatUILabelWithText:@"00:00 - 00:00" andTextColor:[Tools blackColor] andFontSize:320 andBackgroundColor:nil andTextAlignment:0];
         [self addSubview:titleLabel];
         [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self).offset(15);
             make.centerY.equalTo(self);
         }];
-        
-        CALayer *separator = [CALayer layer];
-        CGFloat margin = 0;
-        separator.frame = CGRectMake(margin, 89.5, [UIScreen mainScreen].bounds.size.width - margin*2, 0.5);
-        separator.backgroundColor = [Tools whiteColor].CGColor;
-        [self.layer addSublayer:separator];
+		
+		subTitlelabel = [Tools creatUILabelWithText:@"0 hour" andTextColor:[Tools garyColor] andFontSize:311 andBackgroundColor:nil andTextAlignment:0];
+		[self addSubview:subTitlelabel];
+		[subTitlelabel mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.right.equalTo(self).offset(-15);
+			make.centerY.equalTo(self);
+		}];
+		
+		[Tools addBtmLineWithMargin:15 andAlignment:NSTextAlignmentRight andColor:[Tools garyLineColor] inSuperView:self];
         
         if (reuseIdentifier != nil) {
             [self setUpReuseCell];

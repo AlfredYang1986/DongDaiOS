@@ -431,6 +431,9 @@
 + (UIColor*)themeBorderColor {
 	return [UIColor colorWithRed:189.f/255.0 green:238.f/255.0 blue:233.f/255.0 alpha:1.0];
 }
++ (UIColor*)themeLightColor {
+	return [UIColor colorWithRed:198.f/255.0 green:238.f/255.0 blue:233.f/255.0 alpha:1.0];
+}
 
 + (UIColor*)blackColor {
     return [UIColor colorWithRed:64.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];

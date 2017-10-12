@@ -7,6 +7,7 @@
 //
 
 #import "AYSetServicePriceController.h"
+#import "AYFacadeBase.h"
 
 #import "AYServicePriceCatBtn.h"
 #import "AYShadowRadiusView.h"
@@ -26,6 +27,8 @@
 	AYSetPriceInputView *timesPriceInput;
 	AYSetPriceInputView *stagePriceInput;
 	AYSetPriceInputView *timesCountInput;
+	
+	BOOL isAlreadyEnable;
 }
 
 #pragma mark -- commands
@@ -64,6 +67,8 @@
 	NSArray *itemTitles;
 	NSArray *itemTips;
 	NSString *catStr = [[push_service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
+	NSArray *info_price_arr = [[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsPriceArr];
+	
 	if ([catStr isEqualToString:kAYStringCourse]) {
 		itemCount = 2;
 		itemTitles = @[@"单次", @"学期"];
@@ -103,6 +108,8 @@
 					make.centerX.equalTo(radiusView);
 					make.size.mas_equalTo(CGSizeMake(segWidth - marginScreen*2, kInputGroupHeight));
 				}];
+				[self setInputViewTitle:timesPriceInput andPriceNumb:[self predPriceWithType:AYPriceTypeTimes inPriceArr:info_price_arr]];
+				
 			} else {
 				[radiusView mas_makeConstraints:^(MASConstraintMaker *make) {
 					make.centerX.equalTo(radiusBG);
@@ -118,6 +125,7 @@
 					make.centerX.equalTo(radiusView);
 					make.size.mas_equalTo(CGSizeMake(segWidth - marginScreen*2, kInputGroupHeight));
 				}];
+				[self setInputViewTitle:stagePriceInput andPriceNumb:[self predPriceWithType:AYPriceTypeStage inPriceArr:info_price_arr]];
 				
 				AYShadowRadiusView *countRadiusView= [[AYShadowRadiusView alloc] initWithRadius:4.f];
 				[radiusBG addSubview:countRadiusView];
@@ -135,6 +143,11 @@
 					make.centerX.equalTo(countRadiusView);
 					make.size.equalTo(stagePriceInput);
 				}];
+				
+				NSNumber *count = [[push_service_info objectForKey:kAYServiceArgsDetailInfo] objectForKey:kAYServiceArgsClassCount];
+				if (count) {
+					timesCountInput.inputField.text = count.stringValue;
+				}
 			}
 			
 			UILabel *tipLabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"设置%@价格该服务可按%@预定", [itemTitles objectAtIndex:i], [itemTips objectAtIndex:i]] andTextColor:[Tools garyColor] andFontSize:311 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
@@ -183,6 +196,8 @@
 			}];
 			[inputViewArr addObject:inputView];
 			
+			[self setInputViewTitle:inputView andPriceNumb:[self predPriceWithType:i inPriceArr:info_price_arr]];
+			
 			UILabel *tipLabel = [Tools creatUILabelWithText:[NSString stringWithFormat:@"设置%@价格该服务可按%@预定", [itemTitles objectAtIndex:i], [itemTips objectAtIndex:i]] andTextColor:[Tools garyColor] andFontSize:311 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 			[radiusView addSubview:tipLabel];
 			[tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -200,9 +215,7 @@
 	self.view.userInteractionEnabled = YES;
 	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapElse)]];
 }
-- (void)didTapElse {
-	[self.view endEditing:YES];
-}
+
 #pragma mark -- layouts
 - (id)FakeStatusBarLayout:(UIView*)view {
 	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, kStatusBarH);
@@ -217,14 +230,43 @@
 	
 	//	NSString *title = @"服务类型";
 	//	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
 	
-	NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnVisibilityMessage, &right_hidden)
-	//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
 	return nil;
 }
 
 #pragma mark -- actions
+- (void)setNavRightBtnEnableStatus {
+	if (!isAlreadyEnable) {
+		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:616.f andBackgroundColor:nil];
+		kAYViewsSendMessage(@"FakeNavBar", kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+		isAlreadyEnable = YES;
+	}
+}
+
+- (void)setInputViewTitle:(AYSetPriceInputView*)inputView andPriceNumb:(NSNumber*)p {
+	if (p) {
+		inputView.inputField.text = [NSString stringWithFormat:@"¥%d", p.intValue/100];
+	}
+}
+
+- (NSNumber*)predPriceWithType:(AYPriceType)type inPriceArr:(NSArray*)priceArr {
+	NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF.%@=%d", kAYServiceArgsPriceType, type];
+	NSArray *result = [priceArr filteredArrayUsingPredicate:pred];
+	if (result.count == 1) {
+		return [[result firstObject] objectForKey:kAYServiceArgsPrice];
+	} else {
+		return nil;
+	}
+}
+
+- (void)didTapElse {
+	[self.view endEditing:YES];
+}
+
 - (void)didCatBtnClick:(AYServicePriceCatBtn*)btn {
 	
 	if (handleBtn == btn) {
@@ -272,6 +314,8 @@
 
 #pragma mark -- textfiled delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+	[self setNavRightBtnEnableStatus];
+	
 	if (textField == timesCountInput.inputField) {
 		return YES;
 	} else {
@@ -316,29 +360,46 @@
 	[dic setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic setValue:self forKey:kAYControllerActionSourceControllerKey];
 	
+	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	NSMutableArray *priceArr = [[NSMutableArray alloc] init];
 	NSString *catStr = [[push_service_info objectForKey:kAYServiceArgsCategoryInfo] objectForKey:kAYServiceArgsCat];
 	if ([catStr isEqualToString:kAYStringCourse]) {
-		for (int i = 0; i < inputViewArr.count; ++i) {
-			NSMutableDictionary *dic_price = [[NSMutableDictionary alloc] init];
-			int p = [[[[[inputViewArr objectAtIndex:i] inputField] text] stringByReplacingOccurrencesOfString:@"¥" withString:@""] intValue] * 100;
-			[dic_price setValue:[NSNumber numberWithInt:p] forKey:kAYServiceArgsPrice];
-			[dic_price setValue:[NSNumber numberWithInt:i+4] forKey:kAYServiceArgsPriceType];
-			[priceArr addObject:dic_price];
+		
+		if(stagePriceInput.inputField.text.length != 0) {
+			if (timesCountInput.inputField.text.length == 0) {
+				NSString *tip = @"请设置阶段课时数！";
+				AYShowBtmAlertView(tip, BtmAlertViewTypeHideWithTimer)
+				return nil;
+			} else{
+				int p = [[stagePriceInput.inputField.text stringByReplacingOccurrencesOfString:@"¥" withString:@""] intValue] * 100;
+				NSDictionary *dic = @{kAYServiceArgsPrice:[NSNumber numberWithInt:p], kAYServiceArgsPriceType:[NSNumber numberWithInt:AYPriceTypeStage]};
+				[priceArr addObject:dic];
+				
+				[tmp setValue:[NSNumber numberWithInt:[timesCountInput.inputField.text intValue]] forKey:kAYServiceArgsClassCount];
+			}
 		}
+		if(timesPriceInput.inputField.text.length != 0) {
+			int p = [[timesPriceInput.inputField.text stringByReplacingOccurrencesOfString:@"¥" withString:@""] intValue] * 100;
+			NSDictionary *dic = @{kAYServiceArgsPrice:[NSNumber numberWithInt:p], kAYServiceArgsPriceType:[NSNumber numberWithInt:AYPriceTypeTimes]};
+			[priceArr addObject:dic];
+		}
+		
 	} else if([catStr isEqualToString:kAYStringNursery]) {
 		for (int i = 0; i < inputViewArr.count; ++i) {
-			NSMutableDictionary *dic_price = [[NSMutableDictionary alloc] init];
-			int p = [[[[[inputViewArr objectAtIndex:i] inputField] text] stringByReplacingOccurrencesOfString:@"¥" withString:@""] intValue] * 100;
-			[dic_price setValue:[NSNumber numberWithInt:p] forKey:kAYServiceArgsPrice];
-			[dic_price setValue:[NSNumber numberWithInt:i] forKey:kAYServiceArgsPriceType];
-			[priceArr addObject:dic_price];
+			NSString *inputStr= [[[inputViewArr objectAtIndex:i] inputField] text];
+			if (inputStr.length != 0) {
+				
+				NSMutableDictionary *dic_price = [[NSMutableDictionary alloc] init];
+				int p = [[inputStr stringByReplacingOccurrencesOfString:@"¥" withString:@""] intValue] * 100;
+				[dic_price setValue:[NSNumber numberWithInt:p] forKey:kAYServiceArgsPrice];
+				[dic_price setValue:[NSNumber numberWithInt:i] forKey:kAYServiceArgsPriceType];
+				[priceArr addObject:dic_price];
+			}
 		}
 	} else {
 		
 	}
 	
-	NSMutableDictionary *tmp = [[NSMutableDictionary alloc] init];
 	[tmp setValue:priceArr forKey:kAYServiceArgsPriceArr];
 	[tmp setValue:@"part_price" forKey:@"key"];
 	[dic setValue:tmp forKey:kAYControllerChangeArgsKey];

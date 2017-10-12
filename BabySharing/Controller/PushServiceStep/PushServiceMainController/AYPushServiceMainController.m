@@ -71,14 +71,11 @@
 				noticeSubView.isReady = [back_args objectForKey:kAYServiceArgsAllowLeave] && [back_args objectForKey:kAYServiceArgsIsHealth];
 			}
 			else if ([note_key isEqualToString:@"part_location"]) {
-				/*
-				 *adress	*pin	*distrct
-				 *adjust
-				 *facility
-				 *location_type
-				 *loc_iamges
-				 */
+				
 				locationSubView.isReady = [back_args objectForKey:kAYServiceArgsAddress] && [back_args objectForKey:kAYServiceArgsAdjustAddress] && [back_args objectForKey:kAYServiceArgsPin] && [back_args objectForKey:kAYServiceArgsDistrict] && [[back_args objectForKey:kAYServiceArgsFacility] count] != 0 && [back_args objectForKey:kAYServiceArgsYardType] && [[back_args objectForKey:kAYServiceArgsYardImages] count] != 0;
+			}
+			else if ([note_key isEqualToString:@"part_price"]) {
+				priceSubView.isReady = [[back_args objectForKey:kAYServiceArgsPriceArr] count] != 0;
 			}
 			
 			[self isAllArgsReady];
@@ -137,7 +134,7 @@
 	[push_service_info setValue:[[NSMutableDictionary alloc] init] forKey:kAYServiceArgsDetailInfo];
 	
 	locationKeyArr = @[kAYServiceArgsDistrict, kAYServiceArgsAddress, kAYServiceArgsAdjustAddress, kAYServiceArgsPin, kAYServiceArgsYardType, kAYServiceArgsYardImages];
-	detailKeyArr = @[kAYServiceArgsAgeBoundary, kAYServiceArgsCapacity, kAYServiceArgsFacility, kAYServiceArgsServantNumb, kAYServiceArgsPrice, kAYServiceArgsAllowLeave, kAYServiceArgsLeastHours, kAYServiceArgsLeastTimes, kAYServiceArgsCourseduration, kAYServiceArgsNotice, kAYServiceArgsIsHealth, kAYServiceArgsCharact];
+	detailKeyArr = @[kAYServiceArgsAgeBoundary, kAYServiceArgsCapacity, kAYServiceArgsFacility, kAYServiceArgsServantNumb, kAYServiceArgsPriceArr, kAYServiceArgsClassCount, kAYServiceArgsAllowLeave, kAYServiceArgsLeastHours, kAYServiceArgsLeastTimes, kAYServiceArgsCourseduration, kAYServiceArgsNotice, kAYServiceArgsIsHealth, kAYServiceArgsCharact];
 	rootKeyArr = @[kAYServiceArgsImages, kAYServiceArgsTitle, kAYProfileArgsDescription, kAYTimeManagerArgsTMs];
 	
 	UIView *sloganShadow = [[UIView alloc] initWithFrame:CGRectMake(margin, 80, SCREEN_WIDTH - margin*2, 86)];
@@ -216,6 +213,8 @@
 	[self.view addSubview:capacitySubView];
 	
 	TMsSubView = [[AYMainServInfoView alloc] initWithFrame:CGRectMake(rightX, subOrigX+rightHeight+kBETWEENMARGIN, sameWidth, rightHeight) andTitle:@"服务时间" andTapBlock:^{
+		
+		[self pushDestControllerWithName:@"SetNapSchedule"];
 //		pushBtn.enabled = NO;
 //		pushBtnBG.layer.shadowColor = [Tools garyColor].CGColor;
 //		[ableGradi removeFromSuperlayer];

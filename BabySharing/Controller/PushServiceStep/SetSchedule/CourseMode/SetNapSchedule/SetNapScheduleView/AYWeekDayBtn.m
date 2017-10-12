@@ -15,7 +15,7 @@
     if (self) {
         [self setTitle:title forState:UIControlStateNormal];
         [self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-        self.titleLabel.font = kAYFontLight(14.f);
+        self.titleLabel.font = kAYFontMedium(15);
         
         self.layer.cornerRadius = 30 * 0.5;
         self.clipsToBounds = YES;
@@ -43,14 +43,23 @@
             self.layer.backgroundColor = [Tools themeColor].CGColor;
         }
             break;
-        case WeekDayBtnStateSeted:
-        {
-            [self setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
-            self.layer.borderColor = [Tools themeColor].CGColor;
-            self.layer.borderWidth = 1.f;
-            self.layer.backgroundColor = [Tools whiteColor].CGColor;
-        }
-            break;
+		case WeekDayBtnStateSeted:
+		{
+			[self setTitleColor:[Tools themeColor] forState:UIControlStateNormal];
+			self.layer.borderColor = [Tools themeColor].CGColor;
+			self.layer.borderWidth = 1.f;
+			self.layer.backgroundColor = [Tools whiteColor].CGColor;
+		}
+			break;case WeekDayBtnStateSmall:
+		{
+			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+			self.layer.borderWidth = 0.f;
+			self.layer.backgroundColor = [Tools whiteColor].CGColor;
+			[UIView animateWithDuration:0.5 animations:^{
+				self.titleLabel.font = [UIFont systemFontOfSize:11];
+			}];
+		}
+			break;
         default:
             break;
     }

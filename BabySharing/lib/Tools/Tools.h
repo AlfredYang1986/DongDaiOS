@@ -35,6 +35,7 @@
 
 + (UIColor *)themeColor;
 + (UIColor *)themeBorderColor;
++ (UIColor *)themeLightColor;
 
 + (UIColor *)blackColor;
 + (UIColor *)garyColor;

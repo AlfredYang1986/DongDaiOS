@@ -92,6 +92,7 @@ static NSString* const kAYServiceArgsDetailInfo =			@"detail";
 static NSString* const kAYServiceArgsPriceArr =				@"price_arr";
 static NSString* const kAYServiceArgsPrice =				@"price";
 static NSString* const kAYServiceArgsPriceType =			@"price_type";
+static NSString* const kAYServiceArgsClassCount =			@"class_count";
 static NSString* const kAYServiceArgsCourseduration =		@"lecture_length";
 static NSString* const kAYServiceArgsLeastHours =			@"least_hours";
 static NSString* const kAYServiceArgsLeastTimes =			@"least_times";

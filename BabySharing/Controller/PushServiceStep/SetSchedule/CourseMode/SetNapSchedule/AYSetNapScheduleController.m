@@ -18,15 +18,23 @@
 #import "TmpFileStorageModel.h"
 #import "AYServiceTimesRule.h"
 
+#import "AYAddTimeSignView.h"
+
 #define weekdaysViewHeight          95
+static NSString* const kAYScheduleWeekDaysView = 	@"ScheduleWeekDays";
 
 @implementation AYSetNapScheduleController {
-    
+	
+	NSMutableDictionary *push_service_info;
+	
     NSMutableArray *offer_date;
     
     NSMutableArray *timesArr;
     NSInteger segCurrentIndex;
     NSInteger creatOrUpdateNote;
+	
+	AYAddTimeSignView *addBasicTMView;
+	UIImageView *maskTableHeadView;
 	
 	BOOL isChange;
 }
@@ -34,10 +42,8 @@
 - (void)performWithResult:(NSObject**)obj {
     
     NSDictionary* dic = (NSDictionary*)*obj;
-    
     if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionInitValue]) {
-        
-        offer_date = [[dic objectForKey:kAYControllerChangeArgsKey] mutableCopy];
+        push_service_info = [dic objectForKey:kAYControllerChangeArgsKey];
         
     } else if ([[dic objectForKey:kAYControllerActionKey] isEqualToString:kAYControllerActionPushValue]) {
         
@@ -48,7 +54,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     if (!offer_date) {
         offer_date = [NSMutableArray array];
@@ -57,37 +62,24 @@
     segCurrentIndex = 0;
     
     {
-        id<AYViewBase> view_picker = [self.views objectForKey:@"Picker"];
-        id<AYCommand> cmd_datasource = [view_picker.commands objectForKey:@"registerDatasource:"];
-        id<AYCommand> cmd_delegate = [view_picker.commands objectForKey:@"registerDelegate:"];
-        
         id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
-        
-        id obj = (id)cmd_recommend;
-        [cmd_datasource performWithResult:&obj];
-        obj = (id)cmd_recommend;
-        [cmd_delegate performWithResult:&obj];
+		id obj = (id)cmd_recommend;
+		kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDelegateMessage, &obj)
+		obj = (id)cmd_recommend;
+		kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDatasourceMessage, &obj)
     }
-    
-    id<AYViewBase> view_notify = [self.views objectForKey:@"Table"];
+	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServiceTimesShow"];
-    
-    id<AYCommand> cmd_datasource = [view_notify.commands objectForKey:@"registerDatasource:"];
-    id<AYCommand> cmd_delegate = [view_notify.commands objectForKey:@"registerDelegate:"];
-    
     id obj = (id)cmd_notify;
-    [cmd_datasource performWithResult:&obj];
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
-    [cmd_delegate performWithResult:&obj];
-    
-    id<AYCommand> cmd_class = [view_notify.commands objectForKey:@"registerCellWithClass:"];
-    NSString* cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceTimesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&cell_name];
-    cell_name = [[kAYFactoryManagerControllerPrefix stringByAppendingString:@"ServiceAddTimesCell"] stringByAppendingString:kAYFactoryManagerViewsuffix];
-    [cmd_class performWithResult:&cell_name];
+    kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
+	
+    NSString* cell_name = @"AYServiceTimesCellView";
+	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
     
     NSArray *date_info = [offer_date copy];
-    kAYViewsSendMessage(@"ScheduleWeekDays", @"setViewInfo:", &date_info)
+    kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewInfo:", &date_info)
 	
 	for (NSDictionary *iter in offer_date) {
 		if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
@@ -98,16 +90,45 @@
 	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     
     //提升view层级
-    UIView *weekdaysView = [self.views objectForKey:@"ScheduleWeekDays"];
+    UIView *weekdaysView = [self.views objectForKey:kAYScheduleWeekDaysView];
     [self.view bringSubviewToFront:weekdaysView];
-    
+	
+	addBasicTMView = [[AYAddTimeSignView alloc] initWithTitle:@"服务时间"];
+	[self.view addSubview:addBasicTMView];
+	[addBasicTMView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(weekdaysView.mas_bottom).offset(8);
+		make.centerX.equalTo(self.view);
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 45));
+	}];
+	addBasicTMView.userInteractionEnabled = YES;
+	[addBasicTMView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddBasicTMViewTap)]];
+	
+	UIView* view_table = [self.views objectForKey:kAYTableView];
+	[view_table mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(addBasicTMView.mas_bottom);
+		make.centerX.equalTo(self.view);
+		make.width.equalTo(addBasicTMView);
+		make.bottom.equalTo(self.view);
+	}];
+	[self.view bringSubviewToFront:view_table];
+	maskTableHeadView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mask_add_basic_tms"]];
+	[self.view addSubview:maskTableHeadView];
+	[maskTableHeadView mas_makeConstraints:^(MASConstraintMaker *make) {
+		make.top.equalTo(view_table);
+		make.centerX.equalTo(view_table);
+		make.width.equalTo(addBasicTMView);
+		make.height.mas_equalTo(17);
+	}];
+	UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, -4, SCREEN_WIDTH - 40, 4)];
+	coverView.backgroundColor = [UIColor whiteColor];
+	[maskTableHeadView addSubview:coverView];
+	
     UIView* picker = [self.views objectForKey:@"Picker"];
     [self.view bringSubviewToFront:picker];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -130,30 +151,40 @@
     view.frame = CGRectMake(0, 20, SCREEN_WIDTH, 44);
     view.backgroundColor = [UIColor whiteColor];
 	
-//    NSString *title = @"时间管理";
-//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
+    NSString *title = @"服务时间设置";
+    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetTitleMessage, &title)
 	
     UIImage* left = IMGRESOURCE(@"bar_left_black");
     kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetLeftBtnImgMessage, &left)
     
-    NSNumber* right_hidden = [NSNumber numberWithBool:YES];
-    kAYViewsSendMessage(kAYFakeNavBarView, @"setRightBtnVisibility:", &right_hidden);
-    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
+	UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools garyColor] andFontSize:616.f andBackgroundColor:nil];
+	bar_right_btn.userInteractionEnabled = NO;
+	kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetRightBtnWithBtnMessage, &bar_right_btn)
+//    kAYViewsSendMessage(kAYFakeNavBarView, kAYNavBarSetBarBotLineMessage, nil)
     return nil;
 }
 
 - (id)ScheduleWeekDaysLayout:(UIView*)view {
-    
-    CGFloat margin = 0;
-    view.frame = CGRectMake(margin, 64, SCREEN_WIDTH - margin * 2, weekdaysViewHeight);
+	
+    view.frame = CGRectMake(view.frame.origin.x, 70, view.frame.size.width, view.frame.size.height);
     view.backgroundColor = [Tools whiteColor];
     return nil;
 }
 
 - (id)TableLayout:(UIView*)view {
-	view.backgroundColor = [Tools garyBackgroundColor];
+	((UITableView*)view).contentInset = UIEdgeInsetsMake(17, 0, 0, 0);
     view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
     return nil;
+}
+- (id)Table2Layout:(UIView*)view {
+	view.backgroundColor = [Tools garyBackgroundColor];
+	view.frame = CGRectMake(SCREEN_WIDTH, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
+	return nil;
+}
+- (id)Table3Layout:(UIView*)view {
+	view.backgroundColor = [Tools garyBackgroundColor];
+	view.frame = CGRectMake(SCREEN_WIDTH, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
+	return nil;
 }
 
 - (id)PickerLayout:(UIView*)view {
@@ -162,6 +193,11 @@
 }
 
 #pragma mark -- actions
+- (void)didAddBasicTMViewTap {
+	
+	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+}
+
 - (void)showRightBtn {
 	if (!isChange) {
 		UIButton* bar_right_btn = [Tools creatUIButtonWithTitle:@"保存" andTitleColor:[Tools themeColor] andFontSize:316.f andBackgroundColor:nil];
@@ -197,20 +233,6 @@
                 *stop = YES;
             }
         }
-        
-        //        NSEnumerator* enumerator = ((NSDictionary*)obj).keyEnumerator;
-        //        id iter = nil;
-        //        while ((iter = [enumerator nextObject]) != nil) {
-        //            if ([iter isEqualToString:@"start"]) {
-        //                NSNumber *startNumb = [obj objectForKey:iter];
-        //
-        //            }
-        //            else if ([iter isEqualToString:@"end"]) {
-        //                NSNumber *endNumb = [obj objectForKey:iter];
-        //            } else {
-        //                // do nothing
-        //            }
-        //        }
     }];
     
     return isLegal;
