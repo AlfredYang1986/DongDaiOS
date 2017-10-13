@@ -12,7 +12,7 @@
     BOOL _isInter;
 }
 
-@property (nonatomic, strong) UIViewController *vc;
+@property (nonatomic, weak  ) UIViewController *vc;  //
 @property (nonatomic, strong) CADisplayLink *displayLink;
 @property (nonatomic, assign) CGFloat percent;
 
@@ -129,7 +129,7 @@
 - (void)UIChange {
     
     CGFloat timeDistance = 2.0/60;
-    if (_percent > 0.35) {
+    if (_percent > 0.4) {
         _percent += timeDistance;
     }else {
         _percent -= timeDistance;

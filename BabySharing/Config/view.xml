@@ -793,6 +793,11 @@
         <command type="message"     message="setViewInfo:" />
         <command type="notify"      message="changeCurrentIndex:" />
     </view>
+	<view type="SpecialTMAndState" name="SpecialTMAndState" factory="AYDefaultViewFactory" >
+		<command type="message"     message="setViewInfo:" />
+		<command type="notify"      message="changeCurrentIndex:" />
+	</view>
+	
     
     <view type="OrderCell" name="OrderCell" factory="AYReuseViewFactory" >
         <command type="message"     message="setCellInfo:" />

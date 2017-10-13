@@ -11,11 +11,24 @@
 @implementation AYAddTimeSignView {
 	UILabel *titleLabel;
 	UIImageView *addSignView;
+	
+	UIView *BGView;
+	UIView *coverBtmRadiusView;
 }
 
 - (instancetype)initWithTitle:(NSString *)title {
 	if (self = [super init]) {
-		[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeLightColor]];
+		
+		self.backgroundColor = [UIColor clearColor];
+		
+		BGView = [[UIView alloc] init];
+		[self addSubview:BGView];
+		[BGView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.edges.equalTo(self);
+		}];
+		BGView.backgroundColor = [Tools themeLightColor];
+		
+		[Tools setViewBorder:BGView withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeLightColor]];
 		
 		titleLabel = [Tools creatUILabelWithText:title andTextColor:[Tools whiteColor] andFontSize:615 andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 		[self addSubview:titleLabel];
@@ -33,27 +46,40 @@
 			make.size.mas_equalTo(CGSizeMake(16, 16));
 		}];
 		
+		coverBtmRadiusView = [[UIView alloc] init];
+		coverBtmRadiusView.backgroundColor = [Tools whiteColor];
+		[self addSubview:coverBtmRadiusView];
+		[coverBtmRadiusView mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.bottom.equalTo(self);
+			make.left.equalTo(self);
+			make.right.equalTo(self);
+			make.height.equalTo(@4);
+		}];
+		coverBtmRadiusView.hidden = YES;
 	}
 	return self;
 }
 
 - (void)setHeadStatus {
 //	[Tools setViewBorder:self withRadius:0 andBorderWidth:0 andBorderColor:nil andBackground:[Tools whiteColor]];
-	self.backgroundColor = [Tools whiteColor];
+	BGView.backgroundColor = [Tools whiteColor];
 	titleLabel.textColor = [Tools blackColor];
 	addSignView.image = [UIImage imageNamed:@"add_icon_circle"];
+	coverBtmRadiusView.hidden = NO;
 }
 - (void)setUnableStatus {
 //	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeLightColor]];
-	self.backgroundColor = [Tools themeLightColor];
+	BGView.backgroundColor = [Tools themeLightColor];
 	titleLabel.textColor = [Tools whiteColor];
 	addSignView.image = [UIImage imageNamed:@"add_icon_circle_white"];
+	coverBtmRadiusView.hidden = YES;
 }
 - (void)setEnableStatus {
 //	[Tools setViewBorder:self withRadius:4.f andBorderWidth:0 andBorderColor:nil andBackground:[Tools themeColor]];
-	self.backgroundColor = [Tools themeColor];
+	BGView.backgroundColor = [Tools themeColor];
 	titleLabel.textColor = [Tools whiteColor];
 	addSignView.image = [UIImage imageNamed:@"add_icon_circle_white"];
+	coverBtmRadiusView.hidden = YES;
 }
 
 

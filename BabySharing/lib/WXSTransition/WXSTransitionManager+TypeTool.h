@@ -8,13 +8,7 @@
 
 #import "WXSTransitionManager.h"
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
-@interface WXSTransitionManager (TypeTool) <CAAnimationDelegate>
-#else
-@interface WXSTransitionManager (TypeTool)
-#endif
-
-//@interface WXSTransitionManager (TypeTool)
+@interface WXSTransitionManager (TypeTool)<CAAnimationDelegate>
 -(void)backAnimationTypeFromAnimationType:(WXSTransitionAnimationType)type;
 -(CATransition *)getSysTransitionWithType:(WXSTransitionAnimationType )type;
 @end

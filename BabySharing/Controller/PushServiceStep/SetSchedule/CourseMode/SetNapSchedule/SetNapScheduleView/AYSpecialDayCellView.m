@@ -36,4 +36,8 @@
 	}];
 }
 
+- (void)setDay:(NSInteger)day {
+	titleLabel.text = [NSString stringWithFormat:@"%d", (int)day];
+}
+
 @end

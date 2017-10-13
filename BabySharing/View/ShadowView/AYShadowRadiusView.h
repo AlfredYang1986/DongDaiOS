@@ -10,7 +10,8 @@
 
 @interface AYShadowRadiusView : UIView
 
-- (instancetype)initWithRadius:(CGFloat)radius;
+@property (nonatomic, strong) UIView *radiusBGView;
 
+- (instancetype)initWithRadius:(CGFloat)radius;
 
 @end

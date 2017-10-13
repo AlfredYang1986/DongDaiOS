@@ -22,6 +22,7 @@
 
 #define weekdaysViewHeight          95
 static NSString* const kAYScheduleWeekDaysView = 	@"ScheduleWeekDays";
+static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 @implementation AYSetNapScheduleController {
 	
@@ -122,6 +123,13 @@ static NSString* const kAYScheduleWeekDaysView = 	@"ScheduleWeekDays";
 	UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, -4, SCREEN_WIDTH - 40, 4)];
 	coverView.backgroundColor = [UIColor whiteColor];
 	[maskTableHeadView addSubview:coverView];
+	view_table.hidden = YES;
+	
+	UIView *view_table2 = [self.views objectForKey:@"Table2"];
+	UIView *view_table3 = [self.views objectForKey:@"Table3"];
+	UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
+	[view_table_div addSubview:view_table2];
+	[view_table_div addSubview:view_table3];
 	
     UIView* picker = [self.views objectForKey:@"Picker"];
     [self.view bringSubviewToFront:picker];
@@ -176,14 +184,22 @@ static NSString* const kAYScheduleWeekDaysView = 	@"ScheduleWeekDays";
     view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
     return nil;
 }
+
+- (id)SpecialTMAndStateLayout:(UIView*)view {
+	
+	view.backgroundColor = [Tools garyBackgroundColor];
+	view.frame = CGRectMake(0, 370, SCREEN_WIDTH, SCREEN_HEIGHT - 370);
+	return nil;
+}
+
 - (id)Table2Layout:(UIView*)view {
 	view.backgroundColor = [Tools garyBackgroundColor];
-	view.frame = CGRectMake(SCREEN_WIDTH, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
+	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50 );
 	return nil;
 }
 - (id)Table3Layout:(UIView*)view {
 	view.backgroundColor = [Tools garyBackgroundColor];
-	view.frame = CGRectMake(SCREEN_WIDTH, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
+	view.frame = CGRectMake(0, 60 , SCREEN_WIDTH, 60 );
 	return nil;
 }
 

@@ -35,7 +35,6 @@
             [transitionContext completeTransition:NO];
             fromView.layer.transform = CATransform3DIdentity;
             
-            
         }else{
             [transitionContext completeTransition:YES];
             fromView.layer.transform = CATransform3DIdentity;
@@ -50,6 +49,8 @@
     UIView *containerView = [transitionContext containerView];
     
     UIView *tempToView = [toVC.view snapshotViewAfterScreenUpdates:YES];
+    UIView *tempFromView = [fromVC.view snapshotViewAfterScreenUpdates:YES];
+    
     UIView *fromView = fromVC.view;
     UIView *toView = toVC.view;
     
@@ -66,7 +67,8 @@
     } completion:^(BOOL finished){
         
         [tempToView removeFromSuperview];
-        [containerView addSubview:toVC.view];
+        toView.hidden = NO;
+        [tempFromView removeFromSuperview];
         toView.layer.transform = CATransform3DIdentity;
         if ([transitionContext transitionWasCancelled]) {
             [transitionContext completeTransition:NO];
@@ -84,6 +86,11 @@
         }else {
             fromView.hidden = NO;
             toView.layer.transform = CATransform3DIdentity;
+            
+            [tempToView removeFromSuperview];
+            [containerView addSubview:tempFromView];
+
+            
         }
         
     };

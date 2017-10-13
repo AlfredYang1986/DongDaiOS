@@ -13,7 +13,7 @@
 #import "WXSTransitionManager+PageAnimation.h"
 #import "WXSTransitionManager+BoomAnimation.h"
 #import "WXSTransitionManager+InsideThenPushAnimation.h"
-
+#import "WXSTransitionManager+FlipAnimation.h"
 
 @interface WXSTransitionManager ()
 
@@ -44,9 +44,19 @@
     if (transitionCompleted) {
         [self removeDelegate];
     }
+    UIViewController *toVC = [_transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    if (toVC.navigationController.navigationBar && self.autoShowAndHideNavBar) {
+        [UIView animateWithDuration:0.2 animations:^{
+           toVC.navigationController.navigationBar.alpha = 1.0;
+        }];
+    }
+    
 }
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext{
-    
+    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    if (fromVC.navigationController.navigationBar && self.autoShowAndHideNavBar) {
+        fromVC.navigationController.navigationBar.alpha = 0.0;
+    }
     
     _transitionContext = transitionContext;
     if (self.animationType == WXSTransitionAnimationTypeDefault) {
@@ -94,7 +104,6 @@
                 ((void (*)(id,SEL,id<UIViewControllerContextTransitioning>,WXSTransitionAnimationType))objc_msgSend)(self,selector,transitionContext,animationType);
                 break;
             }
-
         }
     }
     free(methodlist);
@@ -298,6 +307,14 @@
 -(void)fragmentHideFromBottomBackTransitionAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
     [self fragmentHideBackType:WXSTransitionAnimationTypeFragmentHideFromBottom andContext:transitionContext];
 }
+-(void)tipFlipNextTransitionAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    [self tipFlipToNextAnimationContext:transitionContext];
+}
+
+-(void)tipFlipBackTransitionAnimation:(id<UIViewControllerContextTransitioning>)transitionContext{
+    [self tipFlipBackAnimationContext:transitionContext];
+}
+
 // *********************************************************************************************
 
 #pragma mark - Other
@@ -305,7 +322,6 @@
     
     UIViewController *fromVC = [_transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [_transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIView *containView = [_transitionContext containerView];
 
     void (^RemoveDelegateBlock)() = ^(){
         
@@ -322,12 +338,10 @@
             if (self.isSysBackAnimation) {
                 RemoveDelegateBlock ? RemoveDelegateBlock() : nil;
             }
-            containView = nil;
         }
             break;
         default:{ //Back
             RemoveDelegateBlock ? RemoveDelegateBlock() : nil;
-            containView = nil;
         }
             break;
     }
@@ -353,8 +367,21 @@
     transition.backGestureEnable = propery.backGestureEnable;
     transition.startView = propery.startView;
     transition.targetView = propery.targetView;
+    transition.autoShowAndHideNavBar = propery.autoShowAndHideNavBar;
     
     return transition;
+    
+}
+- (UIImage *)imageFromView: (UIView *)view atFrame:(CGRect)rect{
+    
+    UIGraphicsBeginImageContext(view.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(context);
+    UIRectClip(rect);
+    [view.layer renderInContext:context];
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return  theImage;
     
 }
 

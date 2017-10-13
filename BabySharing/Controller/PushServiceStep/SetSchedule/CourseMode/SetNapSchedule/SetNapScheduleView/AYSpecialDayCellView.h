@@ -10,7 +10,6 @@
 
 @interface AYSpecialDayCellView : UICollectionViewCell
 
-- (void)setTitle:(NSString*)title;
-
-
+@property (nonatomic, assign) NSInteger day;
+@property (nonatomic, assign) NSTimeInterval timeSpan;
 @end

@@ -28,14 +28,26 @@
 }
 
 - (void)setStates:(WeekDayBtnState)states {
+	_states = states;
     switch (states) {
-        case WeekDayBtnStateNormal:
-        {
-            [self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
-            self.layer.borderWidth = 0.f;
-            self.layer.backgroundColor = [Tools whiteColor].CGColor;
-        }
-            break;
+		case WeekDayBtnStateNormal:
+		{
+			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+			self.layer.borderWidth = 0.f;
+			self.layer.backgroundColor = [UIColor clearColor].CGColor;
+			self.titleLabel.font = kAYFontMedium(15);
+		}
+			break;
+		case WeekDayBtnStateNormalAnimat:
+		{
+			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
+			self.layer.borderWidth = 0.f;
+			self.layer.backgroundColor = [UIColor clearColor].CGColor;
+			[UIView animateWithDuration:0.5 animations:^{
+				self.titleLabel.font = kAYFontMedium(15);
+			}];
+		}
+			break;
         case WeekDayBtnStateSelected:
         {
             [self setTitleColor:[Tools whiteColor] forState:UIControlStateNormal];

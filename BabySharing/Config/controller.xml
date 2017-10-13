@@ -591,6 +591,7 @@
         <view type="FakeNavBar"     name="FakeNavBar" />
         <view type="ScheduleWeekDays"       name="ScheduleWeekDays" />
         <view type="Table" 				name="Table" />
+		<view type="SpecialTMAndState"       name="SpecialTMAndState" />
 		<view type="Table2" 			name="Table2" />
 		<view type="Table3" 			name="Table3" />
         <view type="Picker"				name="Picker" />
