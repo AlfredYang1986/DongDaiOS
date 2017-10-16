@@ -116,6 +116,7 @@
         make.centerX.equalTo(self.mas_left).offset(btnSpaceW - btnSpaceW * 0.5);
         make.size.mas_equalTo(CGSizeMake(btnSpaceW, 2));
     }];
+	currentSign.hidden = YES;
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -135,11 +136,13 @@
 }
 
 - (void)swipeAction:(UISwipeGestureRecognizer *)swipe {
-	
+	CGFloat duration = 0.75;
 	if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
 		NSLog(@"UP");
 		if(self.frame.size.height == kEnableHeight) return;
 		
+		NSNumber *tmp = [NSNumber numberWithFloat:duration];
+		kAYViewSendNotify(self, @"swipeUpShrinkSchedule:", &tmp)
 		sepLineView.hidden = YES;
 		[UIView animateWithDuration:0.75 animations:^{
 			
@@ -154,7 +157,7 @@
 			[self resetWeekdayBtnState];
 		}];
 		
-		[UIView animateWithDuration:0.75 animations:^{
+		[UIView animateWithDuration:duration animations:^{
 			self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kEnableHeight);
 			scheduleView.alpha = 0;
 			[self layoutIfNeeded];
@@ -163,8 +166,10 @@
 	} else if(swipe.direction == UISwipeGestureRecognizerDirectionDown) {
 		NSLog(@"DOWN");
 		if(self.frame.size.height == kExpendHeight) return;
+		NSNumber *tmp = [NSNumber numberWithFloat:duration];
+		kAYViewSendNotify(self, @"swipeDownExpandSchedule:", &tmp)
 		
-		[UIView animateWithDuration:0.75 animations:^{
+		[UIView animateWithDuration:duration animations:^{
 			self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kExpendHeight);
 			scheduleView.alpha = 1;
 			for (AYWeekDayBtn *btn in dayBtnArr) {
@@ -176,11 +181,6 @@
 			[self layoutIfNeeded];
 		} completion:^(BOOL finished) {
 			sepLineView.hidden = NO;
-			animatView.backgroundColor = [Tools themeLightColor];
-			[animatView.layer addAnimation:[self opacityForever_Animation:0.5 andRepeat:3] forKey:nil];
-			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-				animatView.backgroundColor = [Tools whiteColor];
-			});
 		}];
 		
 	}
@@ -229,7 +229,7 @@
     return nil;
 }
 
-- (id)havenAddTM:(id)args {
+- (id)havenAddTM {
 	if (self.frame.size.height > kUnableHeight) {
 		return nil;
 	}
@@ -243,6 +243,17 @@
 		dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 			animatView.backgroundColor = [Tools whiteColor];
 		});
+	}];
+	return nil;
+}
+
+- (id)currentColSignOffset:(NSInteger)args {
+	
+	[UIView animateWithDuration:0.25 animations:^{
+		[currentSign mas_updateConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self.mas_left).offset(btnSpaceW * (args + 1) - btnSpaceW * 0.5);
+		}];
+		[self layoutIfNeeded];
 	}];
 	return nil;
 }
@@ -264,28 +275,22 @@
 	
 	if (!noteBtn) {
 		//第一次触发weekday btn -> 发送消息：激活添加时间sign
+		btn.states = WeekDayBtnStateSelected;
+		kAYViewSendNotify(self, @"firstTimeTouchWeekday", nil)
+	} else {
+		//notifies
+		NSNumber *index = [NSNumber numberWithInteger:btn.tag];
+		kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
+		//此处index返回值是有意义的：是否有值（是否切换）／NSNumber封装int(0/2)（是否已设置TM的标志）
 		
+		if(!index) {
+			return;
+		}
+		
+		btn.states = WeekDayBtnStateSelected;
+		noteBtn.states = index.intValue;
+		noteBtn = btn;
 	}
-    
-    //notifies
-    NSNumber *index = [NSNumber numberWithInteger:btn.tag];
-    kAYViewSendNotify(self, @"changeCurrentIndex:", &index)
-    //此处index返回值是有意义的：是否有值（是否切换）／NSNumber封装int(0/2)（是否已设置标志）
-    
-    if(!index) {
-        return;
-    }
-    
-    btn.states = WeekDayBtnStateSelected;
-    noteBtn.states = index.intValue;
-    noteBtn = btn;
-	
-	[UIView animateWithDuration:0.25 animations:^{
-		[currentSign mas_updateConstraints:^(MASConstraintMaker *make) {
-			make.centerX.equalTo(self.mas_left).offset(btnSpaceW * (btn.tag + 1) - btnSpaceW * 0.5);
-		}];
-		[self layoutIfNeeded];
-	}];
 }
 
 #pragma mark -- ollectionViewDelegate
@@ -388,6 +393,12 @@
 //	NSTimeInterval time_p = cell.timeSpan;
 //	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
 //	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+	
+	if (currentSign.hidden) {
+		currentSign.hidden = NO;
+		NSInteger col = indexPath.row % 7;
+		[self currentColSignOffset:col];
+	}
 	
 }
 @end

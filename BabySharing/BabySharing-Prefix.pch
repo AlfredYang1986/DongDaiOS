@@ -41,11 +41,11 @@ typedef enum : int {
 
 //TMPatternType
 typedef enum : int {
-	//ServiceTypeNone = 0,
 	TMPatternTypeDaily = 0,
 	TMPatternTypeWeekly = 1,
 	TMPatternTypeMonthly = 2,
 	TMPatternTypeOnce = 3,
+	TMPatternTypeOpenDay = 4,
 } TMPatternType;
 
 //ServiceType

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
 
-@interface AYSpecialTMAndStateView : UIView <AYViewBase>
+@interface AYSpecialTMAndStateView : UIView <AYViewBase, UITableViewDelegate, UITableViewDataSource>
 
 @end

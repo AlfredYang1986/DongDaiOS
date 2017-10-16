@@ -7,11 +7,11 @@
 //
 
 typedef enum : int {
-    WeekDayBtnStateNormal,
-    WeekDayBtnStateSelected,
-    WeekDayBtnStateSeted,
-	WeekDayBtnStateSmall,
-	WeekDayBtnStateNormalAnimat,
+    WeekDayBtnStateNormal = 0,
+    WeekDayBtnStateSelected = 1,
+    WeekDayBtnStateSeted = 2,
+	WeekDayBtnStateSmall = 3,
+	WeekDayBtnStateNormalAnimat = 4,
 } WeekDayBtnState;
 
 #import <UIKit/UIKit.h>

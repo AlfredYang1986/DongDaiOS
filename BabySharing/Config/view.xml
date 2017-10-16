@@ -791,7 +791,11 @@
     
     <view type="ScheduleWeekDays" name="ScheduleWeekDays" factory="AYDefaultViewFactory" >
         <command type="message"     message="setViewInfo:" />
+		<command type="message"     message="havenAddTM" />
         <command type="notify"      message="changeCurrentIndex:" />
+		<command type="notify"      message="firstTimeTouchWeekday" />
+		<command type="notify"      message="swipeUpShrinkSchedule:" />
+		<command type="notify"      message="swipeDownExpandSchedule:" />
     </view>
 	<view type="SpecialTMAndState" name="SpecialTMAndState" factory="AYDefaultViewFactory" >
 		<command type="message"     message="setViewInfo:" />

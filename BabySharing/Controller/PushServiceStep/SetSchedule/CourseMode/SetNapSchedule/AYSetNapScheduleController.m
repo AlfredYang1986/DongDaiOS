@@ -55,23 +55,22 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+	self.view.backgroundColor = [Tools garyBackgroundColor];
+	
     if (!offer_date) {
         offer_date = [NSMutableArray array];
     }
     timesArr = [NSMutableArray array];
     segCurrentIndex = 0;
     
-    {
-        id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
-		id obj = (id)cmd_recommend;
-		kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDelegateMessage, &obj)
-		obj = (id)cmd_recommend;
-		kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDatasourceMessage, &obj)
-    }
+	id<AYDelegateBase> dlg_pick = [self.delegates objectForKey:@"ServiceTimesPick"];
+	id obj = (id)dlg_pick;
+	kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDelegateMessage, &obj)
+	obj = (id)dlg_pick;
+	kAYViewsSendMessage(kAYPickerView, kAYTableRegisterDatasourceMessage, &obj)
 	
     id<AYDelegateBase> cmd_notify = [self.delegates objectForKey:@"ServiceTimesShow"];
-    id obj = (id)cmd_notify;
+    obj = (id)cmd_notify;
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterDelegateMessage, &obj)
     obj = (id)cmd_notify;
     kAYViewsSendMessage(kAYTableView, kAYTableRegisterDatasourceMessage, &obj)
@@ -99,9 +98,8 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	[addBasicTMView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.top.equalTo(weekdaysView.mas_bottom).offset(8);
 		make.centerX.equalTo(self.view);
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 45));
+		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH - 40, 46));
 	}];
-	addBasicTMView.userInteractionEnabled = YES;
 	[addBasicTMView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddBasicTMViewTap)]];
 	
 	UIView* view_table = [self.views objectForKey:kAYTableView];
@@ -120,16 +118,10 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 		make.width.equalTo(addBasicTMView);
 		make.height.mas_equalTo(17);
 	}];
-	UIView *coverView = [[UIView alloc] initWithFrame:CGRectMake(0, -4, SCREEN_WIDTH - 40, 4)];
-	coverView.backgroundColor = [UIColor whiteColor];
-	[maskTableHeadView addSubview:coverView];
-	view_table.hidden = YES;
+	view_table.hidden = maskTableHeadView.hidden = YES;
 	
-	UIView *view_table2 = [self.views objectForKey:@"Table2"];
-	UIView *view_table3 = [self.views objectForKey:@"Table3"];
 	UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
-	[view_table_div addSubview:view_table2];
-	[view_table_div addSubview:view_table3];
+	view_table_div.hidden = YES;
 	
     UIView* picker = [self.views objectForKey:@"Picker"];
     [self.view bringSubviewToFront:picker];
@@ -144,7 +136,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	
 	id<AYDelegateBase> cmd_recommend = [self.delegates objectForKey:@"ServiceTimesPick"];
 	id<AYCommand> cmd_scroll_center = [cmd_recommend.commands objectForKey:@"scrollToCenterWithOffset:"];
-	NSNumber *offset = [NSNumber numberWithInt:6];
+	NSNumber *offset = [NSNumber numberWithInt:0];
 	[cmd_scroll_center performWithResult:&offset];
 }
 
@@ -180,26 +172,14 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 }
 
 - (id)TableLayout:(UIView*)view {
-	((UITableView*)view).contentInset = UIEdgeInsetsMake(17, 0, 0, 0);
+//	((UITableView*)view).contentInset = UIEdgeInsetsMake(17, 0, 0, 0);
     view.frame = CGRectMake(0, 64 + weekdaysViewHeight, SCREEN_WIDTH, SCREEN_HEIGHT - weekdaysViewHeight - 64 );
     return nil;
 }
 
 - (id)SpecialTMAndStateLayout:(UIView*)view {
 	
-	view.backgroundColor = [Tools garyBackgroundColor];
 	view.frame = CGRectMake(0, 370, SCREEN_WIDTH, SCREEN_HEIGHT - 370);
-	return nil;
-}
-
-- (id)Table2Layout:(UIView*)view {
-	view.backgroundColor = [Tools garyBackgroundColor];
-	view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 50 );
-	return nil;
-}
-- (id)Table3Layout:(UIView*)view {
-	view.backgroundColor = [Tools garyBackgroundColor];
-	view.frame = CGRectMake(0, 60 , SCREEN_WIDTH, 60 );
 	return nil;
 }
 
@@ -210,7 +190,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 
 #pragma mark -- actions
 - (void)didAddBasicTMViewTap {
-	
+	creatOrUpdateNote = -1;
 	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
 }
 
@@ -308,6 +288,11 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     return nil;
 }
 
+- (id)firstTimeTouchWeekday {
+	addBasicTMView.state = AYAddTMSignStateEnable;
+	return nil;
+}
+
 - (id)changeCurrentIndex:(NSNumber *)args {
     /*
      日程管理可以是集合，不超出从日到一，是不按顺序的，以keyValue:day为序号(0-6)进行各种操
@@ -358,6 +343,28 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     return [NSNumber numberWithInt:state];
 }
 
+- (id)swipeDownExpandSchedule:(id)args {
+	UIView* view_table = [self.views objectForKey:kAYTableView];
+	view_table.hidden = addBasicTMView.hidden = maskTableHeadView.hidden = YES;
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([args floatValue] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
+		view_table_div.hidden = NO;
+	});
+	return nil;
+}
+
+- (id)swipeUpShrinkSchedule:(id)args {
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([args floatValue] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		UIView* view_table = [self.views objectForKey:kAYTableView];
+		view_table.hidden = addBasicTMView.hidden = maskTableHeadView.hidden = NO;
+	});
+	UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
+	view_table_div.hidden = YES;
+	return nil;
+}
+
 #pragma mark -- pickerView notifies
 - (id)cellDeleteFromTable:(NSNumber*)args {
     
@@ -392,11 +399,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     }
     
     NSDictionary *argsHolder = nil;
-    if (creatOrUpdateNote == timesArr.count) {
-        //添加
+    if (creatOrUpdateNote == -1) { //添加
         [timesArr addObject:args];
-    } else {
-        //修改
+    } else { //修改
         argsHolder = [timesArr objectAtIndex:creatOrUpdateNote];
         [timesArr replaceObjectAtIndex:creatOrUpdateNote withObject:args];
     }
@@ -418,11 +423,19 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
         return nil;
     }
     
-    NSArray *tmp = [timesArr copy];
-    kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
-    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
-    
     [self showRightBtn];
+	
+	if (timesArr.count != 0 && addBasicTMView.state == AYAddTMSignStateEnable) {
+		kAYViewsSendMessage(kAYScheduleWeekDaysView, @"havenAddTM", nil)
+		
+		addBasicTMView.state = AYAddTMSignStateHead;
+		UIView *view_table = [self.views objectForKey:kAYTableView];
+		view_table.hidden = NO;
+	}
+	
+	NSArray *tmp = [timesArr copy];
+	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
     return nil;
 }

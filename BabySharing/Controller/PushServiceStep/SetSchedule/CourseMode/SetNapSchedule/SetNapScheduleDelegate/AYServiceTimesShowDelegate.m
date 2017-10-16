@@ -45,7 +45,7 @@
 
 #pragma mark -- table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return timesArr.count == 0 ? 3 : timesArr.count;
+	return timesArr.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,9 +53,9 @@
     NSString* class_name = @"AYServiceTimesCellView";
     id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
 	
-//	id tmp = [timesArr objectAtIndex:indexPath.row];
-//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
-    
+	id tmp = [timesArr objectAtIndex:indexPath.row];
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	
     cell.controller = self.controller;
     ((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
     return (UITableViewCell*)cell;
@@ -69,7 +69,12 @@
     
     NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
     kAYDelegateSendNotify(self, @"cellShowPickerView:", &row)
-    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+	if (scrollView.contentOffset.y < 0) {
+		scrollView.contentOffset = CGPointMake(0, 0);
+	}
 }
 
 //左划删除
@@ -79,25 +84,25 @@
     } else
         return YES;
 }
-- (NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"删除";
-}
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-//    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
-    kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
-}
+//- (NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return @"删除";
+//}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+////    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+//    kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
+//}
 
 - (NSArray<UITableViewRowAction*>*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"         " handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+
+    UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除时间" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
 //        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
         kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
     }];
-    
-    rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
+
+//    rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
+	rowAction.backgroundColor = [Tools themeColor];
     return @[rowAction];
 }
 

@@ -572,13 +572,16 @@
 	[line_btm mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.bottom.equalTo(superView);
 		if(alignment == NSTextAlignmentCenter) {
-			make.centerX.equalTo(superView);
+			make.left.equalTo(superView).offset(margin);
+			make.right.equalTo(superView).offset(-margin);
 		} else if (alignment == NSTextAlignmentLeft) {
 			make.left.equalTo(superView);
+			make.right.equalTo(superView).offset(-margin);
 		} else if (alignment == NSTextAlignmentRight) {
+			make.left.equalTo(superView).offset(margin);
 			make.right.equalTo(superView);
 		}
-		make.size.mas_equalTo(CGSizeMake(SCREEN_WIDTH- margin*((alignment == NSTextAlignmentLeft || alignment == NSTextAlignmentRight) ? 1 : 2), 0.5));
+		make.height.mas_equalTo(0.5);
 	}];
 }
 

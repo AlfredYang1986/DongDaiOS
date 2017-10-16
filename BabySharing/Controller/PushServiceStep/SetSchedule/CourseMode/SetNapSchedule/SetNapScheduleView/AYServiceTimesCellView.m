@@ -121,7 +121,17 @@
     if (startStr && endStr) {
         titleLabel.text = [NSString stringWithFormat:@"%@-%@",startStr, endStr];
     }
-    
+	
+	
+	int comp = endNumb.intValue - startNumb.intValue;
+	int holeOlock = comp/100;
+	if (comp%100 == 0) {
+		subTitlelabel.text = [NSString stringWithFormat:@"%d小时", holeOlock];
+	} else {
+		CGFloat duration = holeOlock + 0.5;
+		subTitlelabel.text = [NSString stringWithFormat:@"%.1f小时", duration];
+	}
+	
     return nil;
 }
 
