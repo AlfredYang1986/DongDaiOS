@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "AYViewBase.h"
+#import "AYFactoryManager.h"
+#import "AYFacadeBase.h"
+#import "AYSpecialDayCellView.h"
 
 @interface AYSpecialTMAndStateView : UIView <AYViewBase, UITableViewDelegate, UITableViewDataSource>
 

@@ -20,6 +20,7 @@
 	if (self = [super init]) {
 		
 		self.backgroundColor = [UIColor clearColor];
+		self.userInteractionEnabled = NO;
 		
 		BGView = [[UIView alloc] init];
 		[self addSubview:BGView];
@@ -60,7 +61,7 @@
 	return self;
 }
 
-- (void)setState:(int)state {
+- (void)setState:(AYAddTMSignState)state {
 	_state = state;
 	switch (state) {
 		case AYAddTMSignStateHead:
@@ -69,6 +70,7 @@
 				titleLabel.textColor = [Tools blackColor];
 				addSignView.image = [UIImage imageNamed:@"add_icon_circle"];
 				coverBtmRadiusView.hidden = NO;
+				self.userInteractionEnabled = YES;
 			}
 			break;
 			case AYAddTMSignStateUnable:

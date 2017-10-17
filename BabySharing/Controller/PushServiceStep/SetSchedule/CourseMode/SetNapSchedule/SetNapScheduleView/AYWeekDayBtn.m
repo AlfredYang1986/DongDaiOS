@@ -67,9 +67,9 @@
 			[self setTitleColor:[Tools blackColor] forState:UIControlStateNormal];
 			self.layer.borderWidth = 0.f;
 			self.layer.backgroundColor = [Tools whiteColor].CGColor;
-			[UIView animateWithDuration:0.5 animations:^{
-				self.titleLabel.font = [UIFont systemFontOfSize:11];
-			}];
+//			[UIView animateWithDuration:0.5 animations:^{
+//			}];
+			self.titleLabel.font = [UIFont systemFontOfSize:11];
 		}
 			break;
         default:

@@ -796,10 +796,14 @@
 		<command type="notify"      message="firstTimeTouchWeekday" />
 		<command type="notify"      message="swipeUpShrinkSchedule:" />
 		<command type="notify"      message="swipeDownExpandSchedule:" />
+		<command type="notify"      message="didSelectItemAtIndexPath:" />
     </view>
 	<view type="SpecialTMAndState" name="SpecialTMAndState" factory="AYDefaultViewFactory" >
 		<command type="message"     message="setViewInfo:" />
+		<command type="message"     message="pushTMArgs:" />
+		<command type="message"     message="recodeTMHandle:" />
 		<command type="notify"      message="changeCurrentIndex:" />
+		<command type="notify"      message="specialOrOpendayAddTM" />
 	</view>
 	
     

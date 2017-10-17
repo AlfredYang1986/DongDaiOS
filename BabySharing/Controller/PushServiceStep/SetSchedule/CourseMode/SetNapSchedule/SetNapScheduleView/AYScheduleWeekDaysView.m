@@ -26,13 +26,14 @@
 	UIView *sepLineView;
     UIView *currentSign;
 	NSMutableArray *dayBtnArr;
-	NSMutableArray *weekdayNodeArr;
 	
 	UIView *animatView;
 	
 	UICollectionView *scheduleView;
 	NSString *currentDate;
-	
+	int tmpCurrentIndex;
+	AYSpecialDayCellView * handleCell;
+	AYTMDayState handleState;
 }
 
 @synthesize para = _para;
@@ -52,6 +53,23 @@
 	[BGView mas_makeConstraints:^(MASConstraintMaker *make) {
 		make.edges.equalTo(self);
 	}];
+	
+	tmpCurrentIndex = -1;
+	NSArray *weekdays = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六" ];
+	dayBtnArr = [NSMutableArray array];
+	for (int i = 0; i < weekdays.count; ++i) {
+		AYWeekDayBtn *dayBtn = [[AYWeekDayBtn alloc] initWithTitle:weekdays[i]];
+		dayBtn.tag = i;
+		dayBtn.states = WeekDayBtnStateNormal;
+		[dayBtn addTarget:self action:@selector(didDayBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+		[self addSubview:dayBtn];
+		[dayBtnArr addObject:dayBtn];
+		[dayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+			make.centerX.equalTo(self.mas_left).offset(btnSpaceW * (i+1) - btnSpaceW * 0.5);
+			make.top.equalTo(self).offset(btnMarginTop);
+			make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
+		}];
+	}
 	
 	animatView = [[UIView alloc] init];
 	[BGView.radiusBGView addSubview:animatView];
@@ -144,17 +162,15 @@
 		NSNumber *tmp = [NSNumber numberWithFloat:duration];
 		kAYViewSendNotify(self, @"swipeUpShrinkSchedule:", &tmp)
 		sepLineView.hidden = YES;
-		[UIView animateWithDuration:0.75 animations:^{
-			
+		[UIView animateWithDuration:duration animations:^{
 			for (AYWeekDayBtn *btn in dayBtnArr) {
-				btn.states = WeekDayBtnStateNormalAnimat;
+				btn.states = WeekDayBtnStateNormal;
 				[btn mas_updateConstraints:^(MASConstraintMaker *make) {
 					make.top.equalTo(self).offset(btnMarginTop);
 				}];
 			}
 		} completion:^(BOOL finished) {
-			
-			[self resetWeekdayBtnState];
+			((AYWeekDayBtn*)[dayBtnArr objectAtIndex:tmpCurrentIndex]).states = WeekDayBtnStateSelected;
 		}];
 		
 		[UIView animateWithDuration:duration animations:^{
@@ -173,6 +189,9 @@
 			self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, kExpendHeight);
 			scheduleView.alpha = 1;
 			for (AYWeekDayBtn *btn in dayBtnArr) {
+				if (btn.states == WeekDayBtnStateSelected) {
+					tmpCurrentIndex = (int)btn.tag;
+				}
 				btn.states = WeekDayBtnStateSmall;
 				[btn mas_updateConstraints:^(MASConstraintMaker *make) {
 					make.top.equalTo(self);
@@ -200,32 +219,14 @@
 }
 
 #pragma mark -- notifies
-- (id)setViewInfo:(NSArray*)args {
-    
-    weekdayNodeArr = [NSMutableArray array];
-    [args enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [weekdayNodeArr addObject:[obj objectForKey:@"day"]];
-    }];
-    
-    NSArray *weekdays = @[@"日", @"一", @"二", @"三", @"四", @"五", @"六" ];
-	dayBtnArr = [NSMutableArray array];
-    for (int i = 0; i < weekdays.count; ++i) {
-        AYWeekDayBtn *dayBtn = [[AYWeekDayBtn alloc] initWithTitle:weekdays[i]];
-        dayBtn.tag = i;
-        dayBtn.states = WeekDayBtnStateNormal;
-        [dayBtn addTarget:self action:@selector(didDayBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:dayBtn];
-		[dayBtnArr addObject:dayBtn];
-        [dayBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(self.mas_left).offset(btnSpaceW * (i+1) - btnSpaceW * 0.5);
-            make.top.equalTo(self).offset(btnMarginTop);
-            make.size.mas_equalTo(CGSizeMake(btnWH, btnWH));
-        }];
-        
-        if([weekdayNodeArr containsObject:[NSNumber numberWithInt:i]]) {
-            dayBtn.states = WeekDayBtnStateSeted;
-        }
-    }
+- (id)setViewInfo:(NSDictionary*)args {
+	
+	for (int i = 0; i < dayBtnArr.count; ++i) {
+		if([[args allKeys] containsObject:[NSString stringWithFormat:@"%d", i]]) {
+			AYWeekDayBtn *btn = [dayBtnArr objectAtIndex:i];
+			btn.states = WeekDayBtnStateSeted;
+		}
+	}
     return nil;
 }
 
@@ -259,15 +260,6 @@
 }
 
 #pragma mark -- actions
-- (void)resetWeekdayBtnState {
-	for (int i = 0 ; i < dayBtnArr.count; ++i) {
-		if([weekdayNodeArr containsObject:[NSNumber numberWithInt:i]]) {
-			AYWeekDayBtn *btn = [dayBtnArr objectAtIndex:i];
-			btn.states = WeekDayBtnStateSeted;
-		}
-	}
-}
-
 - (void)didDayBtnClick:(AYWeekDayBtn*)btn {
     if (noteBtn == btn || btn.states == WeekDayBtnStateSmall) {
         return;
@@ -276,6 +268,7 @@
 	if (!noteBtn) {
 		//第一次触发weekday btn -> 发送消息：激活添加时间sign
 		btn.states = WeekDayBtnStateSelected;
+		noteBtn = btn;
 		kAYViewSendNotify(self, @"firstTimeTouchWeekday", nil)
 	} else {
 		//notifies
@@ -306,10 +299,8 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-	NSString *strYear = [NSString stringWithFormat:@"%ld", (section+[self.useTime getMonth]-1) / 12 + [_useTime getYear]];
-	NSString *strMonth = [NSString stringWithFormat:@"%02ld", (section+[self.useTime getMonth]-1) % 12 +1];
 	//每个月的第一天
-	NSString *dateStr = [NSString stringWithFormat:@"%@-%@-01", strYear, strMonth];
+	NSString *dateStr = [NSString stringWithFormat:@"%ld-%02ld-%02d", (section+[self.useTime getMonth]-1)/12 + [_useTime getYear], (section+[self.useTime getMonth]-1)%12+1, 1];
 	
 	return [self.useTime timeFewWeekInMonth:dateStr] * 7;
 }
@@ -326,11 +317,13 @@
 	
 	NSInteger firstCorner = dayOfWeek;
 	NSInteger lastConter = dayOfWeek + monthNumber - 1;
+	cell.hidden = NO;	//reset reusecell.hidden
+	cell.state = AYTMDayStateNormal;
 	if (indexPath.item < firstCorner || indexPath.item > lastConter) {
 		cell.hidden = YES;
 	} else {
 		NSInteger day = indexPath.item - firstCorner+1;
-		NSString *cellDateStr = [NSString stringWithFormat:@"%ld-%ld-%ld", indexPath.section/12 + [_useTime getYear], indexPath.section%12 + 1, (long)day];
+		NSString *cellDateStr = [NSString stringWithFormat:@"%ld-%02ld-%02d", (indexPath.section+[self.useTime getMonth]-1)/12 + [_useTime getYear], (indexPath.section+[self.useTime getMonth]-1)%12 + 1, (int)day];
 		NSDate *cellDate = [_useTime strToDate:cellDateStr];
 		NSTimeInterval cellTimeSpan = cellDate.timeIntervalSince1970;
 		
@@ -341,7 +334,7 @@
 		cell.timeSpan = cellTimeSpan;
 		
 		if (todayTimeSpan > cellTimeSpan) {
-			
+			cell.state = AYTMDayStateGone;
 		}
 	}
 	return cell;
@@ -349,7 +342,7 @@
 
 //获得据section／cell的完整日期
 - (NSString *)getDateStrForSection:(NSInteger)section day:(NSInteger)day {
-	return [NSString stringWithFormat:@"%ld-%ld-%ld", (section+[self.useTime getMonth]-1)/12 + [_useTime getYear], (section+[self.useTime getMonth]-1)%12+1, day];
+	return [NSString stringWithFormat:@"%ld-%02ld-%02d", (section+[self.useTime getMonth]-1)/12 + [_useTime getYear], (section+[self.useTime getMonth]-1)%12+1, (int)day];
 }
 
 //header
@@ -359,8 +352,7 @@
 		
 		UILabel *label = [headerView viewWithTag:119];
 		if (label == nil) {
-			//添加日期
-			label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:620.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
+			label = [Tools creatUILabelWithText:nil andTextColor:[Tools blackColor] andFontSize:616.f andBackgroundColor:nil andTextAlignment:NSTextAlignmentLeft];
 			label.tag = 119;
 			[headerView addSubview:label];
 			[label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -368,9 +360,7 @@
 				make.left.equalTo(headerView).offset(13);
 			}];
 		}
-		
-		//设置属性
-		label.text = [NSString stringWithFormat:@"%ld年 %02ld月", (indexPath.section+([self.useTime getMonth]))/12 + [_useTime getYear], (indexPath.section+[self.useTime getMonth]-1) % 12 +1];
+		label.text = [NSString stringWithFormat:@"%ld年 %02ld月", (indexPath.section+([self.useTime getMonth]-1))/12 + [_useTime getYear], (indexPath.section+[self.useTime getMonth]-1) % 12 +1];
 		return headerView;
 	}
 	return nil;
@@ -385,20 +375,26 @@
 
 #pragma mark -- cell点击
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//	AYSpecialDayCellView * cell = (AYSpecialDayCellView *)[collectionView cellForItemAtIndexPath:indexPath];
-//	if (cell.isGone) {
-//		return ;
-//	}
-//	//	cell.isLightColor = YES;
-//	NSTimeInterval time_p = cell.timeSpan;
-//	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
-//	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
-	
-	if (currentSign.hidden) {
-		currentSign.hidden = NO;
-		NSInteger col = indexPath.row % 7;
-		[self currentColSignOffset:col];
+	if (handleCell) {
+		handleCell.state = handleState;
 	}
+	
+	AYSpecialDayCellView * cell = (AYSpecialDayCellView *)[collectionView cellForItemAtIndexPath:indexPath];
+	if (cell.state == AYTMDayStateGone) {
+		return ;
+	}
+	
+	handleState = cell.state;
+	cell.state = AYTMDayStateSelect;
+	handleCell = cell;
+	
+	NSTimeInterval time_p = cell.timeSpan;
+	NSNumber *tmp = [NSNumber numberWithDouble:time_p];
+	kAYViewSendNotify(self, @"didSelectItemAtIndexPath:", &tmp)
+	
+	currentSign.hidden = NO;
+	NSInteger col = indexPath.row % 7;
+	[self currentColSignOffset:col];
 	
 }
 @end

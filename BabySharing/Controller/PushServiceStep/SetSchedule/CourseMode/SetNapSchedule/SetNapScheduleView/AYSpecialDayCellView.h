@@ -8,8 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum : int {
+	AYTMDayStateGone = -1,
+	AYTMDayStateNormal = 0,
+	AYTMDayStateNoServ = 1,
+	AYTMDayStateInServ = 2,
+	AYTMDayStateSpecial = 3,
+	AYTMDayStateOpenDay = 4,
+	AYTMDayStateSelect = 10,
+} AYTMDayState;
+
 @interface AYSpecialDayCellView : UICollectionViewCell
 
 @property (nonatomic, assign) NSInteger day;
 @property (nonatomic, assign) NSTimeInterval timeSpan;
+@property (nonatomic, assign) AYTMDayState state;
+
 @end

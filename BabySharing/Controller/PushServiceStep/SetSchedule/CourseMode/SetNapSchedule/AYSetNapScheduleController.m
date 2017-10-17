@@ -28,9 +28,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	
 	NSMutableDictionary *push_service_info;
 	
-    NSMutableArray *offer_date;
+    NSMutableDictionary *basicTMS;
     
-    NSMutableArray *timesArr;
+    NSMutableArray *oneWeekDayTMs;
     NSInteger segCurrentIndex;
     NSInteger creatOrUpdateNote;
 	
@@ -57,10 +57,9 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     [super viewDidLoad];
 	self.view.backgroundColor = [Tools garyBackgroundColor];
 	
-    if (!offer_date) {
-        offer_date = [NSMutableArray array];
-    }
-    timesArr = [NSMutableArray array];
+	basicTMS = [NSMutableDictionary dictionary];
+    oneWeekDayTMs = [NSMutableArray array];  //value
+//	[basicTMS setValue:oneWeekDayTMs forKey:@"basic"];
     segCurrentIndex = 0;
     
 	id<AYDelegateBase> dlg_pick = [self.delegates objectForKey:@"ServiceTimesPick"];
@@ -77,16 +76,8 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	
     NSString* cell_name = @"AYServiceTimesCellView";
 	kAYViewsSendMessage(kAYTableView, kAYTableRegisterCellWithClassMessage, &cell_name)
-    
-    NSArray *date_info = [offer_date copy];
-    kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewInfo:", &date_info)
 	
-	for (NSDictionary *iter in offer_date) {
-		if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
-			[timesArr addObjectsFromArray:(NSArray*)[iter objectForKey:@"occurance"]];
-		}
-	}
-	NSArray *tmp = [timesArr copy];
+	NSArray *tmp = [oneWeekDayTMs copy];
 	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     
     //提升view层级
@@ -217,12 +208,12 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 - (BOOL)isCurrentTimesLegal {
     //    NSMutableArray *allTimeNotes = [NSMutableArray array];
     __block BOOL isLegal = YES;
-    [timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [oneWeekDayTMs enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         NSNumber *currentEnd = [obj objectForKey:@"end"];
         
-        if (idx+1 < timesArr.count) {
-            NSNumber *nextStart = [[timesArr objectAtIndex:idx+1] objectForKey:@"start"];
+        if (idx+1 < oneWeekDayTMs.count) {
+            NSNumber *nextStart = [[oneWeekDayTMs objectAtIndex:idx+1] objectForKey:@"start"];
             
             if (currentEnd.intValue > nextStart.intValue) {
                 isLegal = NO;
@@ -247,31 +238,8 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 }
 
 - (id)rightBtnSelected {
-	NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-	[date_dic setValue:[timesArr copy] forKey:@"occurance"];
-	[date_dic setValue:[NSNumber numberWithInteger:segCurrentIndex] forKey:@"day"];
 	
-	NSPredicate *pred_conts = [NSPredicate predicateWithFormat:@"SELF.day=%d",segCurrentIndex];
-	NSArray *result = [offer_date filteredArrayUsingPredicate:pred_conts];
-	
-	if (result.count != 0 && timesArr.count != 0) {     //update
-		
-		NSInteger changeIndex = [offer_date indexOfObject:result.lastObject];
-		[offer_date replaceObjectAtIndex:changeIndex withObject:date_dic];
-	}
-	else if (result.count != 0 && timesArr.count == 0) {        //del
-		
-		[offer_date removeObject:result.lastObject];
-	}
-	else if (result.count == 0 && timesArr.count != 0) {        //creat
-		
-		[offer_date addObject:date_dic];
-	}
-	else if (result.count == 0 && timesArr.count == 0) {        //...
-		
-	}
-	
-	if (offer_date.count == 0) {
+	if (basicTMS.count == 0) {
 		NSString *title = @"您还没有设置时间";
 		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
 		return nil;
@@ -280,11 +248,10 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	NSMutableDictionary* dic_pop = [[NSMutableDictionary alloc]init];
 	[dic_pop setValue:kAYControllerActionPopValue forKey:kAYControllerActionKey];
 	[dic_pop setValue:self forKey:kAYControllerActionSourceControllerKey];
-	[dic_pop setValue:[offer_date copy] forKey:kAYControllerChangeArgsKey];
+//	[dic_pop setValue:[offer_date copy] forKey:kAYControllerChangeArgsKey];
 	
 	id<AYCommand> cmd = POP;
 	[cmd performWithResult:&dic_pop];
-	
     return nil;
 }
 
@@ -298,46 +265,28 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
      日程管理可以是集合，不超出从日到一，是不按顺序的，以keyValue:day为序号(0-6)进行各种操
      */
     
-    //1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
     WeekDayBtnState state = WeekDayBtnStateNormal;
-    
-    NSMutableDictionary *date_dic = [[NSMutableDictionary alloc]initWithCapacity:2];
-    [date_dic setValue:[timesArr copy] forKey:@"occurance"];
-    [date_dic setValue:[NSNumber numberWithInteger:segCurrentIndex] forKey:@"day"];
-    
-    NSPredicate *pred_conts = [NSPredicate predicateWithFormat:@"SELF.day=%d",segCurrentIndex];
-    NSArray *result = [offer_date filteredArrayUsingPredicate:pred_conts];
-    
-    if (result.count != 0 && timesArr.count != 0) {     //update
-        state = WeekDayBtnStateSeted;
-        NSInteger changeIndex = [offer_date indexOfObject:result.lastObject];
-        [offer_date replaceObjectAtIndex:changeIndex withObject:date_dic];
-    }
-    else if (result.count != 0 && timesArr.count == 0) {        //del
-        
-        [offer_date removeObject:result.lastObject];
-    }
-    else if (result.count == 0 && timesArr.count != 0) {        //creat
-        state = WeekDayBtnStateSeted;
-        [offer_date addObject:date_dic];
-    }
-    else if (result.count == 0 && timesArr.count == 0) {        //...
-        
-    }
-    
-    //切换
+	
+	if (oneWeekDayTMs.count != 0) {
+		//1.接收到切换seg的消息后，整理容器内当前的内容，规到当前index数据中，然后切换
+		state = WeekDayBtnStateSeted;
+		[basicTMS setValue:oneWeekDayTMs forKey:args.stringValue];
+		
+		//2.切换 刷新
+		//此index下如果有数据 ？载到容器中 ：重建容器
+		if ([basicTMS objectForKey:[NSString stringWithFormat:@"%ld", segCurrentIndex]]) {
+			oneWeekDayTMs = [basicTMS objectForKey:[NSString stringWithFormat:@"%ld", segCurrentIndex]];
+			
+			NSArray *tmp = [oneWeekDayTMs copy];
+			kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
+			kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
+			
+		} else
+			oneWeekDayTMs = [NSMutableArray array];
+	}
+	
+    //切换index
     segCurrentIndex = args.integerValue;
-    
-    //2.切换后，刷新，并且展示（如果有）此index的数据到容器中
-    [timesArr removeAllObjects];
-    for (NSDictionary *iter in offer_date) {
-        if (((NSNumber*)[iter objectForKey:@"day"]).integerValue == segCurrentIndex) {
-            [timesArr addObjectsFromArray:[iter objectForKey:@"occurance"]];
-        }
-    }
-    NSArray *tmp = [timesArr copy];
-    kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
-    kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
     //3.如果有数据：返回yes，用于btn作已设置标记
     return [NSNumber numberWithInt:state];
@@ -359,22 +308,35 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([args floatValue] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 		UIView* view_table = [self.views objectForKey:kAYTableView];
 		view_table.hidden = addBasicTMView.hidden = maskTableHeadView.hidden = NO;
+		NSDictionary *date_info = [basicTMS copy];
+		kAYViewsSendMessage(kAYScheduleWeekDaysView, @"setViewInfo:", &date_info)
 	});
 	UIView *view_table_div = [self.views objectForKey:kAYSpecialTMAndStateView];
 	view_table_div.hidden = YES;
 	return nil;
 }
 
-#pragma mark -- pickerView notifies
+- (id)didSelectItemAtIndexPath:(id)args {
+	id tmp = [args copy];
+	kAYViewsSendMessage(kAYSpecialTMAndStateView, @"recodeTMHandle:", &tmp)
+	return nil;
+}
+
 - (id)cellDeleteFromTable:(NSNumber*)args {
     
-    [timesArr removeObjectAtIndex:args.integerValue];
-    NSArray *tmp = [timesArr copy];
+    [oneWeekDayTMs removeObjectAtIndex:args.integerValue];
+    NSArray *tmp = [oneWeekDayTMs copy];
     kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
     kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     
     [self showRightBtn];
     return nil;
+}
+
+- (id)specialOrOpendayAddTM {
+	creatOrUpdateNote = -2;
+	kAYViewsSendMessage(kAYPickerView, kAYPickerShowViewMessage, nil)
+	return nil;
 }
 
 - (id)cellShowPickerView:(NSNumber*)args {
@@ -384,6 +346,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     return nil;
 }
 
+#pragma mark -- pickerView notifies
 - (id)didSaveClick {
     
     id<AYDelegateBase> cmd_commend = [self.delegates objectForKey:@"ServiceTimesPick"];
@@ -398,25 +361,27 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
         return nil;
     }
     
-    NSDictionary *argsHolder = nil;
-    if (creatOrUpdateNote == -1) { //添加
-        [timesArr addObject:args];
-    } else { //修改
-        argsHolder = [timesArr objectAtIndex:creatOrUpdateNote];
-        [timesArr replaceObjectAtIndex:creatOrUpdateNote withObject:args];
+	NSDictionary *argsHolder = nil;
+	if (creatOrUpdateNote == -2) { //添加／修改 特殊、开放日
+		kAYViewsSendMessage(kAYSpecialTMAndStateView, @"pushTMArgs:", &args)
+		return nil;
+	} else if (creatOrUpdateNote == -1) { //添加基础
+        [oneWeekDayTMs addObject:args];
+    } else { //修改基础
+        argsHolder = [oneWeekDayTMs objectAtIndex:creatOrUpdateNote];
+        [oneWeekDayTMs replaceObjectAtIndex:creatOrUpdateNote withObject:args];
     }
     
-	[timesArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+	[oneWeekDayTMs sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
 		return [[obj1 objectForKey:kAYServiceArgsStart] intValue] > [[obj2 objectForKey:kAYServiceArgsStart] intValue];
 	}];
 	
     if (![self isCurrentTimesLegal]) {
         if (!argsHolder) {
-//            NSInteger holderIndex = [timesArr indexOfObject:args];
-            [timesArr removeObject:args];
+            [oneWeekDayTMs removeObject:args];
         } else {
-            NSInteger holderIndex = [timesArr indexOfObject:args];
-            [timesArr replaceObjectAtIndex:holderIndex withObject:argsHolder];
+            NSInteger holderIndex = [oneWeekDayTMs indexOfObject:args];
+            [oneWeekDayTMs replaceObjectAtIndex:holderIndex withObject:argsHolder];
         }
         NSString *title = @"服务时间设置错误";
         AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
@@ -425,7 +390,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
     
     [self showRightBtn];
 	
-	if (timesArr.count != 0 && addBasicTMView.state == AYAddTMSignStateEnable) {
+	if (oneWeekDayTMs.count != 0 && addBasicTMView.state == AYAddTMSignStateEnable) {
 		kAYViewsSendMessage(kAYScheduleWeekDaysView, @"havenAddTM", nil)
 		
 		addBasicTMView.state = AYAddTMSignStateHead;
@@ -433,7 +398,7 @@ static NSString* const kAYSpecialTMAndStateView = 	@"SpecialTMAndState";
 		view_table.hidden = NO;
 	}
 	
-	NSArray *tmp = [timesArr copy];
+	NSArray *tmp = [oneWeekDayTMs copy];
 	kAYDelegatesSendMessage(@"ServiceTimesShow", @"changeQueryData:", &tmp)
 	kAYViewsSendMessage(kAYTableView, kAYTableRefreshMessage, nil)
     

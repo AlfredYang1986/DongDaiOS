@@ -81,7 +81,6 @@ static NSString* const kAYServiceArgsOccurance =			@"occurance";
 static NSString* const kAYServiceArgsStart =				@"start";
 static NSString* const kAYServiceArgsEnd =					@"end";
 
-
 static NSString* const kAYServiceArgsNotice =				@"other_words";
 static NSString* const kAYServiceArgsAllowLeave =			@"allow_leaves";
 static NSString* const kAYServiceArgsIsHealth =				@"health";
@@ -120,7 +119,6 @@ static NSString* const kAYServiceArgsCapacity =				@"capacity";
 static NSString* const kAYServiceArgsServantNumb =			@"servant_no";
 
 static NSString* const kAYServiceArgsIsAdjustSKU =			@"is_adjust_SKU";
-//static NSString* const kAYServiceArgs =               @"screen_photo";
 //static NSString* const kAYServiceArgs =               @"screen_name";
 
 //timemanager args

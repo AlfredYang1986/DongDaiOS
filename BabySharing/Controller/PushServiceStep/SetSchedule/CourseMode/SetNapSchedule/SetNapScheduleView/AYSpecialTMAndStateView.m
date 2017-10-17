@@ -12,6 +12,9 @@
 #import "AYAddTimeSignView.h"
 #import "AYShadowRadiusView.h"
 
+static NSString *const kSpecialKey = @"special";
+static NSString *const kOpenDayKey = @"openday";
+
 @implementation AYSpecialTMAndStateView {
 	UIView *specialView;
 	UIView *openDayView;
@@ -24,9 +27,16 @@
 	UISwitch *openDaySwitch;
 	AYAddTimeSignView *specialAddSign;
 	AYAddTimeSignView *openDayAddSign;
+	NSDictionary *addSignViewDic;
 	
 	UITableView *specialTableView;
 	UITableView *openDayTableView;
+	NSDictionary *tableViewDic;
+	
+	NSMutableDictionary *TMS;
+	NSString *handleKey;
+	int updateOrAddNote;
+	NSNumber *TMHandle;
 }
 
 @synthesize para = _para;
@@ -37,6 +47,11 @@
 #pragma mark -- commands
 - (void)postPerform {
 	CGFloat margin = 20.f;
+	
+	TMS = [[NSMutableDictionary alloc] init];
+	[TMS setValue:[NSMutableDictionary dictionary] forKey:kSpecialKey];
+	[TMS setValue:[NSMutableDictionary dictionary] forKey:kOpenDayKey];
+	handleKey = kSpecialKey;
 	
 	specialBtn = [[AYServicePriceCatBtn alloc] initWithFrame:CGRectMake(margin, 0, (SCREEN_WIDTH-margin*2)*0.5, 38) andTitle:@"可预订日"];
 	[self addSubview:specialBtn];
@@ -135,6 +150,8 @@
 		make.right.equalTo(openDayStateView).offset(-15);
 		make.centerY.equalTo(openDayStateView);
 	}];
+	[openDaySwitch addTarget:self action:@selector(didOpenDaySwitchChanged) forControlEvents:UIControlEventValueChanged];
+	[specialSwitch addTarget:self action:@selector(didSpecialSwitchChanged) forControlEvents:UIControlEventValueChanged];
 	
 	openDayAddSign = [[AYAddTimeSignView alloc] initWithTitle:@"开放日服务时间"];
 	[openDayView addSubview:openDayAddSign];
@@ -166,10 +183,18 @@
 	[specialTableView registerClass:NSClassFromString(@"AYServiceTimesCellView") forCellReuseIdentifier:@"AYServiceTimesCellView"];
 	[openDayTableView registerClass:NSClassFromString(@"AYServiceTimesCellView") forCellReuseIdentifier:@"AYServiceTimesCellView"];
 	
-	specialAddSign.state = AYAddTMSignStateHead;
+//	specialSwitch.on = YES;
+	specialAddSign.state = AYAddTMSignStateUnable;
+	specialTableView.hidden = YES;
 	
-	openDayAddSign.state = AYAddTMSignStateEnable;
+	openDayAddSign.state = AYAddTMSignStateUnable;
 	openDayTableView.hidden = YES;
+	
+	[specialAddSign addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddSignTap:)]];
+	[openDayAddSign addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didAddSignTap:)]];
+	
+	addSignViewDic = @{kSpecialKey:specialAddSign, kOpenDayKey:openDayAddSign};
+	tableViewDic = @{kSpecialKey:specialTableView, kOpenDayKey:openDayTableView};
 }
 
 - (void)performWithResult:(NSObject**)obj {
@@ -189,6 +214,30 @@
 }
 
 #pragma mark -- actions
+- (void)didAddSignTap:(UITapGestureRecognizer*)tap {
+	updateOrAddNote = -1;
+	kAYViewSendNotify(self, @"specialOrOpendayAddTM", nil)
+}
+
+- (void)didOpenDaySwitchChanged {
+	if (openDaySwitch.on) {
+		openDayAddSign.state = [[TMS objectForKey:kOpenDayKey] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
+		openDayTableView.hidden = NO;
+	} else {
+		openDayAddSign.state = AYAddTMSignStateUnable;
+		openDayTableView.hidden = YES;
+	}
+}
+- (void)didSpecialSwitchChanged {
+	if (specialSwitch.on) {
+		specialAddSign.state = [[TMS objectForKey:kSpecialKey] count] == 0 ? AYAddTMSignStateEnable : AYAddTMSignStateHead;
+		specialTableView.hidden = NO;
+	} else {
+		specialAddSign.state = AYAddTMSignStateUnable;
+		specialTableView.hidden = YES;
+	}
+}
+
 - (void)didConfuseBtnClick {
 	
 }
@@ -203,6 +252,7 @@
 	handleBtn = btn;
 	
 	if (btn == specialBtn) {
+		handleKey = kSpecialKey;
 		[UIView animateWithDuration:0.5 animations:^{
 			[specialView mas_updateConstraints:^(MASConstraintMaker *make) {
 				make.centerX.equalTo(self);
@@ -213,6 +263,7 @@
 			[self layoutIfNeeded];
 		}];
 	} else {
+		handleKey = kOpenDayKey;
 		[UIView animateWithDuration:0.5 animations:^{
 			[specialView mas_updateConstraints:^(MASConstraintMaker *make) {
 				make.centerX.equalTo(self).offset(-SCREEN_WIDTH);
@@ -228,15 +279,22 @@
 
 #pragma mark -- table delegate database
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 5;
+	if (tableView == specialTableView) {
+		return [[[TMS objectForKey:kSpecialKey] objectForKey:TMHandle.stringValue] count];
+	} else
+		return [[[TMS objectForKey:kOpenDayKey] objectForKey:TMHandle.stringValue] count];
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSString* class_name = @"AYServiceTimesCellView";
 	id<AYViewBase> cell = [tableView dequeueReusableCellWithIdentifier:class_name forIndexPath:indexPath];
+	id tmp;
+	if (tableView == specialTableView) {
+		tmp = [[[TMS objectForKey:kSpecialKey] objectForKey:TMHandle.stringValue] objectAtIndex:indexPath.row];
+	} else
+		tmp = [[[TMS objectForKey:kOpenDayKey] objectForKey:TMHandle.stringValue] objectAtIndex:indexPath.row];
 	
-	//	id tmp = [timesArr objectAtIndex:indexPath.row];
-	//	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
+	kAYViewSendMessage(cell, @"setCellInfo:", &tmp)
 	
 	cell.controller = self.controller;
 	((UITableViewCell*)cell).selectionStyle = UITableViewCellSelectionStyleNone;
@@ -248,7 +306,29 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	updateOrAddNote = (int)indexPath.row;
+	kAYViewSendNotify(self, @"specialOrOpendayAddTM", nil)
+}
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	return YES;
+}
+
+- (NSArray<UITableViewRowAction*>*)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
+	UITableViewRowAction *rowAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除时间" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+//		[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		
+		[[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] removeObjectAtIndex:indexPath.row];
+		if ([[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] count] == 0) {
+			((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state = AYAddTMSignStateEnable;
+		}
+//		NSNumber *row = [NSNumber numberWithInteger:indexPath.row];
+//		kAYDelegateSendNotify(self, @"cellDeleteFromTable:", &row)
+	}];
+	
+	//    rowAction.backgroundColor = [UIColor colorWithPatternImage:IMGRESOURCE(@"cell_delete")];
+	rowAction.backgroundColor = [Tools themeColor];
+	return @[rowAction];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -258,6 +338,93 @@
 }
 
 #pragma mark -- notifies
+- (id)recodeTMHandle:(id)args {
+	if (!TMHandle) {
+		TMHandle = args;
+		if ([handleKey isEqualToString:kSpecialKey]) {
+			specialSwitch.on = YES;
+			specialAddSign.state = AYAddTMSignStateEnable;
+			specialTableView.hidden = NO;
+			[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:TMHandle.stringValue];
+		}
+		return nil;
+	}
+	
+	AYTMDayState state = AYTMDayStateNormal;
+	
+	if ([[[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue] count] != 0) {
+		if ([handleKey isEqualToString:kOpenDayKey]) {
+			state = AYTMDayStateOpenDay;
+			openDaySwitch.on = NO;
+			openDayAddSign.state = AYAddTMSignStateUnable;
+		} else {
+			state = AYTMDayStateSpecial;
+		}
+	} else {
+		[[TMS objectForKey:handleKey] removeObjectForKey:TMHandle.stringValue];
+	}
+	
+	[[TMS objectForKey:handleKey] setValue:[NSMutableArray array] forKey:[args stringValue]];
+	
+	[(UITableView*)[tableViewDic objectForKey:handleKey] reloadData];
+	
+	TMHandle = args;
+	return [NSNumber numberWithInt:state];
+}
 
+- (id)pushTMArgs:(id)args {
+	NSMutableArray *timesArr = [[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue];
+	NSDictionary *argsHolder = nil;
+	if (updateOrAddNote == -1) { //添加
+		[timesArr addObject:args];
+	} else { //修改基础 1.add   2.？  3.remove/save
+		argsHolder = [timesArr objectAtIndex:updateOrAddNote];
+		[timesArr replaceObjectAtIndex:updateOrAddNote withObject:args];
+	}
+	
+	[timesArr sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+		return [[obj1 objectForKey:kAYServiceArgsStart] intValue] > [[obj2 objectForKey:kAYServiceArgsStart] intValue];
+	}];
+	
+	if (![self isCurrentTimesLegal]) {
+		if (!argsHolder) {
+			[timesArr removeObject:args];
+		} else {
+			NSInteger holderIndex = [timesArr indexOfObject:args];
+			[timesArr replaceObjectAtIndex:holderIndex withObject:argsHolder];
+		}
+		NSString *title = @"服务时间设置错误";
+		AYShowBtmAlertView(title, BtmAlertViewTypeHideWithTimer)
+		return nil;
+	}
+	
+	
+	if (timesArr.count != 0 && ((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state == AYAddTMSignStateEnable) {
+		((AYAddTimeSignView*)[addSignViewDic objectForKey:handleKey]).state = AYAddTMSignStateHead;
+		((UIView*)[tableViewDic objectForKey:handleKey]).hidden = NO;
+	}
+	[(UITableView*)[tableViewDic objectForKey:handleKey] reloadData];
+	return nil;
+}
 
+- (BOOL)isCurrentTimesLegal {
+	//    NSMutableArray *allTimeNotes = [NSMutableArray array];
+	__block BOOL isLegal = YES;
+	NSMutableArray *timesArr = [[TMS objectForKey:handleKey] objectForKey:TMHandle.stringValue];
+	[timesArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+		
+		NSNumber *currentEnd = [obj objectForKey:@"end"];
+		
+		if (idx+1 < timesArr.count) {
+			NSNumber *nextStart = [[timesArr objectAtIndex:idx+1] objectForKey:@"start"];
+			
+			if (currentEnd.intValue > nextStart.intValue) {
+				isLegal = NO;
+				*stop = YES;
+			}
+		}
+	}];
+	
+	return isLegal;
+}
 @end
